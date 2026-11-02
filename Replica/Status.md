@@ -170,3 +170,9 @@ At the user's request, GenErik DJ Test build 29 was signed, installed in place a
 The latest full 547-test attempt failed three live-Mac startup checks before their intended runtime scenarios. The persistent unchanged-binary probe narrows that failure to the initial cold-start stage, not cancellation or background progress. The exact failed subcondition remains under investigation. Earlier shorter passes retain their scope. The interrupted 900-second attempt and its six deadline misses remain failed. This deployment does not claim physical or sustained performance acceptance.
 
 GenErik returns to the user for testing. No further device operations are scheduled. Proof: `Validation/GenErikTestDeployment-2026-11-02-01/deployment-proof.json`.
+
+## Adaptive beatgrid implementation — 2 November 2026
+
+Adaptive timing maps, background candidates, safe native activation and editor correction/undo/locking are implemented on `feature/adaptive-beatgrids`. Legacy fixed preparation passes the retained byte comparison. The isolated editor follow-up passed 627 serial Release tests and generic iPad SDK compilation. A separate frozen 0.3.1 audio snapshot passed fixed and adaptive one-minute and five-minute Mac workloads, with unchanged limits and matching recording frame counts.
+
+[The source-bound report](Validation/AdaptiveBeatgridReliability-2026-11-02-01/README.md) retains both snapshots, their exact hashes and earlier failures. Newer shared audio-route, scratch and native-harness edits are outside that qualification. Current working-tree, real-music listening, complete combined stress and physical A10X acceptance remain open. This task did not operate the iPad. Task 6 is incomplete.

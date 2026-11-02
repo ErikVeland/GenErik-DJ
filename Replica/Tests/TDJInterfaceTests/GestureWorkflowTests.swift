@@ -64,7 +64,8 @@ import TDJCore
     let moved=SurfacePoint(id:1,x:0.5,y:0.5)
     session.handle(.init(phase:.moved,points:[moved],ending:[]),model:model,deck:.a,span:96000)
     session.handle(.init(phase:.ended,points:[moved],ending:[1]),model:model,deck:.a,span:96000)
-    #expect(model.playbackSnapshot?.a.sourceFrame == 72000)
+    // The final contact at x=0.5 selects the viewport centre.
+    #expect(model.playbackSnapshot?.a.sourceFrame == 96000)
     #expect(model.playbackSnapshot?.a.phase == .paused)
     #expect(model.playbackSnapshot?.a.touchActive == false)
     let emptySlot=try #require((0..<8).first { model.performance.cues[track.id]?[$0] == nil })

@@ -1,6 +1,6 @@
 # Transport transition continuity
 
-Documentation reviewed against the shared implementation on 30 October 2026. [Current readiness and verification](Status.md) is the implementation status record. Dated measurements below apply only to their recorded source and workload.
+Documentation reviewed against the shared implementation on 2 November 2026. [Current readiness and verification](Status.md) is the implementation status record. Dated measurements below apply only to their recorded source and workload.
 
 The renderer corrects discontinuities introduced by ordinary transport changes. This is an audio-quality implementation rule. The original app’s correction window has not been measured.
 
@@ -10,7 +10,7 @@ The default window is 2 ms at the output rate. Source position, clock, scheduled
 
 Ordinary jumps, saved-loop changes and Flux returns request correction only after source validation succeeds. Accepted cue recall, seek and immediate loop/jump changes also request it while paused. This covers a pause/source-change/restart batch that contains no rendered paused sample, and cue recall immediately after EOF. Failed or cold commands remain inert. Identical loop configurations preserve Keylock state. New bounds still reset it because lookahead may cross the new boundary.
 
-Native loop seam correction is capped at a quarter of the loop’s output duration. Windows shorter than two samples are omitted to preserve granular loops. Spectral Keylock overlap already joins its loops and does not receive a second seam correction. Held slice and scratch/reverse contacts retain their immediate attacks and rate changes. Continuous playback has no transition curve, so authentic musical transients pass unchanged.
+Native loop seam correction is capped at a quarter of the loop’s output duration. Windows shorter than two samples are omitted to preserve granular loops. Spectral Keylock overlap already joins its loops and does not receive a second seam correction. Held slice and scratch/reverse contacts use the same output correction at source changes. Rate updates retain their continuous source cursor. Transitions into or out of rate zero, and between raw and Keylock playback, also request correction. Continuous playback has no transition curve, so authentic musical transients pass unchanged.
 
 ## Keylock priming
 
@@ -22,7 +22,7 @@ Priming now seeks through actual source history, then discards exactly `outputLa
 
 Cue recall from an ended deck normalizes the proposed state to paused before using the shared start function. Both saved loops and point cues restart their continuing timeline at the recalled cue. This prevents a later Flux release from returning to the old EOF. Existing reference-deck queue rules remain unchanged. Validation failure preserves the ended state, clock and other deck. The producer must prepare the new cue’s linear Flux continuation as well as its loop.
 
-Raw performance rates do not consume the Keylock spectral cursor. Crossing into or out of `performance_rate == 1` invalidates that cursor after successful source validation. Resumption therefore primes from the current source position. A return to active spectral processing uses the existing bounded transition, while raw scratch/rate attack remains immediate. Latched updates to a pending touch do not change the current audible pipeline. Source position, clock and contact region stay unchanged.
+Raw performance rates do not consume the Keylock spectral cursor. Crossing into or out of `performance_rate == 1` invalidates that cursor after successful source validation. Resumption therefore primes from the current source position. Both directions across this processing boundary use the existing bounded output transition. Scratch entry, release and held stops also use it. Latched updates to a pending touch do not change the current audible pipeline. Source position, clock and contact region stay unchanged.
 
 A two-region source exposed the old failure: after raw travel beyond the 440 Hz region into the 880 Hz region, returning to normal still emitted 440 Hz from a stale cursor. The four direct/compound forward/reverse cases now emit the correct region. Two file-backed cases travel beyond one million source frames before returning, then remain sample-exact against the memory reference with no stale-window read.
 
@@ -42,3 +42,19 @@ These are controlled native checks on the Mac. App-level integration, paced runt
 Host callback bounds and future Flux trajectories now have explicit capacity validation. Flux continuation reserves its native-rate Keylock history and lookahead. Unsupported future working sets return terminal `TDJ_SOURCE_CAPACITY` before changing current playback. The fixed pool is unchanged. See `PCMStreamingDesign.md` for the configuration contract and coverage limits.
 
 The frame-bound and future-capacity extension is frozen in archive `...-05`. Both native suites pass all three build variants, with matching source hashes after execution. The deterministic trajectory sweep checks 1,800 profiles: 1,695 accepted and 105 rejected. All 195,557 future minimum-read sets for accepted profiles fit the 240 published blocks. The allocation probe reports zero C++ allocations and no deadline overruns, with a 0.598 ms maximum against a 2.667 ms period. The new 30 musical-second unpaced control stress accepts 24,752 commands with no rejection, invalid sample, clock error or deadline overrun. Its maximum is 1.354 ms. These remain local native measurements.
+
+## Waveform scratch correction, 2 November 2026
+
+Waveform input previously converted each movement below 0.002 of the surface width to rate zero. Slow forward and reverse drags could therefore mute playback. The rate now uses the measured movement without that cutoff. Stationary contacts now preserve the last moving rate. The 120 ms inactivity timer has been removed, so delayed input cannot issue a synthetic stop.
+
+Scratch entry and release previously bypassed some ordinary transport corrections. They now retain output history across source changes, held stops, restarts and raw/Keylock switches. Nonzero raw-rate updates retain their continuous cursor without restarting a transition. The correction adds no allocation, I/O, lock or wait.
+
+Regression checks cover playing and paused entry, slow movement in both directions, direct raw/Keylock switches, repeated transitions, stationary holds, timeline relocation and Flux return. Native continuity checks run at 44.1, 48 and 96 kHz. These checks do not establish audible acceptance on a physical device. The earlier frozen measurements above retain their original scope and source versions.
+
+## Continuous playback route, 2 November 2026
+
+Unsynced speed changes now validate their streamed working set before changing the audible rate. The control producer prepares cold coverage asynchronously while current playback continues. Sixteen minimal-cache boundary cases verify rejection without state changes, followed by sample-exact prepared playback with zero missing reads. Previously, a 1.5x request could be accepted without its Keylock lookahead and produce missing output frames.
+
+Output routing changes are rejected while a deck is playing or queued, or while output is running or starting. The current graph and transport remain intact. Explicit Stop allows routing changes. Recording retains its separate routing guard.
+
+Positive stereo witness tests exercise tempo, Keylock, unsynced rate, rejected live seek, jumps, loops, Flux, scratch and Sync restoration at 44.1, 48 and 96 kHz. They check every frame for inserted silence, verify identical monitor and recorded samples, and verify that the transport keeps running at explicit rate zero. A subsequent moving rate produces output on the next changed sample without a transport restart. These controlled checks do not replace physical-device output qualification.

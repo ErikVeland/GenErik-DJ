@@ -20,15 +20,29 @@ import TDJCore
         model.library.tracks[0] = track
         model.selectGridMode(.adaptive, deck: .a); await model.flushWrites()
         #expect(model.playbackSnapshot?.a.adaptiveMap == map)
+        let replacement = BeatGridMap(anchors: [.init(beat: 0, frame: 0), .init(beat: 8, frame: rate * 4.1)], sampleRate: rate)
+        model.library.tracks[0].analysis.adaptiveCandidate = replacement
+        model.selectGridMode(.automatic, deck: .a); await model.flushWrites()
+        #expect(model.playbackSnapshot?.a.adaptiveMap == replacement)
+        model.undoGridCorrection(deck: .a); await model.flushWrites()
+        #expect(model.playbackSnapshot?.a.adaptiveMap == map)
         model.viewport[.a] = rate * 2 + 100
         model.correctLocalAnchor(deck: .a); await model.flushWrites()
         #expect(model.playbackSnapshot?.a.adaptiveMap?.frame(atBeat: 4) == rate * 2 + 100)
+        var updated = model.library
+        updated.revision += 1
+        let laterKey = MusicalKey(tonic: 2, mode: .minor)
+        updated.tracks[0].preparation.correctedKey = laterKey
+        model.adoptLibrary(updated)
         model.undoGridCorrection(deck: .a); await model.flushWrites()
         #expect(model.playbackSnapshot?.a.adaptiveMap == map)
+        #expect(model.gridPreparation(.a)?.correctedKey == laterKey)
+        let correctionUndoCount = model.adaptiveUndo[track.id]?.count
         model.setGridLocked(true, deck: .a); await model.flushWrites()
         model.selectGridMode(.fixed, deck: .a)
         #expect(model.playbackSnapshot?.a.adaptiveMap == map)
         model.setGridLocked(false, deck: .a); await model.flushWrites()
+        #expect(model.adaptiveUndo[track.id]?.count == correctionUndoCount)
         model.selectGridMode(.fixed, deck: .a); await model.flushWrites()
         #expect(model.playbackSnapshot?.a.adaptiveMap == nil)
         model.pressPlay(deck: .a); await model.flushTransportRequests()

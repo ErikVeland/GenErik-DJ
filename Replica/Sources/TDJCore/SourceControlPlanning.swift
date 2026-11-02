@@ -4,7 +4,7 @@ extension SourceControl {
     public var deck: DeckID? {
         switch self {
         case .tempo: nil
-        case .play(let deck, _), .sync(_, let deck, _), .restoreSync(let deck, _), .keylock(_, let deck, _),
+        case .play(let deck, _), .freeRate(_, let deck, _), .sync(_, let deck, _), .restoreSync(let deck, _), .keylock(_, let deck, _),
              .grid(_, let deck, _), .adaptiveMap(_, let deck, _), .seek(_, let deck, _), .cueRecall(let deck, _, _, _, _),
              .performance(_, let deck, _, _, _, _, _, _): deck
         }
@@ -12,7 +12,7 @@ extension SourceControl {
     public var generation: UInt64? {
         switch self {
         case .tempo: nil
-        case .play(_, let generation), .sync(_, _, let generation), .restoreSync(_, let generation), .keylock(_, _, let generation),
+        case .play(_, let generation), .freeRate(_, _, let generation), .sync(_, _, let generation), .restoreSync(_, let generation), .keylock(_, _, let generation),
              .grid(_, _, let generation), .adaptiveMap(_, _, let generation), .seek(_, _, let generation),
              .cueRecall(_, let generation, _, _, _),
              .performance(_, _, let generation, _, _, _, _, _): generation
@@ -36,6 +36,8 @@ extension SourceControl {
         switch self {
         case .tempo(let bpm):
             if state.synced, state.sourceBPM > 0 { target.speed = bpm / state.sourceBPM }
+        case .freeRate(let rate, _, _):
+            if !state.synced { target.speed=rate }
         case .sync(let enabled, _, _):
             target.speed = enabled && state.sourceBPM > 0 ? snapshot.masterBPM / state.sourceBPM
                 : state.phase == .playing || state.phase == .paused ? state.speed : state.freeRate

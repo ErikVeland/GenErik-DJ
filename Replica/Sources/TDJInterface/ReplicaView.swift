@@ -16,7 +16,6 @@ public struct ReplicaView: View {
     @State private var importPresented = false
     @State private var traktorImportPresented = false
     @State private var tempoWheelVisible = false
-    @State private var recordingsPresented = false
     @State private var audioSettingsPresented = false
     private let snapshotEffectsDeck: DeckID?
     private let snapshotMixerDecks: Set<DeckID>
@@ -62,14 +61,16 @@ public struct ReplicaView: View {
                     .padding(.horizontal,model.browserVisible ? 0 : 8)
                 }.frame(height: model.browserVisible ? 132 : nil).padding(model.browserVisible ? 6 : 0)
                 if model.browserVisible {
-                    BrowserView(model: model, importAudio: { importPresented = true }, linkCollection: { traktorImportPresented = true },
-                                showRecordings: { model.refreshRecordings(); recordingsPresented = true }).frame(maxHeight: .infinity)
+                    GeometryReader { browserSize in
+                        BrowserView(model: model, importAudio: { importPresented = true }, linkCollection: { traktorImportPresented = true })
+                            .frame(width: browserSize.size.width, height: browserSize.size.height)
+                            .clipped()
+                    }
                 }
             }
             .overlay(alignment: .top) {
                 EmptyView()
             }
-            PerformanceFooter(model:model,recordingsPresented:$recordingsPresented)
         }
         .background(PerformancePalette.frame).foregroundStyle(PerformancePalette.text).buttonStyle(.plain)
         .preferredColorScheme(.dark)
@@ -98,37 +99,6 @@ public struct ReplicaView: View {
                     await music
                 }
             }
-        }
-        .sheet(isPresented: $recordingsPresented) {
-            NavigationStack {
-                List(model.recordings, id: \.self) { url in
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(url.deletingPathExtension().lastPathComponent).font(.headline)
-                        HStack {
-                            ShareLink(item: url) { Label("Share AIFF", systemImage: "square.and.arrow.up") }
-                            if let tracklist = model.recordingTracklist(for: url) {
-                                ShareLink(item: tracklist) {
-                                    Label("Share tracklist", systemImage: "text.document")
-                                }
-                            }
-                            Spacer()
-                            ForEach(DeckID.allCases,id: \.self) { deck in
-                                Button("Load \(deck.rawValue.uppercased())") {
-                                    Task { await model.loadRecording(url,deck:deck); recordingsPresented=false }
-                                }.disabled(model.importing || model.controlDisplay[deck].phase.active)
-                            }
-                        }
-                    }.padding(.vertical, 4)
-                }
-                 .overlay {
-                    if model.recordings.isEmpty {
-                        if model.recordingsRefreshing { ProgressView("Reading recordings…") }
-                        else { Text("No saved recordings").foregroundStyle(.secondary) }
-                    }
-                }
-                .navigationTitle("Recordings")
-                .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { recordingsPresented = false } } }
-            }.frame(minWidth: 420, minHeight: 300)
         }
         .fileImporter(isPresented: $traktorImportPresented, allowedContentTypes: [.data], allowsMultipleSelection: false) { result in
             switch result {
@@ -690,37 +660,6 @@ private struct BatteryReadout: View {
         return UIDevice.current.batteryLevel
     }
 #endif
-}
-
-@MainActor
-private struct PerformanceFooter: View {
-    @Bindable var model: ReplicaModel
-    @Binding var recordingsPresented: Bool
-    @State private var recordingLocationPresented = false
-
-    var body: some View {
-            HStack {
-                Button {
-                    if model.isRecording { Task { await model.toggleRecording() } }
-                    else { recordingLocationPresented = true }
-                } label: {
-                    Label(model.recordingFinishing ? "Saving…" : model.isRecording ? "Stop recording" : "Record", systemImage: model.isRecording ? "stop.circle.fill" : "record.circle")
-                        .foregroundStyle(model.isRecording ? .red : Color(white: 0.88))
-                }.disabled(model.recordingFinishing)
-                Button("Recordings") { model.refreshRecordings(); recordingsPresented = true }
-                Button { model.showLibrary() } label: { Label("Songs", systemImage: "chevron.up") }
-                Text(model.libraryFooterText)
-                    .font(.system(size: 11)).foregroundStyle(.secondary).lineLimit(1)
-                Spacer()
-            }.padding(.horizontal, 14).frame(height: 32).background(surface)
-            .alert("Recording location", isPresented: $recordingLocationPresented) {
-                TextField("Venue or location", text: $model.recordingLocation)
-                Button("Record") { Task { await model.toggleRecording() } }
-                Button("Cancel", role: .cancel) { }
-            } message: { Text("Add a venue or location for the recording filename.") }
-
-    }
-
 }
 
 @MainActor

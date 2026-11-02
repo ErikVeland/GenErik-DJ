@@ -4,6 +4,7 @@ import Foundation
 public enum SourceControl: Sendable {
     case play(DeckID, UInt64)
     case tempo(Double)
+    case freeRate(Double, DeckID, UInt64)
     case sync(Bool, DeckID, UInt64)
     case restoreSync(DeckID, UInt64)
     case keylock(Bool, DeckID, UInt64)
@@ -23,6 +24,8 @@ public enum SourceControl: Sendable {
             result.kind = TDJ_PLAY; deck(id, generation)
         case .tempo(let bpm):
             result.kind = TDJ_TEMPO; result.value = bpm
+        case .freeRate(let rate, let id, let generation):
+            result.kind=TDJ_FREE_RATE;deck(id,generation);result.value=rate
         case .sync(let enabled, let id, let generation):
             result.kind = TDJ_SYNC; deck(id, generation); result.flag = enabled ? 1 : 0
         case .restoreSync(let id, let generation):

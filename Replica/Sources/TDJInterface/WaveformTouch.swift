@@ -53,8 +53,6 @@ final class WaveformGestureSession {
     private var ignoringContacts=false
     private var lastScratchX: Double?
     private var lastScratchTime: TimeInterval?
-    private var lastScratchFrame: Double?
-    private var scratchSilenceTask: Task<Void,Never>?
     func handle(_ event: SurfaceEvent, model: ReplicaModel, deck: DeckID, span: Double,
                 onZoom: (Double) -> Void = { _ in }) {
         func frame(_ x: Double) -> Double { model.boundedFrame(center+(x-0.5)*span,deck:deck) }
@@ -94,7 +92,6 @@ final class WaveformGestureSession {
             initial=event.points; center=model.viewport[deck] ?? 0; initialGrid=model.grid(deck); initialTiming=model.timing(deck)
             multi=false; gridPinch=nil; audition=false; moved=false; lastSlice=nil; lastAction=nil; dismissLoop=false
             lastScratchX=first.x; lastScratchTime=ProcessInfo.processInfo.systemUptime
-            lastScratchFrame=nil; scratchSilenceTask?.cancel(); scratchSilenceTask=nil
             let state=model.playbackSnapshot?[deck]
             wasLoop=state?.loopEnabled == true
             wasPlaying=state?.phase == .playing
@@ -135,7 +132,6 @@ final class WaveformGestureSession {
             return
         }
         if event.phase == .cancelled {
-            scratchSilenceTask?.cancel(); scratchSilenceTask=nil
             if audition { model.perform(.touch,deck:deck,enabled:false) }
             if model.editing.contains(deck) { model.gridDraft[deck]=nil; model.viewport[deck]=center }
             if multi {
@@ -221,17 +217,14 @@ final class WaveformGestureSession {
                     let elapsed=max(0.001,now-(lastScratchTime ?? now))
                     let track=model.track(deck)
                     let movement=first.x-(lastScratchX ?? first.x)
-                    let rate=abs(movement)<0.002 ? 0 : track.map { movement*span/($0.analysis.sampleRate*elapsed) } ?? 0
-                    model.perform(.touch,deck:deck,value:target,touchRate:min(4,max(-4,rate)))
-                    audition=true; lastScratchX=first.x; lastScratchTime=now
-                    lastScratchFrame=target
-                    scratchSilenceTask?.cancel()
-                    scratchSilenceTask=Task { @MainActor [weak model] in
-                        try? await Task.sleep(for:.milliseconds(120))
-                        guard !Task.isCancelled,let model, audition, !multi,
-                              !editingAtStart, !frozenAtStart, let frame=lastScratchFrame else { return }
-                        model.perform(.touch,deck:deck,value:frame,touchRate:0)
+                    // Stationary contacts and delayed events retain the moving rate.
+                    // Only actual movement changes the scratch trajectory.
+                    if movement != 0 {
+                        let rate=track.map { movement*span/($0.analysis.sampleRate*elapsed) } ?? 1
+                        model.perform(.touch,deck:deck,value:target,touchRate:min(4,max(-4,rate)))
+                        audition=true
                     }
+                    lastScratchX=first.x; lastScratchTime=now
                 } else if abs(dx)>0.01 && wasPlaying {
                     model.perform(.touch,deck:deck,value:target); audition=true
                 } else if abs(dx)>0.01 {
@@ -240,14 +233,13 @@ final class WaveformGestureSession {
             }
         }
         if event.phase == .ended && event.remaining.isEmpty {
-            scratchSilenceTask?.cancel(); scratchSilenceTask=nil
             if model.editing.contains(deck) {
                 if moved,let grid=model.gridDraft[deck] { model.saveGrid(grid,deck:deck) }
             } else if multi && dismissLoop { model.perform(.loop,deck:deck,enabled:false) }
             else if audition { model.perform(.touch,deck:deck,enabled:false) }
             else if !model.frozen.contains(deck) && !multi && !moved { model.jump(model.snappedFrame(frame(first.x),deck:deck),deck:deck) }
             else if !multi && first.y-initial[0].y < -0.35 { model.showLibrary() }
-            initial=[]; lastScratchX=nil; lastScratchTime=nil; lastScratchFrame=nil
+            initial=[]; lastScratchX=nil; lastScratchTime=nil
         }
     }
 }

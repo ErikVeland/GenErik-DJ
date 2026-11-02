@@ -16,13 +16,13 @@ files = [Path('Scripts/check-streaming-native.sh'), Path('Scripts/streaming-nati
 files += sorted(p for p in Path('Sources/CTDJTransport').rglob('*') if p.is_file())
 Path(sys.argv[1], 'sources.sha256').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+str(p)+'\n' for p in files))
 PY
-for unit in TDJTransport TDJStreaming; do
+for unit in TDJTransport TDJStreaming TDJRecording; do
   xcrun clang "${TDJ_STREAM_FLAGS[@]}" -std=c11 -I Sources/CTDJTransport/include \
     -c "Sources/CTDJTransport/$unit.c" -o "$TDJ_STREAM_CACHE/$unit.o"
 done
 xcrun clang++ "${TDJ_STREAM_FLAGS[@]}" -std=c++17 -I Sources/CTDJTransport/include -I Sources/CTDJTransport/Vendor \
   Sources/CTDJTransport/TDJKeylock.cpp Scripts/streaming-native-check.cpp \
-  "$TDJ_STREAM_CACHE/TDJTransport.o" "$TDJ_STREAM_CACHE/TDJStreaming.o" -framework Accelerate -o "$TDJ_STREAM_CACHE/check"
+  "$TDJ_STREAM_CACHE/TDJTransport.o" "$TDJ_STREAM_CACHE/TDJStreaming.o" "$TDJ_STREAM_CACHE/TDJRecording.o" -framework Accelerate -o "$TDJ_STREAM_CACHE/check"
 shasum -a 256 -c "$TDJ_STREAM_CACHE/sources.sha256" > "$TDJ_STREAM_CACHE/input-check.log"
 shasum -a 256 "$TDJ_STREAM_CACHE/check" > "$TDJ_STREAM_CACHE/binary.sha256"
 "$TDJ_STREAM_CACHE/check"

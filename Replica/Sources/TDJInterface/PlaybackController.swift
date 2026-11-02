@@ -33,8 +33,13 @@ public final class PlaybackController {
     public var sourceThreadCPUTracing: Bool { callbackMetrics?.tracesThreadCPU == true }
     public private(set) var outputRoute: AudioOutputRoute = .stereoMaster
     public func setOutputRoute(_ route: AudioOutputRoute) throws {
-        guard recorder == nil, recordingStartTask == nil else { throw TransportError.cache("Stop recording before changing audio routing.") }
         guard route != outputRoute else { return }
+        guard recorder == nil, recordingStartTask == nil else { throw TransportError.cache("Stop recording before changing audio routing.") }
+        let state=core.snapshot()
+        guard !outputActive, outputStartTask == nil,
+              state?.a.phase.active != true, state?.b.phase.active != true else {
+            throw TransportError.cache("Stop playback before changing audio routing.")
+        }
         stopAudio()
         engine?.stop()
         observers.forEach { NotificationCenter.default.removeObserver($0) }; observers.removeAll()
@@ -263,7 +268,7 @@ public final class PlaybackController {
     }
     public func setFreeRate(_ rate: Double, deck: DeckID) throws {
         guard let generation = generations[deck] else { throw TransportError.stale }
-        try core.setFreeRate(rate, deck: deck, generation: generation)
+        try submitSource(.freeRate(rate,deck,generation))
         if !outputActive { core.processControlsWhileIdle() }
     }
     public func setMasterBPM(_ bpm: Double) throws {
@@ -527,12 +532,13 @@ public final class PlaybackController {
 
 extension PlaybackController {
     private enum SourceLane: Hashable, Sendable {
-        case play(DeckID), tempo, sync(DeckID), keylock(DeckID), grid(DeckID), seek(DeckID), recall(DeckID)
+        case play(DeckID), tempo, freeRate(DeckID), sync(DeckID), keylock(DeckID), grid(DeckID), seek(DeckID), recall(DeckID)
         case performance(DeckID, Int32)
         init(_ control: SourceControl) {
             switch control {
             case .play(let deck, _): self = .play(deck)
             case .tempo: self = .tempo
+            case .freeRate(_, let deck, _): self = .freeRate(deck)
             case .sync(_, let deck, _), .restoreSync(let deck, _): self = .sync(deck)
             case .keylock(_, let deck, _): self = .keylock(deck)
             case .grid(_, let deck, _), .adaptiveMap(_, let deck, _): self = .grid(deck)
@@ -544,7 +550,7 @@ extension PlaybackController {
         var deck: DeckID? {
             switch self {
             case .tempo: nil
-            case .play(let deck), .sync(let deck), .keylock(let deck), .grid(let deck), .seek(let deck),
+            case .play(let deck), .freeRate(let deck), .sync(let deck), .keylock(let deck), .grid(let deck), .seek(let deck),
                  .recall(let deck), .performance(let deck, _): deck
             }
         }

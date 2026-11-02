@@ -34,3 +34,22 @@ func loadSliderCommitsAtTheVisibleEndpoint(distance: Double) {
     #expect(destination == (distance < 0 ? .a : .b))
     #expect(session.offset == 0)
 }
+
+@Test(arguments: [-1.0, 1.0])
+func tallLoadSliderFollowsTheFingerUntilItsEndpoint(direction: Double) {
+    var session = LoadSliderGestureSession()
+    func event(_ phase: SurfaceEvent.Phase, distance: Double) -> SurfaceEvent {
+        .init(phase: phase, points: [.init(id: 1, x: 0.5, y: 0.5 + distance / 178)],
+              ending: phase == .ended ? [1] : [])
+    }
+    _ = session.handle(event(.began, distance: 0), height: 178)
+    #expect(session.handle(event(.moved, distance: direction * 32), height: 178) == nil)
+    #expect(session.offset == direction * 32)
+    #expect(session.handle(event(.ended, distance: direction * 32), height: 178) == nil)
+    #expect(session.offset == 0)
+    _ = session.handle(event(.began, distance: 0), height: 178)
+    #expect(session.handle(event(.moved, distance: direction * 60), height: 178) == nil)
+    #expect(session.offset == direction * 53)
+    #expect(session.handle(event(.ended, distance: direction * 53), height: 178)
+        == (direction < 0 ? .a : .b))
+}

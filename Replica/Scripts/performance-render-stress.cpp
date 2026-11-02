@@ -12,8 +12,9 @@ extern "C" {
 #include <vector>
 using Clock=std::chrono::steady_clock;
 int main(int argc,char **argv) {
-    if(argc!=5) { fprintf(stderr,"Usage: performance-render-stress output.json seconds paced workers\n"); return 2; }
+    if(argc!=5 && argc!=6) { fprintf(stderr,"Usage: performance-render-stress output.json seconds paced workers [scratch]\n"); return 2; }
     const char *path=argv[1]; double seconds=atof(argv[2]); bool paced=atoi(argv[3])!=0; int workers=atoi(argv[4]);
+    const bool scratchTraffic=argc==6 && atoi(argv[5])!=0;
     if(seconds<=0 || seconds>14400 || workers<0 || workers>8) return 2;
     const double rate=48000; const unsigned block=128;
     std::vector<float> samples(48000*12*2);
@@ -26,9 +27,9 @@ int main(int argc,char **argv) {
     tdj_engine *engine=tdj_engine_create(rate,0.5);
     if(!asset || !engine) return 3;
     uint64_t commandID=0; unsigned rejected=0,invalidAudio=0,clockErrors=0,queueFull=0;
-    auto send=[&](int kind,int deck,int flag,double value=0,double value2=0,double value3=0) {
+    auto send=[&](int kind,int deck,int flag,double value=0,double value2=0,double value3=0,double touchRate=1) {
         tdj_command c{}; c.kind=kind;c.deck=deck;c.flag=flag;c.id=++commandID;c.generation=deck+1;
-        c.value=value;c.value2=value2;c.value3=value3;if(kind==TDJ_LOAD)c.asset=asset;
+        c.value=value;c.value2=value2;c.value3=value3;c.touch_rate=touchRate;if(kind==TDJ_LOAD)c.asset=asset;
         if(!tdj_submit(engine,c))queueFull++;
     };
     auto drain=[&] { tdj_message message{};while(tdj_read_message(engine,&message))if(message.status!=TDJ_OK && message.status!=TDJ_RETIRED)rejected++; };
@@ -61,6 +62,15 @@ int main(int argc,char **argv) {
                 if(n%60==0 && d.state==TDJ_PLAYING)send(TDJ_LOOP,deck,1,48000+(n/60%4)*12000,240000+(n/60%4)*12000);
             }
         }
+        if(scratchTraffic && n%6==0) {
+            static const double rates[]={-2,-.25,1,.25,2};
+            for(int deck=0;deck<2;deck++) {
+                const auto &d=deck==0 ? state.a:state.b;
+                if(d.state!=TDJ_PLAYING)continue;
+                if((n/6)%24==23)send(TDJ_TOUCH,deck,0);
+                else send(TDJ_TOUCH,deck,TDJ_TOUCH_WITH_RATE,d.source_frame,0,0,rates[(n/6)%5]);
+            }
+        }
         auto before=Clock::now();
         if(!tdj_render_buses(engine,block,left,right,cueL,cueR))clockErrors++;
         double elapsed=std::chrono::duration<double>(Clock::now()-before).count();
@@ -78,8 +88,9 @@ int main(int argc,char **argv) {
     std::sort(timings.begin(),timings.end());
     bool passed=!rejected&&!invalidAudio&&!clockErrors&&!queueFull&&!overruns;
     std::ofstream output(path);output.precision(12);
-    output<<"{\n\"scope\":\"C renderer; two keylocked looping decks, six FX, rapid FX/tempo/filter/loop controls; not hardware or iPad UI\",\n";
+    output<<"{\n\"scope\":\"C renderer; two keylocked looping decks, six FX, rapid controls and optional scratch/release traffic; not hardware or iPad UI\",\n";
     output<<"\"passed\":"<<(passed?"true":"false")<<",\n\"paced\":"<<(paced?"true":"false")<<",\n\"workers\":"<<workers<<",\n\"workerPasses\":"<<work.load()<<",\n";
+    output<<"\"scratchTraffic\":"<<(scratchTraffic?"true":"false")<<",\n";
     output<<"\"musicalSeconds\":"<<blocks*block/rate<<",\n\"wallSeconds\":"<<wall<<",\n\"blocks\":"<<blocks<<",\n\"commands\":"<<commandID<<",\n";
     output<<"\"effectCatalogCount\":"<<TDJ_EFFECT_COUNT<<",\n\"bufferFrames\":128,\n\"sampleRate\":48000,\n\"deadlineMilliseconds\":"<<block/rate*1000<<",\n";
     output<<"\"p50Milliseconds\":"<<timings[timings.size()/2]*1000<<",\n\"p99Milliseconds\":"<<timings[(timings.size()-1)*99/100]*1000<<",\n";

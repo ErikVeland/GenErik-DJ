@@ -223,13 +223,12 @@ static void effect_clock(tdj_engine *e,int index,double *bpm,double *beat) {
 static void set_performance_rate(tdj_engine *e,int index,double value) {
     deck *d=&e->decks[index];
     bool crossing=(d->performance_rate==1)!=(value==1);
+    bool silence_boundary=(d->performance_rate==0)!=(value==0);
     if(crossing)tdj_keylock_reset(e->keylocks[index]);
     d->performance_rate=value;
-    if(value!=1) {
-        e->transitions[index].pending=false;e->transitions[index].remaining=0;
-    } else if(crossing && d->keylock && fabs(source_rate(e,d)-1)>1e-12) {
-        transition_request(e,index,0);
-    }
+    // Preserve emitted output across pipeline changes and held stops. Ordinary
+    // nonzero raw-rate updates keep their continuous cursor and existing ramp.
+    if(crossing || silence_boundary)transition_request(e,index,0);
 }
 static double maximum_source_rate(deck *d,double master) {
     double rate=d->synced && d->bpm>0 ? master/deck_bpm(d):d->free_rate;
@@ -867,9 +866,9 @@ static int apply(tdj_engine *e, tdj_command c) {
                 if(with_rate)d->performance_rate=c.touch_rate;
                 d->pending_touch_rate_valid=false;
             }
-            // Slice contacts and scratch rates retain their immediate attack.
-            e->transitions[c.deck].playing=true;
-            e->transitions[c.deck].remaining=0;e->transitions[c.deck].pending=false;
+            // A contact can relocate the source or switch its playback pipeline.
+            // Keep the musical action immediate and correct only its output edge.
+            if(!d->jump_pending)transition_request(e,c.deck,0);
             // Audition a held slice even from a stopped deck.
             d->state=TDJ_PLAYING;
             if (!e->running) { anchor_clock(e,beat_now(e)); e->running=true; }
@@ -889,6 +888,7 @@ static int apply(tdj_engine *e, tdj_command c) {
                 transition_request(e,c.deck,0);
             }
             if (!d->touch_was_playing) d->state=TDJ_PAUSED;
+            transition_request(e,c.deck,0);
         }
         if(!with_rate || !d->jump_pending)tdj_keylock_reset(e->keylocks[c.deck]); return TDJ_OK;
     }
@@ -905,6 +905,9 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (c.deck < 0 || c.deck > 1 || !isfinite(c.value) || c.value < 0.5 || c.value > 1.5) return TDJ_INVALID;
         deck *d = &e->decks[c.deck];
         if (d->keylock && !supported_keylock_rate(c.value)) return TDJ_KEYLOCK_RANGE;
+        deck proposed=*d;proposed.free_rate=c.value;
+        int status=stream_validate(e,c.deck,&proposed,e->bpm,c.preparation_ticket,c.generation);
+        if(status!=TDJ_OK)return status;
         d->free_rate = c.value; return TDJ_OK;
     }
     if (c.kind == TDJ_KEYLOCK) {
@@ -1102,7 +1105,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 if(d->touch_active) { d->touch_start=d->jump_frame; d->touch_end=d->pending_touch_end; }
                 if(d->touch_active && d->pending_touch_rate_valid){d->performance_rate=d->pending_touch_rate;d->pending_touch_rate_valid=false;}
                 tdj_keylock_reset(e->keylocks[i]);
-                if(!d->touch_active)transition_request(e,i,0);
+                transition_request(e,i,0);
             }
             double wrap_start=0,wrap_end=0;
             if(d->touch_active && d->touch_end>d->touch_start) { wrap_start=d->touch_start; wrap_end=d->touch_end; }

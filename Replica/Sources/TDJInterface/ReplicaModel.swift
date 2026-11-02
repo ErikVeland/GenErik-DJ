@@ -771,6 +771,11 @@ public final class ReplicaModel {
         suggestionDestination = nil; suggestions = []; suggestionMessage = nil; browserVisible = true
     }
     public func showSuggestions(destination: DeckID) {
+        let referenceDeck: DeckID = destination == .a ? .b : .a
+        guard loaded[referenceDeck] != nil else {
+            showLibrary()
+            return
+        }
         suggestionDestination = destination
         browserVisible = true
         selectedTrackID = nil
@@ -1015,7 +1020,7 @@ extension ReplicaModel {
     }
     public func selectGridMode(_ mode: GridMode, deck: DeckID) {
         guard let track = track(deck), var preparation = gridPreparation(deck), !preparation.gridLocked else { return }
-        if mode != .fixed, preparation.adaptiveMap == nil {
+        if mode == .automatic || (mode == .adaptive && preparation.adaptiveMap == nil) {
             guard let candidate = storedLibrary.track(id:track.id)?.analysis.adaptiveCandidate ?? track.analysis.adaptiveCandidate else { status = "No adaptive candidate is available."; return }
             do { try preparation.acceptAdaptive(candidate, frameCount: track.analysis.frameCount) }
             catch { status = error.localizedDescription; return }
@@ -1040,8 +1045,13 @@ extension ReplicaModel {
     }
     public func undoGridCorrection(deck: DeckID) {
         guard let track = track(deck), gridPreparation(deck)?.gridLocked != true,
-              let previous = adaptiveUndo[track.id]?.last else { return }
-        saveAdaptivePreparation(previous, deck: deck, remember: false)
+              let previous = adaptiveUndo[track.id]?.last,
+              var restored = gridPreparation(deck) else { return }
+        restored.grid = previous.grid
+        restored.gridIsManual = previous.gridIsManual
+        restored.adaptiveMap = previous.adaptiveMap
+        restored.gridMode = previous.gridMode
+        saveAdaptivePreparation(restored, deck: deck, remember: false)
     }
     private func saveAdaptivePreparation(_ preparation: Preparation, deck: DeckID, publish: Bool = true, remember: Bool = true) {
         guard !applyingGrids.contains(deck), let track = track(deck), let previousPreparation = gridPreparation(deck),
@@ -1066,9 +1076,11 @@ extension ReplicaModel {
                 if loadPreparations[deck]?.track.id == track.id { loadPreparations[deck]?.track.preparation=preparation }
                 if committedPreparations[deck]?.track.id == track.id { committedPreparations[deck]?.track.preparation=preparation }
                 if preparation.gridLocked { gridLocked.insert(deck) } else { gridLocked.remove(deck) }
-                if remember { adaptiveUndo[track.id, default: []].append(previousPreparation) }
-                else { adaptiveUndo[track.id]?.removeLast() }
-                if adaptiveUndo[track.id, default: []].count > 16 { adaptiveUndo[track.id]?.removeFirst() }
+                if publish {
+                    if remember { adaptiveUndo[track.id, default: []].append(previousPreparation) }
+                    else { adaptiveUndo[track.id]?.removeLast() }
+                    if adaptiveUndo[track.id, default: []].count > 16 { adaptiveUndo[track.id]?.removeFirst() }
+                }
                 let token=UUID()
                 pendingPreparations[track.id]=(token,preparation)
                 adoptLibrary(try await service.updatePreparation(trackID: track.id, preparation: preparation))

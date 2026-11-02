@@ -62,6 +62,25 @@ import TDJCore
     await model.finishForShutdown()
 }
 
+@Test @MainActor func nativeLoadHandsOffToTheDeckBeforePreparationFinishes() async throws {
+    let (model, provider, root, _) = try await nativeOwnershipFixture()
+    defer { try? FileManager.default.removeItem(at: root) }
+    model.browserVisible = true
+    model.selectedTrackID = "selected"
+    model.loadNativeMusic(provider.item, deck: .a)
+    #expect(!model.browserVisible)
+    #expect(model.selectedTrackID == nil)
+    #expect(model.preparingPlayback.contains(.a))
+    var started = provider.started.stream.makeAsyncIterator()
+    _ = await started.next()
+    #expect(model.preparingPlayback.contains(.a))
+    provider.release?.resume(); provider.release = nil
+    await model.flushWrites()
+    #expect(!model.preparingPlayback.contains(.a))
+    #expect(model.playback.core.snapshot()?.a.phase == .ready)
+    await model.finishForShutdown()
+}
+
 @Test @MainActor func stopPreventsHeldNativePreparationFromLoadingLater() async throws {
     let (model, provider, root, _) = try await nativeOwnershipFixture()
     defer { try? FileManager.default.removeItem(at: root) }
@@ -69,6 +88,7 @@ import TDJCore
     var started = provider.started.stream.makeAsyncIterator()
     _ = await started.next()
     model.stopAudio()
+    #expect(!model.preparingPlayback.contains(.a))
     provider.release?.resume(); provider.release = nil
     await model.flushWrites()
     #expect(model.loaded[.a] == nil)

@@ -3,7 +3,7 @@ import CryptoKit
 import Foundation
 
 public struct AnalysisConfiguration: Sendable {
-    public var id: String { "independent-dsp-0.3.0-adaptive-candidate-multiband-consensus-tuned-hpcp-\(minimumBPM)-\(maximumBPM)" }
+    public var id: String { "independent-dsp-0.3.1-adaptive-candidate-multiband-consensus-tuned-hpcp-\(minimumBPM)-\(maximumBPM)" }
     public var minimumBPM: Double = 60
     public var maximumBPM: Double = 200
     public init() {}

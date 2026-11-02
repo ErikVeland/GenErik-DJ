@@ -6,6 +6,7 @@ extern "C" {
 #include <cassert>
 #include <cmath>
 #include <cstdio>
+#include <cstring>
 #include <vector>
 #include <atomic>
 #include <thread>
@@ -20,9 +21,9 @@ static void command(tdj_engine *e,int kind,int deck=0,double value=0,double valu
 }
 static tdj_snapshot snapshot(tdj_engine *e){tdj_snapshot s{};assert(tdj_read_snapshot(e,&s));return s;}
 struct Audio{std::vector<float> l,r,cl,cr;};
-static Audio render(tdj_engine *e,int frames,int block=128){
+static Audio render(tdj_engine *e,int frames,int block=128,tdj_recording *recording=nullptr){
     Audio out;out.l.resize(frames);out.r.resize(frames);out.cl.resize(frames);out.cr.resize(frames);
-    for(int at=0;at<frames;at+=block){int n=std::min(block,frames-at);assert(tdj_render_buses(e,n,out.l.data()+at,out.r.data()+at,out.cl.data()+at,out.cr.data()+at));}
+    for(int at=0;at<frames;at+=block){int n=std::min(block,frames-at);assert(tdj_render_recorded_buses(e,recording,n,out.l.data()+at,out.r.data()+at,out.cl.data()+at,out.cr.data()+at));}
     return out;
 }
 static void bounded(const Audio &a,double bound){for(float x:a.l)assert(std::isfinite(x)&&fabs(x)<=bound);for(float x:a.r)assert(std::isfinite(x)&&fabs(x)<=bound);}
@@ -93,14 +94,9 @@ static void ended_loop_recall_checks() {
         }
         auto before=snapshot(e);
         if(other==1)assert(before.b.state==TDJ_PLAYING&&before.b.synced);
-        if(other==2) {
-            assert(before.b.state==TDJ_PLAYING&&!before.b.synced);
-            command(e,TDJ_CUE_RECALL,0,20000,22000,.5,0,nullptr,0,TDJ_UNRESOLVED);
-            auto rejected=snapshot(e);assert(rejected.a.state==TDJ_ENDED&&rejected.a.source_frame==before.a.source_frame);
-            assert(!rejected.a.loop_enabled&&rejected.a.continuing_frame==before.a.continuing_frame&&rejected.master_beat==before.master_beat);
-            auto a=render(e,128),b=render(reference,128);assert(a.l==b.l&&a.r==b.r);
-            for(auto x:{e,reference})command(x,TDJ_SYNC,0,0,0,0,0);
-        }
+        // An unsynced reference does not queue this recall. The common checks
+        // below verify immediate playback and preserve the other deck.
+        if(other==2)assert(before.b.state==TDJ_PLAYING&&!before.b.synced);
         if(other==3)assert(before.b.state==TDJ_QUEUED);
         before=snapshot(e);
         // Invalid loop bounds leave the ended deck, clock and other deck intact.
@@ -191,7 +187,143 @@ static void busy_configuration_check() {
     assert(protected_once);tdj_asset_destroy(asset);
     puts("Frame configuration and output readiness return PROTECTED while rendering, without waiting or changing state.");
 }
-int main(){
+static void waveform_scratch_checks(double rate,tdj_asset *asset,const std::vector<float> &source) {
+    const int N=(int)ceil(rate*.002);
+    // Scratch entry, held stops, restarts and release must not cut the output.
+    for(bool keylock:{false,true})for(bool wasPlaying:{false,true}) {
+        auto e=engine(rate,asset,keylock);
+        if(keylock) { command(e,TDJ_KEYLOCK,0,0,0,0,1);command(e,TDJ_TEMPO,0,150); }
+        const double step=snapshot(e).a.source_rate;
+        float lastL=0,lastR=0;
+        if(wasPlaying) { command(e,TDJ_PLAY);auto a=render(e,512);lastL=a.l.back();lastR=a.r.back(); }
+        command(e,TDJ_TOUCH,0,20000,0,0,TDJ_TOUCH_WITH_RATE,nullptr,-1);
+        auto scratch=render(e,N+64,17);
+        assert(scratch.l[0]==lastL&&scratch.r[0]==lastR);bounded(scratch,.75);
+        for(int i=N;i<N+64;i++) {
+            double position=20000-i*step,fraction=position-floor(position);int at=(int)floor(position);
+            assert(scratch.l[i]==(float)(source[2*at]*(1-fraction)+source[2*(at+1)]*fraction));
+            assert(scratch.r[i]==(float)(source[2*at+1]*(1-fraction)+source[2*(at+1)+1]*fraction));
+        }
+        assert(snapshot(e).a.source_frame==20000-(N+64)*step);
+        // Repeated rate commands may arrive before the previous correction ends.
+        for(double speed:{0.,-1.,1.,-1.,0.,1.,0.,2.,0.,-2.}) {
+            auto before=snapshot(e);lastL=scratch.l.back();lastR=scratch.r.back();
+            command(e,TDJ_TOUCH,0,20000,0,0,TDJ_TOUCH_WITH_RATE,nullptr,speed);
+            assert(snapshot(e).a.source_frame==before.a.source_frame);
+            const int frames=speed==0 ? N/2:N+64;
+            scratch=render(e,frames,1);
+            assert(scratch.l[0]==lastL&&scratch.r[0]==lastR);bounded(scratch,.75);
+            assert(snapshot(e).a.source_frame==before.a.source_frame+frames*speed*step);
+        }
+        command(e,TDJ_TOUCH,0,20000,0,0,TDJ_TOUCH_WITH_RATE,nullptr,0);
+        auto stopped=render(e,N+32,17);
+        for(int i=N;i<N+32;i++)assert(stopped.l[i]==0&&stopped.r[i]==0);
+        auto held=snapshot(e);render(e,256);assert(snapshot(e).a.source_frame==held.a.source_frame);
+        command(e,TDJ_TOUCH,0,20000,0,0,TDJ_TOUCH_WITH_RATE,nullptr,-1);
+        scratch=render(e,N+37,17);auto before=snapshot(e);
+        command(e,TDJ_TOUCH,0,0,0,0,0);
+        assert(snapshot(e).a.source_frame==before.a.source_frame);
+        auto released=render(e,N+64,17);
+        assert(released.l[0]==scratch.l.back()&&released.r[0]==scratch.r.back());bounded(released,.701);
+        assert(snapshot(e).a.state==(wasPlaying ? TDJ_PLAYING:TDJ_PAUSED));
+        if(wasPlaying)assert(snapshot(e).a.source_frame==before.a.source_frame+(N+64)*step);
+        if(!wasPlaying)for(int i=N;i<N+64;i++)assert(released.l[i]==0&&released.r[i]==0);
+        tdj_engine_destroy(e);
+    }
+    // Timeline relocation and Flux return share the same output protection.
+    for(bool flux:{false,true}) {
+        auto e=engine(rate,asset);command(e,TDJ_PLAY);
+        auto previous=render(e,512);
+        if(flux)command(e,TDJ_FLUX,0,0,0,0,1);
+        for(int target:{20000,30000,15000,25000}) {
+            command(e,TDJ_TOUCH,0,target,0,0,1);
+            auto moved=render(e,N/2,1);
+            assert(moved.l[0]==previous.l.back()&&moved.r[0]==previous.r.back());bounded(moved,.701);
+            assert(snapshot(e).a.source_frame==target+N/2);previous=moved;
+        }
+        auto before=snapshot(e);
+        command(e,TDJ_TOUCH,0,0,0,0,0);
+        assert(snapshot(e).a.source_frame==(flux ? before.a.continuing_frame:before.a.source_frame));
+        auto released=render(e,N+64,17);
+        assert(released.l[0]==previous.l.back()&&released.r[0]==previous.r.back());bounded(released,.701);
+        tdj_engine_destroy(e);
+    }
+}
+static void continuous_manipulation_checks() {
+    // Positive stereo witnesses expose inserted silence without confusing it
+    // with a musical zero crossing or deliberate silence in the source.
+    for(double rate:{44100.,48000.,96000.}) {
+        std::vector<float> source((int)rate*8*2);
+        for(size_t f=0;f<source.size()/2;f++){source[2*f]=.25f;source[2*f+1]=.125f;}
+        auto asset=tdj_asset_create(source.data(),source.size()/2,rate);assert(asset);
+        auto e=engine(rate,asset,true,rate*2);
+        mixer(e,TDJ_MIX_CUE,1);mixer(e,TDJ_MIX_MONITOR,1);
+        command(e,TDJ_PLAY);render(e,1024);
+        auto recording=tdj_recording_create(32768);assert(recording);tdj_recording_start(recording);
+        unsigned checked=0;
+        auto uninterrupted=[&](int frames=512) {
+            auto audio=render(e,frames,128,recording);
+            std::vector<float> capturedL(frames),capturedR(frames);
+            assert(tdj_recording_read(recording,frames,capturedL.data(),capturedR.data())==(unsigned)frames);
+            assert(capturedL==audio.l&&capturedR==audio.r);
+            assert(tdj_recording_dropped(recording)==0);
+            for(int f=0;f<frames;f++) {
+                assert(std::isfinite(audio.l[f])&&std::isfinite(audio.r[f]));
+                assert(audio.l[f]>.05f&&audio.r[f]>.025f);
+                assert(audio.l[f]==audio.cl[f]&&audio.r[f]==audio.cr[f]);
+            }
+            checked+=frames;
+            assert(snapshot(e).a.state==TDJ_PLAYING);
+        };
+        for(int pass=0;pass<12;pass++) {
+            command(e,TDJ_TEMPO,0,pass%2 ? 150:100);uninterrupted();
+            command(e,TDJ_KEYLOCK,0,0,0,0,1);uninterrupted();
+            command(e,TDJ_KEYLOCK,0,0,0,0,0);uninterrupted();
+            command(e,TDJ_SYNC,0,0,0,0,0);uninterrupted();
+            command(e,TDJ_FREE_RATE,0,pass%2 ? .75:1.25);uninterrupted();
+            command(e,TDJ_SEEK,0,rate*2,0,0,0,nullptr,0,TDJ_UNRESOLVED);uninterrupted();
+            command(e,TDJ_JUMP,0,rate*3);uninterrupted();
+            command(e,TDJ_LOOP,0,rate*2,rate*4,0,1);uninterrupted();
+            command(e,TDJ_FLUX,0,0,0,0,1);uninterrupted();
+            for(double speed:{-4.,-.25,1.,4.,.25}) {
+                command(e,TDJ_TOUCH,0,rate*2.5,0,0,TDJ_TOUCH_WITH_RATE,nullptr,speed);uninterrupted();
+            }
+            // No new input arrives while audio callbacks continue.
+            uninterrupted((int)(rate*.25));
+            command(e,TDJ_TOUCH,0,0,0,0,0);uninterrupted();
+            command(e,TDJ_LOOP);uninterrupted();
+            command(e,TDJ_SYNC_RESTORE);uninterrupted();
+        }
+        tdj_recording_stop(recording);tdj_recording_destroy(recording);
+        // Zero speed holds source motion without stopping the render transport.
+        auto before=snapshot(e);
+        command(e,TDJ_TOUCH,0,rate*2.5,0,0,TDJ_TOUCH_WITH_RATE,nullptr,0);
+        render(e,(int)rate/4);
+        auto held=snapshot(e);
+        assert(held.a.state==TDJ_PLAYING&&held.a.source_frame==rate*2.5);
+        assert(held.output_frame==before.output_frame+(int)rate/4);
+        assert(held.master_beat>before.master_beat&&held.a.last_start_frame==before.a.last_start_frame);
+        command(e,TDJ_TOUCH,0,rate*2.5,0,0,TDJ_TOUCH_WITH_RATE,nullptr,.05);
+        auto spun=render(e,(int)ceil(rate*.002)+128,1);
+        assert(spun.l[1]>0&&spun.r[1]>0);
+        assert(snapshot(e).a.state==TDJ_PLAYING&&snapshot(e).a.source_frame>held.a.source_frame);
+        assert(snapshot(e).a.last_start_frame==held.a.last_start_frame);
+        tdj_engine_destroy(e);tdj_asset_destroy(asset);
+        std::printf("%.0f Hz: %u frames through tempo, Keylock, rate, seek, jump, loop, Flux, scratch, monitor and recording without inserted silence.\n",rate,checked);
+    }
+}
+int main(int argc,char **argv){
+ if(argc>1 && std::strcmp(argv[1],"--scratch-only")==0) {
+    for(double rate:{44100.,48000.,96000.}) {
+        std::vector<float> source((int)rate*4*2);
+        for(int i=0;i<(int)rate*4;i++){source[2*i]=.7f*sin(2*3.141592653589793*137*i/rate+.73);source[2*i+1]=.6f*cos(2*3.141592653589793*173*i/rate+.21);}
+        auto asset=tdj_asset_create(source.data(),source.size()/2,rate);assert(asset);
+        waveform_scratch_checks(rate,asset,source);tdj_asset_destroy(asset);
+        std::printf("%.0f Hz scratch entry/stop/restart/release continuity passed.\n",rate);
+    }
+    return 0;
+ }
+ continuous_manipulation_checks();
  keylock_reset_quality();
  batched_transition_checks();
  ended_loop_recall_checks();
@@ -221,9 +353,7 @@ int main(){
     // EOF freezes the source and finishes a bounded tail without cutting the last sample.
     command(e,TDJ_JUMP,0,frames-300);render(e,299);auto edge=render(e,1);auto ended=snapshot(e);assert(ended.a.state==TDJ_ENDED&&ended.a.source_frame==frames);
     auto end=render(e,N+12);assert(end.l[0]==edge.l[0]&&end.r[0]==edge.r[0]);for(int i=N-1;i<N+12;i++)assert(end.l[i]==0&&end.r[i]==0);tdj_engine_destroy(e);
-    // Held scratch/reverse contacts retain sample-exact immediate attack.
-    e=engine(rate,asset);command(e,TDJ_TOUCH,0,20000,0,0,TDJ_TOUCH_WITH_RATE,nullptr,-1);auto scratch=render(e,64);
-    for(int i=0;i<64;i++){assert(scratch.l[i]==source[2*(20000-i)]);assert(scratch.r[i]==source[2*(20000-i)+1]);}tdj_engine_destroy(e);
+    waveform_scratch_checks(rate,asset,source);
     // Tiny loops retain their granular waveform; ordinary seams retain exact period.
     e=engine(rate,asset);command(e,TDJ_PLAY);render(e,512);command(e,TDJ_LOOP,0,20000,20002,0,1);render(e,N+2);int p=(int)snapshot(e).a.source_frame;auto tiny=render(e,256);
     for(int i=0;i<256;i++)assert(tiny.l[i]==source[2*(20000+(p-20000+i)%2)]);tdj_engine_destroy(e);

@@ -35,10 +35,10 @@ import Testing
 }
 
 extension AdaptiveRhythmTests {
-    @Test func isolatedLateBeatDoesNotBendTheTempoTrajectory() throws {
-        let events = (0..<128).map { MusicalOnset(seconds: Double($0) * 0.5 + ($0 == 64 ? 0.1 : 0), weight: 1) }
+    @Test(arguments: [64, 127]) func isolatedLateBeatDoesNotBendTheTempoTrajectory(lateBeat: Int) throws {
+        let events = (0..<128).map { MusicalOnset(seconds: Double($0) * 0.5 + ($0 == lateBeat ? 0.1 : 0), weight: 1) }
         let map = try #require(try AdaptiveRhythmAnalyzer.candidate(onsets: events, sampleRate: 48_000, frameCount: 3_200_000, downbeat: 0))
-        #expect(abs(map.frame(atBeat: 64) / 48_000 - 32) < 0.01)
+        #expect(abs(map.frame(atBeat: Double(lateBeat)) / 48_000 - Double(lateBeat) * 0.5) < 0.01)
         for pair in zip(map.anchors, map.anchors.dropFirst()) {
             let bpm = 60 * 48_000 * (pair.1.beat - pair.0.beat) / (pair.1.frame - pair.0.frame)
             #expect(abs(bpm - 120) < 0.5)

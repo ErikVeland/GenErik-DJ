@@ -36,7 +36,7 @@ enum AdaptiveRhythmAnalyzer {
         var indices = Array(stride(from: 0, to: points.count, by: strideSize))
         if indices.last != points.count - 1 { indices.append(points.count - 1) }
         let anchors = indices.map { index -> BeatGridAnchor in
-            let lower = max(0, index - 2), upper = min(points.count - 1, index + 2)
+            let lower = max(0, index - 4), upper = min(points.count - 1, index + 4)
             let window = Array(points[lower...upper])
             let periods = zip(window, window.dropFirst()).map { ($1.frame - $0.frame) / ($1.beat - $0.beat) }.sorted()
             let localPeriod = periods[periods.count / 2]
