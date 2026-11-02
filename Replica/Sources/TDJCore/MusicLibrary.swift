@@ -54,15 +54,15 @@ public struct MusicLibraryCatalog: Sendable, Equatable {
         self.items = items; self.playlists = playlists
     }
     public func songs(playlistID: String? = nil, search: String = "") -> [MusicLibraryItem] {
+        let query = search.trimmingCharacters(in: .whitespacesAndNewlines)
         let candidates: [MusicLibraryItem]
-        if let playlistID {
+        if query.isEmpty, let playlistID {
             let lookup = Dictionary(items.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
             var seen: Set<String> = []
             candidates = playlists.first { $0.id == playlistID }?.itemIDs.compactMap { id in
                 seen.insert(id).inserted ? lookup[id] : nil
             } ?? []
         } else { candidates = items }
-        let query = search.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !query.isEmpty else { return candidates }
         return candidates.filter {
             [$0.title, $0.artist, $0.album].contains { $0.localizedStandardContains(query) }
