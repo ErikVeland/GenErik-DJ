@@ -26,7 +26,7 @@ Updated 2 November 2026. Owner for triage and integration: this coordination cha
 | R18 | First | One manageable branch and tracked work | Included and pushed: source checkpoint and merges on `feature/project-integration`, draft PR #3. Clean status and source-bound results verified. | Preserve the old branches until their disposition is verified. Historical private work remains separately tracked by R19. |
 | R19 | First | No missed work or forgotten requests | Partial: chat inventory, handovers, 18 private candidates and historical differences recorded. | Compare meaningful private patches and unreadable/older history against current implementation. Classify each as included, superseded, research, open or intentionally deferred. Do not mark complete from a filename inventory. |
 | R20 | First | A test build Erik can trust enough to rehearse with | Open. | Complete the release gates. Give the build a source identity and an honest known-issues list. Erik's listening and rehearsal determine acceptance. |
-| R21 | First | Restore frequent iPad micro-releases | Included: incremental signed build/install/launch command and separate test-release policy. | Verify signing and installation on the authorised test iPad. Measure a warm release before claiming a five-minute cycle. |
+| R21 | First | Minute-scale personal iPad test loop | Included: one cached signed build, numbered saved app, deployment without recompilation and tracked feedback. Build 45 compiled/signed in 54.86 seconds. Old broad CI is manual-only. | Install/launch could not be confirmed because the device connection timed out. Reconnect/unlock the iPad and deploy saved build 45. Erik performs acceptance testing. |
 
 ## Evidence index
 

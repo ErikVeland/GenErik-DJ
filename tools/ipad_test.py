@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 import plistlib
 import subprocess
+import sys
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -109,11 +110,11 @@ def deploy(config, number):
     if int(info(app)["CFBundleVersion"]) != number or digest(app.rglob("*"), app) != record["appSHA256"]:
         raise ValueError("The saved app changed. Installation stopped.")
     run(["codesign", "--verify", "--deep", "--strict", str(app)])
-    run(["xcrun", "devicectl", "device", "install", "app", "--device", config["device"], str(app)])
+    run(["xcrun", "devicectl", "--timeout", "20", "device", "install", "app", "--device", config["device"], str(app)], timeout=25)
     record.update(state="installed", installedUTC=datetime.now(timezone.utc).isoformat())
     write(path, record)
-    run(["xcrun", "devicectl", "device", "process", "launch", "--device", config["device"],
-         "--terminate-existing", BUNDLE])
+    run(["xcrun", "devicectl", "--timeout", "10", "device", "process", "launch", "--device", config["device"],
+         "--terminate-existing", BUNDLE], timeout=15)
     record.update(state="testing", launchedUTC=datetime.now(timezone.utc).isoformat())
     write(path, record)
     print(f"Build {number} installed and open. Over to Erik. No further device actions.", flush=True)
@@ -124,6 +125,8 @@ def main():
     parser.add_argument("action", choices=["run", "build", "deploy"])
     parser.add_argument("--notes", default="Incremental iPad test build")
     parser.add_argument("--number", type=int, help="Saved build to install, including rollback")
+    parser.add_argument("--device", help="Override the saved test iPad device ID")
+    parser.add_argument("--team", help="Override the saved signing team")
     args = parser.parse_args()
     if args.action == "deploy" and args.number is None:
         parser.error("deploy requires --number")
@@ -133,11 +136,25 @@ def main():
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError:
             parser.error("An iPad build or installation is already running.")
-        config = json.loads((LOCAL / "config.json").read_text())
+        config_path = LOCAL / "config.json"
+        config = json.loads(config_path.read_text()) if config_path.exists() else {}
+        for key in ["device", "team"]:
+            if getattr(args, key):
+                config[key] = getattr(args, key)
+        required = (["team"] if args.action != "deploy" else []) + (["device"] if args.action != "build" else [])
+        if any(not config.get(key) for key in required):
+            parser.error("Supply the signing team/device, or save TestBuilds/ipad/config.json.")
         number = build(config, args.notes) if args.action != "deploy" else args.number
         if args.action != "build":
             deploy(config, number)
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except subprocess.TimeoutExpired:
+        print("The iPad connection timed out. The saved build is ready. Reconnect and unlock the iPad, then retry deployment without rebuilding.", file=sys.stderr)
+        sys.exit(1)
+    except (subprocess.CalledProcessError, ValueError, FileNotFoundError) as error:
+        print(f"Stopped: {error}", file=sys.stderr)
+        sys.exit(1)
