@@ -106,7 +106,7 @@ public struct PreparedMusicLibraryAudio: Sendable {
         stage("Reading native song index")
         let mediaItems = library.allMediaItems
         stage("Checking local audio for \(mediaItems.count) indexed items")
-        let items = mediaItems.filter { $0.mediaKind == .kindSong }.map { item in
+        let items: [MusicLibraryItem] = mediaItems.filter { $0.mediaKind == .kindSong }.map { item -> MusicLibraryItem in
             let source = MusicLibrarySource(platform: .macMusic, persistentID: item.persistentID.stringValue)
             let url = item.location
             let available: Bool
@@ -132,7 +132,7 @@ public struct PreparedMusicLibraryAudio: Sendable {
     }
 #else
     private nonisolated static func iosCatalog() -> MusicLibraryCatalog {
-        let items = (MPMediaQuery.songs().items ?? []).map { item in
+        let items: [MusicLibraryItem] = (MPMediaQuery.songs().items ?? []).map { item -> MusicLibraryItem in
             let url = item.assetURL
             let availability: MusicLibraryItem.Availability = item.hasProtectedAsset ? .protected
                 : url.map { $0.isFileURL || $0.scheme?.lowercased() == "ipod-library" } == true ? .available : item.isCloudItem ? .notDownloaded : .unavailable
