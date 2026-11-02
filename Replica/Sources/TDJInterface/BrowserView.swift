@@ -11,7 +11,9 @@ struct BrowserView: View {
     var linkCollection: () -> Void = {}
     var showRecordings: () -> Void = {}
     @State private var query = ""
+    private var hasSearchQuery: Bool { query.contains { !$0.isWhitespace } }
     @State private var sort: CollectionSort? = .title
+    private var displayedSort: CollectionSort? { hasSearchQuery ? sort ?? .title : sort }
     @State private var panes = BrowserPaneStack()
     private var category: CollectionCategory { panes.category }
     private var group: String? { panes.group }
@@ -20,9 +22,12 @@ struct BrowserView: View {
     @State private var recommendationSeed: LibraryBrowserEntry?
     @State private var layout = BrowserLayoutState()
     @State private var section = BrowserSection.songs
+    private var displayedSection: BrowserSection { hasSearchQuery ? .songs : section }
+    private var showingSuggestions: Bool { !hasSearchQuery && model.suggestionDestination != nil }
     @State private var newPlaylistPresented = false
     @State private var detailTab = DetailTab.match
     enum DetailTab { case match, queue }
+    private var displayedDetailTab: DetailTab { model.queuedIDs.isEmpty ? .match : detailTab }
     @State private var playlists = CollectionPlaylists()
     @State private var selecting = false
     @State private var selection = Set<String>()
@@ -54,7 +59,7 @@ struct BrowserView: View {
     @State private var displayedRequest: LibraryBrowserRequest?
     private var request: LibraryBrowserRequest {
         .init(revision: model.library.revision, version: collectionVersion, query: query,
-              sort: sort, category: category, group: group,
+              sort: displayedSort, category: category, group: group,
               suggestionIDs: nil)
     }
     var body: some View {
@@ -78,17 +83,17 @@ struct BrowserView: View {
             searchBar
             HStack(spacing: 0) {
                 iconRail.frame(width: 64)
-                if section == .settings {
+                if displayedSection == .settings {
                     SettingsBrowser(model: model, importAudio: importAudio, linkCollection: linkCollection)
-                } else if section == .recordings {
+                } else if displayedSection == .recordings {
                     RecordingsBrowser(model: model)
-                } else if section == .history {
+                } else if displayedSection == .history {
                     HistoryBrowser(model: model)
-                } else if section == .playlists {
+                } else if displayedSection == .playlists {
                     playlistColumn.frame(maxWidth: .infinity)
                     listColumn.frame(maxWidth: .infinity)
                 } else {
-                    if !layout.categoriesHidden || layout.categoryOffset > 0 {
+                    if !hasSearchQuery && (!layout.categoriesHidden || layout.categoryOffset > 0) {
                         categoryColumn.frame(width: 180)
                             .offset(x: layout.categoriesHidden ? -180 + layout.categoryOffset : layout.categoryOffset)
                             .frame(width: max(0, layout.categoriesHidden ? layout.categoryOffset : 180 + layout.categoryOffset), alignment: .leading)
@@ -98,7 +103,7 @@ struct BrowserView: View {
                     }
                     listColumn.frame(maxWidth: .infinity)
                         .overlay(alignment: .leading) {
-                            if layout.categoriesHidden {
+                            if !hasSearchQuery && layout.categoriesHidden {
                                 Color.clear.frame(width: 18).contentShape(Rectangle())
                                     .gesture(horizontalDrag(changed: { layout.dragCategories(translation: $0) },
                                         ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endCategories(translation: t, velocity: v, width: 180) } }))
@@ -244,17 +249,19 @@ extension BrowserView {
         HStack(spacing: 12) {
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass").foregroundStyle(PerformancePalette.secondaryText)
-                TextField("", text: $query, prompt: Text("Search").foregroundStyle(PerformancePalette.secondaryText))
+                TextField("", text: $query, prompt: Text("Search full library").foregroundStyle(PerformancePalette.secondaryText))
                     .textFieldStyle(.plain).foregroundStyle(PerformancePalette.text)
-                    .accessibilityLabel("Search songs, artists or albums")
+                    .accessibilityLabel("Search full library by song, artist, album or genre")
             }.padding(.horizontal, 14).frame(width: 380, height: 36)
             .background(Capsule().fill(PerformancePalette.sunken)).overlay(Capsule().strokeBorder(Color.black.opacity(0.7)))
             if let destination = model.suggestionDestination {
-                Text("Suggestions → \(destination.rawValue.uppercased())").foregroundStyle(deckBlue)
-                Button("Songs") { model.showLibrary() }
+                Text("\(hasSearchQuery ? "All songs" : "Suggestions") → \(destination.rawValue.uppercased())").foregroundStyle(deckBlue)
+                if !hasSearchQuery { Button("Songs") { model.showLibrary() } }
+            } else if hasSearchQuery {
+                Text("All songs").foregroundStyle(PerformancePalette.secondaryText)
             }
             Spacer()
-            if model.suggestionDestination == nil {
+            if !showingSuggestions {
                 Button(selecting ? "Done" : "Edit") { selecting.toggle(); selection=[] }
                 if selecting { Button("Add to Playlist") { adding=true }.disabled(selection.isEmpty) }
             }
@@ -274,15 +281,16 @@ extension BrowserView {
 
     fileprivate var iconRail: some View {
         VStack(spacing: 14) {
-            railButton("music.note", "Songs", active: section == .songs) { open(.songs) }
-            railButton("music.note.list", "Playlists", active: section == .playlists) { open(.playlists) }
-            railButton("recordingtape", "Recordings", active: section == .recordings) { open(.recordings) }
-            railButton("clock.fill", "History", active: section == .history) { open(.history) }
+            railButton("music.note", "Songs", active: displayedSection == .songs) { open(.songs) }
+            railButton("music.note.list", "Playlists", active: displayedSection == .playlists) { open(.playlists) }
+            railButton("recordingtape", "Recordings", active: displayedSection == .recordings) { open(.recordings) }
+            railButton("clock.fill", "History", active: displayedSection == .history) { open(.history) }
             Spacer()
-            railButton("gearshape.fill", "Settings", active: section == .settings) { open(.settings) }
+            railButton("gearshape.fill", "Settings", active: displayedSection == .settings) { open(.settings) }
         }.padding(.vertical, 14).frame(maxHeight: .infinity).background(PerformancePalette.panel)
     }
     private func open(_ target: BrowserSection) {
+        query = ""
         if model.suggestionDestination != nil { model.showLibrary() }
         section = target
         if target == .songs { if layout.categoriesHidden { layout.showCategories() }; select(category: .songs) }
@@ -349,12 +357,12 @@ extension BrowserView {
     fileprivate var listColumn: some View {
         VStack(spacing: 0) {
             HStack(spacing: 26) {
-                if panes.depth > 0 {
+                if !hasSearchQuery && panes.depth > 0 {
                     Button { withAnimation(.smooth(duration: 0.25)) { panes.back() } } label: {
                         Label(category.rawValue, systemImage: "chevron.left").font(.system(size: 15, weight: .semibold))
                     }.foregroundStyle(deckBlue)
                 }
-                if category == .playlists {
+                if !hasSearchQuery && category == .playlists {
                     Button { sort = nil } label: {
                         Image(systemName: "music.note.list").font(.system(size: 20, weight: .semibold))
                             .foregroundStyle(sort == nil ? Color.black : PerformancePalette.secondaryText).frame(width: 42, height: 38)
@@ -368,15 +376,15 @@ extension BrowserView {
                 Spacer()
                 Menu {
                     ForEach(CollectionSort.allCases, id: \.self) { item in
-                        Button { sort = item } label: { if sort == item { Label(item.rawValue, systemImage: "checkmark") } else { Text(item.rawValue) } }
+                        Button { sort = item } label: { if displayedSort == item { Label(item.rawValue, systemImage: "checkmark") } else { Text(item.rawValue) } }
                     }
                 } label: {
                     VStack(alignment: .trailing, spacing: 0) {
                         Text("SORTED BY").font(.system(size: 10, weight: .semibold)).foregroundStyle(PerformancePalette.secondaryText)
-                        HStack(spacing: 4) { Text(sort?.rawValue ?? "Playlist order"); Image(systemName: "chevron.down") }
+                        HStack(spacing: 4) { Text(displayedSort?.rawValue ?? "Playlist order"); Image(systemName: "chevron.down") }
                             .font(.system(size: 15, weight: .medium)).foregroundStyle(PerformancePalette.text)
                     }
-                }.accessibilityLabel("Sorted by \(sort?.rawValue ?? "playlist order")")
+                }.accessibilityLabel("Sorted by \(displayedSort?.rawValue ?? "playlist order")")
                 if layout.listShowsTempoAndKey {
                     Button(selecting ? "Done" : "Edit") { selecting.toggle(); selection=[] }
                         .font(.system(size: 15, weight: .semibold)).padding(.horizontal, 12).frame(height: 36).bevelPanel(cornerRadius: 4)
@@ -384,11 +392,11 @@ extension BrowserView {
             }.padding(.horizontal, 22).frame(height: 56).background(PerformancePalette.panel)
             GeometryReader { geometry in
                 ZStack(alignment: .topLeading) {
-                    let drilled = panes.depth > 0 && section != .playlists
+                    let drilled = !hasSearchQuery && panes.depth > 0 && section != .playlists
                     rootPane
                         .offset(x: drilled ? -geometry.size.width * 0.3 + panes.dragOffset * 0.3 : 0)
                         .allowsHitTesting(!drilled)
-                    if panes.depth > 0 && section != .playlists {
+                    if drilled {
                         songPane
                             .background(PerformancePalette.stage)
                             .shadow(color: .black.opacity(0.6), radius: 8, x: -4)
@@ -418,14 +426,16 @@ extension BrowserView {
     private func sortTab(_ symbol: String, _ label: String, _ value: CollectionSort) -> some View {
         Button { sort = value } label: {
             Image(systemName: symbol).font(.system(size: 20, weight: .semibold))
-                .foregroundStyle(sort == value ? Color.black : PerformancePalette.secondaryText)
+                .foregroundStyle(displayedSort == value ? Color.black : PerformancePalette.secondaryText)
                 .frame(width: 42, height: 38)
-                .background(RoundedRectangle(cornerRadius: 5).fill(sort == value ? deckBlue : Color.clear))
+                .background(RoundedRectangle(cornerRadius: 5).fill(displayedSort == value ? deckBlue : Color.clear))
         }.accessibilityLabel("Sort by \(label)")
     }
 
     @ViewBuilder fileprivate var rootPane: some View {
-        if section == .playlists {
+        if hasSearchQuery {
+            songPane
+        } else if section == .playlists {
             if group == nil { Text("Choose a playlist").foregroundStyle(.secondary).frame(maxWidth: .infinity, maxHeight: .infinity) }
             else { songPane }
         } else if category == .songs || model.suggestionDestination != nil { songPane }
@@ -447,7 +457,7 @@ extension BrowserView {
     }
 
     @ViewBuilder fileprivate var songPane: some View {
-        if model.suggestionDestination != nil {
+        if showingSuggestions {
             ScrollView { LazyVStack(spacing: 0) {
                 if recommendations.isEmpty {
                     Text(recommendationSeed == nil ? "Load a track on the other deck to see matches." : "No matching tracks yet.")
@@ -455,10 +465,10 @@ extension BrowserView {
                 }
                 ForEach(recommendations) { match in songRow(match.entry).padding(.bottom, 1) }
             } }
-        } else if let message = model.suggestionMessage {
+        } else if !hasSearchQuery, let message = model.suggestionMessage {
             VStack { Spacer(); Text(message).font(.system(size: 13)).foregroundStyle(.secondary).padding(24); Spacer() }.frame(maxWidth: .infinity)
         } else if entryCount == 0 {
-            VStack { Spacer(); Text(searching ? "Searching…" : query.isEmpty ? "No songs available." : "No matching songs.")
+            VStack { Spacer(); Text(searching ? "Searching…" : hasSearchQuery ? "No matching songs." : "No songs available.")
                 .font(.system(size: 13)).foregroundStyle(.secondary); Spacer() }.frame(maxWidth: .infinity)
         } else if snapshotProjection != nil {
             // ImageRenderer does not draw scroll views or lazy rows; snapshots list their few rows directly.
@@ -517,10 +527,10 @@ extension BrowserView {
             }.padding(14).frame(height: 190)
             Rectangle().fill(Color.white.opacity(0.08)).frame(height: 1).padding(.horizontal, 14)
             HStack(spacing: 8) {
-                detailTabButton("Recommended Tracks", .match)
-                detailTabButton("Queue \(model.queuedIDs.count)", .queue)
+                detailTabButton(recommendationSeed.map { "Rec for \($0.title)" } ?? "Recommendations", .match)
+                if !model.queuedIDs.isEmpty { detailTabButton("Prep list \(model.queuedIDs.count)", .queue) }
                 Spacer()
-                if detailTab == .match, let seed = recommendationSeed {
+                if displayedDetailTab == .match, let seed = recommendationSeed {
                     HStack(spacing: 3) { Image(systemName: "music.note"); Text(seed.key?.openKeyName ?? "—") }.foregroundStyle(KeyColour.colour(seed.key))
                     HStack(spacing: 3) { Image(systemName: "waveform.path.ecg"); Text(seed.bpm.map { String(format: "%.1f", $0) } ?? "—") }
                 }
@@ -528,19 +538,16 @@ extension BrowserView {
             .padding(.horizontal, 14).frame(height: 50)
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    if detailTab == .match {
+                    if displayedDetailTab == .match {
                         if recommendations.isEmpty {
                             Text(recommendationSeed == nil ? "Load or play a track to see recommendations." : "No matching tracks yet.")
                                 .font(.system(size: 13)).foregroundStyle(.secondary).padding(14)
                         }
                         ForEach(recommendations) { match in recommendationRow(match.entry, keyOK: match.keyCompatible, tempoOK: match.tempoCompatible) }
                     } else {
-                        if model.queuedIDs.isEmpty {
-                            Text("Add songs with the prep list button.").font(.system(size: 13)).foregroundStyle(.secondary).padding(14)
-                        }
                         ForEach(queuedEntries, id: \.id) { entry in
                             recommendationRow(entry, keyOK: false, tempoOK: false)
-                                .contextMenu { Button("Remove from Queue", role: .destructive) { model.dequeue(entry.id) } }
+                                .contextMenu { Button("Remove from prep list", role: .destructive) { model.dequeue(entry.id) } }
                         }
                     }
                 }
@@ -553,8 +560,9 @@ extension BrowserView {
     private func detailTabButton(_ title: String, _ tab: DetailTab) -> some View {
         Button { detailTab = tab } label: {
             Text(title).font(.system(size: tab == .match ? 18 : 15, weight: .bold))
-                .foregroundStyle(detailTab == tab ? PerformancePalette.text : PerformancePalette.secondaryText)
-        }
+                .foregroundStyle(displayedDetailTab == tab ? PerformancePalette.text : PerformancePalette.secondaryText)
+                .lineLimit(1).truncationMode(.tail)
+        }.accessibilityLabel(title)
     }
     private func recommendationRow(_ entry: LibraryBrowserEntry, keyOK: Bool, tempoOK: Bool) -> some View {
         Button { select(entry) } label: {

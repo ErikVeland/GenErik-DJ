@@ -2,9 +2,17 @@
 
 Documentation reviewed against the shared implementation on 30 October 2026. [Current readiness and verification](Status.md) is the implementation status record. Dated measurements below apply only to their recorded source and workload.
 
-The prepared collection supports Songs, Playlists, Artists, Albums and Genre. Search matches title, artist, album and genre. Manual sorting applies to the collection; search within suggestions preserves their recommendation order.
+The song browser supports Songs, Playlists, Artists, Albums and Genre. Search matches title, artist, album and genre across the full library, including native songs that have not finished analysis. Recommendation membership, tempo/key compatibility and the current playlist or category do not restrict search results. Search uses the selected song sort, with title order when the previous view used playlist order.
 
-Choose Edit, select songs, then Add to Playlist. Create a named playlist or append to an existing one. Local playlists retain track identities without duplicate entries and are saved atomically in `collection-playlists.json` inside the app workspace. This does not write to the system Music library. Source Music playlists are also available after the user opens and refreshes Music library access; only prepared songs appear in the deck browser.
+## Search and browser labels — 2 November 2026
+
+Entering a non-whitespace query displays song results from any browser section. The selected destination deck and previous browsing context are retained. Clearing the query restores that context, including recommendation order or playlist membership. Songs with unavailable or protected audio can still appear in search, with their existing loading restrictions.
+
+The recommendation heading reads **Rec for [track title]**, using the track that supplies the recommendation criteria. Long titles truncate visually; the accessibility label retains the full title. When there is no reference track, the heading reads **Recommendations**.
+
+The optional **Prep list** is a manual shortlist saved in `queue.json`. Its tab appears only when it contains songs. The add button remains available in the song detail pane. Adding songs does not start playback or schedule an automatic transition.
+
+Choose Edit, select songs, then Add to Playlist. Create a named playlist or append to an existing one. Local playlists retain track identities without duplicate entries and are saved atomically in `collection-playlists.json` inside the app workspace. This does not write to the system Music library. Source Music playlists are also available from the native Music catalogue, including songs that have not finished analysis.
 
 Album metadata is retained from local audio tags and Music imports. Older workspaces without an album field still load. Reimporting a linked song can populate its album without replacing manual preparation.
 
