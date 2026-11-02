@@ -122,9 +122,10 @@ public struct LibraryBrowserProjection: Sendable {
             }
             return result
         }
+        let words = search.split(whereSeparator: \.isWhitespace).map(String.init)
         var candidates=all
-        if let suggestionIDs { candidates=try resolve(suggestionIDs) }
-        else if let group {
+        if words.isEmpty, let suggestionIDs { candidates=try resolve(suggestionIDs) }
+        else if words.isEmpty, let group {
             if category == .playlists {
                 if group.hasPrefix("music:") {
                     let id=String(group.dropFirst(6))
@@ -141,7 +142,6 @@ public struct LibraryBrowserProjection: Sendable {
                 candidates=try all.filter { entry in try tick();return categoryValue(entry,category:category) == group }
             }
         }
-        let words=search.split(whereSeparator:\.isWhitespace).map(String.init)
         var indices:[Int]=[]
         for index in candidates.indices {
             try tick();let entry=candidates[index]
@@ -149,7 +149,7 @@ public struct LibraryBrowserProjection: Sendable {
                 indices.append(index)
             }
         }
-        if let sort,suggestionIDs == nil {
+        if let sort, suggestionIDs == nil || !words.isEmpty {
             indices=try indices.sorted { a,b in
                 try tick();let left=candidates[a],right=candidates[b]
                 switch sort {
