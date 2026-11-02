@@ -54,12 +54,13 @@ enum SuperSlicerAction: Equatable {
         default: 1
         }
     }
-    /// Existing development laws use full-surface Y. They are not recovered NI DSP.
+    /// Brake reserves the bottom tenth of its region for a reachable stop.
+    /// Pitch retains its provisional full-surface response.
     func provisionalRate(at y: Double) -> Double {
         switch self {
         case .slice, .stutterHalf, .stutterQuarter, .scratch: return 1
         case .reverse: return -1
-        case .brake: return max(0, 1-y)
+        case .brake: return min(1, max(0, 1-y/0.3))
         case .pitchUp, .pitchDown: return pow(2, (0.5-y)*2)
         }
     }

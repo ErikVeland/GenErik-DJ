@@ -32,8 +32,8 @@ import Testing
     let (model,root)=try await superSlicerFixture()
     defer { try? FileManager.default.removeItem(at:root) }
     let rows: [(SuperSlicerFamily,Double,Double,Double,Double)] = [
-        (.turntablism,0.1,0.9,56000,64000),
-        (.turntablism,0.5,1,57600,0),
+        (.turntablism,0.1,2.0/3,56000,64000),
+        (.turntablism,0.5,0,57600,0),
         (.turntablism,0.9,-1,56000,64000),
         (.pitch,0.1,pow(2,0.8),56000,64000),
         (.pitch,0.5,1,56000,64000),
@@ -56,6 +56,95 @@ import Testing
         #expect(model.playbackSnapshot?.a.performanceRate == 1)
         #expect(model.playbackSnapshot?.a.phase == .paused)
     }
+    await model.finishForShutdown()
+}
+
+@Test @MainActor func superSlicerScratchFollowsMovementWithoutRestartingTheCursor() async throws {
+    let (model,root)=try await superSlicerFixture()
+    defer { try? FileManager.default.removeItem(at:root) }
+    model.selectSuperSlicerFamily(.turntablism,deck:.a)
+    let other=try #require(model.playbackSnapshot?.b)
+    let session=WaveformGestureSession()
+    func send(_ phase: SurfaceEvent.Phase,_ x: Double) {
+        let point=SurfacePoint(id:1,x:x,y:0.5)
+        session.handle(.init(phase:phase,points:[point],ending:phase == .ended ? [1]:[]),
+                       model:model,deck:.a,span:64000)
+    }
+    send(.began,0.4)
+    #expect(model.playbackSnapshot?.a.performanceRate == 0)
+    try await Task.sleep(for:.milliseconds(20))
+    send(.moved,0.400001)
+    let slow=try #require(model.playbackSnapshot?.a.performanceRate)
+    #expect(slow>0 && slow<0.01)
+    send(.moved,0.6)
+    #expect(model.playbackSnapshot?.a.performanceRate == 4)
+    _=model.playback.core.renderOffline(frames:256); model.refreshPlayback()
+    let forward=try #require(model.playbackSnapshot?.a.sourceFrame)
+    send(.moved,0.3)
+    #expect(model.playbackSnapshot?.a.performanceRate == -4)
+    #expect(model.playbackSnapshot?.a.sourceFrame == forward)
+    _=model.playback.core.renderOffline(frames:256); model.refreshPlayback()
+    let backward=try #require(model.playbackSnapshot?.a.sourceFrame)
+    #expect(backward<forward)
+    send(.moved,0.3)
+    #expect(model.playbackSnapshot?.a.performanceRate == 0)
+    _=model.playback.core.renderOffline(frames:256); model.refreshPlayback()
+    #expect(model.playbackSnapshot?.a.sourceFrame == backward)
+    #expect(model.playbackSnapshot?.b == other)
+    send(.ended,0.3)
+    #expect(model.playbackSnapshot?.a.touchActive == false)
+    #expect(model.playbackSnapshot?.a.performanceRate == 1)
+    #expect(model.playbackSnapshot?.a.phase == .paused)
+    await model.finishForShutdown()
+}
+
+@Test @MainActor func superSlicerScratchContactHandoverStartsAtRest() async throws {
+    let (model,root)=try await superSlicerFixture()
+    defer { try? FileManager.default.removeItem(at:root) }
+    model.selectSuperSlicerFamily(.turntablism,deck:.a)
+    let session=WaveformGestureSession()
+    let first=SurfacePoint(id:1,x:0.4,y:0.5),moved=SurfacePoint(id:1,x:0.5,y:0.5)
+    let second=SurfacePoint(id:2,x:0.7,y:0.5)
+    session.handle(.init(phase:.began,points:[first],ending:[]),model:model,deck:.a,span:64000)
+    session.handle(.init(phase:.moved,points:[moved],ending:[]),model:model,deck:.a,span:64000)
+    #expect(try #require(model.playbackSnapshot?.a.performanceRate)>0)
+    session.handle(.init(phase:.began,points:[moved,second],ending:[]),model:model,deck:.a,span:64000)
+    #expect(model.playbackSnapshot?.a.performanceRate == 0)
+    #expect(model.playbackSnapshot?.a.sourceFrame == 76800)
+    session.handle(.init(phase:.ended,points:[moved,second],ending:[2]),model:model,deck:.a,span:64000)
+    #expect(model.playbackSnapshot?.a.performanceRate == 0)
+    #expect(model.playbackSnapshot?.a.sourceFrame == 64000)
+    let reverse=SurfacePoint(id:1,x:0.5,y:0.9)
+    session.handle(.init(phase:.moved,points:[reverse],ending:[]),model:model,deck:.a,span:64000)
+    #expect(model.playbackSnapshot?.a.performanceRate == -1)
+    session.handle(.init(phase:.moved,points:[moved],ending:[]),model:model,deck:.a,span:64000)
+    #expect(model.playbackSnapshot?.a.performanceRate == 0)
+    session.handle(.init(phase:.cancelled,points:[moved],ending:[1]),model:model,deck:.a,span:64000)
+    #expect(model.playbackSnapshot?.a.touchActive == false)
+    #expect(model.playbackSnapshot?.a.performanceRate == 1)
+    await model.finishForShutdown()
+}
+
+@Test @MainActor func superSlicerBrakeReachesAndHoldsAStopInsideItsRegion() async throws {
+    let (model,root)=try await superSlicerFixture()
+    defer { try? FileManager.default.removeItem(at:root) }
+    model.selectSuperSlicerFamily(.turntablism,deck:.a)
+    let session=WaveformGestureSession()
+    for (index,y) in [0.0,0.15,0.3,0.32].enumerated() {
+        let point=SurfacePoint(id:1,x:0.4,y:y)
+        session.handle(.init(phase:index == 0 ? .began:.moved,points:[point],ending:[]),model:model,deck:.a,span:64000)
+        if index == 0 { #expect(model.playbackSnapshot?.a.performanceRate == 1) }
+        if index == 1 { #expect(model.playbackSnapshot?.a.performanceRate == 0.5) }
+        if index>=2 {
+            #expect(model.playbackSnapshot?.a.performanceRate == 0)
+            let position=try #require(model.playbackSnapshot?.a.sourceFrame)
+            _=model.playback.core.renderOffline(frames:512); model.refreshPlayback()
+            #expect(model.playbackSnapshot?.a.sourceFrame == position)
+        }
+    }
+    let point=SurfacePoint(id:1,x:0.4,y:0.32)
+    session.handle(.init(phase:.ended,points:[point],ending:[1]),model:model,deck:.a,span:64000)
+    #expect(model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.performanceRate == 1)
     await model.finishForShutdown()
 }
 
@@ -210,7 +299,8 @@ import Testing
     await model.finishForShutdown()
 }
 
-@Test @MainActor func loopStutterFluxReleaseKeepsOtherDeckSamplesAndClockExact() async throws {
+@Test(arguments:[SuperSlicerFamily.loopStutter,.turntablism]) @MainActor
+func superSlicerFluxReleaseKeepsOtherDeckSamplesAndClockExact(_ family: SuperSlicerFamily) async throws {
     let (model,root)=try await superSlicerFixture()
     defer { try? FileManager.default.removeItem(at:root) }
     let initial=try #require(model.playbackSnapshot)
@@ -224,11 +314,12 @@ import Testing
     try model.playback.play(.b);try reference.play(deck:.b,generation:generation)
     #expect(reference.processControlsWhileIdle())
     _=model.playback.core.renderOffline(frames:512);_=reference.renderOffline(frames:512)
-    model.refreshPlayback();model.selectSuperSlicerFamily(.loopStutter,deck:.a)
+    model.refreshPlayback();model.selectSuperSlicerFamily(family,deck:.a)
     model.perform(.flux,deck:.a,enabled:true)
     let session=WaveformGestureSession()
-    for (index,y) in [0.1,0.5,0.9,0.2].enumerated() {
-        let point=SurfacePoint(id:1,x:0.4,y:y)
+    let rows=family == .turntablism ? [0.5,0.5,0.9,0.3]:[0.1,0.5,0.9,0.2]
+    for (index,y) in rows.enumerated() {
+        let point=SurfacePoint(id:1,x:index == 1 ? 0.41:0.4,y:y)
         session.handle(.init(phase:index == 0 ? .began:.moved,points:[point],ending:[]),model:model,deck:.a,span:64000)
         for _ in 0..<4 {
             let actual=model.playback.core.renderOffline(frames:256),expected=reference.renderOffline(frames:256)
