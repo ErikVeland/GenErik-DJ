@@ -106,7 +106,7 @@ public struct PreparedMusicLibraryAudio: Sendable {
         stage("Reading native song index")
         let mediaItems = library.allMediaItems
         stage("Checking local audio for \(mediaItems.count) indexed items")
-        let items = mediaItems.filter { $0.mediaKind == .kindSong }.map { item in
+        let items: [MusicLibraryItem] = mediaItems.filter { $0.mediaKind == .kindSong }.map { item -> MusicLibraryItem in
             let source = MusicLibrarySource(platform: .macMusic, persistentID: item.persistentID.stringValue)
             let url = item.location
             let available: Bool

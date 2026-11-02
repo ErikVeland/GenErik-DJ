@@ -2,7 +2,7 @@
 
 This candidate develops Reverb and Iceverb for the minimum 10.5-inch iPad Pro (2017/A10X). Its aim is a denser, more musical space within a fixed processing budget. The existing audio deadlines and exact 20 ms control-completion gate remain unchanged. Better-device variants can be developed later; this implementation does not change sound quality in response to CPU load.
 
-The change is based on `546ef6fa65e904fb58ee8d3c803fc5ce4a6048be`. The production changes are confined to `Sources/CTDJTransport/TDJReverb.h` and `TDJEffects.h`. Public effect IDs, saved X/Y values, three slots per deck and the existing touch/lock controls remain compatible. An existing saved preset will use the revised sound.
+The change is based on `546ef6fa65e904fb58ee8d3c803fc5ce4a6048be`. Reverb production changes are confined to `Sources/CTDJTransport/TDJReverb.h` and `TDJEffects.h`. Two one-line Swift type annotations in `DeckToolViews.swift` and `LocalMusicLibrary.swift` resolve existing compiler ambiguities exposed by the complete Apple build. Public effect IDs, saved X/Y values, three slots per deck and the existing touch/lock controls remain compatible. An existing saved preset will use the revised sound.
 
 ## Sound design
 

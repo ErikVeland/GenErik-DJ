@@ -42,7 +42,7 @@ struct DeckTempoFader: View {
                 }.frame(maxWidth: .infinity).contentShape(Rectangle())
                 .gesture(DragGesture(minimumDistance: 0).onChanged { value in
                     let fraction = min(1, max(0, (value.location.y - 12) / height))
-                    model.setDeckTempo(percent: (0.5 - fraction) * 2 * range, deck: deck)
+                    model.setDeckTempo(percent: (0.5 - Double(fraction)) * 2 * range, deck: deck)
                 })
                 .onTapGesture(count: 2) { model.setDeckTempo(percent: 0, deck: deck) }
             }
