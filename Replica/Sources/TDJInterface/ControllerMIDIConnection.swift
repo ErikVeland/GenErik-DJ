@@ -236,10 +236,10 @@ final class ControllerMIDIConnection {
         let bytes = frame.encoded
         var list = MIDIPacketList()
         let start = MIDIPacketListInit(&list)
-        let added = bytes.withUnsafeBufferPointer {
+        _ = bytes.withUnsafeBufferPointer {
             MIDIPacketListAdd(&list, MemoryLayout<MIDIPacketList>.size, start, 0, bytes.count, $0.baseAddress!)
         }
-        guard added != nil else { return false }
+        guard list.numPackets == 1 else { return false }
         let result = MIDISend(outputPort, destination, &list)
         lastFeedbackTime = ProcessInfo.processInfo.systemUptime
         if result != noErr { bridgeStatus = "Z1 feedback could not send (\(result))." }
