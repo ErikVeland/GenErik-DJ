@@ -27,6 +27,12 @@ The user owns GenErik during hands-on testing. Do not query, install, launch, te
 | Z1 | Optional original-Z1 Mac HID mapping, calibration, feedback and FX routing | Physical controller acceptance and native iPad accessory transport |
 | Cloud preparation | No current cross-device preparation-sync implementation | Original version-specific exchange behaviour and any requested replacement |
 
+## A10X reverb candidate — 2 November 2026
+
+This branch revises Reverb and Iceverb within the existing eight-line, six-slot architecture. It adds frequency-shaped decay, bounded matrix movement, retuned early diffusion and natural release in the existing slot. Per-sample square roots and unused generic effect work are removed. The sound and release policies are documented in [Reverb.md](Reverb.md); the public effect IDs and saved controls remain compatible.
+
+Portable DSP checks and Apple build/test automation accompany the change. Their reports identify exact source hashes and separate host timing, synthetic acoustic diagnostics and listening examples. They do not establish a passing A10X callback budget, subjective equivalence or installed-app acceptance. The existing audio and exact 20 ms control-completion gates remain unchanged. The user's iPad is not operated as part of this implementation.
+
 ## Fresh analysis rerun
 
 A rebuilt frozen copy passed 12 selected analysis/provenance/storage tests. The 10-track synthetic benchmark passed all 50 labelled checks, including four positive tempo/downbeat examples, five key-labelled triads, silence and both energy comparisons. The regression includes eight bar-position/gain cases and an unaccented case that must leave downbeat unknown.

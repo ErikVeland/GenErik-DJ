@@ -48,6 +48,66 @@ private func reverbImpulse(_ kind: PerformanceEffect, size: Double, polarity: Fl
     }
 }
 
+@Test func reverbReleasePreservesTheTailAndZeroYStopsIt() throws {
+    for effect in [PerformanceEffect.reverb, .iceverb] {
+        let rate = 48000.0
+        var samples = [Float](repeating: 0, count: 48000 * 2 * 2)
+        samples[4800 * 2] = 0.5
+        samples[4800 * 2 + 1] = 0.5
+        let core = try SampleTransport(sampleRate: rate)
+        let generation = try core.load(PCMAsset(interleavedStereo: samples, sampleRate: rate), deck: .a, grid: nil, synced: false)
+        try core.setEffect(effect.rawValue, slot: 0, x: 0.5, y: 1, enabled: true, deck: .a)
+        try core.play(deck: .a, generation: generation)
+        _ = core.renderOffline(frames: 24000)
+
+        try core.setEffect(effect.rawValue, slot: 0, x: 0.5, y: 1, enabled: false, deck: .a)
+        let released = core.renderOffline(frames: 4800)
+        let lateEnergy = released.left[480...].reduce(0.0) { $0 + Double($1) * Double($1) }
+        #expect(lateEnergy > 1e-8)
+        #expect(released.left.allSatisfy { $0.isFinite })
+        #expect(released.right.allSatisfy { $0.isFinite })
+
+        try core.setEffect(effect.rawValue, slot: 0, x: 0.5, y: 0, enabled: false, deck: .a)
+        let muted = core.renderOffline(frames: 960)
+        #expect(muted.left[480...].allSatisfy { $0 == 0 })
+        #expect(muted.right[480...].allSatisfy { $0 == 0 })
+
+        try core.setEffect(effect.rawValue, slot: 0, x: 0.5, y: 1, enabled: true, deck: .a)
+        let restarted = core.renderOffline(frames: 4800)
+        #expect(restarted.left.allSatisfy { $0 == 0 })
+        #expect(restarted.right.allSatisfy { $0 == 0 })
+        #expect(core.acknowledgements().allSatisfy { $0.error == nil })
+    }
+}
+
+@Test func changingAReleasedReverbFadesWithoutReplayingItsHistory() throws {
+    let rate = 48000.0
+    var samples = [Float](repeating: 0, count: 48000 * 2 * 2)
+    samples[4800 * 2] = 0.5
+    samples[4800 * 2 + 1] = 0.5
+    let core = try SampleTransport(sampleRate: rate)
+    let generation = try core.load(PCMAsset(interleavedStereo: samples, sampleRate: rate), deck: .a, grid: nil, synced: false)
+    try core.setEffect(PerformanceEffect.iceverb.rawValue, slot: 0, x: 0.5, y: 1, enabled: true, deck: .a)
+    try core.play(deck: .a, generation: generation)
+    _ = core.renderOffline(frames: 24000)
+    try core.setEffect(PerformanceEffect.iceverb.rawValue, slot: 0, x: 0.5, y: 1, enabled: false, deck: .a)
+    let released = core.renderOffline(frames: 480)
+    let last = try #require(released.left.last)
+    #expect(abs(last) > 1e-8)
+
+    try core.setEffect(PerformanceEffect.delay.rawValue, slot: 0, x: 0.5, y: 1, enabled: false, deck: .a)
+    let changed = core.renderOffline(frames: 960)
+    #expect(abs(changed.left[0] - last) < abs(last) * 0.02 + 1e-7)
+    #expect(changed.left[480...].allSatisfy { $0 == 0 })
+    #expect(changed.right[480...].allSatisfy { $0 == 0 })
+
+    try core.setEffect(PerformanceEffect.iceverb.rawValue, slot: 0, x: 0.5, y: 1, enabled: true, deck: .a)
+    let restarted = core.renderOffline(frames: 4800)
+    #expect(restarted.left.allSatisfy { $0 == 0 })
+    #expect(restarted.right.allSatisfy { $0 == 0 })
+    #expect(core.acknowledgements().allSatisfy { $0.error == nil })
+}
+
 @Test func delayAddsEchoesToAnUntouchedDryTrack() throws {
     func render(_ position: Double?) throws -> [Float] {
         var samples = [Float](repeating: 0, count: 24000)

@@ -30,7 +30,11 @@ private func energy(_ samples: ArraySlice<Float>) -> Double { samples.reduce(0) 
     let flanged=try gridRender(input,effect:.flanger,x:0,frames:16000)
     let span=2000..<16000
     #expect(energy(flanged[span]) > energy(dry[span])*1.2)
-    let difference=zip(flanged[span],dry[span]).map { Double($0-$1)*Double($0-$1) }.reduce(0,+)
+    let squaredDifferences: [Double] = zip(flanged[span],dry[span]).map { pair -> Double in
+        let delta = Double(pair.0 - pair.1)
+        return delta * delta
+    }
+    let difference: Double = squaredDifferences.reduce(0,+)
     #expect(difference > energy(dry[span])*0.2)
 }
 
