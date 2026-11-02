@@ -1,0 +1,19 @@
+{
+  "notes": "R23 controller input: MIDI discovery and Learn for transport, mixer and FX; saved input-scoped mappings; Z1 accessory/audio connection details; bounded input processing. Native model protocols, output feedback and bridge firmware remain unfinished. Prepare only; Erik\u2019s installed build remains untouched.",
+  "sourceCommit": "430177c4ff036278c0c1d5dec0bad327391b1b74",
+  "sourceSHA256": "09ef7533a91f5275f76d1f2ad51b1eaf7317e277aebba18710f87e5c93b64552",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 53.39,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-49.log",
+  "build": 49,
+  "app": "TestBuilds/ipad/49/GenErikDJ.app",
+  "appSHA256": "4c889b1a13c5008270245c35f185558493b7783d3c90e084989b3aa54aabfa53",
+  "state": "ready",
+  "createdUTC": "2026-11-02T12:35:08.122125+00:00",
+  "requestIDs": [
+    "R23"
+  ],
+  "acceptance": "Pending Erik checking Settings \u2192 Controllers with his original Z1. Generic MIDI input and Learn only. Model-specific native transport, bridge firmware and output feedback are not complete. Not installed."
+}

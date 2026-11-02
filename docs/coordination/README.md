@@ -16,13 +16,13 @@ The release standard is Erik's acceptance on his real setup. A successful build 
 
 - Active development branch: `feature/project-integration`.
 - Remote backup: `origin/feature/project-integration`. Review: [draft PR #3](https://github.com/ErikVeland/GenErik-DJ/pull/3), against `main`.
-- Combined application source: `335cec6b77644f23d43c08fc236ba9d7db446a17`.
+- Prepared controller candidate: build 49, application source `430177c4ff036278c0c1d5dec0bad327391b1b74`. Installed Scratch candidate: build 46.
 - Shared uncommitted work was backed up and committed as `7a974c385`.
 - Current remote main, full-library search, adaptive beatgrids and A10X reverb are included by merge history.
 - Browser merge resolution preserves full-library search and the iPad layout constraints.
-- Other recent project chats, including **Valhalla Reverb Appeal**, were observed idle after the user stopped them. No other chat was restarted.
-- Combined Release regression passed all 688 tests in 9 suites. Packaged Mac and full iPad simulator Release builds passed. See `verification.md` for source identity and limits.
-- The combined candidate has not been installed or accepted on the physical iPad.
+- Earlier chats were stopped. Later user-requested Scratch and gig-blocker work is recorded separately. This chat has not spawned agents. Shared builds and device handovers must remain coordinated.
+- Historical combined source `335cec6b7` passed 688 Release tests. Later Scratch/controller changes have their own focused checks and signed iPad build records. Routine Mac/simulator/full-suite runs are disabled by the current iPad loop policy.
+- Build 45 was installed and launched, then Scratch build 46 replaced it. Controller build 49 is prepared only. Erik's acceptance remains open.
 
 ## One working system
 

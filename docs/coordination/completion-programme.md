@@ -6,7 +6,7 @@ Erik requested completion of all remaining app work and integration with all Tra
 
 | Work | Concrete deliverable | Completion boundary |
 | --- | --- | --- |
-| Installation and feedback | A numbered app installed and opened, with saved source/output identity | Build 45 is installed and launched. Erik tests it. |
+| Installation and feedback | A numbered app installed and opened, with saved source/output identity | Build 45 was installed, then replaced by Scratch build 46. Controller build 49 is prepared only. Erik performs acceptance testing. |
 | Controllers | Shared input/action layer, learn UI, then Z1 direct/bridge transport, then model adapters | Use `controller-coverage.md`. Connection, full mappings, feedback and audio are separate. Do not claim all models from generic MIDI support. |
 | Key governance | Native iPad import, review/conflict UI, verified source attribution, then external collection write-back | Preview the actual fields/track identities. Preserve corrections, backups and unknown provenance. |
 | Musical structure | Real-song section/vocal/drop/ending analysis feeding existing landmarks and countdowns | Needs a suitable analyser and reference-labelled evaluation. Do not substitute loudness guesses for semantic recognition. |

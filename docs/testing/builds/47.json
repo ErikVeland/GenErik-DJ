@@ -12,6 +12,6 @@
   "appSHA256": "648ecacc9f67bec7d77673dacb91053e68b9041515f0f546abcb71b923243205",
   "state": "superseded",
   "createdUTC": "2026-11-02T12:29:12.477072+00:00",
-  "supersededBy": 48,
-  "acceptance": "Not installed. The next candidate adds an explicit per-tick input budget."
+  "supersededBy": 49,
+  "acceptance": "Not installed. Build 49 adds an explicit per-tick input budget."
 }

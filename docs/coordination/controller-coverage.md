@@ -45,6 +45,6 @@ Apple restricts iPadOS DriverKit to M-series devices. The A10X cannot use that r
 
 ## Z1 next test
 
-The next prepared controller build adds **Settings → Controllers**. Connect the Z1 with its required power/cable. Enable controller input and inspect the source list. The page separately shows accessory and audio connections and can share those details. If a usable MIDI input appears, learn controls and check their behaviour. If it does not, retain that result and implement the verified accessory or bridge route. Do not invent a MIDI source or protocol identifier.
+Prepared build 49 adds **Settings → Controllers**. Connect the Z1 with its required power/cable. Enable controller input and inspect the source list. The page separately shows accessory and audio connections and can share those details. If a usable MIDI input appears, learn controls and check their behaviour. If it does not, retain that result and implement the verified accessory or bridge route. Do not invent a MIDI source or protocol identifier.
 
 The original Z1's native report decoder and Mac HID implementation remain preserved. They establish useful protocol groundwork, not A10X transport support. No Mac app development or testing is resumed by this controller work.
