@@ -1,0 +1,12 @@
+/Users/veland/Lemmings/.claude/worktrees/release-2.0.5/.build/ios-beta/2.0.5-15/Export/UltimateLemmingsIOS.ipa
+/Volumes/T5 500/Mac-Rescue-2026-07-14/Library-Essentials/Mail/V10/8CFCB295-1BE2-4F0F-B7EB-1533BB134849/Import.mbox/A692E6B0-2B94-4067-BE8F-1C836873F3B6/Data/9/4/6/Attachments/649397/2/TraktorDJiCloudDriveSupport-KnowledgeBaseArticle.pdf
+/Users/veland/UltimateLemmings-release-2.0.6/ios/Export/UltimateLemmingsIOS.ipa
+/Users/veland/Lemmings/.build/release-2.1.1-build95/tvos/Export/UltimateLemmingsTV.ipa
+/Users/veland/Lemmings/.build/release-2.1.1-build95/ios-fresh/Export/UltimateLemmingsIOS.ipa
+/Volumes/Media/Font Library/T/PostScript/Traktoretka CE.pfm
+/Volumes/Media/Font Library/T/PostScript/Traktoretka Grad CE.pfm
+/Users/veland/GenErik DJ/Analysis/traktor-dj-metadata.json
+/Users/veland/Library/Mail/V10/8CFCB295-1BE2-4F0F-B7EB-1533BB134849/Import.mbox/A692E6B0-2B94-4067-BE8F-1C836873F3B6/Data/9/4/6/Attachments/649397/2/TraktorDJiCloudDriveSupport-KnowledgeBaseArticle.pdf
+/Users/veland/Library/Application Support/iMazing/Library/Apps/Icons/com.native-instruments.traktordj-1.6.8.67.png
+/Users/veland/Library/Application Support/iMazing/Library/Apps/Icons/com.native-instruments.traktordjphone-1.6.5.925.png
+/Users/veland/Library/Logs/CrashReporter/MobileDevice/GenErik/Traktor DJ.diskwrites_resource-2026-08-28-190009.ips

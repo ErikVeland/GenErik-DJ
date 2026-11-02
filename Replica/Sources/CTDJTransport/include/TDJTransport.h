@@ -106,7 +106,7 @@ typedef struct {
 typedef struct {
     uint64_t generation, last_start_frame;
     int32_t state, synced, keylock;
-    double source_frame, source_bpm, target_beat, source_rate, lead_in_source_frame;
+    double source_frame, source_bpm, local_bpm, target_beat, source_rate, lead_in_source_frame;
     double source_sample_rate, grid_anchor;
     tdj_beatgrid_map beatgrid;
     int32_t grid_downbeat;

@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-21",
+  "roots": [
+    "/Users/veland",
+    "/Volumes/Games",
+    "/Volumes/Media",
+    "/Volumes/Music",
+    "/Volumes/T5 500",
+    "/Volumes/iTunes"
+  ],
+  "method": "Filename traversal with rg, including hidden and ignored files. Developer caches, node_modules, Git internals and system volume metadata were excluded in the second pass.",
+  "traktor_ipa_found": false,
+  "other_ipa_count": 4,
+  "limitations": "Some protected folders could not be read. No claim is made about offline disks or packages nested inside unrelated archives.",
+  "errors": [
+    "rg: /Volumes/T5 500/.Trashes: Permission denied (os error 13)",
+    "rg: /Volumes/T5 500/.TemporaryItems: Permission denied (os error 13)",
+    "rg: /Volumes/Music/.TemporaryItems: Permission denied (os error 13)",
+    "rg: /Volumes/T5 500/.DocumentRevisions-V100: Permission denied (os error 13)",
+    "rg: /Volumes/iTunes/.TemporaryItems: Permission denied (os error 13)",
+    "rg: /Volumes/iTunes/.Trashes: Permission denied (os error 13)",
+    "rg: /Volumes/Music/.Trashes: Permission denied (os error 13)",
+    "rg: /Volumes/Games/.TemporaryItems: Permission denied (os error 13)",
+    "rg: /Volumes/Games/.DocumentRevisions-V100: Permission denied (os error 13)",
+    "rg: /Volumes/Games/.Trashes: Permission denied (os error 13)",
+    "rg: /Users/veland/Library/Caches/com.Crypton Future Media, Inc..CryptonProductInstaller/WebKit/NetworkCache/Version 17: Permission denied (os error 13)",
+    "rg: /Users/veland/Library/Saved Application State/co.uk.29palms.PB.installer.savedState: Permission denied (os error 13)",
+    "rg: /Users/veland/Library/WebKit/com.Crypton Future Media, Inc..CryptonProductInstaller/WebsiteData/MediaKeys/v1: Permission denied (os error 13)",
+    "rg: /Users/veland/Library/Group Containers/group.com.apple.icloudMCCKit/BlackPearl/mlmodelc/BlackPearlMHI_2.1.0.mlmodelc: Permission denied (os error 13)",
+    "rg: /Users/veland/Library/Containers/developer.apple.wwdc-Release/Data/Library/drkit: Operation not permitted (os error 1)",
+    "rg: /Volumes/Media/.Trashes: Permission denied (os error 13)",
+    "rg: /Volumes/Media/.TemporaryItems: Permission denied (os error 13)"
+  ]
+}

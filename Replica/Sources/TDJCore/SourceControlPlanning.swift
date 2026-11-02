@@ -105,7 +105,13 @@ extension SourceControl {
                 target.position=0; target.continuingPosition=0; preservePending=false
             }
         }
-        if state.synced, let map=state.adaptiveMap {
+        let proposedSynced: Bool
+        switch self {
+        case .restoreSync: proposedSynced=true
+        case .sync(let enabled, _, _): proposedSynced=enabled
+        default: proposedSynced=state.synced
+        }
+        if proposedSynced, let map=state.adaptiveMap {
             let master: Double
             if case .tempo(let bpm)=self { master=bpm } else { master=snapshot.masterBPM }
             for pair in zip(map.anchors, map.anchors.dropFirst()) {

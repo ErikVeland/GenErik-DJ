@@ -395,7 +395,7 @@ private struct WaveformView: View, Equatable {
         WaveformIndexKey(lhs.track.analysis) == WaveformIndexKey(rhs.track.analysis)
             && lhs.track.analysis.frameCount == rhs.track.analysis.frameCount
             && lhs.track.analysis.sampleRate == rhs.track.analysis.sampleRate
-            && lhs.grid == rhs.grid && lhs.centerFrame == rhs.centerFrame
+            && lhs.grid == rhs.grid && lhs.adaptiveMap == rhs.adaptiveMap && lhs.centerFrame == rhs.centerFrame
             && lhs.visibleSeconds == rhs.visibleSeconds && lhs.playheadFrame == rhs.playheadFrame
             && lhs.leadInFrame == rhs.leadInFrame && (lhs.band == nil) == (rhs.band == nil)
     }
@@ -438,6 +438,7 @@ private struct WaveformView: View, Equatable {
     let grid: BeatGrid?
     let centerFrame: Double
     let visibleSeconds: Double
+    var adaptiveMap: BeatGridMap? = nil
     var playheadFrame: Double? = nil
     var leadInFrame: Double? = nil
     var band: BandWaveform? = nil
@@ -460,7 +461,7 @@ private struct WaveformView: View, Equatable {
             }
             if let grid,let index=(prepared?.0 == key ? prepared?.1 : nil) ?? snapshotIndexes[key] {
                 WaveformView.drawBeats(WaveformLayers(index:index,framesPerBin:a.waveformFramesPerBin,left:left,span:span,
-                                                      width:pixels,height:0,grid:grid).beats,in:&context,size:size,scale:scale)
+                                                      width:pixels,height:0,grid:grid,adaptiveMap:adaptiveMap).beats,in:&context,size:size,scale:scale)
             }
             let perPixel = span / max(1, size.width)
             for (frame, colour, width) in [(playheadFrame, PerformancePalette.red, 2.0), (leadInFrame, Color(white: 0.8), 1.0)] {
@@ -860,7 +861,7 @@ private struct DeckWaveformDrawing: View {
     @Environment(\.snapshotBandWaveforms) private var snapshotBands
     var body: some View {
         WaveformView(track:track,grid:model.grid(deck),centerFrame:model.viewport[deck] ?? 0,
-                     visibleSeconds:visibleSeconds,playheadFrame:model.playbackSnapshot?[deck].sourceFrame,
+                     visibleSeconds:visibleSeconds,adaptiveMap:model.playbackSnapshot?[deck].adaptiveMap,playheadFrame:model.playbackSnapshot?[deck].sourceFrame,
                      leadInFrame:model.playbackSnapshot?[deck].leadInSourceFrame,
                      band:band?.0 == track.id ? band?.1 : snapshotBands[track.id])
         .task(id:track.id) {
@@ -902,7 +903,7 @@ private struct DeckFooter: View {
                 if editing, let grid = model.grid(deck) {
                     ForEach(0..<4) { beat in
                         Button("\(beat + 1)") { model.selectDownbeat(deck: deck, beat: beat) }
-                            .foregroundStyle(grid.downbeatOffset == beat ? .orange : deckBlue)
+                            .foregroundStyle((model.timing(deck)?.downbeatOffset ?? grid.downbeatOffset) == beat ? .orange : deckBlue)
                     }
                 }
             }.padding(.horizontal, 18).frame(height: 36).background(surface)
@@ -963,7 +964,7 @@ private struct DeckTempoReadout: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
     var body: some View {
-                            Text(model.grid(deck).map { String(format: "%.1f", $0.bpm * (model.editing.contains(deck) ? 1 : model.controlDisplay[deck].speed)) } ?? "—")
+                            Text(model.grid(deck).map { String(format: "%.1f", (model.playbackSnapshot?[deck].adaptiveMap?.bpm(atFrame:model.editing.contains(deck) ? model.viewport[deck] ?? 0 : model.playbackSnapshot?[deck].sourceFrame ?? 0) ?? $0.bpm) * (model.editing.contains(deck) ? 1 : model.controlDisplay[deck].speed)) } ?? "—")
                                 .monospacedDigit()
     }
 }
@@ -977,14 +978,28 @@ struct GridEditBar: View {
     var body: some View {
         let locked = model.gridLocked.contains(deck), tapping = model.gridTapMode.contains(deck)
         HStack(spacing: 6) {
+                    Menu {
+                        Button("Automatic") { model.selectGridMode(.automatic, deck: deck) }
+                        Button("Fixed") { model.selectGridMode(.fixed, deck: deck) }
+                        Button("Adaptive") { model.selectGridMode(.adaptive, deck: deck) }
+                        Button("Correct local anchor") { model.correctLocalAnchor(deck: deck) }
+                            .disabled(model.gridPreparation(deck)?.adaptiveMap == nil)
+                        Button("Undo correction") { model.undoGridCorrection(deck: deck) }
+                        Button(model.gridPreparation(deck)?.gridLocked == true ? "Unlock preparation" : "Lock preparation") {
+                            model.setGridLocked(model.gridPreparation(deck)?.gridLocked != true, deck: deck)
+                        }
+                        if let confidence = model.candidateConfidence(deck) {
+                            Text("Candidate confidence: \(Int(confidence * 100))%")
+                        }
+                    } label: { Image(systemName: "slider.horizontal.3") }
             button(locked ? "lock.fill" : "lock.open", label: "Lock grid") {
-                if model.gridLocked.remove(deck) == nil { model.gridLocked.insert(deck) }
+                if model.gridLocked.remove(deck) == nil { model.gridLocked.insert(deck) }; model.setGridLocked(model.gridLocked.contains(deck),deck:deck)
             }.frame(width: 40)
             text("TAP MODE", active: tapping) { if model.gridTapMode.remove(deck) == nil { model.gridTapMode.insert(deck) } }.disabled(locked)
             HStack(spacing: 0) {
                 text("/2") { model.correctTempo(deck: deck, factor: 0.5) }
                 if tapping { text("TAP", active: true) { model.tapTempo(deck: deck) } }
-                else { Text(model.grid(deck).map { String(format: "%.1f", $0.bpm) } ?? "—").font(.system(size: 15).monospacedDigit())
+                else { Text(model.grid(deck).map { String(format: "%.1f", model.playbackSnapshot?[deck].adaptiveMap?.bpm(atFrame:model.viewport[deck] ?? 0) ?? $0.bpm) } ?? "—").font(.system(size: 15).monospacedDigit())
                         .foregroundStyle(PerformancePalette.cyan).frame(width: 70, height: 34).background(PerformancePalette.sunken) }
                 text("x2") { model.correctTempo(deck: deck, factor: 2) }
             }.disabled(locked || model.grid(deck) == nil)
@@ -1015,13 +1030,15 @@ struct GridBeatMarkers: View {
     var body: some View {
         GeometryReader { geometry in
             let left = center - span / 2, perPoint = span / max(1, geometry.size.width)
-            let first = Int(ceil(grid.beat(atFrame: left)))
-            ForEach(0..<GridBeatMarkers.count(span: span, grid: grid), id: \.self) { offset in
+            let timing=model.timing(deck) ?? BeatTiming(fixed:grid)
+            let first=Int(exactly:ceil(timing.beat(atFrame:left))) ?? 0
+            let last=Int(exactly:ceil(timing.beat(atFrame:left+span))) ?? first
+            ForEach(0..<max(0,min(64,last-first+1)), id: \.self) { offset in
                 let beat = first + offset
-                let x = (grid.frame(atBeat: Double(beat)) - left) / perPoint
+                let x = (timing.frame(atBeat: Double(beat)) - left) / perPoint
                 if x >= 0 && x <= geometry.size.width {
                     Button { model.setDownbeat(atBeat: beat, deck: deck) } label: {
-                        Text("\(GridBeatMarkers.number(beat: beat, grid: grid))").font(.system(size: 14, weight: .bold))
+                        Text("\(((beat-timing.downbeatOffset)%4+4)%4+1)").font(.system(size: 14, weight: .bold))
                             .foregroundStyle(PerformancePalette.text).frame(width: 26, height: 28).bevelPanel(cornerRadius: 3)
                     }.position(x: x + 15, y: 18).accessibilityLabel("Make this beat the downbeat")
                 }

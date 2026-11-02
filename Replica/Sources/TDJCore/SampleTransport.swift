@@ -157,7 +157,7 @@ public struct DeckPlaybackSnapshot: Codable, Equatable, Sendable {
         adaptiveMap = BeatGridMap(native: value.beatgrid)
         grid=try? BeatGrid(bpm:value.source_bpm,anchorFrame:value.grid_anchor,
                           sampleRate:value.source_sample_rate,downbeatOffset:Int(value.grid_downbeat))
-        sourceFrame = value.source_frame; sourceBPM = value.source_bpm
+        sourceFrame = value.source_frame; sourceBPM = value.local_bpm
         speed = value.source_rate; targetBeat = phase == .queued ? value.target_beat : nil
         leadInSourceFrame = phase == .queued ? value.lead_in_source_frame : nil
         lastStartOutputFrame = value.last_start_frame

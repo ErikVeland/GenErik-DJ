@@ -600,3 +600,33 @@ struct StreamedPlaybackIntegrationTests {
     }
 
 }
+
+extension StreamedPlaybackIntegrationTests {
+    @Test(.timeLimit(.minutes(1))) @MainActor
+    func adaptiveStreamedSyncRestorationWarmsEveryTempoSegment() async throws {
+        let (streamed, reference, root, track, _) = try await fixture()
+        defer { streamed.stopAudio(); reference.stopAudio(); try? FileManager.default.removeItem(at: root) }
+        let rate=track.analysis.sampleRate
+        let map=BeatGridMap(anchors:[.init(beat:0,frame:0),.init(beat:8,frame:4*rate),
+                                     .init(beat:12,frame:12*rate)],sampleRate:rate)
+        for controller in [streamed,reference] {
+            try await controller.updateAdaptiveMap(map,deck:.a)
+            let generation=try #require(controller.generations[.a])
+            try controller.core.setSync(false,deck:.a,generation:generation)
+            controller.core.processControlsWhileIdle()
+            try controller.play(.a)
+            _=controller.core.renderOffline(frames:512)
+            try controller.restoreSync(deck:.a)
+            await controller.flushSourcePreparations()
+            #expect(controller.sourcePreparationFailures==0)
+            #expect(controller.core.snapshot()?.a.synced==true)
+        }
+        for _ in 0..<32 {
+            let actual=streamed.core.renderOffline(frames:512),expected=reference.core.renderOffline(frames:512)
+            #expect(actual.left==expected.left)
+            #expect(actual.right==expected.right)
+        }
+        #expect(streamed.rejectedCommandCount==0)
+        #expect(!streamed.core.streamingSummary().continuityFailed)
+    }
+}

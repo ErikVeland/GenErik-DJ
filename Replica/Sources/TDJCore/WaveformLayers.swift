@@ -24,7 +24,7 @@ public struct WaveformLayers: Sendable, Equatable {
     }
 
     public init(index: WaveformRangeIndex, framesPerBin: Int, left: Double, span: Double, width: Int, height: Double,
-                grid: BeatGrid? = nil) {
+                grid: BeatGrid? = nil, adaptiveMap: BeatGridMap? = nil) {
         let width=max(1,width), perPixel=max(1e-9,span/Double(width)), bin=Double(max(1,framesPerBin))
         let half=max(0,height)/2*Self.headroom
         var columns: [Column]=[]
@@ -48,7 +48,8 @@ public struct WaveformLayers: Sendable, Equatable {
         }
         self.columns=columns
         var beats: [(Double,Bool)]=[]
-        if let grid,
+        if let fixed=grid,
+           case let grid=BeatTiming(fixed:fixed,adaptive:adaptiveMap),
            let first=Int(exactly:floor(grid.beat(atFrame:left))),
            let last=Int(exactly:ceil(grid.beat(atFrame:left+span))),
            first<=last,last-first<300 {

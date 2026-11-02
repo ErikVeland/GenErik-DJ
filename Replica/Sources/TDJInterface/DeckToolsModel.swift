@@ -17,7 +17,7 @@ extension ReplicaModel {
         guard percent.isFinite else { return }
         let ratio = 1 + min(50, max(-50, percent)) / 100
         do {
-            if playbackSnapshot?[deck].synced == true, let bpm = grid(deck)?.bpm {
+            if playbackSnapshot?[deck].synced == true, let bpm = playbackSnapshot?[deck].sourceBPM, bpm>0 {
                 try playback.setMasterBPM(bpm * ratio)
             } else {
                 try playback.setFreeRate(ratio, deck: deck)
@@ -32,16 +32,16 @@ extension ReplicaModel {
     }
     public func setLoopSize(_ beats: Double, deck: DeckID) {
         performance.setLoopBeats(beats, for: deck)
-        if let state = playbackSnapshot?[deck], state.loopEnabled, let grid = grid(deck) {
-            setLoop(start: state.loopStart, end: state.loopStart + beats * grid.framesPerBeat, deck: deck)
+        if let state = playbackSnapshot?[deck], state.loopEnabled, let grid = timing(deck) {
+            setLoop(start: state.loopStart, end: state.loopStart + grid.span(beats:beats,from:state.loopStart), deck: deck)
         }
         savePerformance()
     }
 
     /// Jumps by whole beats from the current position, keeping the beat phase.
     public func beatJump(beats: Double, deck: DeckID) {
-        guard beats.isFinite, beats != 0, let grid = grid(deck), let frame = playbackSnapshot?[deck].sourceFrame else { return }
-        jump(boundedFrame(frame + beats * grid.framesPerBeat, deck: deck), deck: deck, quantized: false)
+        guard beats.isFinite, beats != 0, let grid = timing(deck), let frame = playbackSnapshot?[deck].sourceFrame else { return }
+        jump(boundedFrame(frame + grid.span(beats:beats,from:frame), deck: deck), deck: deck, quantized: false)
     }
 
     /// CUE: while paused it marks the playhead; while playing it returns to the mark and pauses.

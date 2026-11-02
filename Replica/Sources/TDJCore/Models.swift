@@ -120,6 +120,15 @@ public struct Preparation: Codable, Equatable, Sendable {
         gridLocked = try c.decodeIfPresent(Bool.self, forKey: .gridLocked) ?? false
         gridMode = try c.decodeIfPresent(GridMode.self, forKey: .gridMode) ?? .automatic
     }
+    public func encode(to encoder: any Encoder) throws {
+        var c=encoder.container(keyedBy:CodingKeys.self)
+        try c.encodeIfPresent(grid,forKey:.grid)
+        try c.encodeIfPresent(correctedKey,forKey:.correctedKey)
+        try c.encode(gridIsManual,forKey:.gridIsManual)
+        try c.encodeIfPresent(adaptiveMap,forKey:.adaptiveMap)
+        if gridLocked { try c.encode(true,forKey:.gridLocked) }
+        if gridMode != .automatic { try c.encode(gridMode,forKey:.gridMode) }
+    }
     public init(grid: BeatGrid? = nil, correctedKey: MusicalKey? = nil, gridIsManual: Bool = false) {
         self.grid = grid
         self.correctedKey = correctedKey
@@ -142,7 +151,12 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
     public var nativeLibraryOnly: Bool? = nil
     public var bpm: Double? { grid?.bpm ?? analysis.bpm }
     public var key: MusicalKey? { preparation.correctedKey ?? traktorPreparation?.normalized.key ?? analysis.key }
-    public var adaptiveMap: BeatGridMap? { preparation.adaptiveMap ?? analysis.adaptiveCandidate }
+    public var adaptiveMap: BeatGridMap? {
+        guard preparation.gridMode != .fixed, let map=preparation.adaptiveMap,
+              map.sampleRate==analysis.sampleRate,(try? map.validate(frameCount:analysis.frameCount)) != nil else { return nil }
+        return map
+    }
+    public var timing: BeatTiming? { grid.map { BeatTiming(fixed:$0,adaptive:adaptiveMap) } }
     public var grid: BeatGrid? {
         if preparation.gridIsManual { return preparation.grid }
         return traktorPreparation?.normalized.grid ?? preparation.grid

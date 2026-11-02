@@ -39,7 +39,7 @@ typedef struct {
 typedef struct {
     _Atomic uint64_t generation, last_start;
     _Atomic int32_t state, synced, keylock;
-    _Atomic double position, bpm, target, rate, lead;
+    _Atomic double position, bpm, local_bpm, target, rate, lead;
     _Atomic double source_sample_rate, grid_anchor;
     _Atomic int32_t grid_downbeat;
     _Atomic uint32_t map_count;
@@ -346,11 +346,18 @@ static void add_claim(tdj_engine *e,tdj_asset *asset,uint64_t ticket,unsigned de
     slot->pending=pending;
 }
 static bool supported_keylock_rate(double speed) { return isfinite(speed) && speed >= 0.125 && speed <= 8; }
+static bool supported_deck_keylock(deck *d,double master) {
+    if(!d->synced || !d->map.count)return supported_keylock_rate(d->synced && d->bpm>0 ? master/deck_bpm(d):d->free_rate);
+    for(unsigned k=1;k<d->map.count;k++) {
+        double bpm=60*d->map.sample_rate*(d->map.beats[k]-d->map.beats[k-1])/(d->map.frames[k]-d->map.frames[k-1]);
+        if(!supported_keylock_rate(master/bpm))return false;
+    }
+    return true;
+}
 static void anchor_clock(tdj_engine *e, double beat) { e->epoch_ticks = beat * (60 * e->rate); e->epoch_frame = e->frame; }
 static int start_deck(tdj_engine *e,deck *d,deck *other,uint64_t ticket,uint64_t generation) {
         double proposed_bpm = (!e->running && !e->master_chosen && d->bpm > 0) ? deck_bpm(d) : e->bpm;
-        double proposed_rate = d->synced && d->bpm > 0 ? proposed_bpm/deck_bpm(d) : d->free_rate;
-        if (d->keylock && !supported_keylock_rate(proposed_rate)) return TDJ_KEYLOCK_RANGE;
+        if (d->keylock && !supported_deck_keylock(d,proposed_bpm)) return TDJ_KEYLOCK_RANGE;
         deck starting=*d;
         starting.state=d->synced && other->synced && other->state==TDJ_PLAYING ? TDJ_QUEUED:TDJ_PLAYING;
         int stream_status=stream_validate(e,other==&e->decks[0] ? 1:0,&starting,proposed_bpm,ticket,generation);
@@ -410,7 +417,7 @@ static void publish(tdj_engine *e) {
         atomic_store(&p->generation, d->generation); atomic_store(&p->last_start, d->last_start);
         atomic_store(&p->state, d->state); atomic_store(&p->synced, d->synced);
         atomic_store(&p->keylock, d->keylock);
-        atomic_store(&p->position, d->position); atomic_store(&p->bpm, deck_bpm(d));
+        atomic_store(&p->position, d->position); atomic_store(&p->bpm, d->bpm); atomic_store(&p->local_bpm,deck_bpm(d));
         atomic_store(&p->source_sample_rate,d->asset ? d->asset->rate:0);
         atomic_store(&p->grid_anchor,d->anchor);atomic_store(&p->grid_downbeat,(int32_t)d->downbeat);
         if(d->map_dirty) {
@@ -449,7 +456,7 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
         }
         atomic_deck *p = &e->published[i];
         atomic_init(&p->generation, 0); atomic_init(&p->last_start, 0); atomic_init(&p->state, 0);
-        atomic_init(&p->synced, 0); atomic_init(&p->position, 0); atomic_init(&p->bpm, 0);
+        atomic_init(&p->synced, 0); atomic_init(&p->position, 0); atomic_init(&p->bpm, 0);atomic_init(&p->local_bpm,0);
         atomic_init(&p->keylock, 0);
         atomic_init(&p->map_count,0);atomic_init(&p->map_downbeat,0);atomic_init(&p->map_rate,0);
         for(unsigned k=0;k<TDJ_MAX_GRID_ANCHORS;k++) { atomic_init(&p->map_beats[k],0);atomic_init(&p->map_frames[k],0); }
@@ -624,7 +631,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (!isfinite(c.value) || c.value <= 0 || c.value > 1000) return TDJ_INVALID;
         for (int i = 0; i < 2; ++i) {
             deck *d = &e->decks[i];
-            if (d->asset && d->keylock && d->synced && d->bpm > 0 && !supported_keylock_rate(c.value/deck_bpm(d)))
+            if (d->asset && d->keylock && d->synced && d->bpm > 0 && !supported_deck_keylock(d,c.value))
                 return TDJ_KEYLOCK_RANGE;
         }
         for(int i=0;i<2;i++) if(e->decks[i].asset) {
@@ -662,6 +669,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             if(!tdj_beatgrid_validate(c.beatgrid,c.asset->frames) || c.beatgrid.sample_rate!=c.asset->rate || c.value2<=0)return TDJ_INVALID;
             proposed.map=c.beatgrid;
         }
+        if(proposed.keylock && !supported_deck_keylock(&proposed,(!e->running && !e->master_chosen) ? deck_bpm(&proposed):e->bpm))return TDJ_KEYLOCK_RANGE;
         bool already=d->asset==c.asset || other->asset==c.asset;
         int attachment=tdj_stream_attach(c.asset,e);if(attachment!=TDJ_OK)return attachment;
         if(e->maximum_output_frames)tdj_stream_set_maximum_output_frames(c.asset,e->maximum_output_frames);
@@ -901,7 +909,7 @@ static int apply(tdj_engine *e, tdj_command c) {
     }
     if (c.kind == TDJ_KEYLOCK) {
         if (c.flag != 0 && c.flag != 1) return TDJ_INVALID;
-        if (c.flag && !supported_keylock_rate(source_rate(e, d))) return TDJ_KEYLOCK_RANGE;
+        if (c.flag && !supported_deck_keylock(d,e->bpm)) return TDJ_KEYLOCK_RANGE;
         deck proposed=*d;proposed.keylock=c.flag!=0;
         int status=stream_validate(e,c.deck,&proposed,e->bpm,c.preparation_ticket,c.generation);
         if(status!=TDJ_OK)return status;
@@ -916,6 +924,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         double position;
         if(!nearest_sync_position(e,d,&position)) return TDJ_ALIGNMENT_UNAVAILABLE;
         deck proposed=*d;proposed.synced=true;proposed.position=position;
+        if(proposed.keylock && !supported_deck_keylock(&proposed,e->bpm))return TDJ_KEYLOCK_RANGE;
         int status=stream_validate(e,c.deck,&proposed,e->bpm,c.preparation_ticket,c.generation);
         if(status!=TDJ_OK) return status;
         d->synced=true;d->position=position;
@@ -931,6 +940,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         deck proposed=*d;
         if(!c.flag && (d->state==TDJ_PLAYING || d->state==TDJ_PAUSED))proposed.free_rate=source_rate(e,d);
         proposed.synced=c.flag!=0;
+        if(proposed.keylock && !supported_deck_keylock(&proposed,e->bpm))return TDJ_KEYLOCK_RANGE;
         int status=stream_validate(e,c.deck,&proposed,e->bpm,c.preparation_ticket,c.generation);
         if(status!=TDJ_OK)return status;
         if (!c.flag && (d->state == TDJ_PLAYING || d->state == TDJ_PAUSED)) d->free_rate = source_rate(e, d);
@@ -950,7 +960,7 @@ static int apply(tdj_engine *e, tdj_command c) {
     if (c.kind == TDJ_GRID) {
         if (!isfinite(c.value) || c.value <= 0 || !isfinite(c.value2) || c.flag < 0 || c.flag > 3) return TDJ_INVALID;
         if (d->keylock && d->synced && !supported_keylock_rate(e->bpm/c.value)) return TDJ_KEYLOCK_RANGE;
-        deck proposed=*d;proposed.bpm=c.value;
+        deck proposed=*d;proposed.bpm=c.value;proposed.map.count=0;
         int status=stream_validate(e,c.deck,&proposed,e->bpm,c.preparation_ticket,c.generation);
         if(status!=TDJ_OK)return status;
         d->map.count=0;d->map_dirty=true;
@@ -1227,7 +1237,7 @@ static tdj_deck_snapshot read_deck(atomic_deck *p) {
         .low=atomic_load(&p->low), .mid=atomic_load(&p->mid), .high=atomic_load(&p->high),
         .cue=atomic_load(&p->cue), .filter_x=atomic_load(&p->filter_x), .filter_y=atomic_load(&p->filter_y),
         .filter_enabled=atomic_load(&p->filter_enabled), .peak=atomic_load(&p->peak),
-        .source_frame=atomic_load(&p->position), .source_bpm=atomic_load(&p->bpm),
+        .source_frame=atomic_load(&p->position), .source_bpm=atomic_load(&p->bpm),.local_bpm=atomic_load(&p->local_bpm),
         .source_sample_rate=atomic_load(&p->source_sample_rate),.grid_anchor=atomic_load(&p->grid_anchor),
         .grid_downbeat=atomic_load(&p->grid_downbeat),
         .target_beat=atomic_load(&p->target), .source_rate=atomic_load(&p->rate), .lead_in_source_frame=atomic_load(&p->lead)};

@@ -45,6 +45,13 @@ public struct BeatGridMap: Codable, Equatable, Sendable {
         let a = anchors[low], b = anchors[low + 1]
         return y(a) + (value - x(a)) * (y(b) - y(a)) / (x(b) - x(a))
     }
+    public func bpm(atFrame frame: Double) -> Double {
+        guard anchors.count>=2 else { return .nan }
+        let beat=beat(atFrame:frame)
+        var low=0,high=anchors.count-1
+        while low+1<high { let mid=(low+high)/2; if anchors[mid].beat<=beat { low=mid } else { high=mid } }
+        return 60*sampleRate*(anchors[low+1].beat-anchors[low].beat)/(anchors[low+1].frame-anchors[low].frame)
+    }
     public func frame(atBeat beat: Double) -> Double { lookup(beat, inverse: false) }
     public func beat(atFrame frame: Double) -> Double { lookup(frame, inverse: true) }
 }
@@ -90,5 +97,22 @@ extension Preparation {
         let changed = BeatGridMap(anchors: anchors, sampleRate: map.sampleRate, downbeatOffset: map.downbeatOffset)
         try changed.validate(frameCount: frameCount)
         adaptiveMap = changed; gridMode = .adaptive; gridIsManual = true
+    }
+}
+
+
+extension BeatGridMap {
+    /// Preserve local sections when existing phase and half/double controls change the timeline.
+    public func transforming(tempoFactor: Double, frameOffset: Double, frameCount: Int64) throws -> BeatGridMap {
+        guard anchors.count>=2,frameCount>1,tempoFactor.isFinite,tempoFactor>0,frameOffset.isFinite else { throw CoreError.invalidGrid }
+        let shifted=BeatGridMap(anchors:anchors.map { .init(beat:$0.beat*tempoFactor,frame:$0.frame+frameOffset) },
+                               sampleRate:sampleRate,downbeatOffset:downbeatOffset)
+        let end=Double(frameCount-1)
+        var bounded=shifted.anchors.filter { $0.frame>=0 && $0.frame<=end }
+        if shifted.anchors.first!.frame<0 { bounded.insert(.init(beat:shifted.beat(atFrame:0),frame:0),at:0) }
+        if shifted.anchors.last!.frame>end { bounded.append(.init(beat:shifted.beat(atFrame:end),frame:end)) }
+        let map=BeatGridMap(anchors:bounded,sampleRate:sampleRate,downbeatOffset:downbeatOffset)
+        try map.validate(frameCount:frameCount)
+        return map
     }
 }

@@ -412,6 +412,22 @@ public enum AudioRuntimeChecks {
             if keylockStress == .manual60BPM {
                 try await keylockStress.prepareLoadedFixture(track,model:model)
             }
+            if ProcessInfo.processInfo.environment["TDJ_ADAPTIVE_GRID_CHECK"] == "1" {
+                var maps: [String: BeatGridMap] = [:]
+                for deck in DeckID.allCases {
+                    let rate=track.analysis.sampleRate,end=Double(track.analysis.frameCount-1)
+                    let map=BeatGridMap(anchors:[.init(beat:0,frame:0),
+                        .init(beat:4,frame:rate*2*(deck == .a ? 1.005:0.995)),
+                        .init(beat:end/rate*2,frame:end)],sampleRate:rate)
+                    try map.validate(frameCount:track.analysis.frameCount)
+                    try await controller.updateAdaptiveMap(map,deck:deck)
+                    guard let state=controller.core.snapshot()?[deck],state.generation==controller.generations[deck],
+                          state.adaptiveMap==map else { throw TransportError.stale }
+                    maps[deck.rawValue]=map
+                }
+                let encoder=JSONEncoder();encoder.outputFormatting=[.prettyPrinted,.sortedKeys]
+                try encoder.encode(maps).write(to:root.appendingPathComponent("adaptive-maps.json"),options:.atomic)
+            }
             var modelFXSetupSubmissions=0,modelFilterSetupTouches=0
             for deck in DeckID.allCases {
                 if let filterSession {

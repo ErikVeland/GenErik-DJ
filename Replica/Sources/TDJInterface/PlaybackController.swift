@@ -126,6 +126,7 @@ public final class PlaybackController {
     private var observers: [NSObjectProtocol] = []
     private enum LoadResult { case waiting, accepted, rejected(TransportError) }
     private let streamingPlayback: Bool
+    private var adaptiveResults: [UInt64: LoadResult] = [:]
     private var loadResults: [UInt64: LoadResult] = [:]
     private var loadCommits: [UInt64:(deck: DeckID, accepted: (UInt64) -> Void)] = [:]
     private struct GridCommit {
@@ -302,10 +303,29 @@ public final class PlaybackController {
         core.setOptionalWarming(generation: generation,
             preparation: .init(asset: asset, deck: deck, generation: generation, ticket: ticket))
     }
-    public func updateAdaptiveMap(_ map: BeatGridMap?, deck: DeckID) throws {
-        guard let generation = generations[deck] else { return }
-        try submitSource(.adaptiveMap(map, deck, generation))
-        if !outputActive { core.processControlsWhileIdle() }
+    public func updateAdaptiveMap(_ map: BeatGridMap?, deck: DeckID) async throws {
+        guard let generation = generations[deck] else { throw TransportError.stale }
+        if let map, let asset=core.asset(generation:generation) {
+            try map.validate(frameCount:Int64(asset.frames))
+            guard map.sampleRate==asset.sampleRate else { throw TransportError.invalid }
+        }
+        let identifier = try submitSource(.adaptiveMap(map, deck, generation), canPrepare: false)
+        adaptiveResults[identifier] = .waiting
+        defer { adaptiveResults[identifier] = nil }
+        for _ in 0..<200 {
+            if !outputActive { core.processControlsWhileIdle() }
+            collectMessages()
+            switch adaptiveResults[identifier] {
+            case .accepted:
+                guard generations[deck]==generation, let state=core.snapshot()?[deck],
+                      state.generation==generation, state.adaptiveMap==map else { throw TransportError.stale }
+                return
+            case .rejected(let error): throw error
+            default: break
+            }
+            try await Task.sleep(for: .milliseconds(10))
+        }
+        throw TransportError.cache("The audio renderer did not acknowledge the grid.")
     }
     public func updateGrid(_ grid: BeatGrid, deck: DeckID) throws {
         guard let generation = generations[deck] else { return }
@@ -373,6 +393,9 @@ public final class PlaybackController {
     }
     private func collectMessages() {
         for message in core.acknowledgements() {
+            if adaptiveResults[message.commandID] != nil {
+                adaptiveResults[message.commandID] = message.error.map { .rejected($0) } ?? .accepted
+            }
             if handleSourceAcknowledgement(message) { continue }
             if message.error != nil { rejectedCommandCount += 1 }
             if let (deck, enabled) = pendingKeylock.removeValue(forKey: message.commandID), latestKeylock[deck] == message.commandID {
