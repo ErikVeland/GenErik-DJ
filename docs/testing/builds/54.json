@@ -1,0 +1,12 @@
+{
+  "build": 54,
+  "state": "build-failed",
+  "requestIDs": [
+    "R10"
+  ],
+  "sourceCommit": "968b8564d0c1362bc8834eca1079158526244147",
+  "sourceSHA256": "c7bebb53a3c6ecabbaacce4ef108f226323f22473ac14a5947a7a8a0cc21b150",
+  "log": "TestBuilds/ipad/build-54.log",
+  "notes": "Initial R10 build failed. Public default argument referenced the internal DeckToolSettings.vinylStop constant. No app installed.",
+  "feedback": []
+}

@@ -168,7 +168,6 @@ private struct DeckView: View {
     @State private var effectsVisible = false
     @State private var effectsInput=TouchSurfaceInputGate()
     @State private var mixerInput=TouchSurfaceInputGate()
-    @AppStorage(DeckToolSettings.vinylStop) private var vinylStop = false
     @AppStorage(DeckToolSettings.tempoFader) private var tempoFader = false
     @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
     @AppStorage(DeckToolSettings.hotcuePads) private var hotcuePads = false
@@ -232,11 +231,6 @@ private struct DeckView: View {
             .frame(width: 80)
             .padding(.top,deck == .b ? railClearance : 0)
             .padding(.bottom,deck == .a ? railClearance : 0)
-        if vinylStop {
-            VStack { Spacer(minLength:0);DeckBrakeControl(model:model,deck:deck) }
-                .frame(width:104)
-                .padding(.bottom,deck == .a ? railClearance : 0)
-        }
         }.padding(4).background(PerformancePalette.stage).bevelPanel(cornerRadius: 6, sunken: true)
         .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
         .onChange(of:track?.id,initial:true) { _,_ in
@@ -259,7 +253,6 @@ private struct DeckView: View {
 
 @MainActor
 private struct CompactDeckView: View {
-    @AppStorage(DeckToolSettings.vinylStop) private var vinylStop = false
     @Bindable var model: ReplicaModel
     let deck: DeckID
     @State private var visibleSeconds = 8.0
@@ -294,17 +287,14 @@ private struct CompactDeckView: View {
                     .foregroundStyle(.secondary).frame(maxWidth:.infinity,alignment:.leading)
             }
             HStack(spacing: 2) {
-                if vinylStop { DeckBrakeControl(model:model,deck:deck,compact:true).frame(width:state?.braking == true ? 148:104) }
                 Button { model.toggleLoop(deck:deck) } label: {
                     Image(systemName:"repeat").font(.system(size: 22, weight: .heavy))
                         .foregroundStyle(state?.loopEnabled == true ? PerformancePalette.syncGreen : Color(white: 0.75))
                 }.frame(width:84,height:50).buttonStyle(BevelButtonStyle()).disabled(track == nil)
                     .accessibilityLabel("Loop on deck \(deck.rawValue.uppercased())")
-                Button { model.pressPlay(deck:deck) } label: {
-                    Image(systemName:state?.braking == true ? "pause.fill":"play.fill").font(.system(size: 24))
-                        .foregroundStyle(state?.phase.active == true ? PerformancePalette.syncGreen : Color(white: 0.75))
-                }.frame(width:84,height:50).buttonStyle(BevelButtonStyle()).disabled(track == nil || model.preparingPlayback.contains(deck))
-                    .accessibilityLabel(state?.braking == true ? "Pause deck \(deck.rawValue.uppercased()) immediately":"Play or pause deck \(deck.rawValue.uppercased())")
+                DeckPlaybackButton(model:model,deck:deck)
+                    .font(.system(size:24))
+                    .frame(width:84,height:50).buttonStyle(BevelButtonStyle())
             }
         }.font(.system(size:17).monospacedDigit()).foregroundStyle(PerformancePalette.text)
         .padding(.leading,8).padding(.vertical,4).frame(maxHeight:.infinity)
@@ -910,13 +900,7 @@ private struct DeckTransportButtons: View {
                 Image(systemName: "headphones")
                     .foregroundStyle(playback?.mixer.cue == true ? deckBlue : Color(white: 0.65))
             }.accessibilityLabel("Headphone cue for deck \(deck.rawValue.uppercased())")
-            Button { model.pressPlay(deck: deck) } label: {
-                ZStack {
-                    Image(systemName:model.playbackSnapshot?[deck].braking == true ? "pause.fill":"play.fill")
-                        .foregroundStyle(playback?.phase.active == true ? .green : Color(white: 0.65))
-                    if model.preparingTrack.contains(deck) { ProgressView().controlSize(.small) }
-                }
-            }.disabled(track == nil || preparing).accessibilityLabel(model.playbackSnapshot?[deck].braking == true ? "Pause deck \(deck.rawValue.uppercased()) immediately" : "Play or pause deck \(deck.rawValue.uppercased())")
+            DeckPlaybackButton(model:model,deck:deck)
         }
     }
     private var track: Track? { model.track(deck) }

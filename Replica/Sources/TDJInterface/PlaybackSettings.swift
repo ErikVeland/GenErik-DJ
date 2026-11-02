@@ -31,14 +31,14 @@ struct PlaybackSettings: View {
             Toggle("Tempo fader",isOn:$tempoFader)
             Toggle("CUE button",isOn:$cueButton)
             Toggle("Hotcue pads",isOn:$hotcuePads)
-            Toggle("Vinyl stop control",isOn:$vinylStop)
+            Toggle("Vinyl stop",isOn:$vinylStop)
             if vinylStop {
                 HStack {
                     Text("Stop duration")
                     Slider(value:$vinylStopDuration,in:0.2...5,step:0.1)
                     Text(String(format:"%.1f s",vinylStopDuration)).monospacedDigit()
                 }
-                Text("Touch Brake to slow down. Drag down to brake harder. Release to finish the stop.")
+                Text("Tap Stop during playback to slow down. Tap Play to resume at the saved speed.")
                     .font(.caption).foregroundStyle(.secondary)
             }
         }

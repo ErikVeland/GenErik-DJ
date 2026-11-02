@@ -49,7 +49,7 @@ extension ReplicaModel {
         guard track(deck) != nil, let state = playbackSnapshot?[deck] else { return }
         if state.phase.active {
             jump(cuePoints[deck] ?? 0, deck: deck, quantized: false)
-            pressPlay(deck: deck)
+            pressPlay(deck: deck,vinylStop:false)
         } else {
             cuePoints[deck] = state.sourceFrame
         }

@@ -930,11 +930,19 @@ public final class ReplicaModel {
         }
         if let error = messages.compactMap(\.error).last { status = error.localizedDescription }
     }
-    public func pressPlay(deck: DeckID) {
+    public func pressPlay(deck: DeckID, vinylStop: Bool? = nil) {
         guard !preparingPlayback.contains(deck) else { return }
         do {
-            let wasActive = playback.core.snapshot()?[deck].phase.active == true
-            try playback.play(deck)
+            let vinylStop = vinylStop ?? UserDefaults.standard.bool(forKey:DeckToolSettings.vinylStop)
+            let state = playback.core.snapshot()?[deck]
+            let wasActive = state?.phase.active == true
+            if vinylStop && state?.braking == true {
+                try playback.brake(.resume,deck:deck)
+            } else if vinylStop && state?.phase == .playing {
+                try playback.brake(.begin,value:VinylBrakeSettings.duration(),deck:deck)
+            } else {
+                try playback.play(deck)
+            }
             if !wasActive { recoveryState.attempted[deck] = nil }
             previewing.remove(deck)
             refreshPlayback()

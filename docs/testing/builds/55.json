@@ -1,0 +1,21 @@
+{
+  "notes": "R10: Regular Stop applies optional vinyl braking. Remove separate Brake control from both layouts. Play resumes during slowdown. Erik acceptance pending.",
+  "sourceCommit": "968b8564d0c1362bc8834eca1079158526244147",
+  "sourceSHA256": "bc3997e66cc5110ce9fc6003aa9b567e42dc0d3098be0a5d01b41fe790e1635a",
+  "uncommittedAppChanges": "M Replica/Sources/TDJInterface/DeckToolsModel.swift\n M Replica/Sources/TDJInterface/PlaybackSettings.swift\n M Replica/Sources/TDJInterface/ReplicaModel.swift\n M Replica/Sources/TDJInterface/ReplicaView.swift\n M Replica/Sources/TDJInterface/VinylBrakeControl.swift",
+  "buildSeconds": 32.01,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-55.log",
+  "build": 55,
+  "app": "TestBuilds/ipad/55/GenErikDJ.app",
+  "appSHA256": "0268f886ecf095cc010fdc72f67a2a1d376adca087cec9d8a6ffe00dc9907280",
+  "state": "ready",
+  "createdUTC": "2026-11-02T22:11:27.927719+00:00",
+  "requestIDs": [
+    "R10"
+  ],
+  "deploymentStatus": "blocked-device-locked",
+  "deploymentNote": "Installation failed before launch. Developer disk image could not mount because the configured test iPad was locked (CoreDeviceError 12040/10003). Unlock the iPad, then deploy saved build 55 without rebuilding.",
+  "acceptance": "Pending installation and Erik checking regular Stop with vinyl stop enabled, Play during and after slowdown, both deck layouts, and immediate Stop with vinyl stop off."
+}

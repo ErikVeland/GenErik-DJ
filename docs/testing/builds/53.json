@@ -15,6 +15,11 @@
       "recordedUTC": "2026-11-02T22:07:07.282954+00:00",
       "result": "failed",
       "text": "Remote launch failed: CoreDeviceError 12040, caused by device locked (10003). Build remains installed. Erik can unlock the iPad and open GenErik DJ Test. No subsequent device actions."
+    },
+    {
+      "kind": "bug",
+      "requestID": "R10",
+      "text": "Assumed build 53, the last installed build. Erik: Brake should not be a separate button. It is the regular Stop button during playback."
     }
   ],
   "log": "TestBuilds/ipad/build-53.log",
