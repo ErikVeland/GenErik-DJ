@@ -36,7 +36,7 @@ Updated 2 November 2026. Owner for triage and integration: this coordination cha
 - R05/R06: **Support Apple Music Playlists**, **Fix iPad Load Gesture**, **Tracklist File Format**, `Replica/MusicLibrary.md` and `Replica/Recording.md`.
 - R07: **Implement adaptive beatgrids**, dated beatgrid plan and retained adaptive validation report.
 - R08: **Valhalla Reverb Appeal**, **Reverb Quality Upgrade**, PR #2 and `Replica/Reverb.md`.
-- R09: **Add waveform event countdown**, `Replica/MusicalWaveforms.md` and the waveform handover.
+- R09: **Add waveform event countdown**, `Replica/MusicalWaveforms.md`, the waveform handover and [colour-coded analysis audit](R09-colour-coded-analysis-audit.md). The 2 November source audit confirms that automatic musical recognition, mixing regions and rhythmic-ending detection remain unfinished.
 - R10: **Fix colour-coded waveforms** later Brake turn and the Brake handover.
 - R11: **Add recovery mix-in options** and its dated implementation plan.
 - R12: **Sync Mixed In Key with Traktor** and `Replica/KeyGovernance.md`. Final handover reports 13 focused governance tests passed. Combined results remain separate.
