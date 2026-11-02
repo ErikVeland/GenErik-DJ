@@ -11,7 +11,10 @@ public final class ReplicaModel {
     var selectedEffectSlots: [DeckID:Int] = [:]
     let performancePersistence=CoalescingFileWriter<PerformancePreparation>()
     let effectsPersistence=CoalescingFileWriter<[DeckID:[Int:EffectControl]]>()
+    var arrangements: [String: TrackArrangement] = [:]
+    @ObservationIgnored var arrangementWriters: [String: CoalescingFileWriter<ArrangementCache>] = [:]
     public var performance = PerformancePreparation()
+    let recoveryState = RecoveryState()
     public var frozen: Set<DeckID> = []
     public var filterLocked: Set<DeckID> = []
     public var superSlicerFamilies: [DeckID: SuperSlicerFamily] = [:]
@@ -209,6 +212,8 @@ public final class ReplicaModel {
     let importAccess = SecurityScopedFileAccess()
     private let musicImportFileWork=BackgroundFileWork(label:"org.generikdj.music-import-cleanup")
     public var preparingPlayback: Set<DeckID> = []
+    var preparingNativeMusic: Set<DeckID> = []
+    public var preparingTrack: Set<DeckID> { preparingPlayback.union(preparingNativeMusic) }
     public var previewing: Set<DeckID> = []
     let controlDisplay = PlaybackControlDisplay()
     @ObservationIgnored let mixerFaderInputs=MixerFaderInputValues()
@@ -229,6 +234,7 @@ public final class ReplicaModel {
     }
     public func flushPreferenceWrites() async {
         await mixerPersistence.flush(); await collectionPersistence.flush(); await flushPerformanceWrites()
+        for writer in Array(arrangementWriters.values) { await writer.flush() }
     }
     public func finishForShutdown() async {
         waveformShutdown=true
@@ -343,10 +349,10 @@ public final class ReplicaModel {
             if storedPreparationKeys[id]?.value != key {
                 for deck in DeckID.allCases {
                     if loadPreparations[deck]?.track.id == id {
-                        loadPreparations[deck]?.track.preparation.correctedKey=key
+                        loadPreparations[deck]?.track.preparation.copyKey(from: latest.preparation)
                     }
                     if committedPreparations[deck]?.track.id == id {
-                        committedPreparations[deck]?.track.preparation.correctedKey=key
+                        committedPreparations[deck]?.track.preparation.copyKey(from: latest.preparation)
                     }
                 }
             }
@@ -657,7 +663,11 @@ public final class ReplicaModel {
                 try await playback.load(track:sourceTrack,store:store,deck:deck,sourceURL:sourceURL,committed:{ [weak self = self] generation in
                     guard let self else { return }
                     var acceptedTrack = sourceTrack
-                    acceptedTrack.preparation.correctedKey = keyIntent.effective
+                    if acceptedTrack.preparation.correctedKey != keyIntent.effective {
+                        if let current = self.storedLibrary.track(id: trackID), current.preparation.correctedKey == keyIntent.effective {
+                            acceptedTrack.preparation.copyKey(from: current.preparation)
+                        } else { acceptedTrack.preparation.correctedKey = keyIntent.effective }
+                    }
                     let actual=LoadPreparation(token:token,track:acceptedTrack,generation:generation)
                     self.committedPreparations[deck]=actual
                     self.committedTrackIDs[deck]=trackID
@@ -874,6 +884,7 @@ public final class ReplicaModel {
         }
     }
     public func stopPlaybackMonitor() {
+        recoveryState.cancel()
         suggestionWork?.cancel()
         persistMixerPreferences()
         playbackMonitor?.cancel(); playbackMonitor = nil
@@ -895,6 +906,7 @@ public final class ReplicaModel {
         if let snapshot {
             playbackSnapshot = snapshot
             retainPerformedPair(snapshot)
+            maintainRecovery(snapshot)
 #if os(macOS)
             z1Connection?.send(Z1OutputReport.bytes(snapshot:snapshot,mode:z1Mode,fxDecks:z1Mapper.fxDecks,
                 enabledEffects:Set(DeckID.allCases.filter { effects[$0]?[selectedEffectSlots[$0,default:0]]?.enabled == true })))
@@ -911,7 +923,9 @@ public final class ReplicaModel {
     public func pressPlay(deck: DeckID) {
         guard !preparingPlayback.contains(deck) else { return }
         do {
+            let wasActive = playback.core.snapshot()?[deck].phase.active == true
             try playback.play(deck)
+            if !wasActive { recoveryState.attempted[deck] = nil }
             previewing.remove(deck)
             refreshPlayback()
         } catch { status = error.localizedDescription }

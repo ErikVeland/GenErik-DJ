@@ -42,14 +42,14 @@ func tallLoadSliderFollowsTheFingerUntilItsEndpoint(direction: Double) {
         .init(phase: phase, points: [.init(id: 1, x: 0.5, y: 0.5 + distance / 178)],
               ending: phase == .ended ? [1] : [])
     }
-    _ = session.handle(event(.began, distance: 0), height: 178)
-    #expect(session.handle(event(.moved, distance: direction * 32), height: 178) == nil)
+    _ = session.handle(event(.began, distance: 0), height: 178, maximumTravel: 53)
+    #expect(session.handle(event(.moved, distance: direction * 32), height: 178, maximumTravel: 53) == nil)
     #expect(session.offset == direction * 32)
-    #expect(session.handle(event(.ended, distance: direction * 32), height: 178) == nil)
+    #expect(session.handle(event(.ended, distance: direction * 32), height: 178, maximumTravel: 53) == nil)
     #expect(session.offset == 0)
-    _ = session.handle(event(.began, distance: 0), height: 178)
-    #expect(session.handle(event(.moved, distance: direction * 60), height: 178) == nil)
+    _ = session.handle(event(.began, distance: 0), height: 178, maximumTravel: 53)
+    #expect(session.handle(event(.moved, distance: direction * 60), height: 178, maximumTravel: 53) == nil)
     #expect(session.offset == direction * 53)
-    #expect(session.handle(event(.ended, distance: direction * 53), height: 178)
+    #expect(session.handle(event(.ended, distance: direction * 53), height: 178, maximumTravel: 53)
         == (direction < 0 ? .a : .b))
 }

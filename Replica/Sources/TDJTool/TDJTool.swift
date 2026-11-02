@@ -67,6 +67,26 @@ struct TDJTool {
         guard arguments.count >= 3, arguments[1] == "--workspace" else { print(usage); return }
         let store = try WorkspaceStore(root: URL(fileURLWithPath: arguments[2], isDirectory: true))
         switch command {
+        case "key-governance":
+            let snapshot = try store.load(includeWaveforms: false)
+            try emit(snapshot.tracks.map { GovernedKeySummary(id: $0.id, title: $0.title, decision: $0.keyDecision,
+                evidence: $0.keyGovernance) })
+        case "preview-key-import", "apply-key-import":
+            guard arguments.count == (command == "preview-key-import" ? 4 : 6) else { print(usage); return }
+            let source = URL(fileURLWithPath: arguments[3])
+            let handle = try FileHandle(forReadingFrom: source)
+            defer { try? handle.close() }
+            let data = try handle.read(upToCount: 2 * 1024 * 1024 + 1) ?? Data()
+            let service = try LibraryService(store: store)
+            let plan = try await service.previewKeyImport(data: data)
+            if command == "apply-key-import" {
+                guard Int(arguments[4]) == plan.expectedRevision, arguments[5] == plan.manifestSHA256 else {
+                    throw CoreError.staleContext
+                }
+                _ = try await service.applyKeyImport(plan)
+            }
+            try emit(KeyImportPreview(policyVersion: plan.policyVersion, manifestSHA256: plan.manifestSHA256,
+                expectedRevision: plan.expectedRevision, changes: plan.changes))
         case "import-traktor":
             guard arguments.count == 4 else { print(usage); return }
             let service = try LibraryService(store: store)
@@ -122,9 +142,19 @@ struct TDJTool {
         let exampleReferences: [TraktorPreparationRecord]
     }
     struct TrackSummary: Encodable { let id: String; let title: String; let bpm: Double?; let key: String? }
+    struct GovernedKeySummary: Encodable { let id: String; let title: String; let decision: KeyDecision; let evidence: KeyGovernanceState? }
+    struct KeyImportPreview: Encodable {
+        let policyVersion: String
+        let manifestSHA256: String
+        let expectedRevision: Int
+        let changes: [KeyImportPlan.Change]
+    }
     static let usage = """
     tdj-tool inspect-traktor COLLECTION_NML_OR_GZIP REPORT_JSON
     tdj-tool import-traktor --workspace DIRECTORY COLLECTION_NML_OR_GZIP
+    tdj-tool key-governance --workspace DIRECTORY
+    tdj-tool preview-key-import --workspace DIRECTORY MANIFEST_JSON
+    tdj-tool apply-key-import --workspace DIRECTORY MANIFEST_JSON EXPECTED_REVISION MANIFEST_SHA256
     tdj-tool analyze AUDIO
     tdj-tool benchmark-analysis MANIFEST_JSON REPORT_JSON
     tdj-tool transport-probe OUTPUT_DIRECTORY

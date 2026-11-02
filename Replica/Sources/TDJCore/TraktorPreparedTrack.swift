@@ -9,9 +9,7 @@ extension Track {
             result.preparation.grid=grid
             result.preparation.gridIsManual=true
         }
-        if result.preparation.correctedKey == nil {
-            result.preparation.correctedKey=original.normalized.key
-        }
+        result.preparation.importKey(original.normalized.key, authority: .traktor)
         return result
     }
 }

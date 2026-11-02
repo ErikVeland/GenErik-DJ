@@ -7,6 +7,7 @@ import TDJCore
     let item: MusicLibraryItem
     var held = false
     var temporary = false
+    var fails = false
     var preparedURLs: [URL] = []
     var started = AsyncStream<Void>.makeStream()
     var release: CheckedContinuation<Void, Never>?
@@ -20,6 +21,7 @@ import TDJCore
             started.continuation.yield(())
             await withCheckedContinuation { release = $0 }
         }
+        if fails { throw MusicLibraryError.missingAudio }
         let source = try #require(item.assetURL)
         if temporary {
             try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -70,13 +72,75 @@ import TDJCore
     model.loadNativeMusic(provider.item, deck: .a)
     #expect(!model.browserVisible)
     #expect(model.selectedTrackID == nil)
-    #expect(model.preparingPlayback.contains(.a))
+    #expect(model.preparingTrack.contains(.a))
     var started = provider.started.stream.makeAsyncIterator()
     _ = await started.next()
-    #expect(model.preparingPlayback.contains(.a))
+    #expect(model.preparingTrack.contains(.a))
     provider.release?.resume(); provider.release = nil
     await model.flushWrites()
+    #expect(!model.preparingTrack.contains(.a))
+    #expect(model.playback.core.snapshot()?.a.phase == .ready)
+    await model.finishForShutdown()
+}
+
+@Test @MainActor func failedNativePreparationClearsTheDeckBusyState() async throws {
+    let (model, provider, root, _) = try await nativeOwnershipFixture()
+    defer { try? FileManager.default.removeItem(at: root) }
+    provider.held = false; provider.fails = true
+    model.loadNativeMusic(provider.item, deck: .a)
+    #expect(model.preparingTrack.contains(.a))
+    await model.flushWrites()
+    #expect(model.preparingTrack.isEmpty)
+    #expect(model.loaded[.a] == nil)
+    #expect(!model.status.isEmpty)
+    await model.finishForShutdown()
+}
+
+@Test @MainActor func cancelledNativePreparationCannotClearItsReplacementBusyState() async throws {
+    let (model, provider, root, _) = try await nativeOwnershipFixture()
+    defer { try? FileManager.default.removeItem(at: root) }
+    model.loadNativeMusic(provider.item, deck: .a)
+    var started = provider.started.stream.makeAsyncIterator()
+    _ = await started.next()
+    let firstRelease = provider.release
+    let firstTask = try #require(model.nativeMusic.loads.values.first)
+    model.loadNativeMusic(provider.item, deck: .a)
+    _ = await started.next()
+    firstRelease?.resume()
+    await firstTask.value
+    #expect(model.preparingTrack.contains(.a))
+    provider.release?.resume(); provider.release = nil
+    await model.flushWrites()
+    #expect(model.preparingTrack.isEmpty)
+    #expect(model.playback.core.snapshot()?.a.phase == .ready)
+    await model.finishForShutdown()
+}
+
+@Test @MainActor func earlierPlaybackLoadCannotClearPendingNativePreparationFeedback() async throws {
+    let (model, provider, root, managed) = try await nativeOwnershipFixture()
+    defer { try? FileManager.default.removeItem(at: root) }
+    let decoded = AsyncStream<Void>.makeStream()
+    var releaseDecoded: CheckedContinuation<Void, Never>?
+    model.playback.loadCheckpoint = { checkpoint in
+        if case .decoded = checkpoint {
+            decoded.continuation.yield(())
+            await withCheckedContinuation { releaseDecoded = $0 }
+        }
+    }
+    model.load(trackID: managed, deck: .a)
+    let earlierLoad = model.playbackLoads
+    for await _ in decoded.stream { break }
+    model.loadNativeMusic(provider.item, deck: .a)
+    var started = provider.started.stream.makeAsyncIterator()
+    _ = await started.next()
+    releaseDecoded?.resume(); releaseDecoded = nil
+    await earlierLoad?.value
     #expect(!model.preparingPlayback.contains(.a))
+    #expect(model.preparingTrack.contains(.a))
+    model.playback.loadCheckpoint = nil
+    provider.release?.resume(); provider.release = nil
+    await model.flushWrites()
+    #expect(model.preparingTrack.isEmpty)
     #expect(model.playback.core.snapshot()?.a.phase == .ready)
     await model.finishForShutdown()
 }
@@ -88,7 +152,7 @@ import TDJCore
     var started = provider.started.stream.makeAsyncIterator()
     _ = await started.next()
     model.stopAudio()
-    #expect(!model.preparingPlayback.contains(.a))
+    #expect(!model.preparingTrack.contains(.a))
     provider.release?.resume(); provider.release = nil
     await model.flushWrites()
     #expect(model.loaded[.a] == nil)

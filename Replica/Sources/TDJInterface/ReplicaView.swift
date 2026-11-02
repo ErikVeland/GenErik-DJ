@@ -168,6 +168,7 @@ private struct DeckView: View {
     @State private var effectsVisible = false
     @State private var effectsInput=TouchSurfaceInputGate()
     @State private var mixerInput=TouchSurfaceInputGate()
+    @AppStorage(DeckToolSettings.vinylStop) private var vinylStop = false
     @AppStorage(DeckToolSettings.tempoFader) private var tempoFader = false
     @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
     @AppStorage(DeckToolSettings.hotcuePads) private var hotcuePads = false
@@ -179,6 +180,7 @@ private struct DeckView: View {
         HStack(spacing: 1) {
         VStack(spacing: 0) {
             DeckHeader(model:model,deck:deck)
+            if track != nil { ArrangementDeckStrip(model:model,deck:deck) }
             GeometryReader { geometry in
                 DeckWaveform(model:model,deck:deck,visibleSeconds:$visibleSeconds,mixerVisible:mixerVisible)
                 .overlay(alignment:.leading) {
@@ -230,6 +232,11 @@ private struct DeckView: View {
             .frame(width: 80)
             .padding(.top,deck == .b ? railClearance : 0)
             .padding(.bottom,deck == .a ? railClearance : 0)
+        if vinylStop {
+            VStack { Spacer(minLength:0);DeckBrakeControl(model:model,deck:deck) }
+                .frame(width:104)
+                .padding(.bottom,deck == .a ? railClearance : 0)
+        }
         }.padding(4).background(PerformancePalette.stage).bevelPanel(cornerRadius: 6, sunken: true)
         .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
         .onChange(of:track?.id,initial:true) { _,_ in
@@ -252,6 +259,7 @@ private struct DeckView: View {
 
 @MainActor
 private struct CompactDeckView: View {
+    @AppStorage(DeckToolSettings.vinylStop) private var vinylStop = false
     @Bindable var model: ReplicaModel
     let deck: DeckID
     @State private var visibleSeconds = 8.0
@@ -267,25 +275,36 @@ private struct CompactDeckView: View {
                 let elapsed = max(0, Int((state?.sourceFrame ?? 0)/track.analysis.sampleRate))
                 let remaining = max(0,Int(ceil(track.analysis.duration - (state?.sourceFrame ?? 0)/track.analysis.sampleRate)))
                 Text(String(format:"%d:%02d",elapsed/60,elapsed%60)).frame(width:52,alignment:.trailing)
-                StripeView(model:model,deck:deck,track:track,visibleSeconds:$visibleSeconds) {
-                    model.previewing.insert(deck); model.viewport[deck] = $0
-                }.frame(height:44).accessibilityLabel("Deck \(deck.rawValue.uppercased()) overview")
-                Text(String(format:"-%d:%02d",remaining/60,remaining%60)).frame(width:56,alignment:.leading)
+                VStack(spacing:0) {
+                    ArrangementDeckStrip(model:model,deck:deck,compact:true)
+                    StripeView(model:model,deck:deck,track:track,visibleSeconds:$visibleSeconds) {
+                        model.previewing.insert(deck); model.viewport[deck] = $0
+                    }.frame(height:28)
+                }.accessibilityLabel("Deck \(deck.rawValue.uppercased()) overview")
+                VStack(alignment:.leading,spacing:2) {
+                    if let status=model.arrangementStatus(deck:deck) {
+                        Text(status.endingText).font(.system(size:9,weight:.semibold))
+                            .foregroundStyle(status.warning == .red || status.warning == .urgent ? Color.red:Color.secondary)
+                            .lineLimit(2)
+                    }
+                    Text(String(format:"-%d:%02d",remaining/60,remaining%60))
+                }.frame(width:110,alignment:.leading)
             } else {
                 Text("Deck \(deck.rawValue.uppercased()) · No track loaded")
                     .foregroundStyle(.secondary).frame(maxWidth:.infinity,alignment:.leading)
             }
             HStack(spacing: 2) {
+                if vinylStop { DeckBrakeControl(model:model,deck:deck,compact:true).frame(width:state?.braking == true ? 148:104) }
                 Button { model.toggleLoop(deck:deck) } label: {
                     Image(systemName:"repeat").font(.system(size: 22, weight: .heavy))
                         .foregroundStyle(state?.loopEnabled == true ? PerformancePalette.syncGreen : Color(white: 0.75))
                 }.frame(width:84,height:50).buttonStyle(BevelButtonStyle()).disabled(track == nil)
                     .accessibilityLabel("Loop on deck \(deck.rawValue.uppercased())")
                 Button { model.pressPlay(deck:deck) } label: {
-                    Image(systemName:"play.fill").font(.system(size: 24))
+                    Image(systemName:state?.braking == true ? "pause.fill":"play.fill").font(.system(size: 24))
                         .foregroundStyle(state?.phase.active == true ? PerformancePalette.syncGreen : Color(white: 0.75))
                 }.frame(width:84,height:50).buttonStyle(BevelButtonStyle()).disabled(track == nil || model.preparingPlayback.contains(deck))
-                    .accessibilityLabel("Play or pause deck \(deck.rawValue.uppercased())")
+                    .accessibilityLabel(state?.braking == true ? "Pause deck \(deck.rawValue.uppercased()) immediately":"Play or pause deck \(deck.rawValue.uppercased())")
             }
         }.font(.system(size:17).monospacedDigit()).foregroundStyle(PerformancePalette.text)
         .padding(.leading,8).padding(.vertical,4).frame(maxHeight:.infinity)
@@ -315,6 +334,7 @@ private struct StripeView: View {
         GeometryReader { geometry in
             WaveformView(track: track, grid: nil, centerFrame: Double(track.analysis.frameCount) / 2,
                          visibleSeconds: track.analysis.duration).equatable()
+                .overlay { ArrangementWaveformOverlay(model:model,deck:deck,track:track,center:Double(track.analysis.frameCount)/2,span:Double(track.analysis.frameCount),overview:true) }
                 .overlay(alignment: .leading) {
                     StripeViewportMarker(model:model,deck:deck,width:geometry.size.width,
                         frameCount:Double(track.analysis.frameCount),duration:track.analysis.duration,
@@ -455,24 +475,36 @@ struct LoadSlider: View {
     var tall = false
     let load: (DeckID) -> Void
     @State private var gesture = LoadSliderGestureSession()
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    private let tallHeight = 170.0
+    private let tallHandleHeight = 64.0
+    private var maximumTravel: Double { tall ? (tallHeight - tallHandleHeight) / 2 : 18 }
     var body: some View {
         VStack(spacing: 0) {
-            Text("A").font(.system(size: tall ? 40 : 9, weight: .heavy)).foregroundStyle(Color(white: tall ? 0.45 : 0.88))
+            Text("A").font(.system(size: tall ? 40 : 9, weight: .heavy))
+                .foregroundStyle(gesture.armedDeck == .a ? PerformancePalette.cyan : Color(white: tall ? 0.45 : 0.88))
             if tall { Spacer(minLength: 4) }
             VStack(spacing: 2) {
                 if tall { Image(systemName: "chevron.up").font(.system(size: 10)) }
                 Text("LOAD").font(.system(size: tall ? 17 : 10, weight: .bold))
                 if tall { Image(systemName: "chevron.down").font(.system(size: 10)) }
             }.padding(tall ? 10 : 6).frame(maxWidth: tall ? .infinity : nil)
+                .frame(height: tall ? tallHandleHeight : nil)
                 .bevelPanel(cornerRadius: 4).offset(y: gesture.offset)
             if tall { Spacer(minLength: 4) }
-            Text("B").font(.system(size: tall ? 40 : 9, weight: .heavy)).foregroundStyle(Color(white: tall ? 0.45 : 0.88))
-        }.frame(width: tall ? 96 : 64, height: tall ? 170 : 56).padding(tall ? 4 : 0)
+            Text("B").font(.system(size: tall ? 40 : 9, weight: .heavy))
+                .foregroundStyle(gesture.armedDeck == .b ? PerformancePalette.cyan : Color(white: tall ? 0.45 : 0.88))
+        }.frame(width: tall ? 96 : 64, height: tall ? tallHeight : 56).padding(tall ? 4 : 0)
             .background(RoundedRectangle(cornerRadius: 6).fill(PerformancePalette.sunken)).contentShape(Rectangle())
             .overlay {
                 GeometryReader { geometry in
                     TouchSurface(capturesDrag: true) { event in
-                        if let deck = gesture.handle(event,height:Double(geometry.size.height)) { load(deck) }
+                        var next = gesture
+                        let deck = next.handle(event, height: Double(geometry.size.height), maximumTravel: maximumTravel)
+                        if deck == nil && (event.phase == .ended || event.phase == .cancelled) {
+                            withAnimation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.8)) { gesture = next }
+                        } else { gesture = next }
+                        if let deck { load(deck) }
                     }
                 }
             }
@@ -485,6 +517,7 @@ extension ReplicaView {
     /// ImageRenderer does not mount asynchronous view tasks. Prepare its waveforms explicitly.
     public func preparedForSnapshot() async throws -> some View {
         try await model.prepareLoadedWaveforms()
+        for deck in DeckID.allCases { await model.prepareArrangement(deck:deck) }
         var indexes: [WaveformIndexKey:WaveformRangeIndex]=[:]
         for deck in DeckID.allCases {
             if let track=model.track(deck) {
@@ -803,6 +836,7 @@ private struct DeckWaveformDrawing: View {
                      visibleSeconds:visibleSeconds,adaptiveMap:model.playbackSnapshot?[deck].adaptiveMap,playheadFrame:model.playbackSnapshot?[deck].sourceFrame,
                      leadInFrame:model.playbackSnapshot?[deck].leadInSourceFrame,
                      band:band?.0 == track.id ? band?.1 : snapshotBands[track.id])
+        .overlay { ArrangementWaveformOverlay(model:model,deck:deck,track:track,center:model.viewport[deck] ?? 0,span:visibleSeconds*track.analysis.sampleRate) }
         .task(id:track.id) {
             let id=track.id
             guard let loaded=await BandWaveforms.shared.load(track:track,store:model.store),!Task.isCancelled else { return }
@@ -836,8 +870,15 @@ private struct DeckFooter: View {
 
     var body: some View {
             HStack(spacing: 18) {
-                Text(remainingTime)
-                    .font(.system(size: 11, design: .monospaced)).foregroundStyle(.secondary)
+                if let track, model.arrangements[track.id] != nil {
+                    ArrangementRemainingTime(model:model,deck:deck)
+                } else {
+                    Text(remainingTime).font(.system(size:11,design:.monospaced)).foregroundStyle(.secondary)
+                }
+                if let recovery = model.recoveryLabel(deck: deck) {
+                    Text(recovery).font(.system(size: 11)).foregroundStyle(PerformancePalette.syncGreen)
+                        .accessibilityLabel(recovery)
+                }
                 Spacer()
                 if editing, let grid = model.grid(deck) {
                     ForEach(0..<4) { beat in
@@ -871,11 +912,11 @@ private struct DeckTransportButtons: View {
             }.accessibilityLabel("Headphone cue for deck \(deck.rawValue.uppercased())")
             Button { model.pressPlay(deck: deck) } label: {
                 ZStack {
-                    Image(systemName: "play.fill")
+                    Image(systemName:model.playbackSnapshot?[deck].braking == true ? "pause.fill":"play.fill")
                         .foregroundStyle(playback?.phase.active == true ? .green : Color(white: 0.65))
-                    if preparing { ProgressView().controlSize(.small) }
+                    if model.preparingTrack.contains(deck) { ProgressView().controlSize(.small) }
                 }
-            }.disabled(track == nil || preparing).accessibilityLabel("Play or pause deck \(deck.rawValue.uppercased())")
+            }.disabled(track == nil || preparing).accessibilityLabel(model.playbackSnapshot?[deck].braking == true ? "Pause deck \(deck.rawValue.uppercased()) immediately" : "Play or pause deck \(deck.rawValue.uppercased())")
         }
     }
     private var track: Track? { model.track(deck) }

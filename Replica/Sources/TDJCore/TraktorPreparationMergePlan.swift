@@ -59,7 +59,7 @@ public struct TraktorPreparationMergePlan: Sendable {
             // Protect imported preparation from later automatic reanalysis.
             preparation.gridIsManual=true
         }
-        if preparation.correctedKey == nil { preparation.correctedKey=reference.key }
+        preparation.importKey(reference.key, authority: .traktor)
         var cues=existingCues,updatedHistory=history
         for (slot,cue) in reference.cues {
             guard cues[slot] == nil,!history.protectedEmptySlots.contains(slot),

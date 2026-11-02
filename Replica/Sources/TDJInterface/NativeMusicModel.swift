@@ -143,12 +143,18 @@ extension ReplicaModel {
         cancelNativeMusicLoad(deck: deck)
         let token = UUID()
         state.loadOwners[deck] = token
+        preparingNativeMusic.insert(deck)
+        browserVisible = false
+        selectedTrackID = nil
         status = "Preparing track…"
         state.loads[token] = Task { [weak self] in
             guard let self else { state.loads[token] = nil; return }
             defer {
                 state.loads[token] = nil; state.rootLoads[token] = nil
-                if state.loadOwners[deck] == token { state.loadOwners[deck] = nil }
+                if state.loadOwners[deck] == token {
+                    state.loadOwners[deck] = nil
+                    preparingNativeMusic.remove(deck)
+                }
                 if state.loadOwners.isEmpty { startNativeMusicAnalysis() }
             }
             var selectedID: String?
@@ -175,6 +181,7 @@ extension ReplicaModel {
                         } catch TransportError.nativeSourceChanged {
                             try Task.checkCancellation()
                             guard state.loadOwners[deck] == token else { throw CancellationError() }
+                            self.preparingNativeMusic.insert(deck)
                             self.status = "Preparing \(item.title)…"
                             self.adoptLibrary(try await self.service.analyzeNativeMusic(url: prepared.url,
                                 musicLibrary: prepared.metadata, preservePreparationFor: Set(self.loaded.values), quickLoad: true))
@@ -211,6 +218,7 @@ extension ReplicaModel {
         if let failure = attempt.failure { throw failure }
         guard let root else { throw TransportError.stale }
         nativeMusic.rootLoads[token] = root
+        preparingNativeMusic.remove(deck)
         await root.value
         try Task.checkCancellation()
         guard nativeMusic.loadOwners[deck] == token else { throw CancellationError() }
@@ -231,6 +239,7 @@ extension ReplicaModel {
 
     func cancelNativeMusicLoad(deck: DeckID) {
         guard let old = nativeMusic.loadOwners.removeValue(forKey: deck) else { return }
+        preparingNativeMusic.remove(deck)
         nativeMusic.loads[old]?.cancel()
         nativeMusic.rootLoads[old]?.cancel()
     }
@@ -239,6 +248,7 @@ extension ReplicaModel {
         for task in nativeMusic.loads.values { task.cancel() }
         for task in nativeMusic.rootLoads.values { task.cancel() }
         nativeMusic.loadOwners.removeAll()
+        preparingNativeMusic.removeAll()
     }
 
     func closeNativeMusic() async {

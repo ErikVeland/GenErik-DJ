@@ -10,6 +10,9 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable {
 @MainActor
 public final class PlaybackController {
     public let core: SampleTransport
+    var recoveryRevisions: [DeckID: UInt64] = [:]
+    var recoveryAwaitedCommands: Set<UInt64> = []
+    var recoveryAcknowledgements: [UInt64: TransportAcknowledgement] = [:]
     public private(set) var generations: [DeckID: UInt64] = [:]
     // Development startup policy. Original default and persistence remain unmeasured.
     private var keylockPreference: [DeckID: Bool] = [.a: true, .b: true]
@@ -174,6 +177,7 @@ public final class PlaybackController {
     public func load(track: Track, store: WorkspaceStore, deck: DeckID, sourceURL: URL? = nil,
                      committed: @escaping (UInt64) -> Void = { _ in }) async throws {
         guard core.snapshot()?[deck].phase.active != true else { throw TransportError.protectedDeck }
+        invalidateRecovery(deck: deck)
         cancelSourcePreparations(deck: deck)
         let asset = try await PCMCache.prepareAsync(track: track, store: store, streamed: streamingPlayback,
                                                    outputSampleRate: core.sampleRate,
@@ -226,6 +230,12 @@ public final class PlaybackController {
         }
         throw TransportError.cache("The audio renderer did not acknowledge the load.")
     }
+    public func brake(_ action: VinylBrakeAction, value: Double = 1, deck: DeckID) throws {
+        guard let generation=generations[deck] else { throw TransportError.stale }
+        if action == .begin { cancelPerformancePreparations(deck:deck) }
+        try submitSource(.brake(action,value,deck,generation))
+        if !outputActive { core.processControlsWhileIdle() }
+    }
     public func play(_ deck: DeckID) throws {
         guard let generation = generations[deck] else { throw TransportError.stale }
         let lane = SourceLane.play(deck)
@@ -263,6 +273,7 @@ public final class PlaybackController {
         if !outputActive { core.processControlsWhileIdle() }
     }
     public func setMixer(_ parameter: MixerParameter, value: Double, deck: DeckID = .a) throws {
+        if parameter == .crossfader || parameter == .volume { invalidateRecovery() }
         try core.setMixer(parameter, value: value, deck: deck)
         if !outputActive { core.processControlsWhileIdle() }
     }
@@ -347,6 +358,7 @@ public final class PlaybackController {
         }
     }
     public func stopAudio() {
+        invalidateRecovery()
         controlMaintenanceTimer = nil
         outputStartIdentity &+= 1
         outputStartTask?.cancel(); outputStartTask = nil
@@ -398,6 +410,7 @@ public final class PlaybackController {
     }
     private func collectMessages() {
         for message in core.acknowledgements() {
+            if recoveryAwaitedCommands.contains(message.commandID) { recoveryAcknowledgements[message.commandID] = message }
             if adaptiveResults[message.commandID] != nil {
                 adaptiveResults[message.commandID] = message.error.map { .rejected($0) } ?? .accepted
             }
@@ -536,6 +549,7 @@ extension PlaybackController {
         case performance(DeckID, Int32)
         init(_ control: SourceControl) {
             switch control {
+            case .brake(_, _, let deck, _): self = .performance(deck, 23)
             case .play(let deck, _): self = .play(deck)
             case .tempo: self = .tempo
             case .freeRate(_, let deck, _): self = .freeRate(deck)
@@ -593,6 +607,11 @@ extension PlaybackController {
         }
     }
     @discardableResult private func submitSource(_ control: SourceControl, canPrepare: Bool = true) throws -> UInt64 {
+        switch control {
+        case .tempo, .keylock: break
+        case .play: invalidateRecovery()
+        default: invalidateRecovery(deck: control.deck)
+        }
         let lane = SourceLane(control)
         invalidateSource(lane)
         nextSourceIdentity &+= 1

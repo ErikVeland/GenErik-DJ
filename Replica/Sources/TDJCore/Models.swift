@@ -105,16 +105,23 @@ extension AudioAnalysis {
 
 public struct Preparation: Codable, Equatable, Sendable {
     public var grid: BeatGrid?
-    public var correctedKey: MusicalKey?
+    public var correctedKey: MusicalKey? {
+        didSet { correctedKeyAuthority = nil }
+    }
+    public internal(set) var correctedKeyAuthority: KeyAuthority?
     public var gridIsManual: Bool
     public var adaptiveMap: BeatGridMap? = nil
     public var gridLocked = false
     public var gridMode: GridMode = .automatic
-    private enum CodingKeys: String, CodingKey { case grid, correctedKey, gridIsManual, adaptiveMap, gridLocked, gridMode }
+    private enum CodingKeys: String, CodingKey { case grid, correctedKey, correctedKeyAuthority, gridIsManual, adaptiveMap, gridLocked, gridMode }
     public init(from decoder: any Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         grid = try c.decodeIfPresent(BeatGrid.self, forKey: .grid)
         correctedKey = try c.decodeIfPresent(MusicalKey.self, forKey: .correctedKey)
+        correctedKeyAuthority = try c.decodeIfPresent(KeyAuthority.self, forKey: .correctedKeyAuthority)
+        guard correctedKeyAuthority == nil || (correctedKey != nil && [.traktor, .independent].contains(correctedKeyAuthority!)) else {
+            throw CoreError.invalidWorkspace("Invalid imported key authority.")
+        }
         gridIsManual = try c.decodeIfPresent(Bool.self, forKey: .gridIsManual) ?? false
         adaptiveMap = try? c.decodeIfPresent(BeatGridMap.self, forKey: .adaptiveMap)
         gridLocked = try c.decodeIfPresent(Bool.self, forKey: .gridLocked) ?? false
@@ -124,6 +131,7 @@ public struct Preparation: Codable, Equatable, Sendable {
         var c=encoder.container(keyedBy:CodingKeys.self)
         try c.encodeIfPresent(grid,forKey:.grid)
         try c.encodeIfPresent(correctedKey,forKey:.correctedKey)
+        try c.encodeIfPresent(correctedKeyAuthority,forKey:.correctedKeyAuthority)
         try c.encode(gridIsManual,forKey:.gridIsManual)
         try c.encodeIfPresent(adaptiveMap,forKey:.adaptiveMap)
         if gridLocked { try c.encode(true,forKey:.gridLocked) }
@@ -147,10 +155,11 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
     public var analysis: AudioAnalysis
     public var preparation: Preparation
     public var traktorPreparation: ImportedTraktorPreparation? = nil
+    public var keyGovernance: KeyGovernanceState? = nil
     public var musicLibrarySources: [MusicLibrarySource]?
     public var nativeLibraryOnly: Bool? = nil
     public var bpm: Double? { grid?.bpm ?? analysis.bpm }
-    public var key: MusicalKey? { preparation.correctedKey ?? traktorPreparation?.normalized.key ?? analysis.key }
+    public var key: MusicalKey? { keyDecision.key }
     public var adaptiveMap: BeatGridMap? {
         guard preparation.gridMode != .fixed, let map=preparation.adaptiveMap,
               map.sampleRate==analysis.sampleRate,(try? map.validate(frameCount:analysis.frameCount)) != nil else { return nil }

@@ -3,6 +3,7 @@ import Foundation
 
 public enum SourceControl: Sendable {
     case play(DeckID, UInt64)
+    case brake(VinylBrakeAction, Double, DeckID, UInt64)
     case tempo(Double)
     case freeRate(Double, DeckID, UInt64)
     case sync(Bool, DeckID, UInt64)
@@ -20,6 +21,8 @@ public enum SourceControl: Sendable {
             result.deck = deck == .a ? 0 : 1; result.generation = generation
         }
         switch self {
+        case .brake(let action, let value, let id, let generation):
+            result.kind=TDJ_BRAKE;deck(id,generation);result.flag=action.rawValue;result.value=value
         case .play(let id, let generation):
             result.kind = TDJ_PLAY; deck(id, generation)
         case .tempo(let bpm):
