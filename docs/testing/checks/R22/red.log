@@ -1,0 +1,151 @@
+[0/1] Planning build
+Building for debugging...
+[0/16] Write swift-version-39B54973F684ADAB.txt
+[1/16] Write sources
+[5/16] Compiling CTDJTransport TDJTransport.c
+[7/23] Compiling TDJCore CollectionProjection.swift
+[8/23] Compiling TDJCore LibraryBrowserProjection.swift
+[9/23] Emitting module TDJCore
+[10/24] Compiling TDJCore MusicLibrary.swift
+[11/30] Emitting module TDJCoreTests
+[12/30] Compiling TDJInterface BrowserView.swift
+[13/30] Compiling TDJInterface DeckToolViews.swift
+[14/32] Compiling TDJCoreTests LibrarySearchScopeTests.swift
+[15/32] Compiling TDJCoreTests ReverbQualityTests.swift
+[15/32] Write Objects.LinkFileList
+[16/32] Linking tdj-tool
+[17/32] Applying tdj-tool
+[19/32] Emitting module TDJInterface
+[22/34] Compiling TDJInterface LocalMusicLibrary.swift
+[23/34] Compiling TDJInterface ReplicaView.swift
+[23/34] Write Objects.LinkFileList
+[24/36] Linking tdj-preview
+[25/36] Write Objects.LinkFileList
+[26/36] Applying tdj-preview
+[27/36] Linking tdj-runtime-validation
+[28/36] Write Objects.LinkFileList
+[29/36] Applying tdj-runtime-validation
+[30/36] Linking tdj-audio-check-preview
+[31/36] Applying tdj-audio-check-preview
+[33/36] Emitting module TDJInterfaceTests
+[34/36] Compiling TDJInterfaceTests SuperSlicerGestureTests.swift
+[34/36] Write Objects.LinkFileList
+[35/36] Linking GenErikDJPackageTests
+Build complete! (11.28s)
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test superSlicerScratchContactHandoverStartsAtRest() started.
+􀟈  Test superSlicerRegionsDriveCompoundActionsAndRelease() started.
+􀟈  Test superSlicerBrakeReachesAndHoldsAStopInsideItsRegion() started.
+􀟈  Test superSlicerScratchFollowsMovementWithoutRestartingTheCursor() started.
+􀢄  Test superSlicerBrakeReachesAndHoldsAStopInsideItsRegion() recorded an issue at SuperSlicerGestureTests.swift:137:25: Expectation failed: model.playbackSnapshot?.a.performanceRate == 0.5
+􀄵  model.playbackSnapshot?.a.performanceRate == 0.5 → false
+􀄵    model.playbackSnapshot?.a.performanceRate → 0.85
+􀄵      some → 0.85
+􀄵      some → 0.5
+􀢄  Test superSlicerBrakeReachesAndHoldsAStopInsideItsRegion() recorded an issue at SuperSlicerGestureTests.swift:139:13: Expectation failed: model.playbackSnapshot?.a.performanceRate == 0
+􀄵  model.playbackSnapshot?.a.performanceRate == 0 → false
+􀄵    model.playbackSnapshot?.a.performanceRate → 0.7
+􀄵      some → 0.7
+􀄵    0 → 0.0
+􀄵      some → 0.0
+􀢄  Test superSlicerBrakeReachesAndHoldsAStopInsideItsRegion() recorded an issue at SuperSlicerGestureTests.swift:142:13: Expectation failed: model.playbackSnapshot?.a.sourceFrame == position
+􀄵  model.playbackSnapshot?.a.sourceFrame == position → false
+􀄵    model.playbackSnapshot?.a.sourceFrame → 56329.28000000119
+􀄵      some → 56329.28000000119
+􀄵    position → 56000.0
+􀢄  Test superSlicerBrakeReachesAndHoldsAStopInsideItsRegion() recorded an issue at SuperSlicerGestureTests.swift:139:13: Expectation failed: model.playbackSnapshot?.a.performanceRate == 0
+􀄵  model.playbackSnapshot?.a.performanceRate == 0 → false
+􀄵    model.playbackSnapshot?.a.performanceRate → 0.6799999999999999
+􀄵      some → 0.6799999999999999
+􀄵    0 → 0.0
+􀄵      some → 0.0
+􀢄  Test superSlicerBrakeReachesAndHoldsAStopInsideItsRegion() recorded an issue at SuperSlicerGestureTests.swift:142:13: Expectation failed: model.playbackSnapshot?.a.sourceFrame == position
+􀄵  model.playbackSnapshot?.a.sourceFrame == position → false
+􀄵    model.playbackSnapshot?.a.sourceFrame → 56649.15200000256
+􀄵      some → 56649.15200000256
+􀄵    position → 56329.28000000119
+􀢄  Test superSlicerBrakeReachesAndHoldsAStopInsideItsRegion() failed after 5.263 seconds with 5 issues.
+􀢄  Test superSlicerScratchContactHandoverStartsAtRest() recorded an issue at SuperSlicerGestureTests.swift:112:5: Expectation failed: model.playbackSnapshot?.a.performanceRate == 0
+􀄵  model.playbackSnapshot?.a.performanceRate == 0 → false
+􀄵    model.playbackSnapshot?.a.performanceRate → 1.0
+􀄵      some → 1.0
+􀄵    0 → 0.0
+􀄵      some → 0.0
+􀢄  Test superSlicerScratchContactHandoverStartsAtRest() recorded an issue at SuperSlicerGestureTests.swift:113:5: Expectation failed: model.playbackSnapshot?.a.sourceFrame == 76800
+􀄵  model.playbackSnapshot?.a.sourceFrame == 76800 → false
+􀄵    model.playbackSnapshot?.a.sourceFrame → 57600.0
+􀄵      some → 57600.0
+􀄵    76800 → 76800.0
+􀄵      some → 76800.0
+􀢄  Test superSlicerScratchContactHandoverStartsAtRest() recorded an issue at SuperSlicerGestureTests.swift:115:5: Expectation failed: model.playbackSnapshot?.a.performanceRate == 0
+􀄵  model.playbackSnapshot?.a.performanceRate == 0 → false
+􀄵    model.playbackSnapshot?.a.performanceRate → 1.0
+􀄵      some → 1.0
+􀄵    0 → 0.0
+􀄵      some → 0.0
+􀢄  Test superSlicerScratchContactHandoverStartsAtRest() recorded an issue at SuperSlicerGestureTests.swift:116:5: Expectation failed: model.playbackSnapshot?.a.sourceFrame == 64000
+􀄵  model.playbackSnapshot?.a.sourceFrame == 64000 → false
+􀄵    model.playbackSnapshot?.a.sourceFrame → 57600.0
+􀄵      some → 57600.0
+􀄵    64000 → 64000.0
+􀄵      some → 64000.0
+􀢄  Test superSlicerScratchContactHandoverStartsAtRest() recorded an issue at SuperSlicerGestureTests.swift:121:5: Expectation failed:warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+ model.playbackSnapshot?.a.performanceRate == 0
+􀄵  model.playbackSnapshot?.a.performanceRate == 0 → false
+􀄵    model.playbackSnapshot?.a.performanceRate → 1.0
+􀄵      some → 1.0
+􀄵    0 → 0.0
+􀄵      some → 0.0
+􀢄  Test superSlicerScratchContactHandoverStartsAtRest() failed after 10.519 seconds with 5 issues.
+􀢄  Test superSlicerScratchFollowsMovementWithoutRestartingTheCursor() recorded an issue at SuperSlicerGestureTests.swift:74:5: Expectation failed: model.playbackSnapshot?.a.performanceRate == 0
+􀄵  model.playbackSnapshot?.a.performanceRate == 0 → false
+􀄵    model.playbackSnapshot?.a.performanceRate → 1.0
+􀄵      some → 1.0
+􀄵    0 → 0.0
+􀄵      some → 0.0
+􀢄  Test superSlicerScratchFollowsMovementWithoutRestartingTheCursor() recorded an issue at SuperSlicerGestureTests.swift:78:5: Expectation failed: slow>0 && slow<0.01
+􀄵  slow>0 && slow<0.01 → false
+􀄵    slow>0 → true
+􀄵    slow<0.01 → false
+􀢄  Test superSlicerScratchFollowsMovementWithoutRestartingTheCursor() recorded an issue at SuperSlicerGestureTests.swift:80:5: Expectation failed: model.playbackSnapshot?.a.performanceRate == 4
+􀄵  model.playbackSnapshot?.a.performanceRate == 4 → false
+􀄵    model.playbackSnapshot?.a.performanceRate → 1.0
+􀄵      some → 1.0
+􀄵    4 → 4.0
+􀄵      some → 4.0
+􀢄  Test superSlicerScratchFollowsMovementWithoutRestartingTheCursor() recorded an issue at SuperSlicerGestureTests.swift:84:5: Expectation failed: model.playbackSnapshot?.a.performanceRate == -4
+􀄵  model.playbackSnapshot?.a.performanceRate == -4 → false
+􀄵    model.playbackSnapshot?.a.performanceRate → 1.0
+􀄵      some → 1.0
+􀄵    -4 → -4.0
+􀄵      some → -4.0
+􀢄  Test superSlicerScratchFollowsMovementWithoutRestartingTheCursor() recorded an issue at SuperSlicerGestureTests.swift:88:5: Expectation failed: backward < forward
+􀄵  backward < forward → false
+􀄵    backward → 58070.39999999851
+􀄵    forward → 57835.199999999255
+􀢄  Test superSlicerScratchFollowsMovementWithoutRestartingTheCursor() recorded an issue at SuperSlicerGestureTests.swift:90:5: Expectation failed: model.playbackSnapshot?.a.performanceRate == 0
+􀄵  model.playbackSnapshot?.a.performanceRate == 0 → false
+􀄵    model.playbackSnapshot?.a.performanceRate → 1.0
+􀄵      some → 1.0
+􀄵    0 → 0.0
+􀄵      some → 0.0
+􀢄  Test superSlicerScratchFollowsMovementWithoutRestartingTheCursor() recorded an issue at SuperSlicerGestureTests.swift:92:5: Expectation failed: model.playbackSnapshot?.a.sourceFrame == backward
+􀄵  model.playbackSnapshot?.a.sourceFrame == backward → false
+􀄵    model.playbackSnapshot?.a.sourceFrame → 58305.599999997765
+􀄵      some → 58305.599999997765
+􀄵    backward → 58070.39999999851
+􀢄  Test superSlicerScratchFollowsMovementWithoutRestartingTheCursor() failed after 15.870 seconds with 7 issues.
+􀢄  Test superSlicerRegionsDriveCompoundActionsAndRelease() recorded an issue at SuperSlicerGestureTests.swift:51:9: Expectation failed: abs(active.performanceRate-rate) < 0.000001
+􀄵  abs(active.performanceRate-rate) < 0.000001 → false
+􀄵    abs(active.performanceRate-rate) → 0.2333333333333334
+􀄵    0.000001 → 1e-06
+􀢄  Test superSlicerRegionsDriveCompoundActionsAndRelease() recorded an issue at SuperSlicerGestureTests.swift:51:9: Expectation failed: abs(active.performanceRate-rate) < 0.000001
+􀄵  abs(active.performanceRate-rate) < 0.000001 → false
+􀄵    abs(active.performanceRate-rate) → 1.0
+􀄵    0.000001 → 1e-06
+􀢄  Test superSlicerRegionsDriveCompoundActionsAndRelease() failed after 20.543 seconds with 2 issues.
+􀢄  Test run with 4 tests in 0 suites failed after 20.543 seconds with 19 issues.
+Note: Some test targets reported failures:
+  - GenErikDJPackageTests (Swift Testing)

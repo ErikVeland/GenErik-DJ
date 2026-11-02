@@ -1,0 +1,25 @@
+{
+  "notes": "R11 recovery: prefer manual marker, then detected drop, then recent audible section. Fifteen focused tests passed. Isolated source preserves concurrent controller work. Device acceptance pending.",
+  "sourceCommit": "a0cf2850a5f0597b51eedf3b9cfc585d9af31810",
+  "sourceSHA256": "a11f675b736f01c17dae65bc9afc974f9ab23f64b8a4a3753f2d6c1e27871402",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 43.66,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "request": "R11",
+      "report": "Arm with best possible recovery",
+      "result": "Build 48 installed and launched. Erik listening and feel acceptance pending.",
+      "sourceBranch": "feature/recovery-fallback",
+      "integration": "Pending. Shared integration checkout contains concurrent controller and coordination changes. These were preserved."
+    }
+  ],
+  "log": "TestBuilds/ipad/build-48.log",
+  "build": 48,
+  "app": "TestBuilds/ipad/48/GenErikDJ.app",
+  "appSHA256": "40109395d0361901aba655e625138dd6cee7bd84c9c4e03d5b08f32408cba4ce",
+  "state": "testing",
+  "createdUTC": "2026-11-02T12:31:44.846790+00:00",
+  "installedUTC": "2026-11-02T12:32:04.855804+00:00",
+  "launchedUTC": "2026-11-02T12:32:05.420425+00:00"
+}

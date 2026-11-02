@@ -155,7 +155,7 @@ struct HistoryBrowser: View {
 /// Settings in two columns: a category list and its options.
 struct SettingsBrowser: View {
     enum Page: String, CaseIterable { case playback = "Playback", extras = "Extra Controls", library = "Library", notifications = "Notifications",
-                                      browser = "Browser", mixcloud = "Mixcloud", features = "Features", about = "About" }
+                                      browser = "Browser", controllers = "Controllers", mixcloud = "Mixcloud", features = "Features", about = "About" }
     @Bindable var model: ReplicaModel
     var importAudio: () -> Void = {}
     var linkCollection: () -> Void = {}
@@ -206,6 +206,8 @@ struct SettingsBrowser: View {
         case .browser:
             Toggle("Only load to off-air Decks", isOn: $offAir)
             Text("A playing deck refuses new tracks while this is on.").font(.caption).foregroundStyle(.secondary)
+        case .controllers:
+            ControllerSettingsView(model: model)
         case .mixcloud:
             Text("Mixcloud upload").font(.headline)
             Text("Recordings share from the Recordings section with the system share sheet, which includes any installed upload app. This build has no Mixcloud sign-in.")

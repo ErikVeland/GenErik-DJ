@@ -53,6 +53,7 @@ final class WaveformGestureSession {
     private var ignoringContacts=false
     private var lastScratchX: Double?
     private var lastScratchTime: TimeInterval?
+    private var scratchContact: Int?
     func handle(_ event: SurfaceEvent, model: ReplicaModel, deck: DeckID, span: Double,
                 onZoom: (Double) -> Void = { _ in }) {
         func frame(_ x: Double) -> Double { model.boundedFrame(center+(x-0.5)*span,deck:deck) }
@@ -91,7 +92,7 @@ final class WaveformGestureSession {
             frozenAtStart=model.frozen.contains(deck); familyAtStart=model.superSlicerFamily(deck:deck)
             initial=event.points; center=model.viewport[deck] ?? 0; initialGrid=model.grid(deck); initialTiming=model.timing(deck)
             multi=false; gridPinch=nil; audition=false; moved=false; lastSlice=nil; lastAction=nil; dismissLoop=false
-            lastScratchX=first.x; lastScratchTime=ProcessInfo.processInfo.systemUptime
+            lastScratchX=first.x; lastScratchTime=ProcessInfo.processInfo.systemUptime; scratchContact=nil
             let state=model.playbackSnapshot?[deck]
             wasLoop=state?.loopEnabled == true
             wasPlaying=state?.phase == .playing
@@ -193,7 +194,16 @@ final class WaveformGestureSession {
                     }
                     let action=model.superSlicerFamily(deck:deck).action(at:contact.y)
                     if action == .scratch {
-                        model.perform(.touch,deck:deck,value:frame(contact.x),touchRate:1)
+                        let now=ProcessInfo.processInfo.systemUptime
+                        let entering=lastAction != .scratch || scratchContact != contact.id
+                        if entering && audition { model.perform(.touch,deck:deck,enabled:false) }
+                        let elapsed=max(0.001,now-(lastScratchTime ?? now))
+                        let movement=entering ? 0:contact.x-(lastScratchX ?? contact.x)
+                        let sampleRate=model.track(deck)?.analysis.sampleRate ?? 44100
+                        let rate=min(4,max(-4,movement*span/(sampleRate*elapsed)))
+                        // Anchor once. Native rate updates preserve the continuous cursor.
+                        model.perform(.touch,deck:deck,value:frame(contact.x),touchRate:rate)
+                        lastScratchX=contact.x; lastScratchTime=now; scratchContact=contact.id
                         lastSlice=region.target; lastAction=action; audition=true
                     } else if !action.isSliceRepeat || lastSlice != region.target || lastAction != action {
                         // One compound action also restores native rate when entering the Slice region.

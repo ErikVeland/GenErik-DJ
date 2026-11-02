@@ -112,10 +112,32 @@ private func recoveryTransport() throws -> (SampleTransport, UInt64) {
     let silent = [WaveformBin](repeating: .init(minimum: 0, maximum: 0, rms: 0), count: 400)
     #expect(RecoveryPlan(waveform: silent, framesPerBin: 25, frameCount: 10000, timing: timing) == nil)
     let steady = [WaveformBin](repeating: .init(minimum: -0.5, maximum: 0.5, rms: 0.5), count: 400)
-    #expect(RecoveryPlan(waveform: steady, framesPerBin: 25, frameCount: 10000, timing: timing)?.dropFrame == nil)
+    let fallback = try #require(RecoveryPlan(waveform: steady, framesPerBin: 25, frameCount: 10000, timing: timing))
+    #expect(fallback.dropFrame == 6800)
     let plan = try #require(RecoveryPlan(waveform: steady, framesPerBin: 25, frameCount: 10000,
         timing: timing, dropOverride: 5623))
     #expect(plan.dropFrame == 5600)
+}
+
+@Test func recoveryFallbackSkipsQuietSectionStartsAndKeepsDownbeatAlignment() throws {
+    let timing = BeatTiming(fixed: try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 100))
+    let bins = (0..<400).map { index in
+        WaveformBin(minimum: -0.5, maximum: 0.5, rms: index >= 272 ? 0.04 : 0.5)
+    }
+    let plan = try #require(RecoveryPlan(waveform: bins, framesPerBin: 25, frameCount: 10000, timing: timing))
+    #expect(plan.dropFrame == 6600)
+    let frame = try #require(plan.dropFrame)
+    #expect(frame < plan.endFrame)
+    #expect(timing.beat(atFrame: frame).truncatingRemainder(dividingBy: 4) == 0)
+    #expect(frame < 6800)
+}
+
+@Test func recoveryFallbackHandlesShortTracksAndOffsetGrids() throws {
+    let timing = BeatTiming(fixed: try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 100, downbeatOffset: 1))
+    let bins = [WaveformBin](repeating: .init(minimum: -0.5, maximum: 0.5, rms: 0.5), count: 12)
+    let plan = try #require(RecoveryPlan(waveform: bins, framesPerBin: 25, frameCount: 300, timing: timing))
+    #expect(plan.dropFrame == 50)
+    #expect(plan.endFrame == 300)
 }
 
 @Test func recoveryEndpointRemainsAvailableWithoutADropForAutoMix() throws {

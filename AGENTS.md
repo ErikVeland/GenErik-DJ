@@ -4,6 +4,10 @@
 
 Preserve Erik's TDJ1 touch-first performance workflow. Continuous clean audio and immediate performance controls take priority over new features. Read `docs/coordination/README.md` and the request ledger before starting work.
 
+## Current development loop
+
+Erik is the sole developer and acceptance tester. The active target is iPad only until he says otherwise. Follow `docs/testing/README.md`: feedback, one focused change, one incremental signed iPad build, install, hand back and stop. Use `tools/ipad_test.py`. Do not package the Mac app, run simulator builds, run broad regression sweeps or start other chats/agents in the routine loop. Keep release qualification separate and user-directed. Preserve a build number and feedback history for each iteration.
+
 ## Coordination and Git hygiene
 
 - Use `feature/project-integration` as the current integration branch. Do not commit directly to `main`.

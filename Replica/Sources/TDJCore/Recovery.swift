@@ -5,7 +5,7 @@ public enum RecoveryMode: String, Codable, CaseIterable, Sendable {
     public var title: String {
         switch self {
         case .off: "Off"
-        case .replayLastDrop: "Replay last drop"
+        case .replayLastDrop: "Replay best section"
         case .autoMix: "Auto-mix next track"
         }
     }
@@ -23,7 +23,7 @@ public struct RecoverySettings: Codable, Equatable, Sendable {
     }
 }
 
-/// End is an exclusive beat boundary. A detected drop is an estimate, not a cue edit.
+/// End is an exclusive beat boundary. Replay prefers a manual marker, then a drop, then an audible section.
 public struct RecoveryPlan: Equatable, Sendable {
     public let dropFrame: Double?
     public let endFrame: Double
@@ -62,6 +62,31 @@ public struct RecoveryPlan: Equatable, Sendable {
                     let before = energy(from: timing.frame(atBeat: beat - 4), to: frame)
                     let after = energy(from: frame, to: timing.frame(atBeat: beat + 16))
                     if after > Double(peak) * 0.35 && after > before * 1.8 { candidate = frame }
+                }
+            }
+            if candidate == nil, first.isFinite, first < endBeat {
+                let offset = Double(timing.downbeatOffset)
+                let preferred = max(first, floor((endBeat - 64 - offset) / 4) * 4 + offset)
+                // Prefer the last 16 bars. Move earlier if that section starts quietly.
+                for beat in stride(from: preferred, through: max(first, preferred - 64), by: -4) {
+                    let frame = timing.frame(atBeat: beat)
+                    let openingEnd = min(end, timing.frame(atBeat: beat + 4))
+                    if frame >= 0, frame < end,
+                       energy(from: frame, to: openingEnd) >= Double(peak) * 0.1 {
+                        candidate = frame
+                        break
+                    }
+                }
+            }
+            if candidate == nil {
+                // Sparse or very short tracks can lack an audible full-bar opening.
+                let strongest = waveform.indices.filter { Double($0) * Double(framesPerBin) < end }
+                    .max { waveform[$0].rms < waveform[$1].rms }
+                if let strongest {
+                    let frame = Double(strongest) * Double(framesPerBin)
+                    let beat = floor((timing.beat(atFrame: frame) - Double(timing.downbeatOffset)) / 4) * 4
+                        + Double(timing.downbeatOffset)
+                    candidate = max(0, timing.frame(atBeat: beat))
                 }
             }
             drop = candidate

@@ -5,7 +5,7 @@ import Testing
 
 @Suite(.serialized)
 struct RecoveryIntegrationTests {
-    @Test(.timeLimit(.minutes(1))) @MainActor func recoveryPreparesColdStreamedDropBeforeTheFinalBeat() async throws {
+    @Test(.timeLimit(.minutes(1)), arguments: [true, false]) @MainActor func recoveryPreparesColdStreamedDropBeforeTheFinalBeat(manualMarker: Bool) async throws {
         var project = URL(fileURLWithPath: #filePath)
         for _ in 0..<4 { project.deleteLastPathComponent() }
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -26,7 +26,8 @@ struct RecoveryIntegrationTests {
         await controller.flushSourcePreparations()
         let timing = try #require(track.timing)
         let plan = try #require(RecoveryPlan(waveform: analysis.waveform, framesPerBin: 441,
-            frameCount: 705600, timing: timing, dropOverride: 176400))
+            frameCount: 705600, timing: timing, dropOverride: manualMarker ? 176400 : nil))
+        #expect(plan.dropFrame == (manualMarker ? 176400 : 0))
         try await controller.prepareRecoveryReplay(plan, deck: .a)
         #expect(controller.core.snapshot()?.a.recoveryArmed == true)
         try controller.setMasterBPM(144)

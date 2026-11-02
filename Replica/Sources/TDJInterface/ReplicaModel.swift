@@ -4,6 +4,7 @@ import TDJCore
 
 @MainActor @Observable
 public final class ReplicaModel {
+    let controllerInput = ControllerMIDIConnection()
     let effectDisplay=EffectControlDisplay()
     var effects: [DeckID:[Int:EffectControl]] = [:] {
         didSet { effectDisplay.publish(effects) }
@@ -884,6 +885,7 @@ public final class ReplicaModel {
         }
     }
     public func stopPlaybackMonitor() {
+        controllerInput.stop()
         recoveryState.cancel()
         suggestionWork?.cancel()
         persistMixerPreferences()

@@ -80,3 +80,13 @@ Loop Stutter uses a user-authorized educated guess: the top, middle and bottom r
 ## Requested QoL controls — 30 October 2026
 
 The shared wheel accepts a double tap to reset to the prepared source BPM of its selected sync reference. Selection currently uses the earliest-started playing synced deck, then paused/ready fallback, because there is no separate master-deck selector. Loop length now has per-deck saved sizes, direct selection and halve/double controls, including resizing an active loop. Delay exposes per-slot SYNC/FREE timing. These requested extensions are implemented; original gesture equivalence and current-device manual input acceptance remain open. See Playback.md and Effects.md.
+
+## SuperSlicer Scratch and Brake correction — 2 November 2026, R22
+
+Erik confirmed forward/back Scratch movement and a reachable Brake stop. This correction supersedes the fixed-rate Scratch route and Brake response described above.
+
+Scratch anchors at the selected waveform position with rate zero. Horizontal movement sets speed and direction from source distance and elapsed time, limited to four times speed in either direction. Later updates preserve the native playback cursor. An unchanged horizontal position in a contact event sets rate zero. Missing events do not create a timed stop. A new contact owner or entry from another action starts at rest and resets the movement baseline. Release and cancellation use the existing transport and Flux routes.
+
+Brake maps the top region from normal speed to zero. The bottom tenth of that region holds zero speed. This stop band, the linear curve and Scratch sensitivity are implementation choices for Erik to test. Pitch curves and Loop Stutter lengths retain their existing provisional policies. This change does not establish exact NI DSP equivalence.
+
+Focused results, source identity, the signed build and deployment status are recorded against R22 and the numbered iPad build. Physical sound and gesture acceptance remain with Erik.

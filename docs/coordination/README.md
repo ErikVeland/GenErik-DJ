@@ -2,6 +2,8 @@
 
 Updated 2 November 2026, Australia/Brisbane. This is the current project entry point.
 
+**Current working mode:** [Erik's minute-scale iPad loop](../testing/README.md). iPad only, Erik as sole developer/tester. The broader release gates below are separate from routine iterations.
+
 ## Goal
 
 Build Erik's personal successor to the DJ software he has used for 13 years. Preserve the TDJ1 touch workflow and make the sound, preparation and performance controls dependable enough for his real gigs. Visual polish and personalised features must support that workflow.

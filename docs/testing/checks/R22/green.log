@@ -1,0 +1,66 @@
+[0/1] Planning build
+Building for debugging...
+[0/11] Write sources
+[1/11] Write swift-version-39B54973F684ADAB.txt
+[3/11] Compiling TDJInterface SuperSlicerGeometry.swift
+[4/11] Emitting module TDJInterface
+[5/12] Compiling TDJInterface WaveformTouch.swift
+[6/13] Compiling TDJInterface ReplicaView.swift
+[6/22] Write Objects.LinkFileList
+[8/22] Linking tdj-runtime-validation
+[9/22] Linking tdj-preview
+[10/22] Applying tdj-runtime-validation
+[11/22] Applying tdj-preview
+[12/22] Write Objects.LinkFileList
+[13/22] Linking tdj-audio-check-preview
+[14/22] Applying tdj-audio-check-preview
+[16/22] Compiling TDJInterfaceTests GestureWorkflowTests.swift
+[17/22] Compiling TDJInterfaceTests GridContactTests.swift
+[18/22] Compiling TDJInterfaceTests MouseContactLifecycleTests.swift
+[19/22] Compiling TDJInterfaceTests PreparationLoadPinTests.swift
+[20/22] Emitting module TDJInterfaceTests
+[21/25] Compiling TDJInterfaceTests StreamedPlaybackIntegrationTests.swift
+[22/25] Compiling TDJInterfaceTests SuperSlicerGestureTests.swift
+[23/25] Compiling TDJInterfaceTests WaveformScratchContinuityTests.swift
+[23/25] Write Objects.LinkFileList
+[24/25] Linking GenErikDJPackageTests
+Build complete! (10.92s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test superSlicerSameSliceActionTransitionAndSurvivingContact() started.
+􀟈  Test superSlicerScratchFollowsMovementWithoutRestartingTheCursor() started.
+􀟈  Test superSlicerScratchContactHandoverStartsAtRest() started.
+􀟈  Test loopStutterNewestContactRestoresTheOlderLength() started.
+􀟈  Test slowWaveformMovementDoesNotMuteScratch() started.
+􀟈  Test superSlicerBrakeReachesAndHoldsAStopInsideItsRegion() started.
+􀟈  Test loopStutterFluxReleaseKeepsOtherDeckSamplesAndClockExact() started.
+􀟈  Test superSlicerRegionsDriveCompoundActionsAndRelease() started.
+􀟈  Test loopStutterContextChangesDoNotReuseTheHeldContact() started.
+􀟈  Test superSlicerFamilyChangeCancelsHoldAndKeepsDecksIndependent() started.
+􀟈  Test loopStutterChangesLengthWithoutRetriggeringInsideOneRow() started.
+􀟈  Test loopStutterClipsPlayableLengthsAndKeepsOneFrameMinimum() started.
+􀟈  Test loopStutterRowChangeRetainsSlicerQuantizeAndCancelsPendingEntry() started.
+􀟈  Test superSlicerPrimaryFamilyOrderAndVerticalLabels() started.
+􀟈  Test superSlicerBlankContactNeverReplacesValidHeldRegion() started.
+􀟈  Test loopStutterColdRowChangesKeepAudioUntilReadyAndCancelSafely(_:) started.
+􀟈  Test case passing 1 argument cancel → false to loopStutterColdRowChangesKeepAudioUntilReadyAndCancelSafely(_:) started.
+􀟈  Test case passing 1 argument cancel → true to loopStutterColdRowChangesKeepAudioUntilReadyAndCancelSafely(_:) started.
+􁁛  Test superSlicerPrimaryFamilyOrderAndVerticalLabels() passed after 0.001 seconds.
+􁁛  Test loopStutterColdRowChangesKeepAudioUntilReadyAndCancelSafely(_:) with 2 test cases passed after 0.704 seconds.
+􁁛  Test superSlicerSameSliceActionTransitionAndSurvivingContact() passed after 6.254 seconds.
+􁁛  Test superSlicerScratchContactHandoverStartsAtRest() passed after 12.474 seconds.
+􁁛  Test loopStutterClipsPlayableLengthsAndKeepsOneFrameMinimum() passed after 17.235 seconds.
+􁁛  Test loopStutterChangesLengthWithoutRetriggeringInsideOneRow() passed after 21.789 seconds.
+􁁛  Test superSlicerFamilyChangeCancelsHoldAndKeepsDecksIndependent() passed after 26.386 seconds.
+􁁛  Test loopStutterNewestContactRestoresTheOlderLength() passed after 30.821 seconds.
+􁁛  Test loopStutterRowChangeRetainsSlicerQuantizeAndCancelsPendingEntry() passed after 39.721 seconds.
+􁁛  Test slowWaveformMovementDoesNotMuteScratch() passed after 45.172 seconds.
+􁁛  Test superSlicerRegionsDriveCompoundActionsAndRelease() passed after 49.731 seconds.
+􁁛  Test superSlicerScratchFollowsMovementWithoutRestartingTheCursor() passed after 55.123 seconds.
+􁁛  Test superSlicerBlankContactNeverReplacesValidHeldRegion() passed after 64.625 seconds.
+􁁛  Test loopStutterFluxReleaseKeepsOtherDeckSamplesAndClockExact() passed after 78.408 seconds.
+􁁛  Test superSlicerBrakeReachesAndHoldsAStopInsideItsRegion() passed after 92.308 seconds.
+􁁛  Test loopStutterContextChangesDoNotReuseTheHeldContact() passed after 104.814 seconds.
+􁁛  Test run with 16 tests in 0 suites passed after 104.815 seconds.

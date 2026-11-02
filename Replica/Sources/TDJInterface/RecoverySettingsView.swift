@@ -13,11 +13,11 @@ struct RecoverySettingsView: View {
                     Text("8 bars before the end").tag(8)
                     Text("16 bars before the end").tag(16)
                 }
-                Text("If the next track is not ready, replay the last drop at the final beat.")
+                Text("If the next track is not ready, replay the best available section at the final beat.")
                     .font(.caption).foregroundStyle(.secondary)
             }
             if model.performance.recovery.mode != .off {
-                Text("Replay waits until the final beat. Drop estimates can be set manually below.")
+                Text("Replay waits until the final beat. It uses your marker, a detected drop, or a recent audible section.")
                     .font(.caption).foregroundStyle(.secondary)
                 ForEach(DeckID.allCases, id: \.self) { deck in
                     if let track = model.track(deck) {

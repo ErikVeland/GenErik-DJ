@@ -1,0 +1,27 @@
+{
+  "notes": "R22: SuperSlicer Scratch follows finger speed and direction, starts contact ownership at rest, and Brake reaches a full stop. Focused gesture, Flux and native Scratch continuity checks passed. Erik tests sound and feel.",
+  "sourceCommit": "e5b3ee654dcaeba229170535900026e4df514aee",
+  "sourceSHA256": "94693865408ac8a372593b289363eaecd069aa20224a896588e5539cf48e759e",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 35.39,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "kind": "request",
+      "text": "Erik confirmed the described SuperSlicer Scratch behaviour and requested implementation. No prior build number was supplied. Build 45 was the last saved candidate; its installation was unconfirmed."
+    }
+  ],
+  "log": "TestBuilds/ipad/build-46.log",
+  "build": 46,
+  "app": "TestBuilds/ipad/46/GenErikDJ.app",
+  "appSHA256": "617a745c649afededeaca23ba73fdd96da5c6403f5fb461938b95c9a1bf7832c",
+  "state": "testing",
+  "createdUTC": "2026-11-02T12:19:43.340357+00:00",
+  "installedUTC": "2026-11-02T12:19:45.997856+00:00",
+  "launchedUTC": "2026-11-02T12:19:46.513209+00:00",
+  "requestIDs": [
+    "R22"
+  ],
+  "verification": "docs/testing/checks/R22/results.json",
+  "acceptance": "Pending Erik testing Scratch direction/sensitivity, contact handover, Brake stop/release and Flux on the physical iPad."
+}
