@@ -115,11 +115,11 @@ extension ReplicaModel {
     }
     public func recoveryLabel(deck: DeckID) -> String? {
         guard performance.recovery.mode != .off, let state = playbackSnapshot?[deck], state.phase == .playing else { return nil }
-        if state.recoveryActive { return "Replaying last drop" }
+        if state.recoveryActive { return "Replaying recovery section" }
         if state.recoveryArmed {
             let target = state.recoveryMix ? state.recoveryMixStart : state.recoveryEnd
             let remaining = max(0, (target - state.sourceFrame) / max(1, state.speed * (state.grid?.sampleRate ?? 48000)))
-            let mode = state.recoveryMix ? "Auto-mix" : "Replay last drop"
+            let mode = state.recoveryMix ? "Auto-mix" : "Recovery replay"
             return remaining > 0 ? "\(mode) · \(Int(ceil(remaining)))s" : mode
         }
         return recoveryState.feedback[deck]
