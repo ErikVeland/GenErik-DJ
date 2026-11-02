@@ -813,8 +813,11 @@ static int apply(tdj_engine *e, tdj_command c) {
                 (c.value2>0 && c.value2<=c.value) || !isfinite(c.value3) || c.value3<0 || c.value3>32) return TDJ_INVALID;
             bool same_pending=with_rate && d->touch_active && d->jump_pending && !d->jump_loop &&
                 c.value==d->jump_frame && c.value2==d->pending_touch_end;
+            // A rate-bearing update belongs to the current scratch session. Keep
+            // its sample cursor continuous; re-anchoring it at each finger event
+            // resets the keylock stretcher and produces audible clicks.
             bool same_active=with_rate && d->touch_active && !d->jump_pending &&
-                c.value==d->touch_start && c.value2==d->touch_end;
+                c.value2==d->touch_end;
             if(same_pending || same_active) {
                 deck proposed=*d;
                 if(same_pending){proposed.pending_touch_rate=c.touch_rate;proposed.pending_touch_rate_valid=true;}

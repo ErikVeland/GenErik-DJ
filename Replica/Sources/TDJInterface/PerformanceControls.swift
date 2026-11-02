@@ -8,8 +8,6 @@ struct PerformanceControls: View {
     @AppStorage(BrowserSettings.fluxModeKey) private var fluxMode = true
     var body: some View {
         HStack(spacing:6) {
-            Button("LOOP") { model.toggleLoop(deck:deck) }
-                .foregroundStyle(model.controlDisplay[deck].loopEnabled == true ? Color.green : Color.gray)
             Button { setLoopSize(direction:-1) } label: { Image(systemName:"minus") }
                 .accessibilityLabel("Halve loop length on deck \(deck.rawValue.uppercased())")
             Menu {

@@ -1,4 +1,5 @@
 import SwiftUI
+import CoreText
 
 /// The minimal disc mark and a readable name for compact app headers.
 struct GenErikBrandLockup: View {
@@ -9,41 +10,45 @@ struct GenErikBrandLockup: View {
         return .module
     }()
 
-    static var markImage: Image { Self().mark }
+    private static let fontRegistered: Bool = {
+        guard let url = resourceBundle.url(forResource: "Rajdhani-Bold", withExtension: "ttf", subdirectory: "Fonts") else {
+            return false
+        }
+        var error: Unmanaged<CFError>?
+        return CTFontManagerRegisterFontsForURL(url as CFURL, .process, &error)
+    }()
+
+    private static var brandFont: Font {
+        _ = fontRegistered
+        return .custom("Rajdhani-Bold", size: 18, relativeTo: .headline)
+    }
+
     private var mark: Image {
         #if os(macOS)
         // The native Swift build copies asset catalogues without compiling them.
-        if let url = Self.resourceBundle.url(forResource: "GenErikMinimal", withExtension: "png",
-            subdirectory: "BrandAssets.xcassets/GenErikMinimal.imageset"),
+        if let url = Self.resourceBundle.url(forResource: "GenErikMark", withExtension: "pdf",
+            subdirectory: "BrandAssets.xcassets/GenErikMark.imageset"),
            let image = NSImage(contentsOf: url) {
+            image.isTemplate = true
             return Image(nsImage: image)
         }
         #endif
-        return Image("GenErikMinimal", bundle: Self.resourceBundle)
+        return Image("GenErikMark", bundle: Self.resourceBundle).renderingMode(.template)
     }
 
     var body: some View {
         HStack(spacing: 8) {
-            mark
+            mark.renderingMode(.template)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 28, height: 28)
-                .clipShape(RoundedRectangle(cornerRadius: 5))
                 .accessibilityHidden(true)
             Text("GenErik DJ")
-                .font(.system(size: 15, weight: .bold))
+                .font(Self.brandFont)
                 .fixedSize()
         }
-        .foregroundStyle(Color(white: 0.94))
+        .foregroundStyle(PerformancePalette.text)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("GenErik DJ")
-    }
-}
-
-/// The mark alone, for the far end of the header.
-struct GenErikBrandMark: View {
-    var body: some View {
-        GenErikBrandLockup.markImage.resizable().scaledToFit()
-            .clipShape(RoundedRectangle(cornerRadius: 7)).accessibilityHidden(true)
     }
 }

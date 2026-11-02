@@ -198,7 +198,6 @@ private struct DeckView: View {
     @State private var effectsVisible = false
     @State private var effectsInput=TouchSurfaceInputGate()
     @State private var mixerInput=TouchSurfaceInputGate()
-    @AppStorage(DeckToolSettings.loopStepper) private var loopStepper = false
     @AppStorage(DeckToolSettings.tempoFader) private var tempoFader = false
     @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
     @AppStorage(DeckToolSettings.hotcuePads) private var hotcuePads = false
@@ -248,7 +247,6 @@ private struct DeckView: View {
             }
                 .foregroundStyle(mixerVisible || snapshotMixer ? PerformancePalette.cyan : Color(white: 0.65))
                 .accessibilityLabel("EQ and filter for deck \(deck.rawValue.uppercased())")
-            if loopStepper { LoopSizeStepper(model:model,deck:deck) }
             Button { model.toggleLoop(deck:deck) } label: { Image(systemName:"repeat") }
                 .foregroundStyle(playback?.loopEnabled == true ? PerformancePalette.syncGreen : Color(white: 0.75))
                 .disabled(track == nil).accessibilityLabel("Loop on deck \(deck.rawValue.uppercased())")
@@ -576,7 +574,7 @@ private struct PerformanceToolbar: View {
                 Spacer(minLength: 8)
                 Button { model.helpVisible.toggle() } label: {
                     Image(systemName: "info.circle.fill").font(.system(size: 18))
-                        .frame(width: 46, height: 34).bevelPanel(cornerRadius: 5)
+                        .frame(width: 44, height: 34).bevelPanel(cornerRadius: 5)
                         .overlay(alignment: .topLeading) {
                             if noticeCount > 0 {
                                 Text("\(noticeCount)").font(.system(size: 11, weight: .bold)).foregroundStyle(.white)
@@ -588,16 +586,15 @@ private struct PerformanceToolbar: View {
                     Button { if model.browserVisible { model.browserVisible = false } else { model.showLibrary() } } label: {
                         Image(systemName: "music.note").font(.system(size: 18))
                             .foregroundStyle(model.browserVisible ? PerformancePalette.cyan : PerformancePalette.text)
-                            .frame(width: 52, height: 34)
+                            .frame(width: 44, height: 34)
                     }.accessibilityLabel("Music library")
                     Divider().frame(height: 22)
                     Button { audioSettingsPresented.toggle() } label: {
-                        Image(systemName: "speaker.wave.2.fill").font(.system(size: 16)).frame(width: 52, height: 34)
+                        Image(systemName: "speaker.wave.2.fill").font(.system(size: 16)).frame(width: 44, height: 34)
                     }
                     .accessibilityLabel("Audio routing")
                     .popover(isPresented: $audioSettingsPresented) { AudioQuickPanel(model: model) }
                 }.bevelPanel(cornerRadius: 5)
-                GenErikBrandMark().frame(width: 34, height: 34)
             }.padding(.horizontal, 14).frame(height: 50)
             .background(LinearGradient(colors: [PerformancePalette.raised, PerformancePalette.frame], startPoint: .top, endPoint: .bottom))
             .animation(.easeOut(duration: 0.4), value: model.preparationImport)
@@ -899,23 +896,15 @@ private struct DeckFooter: View {
 
     var body: some View {
             HStack(spacing: 18) {
-                if editing {
-                    Button("½") { model.correctTempo(deck: deck, factor: 0.5) }.disabled(model.grid(deck) == nil)
-                    Button("×2") { model.correctTempo(deck: deck, factor: 2) }.disabled(model.grid(deck) == nil)
-                    Button("TAP") { model.tapTempo(deck: deck) }.font(.system(size: 11, weight: .semibold))
-                    Spacer()
-                    if let grid = model.grid(deck) {
-                        ForEach(0..<4) { beat in
-                            Button("\(beat + 1)") { model.selectDownbeat(deck: deck, beat: beat) }
-                                .foregroundStyle(grid.downbeatOffset == beat ? .orange : deckBlue)
-                        }
+                Text(remainingTime)
+                    .font(.system(size: 11, design: .monospaced)).foregroundStyle(.secondary)
+                Spacer()
+                if editing, let grid = model.grid(deck) {
+                    ForEach(0..<4) { beat in
+                        Button("\(beat + 1)") { model.selectDownbeat(deck: deck, beat: beat) }
+                            .foregroundStyle(grid.downbeatOffset == beat ? .orange : deckBlue)
                     }
-                } else {
-                    Text(remainingTime)
-                        .font(.system(size: 11, design: .monospaced)).foregroundStyle(.secondary)
-                    Spacer()
                 }
-
             }.padding(.horizontal, 18).frame(height: 36).background(surface)
 
     }

@@ -82,7 +82,7 @@ extension SourceControl {
             case .touch:
                 preservePending = false
                 if enabled {
-                    target.position = bounded(value)
+                    target.position = state.touchActive && touchRate != nil ? state.sourceFrame : bounded(value)
                     target.loopStart = end > value ? value : state.loopEnabled ? state.loopStart : 0
                     target.loopEnd = end > value ? end : state.loopEnabled ? state.loopEnd : 0
                     if !state.touchActive && !state.loopEnabled { target.continuingPosition = state.sourceFrame }
