@@ -5,7 +5,18 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 33.59,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "kind": "setup",
+      "text": "Erik confirms original Z1 with RCA main outputs and headphones. iPad available for update and testing. Existing installed build 53 matches current source."
+    },
+    {
+      "kind": "launch-attempt",
+      "recordedUTC": "2026-11-02T22:07:07.282954+00:00",
+      "result": "failed",
+      "text": "Remote launch failed: CoreDeviceError 12040, caused by device locked (10003). Build remains installed. Erik can unlock the iPad and open GenErik DJ Test. No subsequent device actions."
+    }
+  ],
   "log": "TestBuilds/ipad/build-53.log",
   "build": 53,
   "app": "TestBuilds/ipad/53/GenErikDJ.app",
@@ -21,5 +32,5 @@
   "deviceID": "00008160-000859C436800036",
   "deploymentStatus": "installed",
   "deploymentNote": "Installation confirmed by devicectl. Automatic launch timed out after 10 seconds. Erik must open GenErik DJ Test manually. No further device actions.",
-  "acceptance": "Pending Erik. Build and installation do not establish listening or performance acceptance."
+  "acceptance": "Pending Erik verifying original Z1 RCA main output, independent headphone cueing, controller connection and controls, then listening and rehearsal on build 53."
 }
