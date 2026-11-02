@@ -72,7 +72,7 @@ jobs:
         run: |
           set -o pipefail
           swift test --package-path Replica --configuration release \
-            --filter 'reverb|Reverb|effect|Effect|delay|Delay|flanger|Flanger|grain|Grain' \
+            --filter 'reverb|Reverb|effect|Effect|delay|Delay|flanger|Flanger|grain|Grain|dlc|Dlc|iceverb|transpose|digitalLoFi|beatmasher|gater' \
             2>&1 | tee "$RUNNER_TEMP/reverb-swift-tests.log"
 
       - name: Build the unsigned iPad application

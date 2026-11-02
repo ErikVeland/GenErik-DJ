@@ -93,7 +93,7 @@ private func dlcTone(_ effect: PerformanceEffect?,x: Double) throws -> [Float] {
     #expect(core.acknowledgements().allSatisfy { $0.error == nil })
 }
 
-@Test func dlcLiveProcessorsCannotReplayPreBypassAudio() throws {
+@Test func dlcLiveProcessorsCannotReplayClearedAudio() throws {
     for kind in [PerformanceEffect.iceverb,.transposeStretch] {
         let samples=(0..<16000).flatMap { frame -> [Float] in
             let value: Float=frame<4000 ? 0.25 : 0
@@ -103,7 +103,9 @@ private func dlcTone(_ effect: PerformanceEffect?,x: Double) throws -> [Float] {
         try core.setEffect(kind.rawValue,slot:0,x:0.8,y:1,enabled:true,deck:.a)
         try core.play(deck:.a,generation:g)
         _=core.renderOffline(frames:3500)
-        try core.setEffect(kind.rawValue,slot:0,x:0.8,y:1,enabled:false,deck:.a)
+        // Iceverb retains its released tail; Y=0 explicitly clears it before re-engagement.
+        let bypassY: Double = kind == .iceverb ? 0 : 1
+        try core.setEffect(kind.rawValue,slot:0,x:0.8,y:bypassY,enabled:false,deck:.a)
         _=core.renderOffline(frames:1500)
         try core.setEffect(kind.rawValue,slot:0,x:0.8,y:1,enabled:true,deck:.a)
         let audio=core.renderOffline(frames:5000)
