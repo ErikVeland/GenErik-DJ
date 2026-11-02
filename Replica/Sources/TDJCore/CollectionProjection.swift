@@ -27,11 +27,12 @@ public struct CollectionProjection: Sendable {
                 }.map { .init(id: $0, name: $0.isEmpty ? "Unknown" : $0) }
             }
             try check()
+            let searching = search.contains { !$0.isWhitespace }
             var candidates = tracks
-            if let suggestionIDs {
+            if !searching, let suggestionIDs {
                 let lookup = Dictionary(tracks.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
                 candidates = suggestionIDs.compactMap { lookup[$0] }
-            } else if let group {
+            } else if !searching, let group {
                 if category == .playlists {
                     if group.hasPrefix("music:"), let catalog {
                         let sources = Set(catalog.songs(playlistID: String(group.dropFirst(6))).map(\.source))
@@ -45,7 +46,7 @@ public struct CollectionProjection: Sendable {
                 }
             }
             try check()
-            let result = CollectionBrowser.tracks(candidates, search: search, sort: suggestionIDs == nil ? sort : nil)
+            let result = CollectionBrowser.tracks(candidates, search: search, sort: suggestionIDs == nil || searching ? sort : nil)
             try check()
             return Self(tracks: result, groups: groups)
         }
