@@ -71,6 +71,14 @@ The table reports medians of each trial's p50/p99 and the largest observed candi
 
 Actual-device assessment still needs the complete app, both decks and six effects, control activity, device thermals, callback timing and audible output on the A10X. Apple Silicon CI validates another compiler/architecture but does not replace that device measurement.
 
+## Apple DSP follow-up
+
+`apple-dsp-runs.json` retains the first and third Apple CI DSP stages, including source commits, header hashes, functional results and every timing summary. Both DSP stages passed. Their full workflows were superseded while fixing separate Swift compilation issues; these are not complete app-build passes.
+
+The Apple results differ from Linux. In the first run, six-effect 128-frame median blocks were 42–43 microseconds for settled baseline controls versus 44–45 for the candidate, 45 versus 50 with continuous X, and 42 versus 48 during type/bypass churn. The third run also retains increases, with 128-frame candidate medians of 45–52 microseconds. The values concentrate near whole microseconds, making 16-frame percentage comparisons especially coarse. The longer-block increases exceed one such tick and must remain visible. The clock, scheduling and hosted environment do not establish A10X performance or an audio deadline guarantee.
+
+The current PR workflow records the eventual complete Swift-test and unsigned iPad-build result separately. No production reverb coefficient, filter or motion setting changed in the compiler-fix commits.
+
 ## Acoustic diagnostics
 
 The following are diagnostics of a 0.5-amplitude mono impulse sent equally to both input channels. Band decay uses causal third-order Butterworth bandpasses and a Schroeder -5 to -25 dB fit extrapolated to RT60. Echo density is the fraction of locally centered samples exceeding one standard deviation, normalized by the Gaussian expectation. These are not listening preference scores, and no Valhalla recording was compared.
