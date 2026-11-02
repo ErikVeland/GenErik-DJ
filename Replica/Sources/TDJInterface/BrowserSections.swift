@@ -197,6 +197,8 @@ struct SettingsBrowser: View {
             Button(action: importAudio) { Label("Import audio files", systemImage: "folder") }
             Button(action: linkCollection) { Label("Link DJ collection file", systemImage: "link") }
             Text("A linked collection is read at every launch and imported again when it changes.").font(.caption).foregroundStyle(.secondary)
+            Divider()
+            KeyImportReviewView(model: model)
         case .notifications:
             Toggle("Notification Center", isOn: $notificationCenter)
             Button("Reset Undiscovered Features") { model.helpVisible = true }

@@ -212,6 +212,7 @@ public final class ReplicaModel {
     @ObservationIgnored let nativeMusic = NativeMusicSessionState()
     let importAccess = SecurityScopedFileAccess()
     private let musicImportFileWork=BackgroundFileWork(label:"org.generikdj.music-import-cleanup")
+    @ObservationIgnored private let keyImportFileWork=BackgroundFileWork(label:"org.generikdj.key-import")
     public var preparingPlayback: Set<DeckID> = []
     var preparingNativeMusic: Set<DeckID> = []
     public var preparingTrack: Set<DeckID> { preparingPlayback.union(preparingNativeMusic) }
@@ -517,6 +518,37 @@ public final class ReplicaModel {
         status = "\(library.tracks.count) tracks analysed"
         refreshSuggestions()
     }
+
+    public func previewKeyImport(from url: URL) async throws -> (KeyImportManifest, KeyImportPlan) {
+        let data = try await importAccess.withAccess(to:url) {
+            let result: Result<Data,String> = await self.keyImportFileWork.run {
+                do {
+                    let handle = try FileHandle(forReadingFrom: url)
+                    defer { try? handle.close() }
+                    let limit = 2 * 1024 * 1024
+                    let data = try handle.read(upToCount: limit + 1) ?? Data()
+                    guard data.count <= limit else { return .failure("The key import exceeds the 2 MB limit.") }
+                    return .success(data)
+                } catch { return .failure(error.localizedDescription) }
+            }
+            switch result {
+            case .success(let data): return data
+            case .failure(let message): throw CoreError.invalidAudio(message)
+            }
+        }
+        let manifest=try JSONDecoder().decode(KeyImportManifest.self,from:data)
+        let plan=try await service.previewKeyImport(data:data)
+        return (manifest,plan)
+    }
+
+    public func applyKeyImport(_ plan: KeyImportPlan) async throws {
+        let changed=try await service.applyKeyImport(plan,preservePreparationFor:Set(loaded.values))
+        adoptLibrary(changed)
+        refreshSuggestions()
+        let count=plan.changes.filter(\.addsEvidence).count
+        status=count == 0 ? "No new key results were added." : "Applied \(count) key results."
+    }
+
     public func refreshMusicLibrary() async {
         if let pending = musicLibraryRefreshTask { await pending.value; return }
         guard !importing, !waveformShutdown else { return }
