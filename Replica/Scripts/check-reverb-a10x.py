@@ -187,7 +187,7 @@ def audition_files(output, variants):
         after_energy = float(np.sum(after_return * after_return))
         gain = np.sqrt(before_energy / max(after_energy, 1e-300))
         matched = dry + after_return * gain
-        shared_scale = min(1.0, 0.95 / max(float(np.max(np.abs(before))), float(np.max(np.abs(matched))), float(np.max(np.abs(dry))), 1e-9))
+        shared_scale = min(1.0, 0.95 / max(float(np.max(np.abs(before))), float(np.max(np.abs(after))), float(np.max(np.abs(matched))), float(np.max(np.abs(dry))), 1e-9))
         title = name.title()
         versions = [("Dry", dry), ("Candidate-App", after), ("Candidate-Matched", matched)]
         if "baseline" in variants:
