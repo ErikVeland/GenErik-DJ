@@ -1,13 +1,6 @@
 name: A10X reverb candidate
 
 on:
-  pull_request:
-    paths:
-      - '.github/workflows/a10x-reverb.yml'
-      - 'Replica/Sources/CTDJTransport/**'
-      - 'Replica/Tests/TDJCoreTests/**'
-      - 'Replica/Scripts/check-reverb-a10x.py'
-      - 'Replica/Scripts/reverb-a10x-probe.c'
   workflow_dispatch:
 
 permissions:
