@@ -1,6 +1,6 @@
 # Completion programme
 
-Erik requested completion of all remaining app work and integration with all Traktor controllers, including those outside TDJ iOS support. A hardware bridge is allowed. The available controller is the original Z1. This programme preserves the minute-scale iPad feedback loop.
+Erik requested completion of all remaining app work and integration with all NI controllers and class-compliant MIDI controllers, including Serato, Pioneer DJ/AlphaTheta and other controller ecosystems. A hardware bridge is allowed. The available controller is the original Z1, which has first priority. This programme preserves the minute-scale iPad feedback loop.
 
 ## Deliverable order
 

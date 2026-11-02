@@ -16,7 +16,11 @@ import Foundation
         precondition(pitches.map(\.normalized) == [0, 1])
         var other = ControllerMIDIDecoder()
         precondition(other.append([7, 127]).isEmpty, "Running status must not leak between inputs.")
-        precondition(decoder.append([0xc0, 12, 0xd0, 55]).isEmpty)
+        let expression = decoder.append([0xa3, 60, 66, 0xd4, 55, 0xc5, 12])
+        precondition(expression.map(\.kind) == [.polyPressure, .pressure, .program])
+        precondition(expression.map(\.channel) == [3, 4, 5])
+        precondition(expression.map(\.number) == [60, 0, 12])
+        precondition(expression.map(\.value) == [66, 55, 127])
         print("Controller MIDI packet checks passed.")
     }
 }
