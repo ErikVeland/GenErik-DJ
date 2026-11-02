@@ -14,7 +14,7 @@ Erik requested completion of all remaining app work and integration with all NI 
 | Key control and stems | Key shift/matching, prepared stem workflow and controller access | Preserve timing and playback continuity. Report A10X processing costs and any preparation/offline requirements. |
 | Remaining roadmap | Stems, controller feedback profiles, semantic phrase guidance, specified FX additions and approved streaming integrations | MIDI Learn, manual arrangement editing, next-event guidance and six FX slots already exist. Define separation models, feedback contracts, requested FX and an authorised streaming provider before adding more. Keep automatic section recognition with the R09 evidence gate. Confirm streaming scope against the local-library requirement before work. |
 | Polish and reliability | Resolve Erik's reported issues in the sound, touch workflow, library, recording and UI | One focused fix/build/test at a time. Erik confirms each result. |
-| Historical reconciliation | Disposition every meaningful private patch/request | Included, superseded, research, open or deferred. Keep original evidence. |
+| Historical reconciliation | Disposition every meaningful private patch/request | The present checkout can compare inventory hashes but does not contain the private source folders. Restore the candidate source before assigning semantic dispositions. Keep original evidence. |
 
 These deliverables remain open until their stated evidence exists. This document does not certify that all unfinished software, models, hardware or external integrations are complete.
 
