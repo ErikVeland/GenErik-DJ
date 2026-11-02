@@ -90,7 +90,7 @@ final class ControllerMIDIConnection {
             let source = UInt32(truncatingIfNeeded: UInt(bitPattern: context))
             let offset = MemoryLayout<MIDIPacketList>.offset(of: \.packet)!
             let dataOffset = MemoryLayout<MIDIPacket>.offset(of: \.data)!
-            var packet = UnsafeRawPointer(list).advanced(by: offset).assumingMemoryBound(to: MIDIPacket.self)
+            var packet = UnsafeMutablePointer(mutating: UnsafeRawPointer(list).advanced(by: offset).assumingMemoryBound(to: MIDIPacket.self))
             for _ in 0..<list.pointee.numPackets {
                 let count = Int(packet.pointee.length)
                 let bytes = UnsafeRawPointer(packet).advanced(by: dataOffset).assumingMemoryBound(to: UInt8.self)
@@ -151,8 +151,14 @@ final class ControllerMIDIConnection {
         let (frames, overflow, refresh) = inbox.take()
         if overflow { stop(); status = "Controller input overflow. Input disconnected; reconnect to continue."; return }
         if refresh { refreshSources() }
+        var processed = 0
         for frame in frames where frame.source == endpoint {
-            for message in decoder.append(frame.bytes) { receive(message) }
+            let messages = decoder.append(frame.bytes)
+            processed += messages.count
+            guard processed <= 256 else {
+                stop(); status = "Controller input overload. Input disconnected; reconnect to continue."; return
+            }
+            for message in messages { receive(message) }
         }
     }
     private func receive(_ message: ControllerMIDIMessage) {

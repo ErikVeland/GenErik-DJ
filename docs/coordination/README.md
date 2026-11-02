@@ -6,6 +6,8 @@ Updated 2 November 2026, Australia/Brisbane. This is the current project entry p
 
 ## Goal
 
+Current completion scope: [remaining app work](completion-programme.md) and [all Traktor controller models](controller-coverage.md), with an allowed hardware bridge where necessary. Original Z1 is first for Erik's hardware testing.
+
 Build Erik's personal successor to the DJ software he has used for 13 years. Preserve the TDJ1 touch workflow and make the sound, preparation and performance controls dependable enough for his real gigs. Visual polish and personalised features must support that workflow.
 
 The release standard is Erik's acceptance on his real setup. A successful build or synthetic test is supporting evidence, not that acceptance.
