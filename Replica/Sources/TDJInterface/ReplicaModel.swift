@@ -526,7 +526,13 @@ public final class ReplicaModel {
                     let handle = try FileHandle(forReadingFrom: url)
                     defer { try? handle.close() }
                     let limit = 2 * 1024 * 1024
-                    let data = try handle.read(upToCount: limit + 1) ?? Data()
+                    var data = Data()
+                    while data.count <= limit {
+                        let remaining = limit + 1 - data.count
+                        let chunk = try handle.read(upToCount: min(64 * 1024, remaining)) ?? Data()
+                        if chunk.isEmpty { break }
+                        data.append(chunk)
+                    }
                     guard data.count <= limit else { return .failure("The key import exceeds the 2 MB limit.") }
                     return .success(data)
                 } catch { return .failure(error.localizedDescription) }

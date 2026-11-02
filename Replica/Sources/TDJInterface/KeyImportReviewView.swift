@@ -18,7 +18,6 @@ struct KeyImportReviewView: View {
     private var hasProtectedChanges: Bool {
         preview?.plan.changes.contains { protectedTrackIDs.contains($0.trackID) } ?? false
     }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Key review file").font(.headline)
@@ -55,6 +54,7 @@ struct KeyImportReviewView: View {
         NavigationStack {
             Group {
                 if let preview {
+                    let entriesByTrackID = Dictionary(uniqueKeysWithValues: preview.manifest.entries.map { ($0.contentSHA256, $0) })
                     List {
                         Section("Source") {
                             LabeledContent("Producer", value: preview.manifest.source.rawValue)
@@ -70,7 +70,7 @@ struct KeyImportReviewView: View {
                         }
                         Section("Track changes · \(preview.plan.changes.count)") {
                             ForEach(preview.plan.changes, id: \.trackID) { change in
-                                changeRow(change)
+                                changeRow(change, importedEntry: entriesByTrackID[change.trackID])
                             }
                         }
                         if hasProtectedChanges {
@@ -98,7 +98,8 @@ struct KeyImportReviewView: View {
         }
     }
 
-    @ViewBuilder private func changeRow(_ change: KeyImportPlan.Change) -> some View {
+    @ViewBuilder private func changeRow(_ change: KeyImportPlan.Change,
+                                        importedEntry: KeyImportManifest.Entry?) -> some View {
         let track = model.library.track(id: change.trackID)
         VStack(alignment: .leading, spacing: 5) {
             Text(track?.title ?? "Unknown track").font(.headline)
@@ -109,6 +110,10 @@ struct KeyImportReviewView: View {
                 Text(change.after.key?.openKeyName ?? "No key")
                 Spacer()
                 Text(change.after.authority?.rawValue ?? "unselected")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+            if let entry = importedEntry {
+                Text("Imported value: \(entry.rawKey) · \(entry.notation.rawValue)")
                     .font(.caption).foregroundStyle(.secondary)
             }
             if change.after.needsReview {
