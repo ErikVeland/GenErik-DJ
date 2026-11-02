@@ -1,0 +1,27 @@
+.DS_Store
+__pycache__/
+Backups/
+tools/vendor/
+Source/*
+!Source/README.txt
+
+# Local build and device outputs
+**/.build/
+**/.build-*/
+**/Build/
+**/DerivedData/
+**/*.xcresult/
+**/*.app/
+Replica/.workspace/
+Replica/.workspace-synthetic/
+Replica/Validation/**/apps/
+
+# Private source snapshots and local device builds
+/Private/
+/TestBuilds/
+/Replica/Calibration/
+/Replica/Validation/*
+!/Replica/Validation/AdaptiveBeatgridReliabilityBaseline-2026-11-02-01/
+Replica/Validation/AdaptiveBeatgridReliabilityBaseline-2026-11-02-01/*
+!Replica/Validation/AdaptiveBeatgridReliabilityBaseline-2026-11-02-01/README.md
+!Replica/Validation/AdaptiveBeatgridReliabilityBaseline-2026-11-02-01/source.json

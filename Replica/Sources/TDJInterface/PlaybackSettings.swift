@@ -1,0 +1,50 @@
+import SwiftUI
+import TDJCore
+
+/// Playback choices visible in the saved S21/S30 reference screens.
+struct PlaybackSettings: View {
+    @Bindable var model: ReplicaModel
+    var showsPlayback = true
+    func extrasOnly() -> Self { var copy = self; copy.showsPlayback = false; return copy }
+    @AppStorage(DeckToolSettings.loopStepper) private var loopStepper = false
+    @AppStorage(DeckToolSettings.beatJump) private var beatJump = false
+    @AppStorage(DeckToolSettings.tempoFader) private var tempoFader = false
+    @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
+    @AppStorage(DeckToolSettings.hotcuePads) private var hotcuePads = false
+    var body: some View {
+        VStack(alignment:.leading,spacing:12) {
+            if showsPlayback {
+            Picker("Quantize Size",selection:preference(\.quantize)) {
+                Text("1/4 Beat").tag(0.25)
+                Text("1/2 Beat").tag(0.5)
+                Text("1 Beat").tag(1.0)
+                Text("1 Bar").tag(4.0)
+            }
+            Toggle("Slicer Quantize",isOn:preference(\.slicerQuantize))
+            Toggle("Freeze on Load",isOn:preference(\.freezeOnLoad))
+            Divider()
+            Text("Extra deck controls").font(.headline)
+            }
+            Toggle("Loop size stepper",isOn:$loopStepper)
+            Toggle("Beat jump",isOn:$beatJump)
+            Toggle("Tempo fader",isOn:$tempoFader)
+            Toggle("CUE button",isOn:$cueButton)
+            Toggle("Hotcue pads",isOn:$hotcuePads)
+        }
+    }
+    private func preference<Value>(_ key: WritableKeyPath<PerformancePreparation,Value>) -> Binding<Value> {
+        Binding(get:{ model.performance[keyPath:key] },set:{ value in
+            model.performance[keyPath:key]=value
+            model.savePerformance()
+        })
+    }
+}
+
+/// Controls the original app did not have. Each is off by default, so the deck stays as it was.
+enum DeckToolSettings {
+    static let loopStepper = "deckTools.loopStepper"
+    static let beatJump = "deckTools.beatJump"
+    static let tempoFader = "deckTools.tempoFader"
+    static let cueButton = "deckTools.cueButton"
+    static let hotcuePads = "deckTools.hotcuePads"
+}

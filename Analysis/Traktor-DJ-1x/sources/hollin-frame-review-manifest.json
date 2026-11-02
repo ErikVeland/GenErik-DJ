@@ -1,0 +1,2065 @@
+{
+  "review_date": "2026-10-21",
+  "timezone": "Australia/Brisbane",
+  "source_id": "S38",
+  "video_id": "mS8s2SOSGKQ",
+  "url": "https://www.youtube.com/watch?v=mS8s2SOSGKQ",
+  "title": "Native Instruments 216: Traktor DJ For iPad - 11. Understanding Beat Matching",
+  "author": "Hollin Jones / macProVideo",
+  "device_access": false,
+  "device_changes": false,
+  "complete_video_downloaded": false,
+  "audio_onset_measured": false,
+  "installed_reference_tested": false,
+  "exact_app_build": null,
+  "method": "Targeted adjacent-frame review of paused public YouTube playback. Retained native full-screen captures after excluding a variable-layout browser screenshot pass. No continuous audiovisual review of the complete lesson.",
+  "coverage": {
+    "retained_frame_step_captures": 120,
+    "start_seconds": 190.319918,
+    "end_seconds": 194.286545,
+    "median_observed_step_seconds": 0.03333299999999895,
+    "unique_encoded_frame_count_established": false,
+    "play_region_review": "Every retained frame via contact sheets",
+    "marker_strip_indices": [
+      20,
+      90
+    ],
+    "waveform_contact_sheet_indices": [
+      [
+        20,
+        35
+      ],
+      [
+        70,
+        85
+      ],
+      [
+        86,
+        101
+      ]
+    ],
+    "screen_width_checked_before_each_capture": 2560
+  },
+  "visible_conditions": {
+    "deck_a_already_playing": true,
+    "both_sync_indicators_green": true,
+    "displayed_bpm": 122.0,
+    "deck_b_initial_elapsed_display": "0:00",
+    "quantize_size_shown": false
+  },
+  "event_brackets": {
+    "pale_marker_appearance": {
+      "last_absent_index": 25,
+      "first_visible_index": 26,
+      "last_absent_seconds": 191.153243,
+      "first_visible_seconds": 191.186576
+    },
+    "play_green": {
+      "last_not_clearly_green_index": 26,
+      "first_clear_green_index": 27,
+      "before_seconds": 191.186576,
+      "after_seconds": 191.219909
+    },
+    "orange_indicator_appearance": {
+      "last_absent_index": 29,
+      "first_visible_index": 30,
+      "before_seconds": 191.286575,
+      "after_seconds": 191.319908
+    },
+    "orange_indicator_faded_by": {
+      "index": 66,
+      "seconds": 192.519896,
+      "note": "Approximate visual fade end, not finger release"
+    },
+    "source_waveform_scroll": {
+      "last_stationary_index": 84,
+      "first_scrolling_index": 85,
+      "before_seconds": 193.11989,
+      "after_seconds": 193.153223
+    },
+    "green_to_scroll_ui_seconds": 1.9333139999999958,
+    "green_precedes_indicator_ui_seconds": 0.09999899999999684
+  },
+  "findings": {
+    "orange_indicator": "One uninterrupted visible event with expanding rings and fade. No clearly separate reappearance or renewed pulse before source scrolling.",
+    "marker": "Forward progress toward source start, with no visible restart in inspected strip.",
+    "physical_input_count_established": false,
+    "input_action_edge_established": false,
+    "distinct_second_pending_activation_identifiable": false,
+    "second_pending_play_cancels_established": false,
+    "quantize_size_controls_ordinary_play_established": false,
+    "questions_remaining_open": [
+      "Q02",
+      "Q03",
+      "Q05"
+    ],
+    "feature_evidence_extended": [
+      "F143"
+    ],
+    "feature_count_changed": false
+  },
+  "limitations": [
+    "On-screen indicator is not a raw touch log or a physical finger view.",
+    "First clear green precedes indicator onset by three reviewed steps, about 0.10 s. Indicator timing is uncalibrated.",
+    "Solid orange indicator obscures underlying Play state during part of the lead-in.",
+    "YouTube timeline crosses the lower part of the button in some frames; main triangle remains readable.",
+    "Count-in annotation covers part of left waveform.",
+    "Video UI timestamps are not audio onset, input latency or sample-accurate clock measurements.",
+    "Quantize Size is not shown or changed; no cancellation trial established."
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 190.319918,
+      "path": "hollin-frame-review-2026-10-21/native-000-190.319918.jpg",
+      "source_id": "S38",
+      "bytes": 287230,
+      "sha256": "899597340598689ab260d64d54eaff7745f1b4a314362a4133b5a6babdf062aa",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 1,
+      "time_seconds": 190.353251,
+      "path": "hollin-frame-review-2026-10-21/native-001-190.353251.jpg",
+      "source_id": "S38",
+      "bytes": 287206,
+      "sha256": "2088b6bbe5b9dd0e410630172dba1d67b620d5a55ae4d79023fac1a7c2d4a992",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 2,
+      "time_seconds": 190.386584,
+      "path": "hollin-frame-review-2026-10-21/native-002-190.386584.jpg",
+      "source_id": "S38",
+      "bytes": 286932,
+      "sha256": "a2adaa269aabd71a8a0d58d5c5ff472ad6f25c8f6848491b4e41fba3c73c7fda",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 3,
+      "time_seconds": 190.419917,
+      "path": "hollin-frame-review-2026-10-21/native-003-190.419917.jpg",
+      "source_id": "S38",
+      "bytes": 287244,
+      "sha256": "c2305897c26b8094caca93f28afed46cbf69027e9418516ead7c3b355b694468",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 4,
+      "time_seconds": 190.45325,
+      "path": "hollin-frame-review-2026-10-21/native-004-190.453250.jpg",
+      "source_id": "S38",
+      "bytes": 287420,
+      "sha256": "a850ce6f23e6496efdf2894c1bdd30dc878f0d1e9c01be526a54b9628daba010",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 5,
+      "time_seconds": 190.486583,
+      "path": "hollin-frame-review-2026-10-21/native-005-190.486583.jpg",
+      "source_id": "S38",
+      "bytes": 274645,
+      "sha256": "8ccd6365655dcd819ab0d3b557845a2cfe8b32dd07af858ec280805d17dfa59f",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 6,
+      "time_seconds": 190.519916,
+      "path": "hollin-frame-review-2026-10-21/native-006-190.519916.jpg",
+      "source_id": "S38",
+      "bytes": 287422,
+      "sha256": "7e214b4d11c667ba8f7b014187f76b458614c2699b87096e41b2f117ca87b815",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 7,
+      "time_seconds": 190.553249,
+      "path": "hollin-frame-review-2026-10-21/native-007-190.553249.jpg",
+      "source_id": "S38",
+      "bytes": 287369,
+      "sha256": "03ddd1555f2223925b5e1bba7dacecdf62e8b072b6d2114d0c8f63ff3bdb7ed3",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 8,
+      "time_seconds": 190.586582,
+      "path": "hollin-frame-review-2026-10-21/native-008-190.586582.jpg",
+      "source_id": "S38",
+      "bytes": 287567,
+      "sha256": "ff248a3f21aafa522959aa6d4d3f49c07019e4f615251edf97b1b9f1ecb0b41f",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 9,
+      "time_seconds": 190.619915,
+      "path": "hollin-frame-review-2026-10-21/native-009-190.619915.jpg",
+      "source_id": "S38",
+      "bytes": 287020,
+      "sha256": "af01aa4a36f11430d86b014209e38ae618c4b693b4b32da0ebdcb9e0c2c054d3",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 10,
+      "time_seconds": 190.653248,
+      "path": "hollin-frame-review-2026-10-21/native-010-190.653248.jpg",
+      "source_id": "S38",
+      "bytes": 286643,
+      "sha256": "62924eab7c38c10aab80ec8b5cadea625afe44069ca11f8277001b0a4c216f02",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 11,
+      "time_seconds": 190.686581,
+      "path": "hollin-frame-review-2026-10-21/native-011-190.686581.jpg",
+      "source_id": "S38",
+      "bytes": 287337,
+      "sha256": "c7ed114ad5c02aa254bac5af05b2158baf8fe0dc59bfb7910058d3dd16864bb4",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 12,
+      "time_seconds": 190.719914,
+      "path": "hollin-frame-review-2026-10-21/native-012-190.719914.jpg",
+      "source_id": "S38",
+      "bytes": 287636,
+      "sha256": "b8453649589edbcf619049287e0c72bf720256b44758b620e9db3fa95ee9d071",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 13,
+      "time_seconds": 190.753247,
+      "path": "hollin-frame-review-2026-10-21/native-013-190.753247.jpg",
+      "source_id": "S38",
+      "bytes": 287377,
+      "sha256": "62c8bb704fbb6a7182c439c722dfef19fe905b2355aceee6e69cd688ed90c569",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 14,
+      "time_seconds": 190.78658,
+      "path": "hollin-frame-review-2026-10-21/native-014-190.786580.jpg",
+      "source_id": "S38",
+      "bytes": 286787,
+      "sha256": "c03476a2a3f5a9ca00efa8c3c895368f64299f17a45599565f62effe1ea2f403",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 15,
+      "time_seconds": 190.819913,
+      "path": "hollin-frame-review-2026-10-21/native-015-190.819913.jpg",
+      "source_id": "S38",
+      "bytes": 287503,
+      "sha256": "5697268e840a7fdd3a94b5dd940c5660817b46b21bd4d309c330c7f2be4844fa",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 16,
+      "time_seconds": 190.853246,
+      "path": "hollin-frame-review-2026-10-21/native-016-190.853246.jpg",
+      "source_id": "S38",
+      "bytes": 287225,
+      "sha256": "9bc37a8064ccfc6629a90fbc51f4e1e4f5651a69b7a0340de2de66d806494e0e",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 17,
+      "time_seconds": 190.886579,
+      "path": "hollin-frame-review-2026-10-21/native-017-190.886579.jpg",
+      "source_id": "S38",
+      "bytes": 287075,
+      "sha256": "017b1870866bb73732568a94b22ee88f946de5dfc73b2d8939c5180cddab00da",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 18,
+      "time_seconds": 190.919912,
+      "path": "hollin-frame-review-2026-10-21/native-018-190.919912.jpg",
+      "source_id": "S38",
+      "bytes": 286594,
+      "sha256": "ee0f03494fc89fd91458b32d2797eb37062fd883cf09f58dedea3d687986b168",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 19,
+      "time_seconds": 190.953245,
+      "path": "hollin-frame-review-2026-10-21/native-019-190.953245.jpg",
+      "source_id": "S38",
+      "bytes": 287515,
+      "sha256": "37605299e43bb7ae7064054a22bd79bfad25ee8ea39bed2153d513fc5dd1a0a0",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 20,
+      "time_seconds": 190.986578,
+      "path": "hollin-frame-review-2026-10-21/native-020-190.986578.jpg",
+      "source_id": "S38",
+      "bytes": 286997,
+      "sha256": "99dfd3e8df75cbbaf80e5e3f7f76ba79006f72ac87986df732e17d51a772b404",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 21,
+      "time_seconds": 191.019911,
+      "path": "hollin-frame-review-2026-10-21/native-021-191.019911.jpg",
+      "source_id": "S38",
+      "bytes": 287237,
+      "sha256": "1dfb434d3a1723051be52a4c34a565d840c8216dc6f87601a9b879d6cc3fc402",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 22,
+      "time_seconds": 191.053244,
+      "path": "hollin-frame-review-2026-10-21/native-022-191.053244.jpg",
+      "source_id": "S38",
+      "bytes": 287298,
+      "sha256": "e4597d6ebb77b0854ae2a6967b1de01389d95acc275a1b8e1c46e7a2b07feda6",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 23,
+      "time_seconds": 191.086577,
+      "path": "hollin-frame-review-2026-10-21/native-023-191.086577.jpg",
+      "source_id": "S38",
+      "bytes": 287521,
+      "sha256": "0eb6da154161a9125373a657d65edd2aa4d5f66de9af671df88a4570f4ea1104",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 24,
+      "time_seconds": 191.11991,
+      "path": "hollin-frame-review-2026-10-21/native-024-191.119910.jpg",
+      "source_id": "S38",
+      "bytes": 286622,
+      "sha256": "2499c65a462fd1dc2bb32584a62143ac0b3002960d9cc925fd341f4454123e50",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 25,
+      "time_seconds": 191.153243,
+      "path": "hollin-frame-review-2026-10-21/native-025-191.153243.jpg",
+      "source_id": "S38",
+      "bytes": 286700,
+      "sha256": "d6283e74e8f98638a0270ee9e09b39428b0e97be936560261ec8fa8ac188ebbf",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 26,
+      "time_seconds": 191.186576,
+      "path": "hollin-frame-review-2026-10-21/native-026-191.186576.jpg",
+      "source_id": "S38",
+      "bytes": 287667,
+      "sha256": "007e51b256bc54d5990b1f5e972b984df356cb87a4def34b4779445cb7c65b1c",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 27,
+      "time_seconds": 191.219909,
+      "path": "hollin-frame-review-2026-10-21/native-027-191.219909.jpg",
+      "source_id": "S38",
+      "bytes": 287510,
+      "sha256": "cf71bdb6e18daa7f855afa4234b3f9a92d7489efbab80769e96b7040a2d1c73d",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 28,
+      "time_seconds": 191.253242,
+      "path": "hollin-frame-review-2026-10-21/native-028-191.253242.jpg",
+      "source_id": "S38",
+      "bytes": 287221,
+      "sha256": "39f196c8aeae766bf361df33b7d4c7a006ae54cdc1ee9d0dbd073958270912fd",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 29,
+      "time_seconds": 191.286575,
+      "path": "hollin-frame-review-2026-10-21/native-029-191.286575.jpg",
+      "source_id": "S38",
+      "bytes": 288215,
+      "sha256": "bed8eb7cbb3a671529af2c7a740599da120e46cd67cea7efda9ab93eed6c6cfc",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 30,
+      "time_seconds": 191.319908,
+      "path": "hollin-frame-review-2026-10-21/native-030-191.319908.jpg",
+      "source_id": "S38",
+      "bytes": 288857,
+      "sha256": "1b5a7012eb22388812a0cbcacf4ef0a3c66a8a7c86a5b7839760c487c7368601",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 31,
+      "time_seconds": 191.353241,
+      "path": "hollin-frame-review-2026-10-21/native-031-191.353241.jpg",
+      "source_id": "S38",
+      "bytes": 287402,
+      "sha256": "5f44b3d47982e9ee3da4a978e3a57d1cdceb14ed8a414ce6ea6fc72ed6ab9307",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 32,
+      "time_seconds": 191.386574,
+      "path": "hollin-frame-review-2026-10-21/native-032-191.386574.jpg",
+      "source_id": "S38",
+      "bytes": 287927,
+      "sha256": "aa41d9dc6a211fbc28e4b37b9212b3ae1b75d83f95de51601c3ce8c4066bd24d",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 33,
+      "time_seconds": 191.419907,
+      "path": "hollin-frame-review-2026-10-21/native-033-191.419907.jpg",
+      "source_id": "S38",
+      "bytes": 289353,
+      "sha256": "0da51a330c382f4468ef84e33f41766e9ca9bbcbf657feea9e381ea2a8a02124",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 34,
+      "time_seconds": 191.45324,
+      "path": "hollin-frame-review-2026-10-21/native-034-191.453240.jpg",
+      "source_id": "S38",
+      "bytes": 288908,
+      "sha256": "c9150ad72e0010f1a20a282476f7379284759af968fe0ff6efa84cf7afa33c1c",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 35,
+      "time_seconds": 191.486573,
+      "path": "hollin-frame-review-2026-10-21/native-035-191.486573.jpg",
+      "source_id": "S38",
+      "bytes": 289574,
+      "sha256": "59105ca2850cafa9daf19599128eef370635e90aca1215c989bee3dfaf27eb6d",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 36,
+      "time_seconds": 191.519906,
+      "path": "hollin-frame-review-2026-10-21/native-036-191.519906.jpg",
+      "source_id": "S38",
+      "bytes": 289724,
+      "sha256": "a1edfb889b28f47de5040aafdab7d88e5d27d4b6538c7168fb5a04c9355e6456",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 37,
+      "time_seconds": 191.553239,
+      "path": "hollin-frame-review-2026-10-21/native-037-191.553239.jpg",
+      "source_id": "S38",
+      "bytes": 289850,
+      "sha256": "83bcaddfb99a8dcf2ef795f024313cf38616f3785cd92b4cd453b4ac46a3ecc7",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 38,
+      "time_seconds": 191.586572,
+      "path": "hollin-frame-review-2026-10-21/native-038-191.586572.jpg",
+      "source_id": "S38",
+      "bytes": 289583,
+      "sha256": "2b02c06c7eed32748276c8139ea263a104582581668bccfbaf27e944b5bafcf2",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 39,
+      "time_seconds": 191.619905,
+      "path": "hollin-frame-review-2026-10-21/native-039-191.619905.jpg",
+      "source_id": "S38",
+      "bytes": 289469,
+      "sha256": "0c8ecba76ae1218af8578ef06cece9bad99b65b8f6f1a7b05e6af6f7bd9cd96c",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 40,
+      "time_seconds": 191.653238,
+      "path": "hollin-frame-review-2026-10-21/native-040-191.653238.jpg",
+      "source_id": "S38",
+      "bytes": 290506,
+      "sha256": "442213a44d05877c3f16dd077bda0d9124ee4dec4ae0e290173292fd60ff1adc",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 41,
+      "time_seconds": 191.686571,
+      "path": "hollin-frame-review-2026-10-21/native-041-191.686571.jpg",
+      "source_id": "S38",
+      "bytes": 290928,
+      "sha256": "a8b0a94533325f03c77d72933868421cd67fd53c68da06a354eceebd2cec9c7d",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 42,
+      "time_seconds": 191.719904,
+      "path": "hollin-frame-review-2026-10-21/native-042-191.719904.jpg",
+      "source_id": "S38",
+      "bytes": 290302,
+      "sha256": "944f55ff577ef7efe79a17a321f78d63bd9466a6ccff24a4c512cff09d9ec017",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 43,
+      "time_seconds": 191.753237,
+      "path": "hollin-frame-review-2026-10-21/native-043-191.753237.jpg",
+      "source_id": "S38",
+      "bytes": 290281,
+      "sha256": "b1936667f5a1c7d49b8ad13a413b9944d24eb12d2c86762a233390fa28995273",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 44,
+      "time_seconds": 191.78657,
+      "path": "hollin-frame-review-2026-10-21/native-044-191.786570.jpg",
+      "source_id": "S38",
+      "bytes": 290672,
+      "sha256": "d83ee5ce5b90e4f984d98faea514e17abc7853a2838f5c1ee2e7ae8f33bb9211",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 45,
+      "time_seconds": 191.819903,
+      "path": "hollin-frame-review-2026-10-21/native-045-191.819903.jpg",
+      "source_id": "S38",
+      "bytes": 291412,
+      "sha256": "7b86f4911c58775bceaaac5bad3b5da86ef4edd616ceb7ab9312d1be6c8456b3",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 46,
+      "time_seconds": 191.853236,
+      "path": "hollin-frame-review-2026-10-21/native-046-191.853236.jpg",
+      "source_id": "S38",
+      "bytes": 290768,
+      "sha256": "7867f750c47f3fb4dd4929a7160b641906ef6c65e8422de14de3805bba760272",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 47,
+      "time_seconds": 191.886569,
+      "path": "hollin-frame-review-2026-10-21/native-047-191.886569.jpg",
+      "source_id": "S38",
+      "bytes": 290191,
+      "sha256": "5f0845d7ee61572c3a189812a8b93f045bdb2a9547bd6045dcba06eb2c62f90a",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 48,
+      "time_seconds": 191.919902,
+      "path": "hollin-frame-review-2026-10-21/native-048-191.919902.jpg",
+      "source_id": "S38",
+      "bytes": 291049,
+      "sha256": "6d57420a4bcc866b4796df6cf75c6c12772989e502cd95f4e5fdc2bac29e4ba6",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 49,
+      "time_seconds": 191.953235,
+      "path": "hollin-frame-review-2026-10-21/native-049-191.953235.jpg",
+      "source_id": "S38",
+      "bytes": 290810,
+      "sha256": "b655c30a1f401bfccee7f1a87596a5fffe7c9232403707c3b61e976dcfeb094b",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 50,
+      "time_seconds": 191.986568,
+      "path": "hollin-frame-review-2026-10-21/native-050-191.986568.jpg",
+      "source_id": "S38",
+      "bytes": 291351,
+      "sha256": "8aeefe2cc378aba42c82931d8082004634bcd08dda9cd5695b4f8755a58e1c1b",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 51,
+      "time_seconds": 192.019901,
+      "path": "hollin-frame-review-2026-10-21/native-051-192.019901.jpg",
+      "source_id": "S38",
+      "bytes": 291377,
+      "sha256": "461b24ae2864ee0c0fd3275f89cbba2806e88c8a320b63f35d05673cccd66133",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 52,
+      "time_seconds": 192.053234,
+      "path": "hollin-frame-review-2026-10-21/native-052-192.053234.jpg",
+      "source_id": "S38",
+      "bytes": 291806,
+      "sha256": "7f51d4f1b35735dcbee73da8abb70630e1c68e3c954269af283e29eed9cb526d",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 53,
+      "time_seconds": 192.086567,
+      "path": "hollin-frame-review-2026-10-21/native-053-192.086567.jpg",
+      "source_id": "S38",
+      "bytes": 291954,
+      "sha256": "0cf73e4ad2bfe87014abf92f8d8792d19b2f5d9a6f5c1b7d1efa3192edf6cc5f",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 54,
+      "time_seconds": 192.1199,
+      "path": "hollin-frame-review-2026-10-21/native-054-192.119900.jpg",
+      "source_id": "S38",
+      "bytes": 292039,
+      "sha256": "ea1d0ad2e23fd84514f8944e480504d936ef15ddecf75f1e7693100abb6c2588",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 55,
+      "time_seconds": 192.153233,
+      "path": "hollin-frame-review-2026-10-21/native-055-192.153233.jpg",
+      "source_id": "S38",
+      "bytes": 291676,
+      "sha256": "e0620697037f2505c5205a5e6ba4e6350a36a9651cba061cc851b4ae0caa61e6",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 56,
+      "time_seconds": 192.186566,
+      "path": "hollin-frame-review-2026-10-21/native-056-192.186566.jpg",
+      "source_id": "S38",
+      "bytes": 292608,
+      "sha256": "bd3270be4e9fbd9fd20f2b904199f66f2d7499238c348eb8d4f71dab53ab167f",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 57,
+      "time_seconds": 192.219899,
+      "path": "hollin-frame-review-2026-10-21/native-057-192.219899.jpg",
+      "source_id": "S38",
+      "bytes": 291432,
+      "sha256": "78918e342699832a477ad8d11c540874a6bce85d076839301953c24e70af408c",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 58,
+      "time_seconds": 192.253232,
+      "path": "hollin-frame-review-2026-10-21/native-058-192.253232.jpg",
+      "source_id": "S38",
+      "bytes": 290947,
+      "sha256": "0b5ed8634bce3de114ede4fc52d6edd55f693e184439f0aea9ce12cceb3ceaeb",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 59,
+      "time_seconds": 192.286565,
+      "path": "hollin-frame-review-2026-10-21/native-059-192.286565.jpg",
+      "source_id": "S38",
+      "bytes": 290383,
+      "sha256": "3ef9b225a00e01580fed594afc3c3ade485197d8704bc90de9f3792f34865a3f",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 60,
+      "time_seconds": 192.319898,
+      "path": "hollin-frame-review-2026-10-21/native-060-192.319898.jpg",
+      "source_id": "S38",
+      "bytes": 276731,
+      "sha256": "c52e57fd6d17aab80e8ae6defe7ecc2d43acad0239599869d1d6053dee84ad2a",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 61,
+      "time_seconds": 192.353231,
+      "path": "hollin-frame-review-2026-10-21/native-061-192.353231.jpg",
+      "source_id": "S38",
+      "bytes": 289068,
+      "sha256": "14d7196f746c721adf3dafd33228aaba66e55d171a65c896c06ef075d45575ed",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 62,
+      "time_seconds": 192.386564,
+      "path": "hollin-frame-review-2026-10-21/native-062-192.386564.jpg",
+      "source_id": "S38",
+      "bytes": 289454,
+      "sha256": "c4028670e17e0afbce4aa58737b8a6c20d3b65b1d5adc5d19cdc554690c086a4",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 63,
+      "time_seconds": 192.419897,
+      "path": "hollin-frame-review-2026-10-21/native-063-192.419897.jpg",
+      "source_id": "S38",
+      "bytes": 288197,
+      "sha256": "638e9412765deff1fc1cd8120985d96812af510894d0ab15d9898cea70f54bd3",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 64,
+      "time_seconds": 192.45323,
+      "path": "hollin-frame-review-2026-10-21/native-064-192.453230.jpg",
+      "source_id": "S38",
+      "bytes": 288716,
+      "sha256": "4271f9ac1265167a8a0609636d8662561ebc46337984f5141a9ff1dda873eb60",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 65,
+      "time_seconds": 192.486563,
+      "path": "hollin-frame-review-2026-10-21/native-065-192.486563.jpg",
+      "source_id": "S38",
+      "bytes": 289304,
+      "sha256": "cb38a5d5b37af2a7fcfb570de6435f468ac30000c04b58c4c7ee5ff62ab023aa",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 66,
+      "time_seconds": 192.519896,
+      "path": "hollin-frame-review-2026-10-21/native-066-192.519896.jpg",
+      "source_id": "S38",
+      "bytes": 289192,
+      "sha256": "ae43815e7914a183451adb387c31aa9f32cd415ab059d6a5262ea12a9528dfe5",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 67,
+      "time_seconds": 192.553229,
+      "path": "hollin-frame-review-2026-10-21/native-067-192.553229.jpg",
+      "source_id": "S38",
+      "bytes": 288608,
+      "sha256": "3926cd8afd8c2d9523f02bbfd255caf4eff9bb7a4c81ecf6e5ab4beb42609f41",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 68,
+      "time_seconds": 192.586562,
+      "path": "hollin-frame-review-2026-10-21/native-068-192.586562.jpg",
+      "source_id": "S38",
+      "bytes": 288887,
+      "sha256": "5f42378e7b4ceac78aed3533c656d547ca50bb503087de6982cb0caae5290370",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 69,
+      "time_seconds": 192.619895,
+      "path": "hollin-frame-review-2026-10-21/native-069-192.619895.jpg",
+      "source_id": "S38",
+      "bytes": 289255,
+      "sha256": "6eda70bff3fc4c2ccc7ceab890d2c9f4a57039bf1fc356cde692d7862d618515",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 70,
+      "time_seconds": 192.653228,
+      "path": "hollin-frame-review-2026-10-21/native-070-192.653228.jpg",
+      "source_id": "S38",
+      "bytes": 289602,
+      "sha256": "4bc04149c7c0f3b814b4c916006b6cfb067c39e4d6ba0c467c667a89468d34b6",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 71,
+      "time_seconds": 192.686561,
+      "path": "hollin-frame-review-2026-10-21/native-071-192.686561.jpg",
+      "source_id": "S38",
+      "bytes": 288188,
+      "sha256": "7bb3757f75a4b4644dca3dcd77610591b49c90df0d34ee31c3d5d295b4367a8b",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 72,
+      "time_seconds": 192.719894,
+      "path": "hollin-frame-review-2026-10-21/native-072-192.719894.jpg",
+      "source_id": "S38",
+      "bytes": 288934,
+      "sha256": "4b8b0d1bfebe555d255c4928f5fb1912155556dfc2349bf30fec523cc86e923d",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 73,
+      "time_seconds": 192.753227,
+      "path": "hollin-frame-review-2026-10-21/native-073-192.753227.jpg",
+      "source_id": "S38",
+      "bytes": 289229,
+      "sha256": "75e8b24deed3a4c6f6eb42840faa0ff6208bbe25e556b6df418a4f0896e99a0d",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 74,
+      "time_seconds": 192.78656,
+      "path": "hollin-frame-review-2026-10-21/native-074-192.786560.jpg",
+      "source_id": "S38",
+      "bytes": 288482,
+      "sha256": "568d070c38439d0fa17ba1e886c450bf4b1d3a8e51b6a4da9af13f6883d57266",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 75,
+      "time_seconds": 192.819893,
+      "path": "hollin-frame-review-2026-10-21/native-075-192.819893.jpg",
+      "source_id": "S38",
+      "bytes": 288026,
+      "sha256": "6ffde37a14ece36a0e2369a5253332b16701f52c2657d420fb501958f4082a5b",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 76,
+      "time_seconds": 192.853226,
+      "path": "hollin-frame-review-2026-10-21/native-076-192.853226.jpg",
+      "source_id": "S38",
+      "bytes": 289102,
+      "sha256": "4c22bbc4b55e68f0cd3fc432910092ae2e086b11775dbaf64e388c1c82f44972",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 77,
+      "time_seconds": 192.886559,
+      "path": "hollin-frame-review-2026-10-21/native-077-192.886559.jpg",
+      "source_id": "S38",
+      "bytes": 288470,
+      "sha256": "7a10e75f8667e37c9f439b598d5a8c2e69a308f9abffe10ebeabc67b42d9c201",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 78,
+      "time_seconds": 192.919892,
+      "path": "hollin-frame-review-2026-10-21/native-078-192.919892.jpg",
+      "source_id": "S38",
+      "bytes": 288740,
+      "sha256": "bf5d72709f392ca17e1a901e2040c3fe1e5da74639da48b1390363c557d76fa4",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 79,
+      "time_seconds": 192.953225,
+      "path": "hollin-frame-review-2026-10-21/native-079-192.953225.jpg",
+      "source_id": "S38",
+      "bytes": 287784,
+      "sha256": "3d74680dcac516164d053f3290a8714f8624317164cf479fa26db132bd0f4f84",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 80,
+      "time_seconds": 192.986558,
+      "path": "hollin-frame-review-2026-10-21/native-080-192.986558.jpg",
+      "source_id": "S38",
+      "bytes": 288866,
+      "sha256": "f2806f9488a0b6ffa5c1ba3846811bbb275d3997bb91c174fae92fa01af18c10",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 81,
+      "time_seconds": 193.019891,
+      "path": "hollin-frame-review-2026-10-21/native-081-193.019891.jpg",
+      "source_id": "S38",
+      "bytes": 288861,
+      "sha256": "a6e83edda5b9f3c3886cda46d14cdb7a1ae92d1c5364486c7496d6587c150471",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 82,
+      "time_seconds": 193.053224,
+      "path": "hollin-frame-review-2026-10-21/native-082-193.053224.jpg",
+      "source_id": "S38",
+      "bytes": 289177,
+      "sha256": "2313e6c474ceebae238fea0eb169c51872b4a97d959bc153feb85751ed4192d5",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 83,
+      "time_seconds": 193.086557,
+      "path": "hollin-frame-review-2026-10-21/native-083-193.086557.jpg",
+      "source_id": "S38",
+      "bytes": 286835,
+      "sha256": "c0222106ccaa354905926b7a5339194e5058f6ba3cc407afc0a35b649ba3086a",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 84,
+      "time_seconds": 193.11989,
+      "path": "hollin-frame-review-2026-10-21/native-084-193.119890.jpg",
+      "source_id": "S38",
+      "bytes": 288480,
+      "sha256": "8670402e7c2402a8b8da34c272abd8abde78886ce2cbea203c93fb0e2214dd6c",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 85,
+      "time_seconds": 193.153223,
+      "path": "hollin-frame-review-2026-10-21/native-085-193.153223.jpg",
+      "source_id": "S38",
+      "bytes": 290485,
+      "sha256": "92111e2b923838691962ac4eed917b01a92e309b5409681dad89a3a179611312",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 86,
+      "time_seconds": 193.186556,
+      "path": "hollin-frame-review-2026-10-21/native-086-193.186556.jpg",
+      "source_id": "S38",
+      "bytes": 290469,
+      "sha256": "8cb4c78c5a133feb188462f7687c200175c6dd578f36b2a9022f40dc79d21767",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 87,
+      "time_seconds": 193.219889,
+      "path": "hollin-frame-review-2026-10-21/native-087-193.219889.jpg",
+      "source_id": "S38",
+      "bytes": 289497,
+      "sha256": "1c255cad1a233ddae5bb95b5b8639c602af3f820d7c1bd6b54dcad0ae6c8ae8e",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 88,
+      "time_seconds": 193.253222,
+      "path": "hollin-frame-review-2026-10-21/native-088-193.253222.jpg",
+      "source_id": "S38",
+      "bytes": 289959,
+      "sha256": "bea1ecacd8f36a7b3495acb69b9fd64d127350321bec7f2de87a80fca4c7221d",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 89,
+      "time_seconds": 193.286555,
+      "path": "hollin-frame-review-2026-10-21/native-089-193.286555.jpg",
+      "source_id": "S38",
+      "bytes": 290915,
+      "sha256": "b3706aea2ac981e70aa46e7e6d00b4f49a9e6c1818895a2b07d73b16436cc05c",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 90,
+      "time_seconds": 193.319888,
+      "path": "hollin-frame-review-2026-10-21/native-090-193.319888.jpg",
+      "source_id": "S38",
+      "bytes": 289857,
+      "sha256": "e23ea057853361efeccab2d822fd27defe0d8c0b2dadc41d412d501ae420504f",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 91,
+      "time_seconds": 193.353221,
+      "path": "hollin-frame-review-2026-10-21/native-091-193.353221.jpg",
+      "source_id": "S38",
+      "bytes": 289648,
+      "sha256": "fd3004f222686839c33a542d8fb2b8d60e6a821e06b743b413d4933e60cd1670",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 92,
+      "time_seconds": 193.386554,
+      "path": "hollin-frame-review-2026-10-21/native-092-193.386554.jpg",
+      "source_id": "S38",
+      "bytes": 290954,
+      "sha256": "68d1af2c5beb5e1b9d809129ef95d9e9670b3ac992fe33cdebe72c57fb7ef79c",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 93,
+      "time_seconds": 193.419887,
+      "path": "hollin-frame-review-2026-10-21/native-093-193.419887.jpg",
+      "source_id": "S38",
+      "bytes": 291246,
+      "sha256": "743abc7dee2d03b48fb1bec8235d80947e73ffa9b1237fc43e564ad1a2d79dec",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 94,
+      "time_seconds": 193.45322,
+      "path": "hollin-frame-review-2026-10-21/native-094-193.453220.jpg",
+      "source_id": "S38",
+      "bytes": 291318,
+      "sha256": "f1d36dcf4582bb38b3dd20b60fe9e32b5d885a6f454960c0b5f3d1b94e6e1f7b",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 95,
+      "time_seconds": 193.486553,
+      "path": "hollin-frame-review-2026-10-21/native-095-193.486553.jpg",
+      "source_id": "S38",
+      "bytes": 291087,
+      "sha256": "163c19a3202b919e6b69b6adeefe280883ef098f11944625aeddd1c8e168710d",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 96,
+      "time_seconds": 193.519886,
+      "path": "hollin-frame-review-2026-10-21/native-096-193.519886.jpg",
+      "source_id": "S38",
+      "bytes": 285113,
+      "sha256": "37c16c9e7524bb7f0d13b4a9df73e9ba8d70153896bcfe78cf1cee5caa2c45df",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 97,
+      "time_seconds": 193.553219,
+      "path": "hollin-frame-review-2026-10-21/native-097-193.553219.jpg",
+      "source_id": "S38",
+      "bytes": 287311,
+      "sha256": "792c12424b85f3890f93f4669efae1ac0b8cf71bc83f3077a2c15f554078d907",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 98,
+      "time_seconds": 193.586552,
+      "path": "hollin-frame-review-2026-10-21/native-098-193.586552.jpg",
+      "source_id": "S38",
+      "bytes": 286805,
+      "sha256": "f8c40c3b8795002c942998320fe1a9bab728482c20b9198c843e942d5a77e671",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 99,
+      "time_seconds": 193.619885,
+      "path": "hollin-frame-review-2026-10-21/native-099-193.619885.jpg",
+      "source_id": "S38",
+      "bytes": 286616,
+      "sha256": "ea7823635397aabb3b352db6aa97a53412607f0c1ec834aded4eaaf2bc87a622",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 100,
+      "time_seconds": 193.653218,
+      "path": "hollin-frame-review-2026-10-21/native-100-193.653218.jpg",
+      "source_id": "S38",
+      "bytes": 284781,
+      "sha256": "16425698538120893aab3bd1b55ba65435e3e491509cc55b3c0e432bca282620",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 101,
+      "time_seconds": 193.686551,
+      "path": "hollin-frame-review-2026-10-21/native-101-193.686551.jpg",
+      "source_id": "S38",
+      "bytes": 285277,
+      "sha256": "ce28683755285d431e8a532ed6089fe725a8e865bb101c3924eae8d8fe2f3184",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 102,
+      "time_seconds": 193.719884,
+      "path": "hollin-frame-review-2026-10-21/native-102-193.719884.jpg",
+      "source_id": "S38",
+      "bytes": 284773,
+      "sha256": "aa0d5a4981fa87178c73e350300c28250092cee84a043540330b3ab86b513f3a",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 103,
+      "time_seconds": 193.753217,
+      "path": "hollin-frame-review-2026-10-21/native-103-193.753217.jpg",
+      "source_id": "S38",
+      "bytes": 281363,
+      "sha256": "326b217b51e2fb99283fb5b738984a3f212268f7c67df5e1f119d1d9d271d1ef",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 104,
+      "time_seconds": 193.78655,
+      "path": "hollin-frame-review-2026-10-21/native-104-193.786550.jpg",
+      "source_id": "S38",
+      "bytes": 277516,
+      "sha256": "d1afcfc66c5e6d96201964e7dc73962065ec12ba3b695b742ad4f666992808e6",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 105,
+      "time_seconds": 193.819883,
+      "path": "hollin-frame-review-2026-10-21/native-105-193.819883.jpg",
+      "source_id": "S38",
+      "bytes": 279524,
+      "sha256": "c11ea21c4fbbeefee15a7a8cc5888f12f48c55148842fc7d2a9906ac9ba18bce",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 106,
+      "time_seconds": 193.853216,
+      "path": "hollin-frame-review-2026-10-21/native-106-193.853216.jpg",
+      "source_id": "S38",
+      "bytes": 277539,
+      "sha256": "7c2d19fe8d2ee3591b6d179f136e9eb953c423832c08555e3ff95327b03bbc3c",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 107,
+      "time_seconds": 193.886549,
+      "path": "hollin-frame-review-2026-10-21/native-107-193.886549.jpg",
+      "source_id": "S38",
+      "bytes": 279246,
+      "sha256": "33672b23fe1004ed5b1c2fc59e47cc59597d11f3507331eddf195a3a6d84dd00",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 108,
+      "time_seconds": 193.919882,
+      "path": "hollin-frame-review-2026-10-21/native-108-193.919882.jpg",
+      "source_id": "S38",
+      "bytes": 279548,
+      "sha256": "bc08852da9ecec82185d4c8faa9e5dc58590e43f83bff8066d35fe1ead961edd",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 109,
+      "time_seconds": 193.953215,
+      "path": "hollin-frame-review-2026-10-21/native-109-193.953215.jpg",
+      "source_id": "S38",
+      "bytes": 280630,
+      "sha256": "514cae6ff9b79bdf892b692dfd3370c615cf33bcace86fc7f04e13c6c97b11d8",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 110,
+      "time_seconds": 193.986548,
+      "path": "hollin-frame-review-2026-10-21/native-110-193.986548.jpg",
+      "source_id": "S38",
+      "bytes": 281267,
+      "sha256": "1ec9a88b162335ad3ed045b89a8968956e13e731ca4888038004175928a63e07",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 111,
+      "time_seconds": 194.019881,
+      "path": "hollin-frame-review-2026-10-21/native-111-194.019881.jpg",
+      "source_id": "S38",
+      "bytes": 281306,
+      "sha256": "677829b76b5623f2a704cc16a06c3b1cc9f2522a4ce1d45cfbbfc1cb4e283e70",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 112,
+      "time_seconds": 194.053214,
+      "path": "hollin-frame-review-2026-10-21/native-112-194.053214.jpg",
+      "source_id": "S38",
+      "bytes": 281301,
+      "sha256": "0c41dc076cc877c9469fe70c95532e4a8eeb2977f289849905b7481c6232dfae",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 113,
+      "time_seconds": 194.086547,
+      "path": "hollin-frame-review-2026-10-21/native-113-194.086547.jpg",
+      "source_id": "S38",
+      "bytes": 281784,
+      "sha256": "2bab34fe649d35ff048e738a1507ec40d106a2fefb81565f1e04d652bf0c528a",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 114,
+      "time_seconds": 194.11988,
+      "path": "hollin-frame-review-2026-10-21/native-114-194.119880.jpg",
+      "source_id": "S38",
+      "bytes": 282365,
+      "sha256": "c3679937978e12049877cd770e749682b6697e550989d8485d0485f0c87a292e",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 115,
+      "time_seconds": 194.153213,
+      "path": "hollin-frame-review-2026-10-21/native-115-194.153213.jpg",
+      "source_id": "S38",
+      "bytes": 282116,
+      "sha256": "949b082b452f3ab67e22d365f8eaaf0792f9d3bd7334ce897c05809a0e1bc1ca",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 116,
+      "time_seconds": 194.186546,
+      "path": "hollin-frame-review-2026-10-21/native-116-194.186546.jpg",
+      "source_id": "S38",
+      "bytes": 283574,
+      "sha256": "5a15439cc0ce663d5466b0dd1722b2128d650c67786f24911d714eb06946e325",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 117,
+      "time_seconds": 194.219879,
+      "path": "hollin-frame-review-2026-10-21/native-117-194.219879.jpg",
+      "source_id": "S38",
+      "bytes": 283442,
+      "sha256": "61eea6a56a23ee580d2277adbfb78ea524eda3bd15b7c72ae54f976125e17618",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 118,
+      "time_seconds": 194.253212,
+      "path": "hollin-frame-review-2026-10-21/native-118-194.253212.jpg",
+      "source_id": "S38",
+      "bytes": 283206,
+      "sha256": "04785a29f54e826dfaf5632b7d1b0a29711f09ff9f3e37caf6dd9fbf000d2c62",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    },
+    {
+      "index": 119,
+      "time_seconds": 194.286545,
+      "path": "hollin-frame-review-2026-10-21/native-119-194.286545.jpg",
+      "source_id": "S38",
+      "bytes": 283427,
+      "sha256": "5b48e82ae6e6842c9aab6c6d974d91d5228fb53bcb908aa3e01fe5f956426366",
+      "dimensions": [
+        2560,
+        1440
+      ],
+      "retained": true,
+      "reviewed_in_play_contact_sheet": true,
+      "capture_method": "Native full-screen screenshot at fixed 2560 x 1440; paused single-frame key steps. DOM rendered width checked before capture."
+    }
+  ],
+  "derived_images": [
+    {
+      "path": "hollin-frame-review-2026-10-21/S38-marker-strip-020-090.jpg",
+      "bytes": 606781,
+      "sha256": "7614a45989ea6a54fbfa3082155aa68eb3751e1db646823028223ddda912f33c",
+      "dimensions": [
+        1120,
+        2449
+      ],
+      "type": "Derived contact sheet or strip",
+      "method": "Crops and labelled layouts from retained native frames. Original frame pixels remain in separate files. Overview crops are resized for layout. No generated or substituted video content."
+    },
+    {
+      "path": "hollin-frame-review-2026-10-21/S38-play-transition-detail.jpg",
+      "bytes": 60800,
+      "sha256": "a1dea9f2231e22d222b10740ce96f30737f198acf35b09214ea7999a3f70ad51",
+      "dimensions": [
+        1280,
+        360
+      ],
+      "type": "Derived contact sheet or strip",
+      "method": "Crops and labelled layouts from retained native frames. Original frame pixels remain in separate files. Overview crops are resized for layout. No generated or substituted video content."
+    },
+    {
+      "path": "hollin-frame-review-2026-10-21/S38-sequence-overview.jpg",
+      "bytes": 639698,
+      "sha256": "fc5f3e3b5a985585a2fb217f4069e64e4ac13e186382df1708198ed03ca45e56",
+      "dimensions": [
+        2060,
+        1140
+      ],
+      "type": "Derived contact sheet or strip",
+      "method": "Crops and labelled layouts from retained native frames. Original frame pixels remain in separate files. Overview crops are resized for layout. No generated or substituted video content."
+    },
+    {
+      "path": "hollin-frame-review-2026-10-21/native-play-contact-000-029.jpg",
+      "bytes": 254366,
+      "sha256": "15a2d7eb88be99d243323b2d6a5cd96c3aa6bb4e3af78af672d4a35cba00ba25",
+      "dimensions": [
+        1380,
+        1100
+      ],
+      "type": "Derived contact sheet or strip",
+      "method": "Crops and labelled layouts from retained native frames. Original frame pixels remain in separate files. Overview crops are resized for layout. No generated or substituted video content."
+    },
+    {
+      "path": "hollin-frame-review-2026-10-21/native-play-contact-030-059.jpg",
+      "bytes": 351293,
+      "sha256": "946a744c43114053b67fdb0faedd2a00caf20880aac5ddf6a0861a4e4087e07c",
+      "dimensions": [
+        1380,
+        1100
+      ],
+      "type": "Derived contact sheet or strip",
+      "method": "Crops and labelled layouts from retained native frames. Original frame pixels remain in separate files. Overview crops are resized for layout. No generated or substituted video content."
+    },
+    {
+      "path": "hollin-frame-review-2026-10-21/native-play-contact-060-089.jpg",
+      "bytes": 291953,
+      "sha256": "91987850def31608edb66271ea6844197943192a2537d867bad2fd584e40a7ac",
+      "dimensions": [
+        1380,
+        1100
+      ],
+      "type": "Derived contact sheet or strip",
+      "method": "Crops and labelled layouts from retained native frames. Original frame pixels remain in separate files. Overview crops are resized for layout. No generated or substituted video content."
+    },
+    {
+      "path": "hollin-frame-review-2026-10-21/native-play-contact-090-119.jpg",
+      "bytes": 279703,
+      "sha256": "11369f504dbd6983ace0961b3ff05ff24e05a267156463ef6c860a12cf7ca9f3",
+      "dimensions": [
+        1380,
+        1100
+      ],
+      "type": "Derived contact sheet or strip",
+      "method": "Crops and labelled layouts from retained native frames. Original frame pixels remain in separate files. Overview crops are resized for layout. No generated or substituted video content."
+    },
+    {
+      "path": "hollin-frame-review-2026-10-21/waveform-contact-020-035.jpg",
+      "bytes": 1402705,
+      "sha256": "07cce1d198ed26a04be09ba6a717271063151f123ce805d53d6b7f4f697f505c",
+      "dimensions": [
+        2060,
+        2960
+      ],
+      "type": "Derived contact sheet or strip",
+      "method": "Crops and labelled layouts from retained native frames. Original frame pixels remain in separate files. Overview crops are resized for layout. No generated or substituted video content."
+    },
+    {
+      "path": "hollin-frame-review-2026-10-21/waveform-contact-070-085.jpg",
+      "bytes": 1403637,
+      "sha256": "8995eea3b24f7d2e70450f6c5f2a430dc2ed669ba807e1826da5a223c69617aa",
+      "dimensions": [
+        2060,
+        2960
+      ],
+      "type": "Derived contact sheet or strip",
+      "method": "Crops and labelled layouts from retained native frames. Original frame pixels remain in separate files. Overview crops are resized for layout. No generated or substituted video content."
+    },
+    {
+      "path": "hollin-frame-review-2026-10-21/waveform-contact-086-101.jpg",
+      "bytes": 1400663,
+      "sha256": "8aef4d6d7a8d420dafe24bf782f0bb46369fdd951804837280b0405db2faa26c",
+      "dimensions": [
+        2060,
+        2960
+      ],
+      "type": "Derived contact sheet or strip",
+      "method": "Crops and labelled layouts from retained native frames. Original frame pixels remain in separate files. Overview crops are resized for layout. No generated or substituted video content."
+    }
+  ],
+  "derivation_regions": {
+    "play_contact_crop_xyxy": [
+      2080,
+      1230,
+      2300,
+      1430
+    ],
+    "waveform_contact_crop_xyxy": [
+      250,
+      740,
+      2280,
+      1430
+    ],
+    "overview_crop_xyxy": [
+      250,
+      740,
+      2280,
+      1430
+    ],
+    "play_transition_detail_crop_xyxy": [
+      2120,
+      1260,
+      2290,
+      1430
+    ],
+    "marker_strip_crop_xyxy": [
+      250,
+      1250,
+      1250,
+      1275
+    ]
+  },
+  "exclusions": {
+    "capture_count": 120,
+    "log": "hollin-frame-review-2026-10-21/excluded-capture-pass.json",
+    "reason": "Variable browser screenshot layout. Corrected native full-screen pass replaces these captures.",
+    "images_retained": false,
+    "used_for_event_brackets": false
+  },
+  "retained_metadata": "hollin-frame-review-2026-10-21/native-audit-raw.json",
+  "image_paths_relative_to": "sources/"
+}

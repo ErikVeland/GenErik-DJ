@@ -1,0 +1,2739 @@
+[
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-168.711995.jpg",
+    "time": 168.711995,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-168.751995.jpg",
+    "time": 168.751995,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-168.791995.jpg",
+    "time": 168.791995,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-168.831994.jpg",
+    "time": 168.831994,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-168.871994.jpg",
+    "time": 168.871994,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-168.911994.jpg",
+    "time": 168.911994,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-168.951993.jpg",
+    "time": 168.951993,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-168.991992.jpg",
+    "time": 168.991992,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.031992.jpg",
+    "time": 169.031992,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.071992.jpg",
+    "time": 169.071992,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.479997.jpg",
+    "time": 1129.479997,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 250,
+      "width": 440,
+      "height": 150
+    },
+    "classification_limit": "Initial detail crop cuts off part of the selected row. Not used to bracket the preference change."
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.513330.jpg",
+    "time": 1129.51333,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 250,
+      "width": 440,
+      "height": 150
+    },
+    "classification_limit": "Initial detail crop cuts off part of the selected row. Not used to bracket the preference change."
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.546663.jpg",
+    "time": 1129.546663,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 250,
+      "width": 440,
+      "height": 150
+    },
+    "classification_limit": "Initial detail crop cuts off part of the selected row. Not used to bracket the preference change."
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.579996.jpg",
+    "time": 1129.579996,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 250,
+      "width": 440,
+      "height": 150
+    },
+    "classification_limit": "Initial detail crop cuts off part of the selected row. Not used to bracket the preference change."
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.613329.jpg",
+    "time": 1129.613329,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 250,
+      "width": 440,
+      "height": 150
+    },
+    "classification_limit": "Initial detail crop cuts off part of the selected row. Not used to bracket the preference change."
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.111992.jpg",
+    "time": 169.111992,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.151991.jpg",
+    "time": 169.151991,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.191991.jpg",
+    "time": 169.191991,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.231991.jpg",
+    "time": 169.231991,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.271991.jpg",
+    "time": 169.271991,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.311991.jpg",
+    "time": 169.311991,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.351991.jpg",
+    "time": 169.351991,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.391991.jpg",
+    "time": 169.391991,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.431990.jpg",
+    "time": 169.43199,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.471990.jpg",
+    "time": 169.47199,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.511990.jpg",
+    "time": 169.51199,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.551990.jpg",
+    "time": 169.55199,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.591989.jpg",
+    "time": 169.591989,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.631989.jpg",
+    "time": 169.631989,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.671989.jpg",
+    "time": 169.671989,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.313328.jpg",
+    "time": 1128.313328,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.346661.jpg",
+    "time": 1128.346661,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.379994.jpg",
+    "time": 1128.379994,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.413327.jpg",
+    "time": 1128.413327,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.446660.jpg",
+    "time": 1128.44666,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.479993.jpg",
+    "time": 1128.479993,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.513326.jpg",
+    "time": 1128.513326,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.546659.jpg",
+    "time": 1128.546659,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.579992.jpg",
+    "time": 1128.579992,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.613325.jpg",
+    "time": 1128.613325,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.646658.jpg",
+    "time": 1128.646658,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.679991.jpg",
+    "time": 1128.679991,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.713324.jpg",
+    "time": 1128.713324,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.746657.jpg",
+    "time": 1128.746657,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.779990.jpg",
+    "time": 1128.77999,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.813323.jpg",
+    "time": 1128.813323,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.846656.jpg",
+    "time": 1128.846656,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.879989.jpg",
+    "time": 1128.879989,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.913322.jpg",
+    "time": 1128.913322,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.946655.jpg",
+    "time": 1128.946655,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.711989.jpg",
+    "time": 169.711989,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.751988.jpg",
+    "time": 169.751988,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.791988.jpg",
+    "time": 169.791988,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.831988.jpg",
+    "time": 169.831988,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.871988.jpg",
+    "time": 169.871988,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1128.979988.jpg",
+    "time": 1128.979988,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.013321.jpg",
+    "time": 1129.013321,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.046654.jpg",
+    "time": 1129.046654,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.079987.jpg",
+    "time": 1129.079987,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.113320.jpg",
+    "time": 1129.11332,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.146653.jpg",
+    "time": 1129.146653,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.179986.jpg",
+    "time": 1129.179986,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.213319.jpg",
+    "time": 1129.213319,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.246652.jpg",
+    "time": 1129.246652,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.279985.jpg",
+    "time": 1129.279985,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.911987.jpg",
+    "time": 169.911987,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.951987.jpg",
+    "time": 169.951987,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-169.991987.jpg",
+    "time": 169.991987,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-170.031987.jpg",
+    "time": 170.031987,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "first-play",
+    "file": "S35-first-play-170.071986.jpg",
+    "time": 170.071986,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 190,
+      "width": 650,
+      "height": 320
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.313318.jpg",
+    "time": 1129.313318,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.346651.jpg",
+    "time": 1129.346651,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.379984.jpg",
+    "time": 1129.379984,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.413317.jpg",
+    "time": 1129.413317,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.446650.jpg",
+    "time": 1129.44665,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.479983.jpg",
+    "time": 1129.479983,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.513316.jpg",
+    "time": 1129.513316,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.546649.jpg",
+    "time": 1129.546649,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.579982.jpg",
+    "time": 1129.579982,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-change",
+    "file": "S34-quantise-change-1129.613315.jpg",
+    "time": 1129.613315,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-first-change",
+    "file": "S34-quantise-first-change-1127.313314.jpg",
+    "time": 1127.313314,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-first-change",
+    "file": "S34-quantise-first-change-1127.346647.jpg",
+    "time": 1127.346647,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-first-change",
+    "file": "S34-quantise-first-change-1127.379980.jpg",
+    "time": 1127.37998,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-first-change",
+    "file": "S34-quantise-first-change-1127.413313.jpg",
+    "time": 1127.413313,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-first-change",
+    "file": "S34-quantise-first-change-1127.446646.jpg",
+    "time": 1127.446646,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-first-change",
+    "file": "S34-quantise-first-change-1127.479979.jpg",
+    "time": 1127.479979,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-first-change",
+    "file": "S34-quantise-first-change-1127.513312.jpg",
+    "time": 1127.513312,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-first-change",
+    "file": "S34-quantise-first-change-1127.546645.jpg",
+    "time": 1127.546645,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-first-change",
+    "file": "S34-quantise-first-change-1127.579978.jpg",
+    "time": 1127.579978,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "quantise-first-change",
+    "file": "S34-quantise-first-change-1127.613311.jpg",
+    "time": 1127.613311,
+    "paused": true,
+    "clip": {
+      "x": 420,
+      "y": 300,
+      "width": 440,
+      "height": 165
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-252.735995.jpg",
+    "time": 252.735995,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-252.775995.jpg",
+    "time": 252.775995,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-252.815995.jpg",
+    "time": 252.815995,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-252.855994.jpg",
+    "time": 252.855994,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-252.895994.jpg",
+    "time": 252.895994,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-252.935994.jpg",
+    "time": 252.935994,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-252.975994.jpg",
+    "time": 252.975994,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.015993.jpg",
+    "time": 253.015993,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.055993.jpg",
+    "time": 253.055993,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.095993.jpg",
+    "time": 253.095993,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.135992.jpg",
+    "time": 253.135992,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.175991.jpg",
+    "time": 253.175991,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.215991.jpg",
+    "time": 253.215991,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.255991.jpg",
+    "time": 253.255991,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.295991.jpg",
+    "time": 253.295991,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.335990.jpg",
+    "time": 253.33599,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.375990.jpg",
+    "time": 253.37599,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.415990.jpg",
+    "time": 253.41599,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.455990.jpg",
+    "time": 253.45599,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.495990.jpg",
+    "time": 253.49599,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.535990.jpg",
+    "time": 253.53599,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.575990.jpg",
+    "time": 253.57599,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.615989.jpg",
+    "time": 253.615989,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.655989.jpg",
+    "time": 253.655989,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.695989.jpg",
+    "time": 253.695989,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.735989.jpg",
+    "time": 253.735989,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.775988.jpg",
+    "time": 253.775988,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.815988.jpg",
+    "time": 253.815988,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.855988.jpg",
+    "time": 253.855988,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.895988.jpg",
+    "time": 253.895988,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.935987.jpg",
+    "time": 253.935987,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-253.975987.jpg",
+    "time": 253.975987,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.015987.jpg",
+    "time": 254.015987,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.055987.jpg",
+    "time": 254.055987,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.095986.jpg",
+    "time": 254.095986,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.135986.jpg",
+    "time": 254.135986,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.175986.jpg",
+    "time": 254.175986,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.215986.jpg",
+    "time": 254.215986,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.255985.jpg",
+    "time": 254.255985,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.295985.jpg",
+    "time": 254.295985,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.335985.jpg",
+    "time": 254.335985,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.375985.jpg",
+    "time": 254.375985,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.415984.jpg",
+    "time": 254.415984,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.455984.jpg",
+    "time": 254.455984,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.495984.jpg",
+    "time": 254.495984,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.535983.jpg",
+    "time": 254.535983,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.575982.jpg",
+    "time": 254.575982,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.615982.jpg",
+    "time": 254.615982,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.655982.jpg",
+    "time": 254.655982,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.695982.jpg",
+    "time": 254.695982,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.735981.jpg",
+    "time": 254.735981,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.775981.jpg",
+    "time": 254.775981,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.815981.jpg",
+    "time": 254.815981,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.855981.jpg",
+    "time": 254.855981,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.895981.jpg",
+    "time": 254.895981,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.935981.jpg",
+    "time": 254.935981,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-254.975981.jpg",
+    "time": 254.975981,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.015980.jpg",
+    "time": 255.01598,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.055980.jpg",
+    "time": 255.05598,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.095980.jpg",
+    "time": 255.09598,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.135980.jpg",
+    "time": 255.13598,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.175979.jpg",
+    "time": 255.175979,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.215979.jpg",
+    "time": 255.215979,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.255979.jpg",
+    "time": 255.255979,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.295979.jpg",
+    "time": 255.295979,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.335978.jpg",
+    "time": 255.335978,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.375978.jpg",
+    "time": 255.375978,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.415978.jpg",
+    "time": 255.415978,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.455978.jpg",
+    "time": 255.455978,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.495977.jpg",
+    "time": 255.495977,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-212.709981.jpg",
+    "time": 212.709981,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-212.743314.jpg",
+    "time": 212.743314,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-212.776647.jpg",
+    "time": 212.776647,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-212.809980.jpg",
+    "time": 212.80998,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-212.843313.jpg",
+    "time": 212.843313,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-212.876646.jpg",
+    "time": 212.876646,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-212.909979.jpg",
+    "time": 212.909979,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-212.943312.jpg",
+    "time": 212.943312,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-212.976645.jpg",
+    "time": 212.976645,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-213.009978.jpg",
+    "time": 213.009978,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.535977.jpg",
+    "time": 255.535977,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.575977.jpg",
+    "time": 255.575977,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.615977.jpg",
+    "time": 255.615977,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.655976.jpg",
+    "time": 255.655976,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.695976.jpg",
+    "time": 255.695976,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.735976.jpg",
+    "time": 255.735976,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.775976.jpg",
+    "time": 255.775976,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.815976.jpg",
+    "time": 255.815976,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.855976.jpg",
+    "time": 255.855976,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S35",
+    "series": "deck-b-start",
+    "file": "S35-deck-b-start-255.895976.jpg",
+    "time": 255.895976,
+    "paused": true,
+    "clip": {
+      "x": 200,
+      "y": 300,
+      "width": 650,
+      "height": 263
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-213.043297.jpg",
+    "time": 213.043297,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-213.076630.jpg",
+    "time": 213.07663,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-213.109963.jpg",
+    "time": 213.109963,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    },
+    "retained": false,
+    "exclusion": "Browser overlay obscures source frame. Excluded from event classification."
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-213.143296.jpg",
+    "time": 213.143296,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-213.176629.jpg",
+    "time": 213.176629,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-213.209962.jpg",
+    "time": 213.209962,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-213.243295.jpg",
+    "time": 213.243295,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-213.276628.jpg",
+    "time": 213.276628,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-213.309961.jpg",
+    "time": 213.309961,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "first-play",
+    "file": "S34-first-play-213.343294.jpg",
+    "time": 213.343294,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.446665.jpg",
+    "time": 1245.446665,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.479998.jpg",
+    "time": 1245.479998,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.513331.jpg",
+    "time": 1245.513331,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.546664.jpg",
+    "time": 1245.546664,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.579997.jpg",
+    "time": 1245.579997,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.613330.jpg",
+    "time": 1245.61333,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.646663.jpg",
+    "time": 1245.646663,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.679996.jpg",
+    "time": 1245.679996,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.713329.jpg",
+    "time": 1245.713329,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.746662.jpg",
+    "time": 1245.746662,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.779995.jpg",
+    "time": 1245.779995,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.813328.jpg",
+    "time": 1245.813328,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.846661.jpg",
+    "time": 1245.846661,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.879994.jpg",
+    "time": 1245.879994,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.913327.jpg",
+    "time": 1245.913327,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.946660.jpg",
+    "time": 1245.94666,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1245.979993.jpg",
+    "time": 1245.979993,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1246.013326.jpg",
+    "time": 1246.013326,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1246.046659.jpg",
+    "time": 1246.046659,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  },
+  {
+    "source_id": "S34",
+    "series": "post-settings-play",
+    "file": "S34-post-settings-play-1246.079992.jpg",
+    "time": 1246.079992,
+    "paused": true,
+    "clip": {
+      "x": 390,
+      "y": 130,
+      "width": 500,
+      "height": 205
+    }
+  }
+]

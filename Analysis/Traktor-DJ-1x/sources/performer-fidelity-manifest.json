@@ -1,0 +1,61 @@
+{
+  "format": "tdj1.performer-fidelity-provenance/v1",
+  "prepared_date": "2026-10-21",
+  "time_zone": "Australia/Brisbane",
+  "scope": "Existing dossier, public announcement and direct performer account. No live device operations.",
+  "new_public_evidence": [
+    {
+      "key": "S41",
+      "url": "https://rekkerd.org/native-instruments-releases-traktor-dj-app-for-ipad/",
+      "source_type": "NI launch release reproduced by publisher",
+      "publication_date": "2013-02-21",
+      "review_scope": "Main article and reproduced NI announcement read. Tempo, key and timbre recommendation claim and live gridding/help wording checked.",
+      "limitations": [
+        "No algorithm disclosure",
+        "No installed-build recommendation measurement",
+        "Personal adaptation supplied independently by R2"
+      ]
+    }
+  ],
+  "performer_evidence": [
+    {
+      "key": "R2",
+      "account": "Genre and previous mixes/track combinations matter. Rankings were observed to adapt.",
+      "explicit_followup_answer": "I observed TDJ1’s rankings adapt",
+      "role": "Original observed behaviour required for fidelity",
+      "limitation": "No specific before/after ranked outputs or internal ML method supplied yet."
+    },
+    {
+      "key": "R3",
+      "account": "13 years of use. Replicate everything as it is.",
+      "role": "Governing fidelity requirement, including ordinary functions and quirks."
+    }
+  ],
+  "deliverables": [
+    "15-performer-fidelity-specification.md",
+    "16-next-track-suggestion-fidelity.md",
+    "contracts/performer-fidelity.json",
+    "contracts/next-track-suggestions.json"
+  ],
+  "updated_existing_documents": [
+    "README.md",
+    "01-product-and-technical-specification.md",
+    "02-feature-and-interaction-inventory.md",
+    "03-transport-sync-and-queued-starts.md",
+    "04-user-journeys-and-acceptance-criteria.md",
+    "05-reference-capture-and-open-questions.md",
+    "06-sources-and-evidence.md"
+  ],
+  "counts": {
+    "performer_contracts": 43,
+    "inventory_entries": 146,
+    "suggestion_reference_cases": 10
+  },
+  "device_constraint": {
+    "gig_iPad_access_authorised": false,
+    "reference_capture_authorised_now": false,
+    "jailbreak_parked": true,
+    "automatic_resume_scheduled": false,
+    "existing_local_evidence_and_public_sources_only": true
+  }
+}

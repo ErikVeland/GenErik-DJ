@@ -1,0 +1,131 @@
+{
+  "review_date": "2026-10-21",
+  "timezone": "Australia/Brisbane",
+  "device_access": false,
+  "method": "Public web and browser review from Mac. No app acquisition or device operation. Original help seen through period reproductions, not a recovered app help bundle.",
+  "sources": [
+    {
+      "source_id": "S31",
+      "title": "Native Instruments Traktor DJ Test",
+      "publisher": "Bonedo",
+      "reviewer": "Numinos",
+      "help_text_author": "Native Instruments",
+      "published": "2013-02-21",
+      "url": "https://www.bonedo.de/artikel/test-native-instruments-traktor-dj/",
+      "review_scope": "Launch review read. Gallery opened and original help images 2 and 3 inspected. Help text distinguished from reviewer commentary. Partial index and scrolled Freeze card only.",
+      "exact_app_version": null,
+      "complete_help_review": false,
+      "quantize_controls_ordinary_play_established": false,
+      "second_press_cancels_pending_established": false
+    },
+    {
+      "source_id": "S32",
+      "title": "Traktor iOS - For Controllerism?",
+      "publisher": "DJ TechTools Forum",
+      "published": "2013-02-22",
+      "last_relevant_post": "2013-02-23",
+      "url": "https://forum.djtechtools.com/t/traktor-ios-for-controllerism/53725",
+      "review_scope": "Complete four-post thread. Firsthand Freeze triggering and settings report. Tentative default not treated as factory-default evidence. Not NI-hosted.",
+      "exact_app_version": null,
+      "freeze_quantisation_report": true,
+      "quantize_controls_ordinary_play_established": false,
+      "second_press_cancels_pending_established": false
+    },
+    {
+      "source_id": "S33",
+      "title": "Quantize Value - ability to change from just whole beat",
+      "publisher": "NI Community",
+      "published": null,
+      "url": "https://community.native-instruments.com/discussion/3376/quantize-value-ability-to-change-from-just-whole-beat",
+      "review_scope": "Current repost and comments read. Links to previous forum identified. Unversioned iPad comparison and six-value range excluded as original 1.x menu/transport evidence.",
+      "exact_app_version": null,
+      "historical_thread_read": false,
+      "quantize_controls_ordinary_play_established": false,
+      "second_press_cancels_pending_established": false
+    }
+  ],
+  "frames": [
+    {
+      "file": "help-frames/S31-original-notification-index.jpg",
+      "source_id": "S31",
+      "original_image_url": "https://cdn-image.bonedo.de/wp-media-folder-bonedo//var/www/html/web/app/uploads/2013/02/tutorial_2_Native_Instruments_Traktor_DJ.jpg",
+      "original_image_dimensions": [
+        1024,
+        768
+      ],
+      "description": "Partial original NI help index. Recording entry clipped. No exact app version shown.",
+      "media_type": "image/jpeg",
+      "dimensions": [
+        960,
+        720
+      ],
+      "bytes": 91283,
+      "sha256": "5933a70ca8af3d2f1f3ce0e2f3504704582ada90ebd1da61c3efb33108e56ea8",
+      "capture": "Browser screenshot of rendered public image, clipped to image bounds x160 y0 width960 height720 in a 1280x720 viewport. Original image fitted to viewport. No image content altered."
+    },
+    {
+      "file": "help-frames/S31-original-freeze-help.jpg",
+      "source_id": "S31",
+      "original_image_url": "https://cdn-image.bonedo.de/wp-media-folder-bonedo//var/www/html/web/app/uploads/2013/02/tutorial_3.jpg",
+      "original_image_dimensions": [
+        1024,
+        768
+      ],
+      "description": "Scrolled original Freeze help card. Steps 2 and 3 visible; title and first step outside the captured area.",
+      "media_type": "image/jpeg",
+      "dimensions": [
+        960,
+        720
+      ],
+      "bytes": 86996,
+      "sha256": "840f59b688557d0b803e3bf2fb4acf9adadcbd15d3db9471147f6b85c1f4d601",
+      "capture": "Browser screenshot of rendered public image, clipped to image bounds x160 y0 width960 height720 in a 1280x720 viewport. Original image fitted to viewport. No image content altered."
+    }
+  ],
+  "archive_access": [
+    {
+      "url": "https://www.native-instruments.com/forum/",
+      "result": "Resolves to replacement NI Community home. Does not retrieve an old thread."
+    },
+    {
+      "url": "https://archive.org/wayback/available?url=https%3A%2F%2Fwww.native-instruments.com%2Fforum%2F&timestamp=20180501",
+      "result": "Web reader retrieval failed. Browser displayed HTTP 429 Too Many Requests on initial visit and one later reload after backoff. Further retries stopped. No archived post recovered.",
+      "browser_attempts": 2
+    },
+    {
+      "url": "https://web.archive.org/cdx/search/cdx?url=native-instruments.com%2Fforum%2Fthreads%2F&matchType=prefix&filter=statuscode%3A200&filter=urlkey%3A.*quant.*&collapse=urlkey&from=2013&to=2019&output=json&fl=timestamp%2Coriginal&limit=100",
+      "result": "Web reader could not retrieve the discovery request. No CDX inventory read."
+    },
+    {
+      "url": "https://www.native-instruments.com/forum/threads/quantize-value-ability-to-change-from-just-whole-beat-for-track-decks.327455/",
+      "result": "Followed source S33 link, which included analytics query parameters. Web reader returned cache miss. Historic post not read."
+    }
+  ],
+  "additional_material_checked": [
+    {
+      "source_id": "S21",
+      "url": "https://www.youtube.com/watch?v=Oc4OBDCZnpc",
+      "scope": "Selected help scenes near 107.95 and 117.95 seconds: navigation card and partial help index. At 122.95 seconds help already closed. No complete visual help catalogue review."
+    },
+    {
+      "source_id": "S20",
+      "url": "https://www.youtube.com/watch?v=5Rd73mY60FE",
+      "scope": "Selected help scenes near 160.62 and 165.62 seconds: partial index and grid-correction card. No complete help review."
+    },
+    {
+      "url": "https://community.native-instruments.com/discussion/5248/traktor-dj-for-ipad-downbeat-beatgrid-cue-sync-points-reset",
+      "scope": "Current downbeat question and response read. App identity/version not verified. No ordinary Play or pending cancellation test. Not used as transport evidence."
+    },
+    {
+      "url": "https://community.native-instruments.com/discussion/comment/91533",
+      "scope": "Current Traktor Pro feature discussion explicitly refers to DJ 2 in follow-up. Excluded as original 1.x timing evidence."
+    }
+  ],
+  "search_scope": "Focused public searches for old NI forum quantise/play/cancellation, original in-app help and exact help wording. Search indexing and archive retrieval are incomplete. No claim that an unlocated post or help card never existed.",
+  "conclusions": {
+    "early_bar_play": "Historical S20 support retained. Not remeasured.",
+    "quantize_controls_ordinary_play": "Unresolved Q02",
+    "second_press_cancels_pending": "Unresolved Q05",
+    "complete_original_help": "Not recovered. Partial public screenshots only."
+  }
+}

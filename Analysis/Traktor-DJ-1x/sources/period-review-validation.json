@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "errors": [],
+  "checked_sources": 27,
+  "checked_features": 142,
+  "checked_frames": 2,
+  "method": "Local links, source IDs, feature uniqueness, JPEG dimensions/size and SHA-256. No device access."
+}

@@ -1,0 +1,146 @@
+{
+  "review_date": "2026-10-21",
+  "timezone": "Australia/Brisbane",
+  "device_access": false,
+  "method": "Mac-only public browsing. Caption and selected visual review; no independent audio measurement.",
+  "videos": [
+    {
+      "source_id": "S28",
+      "id": "TefuhGYDp0Q",
+      "title": "iPad Music Series Traktor DJ for iPad with Traktor Kontrol Z1 Mixer and Interface",
+      "publisher": "Groove Logic TV",
+      "published": "2018-08-17",
+      "url": "https://www.youtube.com/watch?v=TefuhGYDp0Q",
+      "duration_seconds": 965.381,
+      "publication_date_method": "Expanded YouTube video details",
+      "captions_language": "en",
+      "captions_type": "auto-generated",
+      "caption_export_bytes": 15156,
+      "caption_export_sha256": "6ab288344af4297e5030e2e42e5cde5aa3ca6822d04ffbda4229cdabc2ce314e",
+      "review_scope": "Complete English auto-captions. Selected frames near 96.53 and 482.69 seconds. No complete visual review.",
+      "app_identity": "Original Traktor DJ interface visually identified",
+      "exact_app_version": null,
+      "quantize_controls_play_established": false,
+      "second_press_cancels_pending_established": false
+    },
+    {
+      "source_id": "S29",
+      "id": "KadcG76j8AU",
+      "title": "Playing with Traktor dj app on iPad",
+      "publisher": "DarkWizardStudios",
+      "published": "2019-04-21",
+      "url": "https://www.youtube.com/watch?v=KadcG76j8AU",
+      "duration_seconds": 598.401,
+      "publication_date_method": "Expanded YouTube video details",
+      "captions_language": "en",
+      "captions_type": "auto-generated",
+      "caption_export_bytes": 940,
+      "caption_export_sha256": "fa1d425ef07818374f7135e736a011ca0169d49784981abe75ff91586730e92b",
+      "review_scope": "Complete sparse auto-caption export, primarily music. Selected frames at 0, 119.66 and 299.15 seconds. No complete visual review.",
+      "app_identity": "Original Traktor DJ interface visually identified",
+      "exact_app_version": null,
+      "quantize_controls_play_established": false,
+      "second_press_cancels_pending_established": false
+    },
+    {
+      "source_id": "S30",
+      "id": "di7uSZVBAlE",
+      "title": "Traktor DJ vs Cross DJ vs EDjing vs WeDJ vs Pacemaker | iPad DJ App Comparison",
+      "publisher": "Stuart Ritchie",
+      "published": "2017-01-01",
+      "url": "https://www.youtube.com/watch?v=di7uSZVBAlE",
+      "duration_seconds": 1806.801,
+      "publication_date_method": "Expanded YouTube video details",
+      "captions_language": "en",
+      "captions_type": "auto-generated",
+      "caption_export_bytes": 29796,
+      "caption_export_sha256": "81717b5fc94b16f9455c81271f892169de180bb7e6ced0e18ab5e3825c6b7ae1",
+      "review_scope": "Caption reading scoped to introduction and Traktor section, about 0:00-8:42. Selected Playback frame at 461.354326 seconds. Other apps not used as Traktor evidence.",
+      "app_identity": "Original Traktor DJ interface visually identified",
+      "exact_app_version": null,
+      "quantize_controls_play_established": false,
+      "second_press_cancels_pending_established": false
+    }
+  ],
+  "frames": [
+    {
+      "file": "later-1x-frames/S30-2017-quantise-menu-461.354.jpg",
+      "source_id": "S30",
+      "video_id": "di7uSZVBAlE",
+      "video_time_seconds": 461.354326,
+      "description": "Playback preferences with four Quantize Size choices and 1/2 Beat selected. This is a selected setting, not a fresh-install default test.",
+      "bytes": 31519,
+      "sha256": "855e3b51a6b72ea96f55ba893aba75f240128c20d53b80c6e8c8347bc1d4e597",
+      "media_type": "image/jpeg",
+      "dimensions": [
+        880,
+        495
+      ],
+      "capture": "Cropped browser screenshot at normal player-seek position. No remote video download. Not an input/audio timing trace."
+    },
+    {
+      "file": "later-1x-frames/S28-2018-original-app-96.530.jpg",
+      "source_id": "S28",
+      "video_id": "TefuhGYDp0Q",
+      "video_time_seconds": 96.529766,
+      "description": "Original-app layout and beatgrid editor in the 2018 walkthrough. Exact build not shown.",
+      "bytes": 63395,
+      "sha256": "43b818dc00c0cbd9cc078771a10ef4187f52ca35a7cf8b69b847ab22c292716c",
+      "media_type": "image/jpeg",
+      "dimensions": [
+        880,
+        495
+      ],
+      "capture": "Cropped browser screenshot at normal player-seek position. No remote video download. Not an input/audio timing trace."
+    },
+    {
+      "file": "later-1x-frames/S29-2019-original-app-119.660.jpg",
+      "source_id": "S29",
+      "video_id": "KadcG76j8AU",
+      "video_time_seconds": 119.66,
+      "description": "Original-app waveform, EQ and FX controls in the 2019 performance. No Quantize Size or identifiable pending input shown.",
+      "bytes": 49523,
+      "sha256": "d7e5c70c3eb9f6186ab7db12749430b63ee68c4384e5a2d85015ecf77c182fe4",
+      "media_type": "image/jpeg",
+      "dimensions": [
+        880,
+        495
+      ],
+      "capture": "Cropped browser screenshot at normal player-seek position. No remote video download. Not an input/audio timing trace."
+    }
+  ],
+  "additional_material_checked": [
+    {
+      "url": "https://djworx.com/traktor-dj-1-5-superslicer-beyond/",
+      "published": "2014-08-19",
+      "page_updated": "2026-04-27",
+      "scope": "Article body read in browser; embedded source is already S10. No Play policy or pending cancellation rule found."
+    },
+    {
+      "url": "https://www.hiropon.jp/?p=852",
+      "published": "2019-06-06",
+      "page_updated": "2021-10-12",
+      "scope": "Original-app / DJ 2 comparison article read in Japanese. No queued-Play cancellation account. No timing rules transferred from DJ 2."
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=hPqcSOy6jN4",
+      "published": "2016-01-24",
+      "scope": "Complete auto-captions read. Rejected because the presenter identifies the application as edjing at about 1:03."
+    },
+    {
+      "url": "https://www.digitaldjtips.com/confessions-of-a-first-time-traktor-user/",
+      "scope": "Search result concerns desktop Traktor sync modes. Excluded as original iPad timing evidence."
+    }
+  ],
+  "conclusions": {
+    "later_quantise_menu": "Four choices visually established in S30; half-beat selected. Factory default and exact app version not tested.",
+    "play_preference_mapping": "Unresolved",
+    "pending_second_press": "Unresolved"
+  },
+  "next_reference_tests": [
+    "Paired single-press and second-press controls",
+    "All four sizes with fixed Slicer Quantize state",
+    "Cue on beat 1 and beat 3",
+    "Before-target and after-launch second presses"
+  ]
+}

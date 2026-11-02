@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "errors": [],
+  "checked_sources": 37,
+  "feature_rows": 143,
+  "reviewed_step_captures": 210,
+  "checked_retained_images": 214,
+  "excluded_images": 1,
+  "method": "Validate Markdown links, source/feature IDs, retained JPEG dimensions and hashes, plus intentional exclusion. No device access."
+}

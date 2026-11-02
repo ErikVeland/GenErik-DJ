@@ -1,0 +1,19 @@
+{
+  "ok": true,
+  "errors": [],
+  "checked_sources": 40,
+  "feature_rows": 143,
+  "checked_local_markdown_links": 101,
+  "retained_native_frame_captures": 120,
+  "derived_images": 10,
+  "checked_retained_images": 130,
+  "excluded_and_removed_captures": 120,
+  "adjacent_step_seconds": 0.03333299999999895,
+  "questions_still_open": [
+    "Q02",
+    "Q03",
+    "Q05"
+  ],
+  "device_access": false,
+  "method": "Validate Markdown links/source IDs; preserve feature count; verify hashes, sizes, JPEG dimensions, adjacent timestamp steps, retained image set and intentional exclusions. Play sheets, marker strip, boundary sheets and overview also inspected visually."
+}

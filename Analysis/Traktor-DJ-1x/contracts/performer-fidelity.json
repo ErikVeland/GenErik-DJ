@@ -1,0 +1,3530 @@
+{
+  "format": "tdj1.performer-fidelity/v1",
+  "status": "implementation_in_progress_original_fidelity_unverified",
+  "reference": {
+    "product": "Native Instruments Traktor DJ for iPad 1.x",
+    "installed_version": "1.6.8",
+    "installed_build": "1.6.8.67",
+    "bundle_id": "com.native-instruments.traktordj",
+    "identity_evidence": [
+      "L1"
+    ],
+    "performer_experience_years": 13,
+    "performer_evidence": [
+      "R1",
+      "R2",
+      "R3",
+      "R5"
+    ],
+    "historical_evidence_does_not_prove_installed_build_equality": true
+  },
+  "governing_document": "../15-performer-fidelity-specification.md",
+  "full_inventory_document": "../02-feature-and-interaction-inventory.md",
+  "suggestion_contract": "next-track-suggestions.json",
+  "fidelity_rules": [
+    "Preserve original sound, timing, gestures, UI feedback, defaults, state, persistence and quirks.",
+    "Apply the confirmed lexicographic suggestion policy: key, BPM within ±8%, similar energy, then previous undirected pairing. Retain historical genre/timbre reports as reference evidence; do not insert independent weights into the confirmed ordering.",
+    "Retain ordinary functions in full replication scope.",
+    "Keep documented capabilities, performer reports, local evidence and unresolved details distinct.",
+    "Match target-build behaviour. Keep historical version and controller boundaries explicit.",
+    "Resolve unknowns against the reference rather than substitute plausible policies.",
+    "Existing proposed engine models are non-normative hypotheses.",
+    "Internal implementation may differ only where original observable behaviour remains equivalent.",
+    "Do not add controls, gestures, providers, explanations or workflow changes without a separate user request.",
+    "All original iPad gestures require 1:1 support and paired multitouch acceptance, including selection, gridding, zoom, XY filter controls and simultaneous gestures."
+  ],
+  "device_constraint": {
+    "gig_iPad_access_authorised": false,
+    "reference_capture_authorised_now": false,
+    "jailbreak_parked": true,
+    "automatic_resume_scheduled": false,
+    "existing_local_evidence_and_public_sources_only": true,
+    "named_diagnostic_authorisation_2026_10_29": {
+      "name": "GenErik",
+      "scope": "Separate audio-check app installation and one-minute/five-minute performance checks",
+      "original_Traktor_app_or_data_operations_authorised": false,
+      "reference_capture_authorised": false,
+      "jailbreak_authorised": false,
+      "target_evidence": "../../../Replica/Validation/GenErikAudioCheck-2026-10-29-01/authorisation-and-target.json"
+    }
+  },
+  "evidence_labels": {
+    "D": "Documented within stated source/version/control scope. Not proof of every installed-build detail.",
+    "L": "Existing local metadata or copied exports. No live test.",
+    "R": "Performer report or requirement, including observed original behaviour.",
+    "P": "Non-normative engineering or test proposal.",
+    "V": "Original presence or detail unresolved."
+  },
+  "contract_count": 43,
+  "inventory_count": 146,
+  "completion_rule": "Every confirmed original behaviour must match agreed reference cases. Investigate candidate features and record presence or absence. Unknown policies, missing outputs and unmatched sound or interactions prevent a claim of complete fidelity.",
+  "contracts": [
+    {
+      "id": "PF001",
+      "behaviour_to_preserve": "Open suggestions through the destination deck's artwork, with the correct musical reference and destination",
+      "performer_value": "Find the next record within the mixing flow",
+      "reference_sequence": {
+        "trigger": "Open suggestions through destination artwork",
+        "context_to_retain": [
+          "reference track",
+          "destination deck",
+          "deck playback states"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S1",
+        "S15"
+      ],
+      "evidence_and_boundary": "D S15, S1; source selection when both decks play remains to capture",
+      "inventory_ids": [
+        "F005"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF002",
+      "behaviour_to_preserve": "Suggest compatible tracks using tempo and key, with the original compatibility indicators",
+      "performer_value": "Judge an entry without manually comparing the whole collection",
+      "reference_sequence": {
+        "trigger": "Open or refresh the original suggestion list",
+        "context_to_retain": [
+          "library",
+          "tempo analysis",
+          "key analysis",
+          "reference context"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S1",
+        "S15"
+      ],
+      "evidence_and_boundary": "D S1, S15; ranking weights, limits and tie order remain to capture",
+      "inventory_ids": [
+        "F006"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF003",
+      "behaviour_to_preserve": "Preserve the timbre-based contribution advertised for the original recommendation engine",
+      "performer_value": "Retain its sensitivity to how tracks sound together",
+      "reference_sequence": {
+        "trigger": "Generate original suggestions",
+        "context_to_retain": [
+          "track audio",
+          "original timbre analysis"
+        ]
+      },
+      "evidence_basis": "NI_declared_original_capability",
+      "evidence_refs": [
+        "S41"
+      ],
+      "evidence_and_boundary": "D S41, NI announcement; descriptors and contribution to ranking remain unknown",
+      "inventory_ids": [
+        "F144"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF004",
+      "behaviour_to_preserve": "Preserve genre's role in suggestions as reported by the performer",
+      "performer_value": "Keep the original sense of stylistic connection and possible transitions",
+      "reference_sequence": {
+        "trigger": "Generate original suggestions",
+        "context_to_retain": [
+          "original genre information",
+          "reference context"
+        ]
+      },
+      "evidence_basis": "performer_reported_original_behaviour",
+      "evidence_refs": [
+        "R2"
+      ],
+      "evidence_and_boundary": "R2; do not substitute a new genre classifier or invent a genre restriction",
+      "inventory_ids": [
+        "F145"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF005",
+      "behaviour_to_preserve": "Let previous mixes and track combinations affect suggestions, including the observed adaptive rankings",
+      "performer_value": "Carry the performer's accumulated mixing experience into the next choice",
+      "reference_sequence": {
+        "trigger": "Mix tracks and later request suggestions",
+        "context_to_retain": [
+          "previous mixes and combinations",
+          "retained adaptive state",
+          "reference track"
+        ]
+      },
+      "evidence_basis": "performer_reported_original_behaviour",
+      "evidence_refs": [
+        "R2"
+      ],
+      "evidence_and_boundary": "R2, explicit observed behaviour; learning method, update triggers and stored state remain to recover",
+      "inventory_ids": [
+        "F146"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF006",
+      "behaviour_to_preserve": "Reproduce the original suggestion ordering and response to reference track, musical data and history changes",
+      "performer_value": "Preserve the recommendations the performer expects, rather than a broadly similar list",
+      "reference_sequence": {
+        "trigger": "Change a reference input and reopen suggestions",
+        "context_to_retain": [
+          "same library",
+          "before/after musical context",
+          "before/after history state"
+        ]
+      },
+      "evidence_basis": "documented_workflow_and_performer_reported_adaptation",
+      "evidence_refs": [
+        "R2",
+        "S15"
+      ],
+      "evidence_and_boundary": "D/R scope from S15 and R2; exact ranked outputs require reference examples",
+      "inventory_ids": [
+        "F005",
+        "F006",
+        "F144",
+        "F145",
+        "F146"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF007",
+      "behaviour_to_preserve": "Analyse the music collection in the background through the original workflow",
+      "performer_value": "Make the collection ready without preparing every track individually",
+      "reference_sequence": {
+        "trigger": "Start the app with an available music collection",
+        "context_to_retain": [
+          "analysed and unanalysed recordings",
+          "existing cache"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S11",
+        "S15"
+      ],
+      "evidence_and_boundary": "D S11, S15; scheduling, progress and cache rules remain to capture",
+      "inventory_ids": [
+        "F013"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF008",
+      "behaviour_to_preserve": "Derive and retain the original waveform, source BPM, key, beatgrid and downbeat information",
+      "performer_value": "Supply the timing and harmonic information used across the app",
+      "reference_sequence": {
+        "trigger": "Analyse a recording",
+        "context_to_retain": [
+          "original audio",
+          "original analysis settings",
+          "existing corrections"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S11",
+        "S41"
+      ],
+      "evidence_and_boundary": "D S11, S41; analysis algorithms and accuracy remain to match",
+      "inventory_ids": [
+        "F013",
+        "F036",
+        "F045",
+        "F046",
+        "F048"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF009",
+      "behaviour_to_preserve": "Correct grid phase by moving the waveform against the grid",
+      "performer_value": "Fix the rhythmic reference directly",
+      "reference_sequence": {
+        "trigger": "Adjust phase in the original grid editor",
+        "context_to_retain": [
+          "stored BPM",
+          "waveform",
+          "beatgrid",
+          "playing or stopped state"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S11"
+      ],
+      "evidence_and_boundary": "D S11; sensitivity, precision and commit rules remain to capture",
+      "inventory_ids": [
+        "F044",
+        "F045"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF010",
+      "behaviour_to_preserve": "Identify the correct first beat within the bar",
+      "performer_value": "Make bar-aligned operations refer to the intended downbeat",
+      "reference_sequence": {
+        "trigger": "Select the intended first beat of the bar",
+        "context_to_retain": [
+          "beatgrid",
+          "downbeat selection",
+          "current transport state"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S1"
+      ],
+      "evidence_and_boundary": "D S1; exact touch path and stored representation remain to capture",
+      "inventory_ids": [
+        "F046"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF011",
+      "behaviour_to_preserve": "Correct detected BPM with half, double and tap operations",
+      "performer_value": "Resolve common tempo interpretation errors in place",
+      "reference_sequence": {
+        "trigger": "Use half, double or tap BPM correction",
+        "context_to_retain": [
+          "detected BPM",
+          "stored musical data",
+          "transport state"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S11"
+      ],
+      "evidence_and_boundary": "D S11; rounding, gesture timing and downstream effects remain to match",
+      "inventory_ids": [
+        "F048"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF012",
+      "behaviour_to_preserve": "Inspect the grid in four-beat increments through the documented controls",
+      "performer_value": "Check alignment across the track efficiently",
+      "reference_sequence": {
+        "trigger": "Scan during grid editing",
+        "context_to_retain": [
+          "editor position",
+          "controller model or actual touch equivalent"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S1",
+        "S11"
+      ],
+      "evidence_and_boundary": "D S11/S1; distinguish confirmed controller controls from unverified touch equivalents",
+      "inventory_ids": [
+        "F047"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF013",
+      "behaviour_to_preserve": "Create or adjust beatgrids while music continues",
+      "performer_value": "Prepare and repair without abandoning the performance flow",
+      "reference_sequence": {
+        "trigger": "Edit a beatgrid during playback",
+        "context_to_retain": [
+          "audible playback",
+          "grid phase and BPM",
+          "synced operations"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S41"
+      ],
+      "evidence_and_boundary": "D S41 and grid tutorials; exact output response to each edit remains to match",
+      "inventory_ids": [
+        "F044",
+        "F045"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF014",
+      "behaviour_to_preserve": "Preserve prepared grids, cues, loops, BPM and key through the original storage and version-specific exchange paths",
+      "performer_value": "Retain preparation work between sessions and supported devices",
+      "reference_sequence": {
+        "trigger": "Unload, relaunch or use an original supported metadata exchange",
+        "context_to_retain": [
+          "track identity",
+          "prepared data",
+          "version",
+          "original storage path"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "H2",
+        "H7",
+        "L2",
+        "S11"
+      ],
+      "evidence_and_boundary": "D/L S11, L2, H2/H7; historical Pro/Dropbox exchange and later iCloud behaviour are separate",
+      "inventory_ids": [
+        "F014",
+        "F069",
+        "F128",
+        "F129"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF015",
+      "behaviour_to_preserve": "Tap master BPM and rotate the shared tempo wheel; synced decks follow the original tempo rules",
+      "performer_value": "Change the pace of the mix through one musical control",
+      "reference_sequence": {
+        "trigger": "Adjust master tempo using the original control",
+        "context_to_retain": [
+          "shared tempo",
+          "per-deck Sync",
+          "playing and stopped states",
+          "hardware if present"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S1",
+        "S15"
+      ],
+      "evidence_and_boundary": "D S15, S1; range, resolution, acceleration and ownership rules remain to capture",
+      "inventory_ids": [
+        "F017",
+        "F018",
+        "F019",
+        "F020",
+        "F021",
+        "F022",
+        "F023"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF016",
+      "behaviour_to_preserve": "Distinguish matched tempo from matched phase, show half-sync and restore alignment through Sync",
+      "performer_value": "Recognise and correct timing displacement",
+      "reference_sequence": {
+        "trigger": "Displace phase and use Sync",
+        "context_to_retain": [
+          "matched tempo",
+          "mismatched phase",
+          "Sync feedback"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S1"
+      ],
+      "evidence_and_boundary": "D S1 half-sync state and restoration. R user 29 October 2026: red Sync realigns immediately using the smallest jump to the nearest beat and may move backward. Exact colour tolerance and interaction edge cases remain to match.",
+      "inventory_ids": [
+        "F023",
+        "F024",
+        "F025",
+        "F026"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour.",
+      "confirmed_performer_policy": {
+        "red_sync_restoration_timing": "immediate",
+        "backward_source_movement_allowed": true,
+        "confirmed_date": "2026-10-29",
+        "implementation_status": "Implemented;27focusedchecks pass. Physical integration and original interaction-edge comparisons remain pending.",
+        "correction_selection": "smallest jump to the nearest beat"
+      }
+    },
+    {
+      "id": "PF017",
+      "behaviour_to_preserve": "Accept an early ordinary Play request for the documented synced measure entry",
+      "performer_value": "Commit the incoming entry and move hands to other controls",
+      "reference_sequence": {
+        "trigger": "Press ordinary Play before the intended synced measure entry",
+        "context_to_retain": [
+          "incoming position",
+          "reference timing",
+          "Sync",
+          "original settings"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "R1",
+        "S20"
+      ],
+      "evidence_and_boundary": "R1, D S20; exact conditions, boundary origin and setting dependency remain open",
+      "inventory_ids": [
+        "F030"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF018",
+      "behaviour_to_preserve": "Show the original moving lead-in marker and green Play state before source-waveform scrolling",
+      "performer_value": "See that a launch is committed and approaching",
+      "reference_sequence": {
+        "trigger": "Observe a pending incoming launch",
+        "context_to_retain": [
+          "Play feedback",
+          "lead-in marker",
+          "source waveform"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S35",
+        "S38"
+      ],
+      "evidence_and_boundary": "D S35, S38; preserve the sequence without hard-coding a delay measured from a video",
+      "inventory_ids": [
+        "F143"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF019",
+      "behaviour_to_preserve": "Preserve the original Quantize Size choices and the separate Slicer Quantize setting",
+      "performer_value": "Keep the original timing controls and their distinct roles",
+      "reference_sequence": {
+        "trigger": "Change a quantisation setting and perform an original action",
+        "context_to_retain": [
+          "Quantize Size",
+          "Slicer Quantize",
+          "command type",
+          "build"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S1",
+        "S21",
+        "S34"
+      ],
+      "evidence_and_boundary": "D S21/S34/S1; per-command scope remains open, especially ordinary Play",
+      "inventory_ids": [
+        "F027",
+        "F028",
+        "F029",
+        "F068",
+        "F141"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF020",
+      "behaviour_to_preserve": "Reproduce what actually happens when a pending action receives another Play, cue, seek, load, Sync or tempo action",
+      "performer_value": "Make a correction using familiar behaviour",
+      "reference_sequence": {
+        "trigger": "Issue another action while a launch is pending",
+        "context_to_retain": [
+          "pending launch",
+          "second Play or other action",
+          "tempo",
+          "Sync",
+          "source position"
+        ]
+      },
+      "evidence_basis": "required_original_fidelity_with_unresolved_policy",
+      "evidence_refs": [
+        "R3"
+      ],
+      "evidence_and_boundary": "R3 fidelity requirement; cancellation and replacement rules remain unresolved, not selected by this document",
+      "inventory_ids": [
+        "F031",
+        "F033",
+        "F139"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF021",
+      "behaviour_to_preserve": "Move the stripe's view window, inspect another region, zoom it and commit a timed jump through the documented beat tap",
+      "performer_value": "Look ahead before changing what is playing",
+      "reference_sequence": {
+        "trigger": "Inspect a stripe region and commit or leave navigation",
+        "context_to_retain": [
+          "visible window",
+          "audible position",
+          "zoom",
+          "playback state"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S15"
+      ],
+      "evidence_and_boundary": "D S15; preview, seek and cancellation must remain distinct",
+      "inventory_ids": [
+        "F036",
+        "F037",
+        "F040",
+        "F041",
+        "F042",
+        "F043",
+        "F051"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF022",
+      "behaviour_to_preserve": "Scrub the waveform by touch and reproduce its original release/return behaviour",
+      "performer_value": "Perform directly on the audio surface",
+      "reference_sequence": {
+        "trigger": "Touch, move and release the waveform",
+        "context_to_retain": [
+          "touch contacts",
+          "Flux",
+          "transport state",
+          "source position"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S16"
+      ],
+      "evidence_and_boundary": "D S16; motion response, Flux conditions and action edges remain to match",
+      "inventory_ids": [
+        "F038",
+        "F039",
+        "F052"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF023",
+      "behaviour_to_preserve": "Use two fingers to define the desired loop region",
+      "performer_value": "Capture the visible musical passage directly",
+      "reference_sequence": {
+        "trigger": "Define a visible loop region with two fingers",
+        "context_to_retain": [
+          "touch contacts",
+          "waveform region",
+          "quantisation state"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S16"
+      ],
+      "evidence_and_boundary": "D S16; finger order, snapping and endpoints remain to capture",
+      "inventory_ids": [
+        "F063"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF024",
+      "behaviour_to_preserve": "Hold and move a loop with two fingers",
+      "performer_value": "Reposition the repeated passage during performance",
+      "reference_sequence": {
+        "trigger": "Hold and move the loop with two fingers",
+        "context_to_retain": [
+          "loop bounds",
+          "touch contacts",
+          "playback position"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S16"
+      ],
+      "evidence_and_boundary": "D S16; movement steps and audible transitions remain to match",
+      "inventory_ids": [
+        "F065",
+        "F066"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF025",
+      "behaviour_to_preserve": "Hold and pinch a loop to change its length",
+      "performer_value": "Change repetition scale through a physical gesture",
+      "reference_sequence": {
+        "trigger": "Hold and pinch the loop",
+        "context_to_retain": [
+          "loop bounds",
+          "touch contacts",
+          "available original lengths"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S16"
+      ],
+      "evidence_and_boundary": "D S16; retained anchor and available lengths remain to match",
+      "inventory_ids": [
+        "F064"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF026",
+      "behaviour_to_preserve": "Store a loop in the cue system and recall its location and active loop state",
+      "performer_value": "Reuse a prepared performance passage immediately",
+      "reference_sequence": {
+        "trigger": "Store and recall an original cue or loop",
+        "context_to_retain": [
+          "eight-slot state",
+          "cue type",
+          "track identity",
+          "transport state"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S1",
+        "S11"
+      ],
+      "evidence_and_boundary": "D S11/S1; preserve the original eight-slot system, types and colours without inventing trigger rules",
+      "inventory_ids": [
+        "F053",
+        "F054",
+        "F055",
+        "F056",
+        "F057",
+        "F058",
+        "F059",
+        "F069"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF027",
+      "behaviour_to_preserve": "Freeze waveform scrolling while the track can continue playing and leave that visible region",
+      "performer_value": "Keep a useful passage under the fingers",
+      "reference_sequence": {
+        "trigger": "Toggle Freeze during playback",
+        "context_to_retain": [
+          "viewport",
+          "audible position",
+          "Freeze region"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S1",
+        "S16"
+      ],
+      "evidence_and_boundary": "D S16/S1; viewport and play position must remain separate",
+      "inventory_ids": [
+        "F071",
+        "F072"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF028",
+      "behaviour_to_preserve": "Play the visible Freeze regions, with musical scale determined by zoom",
+      "performer_value": "Improvise with material that was not preassigned to cue slots",
+      "reference_sequence": {
+        "trigger": "Perform on Freeze regions at different zoom levels",
+        "context_to_retain": [
+          "viewport scale",
+          "region mapping",
+          "touch or controller input"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S1",
+        "S16"
+      ],
+      "evidence_and_boundary": "D S1/S16; exact touch slice count and trigger/release rules remain to match",
+      "inventory_ids": [
+        "F073",
+        "F075"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF029",
+      "behaviour_to_preserve": "Enable Freeze within an active loop to enter Loop Slicer",
+      "performer_value": "Reshape a repeating passage through its visible regions",
+      "reference_sequence": {
+        "trigger": "Enable Freeze within a loop and leave slicing",
+        "context_to_retain": [
+          "active loop",
+          "Freeze",
+          "slice state",
+          "touch contacts"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S16",
+        "S18"
+      ],
+      "evidence_and_boundary": "D S16/S18; retain the distinct mode and original exit behaviour",
+      "inventory_ids": [
+        "F074",
+        "F076",
+        "F077"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF030",
+      "behaviour_to_preserve": "Maintain the continuing song position during Flux operations and return according to the original rules",
+      "performer_value": "Temporarily alter the audible passage while preserving its continuing progression",
+      "reference_sequence": {
+        "trigger": "Perform and release a Flux operation",
+        "context_to_retain": [
+          "continuing position",
+          "audible position",
+          "overlapping actions"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S1",
+        "S5"
+      ],
+      "evidence_and_boundary": "D S5/S1; overlapping actions, release ownership and mode combinations remain to match",
+      "inventory_ids": [
+        "F078",
+        "F079",
+        "F080",
+        "F084"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF031",
+      "behaviour_to_preserve": "Preserve Freeze on Load and its original conditions",
+      "performer_value": "Reproduce the original prepared performance state after loading",
+      "reference_sequence": {
+        "trigger": "Load a track with original Freeze on Load settings",
+        "context_to_retain": [
+          "setting",
+          "destination state",
+          "build"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S21"
+      ],
+      "evidence_and_boundary": "D control visible in S21; exact trigger and persistence remain open",
+      "inventory_ids": [
+        "F142"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF032",
+      "behaviour_to_preserve": "Preserve installed SuperSlicer modes and their response",
+      "performer_value": "Retain later 1.x Scratch, Brake, Reverse, Slice and Pitch-shift performance",
+      "reference_sequence": {
+        "trigger": "Enter and use original installed SuperSlicer modes",
+        "context_to_retain": [
+          "unlock state",
+          "mode",
+          "touch zones",
+          "transport and Flux state"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S10"
+      ],
+      "evidence_and_boundary": "S10 primary 1.5 announcement frames confirm 3 stacked family selectors and 3 vertical regions: Brake/Scratch/Reverse and Pitch Up/Slice/Pitch Down. Loop-stutter family association is contextual. Numeric stutter lengths, response curves, hit boundaries, contact/release policy, defaults, unlock scope and 1.6.8 equivalence remain unverified.",
+      "inventory_ids": [
+        "F081",
+        "F082",
+        "F083"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour.",
+      "primary_frame_review": "../sources/superslicer-primary-frames-2026-10-29/review.json"
+    },
+    {
+      "id": "PF033",
+      "behaviour_to_preserve": "Control filter cutoff on X and resonance on Y through its XY surface",
+      "performer_value": "Shape two sound dimensions with one gesture",
+      "reference_sequence": {
+        "trigger": "Move on the original filter XY surface",
+        "context_to_retain": [
+          "X position",
+          "Y position",
+          "filter state"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S1",
+        "S4"
+      ],
+      "evidence_and_boundary": "D S4/S1; curves, centre behaviour and pickup remain to match",
+      "inventory_ids": [
+        "F091",
+        "F092",
+        "F093"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF034",
+      "behaviour_to_preserve": "Open FX from its drawer and use its original selection gestures and XY mapping",
+      "performer_value": "Select and shape an effect within the deck workflow",
+      "reference_sequence": {
+        "trigger": "Open, select and shape an original effect",
+        "context_to_retain": [
+          "drawer",
+          "effect choice",
+          "X and Y positions",
+          "installed effect set"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S1",
+        "S4",
+        "S16"
+      ],
+      "evidence_and_boundary": "D S16/S4/S1; per-effect parameter response and installed choices remain to match",
+      "inventory_ids": [
+        "F095",
+        "F096",
+        "F097",
+        "F098",
+        "F103"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF035",
+      "behaviour_to_preserve": "Lock the filter through the original control and reproduce the separate FX lock behaviour",
+      "performer_value": "Leave a chosen sound state active while moving a hand elsewhere",
+      "reference_sequence": {
+        "trigger": "Use the original lock control and release or change the locked state",
+        "context_to_retain": [
+          "filter or FX",
+          "lock state",
+          "touch values"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S16"
+      ],
+      "evidence_and_boundary": "D filter lock S16; FX lock details remain open",
+      "inventory_ids": [
+        "F100"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF036",
+      "behaviour_to_preserve": "Retain the documented Y values through bypass and shutdown, and preserve original hidden-drawer behaviour",
+      "performer_value": "Return to the same sound state",
+      "reference_sequence": {
+        "trigger": "Bypass, hide or relaunch after an effect or filter adjustment",
+        "context_to_retain": [
+          "Y value",
+          "deck",
+          "slot",
+          "effect",
+          "drawer state"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S4"
+      ],
+      "evidence_and_boundary": "D S4; track, slot, effect and deck persistence scopes remain to capture",
+      "inventory_ids": [
+        "F094",
+        "F099",
+        "F104"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF037",
+      "behaviour_to_preserve": "Use multitouch across the original EQ, filter and FX surfaces, including the original EQ reset",
+      "performer_value": "Work more than one musical adjustment at once",
+      "reference_sequence": {
+        "trigger": "Perform simultaneous original touch controls or reset EQ",
+        "context_to_retain": [
+          "touch contacts",
+          "EQ",
+          "filter",
+          "FX",
+          "drawers"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S16"
+      ],
+      "evidence_and_boundary": "D S16; finger ownership, limits and overlapping gestures remain to match",
+      "inventory_ids": [
+        "F052",
+        "F089",
+        "F090"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF038",
+      "behaviour_to_preserve": "Continue the documented delay tail after stopping its source deck",
+      "performer_value": "Use the tail as part of the transition",
+      "reference_sequence": {
+        "trigger": "Stop the source deck with delay active",
+        "context_to_retain": [
+          "effect state",
+          "routing",
+          "source playback"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S16",
+        "S17"
+      ],
+      "evidence_and_boundary": "D S16/S17; do not assume every effect or stopping action has the same rule",
+      "inventory_ids": [
+        "F105"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF039",
+      "behaviour_to_preserve": "Preserve documented controller-era simultaneous FX and stored FX-group gestures",
+      "performer_value": "Recall and perform the original effect combinations",
+      "reference_sequence": {
+        "trigger": "Engage, store or recall documented controller FX combinations",
+        "context_to_retain": [
+          "controller model",
+          "slots",
+          "group contents",
+          "version"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S1",
+        "S5"
+      ],
+      "evidence_and_boundary": "D S1/S5; touch-only limits and installed version scope remain to capture",
+      "inventory_ids": [
+        "F096",
+        "F101",
+        "F102"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF040",
+      "behaviour_to_preserve": "Swipe into browsing and use the contextual up-for-A/down-for-B load slider",
+      "performer_value": "Place the chosen record on the intended deck through the original gesture",
+      "reference_sequence": {
+        "trigger": "Swipe into browsing and load onto a destination",
+        "context_to_retain": [
+          "selected track",
+          "load slider",
+          "playing-deck state"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S15"
+      ],
+      "evidence_and_boundary": "D S15; release, cancellation and playing-deck protection remain to capture",
+      "inventory_ids": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F007",
+        "F009"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF041",
+      "behaviour_to_preserve": "Surface feature-aware instructions through the original Notification Centre",
+      "performer_value": "Learn an unused performance gesture within the instrument",
+      "reference_sequence": {
+        "trigger": "Use or discover an original feature",
+        "context_to_retain": [
+          "Notification Centre messages",
+          "prior completion state"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S15",
+        "S31",
+        "S41"
+      ],
+      "evidence_and_boundary": "D S15/S31/S41; preserve actual messages and completion triggers",
+      "inventory_ids": [
+        "F131"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF042",
+      "behaviour_to_preserve": "Load a saved recording into a deck through the original recording workflow",
+      "performer_value": "Revisit the performed mix using the deck",
+      "reference_sequence": {
+        "trigger": "Select a saved recording and load it into a deck",
+        "context_to_retain": [
+          "recording list",
+          "destination deck",
+          "build"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S34"
+      ],
+      "evidence_and_boundary": "D S34; exact installed route and any separate preview behaviour remain to capture",
+      "inventory_ids": [
+        "F124"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    },
+    {
+      "id": "PF043",
+      "behaviour_to_preserve": "Let supported hardware and touch cooperate on the same parameters, including Z1 X control with touch Y control",
+      "performer_value": "Combine physical controls with the original touch surface",
+      "reference_sequence": {
+        "trigger": "Adjust shared parameters through supported hardware and touch",
+        "context_to_retain": [
+          "controller model",
+          "hardware position",
+          "touch position",
+          "app feedback"
+        ]
+      },
+      "evidence_basis": "documented_capability_with_unresolved_details",
+      "evidence_refs": [
+        "S1",
+        "S3",
+        "S4"
+      ],
+      "evidence_and_boundary": "D S3/S4/S1; exact feedback, takeover and mapping remain to match",
+      "inventory_ids": [
+        "F113",
+        "F114",
+        "F115",
+        "F116",
+        "F117"
+      ],
+      "reference_output": null,
+      "exact_comparison_status": "reference_cases_not_yet_complete",
+      "acceptance_rule": "Match the original sequence, visible feedback, audible result and retained state in the same reference context. Resolve unknown details without selecting replacement behaviour."
+    }
+  ],
+  "inventory_coverage": [
+    {
+      "id": "F001",
+      "capability_or_interaction": "Swipe upward to browse Songs, Playlists, Artists, Albums and Genre",
+      "original_evidence": "D S15 0:21–0:38, S1",
+      "remaining_reference_check": "Gesture threshold, installed labels, counts and empty states",
+      "evidence_refs": [
+        "S1",
+        "S15"
+      ],
+      "performer_contracts": [
+        "PF040"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F002",
+      "capability_or_interaction": "Touch a track and move its load slider up for A or down for B",
+      "original_evidence": "D S15 1:21–1:31",
+      "remaining_reference_check": "Release/cancel, repeated selection and load protection",
+      "evidence_refs": [
+        "S15"
+      ],
+      "performer_contracts": [
+        "PF040"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F003",
+      "capability_or_interaction": "Return from browser to deck view after a load",
+      "original_evidence": "D S1 §5.1.1, controller path",
+      "remaining_reference_check": "Whether touch loading follows the same rule",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF040"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F004",
+      "capability_or_interaction": "Browse while the other deck plays",
+      "original_evidence": "D S1 browsing workflow",
+      "remaining_reference_check": "Audio continuity during search and rapid scrolling",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF040"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F005",
+      "capability_or_interaction": "Tap destination-deck artwork to open recommendations",
+      "original_evidence": "D S15 1:34–1:51, S1",
+      "remaining_reference_check": "Context after later selection changes, preview and back navigation",
+      "evidence_refs": [
+        "S1",
+        "S15"
+      ],
+      "performer_contracts": [
+        "PF001",
+        "PF006"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F006",
+      "capability_or_interaction": "Recommend by key/BPM and show green compatibility indicators",
+      "original_evidence": "D S15 1:51–2:01, S1",
+      "remaining_reference_check": "Ranking, thresholds, ties, half/double tempo, unavailable songs",
+      "evidence_refs": [
+        "S1",
+        "S15"
+      ],
+      "performer_contracts": [
+        "PF002",
+        "PF006"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F007",
+      "capability_or_interaction": "Warn visually when loading over a playing deck",
+      "original_evidence": "D S1 flashing controller LOAD",
+      "remaining_reference_check": "Touch protection, confirmation, preference, overwrite rule",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF040"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F008",
+      "capability_or_interaction": "Read the device's music collection",
+      "original_evidence": "D S1 category workflow",
+      "remaining_reference_check": "Media permission, local-only items, unavailable files",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F009",
+      "capability_or_interaction": "Search tracks/artists and sort by name, album, artist, key or BPM",
+      "original_evidence": "D S15 0:38–1:19",
+      "remaining_reference_check": "Matching rules, sort direction, keyboard and selection retention",
+      "evidence_refs": [
+        "S15"
+      ],
+      "performer_contracts": [
+        "PF040"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F010",
+      "capability_or_interaction": "Create a playlist through Edit, track ticks and Add to Playlist",
+      "original_evidence": "D creation route S15 2:51–3:18",
+      "remaining_reference_check": "Naming, empty playlist, save/cancel and installed differences",
+      "evidence_refs": [
+        "S15"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F011",
+      "capability_or_interaction": "Batch-add ticked tracks to an existing or new playlist",
+      "original_evidence": "D addition S15 2:51–3:18",
+      "remaining_reference_check": "Removal, reorder, duplicates and deletion meaning remain V",
+      "evidence_refs": [
+        "S15"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F012",
+      "capability_or_interaction": "Edit playlist folders or subfolders",
+      "original_evidence": "V H3",
+      "remaining_reference_check": "Actual hierarchy and allowed operations",
+      "evidence_refs": [
+        "H3"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F013",
+      "capability_or_interaction": "Analyse the collection in the background when the app starts",
+      "original_evidence": "D S15 0:51–1:02, S11 0:48–1:06",
+      "remaining_reference_check": "Progress, cache reuse, interruption and manual reanalysis",
+      "evidence_refs": [
+        "S11",
+        "S15"
+      ],
+      "performer_contracts": [
+        "PF007",
+        "PF008"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F014",
+      "capability_or_interaction": "Retain cues and analysis after unloading",
+      "original_evidence": "D stored cues in S1",
+      "remaining_reference_check": "Track identity, app restart, music resync",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF014"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F015",
+      "capability_or_interaction": "Preview tracks from the browser without loading",
+      "original_evidence": "V",
+      "remaining_reference_check": "Whether present, routing, start/stop and scroll rules",
+      "evidence_refs": [],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F016",
+      "capability_or_interaction": "Play and pause each deck independently",
+      "original_evidence": "D S1 §5.2.1",
+      "remaining_reference_check": "Touch-down/up action edge, quantised start and stop",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F017",
+      "capability_or_interaction": "Tap master BPM and rotate the shared tempo wheel",
+      "original_evidence": "D S15 2:08–2:19, S1",
+      "remaining_reference_check": "Increments, limits, touch response and any tap/numeric input",
+      "evidence_refs": [
+        "S1",
+        "S15"
+      ],
+      "performer_contracts": [
+        "PF015"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F018",
+      "capability_or_interaction": "Let synced decks follow the shared tempo",
+      "original_evidence": "D S1/S5",
+      "remaining_reference_check": "Behaviour with one deck unsynced or stopped",
+      "evidence_refs": [
+        "S1",
+        "S5"
+      ],
+      "performer_contracts": [
+        "PF015"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F019",
+      "capability_or_interaction": "Use a playing-deck tempo fader to change global tempo",
+      "original_evidence": "D S1 §5.1.8",
+      "remaining_reference_check": "Two playing decks, assignment and takeover rules",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF015"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F020",
+      "capability_or_interaction": "Select controller tempo ranges 8%, 12%, 25%, 50%",
+      "original_evidence": "D S1 §5.1.8",
+      "remaining_reference_check": "Exact preference and actual endpoint ratios",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF015"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F021",
+      "capability_or_interaction": "Reposition controller tempo fader with SHIFT",
+      "original_evidence": "D S1 §5.1.8",
+      "remaining_reference_check": "Relative scale, dead band, pickup and discontinuities",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF015"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F022",
+      "capability_or_interaction": "Reset original track tempo with S4 RESET",
+      "original_evidence": "D S1 §5.1.8",
+      "remaining_reference_check": "Effect on clock and the other synced deck",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF015"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F023",
+      "capability_or_interaction": "Enable/disable Sync per deck",
+      "original_evidence": "D S1 §5.2.3",
+      "remaining_reference_check": "Default, persistence, behaviour before first playback",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF015",
+        "PF016"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F024",
+      "capability_or_interaction": "Align tempo and beatgrid phase through Sync",
+      "original_evidence": "D S5",
+      "remaining_reference_check": "Whether continuous correction or action-based alignment",
+      "evidence_refs": [
+        "S5"
+      ],
+      "performer_contracts": [
+        "PF016"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F025",
+      "capability_or_interaction": "Display half-sync when tempo matches but phase differs",
+      "original_evidence": "D S1 §5.2.3",
+      "remaining_reference_check": "Exact thresholds, red state, recovery timing",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF016"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F026",
+      "capability_or_interaction": "Press Sync in half-sync to restore alignment",
+      "original_evidence": "D S1 §5.2.3",
+      "remaining_reference_check": "Direction of jump, click suppression, immediate/quantised",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF016"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F027",
+      "capability_or_interaction": "Choose a quantise size for Hotcue triggering",
+      "original_evidence": "D S1 §5.1.2; historical menu/default S21; version-labelled early menu S34",
+      "remaining_reference_check": "Installed differences, scope and persistence",
+      "evidence_refs": [
+        "S1",
+        "S21",
+        "S34"
+      ],
+      "performer_contracts": [
+        "PF019"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F028",
+      "capability_or_interaction": "Offer quarter-beat minimum in the historical controller workflow",
+      "original_evidence": "D S1 §5.1.2",
+      "remaining_reference_check": "Installed 1.6.8 list. Do not import DJ 2 values",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF019"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F029",
+      "capability_or_interaction": "Cycle quantise size with S4 QUANT and show the chosen value",
+      "original_evidence": "D S1 §5.1.2; touch preferences S21",
+      "remaining_reference_check": "Controller order/wrap, installed path",
+      "evidence_refs": [
+        "S1",
+        "S21"
+      ],
+      "performer_contracts": [
+        "PF019"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F030",
+      "capability_or_interaction": "Press Play early and start on the next synced bar",
+      "original_evidence": "R R1; D period explanation S20",
+      "remaining_reference_check": "Preference relationship, bar anchor, pending silence and queue rules",
+      "evidence_refs": [
+        "R1",
+        "S20"
+      ],
+      "performer_contracts": [
+        "PF017"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F031",
+      "capability_or_interaction": "Cancel, replace, or retrigger a queued Play",
+      "original_evidence": "V/P",
+      "remaining_reference_check": "Second press, Pause, cue, seek, unload, Sync off",
+      "evidence_refs": [],
+      "performer_contracts": [
+        "PF020"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F032",
+      "capability_or_interaction": "Start the first track when no other deck plays",
+      "original_evidence": "D Play capability, exact timing V",
+      "remaining_reference_check": "Clock stopped/running, adopted tempo, startup latency",
+      "evidence_refs": [],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F033",
+      "capability_or_interaction": "Continue or reset the clock when all decks stop",
+      "original_evidence": "V",
+      "remaining_reference_check": "Phase and tempo on restart, background/resume",
+      "evidence_refs": [],
+      "performer_contracts": [
+        "PF020"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F034",
+      "capability_or_interaction": "Enable/disable Keylock independently",
+      "original_evidence": "D S1 §5.2.1",
+      "remaining_reference_check": "Default, touch control, pitch anchor and audio quality",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F035",
+      "capability_or_interaction": "Mix manually with Sync and Keylock off",
+      "original_evidence": "D S1 §5.1.8, S5",
+      "remaining_reference_check": "Jog nudge gain, release, independent tempo behaviour",
+      "evidence_refs": [
+        "S1",
+        "S5"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F036",
+      "capability_or_interaction": "Show main waveform plus a whole-track stripe",
+      "original_evidence": "D S1 figures",
+      "remaining_reference_check": "Colour mapping, amplitude scale, playhead geometry",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF008",
+        "PF021"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F037",
+      "capability_or_interaction": "Pinch the red stripe window with two fingers to zoom waveform detail",
+      "original_evidence": "D S15 2:39–2:48, S1",
+      "remaining_reference_check": "Anchor, bounds and per-deck persistence",
+      "evidence_refs": [
+        "S1",
+        "S15"
+      ],
+      "performer_contracts": [
+        "PF021"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F038",
+      "capability_or_interaction": "Scrub the main waveform by touch and return in musical time on release",
+      "original_evidence": "D S16 0:31–0:45",
+      "remaining_reference_check": "Motion curve, inertia and conditions for Flux-style return",
+      "evidence_refs": [
+        "S16"
+      ],
+      "performer_contracts": [
+        "PF022"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F039",
+      "capability_or_interaction": "Seek a paused deck and retain its selected position",
+      "original_evidence": "D controller path S1 §5.1.8",
+      "remaining_reference_check": "Exact touch path and snap behaviour",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF022"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F040",
+      "capability_or_interaction": "Drag the red stripe window to preview another region while playback continues",
+      "original_evidence": "D S15 2:19–2:36, S1",
+      "remaining_reference_check": "Audio preview, markers and cancellation",
+      "evidence_refs": [
+        "S1",
+        "S15"
+      ],
+      "performer_contracts": [
+        "PF021"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F041",
+      "capability_or_interaction": "Release the stripe window, then tap a waveform beat to commit a timed jump",
+      "original_evidence": "D S15 2:19–2:36. Controller CUE path S1",
+      "remaining_reference_check": "Exact quantise rule and cancellation",
+      "evidence_refs": [
+        "S1",
+        "S15"
+      ],
+      "performer_contracts": [
+        "PF021"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F042",
+      "capability_or_interaction": "Exit stripe navigation without seeking",
+      "original_evidence": "D controller MOVE path S1",
+      "remaining_reference_check": "Touch dismissal and restored view position",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF021"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F043",
+      "capability_or_interaction": "Set controller beatjump size with the loop-size control when no loop is active",
+      "original_evidence": "D S5 3:28–3:46, S1",
+      "remaining_reference_check": "Touch availability, bounds and quantisation",
+      "evidence_refs": [
+        "S1",
+        "S5"
+      ],
+      "performer_contracts": [
+        "PF021"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F044",
+      "capability_or_interaction": "Open a dedicated grid editor, temporarily with held SHIFT+SYNC on S2/S4",
+      "original_evidence": "D S18 2:11–2:26, S1",
+      "remaining_reference_check": "Touch entry, commit/cancel and installed layout",
+      "evidence_refs": [
+        "S1",
+        "S18"
+      ],
+      "performer_contracts": [
+        "PF009",
+        "PF013"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F045",
+      "capability_or_interaction": "Move the waveform against the grid to correct phase",
+      "original_evidence": "D S11 1:15–1:32, S1",
+      "remaining_reference_check": "Sensitivity, fine/coarse controls and persistence",
+      "evidence_refs": [
+        "S1",
+        "S11"
+      ],
+      "performer_contracts": [
+        "PF008",
+        "PF009",
+        "PF013"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F046",
+      "capability_or_interaction": "Select the correct downbeat within the bar",
+      "original_evidence": "D S1 §5.2.3",
+      "remaining_reference_check": "Exact four-beat selector and meaning of each choice",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF008",
+        "PF010"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F047",
+      "capability_or_interaction": "Scan in four-beat steps within grid editing",
+      "original_evidence": "D controller path S1",
+      "remaining_reference_check": "Touch equivalent and beginning/end clamp",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF012"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F048",
+      "capability_or_interaction": "Correct analysed BPM through half, double and tap functions",
+      "original_evidence": "D S11 1:32–1:42",
+      "remaining_reference_check": "Precision, touch sequence and effect on stored cues",
+      "evidence_refs": [
+        "S11"
+      ],
+      "performer_contracts": [
+        "PF008",
+        "PF011"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F049",
+      "capability_or_interaction": "Pinch or magnetically snap within grid editing",
+      "original_evidence": "V H1",
+      "remaining_reference_check": "Whether pinch changes view or grid spacing in each mode",
+      "evidence_refs": [
+        "H1"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F050",
+      "capability_or_interaction": "Represent variable-tempo or multiple grid regions",
+      "original_evidence": "V",
+      "remaining_reference_check": "Whether supported at all. Do not inherit Pro flexible grids",
+      "evidence_refs": [],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F051",
+      "capability_or_interaction": "Retain waveform scale and position between modes",
+      "original_evidence": "V",
+      "remaining_reference_check": "Freeze, loop, grid, unload and restart transitions",
+      "evidence_refs": [],
+      "performer_contracts": [
+        "PF021"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F052",
+      "capability_or_interaction": "Arbitrate simultaneous touch gestures",
+      "original_evidence": "P, original rules V",
+      "remaining_reference_check": "Scratch versus pinch, two-finger loop, second deck, overlays",
+      "evidence_refs": [],
+      "performer_contracts": [
+        "PF022",
+        "PF037"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F053",
+      "capability_or_interaction": "Store and recall cues in eight app Hotcue slots",
+      "original_evidence": "D S11 2:01–2:16, S1/S5",
+      "remaining_reference_check": "Labels, stopped-deck behaviour and grid-slot occupancy",
+      "evidence_refs": [
+        "S1",
+        "S5",
+        "S11"
+      ],
+      "performer_contracts": [
+        "PF026"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F054",
+      "capability_or_interaction": "Tap an available cue slot to set a Hotcue on the beat",
+      "original_evidence": "D S11 2:01–2:16, S1",
+      "remaining_reference_check": "Exact action edge, snapping policy and overwrite prevention",
+      "evidence_refs": [
+        "S1",
+        "S11"
+      ],
+      "performer_contracts": [
+        "PF026"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F055",
+      "capability_or_interaction": "Delete a stored cue",
+      "original_evidence": "D SHIFT+cue S1",
+      "remaining_reference_check": "Touch edit/delete mode, confirmation and undo",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF026"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F056",
+      "capability_or_interaction": "Store a loop in a cue slot and recall it with a jump plus loop activation",
+      "original_evidence": "D S1 §5.2.6, S11 2:16–2:21",
+      "remaining_reference_check": "Stored fields, pending recall and edit rules",
+      "evidence_refs": [
+        "S1",
+        "S11"
+      ],
+      "performer_contracts": [
+        "PF026"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F057",
+      "capability_or_interaction": "Distinguish cue, loop and grid marker by type/colour",
+      "original_evidence": "D S1 §5.2.5",
+      "remaining_reference_check": "Actual touch palette and editable types",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF026"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F058",
+      "capability_or_interaction": "Use a grid marker in the cue system",
+      "original_evidence": "D S1 §5.2.5",
+      "remaining_reference_check": "Slot occupancy, deletion consequences and recreation",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF026"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F059",
+      "capability_or_interaction": "Provide load and fade marker categories",
+      "original_evidence": "D controller colour legend S1",
+      "remaining_reference_check": "App creation/editability. Legend alone does not prove controls",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF026"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F060",
+      "capability_or_interaction": "Use transport CUE for stop/cue/audition behaviour",
+      "original_evidence": "D S1 §5.2.2",
+      "remaining_reference_check": "S1 and S2 descriptions conflict. Measure exact states",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F061",
+      "capability_or_interaction": "Activate a preset-length loop",
+      "original_evidence": "D S1 §5.2.6",
+      "remaining_reference_check": "Touch button edge, default length, placement anchor",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F062",
+      "capability_or_interaction": "Create a loop with manual IN/OUT",
+      "original_evidence": "D S1 §5.2.6",
+      "remaining_reference_check": "Touch availability, minimum length and rounding",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F063",
+      "capability_or_interaction": "Touch the desired loop region with two fingers to create a loop",
+      "original_evidence": "D S16 1:18–1:22",
+      "remaining_reference_check": "Contact order, chosen endpoints and snapping",
+      "evidence_refs": [
+        "S16"
+      ],
+      "performer_contracts": [
+        "PF023"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F064",
+      "capability_or_interaction": "Hold a loop and pinch inward/outward to change its length",
+      "original_evidence": "D S16 1:26–1:31, S1",
+      "remaining_reference_check": "Supported lengths and retained anchor",
+      "evidence_refs": [
+        "S1",
+        "S16"
+      ],
+      "performer_contracts": [
+        "PF025"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F065",
+      "capability_or_interaction": "Hold a loop with two fingers and move it",
+      "original_evidence": "D S16 1:22–1:26, S1",
+      "remaining_reference_check": "Step size, audible jump, backwards and endpoint rules",
+      "evidence_refs": [
+        "S1",
+        "S16"
+      ],
+      "performer_contracts": [
+        "PF024"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F066",
+      "capability_or_interaction": "Move a loop by one beat using press-and-turn",
+      "original_evidence": "D S2 §5.2.6",
+      "remaining_reference_check": "Installed hardware mapping and touch equivalent",
+      "evidence_refs": [
+        "S2"
+      ],
+      "performer_contracts": [
+        "PF024"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F067",
+      "capability_or_interaction": "Exit a loop and continue playback",
+      "original_evidence": "D capability S1. S16 caption ambiguity",
+      "remaining_reference_check": "Exact dismissal finger count, exit timing and Flux return remain V",
+      "evidence_refs": [
+        "S1",
+        "S16"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F068",
+      "capability_or_interaction": "Change default loop size and quantise settings",
+      "original_evidence": "D historical preferences S21",
+      "remaining_reference_check": "Installed menus and persistence scope",
+      "evidence_refs": [
+        "S21"
+      ],
+      "performer_contracts": [
+        "PF019"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F069",
+      "capability_or_interaction": "Recall a saved cue or loop after reloading the track",
+      "original_evidence": "D storage capability S1",
+      "remaining_reference_check": "Restart, resync, cloud conflict, missing file",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF014",
+        "PF026"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F070",
+      "capability_or_interaction": "Handle loops crossing the start or end of a file",
+      "original_evidence": "V/P",
+      "remaining_reference_check": "Clamp, shorten, refuse, wrap, silence or exit",
+      "evidence_refs": [],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F071",
+      "capability_or_interaction": "Toggle the snowflake to freeze waveform scrolling while audio continues",
+      "original_evidence": "D S16 0:49–1:11, S1",
+      "remaining_reference_check": "Region anchor and slice count in each touch state",
+      "evidence_refs": [
+        "S1",
+        "S16"
+      ],
+      "performer_contracts": [
+        "PF027"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F072",
+      "capability_or_interaction": "Let normal playback leave a Freeze region",
+      "original_evidence": "D S1 §5.2.7",
+      "remaining_reference_check": "Waveform follow behaviour after the playhead leaves",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF027"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F073",
+      "capability_or_interaction": "Make slice scale depend on waveform zoom",
+      "original_evidence": "D S1 §5.2.7",
+      "remaining_reference_check": "Slice boundaries, subdivisions, minimum/maximum scale",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF028"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F074",
+      "capability_or_interaction": "Tap or hold Loop Slicer regions and trigger mapped controller slices",
+      "original_evidence": "D S16 1:31–1:49, S1",
+      "remaining_reference_check": "Release, gate/one-shot and quantisation in each mode",
+      "evidence_refs": [
+        "S1",
+        "S16"
+      ],
+      "performer_contracts": [
+        "PF029"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F075",
+      "capability_or_interaction": "Move Freeze assignments by a group or slice",
+      "original_evidence": "D S1 §5.2.7",
+      "remaining_reference_check": "Touch drag, controller steps and playhead interaction",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF028"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F076",
+      "capability_or_interaction": "Enable Freeze inside a loop for Loop Slicer, then toggle Freeze to leave slicing",
+      "original_evidence": "D S16 1:31–1:51, S18 1:10–1:39",
+      "remaining_reference_check": "Touch slice count, release and loop-exit rules",
+      "evidence_refs": [
+        "S16",
+        "S18"
+      ],
+      "performer_contracts": [
+        "PF029"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F077",
+      "capability_or_interaction": "Distinguish Loop Slicer and Freeze visually",
+      "original_evidence": "D controller green/blue S1",
+      "remaining_reference_check": "App colours, icons, waveform and mode indicator",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF029"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F078",
+      "capability_or_interaction": "Enable Flux per deck, with Flux default-on in NI's controller slicing demonstration",
+      "original_evidence": "D S1, S18 1:22–1:28",
+      "remaining_reference_check": "Touch control, app-wide default and persistence remain V",
+      "evidence_refs": [
+        "S1",
+        "S18"
+      ],
+      "performer_contracts": [
+        "PF030"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F079",
+      "capability_or_interaction": "Keep a continuing position during Flux manipulation",
+      "original_evidence": "D S5",
+      "remaining_reference_check": "Scratch, cue, loop and combined-operation return rules",
+      "evidence_refs": [
+        "S5"
+      ],
+      "performer_contracts": [
+        "PF030"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F080",
+      "capability_or_interaction": "Resume at the continuing position after release",
+      "original_evidence": "D S5",
+      "remaining_reference_check": "Which release owns the return with overlapping fingers",
+      "evidence_refs": [
+        "S5"
+      ],
+      "performer_contracts": [
+        "PF030"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F081",
+      "capability_or_interaction": "Offer SuperSlicer in later 1.x with a Features category visible in its announcement",
+      "original_evidence": "D S10 description and 0:16 frame",
+      "remaining_reference_check": "Installed unlock, exact entry, purchase/restore and offline state",
+      "evidence_refs": [
+        "S10"
+      ],
+      "performer_contracts": [
+        "PF032"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F082",
+      "capability_or_interaction": "Apply SuperSlicer Scratch, Brake, Reverse, Slice and Pitch-shift",
+      "original_evidence": "D names S10",
+      "remaining_reference_check": "Exact mapping, rates, intervals, release and touch count",
+      "evidence_refs": [
+        "S10"
+      ],
+      "performer_contracts": [
+        "PF032"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F083",
+      "capability_or_interaction": "Offer SuperSlicer mode buttons and vertical action zones",
+      "original_evidence": "V H1",
+      "remaining_reference_check": "Full mode list, zone boundaries, two-finger override",
+      "evidence_refs": [
+        "H1"
+      ],
+      "performer_contracts": [
+        "PF032"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F084",
+      "capability_or_interaction": "Exit performance modes without losing the intended musical position",
+      "original_evidence": "P, original transitions V",
+      "remaining_reference_check": "Flux off/on, loop active, paused, queued command",
+      "evidence_refs": [],
+      "performer_contracts": [
+        "PF030"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F085",
+      "capability_or_interaction": "Mix two deck levels through the crossfader",
+      "original_evidence": "D S1 §5.1.3",
+      "remaining_reference_check": "Vertical touch geometry, curve, centre attenuation",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F086",
+      "capability_or_interaction": "Set per-deck volume independently",
+      "original_evidence": "D S1 §5.1.3 and p77",
+      "remaining_reference_check": "Touch scale, numerical range and smoothing",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F087",
+      "capability_or_interaction": "Adjust per-deck gain using supported hardware",
+      "original_evidence": "D S1 §5.1.4",
+      "remaining_reference_check": "Touch gain access, autogain, headroom, reset value",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F088",
+      "capability_or_interaction": "Reset S4 channel gain by pressing its encoder",
+      "original_evidence": "D S1 §5.1.4",
+      "remaining_reference_check": "Exact reference value and interaction with autogain",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F089",
+      "capability_or_interaction": "Open EQ from the right with Low, Mid, High and Volume. Tap centre to reset EQ",
+      "original_evidence": "D S16 3:11–3:35, S1",
+      "remaining_reference_check": "Reset hit area, exact drag law and volume-reset behaviour",
+      "evidence_refs": [
+        "S1",
+        "S16"
+      ],
+      "performer_contracts": [
+        "PF037"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F090",
+      "capability_or_interaction": "Process three EQ bands",
+      "original_evidence": "D S1 §5.1.5",
+      "remaining_reference_check": "Crossover, boost/cut, kill depth and clipping response",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF037"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F091",
+      "capability_or_interaction": "Open a dedicated filter XY surface",
+      "original_evidence": "D S4",
+      "remaining_reference_check": "Entry/exit and whether it replaces the EQ view",
+      "evidence_refs": [
+        "S4"
+      ],
+      "performer_contracts": [
+        "PF033"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F092",
+      "capability_or_interaction": "Use X for low-pass/high-pass cutoff",
+      "original_evidence": "D S1/S4",
+      "remaining_reference_check": "Centre dead band, frequency curve, enable/disable",
+      "evidence_refs": [
+        "S1",
+        "S4"
+      ],
+      "performer_contracts": [
+        "PF033"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F093",
+      "capability_or_interaction": "Use Y for filter resonance",
+      "original_evidence": "D S4",
+      "remaining_reference_check": "Curve, limits and touch pickup behaviour",
+      "evidence_refs": [
+        "S4"
+      ],
+      "performer_contracts": [
+        "PF033"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F094",
+      "capability_or_interaction": "Retain filter Y through bypass and app shutdown",
+      "original_evidence": "D S4",
+      "remaining_reference_check": "Per-deck scope, default X and state restoration",
+      "evidence_refs": [
+        "S4"
+      ],
+      "performer_contracts": [
+        "PF036"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F095",
+      "capability_or_interaction": "Open FX from the left, tap an effect, or hold and drag its selector down for choices",
+      "original_evidence": "D S16 2:27–2:49, S1",
+      "remaining_reference_check": "Installed choices and selection persistence",
+      "evidence_refs": [
+        "S1",
+        "S16"
+      ],
+      "performer_contracts": [
+        "PF034"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F096",
+      "capability_or_interaction": "Offer three effect slots with eight choices in early documentation",
+      "original_evidence": "D S1 §5.3",
+      "remaining_reference_check": "Installed menu differs by version/unlock state",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF034",
+        "PF039"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F097",
+      "capability_or_interaction": "Use FX X for effect-specific parameter",
+      "original_evidence": "D S1 §5.3.2, S4",
+      "remaining_reference_check": "Per-effect ranges, beat divisions and interpolation",
+      "evidence_refs": [
+        "S1",
+        "S4"
+      ],
+      "performer_contracts": [
+        "PF034"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F098",
+      "capability_or_interaction": "Use FX Y for wet/dry or intensity",
+      "original_evidence": "D S1/S4",
+      "remaining_reference_check": "Wet/dry law and position on enable",
+      "evidence_refs": [
+        "S1",
+        "S4"
+      ],
+      "performer_contracts": [
+        "PF034"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F099",
+      "capability_or_interaction": "Retain FX Y through bypass and app shutdown",
+      "original_evidence": "D S4",
+      "remaining_reference_check": "Per-effect/per-slot/per-deck scope",
+      "evidence_refs": [
+        "S4"
+      ],
+      "performer_contracts": [
+        "PF036"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F100",
+      "capability_or_interaction": "Lock the filter in place and inspect separate FX lock controls",
+      "original_evidence": "D filter lock S16 3:38–4:01, visible FX controls S1",
+      "remaining_reference_check": "Exact toggles, retained values and FX-lock semantics remain V",
+      "evidence_refs": [
+        "S1",
+        "S16"
+      ],
+      "performer_contracts": [
+        "PF035"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F101",
+      "capability_or_interaction": "Engage three FX simultaneously through S2/S4",
+      "original_evidence": "D S1 §5.3, S5",
+      "remaining_reference_check": "Touch-only limit, routing order, shared dry/wet",
+      "evidence_refs": [
+        "S1",
+        "S5"
+      ],
+      "performer_contracts": [
+        "PF039"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F102",
+      "capability_or_interaction": "Store one FX group with SHIFT+MODE and recall with MODE",
+      "original_evidence": "D S1 §5.3.2",
+      "remaining_reference_check": "Stored contents, per-side scope and restart persistence",
+      "evidence_refs": [
+        "S1"
+      ],
+      "performer_contracts": [
+        "PF039"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F103",
+      "capability_or_interaction": "Offer later extra effects",
+      "original_evidence": "D generic addition S14, names V H3",
+      "remaining_reference_check": "Iceverb, Transpose Stretch, Reverse Grain, unlock prompt",
+      "evidence_refs": [
+        "H3",
+        "S14"
+      ],
+      "performer_contracts": [
+        "PF034"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F104",
+      "capability_or_interaction": "Keep sound active when its drawer is hidden",
+      "original_evidence": "D hardware control S4",
+      "remaining_reference_check": "Latch, display badges, touch-only behaviour",
+      "evidence_refs": [
+        "S4"
+      ],
+      "performer_contracts": [
+        "PF036"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F105",
+      "capability_or_interaction": "Continue the demonstrated delay tail after stopping its source deck",
+      "original_evidence": "D S16 2:58–3:11, S17 3:44–4:04",
+      "remaining_reference_check": "Other effects and bypass/pause/seek/crossfade tail rules remain V",
+      "evidence_refs": [
+        "S16",
+        "S17"
+      ],
+      "performer_contracts": [
+        "PF038"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F106",
+      "capability_or_interaction": "Send Master and Monitor to separate stereo output pairs",
+      "original_evidence": "D S6",
+      "remaining_reference_check": "Channel selectors, pair order, invalid combinations",
+      "evidence_refs": [
+        "S6"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F107",
+      "capability_or_interaction": "Select a deck for headphone pre-listening",
+      "original_evidence": "D S6",
+      "remaining_reference_check": "Independent A/B toggles, cue tap point and master isolation",
+      "evidence_refs": [
+        "S6"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F108",
+      "capability_or_interaction": "Blend cue and master in headphones",
+      "original_evidence": "D S3/S6",
+      "remaining_reference_check": "Blend curve, endpoint behaviour, both decks unselected",
+      "evidence_refs": [
+        "S3",
+        "S6"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F109",
+      "capability_or_interaction": "Adjust master and headphone levels",
+      "original_evidence": "D S3/S6",
+      "remaining_reference_check": "Hardware versus software volume and persistence",
+      "evidence_refs": [
+        "S3",
+        "S6"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F110",
+      "capability_or_interaction": "Offer a split-output cable mode",
+      "original_evidence": "V H5",
+      "remaining_reference_check": "Exact mono channels, downmix, balance and swap option",
+      "evidence_refs": [
+        "H5"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F111",
+      "capability_or_interaction": "Explain a newly connected audio interface",
+      "original_evidence": "D S6",
+      "remaining_reference_check": "First-use panel, subsequent connections, dismissal",
+      "evidence_refs": [
+        "S6"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F112",
+      "capability_or_interaction": "Stream audio through class-compliant Core Audio devices",
+      "original_evidence": "D S7",
+      "remaining_reference_check": "Exact tested model, OS, power and adapter combination",
+      "evidence_refs": [
+        "S7"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F113",
+      "capability_or_interaction": "Integrate original Z1 controls",
+      "original_evidence": "D S3/S4",
+      "remaining_reference_check": "Firmware, takeover, connect order, charging",
+      "evidence_refs": [
+        "S3",
+        "S4"
+      ],
+      "performer_contracts": [
+        "PF043"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F114",
+      "capability_or_interaction": "Use Z1 MODE+ON to switch Filter/FX control",
+      "original_evidence": "D S4",
+      "remaining_reference_check": "Separate deck state and LED transitions",
+      "evidence_refs": [
+        "S4"
+      ],
+      "performer_contracts": [
+        "PF043"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F115",
+      "capability_or_interaction": "Use Z1 MODE+CUE A/B for Play/Pause",
+      "original_evidence": "D S3 §4.1.7",
+      "remaining_reference_check": "Whether combo also changes headphone cue state",
+      "evidence_refs": [
+        "S3"
+      ],
+      "performer_contracts": [
+        "PF043"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F116",
+      "capability_or_interaction": "Integrate S2 MK2 and S4 MK2 transport and performance controls",
+      "original_evidence": "D S1/S2",
+      "remaining_reference_check": "Exact 1.6.8 mappings and unsupported controls",
+      "evidence_refs": [
+        "S1",
+        "S2"
+      ],
+      "performer_contracts": [
+        "PF043"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F117",
+      "capability_or_interaction": "Mirror hardware changes in app UI",
+      "original_evidence": "D S1/S3",
+      "remaining_reference_check": "Touch-to-hardware feedback and parameter pickup",
+      "evidence_refs": [
+        "S1",
+        "S3"
+      ],
+      "performer_contracts": [
+        "PF043"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F118",
+      "capability_or_interaction": "Integrate AUDIO 2 MK2",
+      "original_evidence": "D S7/S9",
+      "remaining_reference_check": "Control subset, routing, headphone signal and power",
+      "evidence_refs": [
+        "S7",
+        "S9"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F119",
+      "capability_or_interaction": "Route into Audiobus or Inter-App Audio workflows",
+      "original_evidence": "L1 entitlement, V behaviour H2/H6",
+      "remaining_reference_check": "Source/filter/output role, remote transport, sample rate",
+      "evidence_refs": [
+        "H2",
+        "H6",
+        "L1"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F120",
+      "capability_or_interaction": "Recover from hardware disconnect or audio-route change",
+      "original_evidence": "V/P",
+      "remaining_reference_check": "Pause/continue, speaker fallback, clock and recording state",
+      "evidence_refs": [],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F121",
+      "capability_or_interaction": "Record the performed mix internally",
+      "original_evidence": "L2, D S13",
+      "remaining_reference_check": "Tap point, start edge, limits, output format options",
+      "evidence_refs": [
+        "L2",
+        "S13"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F122",
+      "capability_or_interaction": "Save a WAV recording and companion tracklist",
+      "original_evidence": "L2",
+      "remaining_reference_check": "Naming, pairing, rename, delete and finalisation",
+      "evidence_refs": [
+        "L2"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F123",
+      "capability_or_interaction": "Write tracklist names, artists, IDs and start times",
+      "original_evidence": "L2",
+      "remaining_reference_check": "Timing units, threshold, deck distinction and repeats",
+      "evidence_refs": [
+        "L2"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F124",
+      "capability_or_interaction": "Browse saved recordings and load a recording into a deck for playback",
+      "original_evidence": "D S34 17:21–17:52, captions and selected frames",
+      "remaining_reference_check": "Installed touch path, scrubbing and cue routing. Dedicated preview behaviour remains open",
+      "evidence_refs": [
+        "S34"
+      ],
+      "performer_contracts": [
+        "PF042"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F125",
+      "capability_or_interaction": "Export recordings through shared documents",
+      "original_evidence": "L2",
+      "remaining_reference_check": "UI export workflow, XML handling and destination options",
+      "evidence_refs": [
+        "L2"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F126",
+      "capability_or_interaction": "Upload a recorded mix to Mixcloud",
+      "original_evidence": "D historical S13/S14",
+      "remaining_reference_check": "Current availability, login, metadata and failure handling",
+      "evidence_refs": [
+        "S13",
+        "S14"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F127",
+      "capability_or_interaction": "Create history playlists while performing",
+      "original_evidence": "V H1",
+      "remaining_reference_check": "Session boundaries, duration threshold, order and duplicate rules",
+      "evidence_refs": [
+        "H1"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F128",
+      "capability_or_interaction": "Back up/sync grid, cue, BPM and key metadata through iCloud",
+      "original_evidence": "V H2/H7",
+      "remaining_reference_check": "Enabled state, conflict rules, identity and actual file",
+      "evidence_refs": [
+        "H2",
+        "H7"
+      ],
+      "performer_contracts": [
+        "PF014"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F129",
+      "capability_or_interaction": "Historically exchange preparation metadata with Traktor Pro through Dropbox in both directions, without audio files",
+      "original_evidence": "D S11 2:21–2:46",
+      "remaining_reference_check": "Later removal, version scope and current availability",
+      "evidence_refs": [
+        "S11"
+      ],
+      "performer_contracts": [
+        "PF014"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F130",
+      "capability_or_interaction": "Keep local performance usable while cloud is unavailable",
+      "original_evidence": "P, reference V",
+      "remaining_reference_check": "Offline launch, library and cues after long disconnection",
+      "evidence_refs": [],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F131",
+      "capability_or_interaction": "Offer step-by-step feature guidance in Notification Centre",
+      "original_evidence": "D S15 3:23–3:29; original help screenshots S31",
+      "remaining_reference_check": "Complete catalogue/messages, completion triggers, replay and dismissal",
+      "evidence_refs": [
+        "S15",
+        "S31"
+      ],
+      "performer_contracts": [
+        "PF041"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F132",
+      "capability_or_interaction": "Expose all app preferences and defaults",
+      "original_evidence": "V full tree. Historical screens D S10/S21",
+      "remaining_reference_check": "Installed tree and defaults with hardware connected/disconnected",
+      "evidence_refs": [
+        "S10",
+        "S21"
+      ],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F133",
+      "capability_or_interaction": "Continue playback when app is in background",
+      "original_evidence": "V",
+      "remaining_reference_check": "OS/version, lock screen, interruptions and route changes",
+      "evidence_refs": [],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F134",
+      "capability_or_interaction": "Restore a session after ordinary relaunch",
+      "original_evidence": "V",
+      "remaining_reference_check": "Loaded decks, playback, clock, positions, effects and drawers",
+      "evidence_refs": [],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F135",
+      "capability_or_interaction": "Handle local files that disappear or cannot decode",
+      "original_evidence": "V/P",
+      "remaining_reference_check": "Message, disabled controls, retained preparation data",
+      "evidence_refs": [],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F136",
+      "capability_or_interaction": "Handle library permission denial or revoked access",
+      "original_evidence": "V/P",
+      "remaining_reference_check": "First launch, retry path and audible session impact",
+      "evidence_refs": [],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F137",
+      "capability_or_interaction": "Handle interrupted, failed or low-space recordings",
+      "original_evidence": "V/P",
+      "remaining_reference_check": "File recovery, error state and audio continuity",
+      "evidence_refs": [],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F138",
+      "capability_or_interaction": "Support the reference's display orientations and layouts",
+      "original_evidence": "V",
+      "remaining_reference_check": "Portrait/landscape, rotation, supported iPad sizes",
+      "evidence_refs": [],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F139",
+      "capability_or_interaction": "Reconcile simultaneous touch, hardware and queued events",
+      "original_evidence": "P, original rules V",
+      "remaining_reference_check": "Ordering, priority, stale-event rejection and visual feedback",
+      "evidence_refs": [],
+      "performer_contracts": [
+        "PF020"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F140",
+      "capability_or_interaction": "Preserve a stable local performance session during long use",
+      "original_evidence": "P, original limits V",
+      "remaining_reference_check": "Thermal load, memory, waveform cache growth and glitches",
+      "evidence_refs": [],
+      "performer_contracts": [],
+      "scope_role": "full_replica_supporting_behaviour",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": true,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F141",
+      "capability_or_interaction": "Provide a separate Slicer Quantize switch",
+      "original_evidence": "D visible S21",
+      "remaining_reference_check": "Exact scope, default and persistence",
+      "evidence_refs": [
+        "S21"
+      ],
+      "performer_contracts": [
+        "PF019"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F142",
+      "capability_or_interaction": "Provide Freeze on Load",
+      "original_evidence": "D visible S21",
+      "remaining_reference_check": "Trigger conditions and installed behaviour",
+      "evidence_refs": [
+        "S21"
+      ],
+      "performer_contracts": [
+        "PF031"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F143",
+      "capability_or_interaction": "Show a moving lead-in marker before the incoming source waveform scrolls",
+      "original_evidence": "D S35 near 4:14–4:16; S38 near 3:11–3:13, adjacent-frame reviews",
+      "remaining_reference_check": "Installed conditions, geometry, audio onset and cancellation feedback. Quantize Size mapping remains V",
+      "evidence_refs": [
+        "S35",
+        "S38"
+      ],
+      "performer_contracts": [
+        "PF018"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F144",
+      "capability_or_interaction": "Use timbre analysis in the original recommendation engine as announced by NI",
+      "original_evidence": "D declared capability S41",
+      "remaining_reference_check": "Descriptors, ranking influence and installed implementation",
+      "evidence_refs": [
+        "S41"
+      ],
+      "performer_contracts": [
+        "PF003",
+        "PF006"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F145",
+      "capability_or_interaction": "Use genre in next-track suggestions as experienced by the performer",
+      "original_evidence": "R2",
+      "remaining_reference_check": "Exact input source and influence; preserve original behaviour",
+      "evidence_refs": [
+        "R2"
+      ],
+      "performer_contracts": [
+        "PF004",
+        "PF006"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    },
+    {
+      "id": "F146",
+      "capability_or_interaction": "Adapt recommendation rankings from previous mixes and track combinations",
+      "original_evidence": "R2, explicitly observed adaptation",
+      "remaining_reference_check": "Learning signals, ranking rules, model/history state and persistence; internal ML method unrecovered",
+      "evidence_refs": [
+        "R2"
+      ],
+      "performer_contracts": [
+        "PF005",
+        "PF006"
+      ],
+      "scope_role": "performer_contract_detail",
+      "replication_scope": "verify_and_match_original",
+      "unverified_feature_presence_must_not_be_assumed": false,
+      "proposal_authorises_product_change": false
+    }
+  ],
+  "gesture_contract": "gesture-fidelity.json",
+  "current_performer_requirements": {
+    "precedence": "Direct performer clarifications supersede conflicting historical reports or unknown-policy placeholders below.",
+    "audio_output_priority": "Combined audio output and responsive performance controls always take priority over analysis, search, artwork, import and recording work.",
+    "minimum_hardware": "10.5-inch iPad Pro (2017, A10X, 4 GB), directly confirmed 28 October 2026.",
+    "suggestion_policy": "next-track-suggestions.json#performer_policy_2026_10_25",
+    "early_synced_play": "Prefer the next four-beat bar; after beat 2, wait for the next bar. End-of-reference next-beat fallback remains a development interpretation.",
+    "queued_second_play": "Cancels pending incoming start, directly confirmed in coordinated chat.",
+    "parked_gig_iPad_access_authorised": false
+  },
+  "analysis_contract": "../18-music-analysis-fidelity.md",
+  "analysis_quality_requirement_2026_10_29": {
+    "basis": "Explicit performer requirement and reported TDJ1 experience, 29 October 2026",
+    "dimensions": [
+      "BPM",
+      "key",
+      "energy",
+      "automatic downbeat"
+    ],
+    "release_condition": "All four must match the consistently correct results reported from TDJ1 before a 1:1 contender claim.",
+    "implementation_status": "Prototype insufficient; automatic downbeat inference absent",
+    "benchmark": "../../../Replica/Sources/TDJCore/AnalysisBenchmark.swift",
+    "synthetic_success_establishes_reference_parity": false,
+    "manual_correction_establishes_automatic_accuracy": false,
+    "audio_and_control_scheduling_priority_retained": true,
+    "reference_validation_status": "Open: paired real-music corpus and target-device acceptance required"
+  },
+  "implementation_review_2026_10_30": {
+    "status_document": "../../../Replica/Status.md",
+    "analysis_document": "../../../Replica/Analysis.md",
+    "reference_fidelity_accepted": false,
+    "scope": "Original requirements and observations are retained. Current implementation is tracked separately; an unresolved original policy is not an absent feature."
+  }
+}

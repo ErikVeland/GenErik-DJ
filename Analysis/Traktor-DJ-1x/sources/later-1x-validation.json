@@ -1,0 +1,7 @@
+{
+  "ok": true,
+  "errors": [],
+  "checked_sources": 30,
+  "checked_frames": 3,
+  "method": "Validate local Markdown links, source IDs, JPEG dimensions, sizes and SHA-256 hashes. No device access."
+}

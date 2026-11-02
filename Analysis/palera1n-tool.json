@@ -1,0 +1,16 @@
+{
+  "download_url": "https://github.com/palera1n/palera1n/releases/download/v2.4/palera1n-macos-universal",
+  "version": "2.4",
+  "sha256": "dcf2f827e89a12215685c55f0462cd7d0cbc0551e3acd340bf0216c274c2e83e",
+  "size": 9757024,
+  "verification": "Downloaded over HTTPS from the official palera1n GitHub release. SHA-256 recorded locally, not independently matched to a publisher checksum.",
+  "status": "Jailbreak attempted. DFU entry has repeatedly failed. No successful jailbreak or app-package extraction confirmed.",
+  "device_query": {
+    "mode": "normal",
+    "ProductType": "iPad7,3",
+    "Architecture": "arm64",
+    "Version": "17.7.11",
+    "DisplayName": "iPad Pro 10.5-inch (WiFi)"
+  },
+  "troubleshooting": "Stopped stale read-only palera1n -I probe PID 89347. One user rootless process was active during the process audit. Launch helper now rejects overlapping palera1n processes."
+}

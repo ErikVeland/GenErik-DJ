@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "errors": [],
+  "checked_sources": 40,
+  "feature_rows": 143,
+  "checked_local_markdown_links": 91,
+  "checked_retained_images": 5,
+  "reviewed_caption_tracks": 5,
+  "questions_still_open": [
+    "Q02",
+    "Q05"
+  ],
+  "device_access": false,
+  "method": "Validate dossier links and source IDs, preserve 143 feature rows, check new JPEG dimensions/bytes/hashes and unresolved-test flags. Saved images also inspected visually."
+}

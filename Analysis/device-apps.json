@@ -1,0 +1,77 @@
+{
+  "info" : {
+    "arguments" : [
+      "devicectl",
+      "--timeout",
+      "20",
+      "device",
+      "info",
+      "apps",
+      "--device",
+      "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "--include-all-apps",
+      "--search",
+      "traktor",
+      "--json-output",
+      "/private/tmp/generik-traktor-apps.json"
+    ],
+    "commandType" : "devicectl.device.info.apps",
+    "environment" : {
+      "TERM" : "dumb"
+    },
+    "jsonVersion" : 5,
+    "outcome" : "success",
+    "version" : "651.13.5"
+  },
+  "result" : {
+    "apps" : [
+      {
+        "appClip" : false,
+        "builtByDeveloper" : false,
+        "bundleIdentifier" : "com.native-instruments.traktordjphone",
+        "bundleVersion" : "1.6.5.925",
+        "containerAccessible" : false,
+        "defaultApp" : false,
+        "hidden" : false,
+        "internalApp" : false,
+        "name" : "Traktor DJ",
+        "removable" : true,
+        "url" : "file:///private/var/containers/Bundle/Application/E1F527C3-32A3-4798-A23A-CBEDE1FDC830/iTraktorPhone.app/",
+        "version" : "1.6.5"
+      },
+      {
+        "appClip" : false,
+        "builtByDeveloper" : false,
+        "bundleIdentifier" : "com.native-instruments.traktordj",
+        "bundleVersion" : "1.6.8.67",
+        "containerAccessible" : false,
+        "defaultApp" : false,
+        "hidden" : false,
+        "internalApp" : false,
+        "name" : "Traktor DJ",
+        "removable" : true,
+        "url" : "file:///private/var/containers/Bundle/Application/71257BF6-F5EB-44CD-9BEC-99D5BCF82A6A/Traktor%20DJ.app/",
+        "version" : "1.6.8"
+      },
+      {
+        "appClip" : false,
+        "builtByDeveloper" : false,
+        "bundleIdentifier" : "com.native-instruments.tmnt",
+        "bundleVersion" : "2.4.1.478",
+        "containerAccessible" : false,
+        "defaultApp" : false,
+        "hidden" : false,
+        "internalApp" : false,
+        "name" : "Traktor DJ 2",
+        "removable" : true,
+        "url" : "file:///private/var/containers/Bundle/Application/D756931B-7220-40CC-97F5-B94A7449E09D/Traktor%20DJ.app/",
+        "version" : "2.4.1"
+      }
+    ],
+    "defaultAppsIncluded" : true,
+    "deviceIdentifier" : "88D728A8-8C8E-5F8A-A195-9CDDE817C1F7",
+    "hiddenAppsIncluded" : true,
+    "internalAppsIncluded" : true,
+    "removableAppsIncluded" : true
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "format": "tdj1.performer-fidelity-validation/v1",
+  "prepared_date": "2026-10-21",
+  "status": "passed",
+  "scope": "Document and declarative contract consistency. Not validation of a running replica or original algorithm.",
+  "counts": {
+    "performer_contracts": 43,
+    "inventory_entries": 146,
+    "suggestion_comparisons": 10,
+    "questions": 38,
+    "future_capture_sessions": 20,
+    "journeys": 36
+  },
+  "checks": [
+    {
+      "check": "43_unique_performer_contracts",
+      "passed": true,
+      "detail": {
+        "human_count": 43,
+        "JSON_count": 43
+      }
+    },
+    {
+      "check": "all_146_inventory_entries_covered_once",
+      "passed": true,
+      "detail": {
+        "human_count": 146,
+        "JSON_count": 146
+      }
+    },
+    {
+      "check": "10_reference_cases_match",
+      "passed": true,
+      "detail": {
+        "human_count": 10,
+        "JSON_count": 10
+      }
+    },
+    {
+      "check": "source_register_complete",
+      "passed": true,
+      "detail": {
+        "registered_source_keys": 55
+      }
+    },
+    {
+      "check": "machine_source_references_resolve",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "contract_wording_matches_human_specification",
+      "passed": true,
+      "detail": "Behaviour, performer value and evidence boundary match all 43 human rows."
+    },
+    {
+      "check": "bidirectional_inventory_mapping",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "full_replica_scope_retained",
+      "passed": true,
+      "detail": "Every inventory entry retains an original-behaviour verification obligation. Candidate feature presence is not presumed."
+    },
+    {
+      "check": "no_fabricated_reference_outputs",
+      "passed": true,
+      "detail": "Original ranked examples and exact interaction outputs remain uncaptured."
+    },
+    {
+      "check": "unknown_recommendation_policies_unassigned",
+      "passed": true,
+      "detail": {
+        "unassigned_policy_count": 32
+      }
+    },
+    {
+      "check": "observed_adaptation_is_required_original_behaviour",
+      "passed": true,
+      "detail": "Performer observation is preserved. Hidden method is not invented."
+    },
+    {
+      "check": "queued_second_play_policy_unresolved",
+      "passed": true,
+      "detail": "No cancellation or retrigger rule has been selected."
+    },
+    {
+      "check": "gig_iPad_constraint_preserved",
+      "passed": true,
+      "detail": "Declarative restriction checked. This pass only read and wrote local dossier files."
+    },
+    {
+      "check": "questions_capture_sessions_and_journeys_indexed",
+      "passed": true,
+      "detail": {
+        "questions": 38,
+        "capture_sessions": 20,
+        "journeys": 36
+      }
+    },
+    {
+      "check": "dossier_local_markdown_links_resolve",
+      "passed": true,
+      "detail": {
+        "local_links_checked": 122,
+        "missing": []
+      }
+    }
+  ],
+  "failed_checks": [],
+  "file_hashes": [
+    {
+      "path": "15-performer-fidelity-specification.md",
+      "bytes": 15391,
+      "sha256": "2c473f7fbedb52a9a22639c301fbebd3e8f1f957e1077d0388449e7a2c8a56d7"
+    },
+    {
+      "path": "16-next-track-suggestion-fidelity.md",
+      "bytes": 8534,
+      "sha256": "879c1378b67425735cc530b6073598cb0f7f165e44acc41a8532ca871d8a74c2"
+    },
+    {
+      "path": "contracts/performer-fidelity.json",
+      "bytes": 134406,
+      "sha256": "0d5608a45801bfd468e2fc9e171e118c9b9f9e98c5babeb688672c45dc62c345"
+    },
+    {
+      "path": "contracts/next-track-suggestions.json",
+      "bytes": 12495,
+      "sha256": "3ddabace939f7edf60068a18ee10057064281ff32ca36d08029271fe7f9f0c55"
+    },
+    {
+      "path": "README.md",
+      "bytes": 11994,
+      "sha256": "4b2bae0d8003b76fefa97fb4c49b31da73b1a64d0a786d972512d87cee2fb73f"
+    },
+    {
+      "path": "01-product-and-technical-specification.md",
+      "bytes": 18489,
+      "sha256": "63723311897707e40b02db06c638dc336178214d19c5b6aff3eafebeb393b8f3"
+    },
+    {
+      "path": "02-feature-and-interaction-inventory.md",
+      "bytes": 22931,
+      "sha256": "0dfdef04bf884f3d201f5c89635793d56d75090887b36504e83e4c04746763d3"
+    },
+    {
+      "path": "03-transport-sync-and-queued-starts.md",
+      "bytes": 18817,
+      "sha256": "62a7c77954cb006a59319abf2cc178c64af45b1fc8f9a144efda281809911525"
+    },
+    {
+      "path": "04-user-journeys-and-acceptance-criteria.md",
+      "bytes": 18262,
+      "sha256": "072a02718c7ee67f4f75ad2a622bb634f283096f242188cfad725681a4935cc1"
+    },
+    {
+      "path": "05-reference-capture-and-open-questions.md",
+      "bytes": 17387,
+      "sha256": "0e41e6d80de1535377740359a903055b63cb18efa680c04f71d125e8c79cfc05"
+    },
+    {
+      "path": "06-sources-and-evidence.md",
+      "bytes": 28267,
+      "sha256": "514610973174cf5d154c961b23f8be5f70ab3c27caec794f6cd38c0fbdd6798a"
+    },
+    {
+      "path": "sources/performer-fidelity-manifest.json",
+      "bytes": 2325,
+      "sha256": "0f0dc58ec429da5dfda749d0beb1cc3642c9f0c20947993048dae878e568b5e3"
+    }
+  ],
+  "not_claimed": [
+    "All original behaviour observed",
+    "Original NI algorithm recovered",
+    "Replica implemented",
+    "Recommendation outputs matched",
+    "Quantize Size controls ordinary Play",
+    "Second Play cancels a pending start"
+  ],
+  "device_operations_performed": false,
+  "original_exports_modified": false
+}

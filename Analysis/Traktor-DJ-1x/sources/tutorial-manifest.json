@@ -1,0 +1,171 @@
+{
+  "review_date": "2026-10-21",
+  "timezone": "Australia/Brisbane",
+  "publisher": "Native Instruments",
+  "method": "Read complete browser-exported English caption tracks. Inspect selected video frames through the browser player. No independent audio measurement and no iPad access.",
+  "videos": [
+    {
+      "id": "i5OZGtHZz_E",
+      "title": "Traktor DJ - Preparation Tutorial | Native Instruments - YouTube",
+      "url": "https://www.youtube.com/watch?v=i5OZGtHZz_E",
+      "duration_seconds": 183.761,
+      "source_id": "S11",
+      "captions_language": "en",
+      "captions_type": "auto-generated",
+      "caption_export_sha256": "084ca4ec1a8faa83d97418a5027a30bc6f3b886b8d86bba6ef324fcebea97b8e",
+      "caption_export_bytes": 3206,
+      "review_scope": "Complete captions plus eight-slot cue-drawer frame."
+    },
+    {
+      "id": "B_8eahCGr1k",
+      "title": "Traktor DJ - Performing Tutorial | Native Instruments - YouTube",
+      "url": "https://www.youtube.com/watch?v=B_8eahCGr1k",
+      "duration_seconds": 257.221,
+      "source_id": "S16",
+      "captions_language": "en",
+      "captions_type": "auto-generated",
+      "caption_export_sha256": "03185b33a8c4e5ad91429ec6ddedb26bbf5bde94619a7889e7f5812003b8758e",
+      "caption_export_bytes": 4275,
+      "review_scope": "Complete captions plus selected loop, FX and frame-stepped launch scenes."
+    },
+    {
+      "id": "tHX-IvmbfJE",
+      "title": "Traktor DJ - Essential Mixing Tutorial | Native Instruments - YouTube",
+      "url": "https://www.youtube.com/watch?v=tHX-IvmbfJE",
+      "duration_seconds": 278.921,
+      "source_id": "S17",
+      "captions_language": "en",
+      "captions_type": "auto-generated",
+      "caption_export_sha256": "267fa963bad5384c34e6988001021727426c7134f8e5cf35414155daf2ad3831",
+      "caption_export_bytes": 5331,
+      "review_scope": "Complete captions. No independent frame-by-frame or audio review."
+    },
+    {
+      "id": "U2exstE0GmQ",
+      "title": "Traktor DJ - Browsing Tutorial | Native Instruments - YouTube",
+      "url": "https://www.youtube.com/watch?v=U2exstE0GmQ",
+      "duration_seconds": 219.521,
+      "source_id": "S15",
+      "captions_language": "en",
+      "captions_type": "auto-generated",
+      "caption_export_sha256": "8086138e7ca09bf549dba8adc0de3f4a2e1893cce05132548c82b04da4ed9af6",
+      "caption_export_bytes": 3888,
+      "review_scope": "Complete captions plus selected load-slider and master-tempo frames."
+    },
+    {
+      "id": "4Gu9yFE5-Oo",
+      "title": "Advanced usage with Traktor Kontrol S4/S2 and Traktor DJ | Native Instruments - YouTube",
+      "url": "https://www.youtube.com/watch?v=4Gu9yFE5-Oo",
+      "duration_seconds": 162.001,
+      "source_id": "S18",
+      "captions_language": "en",
+      "captions_type": "authored or unspecified",
+      "caption_export_sha256": "c3a4dfcc960f6a46613a4d0aa5ff340cc3a4b436f3ca25a92b054a1a26df74e1",
+      "caption_export_bytes": 2540,
+      "review_scope": "Complete captions. No independent frame-by-frame or audio review."
+    },
+    {
+      "id": "3U7LqCkYeWc",
+      "title": "Getting started with Traktor Kontrol S4/S2 and Traktor DJ | Native Instruments - YouTube",
+      "url": "https://www.youtube.com/watch?v=3U7LqCkYeWc",
+      "duration_seconds": 302.941,
+      "source_id": "S5",
+      "captions_language": "en",
+      "captions_type": "authored or unspecified",
+      "caption_export_sha256": "2998737d2487b5e9f286b01291eb455f771160460ee7b179128ee456e36921cc",
+      "caption_export_bytes": 4882,
+      "review_scope": "Complete captions. No independent frame-by-frame or audio review."
+    },
+    {
+      "id": "oRNAV-GlH18",
+      "title": "Introducing SuperSlicer for Traktor DJ | Native Instruments - YouTube",
+      "url": "https://www.youtube.com/watch?v=oRNAV-GlH18",
+      "duration_seconds": 80.981,
+      "source_id": "S10",
+      "captions_language": "en",
+      "captions_type": "auto-generated",
+      "caption_export_sha256": "fe0a5757525b2f0aa0ea126f6fda811f14817b46946aa8d8cb9105dbafb1c225",
+      "caption_export_bytes": 185,
+      "review_scope": "Sparse captions plus selected frames at about 16.19, 48.58 and 64.77 seconds. Full gesture mapping unresolved."
+    }
+  ],
+  "frames": [
+    {
+      "file": "tutorial-frames/browsing-02m14s-master-tempo.jpg",
+      "video_id": "U2exstE0GmQ",
+      "video_time_seconds": 134,
+      "description": "Global tempo wheel.",
+      "bytes": 48522,
+      "sha256": "0f5d5a0eede7ce621ec268fd4f728c197b7406b4291e24355c6bb3dcff2dfb6e",
+      "capture": "Cropped browser screenshot of video region, selected through normal player controls.",
+      "media_type": "image/jpeg"
+    },
+    {
+      "file": "tutorial-frames/browsing-01m27s79-load-slider.jpg",
+      "video_id": "U2exstE0GmQ",
+      "video_time_seconds": 87.792,
+      "description": "Contextual directional load slider.",
+      "bytes": 35046,
+      "sha256": "5a249a0ca52f6ce9622ee65cc02a7b57f88e65733e92d92e2cd9d0857247db03",
+      "capture": "Cropped browser screenshot of video region, selected through normal player controls.",
+      "media_type": "image/jpeg"
+    },
+    {
+      "file": "tutorial-frames/preparation-02m05s27-eight-cues.jpg",
+      "video_id": "i5OZGtHZz_E",
+      "video_time_seconds": 125.272,
+      "description": "Eight-slot cue drawer.",
+      "bytes": 46253,
+      "sha256": "d6e9a0fc8e8a9b154a105378269e85bb459557b1a2accf3ff7ffb9aca49f9033",
+      "capture": "Cropped browser screenshot of video region, selected through normal player controls.",
+      "media_type": "image/jpeg"
+    },
+    {
+      "file": "tutorial-frames/performing-02m07s36-before-launch.jpg",
+      "video_id": "B_8eahCGr1k",
+      "video_time_seconds": 127.359997,
+      "description": "Prepared incoming deck before visible launch. No clear input timestamp.",
+      "bytes": 46452,
+      "sha256": "5da9acde673d9abc3aef83eaffc52d6411db1e9fa0d58c09d36185c5c654e66d",
+      "capture": "Cropped browser screenshot of video region, selected through normal player controls.",
+      "media_type": "image/jpeg"
+    },
+    {
+      "file": "tutorial-frames/performing-02m08s16-after-launch.jpg",
+      "video_id": "B_8eahCGr1k",
+      "video_time_seconds": 128.159994,
+      "description": "Incoming deck visibly playing. Not an input-to-start latency measurement.",
+      "bytes": 47400,
+      "sha256": "790050fdb85b237fe98ce33a7ce685648a1577e15c774f208588f396ae2f6fef",
+      "capture": "Cropped browser screenshot of video region, selected through normal player controls.",
+      "media_type": "image/jpeg"
+    },
+    {
+      "file": "tutorial-frames/performing-02m44s32-effect-selector.jpg",
+      "video_id": "B_8eahCGr1k",
+      "video_time_seconds": 164.32,
+      "description": "Original effect selector.",
+      "bytes": 25672,
+      "sha256": "60cde14b80f179e0e543bd5dbcf37f9b57bea67295e57b523456e504e1ff18ce",
+      "capture": "Cropped browser screenshot of video region, selected through normal player controls.",
+      "media_type": "image/jpeg"
+    },
+    {
+      "file": "tutorial-frames/superslicer-00m16s19-features-menu.jpg",
+      "video_id": "oRNAV-GlH18",
+      "video_time_seconds": 16.192,
+      "description": "Partial historical Features settings menu.",
+      "bytes": 22324,
+      "sha256": "8595edfab20b25a86805517a7da675a1cf675da4962399d2850c1912bc872fef",
+      "capture": "Cropped browser screenshot of video region, selected through normal player controls.",
+      "media_type": "image/jpeg"
+    }
+  ],
+  "unavailable": {
+    "video_id": "qaRgoKxWFo0",
+    "url": "https://www.youtube.com/watch?v=qaRgoKxWFo0",
+    "observed_status": "Video unavailable. This video is private.",
+    "title_established": false,
+    "playlist_url": "https://www.youtube.com/playlist?list=PLkFqg7ZvTWb0m0zXdsmXcVbTrkAowoaDE"
+  }
+}

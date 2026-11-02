@@ -1,0 +1,1806 @@
+{
+  "capture_count": 120,
+  "reason": "Variable browser screenshot layout. Corrected native full-screen pass replaces these captures.",
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 190.353294,
+      "path": "frame-000-190.353294.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "169c94104f7e1d32459779ac50fa5ce633a446fdd654ce1de317866cd9abb82d",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 1,
+      "time_seconds": 190.386627,
+      "path": "frame-001-190.386627.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "95f4ef787d54733923c4664e0b24101c49dacdebd900b61ea7d5b21e47482cc0",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 2,
+      "time_seconds": 190.41996,
+      "path": "frame-002-190.419960.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "29d010684d0bf6382c2c54e34491a6478ae7482fbfa82b106d75b0d2ada8b76f",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 3,
+      "time_seconds": 190.453293,
+      "path": "frame-003-190.453293.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "eed4305b25bddcd50f43fae1c1242391801b2bcac4a12a09dc6c3519b2965eb1",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 4,
+      "time_seconds": 190.486626,
+      "path": "frame-004-190.486626.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "5ffcc8fb9f8c399b3d70d1463891632e833bee2cde89a3320e0e3c753a54b222",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 5,
+      "time_seconds": 190.519959,
+      "path": "frame-005-190.519959.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "6775a6c616a396e4042e8f4e4cc4799cfc21b284b5e528d84d786a4a33395a67",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 6,
+      "time_seconds": 190.553292,
+      "path": "frame-006-190.553292.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "bc01a3afa04275abce225b331fabdd163edd048442304ad0c28c0db148c5d6d2",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 7,
+      "time_seconds": 190.586625,
+      "path": "frame-007-190.586625.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "ae15f964bea42c885790f7437ee0142ae844c957286ab47784c4da9751d69f7f",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 8,
+      "time_seconds": 190.619958,
+      "path": "frame-008-190.619958.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "9bcd1bf0077eb49318916ae08b88cc206c15e909ecd98f3d87c5f7633c4d57da",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 9,
+      "time_seconds": 190.653291,
+      "path": "frame-009-190.653291.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "b7ae8766a5afe5ba8d7ed08ad1f11acae3a47499a12589a0867e2667ed56c1fa",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 10,
+      "time_seconds": 190.686624,
+      "path": "frame-010-190.686624.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "77fe8f7f23f4edd7397ef8720251004488f06eb58f39140653bf68a8caa703e1",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 11,
+      "time_seconds": 190.719957,
+      "path": "frame-011-190.719957.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "6d83849e98bc5253fb22cb50c526442ffcfb7c79ee9c9b4652b47d09a73e34b2",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 12,
+      "time_seconds": 190.75329,
+      "path": "frame-012-190.753290.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "b11ff7ea8a1cb1a450d85509e64e9405644dd7eaa6511f6135ad1479906701c3",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 13,
+      "time_seconds": 190.786623,
+      "path": "frame-013-190.786623.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "2f53feac8e117ab937254b3657a65e6bff5cd649463a04bd5c055abaec2e0708",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 14,
+      "time_seconds": 190.819956,
+      "path": "frame-014-190.819956.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "b62d76b18e7f43069e914a9b3e99d708a2e977dd6ac4e5fcc984e12e02df6495",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 15,
+      "time_seconds": 190.853289,
+      "path": "frame-015-190.853289.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "c40afddce4cb53022c3919db3c20eb5090e4138665d6984d55661338a7aff536",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 16,
+      "time_seconds": 190.886622,
+      "path": "frame-016-190.886622.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "05817c6ba4cb0d44e950517c4ad1a75aae6b22c702b259ad961cadff512e100b",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 17,
+      "time_seconds": 190.919955,
+      "path": "frame-017-190.919955.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "aaf24ba4919148d1ac83f72ffaa83ca4d045d1126f1e3f8cb8bfd5ffe26d5a54",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 18,
+      "time_seconds": 190.953288,
+      "path": "frame-018-190.953288.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "8e381c175c7deb70d225622e7ec5adc798289e19457fa7c7869db01a7a12d7df",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 19,
+      "time_seconds": 190.986621,
+      "path": "frame-019-190.986621.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "c30586ceba6589c8a64e93144746809605220e9f6ff7a9a4933fdb8a48244a65",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 20,
+      "time_seconds": 191.019954,
+      "path": "frame-020-191.019954.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "3c3e16e6e00e183725cd49ed5ed50b98a12f662c73806acca2736ebf7581fd98",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 21,
+      "time_seconds": 191.053287,
+      "path": "frame-021-191.053287.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "948ad000d0c2c01040841e0bbc29d54e134660f51fafbb8a176e3281230bfa6b",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 22,
+      "time_seconds": 191.08662,
+      "path": "frame-022-191.086620.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "ee122c76e938ded577884277fc4845748a8f82787a8c6a6b0a5f1db33d0a748b",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 23,
+      "time_seconds": 191.119953,
+      "path": "frame-023-191.119953.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "30ccd41e061ce71d429069bc1d249401c1dbb1278630024b622949b8b3eb7c21",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 24,
+      "time_seconds": 191.153286,
+      "path": "frame-024-191.153286.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "3cc8517a115ab36fe7ce884c8677b9fc7f1341ddba4d82b3567eea65a023e318",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 25,
+      "time_seconds": 191.186619,
+      "path": "frame-025-191.186619.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "40712f490e1f634b7e25a7e4311186ddd17eff6ad4f4cbb0e411d29d0fc71138",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 26,
+      "time_seconds": 191.219952,
+      "path": "frame-026-191.219952.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "412b2bdb4a050d151b9c62d276d2a605ee1c4ec474ca0a79bab0f3e1cfcc25a3",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 27,
+      "time_seconds": 191.253285,
+      "path": "frame-027-191.253285.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "64d267b724dfbf0064a134c84320d1c8921ffcafbc4a1f797acddfb60e98450b",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 28,
+      "time_seconds": 191.286618,
+      "path": "frame-028-191.286618.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "130d52f5cd1115ceb47b202cf2f0b2d0fdedf06eaa5acdc6e02983ba017810a7",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 29,
+      "time_seconds": 191.319951,
+      "path": "frame-029-191.319951.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "103c067bf3f408e1d2cc1bce87ba9bace83a4c653c5a14ea28c4870d760434e7",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 30,
+      "time_seconds": 191.353284,
+      "path": "frame-030-191.353284.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "64ab460a7a2da787280d2e59ebc142753c3eeb0da984ef6e7af283c9b6b4ab9a",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 31,
+      "time_seconds": 191.386617,
+      "path": "frame-031-191.386617.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "424edb97f412097b94d7d2ddc01b474da5f8738cd766907823dddeb10aa4c397",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 32,
+      "time_seconds": 191.41995,
+      "path": "frame-032-191.419950.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "f94398955608a8ef20da4b0e8f544bb2cdeba606889181e938a0f3a9a336a402",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 33,
+      "time_seconds": 191.453283,
+      "path": "frame-033-191.453283.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "fd24b056ab30dae8d181e5b065e2c299d82861940d72dc7980fe99a512f9034a",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 34,
+      "time_seconds": 191.486616,
+      "path": "frame-034-191.486616.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "140712eb1bfcfa83b29f9e1fa9acb517081934dde29d0c862a8cc3bfc0b41c06",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 35,
+      "time_seconds": 191.519949,
+      "path": "frame-035-191.519949.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "f1358c068b721cdc8f2db226fdf7c1da62f8dbd8b50c7904f739914cdfadfd0e",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 36,
+      "time_seconds": 191.553282,
+      "path": "frame-036-191.553282.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "5153b3978a066da298b89b9b8fe8ba12bd7bb1d7421a33d19d39fdfc0003c250",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 37,
+      "time_seconds": 191.586615,
+      "path": "frame-037-191.586615.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "82f4e959ecb96fcb0c28f3e727ab96de7d81a2f15075fd0c67fd0a62735478da",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 38,
+      "time_seconds": 191.619948,
+      "path": "frame-038-191.619948.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "c24b8bc4205862c18ec0d4879024828c06d5897a48f0aa446055cfc318dd0dc5",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 39,
+      "time_seconds": 191.653281,
+      "path": "frame-039-191.653281.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "7facb4f4e9bfc94f63ae40445b42ce2c2f3b7ef0c5e7b3766b4bc9dfd121d9d5",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 40,
+      "time_seconds": 191.686614,
+      "path": "frame-040-191.686614.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "1a78c9759f2272d8d1fce1a064e4366445017c5c70a087885b22b419de376b73",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 41,
+      "time_seconds": 191.719947,
+      "path": "frame-041-191.719947.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "14dca55ed6339975681733a94cbe2ae3c4baf8e81cab36ae3669a07c439bef5b",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 42,
+      "time_seconds": 191.75328,
+      "path": "frame-042-191.753280.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "21a5d32e20b380d87da7f531ca7e418e66ddd97e16cb972c5af94bd89b045cda",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 43,
+      "time_seconds": 191.786613,
+      "path": "frame-043-191.786613.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "5f53da70a73f6e73ae2342c0ec1f8e556ab19807f6c0450031d3c4340379b390",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 44,
+      "time_seconds": 191.819946,
+      "path": "frame-044-191.819946.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "1acf795e769bde19334a6cd01904346d7462f4a2d3a487855f9a93373845f5b0",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 45,
+      "time_seconds": 191.853279,
+      "path": "frame-045-191.853279.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "fb6e04009c1c6333194a489d9384be97738decec74af5d92593df04e8517d117",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 46,
+      "time_seconds": 191.886612,
+      "path": "frame-046-191.886612.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "3db8603d0f4e8cb3b020559c38e5e3eca6415bac4f2294cfb58d67ff7de2aaa1",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 47,
+      "time_seconds": 191.919945,
+      "path": "frame-047-191.919945.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "032420f36f5a38d396833f86cb8eb8898a3d5a290238abde69c8cc346d013ce3",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 48,
+      "time_seconds": 191.953278,
+      "path": "frame-048-191.953278.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "6526908cb4af6dfffa56e9594e616dfa61f0d366940715e00de318c7d273bfa0",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 49,
+      "time_seconds": 191.986611,
+      "path": "frame-049-191.986611.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "43ca6c01d4817504fc3a2ce452dc111b6f6550a3a01a5a852709fd67ca85cd52",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 50,
+      "time_seconds": 192.019944,
+      "path": "frame-050-192.019944.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "42642e414550b81d364834a2b5d6e311c2a90d1e17791a8eda890482e2423015",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 51,
+      "time_seconds": 192.053277,
+      "path": "frame-051-192.053277.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "ce5b05e8b4967d625c3bc9357c88c5d16a6e04a6686f3fd86cf53dac90134db5",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 52,
+      "time_seconds": 192.08661,
+      "path": "frame-052-192.086610.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "e73ab11faa3a12783235fa0d097cb155c95f270c9e940e6d027e80e4ab2a300a",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 53,
+      "time_seconds": 192.119943,
+      "path": "frame-053-192.119943.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "44da52871a456fc9fcae46642ca73e484ca8940a522340ce3f1c86ade706184e",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 54,
+      "time_seconds": 192.153276,
+      "path": "frame-054-192.153276.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "1d8e1172b04a4b0b1094bbe87528df9dd6857e0f5e914a989fbe354057e7de68",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 55,
+      "time_seconds": 192.186609,
+      "path": "frame-055-192.186609.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "3392f64c523d01471fdebcdc1258e4416e2e93089605fbfac286b93a11a1907d",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 56,
+      "time_seconds": 192.219942,
+      "path": "frame-056-192.219942.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "e024f8b59724c6ec35fdbb10e4910c27e7e3f6624b623b1a01be63d6541c3d33",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 57,
+      "time_seconds": 192.253275,
+      "path": "frame-057-192.253275.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "531594ce6e34865c4131c7cbcf23b7bc15253403eecfb74593ccb8fab14ce569",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 58,
+      "time_seconds": 192.286608,
+      "path": "frame-058-192.286608.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "05b14a91d916b243bd1cb48871c4ea6bf31767f104df6e76f801dedeab500727",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 59,
+      "time_seconds": 192.319941,
+      "path": "frame-059-192.319941.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "e7a1370b18f6a35ea43727cf0bf4a4014acdd45a7d70e1b799d8a1c9377fa1a9",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 60,
+      "time_seconds": 192.353274,
+      "path": "frame-060-192.353274.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "fe8d24297b9f4b32a7c13db80f36454a49400606459e9797b2dcd7939be39f8d",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 61,
+      "time_seconds": 192.386607,
+      "path": "frame-061-192.386607.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "a75130bb57cf40c3c637613b2ebe8ee450a20e72c97e9ef0587f55a4207d3386",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 62,
+      "time_seconds": 192.41994,
+      "path": "frame-062-192.419940.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "dbf40436dc44e84fa4c150d0f566a9f07a107a48c92c4d650903264035557817",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 63,
+      "time_seconds": 192.453273,
+      "path": "frame-063-192.453273.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "4e450d6256665e66e9c395ab73305240199ea42980a9d64f83249786f9d430ee",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 64,
+      "time_seconds": 192.486606,
+      "path": "frame-064-192.486606.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "d30a76bda9afe0e1f8661555be8b366dc82b25a5daac32b963fc3c61356ecf59",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 65,
+      "time_seconds": 192.519939,
+      "path": "frame-065-192.519939.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "995ef570fda1772825f51031db9156de2b2c4b64667d7982979cc22d24e5abd7",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 66,
+      "time_seconds": 192.553272,
+      "path": "frame-066-192.553272.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "712db1dcec523d51e9b5b6ba5a9698c164671a7d63b51d3b9ea3ee36a348045c",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 67,
+      "time_seconds": 192.586605,
+      "path": "frame-067-192.586605.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "5c6c2ddfcf505575976327a7fb488097b1d76f0c2eae20e550bca82dd9fd3aa3",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 68,
+      "time_seconds": 192.619938,
+      "path": "frame-068-192.619938.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "9f016dde319bf8db863f682b6afdb64a77a82900d9b98004c0c8b007b9f91062",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 69,
+      "time_seconds": 192.653271,
+      "path": "frame-069-192.653271.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "ba55284a8cbbd0ba8e88c1e9933826fedd22d6e41baafa8e5702aef5b0ac183d",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 70,
+      "time_seconds": 192.686604,
+      "path": "frame-070-192.686604.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "edddc16f14d888988bb9139be677ae4effbe26b0983325004bbe485851688672",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 71,
+      "time_seconds": 192.719937,
+      "path": "frame-071-192.719937.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "568edcabe2ae30ccf77f6585eb2cb7648361e669c0f5a65123fcb7ed723dd0ef",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 72,
+      "time_seconds": 192.75327,
+      "path": "frame-072-192.753270.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "6fd7ed16aa951d47c7f13b52ec974119d23a3695fda305d8139f28cbe4f505f7",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 73,
+      "time_seconds": 192.786603,
+      "path": "frame-073-192.786603.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "54b0f89cd211bc9e88974ded7f9dabf1d2f527f432470aca7e597fcfd70753f6",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 74,
+      "time_seconds": 192.819936,
+      "path": "frame-074-192.819936.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "e0016bcb56bdeb90b0e810cca45d76497d5d43b892d4c2bd7d13bc0aeb7b04ec",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 75,
+      "time_seconds": 192.853269,
+      "path": "frame-075-192.853269.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "b1d7d7627261c866cf556055dcfd5c9374ec223193b8a19d0c202cb6f8404dbd",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 76,
+      "time_seconds": 192.886602,
+      "path": "frame-076-192.886602.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "e5752b4568a73b42c193c86151d1f901856bac5e0780e1cca2f50119c98ba90b",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 77,
+      "time_seconds": 192.919935,
+      "path": "frame-077-192.919935.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "74358e77cb34b98e2f6aaefa78f745a6eac8e85c022b159ab7a385a48eadb4c4",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 78,
+      "time_seconds": 192.953268,
+      "path": "frame-078-192.953268.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "6117b65d42c51fcb56bf786fd72308766e4ee277bc90150eeabe97f70d03f6a8",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 79,
+      "time_seconds": 192.986601,
+      "path": "frame-079-192.986601.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "087ff86aba46bae105ab11d53d2c878c7f9f72da919dd98ed4f14b9f42b1d395",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 80,
+      "time_seconds": 193.019934,
+      "path": "frame-080-193.019934.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "9983b1ca1e955b3481d51ddd399dff70598c91f65dd0c8760cf0947ad392cb47",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 81,
+      "time_seconds": 193.053267,
+      "path": "frame-081-193.053267.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "3d259f9864121fff89fa4239d009f90123d2a6aab9dfa36439c5ec83784df224",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 82,
+      "time_seconds": 193.0866,
+      "path": "frame-082-193.086600.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "09bf95be75ca27b2bb0587c1af4b90b49841455cef60800db6a6c3764b4a6e89",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 83,
+      "time_seconds": 193.119933,
+      "path": "frame-083-193.119933.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "8fe8a3dc6cff64384a65e2848c2148ac1c6c37943d225c19e3adb1bdac31a1ea",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 84,
+      "time_seconds": 193.153266,
+      "path": "frame-084-193.153266.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "bf5029ed123b41b29e0db4e662b04e5b6586bd12015f8c745a431f76b622a24c",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 85,
+      "time_seconds": 193.186599,
+      "path": "frame-085-193.186599.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "c718ebcc9b4b7d92b183d5cac741b7809b7c0e173ecaf1d6cbab53c8b880e52a",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 86,
+      "time_seconds": 193.219932,
+      "path": "frame-086-193.219932.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "636d9b9d67e3d7d4bf28e20bd23fbf3f8b52b8501f6f73218f99b35fa68b62ce",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 87,
+      "time_seconds": 193.253265,
+      "path": "frame-087-193.253265.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "b03ad8689fcdf0e4dd132c8c38aa7556cc551aceb9c338dd672cdd6e8d00364b",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 88,
+      "time_seconds": 193.286598,
+      "path": "frame-088-193.286598.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "b6854a905559f25ebdfc1db3d1bb27afea21103089f07604d5ed58c5793237a3",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 89,
+      "time_seconds": 193.319931,
+      "path": "frame-089-193.319931.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only crop of captured screenshot; surrounding page removed before evidence retention",
+      "sha256": "05d97e4eba879257c1af01cf910cd33dfa2e9ac74bb2d1366085e2e62032c720",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 90,
+      "time_seconds": 193.353264,
+      "path": "frame-090-193.353264.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "b8345b25cc258c036ebbe4d9c0d1fb3696043779197ab570ad374f63e8218da8",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 91,
+      "time_seconds": 193.386597,
+      "path": "frame-091-193.386597.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "f1b7438b994e05a978eac01491b8561550d2350648447fc471327768d77d2071",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 92,
+      "time_seconds": 193.41993,
+      "path": "frame-092-193.419930.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "e907099f8fd71c64c72359ee94087f191c11cd5942cf9b60aa2b717d5338f8cc",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 93,
+      "time_seconds": 193.453263,
+      "path": "frame-093-193.453263.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "364fc753361a513c0dc6bf9919d34dc9a4d6c359b7390f9df2b8acc64e752620",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 94,
+      "time_seconds": 193.486596,
+      "path": "frame-094-193.486596.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "f40a37bd63b8cf0828ce8e0036508d7366209930f1678bfb19bc4160e6653650",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 95,
+      "time_seconds": 193.519929,
+      "path": "frame-095-193.519929.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "1c9081434b42e8bb5bf7d73a40d3bbd8f9493fdc6f0b7c023ee89e86a1d48e1a",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 96,
+      "time_seconds": 193.553262,
+      "path": "frame-096-193.553262.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "84ab0c0da85803af0dd55ac19434096313d1f67d8eaac5a0b9e23173ebe52fed",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 97,
+      "time_seconds": 193.586595,
+      "path": "frame-097-193.586595.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "66c87cef6c7697af44f859e559eb9135792e38e4260b970f9028a6e9dae4030f",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 98,
+      "time_seconds": 193.619928,
+      "path": "frame-098-193.619928.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "39af7738aa35f354321b93dd8e6dac0929490489a2156eed6112a9e9d20789e7",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 99,
+      "time_seconds": 193.653261,
+      "path": "frame-099-193.653261.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "14d080248e99dab0909b9575132f7a94f5bb95159093392cbfb31acd0d551d37",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 100,
+      "time_seconds": 193.686594,
+      "path": "frame-100-193.686594.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "92f76191b819441c94d724d488cfdc6e63c33a1a68b1cabc945f2656ed9aa78e",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 101,
+      "time_seconds": 193.719927,
+      "path": "frame-101-193.719927.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "71d870f0a742a1c718b8c44889125dbbeee54ede0396b20720acd3b6198dc614",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 102,
+      "time_seconds": 193.75326,
+      "path": "frame-102-193.753260.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "009f0bc6afdc31de7f9ff062ed0cf369f125c727273ecbf3de64d19fa9004704",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 103,
+      "time_seconds": 193.786593,
+      "path": "frame-103-193.786593.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "86afb7061315ec7fd3765a12d4e104237452669a0a0014a9380b80d1921369cf",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 104,
+      "time_seconds": 193.819926,
+      "path": "frame-104-193.819926.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "b4ac6d7d250ec8d8837474606fe63f1b53269834df31ba5156b8f9c50bc135af",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 105,
+      "time_seconds": 193.853259,
+      "path": "frame-105-193.853259.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "3321868c8f04c3650b1e394a8ee4e24e4ffb6da96702ce030d965cd41f321e6d",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 106,
+      "time_seconds": 193.886592,
+      "path": "frame-106-193.886592.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "30d7c2f804b2d19a3712ebc59bbacd53c9c7a5091e28261be4e373962aa7257b",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 107,
+      "time_seconds": 193.919925,
+      "path": "frame-107-193.919925.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "1e6da790ff8dfeb7f7f8f3afed9c2a23d37804503663a990151cb29519629416",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 108,
+      "time_seconds": 193.953258,
+      "path": "frame-108-193.953258.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "9f69b8b2c28cf5b78ee8c1d6334b031052137613c7ecee12a2547495a5f9383c",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 109,
+      "time_seconds": 193.986591,
+      "path": "frame-109-193.986591.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "f31a91686b407fbcc7663d69fd2490cb5e452cda47a2730c1d27fa4f8bc2e08a",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 110,
+      "time_seconds": 194.019924,
+      "path": "frame-110-194.019924.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "aaf0c3ee590bc302bfdf06d4460dde14863b1e3665e70a42bcad0e7631a56c7b",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 111,
+      "time_seconds": 194.053257,
+      "path": "frame-111-194.053257.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "f6f571b5c00c9f79cf3f91e50e204b65e5e4e23e1d4f7a1019c9febc9820fc20",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 112,
+      "time_seconds": 194.08659,
+      "path": "frame-112-194.086590.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "5ce721c8a6b06124a420c38a511b5d05d8a9651cf5e5936e6f7231849f134a84",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 113,
+      "time_seconds": 194.119923,
+      "path": "frame-113-194.119923.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "c69daec83c32ecf970e39033a351fccc746d1c3fa16880429384f65da8416ecd",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 114,
+      "time_seconds": 194.153256,
+      "path": "frame-114-194.153256.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "fa6a9c7ba31179841499eca286525a61bcc41424429ee695f191c2c508cd90ec",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 115,
+      "time_seconds": 194.186589,
+      "path": "frame-115-194.186589.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "8b0907759df3a360e405b7f023c752fffc3d436509902e9d98906177f19b6403",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 116,
+      "time_seconds": 194.219922,
+      "path": "frame-116-194.219922.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "7e2d35f905993fba132abe65032b486ca8ac3e62c8aae721327abd30bb9ddaa1",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 117,
+      "time_seconds": 194.253255,
+      "path": "frame-117-194.253255.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "3648b96acd627bf12e645615ad751b67aa15963f89457f5bedb4b12e60aeed06",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 118,
+      "time_seconds": 194.286588,
+      "path": "frame-118-194.286588.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "0827c056e7b4f3db0522767b4b9d250ba58e5fc57961f8930c379c2fc91a8421",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    },
+    {
+      "index": 119,
+      "time_seconds": 194.319921,
+      "path": "frame-119-194.319921.jpg",
+      "capture_crop": {
+        "x": 56,
+        "y": 68,
+        "width": 2080,
+        "height": 1170
+      },
+      "crop_method": "Player-only screenshot crop",
+      "sha256": "59388d2307661c87a25b03092025a2a9b98318d4e223915eff9429a912c67b01",
+      "retained": false,
+      "reason": "Variable layout during screenshot resize; excluded from event analysis and removed"
+    }
+  ]
+}

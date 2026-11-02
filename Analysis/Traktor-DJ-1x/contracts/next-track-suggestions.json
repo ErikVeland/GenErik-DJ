@@ -1,0 +1,394 @@
+{
+  "format": "tdj1.next-track-suggestion-fidelity/v1",
+  "status": "performer_policy_implemented_original_fidelity_unverified",
+  "reference": {
+    "product": "Native Instruments Traktor DJ for iPad 1.x",
+    "installed_version": "1.6.8",
+    "installed_build": "1.6.8.67",
+    "bundle_id": "com.native-instruments.traktordj",
+    "identity_evidence": [
+      "L1"
+    ],
+    "performer_experience_years": 13,
+    "performer_evidence": [
+      "R1",
+      "R2",
+      "R3"
+    ],
+    "historical_evidence_does_not_prove_installed_build_equality": true
+  },
+  "governing_document": "../16-next-track-suggestion-fidelity.md",
+  "performer_contracts": [
+    "PF001",
+    "PF002",
+    "PF003",
+    "PF004",
+    "PF005",
+    "PF006"
+  ],
+  "inventory_ids": [
+    "F005",
+    "F006",
+    "F144",
+    "F145",
+    "F146"
+  ],
+  "centrality": "Required performer feature. Its background work remains secondary to combined audio output and live musical control.",
+  "performer_report": {
+    "reference": "R2",
+    "explicit_followup_answer": "I observed TDJ1’s rankings adapt",
+    "original_behaviour_required": [
+      "Genre contributes to suggestions as reported",
+      "Previous mixes and track combinations contribute as reported",
+      "Rankings adapt with use as observed"
+    ],
+    "public_algorithm_documentation_is_not_required_to_accept_the_performer_observation": true,
+    "internal_ML_method_recovered": false,
+    "historical_scope": "Retained original report; implementation ranking follows performer_policy_2026_10_25, which supersedes independent genre weighting."
+  },
+  "NI_launch_claim": {
+    "reference": "S41",
+    "url": "https://rekkerd.org/native-instruments-releases-traktor-dj-app-for-ipad/",
+    "publication_date": "2013-02-21",
+    "declared_inputs": [
+      "tempo",
+      "key",
+      "timbre"
+    ],
+    "claim_scope": "NI announcement reproduced by Rekkerd. Capability declaration, not an algorithm disclosure or installed-build measurement."
+  },
+  "original_journey": [
+    "Establish the original musical context.",
+    "Open suggestions through destination-deck artwork.",
+    "Receive the original ordered candidates from the available collection.",
+    "Read the original compatibility feedback.",
+    "Choose and load through the original workflow.",
+    "Continue mixing, preserving the reported history contribution to later rankings."
+  ],
+  "inputs_to_distinguish": [
+    {
+      "id": "library_identity",
+      "meaning": "Library and track identity",
+      "evidence_basis": "context_required",
+      "evidence_refs": [
+        "S1",
+        "S15"
+      ],
+      "unresolved_details": [
+        "Identity rules",
+        "Duplicates and edits",
+        "Unavailable recordings"
+      ]
+    },
+    {
+      "id": "source_bpm",
+      "meaning": "Source BPM",
+      "evidence_basis": "documented_input",
+      "evidence_refs": [
+        "S1",
+        "S15"
+      ],
+      "unresolved_details": [
+        "Rounding",
+        "Corrections",
+        "Half/double interpretation"
+      ]
+    },
+    {
+      "id": "performance_tempo",
+      "meaning": "Current performance tempo",
+      "evidence_basis": "influence_unresolved",
+      "evidence_refs": [
+        "R3"
+      ],
+      "unresolved_details": [
+        "Eligibility effect",
+        "Ranking effect",
+        "Interaction with source BPM"
+      ]
+    },
+    {
+      "id": "key",
+      "meaning": "Detected or corrected key",
+      "evidence_basis": "documented_input",
+      "evidence_refs": [
+        "S1",
+        "S15"
+      ],
+      "unresolved_details": [
+        "Notation",
+        "Compatibility relationships",
+        "Keylock/playback effect"
+      ]
+    },
+    {
+      "id": "timbre",
+      "meaning": "Sound-related analysis",
+      "evidence_basis": "NI_declared_original_input",
+      "evidence_refs": [
+        "S41"
+      ],
+      "unresolved_details": [
+        "Descriptors",
+        "Comparison method",
+        "Rank contribution"
+      ]
+    },
+    {
+      "id": "genre",
+      "meaning": "Genre information",
+      "evidence_basis": "performer_reported_original_input",
+      "evidence_refs": [
+        "R2"
+      ],
+      "unresolved_details": [
+        "Tag or inference source",
+        "Missing/multiple labels",
+        "Cross-genre behaviour"
+      ]
+    },
+    {
+      "id": "previous_mixes",
+      "meaning": "Previous mixes and track combinations",
+      "evidence_basis": "performer_reported_original_input",
+      "evidence_refs": [
+        "R2"
+      ],
+      "unresolved_details": [
+        "Session and transition definitions",
+        "Order/repetition/duration",
+        "Overlap and direction"
+      ]
+    },
+    {
+      "id": "learned_state",
+      "meaning": "State behind observed adaptive rankings",
+      "evidence_basis": "performer_reported_adaptation_state_unrecovered",
+      "evidence_refs": [
+        "R2"
+      ],
+      "unresolved_details": [
+        "Update timing",
+        "Storage representation",
+        "Persistence/reset conditions"
+      ]
+    },
+    {
+      "id": "deck_context",
+      "meaning": "Reference and destination deck context",
+      "evidence_basis": "documented_workflow_exact_selection_unresolved",
+      "evidence_refs": [
+        "S1",
+        "S15"
+      ],
+      "unresolved_details": [
+        "Both-deck reference selection",
+        "Stopped-deck context",
+        "Refresh while browsing"
+      ]
+    }
+  ],
+  "unresolved_original_policies": {
+    "algorithm": null,
+    "feature_weights": null,
+    "compatibility_thresholds": null,
+    "candidate_limit": null,
+    "tie_break_order": null,
+    "half_double_tempo_policy": null,
+    "performance_tempo_influence": null,
+    "keylock_influence": null,
+    "timbre_descriptors": null,
+    "genre_source": null,
+    "genre_influence": null,
+    "history_store": null,
+    "learning_events": null,
+    "update_trigger": null,
+    "update_delay": null,
+    "history_window": null,
+    "transition_directionality": null,
+    "session_boundary": null,
+    "minimum_duration_or_overlap": null,
+    "load_only_learning": null,
+    "preview_only_learning": null,
+    "unselected_candidate_interpretation": null,
+    "play_count_influence": null,
+    "learning_state_identity": null,
+    "adaptation_persistence": null,
+    "reset_conditions": null,
+    "both_decks_reference_selection": null,
+    "duplicate_edit_identity": null,
+    "recent_use_policy": null,
+    "reanalysis_effect": null,
+    "unavailable_track_policy": null,
+    "ranking_determinism": null
+  },
+  "null_policy_meaning": "Unrecovered original detail. Null is not disabled, false, a default or permission to choose a new rule.",
+  "do_not_infer": [
+    "A genre label is a timbre descriptor.",
+    "Track properties alone reproduce the observed adaptive rankings.",
+    "Every load, preview or recorded mix is a learning event.",
+    "Unselected candidates are negative feedback.",
+    "Transitions are symmetric or learning is immediate.",
+    "Total play counts alone explain adaptive ordering.",
+    "Exported XML tracklists are the recommendation training store.",
+    "Historical launch behaviour equals every detail of installed 1.6.8."
+  ],
+  "product_constraint": {
+    "new_ranking_controls_authorised": false,
+    "new_training_UI_authorised": false,
+    "new_score_explanations_authorised": false,
+    "new_recommendation_providers_authorised": false,
+    "new_cloud_dependencies_authorised": false,
+    "original_controls_and_workflow_required": true
+  },
+  "existing_history_evidence": {
+    "reference": "L2",
+    "observation": "Existing copied tracklists contain names, artists, opaque identifiers and start-time values.",
+    "XML_is_proven_recommender_input": false,
+    "tracklist_timestamp_units": null,
+    "track_identifier_semantics": null,
+    "original_copies_must_remain_unchanged": true
+  },
+  "reference_comparison_cases": [
+    {
+      "id": "REC01",
+      "comparison": "A familiar reference track and its expected next-track suggestions",
+      "evidence_to_retain": "Ranked track identities, library snapshot, visible context, settings and build",
+      "expected_ranked_track_ids": null,
+      "expected_compatibility_feedback": null,
+      "reference_capture": null,
+      "status": "awaiting_reference_examples",
+      "live_gig_device_access_authorised": false
+    },
+    {
+      "id": "REC02",
+      "comparison": "A pair or sequence whose recommendation position changed after repeated mixing",
+      "evidence_to_retain": "The performer's account and any before/after output with history provenance",
+      "expected_ranked_track_ids": null,
+      "expected_compatibility_feedback": null,
+      "reference_capture": null,
+      "status": "awaiting_reference_examples",
+      "live_gig_device_access_authorised": false
+    },
+    {
+      "id": "REC03",
+      "comparison": "Similar BPM with different keys, then related keys at different BPM",
+      "evidence_to_retain": "Original candidates and indicators; do not invent compatibility thresholds",
+      "expected_ranked_track_ids": null,
+      "expected_compatibility_feedback": null,
+      "reference_capture": null,
+      "status": "awaiting_reference_examples",
+      "live_gig_device_access_authorised": false
+    },
+    {
+      "id": "REC04",
+      "comparison": "Same reference under different current performance tempos",
+      "evidence_to_retain": "Original ordering and eligibility changes, if any",
+      "expected_ranked_track_ids": null,
+      "expected_compatibility_feedback": null,
+      "reference_capture": null,
+      "status": "awaiting_reference_examples",
+      "live_gig_device_access_authorised": false
+    },
+    {
+      "id": "REC05",
+      "comparison": "Similar tempo/key with different genre and sonic character",
+      "evidence_to_retain": "Separate observations for genre and timbre; no assumption that one represents the other",
+      "expected_ranked_track_ids": null,
+      "expected_compatibility_feedback": null,
+      "reference_capture": null,
+      "status": "awaiting_reference_examples",
+      "live_gig_device_access_authorised": false
+    },
+    {
+      "id": "REC06",
+      "comparison": "One deck playing, both playing, then a stopped reference deck",
+      "evidence_to_retain": "Which context the original uses and how the view reacts",
+      "expected_ranked_track_ids": null,
+      "expected_compatibility_feedback": null,
+      "reference_capture": null,
+      "status": "awaiting_reference_examples",
+      "live_gig_device_access_authorised": false
+    },
+    {
+      "id": "REC07",
+      "comparison": "Load or preview a track without actually mixing it",
+      "evidence_to_retain": "Whether the original changes history or later suggestions",
+      "expected_ranked_track_ids": null,
+      "expected_compatibility_feedback": null,
+      "reference_capture": null,
+      "status": "awaiting_reference_examples",
+      "live_gig_device_access_authorised": false
+    },
+    {
+      "id": "REC08",
+      "comparison": "A completed mix, ordinary restart and later return to the same reference",
+      "evidence_to_retain": "Update timing and persistence of observed adaptation",
+      "expected_ranked_track_ids": null,
+      "expected_compatibility_feedback": null,
+      "reference_capture": null,
+      "status": "awaiting_reference_examples",
+      "live_gig_device_access_authorised": false
+    },
+    {
+      "id": "REC09",
+      "comparison": "A corrected BPM, key or grid before reopening suggestions",
+      "evidence_to_retain": "Which corrected properties affect the original results",
+      "expected_ranked_track_ids": null,
+      "expected_compatibility_feedback": null,
+      "reference_capture": null,
+      "status": "awaiting_reference_examples",
+      "live_gig_device_access_authorised": false
+    },
+    {
+      "id": "REC10",
+      "comparison": "A repeated track or a different edit of the same recording",
+      "evidence_to_retain": "Identity, recent-use and duplicate behaviour as the original exhibits it",
+      "expected_ranked_track_ids": null,
+      "expected_compatibility_feedback": null,
+      "reference_capture": null,
+      "status": "awaiting_reference_examples",
+      "live_gig_device_access_authorised": false
+    }
+  ],
+  "completion_rule": "Match agreed original access, candidates, order, feedback, history-dependent adaptation and persistence under the same retained reference context. Appealing replacement recommendations are insufficient.",
+  "device_constraint": {
+    "gig_iPad_access_authorised": false,
+    "reference_capture_authorised_now": false,
+    "jailbreak_parked": true,
+    "automatic_resume_scheduled": false,
+    "existing_local_evidence_and_public_sources_only": true,
+    "named_diagnostic_authorisation_2026_10_29": {
+      "name": "GenErik",
+      "scope": "Separate audio-check app installation and one-minute/five-minute performance checks",
+      "original_Traktor_app_or_data_operations_authorised": false,
+      "reference_capture_authorised": false,
+      "jailbreak_authorised": false,
+      "target_evidence": "../../../Replica/Validation/GenErikAudioCheck-2026-10-29-01/authorisation-and-target.json"
+    }
+  },
+  "performer_policy_2026_10_25": {
+    "priority_order": [
+      "key",
+      "BPM range",
+      "similar energy",
+      "previous pairing"
+    ],
+    "tempo_tolerance_percent": 8,
+    "energy_direction": "similar",
+    "ranking_combination": "lexicographic",
+    "source": "direct user instructions in current chat",
+    "implementation_limits": [
+      "Key relation tiers and energy estimator remain implementation choices",
+      "Original reference-ranked examples remain unavailable"
+    ],
+    "previous_pairing_direction": "undirected",
+    "previous_pairing_strength": "boolean prior pairing, not play-count weighting"
+  },
+  "implementation_review_2026_10_30": {
+    "status_document": "../../../Replica/Status.md",
+    "analysis_document": "../../../Replica/Analysis.md",
+    "reference_fidelity_accepted": false,
+    "scope": "Original requirements and observations are retained. Current implementation is tracked separately; an unresolved original policy is not an absent feature."
+  }
+}

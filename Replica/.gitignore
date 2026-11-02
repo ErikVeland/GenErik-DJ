@@ -1,0 +1,11 @@
+.build/
+.build-ios/
+.cache/
+.derivedData/
+.workspace/
+*.xcuserstate
+xcuserdata/
+
+.workspace-synthetic/
+.workspace-metadata/
+Build/

@@ -1,0 +1,110 @@
+{
+  "reviewedUTC": "2026-10-28T14:09:06.449854+00:00",
+  "sourceURL": "https://www.youtube.com/watch?v=oRNAV-GlH18",
+  "publisher": "Native Instruments",
+  "publicationDate": "2014-08-19",
+  "announcedVersion": "1.5",
+  "target168ParityEstablished": false,
+  "completePublicSource": {
+    "path": "/tmp/tdj-ni-S10.mp4",
+    "sha256": "c18ab757a56f2bcc6c9ae73a43ab5ef5521bd58d565398a65498a48df7b72a90",
+    "bytes": 4722298,
+    "format": "18, 640x360, complete download"
+  },
+  "higherResolutionSource": {
+    "path": "/tmp/tdj-ni-S10-720.mp4.part",
+    "sha256": "4e2962610509a7ebcdcc4f2e493e93fb11291e9c30dd7db943c5293de04a9ea8",
+    "format": "136,1280x720,25fps",
+    "complete": false,
+    "limitation": "HTTP403 terminated download at approximately77%. Only independently decoded prefix frames are evidence. Frame60 emitted truncation errors and is excluded."
+  },
+  "findings": [
+    {
+      "time": 16,
+      "observation": "Features category visible; adjoining17s complete-source frame shows a SuperSlicer row. This establishes the menu route, not factory/unlock/persistence policy."
+    },
+    {
+      "time": 20.4,
+      "observation": "Finger contacts the snowflake control while waveform is blue.20.9s adjoining shot is green and shows turntablism region guides."
+    },
+    {
+      "time": 21,
+      "observation": "Top Brake, centre Scratch, bottom Reverse. Initial Pitch reading was a blur misread and is corrected. No product/source note was written with that wrong label."
+    },
+    {
+      "time": 25,
+      "observation": "On-video text identifies three turntablism actions per slice; two contacts are depicted, but range ownership and response are not resolved."
+    },
+    {
+      "time": 30.8,
+      "observation": "Middle disc selector is green before the following selection."
+    },
+    {
+      "time": 31.2,
+      "observation": "Musical-note selector turns green after contact; three region guides read Pitch Up, Slice, Pitch Down.32s clear matching shot."
+    },
+    {
+      "time": 42,
+      "observation": "On-video text identifies three loop-stutter actions per slice; exact loop durations are not legible here."
+    },
+    {
+      "time": 48,
+      "observation": "First loop-arrow selector is green; disc and note selectors are grey. Its association with the adjacent loop-stutter demonstration is a strong contextual inference, not a literal on-button bank name."
+    }
+  ],
+  "unresolved": [
+    "Loop-stutter numeric durations and complete first-bank response mapping",
+    "Exact region hit boundaries, parameter curves and onset/release timing",
+    "Two-contact range selection and overlapping release ownership",
+    "Unlock/default/persistence scope and target1.6.8 comparison"
+  ],
+  "codeAndHardware": "All production source/test files unchanged; no iPad or original app contact.",
+  "prefixFrameSHA256": {
+    "prefix720/S10-16.png": "46f81adf28a3dfdbbde58f298d436c001b9ba235db7977d7441be25216f7c593",
+    "prefix720/S10-20.4.png": "bf93aa79381560c60ac0e821681155dc9f0528e31f7443d691daf84ddfdfe4b4",
+    "prefix720/S10-20.9.png": "3cc73780420c854627a9cd4d2350fa927e96060328248be25e2395a939d7ff72",
+    "prefix720/S10-21.png": "13c9c4042e3b90590c7ac35381dd837d32d798629ae80b62561747d7e1638728",
+    "prefix720/S10-25.png": "be557cebef36850b780d12e6a266c4b1950310483c957040e10cebf23e644eb7",
+    "prefix720/S10-30.8.png": "528c368e847cbfe53ce0b05cbc4b8fc44e00d59369ba31b6cfd74964f619c910",
+    "prefix720/S10-31.2.png": "62c4695a4a533bcb7afbeb8fe414242f48fac08287b7857b0fa72cfe43c0d3b4",
+    "prefix720/S10-32.png": "5722704cd86c3db6c6269c3d7991cc5fcb0e1e1557e321772c4c5bb1cd4fc6f6",
+    "prefix720/S10-42.png": "56c0f2ffd73f817f5469dc424167b0772cf92d29a6e74db7a6669c0d6366a569",
+    "prefix720/S10-48.png": "be9e26afd12fb191060a7b5f8fc552216b9a3bfcad37810c65b3307227fc4049"
+  },
+  "completeFrameSHA256": {
+    "complete360/tdj-S10-17.png": "cd2f24a311103f386ccd6a9f975fbc966079d1945f4e4d149ea400d8d246d19a",
+    "complete360/tdj-S10-21.png": "1611cd77916e77fa170ff5f4e41d96710c68954f2ad5ff12b40b3e5a9928629c",
+    "complete360/tdj-S10-24.png": "c657a14aed4bceb6e60f0528f666525f149d185376fae5c20514204a02848d27",
+    "complete360/tdj-S10-32.png": "79cc85928ec9580bff61d8a61e84c1c5a3ac6334bdfc3492331f21cfc6f0e0b6"
+  },
+  "inspectionCrop": {
+    "file": "S10-21-label-nearest.png",
+    "source": "prefix720/S10-21.png",
+    "rect": [
+      620,
+      200,
+      300,
+      200
+    ],
+    "scale": 4,
+    "resampling": "nearest-neighbour, no AI enhancement",
+    "observation": "Brake above Scratch. Corrects initial soft-focus misread."
+  },
+  "artifactSHA256": {
+    "S10-21-label-nearest.png": "497b86dbbb3512db37212df5db7a1ecbe165da75d03265d9df4aabf8913e19be",
+    "complete360/tdj-S10-17.png": "cd2f24a311103f386ccd6a9f975fbc966079d1945f4e4d149ea400d8d246d19a",
+    "complete360/tdj-S10-24.png": "c657a14aed4bceb6e60f0528f666525f149d185376fae5c20514204a02848d27",
+    "complete360/tdj-S10-32.png": "79cc85928ec9580bff61d8a61e84c1c5a3ac6334bdfc3492331f21cfc6f0e0b6",
+    "complete360/tdj-S10-21.png": "1611cd77916e77fa170ff5f4e41d96710c68954f2ad5ff12b40b3e5a9928629c",
+    "prefix720/S10-31.2.png": "62c4695a4a533bcb7afbeb8fe414242f48fac08287b7857b0fa72cfe43c0d3b4",
+    "prefix720/S10-48.png": "be9e26afd12fb191060a7b5f8fc552216b9a3bfcad37810c65b3307227fc4049",
+    "prefix720/S10-20.9.png": "3cc73780420c854627a9cd4d2350fa927e96060328248be25e2395a939d7ff72",
+    "prefix720/S10-16.png": "46f81adf28a3dfdbbde58f298d436c001b9ba235db7977d7441be25216f7c593",
+    "prefix720/S10-32.png": "5722704cd86c3db6c6269c3d7991cc5fcb0e1e1557e321772c4c5bb1cd4fc6f6",
+    "prefix720/S10-25.png": "be557cebef36850b780d12e6a266c4b1950310483c957040e10cebf23e644eb7",
+    "prefix720/S10-21.png": "13c9c4042e3b90590c7ac35381dd837d32d798629ae80b62561747d7e1638728",
+    "prefix720/S10-30.8.png": "528c368e847cbfe53ce0b05cbc4b8fc44e00d59369ba31b6cfd74964f619c910",
+    "prefix720/S10-20.4.png": "bf93aa79381560c60ac0e821681155dc9f0528e31f7443d691daf84ddfdfe4b4",
+    "prefix720/S10-42.png": "56c0f2ffd73f817f5469dc424167b0772cf92d29a6e74db7a6669c0d6366a569"
+  }
+}

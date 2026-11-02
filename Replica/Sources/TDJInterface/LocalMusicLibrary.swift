@@ -1,0 +1,151 @@
+import Foundation
+import TDJCore
+#if os(macOS)
+import iTunesLibrary
+#else
+import MediaPlayer
+import UIKit
+#endif
+
+public struct PreparedMusicLibraryAudio: Sendable {
+    public let url: URL
+    public let metadata: MusicLibraryImportMetadata
+    public let temporary: Bool
+    public init(url: URL, metadata: MusicLibraryImportMetadata, temporary: Bool = false) {
+        self.url = url; self.metadata = metadata; self.temporary = temporary
+    }
+}
+
+@MainActor public protocol LocalMusicLibraryProviding {
+    func catalog() async throws -> MusicLibraryCatalog
+    func prepare(_ item: MusicLibraryItem, in directory: URL) async throws -> PreparedMusicLibraryAudio
+}
+
+@MainActor public final class LocalMusicLibrary: LocalMusicLibraryProviding {
+    private nonisolated static let mediaQueue = DispatchQueue(label: "org.generikdj.music-library", qos: .background)
+    private nonisolated static func onMediaQueue<T: Sendable>(_ work: @escaping @Sendable () throws -> T) async throws -> T {
+        try await withCheckedThrowingContinuation { continuation in
+            mediaQueue.async(qos: .background, flags: .enforceQoS) {
+                do { continuation.resume(returning: try autoreleasepool(invoking: work)) }
+                catch { continuation.resume(throwing: error) }
+            }
+        }
+    }
+    private let diagnosticsURL: URL?
+    /// Replaces the diagnostics file with the latest stage, so a device copy shows where a read stopped.
+    private nonisolated static func stage(_ text: String, at url: URL?) {
+        guard let url else { return }
+        try? Data((Date().ISO8601Format() + " " + text + "\n").utf8).write(to: url, options: .atomic)
+    }
+    public init(diagnosticsURL: URL? = nil) { self.diagnosticsURL = diagnosticsURL }
+    public func catalog() async throws -> MusicLibraryCatalog {
+#if os(macOS)
+        let diagnosticsURL = diagnosticsURL
+        return try await Self.onMediaQueue {
+            Self.stage("Opening native music library", at:diagnosticsURL)
+            let library: ITLibrary
+            do { library=try ITLibrary(apiVersion:"1.0",options:.lazyLoadData) }
+            catch { throw MusicLibraryError.decoding("Music library access failed. Allow access in System Settings and refresh. \(error.localizedDescription)") }
+            return try Self.macCatalog(library:library,diagnosticsURL:diagnosticsURL)
+        }
+#else
+        let diagnosticsURL = diagnosticsURL
+        var authorization = MPMediaLibrary.authorizationStatus()
+        Self.stage("Music library authorization: \(authorization.rawValue)", at: diagnosticsURL)
+        if authorization == .notDetermined {
+            authorization = await withCheckedContinuation { continuation in
+                MPMediaLibrary.requestAuthorization { continuation.resume(returning: $0) }
+            }
+        }
+        guard authorization == .authorized else {
+            Self.stage("Music library access not authorised: \(authorization.rawValue)", at: diagnosticsURL)
+            throw authorization == .restricted ? MusicLibraryError.restricted : MusicLibraryError.permissionDenied
+        }
+        return try await Self.onMediaQueue {
+            Self.stage("Reading native songs and playlists", at: diagnosticsURL)
+            let catalog = Self.iosCatalog()
+            Self.stage("Finished native library read: \(catalog.items.count) songs, \(catalog.playlists.count) playlists", at: diagnosticsURL)
+            return catalog
+        }
+#endif
+    }
+
+    public func prepare(_ item: MusicLibraryItem, in directory: URL) async throws -> PreparedMusicLibraryAudio {
+        guard item.availability != .protected else { throw MusicLibraryError.protected }
+        guard item.availability == .available, let catalogURL = item.assetURL else { throw MusicLibraryError.missingAudio }
+        var url = catalogURL
+        var metadata = MusicLibraryImportMetadata(item: item)
+#if os(iOS)
+        guard MPMediaLibrary.authorizationStatus() == .authorized else { throw MusicLibraryError.permissionDenied }
+        let prepared = try await Self.onMediaQueue { () -> (URL, MusicLibraryImportMetadata) in
+            guard let persistentID = UInt64(item.source.persistentID) else { throw MusicLibraryError.missingAudio }
+            let query = MPMediaQuery.songs()
+            query.addFilterPredicate(MPMediaPropertyPredicate(value: NSNumber(value: persistentID), forProperty: MPMediaItemPropertyPersistentID))
+            guard let current = query.items?.first else { throw MusicLibraryError.missingAudio }
+            guard !current.hasProtectedAsset else { throw MusicLibraryError.protected }
+            guard let currentURL = current.assetURL else { throw MusicLibraryError.missingAudio }
+            let artwork = current.artwork?.image(at: CGSize(width: 512, height: 512))?.jpegData(compressionQuality: 0.9)
+            let metadata = MusicLibraryImportMetadata(item: item, artwork: artwork.flatMap { $0.count <= 5 * 1024 * 1024 ? $0 : nil })
+            return (currentURL, metadata)
+        }
+        try Task.checkCancellation()
+        (url, metadata) = prepared
+#endif
+        guard url.isFileURL || url.scheme?.lowercased() == "ipod-library" else { throw MusicLibraryError.missingAudio }
+        if url.isFileURL {
+            return .init(url: url, metadata: metadata)
+        }
+        let destination = directory.appendingPathComponent(UUID().uuidString + ".caf")
+        try await MusicLibraryAudio.decodeAsset(url: url, destination: destination)
+        return .init(url: destination, metadata: metadata, temporary: true)
+    }
+
+#if os(macOS)
+    private nonisolated static func macCatalog(library: ITLibrary, diagnosticsURL: URL?) throws -> MusicLibraryCatalog {
+        func stage(_ text: String) { Self.stage(text, at: diagnosticsURL) }
+        stage("Reading native song index")
+        let mediaItems = library.allMediaItems
+        stage("Checking local audio for \(mediaItems.count) indexed items")
+        let items = mediaItems.filter { $0.mediaKind == .kindSong }.map { item in
+            let source = MusicLibrarySource(platform: .macMusic, persistentID: item.persistentID.stringValue)
+            let url = item.location
+            let available: Bool
+            if let url, url.isFileURL {
+                let scoped = url.startAccessingSecurityScopedResource()
+                available = FileManager.default.isReadableFile(atPath: url.path)
+                if scoped { url.stopAccessingSecurityScopedResource() }
+            } else { available = false }
+            let availability: MusicLibraryItem.Availability = item.isDRMProtected ? .protected
+                : available ? .available : item.isCloud ? .notDownloaded : .unavailable
+            return MusicLibraryItem(source: source, title: item.title, artist: item.artist?.name ?? "",
+                album: item.album.title ?? "", genre: item.genre.isEmpty ? nil : item.genre,
+                duration: Double(item.totalTime) / 1000, assetURL: url, availability: availability)
+        }.sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
+        stage("Reading native playlists")
+        let known = Set(items.map(\.id))
+        let playlists = library.allPlaylists.filter { $0.isVisible }.map { playlist in
+            MusicLibraryPlaylist(id: "mac-playlist:\(playlist.persistentID.stringValue)", name: playlist.name,
+                itemIDs: playlist.items.map { MusicLibrarySource(platform: .macMusic, persistentID: $0.persistentID.stringValue).id }.filter { known.contains($0) })
+        }.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+        stage("Finished native library read: \(items.count) songs, \(playlists.count) playlists")
+        return .init(items: items, playlists: playlists)
+    }
+#else
+    private nonisolated static func iosCatalog() -> MusicLibraryCatalog {
+        let items = (MPMediaQuery.songs().items ?? []).map { item in
+            let url = item.assetURL
+            let availability: MusicLibraryItem.Availability = item.hasProtectedAsset ? .protected
+                : url.map { $0.isFileURL || $0.scheme?.lowercased() == "ipod-library" } == true ? .available : item.isCloudItem ? .notDownloaded : .unavailable
+            return MusicLibraryItem(source: .init(platform: .iosMusic, persistentID: String(item.persistentID)),
+                title: item.title ?? "Untitled", artist: item.artist ?? "", album: item.albumTitle ?? "",
+                genre: item.genre, duration: item.playbackDuration, assetURL: url, availability: availability)
+        }.sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
+        let known = Set(items.map(\.id))
+        let playlists = (MPMediaQuery.playlists().collections as? [MPMediaPlaylist] ?? []).map { playlist in
+            MusicLibraryPlaylist(id: "ios-playlist:\(playlist.persistentID)", name: playlist.name ?? "Playlist",
+                itemIDs: playlist.items.map { MusicLibrarySource(platform: .iosMusic, persistentID: String($0.persistentID)).id }.filter { known.contains($0) })
+        }.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+        return .init(items: items, playlists: playlists)
+    }
+#endif
+}

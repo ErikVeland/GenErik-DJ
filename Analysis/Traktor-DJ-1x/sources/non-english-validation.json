@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "errors": [],
+  "checked_sources": 37,
+  "feature_rows": 142,
+  "checked_frames": 5,
+  "method": "Validate dossier Markdown links and source IDs, new evidence JPEG dimensions, sizes and SHA-256 hashes. No device access."
+}

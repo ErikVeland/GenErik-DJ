@@ -1,0 +1,145 @@
+{
+  "review_date": "2026-10-21",
+  "timezone": "Australia/Brisbane",
+  "device_access": false,
+  "method": "Mac-only public research. Caption review is distinct from visual inspection and audio measurement. Full caption exports not included.",
+  "videos": [
+    {
+      "source_id": "S20",
+      "id": "5Rd73mY60FE",
+      "title": "Native Instruments Traktor DJ for iPad Tutorial Pt 1 w/ Endo: Harmonic Mixing, Touchscreen DJing +",
+      "publisher": "Dubspot",
+      "published": "2013-04-30",
+      "url": "https://www.youtube.com/watch?v=5Rd73mY60FE",
+      "platform": "Original Traktor DJ for iPad, 2013; exact app build not shown",
+      "duration_seconds": 653.141,
+      "captions_language": "en",
+      "captions_type": "auto-generated",
+      "caption_export_bytes": 10872,
+      "caption_export_sha256": "908ae4497e8a71f28a6de1bc374ee7194790e1eac878fa94c85955b88fbf675a",
+      "review_scope": "Complete English auto-captions; selected tempo and launch scenes. No independent audio measurement."
+    },
+    {
+      "source_id": "S21",
+      "id": "Oc4OBDCZnpc",
+      "title": "Traktor DJ Review & Talkthrough",
+      "publisher": "Digital DJ Tips",
+      "published": "2013-02-21",
+      "url": "https://www.youtube.com/watch?v=Oc4OBDCZnpc",
+      "platform": "Original Traktor DJ for iPad, 2013; exact app build not shown",
+      "duration_seconds": 929.481,
+      "captions_language": "en",
+      "captions_type": "auto-generated",
+      "caption_export_bytes": 14542,
+      "caption_export_sha256": "5e713b4f1e0d69a549363c2a834c8ccfb767f9ed2c06691d16e0da74c866e607",
+      "review_scope": "Complete English auto-captions; Playback menu visually inspected and captured."
+    },
+    {
+      "source_id": "S24",
+      "id": "kc99WythujM",
+      "title": "Traktor DJ for iPad Tutorial Pt 2 w/ Endo: EQ, Effects + Tools for Creating Live Remixes!",
+      "publisher": "Dubspot",
+      "published": "2013-05-08",
+      "url": "https://www.youtube.com/watch?v=kc99WythujM",
+      "platform": "Original Traktor DJ for iPad, 2013; exact app build not shown",
+      "duration_seconds": 992.101,
+      "captions_language": "en",
+      "captions_type": "auto-generated",
+      "caption_export_bytes": 12862,
+      "caption_export_sha256": "2877f50f3c9ca5e137c7f82d52720dbeebd44b375c5f7a71f45faa906f8c376a",
+      "review_scope": "Focused caption review of transport/loops/slices. Loop-dismissal gesture not visually verified."
+    }
+  ],
+  "frames": [
+    {
+      "file": "period-review-frames/S21-ipad-quantise-menu-278.840.jpg",
+      "source_id": "S21",
+      "video_id": "Oc4OBDCZnpc",
+      "video_time_seconds": 278.8401,
+      "description": "Playback settings. Quantize Size complete four-option group, selected 1/2 Beat, Slicer Quantize and Freeze on Load visible.",
+      "bytes": 27671,
+      "sha256": "7e2e33f3ff6e7a0d857f2516f4afad5f41db1b6be56a8c093b1445532eb821a9",
+      "media_type": "image/jpeg",
+      "dimensions": [
+        880,
+        495
+      ],
+      "capture": "Browser screenshot cropped to video bounds. Normal player seeking. No remote video download."
+    },
+    {
+      "file": "period-review-frames/S20-synced-decks-after-entry-482.178.jpg",
+      "source_id": "S20",
+      "video_id": "5Rd73mY60FE",
+      "video_time_seconds": 482.177554,
+      "description": "Synced decks after the demonstrated entry; illustrative state, not queue-duration evidence.",
+      "bytes": 44008,
+      "sha256": "0de543524e76cc334649c35d9dbab3bc95a8369053ffafa79cf036375340bcbf",
+      "media_type": "image/jpeg",
+      "dimensions": [
+        880,
+        495
+      ],
+      "capture": "Browser screenshot cropped to video bounds. Normal player seeking. No remote video download."
+    }
+  ],
+  "written_sources": [
+    {
+      "source_id": "S22",
+      "published": "2013-05-02",
+      "url": "https://www.digitaldjtips.com/reviews/traktor-dj-iphone/",
+      "scope": "Music library section; iPhone only, corroboration for historical quantise choices. Page updated 2021-11-02."
+    },
+    {
+      "source_id": "S23",
+      "published": "2013-02-21",
+      "url": "https://www.digitaldjtips.com/reviews/traktor-dj-ipad/",
+      "scope": "Original iPad; master tempo and preferences. Page updated 2021-10-25."
+    },
+    {
+      "source_id": "S25",
+      "published": "2013-02-26",
+      "url": "https://ra.co/reviews/12524",
+      "scope": "Original iPad; global wheel with one track unsynced. Ignore conflicting Released February 2012 field."
+    },
+    {
+      "source_id": "S26",
+      "published": "2013-03-07",
+      "url": "https://www.amazona.de/test-native-instruments-traktor-dj-app/2/",
+      "scope": "Original iPad; page 2 tempo and measure-start discussion, page 1 publication date."
+    },
+    {
+      "source_id": "S27",
+      "published": "2013-02-21",
+      "url": "https://s11234.pcdn.co/2013/02/21/traktor-dj-on-ipad-exclusive-first-look/",
+      "scope": "Publisher CDN copy; written Freeze/preferences passage only. Embedded walkthrough not inspected."
+    }
+  ],
+  "other_sources_checked": [
+    {
+      "url": "https://www.musicradar.com/news/tech/review-native-instruments-traktor-dj-for-ipad-571281",
+      "result": "Firsthand 2013 review covers sync/grid/master BPM; no exact Play/quantise mapping established in inspected text."
+    },
+    {
+      "url": "https://recording.de/threads/test-traktor-dj-fuer-das-ipad.244806/",
+      "result": "No quantise-setting passage located; not used as timing proof."
+    },
+    {
+      "url": "https://forum.djtechtools.com/t/traktor-ios-for-controllerism/53725",
+      "result": "Period first-person discussion corroborates quarter-beat option and settings location; tentative default statement not used as default proof."
+    },
+    {
+      "url": "https://www.digitaldjtips.com/first-look-video-mixed-in-key-dj-software/",
+      "result": "Later analogy to Traktor DJ; not used as original-app timing proof."
+    },
+    {
+      "url": "https://ipaddj.blogspot.com/",
+      "result": "Search snippet found; full page fetch failed. Not used as a technical source."
+    }
+  ],
+  "unresolved": [
+    "Installed 1.6.8 menu/default and persistence",
+    "Which commands follow Quantize Size",
+    "Scope/default of Slicer Quantize",
+    "Play boundary, source-phase, cancellation and pending-tempo rules"
+  ]
+}

@@ -1,0 +1,4451 @@
+{
+  "review_date": "2026-10-21",
+  "timezone": "Australia/Brisbane",
+  "device_access": false,
+  "method": "Public YouTube playback on Mac. Paused-player single-frame stepping with period/comma keys. Screenshots captured through browser UI. No remote video download, acquisition, device operation, audio capture or sample-level measurement.",
+  "timestamp_limits": "Nominal video.currentTime read from paused player after step. Rounded frame brackets used in report. Browser rendering/overlays can obscure a frame. No calibrated camera-to-mirror or touch-to-audio alignment.",
+  "source_urls": {
+    "S34": "https://www.youtube.com/watch?v=7XMkgFc5QI0",
+    "S35": "https://www.youtube.com/watch?v=apeU94YMVhE"
+  },
+  "observed_step_seconds": {
+    "S34": 0.033333,
+    "S35": 0.04
+  },
+  "reviewed_step_captures": 210,
+  "retained_step_captures": 209,
+  "context_captures": 5,
+  "coverage": [
+    {
+      "source_id": "S35",
+      "series": "first-play",
+      "step_captures": 35,
+      "minimum_time_seconds": 168.711995,
+      "maximum_time_seconds": 170.071986,
+      "scope": "Targeted consecutive paused-player frame steps."
+    },
+    {
+      "source_id": "S34",
+      "series": "quantise-change",
+      "step_captures": 45,
+      "minimum_time_seconds": 1128.313328,
+      "maximum_time_seconds": 1129.613329,
+      "scope": "Consecutive steps within inspected stretches. Quantise-change includes an initial overlapping pass with an unsuitable crop, marked per frame."
+    },
+    {
+      "source_id": "S34",
+      "series": "quantise-first-change",
+      "step_captures": 10,
+      "minimum_time_seconds": 1127.313314,
+      "maximum_time_seconds": 1127.613311,
+      "scope": "Targeted consecutive paused-player frame steps."
+    },
+    {
+      "source_id": "S35",
+      "series": "deck-b-start",
+      "step_captures": 80,
+      "minimum_time_seconds": 252.735995,
+      "maximum_time_seconds": 255.895976,
+      "scope": "Targeted consecutive paused-player frame steps."
+    },
+    {
+      "source_id": "S34",
+      "series": "first-play",
+      "step_captures": 20,
+      "minimum_time_seconds": 212.709981,
+      "maximum_time_seconds": 213.343294,
+      "scope": "Targeted consecutive paused-player frame steps."
+    },
+    {
+      "source_id": "S34",
+      "series": "post-settings-play",
+      "step_captures": 20,
+      "minimum_time_seconds": 1245.446665,
+      "maximum_time_seconds": 1246.079992,
+      "scope": "Targeted consecutive paused-player frame steps."
+    }
+  ],
+  "events": [
+    {
+      "source_id": "S34",
+      "event": "Quantise half to quarter beat",
+      "last_before_seconds": 1127.513312,
+      "first_after_seconds": 1127.546645
+    },
+    {
+      "source_id": "S34",
+      "event": "Quantise quarter to half beat",
+      "last_before_seconds": 1128.746657,
+      "first_after_seconds": 1128.77999
+    },
+    {
+      "source_id": "S34",
+      "event": "Quantise half to one beat",
+      "last_before_seconds": 1129.44665,
+      "first_after_seconds": 1129.479983
+    },
+    {
+      "source_id": "S34",
+      "event": "First-deck Play grey to green and waveform movement",
+      "last_clear_grey_seconds": 213.07663,
+      "first_clear_green_seconds": 213.143296,
+      "limit": "An intervening frame was obscured by browser UI and excluded. Quantise preference at this earlier scene not established."
+    },
+    {
+      "source_id": "S34",
+      "event": "Post-settings first-deck Play grey to green",
+      "last_grey_seconds": 1245.879994,
+      "first_green_seconds": 1245.913327,
+      "limit": "Beatgrid editor, other deck stopped. Later tap-tempo edits. Not a matched incoming-deck trial."
+    },
+    {
+      "source_id": "S35",
+      "event": "First-deck Play grey to green",
+      "last_grey_seconds": 169.631989,
+      "first_green_seconds": 169.671989,
+      "limit": "Different clock conditions from incoming Deck B start."
+    },
+    {
+      "source_id": "S35",
+      "event": "Incoming Deck B visual lead-in",
+      "last_grey_without_marker_seconds": 254.135986,
+      "first_pale_marker_seconds": 254.175986,
+      "first_clear_green_seconds": 254.215986,
+      "marker_at_source_start_region_seconds": 255.415978,
+      "waveform_scrolling_from_seconds": 255.455978,
+      "continued_scrolling_observed_to_seconds": 255.895976,
+      "green_to_scrolling_video_ui_seconds_approx": 1.24,
+      "quantise_preference": null,
+      "second_accepted_play_press_established": false,
+      "limit": "Observed UI sequence only. No first-audio measurement, exact bar-anchor proof, input acceptance timestamp or calibrated physical-inset alignment."
+    }
+  ],
+  "coarse_context_checks": {
+    "S34": [
+      207.176666,
+      211.176651,
+      212.176649,
+      212.676648,
+      215.00997,
+      223.343294,
+      228.343294,
+      1237.413333,
+      1247.413333,
+      1257.413333
+    ],
+    "S35": [
+      62.424,
+      167.272,
+      168.671995,
+      172.272,
+      249.696,
+      252.695995,
+      254.696,
+      269.696,
+      571.816,
+      581.816,
+      591.816,
+      601.816
+    ]
+  },
+  "excluded_captures": [
+    {
+      "source_id": "S34",
+      "series": "first-play",
+      "video_time_seconds": 213.109963,
+      "retained": false,
+      "reason": "Browser overlay obscures source frame. Excluded from event classification."
+    }
+  ],
+  "frames": [
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-168.711995.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 168.711995,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 32862,
+      "sha256": "1c693e941f3db6a533548464731188859f32b41d06d226a35bf39c17ffd7b555",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-168.751995.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 168.751995,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 32564,
+      "sha256": "e8ab65b6b1e167d11c3be46fa8967bf01aeaf654a4688b0e79303fadd615bcfa",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-168.791995.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 168.791995,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 32925,
+      "sha256": "72d2f3f948aeef88dbefa65594e5fd33abec957ac1f491f0a34f99eed8d38b64",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-168.831994.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 168.831994,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 32852,
+      "sha256": "71f6c659328a56099dfae97d096e2c21ac6be2c9cbb16480c0bbab49a256810f",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-168.871994.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 168.871994,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 32869,
+      "sha256": "9a1cb5093fb5cb0e390695779b165b2f04921d653d2687ae28e1e371e8d33b82",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-168.911994.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 168.911994,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 32935,
+      "sha256": "7ef6762338c5d74407606176f3bd991b23b3674a4ce93c51312a8aa74b4ccdc8",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-168.951993.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 168.951993,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 32830,
+      "sha256": "bd9c8dc698fb9b024f0ce24560d6afcfa6bfc1d6144a3c8948f27b41a1b50370",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-168.991992.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 168.991992,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 33243,
+      "sha256": "102acf1f24fb13ad300dd4dff744367edf723b5e407b33a02063fffffe74a19a",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.031992.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.031992,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 33215,
+      "sha256": "041fb42bdf5b3695e285510bb2687c7b471423f3b30b9cf53267eef7d84407e4",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.071992.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.071992,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 33213,
+      "sha256": "91fb1349b2aef54096ff6b97fb47f550745ddd3539722fb43826f285cee451b3",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.479997.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.479997,
+      "clip": {
+        "x": 420,
+        "y": 250,
+        "width": 440,
+        "height": 150
+      },
+      "dimensions": [
+        440,
+        150
+      ],
+      "bytes": 4693,
+      "sha256": "c0419beab497b6615c5b1df1e135d9b46cf66e7d469adcca38f55edbb009517f",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true,
+      "classification_limit": "Initial detail crop cuts off part of the selected row. Not used to bracket the preference change."
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.513330.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.51333,
+      "clip": {
+        "x": 420,
+        "y": 250,
+        "width": 440,
+        "height": 150
+      },
+      "dimensions": [
+        440,
+        150
+      ],
+      "bytes": 4704,
+      "sha256": "2ec82c370e59075f1d8223a43b6fa6603fe2f88496be95ff24a2a26aeeef024e",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true,
+      "classification_limit": "Initial detail crop cuts off part of the selected row. Not used to bracket the preference change."
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.546663.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.546663,
+      "clip": {
+        "x": 420,
+        "y": 250,
+        "width": 440,
+        "height": 150
+      },
+      "dimensions": [
+        440,
+        150
+      ],
+      "bytes": 4699,
+      "sha256": "55a446fe735a320191eb2611a784098f7d105e34fb0581c79063c5bc9b339f83",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true,
+      "classification_limit": "Initial detail crop cuts off part of the selected row. Not used to bracket the preference change."
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.579996.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.579996,
+      "clip": {
+        "x": 420,
+        "y": 250,
+        "width": 440,
+        "height": 150
+      },
+      "dimensions": [
+        440,
+        150
+      ],
+      "bytes": 4701,
+      "sha256": "9517550a650a2504201574296696eb5853d60cc70c992318656b78afde0799e3",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true,
+      "classification_limit": "Initial detail crop cuts off part of the selected row. Not used to bracket the preference change."
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.613329.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.613329,
+      "clip": {
+        "x": 420,
+        "y": 250,
+        "width": 440,
+        "height": 150
+      },
+      "dimensions": [
+        440,
+        150
+      ],
+      "bytes": 4701,
+      "sha256": "8addd7b03a17294ed53fb021541f1c1bbdf87c93324f1517adb61709341aabe1",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true,
+      "classification_limit": "Initial detail crop cuts off part of the selected row. Not used to bracket the preference change."
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.111992.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.111992,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 32877,
+      "sha256": "13dd72504b26e9959ed9c98329e173af8430ea8a7f26a2f8a2bc569c69a44a89",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.151991.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.151991,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 33146,
+      "sha256": "adb94fb7c2c8f40edcbd1715a98300942cda1736ec3d85600c9970e431e804f6",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.191991.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.191991,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 33176,
+      "sha256": "7334e81dd7b3734503f0e7fd6db1aba95855f3b49e8229f6bc5935957063f653",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.231991.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.231991,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 33171,
+      "sha256": "4deb673991649d705cfe1961055b8836e2019fa3f066ddde703792846ba72381",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.271991.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.271991,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 33194,
+      "sha256": "3dd908064fc8a625b6e82f794a33d208d4945ad23260d77252bbdf042c563f5e",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.311991.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.311991,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 33129,
+      "sha256": "98959c4829cb7f8a7632072235b5c5b3dc6c6bdf45fde2550d5ec4e1704fb85f",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.351991.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.351991,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 32728,
+      "sha256": "e3341294a06c5f0668f6e0b474850a49acae115e90253ab5a85519003231982d",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.391991.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.391991,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 31106,
+      "sha256": "91c41285614d49c2bcad77a000fc74a75681584031c12d89590ad2fc66bc294f",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.431990.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.43199,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 30434,
+      "sha256": "27f4fb9059b47a274aebb834e2dc77fc2b320893e9967a79ad7c572cf5a2bfae",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.471990.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.47199,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 29560,
+      "sha256": "dd3596771ffe9e45737d249ee4a6d7e17c4e75d9b2ba7af42d66cd9ee961f30e",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.511990.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.51199,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 29125,
+      "sha256": "f698cdcdfe5f92a2f664e1988bb287ebf60cd389762e27e010546f75767dcf44",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.551990.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.55199,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 29268,
+      "sha256": "0b5b4ea7cd6fb14cfae936e7549666fdb0ec5a304383458a47e4f1f5cba09407",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.591989.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.591989,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 29346,
+      "sha256": "a686e8c1a99021d74696fe18d494a63d52b2df3cb12d8fb57caae756ba570eb1",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.631989.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.631989,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 29903,
+      "sha256": "be97b16859d14a9427cebcf9c7416ef67c8886e8e647b426addc1c7cdbecd946",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.671989.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.671989,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 29889,
+      "sha256": "c273c089cffcda1bfb648a5dfdd332aeac026a3a9a80a22a81204ed3f2f59494",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.313328.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.313328,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5022,
+      "sha256": "c75f5d07c772de59831ce0f4b634296602013745c06a84bc0880ba56a41695f9",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.346661.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.346661,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 4966,
+      "sha256": "3126d05359a9814948129e418b406175a885672b8ef06d59989f19de96bfa573",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.379994.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.379994,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 4955,
+      "sha256": "b1f9d569644a7fffde81d010e4eb9ed9af48c4a6d2f9cb5117b7ec5f6bc97f8a",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.413327.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.413327,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 4961,
+      "sha256": "abaff1ffb7edd26ee56607dea4cdad565e25336e61d24bdafd644fc27b143e98",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.446660.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.44666,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 4970,
+      "sha256": "df12102ea3493444a6559c5b23a9ae7c669fe0a2ba9987c9a06929c448d1df2f",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.479993.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.479993,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 4981,
+      "sha256": "556211e2f389861f4a08fd8ebddaf4f95229c2e6588d25f1aeddcb95332775aa",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.513326.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.513326,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 4973,
+      "sha256": "5f10e943c19328ee620ffbb9cb17c56d4a3bf8a681965155a599f43faf3745be",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.546659.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.546659,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 4981,
+      "sha256": "70807c8e988a5fc2c34636c67df081625567f75de7c5ca729676f7172a2b03f7",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.579992.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.579992,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5044,
+      "sha256": "d33d5a8f77479ea83f5ef06a9adc30c664353f4ccc483e14afa6741c45c4d90d",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.613325.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.613325,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5024,
+      "sha256": "54f2281f914f680e025c7bf84cc580ed7af47313d69baa021207576be47c2f06",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.646658.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.646658,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5109,
+      "sha256": "a0be79805cb1c883425cbd9dd5f14869637291249aeb4fcba41507785500a360",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.679991.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.679991,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5045,
+      "sha256": "851252412f26636102c413405e24c921e137a62b61d009ab3800b0ee7b6bfdc6",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.713324.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.713324,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5042,
+      "sha256": "0c0fa19a40351190c897da6e01c1afc7a2dfff0c6caf30798ba4cfe996bf16b0",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.746657.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.746657,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5047,
+      "sha256": "6dbad5ab600263ac43b468bb42eebf7864df7f361cc77a5f147d09cfe53f0a31",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.779990.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.77999,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5056,
+      "sha256": "37a6da4ce3fc68b2cede18f7270b3184a6b265fa612397509db1aa542916cca9",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.813323.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.813323,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5059,
+      "sha256": "f9b8c7f7efa1a950060c7bef4913971c5d8335c1d5a7bd18eaa1968dcf071db4",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.846656.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.846656,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5064,
+      "sha256": "0e94f5b9eb5754aa89da70b2243fef6a9a0e221b8fcee362c4db18eaf43d224e",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.879989.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.879989,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5039,
+      "sha256": "83936211f43979b698843da16c44916a2717603423dafcae4248af0e879d91e9",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.913322.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.913322,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5039,
+      "sha256": "83936211f43979b698843da16c44916a2717603423dafcae4248af0e879d91e9",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.946655.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.946655,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5037,
+      "sha256": "0fca38e05b2ab43db54feafc780bb06fdd7874d26081b55e8bdbd03686f509cc",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.711989.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.711989,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 29881,
+      "sha256": "9958277290bf534970b167e3ef99f0c1377fa525e833c7a3c2f7d05a205adcd9",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.751988.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.751988,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 29282,
+      "sha256": "7421721aecc3a8b6de5ea271e8fd4dc55a89b316a4ba8ab540efeff53245f640",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.791988.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.791988,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 28597,
+      "sha256": "abd4fbfc696f5e47e997ce60a92c293909bd1cccbdc7e6a316d6b0c1c956a9ae",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.831988.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.831988,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 28306,
+      "sha256": "3e6f860493e2327059878f79579726e4c4272ba713a9f06531592fd6f0f40932",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.871988.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.871988,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 28900,
+      "sha256": "de5fe8a71b7d5f709c63250c60a03d4ae555c84884e4d08d0a8aaaf8fd0d0d90",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1128.979988.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1128.979988,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5121,
+      "sha256": "76cd594a5f651138fa5a82320fc577d3a8a7971e595f00278ff5f6bef2cd94a6",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.013321.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.013321,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5032,
+      "sha256": "1c4e5b9b8fbe193634044f4446a54d6a27c8cc2ce2c460622faac07836deb088",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.046654.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.046654,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5032,
+      "sha256": "1c4e5b9b8fbe193634044f4446a54d6a27c8cc2ce2c460622faac07836deb088",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.079987.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.079987,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5047,
+      "sha256": "9aba96c81c53e8a25d41ffec249938f96b9201eb870b4c56254b522750eea7f7",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.113320.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.11332,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5118,
+      "sha256": "6be8911ca5e4909094cbfd191d715813f6f13ba36184209f74cc0527abd8d087",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.146653.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.146653,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5067,
+      "sha256": "8183977ce31e1972755e77e7a9c36792c8a20ab5ad38a2dded102b4b1ee57c76",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.179986.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.179986,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5117,
+      "sha256": "1842c1e0cdca23b68682be15fdfc67645b0f07120d72fe7bf3836b0a09aa9219",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.213319.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.213319,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5098,
+      "sha256": "64a6cbab802fc394af41b0f2f0dc38918c972c1ee2f228ff464c8bd8d0f5fb2f",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.246652.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.246652,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5109,
+      "sha256": "f134749ee86a0c1671955fca26bcc5442f32f47d4a2a15c063051813c457df66",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.279985.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.279985,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5136,
+      "sha256": "fe16cc55f19c5b846626e0a377b95937748f689035d57598b495a32527f5efe6",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.911987.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.911987,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 30326,
+      "sha256": "827ff0b4e8eefade0e031f5433e8c75a7fdbdc534134113046cc8488fd543b51",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.951987.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.951987,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 32009,
+      "sha256": "cc5f139f49944e9abad089883b6863f13f39d7ea9357f25c5e69b0cd32a357e8",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-169.991987.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 169.991987,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 32774,
+      "sha256": "c0958a1382fdc143c5af69f50d47c93c6f72127c837b3b325e101f3a17d708f4",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-170.031987.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 170.031987,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 33120,
+      "sha256": "9750d9f3d7813ecb4b93501fd4758ea280ce137cbd507910ef5d48fff16e8132",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-first-play-170.071986.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 170.071986,
+      "clip": {
+        "x": 200,
+        "y": 190,
+        "width": 650,
+        "height": 320
+      },
+      "dimensions": [
+        650,
+        320
+      ],
+      "bytes": 33442,
+      "sha256": "fa209d8bed38db7c21bf560a30fcdd8346de35611dfd739ece2adc02213b1f83",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.313318.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.313318,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5123,
+      "sha256": "8d3a702bca9441a0fbd58cb94a99c28f4a6918c17853a47408edbb2b4d3e8bf3",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.346651.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.346651,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5122,
+      "sha256": "3156fc98ab4f061daea8916f11437498b6e1a61d509c91b0c8620087d5e77204",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.379984.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.379984,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5150,
+      "sha256": "c9dc0f80231cbf834f653806d2a3585de4ce0ef822869777e61f7ffaf3a3f956",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.413317.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.413317,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5152,
+      "sha256": "06c0f9df375c21052dae23810a37379744a079536d69d747398e45257b3a39fd",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.446650.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.44665,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5143,
+      "sha256": "775f428782bd0b3b8742f10ff77c558f09fb26e976c7eb1a0558aba81c2df126",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.479983.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.479983,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5143,
+      "sha256": "2d94c7776cc613c4df4dcd93fb564a8e3838529706e403f82591771ca82231af",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.513316.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.513316,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5133,
+      "sha256": "56f4a6dba43ad5f953719a4b0900e568278f1ba32a617cd8d6411424a7636488",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.546649.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.546649,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5134,
+      "sha256": "d3c24ca89c830fd7f1e0ee7d088aff37ffc8eb3fe6900e1217f8498fdf2af0b8",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.579982.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.579982,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5140,
+      "sha256": "9020e751225cf74a1076585666f17fad6d50ec6a4dfbda5c2a0cf0f113f0cf3f",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-change-1129.613315.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1129.613315,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5147,
+      "sha256": "744b1169631e21b3b9cf9c78c54c96ef5e6d826227b6d7df8fd772af4cafdbf0",
+      "media_type": "image/jpeg",
+      "series": "quantise-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-first-change-1127.313314.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1127.313314,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5038,
+      "sha256": "8e23ca6ff06c9e0897f48ff9c34115e5ca3d694c0b847dabda5da8d59db923c7",
+      "media_type": "image/jpeg",
+      "series": "quantise-first-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-first-change-1127.346647.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1127.346647,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5038,
+      "sha256": "8e23ca6ff06c9e0897f48ff9c34115e5ca3d694c0b847dabda5da8d59db923c7",
+      "media_type": "image/jpeg",
+      "series": "quantise-first-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-first-change-1127.379980.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1127.37998,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5042,
+      "sha256": "da8563b451969e1c90b2cd109ada1e5c9bf31b08f966e86cfa98ead7eb0c9417",
+      "media_type": "image/jpeg",
+      "series": "quantise-first-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-first-change-1127.413313.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1127.413313,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5028,
+      "sha256": "41ed4b113770aafc6ee5fcb2d8a9280e65a83d11e440209168e3c1d9ad1b0051",
+      "media_type": "image/jpeg",
+      "series": "quantise-first-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-first-change-1127.446646.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1127.446646,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5025,
+      "sha256": "5fb38a7aa6f1fa68866894263ff2921a1023d99dc1cbfa706330b9f6378a6603",
+      "media_type": "image/jpeg",
+      "series": "quantise-first-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-first-change-1127.479979.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1127.479979,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5021,
+      "sha256": "11166a08c2f11c512b65071a4c13697ec555b60c909760b7139f8f2bf9fd5eb6",
+      "media_type": "image/jpeg",
+      "series": "quantise-first-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-first-change-1127.513312.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1127.513312,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5056,
+      "sha256": "7a9fc19342e8ee720547d47fb6f49fa8361d25456bd2c177dff21ec113c0db46",
+      "media_type": "image/jpeg",
+      "series": "quantise-first-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-first-change-1127.546645.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1127.546645,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5047,
+      "sha256": "342d3274e7978887901f6d47ba0852f7f2451fd6b806c8b653fe42424324ab2c",
+      "media_type": "image/jpeg",
+      "series": "quantise-first-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-first-change-1127.579978.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1127.579978,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 5001,
+      "sha256": "7581ed0c358199e979afc44e896b322b7e20c844dc28f8779282a6b2a546f2cd",
+      "media_type": "image/jpeg",
+      "series": "quantise-first-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-quantise-first-change-1127.613311.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1127.613311,
+      "clip": {
+        "x": 420,
+        "y": 300,
+        "width": 440,
+        "height": 165
+      },
+      "dimensions": [
+        440,
+        165
+      ],
+      "bytes": 4996,
+      "sha256": "310d77c9945031d9bb996ccf16aa18f97f85d0ca629ae5650ff297afae4a299a",
+      "media_type": "image/jpeg",
+      "series": "quantise-first-change",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-252.735995.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 252.735995,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28396,
+      "sha256": "18ca302dedfcd8efe71378988bc6a73af68fd7bfefa6fb7060ef389b9dbcdb16",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-252.775995.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 252.775995,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28500,
+      "sha256": "8d9e2c0b03082c3fa9775f59a610ea9294ba509c50f2bd70c8e31ab359d64713",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-252.815995.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 252.815995,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28327,
+      "sha256": "cd9dfd63d3dce202518df384bb934dbeee7c2493132a176282c9bb3835cd5bc4",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-252.855994.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 252.855994,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28727,
+      "sha256": "5c760462187a80672b7a196be2554d2461fe0b221f02f2c372c774d1f4ba6925",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-252.895994.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 252.895994,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28599,
+      "sha256": "dc2f9767e211ea172a90abb8bd06cf781aeac30573a773169a45932586dc1aca",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-252.935994.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 252.935994,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28494,
+      "sha256": "fec065380567a07eea967b8a64851094cddbf1096c1278d3278483dbcfbbfd55",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-252.975994.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 252.975994,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28542,
+      "sha256": "95fcf04536123f696b9c18f90cf843a3b407f11a1505cdd9cc0010e5bd8ddf80",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.015993.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.015993,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28689,
+      "sha256": "b404be116592048651f4c7d09612ec9017efb972a5d0e57290a8f6c32d4bcd64",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.055993.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.055993,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28256,
+      "sha256": "ea4c81594b7b6bff60b3c10a5974ee161d872c18441f7e70b5c456a29d979d5c",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.095993.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.095993,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28353,
+      "sha256": "fbbee62ab998fdc156529a94101987c9ce579f4b25fc78144413c62098b46b90",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.135992.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.135992,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28398,
+      "sha256": "c055cfaac14b4f6de006a9c63b48ac0af03b07c5659447a2c39e7159c004cc0f",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.175991.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.175991,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28342,
+      "sha256": "79821b9e1a6299ce7e5b80768f0afe715c68f5c15b131b05d789993879ceee40",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.215991.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.215991,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28659,
+      "sha256": "ab9d55371c4e0be5e6750acca860a774993ba278a017a10bb220aec9b69511a8",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.255991.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.255991,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28629,
+      "sha256": "fd9cb64a8be942f1bf8becc359bcb7d80bb636381759327f58d19d26beff560c",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.295991.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.295991,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 27047,
+      "sha256": "b062fedb29d110f556de1cd83d1dac0a51101c93113a7c1ccd50085e0ab6e96e",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.335990.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.33599,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28511,
+      "sha256": "f5d009ad654dd1b213b5959679e2174d89226b8d04300da952a92fe9104f7421",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.375990.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.37599,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28571,
+      "sha256": "ec69acee482e261ad50b4bbd18d722a93483357e899763ce956ae17026ab1f72",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.415990.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.41599,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 27089,
+      "sha256": "ef0d104a63e7e6be0297a0b5806d85d0374ba2509b770c5f8792988038b52f25",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.455990.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.45599,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28368,
+      "sha256": "5aa4839cb0f458ea73fb94f4a12bff34097e3be00f872abfe3b29a2cb9d82a67",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.495990.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.49599,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28422,
+      "sha256": "12ad5f14966f70e09aad1fa18da0b54b550e7c9f674254c34a3829f5e9dcd5f6",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.535990.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.53599,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28256,
+      "sha256": "d2ab75b6359df63c145c0bb6da0b424860328a6157a4b0cac4468a77d27bb0b7",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.575990.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.57599,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28358,
+      "sha256": "d1a02a4e87f4279a2ac4e91aac7e69b4d51c59ae03e8bf01f3c72c20eaa0c714",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.615989.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.615989,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 26571,
+      "sha256": "bfbb5d4de1cbde2e27451de93a98bedfddd369dcad86353f48522afa79811640",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.655989.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.655989,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28009,
+      "sha256": "8929d297d9b1c727c2b8113b51300ca48d8e801af427b179ad6e397c2ac5e0ab",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.695989.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.695989,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28060,
+      "sha256": "89307979e72d494be9806d33259d0edd797632f53fb7c8a639130bd9ae25ee93",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.735989.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.735989,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28114,
+      "sha256": "b9662dbd2f652999081deb3b671efc836119793fe20e1f9c4c716fdec0c88046",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.775988.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.775988,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 26716,
+      "sha256": "e7c99b9156fb71c63fa8670ffdb5be1856eb18e100dcf06becf7b7eaa3dacd60",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.815988.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.815988,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 27993,
+      "sha256": "e1d65228f2a693861f377b395f43599d3db5020901aee2da5cef7b084a109458",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.855988.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.855988,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28024,
+      "sha256": "bfdfa1bdbed7cecd75708791e03750e8241a13677a80e43cd71ff06be0add6ad",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.895988.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.895988,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 26532,
+      "sha256": "8d7f1d87d7c013308428044509afdc82fe88c7e589433857fc1ba61cb9edb1fc",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.935987.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.935987,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28157,
+      "sha256": "b1d0be84ac7aa271b15f8bd8bd4c88588938cf114b820d1164e03d7ac5119838",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-253.975987.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 253.975987,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28129,
+      "sha256": "3e7165cf3cc1d673c1f421545bd2cad52793b57136931b63db0eb638a2192897",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.015987.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.015987,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28172,
+      "sha256": "c7a25b64d26fd5e496158e312efdca0aa92026184d7293ff0e0f3046e7ec25bb",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.055987.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.055987,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28320,
+      "sha256": "7cd58993d5c912048246e9e47b8531fccd3a15b1806dd5e755c02409c300312e",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.095986.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.095986,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28214,
+      "sha256": "86237701bd7e07d8fe80060ae9d350a1c472e591404631f159f30a2117b1d663",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.135986.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.135986,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28217,
+      "sha256": "35360781cf7c7c214d022a71c40457b0729d985869add6c2548c8f8df1a87a5e",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.175986.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.175986,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28973,
+      "sha256": "6092ae9483891ed1c5c3fd0405d58edf91d2b9718207c0552b2b40634a360420",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.215986.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.215986,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28478,
+      "sha256": "ddd0b65a034ef1d678a21335ede68c58e33cd7613a8b56bb35f8d2c78225c2ab",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.255985.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.255985,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28843,
+      "sha256": "2c90641b9d6d58d0301da532ba817ffb1be531861c77d4b2da57f908e31b5490",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.295985.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.295985,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 27195,
+      "sha256": "4c678808219cf147a6e092be41f64e29ff20e6752f187a5057523a30db5f2425",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.335985.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.335985,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28598,
+      "sha256": "378ce523c783da1faa8325b3d844f4e6d06d8a7b449ca62ea3d7c98efdc16ea2",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.375985.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.375985,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28654,
+      "sha256": "87858f82b77e6a6522214bd39cc5a877fe56f5356d36e4e2f765f8db5501d160",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.415984.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.415984,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28617,
+      "sha256": "1ab1aa87773571874661996b9c490d7fa8ddf59ac37ffb5ca7ebc0c38eed42e4",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.455984.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.455984,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28733,
+      "sha256": "e1d281e0cf59742d382e8dc79537e2b52860679e853f2f748aaffeed2ed15085",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.495984.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.495984,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28566,
+      "sha256": "7bf0f4efa5ec6ee4b97eadd6d25be84dc99e76d51f6183a9b3b0b516290f6e09",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.535983.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.535983,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28634,
+      "sha256": "2fa887822951bc6a8209bfb513ab2667e83792a0ad4e627b358fa09fbebbdafb",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.575982.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.575982,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28541,
+      "sha256": "6c2b83803353c85991dd6b0b75cad600f3296eec31dc985f9f55c166d4b2d642",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.615982.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.615982,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28663,
+      "sha256": "3ddd1f44a1315b3e1aa1af0170d07e0e11b8f674e78a96b37095f40ba97769e7",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.655982.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.655982,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28536,
+      "sha256": "fd4112d4882f6217bafae12e83aa5645c9a1c21e66973291f77af8d2625285b7",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.695982.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.695982,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28697,
+      "sha256": "0bf649681acb33b46472e7a38a268b24d64f49fd20a4b84ff437e60de3384430",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.735981.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.735981,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28664,
+      "sha256": "889db6e4184d658041d0afa1a1bca4889c648b8c0655a2daa88fe794181be448",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.775981.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.775981,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28594,
+      "sha256": "cb0c324eb3ecc76502bed184b58253e554151fd4af0713a5a96450f606896b2e",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.815981.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.815981,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28517,
+      "sha256": "bb07f906477452f1327cc9379b03fe6c04449767902b67aea7a7cca0876b1833",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.855981.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.855981,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28541,
+      "sha256": "b5ec59713f6f9a51439ca2cbee9a04e0e820f7403b295086b007eaaedd470647",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.895981.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.895981,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28620,
+      "sha256": "ef37dc83403864841a66cdeb212b63b74703bc6f2a8e0d8972a04c7073a76b73",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.935981.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.935981,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28752,
+      "sha256": "4f68656620a4577eadd349eb30283fc6d3015ada45b35a81acedfde8b9090c47",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-254.975981.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.975981,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28699,
+      "sha256": "95a4bbe12cde2ee324d2f02a7227d3d1ced451dc7144275f2d684647378baab0",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.015980.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.01598,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28525,
+      "sha256": "bef688008d43e61e0e2feafcf8a96d7feceb6c295ddc0e82978e7412b9ec7689",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.055980.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.05598,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28545,
+      "sha256": "5d2c344f22389eb6fafbd4c6db722be25a9c15b83ae9e3f9f758cea26610c4d7",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.095980.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.09598,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 27253,
+      "sha256": "ca7da629131474caffe7291979ab51e41d6fef5d23586c9a87e3f474e6aae4d8",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.135980.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.13598,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28566,
+      "sha256": "a4c21daecf3f77b95f9840cbec7ea0e52fddfcb2fb5381b903f98cbc81a5abc9",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.175979.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.175979,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28698,
+      "sha256": "5d06dca930504d9623832dbca96a21281350472f375d5ad36b4de2fdbc3b7139",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.215979.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.215979,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28789,
+      "sha256": "f6f7d6545cbc2826049bb5b21951844a5fa3d8f423b9e928921f1b3513c77b0c",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.255979.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.255979,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28559,
+      "sha256": "bf3262510005c8db80cd77df656007ffde4ef4a29797221630f4856996cf700f",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.295979.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.295979,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28627,
+      "sha256": "e22a38ae7ab2435a4b3c21eebb93f59a5a738696b9a8e4e5c10f8d52ca12c8d6",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.335978.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.335978,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 27265,
+      "sha256": "2f1ec1eaece4135b8aaa073809dea64e3daa6924ed8c0708da4040ba81ecfb59",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.375978.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.375978,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28641,
+      "sha256": "8105a554b67505b03d942349d2c93b19e53072b99bb7cba2e9d3012f08df892b",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.415978.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.415978,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28730,
+      "sha256": "d58ea9f3d3061fa1d39424d960d7aa3024e3949ddefca5217462cb48cd765067",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.455978.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.455978,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28617,
+      "sha256": "2a8d66b06feeeda9ce28885424e6ddf6a501f7614769b0a03fa4cd42f9ad30c8",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.495977.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.495977,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28461,
+      "sha256": "4c724426f19d2c0aabcbb515bf071067a3314aefebd5cb1e3031c7733ab85e0e",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-212.709981.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 212.709981,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 10671,
+      "sha256": "9d35481908147f5661a6312a05b9e25a6d18c0814e687aa6549c7001f00d04c4",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-212.743314.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 212.743314,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 10669,
+      "sha256": "ab841fc21b41f61f433e0b2e84d2c8e3ee41ffb21cc87c33068c8540d2af68f8",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-212.776647.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 212.776647,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 10670,
+      "sha256": "d3c737299a49af50b0aadf0ef6c2c7b0df4eec5834d82b675517a1d8038a58ce",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-212.809980.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 212.80998,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 10671,
+      "sha256": "03b7f07627649780f02bb5213528d5eb6ae32df62a76eab780d24530f2ea7551",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-212.843313.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 212.843313,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 10750,
+      "sha256": "54eac8b60c2600892f42221a31f2474442dbf777fccd87847da87c8d3242a9e9",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-212.876646.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 212.876646,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 10603,
+      "sha256": "4130ad433c73a42c3727c2e737ea7a94f4c940358e2255e43e1655e0bfb2d6ee",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-212.909979.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 212.909979,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 10772,
+      "sha256": "466250876e34a8d3b462cf02b47f33c48da920a5868f5bd4dd009a947381f1fe",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-212.943312.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 212.943312,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 10605,
+      "sha256": "553b33e366568b1d793177315211d303ca2573efb0f54c6680791eddd3d6add8",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-212.976645.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 212.976645,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 9820,
+      "sha256": "d4d22b459e33ca0c35e6c25651ea4e9b34a2690f7861be6b97eed1b71acd5222",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-213.009978.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 213.009978,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 10579,
+      "sha256": "98a6fd68db66a41a84c20f96333f136e4cb852070337da5ae0f34d6955ac626f",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.535977.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.535977,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28332,
+      "sha256": "c84c83c8ff0de48fd16eee58d776013197289701a8f2d906115a41f46cc1f874",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.575977.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.575977,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28392,
+      "sha256": "cd69c8c8a8ec41929cee0bd5536583388644e2092a22743239e77565f7366bc1",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.615977.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.615977,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28652,
+      "sha256": "8891ede07ca1af2b971874db066f4a3bfc08ff23e0c54cad562db9c1fb720c72",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.655976.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.655976,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 27081,
+      "sha256": "4582c5f6497cf15bfbe5886f99412d6f3b0fbb5b609123681bec7cb13566749a",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.695976.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.695976,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 27221,
+      "sha256": "9acc57d0acd0e2a0fe89e8a1c618e54c259ffb1cbecf09da3494fec71a80219c",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.735976.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.735976,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28677,
+      "sha256": "3f9e43f4a3a102c1c80529b05d26359d4ac7fad11ce79bf53134449d6d0f457f",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.775976.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.775976,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28455,
+      "sha256": "52215d3cb2876814b233b8d77efe75880f529e1705f95ba06116fb431dbe18ee",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.815976.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.815976,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 27122,
+      "sha256": "940669c100ce6f47fe9179e53b41a369aec5b072f914388f6b56c589d9b89a0f",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.855976.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.855976,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28585,
+      "sha256": "7293428d88ae5b0d59da0aae396a230cbceb81363f4781cbba6d79d53deafca9",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-start-255.895976.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.895976,
+      "clip": {
+        "x": 200,
+        "y": 300,
+        "width": 650,
+        "height": 263
+      },
+      "dimensions": [
+        650,
+        263
+      ],
+      "bytes": 28518,
+      "sha256": "78c96641405e2b1c99f80fce4e707830dfe1bc5366b93c3e3ca1c3d23c8f7765",
+      "media_type": "image/jpeg",
+      "series": "deck-b-start",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-213.043297.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 213.043297,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 10598,
+      "sha256": "657cf0f7e6e4ef207b9e179e3f85f55d5cda62afe305dbfb6b2f7d3c78e36c71",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-213.076630.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 213.07663,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 10728,
+      "sha256": "0aacd4bfb90401f8ba076ed9a4f15b5241d80245075b01dbd57502ca9101a932",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-213.143296.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 213.143296,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11004,
+      "sha256": "9adec0ea4ac1eedc8aaa5e2eabe4ad11889c04e8eab1f4717857603f477172ec",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-213.176629.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 213.176629,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 9994,
+      "sha256": "4dcb29072018d618625555b7ad5fe2f64e1dbb390ec1b54611be0779ab9b2a94",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-213.209962.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 213.209962,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11123,
+      "sha256": "815a5f68e5ac9f7021487f87b1c229ef51f606f358bff7dcd96e8195e513f2de",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-213.243295.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 213.243295,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 10963,
+      "sha256": "b7dcd28fbb0149af7683f7c13c91a9a7c06432a2d1701b97ed531a77f70ce194",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-213.276628.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 213.276628,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11062,
+      "sha256": "12814d73d317556e6fcb5c86ba48c87da3aa07c1d46b4047e189b3faa7e4d673",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-213.309961.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 213.309961,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 10167,
+      "sha256": "a7b259c53bab355be52f99e0d0b1a17cf34df447e6d8f35dac3b8a9151bcc299",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-first-play-213.343294.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 213.343294,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11003,
+      "sha256": "a6e7e4d364b55050ba3e55947cd46693445f7e746b869096e5425ea0c75912ce",
+      "media_type": "image/jpeg",
+      "series": "first-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.446665.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.446665,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11903,
+      "sha256": "c689092f0572d83cd2bafd5d6cd6e6a065a1975246fa2e89c2bf0c33541f4e64",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.479998.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.479998,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11887,
+      "sha256": "d76c7d6dea4e8cc1ddfbfb0392d2f60add9e92c3ee9f541dc908e3cfc313c2ba",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.513331.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.513331,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11892,
+      "sha256": "196e7366a6549471a1ef08e88bd5249dcc6e088fa4e3ae999237dcf80e16a76c",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.546664.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.546664,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11903,
+      "sha256": "cbc42d0cff4c529b974a58e35e37654d0a0521740a4dd4d28e97b9e11d796c21",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.579997.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.579997,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 12048,
+      "sha256": "69fc21fcdccc34d2a01c9d379d82569bfc3f33141526f1de957853f5f1946275",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.613330.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.61333,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11903,
+      "sha256": "cbc42d0cff4c529b974a58e35e37654d0a0521740a4dd4d28e97b9e11d796c21",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.646663.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.646663,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11895,
+      "sha256": "f7cf73a1efbc4e82192bc652ce773a429b99e09be25273692942a21b10c1ff8c",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.679996.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.679996,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 10693,
+      "sha256": "2cbde56642b725bacb98e170b0f2b4b9c4e3c4b30fcb18dbe4f16c20f303120b",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.713329.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.713329,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11895,
+      "sha256": "f7cf73a1efbc4e82192bc652ce773a429b99e09be25273692942a21b10c1ff8c",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.746662.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.746662,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11903,
+      "sha256": "cbc42d0cff4c529b974a58e35e37654d0a0521740a4dd4d28e97b9e11d796c21",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.779995.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.779995,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11880,
+      "sha256": "94e1351843d18883a94190474402a3cb9310e53aa34e6145eac811a5f5cef456",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.813328.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.813328,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11930,
+      "sha256": "65f91f7a0565c83a1f11d55a6ec739dc2d4378486e9c12e332ffc94d18305f58",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.846661.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.846661,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11928,
+      "sha256": "8993e7db4109c2aba1984a76103877c900a455c47ae70246f92ec0c52a0bc732",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.879994.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.879994,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 11915,
+      "sha256": "1e385e268ed02ffe87bcc7faa81de5085ec6de3e5a9fc8a85f864b1dfde7e665",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.913327.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.913327,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 12100,
+      "sha256": "20e6eda5793c2e94d97d87c13a4527335440f69ea60d8080bfa900bd91aee5dc",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.946660.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.94666,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 12203,
+      "sha256": "6f88513b505b066e122e3c0c0d1a80b4d7b1118002b39d6251cbcd40476f102e",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1245.979993.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1245.979993,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 12143,
+      "sha256": "abcd75a4a3f7fb679a72d321e092e120ee47388bec36d0ee0f2adf96e95bf60a",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1246.013326.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1246.013326,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 12142,
+      "sha256": "300c88d344e434bab2eb388aef77e5e41cce23acb07a1aefa2fbf5e5f3c7c967",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1246.046659.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1246.046659,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 12089,
+      "sha256": "ab534ec999e0b626000d6a134a7554abd3294833b91596f249a6b8b0caadfecf",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-play-1246.079992.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1246.079992,
+      "clip": {
+        "x": 390,
+        "y": 130,
+        "width": 500,
+        "height": 205
+      },
+      "dimensions": [
+        500,
+        205
+      ],
+      "bytes": 10846,
+      "sha256": "7f457b0cfccb249a9daa2683d4732b1f166fbcb7af4a8de9fa4d53e423fa0eb0",
+      "media_type": "image/jpeg",
+      "series": "post-settings-play",
+      "paused": true
+    }
+  ],
+  "context_frames": [
+    {
+      "file": "frame-review-2026-10-21/S34-quarter-selection-context-1127.613311.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1127.613311,
+      "clip": {
+        "x": 16,
+        "y": 68,
+        "width": 880,
+        "height": 495
+      },
+      "dimensions": [
+        880,
+        495
+      ],
+      "bytes": 45294,
+      "sha256": "a55df3542bcef253171d102daee7874d87fb0cbb3309a7b0c90f9b056c41e250",
+      "media_type": "image/jpeg",
+      "description": "Full preference view with quarter-beat selected. Compact decks appear stopped."
+    },
+    {
+      "file": "frame-review-2026-10-21/S34-post-settings-start-context-1246.079992.jpg",
+      "source_id": "S34",
+      "video_time_seconds": 1246.079992,
+      "clip": {
+        "x": 16,
+        "y": 68,
+        "width": 880,
+        "height": 495
+      },
+      "dimensions": [
+        880,
+        495
+      ],
+      "bytes": 63542,
+      "sha256": "774b76cdc8de02af012118af3c550a7bbb14a9a2275ae11819ed0b218022780f",
+      "media_type": "image/jpeg",
+      "description": "Top deck starts from the beatgrid editor after preferences. Other deck remains stopped. Not an incoming-deck comparison.",
+      "capture_note": "Recaptured at identical paused position after clearing the browser hover preview. No source content altered."
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-before-context-252.695998.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 252.695998,
+      "clip": {
+        "x": 16,
+        "y": 68,
+        "width": 880,
+        "height": 495
+      },
+      "dimensions": [
+        880,
+        495
+      ],
+      "bytes": 60790,
+      "sha256": "1c4e617d9d8b62963643477bae974cc807a3b50b51cf687e7bb381871571dd58",
+      "media_type": "image/jpeg",
+      "description": "Deck A playing, Deck B ready, both Sync indicators green."
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-lead-in-context-254.696.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 254.696,
+      "clip": {
+        "x": 16,
+        "y": 68,
+        "width": 880,
+        "height": 495
+      },
+      "dimensions": [
+        880,
+        495
+      ],
+      "bytes": 59421,
+      "sha256": "0d63d6f3bbda0e524c2c9abb81247e52591361a44a98e92c6c3d923f0f5764b9",
+      "media_type": "image/jpeg",
+      "description": "Deck B Play green, pale marker left of source start, waveform still fixed."
+    },
+    {
+      "file": "frame-review-2026-10-21/S35-deck-b-playing-context-255.895976.jpg",
+      "source_id": "S35",
+      "video_time_seconds": 255.895976,
+      "clip": {
+        "x": 16,
+        "y": 68,
+        "width": 880,
+        "height": 495
+      },
+      "dimensions": [
+        880,
+        495
+      ],
+      "bytes": 61391,
+      "sha256": "7bddf53a5a04b5bb86091b952e43289e02cf14424b12c47caf3d412c9b4df917",
+      "media_type": "image/jpeg",
+      "description": "Deck B waveform scrolling after the lead-in."
+    }
+  ],
+  "conclusions": {
+    "visible_incoming_lead_in": "Documented UI sequence, F143. Marker advances before source-waveform scrolling while Play is green.",
+    "quantize_controls_ordinary_play": "Unresolved Q02. No matched launch comparison across sizes.",
+    "second_press_cancels_pending": "Unresolved Q05. No identifiable pair of accepted pending inputs.",
+    "installed_1_6_8_tested": false
+  }
+}

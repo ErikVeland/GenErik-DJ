@@ -1,0 +1,90 @@
+{
+  "reviewDate": "2026-10-29",
+  "scope": "Loop dismissal reference review; G17 remains unresolved",
+  "sources": [
+    {
+      "id": "S16",
+      "publisher": "Native Instruments",
+      "url": "https://www.youtube.com/watch?v=B_8eahCGr1k",
+      "published": "2013-04-11",
+      "segment": "approximately 1:54\u20131:59",
+      "narrationParaphrase": "Tap the waveform with two fingers to turn off the loop.",
+      "visualObservation": "Green loop before the gesture and blue waveform/disabled loop after it. The hand obscures decisive contact details. This source does not establish a downward swipe."
+    },
+    {
+      "id": "S24",
+      "publisher": "Dubspot, demonstration by Endo",
+      "url": "https://www.youtube.com/watch?v=kc99WythujM",
+      "published": "2013-05-08",
+      "segment": "approximately 10:29\u201310:35; visible dismissal approximately 10:33\u201310:35",
+      "narrationParaphrase": "Remove the loop with a downward two-finger swipe.",
+      "visualObservation": "The visible hand motion is consistent with movement down the tablet screen. The loop icon is green before and during movement, then gray after hand withdrawal. The hand and motion blur obscure the full contact count and exact release sequence."
+    }
+  ],
+  "captureMethod": {
+    "browser": "Paused muted public YouTube videos in a separate temporary browser tab",
+    "crop": "Mechanical crop of full screenshot to player rectangle x16 y68 width880 height495; no scaling or enhancement",
+    "verification": "Each included saved crop was opened and visually inspected. Player was paused and given a separate screenshot round trip before saving.",
+    "timingLimit": "Player time and screenshot compositor can diverge immediately after stepping. Filenames identify observed states only. These frames cannot measure recognition latency or establish whether loop dismissal commits during motion or after release.",
+    "excluded": "Earlier rapid-step captures, inconsistent browser clip captures, and failed direct media export were excluded."
+  },
+  "frames": [
+    {
+      "file": "S16-verified-loop-off.png",
+      "sha256": "89602ca06bcfbf4f644bccdbc35dd45afb6b639a2a9adcc888ab67d084fc98e4",
+      "dimensions": [
+        880,
+        495
+      ]
+    },
+    {
+      "file": "S16-verified-loop-on.png",
+      "sha256": "9e610aebb8fe0cedcac6a0b5aeba1631cf5cdc14037300fd82f34d86ad7c6cfb",
+      "dimensions": [
+        880,
+        495
+      ]
+    },
+    {
+      "file": "S24-verified-loop-off.png",
+      "sha256": "a83df026e3ab3009c1f5d858c954e193ba370dba12b3e54507442a053a21af9a",
+      "dimensions": [
+        880,
+        495
+      ]
+    },
+    {
+      "file": "S24-verified-loop-on.png",
+      "sha256": "fb9c366205cf8e4d2f84a0c5fa5af2583e723ca94113b61b27aa4e6183be6f28",
+      "dimensions": [
+        880,
+        495
+      ]
+    },
+    {
+      "file": "S24-verified-motion.png",
+      "sha256": "1516a38108b6cb309746b135baedbf1ab17c62189d5d6a87881a6b1c303118a6",
+      "dimensions": [
+        880,
+        495
+      ]
+    }
+  ],
+  "conclusions": [
+    "S24 supports downward motion beyond its transcript, but does not independently establish all contacts or release semantics.",
+    "S16 narration describes a tap. Keep it distinct from S24 swipe evidence; do not cite S16 as proof of downward movement.",
+    "Neither 2013 video establishes version 1.6.8 parity. Alternative routes or version differences remain possible but unproven.",
+    "The current development gesture is not changed by this review."
+  ],
+  "remainingUnknowns": [
+    "Exact touch count and hit area",
+    "Movement threshold and gesture arbitration",
+    "Trigger during motion versus after final contact release",
+    "Interaction with Flux and other simultaneous controls",
+    "Target version 1.6.8 behavior and physical iPad acceptance"
+  ],
+  "productionCodeChanged": false,
+  "newGestureRuleChosen": false,
+  "G17Closed": false,
+  "target168ParityEstablished": false
+}

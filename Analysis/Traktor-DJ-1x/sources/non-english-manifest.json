@@ -1,0 +1,224 @@
+{
+  "review_date": "2026-10-21",
+  "timezone": "Australia/Brisbane",
+  "device_access": false,
+  "method": "Mac-only public browsing. Complete French/German auto-caption reading and selected video frames. Spanish selected visual frames only. Japanese written walkthrough read. No continuous audiovisual review or audio measurement.",
+  "videos": [
+    {
+      "source_id": "S34",
+      "id": "7XMkgFc5QI0",
+      "title": "Tuto Traktor Dj iPad Native Instruments GRATUIT et Complet",
+      "publisher": "Tutoriels MAO",
+      "url": "https://www.youtube.com/watch?v=7XMkgFc5QI0",
+      "language": "fr",
+      "date_displays": {
+        "search": "2017-08-23",
+        "local_youtube_ui": "2017-08-24"
+      },
+      "date_note": "Both observed date displays retained. Neither establishes footage capture date.",
+      "duration_seconds_observed": 1371.801,
+      "app_identity": "Original iPad app; exact on-screen version label observed",
+      "version_label": "1.0.3.182",
+      "installed_reference_build_tested": false,
+      "caption_export_bytes": 11537,
+      "caption_export_sha256": "d44f6b7dbe223c9ddfe585732bcd578ecfc5b048cfd6cc17f592150029c1353e",
+      "captions_type": "auto-generated",
+      "caption_review": "Complete exported track read. Automated text can misrecognise technical terms. Full captions retained only as temporary research input.",
+      "selected_visual_times_seconds": [
+        339.353333,
+        344.353333,
+        1062.413333,
+        1072.413333,
+        1122.413333,
+        1137.413333
+      ],
+      "quantise_selection_change": "1/2 Beat in first saved settings frame; 1 Beat in second. No factory-default test.",
+      "quantize_controls_ordinary_play_established": false,
+      "second_press_cancels_pending_established": false,
+      "additional_capability": "Load saved recording into a deck for playback, F124. Caption explanation and selected frames, not installed-build trial."
+    },
+    {
+      "source_id": "S35",
+      "id": "apeU94YMVhE",
+      "title": "Playtools Traktor DJ app, en español",
+      "publisher": "deepjoshtube / Deep Josh",
+      "url": "https://www.youtube.com/watch?v=apeU94YMVhE",
+      "language": "es",
+      "date_displays": {
+        "search": "2013-02-28",
+        "local_youtube_ui": "2013-03-01"
+      },
+      "duration_seconds_initially_observed": 624.321,
+      "app_identity": "Original iPad app visually identified",
+      "version_label": null,
+      "captions_type": "Unavailable through browser export",
+      "spoken_content_reviewed": false,
+      "selected_visual_times_seconds": [
+        124.848,
+        249.696,
+        312.12,
+        436.967999,
+        499.392,
+        561.816
+      ],
+      "quantize_controls_ordinary_play_established": false,
+      "second_press_cancels_pending_established": false
+    },
+    {
+      "source_id": "S36",
+      "id": "PvdhHKVMyLk",
+      "title": "Test Native Instruments Traktor DJ - Einführung - RECORDING.de",
+      "publisher": "RECORDING.de",
+      "url": "https://www.youtube.com/watch?v=PvdhHKVMyLk",
+      "language": "de",
+      "published_local_youtube_ui": "2013-03-15",
+      "linked_article_date": "2013-03-15",
+      "duration_seconds_observed": 528.3236281179138,
+      "app_identity": "Original iPad app visually identified",
+      "version_label": null,
+      "caption_export_bytes": 7167,
+      "caption_export_sha256": "3cd3a2feae59408e69ffd69a1390932f3ed54406f6b84821d2fd809bbf4d6214",
+      "captions_type": "auto-generated",
+      "caption_review": "Complete exported track read. Automated text can misrecognise technical terms. Full captions retained only as temporary research input.",
+      "selected_visual_times_seconds": [
+        32.826666
+      ],
+      "relevant_caption_passage": "0:21-0:49 ordinary Play and master tempo. No explicit quantise preference mapping or pending cancellation.",
+      "quantize_controls_ordinary_play_established": false,
+      "second_press_cancels_pending_established": false
+    }
+  ],
+  "written_sources": [
+    {
+      "source_id": "S37",
+      "title": "TRAKTOR DJ for iPad大解説！ -OTAIRECORD-",
+      "publisher": "OTAIRECORD",
+      "url": "https://otaiweb.com/traktor2/traktordj.html",
+      "language": "ja",
+      "published": null,
+      "version_label": null,
+      "review_scope": "Main feature walkthrough read in Japanese. Master-tempo wheel and Sync following described. No ordinary Play quantise or pending cancellation rule. Embedded videos identified only, not reviewed as Japanese instruction.",
+      "embedded_video_ids_identified": [
+        "ScjJiGYawuM",
+        "2znDDvh45GQ"
+      ]
+    },
+    {
+      "source_id": "S36",
+      "url": "https://recording.de/threads/test-traktor-dj-fuer-das-ipad.244806/",
+      "language": "de",
+      "published": "2013-03-15",
+      "review_scope": "Article body and embedded source identity checked. Introduction PvdhHKVMyLk reviewed as above. Separate performance mg9SKW2yp84 identified but not reviewed."
+    }
+  ],
+  "frames": [
+    {
+      "file": "non-english-frames/S34-french-quantise-version-1122.413.jpg",
+      "source_id": "S34",
+      "video_id": "7XMkgFc5QI0",
+      "video_time_seconds": 1122.413333,
+      "description": "Playback preferences with Version 1.0.3.182 visible and 1/2 Beat selected. Four values shown. Current selection, not default proof.",
+      "bytes": 42657,
+      "sha256": "9f0300213cf38793568d038d617ebb8be9643ad281683db832a0d05e717db64b",
+      "media_type": "image/jpeg",
+      "dimensions": [
+        880,
+        495
+      ],
+      "capture": "Cropped browser screenshot, x16 y68 width880 height495. Normal video-player seeking. No remote video download. Not an input/audio timing measurement."
+    },
+    {
+      "file": "non-english-frames/S34-french-one-beat-and-slicer-1137.413.jpg",
+      "source_id": "S34",
+      "video_id": "7XMkgFc5QI0",
+      "video_time_seconds": 1137.413333,
+      "description": "Same visible version label with 1 Beat selected, separate Slicer Quantize and Freeze on Load controls. No ordinary Play trial established.",
+      "bytes": 43040,
+      "sha256": "80d23a26afed177622a314003b34a94f6c051e9d3aaa2a4509974edc5b519b8a",
+      "media_type": "image/jpeg",
+      "dimensions": [
+        880,
+        495
+      ],
+      "capture": "Cropped browser screenshot, x16 y68 width880 height495. Normal video-player seeking. No remote video download. Not an input/audio timing measurement."
+    },
+    {
+      "file": "non-english-frames/S34-french-recording-playback-1072.413.jpg",
+      "source_id": "S34",
+      "video_id": "7XMkgFc5QI0",
+      "video_time_seconds": 1072.413333,
+      "description": "Saved recording loaded in lower deck and advanced to 0:07. Captions explain recording load/playback.",
+      "bytes": 68350,
+      "sha256": "4a7e7cac7684e3ff043f9c290007535007706758ae0dbf565d9f655a44269ddd",
+      "media_type": "image/jpeg",
+      "dimensions": [
+        880,
+        495
+      ],
+      "capture": "Cropped browser screenshot, x16 y68 width880 height495. Normal video-player seeking. No remote video download. Not an input/audio timing measurement."
+    },
+    {
+      "file": "non-english-frames/S35-spanish-original-app-312.120.jpg",
+      "source_id": "S35",
+      "video_id": "apeU94YMVhE",
+      "video_time_seconds": 312.12,
+      "description": "Original iPad app, lower-deck loop and mixer controls. No quantise preference or pending input trace.",
+      "bytes": 61056,
+      "sha256": "cf79ec9658a786654d3ad009e976853df1c6bc9cd5a952aa39c8ac6b2463cce3",
+      "media_type": "image/jpeg",
+      "dimensions": [
+        880,
+        495
+      ],
+      "capture": "Cropped browser screenshot, x16 y68 width880 height495. Normal video-player seeking. No remote video download. Not an input/audio timing measurement."
+    },
+    {
+      "file": "non-english-frames/S36-german-transport-32.827.jpg",
+      "source_id": "S36",
+      "video_id": "PvdhHKVMyLk",
+      "video_time_seconds": 32.826666,
+      "description": "Opening transport scene with loaded original-app decks. No preference comparison or pending-input trace.",
+      "bytes": 49614,
+      "sha256": "4917560d644ff07f05a6dce419803d5959c738d5f039b39d9ac872a735ffb0e6",
+      "media_type": "image/jpeg",
+      "dimensions": [
+        880,
+        495
+      ],
+      "capture": "Cropped browser screenshot, x16 y68 width880 height495. Normal video-player seeking. No remote video download. Not an input/audio timing measurement."
+    }
+  ],
+  "additional_candidates": [
+    {
+      "url": "https://www.youtube.com/watch?v=mVVdP-VkRMY",
+      "title": "TRAKTOR DJ KULLANIMI TÜRKÇE SESLİ",
+      "publisher": "KANALIN KRALI",
+      "language": "tr",
+      "captions_type": "Unavailable through browser export",
+      "selected_visual_times_seconds": [
+        17,
+        740.289
+      ],
+      "result": "Phone-style original interface visible at 740.289. Exact edition not verified. Excluded from iPad timing evidence. Third-party automated summary used only for discovery, not as evidence."
+    }
+  ],
+  "search_languages": [
+    "fr",
+    "es",
+    "de",
+    "ja",
+    "it",
+    "pt"
+  ],
+  "conclusions": {
+    "quantise_menu": "Four values anchored to visible version 1.0.3.182; selection change observed.",
+    "ordinary_play_preference_mapping": "Unresolved Q02",
+    "pending_second_press": "Unresolved Q05",
+    "recording_playback": "Historical capability established F124, exact installed interactions unresolved."
+  },
+  "frame_review_followup": {
+    "report": "../12-french-spanish-frame-review.md",
+    "manifest": "frame-review-manifest.json",
+    "scope": "Targeted adjacent-frame review of S34/S35, including intermediate preference changes and visible incoming-deck lead-in. Original pass scopes above retained."
+  }
+}

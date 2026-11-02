@@ -1,0 +1,14 @@
+{
+  "reviewed_video_caption_tracks": 7,
+  "substantive_instructional_caption_tracks": 6,
+  "selected_evidence_frames": 7,
+  "frame_format": "JPEG, extensions corrected without re-encoding",
+  "frame_hashes": "verified",
+  "local_links_and_images": "all resolve",
+  "feature_ids": "F001-F140 intact",
+  "journey_ids": "J01-J36 intact",
+  "priority_question_ids": "Q01-Q35 intact",
+  "ordinary_synced_play": "documented in NI tutorials",
+  "exact_next_bar_queue": "user requirement retained, timing details unverified",
+  "device_access": "none during tutorial review"
+}

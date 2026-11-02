@@ -1,0 +1,38 @@
+{
+  "retrieved_date": "2026-10-21",
+  "timezone": "Australia/Brisbane",
+  "publisher": "Native Instruments GmbH",
+  "acquisition": "Public NI PDF downloads. Original files preserved without modification.",
+  "documents": [
+    {
+      "source_key": "S1",
+      "file": "traktor-kontrol-s4-mk2-manual-en.pdf",
+      "title": "Traktor Kontrol S4 MK2 manual",
+      "url": "https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/traktor_kontrol_s4_mk2_manual_english.pdf",
+      "bytes": 13848505,
+      "sha256": "209ed2e74a8d757daab232816de707291c7ffc8e69b96695d971f19dad10f51b",
+      "reading_scope": "Chapter 5, printed pages 73-95. Pages 77 and 92 visually inspected.",
+      "text_file": "traktor-kontrol-s4-mk2-manual-en.txt"
+    },
+    {
+      "source_key": "S2",
+      "file": "traktor-kontrol-s2-mk2-manual-en.pdf",
+      "title": "Traktor Kontrol S2 MK2 manual",
+      "url": "https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/traktor_kontrol_s2_mk2_manual_english.pdf",
+      "bytes": 13561315,
+      "sha256": "c495ac1d00adda07119a2d8b78303e1b880f8c564490d00b8eafee9ede0f2739",
+      "reading_scope": "Relevant Chapter 5 browsing, deck, transport, cues, loops, Freeze and FX sections.",
+      "text_file": "traktor-kontrol-s2-mk2-manual-en.txt"
+    },
+    {
+      "source_key": "S3",
+      "file": "traktor-kontrol-z1-manual-en.pdf",
+      "title": "Traktor Kontrol Z1 manual",
+      "url": "https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/traktor_kontrol_z1_manual_english.pdf",
+      "bytes": 933843,
+      "sha256": "3c04e4823f185a0d8b22e716eb733f077b728f7a4c8e6cdac0c4943063eca9c1",
+      "reading_scope": "Chapter 4, printed pages 15-19.",
+      "text_file": "traktor-kontrol-z1-manual-en.txt"
+    }
+  ]
+}

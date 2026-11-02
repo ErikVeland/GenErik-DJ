@@ -1,0 +1,1133 @@
+Manual
+                                                                                                 Disclaimer
+
+
+
+
+The information in this document is subject to change without notice and does not represent a
+commitment on the part of Native Instruments GmbH. The software described by this docu-
+ment is subject to a License Agreement and may not be copied to other media. No part of this
+publication may be copied, reproduced or otherwise transmitted or recorded, for any purpose,
+without prior written permission by Native Instruments GmbH, hereinafter referred to as Native
+Instruments.
+“Native Instruments”, “NI” and associated logos are (registered) trademarks of Native Instru-
+ments GmbH.
+Mac, Mac OS, GarageBand, Logic, iTunes, iPod, iPad, OSX, are registered trademarks of Apple
+Inc, registered in the U.S. and other countries. iOS is a trademark or registered trademark of
+Cisco in the U.S. and other countries, where it is used under license.
+Windows, Windows Vista and DirectSound are registered trademarks of Microsoft Corporation
+in the United States and/or other countries.
+All other trade marks are the property of their respective owners and use of them does not im-
+ply any affiliation with or endorsement by them.
+
+
+Document authored by: Native Instruments GmbH
+Software version: 2.6.2 (06/2013)
+
+
+Special thanks to the Beta Test Team, who were invaluable not just in tracking down bugs, but
+in making this a better product.
+                                                        Contact
+
+
+
+
+Germany
+Native Instruments GmbH
+Schlesische Str. 29-30
+D-10997 Berlin
+Germany
+www.native-instruments.de
+
+
+USA
+Native Instruments North America, Inc.
+6725 Sunset Boulevard
+5th Floor
+Los Angeles, CA 90028
+USA
+www.native-instruments.com
+
+
+Japan
+Native Instruments KK
+YO Building 3F
+Jingumae 6-7-15, Shibuya-ku,
+Tokyo 150-0001
+Japan
+www.native-instruments.co.jp
+
+
+
+
+© Native Instruments GmbH, 2013. All rights reserved.
+                                                                                                                                                   Table of Contents
+
+
+
+
+Table of Contents
+1   Welcome to the TRAKTOR KONTROL Z1! ...................................................................... 6
+    1.1      Document Conventions ............................................................................................................... 6
+    1.2      Naming Convention .................................................................................................................... 7
+    1.3      The TRAKTOR KONTROL Z1 Documentation at a Glance .............................................................. 7
+             1.3.1    The Setup Guide ........................................................................................................ 7
+             1.3.2    The TRAKTOR KONTROL Z1 Manual ............................................................................ 7
+             1.3.3    The TRAKTOR Manual ................................................................................................ 8
+2   System and Power Requirements ................................................................................ 9
+    2.1      Power Requirements ................................................................................................................... 9
+    2.2      Software System Requirements .................................................................................................. 9
+3   Using the Z1 with TRAKTOR ....................................................................................... 10
+    3.1      Key Z1 Functions Using TRAKTOR ............................................................................................... 10
+             3.1.1     Deck Volume Controls and Crossfader ....................................................................... 11
+             3.1.2     Adjusting Channel Gain ............................................................................................. 11
+             3.1.3     Headphone Cueing .................................................................................................... 12
+             3.1.4     Filter Mode ................................................................................................................. 13
+             3.1.5     Triggering Deck Playback or Pause in TRAKTOR ......................................................... 14
+             3.1.6     Using the TRAKTOR KONTROL Z1 as a MIDI Controller ............................................... 14
+             3.1.7     Using Additional Controllers ...................................................................................... 14
+4   Using the Z1 with TRAKTOR DJ ................................................................................... 15
+    4.1      Key Z1 Functions Using TRAKTOR DJ ........................................................................................... 15
+             4.1.1     Deck Volume Controls and Crossfader ....................................................................... 16
+             4.1.2     Adjusting Channel Gain ............................................................................................. 16
+             4.1.3     Headphone Cueing .................................................................................................... 16
+             4.1.4     FILTER | FX Modes ...................................................................................................... 17
+             4.1.5     Filter Mode ................................................................................................................. 18
+
+
+
+
+                                                                                                               TRAKTOR KONTROL Z1 - Manual - 4
+                                                                                                                                                           Table of Contents
+
+
+
+
+              4.1.6          FX Mode ..................................................................................................................... 18
+              4.1.7          Triggering Deck Playback or Pause in TRAKTOR DJ .................................................... 19
+5   TRAKTOR KONTROL Z1 Hardware Reference ................................................................ 20
+    5.1       Introduction ................................................................................................................................ 20
+    5.2       Rear Panel .................................................................................................................................. 20
+              5.2.1      DC Power ................................................................................................................... 21
+              5.2.2      USB Connection ......................................................................................................... 21
+              5.2.3      OUTPUT Section ......................................................................................................... 22
+              5.2.4      Kensington Lock Port ................................................................................................. 22
+    5.3       Front Panel ................................................................................................................................. 23
+    5.4       Top Panel .................................................................................................................................... 24
+              5.4.1      MAIN Knob ................................................................................................................. 25
+              5.4.2      GAIN Knobs ................................................................................................................ 25
+              5.4.3      EQ (HI, MID, LOW) ..................................................................................................... 25
+              5.4.4      Filter Knobs ............................................................................................................... 27
+              5.4.5      Mode button .............................................................................................................. 27
+              5.4.6      Headphone and Cue Control Area .............................................................................. 28
+              5.4.7      Volume Faders and Crossfader .................................................................................. 29
+              5.4.8      Level Meters .............................................................................................................. 30
+6   Appendix .................................................................................................................. 31
+    6.1       The Z1's Preferences in TRAKTOR ............................................................................................... 31
+              6.1.1     Restore Default ......................................................................................................... 32
+              6.1.2     Calibration ................................................................................................................ 32
+              6.1.3     LEDs .......................................................................................................................... 32
+              6.1.4     MIDI Mode .................................................................................................................. 33
+    Index ........................................................................................................................ 34
+
+
+
+
+                                                                                                                     TRAKTOR KONTROL Z1 - Manual - 5
+                                                                                    Welcome to the TRAKTOR KONTROL Z1!
+                                                                                                    Document Conventions
+
+
+
+1         Welcome to the TRAKTOR KONTROL Z1!
+Thank you for purchasing the TRAKTOR KONTROL Z1.
+The TRAKTOR KONTROL Z1 is a fully integrated TRAKTOR mixer controller and audio inter-
+face, giving you hands-on control over the mixing experience when using either the TRAKTOR
+software on your computer or the TRAKTOR DJ app on an iOS device. The controller is both a
+professional and portable solution for your DJ requirements.
+The purpose of this TRAKTOR KONTROL Z1 manual is to achieve the following:
+    ▪ Provide you with the required information to get your TRAKTOR KONTROL Z1 up and run-
+      ning with TRAKTOR.
+    ▪ Explain how the key features of the TRAKTOR KONTROL Z1 operate when using either
+      the TRAKTOR software, or the TRAKTOR DJ application.
+    ▪ Help you understand the function of each component on the TRAKTOR KONTROL Z1 de-
+      vice.
+
+
+1.1       Document Conventions
+This document uses particular formatting to point out special facts and to warn you of poten-
+tial issues. The icons introducing the following notes let you see what kind of information can
+be expected:
+
+            Whenever this exclamation mark icon appears, you should read the corresponding note
+            carefully and follow the instructions and hints given there if applicable.
+
+            This light bulb icon indicates that a note contains useful extra information. This informa-
+            tion may often help you to solve a task more efficiently, but does not necessarily apply to
+            the setup or operating systems you are using; however, it's always worth a look.
+
+Furthermore, the following formatting is used:
+    ▪ Text appearing in (drop-down) menus (such as Open…, Save as…) and paths to locations
+      on your hard drive or other storage devices is printed in italics.
+
+
+
+
+                                                                               TRAKTOR KONTROL Z1 - Manual - 6
+                                                                           Welcome to the TRAKTOR KONTROL Z1!
+                                                                                             Naming Convention
+
+
+
+  ▪ Text referring to elements appearing on the screen (labels of buttons, controls, text next
+    to checkboxes, etc.) is printed in light blue. Whenever you see this formatting applied,
+    you will find the same text appearing on your computer screen.
+  ▪ Text referring to elements printed on hardware is formatted orange. Whenever you see this
+    formatting applied, you will find the same text appearing on the hardware.
+  ▪ Important names and concepts are printed in bold.
+
+►     Single instructions are introduced by this play button type arrow.
+
+→     Results of actions are introduced by this smaller arrow.
+
+
+1.2       Naming Convention
+In this manual, we often refer to the TRAKTOR KONTROL Z1 also as the "KONTROL Z1," or
+simply the "Z1." Likewise, the included TRAKTOR LE2 software will most often just be referred
+to as "TRAKTOR."
+
+
+1.3       The TRAKTOR KONTROL Z1 Documentation at a Glance
+
+1.3.1     The Setup Guide
+The TRAKTOR KONTROL Z1 Setup Guide is available on the TRAKTOR KONTROL Z1 registra-
+tion page of the Native Instruments website www.native-instruments.com/go-z1. It will guide
+you through the software and hardware installation of your TRAKTOR KONTROL Z1. This
+should be your first step before going any further.
+
+
+1.3.2     The TRAKTOR KONTROL Z1 Manual
+After reading the Setup Guide and following its instructions, you should be ready to go. The
+next step is to read this document, the TRAKTOR KONTROL Z1 Manual. The Manual will
+teach you how to use your Z1 in combination with the TRAKTOR software options. A general
+hardware reference (↑5, TRAKTOR KONTROL Z1 Hardware Reference) also provides an explan-
+ation for each and every element on the device.
+
+
+
+
+                                                                       TRAKTOR KONTROL Z1 - Manual - 7
+                                                                         Welcome to the TRAKTOR KONTROL Z1!
+                                                             The TRAKTOR KONTROL Z1 Documentation at a Glance
+
+
+
+
+1.3.3    The TRAKTOR Manual
+For in-depth information on all features provided by the TRAKTOR software, please refer to the
+TRAKTOR Manual. You can access the TRAKTOR Manual via the Open Manual… entry from
+the Help menu in the TRAKTOR software.
+
+
+
+
+                                                                     TRAKTOR KONTROL Z1 - Manual - 8
+                                                                               System and Power Requirements
+                                                                                          Power Requirements
+
+
+
+2        System and Power Requirements
+
+
+2.1      Power Requirements
+When using the Z1 with your computer, the device will be powered by the standard USB con-
+nection. In the scenario of using the Z1 with your iOS device, the included 15V/1.2A power
+adaptor is required to power the mixer.
+
+
+2.2      Software System Requirements
+For the minimum system requirements your computer needs to meet, see the TRAKTOR speci-
+fications section of the Native Instruments website:
+http://www.native-instruments.com/en/products/traktor/dj-software/traktor-pro-2/specifications/.
+To check the compatibility with several operating systems, please have a look at: http://
+www.native-instruments.com/compatibility.
+
+
+
+
+                                                                      TRAKTOR KONTROL Z1 - Manual - 9
+                                                                                             Using the Z1 with TRAKTOR
+                                                                                        Key Z1 Functions Using TRAKTOR
+
+
+
+3        Using the Z1 with TRAKTOR
+In this chapter, we will describe how the Z1's key functions operate when using TRAKTOR. For
+more information on getting the Z1 up and running with TRAKTOR software on a computer,
+refer to the Setup Guide. For information on using the Z1 with TRAKTOR DJ on an iOS device,
+refer to section ↑4, Using the Z1 with TRAKTOR DJ.
+
+           Refer to the TRAKTOR Manual in case you are uncertain about specific TRAKTOR func-
+           tionality.
+
+           The Z1 is a two-channel mixer controller. Therefore, some of the control possibilities are
+           limited to only Decks A and B and are not available for Decks C and D.
+
+
+A Word about TRAKTOR…
+If you are not already a proficient TRAKTOR user, you might want to refer to the TRAKTOR
+Manual as you read this chapter. If you are completely new to TRAKTOR, it is a good idea to
+work through some of the tutorials in the TRAKTOR Manual, or the TRAKTOR Getting Started
+guide—they can be an enjoyable way to quickly learn how to use TRAKTOR effectively!
+We assume that you have a basic understanding of many TRAKTOR concepts such as Decks,
+Deck Flavors and configurations, looping, cue points, and so on. In addition, you should under-
+stand how TRAKTOR's mixer and effects (FX) work.
+Of course, you can operate the Z1 without using TRAKTOR's rich feature set. But you will cer-
+tainly be rewarded for taking a little time to learn more about the TRAKTOR software so that
+you can get the most out of the Z1 as well.
+
+
+3.1      Key Z1 Functions Using TRAKTOR
+Although you are no doubt eager to get straight into mixing with the Z1, we recommend taking
+a few minutes to familiarize yourself with how the Z1's key functions operate when you are us-
+ing TRAKTOR.
+
+
+
+
+                                                                            TRAKTOR KONTROL Z1 - Manual - 10
+                                                                                           Using the Z1 with TRAKTOR
+                                                                                       Key Z1 Functions Using TRAKTOR
+
+
+
+
+3.1.1    Deck Volume Controls and Crossfader
+The Z1 is essentially a two-channel mixer controller. The two channel faders control the vol-
+ume of Decks A and B in the TRAKTOR software. The crossfader allows you switch between
+the output of Deck A and Deck B. Therefore, If the crossfader is all the way to the left, you will
+only hear Deck A (if the volume fader of A is turned up). If it is all the way to the right, you will
+hear Deck B (if its volume control is turned up). Following the tutorial ↑3.1.3, Headphone Cue-
+ing, you'll also notice how the corresponding features operate simultaneously within the TRAK-
+TOR software.
+
+
+3.1.2    Adjusting Channel Gain
+The channel GAIN knob is located at the top of the Z1's channel filter and EQ sections.
+
+           Note that you can only adjust the gain for channels A and B using the Z1.
+
+
+The channel GAIN knob can be operated in two viewing modes: User-Gain level and Auto-Gain
+level. In User-Gain level viewing mode, turning the GAIN knob on the controller simultaneously
+moves the GAIN knob in the TRAKTOR software.
+Here's what the two modes display:
+  ▪ User-Gain level: This is the default mode within TRAKTOR. A blue indicator ring around
+    the knob indicates that you are in this viewing mode. Turning the GAIN knob on the Z1
+    will change the mixer channel gain, which has a range of −inf to +12dB.
+
+           User-Gain level is not stored in your song file.
+
+
+  ▪ Auto-Gain level: Clicking the button next to the label activates Auto-Gain level viewing
+    mode, the label then displays AUTO. When on, the knob shows the Auto-Gain level stored
+    with your song file during track analysis (upon importing the track to the Library). Chang-
+    ing the Auto-Gain level on the software will also write this new Auto-Gain setting to the
+    song file.
+    However, turning the GAIN knob on the Z1, will still alter the User-Gain level, not the Au-
+    to-Gain level.
+
+
+
+
+                                                                            TRAKTOR KONTROL Z1 - Manual - 11
+                                                                                            Using the Z1 with TRAKTOR
+                                                                                       Key Z1 Functions Using TRAKTOR
+
+
+
+           Auto-Gain can be activated in the preferences via Mixer > Level > Set Autogain When Load-
+           ing Track. Refer to the TRAKTOR manual for further information on Auto-Gain.
+
+
+3.1.3    Headphone Cueing
+The CUE VOL knob located on the top panel of the Z1 adjusts the volume levels of the head-
+phone output. The CUE MIX knob determines whether you hear the main mix only, the cue
+channel only, or both signals in your headphones.
+Cueing a track in your headphones works in the following way:
+1.   Load Decks A and B each with a track.
+2.   Click the play button on both Decks to begin playback.
+3.   Turn the CUE MIX knob to the center position.
+4.   Set the headphone volume to a comfortable level by adjusting the CUE VOL knob.
+5.   With the channel faders up, move the crossfader back and forth to hear one track, then
+     the other.
+6. Move the crossfader all the way to channel A so that you are only hearing the track on
+     Deck A. At the same time bring the channel volume fader all the way down for channel B.
+7. Press the Cue button B below the CUE MIX knob.
+The button lights up, indicating that Deck B is now sent to the Cue channel, which you now
+hear in the headphones. Note that now, no matter where you move the crossfader, you will still
+hear Deck B, because its cue is on.
+
+►    Press Cue button B again to toggle it off and press Cue button A.
+You will now hear the track playing on Deck A, no matter what position the crossfader is in.
+This is due to the fact that Deck A's Cue button is on, and the CUE MIX knob is still in the
+center position.
+1.   Press both Cue buttons A and B so that they are both active (illuminated).
+2.   Turn the CUE MIX knob all the way to the left.
+3.   Now toggle the two Cue buttons on and off. Notice that when both Cue buttons are off
+     (unilluminated), there is no signal at all coming through the headphones.
+4.   Press both Cue buttons so that they are off.
+5.   Turn the CUE MIX knob all the way to the right. If the channel faders are up you will be
+     able to hear the main mix coming through your headphones.
+
+
+
+
+                                                                           TRAKTOR KONTROL Z1 - Manual - 12
+                                                                                                Using the Z1 with TRAKTOR
+                                                                                            Key Z1 Functions Using TRAKTOR
+
+
+
+           Notice that when both channel faders are down, there is no signal at all coming through
+           the headphones.
+
+6.   Move the crossfader from one side to the other to hear the main mix in the headphone
+     cue.
+
+           Remember that no matter what mix you are hearing in your headphones, the main mix is
+           still controlled by the crossfader and channel faders.
+
+
+3.1.4    Filter Mode
+The Z1 contains a FILTER | FX knob above each of its channel faders, and a corresponding ON
+button. With the FILTER mode enabled, the FILTER | FX knob operates much like a standard
+filter. Turning the knob clockwise cuts the low end frequencies, whereas turning counterclock-
+wise cuts the high end. Again, you will be able to see how moving this knob simultaneously
+moves the corresponding filter within the TRAKTOR software.
+
+►    To activate the FILTER function, press the ON button so it illuminates blue.
+
+           Press the ON button again to turn the FILTER function off. The button will become unillu-
+           minated when in the off state.
+
+
+Switching TRAKTOR's Filter Type Using the Z1
+The Z1 provides two available Filter types to choose from within TRAKTOR, the (default) Z Fil-
+ter, and ladder Filter. To switch the Filter type:
+1.   Make sure that the Z1's FILTER buttons are both turned off (unilluminated).
+2.   Press the MODE button.
+→    The MODE button will become backlit to indicate this change has taken place.
+1.   To activate the (ladder) FILTER, press either of the Z1's ON buttons so that they illumi-
+     nate blue.
+
+           To switch back to the Default Z Filter, simply repeat the above process again.
+
+
+
+
+                                                                             TRAKTOR KONTROL Z1 - Manual - 13
+                                                                                           Using the Z1 with TRAKTOR
+                                                                                      Key Z1 Functions Using TRAKTOR
+
+
+
+           The dual function of the FILTER | FX knob i.e. effects, can only be activated when using
+           TRAKTOR DJ.
+
+           The dual function of the FILTER | FX knob i.e. effects, can only be activated when using
+           TRAKTOR DJ.
+
+
+3.1.5    Triggering Deck Playback or Pause in TRAKTOR
+The Z1 can be utilized to trigger either the playback, or pausing of a corresponding Deck (A &
+B) within TRAKTOR. This useful function can be achieved in the following way:
+1.   Pressing MODE + CUE (A or B) in the Headphone and Cue Control area, will trigger play-
+     back of the corresponding Deck in TRAKTOR.
+2.   Whilst a Deck is playing, pressing MODE + CUE again will pause the corresponding Deck.
+
+3.1.6    Using the TRAKTOR KONTROL Z1 as a MIDI Controller
+The Z1 also functions as an efficient MIDI controller with third-party software.
+1.   Open TRAKTOR's preferences
+2.   Within the TRAKTOR KONTROL Z1 preferences section, check the Enable MIDI mode via
+     Mode + Cues option.
+3.   To activate MIDI mode on the Z1, press MODE + CUES (ensure both A & B headphone
+     cues are pressed).
+→    The Z1 will now operate as a standard MIDI controller with MIDI capable third-party soft-
+     ware.
+For more information on this usage, refer to section ↑6.1.4, MIDI Mode and the Native Instru-
+ments Knowledge Base http://www.native-instruments.com/de/support/online-help/knowledge-
+base-faq/.
+
+
+3.1.7    Using Additional Controllers
+The Z1 is designed specifically as a portable and professional mixer solution. When using the
+Z1 with your computer you can easily connect additional controllers such as the TRAKTOR
+KONTROL X1 for even more hands-on control of the TRAKTOR software.
+
+
+
+
+                                                                          TRAKTOR KONTROL Z1 - Manual - 14
+                                                                                         Using the Z1 with TRAKTOR DJ
+                                                                                    Key Z1 Functions Using TRAKTOR DJ
+
+
+
+4         Using the Z1 with TRAKTOR DJ
+The TRAKTOR KONTROL Z1 is designed to work with the TRAKTOR DJ app on iOS devices. In
+this section we will describe the Z1's key functions when using it with the TRAKTOR DJ app.
+The iOS devices referred to here are the iPad, iPhone and the iPod touch.
+
+            The iPhone app is known as TRAKTOR DJ for iPhone.
+
+
+The Z1 is currently compatible with the following iOS devices:
+    ▪ iPhone 4
+    ▪ iPhone 4S
+    ▪ iPhone 5
+    ▪ iPod touch (4th generation)
+    ▪ iPad 2
+    ▪ iPad (3rd generation)
+    ▪ iPad (4th generation)
+    ▪ iPad mini
+
+            The iPad (4th generation), iPad Mini, and iPhone 5 all require Apple's Lightning-to-Dock
+            adaptor to function with the Z1.
+
+
+
+4.1       Key Z1 Functions Using TRAKTOR DJ
+In this section we will identify how the Z1's key functions operate when you are using the
+TRAKTOR DJ app on your iOS device.
+
+
+
+
+                                                                           TRAKTOR KONTROL Z1 - Manual - 15
+                                                                                             Using the Z1 with TRAKTOR DJ
+                                                                                        Key Z1 Functions Using TRAKTOR DJ
+
+
+
+
+4.1.1    Deck Volume Controls and Crossfader
+The Z1 is essentially a two-channel mixer controller. The two channel faders, therefore, control
+the volume of Decks A and B in TRAKTOR DJ. If the crossfader is all the way to the left, you
+will only hear Deck A (if the volume fader of A is turned up). If it is all the way to the right, you
+will hear Deck B (if its volume control is turned up). You will notice that when you move the
+Z1's crossfader, the corresponding crossfader in TRAKTOR DJ moves simultaneously.
+
+           In TRAKTOR DJ, Deck A is located at the top, and Deck B found below. In TRAKTOR DJ
+           for the iPhone, the deck view slider indicates that Deck A is located at the top and B at the
+           bottom.
+
+
+4.1.2    Adjusting Channel Gain
+The channel GAIN knob is located at the top of the Z1's channel filter and EQ sections. Note
+that you can only adjust the gain for channels A and B (and their corresponding Decks in
+TRAKTOR DJ) using the Z1. You will notice by turning the GAIN knob clockwise that the gain
+level of the currently playing deck increases. Vice versa, you will notice by turning the knob
+counterclockwise that the gain level of the track playing decreases.
+
+
+4.1.3    Headphone Cueing
+The CUE VOL knob located on the top panel of the Z1 adjusts the volume levels of the head-
+phone output. The CUE MIX knob determines whether you hear the main mix only, the cue
+channel only, or both signals in your headphones.
+Cueing a track in your headphones works in the following way:
+1.   Load Decks A and B each with a track.
+2.   Click the play button on both Decks to begin playback.
+3.   Turn the CUE MIX knob to the center position.
+4.   Set the headphone volume to a comfortable level by adjusting the CUE VOL knob.
+5.   With the channel faders up, move the crossfader back and forth to hear one track, then
+     the other.
+6.   Move the crossfader all the way to channel A so that you are only hearing the track on
+     Deck A. At the same time bring the channel volume fader all the way down for channel B.
+
+
+
+
+                                                                              TRAKTOR KONTROL Z1 - Manual - 16
+                                                                                        Using the Z1 with TRAKTOR DJ
+                                                                                   Key Z1 Functions Using TRAKTOR DJ
+
+
+
+7. Press the Cue button B below the CUE MIX knob.
+The button lights up, indicating that Deck B is now sent to the Cue channel, which you now
+hear in the headphones. Note that now, no matter where you move the crossfader, you will still
+hear Deck B, because its cue is on.
+1. Press Cue button B again to toggle it off and press Cue button A.
+You will now hear the track playing on Deck A, no matter what position the crossfader is in.
+This is due to the fact that Deck A's Cue button is on, and the CUE MIX knob is still in the
+center position.
+1.   Press both Cue buttons A and B so that they are both active (illuminated).
+2.   Turn the CUE MIX knob all the way to the left.
+3.   Now toggle the two Cue buttons on and off. Notice that when both Cue buttons are off
+     (unilluminated), there is no signal at all coming through the headphones.
+4.   Press both Cue buttons so that they are off.
+5.   Turn the CUE MIX knob all the way to the right. If the channel faders are up you will be
+     able to hear the main mix coming through your headphones.
+
+           Notice that when both channel faders are down, there is no signal at all coming through
+           the headphones.
+
+6.   Move the crossfader from one side to the other to hear the main mix in the headphone
+     cue.
+
+           Remember that no matter what mix you are hearing in your headphones, the main mix is
+           still controlled by the crossfader and channel faders.
+
+
+4.1.4    FILTER | FX Modes
+TRAKTOR KONTROL Z1's FILTER | FX knobs have a dual function in TRAKTOR DJ. The first is
+standard control of the filter; the second controls the selected effect. This dual function oper-
+ates through the use of the MODE button.
+
+
+
+
+                                                                          TRAKTOR KONTROL Z1 - Manual - 17
+                                                                                           Using the Z1 with TRAKTOR DJ
+                                                                                      Key Z1 Functions Using TRAKTOR DJ
+
+
+
+
+4.1.5   Filter Mode
+With the FILTER mode enabled, the FILTER | FX knob operates much like a standard filter.
+Turning the knob clockwise cuts the low end frequencies, whereas turning counterclockwise
+cuts the high end.
+
+►   To operate the FILTER function, press the ON button so it illuminates blue.
+
+
+4.1.6   FX Mode
+The second function on the FILTER | FX knob controls the FX parameter of the Z1.
+
+          Note that this FX Mode only applies when using the Z1 with TRAKTOR DJ!
+
+
+
+►   Press MODE + ON to switch to the corresponding FX mode.
+
+→   You will notice the ON button's dim backlighting switches from blue to orange.
+
+►   To engage the (internally selected) TRAKTOR DJ effect, press the ON button again.
+
+→   The ON button is engaged and fully illuminated orange.
+
+          TRAKTOR DJ has three banks of available effects, each of which contains eight effects.
+          Once a single effect is internally selected, the FILTER | FX knob will then control that pa-
+          rameter, or the amount of the effect applied.
+
+          The FILTER | FX knob controls the X axis of the XY pad of the selected TRAKTOR DJ effect.
+          To control the Y parameter of the effect you can do so by touching it within TRAKTOR DJ.
+          You'll notice that the selected effect is altered in a different way when manually adjusted
+          this way.
+
+          When no FILTER or FX mode is required, press the ON button again so that it is not illumi-
+          nated.
+
+
+
+
+                                                                            TRAKTOR KONTROL Z1 - Manual - 18
+                                                                                Using the Z1 with TRAKTOR DJ
+                                                                           Key Z1 Functions Using TRAKTOR DJ
+
+
+
+
+4.1.7    Triggering Deck Playback or Pause in TRAKTOR DJ
+The Z1 can be utilized to trigger either the playback, or pausing of a corresponding Deck (A &
+B) within TRAKTOR DJ. This useful function can be achieved in the following way:
+1.   Pressing MODE + CUE (A or B) in the Headphone and Cue Control area, will trigger play-
+     back of the corresponding Deck in TRAKTOR DJ.
+2.   Whilst a Deck is playing, pressing MODE + CUE again will then pause the corresponding
+     Deck.
+
+
+
+
+                                                                   TRAKTOR KONTROL Z1 - Manual - 19
+                                                                TRAKTOR KONTROL Z1 Hardware Reference
+                                                                                           Introduction
+
+
+
+5          TRAKTOR KONTROL Z1 Hardware Reference
+
+
+5.1        Introduction
+This chapter details the use of each element on your TRAKTOR KONTROL Z1. Like any audio
+hardware, it is a good idea to get familiar with the Z1 in order to make the most of it.
+
+
+5.2        Rear Panel
+
+
+
+
+The Rear Panel of the Z1
+
+
+
+
+                                                              TRAKTOR KONTROL Z1 - Manual - 20
+                                                                                TRAKTOR KONTROL Z1 Hardware Reference
+                                                                                                            Rear Panel
+
+
+
+
+5.2.1       DC Power
+
+
+
+
+Power socket input at the rear of the Z1
+
+Power Socket: Plug in the provided DC plug to the rear panel of the Z1.
+
+              If you are using the Z1 with TRAKTOR on your computer, the device will be powered by the
+              USB connection.
+
+
+5.2.2       USB Connection
+
+
+
+
+The USB connection on the rear panel of the Z1
+
+The USB connection will either connect the Z1 to your computer or iOS device. In the latter
+scenario, the provided Native Instruments iOS cable is required.
+
+              If you are using the Z1 with TRAKTOR DJ on your iOS device, you will need to ensure that
+              the DC power adaptor is connected to the mains to power the device. If you are using the
+              Z1 with TRAKTOR on your computer, the device will be powered by the USB connection.
+
+
+
+
+                                                                             TRAKTOR KONTROL Z1 - Manual - 21
+                                                                    TRAKTOR KONTROL Z1 Hardware Reference
+                                                                                                Rear Panel
+
+
+
+
+5.2.3       OUTPUT Section
+
+
+
+
+The MAIN OUT on the rear of the Z1
+
+The Z1's MAIN OUT section on the rear panel is where you can connect your amplification sys-
+tem. The output level is controlled by the MAIN knob on the top panel.
+
+MAIN OUT
+  ▪ Unbalanced RCA: The RCA output allows simple connectivity for an amplification system.
+
+
+5.2.4       Kensington Lock Port
+
+
+The Kensington lock port on the rear panel.
+
+This metal-reinforced hole provides an additional security option whereby a bespoke cable and
+lock can be applied.
+
+
+
+
+                                                                  TRAKTOR KONTROL Z1 - Manual - 22
+                                                                               TRAKTOR KONTROL Z1 Hardware Reference
+                                                                                                          Front Panel
+
+
+
+
+5.3         Front Panel
+
+
+
+
+The front panel of the Z1
+
+
+PHONES Section
+You can connect a pair of headphones to the Z1 via the 3.5mm (or 1/8-inch) stereo headphone
+plugs. The headphone input can be located on the front panel of the Z1.
+
+              Adjust the level for the headphones via the HP VOLUME knob on the Z1's top panel.
+
+
+
+
+                                                                             TRAKTOR KONTROL Z1 - Manual - 23
+                                                                     TRAKTOR KONTROL Z1 Hardware Reference
+                                                                                                  Top Panel
+
+
+
+
+5.4        Top Panel
+
+
+
+
+The top panel of the Z1
+
+The following section describes all of the controls and displays on the Z1's top panel—learning
+these functions is the key to mastering the Z1!
+
+
+
+
+                                                                   TRAKTOR KONTROL Z1 - Manual - 24
+                                                                                   TRAKTOR KONTROL Z1 Hardware Reference
+                                                                                                               Top Panel
+
+
+
+
+5.4.1      MAIN Knob
+
+
+
+
+The MAIN knob located on the top panel
+
+  ▪ The MAIN volume knob adjusts the volume of the Z1's MAIN OUT located on the Z1's
+    rear panel.
+
+
+5.4.2      GAIN Knobs
+
+
+
+
+A Deck's GAIN knob on the top panel.
+
+These knobs control both TRAKTOR's User-Gain level and the Z1's internal direct gain simulta-
+neously. Note that these knobs only control the gain of Decks A and B.
+
+             It is not possible to control the channel gain of Tracks C and D directly from the Z1.
+
+
+
+
+5.4.3      EQ (HI, MID, LOW)
+Just below the GAIN knob at the top of each of the Z1's channels, you will see three EQ knobs
+(HI, MID, and LOW). The Z1's EQ section gives you a fast and easy way to adjust for frequency
+imbalances.
+
+
+
+
+                                                                                TRAKTOR KONTROL Z1 - Manual - 25
+                                                                    TRAKTOR KONTROL Z1 Hardware Reference
+                                                                                                Top Panel
+
+
+
+
+The Z1's EQ knobs
+
+
+HI-EQ Knobs
+The HI-EQ knobs control the high equalizer band of the associated channel in the TRAKTOR
+software. The center position corresponds to 0dB and provides no boost or cut to the hi-band
+frequencies.
+
+MID-EQ Knobs
+The MID-EQ knobs control the mid-range band of the associated channel in the TRAKTOR
+software. The center position corresponds to 0dB and provides no boost or cut to the mid-band
+frequencies.
+
+LOW-EQ Knobs
+Just like the HI and MID-EQ knobs, the LOW-EQ knobs also control their respective frequency
+bands, in this case the low band. The center position of the LOW-EQ knob also has no effect
+on the sound: 0bB with no boost or cut to the low-band frequencies.
+
+
+
+
+                                                                  TRAKTOR KONTROL Z1 - Manual - 26
+                                                                        TRAKTOR KONTROL Z1 Hardware Reference
+                                                                                                      Top Panel
+
+
+
+
+5.4.4     Filter Knobs
+
+
+
+
+The FILTER Knob
+
+The two FILTER knobs give you a one-knob control of a pair of perfectly matched filters: a low-
+pass (turning to the left of the center position) and a high-pass (turning to the right of the cen-
+ter position) filter. Like the EQ knobs, the center position corresponds to 0dB and has no ef-
+fect on the sound.
+
+
+5.4.5     Mode button
+
+
+
+
+The MODE button
+
+The MODE button acts as a modifier (just like pressing [Shift] on a computer keyboard) and
+enables the following secondary functions:
+  ▪ FILTER knobs to perform an FX function, specifically for use within TRAKTOR DJ on your
+    iOS device. For a further explanation of using the MODE button to activate the Z1's ef-
+    fects mode, refer to section ↑4.1.4, FILTER | FX Modes.
+  ▪ Switching FILTER type in TRAKTOR. For further information on this, refer to ↑3.1.4, Fil-
+    ter Mode.
+  ▪ Triggering either Deck playback or pausing in TRAKTOR, and TRAKTOR DJ. Refer to sec-
+    tions ↑3.1.5, Triggering Deck Playback or Pause in TRAKTOR, and ↑4.1.7, Triggering
+    Deck Playback or Pause in TRAKTOR DJ.
+
+
+
+
+                                                                      TRAKTOR KONTROL Z1 - Manual - 27
+                                                                     TRAKTOR KONTROL Z1 Hardware Reference
+                                                                                                 Top Panel
+
+
+
+
+5.4.6      Headphone and Cue Control Area
+
+
+
+
+The headphone control area on the Z1.
+
+  ▪ CUE VOL (headphone volume) knob: Use this knob to adjust the headphone volume level
+    on your Z1. Headphone volume output is off when the knob is turned all the way counter-
+    clockwise and it is at its fullest when the knob is turned all the way clockwise.
+  ▪ CUE MIX (headphone cue mix) knob: This knob directly adjusts the cue mix. When it is
+    turned all the way counterclockwise, the headphones will output the cue channel only.
+    When the knob is all the way clockwise, it will output the master signal only. When the
+    knob is at the center position, the headphones will receive a blend of both output busses.
+    Fading between the two positions will mix between the two signals.
+  ▪ A and B (headphone channel cue) buttons: The two headphone cue buttons are located
+    just below the CUE MIX knob and control the monitor function. When on, the channel's
+    audio is sent to the headphone bus so that you can monitor it. To understand how cue
+    buttons can be used in conjunction with the MODE function to achieve Deck playback or
+    pausing, refer to sections ↑3.1.5, Triggering Deck Playback or Pause in TRAKTOR,
+    ↑4.1.7, Triggering Deck Playback or Pause in TRAKTOR DJ
+
+
+
+
+                                                                   TRAKTOR KONTROL Z1 - Manual - 28
+                                                                              TRAKTOR KONTROL Z1 Hardware Reference
+                                                                                                          Top Panel
+
+
+
+
+5.4.7      Volume Faders and Crossfader
+
+
+
+
+The volume faders and the crossfader.
+
+
+Channel Volume
+The channel volume faders control the volume of the associated channel.
+
+              The channel volume faders control only Decks A and B in TRAKTOR. It is not possible to
+              assign decks C and B to the Z1's channel faders.
+
+
+Crossfader
+The crossfader lets you mix between channels A and B.
+
+
+
+
+                                                                            TRAKTOR KONTROL Z1 - Manual - 29
+                                                                    TRAKTOR KONTROL Z1 Hardware Reference
+                                                                                                Top Panel
+
+
+
+
+5.4.8      Level Meters
+
+
+
+
+The level meters in between the volume faders on the top panel.
+
+The Z1's level meters are located right above the crossfader. They show the individual decks'
+pre fader output.
+
+
+
+
+                                                                  TRAKTOR KONTROL Z1 - Manual - 30
+                                                                                                  Appendix
+                                                                            The Z1's Preferences in TRAKTOR
+
+
+
+6       Appendix
+
+
+6.1     The Z1's Preferences in TRAKTOR
+The TRAKTOR preferences contain a section dedicated to the TRAKTOR KONTROL Z1. Open
+the TRAKTOR preferences either by clicking the cogwheel symbol in the software's upper right
+corner, or via File > Preferences... > TRAKTOR KONTROL Z1.
+
+
+
+
+                                                                 TRAKTOR KONTROL Z1 - Manual - 31
+                                                                                                       Appendix
+                                                                                 The Z1's Preferences in TRAKTOR
+
+
+
+There are four areas with Z1 specific settings here: Restore Default, Calibration, LEDs, MIDI
+Mode.
+See the following sections for further description:
+
+
+6.1.1       Restore Default
+
+
+
+The Restore Default area in the Z1 preferences.
+
+Click this button to restore all Z1 settings to the factory settings.
+
+
+6.1.2       Calibration
+
+
+
+
+The Calibration area in the Z1 preferences.
+
+Use these controls if your Z1's controls appear to have decalibrated. Pressing one of the but-
+tons will recalibrate the relevant mixer controls.
+
+
+6.1.3       LEDs
+
+
+
+
+The LEDs area in the Z1 preferences.
+
+
+
+
+                                                                        TRAKTOR KONTROL Z1 - Manual - 32
+                                                                                                   Appendix
+                                                                             The Z1's Preferences in TRAKTOR
+
+
+
+Set the Z1's LEDs On State Brightness and Dim State Percentage with these sliders. The On
+State Brightness refers to how bright the buttons are illuminated when in their on state. The
+Dim State Percentage refers to the level of brightness the buttons will show whilst in the
+standby state.
+
+
+6.1.4      MIDI Mode
+
+
+
+The MIDI Mode area of the Z1's preferences.
+
+Checking the Enable MIDI mode via Mode + Cues ensures that the Z1 can switch into MIDI
+mode via this button combination. Refer also to ↑3.1.6, Using the TRAKTOR KONTROL Z1 as
+a MIDI Controller.
+
+
+
+
+                                                                  TRAKTOR KONTROL Z1 - Manual - 33
+                                                                                              Index
+
+
+
+
+Index
+A                                            E
+A and B Headphone Cue Buttons [28]           EQ [25]
+Additional Controllers [14]                      HI-EQ Knobs [26]
+Auto-Gain level [11]                             LOW-EQ Knobs [26]
+                                                 MID-EQ Knobs [26]
+C
+Channel Gain                                 F
+    Adjusting Channel Gain in TRAKTOR [11]   Filter Mode
+    Adjusting Channel Gain in TRAKTOR DJ         In TRAKTOR [13]
+       [16]
+                                                 In TRAKTOR DJ [18]
+Channel Volume [29]
+                                             Filter Type [13]
+Compatibility issues [9]
+                                             FX Mode in TRAKTOR DJ [18]
+Crossfader [29]
+CUE MIX knob [28]                            G
+CUE VOL [28]                                 Gain
+                                                 adjusting [11]
+D                                            GAIN knobs [25]
+Documentation
+    Overview [7]                             H
+    TRAKTOR Manual [8]                       Hardware Reference
+                                                 FILTER Knobs [27]
+                                                 MODE button [27]
+                                             Headphone Cueing
+                                                 CUE MIX [12] [16]
+
+
+
+
+                                                                  TRAKTOR KONTROL Z1 - Manual - 34
+                                                                                            Index
+
+
+
+
+K                                            T
+Key Functions Using TRAKTOR DJ               Top Panel [24]
+    Deck Volume Controls & Crossfader [15]   TRAKTOR Preferences [31]
+                                                 LEDs [33]
+L
+                                                 MIDI enable [33]
+Level Meters [30]
+                                                 Restore Default [32]
+M                                            TRAKTOR DJ
+MAIN knob [25]                                   iOS Devices [15]
+MAIN OUT [22]                                Triggering Deck Playback
+MIDI Controller                                  In TRAKTOR [14]
+    Enable [14]                                  In TRAKTOR DJ [19]
+
+P                                            U
+Power requirements [9]                       User-Gain level [11]
+
+S
+System requirements [9]
+
+
+
+
+                                                                TRAKTOR KONTROL Z1 - Manual - 35
+

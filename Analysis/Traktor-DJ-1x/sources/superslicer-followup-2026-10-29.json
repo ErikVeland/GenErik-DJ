@@ -1,0 +1,16 @@
+{
+  "reviewedUTC": "2026-10-28T18:42:33.103749+00:00",
+  "source": "https://djworx.com/traktor-dj-1-5-superslicer-beyond/",
+  "publicationDate": "2014-08-19",
+  "browserReopened": true,
+  "linkedImage": "https://djworx.com/wp-content/uploads/2014/08/traktor-dj-superslicer-1.jpg",
+  "linkedImageSize": [
+    1910,
+    1073
+  ],
+  "observation": "Hero and inline image resolve to the same Pitch-family screenshot. It confirms Pitch Up/Slice/Pitch Down but contains no loop-stutter numeric labels.",
+  "textAmbiguity": "The text gives equivalent half-beat values for the upper and middle loop regions. This cannot settle three distinct loop-stutter lengths.",
+  "policyRecovered": false,
+  "productionCodeChanged": false,
+  "target168ParityEstablished": false
+}

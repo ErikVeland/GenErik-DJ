@@ -1,0 +1,264 @@
+{
+  "review_date": "2026-10-21",
+  "timezone": "Australia/Brisbane",
+  "device_access": false,
+  "device_changes": false,
+  "complete_video_downloaded": false,
+  "question": "Find an original-iPad walkthrough testing ordinary Play at different Quantize Size settings and a second Play press during the lead-in",
+  "result": "No qualifying controlled test verified in reviewed public coverage. Q02 and Q05 remain open.",
+  "method": "Focused public web and on-site YouTube search; complete caption reading of four new primary walkthroughs plus one duplicate; selected visual inspection. No continuous audiovisual review or audio timing measurement.",
+  "sources": [
+    {
+      "source_id": "S38",
+      "video_id": "mS8s2SOSGKQ",
+      "title": "Native Instruments 216: Traktor DJ For iPad - 11. Understanding Beat Matching",
+      "publisher": "macProVideoDotCom / Hollin Jones",
+      "duration_seconds": 253.979862,
+      "caption_type": "auto-generated",
+      "selected_visual_times_seconds": [
+        187.753333,
+        192.753333,
+        197.753333
+      ],
+      "findings": "Captions 1:33-1:38 describe timed introduction. On-screen count-in annotation at 3:12.753. Three sampled UI states; no calibrated launch or audio-onset measurement.",
+      "url": "https://www.youtube.com/watch?v=mS8s2SOSGKQ",
+      "captions": {
+        "bytes": 3569,
+        "sha256": "7eb2448825d5b06ff99b5204a89b103b2fbad61cbadb11713782b04f7896453e",
+        "retention": "Temporary research input only; full text not copied into dossier"
+      },
+      "caption_review": "Complete exported caption track read",
+      "visual_review": "Selected frames only",
+      "continuous_audiovisual_review": false,
+      "exact_app_build": null,
+      "installed_reference_tested": false,
+      "quantize_size_controls_ordinary_play_established": false,
+      "second_pending_play_cancels_established": false,
+      "qualifying_controlled_test_verified": false
+    },
+    {
+      "source_id": "S27",
+      "video_id": "xrgPQ045L1c",
+      "title": "Traktor DJ: Feature Walkthrough and Demo",
+      "publisher": "DJ TechTools / Ean Golden",
+      "duration_seconds": 558.761,
+      "caption_type": "auto-generated",
+      "selected_visual_times_seconds": [
+        81.207743
+      ],
+      "findings": "Embedded video located in S27 article. Shared master tempo and sync described; no explicit requested rule identified in captions. Visual sample partly obscured by browser masthead, not used as timing evidence.",
+      "url": "https://www.youtube.com/watch?v=xrgPQ045L1c",
+      "captions": {
+        "bytes": 8547,
+        "sha256": "f6b1129c2c4ecccf691038598524e9adf026d9f75152ef7f0edb20403875b0d0",
+        "retention": "Temporary research input only; full text not copied into dossier"
+      },
+      "caption_review": "Complete exported caption track read",
+      "visual_review": "Selected frames only",
+      "continuous_audiovisual_review": false,
+      "exact_app_build": null,
+      "installed_reference_tested": false,
+      "quantize_size_controls_ordinary_play_established": false,
+      "second_pending_play_cancels_established": false,
+      "qualifying_controlled_test_verified": false
+    },
+    {
+      "source_id": "S39",
+      "video_id": "WxfpLsXGya4",
+      "title": "Traktor iPad Tutorial (How To Sync, Scratch & Mix DJ Drops)",
+      "publisher": "Mike Russell / Music Radio Creative",
+      "duration_seconds": 115.541,
+      "caption_type": "auto-generated",
+      "selected_visual_times_seconds": [
+        44.65
+      ],
+      "findings": "Original-iPad loop preparation frame; captions discuss playback and tempo following. No requested size comparison or pending-cancellation account identified in captions.",
+      "url": "https://www.youtube.com/watch?v=WxfpLsXGya4",
+      "captions": {
+        "bytes": 1634,
+        "sha256": "e85f70efe18861c74a612d47ffe46c5f9e1202aae9b5247b82427caf2e28965f",
+        "retention": "Temporary research input only; full text not copied into dossier"
+      },
+      "caption_review": "Complete exported caption track read",
+      "visual_review": "Selected frames only",
+      "continuous_audiovisual_review": false,
+      "exact_app_build": null,
+      "installed_reference_tested": false,
+      "quantize_size_controls_ordinary_play_established": false,
+      "second_pending_play_cancels_established": false,
+      "qualifying_controlled_test_verified": false
+    },
+    {
+      "source_id": "S40",
+      "video_id": "DIcQFURRf0g",
+      "title": "How to Remix Songs in Traktor DJ (iPad) with Loops and Cues by @jeremylim",
+      "publisher": "Jeremy Lim Music",
+      "duration_seconds": 180.201,
+      "caption_type": "authored or unspecified",
+      "selected_visual_times_seconds": [
+        144.144
+      ],
+      "findings": "Loop and cue tutorial. Zoom-dependent quantising account concerns loop creation. No ordinary Play scheduling rule established.",
+      "url": "https://www.youtube.com/watch?v=DIcQFURRf0g",
+      "captions": {
+        "bytes": 1788,
+        "sha256": "7c86cc838e6b1070f088203ea087cf868544462ea7afc5dbf27de8750047d220",
+        "retention": "Temporary research input only; full text not copied into dossier"
+      },
+      "caption_review": "Complete exported caption track read",
+      "visual_review": "Selected frames only",
+      "continuous_audiovisual_review": false,
+      "exact_app_build": null,
+      "installed_reference_tested": false,
+      "quantize_size_controls_ordinary_play_established": false,
+      "second_pending_play_cancels_established": false,
+      "qualifying_controlled_test_verified": false
+    }
+  ],
+  "frames": [
+    {
+      "source_id": "S38",
+      "path": "controlled-play-search-2026-10-21/S38-before-187.753333.jpg",
+      "time_seconds": 187.753333,
+      "bytes": 70035,
+      "sha256": "5f88f8b423d0fc076e76bd910aeccb77759b9a5667210f17c8ebcd3c2f2fdc52",
+      "expected_dimensions": [
+        880,
+        495
+      ],
+      "description": "Deck A green Play and advanced waveform; Deck B grey Play at source start",
+      "capture": "Browser-rendered player crop; JPEG, no video download",
+      "visual_quality_review": "Inspected saved image; no browser overlay obscures app controls"
+    },
+    {
+      "source_id": "S38",
+      "path": "controlled-play-search-2026-10-21/S38-count-in-192.753333.jpg",
+      "time_seconds": 192.753333,
+      "bytes": 73575,
+      "sha256": "783119276a9a1e2a26bee3b084c3b297fec91f7ab9bdef08c623a7c76a319353",
+      "expected_dimensions": [
+        880,
+        495
+      ],
+      "description": "Deck B green Play, pale line before source start, explicit automatic count-in annotation",
+      "capture": "Browser-rendered player crop; JPEG, no video download",
+      "visual_quality_review": "Inspected saved image; no browser overlay obscures app controls"
+    },
+    {
+      "source_id": "S38",
+      "path": "controlled-play-search-2026-10-21/S38-playing-197.753333.jpg",
+      "time_seconds": 197.753333,
+      "bytes": 76259,
+      "sha256": "e53f66fdd0fb72da165982f7d5a398aac99e8b1dc83f26270a7fd10652a6248c",
+      "expected_dimensions": [
+        880,
+        495
+      ],
+      "description": "Both decks green Play with advanced source waveforms",
+      "capture": "Browser-rendered player crop; JPEG, no video download",
+      "visual_quality_review": "Inspected saved image; no browser overlay obscures app controls"
+    },
+    {
+      "source_id": "S39",
+      "path": "controlled-play-search-2026-10-21/S39-loop-preparation-44.65.jpg",
+      "time_seconds": 44.65,
+      "bytes": 36104,
+      "sha256": "cf2c0dc3396baa9bbc39463289c8b09b397aefd56dda2d8508cceb930c9e7813",
+      "expected_dimensions": [
+        880,
+        495
+      ],
+      "description": "Original iPad app and loop preparation; not a pending-start test",
+      "capture": "Browser-rendered player crop; JPEG, no video download",
+      "visual_quality_review": "Inspected saved image; no browser overlay obscures app controls"
+    },
+    {
+      "source_id": "S40",
+      "path": "controlled-play-search-2026-10-21/S40-loop-cues-144.144.jpg",
+      "time_seconds": 144.144,
+      "bytes": 66454,
+      "sha256": "f56a5d6f184ce7598771fe13575d1a0e0404318becd944f12a409be2b88291bc",
+      "expected_dimensions": [
+        880,
+        495
+      ],
+      "description": "Original iPad app with loop/cue workflow; not a Quantize Size comparison",
+      "capture": "Browser-rendered player crop; JPEG, no video download",
+      "visual_quality_review": "Inspected saved image; no browser overlay obscures app controls"
+    }
+  ],
+  "catalogue": {
+    "source_id": "S38",
+    "url": "https://www.macprovideo.com/course/native-instruments-traktor-dj-for-ipad",
+    "publisher": "macProVideo / Hollin Jones",
+    "lessons": 32,
+    "relevant_unreviewed_chapters": [
+      {
+        "number": 2,
+        "title": "the Preferences",
+        "duration": "3:25",
+        "url": "https://www.macprovideo.com/video/native-instruments-traktor-dj-for-ipad/2-2-the-preferences",
+        "observed_access": "Lock icon in index; selected, no playable content recovered in checked view"
+      },
+      {
+        "number": 6,
+        "title": "Playing Back Tracks",
+        "duration": "4:49",
+        "url": "https://www.macprovideo.com/video/native-instruments-traktor-dj-for-ipad/6-6-playing-back-tracks",
+        "observed_access": "Lock icon in index; selecting opened subscription offer"
+      },
+      {
+        "number": 7,
+        "title": "Understanding the Master Tempo",
+        "duration": "3:23",
+        "observed_access": "Lock icon in index; chapter content not opened"
+      }
+    ],
+    "known_to_contain_requested_test": null,
+    "content_status": "Unverified leads. No login, purchase, subscription or access-control bypass."
+  },
+  "supporting_articles": [
+    {
+      "source_id": "S27",
+      "url": "https://s11234.pcdn.co/2013/02/21/traktor-dj-on-ipad-exclusive-first-look/",
+      "scope": "Article identifies Ean walkthrough; rendered iframe src identifies xrgPQ045L1c"
+    },
+    {
+      "source_id": "S40",
+      "url": "https://jeremylimmusic.com/tutorials/remix-songs-loops-cues-ipad/",
+      "article_date": "2013-02-27",
+      "scope": "Main written tutorial read; loop creation and zoom snapping"
+    }
+  ],
+  "excluded_duplicate": {
+    "video_id": "fJwj0A0IJig",
+    "title": "Pro DJ App for iPad - Traktor DJ - Essential Mixing Tutorial",
+    "url": "https://www.youtube.com/watch?v=fJwj0A0IJig",
+    "caption_review": "Complete English auto-caption track read; narration and sequence match S17",
+    "captions": {
+      "bytes": 5262,
+      "sha256": "8ca7272da7e0c14ead7e523d3499892a0412c90056502c9f6506811750f66f3a",
+      "retention": "Temporary research input only; full text not copied into dossier"
+    },
+    "reason": "Reupload lead of already-reviewed NI material; no independent test verified"
+  },
+  "other_exclusions": [
+    "Traktor Pro instruction",
+    "Traktor DJ 2 instruction",
+    "Older desktop Traktor DJ Studio instruction",
+    "Autoplay navigation to unrelated video: excluded; its captions were not read or used"
+  ],
+  "qualification_criteria": [
+    "Original iPad app identified",
+    "At least two visible Quantize Size values with Slicer Quantize separate",
+    "Comparable ordinary incoming-Play trials with running reference deck and visible sync/clock conditions",
+    "Identifiable second Play input after first request but before launch",
+    "Outcome visible through scheduled boundary; distinguish UI feedback, waveform motion and audio onset"
+  ],
+  "scope_limit": "Failure to locate a verified test in this pass is not proof that no such recording exists. Selected visuals do not establish absence of silent tests elsewhere.",
+  "follow_up": {
+    "report": "../14-hollin-jones-count-in-frame-review.md",
+    "manifest": "hollin-frame-review-manifest.json",
+    "scope": "120 retained adjacent native captures of S38 from 3:10.320 to 3:14.287. One uninterrupted indicator event, no distinct second activation. Q02/Q03/Q05 remain open."
+  }
+}

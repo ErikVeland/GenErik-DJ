@@ -1,0 +1,664 @@
+{
+  "format": "tdj1.gesture-fidelity/v1",
+  "review_date": "2026-10-28",
+  "requirement_source": "R5",
+  "reference_version": "1.6.8",
+  "reference_build": "1.6.8.67",
+  "status": "development_workflows_implemented_fidelity_incomplete",
+  "governing_document": "../17-gesture-fidelity.md",
+  "scope": "All original iPad 1.x touch interactions, including selection, gridding, zoom, XY control and simultaneous gestures.",
+  "completion_rule": "Every confirmed target-build gesture must have matching reference and replica results. Unresolved presence must be resolved with evidence. Compilation, mouse tests, generic widgets and controller equivalents do not establish iPad parity.",
+  "gestures": [
+    {
+      "id": "G01",
+      "gesture": "Browser access",
+      "inventory_ids": [
+        "F001"
+      ],
+      "evidence_refs": [
+        "S15"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Waveform-specific upward swipe opens browser without a deck-wide parent recognizer.",
+      "reference_trial": "Swipe from original eligible regions; compare threshold, direction, cancellation and drawer animation.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-26",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G02",
+      "gesture": "Selection and directional loading",
+      "inventory_ids": [
+        "F002",
+        "F003",
+        "F007"
+      ],
+      "evidence_refs": [
+        "S15",
+        "S1"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Selection reveals an up-A/down-B slider. Release threshold and protection are development policies.",
+      "reference_trial": "Select without loading; drag each way; reverse, abandon and repeat; test stopped, playing and queued destinations.",
+      "reference_results": [],
+      "replica_results": []
+    },
+    {
+      "id": "G03",
+      "gesture": "Browser navigation and playlist selection",
+      "inventory_ids": [
+        "F009",
+        "F010",
+        "F011"
+      ],
+      "evidence_refs": [
+        "S15"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Native library browsing and selection exist; original collection search, sorting and playlist editing routes are unmatched.",
+      "reference_trial": "Compare scrolling, selection retention, search, sort, edit ticks, playlist creation and dismissal without disturbing playback.",
+      "reference_results": [],
+      "replica_results": []
+    },
+    {
+      "id": "G04",
+      "gesture": "Artwork suggestions entry",
+      "inventory_ids": [
+        "F005"
+      ],
+      "evidence_refs": [
+        "S15",
+        "S1"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Artwork opens destination suggestions. Touch interaction is unverified.",
+      "reference_trial": "Tap each destination artwork while either or both decks play; compare context and return selection.",
+      "reference_results": [],
+      "replica_results": []
+    },
+    {
+      "id": "G05",
+      "gesture": "Tempo wheel",
+      "inventory_ids": [
+        "F017"
+      ],
+      "evidence_refs": [
+        "S15"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Tap opens wheel; angular drag changes tempo with provisional scale and bounds.",
+      "reference_trial": "Rotate through angle wrap in both directions; lift, recontact and use the other deck simultaneously.",
+      "reference_results": [],
+      "replica_results": []
+    },
+    {
+      "id": "G06",
+      "gesture": "Stripe inspection",
+      "inventory_ids": [
+        "F040",
+        "F042"
+      ],
+      "evidence_refs": [
+        "S15",
+        "S1"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Stripe navigation remains independent of source playback. A return-to-playhead button recentres preview without a seek or phase change.",
+      "reference_trial": "Move the window during playback, release, then dismiss; compare audible position and restored viewport.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-28",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G07",
+      "gesture": "Stripe pinch zoom",
+      "inventory_ids": [
+        "F037",
+        "F051"
+      ],
+      "evidence_refs": [
+        "S15",
+        "S1"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Native iPad contact arbitration separates stripe pinch from single-contact navigation; Mac trackpad fallback retained.",
+      "reference_trial": "Pinch and spread the red window; compare anchor, bounds, navigation side effects and scale after mode changes.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-26",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G08",
+      "gesture": "Beat-tap timed jump",
+      "inventory_ids": [
+        "F041"
+      ],
+      "evidence_refs": [
+        "S15"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Beat-tap jump reaches the audio renderer and schedules against the selected quantum.",
+      "reference_trial": "Inspect another region and tap a beat; compare acceptance, quantisation, audible jump and view follow.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-26",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G09",
+      "gesture": "Waveform scrub and paused seek",
+      "inventory_ids": [
+        "F038",
+        "F039"
+      ],
+      "evidence_refs": [
+        "S16",
+        "S1"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Paused drag retains selected source position; playing drag uses temporary touch commands and optional Flux return.",
+      "reference_trial": "Drag while playing and paused; compare source motion, sound, snap and release with Flux on/off.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-26",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G10",
+      "gesture": "Grid entry, phase and exit",
+      "inventory_ids": [
+        "F044",
+        "F045"
+      ],
+      "evidence_refs": [
+        "S11",
+        "S18",
+        "S1"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Grid drag uses contact lifecycle; cancellation restores the original draft/view. Extra contacts cancel an uncommitted shift rather than applying an unresolved pinch mapping.",
+      "reference_trial": "Enter grid edit, move waveform against grid, release and leave; compare phase, viewport, playback and saved state.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-28",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G11",
+      "gesture": "Downbeat and tempo correction",
+      "inventory_ids": [
+        "F046",
+        "F048"
+      ],
+      "evidence_refs": [
+        "S11",
+        "S1"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Four downbeat buttons and half/double/tap exist with uncalibrated touch details.",
+      "reference_trial": "Select each downbeat and correct tempo; compare bar origin, tap timing, precision and cue/loop effects after reload.",
+      "reference_results": [],
+      "replica_results": []
+    },
+    {
+      "id": "G12",
+      "gesture": "Grid pinch, snapping and four-beat inspection",
+      "inventory_ids": [
+        "F047",
+        "F049"
+      ],
+      "evidence_refs": [
+        "S1",
+        "H1"
+      ],
+      "implementation_status": "unresolved",
+      "fidelity_status": "unverified",
+      "current_implementation": "Four-beat inspection is documented for controllers. Grid pinch/snap semantics are not established.",
+      "reference_trial": "Establish presence and touch mapping on target build; distinguish viewport zoom from BPM/grid-spacing changes.",
+      "reference_results": [],
+      "replica_results": []
+    },
+    {
+      "id": "G13",
+      "gesture": "Hotcue create, recall, delete and stored loops",
+      "inventory_ids": [
+        "F053",
+        "F054",
+        "F055",
+        "F056",
+        "F057",
+        "F058",
+        "F069"
+      ],
+      "evidence_refs": [
+        "S11",
+        "S1",
+        "H5"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "A flag button opens eight persistent cue slots. Cue, loop and white grid-marker types are stored separately. New grid-marker allocation uses a provisional first-free policy; deliberate deletion survives reload. Saved-loop recall schedules jump and loop activation together.",
+      "reference_trial": "Compare all slots, empty/occupied taps, deletion entry, cue types, quantisation, paused triggering and loop recall after reload.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-28",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G14",
+      "gesture": "Two-finger loop creation",
+      "inventory_ids": [
+        "F061",
+        "F063"
+      ],
+      "evidence_refs": [
+        "S16",
+        "S1"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Two contacts define a snapped loop region; default LOOP control is also available.",
+      "reference_trial": "Touch two beat positions in both contact orders; compare endpoints, snapping, minimum separation and preset-loop interaction.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-26",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G15",
+      "gesture": "Two-finger loop movement",
+      "inventory_ids": [
+        "F065"
+      ],
+      "evidence_refs": [
+        "S16",
+        "S1"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Two-contact centroid translation moves a loop in beat steps.",
+      "reference_trial": "Hold both fingers and translate forward/back; compare retained length, movement steps, sound and file boundaries.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-26",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G16",
+      "gesture": "Loop pinch resize",
+      "inventory_ids": [
+        "F064"
+      ],
+      "evidence_refs": [
+        "S16",
+        "S1"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Contact separation resizes loop in power-of-two steps.",
+      "reference_trial": "Pinch/spread an active loop; compare discrete lengths, retained anchor and transition into translation.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-26",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G17",
+      "gesture": "Loop release and boundary behavior",
+      "inventory_ids": [
+        "F067",
+        "F070"
+      ],
+      "evidence_refs": [
+        "S16",
+        "S1",
+        "S24"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Two-finger downward dismissal from historical S24 commits after both releases; cancellation restores the prior loop. Exact target-build contact count, threshold and timing remain unverified.",
+      "reference_trial": "Resolve dismissal contacts and timing; compare exit with Flux on/off and loops near track boundaries.",
+      "reference_results": [],
+      "replica_results": [],
+      "primary_reference_review": "../sources/loop-dismissal-primary-frames-2026-10-29/review.json",
+      "reference_review_note": "S16 narrates a two-finger tap; S24 visually supports downward motion. Exact contacts, release timing and target 1.6.8 parity remain unresolved. No gesture change."
+    },
+    {
+      "id": "G18",
+      "gesture": "Freeze and Loop Slicer",
+      "inventory_ids": [
+        "F071",
+        "F072",
+        "F073",
+        "F074",
+        "F075",
+        "F076",
+        "F077",
+        "F141",
+        "F142"
+      ],
+      "evidence_refs": [
+        "S16",
+        "S18",
+        "S31",
+        "S1",
+        "S21"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Freeze and Loop Slicer have eight visible slices, held audition, overlapping contacts, slice quantisation and Freeze on Load. Blank regions outside the file are ignored and cannot fall through to a seek.",
+      "reference_trial": "Freeze while playing, tap/hold slices, vary zoom and move region; repeat inside a loop with each quantise setting and Freeze on Load.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-28",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G19",
+      "gesture": "Flux and overlapping releases",
+      "inventory_ids": [
+        "F078",
+        "F079",
+        "F080",
+        "F084"
+      ],
+      "evidence_refs": [
+        "S5",
+        "S1"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Renderer retains continuing position and returns on temporary release or loop exit; multi-operation original ownership remains unverified.",
+      "reference_trial": "Overlap scrub, cue, slice and loop holds; release in both orders and compare audible and continuing positions.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-26",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G20",
+      "gesture": "SuperSlicer modes",
+      "inventory_ids": [
+        "F081",
+        "F082",
+        "F083"
+      ],
+      "evidence_refs": [
+        "S10"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Three family selectors with three vertical action regions. Turntablism routes Brake/Scratch/Reverse; Pitch routes Pitch Up/Slice/Pitch Down. User-authorised provisional Loop Stutter repeats full/half/quarter playable slice, minimum one frame, at rate1. Twelve private offline checks passed before guarded integration. Curves, boundaries, release ownership and original repeat-length parity remain unverified.",
+      "reference_trial": "Establish installed modes/unlock state; compare Scratch, Brake, Reverse, Slice and Pitch-shift zones, contacts and release.",
+      "reference_results": [
+        {
+          "date": "2026-10-29",
+          "kind": "primary_announcement_video_frames",
+          "source": "S10",
+          "announced_version": "1.5",
+          "manifest": "../sources/superslicer-primary-frames-2026-10-29/review.json",
+          "confirmed": [
+            "Three stacked family selectors and three vertical action regions",
+            "Turntablism: top Brake, middle Scratch, bottom Reverse",
+            "Pitch: top Pitch Up, middle Slice, bottom Pitch Down"
+          ],
+          "contextual_inference": "First loop-arrow selector corresponds to the loop-stutter demonstration.",
+          "still_unverified": [
+            "Loop-stutter lengths and dependence on slice size",
+            "Exact hit boundaries, curves, contact priority and release",
+            "Defaults, unlock state and persistence",
+            "Target1.6.8 equivalence"
+          ]
+        }
+      ],
+      "replica_results": [
+        {
+          "date": "2026-10-29",
+          "kind": "focused_software_and_offscreen_layout",
+          "log": "../../../Replica/Validation/superslicer-geometry-focused-tests.log",
+          "tests": 9,
+          "passed": true,
+          "preview": "../../../Replica/Validation/SuperSlicerGeometry-2026-10-29-01/turntablism-pitch.png",
+          "physical_multitouch_verified": false,
+          "original_sound_verified": false
+        }
+      ],
+      "implementation_review_date": "2026-10-29",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G21",
+      "gesture": "EQ drawer, reset and multitouch",
+      "inventory_ids": [
+        "F086",
+        "F089",
+        "F090"
+      ],
+      "evidence_refs": [
+        "S16",
+        "S1"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Separate Equalizer/Filter tabs; vertical Low/Mid/High/Vol controls with centre reset and temporary second-contact values. Simultaneous release/cancellation restores the saved value. Original contact thresholds and temporary-contact policy remain unverified.",
+      "reference_trial": "Open original drawer; drag bands and volume independently, tap centres, and test second-finger temporary values/release against reference.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-28",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G22",
+      "gesture": "Two-dimensional filter",
+      "inventory_ids": [
+        "F091",
+        "F092",
+        "F093",
+        "F094"
+      ],
+      "evidence_refs": [
+        "S4",
+        "S1"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "XY touch engages cutoff/resonance; release bypasses when unlocked; Y persists.",
+      "reference_trial": "Sweep X and Y separately/together; compare centre, edges, sound, initial contact, lift, bypass and restart.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-26",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G23",
+      "gesture": "Filter lock and hidden drawer",
+      "inventory_ids": [
+        "F100",
+        "F104"
+      ],
+      "evidence_refs": [
+        "S16",
+        "S4",
+        "S1"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Filter lock retains sound after release and drawer hiding; cancellation bypasses.",
+      "reference_trial": "Lock during a held gesture; lift, hide/reopen drawer, unlock and recontact; compare sound and retained coordinates.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-26",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G24",
+      "gesture": "FX drawer, selection, XY and locks",
+      "inventory_ids": [
+        "F095",
+        "F096",
+        "F097",
+        "F098",
+        "F099",
+        "F100",
+        "F101",
+        "F102",
+        "F103",
+        "F105"
+      ],
+      "evidence_refs": [
+        "S16",
+        "S4",
+        "S1",
+        "H5"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Three selector tabs share one XY pad, following H5. Inactive tab selects; active tab opens the scrollable eleven-effect menu. Pad gestures retain their original slot until release. Eight base and three DLC names have independent DSP. Exact NI sound and mobile parameter curves remain unverified.",
+      "reference_trial": "Open drawer, tap effect, hold/drag selector down, shape XY, lock/release and hide; compare slots, tail and persisted Y.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-28",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G25",
+      "gesture": "Crossfader and headphone touch",
+      "inventory_ids": [
+        "F085",
+        "F107",
+        "F108",
+        "F109"
+      ],
+      "evidence_refs": [
+        "S1",
+        "S3",
+        "S6"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Crossfader and cue controls exist with independent mixer state; original gesture curves and action edges are unmatched.",
+      "reference_trial": "Move fader while touching EQ/filter on either deck; compare cue toggles, monitor blend and control ownership.",
+      "reference_results": [],
+      "replica_results": []
+    },
+    {
+      "id": "G26",
+      "gesture": "Hardware and touch coexistence",
+      "inventory_ids": [
+        "F113",
+        "F114",
+        "F117"
+      ],
+      "evidence_refs": [
+        "S3",
+        "S4",
+        "S1"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Original Mac Z1 MODE+ON routes filter/FX per deck, ON toggles the selected effect, and knob X preserves Y during vertical touch. Synthetic reports and mode/touch ownership are tested. iPad accessory transport and physical takeover remain unfinished.",
+      "reference_trial": "Move Z1 filter X while touching Y; compare feedback, takeover, mode changes and retained Y.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-28",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G27",
+      "gesture": "Recording, settings and help routes",
+      "inventory_ids": [
+        "F121",
+        "F124",
+        "F125",
+        "F131"
+      ],
+      "evidence_refs": [
+        "S13",
+        "S34",
+        "S31"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Recording and saved-set routes are implemented by main recreation work. A side Notification Center exposes eleven known lesson topics; original discovery/completion logic remains unimplemented.",
+      "reference_trial": "Compare recording start/stop, saved-set selection/loading/export and gesture help entry/dismissal on target build.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-28",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    },
+    {
+      "id": "G28",
+      "gesture": "Multitouch arbitration and interruption",
+      "inventory_ids": [
+        "F052",
+        "F084"
+      ],
+      "evidence_refs": [
+        "R5"
+      ],
+      "implementation_status": "partial",
+      "fidelity_status": "unverified",
+      "current_implementation": "Native contact identities, cancellation on removal/resize, loop cancellation and overlapping slice release have synthetic tests. Track/mode changes release audition and ignore old contacts until lift. Blank Freeze contacts and extra grid contacts cannot trigger unrelated actions.",
+      "reference_trial": "Exercise both decks and overlapping controls; add/remove contacts, leave bounds, cancel touches, interrupt app and rotate during a hold. Compare reference outcomes without stuck controls or unintended actions.",
+      "reference_results": [],
+      "replica_results": [],
+      "implementation_review_date": "2026-10-28",
+      "implementation_notes": "../../../Replica/Gestures.md"
+    }
+  ],
+  "implementation_validation": {
+    "focused_tests": 10,
+    "log": "../../../Replica/Validation/gesture-performance-tests.log",
+    "physical_ipad_test": false,
+    "paired_original_comparison": false,
+    "additional_development_checks": [
+      {
+        "log": "../../../Replica/Validation/cue-preview-freeze-contact-tests.log",
+        "tests": 3,
+        "scope": "Synthetic grid contact, preview return, Freeze blank-region and loop release regressions."
+      },
+      {
+        "log": "../../../Replica/Validation/gesture-mode-lifecycle-tests.log",
+        "tests": 4,
+        "scope": "Track/mode contact ownership and audition release."
+      },
+      {
+        "log": "../../../Replica/Validation/z1-touch-axis-tests.log",
+        "tests": 10,
+        "scope": "Synthetic original Z1 routing, axis ownership and cue preservation."
+      },
+      {
+        "log": "../../../Replica/Validation/dlc-complete-functional-tests.log",
+        "tests": 10,
+        "scope": "Independent DLC DSP and base effect regressions; no original sound comparison."
+      }
+    ]
+  },
+  "queued_play_user_reference": {
+    "recorded": "2026-10-28",
+    "question": "What happens if Play is pressed again while an incoming synced deck waits to start?",
+    "answer": "Cancels the pending start",
+    "scope": "Direct user report of original Traktor DJ 1.x. Does not resolve other queued actions or Sync realignment.",
+    "native_regression": "../../../Replica/Validation/queued-play-cancellation-native.log"
+  },
+  "implementation_review_2026_10_30": {
+    "status_document": "../../../Replica/Status.md",
+    "analysis_document": "../../../Replica/Analysis.md",
+    "reference_fidelity_accepted": false,
+    "scope": "Original requirements and observations are retained. Current implementation is tracked separately; an unresolved original policy is not an absent feature."
+  }
+}
