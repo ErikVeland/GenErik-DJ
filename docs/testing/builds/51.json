@@ -1,0 +1,30 @@
+{
+  "notes": "R23 expanded controller candidate: Z1 Mk1 development bridge controls/calibration/LED feedback; generic absolute, paired14bit, relative, pressure and program inputs; loop/hotcue/tempo mappings. Packet-count output validation. Physical bridge and other model profiles remain open. Build only.",
+  "sourceCommit": "a437cec2bc37506fa24c63e666e97ec53d570ed8",
+  "sourceSHA256": "da9722b15f490806d90c5159144f3f6b92543b00451c68ec8e7aab275cb6ae89",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 31.89,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-51.log",
+  "build": 51,
+  "app": "TestBuilds/ipad/51/GenErikDJ.app",
+  "appSHA256": "e78cb2ec54a2188428b92d8e76a69bc06b5bdab0f11dda283806c23c9d4a238f",
+  "state": "ready",
+  "createdUTC": "2026-11-02T13:26:09.092139+00:00",
+  "requestIDs": [
+    "R23"
+  ],
+  "acceptance": "Pending Erik. Not installed by this chat.",
+  "focusedChecks": [
+    "Swift MIDI stream checks passed",
+    "Swift value encoding checks passed",
+    "Swift bridge framing checks passed",
+    "Python Z1 relay: 7 tests passed"
+  ],
+  "limitations": [
+    "No physical bridge or Z1 acceptance",
+    "Bridge does not forward audio",
+    "Other model profiles and native adapters remain open"
+  ]
+}

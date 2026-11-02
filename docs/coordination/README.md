@@ -6,7 +6,7 @@ Updated 2 November 2026, Australia/Brisbane. This is the current project entry p
 
 ## Goal
 
-Current completion scope: [remaining app work](completion-programme.md) and [all Traktor controller models](controller-coverage.md), with an allowed hardware bridge where necessary. Original Z1 is first for Erik's hardware testing.
+Current completion scope: [remaining app work](completion-programme.md) and [all NI and class-compliant MIDI controllers](controller-coverage.md), with an allowed hardware bridge where necessary. Original Z1 is first for Erik's hardware testing.
 
 Build Erik's personal successor to the DJ software he has used for 13 years. Preserve the TDJ1 touch workflow and make the sound, preparation and performance controls dependable enough for his real gigs. Visual polish and personalised features must support that workflow.
 
@@ -16,13 +16,13 @@ The release standard is Erik's acceptance on his real setup. A successful build 
 
 - Active development branch: `feature/project-integration`.
 - Remote backup: `origin/feature/project-integration`. Review: [draft PR #3](https://github.com/ErikVeland/GenErik-DJ/pull/3), against `main`.
-- Prepared controller candidate: build 49, application source `430177c4ff036278c0c1d5dec0bad327391b1b74`. Installed Scratch candidate: build 46.
+- Prepared controller candidate: build 51, application source `a437cec2bc37506fa24c63e666e97ec53d570ed8`. Installed Scratch candidate: build 46.
 - Shared uncommitted work was backed up and committed as `7a974c385`.
 - Current remote main, full-library search, adaptive beatgrids and A10X reverb are included by merge history.
 - Browser merge resolution preserves full-library search and the iPad layout constraints.
 - Earlier chats were stopped. Later user-requested Scratch and gig-blocker work is recorded separately. This chat has not spawned agents. Shared builds and device handovers must remain coordinated.
 - Historical combined source `335cec6b7` passed 688 Release tests. Later Scratch/controller changes have their own focused checks and signed iPad build records. Routine Mac/simulator/full-suite runs are disabled by the current iPad loop policy.
-- Build 45 was installed and launched, then Scratch build 46 replaced it. Controller build 49 is prepared only. Erik's acceptance remains open.
+- Build 45 was installed and launched, then Scratch build 46 replaced it. Controller build 51 is prepared only. Erik's acceptance remains open.
 
 ## One working system
 

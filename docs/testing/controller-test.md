@@ -1,6 +1,6 @@
 # Original Z1 connection test
 
-Use the prepared controller candidate identified in its build record. This test establishes the connection route first. It does not certify complete Z1 support.
+Use build 51, prepared but not installed by this chat. This test establishes the connection route first. It does not certify complete Z1 support.
 
 1. Connect and power the original Z1 using its normal iPad connection.
 2. Open **Settings → Controllers**.
@@ -19,6 +19,12 @@ If a usable MIDI input appears:
 5. Move the control again and check its response.
 6. Test transport buttons only when ready for them to operate playback.
 
-Use absolute knobs/faders and momentary buttons for this first increment. Relative encoders, jogs, lights and displays are not implemented. The app ignores unsupported message types. Input overload disconnects controller input instead of processing an unlimited backlog.
+Start with absolute knobs/faders and momentary buttons. Build 51 also supports paired 14-bit CCs, three relative encoder formats, pressure and program-change buttons. Select the correct encoding and reverse direction when required. Generic jog/touch behaviour, lights and displays remain open. Input overload disconnects controller input instead of processing an unlimited backlog.
 
 If the Z1 appears only as an accessory or audio route, report that result. Do not treat audio routing as proof of button/fader support. That result directs the accessory-protocol or permitted bridge implementation.
+
+## Optional development bridge
+
+Use the [original Z1 bridge guide](../../tools/controller_bridge/README.md) only with a configured Linux USB host/device bridge. Select its MIDI input, enable **Original Z1 through GenErik bridge**, then select its feedback output. Verify calibration before testing the crossfader.
+
+This bridge software has not been tested with physical hardware. It does not forward Z1 audio. Use a separate supported iPad audio route until audio bridging is implemented and tested.

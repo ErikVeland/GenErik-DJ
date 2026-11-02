@@ -1,4 +1,27 @@
-# Controller input checks
+# Controller checks — build 51
+
+Application source: `a437cec2bc37506fa24c63e666e97ec53d570ed8`. Request R23 covers all NI and class-compliant MIDI controllers, with original Z1 first.
+
+## Verified software increment
+
+- Swift MIDI stream checks passed: fragmentation, running status, note release, system/clock handling, pitch bend, pressure and program events.
+- Swift value checks passed: paired 14-bit CCs and three relative encodings, including incomplete pairs and direction.
+- Swift bridge framing checks passed: packing, fragmentation, clock, checksum/length rejection and recovery.
+- Python Z1 relay checks passed: seven cases covering codec/report validation, partial HID writes and late app attachment.
+- Signed iPad build 51 completed in 31.89 seconds. Saved app version, source fingerprint, app hash and strict signature verification match its tracked build record.
+
+The final build log has an existing iPad orientation warning. It has no compiler error diagnostics. No Mac application, simulator or full-suite run was used. The Swift checks compile only the small protocol sources.
+
+## Hardware acceptance pending
+
+Build 51 is prepared only. This chat did not install it or interrupt the installed test app. No physical Z1 bridge, MIDI Learn response, LED timing or controller audio has been accepted. The Linux relay needs a configured USB MIDI gadget. It does not forward audio.
+
+Other models need verified profiles and, where applicable, native adapters. Generic Learn does not establish jog/touch, display, motor or audio support. See the [research register](../../../coordination/controller-research.md) and [controller test](../../controller-test.md).
+
+Local logs: `TestBuilds/ipad/build-51.log`; focused pre-implementation failures under `/tmp/generik-controller-*-red.log` and `/tmp/generik-z1-bridge-python-red.log`. These are local evidence, not portable build artifacts.
+
+## Earlier increment
+
 
 Source: `430177c4ff036278c0c1d5dec0bad327391b1b74`.
 
