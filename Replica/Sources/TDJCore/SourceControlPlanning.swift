@@ -4,7 +4,7 @@ extension SourceControl {
     public var deck: DeckID? {
         switch self {
         case .tempo: nil
-        case .play(let deck, _), .sync(_, let deck, _), .restoreSync(let deck, _), .keylock(_, let deck, _),
+        case .brake(_, _, let deck, _), .play(let deck, _), .freeRate(_, let deck, _), .sync(_, let deck, _), .restoreSync(let deck, _), .keylock(_, let deck, _),
              .grid(_, let deck, _), .adaptiveMap(_, let deck, _), .seek(_, let deck, _), .cueRecall(let deck, _, _, _, _),
              .performance(_, let deck, _, _, _, _, _, _): deck
         }
@@ -12,7 +12,7 @@ extension SourceControl {
     public var generation: UInt64? {
         switch self {
         case .tempo: nil
-        case .play(_, let generation), .sync(_, _, let generation), .restoreSync(_, let generation), .keylock(_, _, let generation),
+        case .brake(_, _, _, let generation), .play(_, let generation), .freeRate(_, _, let generation), .sync(_, _, let generation), .restoreSync(_, let generation), .keylock(_, _, let generation),
              .grid(_, _, let generation), .adaptiveMap(_, _, let generation), .seek(_, _, let generation),
              .cueRecall(_, let generation, _, _, _),
              .performance(_, _, let generation, _, _, _, _, _): generation
@@ -36,6 +36,8 @@ extension SourceControl {
         switch self {
         case .tempo(let bpm):
             if state.synced, state.sourceBPM > 0 { target.speed = bpm / state.sourceBPM }
+        case .freeRate(let rate, _, _):
+            if !state.synced { target.speed=rate }
         case .sync(let enabled, _, _):
             target.speed = enabled && state.sourceBPM > 0 ? snapshot.masterBPM / state.sourceBPM
                 : state.phase == .playing || state.phase == .paused ? state.speed : state.freeRate
@@ -100,18 +102,28 @@ extension SourceControl {
                 target.reserveContinuing = enabled && (state.touchActive || state.loopEnabled)
                 target.continuingPosition = state.sourceFrame
             }
+        case .brake: break
         case .play:
             if state.phase == .ended {
                 target.position=0; target.continuingPosition=0; preservePending=false
             }
         }
-        if state.synced, let map=state.adaptiveMap {
+        let proposedSynced: Bool
+        switch self {
+        case .restoreSync: proposedSynced=true
+        case .sync(let enabled, _, _): proposedSynced=enabled
+        default: proposedSynced=state.synced
+        }
+        if proposedSynced, let map=state.adaptiveMap {
             let master: Double
             if case .tempo(let bpm)=self { master=bpm } else { master=snapshot.masterBPM }
             for pair in zip(map.anchors, map.anchors.dropFirst()) {
                 let bpm=60*map.sampleRate*(pair.1.beat-pair.0.beat)/(pair.1.frame-pair.0.frame)
                 target.speed=max(target.speed,master/bpm)
             }
+        }
+        if state.recoveryActive && !heldLoop && !state.loopEnabled {
+            target.loopStart = state.recoveryStart; target.loopEnd = state.recoveryEnd
         }
         var targets = [target]
         if preservePending {
@@ -129,6 +141,12 @@ extension SourceControl {
                 if state.pendingTouchRateValid { pending.performanceRate = state.pendingTouchRate }
             }
             targets.append(pending)
+        }
+        if state.recoveryArmed && state.recoveryStart >= 0 {
+            var replay = target
+            replay.position = state.recoveryStart; replay.loopStart = state.recoveryStart
+            replay.loopEnd = state.recoveryEnd; replay.performanceRate = 1; replay.reserveContinuing = false
+            targets.append(replay)
         }
         let mayChooseNativeTempo: Bool
         switch self {

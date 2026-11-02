@@ -32,6 +32,10 @@ typedef struct tdj_engine tdj_engine;
 #define TDJ_SYNC_RESTORE 17
 #define TDJ_FREE_RATE 18
 #define TDJ_ADAPTIVE_GRID 19
+#define TDJ_RECOVERY_REPLAY 20
+#define TDJ_RECOVERY_MIX 21
+#define TDJ_RECOVERY_CANCEL 22
+#define TDJ_BRAKE 23
 #define TDJ_EFFECT_DELAY 0
 #define TDJ_EFFECT_REVERB 1
 #define TDJ_EFFECT_FLANGER 2
@@ -106,7 +110,7 @@ typedef struct {
 typedef struct {
     uint64_t generation, last_start_frame;
     int32_t state, synced, keylock;
-    double source_frame, source_bpm, target_beat, source_rate, lead_in_source_frame;
+    double source_frame, source_bpm, local_bpm, target_beat, source_rate, lead_in_source_frame;
     double source_sample_rate, grid_anchor;
     tdj_beatgrid_map beatgrid;
     int32_t grid_downbeat;
@@ -118,6 +122,10 @@ typedef struct {
     int32_t touch_was_playing, jump_loop;
     double pending_touch_rate;
     int32_t pending_touch_rate_valid;
+    int32_t recovery_armed, recovery_active, recovery_mix;
+    double recovery_start, recovery_end, recovery_mix_start;
+    int32_t braking;
+    double brake_rate;
 } tdj_deck_snapshot;
 
 typedef struct {

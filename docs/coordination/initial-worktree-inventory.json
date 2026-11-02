@@ -1,0 +1,226 @@
+{
+  "date": "2026-11-02",
+  "base": "7986a6791695fd089d6cba6b0f5d83f30a8a9ec4",
+  "files": [
+    {
+      "path": "Replica/KeyGovernance.md",
+      "bytes": 5103,
+      "sha256": "d37c2803c445c25fad146a6fdc00012342d2c0d41bb366acc20a87aa0b89d04a"
+    },
+    {
+      "path": "Replica/MusicalWaveforms.md",
+      "bytes": 3181,
+      "sha256": "bbd8abdee65e120c47f8b7ac8b17c7d216c563f1f37296f1cbf396acdb67a25c"
+    },
+    {
+      "path": "Replica/Sources/CTDJTransport/TDJTransport.c",
+      "bytes": 85765,
+      "sha256": "7b1b19898c87acb88de8a688d59f4bcb90c9395f0c8e78c90330eab161f4e368"
+    },
+    {
+      "path": "Replica/Sources/CTDJTransport/include/TDJTransport.h",
+      "bytes": 6001,
+      "sha256": "191359d85df0c54c730349e0c330d8ae9fda18905babada5964a7947a399d5ad"
+    },
+    {
+      "path": "Replica/Sources/TDJCore/KeyGovernance.swift",
+      "bytes": 12768,
+      "sha256": "141f3ab001d8cf4fe06a377a1d0fd65b6ae4282603ac1d8d4d49e81bec867fd4"
+    },
+    {
+      "path": "Replica/Sources/TDJCore/KeyImportPlan.swift",
+      "bytes": 3019,
+      "sha256": "3eb5195b43ba0c16329d21290cd56051ea4165d991145047392a9084294a221f"
+    },
+    {
+      "path": "Replica/Sources/TDJCore/Models.swift",
+      "bytes": 10425,
+      "sha256": "f7b536db792235358fb6bc3677ec9b3081265e70ebae2df3a05872fc0caa6185"
+    },
+    {
+      "path": "Replica/Sources/TDJCore/PerformancePreparation.swift",
+      "bytes": 6074,
+      "sha256": "d6c428fcacd08a0e3f9e89b0295a236729d87742d14920a10d45cac6c94cd103"
+    },
+    {
+      "path": "Replica/Sources/TDJCore/Recovery.swift",
+      "bytes": 4268,
+      "sha256": "3fa86d207e9f75e2b4dfbd300694dea412074865db04e5fe8d393e8eba7140b7"
+    },
+    {
+      "path": "Replica/Sources/TDJCore/SampleTransport.swift",
+      "bytes": 28606,
+      "sha256": "a43287c71a2b8f7aa423bfa19ee59cf228f94618cfcac13063984e52752265f3"
+    },
+    {
+      "path": "Replica/Sources/TDJCore/SourceControl.swift",
+      "bytes": 3543,
+      "sha256": "614f37a979c30f0596481b0d8326899ff82d820e9b346c0338b108cbdc93c1e9"
+    },
+    {
+      "path": "Replica/Sources/TDJCore/SourceControlPlanning.swift",
+      "bytes": 9137,
+      "sha256": "d6070ba477ebf4e7be1bed5f84271190b79c515ced588dfaed292b91a820f4ff"
+    },
+    {
+      "path": "Replica/Sources/TDJCore/TrackArrangement.swift",
+      "bytes": 12768,
+      "sha256": "820affcfa078f9a67bc6ca98cfd829e4eeee02bf5ca9ddea36faec21e6a492de"
+    },
+    {
+      "path": "Replica/Sources/TDJCore/TraktorPreparationMergePlan.swift",
+      "bytes": 4604,
+      "sha256": "4338e4fbc56ea1e3971940235d1f0a8a9a33e18635e35faaba8d47145554b022"
+    },
+    {
+      "path": "Replica/Sources/TDJCore/TraktorPreparedTrack.swift",
+      "bytes": 584,
+      "sha256": "acddcd3fa9db94457114c82c060e9b1b44781cf60eb74a387f5f46725c41224c"
+    },
+    {
+      "path": "Replica/Sources/TDJCore/VinylBrake.swift",
+      "bytes": 406,
+      "sha256": "1d53e0ae9c6668645fdd1cf51299e3fe370767259ae67ef1670a94019b55b422"
+    },
+    {
+      "path": "Replica/Sources/TDJCore/Workspace.swift",
+      "bytes": 27459,
+      "sha256": "71438524fedee1de8cc44f0132a464e95d14eca070917b68f56025661d8526dd"
+    },
+    {
+      "path": "Replica/Sources/TDJInterface/ArrangementModel.swift",
+      "bytes": 5783,
+      "sha256": "d21cbcd56bfc7ade34ff3817b2de3f37e1f07bcf563a978ee450c633ae9b2276"
+    },
+    {
+      "path": "Replica/Sources/TDJInterface/ArrangementViews.swift",
+      "bytes": 14286,
+      "sha256": "00a2e2b90e99a4a963f174393f34a78e726e190bee50a0f35452ecb480cb4a37"
+    },
+    {
+      "path": "Replica/Sources/TDJInterface/BackgroundAnalysisModel.swift",
+      "bytes": 4653,
+      "sha256": "36229401136a58d205ee906a40646fbdafd349ec655af734dff3b2ba9f3b87a9"
+    },
+    {
+      "path": "Replica/Sources/TDJInterface/BrowserSections.swift",
+      "bytes": 15339,
+      "sha256": "4528ef17d2fd1c45467194e5965c9466223f320ac4640629b9e05c3f40df0128"
+    },
+    {
+      "path": "Replica/Sources/TDJInterface/LoadSliderGestureSession.swift",
+      "bytes": 1367,
+      "sha256": "b7cdd6cbe840f62f189648b89aec98e8c848c2cb7efd12f3ecdf928f6e6a21e7"
+    },
+    {
+      "path": "Replica/Sources/TDJInterface/NativeMusicModel.swift",
+      "bytes": 13965,
+      "sha256": "2431d2673ca0b4eac8be29601abb0bcd2ad09640967af11a7783ff912f40dcde"
+    },
+    {
+      "path": "Replica/Sources/TDJInterface/PlaybackController.swift",
+      "bytes": 37534,
+      "sha256": "45129a3fecbf73d7588772838b8098045c3cf8a68740937fa85c6f530c91f0a1"
+    },
+    {
+      "path": "Replica/Sources/TDJInterface/PlaybackSettings.swift",
+      "bytes": 2828,
+      "sha256": "a6625bb2898820407de8cc1b8ebb7af667208e4b0e347e8ecb87321e9e964857"
+    },
+    {
+      "path": "Replica/Sources/TDJInterface/RecoveryController.swift",
+      "bytes": 5539,
+      "sha256": "df74bed421955e627d27ca71ee241ff56005d6d8878fbeeeaa0a446010808c81"
+    },
+    {
+      "path": "Replica/Sources/TDJInterface/RecoveryModel.swift",
+      "bytes": 7571,
+      "sha256": "46f2c0e67e63d662343da356a68fb8ded048788f0fd0be96dc0216706c33cf38"
+    },
+    {
+      "path": "Replica/Sources/TDJInterface/RecoverySettingsView.swift",
+      "bytes": 1821,
+      "sha256": "ca10e2e65e1a9b313013f0e0e846d24fd2db61f799704d3e28ac5702b51951d5"
+    },
+    {
+      "path": "Replica/Sources/TDJInterface/ReplicaModel.swift",
+      "bytes": 59567,
+      "sha256": "88d8f2b74eae19b9ab40eddd1ddca32c388e20640efe6dcffdb05750e6d15b58"
+    },
+    {
+      "path": "Replica/Sources/TDJInterface/ReplicaView.swift",
+      "bytes": 56210,
+      "sha256": "defd6b8833cb97db868fe60bccc4ca3996be1e4b4e6d5d113ae51c2d03286993"
+    },
+    {
+      "path": "Replica/Sources/TDJInterface/VinylBrakeControl.swift",
+      "bytes": 5125,
+      "sha256": "2d82c2e58924cc2ddd4eb563256896a19abc8d4802af15b954a91e5af29f0624"
+    },
+    {
+      "path": "Replica/Sources/TDJTool/TDJTool.swift",
+      "bytes": 10413,
+      "sha256": "5387864ce997b52c3e3d43442b56436f679ea51204fbafeb6cfbde3607bcf4ea"
+    },
+    {
+      "path": "Replica/Tests/TDJCoreTests/ArrangementTimingTests.swift",
+      "bytes": 1918,
+      "sha256": "f6dc3bfb738dca8975678cc390fa0c9c8cc3348de5bc3c238fecb34b4be8ee37"
+    },
+    {
+      "path": "Replica/Tests/TDJCoreTests/KeyGovernanceTests.swift",
+      "bytes": 10080,
+      "sha256": "8c3e925aca2649fa1798979256e41fbcab6c9ffa0e8f784132f8e61a159fec39"
+    },
+    {
+      "path": "Replica/Tests/TDJCoreTests/RecoveryTests.swift",
+      "bytes": 8588,
+      "sha256": "74f8622eb7cfdba399c1e5a7be3f867d673ba9fd9624f370d22b55d4504a7823"
+    },
+    {
+      "path": "Replica/Tests/TDJCoreTests/TrackArrangementTests.swift",
+      "bytes": 4496,
+      "sha256": "ff01440d8540a8e66835ebdab49056bb6c5784accf91cf47e6c5bc1bd1be102f"
+    },
+    {
+      "path": "Replica/Tests/TDJCoreTests/VinylBrakeTests.swift",
+      "bytes": 11843,
+      "sha256": "b5615bb6b7a4ca9cd393864c5b5316e6168b91e7056b9c0fe64a9f6448244539"
+    },
+    {
+      "path": "Replica/Tests/TDJInterfaceTests/ArrangementIntegrationTests.swift",
+      "bytes": 3955,
+      "sha256": "27bab4e978fddee41d40b492cf6be95b3a02b24a3c57cad35b2f85158357c6a1"
+    },
+    {
+      "path": "Replica/Tests/TDJInterfaceTests/LoadSliderGestureTests.swift",
+      "bytes": 3011,
+      "sha256": "4f9ca7610a97ab1564d341dcd8f20592c8ac7e02add3d2155deb3a8acfae00d9"
+    },
+    {
+      "path": "Replica/Tests/TDJInterfaceTests/NativeMusicLoadOwnershipTests.swift",
+      "bytes": 15389,
+      "sha256": "919d7988ec67c411750d440e2c8e21b96f4ef68d0f8762218d3dff8e30058425"
+    },
+    {
+      "path": "Replica/Tests/TDJInterfaceTests/RecoveryIntegrationTests.swift",
+      "bytes": 3898,
+      "sha256": "c20b8d24d8a38fb0412fbf795cf63cb842db916b0115e38ff587fda92a5c5da4"
+    },
+    {
+      "path": "Replica/Tests/TDJInterfaceTests/VinylBrakeGestureTests.swift",
+      "bytes": 4852,
+      "sha256": "ecc620458ae83d061cf10f37f1b1548bcc6aac61ad9b9d3b5fd83a7498fa5397"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-11-02-key-governance.md",
+      "bytes": 1487,
+      "sha256": "5d1b32044707bf56a6b041af1c9f905997364cfefa139d3265f8c2f98cec3643"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-11-02-recovery-loop.md",
+      "bytes": 2155,
+      "sha256": "bf6df209369a0d112ab11bb7423d531ce37b8a2efeaa2863430359d0428e78e8"
+    }
+  ]
+}

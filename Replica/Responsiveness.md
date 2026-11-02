@@ -130,3 +130,9 @@ The [later live Mac check](Validation/LiveMacControls-2026-10-29-01/manifest.jso
 ## Current scheduling and source boundary
 
 Analysis quality is the current development priority, while real-time output and live control retain runtime scheduling precedence. The analysis queue remains serial and background-priority. The current output callback is the Objective-C++ bridge into the C renderer/recorder. Private fractional-span and FX display candidates are not current production merely because their isolated reports pass. Use Status.md and exact source hashes to distinguish promoted and private work.
+
+## Adaptive beatgrid implementation — 2 November 2026
+
+Adaptive timing maps, background candidates, safe native activation and editor correction/undo/locking are implemented on `feature/adaptive-beatgrids`. Legacy fixed preparation passes the retained byte comparison. The isolated editor follow-up passed 627 serial Release tests and generic iPad SDK compilation. A separate frozen 0.3.1 audio snapshot passed fixed and adaptive one-minute and five-minute Mac workloads, with unchanged limits and matching recording frame counts.
+
+[The source-bound report](Validation/AdaptiveBeatgridReliability-2026-11-02-01/README.md) retains both snapshots, their exact hashes and earlier failures. Newer shared audio-route, scratch and native-harness edits are outside that qualification. Current working-tree, real-music listening, complete combined stress and physical A10X acceptance remain open. This task did not operate the iPad. Task 6 is incomplete.

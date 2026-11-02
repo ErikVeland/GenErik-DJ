@@ -11,6 +11,8 @@ struct BrowserLayoutState: Equatable {
     private(set) var categoryOffset: Double = 0
     static let flickVelocity = 600.0
 
+    init(categoriesHidden: Bool = false) { self.categoriesHidden = categoriesHidden }
+
     /// The list shows its own key and BPM columns and the Edit button once the detail pane is away.
     var listShowsTempoAndKey: Bool { detailHidden }
 

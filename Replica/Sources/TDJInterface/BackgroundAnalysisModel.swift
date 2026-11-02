@@ -81,7 +81,7 @@ extension ReplicaModel {
                                        sampleRate: track.analysis.sampleRate, downbeatOffset: hint.downbeatOffset ?? 0) else { return }
         var preparation = track.preparation
         preparation.grid = grid
-        if preparation.correctedKey == nil { preparation.correctedKey = hint.key }
+        preparation.importKey(hint.key, authority: .independent)
         do { adoptLibrary(try await service.updatePreparation(trackID: trackID, preparation: preparation)) }
         catch { logAnalysis("Could not apply mix grid: \(error.localizedDescription)") }
     }

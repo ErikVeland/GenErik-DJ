@@ -6,8 +6,9 @@ struct LoadSliderGestureSession {
     private var originY = 0.0
     private var waitingForRelease = false
     private(set) var offset = 0.0
+    private(set) var armedDeck: DeckID?
 
-    mutating func handle(_ event: SurfaceEvent, height: Double) -> DeckID? {
+    mutating func handle(_ event: SurfaceEvent, height: Double, maximumTravel: Double = 18) -> DeckID? {
         if event.phase == .cancelled {
             self = Self()
             return nil
@@ -21,9 +22,12 @@ struct LoadSliderGestureSession {
         }
         guard let owner, let point = event.points.first(where: { $0.id == owner }) else { return nil }
         let distance = (point.y - originY) * height
-        offset = min(18,max(-18,distance))
+        let travel = max(2, maximumTravel)
+        offset = min(travel,max(-travel,distance))
+        let threshold = travel - 2
+        armedDeck = distance <= -threshold ? .a : distance >= threshold ? .b : nil
         guard event.phase == .ended, event.ending.contains(owner) else { return nil }
-        let destination: DeckID? = distance <= -16 ? .a : distance >= 16 ? .b : nil
+        let destination = armedDeck
         self = Self()
         waitingForRelease = !event.remaining.isEmpty
         return destination

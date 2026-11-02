@@ -33,13 +33,20 @@ typedef struct {
     double stream_fade;
     float stream_last_l,stream_last_r;
     bool stream_failed;
+    bool recovery_armed, recovery_active, recovery_mix, recovery_mixing;
+    double recovery_start, recovery_end, recovery_mix_start, recovery_incoming;
+    uint64_t recovery_incoming_generation;
+    bool braking, brake_primed;
+    double brake_rate, brake_seconds, brake_strength, brake_target_strength;
+    double brake_phase, brake_cursor;
+    float brake_l[2], brake_r[2];
 } deck;
 
 // Atomic fields make the snapshot race-free under the C memory model.
 typedef struct {
     _Atomic uint64_t generation, last_start;
     _Atomic int32_t state, synced, keylock;
-    _Atomic double position, bpm, target, rate, lead;
+    _Atomic double position, bpm, local_bpm, target, rate, lead;
     _Atomic double source_sample_rate, grid_anchor;
     _Atomic int32_t grid_downbeat;
     _Atomic uint32_t map_count;
@@ -47,12 +54,16 @@ typedef struct {
     _Atomic double map_rate, map_beats[TDJ_MAX_GRID_ANCHORS], map_frames[TDJ_MAX_GRID_ANCHORS];
     _Atomic double volume, gain, low, mid, high, cue, filter_x, filter_y, peak;
     _Atomic int32_t filter_enabled;
+    _Atomic int32_t recovery_armed, recovery_active, recovery_mix;
+    _Atomic double recovery_start, recovery_end, recovery_mix_start;
     _Atomic int32_t loop_enabled, flux_enabled, touch_active, jump_pending;
     _Atomic double loop_start, loop_end, continuing, performance_rate;
     _Atomic double free_rate, touch_start, touch_end, jump_frame, jump_beat, pending_touch_end, pending_loop_end;
     _Atomic int32_t touch_was_playing, jump_loop;
     _Atomic double pending_touch_rate;
     _Atomic int32_t pending_touch_rate_valid;
+    _Atomic int32_t braking;
+    _Atomic double brake_rate;
 } atomic_deck;
 
 typedef struct { tdj_asset *asset;uint64_t ticket,serial;unsigned decks;bool pending; } stream_claim;
@@ -223,12 +234,52 @@ static void effect_clock(tdj_engine *e,int index,double *bpm,double *beat) {
 static void set_performance_rate(tdj_engine *e,int index,double value) {
     deck *d=&e->decks[index];
     bool crossing=(d->performance_rate==1)!=(value==1);
+    bool silence_boundary=(d->performance_rate==0)!=(value==0);
     if(crossing)tdj_keylock_reset(e->keylocks[index]);
     d->performance_rate=value;
-    if(value!=1) {
-        e->transitions[index].pending=false;e->transitions[index].remaining=0;
-    } else if(crossing && d->keylock && fabs(source_rate(e,d)-1)>1e-12) {
-        transition_request(e,index,0);
+    // Preserve emitted output across pipeline changes and held stops. Ordinary
+    // nonzero raw-rate updates keep their continuous cursor and existing ramp.
+    if(crossing || silence_boundary)transition_request(e,index,0);
+}
+static void brake_clear(tdj_engine *e,int index) {
+    deck *d=&e->decks[index];
+    if(!d->braking)return;
+    d->braking=false;d->brake_primed=false;d->brake_rate=0;
+    tdj_keylock_reset(e->keylocks[index]);transition_request(e,index,0);
+}
+static void brake_input(tdj_engine *e,int index,double position,double start,double end,float *l,float *r) {
+    deck *d=&e->decks[index];
+    if(d->asset->stream)tdj_keylock_sample_stream_spans(e->keylocks[index],d->asset,
+        tdj_stream_render_read_stereo,tdj_stream_render_span,d->asset->frames,d->asset->rate,
+        position,d->free_rate,d->keylock,start,end,l,r);
+    else tdj_keylock_sample_loop(e->keylocks[index],d->asset->samples,d->asset->frames,
+        d->asset->rate,position,d->free_rate,d->keylock,start,end,l,r);
+}
+static double brake_cursor_next(deck *d,double cursor,double step,double start,double end) {
+    cursor+=step;
+    if(end>start)cursor=start+fmod(fmax(0,cursor-start),end-start);
+    return fmax(0,fmin(d->asset->frames-1,cursor));
+}
+static void brake_sample(tdj_engine *e,int index,double start,double end,float *l,float *r) {
+    deck *d=&e->decks[index];double step=d->asset->rate/e->rate*d->free_rate;
+    if(!d->brake_primed) {
+        d->brake_cursor=d->position;d->brake_phase=0;
+        brake_input(e,index,d->brake_cursor,start,end,&d->brake_l[0],&d->brake_r[0]);
+        d->brake_cursor=brake_cursor_next(d,d->brake_cursor,step,start,end);
+        brake_input(e,index,d->brake_cursor,start,end,&d->brake_l[1],&d->brake_r[1]);
+        d->brake_primed=true;
+    }
+    *l=d->brake_l[0]+(d->brake_l[1]-d->brake_l[0])*d->brake_phase;
+    *r=d->brake_r[0]+(d->brake_r[1]-d->brake_r[0])*d->brake_phase;
+    // A short source envelope reaches zero before the paused path takes over.
+    double remaining=d->brake_rate*e->rate*d->brake_seconds/d->brake_strength;
+    double gain=remaining<=1.00001 ? 0:fmin(1,(remaining-1)/(e->rate*0.002));
+    *l*=gain;*r*=gain;
+    d->brake_phase+=d->brake_rate;
+    if(d->brake_phase>=1) {
+        d->brake_phase-=1;d->brake_l[0]=d->brake_l[1];d->brake_r[0]=d->brake_r[1];
+        d->brake_cursor=brake_cursor_next(d,d->brake_cursor,step,start,end);
+        brake_input(e,index,d->brake_cursor,start,end,&d->brake_l[1],&d->brake_r[1]);
     }
 }
 static double maximum_source_rate(deck *d,double master) {
@@ -243,6 +294,7 @@ static tdj_stream_target stream_target(deck *d,double master) {
     double start=0,end=0;
     if(d->touch_active && d->touch_end>d->touch_start){start=d->touch_start;end=d->touch_end;}
     else if(d->loop_enabled){start=d->loop_start;end=d->loop_end;}
+    else if(d->recovery_active){start=d->recovery_start;end=d->recovery_end;}
     return (tdj_stream_target){.position=d->position,
         .source_speed=maximum_source_rate(d,master),
         .performance_rate=d->performance_rate,.loop_start=start,.loop_end=end,
@@ -257,6 +309,14 @@ static int deck_request(tdj_engine *e,deck *d,double master,bool reserve,tdj_str
     tdj_stream_target t=stream_target(d,master);
     int status=tdj_stream_plan(d->asset,&t,e->frame+1,d->generation,reserve,r);
     if(status<0)return status;
+    if(d->recovery_armed && d->recovery_start>=0) {
+        tdj_stream_target replay=t;
+        replay.position=d->recovery_start;replay.loop_start=d->recovery_start;replay.loop_end=d->recovery_end;
+        replay.performance_rate=1;replay.reserve_continuing=false;
+        tdj_stream_request pending;
+        status=tdj_stream_plan(d->asset,&replay,e->frame+1,d->generation,reserve,&pending);
+        if(status<0 || !append_request(r,&pending))return TDJ_STREAM_CAPACITY;
+    }
     if(d->jump_pending) {
         t.position=d->jump_frame;
         if(d->jump_loop){
@@ -279,6 +339,12 @@ static unsigned future_targets(deck *d,double master,unsigned timeline,unsigned 
     bool continuing=moving && ((d->touch_active && d->touch_was_playing) || (d->loop_enabled && !d->touch_active));
     tdj_stream_target t=stream_target(d,master);
     out[0]=(tdj_stream_future){t,moving,continuing,timeline,timeline};
+    if(d->recovery_armed && d->recovery_start>=0) {
+        t.position=d->recovery_start;t.loop_start=d->recovery_start;t.loop_end=d->recovery_end;
+        t.reserve_continuing=false;t.performance_rate=1;
+        out[1]=(tdj_stream_future){t,0,0,pending_timeline,pending_timeline};
+        return 2;
+    }
     if(!d->jump_pending)return 1;
     t.position=d->jump_frame;
     if(d->jump_loop) {
@@ -346,11 +412,18 @@ static void add_claim(tdj_engine *e,tdj_asset *asset,uint64_t ticket,unsigned de
     slot->pending=pending;
 }
 static bool supported_keylock_rate(double speed) { return isfinite(speed) && speed >= 0.125 && speed <= 8; }
+static bool supported_deck_keylock(deck *d,double master) {
+    if(!d->synced || !d->map.count)return supported_keylock_rate(d->synced && d->bpm>0 ? master/deck_bpm(d):d->free_rate);
+    for(unsigned k=1;k<d->map.count;k++) {
+        double bpm=60*d->map.sample_rate*(d->map.beats[k]-d->map.beats[k-1])/(d->map.frames[k]-d->map.frames[k-1]);
+        if(!supported_keylock_rate(master/bpm))return false;
+    }
+    return true;
+}
 static void anchor_clock(tdj_engine *e, double beat) { e->epoch_ticks = beat * (60 * e->rate); e->epoch_frame = e->frame; }
 static int start_deck(tdj_engine *e,deck *d,deck *other,uint64_t ticket,uint64_t generation) {
         double proposed_bpm = (!e->running && !e->master_chosen && d->bpm > 0) ? deck_bpm(d) : e->bpm;
-        double proposed_rate = d->synced && d->bpm > 0 ? proposed_bpm/deck_bpm(d) : d->free_rate;
-        if (d->keylock && !supported_keylock_rate(proposed_rate)) return TDJ_KEYLOCK_RANGE;
+        if (d->keylock && !supported_deck_keylock(d,proposed_bpm)) return TDJ_KEYLOCK_RANGE;
         deck starting=*d;
         starting.state=d->synced && other->synced && other->state==TDJ_PLAYING ? TDJ_QUEUED:TDJ_PLAYING;
         int stream_status=stream_validate(e,other==&e->decks[0] ? 1:0,&starting,proposed_bpm,ticket,generation);
@@ -398,6 +471,9 @@ static void publish(tdj_engine *e) {
         atomic_store(&p->low,m->low.target); atomic_store(&p->mid,m->mid.target); atomic_store(&p->high,m->high.target);
         atomic_store(&p->cue,m->cue.target); atomic_store(&p->filter_x,m->filter_x); atomic_store(&p->filter_y,m->filter_y);
         atomic_store(&p->filter_enabled,m->filter_enabled); atomic_store(&p->peak,m->peak);
+        atomic_store(&p->recovery_armed,d->recovery_armed);atomic_store(&p->recovery_active,d->recovery_active);
+        atomic_store(&p->recovery_mix,d->recovery_mix);atomic_store(&p->recovery_start,d->recovery_start);
+        atomic_store(&p->recovery_end,d->recovery_end);atomic_store(&p->recovery_mix_start,d->recovery_mix_start);
         atomic_store(&p->loop_enabled,d->loop_enabled); atomic_store(&p->flux_enabled,d->flux_enabled);
         atomic_store(&p->touch_active,d->touch_active); atomic_store(&p->jump_pending,d->jump_pending);
         atomic_store(&p->loop_start,d->loop_start); atomic_store(&p->loop_end,d->loop_end);
@@ -410,7 +486,8 @@ static void publish(tdj_engine *e) {
         atomic_store(&p->generation, d->generation); atomic_store(&p->last_start, d->last_start);
         atomic_store(&p->state, d->state); atomic_store(&p->synced, d->synced);
         atomic_store(&p->keylock, d->keylock);
-        atomic_store(&p->position, d->position); atomic_store(&p->bpm, deck_bpm(d));
+        atomic_store(&p->braking,d->braking);atomic_store(&p->brake_rate,d->brake_rate);
+        atomic_store(&p->position, d->position); atomic_store(&p->bpm, d->bpm); atomic_store(&p->local_bpm,deck_bpm(d));
         atomic_store(&p->source_sample_rate,d->asset ? d->asset->rate:0);
         atomic_store(&p->grid_anchor,d->anchor);atomic_store(&p->grid_downbeat,(int32_t)d->downbeat);
         if(d->map_dirty) {
@@ -449,11 +526,14 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
         }
         atomic_deck *p = &e->published[i];
         atomic_init(&p->generation, 0); atomic_init(&p->last_start, 0); atomic_init(&p->state, 0);
-        atomic_init(&p->synced, 0); atomic_init(&p->position, 0); atomic_init(&p->bpm, 0);
+        atomic_init(&p->synced, 0); atomic_init(&p->position, 0); atomic_init(&p->bpm, 0);atomic_init(&p->local_bpm,0);
         atomic_init(&p->keylock, 0);
+        atomic_init(&p->braking,0);atomic_init(&p->brake_rate,0);
         atomic_init(&p->map_count,0);atomic_init(&p->map_downbeat,0);atomic_init(&p->map_rate,0);
         for(unsigned k=0;k<TDJ_MAX_GRID_ANCHORS;k++) { atomic_init(&p->map_beats[k],0);atomic_init(&p->map_frames[k],0); }
         atomic_init(&p->source_sample_rate,0);atomic_init(&p->grid_anchor,0);atomic_init(&p->grid_downbeat,0);
+        atomic_init(&p->recovery_armed,0);atomic_init(&p->recovery_active,0);atomic_init(&p->recovery_mix,0);
+        atomic_init(&p->recovery_start,0);atomic_init(&p->recovery_end,0);atomic_init(&p->recovery_mix_start,0);
         atomic_init(&p->loop_enabled,0); atomic_init(&p->flux_enabled,0);
         atomic_init(&p->touch_active,0); atomic_init(&p->jump_pending,0);
         atomic_init(&p->loop_start,0); atomic_init(&p->loop_end,0);
@@ -575,6 +655,13 @@ static bool nearest_sync_position(tdj_engine *e,deck *d,double *position) {
     *position=candidate;return true;
 }
 
+static void cancel_recovery(tdj_engine *e,int index) {
+    deck *d=&e->decks[index];
+    d->recovery_armed=false;d->recovery_active=false;d->recovery_mix=false;d->recovery_mixing=false;
+    deck *other=&e->decks[1-index];
+    if(other->recovery_mix){other->recovery_mix=false;other->recovery_mixing=false;}
+}
+
 static int apply(tdj_engine *e, tdj_command c) {
     if(c.kind==TDJ_FX) {
         int slot=c.flag>>8,kind=c.flag&127;
@@ -624,7 +711,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (!isfinite(c.value) || c.value <= 0 || c.value > 1000) return TDJ_INVALID;
         for (int i = 0; i < 2; ++i) {
             deck *d = &e->decks[i];
-            if (d->asset && d->keylock && d->synced && d->bpm > 0 && !supported_keylock_rate(c.value/deck_bpm(d)))
+            if (d->asset && d->keylock && d->synced && d->bpm > 0 && !supported_deck_keylock(d,c.value))
                 return TDJ_KEYLOCK_RANGE;
         }
         for(int i=0;i<2;i++) if(e->decks[i].asset) {
@@ -642,6 +729,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         for (int i = 0; i < 2; ++i) {
             deck *d=&e->decks[i];
             if (d->state == TDJ_PLAYING || d->state == TDJ_QUEUED) d->state = TDJ_PAUSED;
+            brake_clear(e,i);
             d->touch_active=false; d->jump_pending=false; d->performance_rate=1;
             release_deck_claims(e,(unsigned)i);
         }
@@ -662,6 +750,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             if(!tdj_beatgrid_validate(c.beatgrid,c.asset->frames) || c.beatgrid.sample_rate!=c.asset->rate || c.value2<=0)return TDJ_INVALID;
             proposed.map=c.beatgrid;
         }
+        if(proposed.keylock && !supported_deck_keylock(&proposed,(!e->running && !e->master_chosen) ? deck_bpm(&proposed):e->bpm))return TDJ_KEYLOCK_RANGE;
         bool already=d->asset==c.asset || other->asset==c.asset;
         int attachment=tdj_stream_attach(c.asset,e);if(attachment!=TDJ_OK)return attachment;
         if(e->maximum_output_frames)tdj_stream_set_maximum_output_frames(c.asset,e->maximum_output_frames);
@@ -681,6 +770,70 @@ static int apply(tdj_engine *e, tdj_command c) {
         return TDJ_OK;
     }
     if (!d->asset || c.generation != d->generation) return TDJ_STALE;
+    if(c.kind==TDJ_RECOVERY_CANCEL) {cancel_recovery(e,c.deck);return TDJ_OK;}
+    if(c.kind==TDJ_RECOVERY_REPLAY) {
+        if(d->state!=TDJ_PLAYING || d->braking || d->loop_enabled || d->touch_active || d->jump_pending || d->performance_rate!=1)return TDJ_PROTECTED;
+        if(!isfinite(c.value) || !isfinite(c.value2) || c.value<0 || c.value2>d->asset->frames ||
+           c.value2-c.value<1 || d->position>=c.value2 || d->bpm<=0)return TDJ_INVALID;
+        deck proposed=*d;proposed.recovery_armed=true;proposed.recovery_active=false;
+        proposed.recovery_start=c.value;proposed.recovery_end=c.value2;
+        int status=stream_validate(e,c.deck,&proposed,e->bpm,c.preparation_ticket,c.generation);
+        if(status!=TDJ_OK)return status;
+        *d=proposed;return TDJ_OK;
+    }
+    if(c.kind==TDJ_RECOVERY_MIX) {
+        if(!d->synced || d->bpm<=0 || d->state!=TDJ_PLAYING || d->braking || d->loop_enabled || d->touch_active || d->jump_pending || d->performance_rate!=1)return TDJ_PROTECTED;
+        if(!other->asset || other->generation!=c.preparation_generation_b)return TDJ_STALE;
+        mixer_deck *channel=&e->mix.decks[1-c.deck];
+        if(channel->volume.target<=0.001 || channel->gain.target<=0.001 ||
+           (channel->filter_enabled && fabs(channel->filter_x)>0.99))return TDJ_PROTECTED;
+        if(other->state==TDJ_PLAYING || other->state==TDJ_QUEUED || other->loop_enabled || other->touch_active || other->jump_pending || other->bpm<=0)return TDJ_PROTECTED;
+        if(!isfinite(c.value) || !isfinite(c.value2) || !isfinite(c.value3) || c.value<=d->position ||
+           c.value>=c.value2 || c.value2>d->asset->frames || (d->recovery_armed && c.value2!=d->recovery_end) || c.value3<0 || c.value3>=other->asset->frames)return TDJ_INVALID;
+        deck proposed=*other;proposed.position=c.value3;proposed.continuing=c.value3;proposed.synced=true;proposed.performance_rate=1;
+        double beats=deck_beat(d,c.value2)-deck_beat(d,c.value);
+        if(deck_frame(&proposed,deck_beat(&proposed,c.value3)+beats)>=other->asset->frames)return TDJ_INVALID;
+        if(proposed.keylock && !supported_deck_keylock(&proposed,e->bpm))return TDJ_KEYLOCK_RANGE;
+        int status=stream_validate(e,1-c.deck,&proposed,e->bpm,c.preparation_ticket_b,other->generation);
+        if(status!=TDJ_OK)return status;
+        *other=proposed;tdj_keylock_reset(e->keylocks[1-c.deck]);
+        if(!d->recovery_armed)d->recovery_start=-1;
+        d->recovery_armed=true;d->recovery_end=c.value2;
+        d->recovery_mix=true;d->recovery_mix_start=c.value;d->recovery_incoming=c.value3;
+        d->recovery_incoming_generation=other->generation;return TDJ_OK;
+    }
+    if(c.kind==TDJ_BRAKE) {
+        if(c.flag==1) {
+            if(!isfinite(c.value) || c.value<0.2 || c.value>5)return TDJ_INVALID;
+            if(d->state!=TDJ_PLAYING)return TDJ_UNRESOLVED;
+            if(d->touch_active || d->performance_rate!=1 || d->jump_pending)return TDJ_ACTIVE_PERFORMANCE;
+            if(d->braking)return TDJ_OK;
+            // Preserve the independent clock and the speed heard before disengagement.
+            d->free_rate=source_rate(e,d);d->synced=false;
+            d->braking=true;d->brake_primed=false;d->brake_rate=1;
+            d->brake_seconds=c.value;d->brake_strength=d->brake_target_strength=1;
+            return TDJ_OK;
+        }
+        if(c.flag==2) {
+            if(!isfinite(c.value) || c.value<0.25 || c.value>4)return TDJ_INVALID;
+            if(d->braking)d->brake_target_strength=c.value;
+            return TDJ_OK;
+        }
+        if(c.flag==3) {
+            if(!d->braking) {
+                if(d->state==TDJ_PAUSED)return start_deck(e,d,other,c.preparation_ticket,c.generation);
+                return TDJ_OK;
+            }
+            deck proposed=*d;proposed.braking=false;
+            int status=stream_validate(e,c.deck,&proposed,e->bpm,c.preparation_ticket,c.generation);
+            if(status!=TDJ_OK)return status;
+            brake_clear(e,c.deck);return TDJ_OK;
+        }
+        return TDJ_INVALID;
+    }
+    // Waveform input cannot take the cursor away from an active brake.
+    if(d->braking && (c.kind==TDJ_TOUCH || c.kind==TDJ_RATE || c.kind==TDJ_JUMP || c.kind==TDJ_LOOP ||
+        c.kind==TDJ_FLUX || c.kind==TDJ_FREE_RATE || c.kind==TDJ_KEYLOCK || c.kind==TDJ_GRID))return TDJ_ACTIVE_PERFORMANCE;
     if(c.kind==TDJ_CUE_RECALL) {
         if(d->state==TDJ_PLAYING || d->state==TDJ_QUEUED)return TDJ_UNRESOLVED;
         if(c.flag!=0 || !isfinite(c.value) || c.value<0 || c.value>=d->asset->frames ||
@@ -711,6 +864,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             return TDJ_OK;
         }
         if (d->state == TDJ_PLAYING) {
+            brake_clear(e,c.deck);
             d->state = TDJ_PAUSED;
             if (other->state != TDJ_PLAYING && other->state != TDJ_QUEUED) { advance_clock_epoch(e); e->running = false; }
             return TDJ_OK;
@@ -859,9 +1013,9 @@ static int apply(tdj_engine *e, tdj_command c) {
                 if(with_rate)d->performance_rate=c.touch_rate;
                 d->pending_touch_rate_valid=false;
             }
-            // Slice contacts and scratch rates retain their immediate attack.
-            e->transitions[c.deck].playing=true;
-            e->transitions[c.deck].remaining=0;e->transitions[c.deck].pending=false;
+            // A contact can relocate the source or switch its playback pipeline.
+            // Keep the musical action immediate and correct only its output edge.
+            if(!d->jump_pending)transition_request(e,c.deck,0);
             // Audition a held slice even from a stopped deck.
             d->state=TDJ_PLAYING;
             if (!e->running) { anchor_clock(e,beat_now(e)); e->running=true; }
@@ -881,6 +1035,7 @@ static int apply(tdj_engine *e, tdj_command c) {
                 transition_request(e,c.deck,0);
             }
             if (!d->touch_was_playing) d->state=TDJ_PAUSED;
+            transition_request(e,c.deck,0);
         }
         if(!with_rate || !d->jump_pending)tdj_keylock_reset(e->keylocks[c.deck]); return TDJ_OK;
     }
@@ -897,11 +1052,14 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (c.deck < 0 || c.deck > 1 || !isfinite(c.value) || c.value < 0.5 || c.value > 1.5) return TDJ_INVALID;
         deck *d = &e->decks[c.deck];
         if (d->keylock && !supported_keylock_rate(c.value)) return TDJ_KEYLOCK_RANGE;
+        deck proposed=*d;proposed.free_rate=c.value;
+        int status=stream_validate(e,c.deck,&proposed,e->bpm,c.preparation_ticket,c.generation);
+        if(status!=TDJ_OK)return status;
         d->free_rate = c.value; return TDJ_OK;
     }
     if (c.kind == TDJ_KEYLOCK) {
         if (c.flag != 0 && c.flag != 1) return TDJ_INVALID;
-        if (c.flag && !supported_keylock_rate(source_rate(e, d))) return TDJ_KEYLOCK_RANGE;
+        if (c.flag && !supported_deck_keylock(d,e->bpm)) return TDJ_KEYLOCK_RANGE;
         deck proposed=*d;proposed.keylock=c.flag!=0;
         int status=stream_validate(e,c.deck,&proposed,e->bpm,c.preparation_ticket,c.generation);
         if(status!=TDJ_OK)return status;
@@ -911,11 +1069,12 @@ static int apply(tdj_engine *e, tdj_command c) {
     if(c.kind==TDJ_SYNC_RESTORE) {
         if(d->state!=TDJ_PLAYING || !e->running || d->bpm<=0) return TDJ_INVALID;
         // An active waveform contact retains its ownership until release.
-        if(d->touch_active || d->performance_rate!=1) return TDJ_ACTIVE_PERFORMANCE;
+        if(d->braking || d->touch_active || d->performance_rate!=1) return TDJ_ACTIVE_PERFORMANCE;
         if(d->keylock && !supported_keylock_rate(e->bpm/deck_bpm(d))) return TDJ_KEYLOCK_RANGE;
         double position;
         if(!nearest_sync_position(e,d,&position)) return TDJ_ALIGNMENT_UNAVAILABLE;
         deck proposed=*d;proposed.synced=true;proposed.position=position;
+        if(proposed.keylock && !supported_deck_keylock(&proposed,e->bpm))return TDJ_KEYLOCK_RANGE;
         int status=stream_validate(e,c.deck,&proposed,e->bpm,c.preparation_ticket,c.generation);
         if(status!=TDJ_OK) return status;
         d->synced=true;d->position=position;
@@ -931,6 +1090,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         deck proposed=*d;
         if(!c.flag && (d->state==TDJ_PLAYING || d->state==TDJ_PAUSED))proposed.free_rate=source_rate(e,d);
         proposed.synced=c.flag!=0;
+        if(proposed.keylock && !supported_deck_keylock(&proposed,e->bpm))return TDJ_KEYLOCK_RANGE;
         int status=stream_validate(e,c.deck,&proposed,e->bpm,c.preparation_ticket,c.generation);
         if(status!=TDJ_OK)return status;
         if (!c.flag && (d->state == TDJ_PLAYING || d->state == TDJ_PAUSED)) d->free_rate = source_rate(e, d);
@@ -950,7 +1110,7 @@ static int apply(tdj_engine *e, tdj_command c) {
     if (c.kind == TDJ_GRID) {
         if (!isfinite(c.value) || c.value <= 0 || !isfinite(c.value2) || c.flag < 0 || c.flag > 3) return TDJ_INVALID;
         if (d->keylock && d->synced && !supported_keylock_rate(e->bpm/c.value)) return TDJ_KEYLOCK_RANGE;
-        deck proposed=*d;proposed.bpm=c.value;
+        deck proposed=*d;proposed.bpm=c.value;proposed.map.count=0;
         int status=stream_validate(e,c.deck,&proposed,e->bpm,c.preparation_ticket,c.generation);
         if(status!=TDJ_OK)return status;
         d->map.count=0;d->map_dirty=true;
@@ -990,6 +1150,15 @@ static void controls(tdj_engine *e) {
         }
         int status = apply(e, c);
         if(status==TDJ_OK) {
+            if(c.kind==TDJ_PANIC || c.kind==TDJ_PLAY ||
+               (c.kind==TDJ_MIXER && (c.flag==TDJ_MIX_CROSSFADE || c.flag==TDJ_MIX_VOLUME))) {
+                cancel_recovery(e,0);cancel_recovery(e,1);
+            } else if(c.deck>=0 && c.deck<2 && (c.kind==TDJ_LOAD || c.kind==TDJ_SEEK || c.kind==TDJ_JUMP ||
+                c.kind==TDJ_LOOP || c.kind==TDJ_TOUCH || c.kind==TDJ_CUE_RECALL || c.kind==TDJ_GRID ||
+                (c.kind==TDJ_BRAKE && c.flag==1) || c.kind==TDJ_ADAPTIVE_GRID || c.kind==TDJ_RATE || c.kind==TDJ_BRAKE || c.kind==TDJ_FREE_RATE || c.kind==TDJ_SYNC_RESTORE || c.kind==TDJ_SYNC)) {
+                cancel_recovery(e,c.deck);
+            }
+            if(c.kind==TDJ_RECOVERY_MIX)add_claim(e,e->decks[1-c.deck].asset,c.preparation_ticket_b,(unsigned)(1-c.deck),false);
             if(c.kind==TDJ_TEMPO){add_claim(e,e->decks[0].asset,c.preparation_ticket,0,false);add_claim(e,e->decks[1].asset,c.preparation_ticket_b,1,false);}
             else if(c.deck>=0 && c.deck<2) {
                 bool source_action=c.kind==TDJ_JUMP || c.kind==TDJ_LOOP || c.kind==TDJ_TOUCH || c.kind==TDJ_SEEK || c.kind==TDJ_CUE_RECALL || c.kind==TDJ_SYNC_RESTORE;
@@ -1063,6 +1232,24 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
     for (uint32_t f = 0; f < count; ++f) {
         double l = 0, r = 0, cl=0, cr=0;
         bool audible[2]={false,false};
+        for(int i=0;i<2;i++) {
+            deck *d=&e->decks[i],*other=&e->decks[1-i];
+            if(!d->recovery_mix || d->state!=TDJ_PLAYING)continue;
+            if(other->generation!=d->recovery_incoming_generation){d->recovery_mix=false;continue;}
+            if(d->position>=d->recovery_mix_start) {
+                if(!d->recovery_mixing) {
+                    mixer_deck *channel=&e->mix.decks[1-i];
+                    if(other->state==TDJ_PLAYING || other->state==TDJ_QUEUED || channel->volume.target<=0.001 ||
+                       channel->gain.target<=0.001 || (channel->filter_enabled && fabs(channel->filter_x)>0.99)) {
+                        d->recovery_mix=false;continue;
+                    }
+                    other->state=TDJ_PLAYING;other->last_start=e->frame;d->recovery_mixing=true;
+                }
+                double first=deck_beat(d,d->recovery_mix_start),last=deck_beat(d,d->recovery_end);
+                double progress=fmax(0,fmin(1,(deck_beat(d,d->position)-first)/(last-first)));
+                ramp_set(&e->mix.crossfader,i==0 ? progress:1-progress,0);
+            }
+        }
         double cross=ramp_next(&e->mix.crossfader);
         double master=ramp_next(&e->mix.master), monitor=ramp_next(&e->mix.monitor), blend=ramp_next(&e->mix.cue_mix);
         for (int i = 0; i < 2; ++i) {
@@ -1071,6 +1258,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             double volume=ramp_next(&e->mix.decks[i].volume), cue=ramp_next(&e->mix.decks[i].cue);
             dry_transition *transition=&e->transitions[i];
             if(d->state==TDJ_PLAYING && (!isfinite(d->position) || d->position>=d->asset->frames))d->state=TDJ_ENDED;
+            if(d->braking && d->state!=TDJ_PLAYING)brake_clear(e,i);
             bool playing=d->state==TDJ_PLAYING;
             if(playing!=transition->playing)transition_request(e,i,0);
             transition->playing=playing;
@@ -1092,13 +1280,17 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 if(d->touch_active) { d->touch_start=d->jump_frame; d->touch_end=d->pending_touch_end; }
                 if(d->touch_active && d->pending_touch_rate_valid){d->performance_rate=d->pending_touch_rate;d->pending_touch_rate_valid=false;}
                 tdj_keylock_reset(e->keylocks[i]);
-                if(!d->touch_active)transition_request(e,i,0);
+                transition_request(e,i,0);
             }
             double wrap_start=0,wrap_end=0;
             if(d->touch_active && d->touch_end>d->touch_start) { wrap_start=d->touch_start; wrap_end=d->touch_end; }
             else if(d->loop_enabled) { wrap_start=d->loop_start; wrap_end=d->loop_end; }
+            else if(d->recovery_armed && d->recovery_start>=0 && !d->recovery_mixing && d->position>=d->recovery_start) {
+                wrap_start=d->recovery_start;wrap_end=d->recovery_end;
+            }
             float source_l, source_r;
-            if (d->performance_rate != 1) {
+            if(d->braking)brake_sample(e,i,wrap_start,wrap_end,&source_l,&source_r);
+            else if (d->performance_rate != 1) {
                 uint64_t at=(uint64_t)fmax(0,fmin(d->asset->frames-1,floor(d->position)));
                 uint64_t next=at+1<d->asset->frames ? at+1 : at;
                 double fraction=d->position-floor(d->position);
@@ -1142,7 +1334,16 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             double step=d->asset->rate / e->rate * source_rate(e, d);
             if ((d->touch_active && d->touch_was_playing) || (d->loop_enabled && !d->touch_active)) d->continuing+=d->map.count && d->synced ? d->asset->rate/e->rate*e->bpm/deck_bpm_at(d,d->continuing):step;
             else if (!d->touch_active) d->continuing=d->position;
-            d->position += step*d->performance_rate;
+            d->position += step*d->performance_rate*(d->braking ? d->brake_rate:1);
+            if(d->braking) {
+                double smoothing=fmin(1,1/(e->rate*0.01));
+                d->brake_strength+=(d->brake_target_strength-d->brake_strength)*smoothing;
+                d->brake_rate=fmax(0,d->brake_rate-d->brake_strength/(e->rate*d->brake_seconds));
+                if(d->brake_rate<1e-10) {
+                    d->state=TDJ_PAUSED;d->continuing=d->position;
+                    brake_clear(e,i);
+                }
+            }
             if(d->touch_active && d->touch_end>d->touch_start) {
                 double length=d->touch_end-d->touch_start;
                 double offset=fmod(d->position-d->touch_start,length);
@@ -1160,7 +1361,18 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                     if(limit>=2)transition_request(e,i,limit);
                 }
             } else if (d->position<0) d->position=0;
-            if (d->position >= d->asset->frames) { d->position = d->asset->frames; d->state = TDJ_ENDED; }
+            if(d->recovery_armed && d->position>=d->recovery_end) {
+                if(d->recovery_mixing || d->recovery_start<0) {
+                    if(d->recovery_mixing)ramp_set(&e->mix.crossfader,i==0 ? 1:0,0);
+                    d->position=d->recovery_end;d->state=TDJ_ENDED;
+                    d->recovery_armed=false;d->recovery_mix=false;d->recovery_mixing=false;
+                } else {
+                    double length=d->recovery_end-d->recovery_start;
+                    d->position=d->recovery_start+fmod(d->position-d->recovery_end,length);
+                    d->recovery_active=true;transition_request(e,i,0);
+                }
+            }
+            if (d->position >= d->asset->frames) { d->position = d->asset->frames; d->state = TDJ_ENDED; brake_clear(e,i); }
         }
         if(audible[0] && audible[1] && master>1e-7) e->paired_frames++;
         left[f] = (float)(l * master); right[f] = (float)(r * master);
@@ -1212,9 +1424,13 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
 
 static tdj_deck_snapshot read_deck(atomic_deck *p) {
     tdj_deck_snapshot result={
+        .recovery_armed=atomic_load(&p->recovery_armed),.recovery_active=atomic_load(&p->recovery_active),
+        .recovery_mix=atomic_load(&p->recovery_mix),.recovery_start=atomic_load(&p->recovery_start),
+        .recovery_end=atomic_load(&p->recovery_end),.recovery_mix_start=atomic_load(&p->recovery_mix_start),
         .loop_enabled=atomic_load(&p->loop_enabled), .flux_enabled=atomic_load(&p->flux_enabled),
         .touch_active=atomic_load(&p->touch_active), .jump_pending=atomic_load(&p->jump_pending),
         .loop_start=atomic_load(&p->loop_start), .loop_end=atomic_load(&p->loop_end),
+        .braking=atomic_load(&p->braking),.brake_rate=atomic_load(&p->brake_rate),
         .continuing_frame=atomic_load(&p->continuing), .performance_rate=atomic_load(&p->performance_rate),
         .free_rate=atomic_load(&p->free_rate),.touch_start=atomic_load(&p->touch_start),.touch_end=atomic_load(&p->touch_end),
         .jump_frame=atomic_load(&p->jump_frame),.jump_beat=atomic_load(&p->jump_beat),
@@ -1227,7 +1443,7 @@ static tdj_deck_snapshot read_deck(atomic_deck *p) {
         .low=atomic_load(&p->low), .mid=atomic_load(&p->mid), .high=atomic_load(&p->high),
         .cue=atomic_load(&p->cue), .filter_x=atomic_load(&p->filter_x), .filter_y=atomic_load(&p->filter_y),
         .filter_enabled=atomic_load(&p->filter_enabled), .peak=atomic_load(&p->peak),
-        .source_frame=atomic_load(&p->position), .source_bpm=atomic_load(&p->bpm),
+        .source_frame=atomic_load(&p->position), .source_bpm=atomic_load(&p->bpm),.local_bpm=atomic_load(&p->local_bpm),
         .source_sample_rate=atomic_load(&p->source_sample_rate),.grid_anchor=atomic_load(&p->grid_anchor),
         .grid_downbeat=atomic_load(&p->grid_downbeat),
         .target_beat=atomic_load(&p->target), .source_rate=atomic_load(&p->rate), .lead_in_source_frame=atomic_load(&p->lead)};

@@ -24,6 +24,11 @@ public struct PerformancePreparation: Codable, Sendable {
         get { waveformScratchAudioValue ?? true }
         set { waveformScratchAudioValue = newValue }
     }
+    private var recoveryValue: RecoverySettings?
+    public var recovery: RecoverySettings {
+        get { recoveryValue ?? .init() }
+        set { recoveryValue = newValue }
+    }
     public var defaultLoopBeats: Double = 4
     public var deckLoopBeats: [String: Double]? = nil
     /// 1/32 to 32 beats, in powers of two.
@@ -92,6 +97,7 @@ public struct PerformancePreparation: Codable, Sendable {
         try JSONEncoder().encode(self).write(to:url,options:.atomic)
     }
     private func validate() throws {
+        try recovery.validate()
         guard traktorCueHistory?.values.allSatisfy({ history in
                   history.previouslyImportedSlots.allSatisfy { (0..<8).contains($0) }
                       && history.protectedEmptySlots.allSatisfy { (0..<8).contains($0) }

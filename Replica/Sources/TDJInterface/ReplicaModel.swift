@@ -11,7 +11,10 @@ public final class ReplicaModel {
     var selectedEffectSlots: [DeckID:Int] = [:]
     let performancePersistence=CoalescingFileWriter<PerformancePreparation>()
     let effectsPersistence=CoalescingFileWriter<[DeckID:[Int:EffectControl]]>()
+    var arrangements: [String: TrackArrangement] = [:]
+    @ObservationIgnored var arrangementWriters: [String: CoalescingFileWriter<ArrangementCache>] = [:]
     public var performance = PerformancePreparation()
+    let recoveryState = RecoveryState()
     public var frozen: Set<DeckID> = []
     public var filterLocked: Set<DeckID> = []
     public var superSlicerFamilies: [DeckID: SuperSlicerFamily] = [:]
@@ -80,6 +83,7 @@ public final class ReplicaModel {
     /// CUE button points, per deck, in source frames.
     public internal(set) var cuePoints: [DeckID: Double] = [:]
     public var viewport: [DeckID: Double] = [:]
+    public private(set) var applyingGrids: Set<DeckID> = []
     var adaptiveUndo: [String: [Preparation]] = [:]
     public var gridDraft: [DeckID: BeatGrid] = [:]
     public var editing: Set<DeckID> = []
@@ -208,6 +212,8 @@ public final class ReplicaModel {
     let importAccess = SecurityScopedFileAccess()
     private let musicImportFileWork=BackgroundFileWork(label:"org.generikdj.music-import-cleanup")
     public var preparingPlayback: Set<DeckID> = []
+    var preparingNativeMusic: Set<DeckID> = []
+    public var preparingTrack: Set<DeckID> { preparingPlayback.union(preparingNativeMusic) }
     public var previewing: Set<DeckID> = []
     let controlDisplay = PlaybackControlDisplay()
     @ObservationIgnored let mixerFaderInputs=MixerFaderInputValues()
@@ -228,6 +234,7 @@ public final class ReplicaModel {
     }
     public func flushPreferenceWrites() async {
         await mixerPersistence.flush(); await collectionPersistence.flush(); await flushPerformanceWrites()
+        for writer in Array(arrangementWriters.values) { await writer.flush() }
     }
     public func finishForShutdown() async {
         waveformShutdown=true
@@ -342,10 +349,10 @@ public final class ReplicaModel {
             if storedPreparationKeys[id]?.value != key {
                 for deck in DeckID.allCases {
                     if loadPreparations[deck]?.track.id == id {
-                        loadPreparations[deck]?.track.preparation.correctedKey=key
+                        loadPreparations[deck]?.track.preparation.copyKey(from: latest.preparation)
                     }
                     if committedPreparations[deck]?.track.id == id {
-                        committedPreparations[deck]?.track.preparation.correctedKey=key
+                        committedPreparations[deck]?.track.preparation.copyKey(from: latest.preparation)
                     }
                 }
             }
@@ -656,7 +663,11 @@ public final class ReplicaModel {
                 try await playback.load(track:sourceTrack,store:store,deck:deck,sourceURL:sourceURL,committed:{ [weak self = self] generation in
                     guard let self else { return }
                     var acceptedTrack = sourceTrack
-                    acceptedTrack.preparation.correctedKey = keyIntent.effective
+                    if acceptedTrack.preparation.correctedKey != keyIntent.effective {
+                        if let current = self.storedLibrary.track(id: trackID), current.preparation.correctedKey == keyIntent.effective {
+                            acceptedTrack.preparation.copyKey(from: current.preparation)
+                        } else { acceptedTrack.preparation.correctedKey = keyIntent.effective }
+                    }
                     let actual=LoadPreparation(token:token,track:acceptedTrack,generation:generation)
                     self.committedPreparations[deck]=actual
                     self.committedTrackIDs[deck]=trackID
@@ -770,6 +781,11 @@ public final class ReplicaModel {
         suggestionDestination = nil; suggestions = []; suggestionMessage = nil; browserVisible = true
     }
     public func showSuggestions(destination: DeckID) {
+        let referenceDeck: DeckID = destination == .a ? .b : .a
+        guard loaded[referenceDeck] != nil else {
+            showLibrary()
+            return
+        }
         suggestionDestination = destination
         browserVisible = true
         selectedTrackID = nil
@@ -809,11 +825,25 @@ public final class ReplicaModel {
         guard playbackSnapshot?[deck].phase != .queued else {
             gridDraft[deck] = nil; status = TransportError.unresolved.localizedDescription; return
         }
+        guard !applyingGrids.contains(deck) else { return }
         var preparation = pendingPreparations[track.id]?.value
             ?? storedLibrary.track(id:track.id)?.preparation ?? track.preparation
+        guard !preparation.gridLocked else { status = "Unlock preparation before editing the grid."; return }
+        if let map=preparation.adaptiveMap, preparation.gridMode != .fixed, let fixed=preparation.grid {
+            do {
+                preparation.adaptiveMap = try map.transforming(tempoFactor:grid.bpm/fixed.bpm,
+                    frameOffset:grid.anchorFrame-fixed.anchorFrame,frameCount:track.analysis.frameCount)
+                preparation.gridIsManual=true
+                gridDraft[deck]=nil
+                saveAdaptivePreparation(preparation,deck:deck)
+            } catch { gridDraft[deck]=nil;status=error.localizedDescription }
+            return
+        }
+        preparation.adaptiveMap = nil; preparation.gridMode = .fixed
         preparation.grid = grid; preparation.gridIsManual = true
         do { if !preparingPlayback.contains(deck) { try playback.updateGrid(grid,deck:deck) } }
         catch { status=error.localizedDescription; return }
+        adaptiveUndo[track.id]=nil
         for destination in DeckID.allCases where loaded[destination]==track.id &&
             (destination==deck || preparingPlayback.contains(destination)) {
             if let identity = loadPreparations[destination]?.token { pendingLoadKeys[identity]?.value?.grid = grid }
@@ -854,6 +884,7 @@ public final class ReplicaModel {
         }
     }
     public func stopPlaybackMonitor() {
+        recoveryState.cancel()
         suggestionWork?.cancel()
         persistMixerPreferences()
         playbackMonitor?.cancel(); playbackMonitor = nil
@@ -875,6 +906,7 @@ public final class ReplicaModel {
         if let snapshot {
             playbackSnapshot = snapshot
             retainPerformedPair(snapshot)
+            maintainRecovery(snapshot)
 #if os(macOS)
             z1Connection?.send(Z1OutputReport.bytes(snapshot:snapshot,mode:z1Mode,fxDecks:z1Mapper.fxDecks,
                 enabledEffects:Set(DeckID.allCases.filter { effects[$0]?[selectedEffectSlots[$0,default:0]]?.enabled == true })))
@@ -891,7 +923,9 @@ public final class ReplicaModel {
     public func pressPlay(deck: DeckID) {
         guard !preparingPlayback.contains(deck) else { return }
         do {
+            let wasActive = playback.core.snapshot()?[deck].phase.active == true
             try playback.play(deck)
+            if !wasActive { recoveryState.attempted[deck] = nil }
             previewing.remove(deck)
             refreshPlayback()
         } catch { status = error.localizedDescription }
@@ -965,12 +999,22 @@ public final class ReplicaModel {
             tapTempos[deck] = tap
             guard let bpm, let track = track(deck) else { return }
             var changed = try grid(deck) ?? BeatGrid(bpm: bpm, anchorFrame: viewport[deck] ?? 0, sampleRate: track.analysis.sampleRate)
-            try changed.setBPM(bpm)
+            if let map=gridPreparation(deck)?.adaptiveMap,gridPreparation(deck)?.gridMode != .fixed,
+               let fixed=grid(deck) {
+                try changed.setBPM(fixed.bpm*bpm/map.bpm(atFrame:viewport[deck] ?? 0))
+            } else { try changed.setBPM(bpm) }
             saveGrid(changed, deck: deck)
         } catch { status = error.localizedDescription }
     }
     public func selectDownbeat(deck: DeckID, beat: Int) {
         guard var changed = grid(deck) else { return }
+        if var preparation=gridPreparation(deck),let map=preparation.adaptiveMap,preparation.gridMode != .fixed {
+            guard !preparation.gridLocked,(0..<4).contains(beat) else { return }
+            preparation.adaptiveMap=BeatGridMap(anchors:map.anchors,sampleRate:map.sampleRate,downbeatOffset:beat)
+            preparation.gridIsManual=true
+            saveAdaptivePreparation(preparation,deck:deck)
+            return
+        }
         do { try changed.selectDownbeat(beat); saveGrid(changed, deck: deck) }
         catch { status = error.localizedDescription }
     }
@@ -980,14 +1024,18 @@ extension ReplicaModel {
     public func timing(_ deck: DeckID) -> BeatTiming? {
         grid(deck).map { BeatTiming(fixed: $0, adaptive: playbackSnapshot?[deck].adaptiveMap) }
     }
+    public func candidateConfidence(_ deck: DeckID) -> Double? {
+        guard let id=loaded[deck] else { return nil }
+        return storedLibrary.track(id:id)?.analysis.adaptiveConfidence
+    }
     public func gridPreparation(_ deck: DeckID) -> Preparation? {
         guard let track = track(deck) else { return nil }
         return pendingPreparations[track.id]?.value ?? track.preparation
     }
     public func selectGridMode(_ mode: GridMode, deck: DeckID) {
         guard let track = track(deck), var preparation = gridPreparation(deck), !preparation.gridLocked else { return }
-        if mode != .fixed, preparation.adaptiveMap == nil {
-            guard let candidate = track.analysis.adaptiveCandidate else { status = "No adaptive candidate is available."; return }
+        if mode == .automatic || (mode == .adaptive && preparation.adaptiveMap == nil) {
+            guard let candidate = storedLibrary.track(id:track.id)?.analysis.adaptiveCandidate ?? track.analysis.adaptiveCandidate else { status = "No adaptive candidate is available."; return }
             do { try preparation.acceptAdaptive(candidate, frameCount: track.analysis.frameCount) }
             catch { status = error.localizedDescription; return }
         }
@@ -1011,40 +1059,48 @@ extension ReplicaModel {
     }
     public func undoGridCorrection(deck: DeckID) {
         guard let track = track(deck), gridPreparation(deck)?.gridLocked != true,
-              let previous = adaptiveUndo[track.id]?.last else { return }
-        if saveAdaptivePreparation(previous, deck: deck, remember: false) { adaptiveUndo[track.id]?.removeLast() }
+              let previous = adaptiveUndo[track.id]?.last,
+              var restored = gridPreparation(deck) else { return }
+        restored.grid = previous.grid
+        restored.gridIsManual = previous.gridIsManual
+        restored.adaptiveMap = previous.adaptiveMap
+        restored.gridMode = previous.gridMode
+        saveAdaptivePreparation(restored, deck: deck, remember: false)
     }
-    @discardableResult
-    private func saveAdaptivePreparation(_ preparation: Preparation, deck: DeckID, publish: Bool = true, remember: Bool = true) -> Bool {
-        guard let track = track(deck), let previousPreparation = gridPreparation(deck) else { return false }
+    private func saveAdaptivePreparation(_ preparation: Preparation, deck: DeckID, publish: Bool = true, remember: Bool = true) {
+        guard !applyingGrids.contains(deck), let track = track(deck), let previousPreparation = gridPreparation(deck),
+              let generation=playbackSnapshot?[deck].generation else { return }
         if publish {
             guard !preparingPlayback.contains(deck), let state = playbackSnapshot?[deck],
                   !state.phase.active, !state.loopEnabled, !state.touchActive, !state.jumpPending else {
-                status = "Pause the deck and finish loops or gestures before applying a grid."; return false
+                status = "Pause the deck and finish loops or gestures before applying a grid."; return
             }
-            do { try playback.updateAdaptiveMap(preparation.gridMode == .fixed ? nil : preparation.adaptiveMap, deck: deck) }
-            catch { status = error.localizedDescription; return false }
         }
-        if remember { adaptiveUndo[track.id, default: []].append(previousPreparation) }
-        if adaptiveUndo[track.id, default: []].count > 16 { adaptiveUndo[track.id]?.removeFirst() }
-        if loadPreparations[deck]?.track.id == track.id {
-            loadPreparations[deck]?.track.preparation = preparation
-        }
-        if committedPreparations[deck]?.track.id == track.id {
-            committedPreparations[deck]?.track.preparation = preparation
-        }
-        let token = UUID()
-        pendingPreparations[track.id] = (token, preparation)
+        applyingGrids.insert(deck)
         let previous = preparationWrites
         preparationWrites = Task {
             await previous?.value
+            defer { applyingGrids.remove(deck) }
             do {
+                guard loaded[deck]==track.id,playbackSnapshot?[deck].generation==generation else { throw TransportError.stale }
+                if publish {
+                    try await playback.updateAdaptiveMap(preparation.gridMode == .fixed ? nil : preparation.adaptiveMap, deck: deck)
+                }
+                guard loaded[deck]==track.id,playback.generations[deck]==generation else { throw TransportError.stale }
+                if loadPreparations[deck]?.track.id == track.id { loadPreparations[deck]?.track.preparation=preparation }
+                if committedPreparations[deck]?.track.id == track.id { committedPreparations[deck]?.track.preparation=preparation }
+                if preparation.gridLocked { gridLocked.insert(deck) } else { gridLocked.remove(deck) }
+                if publish {
+                    if remember { adaptiveUndo[track.id, default: []].append(previousPreparation) }
+                    else { adaptiveUndo[track.id]?.removeLast() }
+                    if adaptiveUndo[track.id, default: []].count > 16 { adaptiveUndo[track.id]?.removeFirst() }
+                }
+                let token=UUID()
+                pendingPreparations[track.id]=(token,preparation)
                 adoptLibrary(try await service.updatePreparation(trackID: track.id, preparation: preparation))
-                if pendingPreparations[track.id]?.token == token { pendingPreparations[track.id] = nil }
+                if pendingPreparations[track.id]?.token==token { pendingPreparations[track.id]=nil }
                 refreshPlayback()
-            } catch { status = error.localizedDescription }
+            } catch { status = error.localizedDescription;refreshPlayback() }
         }
-        refreshPlayback()
-        return true
     }
 }

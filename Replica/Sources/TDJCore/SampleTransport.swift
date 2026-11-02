@@ -16,7 +16,7 @@ public enum TransportError: Error, LocalizedError, Equatable {
         case .sourceCold: "This audio position is still being prepared. Current playback continues."
         case .playbackCapacity: "These playback settings exceed the available audio memory."
         case .syncUnavailable: "This section has no matching beat position."
-        case .activePerformance: "Finish the current waveform gesture before using Sync."
+        case .activePerformance: "Finish braking or release the waveform before this action."
         case .nativeSourceChanged: "The Music file changed during preparation. Load the song again to refresh it."
         case .cache(let message): "Cannot prepare playback: \(message)"
         }
@@ -107,6 +107,14 @@ public enum PerformanceAction: Int32, Sendable {
 }
 
 public struct DeckPlaybackSnapshot: Codable, Equatable, Sendable {
+    public let recoveryArmed: Bool
+    public let recoveryActive: Bool
+    public let recoveryMix: Bool
+    public let recoveryStart: Double
+    public let recoveryEnd: Double
+    public let recoveryMixStart: Double
+    public let braking: Bool
+    public let brakeRate: Double
     public let loopEnabled: Bool
     public let fluxEnabled: Bool
     public let touchActive: Bool
@@ -141,6 +149,10 @@ public struct DeckPlaybackSnapshot: Codable, Equatable, Sendable {
     public let leadInSourceFrame: Double?
     public let lastStartOutputFrame: UInt64
     fileprivate init(_ value: tdj_deck_snapshot) {
+        recoveryArmed=value.recovery_armed != 0; recoveryActive=value.recovery_active != 0
+        recoveryMix=value.recovery_mix != 0; recoveryStart=value.recovery_start
+        recoveryEnd=value.recovery_end; recoveryMixStart=value.recovery_mix_start
+        braking=value.braking != 0;brakeRate=value.brake_rate
         loopEnabled=value.loop_enabled != 0; fluxEnabled=value.flux_enabled != 0
         touchActive=value.touch_active != 0; jumpPending=value.jump_pending != 0
         loopStart=value.loop_start; loopEnd=value.loop_end
@@ -157,7 +169,7 @@ public struct DeckPlaybackSnapshot: Codable, Equatable, Sendable {
         adaptiveMap = BeatGridMap(native: value.beatgrid)
         grid=try? BeatGrid(bpm:value.source_bpm,anchorFrame:value.grid_anchor,
                           sampleRate:value.source_sample_rate,downbeatOffset:Int(value.grid_downbeat))
-        sourceFrame = value.source_frame; sourceBPM = value.source_bpm
+        sourceFrame = value.source_frame; sourceBPM = value.local_bpm
         speed = value.source_rate; targetBeat = phase == .queued ? value.target_beat : nil
         leadInSourceFrame = phase == .queued ? value.lead_in_source_frame : nil
         lastStartOutputFrame = value.last_start_frame
@@ -362,6 +374,28 @@ public final class SampleTransport: @unchecked Sendable {
         var command=tdj_command(); command.kind=TDJ_FX; command.deck=index(deck)
         command.flag=Int32((slot<<8)|kind|(synced ? 0 : 128)); command.value=x; command.value2=y; command.value3=enabled ? 1 : 0
         try send(command)
+    }
+    @discardableResult public func armRecoveryReplay(deck: DeckID, generation: UInt64, dropFrame: Double, endFrame: Double,
+                                  preparations: [SourcePreparation] = []) throws -> UInt64 {
+        var command = tdj_command(); command.kind = TDJ_RECOVERY_REPLAY
+        command.deck = index(deck); command.generation = generation
+        command.value = dropFrame; command.value2 = endFrame
+        command.preparation_ticket = preparations.first?.ticket ?? 0
+        return try send(command, preparations: preparations)
+    }
+    @discardableResult public func armRecoveryMix(deck: DeckID, generation: UInt64, incomingGeneration: UInt64,
+                               incomingFrame: Double, startFrame: Double, endFrame: Double,
+                               preparations: [SourcePreparation] = []) throws -> UInt64 {
+        var command = tdj_command(); command.kind = TDJ_RECOVERY_MIX
+        command.deck = index(deck); command.generation = generation
+        command.preparation_generation_b = incomingGeneration
+        command.value = startFrame; command.value2 = endFrame; command.value3 = incomingFrame
+        command.preparation_ticket_b = preparations.first?.ticket ?? 0
+        return try send(command, preparations: preparations)
+    }
+    public func cancelRecovery(deck: DeckID, generation: UInt64) throws {
+        var command = tdj_command(); command.kind = TDJ_RECOVERY_CANCEL
+        command.deck = index(deck); command.generation = generation; try send(command)
     }
     public func stopAll() throws { var command = tdj_command(); command.kind = TDJ_PANIC; try send(command) }
 

@@ -9,7 +9,6 @@ struct BrowserView: View {
     @Bindable var model: ReplicaModel
     var importAudio: () -> Void = {}
     var linkCollection: () -> Void = {}
-    var showRecordings: () -> Void = {}
     @State private var query = ""
     private var hasSearchQuery: Bool { query.contains { !$0.isWhitespace } }
     @State private var sort: CollectionSort? = .title
@@ -20,7 +19,7 @@ struct BrowserView: View {
     @State private var selectedEntry: LibraryBrowserEntry?
     @State private var recommendations: [BrowserRecommendations.Match] = []
     @State private var recommendationSeed: LibraryBrowserEntry?
-    @State private var layout = BrowserLayoutState()
+    @State private var layout = BrowserLayoutState(categoriesHidden: true)
     @State private var section = BrowserSection.songs
     private var displayedSection: BrowserSection { hasSearchQuery ? .songs : section }
     private var showingSuggestions: Bool { !hasSearchQuery && model.suggestionDestination != nil }
@@ -81,7 +80,14 @@ struct BrowserView: View {
     private var content: some View {
         VStack(spacing: 0) {
             searchBar
-            HStack(spacing: 0) {
+            GeometryReader { geometry in
+              let available = max(0, geometry.size.width - 64)
+              let categoryWidth = min(180, available * 0.3)
+              let categoryVisible = hasSearchQuery ? 0 : max(0, min(categoryWidth, layout.categoriesHidden ? layout.categoryOffset : categoryWidth + layout.categoryOffset))
+              let remaining = max(0, available - categoryVisible)
+              let detailWidth = remaining / 2
+              let detailVisible = max(0, min(detailWidth, layout.detailHidden ? -layout.detailOffset : detailWidth - layout.detailOffset))
+              HStack(spacing: 0) {
                 iconRail.frame(width: 64)
                 if displayedSection == .settings {
                     SettingsBrowser(model: model, importAudio: importAudio, linkCollection: linkCollection)
@@ -90,41 +96,42 @@ struct BrowserView: View {
                 } else if displayedSection == .history {
                     HistoryBrowser(model: model)
                 } else if displayedSection == .playlists {
-                    playlistColumn.frame(maxWidth: .infinity)
-                    listColumn.frame(maxWidth: .infinity)
+                    playlistColumn.frame(width: available / 2).clipped()
+                    listColumn.frame(width: available / 2).clipped()
                 } else {
                     if !hasSearchQuery && (!layout.categoriesHidden || layout.categoryOffset > 0) {
-                        categoryColumn.frame(width: 180)
-                            .offset(x: layout.categoriesHidden ? -180 + layout.categoryOffset : layout.categoryOffset)
-                            .frame(width: max(0, layout.categoriesHidden ? layout.categoryOffset : 180 + layout.categoryOffset), alignment: .leading)
+                        categoryColumn.frame(width: categoryWidth)
+                            .offset(x: layout.categoriesHidden ? -categoryWidth + categoryVisible : categoryVisible - categoryWidth)
+                            .frame(width: categoryVisible, alignment: .leading)
                             .clipped()
                             .simultaneousGesture(horizontalDrag(changed: { layout.dragCategories(translation: $0) },
-                                ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endCategories(translation: t, velocity: v, width: 180) } }))
+                                ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endCategories(translation: t, velocity: v, width: categoryWidth) } }))
                     }
-                    listColumn.frame(maxWidth: .infinity)
+                    listColumn.frame(width: max(0, remaining - detailVisible)).clipped()
                         .overlay(alignment: .leading) {
                             if !hasSearchQuery && layout.categoriesHidden {
                                 Color.clear.frame(width: 18).contentShape(Rectangle())
                                     .gesture(horizontalDrag(changed: { layout.dragCategories(translation: $0) },
-                                        ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endCategories(translation: t, velocity: v, width: 180) } }))
+                                        ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endCategories(translation: t, velocity: v, width: categoryWidth) } }))
                             }
                         }
                         .overlay(alignment: .trailing) {
                             if layout.detailHidden {
                                 Color.clear.frame(width: 18).contentShape(Rectangle())
                                     .gesture(horizontalDrag(changed: { layout.dragDetail(translation: $0) },
-                                        ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endDetail(translation: t, velocity: v, width: 400) } }))
+                                        ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endDetail(translation: t, velocity: v, width: detailWidth) } }))
                             }
                         }
                     if !layout.detailHidden || layout.detailOffset < 0 {
-                        detailPane.frame(width: 400)
-                            .offset(x: layout.detailHidden ? 400 + layout.detailOffset : layout.detailOffset)
-                            .frame(width: max(0, layout.detailHidden ? -layout.detailOffset : 400 - layout.detailOffset), alignment: .leading)
+                        detailPane.frame(width: detailWidth)
+                            .offset(x: detailWidth - detailVisible)
+                            .frame(width: detailVisible, alignment: .leading)
                             .clipped()
                             .simultaneousGesture(horizontalDrag(changed: { layout.dragDetail(translation: $0) },
-                                ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endDetail(translation: t, velocity: v, width: 400) } }))
+                                ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endDetail(translation: t, velocity: v, width: detailWidth) } }))
                     }
                 }
+              }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .leading).clipped()
             }
         }.background(PerformancePalette.stage)
         .onDisappear { playlistSave.cancel() }
@@ -252,7 +259,7 @@ extension BrowserView {
                 TextField("", text: $query, prompt: Text("Search full library").foregroundStyle(PerformancePalette.secondaryText))
                     .textFieldStyle(.plain).foregroundStyle(PerformancePalette.text)
                     .accessibilityLabel("Search full library by song, artist, album or genre")
-            }.padding(.horizontal, 14).frame(width: 380, height: 36)
+            }.padding(.horizontal, 14).frame(maxWidth: 380).frame(height: 36)
             .background(Capsule().fill(PerformancePalette.sunken)).overlay(Capsule().strokeBorder(Color.black.opacity(0.7)))
             if let destination = model.suggestionDestination {
                 Text("\(hasSearchQuery ? "All songs" : "Suggestions") → \(destination.rawValue.uppercased())").foregroundStyle(deckBlue)
@@ -293,7 +300,7 @@ extension BrowserView {
         query = ""
         if model.suggestionDestination != nil { model.showLibrary() }
         section = target
-        if target == .songs { if layout.categoriesHidden { layout.showCategories() }; select(category: .songs) }
+        if target == .songs { select(category: .songs) }
         if target == .playlists { select(category: .playlists) }
     }
     fileprivate var playlistColumn: some View {
@@ -356,7 +363,7 @@ extension BrowserView {
 
     fileprivate var listColumn: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 26) {
+            HStack(spacing: 4) {
                 if !hasSearchQuery && panes.depth > 0 {
                     Button { withAnimation(.smooth(duration: 0.25)) { panes.back() } } label: {
                         Label(category.rawValue, systemImage: "chevron.left").font(.system(size: 15, weight: .semibold))
@@ -389,7 +396,7 @@ extension BrowserView {
                     Button(selecting ? "Done" : "Edit") { selecting.toggle(); selection=[] }
                         .font(.system(size: 15, weight: .semibold)).padding(.horizontal, 12).frame(height: 36).bevelPanel(cornerRadius: 4)
                 }
-            }.padding(.horizontal, 22).frame(height: 56).background(PerformancePalette.panel)
+            }.padding(.horizontal, 10).frame(height: 56).background(PerformancePalette.panel)
             GeometryReader { geometry in
                 ZStack(alignment: .topLeading) {
                     let drilled = !hasSearchQuery && panes.depth > 0 && section != .playlists

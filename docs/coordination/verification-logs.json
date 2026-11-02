@@ -1,0 +1,20 @@
+{
+  "source": "335cec6b77644f23d43c08fc236ba9d7db446a17",
+  "logs": [
+    {
+      "check": "tests",
+      "path": "Backups/Coordination-2026-11-02/verification/generik-project-integration-tests.log",
+      "sha256": "5c505e72a9ea44b80b5232f5bcbcbc40cedfda4fef16bc12bcc9014fce9a52fc"
+    },
+    {
+      "check": "ipad",
+      "path": "Backups/Coordination-2026-11-02/verification/generik-project-integration-ipad.log",
+      "sha256": "953e0983b824be8e6b580bdb2a2b981f48eefb8f715e8e671f75e79f8115b337"
+    },
+    {
+      "check": "mac",
+      "path": "Backups/Coordination-2026-11-02/verification/generik-project-integration-mac.log",
+      "sha256": "53e101d511ee2b2ceebdb63e4099b7f13b57ed66142d94660c49e57aea3e5653"
+    }
+  ]
+}

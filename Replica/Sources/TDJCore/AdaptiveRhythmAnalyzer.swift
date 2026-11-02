@@ -33,8 +33,16 @@ enum AdaptiveRhythmAnalyzer {
         guard points.count >= 24, Double(rejected) / Double(events.count) < 0.15 else { return nil }
         // Four-beat windows retain section boundaries without following single drum offsets.
         let strideSize = max(4, Int(ceil(Double(points.count - 1) / Double(BeatGridMap.maximumAnchorCount - 1))))
-        var anchors = stride(from: 0, to: points.count, by: strideSize).map { points[$0] }
-        if anchors.last != points.last { anchors.append(points.last!) }
+        var indices = Array(stride(from: 0, to: points.count, by: strideSize))
+        if indices.last != points.count - 1 { indices.append(points.count - 1) }
+        let anchors = indices.map { index -> BeatGridAnchor in
+            let lower = max(0, index - 4), upper = min(points.count - 1, index + 4)
+            let window = Array(points[lower...upper])
+            let periods = zip(window, window.dropFirst()).map { ($1.frame - $0.frame) / ($1.beat - $0.beat) }.sorted()
+            let localPeriod = periods[periods.count / 2]
+            let phases = window.map { $0.frame - ($0.beat - points[index].beat) * localPeriod }.sorted()
+            return .init(beat: points[index].beat, frame: max(0,min(Double(frameCount-1),phases[phases.count / 2])))
+        }
         let map = BeatGridMap(anchors: anchors, sampleRate: sampleRate, downbeatOffset: downbeat)
         guard (try? map.validate(frameCount: frameCount)) != nil else { return nil }
         // Reject isolated evidence that disagrees with the window trajectory by more than 35 ms.

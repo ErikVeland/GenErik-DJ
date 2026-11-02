@@ -20,4 +20,4 @@ done
 xcrun clang++ "${TDJ_TRANSITION_FLAGS[@]}" -std=c++17 -I Sources/CTDJTransport/include -I Sources/CTDJTransport -I Sources/CTDJTransport/Vendor Sources/CTDJTransport/TDJKeylock.cpp Scripts/transport-transition-native-check.cpp "$TDJ_TRANSITION_CACHE/TDJTransport.o" "$TDJ_TRANSITION_CACHE/TDJStreaming.o" "$TDJ_TRANSITION_CACHE/TDJRecording.o" -framework Accelerate -o "$TDJ_TRANSITION_CACHE/check"
 shasum -a 256 -c "$TDJ_TRANSITION_CACHE/sources.sha256" > "$TDJ_TRANSITION_CACHE/input-check.log"
 shasum -a 256 "$TDJ_TRANSITION_CACHE/check" > "$TDJ_TRANSITION_CACHE/binary.sha256"
-"$TDJ_TRANSITION_CACHE/check"
+"$TDJ_TRANSITION_CACHE/check" "$@"

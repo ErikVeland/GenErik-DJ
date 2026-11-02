@@ -1,50 +1,37 @@
 import SwiftUI
-import CoreText
+#if os(macOS)
+import AppKit
+#else
+import UIKit
+#endif
 
-/// The minimal disc mark and a readable name for compact app headers.
 struct GenErikBrandLockup: View {
-    // Packaged Mac apps store Swift package resources in Contents/Resources.
     private static let resourceBundle: Bundle = {
         if let url = Bundle.main.resourceURL?.appendingPathComponent("GenErikDJ_TDJInterface.bundle"),
            let bundle = Bundle(url: url) { return bundle }
         return .module
     }()
 
-    private static let fontRegistered: Bool = {
-        guard let url = resourceBundle.url(forResource: "Rajdhani-Bold", withExtension: "ttf", subdirectory: "Fonts") else {
-            return false
-        }
-        var error: Unmanaged<CFError>?
-        return CTFontManagerRegisterFontsForURL(url as CFURL, .process, &error)
-    }()
-
-    private static var brandFont: Font {
-        _ = fontRegistered
-        return .custom("Rajdhani-Bold", size: 18, relativeTo: .headline)
-    }
-
-    private var mark: Image {
+    private static func artwork(_ name: String) -> Image? {
+        guard let url = resourceBundle.url(forResource: name, withExtension: "png")
+            ?? resourceBundle.url(forResource: name, withExtension: "png", subdirectory: "HeaderArtwork") else { return nil }
         #if os(macOS)
-        // The native Swift build copies asset catalogues without compiling them.
-        if let url = Self.resourceBundle.url(forResource: "GenErikMark", withExtension: "pdf",
-            subdirectory: "BrandAssets.xcassets/GenErikMark.imageset"),
-           let image = NSImage(contentsOf: url) {
-            image.isTemplate = true
-            return Image(nsImage: image)
-        }
+        guard let image = NSImage(contentsOf: url) else { return nil }
+        image.isTemplate = true
+        return Image(nsImage: image).renderingMode(.template)
+        #else
+        guard let image = UIImage(contentsOfFile: url.path) else { return nil }
+        return Image(uiImage: image.withRenderingMode(.alwaysTemplate)).renderingMode(.template)
         #endif
-        return Image("GenErikMark", bundle: Self.resourceBundle).renderingMode(.template)
     }
 
     var body: some View {
         HStack(spacing: 8) {
-            mark.renderingMode(.template)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 28, height: 28)
-                .accessibilityHidden(true)
-            Text("GenErik DJ")
-                .font(Self.brandFont)
+            if let mark = Self.artwork("GenErikHeaderMark") {
+                mark.resizable().scaledToFit().frame(width: 32, height: 32)
+            }
+            (Text("GenErik").font(.system(size: 20, weight: .bold)) +
+             Text(" DJ").font(.system(size: 20, weight: .regular)))
                 .fixedSize()
         }
         .foregroundStyle(PerformancePalette.text)

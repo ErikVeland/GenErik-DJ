@@ -10,6 +10,9 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable {
 @MainActor
 public final class PlaybackController {
     public let core: SampleTransport
+    var recoveryRevisions: [DeckID: UInt64] = [:]
+    var recoveryAwaitedCommands: Set<UInt64> = []
+    var recoveryAcknowledgements: [UInt64: TransportAcknowledgement] = [:]
     public private(set) var generations: [DeckID: UInt64] = [:]
     // Development startup policy. Original default and persistence remain unmeasured.
     private var keylockPreference: [DeckID: Bool] = [.a: true, .b: true]
@@ -33,8 +36,13 @@ public final class PlaybackController {
     public var sourceThreadCPUTracing: Bool { callbackMetrics?.tracesThreadCPU == true }
     public private(set) var outputRoute: AudioOutputRoute = .stereoMaster
     public func setOutputRoute(_ route: AudioOutputRoute) throws {
-        guard recorder == nil, recordingStartTask == nil else { throw TransportError.cache("Stop recording before changing audio routing.") }
         guard route != outputRoute else { return }
+        guard recorder == nil, recordingStartTask == nil else { throw TransportError.cache("Stop recording before changing audio routing.") }
+        let state=core.snapshot()
+        guard !outputActive, outputStartTask == nil,
+              state?.a.phase.active != true, state?.b.phase.active != true else {
+            throw TransportError.cache("Stop playback before changing audio routing.")
+        }
         stopAudio()
         engine?.stop()
         observers.forEach { NotificationCenter.default.removeObserver($0) }; observers.removeAll()
@@ -126,6 +134,7 @@ public final class PlaybackController {
     private var observers: [NSObjectProtocol] = []
     private enum LoadResult { case waiting, accepted, rejected(TransportError) }
     private let streamingPlayback: Bool
+    private var adaptiveResults: [UInt64: LoadResult] = [:]
     private var loadResults: [UInt64: LoadResult] = [:]
     private var loadCommits: [UInt64:(deck: DeckID, accepted: (UInt64) -> Void)] = [:]
     private struct GridCommit {
@@ -168,6 +177,7 @@ public final class PlaybackController {
     public func load(track: Track, store: WorkspaceStore, deck: DeckID, sourceURL: URL? = nil,
                      committed: @escaping (UInt64) -> Void = { _ in }) async throws {
         guard core.snapshot()?[deck].phase.active != true else { throw TransportError.protectedDeck }
+        invalidateRecovery(deck: deck)
         cancelSourcePreparations(deck: deck)
         let asset = try await PCMCache.prepareAsync(track: track, store: store, streamed: streamingPlayback,
                                                    outputSampleRate: core.sampleRate,
@@ -220,6 +230,12 @@ public final class PlaybackController {
         }
         throw TransportError.cache("The audio renderer did not acknowledge the load.")
     }
+    public func brake(_ action: VinylBrakeAction, value: Double = 1, deck: DeckID) throws {
+        guard let generation=generations[deck] else { throw TransportError.stale }
+        if action == .begin { cancelPerformancePreparations(deck:deck) }
+        try submitSource(.brake(action,value,deck,generation))
+        if !outputActive { core.processControlsWhileIdle() }
+    }
     public func play(_ deck: DeckID) throws {
         guard let generation = generations[deck] else { throw TransportError.stale }
         let lane = SourceLane.play(deck)
@@ -257,12 +273,13 @@ public final class PlaybackController {
         if !outputActive { core.processControlsWhileIdle() }
     }
     public func setMixer(_ parameter: MixerParameter, value: Double, deck: DeckID = .a) throws {
+        if parameter == .crossfader || parameter == .volume { invalidateRecovery() }
         try core.setMixer(parameter, value: value, deck: deck)
         if !outputActive { core.processControlsWhileIdle() }
     }
     public func setFreeRate(_ rate: Double, deck: DeckID) throws {
         guard let generation = generations[deck] else { throw TransportError.stale }
-        try core.setFreeRate(rate, deck: deck, generation: generation)
+        try submitSource(.freeRate(rate,deck,generation))
         if !outputActive { core.processControlsWhileIdle() }
     }
     public func setMasterBPM(_ bpm: Double) throws {
@@ -302,10 +319,29 @@ public final class PlaybackController {
         core.setOptionalWarming(generation: generation,
             preparation: .init(asset: asset, deck: deck, generation: generation, ticket: ticket))
     }
-    public func updateAdaptiveMap(_ map: BeatGridMap?, deck: DeckID) throws {
-        guard let generation = generations[deck] else { return }
-        try submitSource(.adaptiveMap(map, deck, generation))
-        if !outputActive { core.processControlsWhileIdle() }
+    public func updateAdaptiveMap(_ map: BeatGridMap?, deck: DeckID) async throws {
+        guard let generation = generations[deck] else { throw TransportError.stale }
+        if let map, let asset=core.asset(generation:generation) {
+            try map.validate(frameCount:Int64(asset.frames))
+            guard map.sampleRate==asset.sampleRate else { throw TransportError.invalid }
+        }
+        let identifier = try submitSource(.adaptiveMap(map, deck, generation), canPrepare: false)
+        adaptiveResults[identifier] = .waiting
+        defer { adaptiveResults[identifier] = nil }
+        for _ in 0..<200 {
+            if !outputActive { core.processControlsWhileIdle() }
+            collectMessages()
+            switch adaptiveResults[identifier] {
+            case .accepted:
+                guard generations[deck]==generation, let state=core.snapshot()?[deck],
+                      state.generation==generation, state.adaptiveMap==map else { throw TransportError.stale }
+                return
+            case .rejected(let error): throw error
+            default: break
+            }
+            try await Task.sleep(for: .milliseconds(10))
+        }
+        throw TransportError.cache("The audio renderer did not acknowledge the grid.")
     }
     public func updateGrid(_ grid: BeatGrid, deck: DeckID) throws {
         guard let generation = generations[deck] else { return }
@@ -322,6 +358,7 @@ public final class PlaybackController {
         }
     }
     public func stopAudio() {
+        invalidateRecovery()
         controlMaintenanceTimer = nil
         outputStartIdentity &+= 1
         outputStartTask?.cancel(); outputStartTask = nil
@@ -373,6 +410,10 @@ public final class PlaybackController {
     }
     private func collectMessages() {
         for message in core.acknowledgements() {
+            if recoveryAwaitedCommands.contains(message.commandID) { recoveryAcknowledgements[message.commandID] = message }
+            if adaptiveResults[message.commandID] != nil {
+                adaptiveResults[message.commandID] = message.error.map { .rejected($0) } ?? .accepted
+            }
             if handleSourceAcknowledgement(message) { continue }
             if message.error != nil { rejectedCommandCount += 1 }
             if let (deck, enabled) = pendingKeylock.removeValue(forKey: message.commandID), latestKeylock[deck] == message.commandID {
@@ -504,12 +545,14 @@ public final class PlaybackController {
 
 extension PlaybackController {
     private enum SourceLane: Hashable, Sendable {
-        case play(DeckID), tempo, sync(DeckID), keylock(DeckID), grid(DeckID), seek(DeckID), recall(DeckID)
+        case play(DeckID), tempo, freeRate(DeckID), sync(DeckID), keylock(DeckID), grid(DeckID), seek(DeckID), recall(DeckID)
         case performance(DeckID, Int32)
         init(_ control: SourceControl) {
             switch control {
+            case .brake(_, _, let deck, _): self = .performance(deck, 23)
             case .play(let deck, _): self = .play(deck)
             case .tempo: self = .tempo
+            case .freeRate(_, let deck, _): self = .freeRate(deck)
             case .sync(_, let deck, _), .restoreSync(let deck, _): self = .sync(deck)
             case .keylock(_, let deck, _): self = .keylock(deck)
             case .grid(_, let deck, _), .adaptiveMap(_, let deck, _): self = .grid(deck)
@@ -521,7 +564,7 @@ extension PlaybackController {
         var deck: DeckID? {
             switch self {
             case .tempo: nil
-            case .play(let deck), .sync(let deck), .keylock(let deck), .grid(let deck), .seek(let deck),
+            case .play(let deck), .freeRate(let deck), .sync(let deck), .keylock(let deck), .grid(let deck), .seek(let deck),
                  .recall(let deck), .performance(let deck, _): deck
             }
         }
@@ -564,6 +607,11 @@ extension PlaybackController {
         }
     }
     @discardableResult private func submitSource(_ control: SourceControl, canPrepare: Bool = true) throws -> UInt64 {
+        switch control {
+        case .tempo, .keylock: break
+        case .play: invalidateRecovery()
+        default: invalidateRecovery(deck: control.deck)
+        }
         let lane = SourceLane(control)
         invalidateSource(lane)
         nextSourceIdentity &+= 1

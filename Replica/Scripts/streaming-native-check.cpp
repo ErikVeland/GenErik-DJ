@@ -413,6 +413,45 @@ static void cooperative_reader_checks(const char *path,uint64_t frames,const tdj
 }
 #include "streaming-handoff-check.h"
 
+static void free_rate_coverage_checks(const std::vector<float> &source,const char *path) {
+    tdj_stream_config config{48000,0,0,512,0};
+    auto memory=tdj_asset_create(source.data(),source.size()/2,48000);assert(memory);
+    unsigned cold=0;
+    for(int offset=0;offset<8192;offset+=512) {
+        int32_t error=0;auto a=tdj_asset_open_stream(path,source.size()/2,48000,&config,&error);assert(a);
+        tdj_stream_target target{};target.position=48000+offset;target.source_speed=target.performance_rate=1;target.keylock=1;
+        tdj_stream_request request{};assert(tdj_asset_plan_minimum(a,&target,serial++,1,&request)==TDJ_STREAM_READY);
+        auto ticket=tdj_asset_request_prepare(a,&request);assert(ticket);
+        for(int n=0;n<100 && tdj_asset_prepare_status(a,ticket)==TDJ_STREAM_PENDING;n++)assert(tdj_asset_service(a,4)>=0);
+        assert(tdj_asset_prepare_status(a,ticket)==TDJ_STREAM_READY);
+        auto e=tdj_engine_create(48000,1),reference=tdj_engine_create(48000,1);assert(e&&reference);
+        auto load=action(TDJ_LOAD);load.asset=a;load.value=target.position;load.value2=120;load.flag=8;load.preparation_ticket=ticket;
+        assert(command(e,load)==TDJ_OK);tdj_asset_release_preparation(a,ticket);
+        load.asset=memory;load.preparation_ticket=0;assert(command(reference,load)==TDJ_OK);
+        assert(command(e,action(TDJ_PLAY))==TDJ_OK);assert(command(reference,action(TDJ_PLAY))==TDJ_OK);
+        target.source_speed=1.5;assert(tdj_asset_plan_minimum(a,&target,serial++,1,&request)==TDJ_STREAM_READY);
+        bool ready=tdj_stream_covers(a,&request);
+        auto rate=action(TDJ_FREE_RATE);rate.value=1.5;
+        int status=command(e,rate);assert(status==(ready ? TDJ_OK:TDJ_SOURCE_COLD));
+        if(ready)assert(command(reference,rate)==TDJ_OK);
+        else {
+            cold++;tdj_snapshot state{};assert(tdj_read_snapshot(e,&state));
+            assert(state.a.free_rate==1&&state.a.source_frame==load.value&&state.a.state==TDJ_PLAYING);
+        }
+        // Rejected changes must leave every currently audible sample intact.
+        equal(e,reference,a,1);
+        if(!ready) {
+            tdj_snapshot state{};assert(tdj_read_snapshot(e,&state));
+            ticket=prepare(a,e,state.a.source_frame,1,1.5,true);
+            rate.preparation_ticket=ticket;assert(command(e,rate)==TDJ_OK);tdj_asset_release_preparation(a,ticket);
+            rate.preparation_ticket=0;assert(command(reference,rate)==TDJ_OK);
+        }
+        equal(e,reference,a,4);
+        tdj_engine_destroy(e);tdj_engine_destroy(reference);tdj_asset_destroy(a);
+    }
+    assert(cold>0);tdj_asset_destroy(memory);
+    puts("Sixteen speed-change cache boundaries preserve current audio while cold and emit exact prepared samples with zero misses.");
+}
 int main() {
     streaming_handoff_checks();
     constexpr uint64_t frames=48000*90;
@@ -553,6 +592,7 @@ int main() {
     assert(metrics.resident_pcm_bytes==TDJ_STREAM_BLOCK_COUNT*TDJ_STREAM_BLOCK_FRAMES*8ull && metrics.rejected_cold_commands>=1);
     std::printf("Exact streamed/reference reads, Keylock, cold target, Flux, quantised ownership, loop wrap and reverse passed; bytes read %llu.\n",metrics.bytes_read);
     tdj_asset_destroy(a);assert(tdj_stream_reserved_pcm_bytes()==0);
+    free_rate_coverage_checks(source,path);
     cue_recall_checks(source,path,config);assert(tdj_stream_reserved_pcm_bytes()==0);
     ended_stream_recall_checks(source,path,config);assert(tdj_stream_reserved_pcm_bytes()==0);
     rate_return_stream_checks(source,path,config);assert(tdj_stream_reserved_pcm_bytes()==0);

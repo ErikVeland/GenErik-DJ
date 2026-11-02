@@ -58,6 +58,7 @@ public struct WorkspaceStore: Sendable {
         }
         var librarySourceIDs: Set<String> = []
         for track in snapshot.tracks {
+            try track.keyGovernance?.validate(trackID: track.id)
             for source in track.musicLibrarySources ?? [] {
                 guard !source.persistentID.isEmpty, librarySourceIDs.insert(source.id).inserted else {
                     throw CoreError.invalidWorkspace("Invalid or duplicate music-library identity.")
@@ -322,7 +323,7 @@ public actor LibraryService {
             track.preparation.grid = grid
             track.preparation.gridIsManual = true
         }
-        if track.preparation.correctedKey == nil { track.preparation.correctedKey = original.normalized.key }
+        track.preparation.importKey(original.normalized.key, authority: .traktor)
     }
 
     private static func copyVerifiedAudio(url: URL, destination: URL, sourceIdentity: String) async throws {
@@ -348,7 +349,9 @@ public actor LibraryService {
             guard track.analysis.sampleRate == analysis.sampleRate, track.analysis.frameCount == analysis.frameCount else {
                 throw CoreError.invalidAudio("Updated analysis does not match the prepared source.")
             }
+            let previousAnalysis = track.analysis
             track.analysis = analysis
+            track.recordKeyAnalysisChange(from: previousAnalysis)
             if !track.preparation.gridIsManual && !track.preparation.gridLocked {
                 track.preparation.grid = try analysis.bpm.map {
                     try BeatGrid(bpm: $0, anchorFrame: analysis.beatAnchorFrame ?? 0,
@@ -391,6 +394,7 @@ public actor LibraryService {
         }
         var changed = library
         changed.tracks[index].analysis = analysis
+        changed.tracks[index].recordKeyAnalysisChange(from: previous)
         if !changed.tracks[index].preparation.gridIsManual && !changed.tracks[index].preparation.gridLocked {
             changed.tracks[index].preparation.grid = try analysis.bpm.map {
                 try BeatGrid(bpm: $0, anchorFrame: analysis.beatAnchorFrame ?? 0, sampleRate: analysis.sampleRate,
@@ -405,6 +409,47 @@ public actor LibraryService {
         guard let index = library.tracks.firstIndex(where: { $0.id == trackID }) else { throw CoreError.staleContext }
         var changed = library
         changed.tracks[index].preparation = preparation
+        if library.tracks[index].preparation.correctedKey != preparation.correctedKey ||
+            library.tracks[index].preparation.correctedKeyAuthority != preparation.correctedKeyAuthority {
+            var state = changed.tracks[index].keyGovernance ?? .init()
+            state.events.append(.init(action: "preparationEdit", observationID: nil, decision: changed.tracks[index].keyDecision))
+            changed.tracks[index].keyGovernance = state
+        }
+        changed.revision += 1
+        library = try store.save(changed)
+        return library
+    }
+
+    public func previewKeyImport(data: Data) throws -> KeyImportPlan {
+        guard data.count <= 2 * 1024 * 1024 else {
+            throw CoreError.invalidAudio("The key import exceeds the 2 MB limit.")
+        }
+        let manifest = try JSONDecoder().decode(KeyImportManifest.self, from: data)
+        return try KeyImportPlan(manifest: manifest, library: library)
+    }
+
+    public func applyKeyImport(_ plan: KeyImportPlan, preservePreparationFor protectedTracks: Set<String> = []) throws -> LibrarySnapshot {
+        guard !plan.changes.contains(where: { $0.addsEvidence && protectedTracks.contains($0.trackID) }) else {
+            throw CoreError.invalidAudio("Stop the protected tracks before you apply key imports.")
+        }
+        let changed = try plan.applying(to: library)
+        guard changed != library else { return library }
+        library = try store.save(changed)
+        return library
+    }
+
+    public func reviewKey(trackID: String, key: MusicalKey, reason: String, expectedRevision: Int,
+                          preservePreparationFor protectedTracks: Set<String> = []) throws -> LibrarySnapshot {
+        guard expectedRevision == library.revision, !protectedTracks.contains(trackID),
+              let index = library.tracks.firstIndex(where: { $0.id == trackID }) else { throw CoreError.staleContext }
+        guard !reason.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty, reason.utf8.count <= 4096 else {
+            throw CoreError.invalidAudio("Record a review reason between 1 and 4096 bytes.")
+        }
+        var changed = library
+        changed.tracks[index].preparation.correctedKey = key
+        var state = changed.tracks[index].keyGovernance ?? .init()
+        state.events.append(.init(action: "review", observationID: nil, decision: changed.tracks[index].keyDecision, reason: reason))
+        changed.tracks[index].keyGovernance = state
         changed.revision += 1
         library = try store.save(changed)
         return library

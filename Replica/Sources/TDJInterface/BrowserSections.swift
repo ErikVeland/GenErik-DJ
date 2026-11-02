@@ -183,6 +183,7 @@ struct SettingsBrowser: View {
     @ViewBuilder private var content: some View {
         switch page {
         case .playback:
+            RecoverySettingsView(model: model)
             choiceGroup("Default Loop Size", [4.0, 8, 16, 32].map { ("\(Int($0)) Beats", $0) }, selected: model.performance.defaultLoopBeats) {
                 model.performance.defaultLoopBeats = $0; model.savePerformance()
             }

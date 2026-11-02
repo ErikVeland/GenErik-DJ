@@ -10,4 +10,4 @@ xcrun clang -O3 -std=c11 -I Sources/CTDJTransport/include -c Sources/CTDJTranspo
 xcrun clang -O3 -std=c11 -I Sources/CTDJTransport/include -c Sources/CTDJTransport/TDJStreaming.c -o "$TDJ_PERFORMANCE_OUTPUT/streaming.o"
 xcrun clang -O3 -std=c11 -I Sources/CTDJTransport/include -c Sources/CTDJTransport/TDJRecording.c -o "$TDJ_PERFORMANCE_OUTPUT/recording.o"
 xcrun clang++ -O3 -std=c++17 -I Sources/CTDJTransport/include -I Sources/CTDJTransport/Vendor Sources/CTDJTransport/TDJKeylock.cpp Scripts/performance-render-stress.cpp "$TDJ_PERFORMANCE_OUTPUT/transport.o" "$TDJ_PERFORMANCE_OUTPUT/streaming.o" "$TDJ_PERFORMANCE_OUTPUT/recording.o" -framework Accelerate -o "$TDJ_PERFORMANCE_OUTPUT/check"
-"$TDJ_PERFORMANCE_OUTPUT/check" "$TDJ_PERFORMANCE_OUTPUT/result.json" "${2:-30}" "${3:-0}" "${4:-0}"
+"$TDJ_PERFORMANCE_OUTPUT/check" "$TDJ_PERFORMANCE_OUTPUT/result.json" "${2:-30}" "${3:-0}" "${4:-0}" "${5:-0}"
