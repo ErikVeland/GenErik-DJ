@@ -10,8 +10,9 @@
   "build": 45,
   "app": "TestBuilds/ipad/45/GenErikDJ.app",
   "appSHA256": "433a262617b4dd0d061dff197e3606e68382345576377dadeff758f2f2b5ad92",
-  "state": "ready",
+  "state": "testing",
   "createdUTC": "2026-11-02T12:06:18.048863+00:00",
-  "deploymentStatus": "unconfirmed",
-  "deploymentNote": "The first install attempt stalled and was stopped. The bounded retry timed out after 20 seconds. Installation and launch are not confirmed. Reconnect/unlock the test iPad, then install this saved app without rebuilding."
+  "deploymentStatus": "confirmed",
+  "deploymentNote": "Confirmed by successful devicectl installation and launch after connection became available. Install command completed in 1.576 seconds.",
+  "installedUTC": "2026-11-02T12:21:22.259139+00:00"
 }
