@@ -2,6 +2,10 @@
 
 The goal is Erik's personal TDJ1 successor for real performance. The reference workflow comes from 13 years of use. The minimum recorded device is the 2017 10.5-inch A10X iPad Pro. Existing deployment targets and performance limits remain unchanged.
 
+## Small test releases
+
+Use [the micro-release loop](micro-releases.md) for development feedback. The five gates below govern gig acceptance. They are not prerequisites for each test installation. Historical reconciliation and unrelated unfinished features do not block a small test release.
+
 ## Gate 1: Preserved source
 
 - [x] Commit the shared source, tests and feature notes.

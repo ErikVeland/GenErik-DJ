@@ -15,7 +15,8 @@ Preserve Erik's TDJ1 touch-first performance workflow. Continuous clean audio an
 - Do not delete old branches, private candidates or validation evidence before verifying their disposition.
 - Bind verification results to the source that ran. Preserve failed and incomplete results.
 - Do not call an implementation complete, device-tested or gig-ready from build success alone.
-- Follow the device-window requirement in `docs/coordination/release-gates.md` before any physical iPad operation.
+- Use the micro-release loop in `docs/coordination/micro-releases.md` for small test releases. Full gig acceptance does not block a test build.
+- A request to build, update or deploy to the test iPad authorises that operation. Ask about timing only when a testing hold or active performance makes the current authorisation unclear.
 
 ## Writing style
 

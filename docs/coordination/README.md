@@ -35,6 +35,10 @@ The release standard is Erik's acceptance on his real setup. A successful build 
 
 The repository's older feature notes and `Replica/Status.md` retain dated evidence. This entry point controls current priorities and release status.
 
+## Development feedback
+
+Use [the micro-release loop](micro-releases.md) for each small change. Release a focused test candidate before starting the next feature. Historical reconciliation runs separately and does not block test releases. Full release gates govern gig acceptance.
+
 ## Order of work
 
 1. Preserve and combine the existing work. Keep original branches and evidence.

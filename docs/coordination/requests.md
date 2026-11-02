@@ -26,6 +26,7 @@ Updated 2 November 2026. Owner for triage and integration: this coordination cha
 | R18 | First | One manageable branch and tracked work | Included locally: source checkpoint and merges on `feature/project-integration`. | Remote backup/review link, final clean status and source-bound result record. Preserve the old branches until their disposition is verified. |
 | R19 | First | No missed work or forgotten requests | Partial: chat inventory, handovers, 18 private candidates and historical differences recorded. | Compare meaningful private patches and unreadable/older history against current implementation. Classify each as included, superseded, research, open or intentionally deferred. Do not mark complete from a filename inventory. |
 | R20 | First | A test build Erik can trust enough to rehearse with | Open. | Complete the release gates. Give the build a source identity and an honest known-issues list. Erik's listening and rehearsal determine acceptance. |
+| R21 | First | Restore frequent iPad micro-releases | Included: incremental signed build/install/launch command and separate test-release policy. | Verify signing and installation on the authorised test iPad. Measure a warm release before claiming a five-minute cycle. |
 
 ## Evidence index
 
