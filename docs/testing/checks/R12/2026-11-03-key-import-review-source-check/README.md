@@ -1,12 +1,12 @@
 # R12 key-import review source check — 3 November 2026
 
-Application source: `8fdfeeb6ba910b5eb0818d80ae77ce55ae526fee`.
+Application source: `7f21a6a72fa79733d9069aa6c375e6e981d31c3b`.
 
 ## Results
 
 | Check | Result | Detail |
 | --- | --- | --- |
-| `swiftc -frontend -parse` on the changed Swift files | PASS | Syntax parsing completed. This does not type-check or link the app. |
+| `swiftc -frontend -parse` on the changed Swift files | PASS | Syntax parsing completed, including the raw key/notation row and bounded chunk reader. This does not type-check or link the app. |
 | `git diff --check` | PASS | No whitespace errors were reported. |
 | Focused governance tests, app build and rendered UI review | NOT RUN | The user requested development without iPad access. The local Xcode licence is not accepted, so project test/build commands remain unavailable. |
 
