@@ -1,6 +1,6 @@
 # Requests and work ledger
 
-Updated 2 November 2026. Owner for triage and integration: this coordination chat.
+Updated 3 November 2026. Owner for triage and integration: this coordination chat.
 
 **Included** means code is on `feature/project-integration`. **Partial** means some requested behaviour remains unfinished. **Open** means acceptance or implementation has not been established. None of these labels claims gig acceptance.
 
@@ -30,6 +30,7 @@ Updated 2 November 2026. Owner for triage and integration: this coordination cha
 | R22 | Next | Finish the SuperSlicer scratching DLC | Included: forward/back Scratch speed, contact handover at rest and a reachable Brake stop. Sixteen focused checks passed. Additional Flux cases passed for Loop Stutter and Turntablism. Native Scratch continuity passed at 44.1, 48 and 96 kHz. Signed build 46 installed and launched. | Erik's listening/feel acceptance. Exact speed sensitivity, Brake curve and original-app equivalence remain subject to device feedback. Source-bound results and initial failing checks: `../testing/checks/R22/`. |
 
 | R23 | First | All NI controllers and class-compliant MIDI hardware, including Serato/Pioneer/other ecosystems; Z1 Mk1 first | Partial: shared MIDI Learn, paired high-resolution CC/relative/pressure/program inputs, existing deck-action bindings, and a development original-Z1 control/feedback relay. Erik owns Z1 and permits a bridge. | Complete verified model profiles, jog/touch and modifiers, other native adapters, generic output/screens/motors, actual bridge hardware and audio routing, and physical acceptance. See `controller-coverage.md` and `controller-research.md`. No universal hardware claim. |
+| R24 | Next | Put Extra Controls in a section under Features | Included: Extra Controls now appears below the existing Features controls in Settings. | Verify the Settings navigation and control values on the signed iPad build. |
 
 ## Evidence index
 

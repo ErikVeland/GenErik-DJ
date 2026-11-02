@@ -154,7 +154,7 @@ struct HistoryBrowser: View {
 
 /// Settings in two columns: a category list and its options.
 struct SettingsBrowser: View {
-    enum Page: String, CaseIterable { case playback = "Playback", extras = "Extra Controls", library = "Library", notifications = "Notifications",
+    enum Page: String, CaseIterable { case playback = "Playback", library = "Library", notifications = "Notifications",
                                       browser = "Browser", controllers = "Controllers", mixcloud = "Mixcloud", features = "Features", about = "About" }
     @Bindable var model: ReplicaModel
     var importAudio: () -> Void = {}
@@ -192,9 +192,6 @@ struct SettingsBrowser: View {
             }
             Toggle("Slicer Quantize", isOn: Binding(get: { model.performance.slicerQuantize }, set: { model.performance.slicerQuantize = $0; model.savePerformance() }))
             Toggle("Freeze on Load", isOn: Binding(get: { model.performance.freezeOnLoad }, set: { model.performance.freezeOnLoad = $0; model.savePerformance() }))
-        case .extras:
-            Text("Controls from the later app. Each is off by default.").foregroundStyle(.secondary)
-            PlaybackSettings(model: model).extrasOnly()
         case .library:
             Button { Task { await model.openNativeMusicLibrary() } } label: { Label("Refresh Music library", systemImage: "arrow.clockwise") }
             Button(action: importAudio) { Label("Import audio files", systemImage: "folder") }
@@ -215,6 +212,10 @@ struct SettingsBrowser: View {
         case .features:
             Toggle("Flux Mode", isOn: $fluxMode)
             Toggle("SuperSlicer", isOn: $superSlicer)
+            Divider()
+            Text("Extra Controls").font(.headline)
+            Text("Controls from the later app. Each is off by default.").foregroundStyle(.secondary)
+            PlaybackSettings(model: model).extrasOnly()
         case .about:
             GenErikBrandLockup()
             Text("Version \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—") (\(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "—"))")

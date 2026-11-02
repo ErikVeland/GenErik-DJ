@@ -1,6 +1,6 @@
 # GenErik DJ project control
 
-Updated 2 November 2026, Australia/Brisbane. This is the current project entry point.
+Updated 3 November 2026, Australia/Brisbane. This is the current project entry point.
 
 **Current working mode:** [Erik's minute-scale iPad loop](../testing/README.md). iPad only, Erik as sole developer/tester. The broader release gates below are separate from routine iterations.
 
@@ -16,13 +16,13 @@ The release standard is Erik's acceptance on his real setup. A successful build 
 
 - Active development branch: `feature/project-integration`.
 - Remote backup: `origin/feature/project-integration`. Review: [draft PR #3](https://github.com/ErikVeland/GenErik-DJ/pull/3), against `main`.
-- Prepared controller candidate: build 51, application source `a437cec2bc37506fa24c63e666e97ec53d570ed8`. Installed Scratch candidate: build 46.
+- Prepared controller candidate: build 51, application source `a437cec2bc37506fa24c63e666e97ec53d570ed8`. Installed vinyl-stop candidate: build 55, installed and launched on 3 November. Erik's acceptance is pending.
 - Shared uncommitted work was backed up and committed as `7a974c385`.
 - Current remote main, full-library search, adaptive beatgrids and A10X reverb are included by merge history.
 - Browser merge resolution preserves full-library search and the iPad layout constraints.
 - Earlier chats were stopped. Later user-requested Scratch and gig-blocker work is recorded separately. This chat has not spawned agents. Shared builds and device handovers must remain coordinated.
 - Historical combined source `335cec6b7` passed 688 Release tests. Later Scratch/controller changes have their own focused checks and signed iPad build records. Routine Mac/simulator/full-suite runs are disabled by the current iPad loop policy.
-- Build 45 was installed and launched, then Scratch build 46 replaced it. Controller build 51 is prepared only. Erik's acceptance remains open.
+- Build 53's automatic launch timed out while the iPad was locked. Build 55 later installed and launched. Erik's listening and acceptance remain open.
 
 ## One working system
 
