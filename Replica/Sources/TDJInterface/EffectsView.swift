@@ -33,6 +33,7 @@ struct EffectsView: View {
                 }
             }.zIndex(2)
             EffectDelayControl(model:model,deck:deck,slot:selectedSlot)
+            TransposeKeyControls(model:model,deck:deck,slot:selectedSlot)
             EffectPad(model:model,deck:deck,slot:selectedSlot) { event in
                 let selected=selectedSlot
                 guard let update=gesture.handle(event,selectedSlot:selected) else { return }
@@ -50,6 +51,66 @@ struct EffectsView: View {
     }
     private func effect(_ slot: Int) -> EffectControl { model.effects[deck]?[slot] ?? .init() }
 }
+@MainActor
+private struct TransposeKeyControls: View {
+    @Bindable var model: ReplicaModel
+    let deck: DeckID
+    let slot: Int
+
+    private var otherDeck: DeckID { deck == .a ? .b : .a }
+    private var effect: EffectControl { model.effects[deck]?[slot] ?? .init() }
+    private var matchOffset: Int? {
+        guard let source=model.track(deck)?.key, let target=model.track(otherDeck)?.key else { return nil }
+        return KeyShift.matchOffset(from:source,to:target)
+    }
+
+    var body: some View {
+        Group {
+            if effect.kind == PerformanceEffect.transposeStretch.rawValue {
+                VStack(alignment:.leading,spacing:4) {
+                    HStack(spacing:10) {
+                        Button("−1 st") { step(-1) }
+                        Text(KeyShift.semitones(for:effect.x).map { String(format:"%+.1f st",$0) } ?? "—")
+                            .font(.caption.monospacedDigit())
+                        Button("+1 st") { step(1) }
+                        Spacer(minLength:4)
+                        Button("Match \(otherDeck.rawValue.uppercased())") {
+                            if let matchOffset { setSemitones(Double(matchOffset),fullyWet:true) }
+                        }
+                        .disabled(matchOffset == nil)
+                    }.font(.caption)
+                    if let source=model.track(deck)?.key, let target=model.track(otherDeck)?.key,
+                       source.mode != target.mode {
+                        Text("Key Match requires the same major or minor mode.")
+                            .font(.caption2).foregroundStyle(.secondary)
+                    }
+                }
+            }
+        }
+    }
+
+    private func step(_ amount: Int) {
+        guard let current=KeyShift.semitones(for:effect.x),
+              let position=KeyShift.position(for:min(12,max(-60,Double(current.rounded())+Double(amount)))) else { return }
+        setPosition(position)
+    }
+
+    private func setSemitones(_ semitones: Double, fullyWet: Bool) {
+        guard let position=KeyShift.position(for:semitones) else { return }
+        var changed=effect
+        changed.x=position
+        changed.enabled=true
+        if fullyWet { changed.y=1 }
+        model.setEffect(changed,slot:slot,deck:deck,persist:true)
+    }
+
+    private func setPosition(_ position: Double) {
+        var changed=effect
+        changed.x=position
+        model.setEffect(changed,slot:slot,deck:deck,persist:true)
+    }
+}
+
 @MainActor
 private struct EffectDelayControl: View {
     @Bindable var model: ReplicaModel

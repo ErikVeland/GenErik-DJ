@@ -36,6 +36,9 @@ final class EffectSlotDisplay {
     }
     static func padLabel(_ value: EffectControl) -> String {
         guard let effect=PerformanceEffect(rawValue:value.kind) else { return "" }
+        if effect == .transposeStretch, let semitones=KeyShift.semitones(for:value.x) {
+            return String(format:"Transpose Stretch · %+.1f st",semitones)
+        }
         if effect == .delay,value.delaySync == false,value.x.isFinite {
             return "\(effect.name) · \(Int((25*pow(80,min(1,max(0,value.x)))).rounded())) ms"
         }
