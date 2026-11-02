@@ -95,7 +95,7 @@ final class ControllerMIDIConnection {
                 let count = Int(packet.pointee.length)
                 let bytes = UnsafeRawPointer(packet).advanced(by: dataOffset).assumingMemoryBound(to: UInt8.self)
                 inbox.append(source: source, bytes: count <= 4096 ? Array(UnsafeBufferPointer(start: bytes, count: count)) : Array(repeating: 0, count: 4097))
-                packet = MIDIPacketNext(packet)
+                packet = UnsafePointer(MIDIPacketNext(packet))
             }
         }
         guard result == noErr else { stop(); status = "MIDI input could not open (\(result))."; return }

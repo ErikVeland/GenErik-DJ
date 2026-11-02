@@ -1,0 +1,1514 @@
+Building for debugging...
+[0/44] /private/tmp/generik-recovery-fallback/Replica/.build/arm64-apple-macosx/debug/GenErikDJPackageTests.derived/runner.swift
+[1/44] Compiling CTDJTransport TDJRecording.c
+[2/44] Write tdj-tool-entitlement.plist
+[2/44] Write tdj-runtime-validation-entitlement.plist
+[2/44] Write tdj-preview-entitlement.plist
+[2/44] Write tdj-audio-check-preview-entitlement.plist
+[6/44] Write swift-version-39B54973F684ADAB.txt
+[7/44] Write sources
+[17/44] Copying Rajdhani-Bold.ttf
+[18/44] Copying OFL.txt
+[19/44] Copying GenErikHeaderWordmark.png
+[20/44] Copying GenErikHeaderMark.png
+[21/44] Copying BrandAssets.xcassets
+[22/44] Copying Fixtures
+[23/44] Write sources
+[24/44] Compiling CTDJTransport TDJStreaming.c
+[25/44] Compiling CTDJTransport TDJKeylockDiagnostics.c
+[26/44] Compiling CTDJTransport TDJTransport.c
+[27/44] Compiling CTDJTransport TDJCallbackMetrics.c
+[28/44] Compiling CTDJAudioSource TDJNativeAudioSource.mm
+[29/44] Compiling CTDJTransport TDJKeylock.cpp
+[31/66] Compiling TDJCore AdaptiveRhythmAnalyzer.swift
+[32/66] Compiling TDJCore AnalysisBenchmark.swift
+[33/66] Compiling TDJCore AnalysisWorker.swift
+[34/66] Compiling TDJCore AudioAnalyzer.swift
+[35/66] Compiling TDJCore AudioCallbackMetrics.swift
+[36/66] Compiling TDJCore BackgroundOwnedResource.swift
+[37/66] Compiling TDJCore BackgroundOwnedValue.swift
+[38/66] Compiling TDJCore BandWaveform.swift
+[39/66] Compiling TDJCore BeatGrid.swift
+[40/66] Compiling TDJCore BeatGridMap.swift
+[41/66] Compiling TDJCore BrowserRecommendations.swift
+[42/66] Compiling TDJCore CollectionBrowser.swift
+[43/66] Compiling TDJCore CollectionPlaylists.swift
+[44/66] Compiling TDJCore CollectionProjection.swift
+[45/66] Compiling TDJCore EmbeddedMetadata.swift
+[46/66] Compiling TDJCore HistorySessions.swift
+[47/66] Compiling TDJCore KeyGovernance.swift
+[48/66] Compiling TDJCore KeyImportPlan.swift
+[49/66] Compiling TDJCore LibraryBrowserEntry.swift
+[50/66] Compiling TDJCore LibraryBrowserProjection.swift
+[51/66] Compiling TDJCore LibraryGroupProjection.swift
+[52/66] Emitting module TDJCore
+[53/107] Compiling TDJCore LibraryPlaylistOccurrences.swift
+[54/107] Compiling TDJCore LibraryTrackLookup.swift
+[55/107] Compiling TDJCore MixerPreferences.swift
+[56/107] Compiling TDJCore Models.swift
+[57/107] Compiling TDJCore MusicLibrary.swift
+[58/107] Compiling TDJCore MusicLibraryAudio.swift
+[59/107] Compiling TDJCore MusicLibraryProjection.swift
+[60/107] Compiling TDJCore MusicLibraryReconciliation.swift
+[61/107] Compiling TDJCore MusicalAnalysisFeatures.swift
+[62/107] Compiling TDJCore MusicalSpectrumAnalyzer.swift
+[63/107] Compiling TDJCore NativeAnalysisPlan.swift
+[64/107] Compiling TDJCore NativeAudioRenderOwnership.swift
+[65/107] Compiling TDJCore NativeBeatGridMap.swift
+[66/107] Compiling TDJCore OutputSourcePreparation.swift
+[67/107] Compiling TDJCore PCMCache.swift
+[68/107] Compiling TDJCore PCMStreaming.swift
+[69/107] Compiling TDJCore PCMStreamingTelemetry.swift
+[70/107] Compiling TDJCore PerformanceEffect.swift
+[71/107] Compiling TDJCore PerformancePreparation.swift
+[72/107] Compiling TDJCore PerformerSuggestions.swift
+[73/107] Compiling TDJCore Recovery.swift
+[74/107] Compiling TDJCore SampleTransport.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[75/107] Compiling TDJCore SetRecorder.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[76/107] Compiling TDJCore SourceControl.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[77/107] Compiling TDJCore SourceControlPlanning.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[78/107] Compiling TDJCore Suggestions.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[79/107] Compiling TDJCore SyncAlignment.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[80/107] Compiling TDJCore TrackArrangement.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[81/107] Compiling TDJCore TraktorCollectionReferenceReader.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[82/107] Compiling TDJCore TraktorNMLReferenceReader.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[83/107] Compiling TDJCore TraktorPreparationCatalog.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[84/107] Compiling TDJCore TraktorPreparationMergePlan.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[85/107] Compiling TDJCore TraktorPreparationReferenceWorker.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[86/107] Compiling TDJCore TraktorPreparationStorage.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[87/107] Compiling TDJCore TraktorPreparedTrack.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[88/107] Compiling TDJCore VinylBrake.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[89/107] Compiling TDJCore WaveformLayers.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[90/107] Compiling TDJCore WaveformRangeIndex.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[91/107] Compiling TDJCore WaveformStorage.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[92/107] Compiling TDJCore Workspace.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[93/107] Compiling TDJCore Z1Protocol.swift
+/private/tmp/generik-recovery-fallback/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[94/135] Compiling TDJInterface ArrangementModel.swift
+[95/135] Compiling TDJInterface ArrangementViews.swift
+[96/135] Emitting module TDJTool
+[97/136] Compiling TDJTool TransportProbe.swift
+[98/159] Emitting module TDJInterface
+[99/159] Compiling TDJCoreTests AdaptivePreparationTests.swift
+[100/159] Compiling TDJCoreTests AdaptiveRhythmTests.swift
+[101/159] Compiling TDJCoreTests AdaptiveTransportTests.swift
+[102/159] Compiling TDJCoreTests AnalysisBenchmarkTests.swift
+[103/159] Compiling TDJCoreTests AnalysisTests.swift
+[104/159] Compiling TDJCoreTests AnalysisWorkerTests.swift
+[105/159] Compiling TDJCoreTests ArrangementTimingTests.swift
+[106/159] Compiling TDJCoreTests AudioCallbackMetricsTests.swift
+[107/159] Compiling TDJCoreTests AutomaticPreparationImportTests.swift
+[108/159] Compiling TDJCoreTests AutomaticTraktorPreparationTests.swift
+[109/159] Compiling TDJCoreTests BackgroundOwnedValueTests.swift
+[110/159] Compiling TDJCoreTests BandWaveformTests.swift
+[111/159] Compiling TDJCoreTests BaseEffectTests.swift
+[112/159] Compiling TDJCoreTests BeatGridMapTests.swift
+[113/159] Compiling TDJCoreTests CollectionSortIndexTests.swift
+[114/159] Compiling TDJCoreTests CollectionTests.swift
+[115/159] Compiling TDJCoreTests DlcEffectTests.swift
+[116/159] Compiling TDJCoreTests GridCueTests.swift
+[117/159] Compiling TDJCoreTests GridLockedEffectTests.swift
+[118/159] Compiling TDJCoreTests GridTests.swift
+[119/159] Compiling TDJCoreTests ImportTests.swift
+[120/159] Compiling TDJCoreTests KeyGovernanceTests.swift
+[121/159] Compiling TDJInterface GenErikBrandLockup.swift
+[122/159] Compiling TDJInterface GestureHelp.swift
+[123/205] Compiling TDJInterface KeyColour.swift
+[124/205] Compiling TDJInterface LibraryBrowserPlaylistSave.swift
+[125/205] Compiling TDJInterface LibraryBrowserRequest.swift
+[126/205] Compiling TDJInterface LibraryGroupChooser.swift
+[127/205] Compiling TDJInterface LoadSliderGestureSession.swift
+[128/205] Compiling TDJInterface LocalMusicLibrary.swift
+[129/205] Compiling TDJInterface MixerFaderInputValues.swift
+[130/205] Compiling TDJInterface MixerPaneState.swift
+[131/205] Compiling TDJInterface MixerView.swift
+[132/205] Compiling TDJInterface MusicLibraryView.swift
+[133/205] Compiling TDJInterface NativeMusicAnalysisQueue.swift
+[134/205] Compiling TDJInterface NativeMusicModel.swift
+[135/205] Compiling TDJInterface PaneDismissGesture.swift
+[136/205] Compiling TDJInterface PerformanceControls.swift
+[137/205] Compiling TDJInterface PerformanceModel.swift
+[138/205] Compiling TDJInterface PerformanceOverlay.swift
+[139/205] Compiling TDJInterface PerformancePalette.swift
+[140/205] Compiling TDJInterface PlaybackControlDisplay.swift
+[141/205] Compiling TDJInterface PlaybackController.swift
+[142/205] Compiling TDJInterface PlaybackSettings.swift
+[143/205] Compiling TDJInterface PlaybackTimingActivity.swift
+[144/205] Compiling TDJInterface PreparationImportPill.swift
+[145/205] Compiling TDJInterface PreparationImportProgress.swift
+[146/205] Emitting module TDJCoreTests
+[169/249] Compiling TDJCoreTests ReservedLoadTests.swift
+[170/249] Compiling TDJCoreTests ReverbQualityTests.swift
+[171/249] Compiling TDJCoreTests SuggestionTests.swift
+[172/249] Compiling TDJCoreTests SyncRestorationTests.swift
+[173/249] Compiling TDJCoreTests TrackArrangementTests.swift
+[174/249] Compiling TDJCoreTests TraktorAnalysisPreservationTests.swift
+[175/249] Compiling TDJCoreTests TraktorGzipReferenceTests.swift
+[176/249] Compiling TDJCoreTests TraktorNMLEncodingRegressionTests.swift
+[177/249] Compiling TDJCoreTests TraktorNMLReferenceReaderTests.swift
+[178/249] Compiling TDJCoreTests TraktorPreparationIntegrationTests.swift
+[179/249] Compiling TDJCoreTests TraktorPreparationMergePlanTests.swift
+[180/249] Compiling TDJCoreTests TraktorPreparationReferenceWorkerTests.swift
+[181/249] Compiling TDJCoreTests TransportTests.swift
+[182/249] Compiling TDJCoreTests VinylBrakeTests.swift
+[183/249] Compiling TDJCoreTests WaveformRangeIndexTests.swift
+[184/249] Compiling TDJCoreTests WaveformStorageTests.swift
+[185/249] Compiling TDJCoreTests WorkspaceTests.swift
+[186/249] Compiling TDJCoreTests Z1Tests.swift
+[187/249] Compiling TDJCoreTests resource_bundle_accessor.swift
+[188/249] Compiling TDJInterface WaveformIndexes.swift
+[189/249] Compiling TDJInterface WaveformTouch.swift
+[190/249] Compiling TDJInterface Z1HIDConnection.swift
+[191/249] Compiling TDJInterface resource_bundle_accessor.swift
+[191/249] Write Objects.LinkFileList
+[193/257] Compiling TDJRuntimeChecks AudioCheckDisplayMetrics.swift
+[194/257] Compiling TDJRuntimeChecks AudioCheckPanelMotion.swift
+[195/257] Compiling TDJRuntimeChecks AudioRuntimeCheckLaunch.swift
+[196/257] Compiling TDJRuntimeChecks AudioRuntimeCheckPresentation.swift
+[197/257] Compiling TDJRuntimeChecks AudioRuntimeChecks.swift
+[198/257] Compiling TDJRuntimeChecks AudioRuntimeFixture.swift
+[199/257] Compiling TDJRuntimeChecks AudioRuntimeKeylockStress.swift
+[200/257] Emitting module TDJRuntimeChecks
+[201/263] Compiling TDJRuntimeChecks RuntimeControlCompletionTiming.swift
+[202/263] Compiling TDJRuntimeChecks RuntimeControlSubmissionTrace.swift
+[203/263] Compiling TDJRuntimeChecks RuntimeDirectControlDriver.swift
+[204/263] Compiling TDJRuntimeChecks RuntimeModelFXStressReport.swift
+[205/263] Compiling TDJRuntimeChecks RuntimeModelFilterStressReport.swift
+[206/263] Compiling TDJRuntimeChecks RuntimePreparationImportStress.swift
+[206/263] Linking tdj-tool
+[208/265] Compiling TDJRuntimeValidation main.swift
+[209/265] Emitting module TDJRuntimeValidation
+[209/265] Applying tdj-tool
+[211/272] Compiling TDJRuntimeChecksTests DirectControlDriverTests.swift
+[212/272] Compiling TDJRuntimeChecksTests DisplayMetricsTests.swift
+[213/272] Compiling TDJRuntimeChecksTests FractionalFixtureTests.swift
+[214/272] Compiling TDJRuntimeChecksTests NearDoubleKeylockStressTests.swift
+[215/272] Compiling TDJRuntimeChecksTests PresentationLifecycleTests.swift
+[216/272] Compiling TDJRuntimeChecksTests RuntimeCheckLaunchTests.swift
+[217/272] Emitting module TDJRuntimeChecksTests
+[218/278] Compiling TDJCoreTests KeylockPrimeProbeTests.swift
+[219/278] Compiling TDJCoreTests KeylockTests.swift
+[220/278] Compiling TDJCoreTests LegacyCueClearMigrationReviewTests.swift
+[221/278] Compiling TDJCoreTests LibraryBrowserProjectionTests.swift
+[222/278] Compiling TDJCoreTests LibraryGroupProjectionTests.swift
+[223/278] Compiling TDJCoreTests LibraryPlaylistOccurrenceTests.swift
+[224/278] Compiling TDJCoreTests LibrarySearchScopeTests.swift
+[225/278] Compiling TDJCoreTests LibrarySnapshotMutationTests.swift
+[226/278] Compiling TDJCoreTests LibraryTrackLookupRetirementTests.swift
+[227/278] Compiling TDJCoreTests LibraryTrackLookupTests.swift
+[228/278] Compiling TDJCoreTests MixAnalysisPlanTests.swift
+[229/278] Compiling TDJCoreTests MixerTests.swift
+[230/278] Compiling TDJCoreTests MusicDecodePriorityTests.swift
+[231/278] Compiling TDJCoreTests MusicLibraryTests.swift
+[232/278] Compiling TDJCoreTests MusicalRhythmRegressionTests.swift
+[233/278] Compiling TDJCoreTests NativeSourceIntegrityTests.swift
+[234/278] Compiling TDJCoreTests PerformanceTests.swift
+[235/278] Compiling TDJCoreTests PerformerSuggestionTests.swift
+[236/278] Compiling TDJCoreTests PreparationConflictGuardTests.swift
+[237/278] Compiling TDJCoreTests RecordingEffectsTests.swift
+[238/278] Compiling TDJCoreTests RecordingFinalDrainTests.swift
+[239/278] Compiling TDJCoreTests RecordingSidecarCaseTests.swift
+[240/278] Compiling TDJCoreTests RecordingTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+[241/278] Compiling TDJCoreTests RecordingUnicodeLocationTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+[242/278] Compiling TDJCoreTests RecoveryTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+[262/280] Emitting module TDJPreview
+[263/280] Compiling TDJPreview main.swift
+[264/300] Compiling TDJInterfaceTests BrowserLayoutStateTests.swift
+[265/300] Compiling TDJInterfaceTests BrowserPaneStackTests.swift
+[266/300] Compiling TDJInterfaceTests ColdPlayCancellationTests.swift
+[267/300] Compiling TDJInterfaceTests ControlMaintenanceTests.swift
+[268/300] Compiling TDJInterfaceTests DeckToolsTests.swift
+[269/300] Compiling TDJInterfaceTests EffectControlDisplayTests.swift
+[270/303] Emitting module TDJAudioCheckPreview
+[271/303] Compiling TDJAudioCheckPreview AudioCheckModel.swift
+[272/303] Compiling TDJAudioCheckPreview AudioCheckView.swift
+[273/304] Compiling TDJAudioCheckPreview RenderPreview.swift
+[273/304] Write Objects.LinkFileList
+[275/304] Linking tdj-runtime-validation
+[276/304] Linking tdj-preview
+[277/304] Applying tdj-runtime-validation
+[278/304] Applying tdj-preview
+[279/304] Write Objects.LinkFileList
+[280/304] Linking tdj-audio-check-preview
+[281/304] Applying tdj-audio-check-preview
+[283/304] Emitting module TDJInterfaceTests
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+[286/322] Compiling TDJInterfaceTests ArtworkTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+[287/322] Compiling TDJInterfaceTests BackgroundFileWorkTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+[288/322] Compiling TDJInterfaceTests BackgroundPreparationTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+[289/322] Compiling TDJInterfaceTests BackgroundWorkValueTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+[296/322] Compiling TDJInterfaceTests EffectDelayDisplayTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+[297/322] Compiling TDJInterfaceTests EffectPadGestureTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+[298/322] Compiling TDJInterfaceTests EffectSelectorGestureTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+[299/322] Compiling TDJInterfaceTests FaderLiveInputTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+[300/322] Compiling TDJInterfaceTests FilterPadContactTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+[301/322] Compiling TDJInterfaceTests FreeRateContinuityTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+[302/322] Compiling TDJInterfaceTests GestureWorkflowTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift:49:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+47 | @Test @MainActor func controlMaintenanceDoesNotRetainItsController() async throws {
+48 |     var controller: PlaybackController? = try PlaybackController(offline: true)
+49 |     weak var released = controller
+   |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+50 |     controller?.startControlMaintenance()
+51 |     await Task.yield()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+[303/340] Compiling TDJInterfaceTests GridContactTests.swift
+[304/340] Compiling TDJInterfaceTests LibraryBrowserFixTests.swift
+[305/340] Compiling TDJInterfaceTests LibraryBrowserPlaylistSaveTests.swift
+[306/340] Compiling TDJInterfaceTests LibraryBrowserRequestTests.swift
+[307/340] Compiling TDJInterfaceTests LibraryLookupPublicationTests.swift
+[308/340] Compiling TDJInterfaceTests LibraryLookupScalabilityTests.swift
+[309/340] Compiling TDJInterfaceTests LoadReadinessPersistenceTests.swift
+[310/340] Compiling TDJInterfaceTests LoadSliderGestureTests.swift
+[311/340] Compiling TDJInterfaceTests ModelLibraryStorageTests.swift
+[312/340] Compiling TDJInterfaceTests MouseContactLifecycleTests.swift
+[313/340] Compiling TDJInterfaceTests MusicImportCleanupTests.swift
+[314/340] Compiling TDJInterfaceTests MusicLibraryWorkflowTests.swift
+[315/340] Compiling TDJInterfaceTests NativeMusicLoadOwnershipTests.swift
+[316/340] Compiling TDJInterfaceTests NativeMusicSourceRecoveryTests.swift
+[317/340] Compiling TDJInterfaceTests OutputRouteContinuityTests.swift
+[318/340] Compiling TDJInterfaceTests PairHistoryWorkflowTests.swift
+[319/340] Compiling TDJInterfaceTests PaneDismissGestureTests.swift
+[320/340] Compiling TDJInterfaceTests PanelInputGateTests.swift
+[321/340] Compiling TDJInterfaceTests PlaybackControlDisplayTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[322/340] Compiling TDJInterfaceTests PreparationLoadPinTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[323/340] Compiling TDJInterfaceTests RecordingWorkflowTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[324/340] Compiling TDJInterfaceTests RecoveryIntegrationTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[325/340] Compiling TDJInterfaceTests RetainedMixerPaneTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[326/340] Compiling TDJInterfaceTests RuntimeEffectControlAccessTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[327/340] Compiling TDJInterfaceTests RuntimeFilterContactSessionTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[328/340] Compiling TDJInterfaceTests SecurityScopedFileAccessTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[329/340] Compiling TDJInterfaceTests StreamedPlaybackIntegrationTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[330/340] Compiling TDJInterfaceTests SuperSlicerGestureTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[331/340] Compiling TDJInterfaceTests TempoWheelResetTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[332/340] Compiling TDJInterfaceTests TourScreensTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[333/340] Compiling TDJInterfaceTests VerticalFaderGestureTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[334/340] Compiling TDJInterfaceTests VinylBrakeGestureTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[335/340] Compiling TDJInterfaceTests WarmPlaySubmissionTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[336/340] Compiling TDJInterfaceTests WaveformScratchContinuityTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[337/340] Compiling TDJInterfaceTests WorkflowTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[338/340] Compiling TDJInterfaceTests Z1EffectWorkflowTests.swift
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:34:37: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+32 |     for _ in 0..<4 {
+33 |         _ = core.renderOffline(frames: 128)
+34 |         display.update(try #require(core.snapshot()))
+   |                                     `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+35 |     }
+36 |     #expect(core.snapshot()!.outputFrame > initial.outputFrame)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:42:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+40 |     try core.setMixer(.low, value: 0.8, deck: .a)
+41 |     #expect(core.processControlsWhileIdle())
+42 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+43 |     #expect(display[.a].mixer.low == 0.8)
+44 |     #expect(controlChanges.value == 1)
+
+/private/tmp/generik-recovery-fallback/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift:53:33: warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+51 |     let core = try SampleTransport()
+52 |     let display = PlaybackControlDisplay()
+53 |     display.update(try #require(core.snapshot()))
+   |                                 `- warning: '#require(_:_:)' is redundant because 'core.snapshot()' never equals 'nil' (from macro 'require')
+54 |     let controls = DisplayChangeCounter(), filter = DisplayChangeCounter()
+55 |     withObservationTracking {
+[339/342] Emitting module GenErikDJPackageTests
+[340/342] Compiling GenErikDJPackageTests runner.swift
+[340/342] Write Objects.LinkFileList
+[341/342] Linking GenErikDJPackageTests
+Build complete! (47.93s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test recoveryDeclinesSilenceAndAcceptsAManualDrop() started.
+􀟈  Test recoveryReplayWaitsForExclusiveFinalBeatBoundary() started.
+􀟈  Test recoveryEndpointRemainsAvailableWithoutADropForAutoMix() started.
+􀟈  Test recoveryFindsFinalDropAndExcludesTrailingSilence() started.
+􀟈  Test recoveryIncomingPhaseMatchesAPartialFinalBar() started.
+􀟈  Test recoveryAutoMixStartsAtTheSelectedLeadAndFinishesAtEnd(bars:) started.
+􀟈  Test recoveryFallbackHandlesShortTracksAndOffsetGrids() started.
+􀟈  Test recoveryTempoChangesRetainTheSourceBoundary() started.
+􀟈  Test recoveryFallbackSkipsQuietSectionStartsAndKeepsDownbeatAlignment() started.
+􀟈  Test recoveryRejectsStaleGenerationAndInvalidEndpoints() started.
+􀟈  Test case passing 1 argument bars → 8 to recoveryAutoMixStartsAtTheSelectedLeadAndFinishesAtEnd(bars:) started.
+􀟈  Test case passing 1 argument bars → 16 to recoveryAutoMixStartsAtTheSelectedLeadAndFinishesAtEnd(bars:) started.
+􀟈  Suite RecoveryIntegrationTests started.
+􀟈  Test recoveryDefaultsToLastDropAndSurvivesLegacySettings() started.
+􀟈  Test recoveryRefusesToAutoMixIntoAMutedDeck() started.
+􀟈  Test recoveryPreparesColdStreamedDropBeforeTheFinalBeat() started.
+􁁛  Test recoveryDefaultsToLastDropAndSurvivesLegacySettings() passed after 0.001 seconds.
+􁁛  Test recoveryFindsFinalDropAndExcludesTrailingSilence() passed after 0.001 seconds.
+􀢄  Test recoveryFallbackHandlesShortTracksAndOffsetGrids() recorded an issue at RecoveryTests.swift:139:5: Expectation failed: plan.dropFrame == 50
+􀄵  plan.dropFrame == 50 → false
+􀄵    plan.dropFrame → nil
+􀄵    50 → 50.0
+􀄵      some → 50.0
+􁁛  Test recoveryEndpointRemainsAvailableWithoutADropForAutoMix() passed after 0.002 seconds.
+􀢄  Test recoveryDeclinesSilenceAndAcceptsAManualDrop() recorded an issue at RecoveryTests.swift:116:5: Expectation failed: fallback.dropFrame == 6800
+􀄵  fallback.dropFrame == 6800 → false
+􀄵    fallback.dropFrame → nil
+􀄵    6800 → 6800.0
+􀄵      some → 6800.0
+􀢄  Test recoveryFallbackHandlesShortTracksAndOffsetGrids() failed after 0.001 seconds with 1 issue.
+􁁛  Test recoveryFallbackSkipsQuietSectionStartsAndKeepsDownbeatAlignment() passed after 0.001 seconds.
+􁁛  Test recoveryIncomingPhaseMatchesAPartialFinalBar() passed after 0.002 seconds.
+􀢄  Test recoveryDeclinesSilenceAndAcceptsAManualDrop() failed after 0.002 seconds with 1 issue.
+􁁛  Test recoveryReplayWaitsForExclusiveFinalBeatBoundary() passed after 0.089 seconds.
+􁁛  Test recoveryRejectsStaleGenerationAndInvalidEndpoints() passed after 0.109 seconds.
+􁁛  Test recoveryTempoChangesRetainTheSourceBoundary() passed after 0.114 seconds.
+􁁛  Test recoveryRefusesToAutoMixIntoAMutedDeck() passed after 0.325 seconds.
+􁁛  Test recoveryAutoMixStartsAtTheSelectedLeadAndFinishesAtEnd(bars:) with 2 test cases passed after 0.389 seconds.
+􁁛  Test recoveryPreparesColdStreamedDropBeforeTheFinalBeat() passed after 0.411 seconds.
+􀟈  Test recoverySettingsPersistAndDefaultInLegacyFiles() started.
+􁁛  Test recoverySettingsPersistAndDefaultInLegacyFiles() passed after 0.001 seconds.
+􁁛  Suite RecoveryIntegrationTests passed after 0.413 seconds.
+􀢄  Test run with 14 tests in 1 suite failed after 0.414 seconds with 2 issues.
+Note: Some test targets reported failures:
+  - GenErikDJPackageTests (Swift Testing)
