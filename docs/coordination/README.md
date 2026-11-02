@@ -11,6 +11,7 @@ The release standard is Erik's acceptance on his real setup. A successful build 
 ## Current position
 
 - Active development branch: `feature/project-integration`.
+- Remote backup: `origin/feature/project-integration`. Review: [draft PR #3](https://github.com/ErikVeland/GenErik-DJ/pull/3), against `main`.
 - Combined application source: `335cec6b77644f23d43c08fc236ba9d7db446a17`.
 - Shared uncommitted work was backed up and committed as `7a974c385`.
 - Current remote main, full-library search, adaptive beatgrids and A10X reverb are included by merge history.

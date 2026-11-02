@@ -11,7 +11,7 @@ Use [the micro-release loop](micro-releases.md) for development feedback. The fi
 - [x] Commit the shared source, tests and feature notes.
 - [x] Include remote main, full-library search, beatgrids and reverb in one integration branch.
 - [x] Retain the old branches and local evidence.
-- [ ] Push the integration branch and record the review location.
+- [x] Push the integration branch and record the review location. Draft PR #3: https://github.com/ErikVeland/GenErik-DJ/pull/3.
 - [ ] Complete the historical private-candidate/request reconciliation, or explicitly list unresolved items.
 
 ## Gate 2: Combined application
