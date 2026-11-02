@@ -1,0 +1,17 @@
+{
+  "notes": "R23 expanded controller candidate: generic MIDI high-resolution/relative/pressure/program input, more deck actions, original Z1 bridge input/calibration/LED feedback, and matching Linux control relay. Physical bridge, audio forwarding and other native model profiles remain unverified/unimplemented. Build only.",
+  "sourceCommit": "74dc9931a5b29f2c46b8bcfc6b1fe8e8552f1b76",
+  "sourceSHA256": "44cd675c7fc0e253248646fbbb38ec156b6441e197341392dcc2075dad06b965",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 50.76,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-50.log",
+  "build": 50,
+  "app": "TestBuilds/ipad/50/GenErikDJ.app",
+  "appSHA256": "9778bb19a1e175ed0a4c47f2baee040fc350cabe658a4b1482b7f479ba241045",
+  "state": "ready",
+  "createdUTC": "2026-11-02T13:22:27.889055+00:00",
+  "supersededBy": 51,
+  "acceptance": "Not installed. Replaced by build 51."
+}

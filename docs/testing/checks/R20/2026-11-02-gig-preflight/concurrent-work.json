@@ -1,0 +1,6 @@
+{
+  "observedUTC": "2026-11-02T12:35:15.494857+00:00",
+  "observedCommit": "430177c4ff036278c0c1d5dec0bad327391b1b74",
+  "observedActivity": "Another process committed the pending controller work and built iPad candidates during the host renderer workload.",
+  "effect": "Host timing measurements are confounded by concurrent compilation. The final application source hash remained unchanged and matches saved build 49. No application edits or device operations by this preflight."
+}

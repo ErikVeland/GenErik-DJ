@@ -20,12 +20,27 @@ struct ControllerSettingsView: View {
                     ForEach(input.sources) { source in Text(source.name).tag(Optional(source.id)) }
                 }
                 Button("Refresh connections") { input.refreshSources(); refreshConnections() }
+                Toggle("Original Z1 through GenErik bridge", isOn: Binding(get: { input.originalZ1Bridge }, set: input.setBridgeMode))
+                if input.originalZ1Bridge {
+                    Text(input.bridgeStatus).foregroundStyle(.secondary)
+                    Text(input.feedbackStatus).font(.caption).foregroundStyle(.secondary)
+                    Picker("Bridge feedback output", selection: Binding(get: { input.feedbackSelected }, set: input.setFeedbackDestination)) {
+                        Text("No feedback output").tag(Int32?.none)
+                        ForEach(input.destinations) { destination in Text(destination.name).tag(Optional(destination.id)) }
+                    }
+                    Text("Use only with the GenErik Z1 bridge relay. This carries controls and lights, not audio. Direct Z1 accessory communication is separate.")
+                        .font(.caption).foregroundStyle(.secondary)
+                } else {
+                Picker("Control encoding", selection: Binding(get: { input.learningEncoding }, set: { input.learningEncoding = $0 })) {
+                    ForEach(ControllerMIDIEncoding.allCases, id: \.self) { mode in Text(mode.title).tag(mode) }
+                }
+                Toggle("Reverse knob / fader direction", isOn: Binding(get: { input.learningInverted }, set: { input.learningInverted = $0 }))
                 Text(input.lastInput).font(.caption).foregroundStyle(.secondary)
                 if let action = input.learning {
                     Text("Move the control for \(action.title). Learning does not operate the deck.")
                     Button("Cancel learning") { input.learning = nil }
                 }
-                Text("Learn a button for switches, or an absolute knob/fader for amounts. Relative encoders and controller lights/screens are not implemented in this version.")
+                Text("Choose the encoding documented for the control. Knob / fader also handles note buttons and pitch-bend faders. Other modes handle paired high-resolution CCs or relative encoders. Generic controller lights/screens still require a model profile.")
                     .font(.caption).foregroundStyle(.secondary)
                 ForEach(ControllerAction.allCases) { action in
                     HStack {
@@ -40,6 +55,7 @@ struct ControllerSettingsView: View {
                 }
                 Button("Clear learned controls", role: .destructive) { input.clearBindings() }
                     .disabled(input.bindingCount == 0)
+                }
             }
             Divider()
             Text("Z1 connection").font(.headline)
@@ -58,6 +74,10 @@ struct ControllerSettingsView: View {
         if enabled {
             let model = model
             input.onAction = { [weak model] action, value in model?.applyController(action, value: value) }
+            input.currentValue = { [weak model] action in model?.controllerValue(action) }
+            input.onZ1Report = { [weak model] report in model?.receiveZ1(report) }
+            input.onZ1Calibration = { [weak model] calibration in model?.configureZ1Bridge(calibration) }
+            input.onBridgeReset = { [weak model] in model?.configureZ1Bridge(nil) }
             input.start()
         } else { input.stop() }
     }
@@ -75,6 +95,26 @@ struct ControllerSettingsView: View {
 }
 
 extension ReplicaModel {
+    func controllerValue(_ action: ControllerAction) -> Double? {
+        guard let snapshot = playbackSnapshot else { return nil }
+        let deck = action.deck
+        let mixer = snapshot[deck].mixer
+        switch action {
+        case .levelA, .levelB: return mixerFaderValue(.volume, deck: deck)
+        case .gainA, .gainB: return mixer.gain > 0 ? (log(mixer.gain) / log(4) + 1) / 2 : 0
+        case .lowA, .lowB: return mixerFaderValue(.low, deck: deck).map { $0 / 2 }
+        case .midA, .midB: return mixerFaderValue(.mid, deck: deck).map { $0 / 2 }
+        case .highA, .highB: return mixerFaderValue(.high, deck: deck).map { $0 / 2 }
+        case .filterA, .filterB: return (mixer.filterX + 1) / 2
+        case .fxA, .fxB: return effects[deck]?[selectedEffectSlots[deck, default: 0]]?.x ?? 0.5
+        case .crossfader: return snapshot.crossfader
+        case .cueMix: return snapshot.cueBlend
+        case .master: return snapshot.masterGain
+        case .monitor: return snapshot.monitorGain
+        case .tempoA, .tempoB: return min(1, max(0, (deckTempoPercent(deck: deck) + 8) / 16))
+        default: return nil
+        }
+    }
     func applyController(_ action: ControllerAction, value: Double) {
         guard value.isFinite, (0...1).contains(value) else { return }
         let deck = action.deck
@@ -89,10 +129,24 @@ extension ReplicaModel {
         case .midA, .midB: setMixer(.mid, value: 2 * value, deck: deck)
         case .highA, .highB: setMixer(.high, value: 2 * value, deck: deck)
         case .filterA, .filterB: setMixer(.filterX, value: 2 * value - 1, deck: deck)
+        case .filterToggleA, .filterToggleB: setMixer(.filterEnabled, value: playbackSnapshot?[deck].mixer.filterEnabled == true ? 0 : 1, deck: deck)
         case .fxA, .fxB: setHardwareEffectX(value, deck: deck)
         case .fxToggleA, .fxToggleB: toggleHardwareEffect(deck: deck)
         case .crossfader: setMixer(.crossfader, value: value)
         case .cueMix: setMixer(.cueBlend, value: value)
+        case .master: setMixer(.master, value: value)
+        case .monitor: setMixer(.monitor, value: value)
+        case .tempoA, .tempoB: setDeckTempo(percent: value * 16 - 8, deck: deck)
+        case .loopA, .loopB: toggleLoop(deck: deck)
+        case .loopUpA, .loopUpB: stepLoopSize(direction: 1, deck: deck)
+        case .loopDownA, .loopDownB: stepLoopSize(direction: -1, deck: deck)
+        case .jumpBackA, .jumpBackB: beatJump(beats: -performance.loopBeats(for: deck), deck: deck)
+        case .jumpForwardA, .jumpForwardB: beatJump(beats: performance.loopBeats(for: deck), deck: deck)
+        case .cueReturnA, .cueReturnB: pressCue(deck: deck)
+        case .freezeA, .freezeB: toggleFreeze(deck: deck)
+        case .hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A,
+             .hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B:
+            if let slot = action.hotcueSlot { cue(slot: slot, deck: deck) }
         }
     }
 }

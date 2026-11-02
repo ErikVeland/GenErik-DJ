@@ -1,7 +1,7 @@
 import Foundation
 
 public struct ControllerMIDIMessage: Equatable, Sendable {
-    public enum Kind: String, Codable, Sendable { case note, control, pitch }
+    public enum Kind: String, Codable, Sendable { case note, control, pitch, polyPressure, pressure, program }
     public let kind: Kind
     public let channel: UInt8
     public let number: UInt8
@@ -36,6 +36,12 @@ public struct ControllerMIDIDecoder: Sendable {
                 messages.append(.init(kind: .control, channel: channel, number: data[0], value: Int(data[1])))
             case 0xe0:
                 messages.append(.init(kind: .pitch, channel: channel, number: 0, value: Int(data[0]) | Int(data[1]) << 7))
+            case 0xa0:
+                messages.append(.init(kind: .polyPressure, channel: channel, number: data[0], value: Int(data[1])))
+            case 0xd0:
+                messages.append(.init(kind: .pressure, channel: channel, number: 0, value: Int(data[0])))
+            case 0xc0:
+                messages.append(.init(kind: .program, channel: channel, number: data[0], value: 127))
             default: break
             }
             data.removeAll(keepingCapacity: true)

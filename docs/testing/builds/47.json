@@ -1,0 +1,17 @@
+{
+  "notes": "Controller input and Z1 connection page. Build only; preserve Erik\u2019s current installed test. Generic MIDI Learn is the first layer, not full model or bridge support.",
+  "sourceCommit": "9e5d395c923968831e9b3134d1cb436788845dbc",
+  "sourceSHA256": "531986be86ea5cbf4d87ef4edb1245ee426066ef766e843d0f33443e3045ec9d",
+  "uncommittedAppChanges": "M Replica/Sources/TDJInterface/ControllerMIDIConnection.swift",
+  "buildSeconds": 35.3,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-47.log",
+  "build": 47,
+  "app": "TestBuilds/ipad/47/GenErikDJ.app",
+  "appSHA256": "648ecacc9f67bec7d77673dacb91053e68b9041515f0f546abcb71b923243205",
+  "state": "superseded",
+  "createdUTC": "2026-11-02T12:29:12.477072+00:00",
+  "supersededBy": 49,
+  "acceptance": "Not installed. Build 49 adds an explicit per-tick input budget."
+}

@@ -296,6 +296,10 @@ public final class ReplicaModel {
             }
         }
     }
+    func configureZ1Bridge(_ calibration: Z1CrossfaderCalibration?) {
+        z1Mapper = Z1ControlMapper(calibration: calibration)
+        z1Mode = false
+    }
     public func setOutputRoute(_ route: AudioOutputRoute) {
         do { try playback.setOutputRoute(route); outputRoute = playback.outputRoute; refreshPlayback() }
         catch { status = error.localizedDescription }
@@ -913,6 +917,10 @@ public final class ReplicaModel {
             z1Connection?.send(Z1OutputReport.bytes(snapshot:snapshot,mode:z1Mode,fxDecks:z1Mapper.fxDecks,
                 enabledEffects:Set(DeckID.allCases.filter { effects[$0]?[selectedEffectSlots[$0,default:0]]?.enabled == true })))
 #endif
+            if controllerInput.originalZ1Bridge {
+                controllerInput.queueZ1Feedback(Z1OutputReport.bytes(snapshot: snapshot, mode: z1Mode, fxDecks: z1Mapper.fxDecks,
+                    enabledEffects: Set(DeckID.allCases.filter { effects[$0]?[selectedEffectSlots[$0, default: 0]]?.enabled == true })))
+            }
             for deck in DeckID.allCases where !editing.contains(deck) && !previewing.contains(deck) && !frozen.contains(deck) {
                 if snapshot[deck].phase == .playing || snapshot[deck].phase == .queued
                     || snapshot[deck].phase == .paused || snapshot[deck].phase == .ended {
