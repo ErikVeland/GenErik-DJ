@@ -1,0 +1,103 @@
+name: A10X reverb candidate
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/a10x-reverb.yml'
+      - 'Replica/Sources/CTDJTransport/**'
+      - 'Replica/Tests/TDJCoreTests/**'
+      - 'Replica/Scripts/check-reverb-a10x.py'
+      - 'Replica/Scripts/reverb-a10x-probe.c'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: a10x-reverb-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apple-validation:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+
+      - name: Check out the exact comparison baseline
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: 546ef6fa65e904fb58ee8d3c803fc5ce4a6048be
+          path: .reverb-baseline
+          persist-credentials: false
+
+      - name: Select Xcode with Icon Composer support
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          candidates = list(Path('/Applications').glob('Xcode_26*.app'))
+          if not candidates:
+              raise SystemExit('This app requires an installed Xcode 26 toolchain.')
+          def version(path):
+              return tuple(int(part) for part in path.stem.removeprefix('Xcode_').split('.') if part.isdigit())
+          selected = max(candidates, key=version) / 'Contents/Developer'
+          with open(os.environ['GITHUB_ENV'], 'a') as environment:
+              environment.write(f'DEVELOPER_DIR={selected}\n')
+          print(selected)
+          PY
+
+      - name: Prepare offline DSP checks
+        run: |
+          python3 -m venv "$RUNNER_TEMP/reverb-python"
+          "$RUNNER_TEMP/reverb-python/bin/python" -m pip install 'numpy>=2,<3' 'scipy>=1.14,<2'
+          xcodebuild -version
+          xcrun clang --version
+
+      - name: Check DSP safety, sound diagnostics and paired host cost
+        run: |
+          set -o pipefail
+          "$RUNNER_TEMP/reverb-python/bin/python" Replica/Scripts/check-reverb-a10x.py \
+            --source-root Replica \
+            --baseline-root .reverb-baseline/Replica \
+            --output "$RUNNER_TEMP/reverb-evidence" \
+            --repetitions 3 \
+            2>&1 | tee "$RUNNER_TEMP/reverb-dsp.log"
+
+      - name: Run effect transport regressions
+        if: ${{ !cancelled() }}
+        run: |
+          set -o pipefail
+          swift test --package-path Replica --configuration release \
+            --filter 'reverb|Reverb|effect|Effect|delay|Delay|flanger|Flanger|grain|Grain' \
+            2>&1 | tee "$RUNNER_TEMP/reverb-swift-tests.log"
+
+      - name: Build the unsigned iPad application
+        if: ${{ !cancelled() }}
+        run: |
+          set -o pipefail
+          xcodebuild -project Replica/iPad/GenErikDJ.xcodeproj \
+            -scheme GenErikDJ -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath "$RUNNER_TEMP/reverb-ipad-build" \
+            CODE_SIGNING_ALLOWED=NO build \
+            2>&1 | tee "$RUNNER_TEMP/reverb-ipad-build.log"
+
+      - name: Retain evidence, including failed checks
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: a10x-reverb-${{ github.sha }}
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            ${{ runner.temp }}/reverb-evidence/result.json
+            ${{ runner.temp }}/reverb-evidence/audition/*.wav
+            ${{ runner.temp }}/reverb-evidence/*/inputs/*
+            ${{ runner.temp }}/reverb-evidence/*/*.json
+            ${{ runner.temp }}/reverb-dsp.log
+            ${{ runner.temp }}/reverb-swift-tests.log
+            ${{ runner.temp }}/reverb-ipad-build.log

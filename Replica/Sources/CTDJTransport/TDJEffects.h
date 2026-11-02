@@ -14,6 +14,9 @@ typedef struct {
     double previous[2], transition_from[2];
     ramp wet;
     stereo_reverb reverb;
+    ramp reverb_feed, reverb_return;
+    unsigned reverb_tail_frames, reverb_tail_limit, reverb_tail_fade;
+    bool reverb_was_enabled, reverb_tail_active;
     unsigned tap_distance, tap_next, tap_fade, tap_length;
     double gate_envelope;
     state_filter filter;
@@ -40,6 +43,7 @@ static bool fx_init(performance_fx *f,double rate) {
     f->x=0.5; f->y=0.5; f->cached_x=NAN; f->cached_bpm=NAN; f->cached_kind=-1;
     if(!reverb_init(&f->reverb,rate)) { free(f->buffer); f->buffer=NULL; return false; }
     f->smoothing=(unsigned)fmax(1,rate*0.005);
+    f->reverb_tail_fade=(unsigned)fmax(1,rate*0.020);
     f->tap_length=(unsigned)fmax(2,rate*0.025);
     filter_parameters(&f->filter,rate,0,0,0);
     f->dormant=true;
@@ -47,9 +51,18 @@ static bool fx_init(performance_fx *f,double rate) {
 }
 static void fx_destroy(performance_fx *f) { free(f->buffer); free(f->reverb.storage); }
 static void fx_transition(performance_fx *f) {
-    if(f->wet.value<=0) return;
+    if(f->wet.value<=0 && !(f->reverb_tail_active && f->reverb_return.value>0)) return;
     f->transition=f->smoothing;
     f->transition_from[0]=f->previous[0]; f->transition_from[1]=f->previous[1];
+}
+static void fx_finish_output(performance_fx *f,double *l,double *r) {
+    if(f->transition) {
+        double previous_weight=(double)(f->transition-1)/f->smoothing;
+        *l+=(f->transition_from[0]-*l)*previous_weight;
+        *r+=(f->transition_from[1]-*r)*previous_weight;
+        f->transition--;
+    }
+    f->previous[0]=*l; f->previous[1]=*r;
 }
 static void fx_clear_processing_state(performance_fx *f) {
     memset(f->filter.integrator1,0,sizeof(f->filter.integrator1));
@@ -58,6 +71,11 @@ static void fx_clear_processing_state(performance_fx *f) {
     f->held[0]=f->held[1]=0;
     f->tap_distance=f->tap_next=f->tap_fade=0; f->gate_envelope=0;
     reverb_reset(&f->reverb);
+    ramp_set(&f->reverb_feed,0,0);
+    ramp_set(&f->reverb_return,0,0);
+    f->reverb_tail_frames=0;
+    f->reverb_was_enabled=false;
+    f->reverb_tail_active=false;
     f->grain_written=0; f->grain_phase=0; f->captured=0;
     f->capture_frames=0; f->capture_position=0; f->capture_ready=false;
     f->cursor=0; f->written=0;
@@ -66,15 +84,22 @@ static void fx_clear_processing_state(performance_fx *f) {
 static void fx_reset(performance_fx *f) {
     // Constant-time invalidation. Reads remain silent until their delay history exists.
     // Stale samples are overwritten incrementally as the ring advances.
+    fx_transition(f);
     f->cursor=0; f->written=0;
     fx_clear_processing_state(f);
-    fx_transition(f);
 }
 static void fx_prepare(performance_fx *f,double rate,double bpm) {
     if(f->cached_x==f->x && f->cached_bpm==bpm && f->cached_kind==f->kind && f->cached_free_delay==f->free_delay) return;
     double previous_x=f->cached_x;
     int previous_kind=f->cached_kind;
     f->cached_x=f->x; f->cached_bpm=bpm; f->cached_kind=f->kind; f->cached_free_delay=f->free_delay;
+    if(f->kind==TDJ_EFFECT_REVERB || f->kind==TDJ_EFFECT_ICEVERB) {
+        if(previous_x!=f->x || previous_kind!=f->kind) {
+            reverb_prepare(&f->reverb,f->x,f->kind==TDJ_EFFECT_ICEVERB,(unsigned)fmax(1,rate*0.04));
+            f->reverb_tail_limit=(unsigned)ceil(rate*fmin(30,1.5*f->reverb.decay_seconds+0.12));
+        }
+        return;
+    }
     f->frames_per_beat=rate*60/fmax(30,bpm);
     f->gate_multiplier=exp2(round(f->x*4));
     // Flanger: 1-16 beat sweeps. Gater: 1/32-1/2 beat. Beatmasher: 1/8-1 beat slices.
@@ -94,9 +119,6 @@ static void fx_prepare(performance_fx *f,double rate,double bpm) {
     } else if(f->kind==TDJ_EFFECT_HIGH_PASS || f->kind==TDJ_EFFECT_LOW_PASS) {
         double position=f->kind==TDJ_EFFECT_HIGH_PASS ? f->x : -fmax(1e-9,1-f->x);
         filter_parameters(&f->filter,rate,position,0,f->smoothing);
-    } else if(f->kind==TDJ_EFFECT_REVERB || f->kind==TDJ_EFFECT_ICEVERB) {
-        if(previous_x!=f->x || previous_kind!=f->kind)
-            reverb_prepare(&f->reverb,f->x,f->kind==TDJ_EFFECT_ICEVERB,(unsigned)fmax(1,rate*0.04));
     } else if(f->kind==TDJ_EFFECT_TRANSPOSE_STRETCH) {
         double semitones=(f->x-0.5)*(f->x<=0.5 ? 120 : 24);
         f->grain_ratio=exp2(semitones/12);
@@ -127,20 +149,75 @@ static double fx_slice_read(const performance_fx *f,double position,int channel)
     double b=f->buffer[2*((f->slice_start+next)%f->capacity)+channel];
     return a+(b-a)*t;
 }
+static void fx_process_reverb(performance_fx *f,double *l,double *r) {
+    double previous_wet=f->wet.value;
+    if(f->enabled!=f->reverb_was_enabled) {
+        if(f->enabled) {
+            if(f->reverb_tail_active) {
+                ramp_set(&f->wet,f->reverb_return.value,0);
+                ramp_set(&f->wet,f->y,f->smoothing);
+            }
+            f->reverb_tail_active=false;
+            f->reverb_tail_frames=0;
+            ramp_set(&f->reverb_feed,1,f->smoothing);
+        } else {
+            ramp_set(&f->reverb_feed,0,f->smoothing);
+            if(previous_wet>0 && f->y>0) {
+                ramp_set(&f->reverb_return,previous_wet,0);
+                f->reverb_tail_frames=f->reverb_tail_limit;
+                f->reverb_tail_active=f->reverb_tail_frames>0;
+            }
+        }
+        f->reverb_was_enabled=f->enabled;
+    }
+    double wet=ramp_next(&f->wet);
+    if(!f->enabled && wet==0 && !f->reverb_tail_active) {
+        if(!f->dormant) fx_clear_processing_state(f);
+        fx_finish_output(f,l,r);
+        return;
+    }
+    f->dormant=false;
+    double amount=wet;
+    if(f->reverb_tail_active) {
+        if(f->y<=0 && f->reverb_return.target>0) {
+            ramp_set(&f->reverb_return,0,f->smoothing);
+        } else if(f->reverb_tail_frames<=f->reverb_tail_fade && f->reverb_return.target>0) {
+            ramp_set(&f->reverb_return,0,f->reverb_tail_frames);
+        }
+        amount=ramp_next(&f->reverb_return);
+    }
+    double feed=ramp_next(&f->reverb_feed);
+    double input[2]={*l*feed,*r*feed},reverberated[2];
+    reverb_process(&f->reverb,input,reverberated);
+    *l+=amount*reverberated[0];
+    *r+=amount*reverberated[1];
+    fx_finish_output(f,l,r);
+    if(f->reverb_tail_active) {
+        if(f->reverb_tail_frames) f->reverb_tail_frames--;
+        if(!f->reverb_tail_frames || f->reverb_return.value==0) {
+            fx_clear_processing_state(f);
+        }
+    }
+}
+
 // beat and bpm belong to the deck's grid; synced decks pass the master clock.
 static void fx_process(performance_fx *f,double rate,double bpm,double beat,double *l,double *r) {
+    if(f->kind==TDJ_EFFECT_REVERB || f->kind==TDJ_EFFECT_ICEVERB) {
+        fx_process_reverb(f,l,r);
+        return;
+    }
     (void)bpm;
     double wet=ramp_next(&f->wet);
     if (!f->enabled && wet==0) {
         if(!f->dormant) fx_clear_processing_state(f);
         fx_record_bypassed(f,*l,*r);
-        f->previous[0]=*l; f->previous[1]=*r; f->transition=0; return;
+        fx_finish_output(f,l,r);
+        return;
     }
     f->dormant=false;
     double samples[2]={*l,*r};
     double dlc[2]={0,0};
-    if(f->kind==TDJ_EFFECT_REVERB || f->kind==TDJ_EFFECT_ICEVERB) reverb_process(&f->reverb,samples,dlc);
-    else if(f->kind>=TDJ_EFFECT_ICEVERB) fx_dlc_process(f,rate,samples,dlc);
+    if(f->kind>=TDJ_EFFECT_ICEVERB) fx_dlc_process(f,rate,samples,dlc);
     unsigned distance=f->distance;
     if(f->kind==TDJ_EFFECT_DELAY) {
         if(!f->tap_distance) f->tap_distance=distance;
@@ -190,7 +267,6 @@ static void fx_process(performance_fx *f,double rate,double bpm,double beat,doub
             additive=true; added=past*0.6;
             f->buffer[2*f->cursor+ch]=(float)(dry+past*0.5);
         }
-        else if(f->kind==TDJ_EFFECT_REVERB || f->kind==TDJ_EFFECT_ICEVERB) { additive=true; added=dlc[ch]; }
         else if(f->kind==TDJ_EFFECT_FLANGER) {
             past=f->written>=(unsigned)ceil(flanger_back)+2 ? fx_dlc_delay(f,flanger_back,ch) : 0;
             additive=true; added=past*0.6;
@@ -215,15 +291,9 @@ static void fx_process(performance_fx *f,double rate,double bpm,double beat,doub
         else if(f->kind>=TDJ_EFFECT_ICEVERB) effect=dlc[ch];
         // Echo and space effects add to an untouched dry track. Insert effects replace it by Y.
         samples[ch]=additive ? dry+added*wet : dry+(effect-dry)*wet;
-        // Dezipper discontinuous algorithm/tap changes without clearing or allocating history.
-        if(f->transition) {
-            double previous_weight=(double)(f->transition-1)/f->smoothing;
-            samples[ch]+=(f->transition_from[ch]-samples[ch])*previous_weight;
-        }
-        f->previous[ch]=samples[ch];
     }
     *l=samples[0]; *r=samples[1];
-    if(f->transition) f->transition--;
+    fx_finish_output(f,l,r);
     if(f->tap_fade && !--f->tap_fade) f->tap_distance=f->tap_next;
     if(f->kind==TDJ_EFFECT_BEATMASHER && f->slice_state==2 && ++f->captured>=f->capture_frames) {
         f->slice_state=3; fx_transition(f);
