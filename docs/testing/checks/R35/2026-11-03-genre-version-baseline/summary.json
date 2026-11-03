@@ -143,5 +143,9 @@
       "helperSHA256": "26d44fa0efa83fd5cd4bbd93d9d1b62061458dfa99d2c6f927cdf19fdc8baf92"
     }
   ],
-  "interpretation": "Flags are review candidates, not confirmed errors. The batch records baseline outputs. It does not add a genre-aware production detector or establish semantic accuracy."
+  "interpretation": "Flags are review candidates, not confirmed errors. The batch records baseline outputs. It does not add a genre-aware production detector or establish semantic accuracy.",
+  "followupDate": "2026-11-04",
+  "featureReviewedEntries": 10,
+  "sourceAndTimelineAuditedEntries": 99,
+  "followupComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
 }

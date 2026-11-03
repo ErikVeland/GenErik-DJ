@@ -94,3 +94,12 @@ Keep the iPad performance loop focused. Each accepted engine change gets one num
 Keep corpus research and comparison reports separate from routine app regression testing.
 Do not run analysis on the audio callback. Measure preparation cost and playback continuity on the target iPad.
 Erik remains the acceptance tester.
+
+## First production iteration: 4 November
+
+Build 81 adds a metadata-guided audio profile for rhythmic intros and outros in dance styles and explicit DJ versions.
+It requires sustained low-vocal rhythm and a supported tempo, then consolidates subdivisions within the edge passage.
+Title and genre join the arrangement cache identity. Existing cue frames and manual preparation retain their authority.
+The 104-entry comparison retains 99 successful analyses and five failures. The profile applies on 22 entries.
+Ten recordings received a source/feature review. No independent full song-form accuracy is established.
+See `../testing/checks/R35/2026-11-04-dj-mix-sections/README.md`.

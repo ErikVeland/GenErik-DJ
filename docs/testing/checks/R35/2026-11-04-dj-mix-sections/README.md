@@ -59,8 +59,24 @@ The tests include a full-level synthetic groove, explicit 12-inch wording withou
 a radio control, an a cappella, missing vocal evidence, vocals throughout and a sustained rhythm break.
 
 `compare.py` retains default-context and genre/version-context outputs for the ten inspected recordings.
-The full 104-entry candidate run and source hashes are retained separately and will be summarised after completion.
+The full 104-entry candidate run is in `corpus-comparison.json`. It retains 99 successful analyses and the same five failures.
+The profile applies on 22 entries. Short-section flags change from 79 to 74. Key and energy-level choices match on all 99 entries.
+Four repeat decodes differ in low floating-point bits. The maximum tempo difference is about 0.0000000011 BPM.
+The explicit 0.000001 BPM comparison tolerance and raw differences remain in `numeric-comparison.json`.
 This evaluates the first rhythmic-edge change. It does not establish correct verse/chorus form throughout the library.
 
-The signed build and installation will be recorded in `result.json` and the numbered build record.
+Signed build 81 passed from clean application source `888dfcf4e` and installed and launched on the 10.5-inch test iPad.
+The full source and app identities are in `result.json` and `docs/testing/builds/81.json`. Device actions stopped after launch.
 Erik checks the new edge names and boundaries, retained manual preparation and clean other-deck audio.
+
+## Source-bound examples
+
+| Recording | Baseline sections | Candidate sections | Candidate edge passages |
+| --- | ---: | ---: | --- |
+| Harrison — All The Things She Said (Extended Mix) | 15 | 12 | Intro 0–30.56 s. Outro 186.72–229.88 s. |
+| Tiësto — The Business (Extended Mix) | 14 | 13 | Intro 0–32.00 s. Outro 183.97–226.00 s. |
+| New Order — The Perfect Kiss (12-inch) | 30 | 24 | Intro 0–93.11 s. No long outro inferred at the ending. |
+| Donna Summer — I Feel Love (12-inch) | 35 | 32 | Outro 450.08–495.19 s. |
+
+These are observed output changes supported by the feature review, not independently annotated song-form accuracy.
+The five source EOF failures, broad vocal roles and imported tempo/key disagreements remain open.

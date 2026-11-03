@@ -1,0 +1,23 @@
+{
+  "notes": "R35: First genre/version-aware section detection. Recognise sustained rhythmic intros/outros in dance styles and explicit extended, club, dub and 12-inch versions from audio evidence. Consolidate internal edge subdivisions; keep sustained breaks, manual preparation and cue frames. Structure cache version 4 includes title/genre context. Twenty-five focused checks passed. Includes current integrated header/library UI. Erik acceptance pending.",
+  "sourceCommit": "888dfcf4e45e8a4d96957283a3145ce7e881aecb",
+  "sourceSHA256": "dc26d1a00697b4a108df80e68dbe552f0336d3e0e48a88a83be15f1590a61a8c",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 63.63,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-81.log",
+  "build": 81,
+  "app": "TestBuilds/ipad/81/GenErikDJ.app",
+  "appSHA256": "576e60dcdd00b7d7d1f75fca8c10482d0c9102f7e281a090de68fc62cd495d6f",
+  "state": "testing",
+  "createdUTC": "2026-11-03T14:27:46.972425+00:00",
+  "installedUTC": "2026-11-03T14:28:53.230148+00:00",
+  "launchedUTC": "2026-11-03T14:28:53.577730+00:00",
+  "requestIDs": [
+    "R35"
+  ],
+  "focusedChecks": "Twenty-five focused structure/cue checks and four review-tool checks passed. The 104-entry rerun has 99 successful analyses and five retained failures. The new rhythmic-edge profile applies on 22 entries. See R35 evidence.",
+  "acceptance": "Installed and launched on the 10.5-inch test iPad. Erik reloads Harrison\u2019s All The Things She Said (Extended Mix) and Ti\u00ebsto\u2019s The Business (Extended Mix), checks rhythmic edges and the following rhythm change, retained cue positions/manual preparation and clean other-deck audio. Broader verse/chorus and gig acceptance remain open.",
+  "integrationContext": "Includes the integrated library-panel gestures and R31 header work. Application source is the exact merge commit recorded above. No simulator, Mac app package or broad app regression sweep ran."
+}

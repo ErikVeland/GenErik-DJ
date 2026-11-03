@@ -57,7 +57,7 @@ Related-title split assignments are provisional. Confirm recording families befo
 | Jamelia — Superstar (Tomcio & Robin Roij Remix) | Check whether predicted boundaries are phrases, fills or full sections. |
 
 The complete timecoded prediction set and blank review fields are in `review.json`.
-All entries remain unreviewed. No success or failure labels were invented.
+At baseline capture, all entries were unreviewed. The 4 November follow-up audits all sources and diagnostics and inspects ten cases through their audio features. No listening-based full-song labels are supplied.
 
 ## Failed and incomplete work
 
@@ -74,3 +74,11 @@ Count unresolved true sections as misses. Report precision, recall and coverage 
 Keep related versions together and reserve reviewed recordings for final evaluation.
 
 The current iPad build changes label presentation only. Genre-aware recognition remains R35 work.
+
+## 4 November follow-up
+
+The first production profile recognises supported rhythmic intros/outros in DJ versions and dance styles.
+The same 104 entries produced 99 successful analyses and five retained failures. The profile applied on 22 entries.
+Short-section flags changed from 79 to 74. All 99 key and energy-level choices match. Tempo differences stay below 0.000001 BPM.
+Ten entries have a local feature review. All 99 successful source/timeline results were checked.
+Full semantic accuracy and independent song-form annotations remain open. See `../2026-11-04-dj-mix-sections/`.
