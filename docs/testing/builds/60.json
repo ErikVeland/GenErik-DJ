@@ -34,6 +34,14 @@
       "state": "installation-timeout",
       "installTimeoutSeconds": 20,
       "note": "Build 60 installation timed out after Erik confirmed both devices unlocked and connected."
+    },
+    {
+      "device": "GenErik Duo",
+      "state": "installation-timeout",
+      "installTimeoutSeconds": 60,
+      "deviceID": "791706CC-F256-59B2-92F6-ACAB34411FD0",
+      "note": "Diagnostic retry used the resolved CoreDevice identifier. Tunnel, developer services and usage assertion succeeded. Install did not report success. Device lock-state query confirmed no passcode required. USB is unavailable. Requested Wi-Fi reconnection.",
+      "log": "TestBuilds/ipad/60/duo-install-diagnostic.log"
     }
   ],
   "acceptance": "Pending installation and Erik device acceptance. No successful build 60 install or launch has been confirmed.",
