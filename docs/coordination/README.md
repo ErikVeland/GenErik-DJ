@@ -4,6 +4,8 @@ Updated 3 November 2026, Australia/Brisbane. This is the current project entry p
 
 **Current working mode:** [Erik's minute-scale iPad loop](../testing/README.md). iPad only, Erik as sole developer/tester. The broader release gates below are separate from routine iterations.
 
+**Proposed next programme:** [TDJ1 gesture fidelity and unified touch space](../superpowers/plans/2026-11-03-touch-fidelity.md), led by R02/R30. It prioritises stable essential controls, direct panel manipulation and source-bound gesture acceptance. This is a plan, not a completed feature or permission to replace the current test build.
+
 ## Goal
 
 Current completion scope: [remaining app work](completion-programme.md) and [all NI and class-compliant MIDI controllers](controller-coverage.md), with an allowed hardware bridge where necessary. Original Z1 is first for Erik's hardware testing.
