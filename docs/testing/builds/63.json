@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 37.49,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "kind": "Reference recording review",
+      "text": "Erik supplied RPReplay_Final1793686461.mov and asked for follow-through. Review confirms that Traktor expands one retained deck layout continuously, with the overview remaining at the deck bottom and the library sliding away. Build 63 still switches compact/full deck views at a threshold. R30 follow-up removes that switch."
+    }
+  ],
   "log": "TestBuilds/ipad/build-63.log",
   "build": 63,
   "app": "TestBuilds/ipad/63/GenErikDJ.app",
