@@ -8,15 +8,15 @@ Cover all NI controllers and class-compliant MIDI controllers, including hardwar
 
 | Model family | Variants in scope | Published MIDI-mode position | App state |
 | --- | --- | --- | --- |
-| S2 | Mk1, Mk2, Mk3 | MIDI mode documented | Generic MIDI input/learn layer prepared. Model mappings and iPad endpoint access unverified. |
+| S2 | Mk1, Mk2, Mk3 | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Model mappings and iPad endpoint access unverified. |
 | S3 | S3 | MIDI mode documented | Same. |
 | S4 | Mk1, Mk2 | MIDI mode documented | Same. |
 | S4 | Mk3 | No MIDI mode in NI's supported-mode table | Native-protocol/bridge work required. No working route claimed. |
-| S5, S8 | Both | MIDI mode documented | Generic input layer only. Screens/native features remain unfinished. |
-| X1 | Mk1, Mk2, Mk3 | MIDI mode documented | Generic input layer only. Model mappings/feedback unverified. |
-| Z1 | Original, Mk2 | MIDI mode documented | Original Z1 has existing native HID groundwork. Direct iPad transport and hardware acceptance remain unverified. Mk2 is separate. |
-| F1, D2, Z2 | All three | MIDI mode documented | Generic input layer only. Remix/stem/display/audio features need separate implementation. |
-| MX2 | MX2 | MIDI mode documented | Generic input layer only. Mapping, feedback and audio unverified. |
+| S5, S8 | Both | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Screens/native features remain unfinished. |
+| X1 | Mk1, Mk2, Mk3 | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Model mappings remain unverified. |
+| Z1 | Original, Mk2 | MIDI mode documented | Original Z1 has native HID groundwork and a development bridge path. Direct iPad transport, Mk2 mapping and hardware acceptance remain unverified. |
+| F1, D2, Z2 | All three | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Remix/stem/display/audio features need separate implementation. |
+| MX2 | MX2 | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Model mapping, feedback behaviour and audio remain unverified. |
 
 Sources: [NI controller setup guide](https://support.native-instruments.com/support/solutions/articles/69000879434-traktor-controller-setup-guide), [NI MIDI-mode guide](https://support.native-instruments.com/support/solutions/articles/69000880031-native-instruments-switching-your-controller-to-midi-mode), [MX2 product details](https://www.native-instruments.com/products/traktor-mx2).
 
