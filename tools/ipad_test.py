@@ -49,7 +49,7 @@ def info(app):
     with (app / "Info.plist").open("rb") as stream:
         value = plistlib.load(stream)
     if value["CFBundleIdentifier"] != BUNDLE:
-        raise ValueError("This is not GenErik DJ Test. Installation stopped.")
+        raise ValueError("This is not the expected GenErik DJ app. Installation stopped.")
     return value
 
 
@@ -87,7 +87,7 @@ def build(config, notes):
                  "-destination", "generic/platform=iOS", "-derivedDataPath", str(CACHE),
                  "-jobs", "2", f"PRODUCT_BUNDLE_IDENTIFIER={BUNDLE}",
                  f"CURRENT_PROJECT_VERSION={number}", f"DEVELOPMENT_TEAM={config['team']}",
-                 "CODE_SIGN_STYLE=Automatic", "INFOPLIST_KEY_CFBundleDisplayName=GenErik DJ Test",
+                 "CODE_SIGN_STYLE=Automatic", "INFOPLIST_KEY_CFBundleDisplayName=GenErik DJ",
                  "TARGETED_DEVICE_FAMILY=1,2", "build"], stdout=output, stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError:
             print(f"Build failed. See {log}", flush=True)
