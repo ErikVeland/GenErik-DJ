@@ -327,6 +327,28 @@ final class ControllerMIDIConnection {
         persistFeedbackBindings()
         sentMIDIValues[action] = nil
     }
+    func applyDDJFLX4FeedbackProfile() {
+        guard let destination = feedbackSelected else {
+            feedbackStatus = "Choose the DDJ-FLX4 MIDI output before loading status feedback."
+            return
+        }
+        let profile: [ControllerFeedbackBinding] = [
+            .init(destination: destination, action: .playA, kind: .note, channel: 0, number: 11, offValue: 0, onValue: 127),
+            .init(destination: destination, action: .syncA, kind: .note, channel: 0, number: 88, offValue: 0, onValue: 127),
+            .init(destination: destination, action: .cueA, kind: .note, channel: 0, number: 84, offValue: 0, onValue: 127),
+            .init(destination: destination, action: .playB, kind: .note, channel: 1, number: 11, offValue: 0, onValue: 127),
+            .init(destination: destination, action: .syncB, kind: .note, channel: 1, number: 88, offValue: 0, onValue: 127),
+            .init(destination: destination, action: .cueB, kind: .note, channel: 1, number: 84, offValue: 0, onValue: 127)
+        ]
+        let actions = profile.map(\.action)
+        feedbackBindings.removeAll { $0.destination == destination && actions.contains($0.action) }
+        feedbackBindings.append(contentsOf: profile)
+        feedbackBindings.sort { $0.id < $1.id }
+        sentMIDIValues.removeAll()
+        midiFeedbackEnabled = false
+        persistFeedbackBindings()
+        feedbackStatus = "Loaded DDJ-FLX4 play, sync and headphone-cue light mappings. Enable MIDI feedback to send them."
+    }
     func removeFeedbackBinding(_ action: ControllerAction) {
         guard let destination = feedbackSelected else { return }
         feedbackBindings.removeAll { $0.destination == destination && $0.action == action }

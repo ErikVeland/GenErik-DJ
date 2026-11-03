@@ -9,6 +9,7 @@ struct ControllerSettingsView: View {
     @Bindable var model: ReplicaModel
     @State private var connections: [String] = []
     @State private var replacingControllerMappings = false
+    @State private var replacingControllerFeedback = false
     private var input: ControllerMIDIConnection { model.controllerInput }
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -40,6 +41,16 @@ struct ControllerSettingsView: View {
                     Text("Choose an output").tag(Int32?.none)
                     ForEach(input.destinations) { destination in Text(destination.name).tag(Optional(destination.id)) }
                 }
+                Button("DDJ-FLX4 button feedback profile") { replacingControllerFeedback = true }
+                    .disabled(input.feedbackSelected == nil)
+                    .confirmationDialog("Replace DDJ-FLX4 status feedback?", isPresented: $replacingControllerFeedback, titleVisibility: .visible) {
+                        Button("Replace play, sync and headphone-cue mappings", role: .destructive) { input.applyDDJFLX4FeedbackProfile() }
+                        Button("Cancel", role: .cancel) {}
+                    } message: {
+                        Text("This updates only those three status mappings for the selected MIDI output. Feedback stays off until you enable it.")
+                    }
+                Text("Maps play, sync and headphone-cue lights from the published DDJ-FLX4 MIDI list.")
+                    .font(.caption).foregroundStyle(.secondary)
                 Toggle("Enable generic MIDI feedback", isOn: Binding(get: { input.midiFeedbackEnabled }, set: input.setMIDIFeedbackEnabled))
                     .disabled(!input.feedbackOutputAvailable || input.feedbackSelected == nil || input.selectedFeedbackBindings.isEmpty)
                 Text(input.feedbackStatus).font(.caption).foregroundStyle(.secondary)
