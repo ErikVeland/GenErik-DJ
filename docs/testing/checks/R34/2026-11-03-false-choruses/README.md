@@ -51,3 +51,10 @@ Wider library accuracy, phrase boundaries and full song-form recognition remain 
 Build 76 failed on two existing R23 endpoint conversions in `ControllerMIDIConnection.swift`.
 The iOS SDK defines these endpoints as `UInt32`, which already matches the dictionary key.
 The correction uses each endpoint directly. The failed output remains in `build-76-failed.log`.
+
+## Build 77 installation
+
+Signed build 77 passed from clean application source `629365b4b99b60ded0ca4955ef3c07c8f0589e7d`.
+It installed on the connected 10.5-inch test iPad. Automatic launch timed out after ten seconds.
+Erik must open the app manually. Device actions stopped after that attempt.
+Installation does not establish listening or recognition acceptance.

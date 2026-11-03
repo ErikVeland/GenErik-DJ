@@ -1,0 +1,32 @@
+{
+  "notes": "R34: Replace unsupported chorus labels in Danger Mouse\u2019s 99 Problems with neutral vocal sections. Require ordered repetition and contrasting vocal passages. Refresh generated cue names, preserve manual preparation, and correct two R23 MIDI endpoint compile errors. Fifteen focused checks passed. Erik acceptance pending.",
+  "sourceCommit": "629365b4b99b60ded0ca4955ef3c07c8f0589e7d",
+  "sourceSHA256": "6f26d9b480c7bc2cf6ad9d085d1238478995dd098d4f216e10924daf01f39084",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 40.38,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-77.log",
+  "build": 77,
+  "app": "TestBuilds/ipad/77/GenErikDJ.app",
+  "appSHA256": "a5075f6966b48c4ba46ec8bb1bfb47d5f42ec7b951d5d557ba7a96fff0b96515",
+  "state": "installed",
+  "createdUTC": "2026-11-03T13:31:48.490408+00:00",
+  "installedUTC": "2026-11-03T13:32:10.296959+00:00",
+  "requestIDs": [
+    "R34",
+    "R23"
+  ],
+  "focusedChecks": "Fifteen structure/cue checks passed. Exact Duo PCM reproduced 17 chorus labels before and zero chorus suggestions after. See docs/testing/checks/R34/2026-11-03-false-choruses/result.json.",
+  "acceptance": "Installed on the 10.5-inch test iPad. Automatic launch timed out. Erik opens the app manually, reloads Danger Mouse\u2019s 99 Problems and checks neutral vocal labels, existing manual preparation and clean other-deck audio. True hook recognition and device acceptance remain open.",
+  "deploymentAttempts": [
+    {
+      "device": "GenErik iPad",
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "installed-launch-timeout",
+      "installedUTC": "2026-11-03T13:32:10.296959+00:00",
+      "error": "Installation succeeded. Automatic launch exceeded the 10-second devicectl timeout. Launch is unconfirmed. No further device actions were taken.",
+      "log": "docs/testing/checks/R34/2026-11-03-false-choruses/install-77.log"
+    }
+  ]
+}

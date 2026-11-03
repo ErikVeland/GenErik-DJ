@@ -14,6 +14,7 @@ The release standard is Erik's acceptance on his real setup. A successful build 
 
 ## Current position
 
+- Latest test-iPad candidate: build 77, application source `629365b4b99b60ded0ca4955ef3c07c8f0589e7d`, installed on the 10.5-inch iPad on 3 November. Automatic launch timed out. R34 removes unsupported chorus labels, using neutral vocal labels when ordered repetition and contrast are insufficient. Exact Duo PCM changes from 17 chorus labels to zero suggestions. Fifteen focused checks and signing passed. Erik opens the app manually and reloads the track. Device acceptance remains pending. See `../testing/checks/R34/2026-11-03-false-choruses/result.json`.
 - Active development branch: `feature/project-integration`.
 - Latest installed Duo candidate: build 70, application source `4dfc867f889bf33a5cda2fdeeb2bc2ee57c6ccdc`, installed and launched on 3 November. R09/R29/R30 add musical suggestions and section hot cues, missing-BPM/key analysis on deck load, larger waveforms, vertical controls and optional Cue/headphone buttons. Erik acceptance is pending. See `../testing/checks/R09/2026-11-03-musical-structure/result.json`.
 - Prepared combined candidate: build 75, source `31f38a45cac9d1b9f4077401a379a3f976bf46c9`. It adds R33 late-rhythm recovery and includes the current R30/R31/R32 UI and controller work. Compilation/signing and seven focused rhythm checks passed. Installation is pending Duo reconnection after CoreDeviceError 4016.

@@ -1,7 +1,6 @@
 {
   "requestID": "R34",
   "baselineCommit": "5409bba59c3f1ecdfd83832193bb9a6e17d4c7b3",
-  "candidateAppSourceSHA256": "33c86c08ef35621c9a186769be6f8f7febb10ac25563317addf5c7c0f4e3ff0f",
   "filesSHA256": {
     "Replica/Sources/TDJCore/MusicalStructureAnalyzer.swift": "0cb612565b1e98456851c650dca92cb590864fc2b3a40f3741a19f8025920528",
     "Replica/Sources/TDJCore/SectionCueAllocator.swift": "deea508de2854599281973a9b09864a8e32d270dda382afb2addb3d0f62efb5b",
@@ -36,6 +35,22 @@
     "Section boundaries and detected tempo are unchanged.",
     "Raw-audio checks ran on the host. Target-iPad cost, listening and recognition acceptance remain open."
   ],
-  "build": null,
-  "deployment": "pending"
+  "build": 77,
+  "deployment": "installed-launch-timeout",
+  "chorusCheckAppSourceSHA256": "33c86c08ef35621c9a186769be6f8f7febb10ac25563317addf5c7c0f4e3ff0f",
+  "candidateSourceCommit": "7428e32d30784dd23c425a84082ac702f57d2847",
+  "buildSourceCommit": "629365b4b99b60ded0ca4955ef3c07c8f0589e7d",
+  "buildSourceSHA256": "6f26d9b480c7bc2cf6ad9d085d1238478995dd098d4f216e10924daf01f39084",
+  "buildAppSHA256": "a5075f6966b48c4ba46ec8bb1bfb47d5f42ec7b951d5d557ba7a96fff0b96515",
+  "device": "GenErik iPad (10.5-inch)",
+  "installationLog": "docs/testing/checks/R34/2026-11-03-false-choruses/install-77.log",
+  "acceptance": "Erik acceptance pending. Open the installed app manually and reload the recording.",
+  "failedBuild": 76,
+  "buildBlockerCorrection": {
+    "requestID": "R23",
+    "file": "Replica/Sources/TDJInterface/ControllerMIDIConnection.swift",
+    "sha256": "b8fd059603e63a31fad8b5faf617b174e21e9a9bbef721f933a9e40562c67260",
+    "change": "Use UInt32 CoreMIDI endpoint values directly as UInt32 dictionary keys.",
+    "verification": "Signed iPad build 77 passed after build 76 reported the two conversion errors."
+  }
 }
