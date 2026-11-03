@@ -245,7 +245,8 @@ private struct DeckView: View {
                     }
                 }
             }
-            .frame(height: layout.waveformHeight).clipped().allowsHitTesting(layout.waveformHeight >= 44)
+            .frame(height: layout.waveformHeight)
+            .clipShape(DeckPanelHorizontalBounds()).allowsHitTesting(layout.waveformHeight >= 44)
             .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
             HStack(spacing: 6) {
                 Text(elapsedTime).frame(width: 48, alignment: .trailing)
