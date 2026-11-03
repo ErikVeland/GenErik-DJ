@@ -47,7 +47,8 @@ The upstream controller scripts were inspected as protocol references. They are 
 - Three relative encodings with reversible direction. Continuous controls are coalesced per input drain.
 - Note buttons, poly/channel pressure and program-change button events.
 - Existing transport, mixer, filter, FX, ±8% tempo, loops, Beat Jump, Freeze and eight hotcues per deck exposed to Learn.
+- One optional momentary Shift button selects a second set of learned mappings.
 - User-configured generic MIDI Note/Control Change feedback, scoped to the selected output destination.
 - Original Z1 development bridge framing, Linux HID relay, calibration, native input and light/meter output route.
 
-This does not finish all controller support. Verified model profiles, jog/touch and modifier support, simultaneous input selection, soft takeover, native displays/motors and actual bridge audio remain open. Physical Z1 and bridge acceptance remain with Erik.
+This does not finish all controller support. Verified model profiles, jog/touch, model-specific modifier behaviour, simultaneous input selection, soft takeover, native displays/motors and actual bridge audio remain open. Physical Z1 and bridge acceptance remain with Erik.

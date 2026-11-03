@@ -5,6 +5,7 @@ import TDJCore
 
 enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case playA, playB, syncA, syncB, keylockA, keylockB, cueA, cueB
+    case shift
     case levelA, levelB, gainA, gainB, lowA, lowB, midA, midB, highA, highB
     case filterA, filterB, fxA, fxB, fxToggleA, fxToggleB, crossfader, cueMix
     case filterToggleA, filterToggleB, master, monitor, tempoA, tempoB
@@ -15,6 +16,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     var id: String { rawValue }
     var deck: DeckID { rawValue.hasSuffix("B") ? .b : .a }
     var title: String {
+        if self == .shift { return "Shift layer (hold)" }
         if self == .crossfader { return "Crossfader" }
         if self == .cueMix { return "Headphone blend" }
         if self == .master { return "Master level" }
@@ -57,7 +59,9 @@ private struct ControllerBinding: Codable {
     let action: ControllerAction
     let encoding: ControllerMIDIEncoding?
     let inverted: Bool?
+    let shifted: Bool?
     var mode: ControllerMIDIEncoding { encoding ?? .absolute }
+    var isShifted: Bool { shifted ?? false }
 }
 
 enum ControllerFeedbackKind: String, CaseIterable, Codable, Sendable {
@@ -118,6 +122,7 @@ final class ControllerMIDIConnection {
     var status = "Controller input is off."
     var lastInput = "No input received."
     var learning: ControllerAction?
+    var learningShifted = false
     var learningEncoding = ControllerMIDIEncoding.absolute
     var learningInverted = false
     var bindingCount = 0
@@ -142,6 +147,7 @@ final class ControllerMIDIConnection {
     @ObservationIgnored private var values: [String: Double] = [:]
     @ObservationIgnored private var valueStates: [String: ControllerMIDIValueState] = [:]
     @ObservationIgnored private var pendingValues: [ControllerAction: Double] = [:]
+    @ObservationIgnored private var shiftActive = false
     @ObservationIgnored private var bindings: [ControllerBinding] = []
     @ObservationIgnored private var timer: Timer?
     @ObservationIgnored private let inbox = ControllerMIDIInbox()
@@ -194,7 +200,7 @@ final class ControllerMIDIConnection {
         if outputPort != 0 { MIDIPortDispose(outputPort); outputPort = 0 }
         feedbackOutputAvailable = false
         if client != 0 { MIDIClientDispose(client); client = 0 }
-        endpoint = 0; selected = nil; enabled = false; learning = nil; midiFeedbackEnabled = false
+        endpoint = 0; selected = nil; enabled = false; learning = nil; learningShifted = false; shiftActive = false; midiFeedbackEnabled = false
         decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); _ = inbox.take()
         sentMIDIValues.removeAll()
         resetBridge()
@@ -220,7 +226,8 @@ final class ControllerMIDIConnection {
     }
     func select(_ id: Int32?) {
         if endpoint != 0 { MIDIPortDisconnectSource(port, endpoint) }
-        endpoint = 0; selected = nil; learning = nil; decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); _ = inbox.take()
+        endpoint = 0; selected = nil; learning = nil; learningShifted = false; shiftActive = false
+        decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); _ = inbox.take()
         feedbackSelected = nil; midiFeedbackEnabled = false; sentMIDIValues.removeAll(); resetBridge()
         guard enabled, let source = sources.first(where: { $0.id == id }) else { return }
         let result = MIDIPortConnectSource(port, source.reference, UnsafeMutableRawPointer(bitPattern: Int(source.reference)))
@@ -230,7 +237,8 @@ final class ControllerMIDIConnection {
     func setBridgeMode(_ enabled: Bool) {
         originalZ1Bridge = enabled
         if enabled { midiFeedbackEnabled = false; sentMIDIValues.removeAll() }
-        learning = nil; decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); resetBridge()
+        learning = nil; learningShifted = false; shiftActive = false
+        decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); resetBridge()
     }
     func setFeedbackDestination(_ id: Int32?) {
         feedbackSelected = id; sentFeedback = []; sentMIDIValues.removeAll()
@@ -360,11 +368,20 @@ final class ControllerMIDIConnection {
     }
     func clearBindings() {
         guard let selected else { return }
-        bindings.removeAll { $0.source == selected }; values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); learning = nil; persist()
+        bindings.removeAll { $0.source == selected }; values.removeAll(); valueStates.removeAll(); pendingValues.removeAll()
+        learning = nil; learningShifted = false; shiftActive = false; persist()
     }
     func bindingName(_ action: ControllerAction) -> String {
-        guard let binding = bindings.first(where: { $0.source == selected && $0.action == action }) else { return "Unassigned" }
-        return "\(binding.kind.rawValue) \(binding.number) · channel \(Int(binding.channel) + 1) · \(binding.mode.title)\(binding.inverted == true ? " · reversed" : "")"
+        let assigned = bindings.filter { $0.source == selected && $0.action == action }
+        guard !assigned.isEmpty else { return "Unassigned" }
+        return assigned.sorted { !$0.isShifted && $1.isShifted }.map { binding in
+            let layer = binding.isShifted ? "Shift" : "Base"
+            let reversed = binding.inverted == true ? " · reversed" : ""
+            return "\(layer): \(binding.kind.rawValue) \(binding.number) · ch \(Int(binding.channel) + 1) · \(binding.mode.title)\(reversed)"
+        }.joined(separator: " / ")
+    }
+    private func bindingStateKey(source: Int32, action: ControllerAction, shifted: Bool) -> String {
+        "\(source)-\(action.rawValue)-\(shifted ? 1 : 0)"
     }
     private func persist() {
         bindingCount = bindings.count
@@ -404,6 +421,11 @@ final class ControllerMIDIConnection {
         guard let selected else { return }
         lastInput = "\(message.kind.rawValue) \(message.number) · channel \(Int(message.channel) + 1)"
         if let learning, message.kind != .note || message.value > 0 {
+            if learning == .shift {
+                guard learningEncoding == .absolute, message.kind == .note || message.kind == .control else {
+                    status = "Shift uses a momentary note or absolute Control Change button."; return
+                }
+            }
             guard message.kind != .program || learning.isButton else {
                 status = "Program changes map to button actions. Use a knob, fader or pressure control for an amount."; return
             }
@@ -415,39 +437,62 @@ final class ControllerMIDIConnection {
                 guard message.number < 64 else { status = "A paired high-resolution CC uses controllers 0–31 and their low bytes 32–63."; return }
                 number = message.number >= 32 ? message.number - 32 : message.number
             } else { number = message.number }
+            let bindingIsShifted = learning == .shift ? false : learningShifted
+            let sameInput: (ControllerBinding) -> Bool = { binding in
+                binding.source == selected && binding.kind == message.kind && binding.channel == message.channel &&
+                    (binding.number == number || (learningEncoding == .paired14Bit && binding.number == number + 32) ||
+                     (binding.mode == .paired14Bit && binding.number < 32 && binding.number + 32 == number))
+            }
+            let replacesShift = learning != .shift && bindings.contains(where: { $0.action == .shift && sameInput($0) })
+            if bindingIsShifted && replacesShift {
+                status = "That control is assigned as Shift. Clear mappings before reusing it."; return
+            }
             bindings.removeAll {
-                $0.source == selected && ($0.action == learning || ($0.kind == message.kind && $0.channel == message.channel &&
-                    ($0.number == number || (learningEncoding == .paired14Bit && $0.number == number + 32) ||
-                     ($0.mode == .paired14Bit && $0.number < 32 && $0.number + 32 == number))))
+                $0.source == selected && (($0.action == learning && $0.isShifted == bindingIsShifted) ||
+                    ($0.isShifted == bindingIsShifted && sameInput($0)) || (learning == .shift && sameInput($0)))
             }
             guard bindings.count < 256 else { status = "The controller mapping is full."; self.learning = nil; return }
-            bindings.append(.init(source: selected, channel: message.channel, kind: message.kind, number: number, action: learning, encoding: learningEncoding, inverted: learningInverted))
-            let key = "\(message.kind.rawValue)-\(message.channel)-\(number)"
+            bindings.append(.init(source: selected, channel: message.channel, kind: message.kind, number: number,
+                                  action: learning, encoding: learningEncoding, inverted: learningInverted, shifted: bindingIsShifted))
+            let key = bindingStateKey(source: selected, action: learning, shifted: bindingIsShifted)
             values[key] = message.normalized; valueStates[key] = .init()
-            self.learning = nil; persist(); status = "Saved \(learning.title)."; return
+            shiftActive = false; self.learning = nil; self.learningShifted = false
+            persist()
+            status = replacesShift ? "Saved \(learning.title). The old Shift mapping was removed." : "Saved \(learning.title)."
+            return
         }
-        guard let binding = bindings.first(where: {
+        let matches = bindings.filter {
             $0.source == selected && $0.kind == message.kind && $0.channel == message.channel &&
                 ($0.number == message.number || ($0.mode == .paired14Bit && $0.number < 32 && $0.number + 32 == message.number))
-        }) else { return }
-        let key = "\(binding.kind.rawValue)-\(binding.channel)-\(binding.number)"
-        guard let decoded = valueStates[key, default: .init()].decode(message, encoding: binding.mode, number: binding.number) else { return }
-        let value: Double
-        switch decoded {
-        case .absolute(let absolute): value = binding.inverted == true && !binding.action.isButton ? 1 - absolute : absolute
-        case .relative(let delta):
-            guard !binding.action.isButton, delta != 0,
-                  let target = pendingValues[binding.action] ?? currentValue?(binding.action), target.isFinite else { return }
-            value = min(1, max(0, target + Double(binding.inverted == true ? -delta : delta) / 127))
         }
-        let previous = values.updateValue(value, forKey: key)
-        if binding.action.isButton {
-            if message.kind == .program { onAction?(binding.action, 1); return }
-            if previous == nil && message.kind != .note { return }
-            guard value > 0, (previous ?? 0) == 0 else { return }
-            onAction?(binding.action, value)
-        } else {
-            pendingValues[binding.action] = value
+        for binding in matches {
+            let key = bindingStateKey(source: binding.source, action: binding.action, shifted: binding.isShifted)
+            var state = valueStates[key, default: .init()]
+            guard let decoded = state.decode(message, encoding: binding.mode, number: binding.number) else { continue }
+            valueStates[key] = state
+            let value: Double
+            switch decoded {
+            case .absolute(let absolute): value = binding.inverted == true && !binding.action.isButton ? 1 - absolute : absolute
+            case .relative(let delta):
+                guard !binding.action.isButton, delta != 0,
+                      let target = pendingValues[binding.action] ?? currentValue?(binding.action), target.isFinite else { continue }
+                value = min(1, max(0, target + Double(binding.inverted == true ? -delta : delta) / 127))
+            }
+            let previous = values.updateValue(value, forKey: key)
+            if binding.action == .shift {
+                shiftActive = value > 0
+                status = shiftActive ? "Shift layer active." : "Base layer active."
+                continue
+            }
+            guard binding.isShifted == shiftActive else { continue }
+            if binding.action.isButton {
+                if message.kind == .program { onAction?(binding.action, 1); continue }
+                if previous == nil && message.kind != .note { continue }
+                guard value > 0, (previous ?? 0) == 0 else { continue }
+                onAction?(binding.action, value)
+            } else {
+                pendingValues[binding.action] = value
+            }
         }
     }
 }

@@ -23,6 +23,13 @@ Start with absolute knobs/faders and momentary buttons. Build 51 also supports p
 
 If the Z1 appears only as an accessory or audio route, report that result. Do not treat audio routing as proof of button/fader support. That result directs the accessory-protocol or permitted bridge implementation.
 
+## Optional Shift-layer check
+
+1. Learn a momentary Shift note or Control Change input.
+2. Learn a different action with **Learn in Shift layer** enabled.
+3. Hold Shift and activate the control. Confirm that only the alternate action runs.
+4. Release Shift and activate the control. Confirm that the base action runs.
+
 ## Optional development bridge
 
 Use the [original Z1 bridge guide](../../tools/controller_bridge/README.md) only with a configured Linux USB host/device bridge. Select its MIDI input, enable **Original Z1 through GenErik bridge**, then select its feedback output. Verify calibration before testing the crossfader.

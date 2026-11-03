@@ -39,10 +39,18 @@ struct ControllerSettingsView: View {
                     .disabled(!input.feedbackOutputAvailable || input.feedbackSelected == nil || input.selectedFeedbackBindings.isEmpty)
                 Text(input.feedbackStatus).font(.caption).foregroundStyle(.secondary)
                 ControllerFeedbackSettingsView(input: input)
-                Picker("Control encoding", selection: Binding(get: { input.learningEncoding }, set: { input.learningEncoding = $0 })) {
-                    ForEach(ControllerMIDIEncoding.allCases, id: \.self) { mode in Text(mode.title).tag(mode) }
+                if input.learning != .shift {
+                    Picker("Control encoding", selection: Binding(get: { input.learningEncoding }, set: { input.learningEncoding = $0 })) {
+                        ForEach(ControllerMIDIEncoding.allCases, id: \.self) { mode in Text(mode.title).tag(mode) }
+                    }
+                    Toggle("Reverse knob / fader direction", isOn: Binding(get: { input.learningInverted }, set: { input.learningInverted = $0 }))
+                    Toggle("Learn in Shift layer", isOn: Binding(get: { input.learningShifted }, set: { input.learningShifted = $0 }))
+                    Text("Hold the learned Shift control to use these assignments.")
+                        .font(.caption).foregroundStyle(.secondary)
+                } else {
+                    Text("Move a momentary note or Control Change button to learn Shift.")
+                        .font(.caption).foregroundStyle(.secondary)
                 }
-                Toggle("Reverse knob / fader direction", isOn: Binding(get: { input.learningInverted }, set: { input.learningInverted = $0 }))
                 Text(input.lastInput).font(.caption).foregroundStyle(.secondary)
                 if let action = input.learning {
                     Text("Move the control for \(action.title). Learning does not operate the deck.")
@@ -57,7 +65,14 @@ struct ControllerSettingsView: View {
                             Text(input.bindingName(action)).font(.caption).foregroundStyle(.secondary)
                         }
                         Spacer()
-                        Button(input.learning == action ? "Waiting…" : "Learn") { input.learning = action }
+                        Button(input.learning == action ? "Waiting…" : "Learn") {
+                            if action == .shift {
+                                input.learningShifted = false
+                                input.learningEncoding = .absolute
+                                input.learningInverted = false
+                            }
+                            input.learning = action
+                        }
                             .disabled(input.selected == nil)
                     }
                 }
@@ -162,6 +177,7 @@ extension ReplicaModel {
         case .hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A,
              .hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B:
             if let slot = action.hotcueSlot { cue(slot: slot, deck: deck) }
+        case .shift: break
         }
     }
 }
