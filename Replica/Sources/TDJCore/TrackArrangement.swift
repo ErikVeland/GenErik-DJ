@@ -40,7 +40,7 @@ public struct ArrangementSection: Codable, Equatable, Identifiable, Sendable {
     }
     public var label: String {
         let primary = name.isEmpty ? role.label : name
-        return primary + (behaviour == .sustaining ? "" : " · " + behaviour.label)
+        return primary + (behaviour == .sustaining || primary == behaviour.label ? "" : " · " + behaviour.label)
             + (labelConfidence > 0 && labelConfidence < 0.6 && !locked ? " ?" : "")
     }
     public var colourHex: UInt32 {
@@ -130,8 +130,9 @@ public struct TrackArrangement: Codable, Equatable, Sendable {
         if let ending=landmarks.first(where: { $0.kind == .rhythmicEnd && $0.locked && $0.state != .dismissed }) { rhythmicEnd=ending.frame }
         landmarks.sort { $0.frame < $1.frame }
     }
-    /// Detect changes in cached energy, without assigning song-form or vocal labels from loudness.
-    public static func prepare(analysis a: AudioAnalysis) -> Self {
+    /// Use local musical evidence when available. Cached loudness alone retains neutral labels.
+    public static func prepare(analysis a: AudioAnalysis, features: [MusicalStructureFrame] = []) -> Self {
+        if !features.isEmpty { return musicalPreparation(analysis:a,features:features) }
         let end=Double(a.frameCount)
         guard a.sampleRate > 0, end > 0, !a.waveform.isEmpty else {
             return .init(sections: [.init(start:0,end:end,name:"SECTION A")], landmarks: [], musicalEnd:end, rhythmicEnd:nil)

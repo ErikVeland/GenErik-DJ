@@ -1,0 +1,15 @@
+{
+  "build": 68,
+  "state": "build-failed",
+  "createdUTC": "2026-11-03T06:47:22.855857+00:00",
+  "requestIDs": [
+    "R09",
+    "R30",
+    "R05"
+  ],
+  "sourceCommit": "fd5472e81ce69c246042c4048e96c87782c24c48",
+  "sourceSHA256": "c4302c599b331c7672f6a715f3e0008b857d37a11e36f2ef72d9caccdcecbfcb",
+  "log": "TestBuilds/ipad/build-68.log",
+  "notes": "Combined R09/R30 candidate. Not installed.",
+  "failure": "Imported playlist restoration changed the lookup to bySourceID but left one reference to bySource at LibraryBrowserProjection.swift:70. Compiler stopped before signing."
+}

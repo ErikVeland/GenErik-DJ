@@ -9,6 +9,7 @@ struct PlaybackSettings: View {
     @AppStorage(DeckToolSettings.beatJump) private var beatJump = false
     @AppStorage(DeckToolSettings.tempoFader) private var tempoFader = false
     @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
+    @AppStorage(DeckToolSettings.headphoneButton) private var headphoneButton = false
     @AppStorage(DeckToolSettings.hotcuePads) private var hotcuePads = false
     @AppStorage(DeckToolSettings.vinylStop) private var vinylStop = false
     @AppStorage(DeckToolSettings.vinylStopDuration) private var vinylStopDuration = 1.0
@@ -30,6 +31,7 @@ struct PlaybackSettings: View {
             Toggle("Beat jump",isOn:$beatJump)
             Toggle("Tempo fader",isOn:$tempoFader)
             Toggle("CUE button",isOn:$cueButton)
+            Toggle("Headphone button",isOn:$headphoneButton)
             Toggle("Hotcue pads",isOn:$hotcuePads)
             Toggle("Vinyl stop",isOn:$vinylStop)
             if vinylStop {
@@ -56,6 +58,7 @@ enum DeckToolSettings {
     static let beatJump = "deckTools.beatJump"
     static let tempoFader = "deckTools.tempoFader"
     static let cueButton = "deckTools.cueButton"
+    static let headphoneButton = "deckTools.headphoneButton"
     static let hotcuePads = "deckTools.hotcuePads"
     static let vinylStop = "deckTools.vinylStop"
     static let vinylStopDuration = "deckTools.vinylStopDuration"

@@ -67,12 +67,17 @@ struct HotcuePadRow: View {
                 let cue = model.track(deck).flatMap { model.performance.cues[$0.id]?[slot] }
                 Button { model.cue(slot: slot, deck: deck, delete: deleting) } label: {
                     ZStack {
-                        RoundedRectangle(cornerRadius: 3).fill(cue == nil ? PerformancePalette.raised
-                            : cue?.category == .loop ? PerformancePalette.syncGreen.opacity(0.75) : PerformancePalette.cyan.opacity(0.85))
+                        RoundedRectangle(cornerRadius: 3).fill(cue?.sectionColour.map { Color(arrangementHex:$0) } ?? (cue == nil ? PerformancePalette.raised
+                            : cue?.category == .loop ? PerformancePalette.syncGreen.opacity(0.75) : PerformancePalette.cyan.opacity(0.85)))
                         if cue == nil { Image(systemName: "plus").font(.system(size: 18, weight: .bold)).foregroundStyle(PerformancePalette.text) }
-                        else { Text("\(slot + 1)").font(.system(size: 15, weight: .bold)).foregroundStyle(Color.black.opacity(0.75)) }
+                        else {
+                            VStack(spacing:1) {
+                                Text("\(slot + 1)").font(.system(size:15,weight:.bold))
+                                if let name=cue?.sectionName { Text(name).font(.system(size:8,weight:.bold)).lineLimit(1).minimumScaleFactor(0.7) }
+                            }.foregroundStyle(Color.black.opacity(0.85))
+                        }
                     }
-                }.accessibilityLabel("\(deleting ? "Delete" : cue == nil ? "Set" : "Recall") hotcue \(slot + 1) on deck \(deck.rawValue.uppercased())")
+                }.accessibilityLabel("\(deleting ? "Delete" : cue == nil ? "Set" : "Recall") hotcue \(slot + 1) \(cue?.sectionName ?? "") on deck \(deck.rawValue.uppercased())")
             }
             Button { if model.hotcueDeleting.remove(deck) == nil { model.hotcueDeleting.insert(deck) } } label: {
                 Image(systemName: "xmark").font(.system(size: 18, weight: .heavy)).foregroundStyle(PerformancePalette.red)

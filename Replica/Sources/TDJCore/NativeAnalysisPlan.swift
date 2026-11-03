@@ -4,6 +4,9 @@ import Foundation
 /// for tempo, grid and key, and no full waveform pass runs until a deck loads it.
 public enum NativeAnalysisPlan: Equatable, Sendable {
     case full, firstMinute
+    public static func needsDeckAnalysis(deferred: Bool?, bpm: Double?, key: MusicalKey?) -> Bool {
+        deferred == true || (bpm.map { !$0.isFinite || $0 <= 0 } ?? true) || key == nil
+    }
     public static let mixThresholdSeconds=19.0*60
     public static let excerptSeconds=60.0
     public static func plan(duration: Double?) -> Self { isMix(duration:duration) ? .firstMinute : .full }

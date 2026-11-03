@@ -20,13 +20,16 @@ struct PerformanceOverlay: View {
                     guard let cue=cues[slot] else { continue }
                     let x=(cue.frame-left)/max(1,span)*size.width
                     guard x>=0,x<=size.width else { continue }
-                    let colour: Color = cue.category == .grid ? .white : cue.category == .loop ? .green : .cyan
+                    let colour: Color = cue.sectionColour.map { Color(arrangementHex:$0) } ?? (cue.category == .grid ? .white : cue.category == .loop ? .green : .cyan)
                     var line=Path()
                     line.move(to:.init(x:x,y:0)); line.addLine(to:.init(x:x,y:size.height))
                     context.stroke(line,with:.color(colour.opacity(0.65)),lineWidth:1)
-                    let label=CGRect(x:min(max(0,x),max(0,size.width-18)),y:max(0,size.height-18),width:18,height:18)
+                    let width=cue.sectionName.map { min(128,Double($0.count)*6+24) } ?? 18
+                    let label=CGRect(x:min(max(0,x),max(0,size.width-width)),y:max(0,size.height-18),width:width,height:18)
                     context.fill(Path(label),with:.color(colour.opacity(0.8)))
-                    if (0..<8).contains(slot),let symbol=context.resolveSymbol(id:slot) {
+                    if let name=cue.sectionName {
+                        context.draw(Text("\(slot+1) \(name)").font(.system(size:10,weight:.bold)).foregroundStyle(.black),at:.init(x:label.midX,y:label.midY))
+                    } else if (0..<8).contains(slot),let symbol=context.resolveSymbol(id:slot) {
                         context.draw(symbol,at:.init(x:label.midX,y:label.midY))
                     } else {
                         context.draw(Text("\(slot+1)").font(.caption.bold()).foregroundStyle(.black),at:.init(x:label.midX,y:label.midY))
@@ -72,5 +75,24 @@ struct PerformanceOverlay: View {
                 }
             }
         }.clipped().allowsHitTesting(false)
+    }
+}
+
+
+struct OverviewCueFlags: View {
+    @Bindable var model: ReplicaModel
+    let track: Track
+    var body: some View {
+        Canvas { context,size in
+            let cues=model.performance.cues[track.id] ?? [:]
+            for slot in cues.keys.sorted() {
+                guard let cue=cues[slot] else { continue }
+                let x=cue.frame/max(1,Double(track.analysis.frameCount))*size.width
+                let colour=cue.sectionColour.map { Color(arrangementHex:$0) } ?? (cue.category == .grid ? Color.white:Color.cyan)
+                let box=CGRect(x:min(max(0,x),max(0,size.width-12)),y:max(0,size.height-12),width:12,height:12)
+                context.fill(Path(box),with:.color(colour.opacity(0.9)))
+                context.draw(Text("\(slot+1)").font(.system(size:8,weight:.bold)).foregroundStyle(.black),at:.init(x:box.midX,y:box.midY))
+            }
+        }.allowsHitTesting(false).accessibilityHidden(true)
     }
 }

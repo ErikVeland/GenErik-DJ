@@ -10,7 +10,7 @@ struct AdaptivePerformanceLayout {
         guard browserVisible else { return max(0, height - dividerHeight) }
         let minimum = min(minimumDeckHeight, height)
         let maximum = max(minimum, height - dividerHeight)
-        return min(maximum, max(minimum, height * (share.isFinite ? share : 0.28)))
+        return min(maximum, max(minimum, height * (share.isFinite ? share : 0.72)))
     }
 
     static func panelWidth(available: Double) -> Double {
@@ -30,11 +30,11 @@ struct AdaptiveDeckGeometry {
 
     init(height: Double, hotcues: Bool = false) {
         let height = max(0, height)
-        expansion = min(1, max(0, (height - 56) / 180))
-        headerHeight = 64 * expansion
-        sectionHeight = 24 * expansion
+        expansion = min(1, max(0, (height - 56) / 144))
+        headerHeight = 48 * expansion
+        sectionHeight = 0
         footerHeight = 24 * expansion
-        overviewHeight = min(height, 56 - 12 * expansion)
+        overviewHeight = min(height, 32 - 8 * expansion)
         hotcueHeight = hotcues ? 56 * expansion : 0
         waveformHeight = max(0, height - headerHeight - sectionHeight - footerHeight - overviewHeight - hotcueHeight)
         transportWidth = 128 - 64 * expansion

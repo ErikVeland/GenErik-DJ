@@ -17,7 +17,7 @@ public struct ReplicaView: View {
     @State private var traktorImportPresented = false
     @State private var tempoWheelVisible = false
     @State private var audioSettingsPresented = false
-    @State private var deckShare = 0.28
+    @State private var deckShare = 0.72
     @State private var dividerOrigin: Double?
     @GestureState private var resizingLibrary = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -100,7 +100,7 @@ public struct ReplicaView: View {
                 .animation(reduceMotion || dividerOrigin != nil ? nil : .smooth(duration: 0.25), value: model.browserVisible)
                 .onChange(of: resizingLibrary) { _, active in if !active { dividerOrigin = nil } }
                 .onChange(of: model.browserVisible) { _, visible in
-                    if visible && !resizingLibrary { deckShare = 0.28 }
+                    if visible && !resizingLibrary { deckShare = 0.72 }
                 }
             }
 
@@ -209,24 +209,20 @@ private struct DeckView: View {
     private var playback: DeckPlaybackSnapshot? { model.playbackSnapshot?[deck] }
     var body: some View {
         GeometryReader { deckSpace in
-        let layout = AdaptiveDeckGeometry(height: max(0, deckSpace.size.height - 8),
-            hotcues: (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil)
-        HStack(spacing: 4) {
-        ZStack(alignment: .topLeading) {
-        Button { model.showSuggestions(destination: deck) } label: {
-            DeckArtwork(source: ArtworkSource.track(track, media: model.store.mediaDirectory))
-                .frame(width: 44, height: 44).background(PerformancePalette.sunken).clipped()
-        }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
-            .offset(y: (1 - layout.expansion) * max(0, (deckSpace.size.height - 52) / 2))
-        VStack(spacing: 0) {
-            DeckHeader(model: model, deck: deck, showsArtwork: false)
-                .frame(height: layout.headerHeight, alignment: .top).clipped()
-                .opacity(layout.expansion).allowsHitTesting(layout.headerHeight >= 44)
-            if track != nil {
-                ArrangementDeckStrip(model: model, deck: deck)
-                    .frame(height: layout.sectionHeight).clipped().opacity(layout.expansion)
-                    .allowsHitTesting(layout.sectionHeight >= 24)
-            }
+        let layout=AdaptiveDeckGeometry(height:max(0,deckSpace.size.height-8),
+            hotcues:(hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil)
+        HStack(spacing:4) {
+        ZStack(alignment:.topLeading) {
+            Button { model.showSuggestions(destination:deck) } label: {
+                DeckArtwork(source:ArtworkSource.track(track,media:model.store.mediaDirectory))
+                    .frame(width:44,height:44).background(PerformancePalette.sunken).clipped()
+                    .overlay { TrackHeadphoneIndicator(model:model,trackID:track?.id) }
+            }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
+                .offset(y:(1-layout.expansion)*max(0,(deckSpace.size.height-52)/2))
+        VStack(spacing:0) {
+            DeckHeader(model:model,deck:deck,toolsVisible:$toolsVisible,dense:true,showsArtwork:false)
+                .frame(height:layout.headerHeight,alignment:.top).clipped().opacity(layout.expansion)
+                .allowsHitTesting(layout.headerHeight >= 44)
             GeometryReader { geometry in
                 DeckWaveform(model:model,deck:deck,visibleSeconds:$visibleSeconds,mixerVisible:mixerVisible)
                 .overlay(alignment:.leading) {
@@ -245,74 +241,58 @@ private struct DeckView: View {
                     }
                 }
             }
-            .frame(height: layout.waveformHeight)
+            .frame(height:layout.waveformHeight)
             .clipShape(DeckPanelHorizontalBounds()).allowsHitTesting(layout.waveformHeight >= 44)
-            .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
-            HStack(spacing: 6) {
-                Text(elapsedTime).frame(width: 48, alignment: .trailing)
-                DeckOverview(model: model, deck: deck, visibleSeconds: $visibleSeconds)
-                    .frame(maxWidth: .infinity)
-                Text(remainingTime).frame(width: 60, alignment: .leading)
-            }.font(.system(size: 13).monospacedDigit())
-                .frame(height: layout.overviewHeight)
+            .zIndex(effectsVisible || snapshotEffects ? 1:0)
+            HStack(spacing:4) {
+                Text(elapsedTime).frame(width:44,alignment:.trailing)
+                DeckOverview(model:model,deck:deck,visibleSeconds:$visibleSeconds)
+                    .frame(maxWidth:.infinity)
+                Text(remainingTime).frame(width:52,alignment:.leading)
+            }.font(.system(size:11).monospacedDigit()).frame(height:layout.overviewHeight)
             if (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil {
-                HotcuePadRow(model: model, deck: deck).frame(height: layout.hotcueHeight).clipped()
+                HotcuePadRow(model:model,deck:deck).frame(height:layout.hotcueHeight).clipped()
                     .allowsHitTesting(layout.hotcueHeight >= 44)
             }
-            DeckFooter(model: model, deck: deck)
-                .frame(height: layout.footerHeight).clipped().opacity(layout.expansion)
-        }.padding(.leading, 52)
+            if track != nil {
+                ArrangementDeckStrip(model:model,deck:deck,compact:true)
+                    .frame(height:layout.footerHeight).clipped().opacity(layout.expansion)
+                    .allowsHitTesting(layout.footerHeight >= 24)
+            } else { Color.clear.frame(height:layout.footerHeight) }
+        }.padding(.leading,52)
         }
         if tempoFader && track != nil { DeckTempoFader(model:model,deck:deck) }
-        ScrollView(.vertical) {
-            VStack(spacing: 8) {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
-                    Button("FX") {
-                        effectsInput.setEnabled(!effectsVisible); effectsVisible.toggle()
-                    }.foregroundStyle(effectsVisible ? Color.orange : PerformancePalette.secondaryText)
+        if toolsVisible {
+            ScrollView(.vertical) {
+                PerformanceControls(model:model,deck:deck).padding(6)
+            }.frame(width:100).background(PerformancePalette.sunken)
+        }
+        VStack(spacing:2) {
+            ScrollView(.vertical) {
+                VStack(spacing:2) {
+                    Button("FX") { effectsInput.setEnabled(!effectsVisible); effectsVisible.toggle() }
+                        .foregroundStyle(effectsVisible ? Color.orange:PerformancePalette.secondaryText)
                         .accessibilityLabel("Effects for deck \(deck.rawValue.uppercased())")
-                    Button("EQ") {
-                        mixerInput.setEnabled(!mixerVisible); mixerVisible.toggle()
-                    }.foregroundStyle(mixerVisible ? PerformancePalette.cyan : PerformancePalette.secondaryText)
+                    Button("EQ") { mixerInput.setEnabled(!mixerVisible); mixerVisible.toggle() }
+                        .foregroundStyle(mixerVisible ? PerformancePalette.cyan:PerformancePalette.secondaryText)
                         .accessibilityLabel("EQ and filter for deck \(deck.rawValue.uppercased())")
-                    Button { model.toggleLoop(deck: deck) } label: { Image(systemName: "repeat") }
-                        .foregroundStyle(playback?.loopEnabled == true ? PerformancePalette.syncGreen : PerformancePalette.text)
+                    Button { model.toggleLoop(deck:deck) } label: { Image(systemName:"repeat") }
+                        .foregroundStyle(playback?.loopEnabled == true ? PerformancePalette.syncGreen:PerformancePalette.text)
                         .disabled(track == nil).accessibilityLabel("Loop on deck \(deck.rawValue.uppercased())")
                     if cueButton {
-                        Button("CUE") { model.pressCue(deck: deck) }.disabled(track == nil)
+                        Button("CUE") { model.pressCue(deck:deck) }.disabled(track == nil)
                             .accessibilityLabel("Cue on deck \(deck.rawValue.uppercased())")
                     }
-                }
-                if track != nil { PerformanceControls(model: model, deck: deck) }
-            }.padding(8)
-        }
-        .font(.system(size: 17, weight: .semibold))
-        .buttonStyle(PerformanceToolButtonStyle())
-        .frame(width: toolsVisible ? AdaptivePerformanceLayout.panelWidth(available: deckSpace.size.width) : 0)
-        .background(PerformancePalette.sunken).clipped()
-        .allowsHitTesting(toolsVisible)
-        .disabled(!toolsVisible).accessibilityHidden(!toolsVisible)
-        ZStack {
-            Button {
-                withAnimation(reduceMotion ? nil : .smooth(duration: 0.22)) { toolsVisible.toggle() }
-            } label: { Image(systemName: toolsVisible ? "sidebar.right" : "slider.horizontal.3") }
-                .frame(width: 64, height: 44)
-                .position(x: 32, y: 22)
-                .accessibilityLabel("\(toolsVisible ? "Hide" : "Show") controls for deck \(deck.rawValue.uppercased())")
-            Button { model.setMixer(.cue, value: playback?.mixer.cue == true ? 0 : 1, deck: deck) } label: {
-                Image(systemName: "headphones")
-                    .foregroundStyle(playback?.mixer.cue == true ? PerformancePalette.cyan : PerformancePalette.secondaryText)
-            }.frame(width: 64, height: 50)
-                .position(x: 32, y: max(25, deckSpace.size.height - 92))
-                .opacity(min(1, max(0, (deckSpace.size.height - 164) / 48)))
-                .allowsHitTesting(deckSpace.size.height >= 212)
-                .accessibilityHidden(deckSpace.size.height < 212)
-                .accessibilityLabel("Headphone cue for deck \(deck.rawValue.uppercased())")
-            DeckPlaybackButton(model: model, deck: deck)
-                .frame(width: 64, height: 50)
-                .position(x: 32 + 64 * (1 - layout.expansion), y: max(25, deckSpace.size.height - 33))
+                    OptionalHeadphoneButton(model:model,deck:deck)
+
+                }.buttonStyle(PerformanceToolButtonStyle())
+            }.scrollIndicators(.hidden)
+                .frame(height:max(0,deckSpace.size.height-66))
+                .clipped().allowsHitTesting(deckSpace.size.height >= 110)
+                .accessibilityHidden(deckSpace.size.height < 110)
+            DeckPlaybackButton(model:model,deck:deck).frame(height:min(56,max(0,deckSpace.size.height-10)))
         }.font(.system(size: 24, weight: .heavy))
-            .buttonStyle(DeckRailButtonStyle()).frame(width: layout.transportWidth)
+            .buttonStyle(DeckRailButtonStyle()).frame(width: 64)
         }.padding(4).background(PerformancePalette.stage).bevelPanel(cornerRadius: 6, sunken: true)
         }
         .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
@@ -330,13 +310,14 @@ private struct DeckView: View {
     }
     private var preparing: Bool { model.preparingPlayback.contains(deck) }
     private var elapsedTime: String {
-        let seconds = max(0, Int((playback?.sourceFrame ?? 0) / (track?.analysis.sampleRate ?? 1)))
-        return String(format: "%d:%02d", seconds / 60, seconds % 60)
+        let seconds=max(0,Int((playback?.sourceFrame ?? 0)/(track?.analysis.sampleRate ?? 1)))
+        return String(format:"%d:%02d",seconds/60,seconds%60)
     }
     private var remainingTime: String {
-        let seconds = max(0, Int(ceil((track?.analysis.duration ?? 0) - (playback?.sourceFrame ?? 0) / (track?.analysis.sampleRate ?? 1))))
-        return String(format: "−%d:%02d", seconds / 60, seconds % 60)
+        let seconds=max(0,Int(ceil((track?.analysis.duration ?? 0)-(playback?.sourceFrame ?? 0)/(track?.analysis.sampleRate ?? 1))))
+        return String(format:"−%d:%02d",seconds/60,seconds%60)
     }
+
 
 
 }
@@ -364,6 +345,7 @@ private struct StripeView: View {
             WaveformView(track: track, grid: nil, centerFrame: Double(track.analysis.frameCount) / 2,
                          visibleSeconds: track.analysis.duration).equatable()
                 .overlay { ArrangementWaveformOverlay(model:model,deck:deck,track:track,center:Double(track.analysis.frameCount)/2,span:Double(track.analysis.frameCount),overview:true) }
+                .overlay { OverviewCueFlags(model:model,track:track) }
                 .overlay(alignment: .leading) {
                     StripeViewportMarker(model:model,deck:deck,width:geometry.size.width,
                         frameCount:Double(track.analysis.frameCount),duration:track.analysis.duration,
@@ -759,6 +741,8 @@ private struct BatteryReadout: View {
 private struct DeckHeader: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
+    @Binding var toolsVisible: Bool
+    var dense = false
     var showsArtwork = true
     @AppStorage(DeckToolSettings.beatJump) private var beatJump = false
 
@@ -769,14 +753,15 @@ private struct DeckHeader: View {
                     ZStack {
                         PerformancePalette.sunken
                         DeckArtwork(source:ArtworkSource.track(track,media:model.store.mediaDirectory))
-                    }.frame(width: 64, height: 64).clipShape(RoundedRectangle(cornerRadius: 3))
+                    }.frame(width: dense ? 40:64, height: dense ? 40:64).clipShape(RoundedRectangle(cornerRadius: 3))
                     .overlay(RoundedRectangle(cornerRadius: 3).strokeBorder(Color.black.opacity(0.7)))
+                    .overlay { TrackHeadphoneIndicator(model:model,trackID:track?.id) }
                 }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
                 }
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 6) {
                         Text(track?.title ?? "Deck \(deck.rawValue.uppercased())")
-                            .font(.system(size: 19, weight: .semibold)).foregroundStyle(PerformancePalette.text).lineLimit(1)
+                            .font(.system(size: dense ? 16:19, weight: .semibold)).foregroundStyle(PerformancePalette.text).lineLimit(1)
                         if NativeAnalysisPlan.isMix(duration: track?.analysis.duration) { MixBadge(size: 14) }
                     }
                     HStack(spacing: 10) {
@@ -791,7 +776,7 @@ private struct DeckHeader: View {
                                 DeckTempoReadout(model:model,deck:deck)
                             }
                         }
-                    }.font(.system(size: 15)).foregroundStyle(PerformancePalette.secondaryText)
+                    }.font(.system(size: dense ? 12:15)).foregroundStyle(PerformancePalette.secondaryText)
                 }
                 Spacer()
                 if editing { GridEditBar(model: model, deck: deck) } else {
@@ -818,7 +803,12 @@ private struct DeckHeader: View {
                 }
                     .disabled(track == nil || preparing || playback?.phase == .queued).accessibilityLabel("Edit grid on deck \(deck.rawValue.uppercased())")
                 }
-            }.padding(.horizontal, 12).padding(.vertical, 8)
+                Button { toolsVisible.toggle() } label: {
+                    Image(systemName:"slider.horizontal.3").font(.system(size:17,weight:.semibold))
+                        .foregroundStyle(toolsVisible ? PerformancePalette.cyan:PerformancePalette.secondaryText)
+                        .frame(width:36,height:36).bevelPanel(cornerRadius:3)
+                }.accessibilityLabel("\(toolsVisible ? "Hide":"Show") extra controls for deck \(deck.rawValue.uppercased())")
+            }.padding(.horizontal, 8).padding(.vertical, dense ? 4:8)
 
     }
     private var track: Track? { model.track(deck) }
@@ -918,8 +908,8 @@ private struct DeckOverview: View {
             if let track {
                 StripeView(model:model,deck:deck,track:track,visibleSeconds:$visibleSeconds) {
                     model.previewing.insert(deck); model.viewport[deck] = $0
-                }.frame(height: 31)
-            } else { Color.black.frame(height: 31) }
+                }
+            } else { Color.black }
 
     }
     private var track: Track? { model.track(deck) }
@@ -949,7 +939,7 @@ private struct DeckFooter: View {
                             .foregroundStyle((model.timing(deck)?.downbeatOffset ?? grid.downbeatOffset) == beat ? .orange : deckBlue)
                     }
                 }
-            }.padding(.horizontal, 18).frame(height: 36).background(surface)
+            }.padding(.horizontal, 8).frame(height:36).background(surface)
 
     }
     private var track: Track? { model.track(deck) }
@@ -960,26 +950,6 @@ private struct DeckFooter: View {
         let remaining = max(0, Int(ceil(track.analysis.duration - (playback?.sourceFrame ?? 0) / track.analysis.sampleRate)))
         return String(format: "−%d:%02d", remaining / 60, remaining % 60)
     }
-}
-
-@MainActor
-private struct DeckTransportButtons: View {
-    @Bindable var model: ReplicaModel
-    let deck: DeckID
-
-    var body: some View {
-        Group {
-            Button { model.setMixer(.cue, value: playback?.mixer.cue == true ? 0 : 1, deck: deck) } label: {
-                Image(systemName: "headphones")
-                    .foregroundStyle(playback?.mixer.cue == true ? deckBlue : Color(white: 0.65))
-            }.accessibilityLabel("Headphone cue for deck \(deck.rawValue.uppercased())")
-            DeckPlaybackButton(model:model,deck:deck)
-        }
-    }
-    private var track: Track? { model.track(deck) }
-    private var playback: DeckControlDisplay? { model.controlDisplay[deck] }
-    private var preparing: Bool { model.preparingPlayback.contains(deck) }
-
 }
 
 @MainActor
