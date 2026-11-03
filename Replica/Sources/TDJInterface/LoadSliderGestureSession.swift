@@ -9,7 +9,7 @@ struct LoadSliderGestureSession {
     private(set) var armedDeck: DeckID?
 
     mutating func handle(_ event: SurfaceEvent, height: Double, maximumTravel: Double = 18,
-                         edgeTapThreshold: Double? = nil) -> DeckID? {
+                         edgeTapThreshold: Double? = nil, edgeTapMovementTolerance: Double = 10) -> DeckID? {
         if event.phase == .cancelled {
             self = Self()
             return nil
@@ -29,7 +29,7 @@ struct LoadSliderGestureSession {
         armedDeck = distance <= -threshold ? .a : distance >= threshold ? .b : nil
         guard event.phase == .ended, event.ending.contains(owner) else { return nil }
         let edgeTap = edgeTapThreshold.flatMap { threshold -> DeckID? in
-            guard abs(distance) < threshold * height else { return nil }
+            guard abs(distance) <= edgeTapMovementTolerance else { return nil }
             if originY <= threshold { return .a }
             if originY >= 1 - threshold { return .b }
             return nil

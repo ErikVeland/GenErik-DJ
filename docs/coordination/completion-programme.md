@@ -12,7 +12,7 @@ Erik requested completion of all remaining app work and integration with all NI 
 | Musical structure | Real-song section/vocal/drop/ending analysis feeding existing landmarks and countdowns | Needs a suitable analyser and reference-labelled evaluation. Do not substitute loudness guesses for semantic recognition. |
 | Recovery | Reliable replay and incoming-track transitions using validated/manual drop/ending evidence | Erik verifies timing, fallback and manual takeover on the actual iPad. |
 | Key control and stems | Key shift/matching, prepared stem workflow and controller access | Preserve timing and playback continuity. Report A10X processing costs and any preparation/offline requirements. |
-| Remaining roadmap | Stems, controller feedback profiles, semantic phrase guidance, specified FX additions and approved streaming integrations | MIDI Learn, manual arrangement editing, next-event guidance and six FX slots already exist. Define separation models, feedback contracts, requested FX and an authorised streaming provider before adding more. Keep automatic section recognition with the R09 evidence gate. Confirm streaming scope against the local-library requirement before work. |
+| Remaining roadmap | Stems, controller feedback profiles, semantic phrase guidance and specified FX additions | MIDI Learn, manual arrangement editing, next-event guidance and six FX slots already exist. Define separation models, feedback contracts and requested FX before adding more. Keep automatic section recognition with the R09 evidence gate. Erik deferred streaming on 3 November; preserve the local-library-only scope. |
 | Polish and reliability | Resolve Erik's reported issues in the sound, touch workflow, library, recording and UI | One focused fix/build/test at a time. Erik confirms each result. |
 | Historical reconciliation | Disposition every meaningful private patch/request | The present checkout can compare inventory hashes but does not contain the private source folders. Restore the candidate source before assigning semantic dispositions. Keep original evidence. |
 
@@ -29,4 +29,4 @@ Keep build 45 available while preparing the next change. Do not replace the iPad
 - A bridge requires actual USB host/device hardware and its model adapters. Permission to use a bridge is not evidence that it exists.
 - Semantic music analysis needs a viable model/algorithm and real-song reference material. The current hand-labelled display is not that analyser.
 - External metadata write-back requires representative target-format files and identity/conflict checks. Do not overwrite real preparation while guessing a format.
-- Audio streaming support requires an authorised source exposing usable audio. Subscription catalogue access does not itself provide mixable audio.
+- Streaming is deferred by Erik. Keep the product local-library-only unless he changes that decision.
