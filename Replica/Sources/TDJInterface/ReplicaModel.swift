@@ -18,6 +18,7 @@ public final class ReplicaModel {
     public var performance = PerformancePreparation()
     let recoveryState = RecoveryState()
     public var frozen: Set<DeckID> = []
+    @ObservationIgnored var controllerJogTouched: Set<DeckID> = []
     public var filterLocked: Set<DeckID> = []
     public var superSlicerFamilies: [DeckID: SuperSlicerFamily] = [:]
     @ObservationIgnored private var storedLibrary: LibrarySnapshot

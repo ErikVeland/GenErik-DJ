@@ -11,6 +11,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case filterToggleA, filterToggleB, master, monitor, tempoA, tempoB
     case loopA, loopB, loopUpA, loopUpB, loopDownA, loopDownB, jumpBackA, jumpBackB, jumpForwardA, jumpForwardB
     case cueReturnA, cueReturnB, freezeA, freezeB
+    case jogA, jogB, jogTouchA, jogTouchB
     case hotcue1A, hotcue2A, hotcue3A, hotcue4A, hotcue5A, hotcue6A, hotcue7A, hotcue8A
     case hotcue1B, hotcue2B, hotcue3B, hotcue4B, hotcue5B, hotcue6B, hotcue7B, hotcue8B
     var id: String { rawValue }
@@ -26,16 +27,22 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
                       "level": "Volume", "gain": "Gain", "low": "Low EQ", "mid": "Mid EQ", "high": "High EQ",
                       "filter": "Filter", "filterToggle": "Filter on / off", "fx": "Effect amount", "fxToggle": "Effect on / off",
                       "tempo": "Tempo ±8%", "loop": "Loop on / off", "loopUp": "Larger loop", "loopDown": "Smaller loop",
-                      "jumpBack": "Beat jump back", "jumpForward": "Beat jump forward", "cueReturn": "Cue return / set", "freeze": "Freeze"]
+                      "jumpBack": "Beat jump back", "jumpForward": "Beat jump forward", "cueReturn": "Cue return / set",
+                      "freeze": "Freeze", "jog": "Platter jog", "jogTouch": "Platter touch"]
         return "\(deck.rawValue.uppercased()) · \(labels[String(rawValue.dropLast())] ?? rawValue)"
     }
     var isButton: Bool {
         switch self {
         case .levelA, .levelB, .gainA, .gainB, .lowA, .lowB, .midA, .midB, .highA, .highB,
-             .filterA, .filterB, .fxA, .fxB, .crossfader, .cueMix, .master, .monitor, .tempoA, .tempoB: false
+             .filterA, .filterB, .fxA, .fxB, .crossfader, .cueMix, .master, .monitor, .tempoA, .tempoB,
+             .jogA, .jogB: false
         default: true
         }
     }
+    var isMomentary: Bool {
+        switch self { case .jogTouchA, .jogTouchB: true; default: false }
+    }
+    var isJog: Bool { self == .jogA || self == .jogB }
     var hotcueSlot: Int? {
         guard rawValue.hasPrefix("hotcue"), let value = Int(rawValue.dropFirst(6).dropLast()) else { return nil }
         return value - 1
@@ -178,6 +185,7 @@ final class ControllerMIDIConnection {
     @ObservationIgnored private var pendingFeedback: [UInt8]?
     @ObservationIgnored private var sentFeedback: [UInt8] = []
     @ObservationIgnored private var sentMIDIValues: [ControllerAction: [UInt8]] = [:]
+    @ObservationIgnored private var activeMomentaryActions: Set<ControllerAction> = []
     @ObservationIgnored private var lastMIDIOutputTime = 0.0
     @ObservationIgnored private var lastFeedbackTime = 0.0
     @ObservationIgnored private var needsBridgeHello = true
@@ -241,6 +249,7 @@ final class ControllerMIDIConnection {
         RunLoop.main.add(timer, forMode: .common)
     }
     func stop() {
+        releaseMomentaryActions()
         timer?.invalidate(); timer = nil
         if port != 0 { MIDIPortDispose(port); port = 0 }
         if protocolPort != 0 { MIDIPortDispose(protocolPort); protocolPort = 0 }
@@ -273,6 +282,7 @@ final class ControllerMIDIConnection {
         if selected == nil { status = sources.isEmpty ? "No MIDI inputs found. Check the connection and MIDI mode." : "Choose the controller input to use." }
     }
     func select(_ id: Int32?) {
+        releaseMomentaryActions()
         if endpoint != 0 {
             MIDIPortDisconnectSource(port, endpoint)
             if protocolPort != 0 { MIDIPortDisconnectSource(protocolPort, endpoint) }
@@ -291,6 +301,7 @@ final class ControllerMIDIConnection {
         else { status = "The controller input could not connect (\(result))." }
     }
     func setBridgeMode(_ enabled: Bool) {
+        releaseMomentaryActions()
         originalZ1Bridge = enabled
         if enabled { midiFeedbackEnabled = false; sentMIDIValues.removeAll() }
         learning = nil; learningShifted = false; shiftActive = false
@@ -464,6 +475,7 @@ final class ControllerMIDIConnection {
             status = "Select a generic MIDI input before loading this profile."
             return
         }
+        releaseMomentaryActions()
         func binding(_ action: ControllerAction, kind: ControllerMIDIMessage.Kind, channel: UInt8,
                      number: UInt8, encoding: ControllerMIDIEncoding = .absolute) -> ControllerBinding {
             .init(source: selected, group: 0, channel: channel, kind: kind, number: number,
@@ -489,6 +501,10 @@ final class ControllerMIDIConnection {
                 ? [.hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A]
                 : [.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B]
             profile += hotcues.enumerated().map { binding($0.element, kind: .note, channel: padChannel, number: UInt8($0.offset)) }
+            let jog: ControllerAction = deck == "A" ? .jogA : .jogB
+            let jogTouch: ControllerAction = deck == "A" ? .jogTouchA : .jogTouchB
+            profile += [binding(jog, kind: .control, channel: channel, number: 34, encoding: .binaryOffset),
+                        binding(jogTouch, kind: .note, channel: channel, number: 54)]
         }
         profile += [binding(.crossfader, kind: .control, channel: 6, number: 31, encoding: .paired14Bit),
                     binding(.master, kind: .control, channel: 6, number: 8, encoding: .paired14Bit),
@@ -501,7 +517,7 @@ final class ControllerMIDIConnection {
         pendingValues.removeAll()
         learning = nil; learningShifted = false; shiftActive = false
         persist()
-        status = "Loaded the DDJ-FLX4 transport, mixer and Hot Cue MIDI profile. Jog, touch and light feedback are not mapped."
+        status = "Loaded the DDJ-FLX4 transport, mixer, Hot Cue and vinyl-on platter input profile. Wheel-side, vinyl-off jog and other lights are not mapped."
     }
     func bindingName(_ action: ControllerAction) -> String {
         let assigned = bindings.filter { $0.source == selected && $0.action == action }
@@ -521,6 +537,11 @@ final class ControllerMIDIConnection {
     private func persist() {
         bindingCount = bindings.count
         if let data = try? JSONEncoder().encode(bindings) { UserDefaults.standard.set(data, forKey: Self.storageKey) }
+    }
+    private func releaseMomentaryActions() {
+        let actions = activeMomentaryActions
+        activeMomentaryActions.removeAll()
+        for action in actions { onAction?(action, 0) }
     }
     private func persistFeedbackBindings() {
         if let data = try? JSONEncoder().encode(feedbackBindings) {
@@ -626,9 +647,15 @@ final class ControllerMIDIConnection {
             switch decoded {
             case .absolute(let absolute): value = binding.inverted == true && !binding.action.isButton ? 1 - absolute : absolute
             case .relative(let delta):
-                guard !binding.action.isButton, delta != 0,
-                      let target = pendingValues[binding.action] ?? currentValue?(binding.action), target.isFinite else { continue }
-                value = min(1, max(0, target + (binding.inverted == true ? -delta : delta) / 127))
+                guard !binding.action.isButton, delta != 0 else { continue }
+                if binding.action.isJog {
+                    let previousDelta = ((pendingValues[binding.action] ?? 0.5) - 0.5) * 8
+                    let signedDelta = binding.inverted == true ? -delta : delta
+                    value = 0.5 + min(4, max(-4, previousDelta + signedDelta)) / 8
+                } else if let target = pendingValues[binding.action] ?? currentValue?(binding.action) {
+                    guard target.isFinite else { continue }
+                    value = min(1, max(0, target + (binding.inverted == true ? -delta : delta) / 127))
+                } else { continue }
             }
             if binding.action.isButton, message.kind == .note, !message.isNoteOff, value == 0 { value = 1 }
             let previous = values.updateValue(value, forKey: key)
@@ -638,6 +665,13 @@ final class ControllerMIDIConnection {
                 continue
             }
             guard binding.isShifted == shiftActive else { continue }
+            if binding.action.isMomentary {
+                guard previous != value else { continue }
+                if value > 0 { activeMomentaryActions.insert(binding.action) }
+                else { activeMomentaryActions.remove(binding.action) }
+                onAction?(binding.action, value)
+                continue
+            }
             if binding.action.isButton {
                 if message.kind == .program { onAction?(binding.action, 1); continue }
                 if previous == nil && message.kind != .note { continue }
