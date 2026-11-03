@@ -124,7 +124,9 @@ struct KeyImportReviewView: View {
                 }
             }
             .navigationTitle("Review key import")
+#if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+#endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { showingReview = false }

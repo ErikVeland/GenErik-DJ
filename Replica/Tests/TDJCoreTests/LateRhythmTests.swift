@@ -50,6 +50,7 @@ final class LateRhythmTests: XCTestCase {
         if let map=result.adaptiveCandidate {
             try map.validate(frameCount:250_000)
             XCTAssertGreaterThanOrEqual(map.anchors.first?.frame ?? -1,start*rate-20)
+            XCTAssertEqual(map.frame(atBeat:0)/rate,start,accuracy:0.03)
         }
     }
     func testRhythmNearTheFileEndingRetainsItsSourceAnchor() throws {

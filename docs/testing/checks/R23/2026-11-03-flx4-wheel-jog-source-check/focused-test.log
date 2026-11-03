@@ -1,0 +1,238 @@
+[0/1] Planning build
+Building for debugging...
+[0/16] Write sources
+[1/16] Write swift-version--1AB21518FC5DEDBE.txt
+[3/66] Emitting module TDJInterface
+[4/91] Compiling TDJInterface FilterPadContactState.swift
+[5/91] Compiling TDJInterface GenErikBrandLockup.swift
+[6/91] Compiling TDJInterface GestureHelp.swift
+[7/91] Compiling TDJInterface KeyColour.swift
+[8/91] Compiling TDJInterface KeyImportReviewView.swift
+[9/91] Compiling TDJInterface LibraryBrowserPlaylistSave.swift
+[10/91] Compiling TDJInterface LibraryBrowserRequest.swift
+[11/91] Compiling TDJInterface LibraryGroupChooser.swift
+[12/91] Compiling TDJInterface LoadSliderGestureSession.swift
+[13/91] Compiling TDJInterface LocalMusicLibrary.swift
+[14/91] Compiling TDJInterface MixerFaderInputValues.swift
+[15/91] Compiling TDJInterface MixerPaneState.swift
+[16/91] Compiling TDJInterface MixerView.swift
+[17/91] Compiling TDJInterface MusicLibraryView.swift
+[18/91] Compiling TDJInterface NativeMusicAnalysisQueue.swift
+[19/91] Compiling TDJInterface NativeMusicModel.swift
+[20/91] Compiling TDJInterface PaneDismissGesture.swift
+[21/91] Compiling TDJInterface PerformanceControls.swift
+[22/91] Compiling TDJInterface PerformanceModel.swift
+[23/91] Compiling TDJInterface PerformanceOverlay.swift
+[24/91] Compiling TDJInterface PerformancePalette.swift
+[25/91] Compiling TDJInterface PlaybackControlDisplay.swift
+[26/91] Compiling TDJInterface PlaybackController.swift
+[27/91] Compiling TDJInterface PlaybackSettings.swift
+[28/91] Compiling TDJInterface PlaybackTimingActivity.swift
+error: compile command failed due to signal 6 (use -v to see invocation)
+<unknown>:0: error: fatal error encountered during compilation; please submit a bug report (https://swift.org/contributing/#reporting-bugs)
+<unknown>:0: note: SmallVector unable to grow. Requested capacity (4294967297) is larger than maximum value for size type (4294967295)
+Please submit a bug report (https://swift.org/contributing/#reporting-bugs) and include the crash backtrace.
+Stack dump:
+0.	Program arguments: /Library/Developer/CommandLineTools/usr/bin/swift-frontend -frontend -c -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/ArrangementModel.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/ArrangementViews.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/BackgroundAnalysisModel.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/BackgroundFileWork.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/BackgroundWorkValue.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/BandWaveforms.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/BrowserLayoutState.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/BrowserPaneStack.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/BrowserSections.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/BrowserView.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/CoalescingFileWriter.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/CollectionLink.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/ControlMaintenanceTimer.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/ControllerFeedbackSettingsView.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/ControllerMIDIConnection.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/ControllerSettingsView.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/DeckArtwork.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/DeckToolViews.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/DeckToolsModel.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/DevelopmentWorkspace.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/EffectControlDisplay.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/EffectPadGestureSession.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/EffectSelectorGestureSession.swift -primary-file /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/EffectsView.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/FilterPadContactState.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/GenErikBrandLockup.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/GestureHelp.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/KeyColour.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/KeyImportReviewView.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/LibraryBrowserPlaylistSave.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/LibraryBrowserRequest.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/LibraryGroupChooser.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/LoadSliderGestureSession.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/LocalMusicLibrary.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/MixerFaderInputValues.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/MixerPaneState.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/MixerView.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/MusicLibraryView.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/NativeMusicAnalysisQueue.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/NativeMusicModel.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/PaneDismissGesture.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/PerformanceControls.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/PerformanceModel.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/PerformanceOverlay.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/PerformancePalette.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/PlaybackControlDisplay.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/PlaybackController.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/PlaybackSettings.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/PlaybackTimingActivity.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/PreparationImportPill.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/PreparationImportProgress.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/RecoveryController.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/RecoveryModel.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/RecoverySettingsView.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/ReferenceBenchmark.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/ReplicaLifecycle.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/ReplicaModel.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/ReplicaView.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/RuntimeEffectControlAccess.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/RuntimeFilterContactSession.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/SecurityScopedFileAccess.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/SuperSlicerGeometry.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/TempoWheel.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/TempoWheelGestureSession.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/TempoWheelReset.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/TouchAxisSession.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/TouchFader.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/TouchSurface.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/TouchSurfaceInputGate.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/VinylBrakeControl.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/WaveformIndexes.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/WaveformTouch.swift /Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/Z1HIDConnection.swift /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/DerivedSources/resource_bundle_accessor.swift -supplementary-output-file-map /var/folders/26/qlx1whx14n3gnrn28fgnqfc40000gn/T/TemporaryDirectory.NeaxC5/supplementaryOutputs-1 -target arm64-apple-macosx14.0 -Xllvm -aarch64-use-tbi -enable-objc-interop -stack-check -sdk /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/Modules -I /Library/Developer/CommandLineTools/Library/Developer/Frameworks -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -gnone -module-cache-path /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/ModuleCache -swift-version 6 -Onone -D SWIFT_PACKAGE -D DEBUG -D SWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE -new-driver-path /Library/Developer/CommandLineTools/usr/bin/swift-driver -empty-abi-descriptor -plugin-path /Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing -disable-sandbox -enable-anonymous-context-mangled-names -file-compilation-dir /Users/erikveland/GenErik-DJ/Replica -Xcc -fmodule-map-file=/Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/CTDJTransport.build/module.modulemap -Xcc -I -Xcc /Users/erikveland/GenErik-DJ/Replica/Sources/CTDJTransport/include -Xcc -fmodule-map-file=/Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/CTDJAudioSource.build/module.modulemap -Xcc -I -Xcc /Users/erikveland/GenErik-DJ/Replica/Sources/CTDJAudioSource/include -Xcc -isysroot -Xcc /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -Xcc -fPIC -Xcc -g0 -no-auto-bridging-header-chaining -module-name TDJInterface -package-name replica -disable-clang-spi -target-sdk-version 26.5 -target-sdk-name macosx26.5 -external-plugin-path /Library/Developer/Developer/usr/lib/swift/host/plugins#/Library/Developer/Developer/usr/bin/swift-plugin-server -external-plugin-path /Library/Developer/Developer/usr/local/lib/swift/host/plugins#/Library/Developer/Developer/usr/bin/swift-plugin-server -in-process-plugin-server-path /Library/Developer/CommandLineTools/usr/lib/swift/host/libSwiftInProcPluginServer.dylib -plugin-path /Library/Developer/CommandLineTools/usr/lib/swift/host/plugins -plugin-path /Library/Developer/CommandLineTools/usr/local/lib/swift/host/plugins -parse-as-library -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/AdaptivePerformanceLayout.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/ArrangementModel.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/ArrangementViews.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/BackgroundAnalysisModel.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/BackgroundFileWork.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/BackgroundWorkValue.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/BandWaveforms.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/BrowserLayoutState.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/BrowserPaneStack.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/BrowserSections.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/BrowserView.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/CoalescingFileWriter.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/CollectionLink.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/ControlMaintenanceTimer.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/ControllerFeedbackSettingsView.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/ControllerMIDIConnection.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/ControllerSettingsView.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/DeckArtwork.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/DeckToolViews.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/DeckToolsModel.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/DevelopmentWorkspace.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/EffectControlDisplay.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/EffectPadGestureSession.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/EffectSelectorGestureSession.swift.o -o /Users/erikveland/GenErik-DJ/Replica/.build/arm64-apple-macosx/debug/TDJInterface.build/EffectsView.swift.o
+1.	Apple Swift version 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)
+2.	Compiling with the current language version
+3.	While evaluating request IRGenRequest(IR Generation for file "/Users/erikveland/GenErik-DJ/Replica/Sources/TDJInterface/ControllerSettingsView.swift")
+4.	While emitting IR SIL function "@$ss5Int32VSgScA_pSgIeAghyg_ACIeAghn_TR".
+ for <<debugloc at "<compiler-generated>":0:0>>Stack dump without symbol names (ensure you have llvm-symbolizer in your PATH or set the environment var `LLVM_SYMBOLIZER_PATH` to point to it):
+0  swift-frontend           0x00000001092e908c llvm::sys::PrintStackTrace(llvm::raw_ostream&, int) + 56
+1  swift-frontend           0x00000001092e652c llvm::sys::RunSignalHandlers() + 172
+2  swift-frontend           0x00000001092e967c SignalHandler(int, __siginfo*, void*) + 356
+3  libsystem_platform.dylib 0x000000018d829744 _sigtramp + 56
+4  libsystem_pthread.dylib  0x000000018d81f8d8 pthread_kill + 296
+5  libsystem_c.dylib        0x000000018d725978 abort + 148
+6  swift-frontend           0x0000000103250ff4 swift::DiagnosticHelper::~DiagnosticHelper() + 0
+7  swift-frontend           0x00000001092551a0 llvm::report_fatal_error(llvm::Twine const&, bool) + 292
+8  swift-frontend           0x000000010928c828 report_at_maximum_capacity(unsigned long) + 0
+9  swift-frontend           0x000000010928c538 llvm::SmallVectorBase<unsigned int>::grow_pod(void*, unsigned long, unsigned long) + 384
+10 swift-frontend           0x00000001032eae8c (anonymous namespace)::SyncCallEmission::setArgs(swift::irgen::Explosion&, bool, swift::irgen::WitnessMetadata*) + 688
+11 swift-frontend           0x00000001035158bc (anonymous namespace)::IRGenSILFunction::visitFullApplySite(swift::FullApplySite) + 5196
+12 swift-frontend           0x00000001034ee9b0 (anonymous namespace)::IRGenSILFunction::visitSILBasicBlock(swift::SILBasicBlock*) + 3540
+13 swift-frontend           0x00000001034ec7b8 (anonymous namespace)::IRGenSILFunction::emitSILFunction() + 11648
+14 swift-frontend           0x00000001034e973c swift::irgen::IRGenModule::emitSILFunction(swift::SILFunction*) + 2860
+15 swift-frontend           0x0000000103337d80 swift::irgen::IRGenerator::emitLazyDefinitions() + 5520
+16 swift-frontend           0x00000001034a0838 swift::IRGenRequest::evaluate(swift::Evaluator&, swift::IRGenDescriptor) const + 5000
+17 swift-frontend           0x00000001034e8460 swift::SimpleRequest<swift::IRGenRequest, swift::GeneratedModule (swift::IRGenDescriptor), (swift::RequestFlags)17>::evaluateRequest(swift::IRGenRequest const&, swift::Evaluator&) + 236
+18 swift-frontend           0x0000000102dfa2ac swift::IRGenRequest::OutputType swift::Evaluator::getResultUncached<swift::IRGenRequest, swift::IRGenRequest::OutputType swift::evaluateOrFatal<swift::IRGenRequest>(swift::Evaluator&, swift::IRGenRequest)::'lambda'()>(swift::IRGenRequest const&, swift::IRGenRequest::OutputType swift::evaluateOrFatal<swift::IRGenRequest>(swift::Evaluator&, swift::IRGenRequest)::'lambda'()) + 348
+19 swift-frontend           0x00000001034a43e8 swift::performIRGeneration(swift::FileUnit*, swift::IRGenOptions const&, swift::TBDGenOptions const&, std::__1::unique_ptr<swift::SILModule, std::__1::default_delete<swift::SILModule>>, llvm::StringRef, swift::PrimarySpecificPaths const&, std::__1::shared_ptr<llvm::cas::ObjectStore>, llvm::StringRef, llvm::GlobalVariable**, swift::cas::SwiftCASOutputBackend*) + 224
+20 swift-frontend           0x0000000102e5a468 generateIR(swift::IRGenOptions const&, swift::TBDGenOptions const&, std::__1::unique_ptr<swift::SILModule, std::__1::default_delete<swift::SILModule>>, swift::PrimarySpecificPaths const&, std::__1::shared_ptr<llvm::cas::ObjectStore>, swift::cas::SwiftCASOutputBackend*, llvm::StringRef, llvm::PointerUnion<swift::ModuleDecl*, swift::SourceFile*>, llvm::GlobalVariable*&, llvm::ArrayRef<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>>, llvm::ArrayRef<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>>) + 172
+21 swift-frontend           0x0000000102e5397c performCompileStepsPostSILGen(swift::CompilerInstance&, std::__1::unique_ptr<swift::SILModule, std::__1::default_delete<swift::SILModule>>, llvm::PointerUnion<swift::ModuleDecl*, swift::SourceFile*>, swift::PrimarySpecificPaths const&, int&, swift::FrontendObserver*, llvm::ArrayRef<char const*>) + 2292
+22 swift-frontend           0x0000000102e52118 swift::performCompileStepsPostSema(swift::CompilerInstance&, int&, swift::FrontendObserver*, llvm::ArrayRef<char const*>) + 1052
+23 swift-frontend           0x0000000102e57ab0 performCompile(swift::CompilerInstance&, int&, swift::FrontendObserver*, llvm::ArrayRef<char const*>) + 1740
+24 swift-frontend           0x0000000102e54818 swift::performFrontend(llvm::ArrayRef<char const*>, char const*, void*, swift::FrontendObserver*) + 3308
+25 swift-frontend           0x0000000102dd4424 swift::mainEntry(int, char const**) + 5224
+26 dyld                     0x000000018d4544e4 start + 6992
+error: emit-module command failed with exit code 1 (use -v to see invocation)
+[29/116] Emitting module TDJCoreTests
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[30/139] Compiling TDJInterface AdaptivePerformanceLayout.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[31/139] Compiling TDJInterface ArrangementModel.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[32/139] Compiling TDJInterface ArrangementViews.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[33/139] Compiling TDJInterface BackgroundAnalysisModel.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[34/139] Compiling TDJInterface BackgroundFileWork.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[35/139] Compiling TDJInterface BackgroundWorkValue.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[36/139] Compiling TDJInterface BandWaveforms.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[37/139] Compiling TDJInterface BrowserLayoutState.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[38/139] Compiling TDJInterface BrowserPaneStack.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[39/139] Compiling TDJInterface BrowserSections.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[40/139] Compiling TDJInterface BrowserView.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[41/139] Compiling TDJInterface CoalescingFileWriter.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[42/139] Compiling TDJInterface CollectionLink.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[43/139] Compiling TDJInterface ControlMaintenanceTimer.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[44/139] Compiling TDJInterface ControllerFeedbackSettingsView.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[45/139] Compiling TDJInterface ControllerMIDIConnection.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[46/139] Compiling TDJInterface ControllerSettingsView.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[47/139] Compiling TDJInterface DeckArtwork.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[48/139] Compiling TDJInterface DeckToolViews.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[49/139] Compiling TDJInterface DeckToolsModel.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[50/139] Compiling TDJInterface DevelopmentWorkspace.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[51/139] Compiling TDJInterface EffectControlDisplay.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+[52/139] Compiling TDJInterface EffectPadGestureSession.swift
+/Users/erikveland/GenErik-DJ/Replica/Tests/TDJCoreTests/AdaptivePreparationTests.swift:2:8: error: no such module 'Testing'
+ 1 | import Foundation
+ 2 | import Testing
+   |        `- error: no such module 'Testing'
+ 3 | @testable import TDJCore
+ 4 | 
+error: fatalError

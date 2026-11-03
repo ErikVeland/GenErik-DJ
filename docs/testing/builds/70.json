@@ -10,9 +10,13 @@
       "date": "2026-11-03",
       "requestIDs": [
         "R29",
-        "R31"
+        "R33"
       ],
       "text": "Assumed build 70: BPM detection needs better reliability. 3Cag has a long intro. Search for the first supported beat later in the track, even near the end, when the opening gives no reliable tempo."
+    },
+    {
+      "kind": "Erik UI feedback",
+      "text": "Confirmed build 70 installed on Duo. Restore fixed right FX/EQ/loop/Play stacks with centre fader. Extra loop length/hotcue/freeze/Flux controls must be visible and separately swipeable. Edit-grid icon must show four beat lines. Align buttons, rename display to GenErik DJ, inset header content for rounded viewport. Every add-track icon tap currently opens the library only a sliver and requires manual expansion."
     }
   ],
   "log": "TestBuilds/ipad/build-70.log",

@@ -11,5 +11,18 @@
   "app": "TestBuilds/ipad/74/GenErikDJ.app",
   "appSHA256": "60227b54e541a26242260c33dcc5caad9ff842f5d708284ec45ca33e82239a92",
   "state": "ready",
-  "createdUTC": "2026-11-03T07:17:51.907948+00:00"
+  "createdUTC": "2026-11-03T07:17:51.907948+00:00",
+  "requestIDs": [
+    "R29",
+    "R33"
+  ],
+  "deploymentAttempts": [
+    {
+      "device": "GenErik Duo",
+      "state": "connection-unavailable",
+      "error": "CoreDeviceError 4016: device could not fulfill install usage assertions. No installation or launch was confirmed.",
+      "log": "docs/testing/checks/R29/2026-11-03-late-rhythm/build-74-install.log"
+    }
+  ],
+  "disposition": "Signed candidate retained. Superseded by the combined candidate to preserve newer UI and controller work."
 }

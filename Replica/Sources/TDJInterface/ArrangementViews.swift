@@ -26,7 +26,7 @@ struct ArrangementDeckStrip: View {
                 Text(status.endingText).lineLimit(1)
                     .foregroundStyle(status.warning == .red || status.warning == .urgent ? Color.red:Color.secondary)
             }
-            Button { editor=true } label: { Image(systemName:"diamond") }
+            Button { editor=true } label: { Image(systemName:"diamond").frame(width:44,height:44) }
                 .accessibilityLabel("Edit sections and analysis landmarks")
                 .disabled(model.track(deck).flatMap { model.arrangements[$0.id] } == nil)
         }

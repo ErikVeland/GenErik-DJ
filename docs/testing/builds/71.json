@@ -1,0 +1,12 @@
+{
+  "build": 71,
+  "state": "build-failed",
+  "sourceCommit": "668e80a6f445e58d72e4d30479c25671b5b50666",
+  "sourceSHA256": "b211258571da9cba857b609e8c2b39cda98eba8a072caca4469fdeed893ad782",
+  "requestIDs": [
+    "R30",
+    "R26"
+  ],
+  "log": "TestBuilds/ipad/checks/R30/isolated-build-71-failure.log",
+  "notes": "Compiler rejected LibraryBrowserProjection.swift:70 because the earlier local-playlist change renamed bySource to bySourceID but did not update this lookup. No app was installed."
+}

@@ -14,6 +14,10 @@
         "R30"
       ],
       "text": "Build 66 was installed by the layout chat during the R09 iteration. Erik asks for section starts to become hot cues and for missing BPM/key to trigger analysis on deck load. 3Cag still has no BPM and appears to skip analysis. These requests are included in the next candidate."
+    },
+    {
+      "kind": "Erik correction",
+      "text": "Keep the right-hand TDJ1 vertical FX/EQ/loop/Play stacks visible and the crossfader in the middle. Only the loop length/hotcue/freeze/Flux controls belong in a separate swipe-away panel next to transport. Those extra controls appeared to have disappeared in build 66."
     }
   ],
   "log": "TestBuilds/ipad/build-66.log",

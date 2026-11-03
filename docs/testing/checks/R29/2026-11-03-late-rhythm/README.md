@@ -1,4 +1,4 @@
-# R31: Tempo after a long intro
+# R33: Tempo after a long intro
 
 The full-track tempo path remains first. If it returns no BPM or weak confidence, the analyser searches overlapping 24-second windows through the track. A final 12-second window covers late rhythm near the ending. Local activity and level scaling prevent a loud intro from masking quieter later percussion.
 
