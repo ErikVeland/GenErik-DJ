@@ -22,6 +22,9 @@ public final class ReplicaModel {
     let recoveryState = RecoveryState()
     public var frozen: Set<DeckID> = []
     @ObservationIgnored var controllerJogTouched: Set<DeckID> = []
+    @ObservationIgnored var controllerJogBendOffsets: [DeckID: Double] = [:]
+    @ObservationIgnored var controllerJogBendTasks: [DeckID: Task<Void, Never>] = [:]
+    @ObservationIgnored var controllerJogBendTokens: [DeckID: UUID] = [:]
     public var filterLocked: Set<DeckID> = []
     public var superSlicerFamilies: [DeckID: SuperSlicerFamily] = [:]
     @ObservationIgnored private var storedLibrary: LibrarySnapshot

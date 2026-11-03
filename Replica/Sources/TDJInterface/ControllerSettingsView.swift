@@ -23,7 +23,7 @@ struct ControllerSettingsView: View {
                 }
                 Button("DDJ-FLX4 MIDI profile") { replacingControllerMappings = true }
                     .disabled(input.selected == nil || input.originalZ1Bridge)
-                Text("Maps transport and mixer controls, Hot Cue pads and platter jog with touch in vinyl-on and vinyl-off modes. Wheel-side jog is not mapped.")
+                Text("Maps transport, mixer, Hot Cue pads and platter jog. Wheel-side jog bends playback by up to 8% and resets after 150 ms without input.")
                     .font(.caption).foregroundStyle(.secondary)
                 Button("Refresh connections") { input.refreshSources(); refreshConnections() }
                 Toggle("Original Z1 through GenErik bridge", isOn: Binding(get: { input.originalZ1Bridge }, set: input.setBridgeMode))
@@ -141,6 +141,45 @@ struct ControllerSettingsView: View {
 }
 
 extension ReplicaModel {
+    func applyControllerWheelJog(_ value: Double, deck: DeckID) {
+        guard loaded[deck] != nil else {
+            resetControllerWheelJog(deck, restoreRate: false)
+            return
+        }
+        guard playbackSnapshot?[deck].touchActive != true, !controllerJogTouched.contains(deck) else {
+            resetControllerWheelJog(deck, restoreRate: false)
+            return
+        }
+        let delta = ControllerJogBend.deltaCounts(fromNormalizedValue: value)
+        guard delta != 0 else {
+            resetControllerWheelJog(deck)
+            return
+        }
+        let offset = ControllerJogBend.accumulatedCounts(current: controllerJogBendOffsets[deck, default: 0], delta: delta)
+        controllerJogBendOffsets[deck] = offset
+        perform(.rate, deck: deck, value: ControllerJogBend.playbackRate(forCounts: offset))
+        controllerJogBendTasks[deck]?.cancel()
+        let token = UUID()
+        controllerJogBendTokens[deck] = token
+        controllerJogBendTasks[deck] = Task { [weak self] in
+            do { try await Task.sleep(nanoseconds: ControllerJogBend.releaseDelayNanoseconds) }
+            catch { return }
+            guard let self, self.controllerJogBendTokens[deck] == token else { return }
+            self.resetControllerWheelJog(deck)
+        }
+    }
+
+    func resetControllerWheelJog(_ deck: DeckID, restoreRate: Bool = true) {
+        let wasActive = controllerJogBendOffsets[deck, default: 0] != 0 || controllerJogBendTasks[deck] != nil
+        controllerJogBendTasks[deck]?.cancel()
+        controllerJogBendTasks[deck] = nil
+        controllerJogBendTokens[deck] = nil
+        controllerJogBendOffsets[deck] = 0
+        if wasActive, restoreRate, playbackSnapshot?[deck].touchActive != true {
+            perform(.rate, deck: deck, value: 1)
+        }
+    }
+
     func controllerValue(_ action: ControllerAction) -> Double? {
         if let slot = action.hotcueSlot {
             guard let trackID = loaded[action.deck] else { return 0 }
@@ -203,6 +242,7 @@ extension ReplicaModel {
         case .freezeA, .freezeB: toggleFreeze(deck: deck)
         case .jogTouchA, .jogTouchB:
             if value > 0 {
+                resetControllerWheelJog(deck, restoreRate: false)
                 controllerJogTouched.insert(deck)
                 guard let frame = playbackSnapshot?[deck].sourceFrame else { return }
                 perform(.touch, deck: deck, value: frame, touchRate: 0)
@@ -215,6 +255,8 @@ extension ReplicaModel {
             guard controllerJogTouched.contains(deck),
                   let frame = playbackSnapshot?[deck].sourceFrame else { return }
             perform(.touch, deck: deck, value: frame, touchRate: rate)
+        case .wheelJogA, .wheelJogB:
+            applyControllerWheelJog(value, deck: deck)
         case .hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A,
              .hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B:
             if let slot = action.hotcueSlot { cue(slot: slot, deck: deck) }
