@@ -39,7 +39,6 @@ struct BrowserView: View {
     @State private var projection: LibraryBrowserProjection?
     @State private var projectionToken = UUID()
     @State private var playlistSave = LibraryBrowserPlaylistSave()
-    @State private var dismissOffset: CGFloat = 0
     private var entryCount: Int { snapshotProjection?.tracks.count ?? projection?.entries.count ?? 0 }
     @State private var snapshotGroups=LibraryGroupSource.empty
     private var groupSource:LibraryGroupSource {
@@ -61,22 +60,7 @@ struct BrowserView: View {
               sort: displayedSort, category: category, group: group,
               suggestionIDs: nil)
     }
-    var body: some View {
-        content.offset(y: dismissOffset)
-    }
-    /// Global coordinates keep the pull 1:1 while the pane itself moves under the finger.
-    private var dismissDrag: some Gesture {
-        DragGesture(minimumDistance: 4, coordinateSpace: .global)
-            .onChanged { value in dismissOffset = PaneDismissGesture.offset(translation: value.translation.height) }
-            .onEnded { value in
-                if PaneDismissGesture.dismisses(translation: value.translation.height, velocity: value.velocity.height) {
-                    model.browserVisible = false
-                    dismissOffset = 0
-                } else {
-                    withAnimation(.spring(duration: 0.25)) { dismissOffset = 0 }
-                }
-            }
-    }
+    var body: some View { content }
     private var content: some View {
         VStack(spacing: 0) {
             searchBar
@@ -283,11 +267,6 @@ extension BrowserView {
         .font(.system(size: 15, weight: .semibold)).foregroundStyle(PerformancePalette.text)
         .padding(.horizontal, 14).frame(height: 56)
         .background(LinearGradient(colors: [PerformancePalette.frame, PerformancePalette.panel], startPoint: .top, endPoint: .bottom))
-        .overlay(alignment: .top) {
-            Capsule().fill(Color.white.opacity(0.25)).frame(width: 36, height: 4).padding(.top, 4).allowsHitTesting(false)
-        }
-        .contentShape(Rectangle())
-        .gesture(dismissDrag)
         .accessibilityAction(named: "Close songs") { model.browserVisible = false }
     }
 

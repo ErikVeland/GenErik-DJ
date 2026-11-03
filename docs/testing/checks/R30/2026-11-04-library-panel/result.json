@@ -1,0 +1,53 @@
+{
+  "requestIDs": [
+    "R02",
+    "R30",
+    "R32"
+  ],
+  "date": "2026-11-04",
+  "baselineCommit": "7b128bf83",
+  "status": "installed-and-launched-acceptance-pending",
+  "filesSHA256": {
+    "Replica/Sources/TDJInterface/TouchPanelState.swift": "0617d304ef53abb4eba697d1351ebf412afe74c7c287cc98a30e12ad34eef26d",
+    "Replica/Sources/TDJInterface/TouchPanel.swift": "e0f95b285ce8a8551bab70bcf65f816871e10719c4270533c10b9ce658f83bd7",
+    "Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift": "cf0b1ec14ec28474e6031c119726b2802c10cea117fd8fcf494b7567b2132a7b",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "8a94cab6d8e0c7754f7b0e42ae4268135b97df4e463c75896f84bcd08aad3578",
+    "Replica/Sources/TDJInterface/BrowserView.swift": "d408158beb346c67544cf9cc08fcb6cd19c1bcb854b56484a1a73c64eb5edfe1",
+    "Replica/Sources/TDJInterface/ReplicaModel.swift": "a16bf19f69f62b2baffed85e7323fc7808a505d298b53bb4980115e1cba2ddf5",
+    "tools/check_touch_layout.py": "6611d73f1105ffd93337d1b25f488cf2aae7904541bd4fbbda04788b4b2d4895",
+    "tools/check_touch_panels.swift": "d91fb62a8a2cb2e8537967494981276adfe332ba73c9c5eca75dfe2fd8301757"
+  },
+  "checks": {
+    "command": "python3 tools/check_touch_layout.py --group all",
+    "dockAssertions": 1322,
+    "libraryAssertions": 179,
+    "failedAssertions": 0,
+    "notExpandedMutationFailures": 5,
+    "lostMemoryMutationFailures": 12,
+    "r34Preservation": "All three R34 analysis/preparation source hashes and the recording fixture hash are unchanged. Existing R36 test-label changes remain on the integration base.",
+    "dockPreservation": "PerformanceDock.swift unchanged from build 78; full dock geometry assertions pass.",
+    "swiftSyntax": "passed for six changed interface files",
+    "review": "self-review; project rules prohibit parallel agents"
+  },
+  "behaviour": [
+    "Dedicated 44-point library grab strip controls show, hide and continuous height.",
+    "Normal opening restores the last usable size for that orientation in this session.",
+    "Every add-track presentation expands to maximum extent, including repeated taps and missing reference-deck fallback.",
+    "Search-header dismissal no longer uses an independent gesture.",
+    "Hidden or unusably small content rejects input.",
+    "Window changes and interruption cancel the layout drag; stale events cannot restart it."
+  ],
+  "limits": [
+    "Device feel, simultaneous physical input, add-track wiring and clean audio remain for Erik acceptance.",
+    "Remembered sizes are session-local and separate for portrait and landscape.",
+    "Browser side columns, A/B work-region divider and resizing musical panels remain outside this focused release.",
+    "Existing waveform resize cancellation remains unchanged."
+  ],
+  "build": 80,
+  "sourceCommit": "62efd9076de38ab9b3a706f68162befaf8db14b1",
+  "sourceSHA256": "14b85ec626ff4dc5391cc2afece33f3a1abc9d6389ed5593798a0ddacbb127f5",
+  "appSHA256": "ddbabb4b55f84d36d72d6da4462c8e593b8a50c10fe957dd4906b6db73edab7e",
+  "installedUTC": "2026-11-03T14:12:36.200880+00:00",
+  "launchedUTC": "2026-11-03T14:12:36.597257+00:00",
+  "acceptance": "Installed and launched on the 10.5-inch test iPad. Erik checks direct reveal/hide/resize, remembered session sizes per orientation, repeated A/B add-track full expansion, search/scroll/load isolation, fixed dock and clean audio. Acceptance remains pending. No further device actions after launch."
+}
