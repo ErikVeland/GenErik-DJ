@@ -48,8 +48,8 @@ def setup(args):
     gadget = config_root / args.name
     udc_names = {entry.name for entry in args.udc_root.iterdir()} if args.udc_root.is_dir() else set()
 
-    if not (config_root / "functions").is_dir() or not (config_root / "configs").is_dir():
-        raise RuntimeError("USB configfs is unavailable. Mount configfs and load the composite gadget support first.")
+    if not config_root.is_dir():
+        raise RuntimeError("USB gadget configfs is unavailable. Mount configfs and load the composite gadget support first.")
     if args.udc not in udc_names:
         raise RuntimeError(f"USB device controller {args.udc!r} was not found under {args.udc_root}.")
     if not args.apply:

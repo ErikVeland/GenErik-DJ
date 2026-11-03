@@ -1,0 +1,8 @@
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 0.010s
+
+OK
+USB MIDI gadget 'generik_z1' is bound to dummy-udc.
+The gadget carries MIDI only. It does not forward Z1 audio.
+Run the relay with the ALSA raw MIDI node created for 'generik_z1'.
