@@ -26,8 +26,14 @@ Ordinary loops show **LOOP ACTIVE** and the distance remaining after release. Sl
 
 ## Automatic-analysis coverage
 
-The current preparation pass detects conservative energy-change boundaries and the last sustained audible content. It can suggest the first grid downbeat when tempo confidence is sufficient. It does not classify verse, chorus, vocal entry, build, drop or mixing suitability from loudness. Neutral section labels make this uncertainty visible.
+Loading a track starts one local structure pass from its complete playback cache. The pass measures one-second spectra, pitch classes, bass attacks and level changes. Apple Sound Analysis supplies vocal-activity evidence. Preparation runs serially at utility priority, outside the audio callback. Switching away cancels work when neither deck uses that track.
 
-The role, behaviour, landmark, region and confidence models support richer analysis. A trained structure and vocal analyser, library-based evaluation, and A10X performance and accessibility measurements remain required for the full automatic feature described in the supplied design. No new trained model is included in this change.
+The analyser groups sustained changes and compares repeated harmonic and timbral passages. It suggests intro, verse, pre-chorus, chorus, bridge, instrumental and outro roles, plus build, drop, breakdown and thinning behaviours. Verse and chorus are inferred from vocal evidence, repetition and relative intensity. They are not outputs from a trained song-form model. A `?` marks inferred labels. Silence and loudness-only preparation retain neutral labels.
 
-Manual labels and landmarks provide the complete display and interaction while automatic classification remains limited. Preparation is held stable in memory during playback and cached off the main actor. Playback performs no new audio analysis.
+The existing palette remains: mint intro, blue verse, yellow pre-chorus/build, orange chorus/drop, purple bridge/breakdown and muted green outro. Musical roles take colour priority over behaviour. Instrumental passages use behaviour colours, or neutral grey when sustaining.
+
+Suggested landmarks include vocal entries, arrivals, main returns and breakdowns. Mix regions favour sustained bass rhythm and low detected vocal activity. Their reasons state when vocal evidence is absent. The end of a region means **finish by**. Rhythmic endings follow the last bass attacks before an audible tail. Musical and rhythmic endings remain estimates that Erik must check against real music.
+
+Old arrangement caches upgrade on track load. Existing preparation stays visible while **ANALYSING STRUCTURE** appears. Completed results use cache version 2. Locked sections, accepted or dismissed landmarks, and manual endings remain authoritative. An incomplete cache or classifier failure retains existing preparation and reports a retry message. These operations do not change beat grids, keys, hot cues or source audio.
+
+Focused checks cover repeated vocal refrains, instrumental breakdown/build/drop passages, mix regions, ending tails, silence, manual corrections, actual cached PCM and cancellation. They do not establish accuracy across Erik's library or performance on A10X. Erik's Duo test and real-track review remain required.

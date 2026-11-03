@@ -7,7 +7,7 @@ struct PerformanceControls: View {
     @State private var settings=false
     @AppStorage(BrowserSettings.fluxModeKey) private var fluxMode = true
     var body: some View {
-        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
+        VStack(spacing: 4) {
             Button { setLoopSize(direction:-1) } label: { Image(systemName:"minus") }
                 .accessibilityLabel("Halve loop length on deck \(deck.rawValue.uppercased())")
             Menu {
@@ -72,5 +72,40 @@ struct SuperSlicerControls: View {
             }
         }.frame(width:44).background(.black.opacity(0.3))
             .disabled(model.preparingPlayback.contains(deck) || model.controlDisplay[deck].phase == .queued)
+    }
+}
+
+
+@MainActor
+struct OptionalHeadphoneButton: View {
+    @Bindable var model: ReplicaModel
+    let deck: DeckID
+    @AppStorage(DeckToolSettings.headphoneButton) private var visible = false
+    var body: some View {
+        if visible {
+            Button { model.setMixer(.cue,value:model.controlDisplay[deck].mixer.cue ? 0:1,deck:deck) } label: {
+                Image(systemName:"headphones")
+                    .foregroundStyle(model.controlDisplay[deck].mixer.cue ? PerformancePalette.cyan:PerformancePalette.secondaryText)
+            }.accessibilityLabel("Headphone cue for deck \(deck.rawValue.uppercased())")
+        }
+    }
+}
+
+@MainActor
+struct TrackHeadphoneIndicator: View {
+    @Bindable var model: ReplicaModel
+    let trackID: String?
+    private var active: Bool {
+        guard let trackID else { return false }
+        return DeckID.allCases.contains { model.loaded[$0] == trackID && model.controlDisplay[$0].mixer.cue }
+    }
+    var body: some View {
+        if active {
+            Image(systemName:"headphones").font(.system(size:18,weight:.bold))
+                .foregroundStyle(PerformancePalette.cyan).padding(5)
+                .background(.black.opacity(0.85),in:RoundedRectangle(cornerRadius:5))
+                .accessibilityLabel("Headphone cue active")
+                .allowsHitTesting(false)
+        }
     }
 }

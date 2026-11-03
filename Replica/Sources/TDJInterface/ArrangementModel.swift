@@ -14,25 +14,67 @@ extension ReplicaModel {
         return store.root.appendingPathComponent("Arrangements",isDirectory:true).appendingPathComponent(safeID+".json")
     }
     func prepareArrangement(deck: DeckID) async {
-        guard let track=track(deck), arrangements[track.id] == nil, !track.analysis.waveform.isEmpty else { return }
+        guard let track=track(deck), !track.analysis.waveform.isEmpty else { return }
         let id=track.id, url=arrangementURL(id), analysis=track.analysis
-        let value=await Task.detached(priority:.utility) {
-            let old=(try? Data(contentsOf:url)).flatMap { try? JSONDecoder().decode(ArrangementCache.self,from:$0) }
-            if let old, old.version == 1, old.content == analysis.contentSHA256, old.configuration == analysis.configurationID, old.arrangement.isValid(fileEnd:Double(analysis.frameCount)) {
-                return old.arrangement
-            }
-            var value=TrackArrangement.prepare(analysis:analysis)
-            if let old, old.content == analysis.contentSHA256, old.arrangement.isValid(fileEnd:Double(analysis.frameCount)) { value.retainCorrections(from:old.arrangement) }
-            return value
+        if arrangements[id] != nil, arrangementVersions[id] == MusicalStructureAnalyzer.version { return }
+        let old=await Task.detached(priority:.utility) {
+            (try? Data(contentsOf:url)).flatMap { try? JSONDecoder().decode(ArrangementCache.self,from:$0) }
         }.value
-        guard !Task.isCancelled, loaded[deck] == id, arrangements[id] == nil else { return }
-        arrangements[id]=value
-        persistArrangement(trackID:id)
+        guard !Task.isCancelled, loaded[deck] == id else { return }
+        if arrangements[id] == nil {
+            if let old, old.content == analysis.contentSHA256, old.arrangement.isValid(fileEnd:Double(analysis.frameCount)) {
+                arrangements[id]=old.arrangement
+                arrangementVersions[id]=old.configuration == analysis.configurationID ? old.version:1
+            } else {
+                arrangements[id]=TrackArrangement.prepare(analysis:analysis)
+                arrangementVersions[id]=1
+            }
+        }
+        if arrangementVersions[id] == MusicalStructureAnalyzer.version { return }
+        structureAnalyzing.insert(id)
+        let task: Task<ArrangementPreparationResult,Never>
+        if let pending=arrangementTasks[id], !pending.isCancelled { task=pending }
+        else {
+            let pcm=BandWaveforms.cacheURL(track:track,store:store)
+            task=Task.detached(priority:.utility) {
+                let deadline=Date().addingTimeInterval(30)
+                while (try? pcm.resourceValues(forKeys:[.fileSizeKey]).fileSize).map({ Int64($0) }) != analysis.frameCount*8 {
+                    guard !Task.isCancelled, Date() < deadline else { return .failed("The audio cache is not ready. Reload the track to retry musical structure analysis.") }
+                    try? await Task.sleep(for:.milliseconds(250))
+                }
+                return await ArrangementPreparationQueue.shared.prepare(pcm:pcm,analysis:analysis)
+            }
+            arrangementTasks[id]=task
+        }
+        let result=await withTaskCancellationHandler {
+            await task.value
+        } onCancel: {
+            Task { @MainActor [weak self] in
+                guard let self, !self.loaded.values.contains(id) else { return }
+                task.cancel()
+            }
+        }
+        if arrangementTasks[id] == task {
+            arrangementTasks[id]=nil
+            structureAnalyzing.remove(id)
+        }
+        guard !Task.isCancelled, loaded[deck] == id else { return }
+        switch result {
+        case .ready(var value):
+            if let previous=arrangements[id] { value.retainCorrections(from:previous) }
+            guard value.isValid(fileEnd:Double(analysis.frameCount)) else {
+                status="Musical structure analysis returned invalid boundaries. Saved preparation is retained."; return
+            }
+            arrangements[id]=value
+            arrangementVersions[id]=MusicalStructureAnalyzer.version
+            persistArrangement(trackID:id)
+        case .failed(let message): status=message
+        }
     }
     func persistArrangement(trackID: String) {
         guard let value=arrangements[trackID], let track=DeckID.allCases.compactMap({ self.track($0) }).first(where: { $0.id == trackID }) else { return }
         let url=arrangementURL(trackID)
-        let cache=ArrangementCache(content:track.analysis.contentSHA256,configuration:track.analysis.configurationID,arrangement:value)
+        let cache=ArrangementCache(version:arrangementVersions[trackID] ?? 1,content:track.analysis.contentSHA256,configuration:track.analysis.configurationID,arrangement:value)
         let writer=arrangementWriters[trackID] ?? CoalescingFileWriter<ArrangementCache>()
         arrangementWriters[trackID]=writer
         writer.enqueue(cache,write: {
@@ -86,5 +128,24 @@ extension ReplicaModel {
         let state=snapshot[deck]
         let cross=deck == .a ? 1-snapshot.crossfader : snapshot.crossfader
         return state.mixer.volume > 0.05 && state.mixer.gain > 0.01 && snapshot.masterGain > 0.01 && cross > 0.05
+    }
+}
+
+
+enum ArrangementPreparationResult: Sendable {
+    case ready(TrackArrangement)
+    case failed(String)
+}
+
+/// Serial preparation keeps two deck loads from running classifiers together.
+private actor ArrangementPreparationQueue {
+    static let shared=ArrangementPreparationQueue()
+    func prepare(pcm: URL, analysis: AudioAnalysis) -> ArrangementPreparationResult {
+        do {
+            let features=try MusicalStructureAnalyzer.analyze(pcm:pcm,analysis:analysis)
+            return .ready(TrackArrangement.prepare(analysis:analysis,features:features))
+        } catch {
+            return .failed("Musical structure analysis failed: \(error.localizedDescription)")
+        }
     }
 }

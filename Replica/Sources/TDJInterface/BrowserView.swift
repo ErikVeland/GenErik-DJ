@@ -196,6 +196,7 @@ struct BrowserView: View {
                 HStack(spacing: 12) {
                     DeckArtwork(source:ArtworkSource.track(entry.track,item:entry.nativeItem,media:model.store.mediaDirectory),placeholderSize:14)
                         .frame(width:48,height:48).background(PerformancePalette.sunken).clipShape(RoundedRectangle(cornerRadius:3))
+                        .overlay { TrackHeadphoneIndicator(model:model,trackID:entry.track?.id) }
                         .accessibilityHidden(true)
                     VStack(alignment:.leading,spacing:2) {
                         HStack(spacing: 6) {
@@ -511,6 +512,7 @@ extension BrowserView {
                 let entry = currentSelection
                 DeckArtwork(source: entry.flatMap { ArtworkSource.track($0.track, item: $0.nativeItem, media: model.store.mediaDirectory) }, placeholderSize: 40)
                     .frame(width: 112, height: 112).background(PerformancePalette.sunken).clipShape(RoundedRectangle(cornerRadius: 3))
+                    .overlay { TrackHeadphoneIndicator(model:model,trackID:entry?.track?.id) }
                 VStack(alignment: .leading, spacing: 5) {
                     HStack(spacing: 6) {
                         Text(entry?.title ?? "Choose a song").font(.system(size: 18, weight: .bold)).lineLimit(2).minimumScaleFactor(0.8)
@@ -590,6 +592,7 @@ extension BrowserView {
             HStack(spacing: 10) {
                 DeckArtwork(source: ArtworkSource.track(entry.track, item: entry.nativeItem, media: model.store.mediaDirectory), placeholderSize: 12)
                     .frame(width: 44, height: 44).background(PerformancePalette.sunken).clipShape(RoundedRectangle(cornerRadius: 3))
+                    .overlay { TrackHeadphoneIndicator(model:model,trackID:entry.track?.id) }
                 VStack(alignment: .leading, spacing: 2) {
                     Text(entry.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(PerformancePalette.text).lineLimit(1)
                     Text(entry.artist).font(.system(size: 14)).foregroundStyle(PerformancePalette.secondaryText).lineLimit(1)

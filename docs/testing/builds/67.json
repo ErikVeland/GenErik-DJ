@@ -1,0 +1,15 @@
+{
+  "notes": "R09/R30: Automatic musical section suggestions and existing palette, vocal and mix landmarks, cache upgrade on load, larger main waveform, restored vertical FX/EQ/Loop/Play stack, optional Cue/headphone controls and cued-track artwork indicator. Inferred labels have ?. Duo test; Erik acceptance pending.",
+  "sourceCommit": "8020da4b0f769622186f2b8a620dc9efb91bfb2a",
+  "sourceSHA256": "2c06b325512519bb3195c8dd5c342c33e050754ec26973048c28d46cf1445b60",
+  "uncommittedAppChanges": "M Replica/Sources/TDJCore/TrackArrangement.swift\n M Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift\n M Replica/Sources/TDJInterface/ArrangementModel.swift\n M Replica/Sources/TDJInterface/ArrangementViews.swift\n M Replica/Sources/TDJInterface/BrowserView.swift\n M Replica/Sources/TDJInterface/PerformanceControls.swift\n M Replica/Sources/TDJInterface/PlaybackSettings.swift\n M Replica/Sources/TDJInterface/ReplicaModel.swift\n M Replica/Sources/TDJInterface/ReplicaView.swift\n?? Replica/Sources/TDJCore/MusicalStructureAnalyzer.swift",
+  "buildSeconds": 60.83,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-67.log",
+  "build": 67,
+  "app": "TestBuilds/ipad/67/GenErikDJ.app",
+  "appSHA256": "a25a225d35461f33c1738b5d539576734d4928af19f37519518ca7097cadda41",
+  "state": "ready",
+  "createdUTC": "2026-11-03T06:43:03.181469+00:00"
+}

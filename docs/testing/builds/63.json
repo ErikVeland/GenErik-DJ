@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 37.49,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-03",
+      "requestIDs": [
+        "R09",
+        "R30"
+      ],
+      "text": "Assumed build 63: analysed tracks still lack agreed musical names and colours. Main waveform is squeezed to a thin strip on the Duo inner screen. Buttons must stay vertically stacked. Cue and headphone buttons should be optional, with a headphone icon over the cued track artwork. Erik requests a new Duo test build."
+    }
+  ],
   "log": "TestBuilds/ipad/build-63.log",
   "build": 63,
   "app": "TestBuilds/ipad/63/GenErikDJ.app",

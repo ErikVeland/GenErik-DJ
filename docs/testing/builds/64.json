@@ -1,0 +1,15 @@
+{
+  "notes": "R09/R30: Musical structure analysis, larger main waveforms, vertical controls, optional Cue/headphone buttons and headphone artwork indicator. Duo acceptance pending.",
+  "sourceCommit": "8020da4b0f769622186f2b8a620dc9efb91bfb2a",
+  "sourceSHA256": "e1006c720d685be0a157163bf3b0ec6ec534b4b3c0bc296614943a11c5014ebe",
+  "uncommittedAppChanges": "M Replica/Sources/TDJCore/TrackArrangement.swift\n M Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift\n M Replica/Sources/TDJInterface/ArrangementModel.swift\n M Replica/Sources/TDJInterface/BrowserView.swift\n M Replica/Sources/TDJInterface/PerformanceControls.swift\n M Replica/Sources/TDJInterface/PlaybackSettings.swift\n M Replica/Sources/TDJInterface/ReplicaModel.swift\n M Replica/Sources/TDJInterface/ReplicaView.swift\n?? Replica/Sources/TDJCore/MusicalStructureAnalyzer.swift",
+  "buildSeconds": 58.7,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-64.log",
+  "build": 64,
+  "app": "TestBuilds/ipad/64/GenErikDJ.app",
+  "appSHA256": "330ba52aa67dfe7a821423429670c184bdd5a1c05a3e2c417cab759b23d50c5b",
+  "state": "ready",
+  "createdUTC": "2026-11-03T06:36:27.532451+00:00"
+}

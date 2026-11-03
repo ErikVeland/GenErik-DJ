@@ -14,6 +14,9 @@ public final class ReplicaModel {
     let effectsPersistence=CoalescingFileWriter<[DeckID:[Int:EffectControl]]>()
     let queuePersistence=CoalescingFileWriter<[String]>()
     var arrangements: [String: TrackArrangement] = [:]
+    var structureAnalyzing: Set<String> = []
+    @ObservationIgnored var arrangementVersions: [String: Int] = [:]
+    @ObservationIgnored var arrangementTasks: [String: Task<ArrangementPreparationResult, Never>] = [:]
     @ObservationIgnored var arrangementWriters: [String: CoalescingFileWriter<ArrangementCache>] = [:]
     public var performance = PerformancePreparation()
     let recoveryState = RecoveryState()

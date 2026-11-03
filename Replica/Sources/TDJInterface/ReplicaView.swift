@@ -17,7 +17,7 @@ public struct ReplicaView: View {
     @State private var traktorImportPresented = false
     @State private var tempoWheelVisible = false
     @State private var audioSettingsPresented = false
-    @State private var deckShare = 0.28
+    @State private var deckShare = 0.72
     @State private var dividerOrigin: Double?
     @GestureState private var resizingLibrary = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -187,7 +187,7 @@ private struct DeckView: View {
     @State private var visibleSeconds = WaveformLayers.defaultSeconds(bpm: nil)
     @State private var previousSpan: Double?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var toolsVisible = true
+    @State private var toolsVisible = false
     @State private var mixerVisible = false
     @State private var mixerPanel = MixerPanel.equalizer
     @State private var effectsVisible = false
@@ -205,8 +205,8 @@ private struct DeckView: View {
         GeometryReader { deckSpace in
         HStack(spacing: 4) {
         VStack(spacing: 0) {
-            DeckHeader(model:model,deck:deck)
-            if track != nil { ArrangementDeckStrip(model:model,deck:deck) }
+            DeckHeader(model:model,deck:deck,toolsVisible:$toolsVisible,dense:deckSpace.size.height < 300)
+            if track != nil && deckSpace.size.height >= 300 { ArrangementDeckStrip(model:model,deck:deck) }
             GeometryReader { geometry in
                 DeckWaveform(model:model,deck:deck,visibleSeconds:$visibleSeconds,mixerVisible:mixerVisible)
                 .overlay(alignment:.leading) {
@@ -226,48 +226,40 @@ private struct DeckView: View {
                 }
             }
             .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
-            DeckOverview(model:model,deck:deck,visibleSeconds:$visibleSeconds)
+            DeckOverview(model:model,deck:deck,visibleSeconds:$visibleSeconds,dense:deckSpace.size.height < 300)
                 .matchedGeometryEffect(id: "overview", in: overviewMotion)
             if (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil { HotcuePadRow(model:model,deck:deck) }
-            DeckFooter(model:model,deck:deck)
+            if deckSpace.size.height < 300 {
+                if track != nil { ArrangementDeckStrip(model:model,deck:deck,compact:true) }
+            } else { DeckFooter(model:model,deck:deck) }
         }
         if tempoFader && track != nil { DeckTempoFader(model:model,deck:deck) }
-        ScrollView(.vertical) {
-            VStack(spacing: 8) {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
-                    Button("FX") {
-                        effectsInput.setEnabled(!effectsVisible); effectsVisible.toggle()
-                    }.foregroundStyle(effectsVisible ? Color.orange : PerformancePalette.secondaryText)
+        if toolsVisible {
+            ScrollView(.vertical) {
+                PerformanceControls(model:model,deck:deck).padding(6)
+            }.frame(width:100).background(PerformancePalette.sunken)
+        }
+        VStack(spacing:2) {
+            ScrollView(.vertical) {
+                VStack(spacing:2) {
+                    Button("FX") { effectsInput.setEnabled(!effectsVisible); effectsVisible.toggle() }
+                        .foregroundStyle(effectsVisible ? Color.orange:PerformancePalette.secondaryText)
                         .accessibilityLabel("Effects for deck \(deck.rawValue.uppercased())")
-                    Button("EQ") {
-                        mixerInput.setEnabled(!mixerVisible); mixerVisible.toggle()
-                    }.foregroundStyle(mixerVisible ? PerformancePalette.cyan : PerformancePalette.secondaryText)
+                    Button("EQ") { mixerInput.setEnabled(!mixerVisible); mixerVisible.toggle() }
+                        .foregroundStyle(mixerVisible ? PerformancePalette.cyan:PerformancePalette.secondaryText)
                         .accessibilityLabel("EQ and filter for deck \(deck.rawValue.uppercased())")
-                    Button { model.toggleLoop(deck: deck) } label: { Image(systemName: "repeat") }
-                        .foregroundStyle(playback?.loopEnabled == true ? PerformancePalette.syncGreen : PerformancePalette.text)
+                    Button { model.toggleLoop(deck:deck) } label: { Image(systemName:"repeat") }
+                        .foregroundStyle(playback?.loopEnabled == true ? PerformancePalette.syncGreen:PerformancePalette.text)
                         .disabled(track == nil).accessibilityLabel("Loop on deck \(deck.rawValue.uppercased())")
                     if cueButton {
-                        Button("CUE") { model.pressCue(deck: deck) }.disabled(track == nil)
+                        Button("CUE") { model.pressCue(deck:deck) }.disabled(track == nil)
                             .accessibilityLabel("Cue on deck \(deck.rawValue.uppercased())")
                     }
-                }
-                if track != nil { PerformanceControls(model: model, deck: deck) }
-            }.padding(8)
-        }
-        .font(.system(size: 17, weight: .semibold))
-        .buttonStyle(PerformanceToolButtonStyle())
-        .frame(width: toolsVisible ? AdaptivePerformanceLayout.panelWidth(available: deckSpace.size.width) : 0)
-        .background(PerformancePalette.sunken).clipped()
-        .allowsHitTesting(toolsVisible).disabled(!toolsVisible).accessibilityHidden(!toolsVisible)
-        VStack(spacing: 8) {
-            Button {
-                withAnimation(reduceMotion ? nil : .smooth(duration: 0.22)) { toolsVisible.toggle() }
-            } label: { Image(systemName: toolsVisible ? "sidebar.right" : "slider.horizontal.3") }
-                .frame(height: 44)
-                .accessibilityLabel("\(toolsVisible ? "Hide" : "Show") controls for deck \(deck.rawValue.uppercased())")
-            Spacer(minLength: 0)
-            DeckTransportButtons(model: model, deck: deck)
-                .frame(height: 56)
+                    OptionalHeadphoneButton(model:model,deck:deck)
+
+                }.buttonStyle(PerformanceToolButtonStyle())
+            }.scrollIndicators(.hidden)
+            DeckPlaybackButton(model:model,deck:deck).frame(height:56)
         }.font(.system(size: 24, weight: .heavy))
             .buttonStyle(DeckRailButtonStyle()).frame(width: 64)
         }.padding(4).background(PerformancePalette.stage).bevelPanel(cornerRadius: 6, sunken: true)
@@ -305,6 +297,7 @@ private struct CompactDeckView: View {
             Button { model.showSuggestions(destination:deck) } label: {
                 DeckArtwork(source:ArtworkSource.track(track,media:model.store.mediaDirectory))
                     .frame(width:50,height:44).background(PerformancePalette.sunken).clipped()
+                    .overlay { TrackHeadphoneIndicator(model:model,trackID:track?.id) }
             }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
             if let track {
                 let elapsed = max(0, Int((state?.sourceFrame ?? 0)/track.analysis.sampleRate))
@@ -763,6 +756,8 @@ private struct BatteryReadout: View {
 private struct DeckHeader: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
+    @Binding var toolsVisible: Bool
+    var dense = false
     @AppStorage(DeckToolSettings.beatJump) private var beatJump = false
 
     var body: some View {
@@ -771,13 +766,14 @@ private struct DeckHeader: View {
                     ZStack {
                         PerformancePalette.sunken
                         DeckArtwork(source:ArtworkSource.track(track,media:model.store.mediaDirectory))
-                    }.frame(width: 64, height: 64).clipShape(RoundedRectangle(cornerRadius: 3))
+                    }.frame(width: dense ? 40:64, height: dense ? 40:64).clipShape(RoundedRectangle(cornerRadius: 3))
                     .overlay(RoundedRectangle(cornerRadius: 3).strokeBorder(Color.black.opacity(0.7)))
+                    .overlay { TrackHeadphoneIndicator(model:model,trackID:track?.id) }
                 }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 6) {
                         Text(track?.title ?? "Deck \(deck.rawValue.uppercased())")
-                            .font(.system(size: 19, weight: .semibold)).foregroundStyle(PerformancePalette.text).lineLimit(1)
+                            .font(.system(size: dense ? 16:19, weight: .semibold)).foregroundStyle(PerformancePalette.text).lineLimit(1)
                         if NativeAnalysisPlan.isMix(duration: track?.analysis.duration) { MixBadge(size: 14) }
                     }
                     HStack(spacing: 10) {
@@ -792,7 +788,7 @@ private struct DeckHeader: View {
                                 DeckTempoReadout(model:model,deck:deck)
                             }
                         }
-                    }.font(.system(size: 15)).foregroundStyle(PerformancePalette.secondaryText)
+                    }.font(.system(size: dense ? 12:15)).foregroundStyle(PerformancePalette.secondaryText)
                 }
                 Spacer()
                 if editing { GridEditBar(model: model, deck: deck) } else {
@@ -819,7 +815,12 @@ private struct DeckHeader: View {
                 }
                     .disabled(track == nil || preparing || playback?.phase == .queued).accessibilityLabel("Edit grid on deck \(deck.rawValue.uppercased())")
                 }
-            }.padding(.horizontal, 12).padding(.vertical, 8)
+                Button { toolsVisible.toggle() } label: {
+                    Image(systemName:"slider.horizontal.3").font(.system(size:17,weight:.semibold))
+                        .foregroundStyle(toolsVisible ? PerformancePalette.cyan:PerformancePalette.secondaryText)
+                        .frame(width:36,height:36).bevelPanel(cornerRadius:3)
+                }.accessibilityLabel("\(toolsVisible ? "Hide":"Show") extra controls for deck \(deck.rawValue.uppercased())")
+            }.padding(.horizontal, 8).padding(.vertical, dense ? 4:8)
 
     }
     private var track: Track? { model.track(deck) }
@@ -914,13 +915,14 @@ private struct DeckOverview: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
     @Binding var visibleSeconds: Double
+    var dense = false
 
     var body: some View {
             if let track {
                 StripeView(model:model,deck:deck,track:track,visibleSeconds:$visibleSeconds) {
                     model.previewing.insert(deck); model.viewport[deck] = $0
-                }.frame(height: 31)
-            } else { Color.black.frame(height: 31) }
+                }.frame(height: dense ? 24:31)
+            } else { Color.black.frame(height: dense ? 24:31) }
 
     }
     private var track: Track? { model.track(deck) }
@@ -950,7 +952,7 @@ private struct DeckFooter: View {
                             .foregroundStyle((model.timing(deck)?.downbeatOffset ?? grid.downbeatOffset) == beat ? .orange : deckBlue)
                     }
                 }
-            }.padding(.horizontal, 18).frame(height: 36).background(surface)
+            }.padding(.horizontal, 8).frame(height:36).background(surface)
 
     }
     private var track: Track? { model.track(deck) }
@@ -961,26 +963,6 @@ private struct DeckFooter: View {
         let remaining = max(0, Int(ceil(track.analysis.duration - (playback?.sourceFrame ?? 0) / track.analysis.sampleRate)))
         return String(format: "−%d:%02d", remaining / 60, remaining % 60)
     }
-}
-
-@MainActor
-private struct DeckTransportButtons: View {
-    @Bindable var model: ReplicaModel
-    let deck: DeckID
-
-    var body: some View {
-        Group {
-            Button { model.setMixer(.cue, value: playback?.mixer.cue == true ? 0 : 1, deck: deck) } label: {
-                Image(systemName: "headphones")
-                    .foregroundStyle(playback?.mixer.cue == true ? deckBlue : Color(white: 0.65))
-            }.accessibilityLabel("Headphone cue for deck \(deck.rawValue.uppercased())")
-            DeckPlaybackButton(model:model,deck:deck)
-        }
-    }
-    private var track: Track? { model.track(deck) }
-    private var playback: DeckControlDisplay? { model.controlDisplay[deck] }
-    private var preparing: Bool { model.preparingPlayback.contains(deck) }
-
 }
 
 @MainActor
