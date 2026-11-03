@@ -53,11 +53,13 @@ public struct LibraryBrowserProjection: Sendable {
         try check()
         var steps=0
         func tick() throws { steps &+= 1;if steps & 255 == 0 { try check() } }
-        var byTrack:[String:Track]=[:],bySource:[MusicLibrarySource:Track]=[:]
+        var byTrack:[String:Track]=[:],bySourceID:[String:Track]=[:]
         for track in tracks {
             try tick()
             if byTrack[track.id] == nil { byTrack[track.id]=track }
-            for source in track.musicLibrarySources ?? [] where bySource[source] == nil { bySource[source]=track }
+            for source in track.musicLibrarySources ?? [] where bySourceID[source.id] == nil {
+                bySourceID[source.id]=track
+            }
         }
         var native:[LibraryBrowserEntry]=[],byNative:[String:LibraryBrowserEntry]=[:]
         var represented:Set<String>=[],itemsBySource:[MusicLibrarySource:MusicLibraryItem]=[:]
@@ -108,7 +110,9 @@ public struct LibraryBrowserProjection: Sendable {
                 try tick()
                 let entry:LibraryBrowserEntry?
                 if !nativeOnly,let track=byTrack[id] { entry=canonical(track) }
-                else { entry=try nativeEntry(id) }
+                else if let native=try nativeEntry(id) { entry=native }
+                else if !nativeOnly,let track=bySourceID[id],let canonicalEntry=canonical(track) { entry=canonicalEntry.withOccurrenceID(id) }
+                else { entry=nil }
                 if let entry,seen.insert(entry.id).inserted { result.append(entry) }
             }
             return result
@@ -197,6 +201,13 @@ public struct LibraryBrowserProjection: Sendable {
         }
         for item in localItems {
             try check();if selection.contains(item.id),seen.insert(item.id).inserted { ids.append(item.id) }
+        }
+        for track in tracks where track.nativeLibraryOnly != true {
+            try check()
+            for source in track.musicLibrarySources ?? [] where !localItemIDs.contains(source.id) {
+                try check()
+                if selection.contains(source.id),seen.insert(track.id).inserted { ids.append(track.id) }
+            }
         }
         for track in tracks {
             try check()

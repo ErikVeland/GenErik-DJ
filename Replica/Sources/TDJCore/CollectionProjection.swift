@@ -20,6 +20,14 @@ public struct CollectionProjection: Sendable {
                 track.nativeLibraryOnly != true ||
                     (track.musicLibrarySources ?? []).contains(where: localSources.contains)
             }
+            var byTrackID: [String: Track] = [:]
+            var bySourceID: [String: Track] = [:]
+            for track in visibleTracks {
+                if byTrackID[track.id] == nil { byTrackID[track.id] = track }
+                for source in track.musicLibrarySources ?? [] where bySourceID[source.id] == nil {
+                    bySourceID[source.id] = track
+                }
+            }
             let groups: [CollectionGroup]
             if category == .playlists {
                 groups = playlists.playlists.map { .init(id: $0.id.uuidString, name: $0.name) }
@@ -43,8 +51,9 @@ public struct CollectionProjection: Sendable {
                         let sources = Set(catalog.songs(playlistID: String(group.dropFirst(6))).map(\.source))
                         candidates = visibleTracks.filter { !sources.isDisjoint(with: $0.musicLibrarySources ?? []) }
                     } else {
-                        let lookup = Dictionary(visibleTracks.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
-                        candidates = (playlists.playlists.first { $0.id.uuidString == group }?.trackIDs ?? []).compactMap { lookup[$0] }
+                        candidates = (playlists.playlists.first { $0.id.uuidString == group }?.trackIDs ?? []).compactMap {
+                            byTrackID[$0] ?? bySourceID[$0]
+                        }
                     }
                 } else if category != .songs {
                     candidates = visibleTracks.filter { category.value(for: $0) == group }
