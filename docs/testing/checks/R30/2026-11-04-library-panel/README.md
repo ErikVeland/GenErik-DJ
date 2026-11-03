@@ -27,3 +27,7 @@ Final review: self-review under the project rule against parallel agents. Source
 ## Erik's device check
 
 Drag the library to several intermediate sizes. Hide it and reopen it through the arrow and toolbar. Rotate and check the separate remembered sizes. Tap each deck's add-track/artwork control repeatedly, including after manual resizing. Confirm full expansion every time. Check search, song scrolling and both A/B loading paths. Confirm the dock stays fixed and the other deck plays cleanly.
+
+## Build 80 handover
+
+Source `62efd9076` passed incremental device compilation and signing in 59.05 seconds. Build 80 installed and launched on the 10.5-inch test iPad. No further device actions were taken. Erik performs the checks above. Gesture feel, event wiring on the physical device and listening acceptance remain open. The later R31 header-inset patch is preserved separately in integration history and is not part of archived build 80.
