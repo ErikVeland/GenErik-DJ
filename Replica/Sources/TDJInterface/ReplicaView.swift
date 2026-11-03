@@ -345,6 +345,7 @@ private struct StripeView: View {
             WaveformView(track: track, grid: nil, centerFrame: Double(track.analysis.frameCount) / 2,
                          visibleSeconds: track.analysis.duration).equatable()
                 .overlay { ArrangementWaveformOverlay(model:model,deck:deck,track:track,center:Double(track.analysis.frameCount)/2,span:Double(track.analysis.frameCount),overview:true) }
+                .overlay { OverviewCueFlags(model:model,track:track) }
                 .overlay(alignment: .leading) {
                     StripeViewportMarker(model:model,deck:deck,width:geometry.size.width,
                         frameCount:Double(track.analysis.frameCount),duration:track.analysis.duration,

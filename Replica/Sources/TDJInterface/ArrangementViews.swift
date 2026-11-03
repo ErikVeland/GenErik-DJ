@@ -37,7 +37,7 @@ struct ArrangementDeckStrip: View {
     }
     private var preparationKey: String {
         guard let track=model.track(deck) else { return "" }
-        return track.id + (track.analysis.waveform.isEmpty ? "-waiting" : "-ready")
+        return track.id + (model.preparingPlayback.contains(deck) ? "-loading":track.analysis.waveform.isEmpty ? "-waiting":"-ready")
     }
     private var currentColour: Color {
         guard let track=model.track(deck), let section=model.arrangements[track.id]?.section(at:model.playbackSnapshot?[deck].sourceFrame ?? 0) else { return .secondary }

@@ -1,0 +1,15 @@
+{
+  "notes": "R09/R30: Continuous resizing, larger main waveforms, musical names/colours and vocal/mix/ending suggestions, restored vertical controls, optional Cue/headphone buttons and controller cue artwork indicator. Existing tracks upgrade on load. ? marks inferred song form. Includes playlist lookup compile correction. Duo acceptance pending.",
+  "sourceCommit": "74a295e8b5e90547a6fc786e1698bff979a520a7",
+  "sourceSHA256": "d7c953b9d6e601b9dc73cb50f873528095f8077e20c07c5976c05825b2096401",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 53.48,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-69.log",
+  "build": 69,
+  "app": "TestBuilds/ipad/69/GenErikDJ.app",
+  "appSHA256": "7dbac32122149025b1970a24dd93ba2ab0f83679a7db20c3a6189af46de2bdfc",
+  "state": "ready",
+  "createdUTC": "2026-11-03T06:48:16.674936+00:00"
+}

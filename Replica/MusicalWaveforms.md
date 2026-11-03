@@ -2,7 +2,7 @@
 
 The diamond control above each loaded waveform opens **Musical structure**. The compact deck has the same control.
 
-The overview shows section colours across the track. The detailed waveform keeps its frequency colours and adds a narrow labelled section strip. Hollow diamonds show analysis landmarks. They do not replace numbered hot cues or intercept waveform gestures.
+The overview shows section colours across the track. The detailed waveform keeps its frequency colours and adds a narrow labelled section strip. Hollow diamonds show analysis landmarks. They do not intercept waveform gestures. The analyser also fills free hot-cue slots with section starts. Generated cues carry the section name and colour. Existing cues stay in place. There are eight slots, so extra sections retain their arrangement labels without a numbered cue. Deleted generated cues stay deleted after reload. Section edits refresh the names and colours of remaining generated cues.
 
 ## Preparation
 
@@ -37,3 +37,5 @@ Suggested landmarks include vocal entries, arrivals, main returns and breakdowns
 Old arrangement caches upgrade on track load. Existing preparation stays visible while **ANALYSING STRUCTURE** appears. Completed results use cache version 2. Locked sections, accepted or dismissed landmarks, and manual endings remain authoritative. An incomplete cache or classifier failure retains existing preparation and reports a retry message. These operations do not change beat grids, keys, hot cues or source audio.
 
 Focused checks cover repeated vocal refrains, instrumental breakdown/build/drop passages, mix regions, ending tails, silence, manual corrections, actual cached PCM and cancellation. They do not establish accuracy across Erik's library or performance on A10X. Erik's Duo test and real-track review remain required.
+
+A deck load now runs full musical analysis when analysis was deferred, BPM is absent or invalid, or the effective key is absent. Complete tracks keep the fast path. Analysis retains manual grids, trusted keys and cues. A completed pass reports when BPM or key remains unresolved. The structure pass waits until deck preparation has finished.

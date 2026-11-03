@@ -14,9 +14,11 @@ extension ReplicaModel {
         return store.root.appendingPathComponent("Arrangements",isDirectory:true).appendingPathComponent(safeID+".json")
     }
     func prepareArrangement(deck: DeckID) async {
-        guard let track=track(deck), !track.analysis.waveform.isEmpty else { return }
+        guard !preparingPlayback.contains(deck), let track=track(deck), !track.analysis.waveform.isEmpty else { return }
         let id=track.id, url=arrangementURL(id), analysis=track.analysis
-        if arrangements[id] != nil, arrangementVersions[id] == MusicalStructureAnalyzer.version { return }
+        if let value=arrangements[id], arrangementVersions[id] == MusicalStructureAnalyzer.version {
+            installSectionCues(value,trackID:id,deck:deck); return
+        }
         let old=await Task.detached(priority:.utility) {
             (try? Data(contentsOf:url)).flatMap { try? JSONDecoder().decode(ArrangementCache.self,from:$0) }
         }.value
@@ -30,7 +32,9 @@ extension ReplicaModel {
                 arrangementVersions[id]=1
             }
         }
-        if arrangementVersions[id] == MusicalStructureAnalyzer.version { return }
+        if arrangementVersions[id] == MusicalStructureAnalyzer.version, let value=arrangements[id] {
+            installSectionCues(value,trackID:id,deck:deck); return
+        }
         structureAnalyzing.insert(id)
         let task: Task<ArrangementPreparationResult,Never>
         if let pending=arrangementTasks[id], !pending.isCancelled { task=pending }
@@ -68,8 +72,21 @@ extension ReplicaModel {
             arrangements[id]=value
             arrangementVersions[id]=MusicalStructureAnalyzer.version
             persistArrangement(trackID:id)
+            installSectionCues(value,trackID:id,deck:deck)
         case .failed(let message): status=message
         }
+    }
+    private func installSectionCues(_ arrangement: TrackArrangement, trackID: String, deck: DeckID) {
+        guard arrangement.sections.contains(where:{ $0.role != .unknown || $0.behaviour != .sustaining }) else { return }
+        let old=performance.cues[trackID] ?? [:]
+        let prepared=performance.sectionCueTracks?.contains(trackID) == true
+        let cues=SectionCueAllocator.allocate(sections:arrangement.sections,existing:old,alreadyPrepared:prepared)
+        guard cues != old || !prepared else { return }
+        performance.cues[trackID]=cues
+        if performance.sectionCueTracks == nil { performance.sectionCueTracks=[] }
+        performance.sectionCueTracks?.insert(trackID)
+        savePerformance()
+        warmCuePositions(deck:deck)
     }
     func persistArrangement(trackID: String) {
         guard let value=arrangements[trackID], let track=DeckID.allCases.compactMap({ self.track($0) }).first(where: { $0.id == trackID }) else { return }
@@ -103,7 +120,8 @@ extension ReplicaModel {
         corrected.rhythmicEnd=value.landmarks.first(where: { $0.kind == .rhythmicEnd && $0.state != .dismissed })?.frame
         guard corrected.isValid(fileEnd:end) else { status="Keep the rhythmic ending before the musical ending."; return false }
         corrected.landmarks.sort { $0.frame < $1.frame }; corrected.sections=sorted
-        arrangements[track.id]=corrected; persistArrangement(trackID:track.id); return true
+        arrangements[track.id]=corrected; persistArrangement(trackID:track.id)
+        installSectionCues(corrected,trackID:track.id,deck:deck); return true
     }
     func promoteLandmark(_ landmark: ArrangementLandmark, deck: DeckID) {
         guard let track=track(deck), let slot=(0..<8).first(where: { performance.cues[track.id]?[$0] == nil }) else {

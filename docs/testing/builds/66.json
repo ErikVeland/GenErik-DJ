@@ -5,7 +5,17 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 27.19,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-03",
+      "requestIDs": [
+        "R09",
+        "R29",
+        "R30"
+      ],
+      "text": "Build 66 was installed by the layout chat during the R09 iteration. Erik asks for section starts to become hot cues and for missing BPM/key to trigger analysis on deck load. 3Cag still has no BPM and appears to skip analysis. These requests are included in the next candidate."
+    }
+  ],
   "log": "TestBuilds/ipad/build-66.log",
   "build": 66,
   "app": "TestBuilds/ipad/66/GenErikDJ.app",
