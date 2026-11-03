@@ -18,30 +18,38 @@ struct ControllerSettingsView: View {
     @State private var replacingREV1Feedback = false
     @State private var replacingREV5Feedback = false
     private var input: ControllerMIDIConnection { model.controllerInput }
+    private var selectedInputInactive: Bool { input.selected.map { !input.isInputActive($0) } ?? true }
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text("Controllers").font(.headline)
             Toggle("Enable controller input", isOn: Binding(get: { input.enabled }, set: enable))
             Text(input.status).foregroundStyle(.secondary)
             if input.enabled {
-                Picker("Input", selection: Binding(get: { input.selected }, set: input.select)) {
+                Picker("Input to configure", selection: Binding(get: { input.selected }, set: input.select)) {
                     Text("Choose an input").tag(Int32?.none)
                     ForEach(input.sources) { source in Text(source.name).tag(Optional(source.id)) }
                 }
+                Text("Active MIDI inputs").font(.subheadline)
+                ForEach(input.sources) { source in
+                    Toggle(source.name, isOn: Binding(
+                        get: { input.isInputActive(source.id) },
+                        set: { input.setInputActive(source.id, active: $0) }
+                    ))
+                }
                 Button("DDJ-FLX4 MIDI profile") { replacingControllerMappings = .flx4 }
-                    .disabled(input.selected == nil || input.originalZ1Bridge)
+                    .disabled(selectedInputInactive || input.originalZ1Bridge)
                 Text("Maps transport, mixer, Hot Cue pads and platter jog. Wheel-side jog bends playback by up to 8% and resets after 150 ms without input.")
                     .font(.caption).foregroundStyle(.secondary)
                 Button("DDJ-FLX10 MIDI profile") { replacingControllerMappings = .flx10 }
-                    .disabled(input.selected == nil || input.originalZ1Bridge)
+                    .disabled(selectedInputInactive || input.originalZ1Bridge)
                 Text("Maps the published two-deck controls, loops, Beat Jump, mixer and jog messages. Deck 3/4 and stem controls are not mapped. Set the pads to Hot Cue mode.")
                     .font(.caption).foregroundStyle(.secondary)
                 Button("DDJ-REV1 MIDI profile") { replacingControllerMappings = .rev1 }
-                    .disabled(input.selected == nil || input.originalZ1Bridge)
+                    .disabled(selectedInputInactive || input.originalZ1Bridge)
                 Text("Maps transport, mixer, loop controls, Hot Cue pads and jog. Set the performance pads to Hot Cue mode.")
                     .font(.caption).foregroundStyle(.secondary)
                 Button("DDJ-REV5 MIDI profile") { replacingControllerMappings = .rev5 }
-                    .disabled(input.selected == nil || input.originalZ1Bridge)
+                    .disabled(selectedInputInactive || input.originalZ1Bridge)
                 Text("Maps the published two-deck transport, mixer, Hot Cue pads, jog controls and momentary Shift layer. Set both pad banks to Hot Cue mode.")
                     .font(.caption).foregroundStyle(.secondary)
                 Button("Refresh connections") { input.refreshSources(); refreshConnections() }
@@ -138,7 +146,7 @@ struct ControllerSettingsView: View {
                             }
                             input.learning = action
                         }
-                            .disabled(input.selected == nil)
+                            .disabled(selectedInputInactive)
                     }
                 }
                 Button("Clear learned controls", role: .destructive) { input.clearBindings() }

@@ -62,6 +62,7 @@ The upstream controller scripts were inspected as protocol references. They are 
 - The UMP decoder handles MIDI 2.0 registered and assignable controllers, relative variants, per-note registered and assignable controllers, and per-note pitch bend. Learned bindings retain parameter and note identity. Per-note management and other unmapped UMP types remain ignored.
 - MIDI 2.0 Program Change bindings retain the bank when the Bank Valid flag is set. The note decoder distinguishes MIDI 2.0 Note On at zero velocity from Note Off so learned button actions can still trigger.
 - User-configured generic MIDI Note/Control Change feedback, scoped to the selected output destination.
+- Multiple MIDI inputs can stay active together. The user selects one input for Learn or a profile, and each input keeps its own mappings and Shift state.
 - Original Z1 development bridge framing, Linux HID relay, calibration, native input and light/meter output route.
 
-This does not finish all controller support. Profiles for other models, jog/touch calibration, model-specific modifier behaviour, simultaneous input selection, native displays/motors and actual bridge audio remain open. Physical Z1 and bridge acceptance remain with Erik.
+This does not finish all controller support. Profiles for other models, jog/touch calibration, model-specific modifier behaviour, native displays/motors and actual bridge audio remain open. Physical Z1 and bridge acceptance remain with Erik.

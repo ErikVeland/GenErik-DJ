@@ -199,6 +199,7 @@ final class ControllerMIDIConnection {
         return feedbackBindings.filter { $0.destination == feedbackSelected }
     }
     var originalZ1Bridge = false
+    var activeInputIDs: Set<Int32> = []
     var bridgeStatus = "No Z1 bridge report received."
     var feedbackStatus = "Feedback output is off."
     var status = "Controller input is off."
@@ -218,14 +219,16 @@ final class ControllerMIDIConnection {
     @ObservationIgnored private var protocolPort = MIDIPortRef()
     @ObservationIgnored private var protocolInputFailure: OSStatus?
     @ObservationIgnored private var outputPort = MIDIPortRef()
-    @ObservationIgnored private var endpoint = MIDIEndpointRef()
-    @ObservationIgnored private var decoder = ControllerMIDIDecoder()
-    @ObservationIgnored private var bridgeDecoder = ControllerBridgeDecoder()
+    @ObservationIgnored private var connectedEndpoints: [Int32: MIDIEndpointRef] = [:]
+    @ObservationIgnored private var connectedPorts: [Int32: MIDIPortRef] = [:]
+    @ObservationIgnored private var sourceIDsByEndpoint: [UInt32: Int32] = [:]
+    @ObservationIgnored private var decoders: [Int32: ControllerMIDIDecoder] = [:]
+    @ObservationIgnored private var bridgeDecoders: [Int32: ControllerBridgeDecoder] = [:]
     @ObservationIgnored private var bridgeConnected = false
     @ObservationIgnored private var pendingFeedback: [UInt8]?
     @ObservationIgnored private var sentFeedback: [UInt8] = []
     @ObservationIgnored private var sentMIDIValues: [ControllerAction: [UInt8]] = [:]
-    @ObservationIgnored private var activeMomentaryActions: Set<ControllerAction> = []
+    @ObservationIgnored private var activeMomentaryInputs: [ControllerAction: Set<Int32>] = [:]
     @ObservationIgnored private var lastMIDIOutputTime = 0.0
     @ObservationIgnored private var lastFeedbackTime = 0.0
     @ObservationIgnored private var needsBridgeHello = true
@@ -233,17 +236,21 @@ final class ControllerMIDIConnection {
     @ObservationIgnored private var valueStates: [String: ControllerMIDIValueState] = [:]
     @ObservationIgnored private var takeoverStates: [String: ControllerMIDITakeoverState] = [:]
     @ObservationIgnored private var pendingValues: [ControllerAction: Double] = [:]
-    @ObservationIgnored private var shiftActive = false
-    @ObservationIgnored private var shiftLayer = ControllerShiftLayerState()
+    @ObservationIgnored private var shiftLayers: [Int32: ControllerShiftLayerState] = [:]
     @ObservationIgnored private var bindings: [ControllerBinding] = []
     @ObservationIgnored private var timer: Timer?
     @ObservationIgnored private let inbox = ControllerMIDIInbox()
     private static let storageKey = "controllers.midiBindings.v1"
+    private static let activeInputsStorageKey = "controllers.midiActiveInputs.v1"
     private static let feedbackStorageKey = "controllers.midiFeedback.v1"
 
     init() {
         if let data = UserDefaults.standard.data(forKey: Self.storageKey),
            let saved = try? JSONDecoder().decode([ControllerBinding].self, from: data), saved.count <= 256 { bindings = saved }
+        if let data = UserDefaults.standard.data(forKey: Self.activeInputsStorageKey),
+           let saved = try? JSONDecoder().decode([Int32].self, from: data), saved.count <= 64 {
+            activeInputIDs = Set(saved)
+        }
         if let data = UserDefaults.standard.data(forKey: Self.feedbackStorageKey),
            let saved = try? JSONDecoder().decode([ControllerFeedbackBinding].self, from: data), saved.count <= 128,
            saved.allSatisfy({ $0.channel < 16 && $0.number < 128 && $0.offValue < 128 && $0.onValue < 128 &&
@@ -298,9 +305,11 @@ final class ControllerMIDIConnection {
         if outputPort != 0 { MIDIPortDispose(outputPort); outputPort = 0 }
         feedbackOutputAvailable = false
         if client != 0 { MIDIClientDispose(client); client = 0 }
-        endpoint = 0; selected = nil; enabled = false; learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset(); midiFeedbackEnabled = false
+        connectedEndpoints.removeAll(); connectedPorts.removeAll(); sourceIDsByEndpoint.removeAll()
+        decoders.removeAll(); bridgeDecoders.removeAll(); shiftLayers.removeAll()
+        selected = nil; enabled = false; learning = nil; learningShifted = false; midiFeedbackEnabled = false
         protocolInputFailure = nil
-        decoder = .init(); values.removeAll(); valueStates.removeAll(); takeoverStates.removeAll(); pendingValues.removeAll(); _ = inbox.take()
+        values.removeAll(); valueStates.removeAll(); takeoverStates.removeAll(); pendingValues.removeAll(); _ = inbox.take()
         sentMIDIValues.removeAll()
         resetBridge()
         sources = []; destinations = []; feedbackSelected = nil; feedbackStatus = "Feedback output is off."; status = "Controller input is off."
@@ -316,7 +325,16 @@ final class ControllerMIDIConnection {
     func refreshSources() {
         sources = (0..<MIDIGetNumberOfSources()).compactMap { describe(MIDIGetSource($0)) }
         destinations = (0..<MIDIGetNumberOfDestinations()).compactMap { describe(MIDIGetDestination($0)) }
-        if let selected, !sources.contains(where: { $0.id == selected && $0.reference == endpoint }) { select(nil) }
+        let sourceIDs = Set(sources.map(\.id))
+        for id in Array(connectedEndpoints.keys) where !sourceIDs.contains(id) { disconnectInput(id) }
+        for source in sources where connectedEndpoints[source.id] != nil && connectedEndpoints[source.id] != source.reference {
+            disconnectInput(source.id)
+        }
+        if let selected, !sourceIDs.contains(selected) {
+            self.selected = nil; learning = nil; learningShifted = false
+            if originalZ1Bridge { resetBridge(); reconnectInputs() }
+        }
+        for id in activeInputIDs where sourceIDs.contains(id) { connectInput(id) }
         if let feedbackSelected, !destinations.contains(where: { $0.id == feedbackSelected }) {
             self.feedbackSelected = nil; sentFeedback = []; sentMIDIValues.removeAll()
             midiFeedbackEnabled = false
@@ -324,40 +342,77 @@ final class ControllerMIDIConnection {
         if selected == nil { status = sources.isEmpty ? "No MIDI inputs found. Check the connection and MIDI mode." : "Choose the controller input to use." }
     }
     func select(_ id: Int32?) {
-        releaseMomentaryActions()
-        if endpoint != 0 {
-            MIDIPortDisconnectSource(port, endpoint)
-            if protocolPort != 0 { MIDIPortDisconnectSource(protocolPort, endpoint) }
+        learning = nil; learningShifted = false
+        let previous = selected
+        guard let id, sources.contains(where: { $0.id == id }) else {
+            selected = nil
+            if originalZ1Bridge, previous != nil { resetBridge(); reconnectInputs() }
+            return
         }
-        endpoint = 0; selected = nil; learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset()
-        decoder = .init(); values.removeAll(); valueStates.removeAll(); takeoverStates.removeAll(); pendingValues.removeAll(); _ = inbox.take()
-        feedbackSelected = nil; midiFeedbackEnabled = false; sentMIDIValues.removeAll(); resetBridge()
-        guard enabled, let source = sources.first(where: { $0.id == id }) else { return }
-        let inputPort = !originalZ1Bridge && protocolPort != 0 ? protocolPort : port
-        let result = MIDIPortConnectSource(inputPort, source.reference, UnsafeMutableRawPointer(bitPattern: Int(source.reference)))
-        if result == noErr {
-            endpoint = source.reference; selected = source.id
+        selected = id
+        if activeInputIDs.insert(id).inserted { persistActiveInputs() }
+        if originalZ1Bridge, previous != id { resetBridge(); reconnectInputs() }
+        connectInput(id)
+        if connectedEndpoints[id] != nil, let source = sources.first(where: { $0.id == id }) {
             let fallback = !originalZ1Bridge ? protocolInputFailure.map { " · MIDI 2 conversion unavailable (\($0))" } ?? "" : ""
             status = "Input connected: \(source.name)\(fallback)"
         }
-        else { status = "The controller input could not connect (\(result))." }
+    }
+    func setInputActive(_ id: Int32, active: Bool) {
+        guard sources.contains(where: { $0.id == id }) else { return }
+        if active {
+            activeInputIDs.insert(id)
+            connectInput(id)
+        } else {
+            activeInputIDs.remove(id)
+            disconnectInput(id)
+        }
+        persistActiveInputs()
+        if id == selected, !active { learning = nil; learningShifted = false }
+    }
+    func isInputActive(_ id: Int32) -> Bool { activeInputIDs.contains(id) }
+    private func persistActiveInputs() {
+        let data = try? JSONEncoder().encode(activeInputIDs.sorted())
+        UserDefaults.standard.set(data, forKey: Self.activeInputsStorageKey)
+    }
+    private func inputPort(for id: Int32) -> MIDIPortRef {
+        originalZ1Bridge && id == selected ? port : protocolPort != 0 ? protocolPort : port
+    }
+    private func connectInput(_ id: Int32) {
+        guard enabled, activeInputIDs.contains(id), connectedEndpoints[id] == nil,
+              let source = sources.first(where: { $0.id == id }) else { return }
+        let inputPort = inputPort(for: id)
+        let result = MIDIPortConnectSource(inputPort, source.reference, UnsafeMutableRawPointer(bitPattern: Int(source.reference)))
+        guard result == noErr else {
+            if id == selected { status = "The controller input could not connect (\(result))." }
+            return
+        }
+        connectedEndpoints[id] = source.reference
+        connectedPorts[id] = inputPort
+        sourceIDsByEndpoint[UInt32(truncatingIfNeeded: UInt(bitPattern: source.reference))] = id
+        decoders[id] = .init(); bridgeDecoders[id] = .init()
+    }
+    private func disconnectInput(_ id: Int32) {
+        guard let endpoint = connectedEndpoints.removeValue(forKey: id) else { return }
+        if let connectedPort = connectedPorts.removeValue(forKey: id) { MIDIPortDisconnectSource(connectedPort, endpoint) }
+        sourceIDsByEndpoint[UInt32(truncatingIfNeeded: UInt(bitPattern: endpoint))] = nil
+        decoders[id] = nil; bridgeDecoders[id] = nil
+        shiftLayers[id] = nil
+        values = values.filter { !$0.key.hasPrefix("\(id)-") }
+        valueStates = valueStates.filter { !$0.key.hasPrefix("\(id)-") }
+        takeoverStates = takeoverStates.filter { !$0.key.hasPrefix("\(id)-") }
+        pendingValues.removeAll()
+        releaseMomentaryActions(source: id)
+    }
+    private func reconnectInputs() {
+        for id in Array(connectedEndpoints.keys) { disconnectInput(id) }
+        for id in activeInputIDs { connectInput(id) }
     }
     func setBridgeMode(_ enabled: Bool) {
-        releaseMomentaryActions()
         originalZ1Bridge = enabled
         if enabled { midiFeedbackEnabled = false; sentMIDIValues.removeAll() }
-        learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset()
-        decoder = .init(); values.removeAll(); valueStates.removeAll(); takeoverStates.removeAll(); pendingValues.removeAll(); resetBridge()
-        guard let selected, let source = sources.first(where: { $0.id == selected }), endpoint != 0 else { return }
-        MIDIPortDisconnectSource(port, endpoint)
-        if protocolPort != 0 { MIDIPortDisconnectSource(protocolPort, endpoint) }
-        let inputPort = !originalZ1Bridge && protocolPort != 0 ? protocolPort : port
-        let result = MIDIPortConnectSource(inputPort, source.reference, UnsafeMutableRawPointer(bitPattern: Int(source.reference)))
-        if result == noErr {
-            let fallback = !originalZ1Bridge ? protocolInputFailure.map { " · MIDI 2 conversion unavailable (\($0))" } ?? "" : ""
-            status = "Input connected: \(source.name)\(fallback)"
-        }
-        else { endpoint = 0; self.selected = nil; status = "The controller input could not reconnect (\(result))." }
+        learning = nil; learningShifted = false; resetBridge()
+        reconnectInputs()
     }
     func setFeedbackDestination(_ id: Int32?) {
         feedbackSelected = id; sentFeedback = []; sentMIDIValues.removeAll()
@@ -542,7 +597,7 @@ final class ControllerMIDIConnection {
         return "\(binding.kind.title) \(binding.number) · channel \(Int(binding.channel) + 1)"
     }
     private func resetBridge(requestHello: Bool = true) {
-        bridgeDecoder = .init(); bridgeConnected = false; pendingFeedback = nil; sentFeedback = []
+        bridgeDecoders.removeAll(); bridgeConnected = false; pendingFeedback = nil; sentFeedback = []
         needsBridgeHello = requestHello
         bridgeStatus = "No Z1 bridge report received."; onBridgeReset?()
     }
@@ -636,14 +691,14 @@ final class ControllerMIDIConnection {
     func clearBindings() {
         guard let selected else { return }
         bindings.removeAll { $0.source == selected }; values.removeAll(); valueStates.removeAll(); pendingValues.removeAll()
-        learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset(); persist()
+        learning = nil; learningShifted = false; shiftLayers[selected] = nil; persist()
     }
     func applyDDJFLX4Profile() {
         guard !originalZ1Bridge, let selected else {
             status = "Select a generic MIDI input before loading this profile."
             return
         }
-        releaseMomentaryActions()
+        releaseMomentaryActions(source: selected)
         func binding(_ action: ControllerAction, kind: ControllerMIDIMessage.Kind, channel: UInt8,
                      number: UInt8, encoding: ControllerMIDIEncoding = .absolute) -> ControllerBinding {
             .init(source: selected, group: 0, channel: channel, kind: kind, number: number,
@@ -687,7 +742,7 @@ final class ControllerMIDIConnection {
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
         pendingValues.removeAll()
-        learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset()
+        learning = nil; learningShifted = false; shiftLayers[selected] = nil
         persist()
         status = "Loaded the DDJ-FLX4 transport, mixer, Hot Cue, platter and wheel-side jog profile. Other lights are not mapped."
     }
@@ -696,14 +751,14 @@ final class ControllerMIDIConnection {
             status = "Select a generic MIDI input before loading this profile."
             return
         }
-        releaseMomentaryActions()
+        releaseMomentaryActions(source: selected)
         let profile = Self.ddjFLX10Bindings(source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
         pendingValues.removeAll()
-        learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset()
+        learning = nil; learningShifted = false; shiftLayers[selected] = nil
         persist()
         status = "Loaded the DDJ-FLX10 two-deck transport, mixer, loops, Beat Jump, Hot Cue and jog profile."
     }
@@ -778,14 +833,14 @@ final class ControllerMIDIConnection {
             status = "Select a generic MIDI input before loading this profile."
             return
         }
-        releaseMomentaryActions()
+        releaseMomentaryActions(source: selected)
         let profile = Self.ddjREV1Bindings(source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
         pendingValues.removeAll()
-        learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset()
+        learning = nil; learningShifted = false; shiftLayers[selected] = nil
         persist()
         status = "Loaded the DDJ-REV1 transport, mixer, Hot Cue, loop and jog profile. Set the performance pads to Hot Cue mode."
     }
@@ -794,14 +849,14 @@ final class ControllerMIDIConnection {
             status = "Select a generic MIDI input before loading this profile."
             return
         }
-        releaseMomentaryActions()
+        releaseMomentaryActions(source: selected)
         let profile = Self.ddjREV5Bindings(source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
         pendingValues.removeAll()
-        learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset()
+        learning = nil; learningShifted = false; shiftLayers[selected] = nil
         persist()
         status = "Loaded the DDJ-REV5 two-deck transport, mixer, Hot Cue, jog and Shift profile. Set both pad banks to Hot Cue mode."
     }
@@ -925,12 +980,22 @@ final class ControllerMIDIConnection {
         takeoverStates.removeAll()
         if let data = try? JSONEncoder().encode(bindings) { UserDefaults.standard.set(data, forKey: Self.storageKey) }
     }
-    private func releaseMomentaryActions() {
-        let actions = activeMomentaryActions
-        activeMomentaryActions.removeAll()
-        for action in actions { onAction?(action, 0) }
-        onAction?(.wheelJogA, 0.5)
-        onAction?(.wheelJogB, 0.5)
+    private func releaseMomentaryActions(source: Int32? = nil) {
+        var resetWheelJogA = source == nil
+        var resetWheelJogB = source == nil
+        for action in Array(activeMomentaryInputs.keys) {
+            guard var inputs = activeMomentaryInputs[action] else { continue }
+            let wasActive = !inputs.isEmpty
+            if let source { inputs.remove(source) } else { inputs.removeAll() }
+            activeMomentaryInputs[action] = inputs.isEmpty ? nil : inputs
+            if wasActive && inputs.isEmpty {
+                onAction?(action, 0)
+                if action == .wheelJogA { resetWheelJogA = true }
+                if action == .wheelJogB { resetWheelJogB = true }
+            }
+        }
+        if resetWheelJogA { onAction?(.wheelJogA, 0.5) }
+        if resetWheelJogB { onAction?(.wheelJogB, 0.5) }
     }
     private func persistFeedbackBindings() {
         if let data = try? JSONEncoder().encode(feedbackBindings) {
@@ -942,10 +1007,13 @@ final class ControllerMIDIConnection {
         if overflow { stop(); status = "Controller input overflow. Input disconnected; reconnect to continue."; return }
         if refresh { refreshSources() }
         var processed = 0
-        for frame in frames where frame.source == endpoint {
-            if originalZ1Bridge {
+        for frame in frames {
+            guard let sourceID = sourceIDsByEndpoint[frame.source] else { continue }
+            if originalZ1Bridge, sourceID == selected {
                 guard case .bytes(let bytes) = frame.payload else { continue }
-                let reports = bridgeDecoder.append(bytes)
+                var decoder = bridgeDecoders[sourceID, default: .init()]
+                let reports = decoder.append(bytes)
+                bridgeDecoders[sourceID] = decoder
                 processed += reports.count
                 guard processed <= 256 else { stop(); status = "Controller input overload. Reconnect to continue."; return }
                 for report in reports { receiveBridge(report) }
@@ -953,27 +1021,30 @@ final class ControllerMIDIConnection {
             }
             let messages: [ControllerMIDIMessage]
             switch frame.payload {
-            case .bytes(let bytes): messages = decoder.append(bytes)
+            case .bytes(let bytes):
+                var decoder = decoders[sourceID, default: .init()]
+                messages = decoder.append(bytes)
+                decoders[sourceID] = decoder
             case .messages(let input): messages = input
             }
             processed += messages.count
             guard processed <= 256 else {
                 stop(); status = "Controller input overload. Input disconnected; reconnect to continue."; return
             }
-            for message in messages { receive(message) }
+            for message in messages { receive(message, source: sourceID) }
         }
         let pending = pendingValues
         pendingValues.removeAll(keepingCapacity: true)
         for (action, value) in pending { onAction?(action, value) }
         sendFeedback()
     }
-    private func receive(_ message: ControllerMIDIMessage) {
-        guard let selected else { return }
+    private func receive(_ message: ControllerMIDIMessage, source sourceID: Int32) {
         let parameterLabel = message.kind == .program ? " bank" : " parameter"
         let parameter = message.parameter.map { "\(parameterLabel) \($0)" } ?? ""
         let note = message.noteNumber.map { " note \($0)" } ?? ""
         lastInput = "\(message.kind.rawValue) \(message.number)\(parameter)\(note) · channel \(Int(message.channel) + 1)"
-        if let learning, message.kind != .note || !message.isNoteOff {
+        if let selected, selected == sourceID, activeInputIDs.contains(sourceID),
+           let learning, message.kind != .note || !message.isNoteOff {
             if learning == .shift {
                 guard learningEncoding == .absolute, message.kind == .note || message.kind == .control else {
                     status = "Shift uses a momentary note or absolute Control Change button."; return
@@ -997,7 +1068,7 @@ final class ControllerMIDIConnection {
             } else { number = message.number }
             let bindingIsShifted = learning == .shift ? false : learningShifted
             let sameInput: (ControllerBinding) -> Bool = { binding in
-                binding.source == selected && binding.umpGroup == message.group && binding.kind == message.kind && binding.channel == message.channel &&
+                binding.source == sourceID && binding.umpGroup == message.group && binding.kind == message.kind && binding.channel == message.channel &&
                     binding.parameter == message.parameter && binding.noteNumber == message.noteNumber &&
                     (binding.number == number || (self.learningEncoding == .paired14Bit && binding.number == number + 32) ||
                      (binding.mode == .paired14Bit && binding.number < 32 && binding.number + 32 == number))
@@ -1007,23 +1078,23 @@ final class ControllerMIDIConnection {
                 status = "That control is assigned as Shift. Clear mappings before reusing it."; return
             }
             bindings.removeAll {
-                $0.source == selected && (($0.action == learning && $0.isShifted == bindingIsShifted) ||
+                $0.source == sourceID && (($0.action == learning && $0.isShifted == bindingIsShifted) ||
                     ($0.isShifted == bindingIsShifted && sameInput($0)) || (learning == .shift && sameInput($0)))
             }
             guard bindings.count < 256 else { status = "The controller mapping is full."; self.learning = nil; return }
-            bindings.append(.init(source: selected, group: message.group, channel: message.channel, kind: message.kind, number: number,
+            bindings.append(.init(source: sourceID, group: message.group, channel: message.channel, kind: message.kind, number: number,
                                   parameter: message.parameter, noteNumber: message.noteNumber,
                                   action: learning, encoding: learningEncoding,
                                   inverted: learningInverted, shifted: bindingIsShifted))
-            let key = bindingStateKey(source: selected, action: learning, shifted: bindingIsShifted, group: message.group)
+            let key = bindingStateKey(source: sourceID, action: learning, shifted: bindingIsShifted, group: message.group)
             values[key] = message.normalized; valueStates[key] = .init()
-            shiftActive = false; shiftLayer.reset(); self.learning = nil; self.learningShifted = false
+            shiftLayers[sourceID] = nil; self.learning = nil; self.learningShifted = false
             persist()
             status = replacesShift ? "Saved \(learning.title). The old Shift mapping was removed." : "Saved \(learning.title)."
             return
         }
         let matches = bindings.filter {
-            $0.source == selected && $0.umpGroup == message.group && $0.kind == message.kind && $0.channel == message.channel &&
+            $0.source == sourceID && $0.umpGroup == message.group && $0.kind == message.kind && $0.channel == message.channel &&
                 $0.parameter == message.parameter && $0.noteNumber == message.noteNumber &&
                 ($0.number == message.number || ($0.mode == .paired14Bit && $0.number < 32 && $0.number + 32 == message.number))
         }
@@ -1050,17 +1121,21 @@ final class ControllerMIDIConnection {
             let previous = values.updateValue(value, forKey: key)
             if binding.action == .shift {
                 let inputKey = "\(binding.source)-\(binding.umpGroup)-\(binding.channel)-\(binding.kind.rawValue)-\(binding.number)-\(binding.parameter ?? 0)-\(binding.noteNumber ?? 0)"
+                var shiftLayer = shiftLayers[sourceID, default: .init()]
                 shiftLayer.update(input: inputKey, isPressed: value > 0)
-                shiftActive = shiftLayer.isActive
-                status = shiftActive ? "Shift layer active." : "Base layer active."
+                shiftLayers[sourceID] = shiftLayer
+                status = shiftLayer.isActive ? "Shift layer active." : "Base layer active."
                 continue
             }
-            guard binding.isShifted == shiftActive else { continue }
+            guard binding.isShifted == (shiftLayers[sourceID]?.isActive ?? false) else { continue }
             if binding.action.isMomentary {
                 guard previous != value else { continue }
-                if value > 0 { activeMomentaryActions.insert(binding.action) }
-                else { activeMomentaryActions.remove(binding.action) }
-                onAction?(binding.action, value)
+                var inputs = activeMomentaryInputs[binding.action, default: []]
+                let wasActive = !inputs.isEmpty
+                if value > 0 { inputs.insert(sourceID) } else { inputs.remove(sourceID) }
+                activeMomentaryInputs[binding.action] = inputs.isEmpty ? nil : inputs
+                if value > 0 && !wasActive { onAction?(binding.action, value) }
+                else if value == 0 && inputs.isEmpty { onAction?(binding.action, 0) }
                 continue
             }
             if binding.action.isButton {
