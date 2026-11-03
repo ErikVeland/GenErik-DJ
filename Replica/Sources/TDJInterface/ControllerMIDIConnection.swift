@@ -509,7 +509,8 @@ final class ControllerMIDIConnection {
         return assigned.sorted { !$0.isShifted && $1.isShifted }.map { binding in
             let layer = binding.isShifted ? "Shift" : "Base"
             let reversed = binding.inverted == true ? " · reversed" : ""
-            let parameter = binding.parameter.map { " · parameter \($0)" } ?? ""
+            let parameterLabel = binding.kind == .program ? "bank" : "parameter"
+            let parameter = binding.parameter.map { " · \(parameterLabel) \($0)" } ?? ""
             let note = binding.noteNumber.map { " · note \($0)" } ?? ""
             return "\(layer): \(binding.kind.rawValue) \(binding.number)\(parameter)\(note) · group \(Int(binding.umpGroup) + 1), ch \(Int(binding.channel) + 1) · \(binding.mode.title)\(reversed)"
         }.joined(separator: " / ")
@@ -558,10 +559,11 @@ final class ControllerMIDIConnection {
     }
     private func receive(_ message: ControllerMIDIMessage) {
         guard let selected else { return }
-        let parameter = message.parameter.map { " parameter \($0)" } ?? ""
+        let parameterLabel = message.kind == .program ? " bank" : " parameter"
+        let parameter = message.parameter.map { "\(parameterLabel) \($0)" } ?? ""
         let note = message.noteNumber.map { " note \($0)" } ?? ""
         lastInput = "\(message.kind.rawValue) \(message.number)\(parameter)\(note) · channel \(Int(message.channel) + 1)"
-        if let learning, message.kind != .note || message.value > 0 {
+        if let learning, message.kind != .note || !message.isNoteOff {
             if learning == .shift {
                 guard learningEncoding == .absolute, message.kind == .note || message.kind == .control else {
                     status = "Shift uses a momentary note or absolute Control Change button."; return
@@ -620,7 +622,7 @@ final class ControllerMIDIConnection {
             var state = valueStates[key, default: .init()]
             guard let decoded = state.decode(message, encoding: binding.mode, number: binding.number) else { continue }
             valueStates[key] = state
-            let value: Double
+            var value: Double
             switch decoded {
             case .absolute(let absolute): value = binding.inverted == true && !binding.action.isButton ? 1 - absolute : absolute
             case .relative(let delta):
@@ -628,6 +630,7 @@ final class ControllerMIDIConnection {
                       let target = pendingValues[binding.action] ?? currentValue?(binding.action), target.isFinite else { continue }
                 value = min(1, max(0, target + (binding.inverted == true ? -delta : delta) / 127))
             }
+            if binding.action.isButton, message.kind == .note, !message.isNoteOff, value == 0 { value = 1 }
             let previous = values.updateValue(value, forKey: key)
             if binding.action == .shift {
                 shiftActive = value > 0

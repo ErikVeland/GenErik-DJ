@@ -52,6 +52,7 @@ The upstream controller scripts were inspected as protocol references. They are 
 - A separate DDJ-FLX4 output profile maps play, sync and headphone-cue lights on the selected MIDI output. It replaces only those actions, and MIDI feedback stays off until the user enables it.
 - Core MIDI input requests MIDI 2.0 UMP and decodes supported MIDI 1.0 and MIDI 2.0 channel voice messages. It preserves UMP group identity and full controller precision through the shared `Double` action path. The Z1 SysEx bridge stays on the legacy byte input.
 - The UMP decoder handles MIDI 2.0 registered and assignable controllers, relative variants, per-note registered and assignable controllers, and per-note pitch bend. Learned bindings retain parameter and note identity. Per-note management and other unmapped UMP types remain ignored.
+- MIDI 2.0 Program Change bindings retain the bank when the Bank Valid flag is set. The note decoder distinguishes MIDI 2.0 Note On at zero velocity from Note Off so learned button actions can still trigger.
 - User-configured generic MIDI Note/Control Change feedback, scoped to the selected output destination.
 - Original Z1 development bridge framing, Linux HID relay, calibration, native input and light/meter output route.
 

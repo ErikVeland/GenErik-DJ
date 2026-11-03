@@ -18,9 +18,11 @@ public struct ControllerMIDIMessage: Equatable, Sendable {
     public let maximum: Int
     public let parameter: UInt16?
     public let noteNumber: UInt8?
+    public let isNoteOff: Bool
     public var normalized: Double { Double(value) / Double(maximum) }
     public init(kind: Kind, group: UInt8 = 0, channel: UInt8, number: UInt8, value: Int,
-                maximum: Int? = nil, parameter: UInt16? = nil, noteNumber: UInt8? = nil) {
+                maximum: Int? = nil, parameter: UInt16? = nil, noteNumber: UInt8? = nil,
+                isNoteOff: Bool = false) {
         self.kind = kind
         self.group = group
         self.channel = channel
@@ -29,6 +31,7 @@ public struct ControllerMIDIMessage: Equatable, Sendable {
         self.maximum = maximum ?? (kind == .pitch ? 16383 : 127)
         self.parameter = parameter
         self.noteNumber = noteNumber
+        self.isNoteOff = isNoteOff
     }
 }
 
@@ -66,7 +69,9 @@ public enum ControllerMIDIUMPDecoder {
         let value = UInt8(word & 0x7f)
         switch command {
         case 0x80, 0x90:
-            return .init(kind: .note, group: group, channel: channel, number: number, value: command == 0x80 ? 0 : Int(value))
+            let isNoteOff = command == 0x80 || value == 0
+            return .init(kind: .note, group: group, channel: channel, number: number,
+                         value: isNoteOff ? 0 : Int(value), isNoteOff: isNoteOff)
         case 0xa0: return .init(kind: .polyPressure, group: group, channel: channel, number: number, value: Int(value))
         case 0xb0: return .init(kind: .control, group: group, channel: channel, number: number, value: Int(value))
         case 0xc0: return .init(kind: .program, group: group, channel: channel, number: number, value: 127)
@@ -107,14 +112,18 @@ public enum ControllerMIDIUMPDecoder {
             let note = UInt8((first >> 8) & 0x7f)
             return .init(kind: .perNotePitch, group: group, channel: channel, number: note,
                          value: value, maximum: Int(UInt32.max), noteNumber: note)
-        case 0x8: return .init(kind: .note, group: group, channel: channel, number: number, value: 0, maximum: 65535)
+        case 0x8: return .init(kind: .note, group: group, channel: channel, number: number,
+                               value: 0, maximum: 65535, isNoteOff: true)
         case 0x9: return .init(kind: .note, group: group, channel: channel, number: number,
                                value: Int((second >> 16) & 0xffff), maximum: 65535)
         case 0xa: return .init(kind: .polyPressure, group: group, channel: channel, number: number, value: value, maximum: Int(UInt32.max))
         case 0xb: return .init(kind: .control, group: group, channel: channel, number: number, value: value, maximum: Int(UInt32.max))
         case 0xc:
             let program = UInt8((second >> 24) & 0x7f)
-            return .init(kind: .program, group: group, channel: channel, number: program, value: 127)
+            let bank: UInt16? = first & 0x01 == 0 ? nil
+                : UInt16((second >> 8) & 0x7f) << 7 | UInt16(second & 0x7f)
+            return .init(kind: .program, group: group, channel: channel, number: program,
+                         value: 127, parameter: bank)
         case 0xd: return .init(kind: .pressure, group: group, channel: channel, number: 0, value: value, maximum: Int(UInt32.max))
         case 0xe: return .init(kind: .pitch, group: group, channel: channel, number: 0, value: value, maximum: Int(UInt32.max))
         default: return nil
@@ -144,7 +153,9 @@ public struct ControllerMIDIDecoder: Sendable {
             let channel = status & 0x0f
             switch type {
             case 0x80, 0x90:
-                messages.append(.init(kind: .note, channel: channel, number: data[0], value: type == 0x80 ? 0 : Int(data[1])))
+                let isNoteOff = type == 0x80 || data[1] == 0
+                messages.append(.init(kind: .note, channel: channel, number: data[0],
+                                      value: isNoteOff ? 0 : Int(data[1]), isNoteOff: isNoteOff))
             case 0xb0:
                 messages.append(.init(kind: .control, channel: channel, number: data[0], value: Int(data[1])))
             case 0xe0:
