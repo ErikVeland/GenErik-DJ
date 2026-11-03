@@ -1,0 +1,19 @@
+{
+  "notes": "R30 video follow-up: Remove compact/full view switch. Keep one overview mounted, grow detailed waveform continuously, slide library fully out and back, and retain transport through resize. Reviewed the supplied 27-second reference. Isolated layout source excludes unrelated uncommitted analysis work. Duo acceptance pending.",
+  "sourceCommit": "9b4de2fa9aa1b78b108bd51b475d9f3ff4ee30b1",
+  "sourceSHA256": "fc3d119632259ec4cc972938e5c21acbe50ea18c3a156c874bbd3acfb2946138",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 47.45,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-65.log",
+  "build": 65,
+  "app": "TestBuilds/ipad/65/GenErikDJ.app",
+  "appSHA256": "5bd70beba1fd04b15d971e62243d1d0c5879bb0da4aa26bbcd5edf8a6cc61b21",
+  "state": "superseded-ready",
+  "createdUTC": "2026-11-03T06:38:23.587772+00:00",
+  "requestIDs": [
+    "R30"
+  ],
+  "acceptance": "Not installed. Superseded by a source refinement that preserves FX selector overflow while the waveform resizes. Compilation and signature checks passed."
+}

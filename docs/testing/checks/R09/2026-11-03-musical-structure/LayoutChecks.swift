@@ -9,9 +9,17 @@ import Foundation
             }
         }
         let duo=AdaptivePerformanceLayout.deckHeight(available:619,browserVisible:true,share:0.72)
-        let waveform=(duo-2)/2-8-48-24-24
+        let waveform=AdaptiveDeckGeometry(height:(duo-2)/2-8).waveformHeight
         precondition(waveform >= 110)
-        precondition(AdaptivePerformanceLayout.deckHeight(available:619,browserVisible:false,share:0.72) == 619)
-        print("Layout bounds passed; Duo calculated main waveform height: \(waveform) points")
+        precondition(AdaptivePerformanceLayout.deckHeight(available:619,browserVisible:false,share:0.72) == 619-AdaptivePerformanceLayout.dividerHeight)
+        var previous=AdaptiveDeckGeometry(height:44)
+        for height in 45...700 {
+            let current=AdaptiveDeckGeometry(height:Double(height))
+            precondition(abs(current.headerHeight-previous.headerHeight) <= 1)
+            precondition(abs(current.waveformHeight-previous.waveformHeight) <= 1.00001)
+            precondition(current.headerHeight+current.sectionHeight+current.footerHeight+current.overviewHeight+current.hotcueHeight+current.waveformHeight <= Double(height)+0.001)
+            previous=current
+        }
+        print("Continuous layout bounds passed; Duo calculated main waveform height: \(waveform) points")
     }
 }

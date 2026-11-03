@@ -10,7 +10,7 @@ private func musicFixture(_ name: String = "clock-a-120.wav") -> URL {
 }
 private func musicItem(_ id: String, url: URL? = nil, title: String = "Library title") -> MusicLibraryItem {
     .init(source: .init(platform: .macMusic, persistentID: id), title: title, artist: "Library artist",
-          album: "Library album", genre: "House", assetURL: url, availability: .available)
+          album: "Library album", genre: "House", assetURL: url ?? URL(fileURLWithPath: "/fixture/\(id).caf"), availability: .available)
 }
 
 @Test func musicCatalogPreservesPlaylistOrderAndSearchesLibraryMetadata() {

@@ -13,6 +13,10 @@
         "R30"
       ],
       "text": "Assumed build 63: analysed tracks still lack agreed musical names and colours. Main waveform is squeezed to a thin strip on the Duo inner screen. Buttons must stay vertically stacked. Cue and headphone buttons should be optional, with a headphone icon over the cued track artwork. Erik requests a new Duo test build."
+    },
+    {
+      "kind": "Reference recording review",
+      "text": "Erik supplied RPReplay_Final1793686461.mov and asked for follow-through. Review confirms that Traktor expands one retained deck layout continuously, with the overview remaining at the deck bottom and the library sliding away. Build 63 still switches compact/full deck views at a threshold. R30 follow-up removes that switch."
     }
   ],
   "log": "TestBuilds/ipad/build-63.log",

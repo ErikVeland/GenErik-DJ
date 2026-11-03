@@ -56,16 +56,16 @@ public struct ReplicaView: View {
                 VStack(spacing: 0) {
                     HStack(spacing: 2) {
                         VStack(spacing: 2) {
-                            DeckView(model: model, deck: .a, compact: model.browserVisible && deckHeight < 350,
+                            DeckView(model: model, deck: .a,
                                 snapshotEffects: snapshotEffectsDeck == .a,
                                 snapshotMixer: snapshotMixerDecks.contains(.a), snapshotFilter: snapshotFilterDecks.contains(.a))
-                            DeckView(model: model, deck: .b, compact: model.browserVisible && deckHeight < 350,
+                            DeckView(model: model, deck: .b,
                                 snapshotEffects: snapshotEffectsDeck == .b,
                                 snapshotMixer: snapshotMixerDecks.contains(.b), snapshotFilter: snapshotFilterDecks.contains(.b))
                         }
                         CrossfaderView(model: model, width: 52)
                     }.padding(.horizontal, 6).frame(height: deckHeight)
-                    if model.browserVisible {
+                    Group {
                         Capsule().fill(PerformancePalette.secondaryText.opacity(0.5))
                             .frame(width: 44, height: 4)
                             .frame(maxWidth: .infinity).frame(height: AdaptivePerformanceLayout.dividerHeight)
@@ -74,11 +74,15 @@ public struct ReplicaView: View {
                                 .updating($resizingLibrary) { _, active, _ in active = true }
                                 .onChanged { value in
                                     if dividerOrigin == nil { dividerOrigin = deckHeight }
+                                    if !model.browserVisible { model.browserVisible = true }
                                     deckShare = ((dividerOrigin ?? deckHeight) + value.translation.height) / max(1, space.size.height)
                                 }
                                 .onEnded { _ in
                                     deckShare = AdaptivePerformanceLayout.deckHeight(available: space.size.height,
                                         browserVisible: true, share: deckShare) / max(1, space.size.height)
+                                    if space.size.height - deckShare * space.size.height < AdaptivePerformanceLayout.librarySnapDistance {
+                                        model.browserVisible = false
+                                    }
                                     dividerOrigin = nil
                                 })
                             .accessibilityLabel("Deck and library divider")
@@ -86,12 +90,18 @@ public struct ReplicaView: View {
                                 deckShare = min(0.8, max(0.1, deckShare + (direction == .increment ? 0.05 : -0.05)))
                             }
                         BrowserView(model: model, importAudio: { importPresented = true }, linkCollection: { traktorImportPresented = true })
-                            .frame(maxWidth: .infinity, maxHeight: .infinity).clipped()
+                            .frame(maxWidth: .infinity)
+                            .frame(height: max(0, space.size.height - deckHeight - AdaptivePerformanceLayout.dividerHeight), alignment: .top)
+                            .clipped().allowsHitTesting(model.browserVisible)
+                            .disabled(!model.browserVisible).accessibilityHidden(!model.browserVisible)
                     }
                 }
                 .frame(width: space.size.width, height: space.size.height, alignment: .top)
                 .animation(reduceMotion || dividerOrigin != nil ? nil : .smooth(duration: 0.25), value: model.browserVisible)
                 .onChange(of: resizingLibrary) { _, active in if !active { dividerOrigin = nil } }
+                .onChange(of: model.browserVisible) { _, visible in
+                    if visible && !resizingLibrary { deckShare = 0.72 }
+                }
             }
 
         }
@@ -179,11 +189,9 @@ private struct SlidingDeckPanel<Content: View>: View {
 private struct DeckView: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
-    let compact: Bool
     var snapshotEffects = false
     var snapshotMixer = false
     var snapshotFilter = false
-    @Namespace private var overviewMotion
     @State private var visibleSeconds = WaveformLayers.defaultSeconds(bpm: nil)
     @State private var previousSpan: Double?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -200,24 +208,32 @@ private struct DeckView: View {
     private var editing: Bool { model.editing.contains(deck) }
     private var playback: DeckPlaybackSnapshot? { model.playbackSnapshot?[deck] }
     var body: some View {
-        Group {
-        if compact { CompactDeckView(model:model,deck:deck,overviewMotion:overviewMotion) } else {
         GeometryReader { deckSpace in
-        HStack(spacing: 4) {
-        VStack(spacing: 0) {
-            DeckHeader(model:model,deck:deck,toolsVisible:$toolsVisible,dense:deckSpace.size.height < 300)
-            if track != nil && deckSpace.size.height >= 300 { ArrangementDeckStrip(model:model,deck:deck) }
+        let layout=AdaptiveDeckGeometry(height:max(0,deckSpace.size.height-8),
+            hotcues:(hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil)
+        HStack(spacing:4) {
+        ZStack(alignment:.topLeading) {
+            Button { model.showSuggestions(destination:deck) } label: {
+                DeckArtwork(source:ArtworkSource.track(track,media:model.store.mediaDirectory))
+                    .frame(width:44,height:44).background(PerformancePalette.sunken).clipped()
+                    .overlay { TrackHeadphoneIndicator(model:model,trackID:track?.id) }
+            }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
+                .offset(y:(1-layout.expansion)*max(0,(deckSpace.size.height-52)/2))
+        VStack(spacing:0) {
+            DeckHeader(model:model,deck:deck,toolsVisible:$toolsVisible,dense:true,showsArtwork:false)
+                .frame(height:layout.headerHeight,alignment:.top).clipped().opacity(layout.expansion)
+                .allowsHitTesting(layout.headerHeight >= 44)
             GeometryReader { geometry in
                 DeckWaveform(model:model,deck:deck,visibleSeconds:$visibleSeconds,mixerVisible:mixerVisible)
                 .overlay(alignment:.leading) {
-                    SlidingDeckPanel(isPresented:effectsVisible || snapshotEffects,edge:.leading,
+                    SlidingDeckPanel(isPresented:(effectsVisible || snapshotEffects) && layout.waveformHeight >= 44,edge:.leading,
                                      panelWidth:geometry.size.width/2,inputGate:effectsInput) {
                         EffectsView(model:model,deck:deck).frame(width:geometry.size.width/2)
                             .environment(\.touchSurfaceInputGate,effectsInput)
                     }
                 }
                 .overlay(alignment:.trailing) {
-                    SlidingDeckPanel(isPresented:mixerVisible || snapshotMixer,edge:.trailing,
+                    SlidingDeckPanel(isPresented:(mixerVisible || snapshotMixer) && layout.waveformHeight >= 44,edge:.trailing,
                                      panelWidth:geometry.size.width/2,inputGate:mixerInput) {
                         DeckMixerView(model:model,deck:deck,panel:snapshotFilter ? .constant(.filter) : $mixerPanel,
                                       width:geometry.size.width/2)
@@ -225,13 +241,25 @@ private struct DeckView: View {
                     }
                 }
             }
-            .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
-            DeckOverview(model:model,deck:deck,visibleSeconds:$visibleSeconds,dense:deckSpace.size.height < 300)
-                .matchedGeometryEffect(id: "overview", in: overviewMotion)
-            if (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil { HotcuePadRow(model:model,deck:deck) }
-            if deckSpace.size.height < 300 {
-                if track != nil { ArrangementDeckStrip(model:model,deck:deck,compact:true) }
-            } else { DeckFooter(model:model,deck:deck) }
+            .frame(height:layout.waveformHeight)
+            .clipShape(DeckPanelHorizontalBounds()).allowsHitTesting(layout.waveformHeight >= 44)
+            .zIndex(effectsVisible || snapshotEffects ? 1:0)
+            HStack(spacing:4) {
+                Text(elapsedTime).frame(width:44,alignment:.trailing)
+                DeckOverview(model:model,deck:deck,visibleSeconds:$visibleSeconds)
+                    .frame(maxWidth:.infinity)
+                Text(remainingTime).frame(width:52,alignment:.leading)
+            }.font(.system(size:11).monospacedDigit()).frame(height:layout.overviewHeight)
+            if (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil {
+                HotcuePadRow(model:model,deck:deck).frame(height:layout.hotcueHeight).clipped()
+                    .allowsHitTesting(layout.hotcueHeight >= 44)
+            }
+            if track != nil {
+                ArrangementDeckStrip(model:model,deck:deck,compact:true)
+                    .frame(height:layout.footerHeight).clipped().opacity(layout.expansion)
+                    .allowsHitTesting(layout.footerHeight >= 24)
+            } else { Color.clear.frame(height:layout.footerHeight) }
+        }.padding(.leading,52)
         }
         if tempoFader && track != nil { DeckTempoFader(model:model,deck:deck) }
         if toolsVisible {
@@ -259,7 +287,10 @@ private struct DeckView: View {
 
                 }.buttonStyle(PerformanceToolButtonStyle())
             }.scrollIndicators(.hidden)
-            DeckPlaybackButton(model:model,deck:deck).frame(height:56)
+                .frame(height:max(0,deckSpace.size.height-66))
+                .clipped().allowsHitTesting(deckSpace.size.height >= 110)
+                .accessibilityHidden(deckSpace.size.height < 110)
+            DeckPlaybackButton(model:model,deck:deck).frame(height:min(56,max(0,deckSpace.size.height-10)))
         }.font(.system(size: 24, weight: .heavy))
             .buttonStyle(DeckRailButtonStyle()).frame(width: 64)
         }.padding(4).background(PerformancePalette.stage).bevelPanel(cornerRadius: 6, sunken: true)
@@ -277,65 +308,18 @@ private struct DeckView: View {
             } else if !enabled,let previousSpan { visibleSeconds=previousSpan; self.previousSpan=nil }
         }
     }
-        }.animation(reduceMotion ? nil : .smooth(duration: 0.25), value: compact)
-    }
     private var preparing: Bool { model.preparingPlayback.contains(deck) }
-
-
-}
-
-@MainActor
-private struct CompactDeckView: View {
-    @Bindable var model: ReplicaModel
-    let deck: DeckID
-    let overviewMotion: Namespace.ID
-    @State private var visibleSeconds = 8.0
-    private var track: Track? { model.track(deck) }
-    private var state: DeckPlaybackSnapshot? { model.playbackSnapshot?[deck] }
-    var body: some View {
-        HStack(spacing: 10) {
-            Button { model.showSuggestions(destination:deck) } label: {
-                DeckArtwork(source:ArtworkSource.track(track,media:model.store.mediaDirectory))
-                    .frame(width:50,height:44).background(PerformancePalette.sunken).clipped()
-                    .overlay { TrackHeadphoneIndicator(model:model,trackID:track?.id) }
-            }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
-            if let track {
-                let elapsed = max(0, Int((state?.sourceFrame ?? 0)/track.analysis.sampleRate))
-                let remaining = max(0,Int(ceil(track.analysis.duration - (state?.sourceFrame ?? 0)/track.analysis.sampleRate)))
-                Text(String(format:"%d:%02d",elapsed/60,elapsed%60)).frame(width:52,alignment:.trailing)
-                VStack(spacing:0) {
-                    ArrangementDeckStrip(model:model,deck:deck,compact:true)
-                    StripeView(model:model,deck:deck,track:track,visibleSeconds:$visibleSeconds) {
-                        model.previewing.insert(deck); model.viewport[deck] = $0
-                    }.frame(height:28)
-                        .matchedGeometryEffect(id: "overview", in: overviewMotion)
-                }.accessibilityLabel("Deck \(deck.rawValue.uppercased()) overview")
-                VStack(alignment:.leading,spacing:2) {
-                    if let status=model.arrangementStatus(deck:deck) {
-                        Text(status.endingText).font(.system(size:9,weight:.semibold))
-                            .foregroundStyle(status.warning == .red || status.warning == .urgent ? Color.red:Color.secondary)
-                            .lineLimit(2)
-                    }
-                    Text(String(format:"-%d:%02d",remaining/60,remaining%60))
-                }.frame(width:110,alignment:.leading)
-            } else {
-                Text("Deck \(deck.rawValue.uppercased()) · No track loaded")
-                    .foregroundStyle(.secondary).frame(maxWidth:.infinity,alignment:.leading)
-            }
-            HStack(spacing: 2) {
-                Button { model.toggleLoop(deck:deck) } label: {
-                    Image(systemName:"repeat").font(.system(size: 22, weight: .heavy))
-                        .foregroundStyle(state?.loopEnabled == true ? PerformancePalette.syncGreen : Color(white: 0.75))
-                }.frame(width:84,height:50).buttonStyle(BevelButtonStyle()).disabled(track == nil)
-                    .accessibilityLabel("Loop on deck \(deck.rawValue.uppercased())")
-                DeckPlaybackButton(model:model,deck:deck)
-                    .font(.system(size:24))
-                    .frame(width:84,height:50).buttonStyle(BevelButtonStyle())
-            }
-        }.font(.system(size:17).monospacedDigit()).foregroundStyle(PerformancePalette.text)
-        .padding(.leading,8).padding(.vertical,4).frame(maxHeight:.infinity)
-        .bevelPanel(cornerRadius: 4, sunken: true)
+    private var elapsedTime: String {
+        let seconds=max(0,Int((playback?.sourceFrame ?? 0)/(track?.analysis.sampleRate ?? 1)))
+        return String(format:"%d:%02d",seconds/60,seconds%60)
     }
+    private var remainingTime: String {
+        let seconds=max(0,Int(ceil((track?.analysis.duration ?? 0)-(playback?.sourceFrame ?? 0)/(track?.analysis.sampleRate ?? 1))))
+        return String(format:"−%d:%02d",seconds/60,seconds%60)
+    }
+
+
+
 }
 
 private struct DeckRailButtonStyle: ButtonStyle {
@@ -758,10 +742,12 @@ private struct DeckHeader: View {
     let deck: DeckID
     @Binding var toolsVisible: Bool
     var dense = false
+    var showsArtwork = true
     @AppStorage(DeckToolSettings.beatJump) private var beatJump = false
 
     var body: some View {
             HStack(alignment:.top, spacing: 12) {
+                if showsArtwork {
                 Button { model.showSuggestions(destination: deck) } label: {
                     ZStack {
                         PerformancePalette.sunken
@@ -770,6 +756,7 @@ private struct DeckHeader: View {
                     .overlay(RoundedRectangle(cornerRadius: 3).strokeBorder(Color.black.opacity(0.7)))
                     .overlay { TrackHeadphoneIndicator(model:model,trackID:track?.id) }
                 }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
+                }
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 6) {
                         Text(track?.title ?? "Deck \(deck.rawValue.uppercased())")
@@ -915,14 +902,13 @@ private struct DeckOverview: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
     @Binding var visibleSeconds: Double
-    var dense = false
 
     var body: some View {
             if let track {
                 StripeView(model:model,deck:deck,track:track,visibleSeconds:$visibleSeconds) {
                     model.previewing.insert(deck); model.viewport[deck] = $0
-                }.frame(height: dense ? 24:31)
-            } else { Color.black.frame(height: dense ? 24:31) }
+                }
+            } else { Color.black }
 
     }
     private var track: Track? { model.track(deck) }
