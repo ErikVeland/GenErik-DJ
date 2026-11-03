@@ -5,8 +5,8 @@
     "R32"
   ],
   "date": "2026-11-04",
-  "baselineCommit": "92887daf7",
-  "status": "source-verified-device-build-pending",
+  "baselineCommit": "7b128bf83",
+  "status": "installed-and-launched-acceptance-pending",
   "filesSHA256": {
     "Replica/Sources/TDJInterface/TouchPanelState.swift": "0617d304ef53abb4eba697d1351ebf412afe74c7c287cc98a30e12ad34eef26d",
     "Replica/Sources/TDJInterface/TouchPanel.swift": "e0f95b285ce8a8551bab70bcf65f816871e10719c4270533c10b9ce658f83bd7",
@@ -42,5 +42,12 @@
     "Remembered sizes are session-local and separate for portrait and landscape.",
     "Browser side columns, A/B work-region divider and resizing musical panels remain outside this focused release.",
     "Existing waveform resize cancellation remains unchanged."
-  ]
+  ],
+  "build": 80,
+  "sourceCommit": "62efd9076de38ab9b3a706f68162befaf8db14b1",
+  "sourceSHA256": "14b85ec626ff4dc5391cc2afece33f3a1abc9d6389ed5593798a0ddacbb127f5",
+  "appSHA256": "ddbabb4b55f84d36d72d6da4462c8e593b8a50c10fe957dd4906b6db73edab7e",
+  "installedUTC": "2026-11-03T14:12:36.200880+00:00",
+  "launchedUTC": "2026-11-03T14:12:36.597257+00:00",
+  "acceptance": "Installed and launched on the 10.5-inch test iPad. Erik checks direct reveal/hide/resize, remembered session sizes per orientation, repeated A/B add-track full expansion, search/scroll/load isolation, fixed dock and clean audio. Acceptance remains pending. No further device actions after launch."
 }
