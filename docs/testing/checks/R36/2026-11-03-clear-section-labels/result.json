@@ -1,0 +1,14 @@
+{
+  "requestID": "R36",
+  "sourceSHA256": {
+    "Replica/Sources/TDJCore/TrackArrangement.swift": "7c63ee3828225d867694b1acab68142c196eaba92062cf7a5dbe630976fd7135",
+    "Replica/Sources/TDJInterface/ArrangementViews.swift": "f1148273d9a7d4d8f7410027b92628d80cbdd45a1f09f18f68cf48c766fec22e",
+    "Replica/Tests/TDJCoreTests/ChorusEvidenceTests.swift": "4142ee093187879f8242445837e1a90d5869e42904e5c2e2aa4be2f8a17f9658"
+  },
+  "focusedChecks": 15,
+  "failedAssertions": 0,
+  "baselineFailedAssertions": 1,
+  "behaviour": "Performance labels omit the blanket confidence suffix. The editor identifies automatic and manual assignments. Stored confidence and section roles are unchanged.",
+  "build": null,
+  "acceptance": "Pending iPad review."
+}

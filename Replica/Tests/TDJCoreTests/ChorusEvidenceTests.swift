@@ -88,7 +88,7 @@ final class ChorusEvidenceTests: XCTestCase {
         let manual = PerformanceCue(frame: 123, loopEnd: 456)
         let old = PerformanceCue(frame: 0, sectionName: "CHORUS ?", sectionColour: 0xF6AF69)
         let result = SectionCueAllocator.allocate(sections: sections, existing: [0: old, 1: manual], alreadyPrepared: true)
-        XCTAssertEqual(result[0]?.sectionName, "Vocal section ?")
+        XCTAssertEqual(result[0]?.sectionName, "Vocal section")
         XCTAssertEqual(result[1], manual)
         XCTAssertNil(result[2])
     }

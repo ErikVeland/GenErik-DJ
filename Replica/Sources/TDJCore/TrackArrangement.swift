@@ -41,7 +41,6 @@ public struct ArrangementSection: Codable, Equatable, Identifiable, Sendable {
     public var label: String {
         let primary = name.isEmpty ? role.label : name
         return primary + (behaviour == .sustaining || primary == behaviour.label ? "" : " · " + behaviour.label)
-            + (labelConfidence > 0 && labelConfidence < 0.6 && !locked ? " ?" : "")
     }
     public var colourHex: UInt32 {
         switch role {

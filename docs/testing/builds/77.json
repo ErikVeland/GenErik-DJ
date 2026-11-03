@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 40.38,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "requestIDs": [
+        "R35",
+        "R36"
+      ],
+      "date": "2026-11-03",
+      "report": "Erik requests genre-aware and version-aware structure analysis, a large review corpus with an even spread across genres and versions, and clear assignments without repeated question marks. Build 77 is the assumed latest iPad candidate."
+    }
+  ],
   "log": "TestBuilds/ipad/build-77.log",
   "build": 77,
   "app": "TestBuilds/ipad/77/GenErikDJ.app",
