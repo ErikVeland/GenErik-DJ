@@ -10,7 +10,7 @@ public struct EmbeddedMetadata: Sendable {
     public var initialKeys: [String] = []
     public init() {}
 
-    public static func read(url: URL) async throws -> Self {
+    public static func read(url: URL, includeArtwork: Bool = true) async throws -> Self {
         let asset = AVURLAsset(url: url)
         var result = Self()
         let common = try await asset.load(.commonMetadata)
@@ -18,7 +18,7 @@ public struct EmbeddedMetadata: Sendable {
             if item.commonKey == .commonKeyTitle { result.title = try await item.load(.stringValue) }
             if item.commonKey == .commonKeyArtist { result.artist = try await item.load(.stringValue) }
             if item.commonKey == .commonKeyAlbumName { result.album = try await item.load(.stringValue) }
-            if item.commonKey == .commonKeyArtwork { result.artwork = try await item.load(.dataValue) }
+            if includeArtwork, item.commonKey == .commonKeyArtwork { result.artwork = try await item.load(.dataValue) }
         }
         for format in try await asset.load(.availableMetadataFormats) {
             for item in try await asset.loadMetadata(for: format) {

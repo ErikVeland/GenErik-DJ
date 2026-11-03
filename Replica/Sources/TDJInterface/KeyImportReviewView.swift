@@ -7,6 +7,7 @@ struct KeyImportReviewView: View {
     @Bindable var model: ReplicaModel
     @State private var importing = false
     @State private var importingTaggedAudio = false
+    @State private var preparingReview = false
     @State private var showingReview = false
     @State private var preview: (manifest: KeyImportManifest, plan: KeyImportPlan)?
     @State private var errorMessage: String?
@@ -26,12 +27,15 @@ struct KeyImportReviewView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Key review file").font(.headline)
-            Text("Review the governed JSON interchange or an ID3 Initial Key tag. Direct Mixed In Key export files are not supported here.")
+            Text("Review the governed JSON interchange or ID3 Initial Key tags. Direct Mixed In Key export files are not supported here.")
                 .font(.caption).foregroundStyle(.secondary)
             Button { importing = true } label: { Label("Review key import…", systemImage: "key.horizontal") }
-            Button { importingTaggedAudio = true } label: { Label("Review ID3 Initial Key tag…", systemImage: "music.note.list") }
-            Text("The selected audio file must match a track in this library byte-for-byte. Retagged files need to be imported into the library first.")
+                .disabled(preparingReview)
+            Button { importingTaggedAudio = true } label: { Label("Review ID3 Initial Key tags…", systemImage: "music.note.list") }
+                .disabled(preparingReview)
+            Text("Each selected audio file must match a track in this library byte-for-byte. Retagged files need to be imported into the library first.")
                 .font(.caption).foregroundStyle(.secondary)
+            if preparingReview { ProgressView("Checking selected audio tags…") }
             if let errorMessage {
                 Text(errorMessage).font(.caption).foregroundStyle(.red)
             }
@@ -40,7 +44,9 @@ struct KeyImportReviewView: View {
             switch result {
             case .success(let urls):
                 guard let url = urls.first else { return }
+                preparingReview = true
                 Task {
+                    defer { preparingReview = false }
                     do {
                         preview = try await model.previewKeyImport(from: url)
                         errorMessage = nil
@@ -54,13 +60,15 @@ struct KeyImportReviewView: View {
                 errorMessage = error.localizedDescription
             }
         }
-        .fileImporter(isPresented: $importingTaggedAudio, allowedContentTypes: [.audio], allowsMultipleSelection: false) { result in
+        .fileImporter(isPresented: $importingTaggedAudio, allowedContentTypes: [.audio], allowsMultipleSelection: true) { result in
             switch result {
             case .success(let urls):
-                guard let url = urls.first else { return }
+                guard !urls.isEmpty else { return }
+                preparingReview = true
                 Task {
+                    defer { preparingReview = false }
                     do {
-                        preview = try await model.previewEmbeddedKeyImport(from: url)
+                        preview = try await model.previewEmbeddedKeyImport(from: urls)
                         errorMessage = nil
                         mixedInKeyConfirmed = false
                         showingReview = true

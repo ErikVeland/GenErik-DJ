@@ -549,31 +549,49 @@ public final class ReplicaModel {
     }
 
     public func previewEmbeddedKeyImport(from url: URL) async throws -> (KeyImportManifest, KeyImportPlan) {
-        let (contentSHA256, metadata) = try await importAccess.withAccess(to: url) {
-            let before = try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
-            let hashResult: Result<String,CoreError> = await self.keyImportFileWork.run {
-                do { return .success(try AudioAnalyzer.sha256(url: url)) }
-                catch { return .failure(.invalidAudio(error.localizedDescription)) }
+        try await previewEmbeddedKeyImport(from: [url])
+    }
+
+    public func previewEmbeddedKeyImport(from urls: [URL]) async throws -> (KeyImportManifest, KeyImportPlan) {
+        guard !urls.isEmpty, urls.count <= 10_000 else {
+            throw CoreError.invalidAudio("Select between 1 and 10,000 tagged audio files.")
+        }
+        var entriesByContent: [String: KeyImportManifest.Entry] = [:]
+        for url in urls {
+            try Task.checkCancellation()
+            let (contentSHA256, metadata) = try await importAccess.withAccess(to: url) {
+                let before = try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
+                let hashResult: Result<String, CoreError> = await self.keyImportFileWork.run {
+                    do { return .success(try AudioAnalyzer.sha256(url: url)) }
+                    catch { return .failure(.invalidAudio(error.localizedDescription)) }
+                }
+                let metadata = try await EmbeddedMetadata.read(url: url, includeArtwork: false)
+                let after = try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
+                guard before.fileSize == after.fileSize,
+                      before.contentModificationDate == after.contentModificationDate else { throw CoreError.staleContext }
+                switch hashResult {
+                case .success(let digest): return (digest, metadata)
+                case .failure(let error): throw error
+                }
             }
-            let metadata = try await EmbeddedMetadata.read(url: url)
-            let after = try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
-            guard before.fileSize == after.fileSize,
-                  before.contentModificationDate == after.contentModificationDate else { throw CoreError.staleContext }
-            switch hashResult {
-            case .success(let digest): return (digest, metadata)
-            case .failure(let error): throw error
+            guard metadata.initialKeys.count == 1, let rawKey = metadata.initialKeys.first else {
+                throw CoreError.invalidAudio(metadata.initialKeys.isEmpty
+                    ? "An audio file has no ID3 Initial Key tag."
+                    : "An audio file has conflicting ID3 Initial Key tags.")
+            }
+            guard let notation = [KeyNotation.camelot, .openKey, .musical].first(where: { (try? $0.parse(rawKey)) != nil }) else {
+                throw CoreError.invalidAudio("An ID3 Initial Key value uses an unsupported notation.")
+            }
+            let entry = KeyImportManifest.Entry(contentSHA256: contentSHA256, rawKey: rawKey, notation: notation)
+            if let previous = entriesByContent[contentSHA256] {
+                guard previous == entry else { throw CoreError.invalidAudio("Identical audio files have conflicting key tags.") }
+            } else {
+                entriesByContent[contentSHA256] = entry
             }
         }
-        guard metadata.initialKeys.count == 1, let rawKey = metadata.initialKeys.first else {
-            throw CoreError.invalidAudio(metadata.initialKeys.isEmpty
-                ? "The audio file has no ID3 Initial Key tag."
-                : "The audio file has conflicting ID3 Initial Key tags.")
-        }
-        let notation = [KeyNotation.camelot, .openKey, .musical].first { (try? $0.parse(rawKey)) != nil }
-        guard let notation else { throw CoreError.invalidAudio("The ID3 Initial Key value uses an unsupported notation.") }
         let manifest = KeyImportManifest(source: .mixedInKey, attribution: .userConfirmed,
-            sourceDescription: "User-confirmed ID3 Initial Key tag from \(url.lastPathComponent)",
-            entries: [.init(contentSHA256: contentSHA256, rawKey: rawKey, notation: notation)])
+            sourceDescription: "User-confirmed ID3 Initial Key tags from selected audio files.",
+            entries: entriesByContent.values.sorted { $0.contentSHA256 < $1.contentSHA256 })
         let plan = try await service.previewKeyImport(data: JSONEncoder().encode(manifest))
         return (manifest, plan)
     }
