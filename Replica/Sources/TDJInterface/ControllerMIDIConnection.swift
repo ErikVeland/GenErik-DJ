@@ -38,6 +38,15 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         guard rawValue.hasPrefix("hotcue"), let value = Int(rawValue.dropFirst(6).dropLast()) else { return nil }
         return value - 1
     }
+    var supportsFeedback: Bool {
+        switch self {
+        case .playA, .playB, .syncA, .syncB, .keylockA, .keylockB, .cueA, .cueB,
+             .levelA, .levelB, .gainA, .gainB, .lowA, .lowB, .midA, .midB, .highA, .highB,
+             .filterA, .filterB, .fxA, .fxB, .fxToggleA, .fxToggleB, .crossfader, .cueMix,
+             .filterToggleA, .filterToggleB, .master, .monitor, .tempoA, .tempoB, .loopA, .loopB: true
+        default: false
+        }
+    }
 }
 
 private struct ControllerBinding: Codable {
@@ -49,6 +58,21 @@ private struct ControllerBinding: Codable {
     let encoding: ControllerMIDIEncoding?
     let inverted: Bool?
     var mode: ControllerMIDIEncoding { encoding ?? .absolute }
+}
+
+enum ControllerFeedbackKind: String, CaseIterable, Codable, Sendable {
+    case note, control
+    var title: String { self == .note ? "Note" : "Control Change" }
+}
+
+struct ControllerFeedbackBinding: Codable, Identifiable, Equatable {
+    var id: String { action.rawValue }
+    let action: ControllerAction
+    let kind: ControllerFeedbackKind
+    let channel: UInt8
+    let number: UInt8
+    let offValue: UInt8
+    let onValue: UInt8
 }
 
 /// Core MIDI callbacks never touch the observed model or the audio renderer.
@@ -80,6 +104,9 @@ final class ControllerMIDIConnection {
     var destinations: [Source] = []
     var selected: Int32?
     var feedbackSelected: Int32?
+    var midiFeedbackEnabled = false
+    var feedbackBindings: [ControllerFeedbackBinding] = []
+    var feedbackOutputAvailable = false
     var originalZ1Bridge = false
     var bridgeStatus = "No Z1 bridge report received."
     var feedbackStatus = "Feedback output is off."
@@ -103,6 +130,8 @@ final class ControllerMIDIConnection {
     @ObservationIgnored private var bridgeConnected = false
     @ObservationIgnored private var pendingFeedback: [UInt8]?
     @ObservationIgnored private var sentFeedback: [UInt8] = []
+    @ObservationIgnored private var sentMIDIValues: [ControllerAction: [UInt8]] = [:]
+    @ObservationIgnored private var lastMIDIOutputTime = 0.0
     @ObservationIgnored private var lastFeedbackTime = 0.0
     @ObservationIgnored private var needsBridgeHello = true
     @ObservationIgnored private var values: [String: Double] = [:]
@@ -112,10 +141,16 @@ final class ControllerMIDIConnection {
     @ObservationIgnored private var timer: Timer?
     @ObservationIgnored private let inbox = ControllerMIDIInbox()
     private static let storageKey = "controllers.midiBindings.v1"
+    private static let feedbackStorageKey = "controllers.midiFeedback.v1"
 
     init() {
         if let data = UserDefaults.standard.data(forKey: Self.storageKey),
            let saved = try? JSONDecoder().decode([ControllerBinding].self, from: data), saved.count <= 256 { bindings = saved }
+        if let data = UserDefaults.standard.data(forKey: Self.feedbackStorageKey),
+           let saved = try? JSONDecoder().decode([ControllerFeedbackBinding].self, from: data), saved.count <= 128,
+           saved.allSatisfy({ $0.channel < 16 && $0.number < 128 && $0.offValue < 128 && $0.onValue < 128 &&
+               $0.action.supportsFeedback && ($0.kind == .control || $0.action.isButton) }),
+           Set(saved.map(\.action)).count == saved.count { feedbackBindings = saved }
         bindingCount = bindings.count
     }
     func start() {
@@ -138,7 +173,8 @@ final class ControllerMIDIConnection {
         }
         guard result == noErr else { stop(); status = "MIDI input could not open (\(result))."; return }
         let outputResult = MIDIOutputPortCreate(client, "Controller feedback" as CFString, &outputPort)
-        feedbackStatus = outputResult == noErr ? "MIDI feedback output is available." : "MIDI feedback output could not open (\(outputResult))."
+        feedbackOutputAvailable = outputResult == noErr
+        feedbackStatus = feedbackOutputAvailable ? "MIDI feedback output is available." : "MIDI feedback output could not open (\(outputResult))."
         enabled = true
         refreshSources()
         let timer = Timer(timeInterval: 1.0 / 120, repeats: true) { [weak self] _ in
@@ -151,9 +187,11 @@ final class ControllerMIDIConnection {
         timer?.invalidate(); timer = nil
         if port != 0 { MIDIPortDispose(port); port = 0 }
         if outputPort != 0 { MIDIPortDispose(outputPort); outputPort = 0 }
+        feedbackOutputAvailable = false
         if client != 0 { MIDIClientDispose(client); client = 0 }
-        endpoint = 0; selected = nil; enabled = false; learning = nil
+        endpoint = 0; selected = nil; enabled = false; learning = nil; midiFeedbackEnabled = false
         decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); _ = inbox.take()
+        sentMIDIValues.removeAll()
         resetBridge()
         sources = []; destinations = []; feedbackSelected = nil; feedbackStatus = "Feedback output is off."; status = "Controller input is off."
     }
@@ -170,7 +208,7 @@ final class ControllerMIDIConnection {
         destinations = (0..<MIDIGetNumberOfDestinations()).compactMap { describe(MIDIGetDestination($0)) }
         if let selected, !sources.contains(where: { $0.id == selected && $0.reference == endpoint }) { select(nil) }
         if let feedbackSelected, !destinations.contains(where: { $0.id == feedbackSelected }) {
-            self.feedbackSelected = nil; sentFeedback = []
+            self.feedbackSelected = nil; sentFeedback = []; sentMIDIValues.removeAll()
         }
         if selected == nil { status = sources.isEmpty ? "No MIDI inputs found. Check the connection and MIDI mode." : "Choose the controller input to use." }
     }
@@ -184,10 +222,38 @@ final class ControllerMIDIConnection {
         else { status = "The controller input could not connect (\(result))." }
     }
     func setBridgeMode(_ enabled: Bool) {
-        originalZ1Bridge = enabled; learning = nil; decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); resetBridge()
+        originalZ1Bridge = enabled
+        if enabled { midiFeedbackEnabled = false; sentMIDIValues.removeAll() }
+        learning = nil; decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); resetBridge()
     }
     func setFeedbackDestination(_ id: Int32?) {
-        feedbackSelected = id; sentFeedback = []; lastFeedbackTime = 0; needsBridgeHello = true
+        feedbackSelected = id; sentFeedback = []; sentMIDIValues.removeAll()
+        lastFeedbackTime = 0; lastMIDIOutputTime = 0; needsBridgeHello = true
+    }
+    func setMIDIFeedbackEnabled(_ enabled: Bool) {
+        midiFeedbackEnabled = enabled
+        sentMIDIValues.removeAll()
+    }
+    func setFeedbackBinding(action: ControllerAction, kind: ControllerFeedbackKind,
+                            channel: UInt8, number: UInt8, offValue: UInt8, onValue: UInt8) {
+        guard channel < 16, number < 128, offValue < 128, onValue < 128,
+              action.supportsFeedback, kind == .control || action.isButton else { return }
+        if !feedbackBindings.contains(where: { $0.action == action }), feedbackBindings.count >= 128 { return }
+        feedbackBindings.removeAll { $0.action == action }
+        feedbackBindings.append(.init(action: action, kind: kind, channel: channel, number: number,
+                                      offValue: offValue, onValue: onValue))
+        feedbackBindings.sort { $0.action.rawValue < $1.action.rawValue }
+        persistFeedbackBindings()
+        sentMIDIValues[action] = nil
+    }
+    func removeFeedbackBinding(_ action: ControllerAction) {
+        feedbackBindings.removeAll { $0.action == action }
+        sentMIDIValues[action] = nil
+        persistFeedbackBindings()
+    }
+    func feedbackBindingName(_ action: ControllerAction) -> String {
+        guard let binding = feedbackBindings.first(where: { $0.action == action }) else { return "Unassigned" }
+        return "\(binding.kind.title) \(binding.number) · channel \(Int(binding.channel) + 1)"
     }
     private func resetBridge(requestHello: Bool = true) {
         bridgeDecoder = .init(); bridgeConnected = false; pendingFeedback = nil; sentFeedback = []
@@ -220,9 +286,13 @@ final class ControllerMIDIConnection {
         }
     }
     private func sendFeedback() {
-        guard originalZ1Bridge, outputPort != 0,
-              let destination = destinations.first(where: { $0.id == feedbackSelected }),
-              ProcessInfo.processInfo.systemUptime - lastFeedbackTime >= 1.0 / 30 else { return }
+        guard outputPort != 0,
+              let destination = destinations.first(where: { $0.id == feedbackSelected }) else { return }
+        if !originalZ1Bridge {
+            sendMIDIFeedback(to: destination.reference)
+            return
+        }
+        guard ProcessInfo.processInfo.systemUptime - lastFeedbackTime >= 1.0 / 30 else { return }
         if needsBridgeHello {
             if let hello = try? ControllerBridgeFrame(kind: .z1Status, payload: [3]),
                sendBridgeFrame(hello, destination: destination.reference) { needsBridgeHello = false }
@@ -245,6 +315,38 @@ final class ControllerMIDIConnection {
         if result != noErr { bridgeStatus = "Z1 feedback could not send (\(result))." }
         return result == noErr
     }
+    private func sendMIDIFeedback(to destination: MIDIEndpointRef) {
+        let now = ProcessInfo.processInfo.systemUptime
+        guard midiFeedbackEnabled, now - lastMIDIOutputTime >= 1.0 / 30 else { return }
+        lastMIDIOutputTime = now
+        for binding in feedbackBindings {
+            guard let value = currentValue?(binding.action), value.isFinite else { continue }
+            let bounded = min(1, max(0, value))
+            let outputValue = binding.action.isButton
+                ? (bounded > 0 ? binding.onValue : binding.offValue)
+                : UInt8((bounded * 127).rounded())
+            let status: UInt8
+            switch binding.kind {
+            case .control: status = 0xB0 | binding.channel
+            case .note: status = (bounded > 0 ? 0x90 : 0x80) | binding.channel
+            }
+            let message = [status, binding.number, outputValue]
+            guard sentMIDIValues[binding.action] != message else { continue }
+            guard sendMIDIMessage(message, destination: destination) else { return }
+            sentMIDIValues[binding.action] = message
+        }
+    }
+    private func sendMIDIMessage(_ bytes: [UInt8], destination: MIDIEndpointRef) -> Bool {
+        var list = MIDIPacketList()
+        let start = MIDIPacketListInit(&list)
+        _ = bytes.withUnsafeBufferPointer {
+            MIDIPacketListAdd(&list, MemoryLayout<MIDIPacketList>.size, start, 0, bytes.count, $0.baseAddress!)
+        }
+        guard list.numPackets == 1 else { return false }
+        let result = MIDISend(outputPort, destination, &list)
+        if result != noErr { feedbackStatus = "MIDI feedback could not send (\(result))." }
+        return result == noErr
+    }
     func clearBindings() {
         guard let selected else { return }
         bindings.removeAll { $0.source == selected }; values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); learning = nil; persist()
@@ -256,6 +358,11 @@ final class ControllerMIDIConnection {
     private func persist() {
         bindingCount = bindings.count
         if let data = try? JSONEncoder().encode(bindings) { UserDefaults.standard.set(data, forKey: Self.storageKey) }
+    }
+    private func persistFeedbackBindings() {
+        if let data = try? JSONEncoder().encode(feedbackBindings) {
+            UserDefaults.standard.set(data, forKey: Self.feedbackStorageKey)
+        }
     }
     private func drain() {
         let (frames, overflow, refresh) = inbox.take()

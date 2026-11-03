@@ -31,6 +31,14 @@ struct ControllerSettingsView: View {
                     Text("Use only with the GenErik Z1 bridge relay. This carries controls and lights, not audio. Direct Z1 accessory communication is separate.")
                         .font(.caption).foregroundStyle(.secondary)
                 } else {
+                Picker("Feedback output", selection: Binding(get: { input.feedbackSelected }, set: input.setFeedbackDestination)) {
+                    Text("Choose an output").tag(Int32?.none)
+                    ForEach(input.destinations) { destination in Text(destination.name).tag(Optional(destination.id)) }
+                }
+                Toggle("Enable generic MIDI feedback", isOn: Binding(get: { input.midiFeedbackEnabled }, set: input.setMIDIFeedbackEnabled))
+                    .disabled(!input.feedbackOutputAvailable || input.feedbackSelected == nil || input.feedbackBindings.isEmpty)
+                Text(input.feedbackStatus).font(.caption).foregroundStyle(.secondary)
+                ControllerFeedbackSettingsView(input: input)
                 Picker("Control encoding", selection: Binding(get: { input.learningEncoding }, set: { input.learningEncoding = $0 })) {
                     ForEach(ControllerMIDIEncoding.allCases, id: \.self) { mode in Text(mode.title).tag(mode) }
                 }
@@ -40,7 +48,7 @@ struct ControllerSettingsView: View {
                     Text("Move the control for \(action.title). Learning does not operate the deck.")
                     Button("Cancel learning") { input.learning = nil }
                 }
-                Text("Choose the encoding documented for the control. Knob / fader also handles note buttons and pitch-bend faders. Other modes handle paired high-resolution CCs or relative encoders. Generic controller lights/screens still require a model profile.")
+                Text("Choose the encoding documented for the control. Knob / fader also handles note buttons and pitch-bend faders. Other modes handle paired high-resolution CCs or relative encoders. Generic feedback sends only the output messages configured above.")
                     .font(.caption).foregroundStyle(.secondary)
                 ForEach(ControllerAction.allCases) { action in
                     HStack {
@@ -100,6 +108,13 @@ extension ReplicaModel {
         let deck = action.deck
         let mixer = snapshot[deck].mixer
         switch action {
+        case .playA, .playB: return snapshot[deck].phase == .playing ? 1 : 0
+        case .syncA, .syncB: return snapshot[deck].synced ? 1 : 0
+        case .keylockA, .keylockB: return snapshot[deck].keylock ? 1 : 0
+        case .cueA, .cueB: return mixer.cue ? 1 : 0
+        case .filterToggleA, .filterToggleB: return mixer.filterEnabled ? 1 : 0
+        case .loopA, .loopB: return snapshot[deck].loopEnabled ? 1 : 0
+        case .fxToggleA, .fxToggleB: return effects[deck]?[selectedEffectSlots[deck, default: 0]]?.enabled == true ? 1 : 0
         case .levelA, .levelB: return mixerFaderValue(.volume, deck: deck)
         case .gainA, .gainB: return mixer.gain > 0 ? (log(mixer.gain) / log(4) + 1) / 2 : 0
         case .lowA, .lowB: return mixerFaderValue(.low, deck: deck).map { $0 / 2 }
