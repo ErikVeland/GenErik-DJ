@@ -17,7 +17,7 @@ private func searchScopeItem(_ id: String, title: String,
     availability: MusicLibraryItem.Availability = .available) -> MusicLibraryItem {
     .init(source: .init(platform: .iosMusic, persistentID: id), title: title,
         artist: "Native artist", album: "Native album", genre: "Techno",
-        assetURL: nil, availability: availability)
+        assetURL: URL(string: "ipod-library://item/\(id)"), availability: availability)
 }
 
 @Test func librarySearchIgnoresRecommendationMembershipAndUsesNormalSort() async throws {
@@ -133,6 +133,19 @@ private func searchScopeItem(_ id: String, title: String,
             group: group, playlists: playlists, catalog: nil)
         #expect(result.tracks.map(\.id) == [outside.id, current.id])
     }
+}
+
+@Test func customPlaylistRestoresPreparedLocalCopyWithoutMusicCatalogue() async throws {
+    var prepared = try searchScopeTrack(1, title: "Prepared local song")
+    let source = MusicLibrarySource(platform: .iosMusic, persistentID: "saved-source")
+    prepared.musicLibrarySources = [source]
+    var playlists = CollectionPlaylists()
+    try playlists.add(trackIDs: [source.id], name: "Offline set")
+    let group = try #require(playlists.playlists.first?.id.uuidString)
+    let result = try await CollectionProjection.build(tracks: [prepared], suggestionIDs: nil,
+        search: "", sort: .title, category: .playlists, group: group,
+        playlists: playlists, catalog: nil)
+    #expect(result.tracks.map(\.id) == [prepared.id])
 }
 
 @Test func nativeMusicSearchFindsMatchesOutsideTheSelectedPlaylist() async throws {

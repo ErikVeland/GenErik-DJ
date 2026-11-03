@@ -20,7 +20,7 @@ private func ownedValueTrack(_ number: Int) throws -> Track {
 @Test func ownedBrowserWorkerInputsMatchPublicValueProjectionAndPlaylistResolution() async throws {
     var snapshot = LibrarySnapshot();snapshot.tracks = [try ownedValueTrack(1), try ownedValueTrack(2)]
     let item = MusicLibraryItem(source: .init(platform: .iosMusic, persistentID: "raw"),
-        title: "Raw song", artist: "Artist", assetURL: nil, availability: .available)
+        title: "Raw song", artist: "Artist", assetURL: URL(string: "ipod-library://item/raw"), availability: .available)
     let catalog = MusicLibraryCatalog(items: [item], playlists: [])
     let librarySource = BackgroundOwnedValue(snapshot), catalogSource = BackgroundOwnedValue(catalog)
     let value = try await LibraryBrowserProjection.build(tracks: snapshot.tracks, suggestionIDs: nil,

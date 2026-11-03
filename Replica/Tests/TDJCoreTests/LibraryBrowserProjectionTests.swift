@@ -12,7 +12,7 @@ private func unifiedTrack(_ index:Int,sources:[MusicLibrarySource]=[],nativeOnly
 }
 private func unifiedItem(_ id:String,title:String?=nil,availability:MusicLibraryItem.Availability = .available) -> MusicLibraryItem {
     .init(source:.init(platform:.iosMusic,persistentID:id),title:title ?? id,artist:"Music artist",album:"Music album",
-        genre:"Techno",assetURL:nil,availability:availability)
+        genre:"Techno",assetURL:URL(string:"ipod-library://item/\(id)"),availability:availability)
 }
 private func unifiedProjection(tracks:[Track],catalog:MusicLibraryCatalog?,sort:CollectionSort?=nil,
     search:String="",category:CollectionCategory = .songs,group:String?=nil,
@@ -153,7 +153,8 @@ private func unifiedProjection(tracks:[Track],catalog:MusicLibraryCatalog?,sort:
 
 @Test func unifiedDistinctArtistGroupsRetainSelectionAndPlaylistTargets() async throws {
     let items=(0..<115000).map { index in
-        MusicLibraryItem(source:.init(platform:.iosMusic,persistentID:String(index)),title:"Song",artist:"Artist \(index)",assetURL:nil,availability:.available)
+        MusicLibraryItem(source:.init(platform:.iosMusic,persistentID:String(index)),title:"Song",artist:"Artist \(index)",
+            assetURL:URL(string:"ipod-library://item/\(index)"),availability:.available)
     }
     var playlists=CollectionPlaylists();try playlists.add(trackIDs:[items[0].id],name:"Saved")
     let result=try await unifiedProjection(tracks:[],catalog:.init(items:items,playlists:[]),category:.artists,group:"Artist 114999",playlists:playlists)
@@ -181,12 +182,12 @@ private func unifiedProjection(tracks:[Track],catalog:MusicLibraryCatalog?,sort:
     let group=try #require(playlists.playlists.first?.id.uuidString)
     let result=try await unifiedProjection(tracks:[track],catalog:nil,category:.playlists,group:group,playlists:playlists)
     #expect(result.entries.count == 1)
-    let members=try await LibraryBrowserProjection.selectedIDs(selection:[b.id],tracks:[track],catalog:nil)
-    #expect(members == [b.id])
-    #expect(playlists.playlists.first?.trackIDs == [b.id])
     let row=try #require(result.entries.first)
-    #expect(row.id == b.id && row.membershipID == b.id && row.track?.id == track.id && row.canLoad)
-    #expect(row.nativeItem?.source == b.source && row.title == track.title)
+    #expect(row.id == b.id && row.membershipID == track.id && row.track?.id == track.id && row.canLoad)
+    #expect(row.nativeItem == nil && row.title == track.title)
+    let members=try await LibraryBrowserProjection.selectedIDs(selection:[row.membershipID],tracks:[track],catalog:nil)
+    #expect(members == [track.id])
+    #expect(playlists.playlists.first?.trackIDs == [b.id])
 }
 
 @Test func unifiedStoredCloudOnlyMemberIsHiddenAndPreparationIsRetained() async throws {
@@ -217,7 +218,7 @@ private func unifiedProjection(tracks:[Track],catalog:MusicLibraryCatalog?,sort:
     let a=unifiedItem("a"),b=unifiedItem("b"),track=try unifiedTrack(23,sources:[b.source])
     let catalog=MusicLibraryCatalog(items:[a],playlists:[])
     let members=try await LibraryBrowserProjection.selectedIDs(selection:[track.id,a.id,b.id,"unknown"],tracks:[track],catalog:catalog)
-    #expect(members == [track.id,a.id,b.id])
+    #expect(members == [track.id,a.id])
     let all=try await unifiedProjection(tracks:[track],catalog:catalog)
     #expect(all.entries.map(\.id) == [a.id,track.id])
 }
