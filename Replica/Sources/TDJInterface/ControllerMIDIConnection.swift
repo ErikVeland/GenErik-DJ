@@ -526,6 +526,7 @@ final class ControllerMIDIConnection {
             let jog: ControllerAction = deck == "A" ? .jogA : .jogB
             let jogTouch: ControllerAction = deck == "A" ? .jogTouchA : .jogTouchB
             profile += [binding(jog, kind: .control, channel: channel, number: 34, encoding: .binaryOffset),
+                        binding(jog, kind: .control, channel: channel, number: 35, encoding: .binaryOffset),
                         binding(jogTouch, kind: .note, channel: channel, number: 54)]
         }
         profile += [binding(.crossfader, kind: .control, channel: 6, number: 31, encoding: .paired14Bit),
@@ -539,7 +540,7 @@ final class ControllerMIDIConnection {
         pendingValues.removeAll()
         learning = nil; learningShifted = false; shiftActive = false
         persist()
-        status = "Loaded the DDJ-FLX4 transport, mixer, Hot Cue and vinyl-on platter input profile. Wheel-side, vinyl-off jog and other lights are not mapped."
+        status = "Loaded the DDJ-FLX4 transport, mixer, Hot Cue and platter input profile. Wheel-side jog and other lights are not mapped."
     }
     func bindingName(_ action: ControllerAction) -> String {
         let assigned = bindings.filter { $0.source == selected && $0.action == action }
