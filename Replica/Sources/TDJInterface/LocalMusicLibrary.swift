@@ -72,7 +72,7 @@ public struct PreparedMusicLibraryAudio: Sendable {
 
     public func prepare(_ item: MusicLibraryItem, in directory: URL) async throws -> PreparedMusicLibraryAudio {
         guard item.availability != .protected else { throw MusicLibraryError.protected }
-        guard item.availability == .available, let catalogURL = item.assetURL else { throw MusicLibraryError.missingAudio }
+        guard item.isOnDevice, let catalogURL = item.assetURL else { throw MusicLibraryError.missingAudio }
         var url = catalogURL
         var metadata = MusicLibraryImportMetadata(item: item)
 #if os(iOS)
@@ -84,6 +84,9 @@ public struct PreparedMusicLibraryAudio: Sendable {
             guard let current = query.items?.first else { throw MusicLibraryError.missingAudio }
             guard !current.hasProtectedAsset else { throw MusicLibraryError.protected }
             guard let currentURL = current.assetURL else { throw MusicLibraryError.missingAudio }
+            guard currentURL.isFileURL || currentURL.scheme?.lowercased() == "ipod-library" else {
+                throw MusicLibraryError.missingAudio
+            }
             let artwork = current.artwork?.image(at: CGSize(width: 512, height: 512))?.jpegData(compressionQuality: 0.9)
             let metadata = MusicLibraryImportMetadata(item: item, artwork: artwork.flatMap { $0.count <= 5 * 1024 * 1024 ? $0 : nil })
             return (currentURL, metadata)
@@ -122,7 +125,7 @@ public struct PreparedMusicLibraryAudio: Sendable {
                 duration: Double(item.totalTime) / 1000, assetURL: url, availability: availability)
         }.sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
         stage("Reading native playlists")
-        let known = Set(items.map(\.id))
+        let known = Set(items.filter(\.isOnDevice).map(\.id))
         let playlists = library.allPlaylists.filter { $0.isVisible }.map { playlist in
             MusicLibraryPlaylist(id: "mac-playlist:\(playlist.persistentID.stringValue)", name: playlist.name,
                 itemIDs: playlist.items.map { MusicLibrarySource(platform: .macMusic, persistentID: $0.persistentID.stringValue).id }.filter { known.contains($0) })
@@ -134,13 +137,19 @@ public struct PreparedMusicLibraryAudio: Sendable {
     private nonisolated static func iosCatalog() -> MusicLibraryCatalog {
         let items: [MusicLibraryItem] = (MPMediaQuery.songs().items ?? []).map { item -> MusicLibraryItem in
             let url = item.assetURL
+            let hasLocalAsset: Bool
+            if let url, url.isFileURL {
+                hasLocalAsset = FileManager.default.isReadableFile(atPath: url.path)
+            } else {
+                hasLocalAsset = url?.scheme?.lowercased() == "ipod-library"
+            }
             let availability: MusicLibraryItem.Availability = item.hasProtectedAsset ? .protected
-                : url.map { $0.isFileURL || $0.scheme?.lowercased() == "ipod-library" } == true ? .available : item.isCloudItem ? .notDownloaded : .unavailable
+                : hasLocalAsset ? .available : item.isCloudItem ? .notDownloaded : .unavailable
             return MusicLibraryItem(source: .init(platform: .iosMusic, persistentID: String(item.persistentID)),
                 title: item.title ?? "Untitled", artist: item.artist ?? "", album: item.albumTitle ?? "",
                 genre: item.genre, duration: item.playbackDuration, assetURL: url, availability: availability)
         }.sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
-        let known = Set(items.map(\.id))
+        let known = Set(items.filter(\.isOnDevice).map(\.id))
         let playlists = (MPMediaQuery.playlists().collections as? [MPMediaPlaylist] ?? []).map { playlist in
             MusicLibraryPlaylist(id: "ios-playlist:\(playlist.persistentID)", name: playlist.name ?? "Playlist",
                 itemIDs: playlist.items.map { MusicLibrarySource(platform: .iosMusic, persistentID: String($0.persistentID)).id }.filter { known.contains($0) })

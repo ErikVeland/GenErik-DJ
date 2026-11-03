@@ -63,37 +63,24 @@ public struct LibraryBrowserProjection: Sendable {
         var represented:Set<String>=[],itemsBySource:[MusicLibrarySource:MusicLibraryItem]=[:]
         for item in catalog?.items ?? [] {
             try tick()
+            guard item.isOnDevice else { continue }
             guard byNative[item.id] == nil else { continue }
             let track=bySource[item.source]
             let entry=LibraryBrowserEntry(nativeItem:item,track:track,hint:hints[item.id])
             native.append(entry);byNative[item.id]=entry;itemsBySource[item.source]=item
             if let track { represented.insert(track.id) }
         }
-        var storedNativeSources:[String:MusicLibrarySource]?
         func nativeEntry(_ id:String) throws -> LibraryBrowserEntry? {
-            if let entry=byNative[id] { return entry }
-            if storedNativeSources == nil {
-                var lookup:[String:MusicLibrarySource]=[:]
-                for source in bySource.keys { try tick();lookup[source.id]=source }
-                storedNativeSources=lookup
-            }
-            guard let source=storedNativeSources?[id],let track=bySource[source] else { return nil }
-            let item=MusicLibraryItem(source:source,title:track.title,artist:track.artist,
-                album:track.album ?? "",genre:track.genre,assetURL:nil,availability:.unavailable)
-            let entry=LibraryBrowserEntry(nativeItem:item,track:track,hint:hints[item.id])
-            byNative[id]=entry
-            return entry
+            try tick()
+            return byNative[id]
         }
         func canonical(_ track:Track) -> LibraryBrowserEntry? {
             guard track.nativeLibraryOnly == true else { return .init(track:track) }
             let items=(track.musicLibrarySources ?? []).compactMap { itemsBySource[$0] }
-            if let item=items.first(where:{ $0.availability == .available }) ?? items.first {
+            if let item=items.first(where:\.isOnDevice) {
                 return .init(track:track,nativeItem:item)
             }
-            guard let source=track.musicLibrarySources?.first else { return nil }
-            let unavailable=MusicLibraryItem(source:source,title:track.title,artist:track.artist,
-                album:track.album ?? "",genre:track.genre,assetURL:nil,availability:.unavailable)
-            return .init(track:track,nativeItem:unavailable)
+            return nil
         }
         var all=native
         for track in tracks where !represented.contains(track.id) {
@@ -104,7 +91,9 @@ public struct LibraryBrowserProjection: Sendable {
         let groups:[CollectionGroup]
         if category == .playlists {
             var values=playlistTargets
-            for playlist in catalog?.playlists ?? [] { try tick();values.append(.init(id:"music:"+playlist.id,name:playlist.name+" · Music")) }
+            for playlist in catalog?.playlists ?? [] where playlist.itemIDs.contains(where: { byNative[$0] != nil }) {
+                try tick();values.append(.init(id:"music:"+playlist.id,name:playlist.name+" · Music"))
+            }
             groups=values
         } else if category == .songs { groups=[] }
         else {
@@ -196,17 +185,24 @@ public struct LibraryBrowserProjection: Sendable {
     private static func selectedIDsOnWorker(selection:Set<String>,tracks:[Track],catalog:MusicLibraryCatalog?,
         check:@Sendable () throws -> Void) throws -> [String] {
         var ids:[String]=[],seen:Set<String>=[]
+        let localItems = (catalog?.items ?? []).filter(\.isOnDevice)
+        let localItemIDs = Set(localItems.map(\.id))
+        let localSources = Set(localItems.map(\.source))
         for track in tracks {
-            try check();if selection.contains(track.id),seen.insert(track.id).inserted { ids.append(track.id) }
+            try check()
+            let hasLocalSource = (track.musicLibrarySources ?? []).contains(where: { localSources.contains($0) })
+            if track.nativeLibraryOnly != true || hasLocalSource {
+                if selection.contains(track.id),seen.insert(track.id).inserted { ids.append(track.id) }
+            }
         }
-        for item in catalog?.items ?? [] {
+        for item in localItems {
             try check();if selection.contains(item.id),seen.insert(item.id).inserted { ids.append(item.id) }
         }
         for track in tracks {
             try check()
             for source in track.musicLibrarySources ?? [] {
                 try check();let id=source.id
-                if selection.contains(id),seen.insert(id).inserted { ids.append(id) }
+                if localItemIDs.contains(id),selection.contains(id),seen.insert(id).inserted { ids.append(id) }
             }
         }
         return ids
