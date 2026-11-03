@@ -556,6 +556,16 @@ extension BrowserView {
                             recommendationRow(entry, keyOK: false, tempoOK: false)
                                 .contextMenu { Button("Remove from prep list", role: .destructive) { model.dequeue(entry.id) } }
                         }
+                        ForEach(unavailableQueuedIDs, id: \.self) { queuedID in
+                            HStack {
+                                Image(systemName: "exclamationmark.triangle").foregroundStyle(PerformancePalette.secondaryText)
+                                Text("Track unavailable in library").font(.system(size: 14)).foregroundStyle(PerformancePalette.secondaryText)
+                                Spacer()
+                                Button("Remove") { model.dequeue(queuedID) }
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .accessibilityLabel("Remove unavailable track from prep list")
+                            }.padding(.horizontal, 14).frame(height: 56)
+                        }
                     }
                 }
             }
@@ -594,6 +604,11 @@ extension BrowserView {
         let wanted = Set(model.queuedIDs)
         for entry in projection.allEntries + projection.entries where wanted.contains(entry.id) { byID[entry.id] = entry }
         return model.queuedIDs.compactMap { byID[$0] }
+    }
+    private var unavailableQueuedIDs: [String] {
+        guard projection != nil else { return [] }
+        let availableIDs = Set(queuedEntries.map(\.id))
+        return model.queuedIDs.filter { !availableIDs.contains($0) }
     }
     /// Recomputes when a deck loads or starts playing, the destination changes, or the list or hints change.
     fileprivate var recommendationKey: String {
