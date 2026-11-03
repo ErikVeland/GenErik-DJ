@@ -219,7 +219,7 @@ final class ControllerMIDIConnection {
         }
         guard result == noErr else { stop(); status = "MIDI input could not open (\(result))."; return }
         let protocolResult = MIDIInputPortCreateWithProtocol(client, "Controller MIDI 2.0 input" as CFString,
-                                                              kMIDIProtocol_2_0, &protocolPort) { list, context in
+                                                              ._2_0, &protocolPort) { list, context in
             guard let context else { return }
             let source = UInt32(truncatingIfNeeded: UInt(bitPattern: context))
             guard let messages = controllerMessages(from: list) else { inbox.signalOverflow(); return }
@@ -577,7 +577,7 @@ final class ControllerMIDIConnection {
             let bindingIsShifted = learning == .shift ? false : learningShifted
             let sameInput: (ControllerBinding) -> Bool = { binding in
                 binding.source == selected && binding.umpGroup == message.group && binding.kind == message.kind && binding.channel == message.channel &&
-                    (binding.number == number || (learningEncoding == .paired14Bit && binding.number == number + 32) ||
+                    (binding.number == number || (self.learningEncoding == .paired14Bit && binding.number == number + 32) ||
                      (binding.mode == .paired14Bit && binding.number < 32 && binding.number + 32 == number))
             }
             let replacesShift = learning != .shift && bindings.contains(where: { $0.action == .shift && sameInput($0) })

@@ -1,0 +1,13 @@
+{
+  "build": 56,
+  "state": "build-failed",
+  "sourceCommit": "68dce9a38d2c6be81f5d5d0a47a9305dceca37b4",
+  "sourceSHA256": "944fb58837bae92f8c2264e29790675eea46d96171ccf1baf8547efe625b8c8b",
+  "requestIDs": [
+    "R21",
+    "R23",
+    "R25"
+  ],
+  "log": "TestBuilds/ipad/build-56.log",
+  "notes": "Signed device build failed before installation. Swift rejected the MIDI protocol constant spelling and an implicit self capture. Neither device was changed."
+}
