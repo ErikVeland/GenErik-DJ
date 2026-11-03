@@ -87,6 +87,13 @@ public struct PreparedMusicLibraryAudio: Sendable {
             guard currentURL.isFileURL || currentURL.scheme?.lowercased() == "ipod-library" else {
                 throw MusicLibraryError.missingAudio
             }
+            if currentURL.isFileURL {
+                guard FileManager.default.isReadableFile(atPath: currentURL.path) else {
+                    throw MusicLibraryError.missingAudio
+                }
+            } else {
+                guard !current.isCloudItem else { throw MusicLibraryError.missingAudio }
+            }
             let artwork = current.artwork?.image(at: CGSize(width: 512, height: 512))?.jpegData(compressionQuality: 0.9)
             let metadata = MusicLibraryImportMetadata(item: item, artwork: artwork.flatMap { $0.count <= 5 * 1024 * 1024 ? $0 : nil })
             return (currentURL, metadata)
