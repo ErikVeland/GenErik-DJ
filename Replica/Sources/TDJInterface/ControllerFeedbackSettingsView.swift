@@ -36,9 +36,9 @@ struct ControllerFeedbackSettingsView: View {
             Stepper("Message number: \(number)", value: $number, in: 0...127)
             Button("Save feedback mapping") { saveBinding() }
 
-            if !input.feedbackBindings.isEmpty {
+            if !input.selectedFeedbackBindings.isEmpty {
                 Divider()
-                ForEach(input.feedbackBindings) { binding in
+                ForEach(input.selectedFeedbackBindings) { binding in
                     HStack {
                         Text("\(binding.action.title) · \(input.feedbackBindingName(binding.action))")
                             .font(.caption).lineLimit(1)
@@ -50,10 +50,11 @@ struct ControllerFeedbackSettingsView: View {
             }
         }
         .onAppear(perform: loadBinding)
+        .onChange(of: input.feedbackSelected) { _, _ in loadBinding() }
     }
 
     private func loadBinding() {
-        guard let binding = input.feedbackBindings.first(where: { $0.action == action }) else {
+        guard let binding = input.selectedFeedbackBindings.first(where: { $0.action == action }) else {
             kind = selectedActionIsButton ? .note : .control
             channel = 1; number = 0; offValue = 0; onValue = 127
             return

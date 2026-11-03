@@ -36,7 +36,7 @@ struct ControllerSettingsView: View {
                     ForEach(input.destinations) { destination in Text(destination.name).tag(Optional(destination.id)) }
                 }
                 Toggle("Enable generic MIDI feedback", isOn: Binding(get: { input.midiFeedbackEnabled }, set: input.setMIDIFeedbackEnabled))
-                    .disabled(!input.feedbackOutputAvailable || input.feedbackSelected == nil || input.feedbackBindings.isEmpty)
+                    .disabled(!input.feedbackOutputAvailable || input.feedbackSelected == nil || input.selectedFeedbackBindings.isEmpty)
                 Text(input.feedbackStatus).font(.caption).foregroundStyle(.secondary)
                 ControllerFeedbackSettingsView(input: input)
                 Picker("Control encoding", selection: Binding(get: { input.learningEncoding }, set: { input.learningEncoding = $0 })) {
