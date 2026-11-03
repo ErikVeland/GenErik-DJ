@@ -490,7 +490,8 @@ struct LoadSlider: View {
                 GeometryReader { geometry in
                     TouchSurface(capturesDrag: true) { event in
                         var next = gesture
-                        let deck = next.handle(event, height: Double(geometry.size.height), maximumTravel: maximumTravel)
+                        let deck = next.handle(event, height: Double(geometry.size.height), maximumTravel: maximumTravel,
+                                               edgeTapThreshold: tall ? 0.28 : nil)
                         if deck == nil && (event.phase == .ended || event.phase == .cancelled) {
                             withAnimation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.8)) { gesture = next }
                         } else { gesture = next }
