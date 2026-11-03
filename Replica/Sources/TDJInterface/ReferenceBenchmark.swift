@@ -41,7 +41,7 @@ extension ReplicaModel {
         var report = ReferenceBenchmarkReport()
         let hints = collectionHints
         let candidates = (musicLibraryCatalog?.items ?? []).filter {
-            $0.availability == .available && $0.assetURL != nil && hints[$0.id]?.bpm != nil
+            $0.isOnDevice && hints[$0.id]?.bpm != nil
         }
         // An even spread through the library, not just the first titles alphabetically.
         let step = max(1, candidates.count / max(1, count))

@@ -165,7 +165,7 @@ extension ReplicaModel {
                 guard let item else { throw MusicLibraryError.missingAudio }
                 selectedID = item.id
                 status = "Preparing \(item.title)…"
-                if item.availability == .available {
+                if item.isOnDevice {
                     try await withNativeAudio(item) { prepared in
                         var track = await self.preparedNativeTrack(item)
                         if track == nil {
@@ -232,7 +232,7 @@ extension ReplicaModel {
         let projection = nativeMusic.projection
         beginNativeMusicLoad(deck: deck) {
             await projection.run {
-                catalog?.items.first { sources.contains($0.source) && $0.availability == .available }
+                catalog?.items.first { sources.contains($0.source) && $0.isOnDevice }
             }
         }
     }

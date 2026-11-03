@@ -19,7 +19,7 @@ public struct MusicLibraryReconciliation: Sendable {
         entries = catalog.items.map { Entry(item: $0, track: matches[$0.source]) }
         analysisQueue = entries.compactMap { entry in
             guard (entry.track == nil || entry.track?.analysis.musicalAnalysisDeferred == true),
-                  entry.item.availability == .available else { return nil }
+                  entry.item.isOnDevice else { return nil }
             return entry.item
         }
     }

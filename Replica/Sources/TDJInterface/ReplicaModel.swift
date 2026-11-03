@@ -195,11 +195,15 @@ public final class ReplicaModel {
     public func cancelMusicLibraryImport() { musicLibraryImportTask?.cancel() }
     public func flushMusicLibraryImport() async { await musicLibraryImportTask?.value }
     public var musicLibraryError: String?
-    /// Songs the browser can list: every Music library item plus prepared tracks outside it.
+    /// Songs the browser can list: on-device Music items and app-managed tracks.
     public var browsableSongCount: Int {
         guard let catalog = musicLibraryCatalog else { return library.tracks.count }
-        let known = Set(catalog.items.map(\.source))
-        return catalog.items.count + library.tracks.filter { !($0.musicLibrarySources ?? []).contains(where: known.contains) }.count
+        let localItems = catalog.items.filter(\.isOnDevice)
+        let known = Set(localItems.map(\.source))
+        let appManaged = library.tracks.filter {
+            $0.nativeLibraryOnly != true && !($0.musicLibrarySources ?? []).contains(where: known.contains)
+        }
+        return localItems.count + appManaged.count
     }
     public var libraryFooterText: String {
         if !status.isEmpty { return status }
@@ -653,7 +657,7 @@ public final class ReplicaModel {
                 stopped = true; break
             }
             if preparedTrack(for: item) != nil { existing += 1; continue }
-            guard item.availability == .available else {
+            guard item.isOnDevice else {
                 musicLibraryFailures[item.id] = item.availability.message; continue
             }
             musicLibraryProgress = "Preparing \(index + 1) of \(items.count): \(item.title)"

@@ -31,6 +31,13 @@ public struct MusicLibraryItem: Sendable, Identifiable, Equatable {
     public let duration: Double
     public let assetURL: URL?
     public let availability: Availability
+    public var isOnDevice: Bool {
+        guard availability == .available, let assetURL else { return false }
+        switch source.platform {
+        case .macMusic: return assetURL.isFileURL
+        case .iosMusic: return assetURL.isFileURL || assetURL.scheme?.lowercased() == "ipod-library"
+        }
+    }
     public init(source: MusicLibrarySource, title: String, artist: String, album: String = "",
                 genre: String? = nil, duration: Double = 0, assetURL: URL?, availability: Availability) {
         self.source = source; self.title = title; self.artist = artist; self.album = album
@@ -63,8 +70,9 @@ public struct MusicLibraryCatalog: Sendable, Equatable {
                 seen.insert(id).inserted ? lookup[id] : nil
             } ?? []
         } else { candidates = items }
-        guard !query.isEmpty else { return candidates }
-        return candidates.filter {
+        let localCandidates = candidates.filter(\.isOnDevice)
+        guard !query.isEmpty else { return localCandidates }
+        return localCandidates.filter {
             [$0.title, $0.artist, $0.album].contains { $0.localizedStandardContains(query) }
         }
     }
