@@ -112,6 +112,89 @@ enum MusicalRhythmAnalyzer {
     static func analyze(frames: [MusicalPulseFrame], sampleRate: Double, framesPerBin: Int,
                         spectralActivity: Double, configuration: AnalysisConfiguration,
                         checkCancellation: @Sendable () throws -> Void) throws -> MusicalRhythmResult {
+        try checkCancellation()
+        guard sampleRate.isFinite, sampleRate > 0, framesPerBin > 0 else { return .init() }
+        let whole=try analyzeWhole(frames:frames,sampleRate:sampleRate,framesPerBin:framesPerBin,
+            spectralActivity:spectralActivity,configuration:configuration,checkCancellation:checkCancellation)
+        guard whole.bpm == nil || whole.confidence < 0.72 else { return whole }
+        let binsPerSecond=sampleRate/Double(framesPerBin)
+        let window=max(1,Int((24*binsPerSecond).rounded()))
+        let minimum=max(1,Int((12*binsPerSecond).rounded()))
+        guard frames.count >= minimum else { return whole }
+        var starts=Array(stride(from:0,to:frames.count-minimum+1,by:max(1,window/2)))
+        starts.append(max(0,frames.count-window))
+        starts.append(max(0,frames.count-minimum))
+        for start in Set(starts).sorted() {
+            try checkCancellation()
+            let end=min(frames.count,start+window)
+            let slice=frames[start..<end]
+            let peak=slice.map(\.rms).max() ?? 0
+            guard peak > 1e-7 else { continue }
+            var rises=0.0
+            for i in (start+1)..<end { rises += max(0,frames[i].rms-frames[i-1].rms) }
+            let activity=min(1,4*rises/(peak*Double(end-start)))
+            guard activity > 0.008 else { continue }
+            let offset=Double(start*framesPerBin)
+            let local=slice.map { value in
+                MusicalPulseFrame(rms:value.rms,bass:value.bass,middle:value.middle,high:value.high,
+                    attackFrame:value.attackFrame-offset,rise:value.rise)
+            }
+            var candidate=try analyzeWhole(frames:local,sampleRate:sampleRate,framesPerBin:framesPerBin,
+                spectralActivity:activity,configuration:configuration,checkCancellation:checkCancellation)
+            guard candidate.bpm != nil, candidate.confidence >= 0.72,
+                  whole.bpm == nil || candidate.confidence > whole.confidence+0.08 else { continue }
+            candidate.anchorSeconds=candidate.anchorSeconds.map { $0+offset/sampleRate }
+            let extensionResult=try extendLateAnchor(frames:frames,binsPerSecond:binsPerSecond,
+                anchor:candidate.anchorSeconds ?? offset/sampleRate,bpm:candidate.bpm!,checkCancellation:checkCancellation)
+            candidate.anchorSeconds=extensionResult.anchor
+            if let downbeat=candidate.downbeat { candidate.downbeat=(downbeat+extensionResult.beats)%4 }
+            candidate.onsetsPerSecond *= Double(end-start)/Double(frames.count)
+            if let map=candidate.adaptiveCandidate {
+                let shifted=BeatGridMap(anchors:map.anchors.map { .init(beat:$0.beat+Double(extensionResult.beats),frame:$0.frame+offset) },
+                    sampleRate:map.sampleRate,downbeatOffset:candidate.downbeat ?? map.downbeatOffset)
+                candidate.adaptiveCandidate=(try? shifted.validate(frameCount:Int64(frames.count*framesPerBin))) != nil ? shifted:nil
+            }
+            return candidate
+        }
+        return whole
+    }
+
+    /// Extend a supported late beat train back to its first audible attack, using local contrast.
+    private static func extendLateAnchor(frames: [MusicalPulseFrame], binsPerSecond: Double,
+        anchor: Double, bpm: Double, checkCancellation: @Sendable () throws -> Void) throws -> (anchor: Double, beats: Int) {
+        let period=60/bpm, radius=max(1,Int((0.025*binsPerSecond).rounded()))
+        var earliest=anchor, shift=0, missed=0, beat=1
+        while anchor-Double(beat)*period >= 0 {
+            try checkCancellation()
+            let center=Int(((anchor-Double(beat)*period)*binsPerSecond).rounded())
+            let lower=max(0,center-radius), upper=min(frames.count-1,center+radius)
+            guard lower <= upper else { break }
+            let peak=(lower...upper).filter { frames[$0].rise > 1e-9 }
+                .min { abs($0-center) < abs($1-center) }
+            guard let peak else {
+                missed += 1
+                if missed >= 2 { break }
+                beat += 1; continue
+            }
+            let beforeStart=max(0,lower-radius*2), afterEnd=min(frames.count,upper+radius*2+1)
+            let before=frames[beforeStart..<lower].map(\.rms), after=frames[(upper+1)..<afterEnd].map(\.rms)
+            let baseline=min(before.isEmpty ? frames[peak].rms:before.reduce(0,+)/Double(before.count),
+                             after.isEmpty ? frames[peak].rms:after.reduce(0,+)/Double(after.count))
+            if frames[peak].rms > max(1e-7,baseline*1.35) {
+                earliest=Double(peak)/binsPerSecond; shift=beat; missed=0
+            } else {
+                missed += 1
+                if missed >= 2 { break }
+            }
+            beat += 1
+        }
+        return (earliest,shift)
+    }
+
+    /// The whole-track path remains the fast path for a well-supported tempo.
+    private static func analyzeWhole(frames: [MusicalPulseFrame], sampleRate: Double, framesPerBin: Int,
+                        spectralActivity: Double, configuration: AnalysisConfiguration,
+                        checkCancellation: @Sendable () throws -> Void) throws -> MusicalRhythmResult {
         var result = try consensus(frames: frames, sampleRate: sampleRate, framesPerBin: framesPerBin,
                                    spectralActivity: spectralActivity, configuration: configuration, checkCancellation: checkCancellation)
         guard result.bpm == nil, frames.count > 400, spectralActivity > 0.008,
@@ -201,7 +284,25 @@ enum MusicalRhythmAnalyzer {
             if energy > bestPhaseEnergy { bestPhaseEnergy = energy; bestPhase = phase }
         }
         let confidence = min(1, max(0, strength * 4))
-        return (bpm, Double(bestPhase) / binsPerSecond, confidence)
+        let threshold=(detrended.max() ?? 0)*0.08
+        let tolerance=min(0.045*binsPerSecond,period*0.12)
+        var byBeat=[Int:Int]()
+        for index in detrended.indices where detrended[index] > max(1e-8,threshold) {
+            if index.isMultiple(of:4096) { try checkCancellation() }
+            let beat=Int(((Double(index)-Double(bestPhase))/period).rounded())
+            guard abs(Double(index)-Double(bestPhase)-Double(beat)*period) <= tolerance else { continue }
+            if byBeat[beat].map({ detrended[$0] >= detrended[index] }) != true { byBeat[beat]=index }
+        }
+        var run=[Int]()
+        for beat in byBeat.keys.sorted() {
+            let index=byBeat[beat]!
+            if let previous=run.last, Double(index-previous) > period*2.25 { run=[] }
+            run.append(index)
+            if run.count >= 6 {
+                return (bpm,Double(run[0])/binsPerSecond,confidence)
+            }
+        }
+        return nil
     }
 
     private static func consensus(frames: [MusicalPulseFrame], sampleRate: Double, framesPerBin: Int,

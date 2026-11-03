@@ -1,0 +1,1 @@
+Intermediate window-only fallback: tempo recovered at 128 BPM, but anchor check failed: 226.1831873492963 seconds instead of 223.37 seconds (LateRhythmTests.swift:47). This uncommitted intermediate result led to the backward local-contrast anchor check. Its source snapshot was not saved; the original failure output was observed in this chat.

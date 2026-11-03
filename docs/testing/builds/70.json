@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 57.54,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-03",
+      "requestIDs": [
+        "R29",
+        "R31"
+      ],
+      "text": "Assumed build 70: BPM detection needs better reliability. 3Cag has a long intro. Search for the first supported beat later in the track, even near the end, when the opening gives no reliable tempo."
+    }
+  ],
   "log": "TestBuilds/ipad/build-70.log",
   "build": 70,
   "app": "TestBuilds/ipad/70/GenErikDJ.app",
