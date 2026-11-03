@@ -1,0 +1,21 @@
+{
+  "requestID": "R35",
+  "date": "2026-11-04",
+  "sourceSHA256": {
+    "Replica/Sources/TDJCore/MusicalStructureAnalyzer.swift": "51c5149627bf337dd077ae8c20cd900f9416b876289ee0d3d23262a9c2d4b400",
+    "Replica/Sources/TDJCore/TrackArrangement.swift": "7bb9806560df7b3738c09b1ee6f7aaca88a8ab368913557d139655afa53c04e5",
+    "Replica/Sources/TDJCore/SectionCueAllocator.swift": "44947a15f676d6f9fd3366480cbad24511324d796ca617e3fe617b291f20b0cb",
+    "Replica/Sources/TDJInterface/ArrangementModel.swift": "5b57b6bc6d842e25e0a2188377281bd6e70aef49893476fd38bba90a66ef51b0",
+    "Replica/Sources/TDJInterface/ReplicaModel.swift": "8099918f0aea5593b3cc8b7af65849a2ec375c36a165c2996ca14cbec740cf87",
+    "Replica/Tests/TDJCoreTests/GenreVersionStructureTests.swift": "b3be775bfe16d81dd220123ec552acd199c0562bf2d6bf715eaa03db379f8355"
+  },
+  "focusedChecks": 25,
+  "failedAssertions": 0,
+  "baselineFailedAssertions": 14,
+  "structureVersion": 4,
+  "reviewedFeatureCases": 10,
+  "independentFullSongAnnotations": 0,
+  "corpusComparison": "running",
+  "build": null,
+  "acceptance": "Pending signed iPad installation and Erik listening."
+}

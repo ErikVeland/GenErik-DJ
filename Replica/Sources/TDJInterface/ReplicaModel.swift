@@ -16,6 +16,8 @@ public final class ReplicaModel {
     var arrangements: [String: TrackArrangement] = [:]
     var structureAnalyzing: Set<String> = []
     @ObservationIgnored var arrangementVersions: [String: Int] = [:]
+    @ObservationIgnored var arrangementContexts: [String: MusicalStructureContext] = [:]
+    @ObservationIgnored var arrangementTaskContexts: [String: MusicalStructureContext] = [:]
     @ObservationIgnored var arrangementTasks: [String: Task<ArrangementPreparationResult, Never>] = [:]
     @ObservationIgnored var arrangementWriters: [String: CoalescingFileWriter<ArrangementCache>] = [:]
     public var performance = PerformancePreparation()

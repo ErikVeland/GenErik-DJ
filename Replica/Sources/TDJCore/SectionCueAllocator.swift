@@ -9,7 +9,7 @@ public enum SectionCueAllocator {
         var slots=existing
         for slot in slots.keys.sorted() {
             guard var cue=slots[slot], cue.sectionName != nil,
-                  let section=sections.first(where:{ abs($0.start-cue.frame) < 1 }) else { continue }
+                  let section=sections.first(where:{ abs($0.start-cue.frame) < 1 }) ?? sections.first(where:{ $0.start <= cue.frame && cue.frame < $0.end }) else { continue }
             cue.sectionName=section.label
             cue.sectionColour=section.colourHex
             slots[slot]=cue
