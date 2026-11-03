@@ -6,7 +6,7 @@ import ExternalAccessory
 #endif
 
 private enum LearnedControllerProfile: Equatable {
-    case flx4, flx10, rev1, rev5
+    case flx4, flx10, rev1, rev5, ddj1000
 }
 
 struct ControllerSettingsView: View {
@@ -17,6 +17,7 @@ struct ControllerSettingsView: View {
     @State private var replacingFLX10Feedback = false
     @State private var replacingREV1Feedback = false
     @State private var replacingREV5Feedback = false
+    @State private var replacingDDJ1000Feedback = false
     private var input: ControllerMIDIConnection { model.controllerInput }
     private var selectedInputInactive: Bool { input.selected.map { !input.isInputActive($0) } ?? true }
     var body: some View {
@@ -51,6 +52,10 @@ struct ControllerSettingsView: View {
                 Button("DDJ-REV5 MIDI profile") { replacingControllerMappings = .rev5 }
                     .disabled(selectedInputInactive || input.originalZ1Bridge)
                 Text("Maps the published two-deck transport, mixer, Hot Cue pads, jog controls and momentary Shift layer. Set both pad banks to Hot Cue mode.")
+                    .font(.caption).foregroundStyle(.secondary)
+                Button("DDJ-1000 MIDI profile") { replacingControllerMappings = .ddj1000 }
+                    .disabled(selectedInputInactive || input.originalZ1Bridge)
+                Text("Maps Deck 1/2 transport, mixer, tempo, loop, jog, Shift and Hot Cue controls. Deck 3/4 are not mapped. Set the pads to Hot Cue mode.")
                     .font(.caption).foregroundStyle(.secondary)
                 Button("Refresh connections") { input.refreshSources(); refreshConnections() }
                 Toggle("Original Z1 through GenErik bridge", isOn: Binding(get: { input.originalZ1Bridge }, set: input.setBridgeMode))
@@ -87,6 +92,16 @@ struct ControllerSettingsView: View {
                         Text("This updates only the listed status and Hot Cue mappings for the selected MIDI output. Feedback stays off until you enable it.")
                     }
                 Text("Maps play, sync, headphone-cue and Hot Cue lights from the published DDJ-FLX10 MIDI list. Hot Cue lights use one fixed colour.")
+                    .font(.caption).foregroundStyle(.secondary)
+                Button("DDJ-1000 LED feedback profile") { replacingDDJ1000Feedback = true }
+                    .disabled(input.feedbackSelected == nil)
+                    .confirmationDialog("Replace DDJ-1000 LED feedback?", isPresented: $replacingDDJ1000Feedback, titleVisibility: .visible) {
+                        Button("Replace play, sync, headphone-cue and Hot Cue mappings", role: .destructive) { input.applyDDJ1000FeedbackProfile() }
+                        Button("Cancel", role: .cancel) {}
+                    } message: {
+                        Text("This updates only the listed status and Hot Cue mappings for the selected MIDI output. Feedback stays off until you enable it.")
+                    }
+                Text("Maps play, sync, headphone-cue and Hot Cue lights from the published DDJ-1000 MIDI list.")
                     .font(.caption).foregroundStyle(.secondary)
                 Button("DDJ-REV1 LED feedback profile") { replacingREV1Feedback = true }
                     .disabled(input.feedbackSelected == nil)
@@ -177,6 +192,8 @@ struct ControllerSettingsView: View {
                 Button("Replace selected input mappings", role: .destructive) { input.applyDDJREV1Profile() }
             } else if replacingControllerMappings == .rev5 {
                 Button("Replace selected input mappings", role: .destructive) { input.applyDDJREV5Profile() }
+            } else if replacingControllerMappings == .ddj1000 {
+                Button("Replace selected input mappings", role: .destructive) { input.applyDDJ1000Profile() }
             }
             Button("Cancel", role: .cancel) {}
         } message: {
