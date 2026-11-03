@@ -1,0 +1,30 @@
+{
+  "notes": "R29: Fully analyse deferred tracks during deck preparation before playback load, for native and managed audio on both decks. Pause background library analysis during load. Already analysed tracks keep fast path. Duo test candidate. Erik acceptance pending.",
+  "sourceCommit": "645d1dbb2e2322d0602b931b37f82aca94c1b7c6",
+  "sourceSHA256": "3b0b2137fb337a76b3d5866efb86957406f3f718d5bf1f46d6f2ca6935ef55c9",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 38.97,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-62.log",
+  "build": 62,
+  "app": "TestBuilds/ipad/62/GenErikDJ.app",
+  "appSHA256": "864504e7b8d8684b8f880868f330d2b9f902195b731ff203ddd9e4a67dfcaf49",
+  "state": "testing",
+  "createdUTC": "2026-11-03T06:17:19.933780+00:00",
+  "installedUTC": "2026-11-03T06:17:42.604190+00:00",
+  "launchedUTC": "2026-11-03T06:17:43.649629+00:00",
+  "requestIDs": [
+    "R29"
+  ],
+  "deployments": [
+    {
+      "device": "GenErik Duo",
+      "state": "installed-and-launched",
+      "installedUTC": "2026-11-03T06:17:42.604190+00:00",
+      "launchedUTC": "2026-11-03T06:17:43.649629+00:00"
+    }
+  ],
+  "focusedTest": "Blocked before execution by the existing macOS navigationBarTitleDisplayMode compile error in KeyImportReviewView.swift:127. Preserved in docs/testing/checks/R29/2026-11-03-deck-analysis/result.json.",
+  "acceptance": "Pending Erik loading unanalysed songs on both decks and checking BPM/grid before ready, manual preparation retention, rapid reselection, and continuous clean audio on the other deck. Full analysis adds preparation time. No further device actions after launch."
+}
