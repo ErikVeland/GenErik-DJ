@@ -23,7 +23,7 @@ struct ControllerSettingsView: View {
                 }
                 Button("DDJ-FLX4 MIDI profile") { replacingControllerMappings = true }
                     .disabled(input.selected == nil || input.originalZ1Bridge)
-                Text("Maps transport and mixer controls, Hot Cue pads and vinyl-on platter jog with touch. Wheel-side and vinyl-off jog inputs are not mapped.")
+                Text("Maps transport and mixer controls, Hot Cue pads and platter jog with touch in vinyl-on and vinyl-off modes. Wheel-side jog is not mapped.")
                     .font(.caption).foregroundStyle(.secondary)
                 Button("Refresh connections") { input.refreshSources(); refreshConnections() }
                 Toggle("Original Z1 through GenErik bridge", isOn: Binding(get: { input.originalZ1Bridge }, set: input.setBridgeMode))
