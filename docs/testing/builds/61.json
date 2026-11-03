@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 39.35,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "kind": "Erik request",
+      "text": "Any unanalysed track added to a deck should immediately be analysed. Record as R29. Last active target is Duo."
+    }
+  ],
   "log": "TestBuilds/ipad/build-61.log",
   "build": 61,
   "app": "TestBuilds/ipad/61/GenErikDJ.app",

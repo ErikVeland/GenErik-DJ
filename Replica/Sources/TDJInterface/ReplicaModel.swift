@@ -756,10 +756,33 @@ public final class ReplicaModel {
             guard loadTokens[deck] == token else { return }
             do {
                 guard let requested=loadPreparations[deck], requested.token==token else { return }
-                let sourceTrack=requested.track
-                try await playback.load(track:sourceTrack,store:store,deck:deck,sourceURL:sourceURL,committed:{ [weak self = self] generation in
+                var sourceTrack=requested.track
+                if sourceTrack.analysis.musicalAnalysisDeferred == true {
+                    cancelNativeMusicAnalysis()
+                    status = "Analysing \(sourceTrack.title)…"
+                    let protectedTracks = Set(loaded.values).subtracting([trackID])
+                    let snapshot: LibrarySnapshot
+                    if let sourceURL, let nativeMetadata {
+                        snapshot = try await service.analyzeNativeMusic(url: sourceURL, musicLibrary: nativeMetadata,
+                            preservePreparationFor: protectedTracks)
+                    } else {
+                        snapshot = try await service.importAudio(
+                            url: sourceURL ?? store.mediaDirectory.appendingPathComponent(sourceTrack.mediaFilename),
+                            preservePreparationFor: protectedTracks, copyMedia: false, forceFullAnalysis: true)
+                    }
+                    try Task.checkCancellation()
+                    guard loadTokens[deck] == token else { return }
+                    guard let analysed = snapshot.track(id: trackID) else { throw TransportError.nativeSourceChanged }
+                    adoptLibrary(snapshot)
+                    sourceTrack = analysed.resolvingTraktorPreparation()
+                    if let pending = pendingPreparations[trackID] { sourceTrack.preparation = pending.value }
+                    loadPreparations[deck] = .init(token: token, track: sourceTrack)
+                    if status == "Analysing \(requested.track.title)…" { status = "" }
+                }
+                let preparedSourceTrack = sourceTrack
+                try await playback.load(track:preparedSourceTrack,store:store,deck:deck,sourceURL:sourceURL,committed:{ [weak self = self] generation in
                     guard let self else { return }
-                    var acceptedTrack = sourceTrack
+                    var acceptedTrack = preparedSourceTrack
                     if acceptedTrack.preparation.correctedKey != keyIntent.effective {
                         if let current = self.storedLibrary.track(id: trackID), current.preparation.correctedKey == keyIntent.effective {
                             acceptedTrack.preparation.copyKey(from: current.preparation)
@@ -769,14 +792,14 @@ public final class ReplicaModel {
                     self.committedPreparations[deck]=actual
                     self.committedTrackIDs[deck]=trackID
                     self.playback.registerRecordingTrack(deck: deck, generation: generation,
-                        artist: sourceTrack.artist, title: sourceTrack.title)
+                        artist: preparedSourceTrack.artist, title: preparedSourceTrack.title)
                     let needsLateReconciliation = !self.preparingPlayback.contains(deck) || self.loadTokens[deck] != token
                     if !self.preparingPlayback.contains(deck) {
                         self.loaded[deck]=trackID
                         self.loadTokens[deck]=token
                         self.loadPreparations[deck]=actual
                         self.gridDraft[deck]=keyIntent.grid == nil ? self.pendingPreparations[trackID]?.value.grid : nil
-                        self.prepareWaveform(sourceTrack)
+                        self.prepareWaveform(preparedSourceTrack)
                         self.warmCuePositions(deck:deck)
                     }
                     if needsLateReconciliation { self.reconcileAcceptedGrid(keyIntent,token:token,deck:deck,generation:generation) }
@@ -798,7 +821,7 @@ public final class ReplicaModel {
                 if performance.freezeOnLoad { frozen.insert(deck); previewing.insert(deck) }
                 preparingPlayback.remove(deck)
                 warmCuePositions(deck: deck)
-                prepareWaveform(track)
+                prepareWaveform(preparedSourceTrack)
                 enqueueHistory(event)
             } catch {
                 onFailure?(error)
@@ -818,6 +841,7 @@ public final class ReplicaModel {
             }
             if loadTokens[deck] == token, preparingPlayback.contains(deck) { preparingPlayback.remove(deck) }
             refreshPlayback()
+            if nativeMusic.loadOwners.isEmpty { startNativeMusicAnalysis() }
         }
         playbackLoads = loadTask
         return loadTask

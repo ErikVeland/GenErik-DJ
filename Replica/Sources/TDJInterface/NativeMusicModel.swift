@@ -51,7 +51,7 @@ extension ReplicaModel {
     public func startNativeMusicAnalysis() {
         let state = nativeMusic
         guard state.wanted, !state.closed, state.analysisOwner == nil, state.analyses.isEmpty,
-              state.loadOwners.isEmpty, let catalog = musicLibraryCatalog else { return }
+              state.loadOwners.isEmpty, preparingPlayback.isEmpty, let catalog = musicLibraryCatalog else { return }
         let token = UUID()
         let loadedSources = Set(loaded.values.flatMap { id in library.tracks.first { $0.id == id }?.musicLibrarySources ?? [] })
         let analysedMixes = Set(analysisHints.entries.filter { $0.value.isMix }.keys)

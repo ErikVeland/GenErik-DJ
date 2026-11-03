@@ -110,3 +110,25 @@ private func collectionXML(bpm: Int, persistentHex: String) -> Data {
     await model.refreshTraktorPreparation(force: true)
     #expect(model.browserHints[item.id]?.bpm == 125)
 }
+
+@Test(arguments: DeckID.allCases, [false, true])
+@MainActor func deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck: DeckID, preprepared: Bool) async throws {
+    let item = clockItem("deck-priority", duration: NativeAnalysisPlan.mixThresholdSeconds + 1)
+    let (model, workspace) = try preparationModel([item])
+    defer { try? FileManager.default.removeItem(at: workspace) }
+    await model.refreshMusicLibrary()
+    if preprepared {
+        model.adoptLibrary(try await model.service.analyzeNativeMusic(url: clockFixture(),
+            musicLibrary: .init(item: item), quickLoad: true))
+        #expect(model.preparedTrack(for: item)?.analysis.musicalAnalysisDeferred == true)
+    }
+    model.loadNativeMusic(item, deck: deck)
+    await model.flushWrites()
+    let track = try #require(model.track(deck))
+    #expect(track.analysis.musicalAnalysisDeferred != true)
+    #expect(abs((track.bpm ?? 0) - 120) < 0.5)
+    #expect(track.grid != nil)
+    #expect(model.preparedTrack(for: item)?.analysis.musicalAnalysisDeferred != true)
+    #expect(!model.preparingPlayback.contains(deck))
+    await model.finishForShutdown()
+}
