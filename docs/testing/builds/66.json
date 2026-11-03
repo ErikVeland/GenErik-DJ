@@ -1,0 +1,30 @@
+{
+  "notes": "R30 video follow-up: One continuous deck layout, persistent overview, detailed waveform expansion and full library slide. Preserve existing FX selector overflow. Supersedes uninstalled build 65. Isolated source; Duo acceptance pending.",
+  "sourceCommit": "1735eaaafc0d81170238c9fff1005c5880814168",
+  "sourceSHA256": "3fa5db463f483ae0e44c0643b46c67cf26662faadc4bcb184030afa30739c917",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 27.19,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-66.log",
+  "build": 66,
+  "app": "TestBuilds/ipad/66/GenErikDJ.app",
+  "appSHA256": "1ae2231631e6372cc77645066ed14d7305e63640c0fdb04243041e774dbe2792",
+  "state": "testing",
+  "createdUTC": "2026-11-03T06:39:52.349728+00:00",
+  "installedUTC": "2026-11-03T06:40:21.657904+00:00",
+  "launchedUTC": "2026-11-03T06:40:27.761121+00:00",
+  "requestIDs": [
+    "R30"
+  ],
+  "deployments": [
+    {
+      "device": "GenErik Duo",
+      "state": "installed-and-launched",
+      "installedUTC": "2026-11-03T06:40:21.657904+00:00",
+      "launchedUTC": "2026-11-03T06:40:27.761121+00:00"
+    }
+  ],
+  "focusedChecks": "Production geometry continuity and allocation checks passed from 44 to 700 points. Library collapse endpoints passed. Signed device build and signature verification passed. See docs/testing/checks/R30/2026-11-03-continuous-deck/result.json.",
+  "acceptance": "Pending Erik checking continuous divider movement, overview retention, library full collapse/reopen, transport motion, control-panel toggling, FX selector overflow and clean audio. No further device actions after launch."
+}
