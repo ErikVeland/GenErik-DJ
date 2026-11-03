@@ -1,0 +1,58 @@
+/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_touch_layout.swift:17:28: error: cannot find 'PerformanceDockGeometry' in scope
+15 |         ]
+16 |         for (width, height) in viewports {
+17 |             let baseline = PerformanceDockGeometry(width: width, height: height)
+   |                            `- error: cannot find 'PerformanceDockGeometry' in scope
+18 |             let targets = baseline.aButtons + baseline.bButtons + [baseline.crossfader]
+19 |             expect(baseline.fits, "supported viewport \(width)x\(height)")
+
+/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_touch_layout.swift:24:30: error: argument passed to call that takes no arguments
+22 |             for (index, target) in targets.enumerated() {
+23 |                 expect(target.width >= 44 && target.height >= 44, "usable target \(index)")
+24 |                 expect(CGRect(x: 0, y: 0, width: width, height: height).contains(target), "target inside window")
+   |                              `- error: argument passed to call that takes no arguments
+25 |                 expect(!baseline.workArea.intersects(target), "work area cannot cover dock")
+26 |                 for other in targets.dropFirst(index + 1) {
+
+/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_touch_layout.swift:24:73: error: value of type 'CGRect' has no member 'contains'
+22 |             for (index, target) in targets.enumerated() {
+23 |                 expect(target.width >= 44 && target.height >= 44, "usable target \(index)")
+24 |                 expect(CGRect(x: 0, y: 0, width: width, height: height).contains(target), "target inside window")
+   |                                                                         `- error: value of type 'CGRect' has no member 'contains'
+25 |                 expect(!baseline.workArea.intersects(target), "work area cannot cover dock")
+26 |                 for other in targets.dropFirst(index + 1) {
+
+/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_touch_layout.swift:32:34: error: cannot find 'PerformanceWorkspaceGeometry' in scope
+30 |             for visible in [false, true] {
+31 |                 for share in [0.0, 0.1, 0.25, 0.5, 0.72, 0.95, 1.0] {
+32 |                     let layout = PerformanceWorkspaceGeometry(width: width, height: height,
+   |                                  `- error: cannot find 'PerformanceWorkspaceGeometry' in scope
+33 |                         browserVisible: visible, deckShare: share)
+34 |                     expect(layout.dock.aButtons == baseline.aButtons, "A anchors through resize")
+
+/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_touch_layout.swift:45:28: error: cannot find 'PerformanceDockGeometry' in scope
+43 |         }
+44 |         for (width, height) in [(80.0, 300.0), (300, 500), (0, 0), (-20, -10), (.nan, .infinity)] {
+45 |             let geometry = PerformanceDockGeometry(width: width, height: height)
+   |                            `- error: cannot find 'PerformanceDockGeometry' in scope
+46 |             expect(!geometry.fits, "unsupported viewport is explicit")
+47 |             let rectangles = geometry.aButtons + geometry.bButtons + [geometry.crossfader, geometry.workArea]
+Traceback (most recent call last):
+  File "/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_touch_layout.py", line 25, in <module>
+    main()
+    ~~~~^^
+  File "/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_touch_layout.py", line 16, in main
+    subprocess.run([
+    ~~~~~~~~~~~~~~^^
+        "xcrun", "swiftc", "-parse-as-library",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        str(root / "Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        str(root / "tools/check_touch_layout.swift"), "-o", str(executable),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ], check=True)
+    ^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['xcrun', 'swiftc', '-parse-as-library', '/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift', '/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_touch_layout.swift', '-o', '/var/folders/x4/552661tn5vzgxk5405585gg80000gq/T/generik-touch-layout-z11miw9_/check']' returned non-zero exit status 1.

@@ -1,4 +1,45 @@
 import Foundation
+import CoreGraphics
+
+struct PerformanceDockGeometry {
+    static let dockWidth = 96.0
+    static let minimumHeight = 576.0
+    let aButtons: [CGRect]
+    let bButtons: [CGRect]
+    let crossfader: CGRect
+    let workArea: CGRect
+    let contentHeight: Double
+    let fits: Bool
+
+    init(width: Double, height: Double) {
+        let width = width.isFinite ? max(0, width) : 0
+        let height = height.isFinite ? max(0, height) : 0
+        let contentHeight = max(Self.minimumHeight, height)
+        self.contentHeight = contentHeight
+        fits = width >= Self.dockWidth + 44 && height >= Self.minimumHeight
+        workArea = CGRect(x: 0, y: 0, width: max(0, width - Self.dockWidth), height: height)
+        let x = workArea.width + 8
+        aButtons = (0..<4).map { CGRect(x: x, y: 28 + Double($0) * 52, width: 80, height: 48) }
+        bButtons = (0..<4).map { CGRect(x: x, y: contentHeight - 212 + Double($0) * 52, width: 80, height: 48) }
+        crossfader = CGRect(x: x, y: contentHeight / 2 - 48, width: 80, height: 96)
+    }
+}
+
+struct PerformanceWorkspaceGeometry {
+    let dock: PerformanceDockGeometry
+    let deckArea: CGRect
+    let libraryArea: CGRect
+
+    init(width: Double, height: Double, browserVisible: Bool, deckShare: Double) {
+        dock = PerformanceDockGeometry(width: width, height: height)
+        let available = dock.workArea.height
+        let deckHeight = AdaptivePerformanceLayout.deckHeight(available: available,
+            browserVisible: browserVisible, share: deckShare)
+        deckArea = CGRect(x: 0, y: 0, width: dock.workArea.width, height: deckHeight)
+        let libraryY = min(available, deckHeight + AdaptivePerformanceLayout.dividerHeight)
+        libraryArea = CGRect(x: 0, y: libraryY, width: dock.workArea.width, height: max(0, available - libraryY))
+    }
+}
 
 struct AdaptivePerformanceLayout {
     static let dividerHeight = 16.0
