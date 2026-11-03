@@ -41,15 +41,15 @@ struct ControllerSettingsView: View {
                     Text("Choose an output").tag(Int32?.none)
                     ForEach(input.destinations) { destination in Text(destination.name).tag(Optional(destination.id)) }
                 }
-                Button("DDJ-FLX4 button feedback profile") { replacingControllerFeedback = true }
+                Button("DDJ-FLX4 LED feedback profile") { replacingControllerFeedback = true }
                     .disabled(input.feedbackSelected == nil)
-                    .confirmationDialog("Replace DDJ-FLX4 status feedback?", isPresented: $replacingControllerFeedback, titleVisibility: .visible) {
-                        Button("Replace play, sync and headphone-cue mappings", role: .destructive) { input.applyDDJFLX4FeedbackProfile() }
+                    .confirmationDialog("Replace DDJ-FLX4 LED feedback?", isPresented: $replacingControllerFeedback, titleVisibility: .visible) {
+                        Button("Replace play, sync, headphone-cue and Hot Cue mappings", role: .destructive) { input.applyDDJFLX4FeedbackProfile() }
                         Button("Cancel", role: .cancel) {}
                     } message: {
-                        Text("This updates only those three status mappings for the selected MIDI output. Feedback stays off until you enable it.")
+                        Text("This updates only the listed status and Hot Cue mappings for the selected MIDI output. Feedback stays off until you enable it.")
                     }
-                Text("Maps play, sync and headphone-cue lights from the published DDJ-FLX4 MIDI list.")
+                Text("Maps play, sync, headphone-cue and Hot Cue lights from the published DDJ-FLX4 MIDI list.")
                     .font(.caption).foregroundStyle(.secondary)
                 Toggle("Enable generic MIDI feedback", isOn: Binding(get: { input.midiFeedbackEnabled }, set: input.setMIDIFeedbackEnabled))
                     .disabled(!input.feedbackOutputAvailable || input.feedbackSelected == nil || input.selectedFeedbackBindings.isEmpty)
@@ -142,6 +142,10 @@ struct ControllerSettingsView: View {
 
 extension ReplicaModel {
     func controllerValue(_ action: ControllerAction) -> Double? {
+        if let slot = action.hotcueSlot {
+            guard let trackID = loaded[action.deck] else { return 0 }
+            return performance.cues[trackID]?[slot] == nil ? 0 : 1
+        }
         guard let snapshot = playbackSnapshot else { return nil }
         let deck = action.deck
         let mixer = snapshot[deck].mixer

@@ -52,7 +52,9 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         case .playA, .playB, .syncA, .syncB, .keylockA, .keylockB, .cueA, .cueB,
              .levelA, .levelB, .gainA, .gainB, .lowA, .lowB, .midA, .midB, .highA, .highB,
              .filterA, .filterB, .fxA, .fxB, .fxToggleA, .fxToggleB, .crossfader, .cueMix,
-             .filterToggleA, .filterToggleB, .master, .monitor, .tempoA, .tempoB, .loopA, .loopB: true
+             .filterToggleA, .filterToggleB, .master, .monitor, .tempoA, .tempoB, .loopA, .loopB,
+             .hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A,
+             .hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B: true
         default: false
         }
     }
@@ -89,6 +91,14 @@ struct ControllerFeedbackBinding: Codable, Identifiable, Equatable {
     let number: UInt8
     let offValue: UInt8
     let onValue: UInt8
+    let offUsesNoteOn: Bool?
+
+    init(destination: Int32, action: ControllerAction, kind: ControllerFeedbackKind,
+         channel: UInt8, number: UInt8, offValue: UInt8, onValue: UInt8, offUsesNoteOn: Bool? = nil) {
+        self.destination = destination; self.action = action; self.kind = kind
+        self.channel = channel; self.number = number
+        self.offValue = offValue; self.onValue = onValue; self.offUsesNoteOn = offUsesNoteOn
+    }
 }
 
 /// Core MIDI callbacks never touch the observed model or the audio renderer.
@@ -346,21 +356,33 @@ final class ControllerMIDIConnection {
             return
         }
         let profile: [ControllerFeedbackBinding] = [
-            .init(destination: destination, action: .playA, kind: .note, channel: 0, number: 11, offValue: 0, onValue: 127),
-            .init(destination: destination, action: .syncA, kind: .note, channel: 0, number: 88, offValue: 0, onValue: 127),
-            .init(destination: destination, action: .cueA, kind: .note, channel: 0, number: 84, offValue: 0, onValue: 127),
-            .init(destination: destination, action: .playB, kind: .note, channel: 1, number: 11, offValue: 0, onValue: 127),
-            .init(destination: destination, action: .syncB, kind: .note, channel: 1, number: 88, offValue: 0, onValue: 127),
-            .init(destination: destination, action: .cueB, kind: .note, channel: 1, number: 84, offValue: 0, onValue: 127)
+            .init(destination: destination, action: .playA, kind: .note, channel: 0, number: 11, offValue: 0, onValue: 127, offUsesNoteOn: true),
+            .init(destination: destination, action: .syncA, kind: .note, channel: 0, number: 88, offValue: 0, onValue: 127, offUsesNoteOn: true),
+            .init(destination: destination, action: .cueA, kind: .note, channel: 0, number: 84, offValue: 0, onValue: 127, offUsesNoteOn: true),
+            .init(destination: destination, action: .playB, kind: .note, channel: 1, number: 11, offValue: 0, onValue: 127, offUsesNoteOn: true),
+            .init(destination: destination, action: .syncB, kind: .note, channel: 1, number: 88, offValue: 0, onValue: 127, offUsesNoteOn: true),
+            .init(destination: destination, action: .cueB, kind: .note, channel: 1, number: 84, offValue: 0, onValue: 127, offUsesNoteOn: true)
         ]
-        let actions = profile.map(\.action)
+        var completeProfile = profile
+        for (padChannel, padActions) in [
+            (UInt8(7), [ControllerAction.hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A,
+                        .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A]),
+            (UInt8(9), [ControllerAction.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B,
+                        .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B])
+        ] {
+            for (number, action) in padActions.enumerated() {
+                completeProfile.append(.init(destination: destination, action: action, kind: .note,
+                    channel: padChannel, number: UInt8(number), offValue: 0, onValue: 127, offUsesNoteOn: true))
+            }
+        }
+        let actions = completeProfile.map(\.action)
         feedbackBindings.removeAll { $0.destination == destination && actions.contains($0.action) }
-        feedbackBindings.append(contentsOf: profile)
+        feedbackBindings.append(contentsOf: completeProfile)
         feedbackBindings.sort { $0.id < $1.id }
         sentMIDIValues.removeAll()
         midiFeedbackEnabled = false
         persistFeedbackBindings()
-        feedbackStatus = "Loaded DDJ-FLX4 play, sync and headphone-cue light mappings. Enable MIDI feedback to send them."
+        feedbackStatus = "Loaded DDJ-FLX4 play, sync, headphone-cue and Hot Cue light mappings. Enable MIDI feedback to send them."
     }
     func removeFeedbackBinding(_ action: ControllerAction) {
         guard let destination = feedbackSelected else { return }
@@ -446,7 +468,7 @@ final class ControllerMIDIConnection {
             let status: UInt8
             switch binding.kind {
             case .control: status = 0xB0 | binding.channel
-            case .note: status = (bounded > 0 ? 0x90 : 0x80) | binding.channel
+            case .note: status = (bounded > 0 || binding.offUsesNoteOn == true ? 0x90 : 0x80) | binding.channel
             }
             let message = [status, binding.number, outputValue]
             guard sentMIDIValues[binding.action] != message else { continue }
