@@ -400,6 +400,44 @@ final class ControllerMIDIConnection {
         persistFeedbackBindings()
         feedbackStatus = "Loaded DDJ-REV1 play, sync, headphone-cue and Hot Cue light mappings. Enable MIDI feedback to send them."
     }
+    func applyDDJREV5FeedbackProfile() {
+        guard let destination = feedbackSelected else {
+            feedbackStatus = "Choose a DDJ-REV5 MIDI output before loading status feedback."
+            return
+        }
+        let completeProfile = Self.ddjREV5FeedbackBindings(destination: destination)
+        let actions = completeProfile.map(\.action)
+        feedbackBindings.removeAll { $0.destination == destination && actions.contains($0.action) }
+        feedbackBindings.append(contentsOf: completeProfile)
+        feedbackBindings.sort { $0.id < $1.id }
+        sentMIDIValues.removeAll()
+        midiFeedbackEnabled = false
+        persistFeedbackBindings()
+        feedbackStatus = "Loaded DDJ-REV5 play, sync, headphone-cue and Hot Cue light mappings. Enable MIDI feedback to send them."
+    }
+    static func ddjREV5FeedbackBindings(destination: Int32) -> [ControllerFeedbackBinding] {
+        let profile: [ControllerFeedbackBinding] = [
+            .init(destination: destination, action: .playA, kind: .note, channel: 0, number: 11, offValue: 0, onValue: 127, offUsesNoteOn: true),
+            .init(destination: destination, action: .syncA, kind: .note, channel: 0, number: 9, offValue: 0, onValue: 127, offUsesNoteOn: true),
+            .init(destination: destination, action: .cueA, kind: .note, channel: 0, number: 7, offValue: 0, onValue: 127, offUsesNoteOn: true),
+            .init(destination: destination, action: .playB, kind: .note, channel: 1, number: 11, offValue: 0, onValue: 127, offUsesNoteOn: true),
+            .init(destination: destination, action: .syncB, kind: .note, channel: 1, number: 9, offValue: 0, onValue: 127, offUsesNoteOn: true),
+            .init(destination: destination, action: .cueB, kind: .note, channel: 1, number: 7, offValue: 0, onValue: 127, offUsesNoteOn: true)
+        ]
+        var completeProfile = profile
+        for (padChannel, padActions) in [
+            (UInt8(7), [ControllerAction.hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A,
+                        .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A]),
+            (UInt8(8), [ControllerAction.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B,
+                        .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B])
+        ] {
+            for (number, action) in padActions.enumerated() {
+                completeProfile.append(.init(destination: destination, action: action, kind: .note,
+                    channel: padChannel, number: UInt8(number), offValue: 0, onValue: 127, offUsesNoteOn: true))
+            }
+        }
+        return completeProfile
+    }
     static func ddjREV1FeedbackBindings(destination: Int32) -> [ControllerFeedbackBinding] {
         let profile: [ControllerFeedbackBinding] = [
             .init(destination: destination, action: .playA, kind: .note, channel: 0, number: 11, offValue: 0, onValue: 127, offUsesNoteOn: true),
@@ -599,6 +637,75 @@ final class ControllerMIDIConnection {
         learning = nil; learningShifted = false; shiftActive = false
         persist()
         status = "Loaded the DDJ-REV1 transport, mixer, Hot Cue, loop and jog profile. Set the performance pads to Hot Cue mode."
+    }
+    func applyDDJREV5Profile() {
+        guard !originalZ1Bridge, let selected else {
+            status = "Select a generic MIDI input before loading this profile."
+            return
+        }
+        releaseMomentaryActions()
+        let profile = Self.ddjREV5Bindings(source: selected)
+        bindings.removeAll { $0.source == selected }
+        bindings.append(contentsOf: profile)
+        values = values.filter { !$0.key.hasPrefix("\(selected)-") }
+        valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
+        pendingValues.removeAll()
+        learning = nil; learningShifted = false; shiftActive = false
+        persist()
+        status = "Loaded the DDJ-REV5 two-deck transport, mixer, Hot Cue, jog and Shift profile. Set both pad banks to Hot Cue mode."
+    }
+    static func ddjREV5Bindings(source: Int32) -> [ControllerBinding] {
+        func binding(_ action: ControllerAction, kind: ControllerMIDIMessage.Kind, channel: UInt8,
+                     number: UInt8, encoding: ControllerMIDIEncoding = .absolute,
+                     shifted: Bool = false) -> ControllerBinding {
+            .init(source: source, group: 0, channel: channel, kind: kind, number: number,
+                  parameter: nil, noteNumber: nil, action: action,
+                  encoding: encoding, inverted: false, shifted: shifted)
+        }
+        var profile: [ControllerBinding] = []
+        for (channel, deck) in [(UInt8(0), "A"), (UInt8(1), "B")] {
+            let play: ControllerAction = deck == "A" ? .playA : .playB
+            let cueReturn: ControllerAction = deck == "A" ? .cueReturnA : .cueReturnB
+            let headphoneCue: ControllerAction = deck == "A" ? .cueA : .cueB
+            let sync: ControllerAction = deck == "A" ? .syncA : .syncB
+            profile += [binding(play, kind: .note, channel: channel, number: 11),
+                        binding(cueReturn, kind: .note, channel: channel, number: 27),
+                        binding(headphoneCue, kind: .note, channel: channel, number: 7),
+                        binding(sync, kind: .note, channel: channel, number: 9),
+                        binding(deck == "A" ? .keylockA : .keylockB, kind: .note, channel: channel, number: 24, shifted: true),
+                        binding(deck == "A" ? .loopA : .loopB, kind: .note, channel: channel, number: 4),
+                        binding(deck == "A" ? .loopDownA : .loopDownB, kind: .note, channel: channel, number: 1),
+                        binding(deck == "A" ? .loopDownA : .loopDownB, kind: .note, channel: channel, number: 16, shifted: true),
+                        binding(deck == "A" ? .loopUpA : .loopUpB, kind: .note, channel: channel, number: 3),
+                        binding(deck == "A" ? .loopUpA : .loopUpB, kind: .note, channel: channel, number: 18, shifted: true)]
+            let controls: [(ControllerAction, UInt8)] = deck == "A"
+                ? [(.gainA, 4), (.highA, 7), (.midA, 11), (.lowA, 15), (.levelA, 19), (.tempoA, 5)]
+                : [(.gainB, 4), (.highB, 7), (.midB, 11), (.lowB, 15), (.levelB, 19), (.tempoB, 5)]
+            profile += controls.map {
+                binding($0.0, kind: .control, channel: channel, number: $0.1, encoding: .paired14Bit)
+            }
+            let hotcues: [ControllerAction] = deck == "A"
+                ? [.hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A]
+                : [.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B]
+            let padChannel: UInt8 = deck == "A" ? 7 : 8
+            profile += hotcues.enumerated().map {
+                binding($0.element, kind: .note, channel: padChannel, number: UInt8($0.offset))
+            }
+            let jog: ControllerAction = deck == "A" ? .jogA : .jogB
+            let jogTouch: ControllerAction = deck == "A" ? .jogTouchA : .jogTouchB
+            let wheelJog: ControllerAction = deck == "A" ? .wheelJogA : .wheelJogB
+            profile += [binding(jog, kind: .control, channel: channel, number: 34, encoding: .binaryOffset),
+                        binding(jog, kind: .control, channel: channel, number: 35, encoding: .binaryOffset),
+                        binding(jogTouch, kind: .note, channel: channel, number: 28),
+                        binding(wheelJog, kind: .control, channel: channel, number: 33, encoding: .binaryOffset),
+                        binding(wheelJog, kind: .control, channel: channel, number: 38, encoding: .binaryOffset, shifted: true)]
+        }
+        profile += [binding(.crossfader, kind: .control, channel: 6, number: 31, encoding: .paired14Bit),
+                    binding(.master, kind: .control, channel: 6, number: 8, encoding: .paired14Bit),
+                    binding(.cueMix, kind: .control, channel: 6, number: 12, encoding: .paired14Bit),
+                    binding(.monitor, kind: .control, channel: 6, number: 13, encoding: .paired14Bit),
+                    binding(.shift, kind: .note, channel: 6, number: 63)]
+        return profile
     }
     static func ddjREV1Bindings(source: Int32) -> [ControllerBinding] {
         func binding(_ action: ControllerAction, kind: ControllerMIDIMessage.Kind, channel: UInt8,
