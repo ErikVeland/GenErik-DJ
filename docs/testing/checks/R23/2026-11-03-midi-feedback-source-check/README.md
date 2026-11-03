@@ -1,12 +1,12 @@
 # Generic MIDI feedback source check — 3 November 2026
 
-Application source: `8d856112825c0f13b5f781d67922de015ae385f2`.
+Application source: `00fbaefa081b5424ebc1961cb04c8872770616a8`.
 
 ## Results
 
 | Check | Result | Detail |
 | --- | --- | --- |
-| `swiftc -frontend -parse` on the changed Swift files | PASS | Syntax parsing completed. This does not type-check or link the app. |
+| `swiftc -frontend -parse` on the changed Swift files | PASS | Syntax parsing completed, including destination-scoped feedback mappings. This does not type-check or link the app. |
 | `git diff --check` | PASS | No whitespace errors were reported. |
 | Project build, tests and MIDI output check | NOT RUN | No app build, test suite or hardware endpoint was used in this pass. The Xcode licence remains unaccepted, and Erik's physical controller check remains pending. |
 
