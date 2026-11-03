@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 36.36,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "kind": "Erik feedback",
+      "text": "Assumed build 57: Load A/B still ignores taps and drags, possibly due to pane swipe. Show only songs with physical audio on this device. Fill the Duo inner screen. Closed phone layout is unusable. Erik chose one deck at a time with quick A/B switching."
+    }
+  ],
   "log": "TestBuilds/ipad/build-57.log",
   "build": 57,
   "app": "TestBuilds/ipad/57/GenErikDJ.app",

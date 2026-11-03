@@ -465,6 +465,8 @@ struct LoadSlider: View {
     var tall = false
     let load: (DeckID) -> Void
     @State private var gesture = LoadSliderGestureSession()
+    @State private var contactActive = false
+    @GestureState private var dragging = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     private let tallHeight = 170.0
     private let tallHandleHeight = 64.0
@@ -488,20 +490,47 @@ struct LoadSlider: View {
             .background(RoundedRectangle(cornerRadius: 6).fill(PerformancePalette.sunken)).contentShape(Rectangle())
             .overlay {
                 GeometryReader { geometry in
-                    TouchSurface(capturesDrag: true) { event in
-                        var next = gesture
-                        let deck = next.handle(event, height: Double(geometry.size.height), maximumTravel: maximumTravel,
-                                               edgeTapThreshold: tall ? 0.28 : nil, edgeTapMovementTolerance: 10)
-                        if deck == nil && (event.phase == .ended || event.phase == .cancelled) {
-                            withAnimation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.8)) { gesture = next }
-                        } else { gesture = next }
-                        if let deck { load(deck) }
-                    }
+                    Color.clear.contentShape(Rectangle())
+                        .highPriorityGesture(DragGesture(minimumDistance: 0)
+                            .updating($dragging) { _, active, _ in active = true }
+                            .onChanged { value in
+                                if !contactActive {
+                                    contactActive = true
+                                    handle(.began, at: value.startLocation, size: geometry.size)
+                                }
+                                handle(.moved, at: value.location, size: geometry.size)
+                            }
+                            .onEnded { value in
+                                handle(.ended, at: value.location, size: geometry.size)
+                                contactActive = false
+                            })
+                }
+            }
+            .onChange(of: dragging) { _, active in
+                if !active && contactActive {
+                    contactActive = false
+                    gesture = LoadSliderGestureSession()
                 }
             }
             .accessibilityLabel("Load track. Drag up for deck A or down for deck B.")
-            .onDisappear { gesture = LoadSliderGestureSession() }
+            .accessibilityAction(named: "Load deck A") { load(.a) }
+            .accessibilityAction(named: "Load deck B") { load(.b) }
+            .onDisappear { contactActive = false; gesture = LoadSliderGestureSession() }
     }
+    private func handle(_ phase: SurfaceEvent.Phase, at point: CGPoint, size: CGSize) {
+        let event = SurfaceEvent(phase: phase,
+            points: [.init(id: 1, x: point.x / max(1, size.width), y: point.y / max(1, size.height))],
+            ending: phase == .ended ? [1] : [])
+        let deck = gesture.handle(event, height: Double(size.height), maximumTravel: maximumTravel,
+                                  edgeTapThreshold: tall ? 0.28 : nil, edgeTapMovementTolerance: 10)
+        if phase == .ended {
+            withAnimation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.8)) {
+                gesture = LoadSliderGestureSession()
+            }
+        }
+        if let deck { load(deck) }
+    }
+
 }
 
 extension ReplicaView {

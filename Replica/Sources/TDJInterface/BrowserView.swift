@@ -127,8 +127,12 @@ struct BrowserView: View {
                             .offset(x: detailWidth - detailVisible)
                             .frame(width: detailVisible, alignment: .leading)
                             .clipped()
-                            .simultaneousGesture(horizontalDrag(changed: { layout.dragDetail(translation: $0) },
-                                ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endDetail(translation: t, velocity: v, width: detailWidth) } }))
+                            .overlay(alignment: .trailing) {
+                                Color.clear.frame(width: 18).contentShape(Rectangle())
+                                    .gesture(horizontalDrag(changed: { layout.dragDetail(translation: $0) },
+                                        ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endDetail(translation: t, velocity: v, width: detailWidth) } }))
+                                    .accessibilityLabel("Swipe to hide recommendations")
+                            }
                     }
                 }
               }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .leading).clipped()
