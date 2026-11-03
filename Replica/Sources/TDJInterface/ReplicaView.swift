@@ -605,6 +605,13 @@ private struct PerformanceToolbar: View {
     @Binding var importPresented: Bool
     @Binding var traktorImportPresented: Bool
 
+    private var horizontalInset: CGFloat {
+#if os(iOS)
+        if UIDevice.current.userInterfaceIdiom == .pad { return 12 }
+#endif
+        return 32
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             ViewThatFits(in: .horizontal) {
@@ -617,7 +624,7 @@ private struct PerformanceToolbar: View {
                     if let progress = model.preparationImport { PreparationImportPill(progress: progress) }
                     if let progress = model.analysisProgress { PreparationImportPill(progress: progress) }
                     Spacer(minLength: 0)
-                }.padding(.horizontal, 32).frame(height: 24).clipped()
+                }.padding(.horizontal, horizontalInset).frame(height: 24).clipped()
             }
         }
         .background(LinearGradient(colors: [PerformancePalette.raised, PerformancePalette.frame], startPoint: .top, endPoint: .bottom))
@@ -666,7 +673,7 @@ private struct PerformanceToolbar: View {
                 }.accessibilityLabel("Audio routing")
                     .popover(isPresented: $audioSettingsPresented) { AudioQuickPanel(model: model) }
             }.frame(height: 44).bevelPanel(cornerRadius: 5)
-        }.padding(.horizontal, 32)
+        }.padding(.horizontal, horizontalInset)
     }
     private var noticeCount: Int { min(99, model.musicLibraryFailures.count + (model.musicLibraryError == nil ? 0 : 1)) }
 }
