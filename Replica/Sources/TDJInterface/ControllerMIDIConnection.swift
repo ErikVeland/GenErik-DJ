@@ -11,7 +11,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case filterToggleA, filterToggleB, master, monitor, tempoA, tempoB
     case loopA, loopB, loopUpA, loopUpB, loopDownA, loopDownB, jumpBackA, jumpBackB, jumpForwardA, jumpForwardB
     case cueReturnA, cueReturnB, freezeA, freezeB
-    case jogA, jogB, jogTouchA, jogTouchB
+    case jogA, jogB, jogTouchA, jogTouchB, wheelJogA, wheelJogB
     case hotcue1A, hotcue2A, hotcue3A, hotcue4A, hotcue5A, hotcue6A, hotcue7A, hotcue8A
     case hotcue1B, hotcue2B, hotcue3B, hotcue4B, hotcue5B, hotcue6B, hotcue7B, hotcue8B
     var id: String { rawValue }
@@ -28,21 +28,22 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
                       "filter": "Filter", "filterToggle": "Filter on / off", "fx": "Effect amount", "fxToggle": "Effect on / off",
                       "tempo": "Tempo ±8%", "loop": "Loop on / off", "loopUp": "Larger loop", "loopDown": "Smaller loop",
                       "jumpBack": "Beat jump back", "jumpForward": "Beat jump forward", "cueReturn": "Cue return / set",
-                      "freeze": "Freeze", "jog": "Platter jog", "jogTouch": "Platter touch"]
+                      "freeze": "Freeze", "jog": "Platter jog", "jogTouch": "Platter touch",
+                      "wheelJog": "Wheel-side jog"]
         return "\(deck.rawValue.uppercased()) · \(labels[String(rawValue.dropLast())] ?? rawValue)"
     }
     var isButton: Bool {
         switch self {
         case .levelA, .levelB, .gainA, .gainB, .lowA, .lowB, .midA, .midB, .highA, .highB,
              .filterA, .filterB, .fxA, .fxB, .crossfader, .cueMix, .master, .monitor, .tempoA, .tempoB,
-             .jogA, .jogB: false
+             .jogA, .jogB, .wheelJogA, .wheelJogB: false
         default: true
         }
     }
     var isMomentary: Bool {
         switch self { case .jogTouchA, .jogTouchB: true; default: false }
     }
-    var isJog: Bool { self == .jogA || self == .jogB }
+    var isJog: Bool { self == .jogA || self == .jogB || self == .wheelJogA || self == .wheelJogB }
     var hotcueSlot: Int? {
         guard rawValue.hasPrefix("hotcue"), let value = Int(rawValue.dropFirst(6).dropLast()) else { return nil }
         return value - 1
@@ -525,9 +526,11 @@ final class ControllerMIDIConnection {
             profile += hotcues.enumerated().map { binding($0.element, kind: .note, channel: padChannel, number: UInt8($0.offset)) }
             let jog: ControllerAction = deck == "A" ? .jogA : .jogB
             let jogTouch: ControllerAction = deck == "A" ? .jogTouchA : .jogTouchB
+            let wheelJog: ControllerAction = deck == "A" ? .wheelJogA : .wheelJogB
             profile += [binding(jog, kind: .control, channel: channel, number: 34, encoding: .binaryOffset),
                         binding(jog, kind: .control, channel: channel, number: 35, encoding: .binaryOffset),
-                        binding(jogTouch, kind: .note, channel: channel, number: 54)]
+                        binding(jogTouch, kind: .note, channel: channel, number: 54),
+                        binding(wheelJog, kind: .control, channel: channel, number: 33, encoding: .binaryOffset)]
         }
         profile += [binding(.crossfader, kind: .control, channel: 6, number: 31, encoding: .paired14Bit),
                     binding(.master, kind: .control, channel: 6, number: 8, encoding: .paired14Bit),
@@ -540,7 +543,7 @@ final class ControllerMIDIConnection {
         pendingValues.removeAll()
         learning = nil; learningShifted = false; shiftActive = false
         persist()
-        status = "Loaded the DDJ-FLX4 transport, mixer, Hot Cue and platter input profile. Wheel-side jog and other lights are not mapped."
+        status = "Loaded the DDJ-FLX4 transport, mixer, Hot Cue, platter and wheel-side jog profile. Other lights are not mapped."
     }
     func bindingName(_ action: ControllerAction) -> String {
         let assigned = bindings.filter { $0.source == selected && $0.action == action }
@@ -565,6 +568,8 @@ final class ControllerMIDIConnection {
         let actions = activeMomentaryActions
         activeMomentaryActions.removeAll()
         for action in actions { onAction?(action, 0) }
+        onAction?(.wheelJogA, 0.5)
+        onAction?(.wheelJogB, 0.5)
     }
     private func persistFeedbackBindings() {
         if let data = try? JSONEncoder().encode(feedbackBindings) {

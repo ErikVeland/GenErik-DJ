@@ -67,7 +67,7 @@ public struct LibraryBrowserProjection: Sendable {
             try tick()
             guard item.isOnDevice else { continue }
             guard byNative[item.id] == nil else { continue }
-            let track=bySource[item.source]
+            let track=bySourceID[item.source.id]
             let entry=LibraryBrowserEntry(nativeItem:item,track:track,hint:hints[item.id])
             native.append(entry);byNative[item.id]=entry;itemsBySource[item.source]=item
             if let track { represented.insert(track.id) }
