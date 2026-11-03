@@ -11,4 +11,7 @@ The generated-cue check failed before the formatter change. Fifteen focused stru
 This is a presentation correction. It does not establish better musical recognition.
 Genre/version recognition and the larger review corpus are tracked by R35.
 
-The numbered build and installation result will be added after the device build.
+Signed build 79 passed from clean source `ca1a31f2bf4ef67f5f348c8745ba87aca165ebac`.
+It installed and launched on the 10.5-inch test iPad. Device actions stopped after launch.
+Erik reloads tracks to refresh automatic cue names and checks labels, countdowns and personal preparation.
+Build 79 retains the stable performance dock from build 78. Erik acceptance remains pending.

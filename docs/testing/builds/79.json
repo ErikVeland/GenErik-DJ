@@ -1,0 +1,24 @@
+{
+  "notes": "R36: Clear performance section labels without blanket question marks. Show Automatic or Manual in the section editor. Preserve section assignments, internal evidence and personal preparation. Fifteen focused checks passed. R35 genre/version corpus review is separate; this build does not add a trained genre model.",
+  "sourceCommit": "ca1a31f2bf4ef67f5f348c8745ba87aca165ebac",
+  "sourceSHA256": "19ed664ab095273f4f97a8578a1bf093ba5b2f3efef893eaf50b14767135834b",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 75.23,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-79.log",
+  "build": 79,
+  "app": "TestBuilds/ipad/79/GenErikDJ.app",
+  "appSHA256": "9f8198f4fc1a9e3e1ad8e6de9aba916d9c2e30ef0ded428815c0e6c4c314af26",
+  "state": "testing",
+  "createdUTC": "2026-11-03T13:52:17.839303+00:00",
+  "installedUTC": "2026-11-03T13:54:28.405393+00:00",
+  "launchedUTC": "2026-11-03T13:54:37.352471+00:00",
+  "requestIDs": [
+    "R36",
+    "R35"
+  ],
+  "focusedChecks": "Fifteen focused structure/cue checks and four review-sampling checks passed. See R36 and R35 evidence directories.",
+  "acceptance": "Installed and launched on the 10.5-inch test iPad. Erik reloads tracks and checks waveform labels, countdowns, generated cue names and manual preparation. Genre-aware recognition remains R35 work.",
+  "integrationContext": "Retains the R30 stable performance dock already included in build 78. R36 changes label presentation and editor provenance. R35 review tooling does not change production genre recognition."
+}

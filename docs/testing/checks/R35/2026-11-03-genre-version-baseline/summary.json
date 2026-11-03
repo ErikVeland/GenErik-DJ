@@ -1,0 +1,147 @@
+{
+  "requestID": "R35",
+  "verifiedApplicationSourceCommit": "ca1a31f2bf4ef67f5f348c8745ba87aca165ebac",
+  "compiledSourceHashes": {
+    "Replica/Sources/TDJCore/AudioAnalyzer.swift": "d20787e19d6f4e75933ea5473f1cd30de0aaee6bf7a10a48f9c70019cef6a127",
+    "Replica/Sources/TDJCore/MusicalSpectrumAnalyzer.swift": "f788fdc0b4106f843cbcb6bc9bb38c2855ca58fa7de6153e243df012da36139a",
+    "Replica/Sources/TDJCore/MusicalAnalysisFeatures.swift": "042972e6be2e43cd5212836cfa257e9f9288d5ae35f054b0a895c18c39607ac3",
+    "Replica/Sources/TDJCore/AdaptiveRhythmAnalyzer.swift": "f8ac9378f03ec3e51f55ee08628c14a4885664c81a378210d1c0ef4c288a9f01",
+    "Replica/Sources/TDJCore/BeatGrid.swift": "29c68e3aec771069438f570b353e1d21ad8f7bc317b3fdf25e9fcbcd3196c02d",
+    "Replica/Sources/TDJCore/TrackArrangement.swift": "7c63ee3828225d867694b1acab68142c196eaba92062cf7a5dbe630976fd7135",
+    "Replica/Sources/TDJCore/MusicalStructureAnalyzer.swift": "0cb612565b1e98456851c650dca92cb590864fc2b3a40f3741a19f8025920528"
+  },
+  "generatedInputHashes": {
+    "Values.swift": "4fdc22630db39295c8f5f010b16494d099621a674a53c76f5fc5e363908e279c",
+    "BeatGridMap.swift": "b3e7543dab5fdd5d37ca43695745e45910eaae1099e144fab7399a72d1480b0a",
+    "main.swift": "e1d16192a0ef1273416676b53fd06de7b5bf0da6cce09b6cabdfdc256c2c5fa0"
+  },
+  "entries": 104,
+  "uniqueInputHashes": 102,
+  "analysedEntries": 99,
+  "failedEntries": 5,
+  "sourceHashMatches": 99,
+  "validSectionTimelines": 99,
+  "independentlyAnnotatedEntries": 0,
+  "confirmedCorrectSectionAssignments": null,
+  "confirmedIncorrectSectionAssignments": null,
+  "sectionAccuracy": null,
+  "reviewFlags": {
+    "review-many-short-sections": 79,
+    "vocal-form-unassigned": 84,
+    "analysis-failed": 5,
+    "review-key-vs-unverified-reference": 36,
+    "key-unresolved": 18,
+    "review-tempo-vs-unverified-reference": 46,
+    "review-half-double-tempo": 19
+  },
+  "genreCoverage": [
+    {
+      "family": "ambient-downtempo",
+      "entries": 10,
+      "analysed": 10,
+      "unassignedVocalForm": 9,
+      "manyShortSections": 8
+    },
+    {
+      "family": "drum-bass-breaks",
+      "entries": 10,
+      "analysed": 8,
+      "unassignedVocalForm": 5,
+      "manyShortSections": 8
+    },
+    {
+      "family": "electronic-other",
+      "entries": 10,
+      "analysed": 10,
+      "unassignedVocalForm": 8,
+      "manyShortSections": 4
+    },
+    {
+      "family": "hiphop-rnb-soul",
+      "entries": 11,
+      "analysed": 11,
+      "unassignedVocalForm": 11,
+      "manyShortSections": 11
+    },
+    {
+      "family": "house-disco",
+      "entries": 11,
+      "analysed": 10,
+      "unassignedVocalForm": 9,
+      "manyShortSections": 7
+    },
+    {
+      "family": "mashup",
+      "entries": 10,
+      "analysed": 10,
+      "unassignedVocalForm": 10,
+      "manyShortSections": 9
+    },
+    {
+      "family": "pop-rock",
+      "entries": 11,
+      "analysed": 11,
+      "unassignedVocalForm": 8,
+      "manyShortSections": 7
+    },
+    {
+      "family": "reggae-latin-afro",
+      "entries": 9,
+      "analysed": 9,
+      "unassignedVocalForm": 9,
+      "manyShortSections": 9
+    },
+    {
+      "family": "techno-trance",
+      "entries": 9,
+      "analysed": 9,
+      "unassignedVocalForm": 5,
+      "manyShortSections": 7
+    },
+    {
+      "family": "unclassified",
+      "entries": 13,
+      "analysed": 11,
+      "unassignedVocalForm": 10,
+      "manyShortSections": 9
+    }
+  ],
+  "versionHintCoverage": {
+    "remix": 26,
+    "acappella": 4,
+    "extended": 5,
+    "mashup": 13,
+    "dub": 3,
+    "instrumental": 3,
+    "unspecified": 29,
+    "radio-edit": 13,
+    "club": 3,
+    "live": 4,
+    "12-inch": 8
+  },
+  "splitCounts": {
+    "held-out": 20,
+    "development": 84
+  },
+  "failedRuns": [
+    {
+      "run": "run-01",
+      "entriesRetained": 38,
+      "states": {
+        "failed": 38
+      },
+      "reason": "Stopped after repeated EOF failures in the initial review helper. The helper read beyond the declared end of the audio. Run 02 also tried an unnecessary FFmpeg decode workaround. Both failures are preserved.",
+      "helperSHA256": "26d44fa0efa83fd5cd4bbd93d9d1b62061458dfa99d2c6f927cdf19fdc8baf92"
+    },
+    {
+      "run": "run-02",
+      "entriesRetained": 38,
+      "states": {
+        "failed": 38
+      },
+      "reason": "Stopped after repeated EOF failures in the initial review helper. The helper read beyond the declared end of the audio. Run 02 also tried an unnecessary FFmpeg decode workaround. Both failures are preserved.",
+      "helperSHA256": "26d44fa0efa83fd5cd4bbd93d9d1b62061458dfa99d2c6f927cdf19fdc8baf92"
+    }
+  ],
+  "interpretation": "Flags are review candidates, not confirmed errors. The batch records baseline outputs. It does not add a genre-aware production detector or establish semantic accuracy."
+}

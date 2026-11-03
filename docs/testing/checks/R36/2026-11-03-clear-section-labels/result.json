@@ -9,6 +9,11 @@
   "failedAssertions": 0,
   "baselineFailedAssertions": 1,
   "behaviour": "Performance labels omit the blanket confidence suffix. The editor identifies automatic and manual assignments. Stored confidence and section roles are unchanged.",
-  "build": null,
-  "acceptance": "Pending iPad review."
+  "build": 79,
+  "acceptance": "Erik acceptance pending. Device actions stopped after launch.",
+  "sourceCommit": "ca1a31f2bf4ef67f5f348c8745ba87aca165ebac",
+  "appSourceSHA256": "19ed664ab095273f4f97a8578a1bf093ba5b2f3efef893eaf50b14767135834b",
+  "appSHA256": "9f8198f4fc1a9e3e1ad8e6de9aba916d9c2e30ef0ded428815c0e6c4c314af26",
+  "deployment": "installed-and-launched",
+  "device": "10.5-inch test iPad"
 }
