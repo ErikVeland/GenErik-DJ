@@ -1,0 +1,13 @@
+FAIL: normal opening restores remembered size
+FAIL: slow close retains preceding usable size
+FAIL: opening flick restores remembered size
+FAIL: closing flick preserves memory
+FAIL: tiny movement does not become a closing flick
+FAIL: cancel restores size and memory
+FAIL: invalid translation is ignored
+FAIL: invalid available size is ignored
+FAIL: invalid release cancels safely
+FAIL: toolbar close and open retain landscape size
+FAIL: accessible adjustment changes size
+FAIL: accessible opening restores remembered size
+179 panel and library checks; 12 failures
