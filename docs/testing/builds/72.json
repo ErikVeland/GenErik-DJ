@@ -1,0 +1,20 @@
+{
+  "notes": "R30 correction: Right FX/EQ/loop/Play controls stay outside the visible-by-default swipe-away extra-controls panel; centre fader restored between vertical A/B stacks. Includes one-line R26 lookup compile fix. Preserves failed build 71. Duo acceptance pending.",
+  "sourceCommit": "4f7a4c934667d12b03cff218e93906a38763d7df",
+  "sourceSHA256": "593c17bc3d02d1927febc1b7102c648831af1855bc2a0208519e05d32a08100d",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 46.43,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-72.log",
+  "build": 72,
+  "app": "TestBuilds/ipad/72/GenErikDJ.app",
+  "appSHA256": "ebd343e6424b2622bec6bbf6da61b4b67ac020c35614b6b5eef1473fdb881ec4",
+  "state": "superseded-ready",
+  "createdUTC": "2026-11-03T06:57:17.703350+00:00",
+  "requestIDs": [
+    "R30",
+    "R26"
+  ],
+  "acceptance": "Not installed. Erik added the four-beat edit icon, common button alignment, GenErik DJ display name, Duo header insets and full expansion on load before this candidate was handed over. Preserve signed build 72 and include these additions in the next candidate."
+}

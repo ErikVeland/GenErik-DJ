@@ -1,0 +1,15 @@
+{
+  "sourceCommit": "668e80a6f445e58d72e4d30479c25671b5b50666",
+  "geometrySourceSHA256": "a4d0ee9f566b7fb6913dac87504d6ce0a4b4d0ca4f12730d73c39727050a22b9",
+  "checks": {
+    "extraPanelDefaultVisibility": "passed",
+    "swipeRightHidesAndLeftReveals": "passed",
+    "shortFastSwipes": "passed",
+    "verticalScrollDoesNotHidePanel": "passed",
+    "invalidGestureInput": "passed",
+    "faderAndStackClearance": "passed at combined deck heights 556, 603, 702 and 900",
+    "swiftSyntaxParse": "passed for all three changed Swift files",
+    "diffWhitespace": "passed"
+  },
+  "scope": "Standalone check compiled production geometry/panel-state source. No simulator or broad test suite ran. Right-hand controls remain outside the extra-panel visibility gate. In short browser rows they remain directly accessible in a horizontal row. Erik verifies actual full-performance vertical stacks, centred fader and panel swipe behaviour on Duo."
+}
