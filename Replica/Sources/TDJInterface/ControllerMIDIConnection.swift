@@ -108,9 +108,11 @@ private func midi1Bytes(from eventList: UnsafePointer<MIDIEventList>) -> [UInt8]
     var packet = UnsafeMutablePointer(mutating:
         UnsafeRawPointer(eventList).advanced(by: packetOffset).assumingMemoryBound(to: MIDIEventPacket.self))
     var bytes: [UInt8] = []
+    var totalWords = 0
     for _ in 0..<min(Int(eventList.pointee.numPackets), 128) {
         let wordCount = Int(packet.pointee.wordCount)
-        guard wordCount <= 1024 else { return Array(repeating: 0, count: 4097) }
+        guard wordCount <= 1024, totalWords <= 4096 - wordCount else { return Array(repeating: 0, count: 4097) }
+        totalWords += wordCount
         let words = UnsafeRawPointer(packet).advanced(by: wordsOffset).assumingMemoryBound(to: UInt32.self)
         for index in 0..<wordCount {
             let word = words[index]
