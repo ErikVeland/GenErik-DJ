@@ -1,0 +1,20 @@
+{
+  "sourceCommit": "70147b78c65d46f72f097f81b0053acf5cb637ba",
+  "sourceFile": "Replica/Sources/TDJCore/MusicLibrary.swift",
+  "sourceFileSHA256": "9c15e14b5aac28e8ebc3c3145db92400cead93191ab7f20a8b85f46000f1585a",
+  "result": "passed",
+  "checks": [
+    "iOS ipod-library asset included",
+    "iOS file asset included",
+    "macOS file asset included",
+    "cloud-only item excluded",
+    "remote URL excluded",
+    "protected audio excluded",
+    "unavailable audio excluded",
+    "missing asset excluded",
+    "mixed playlist filters unavailable items and removes duplicate IDs",
+    "cloud search returns no songs",
+    "local search returns local song"
+  ],
+  "scope": "Focused catalogue check compiled against the exact MusicLibrary.swift source. No simulator or app test suite ran. Actual device library contents and playback require Erik acceptance."
+}

@@ -1,0 +1,44 @@
+{
+  "notes": "R21/R23/R25: Current integrated candidate with MIDI compiler fixes. Install on GenErik iPad and GenErik Duo. Erik acceptance pending.",
+  "sourceCommit": "b46f85c6e9699ccef7fb79f2ad31d6912aa45662",
+  "sourceSHA256": "a6546b7cbbb4f5965a98b868ba661e42cf02ac4f8ccfef5e9ca27c8c91db8124",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 36.36,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "kind": "Erik feedback",
+      "text": "Assumed build 57: Load A/B still ignores taps and drags, possibly due to pane swipe. Show only songs with physical audio on this device. Fill the Duo inner screen. Closed phone layout is unusable. Erik chose one deck at a time with quick A/B switching."
+    }
+  ],
+  "log": "TestBuilds/ipad/build-57.log",
+  "build": 57,
+  "app": "TestBuilds/ipad/57/GenErikDJ.app",
+  "appSHA256": "f4c03bd26d0d29c19f77e0aa8b871f2b386fc22c6e8ac1b1ed306541a58da420",
+  "state": "testing",
+  "createdUTC": "2026-11-03T05:18:28.778862+00:00",
+  "installedUTC": "2026-11-03T05:19:00.541069+00:00",
+  "requestIDs": [
+    "R21",
+    "R23",
+    "R25"
+  ],
+  "deployments": [
+    {
+      "device": "GenErik iPad",
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "installed-launch-timeout",
+      "installedUTC": "2026-11-03T05:18:39.271253+00:00",
+      "note": "Installation succeeded. Automatic launch exceeded the 10-second timeout. Erik can open the app manually."
+    },
+    {
+      "device": "GenErik Duo",
+      "deviceID": "00008160-000859C436800036",
+      "state": "installed-and-launched",
+      "installedUTC": "2026-11-03T05:19:00.541069+00:00",
+      "launchedUTC": "2026-11-03T05:19:01.641261+00:00"
+    }
+  ],
+  "launchedUTC": "2026-11-03T05:19:01.641261+00:00",
+  "acceptance": "Pending Erik testing on both devices. Check the recommended tracks A/B loader on Duo. The iPad needs manual launch after the automatic launch timed out."
+}

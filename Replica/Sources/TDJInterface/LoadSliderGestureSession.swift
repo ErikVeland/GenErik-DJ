@@ -1,5 +1,13 @@
 import TDJCore
 
+struct TallLoadSliderMetrics {
+    static let height = 170.0
+    static let labelHeight = 36.0
+    static let handleHeight = 52.0
+    static let railHeight = height - 2 * labelHeight
+    static let maximumTravel = (railHeight - handleHeight) / 2
+}
+
 /// Keeps a cancelled load gesture from leaving an offset or loading a deck.
 struct LoadSliderGestureSession {
     private var owner: Int?
@@ -8,7 +16,8 @@ struct LoadSliderGestureSession {
     private(set) var offset = 0.0
     private(set) var armedDeck: DeckID?
 
-    mutating func handle(_ event: SurfaceEvent, height: Double, maximumTravel: Double = 18) -> DeckID? {
+    mutating func handle(_ event: SurfaceEvent, height: Double, maximumTravel: Double = 18,
+                         edgeTapThreshold: Double? = nil, edgeTapMovementTolerance: Double = 10) -> DeckID? {
         if event.phase == .cancelled {
             self = Self()
             return nil
@@ -27,7 +36,13 @@ struct LoadSliderGestureSession {
         let threshold = travel - 2
         armedDeck = distance <= -threshold ? .a : distance >= threshold ? .b : nil
         guard event.phase == .ended, event.ending.contains(owner) else { return nil }
-        let destination = armedDeck
+        let edgeTap = edgeTapThreshold.flatMap { threshold -> DeckID? in
+            guard abs(distance) <= edgeTapMovementTolerance else { return nil }
+            if originY <= threshold { return .a }
+            if originY >= 1 - threshold { return .b }
+            return nil
+        }
+        let destination = armedDeck ?? edgeTap
         self = Self()
         waitingForRelease = !event.remaining.isEmpty
         return destination

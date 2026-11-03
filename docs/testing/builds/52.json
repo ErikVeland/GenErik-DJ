@@ -1,0 +1,12 @@
+{
+  "build": 52,
+  "state": "failed",
+  "requestIDs": [
+    "R21",
+    "R23"
+  ],
+  "sourceCommit": "c987d5f02ea7411e309dbbc9f7c91e3cfd503358",
+  "notes": "Duo deployment attempt. Compilation failed after the merge restored an incompatible MIDI packet pointer conversion. No installation attempted.",
+  "log": "TestBuilds/ipad/build-52.log",
+  "error": "ControllerMIDIConnection.swift:136: cannot assign UnsafePointer<MIDIPacket> to UnsafeMutablePointer<MIDIPacket>"
+}

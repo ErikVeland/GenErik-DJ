@@ -1,0 +1,13 @@
+{
+  "sourceCommit": "1fec44dd4230927bd202bc9d842b8a41e927eab5",
+  "checks": [
+    "A endpoint tap",
+    "B endpoint tap",
+    "upward drag",
+    "downward drag",
+    "centre tap does not load",
+    "cancelled touch does not load"
+  ],
+  "result": "6 passed",
+  "scope": "Standalone check of existing loader session using SurfaceEvent and LoadSliderGestureSession from this source. Does not verify SwiftUI gesture delivery on device."
+}

@@ -1,0 +1,82 @@
+{
+  "notes": "R05/R26: Complete current local-audio filter including collection projection and empty Music playlists. Supersedes build 59 installation attempts. Retains Load A/B fix and integrated MIDI changes. Erik acceptance pending.",
+  "sourceCommit": "742315e066b1b6c1d452ba39455b353b5f3c1b92",
+  "sourceSHA256": "3accb1a49f340a3455ebf2b13271b9670a3fde068d81e5b2cdc93a9edd23515f",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 54.55,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "kind": "Erik feedback",
+      "text": "Assumed build 60: dragging to B does not load, and the handle goes under B. A works. Continue R27 inner-screen layout and install the next candidate on Duo only."
+    }
+  ],
+  "log": "TestBuilds/ipad/build-60.log",
+  "build": 60,
+  "app": "TestBuilds/ipad/60/GenErikDJ.app",
+  "appSHA256": "8cd7a75a686b647387f0b5747937ea216d648d1e3be3972f2f387b18f64d7c04",
+  "state": "testing",
+  "createdUTC": "2026-11-03T05:57:40.094487+00:00",
+  "requestIDs": [
+    "R05",
+    "R26"
+  ],
+  "deployments": [
+    {
+      "device": "GenErik Duo",
+      "state": "installation-timeout",
+      "installTimeoutSeconds": 20,
+      "note": "Initial build 60 install timed out. Erik confirmed both devices unlocked. Device info confirmed pairing and local-network transport."
+    },
+    {
+      "device": "GenErik Duo",
+      "state": "installation-timeout",
+      "installTimeoutSeconds": 60,
+      "note": "Extended transfer attempt also timed out. Requested direct USB reconnection."
+    },
+    {
+      "device": "GenErik iPad",
+      "state": "installation-timeout",
+      "installTimeoutSeconds": 20,
+      "note": "Build 60 installation timed out after Erik confirmed both devices unlocked and connected."
+    },
+    {
+      "device": "GenErik Duo",
+      "state": "installation-timeout",
+      "installTimeoutSeconds": 60,
+      "deviceID": "791706CC-F256-59B2-92F6-ACAB34411FD0",
+      "note": "Diagnostic retry used the resolved CoreDevice identifier. Tunnel, developer services and usage assertion succeeded. Install did not report success. Device lock-state query confirmed no passcode required. USB is unavailable. Requested Wi-Fi reconnection.",
+      "log": "TestBuilds/ipad/60/duo-install-diagnostic.log"
+    },
+    {
+      "device": "GenErik iPad",
+      "state": "installation-timeout",
+      "installTimeoutSeconds": 20,
+      "note": "Retry after Erik reconnected Wi-Fi also timed out."
+    },
+    {
+      "device": "GenErik Duo",
+      "state": "installed-and-launched",
+      "installedUTC": "2026-11-03T06:05:21.816217+00:00",
+      "launchedUTC": "2026-11-03T06:05:22.861610+00:00",
+      "note": "The previously stalled Hotel Dusk transfer had already ended when its process was rechecked. No process was stopped by this chat. Standard deployment then succeeded."
+    },
+    {
+      "device": "GenErik iPad",
+      "state": "installed-and-launched",
+      "installedUTC": "2026-11-03T06:05:34.113553+00:00",
+      "launchedUTC": "2026-11-03T06:05:34.624633+00:00"
+    }
+  ],
+  "acceptance": "Build 60 installed and launched on GenErik Duo and GenErik iPad. Erik acceptance remains pending: confirm local songs remain visible, cloud-only songs are hidden, and search, recommendations and playlists contain local audio only. No further device actions.",
+  "focusedChecks": "Catalogue asset, search and playlist checks passed against build 60 source. See docs/testing/checks/R26/2026-11-03-local-library-filter/build-60-result.json.",
+  "connectionDiagnosis": "An unrelated Hotel Dusk devicectl installation to Duo (PID 90777) had run for more than 34 minutes. It may block the shared device installation service. Requested Erik approval before stopping that separate transfer.",
+  "installedUTC": "2026-11-03T06:05:34.113553+00:00",
+  "launchedUTC": "2026-11-03T06:05:34.624633+00:00",
+  "preRetryInstalledVersionCheck": {
+    "GenErik Duo": 58,
+    "GenErik iPad": 58,
+    "note": "Read-only installed-app queries confirmed build 58 remains installed on both devices."
+  },
+  "connectionResolution": "The competing Hotel Dusk transfer had already ended before the approved stop was attempted. This chat stopped no process. Standard helper deployment then succeeded on both devices."
+}

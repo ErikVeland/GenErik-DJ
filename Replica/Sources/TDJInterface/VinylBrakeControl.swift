@@ -46,58 +46,21 @@ extension ReplicaModel {
     }
 }
 
-struct DeckBrakeControl: View {
+struct DeckPlaybackButton: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
-    var compact = false
-    @State private var gesture=VinylBrakeGestureSession()
+    @AppStorage(DeckToolSettings.vinylStop) private var vinylStop = false
     private var state: DeckPlaybackSnapshot? { model.playbackSnapshot?[deck] }
-    private var available: Bool { state?.phase == .playing && !model.preparingPlayback.contains(deck) }
+    private var stopping: Bool { state?.phase.active == true && state?.braking != true }
     var body: some View {
-        VStack(spacing:4) {
-            if state?.braking == true && !compact {
-                Text("BRAKING · \(Int((state?.brakeRate ?? 0)*100))%")
-                    .font(.system(size:10,weight:.semibold).monospacedDigit())
-                Button { model.resumeBrake(deck:deck) } label: {
-                    Label("Play",systemImage:"play.fill").font(.system(size:13,weight:.semibold))
-                        .frame(maxWidth:.infinity,minHeight:44)
-                }.accessibilityLabel("Resume deck \(deck.rawValue.uppercased()) at saved speed")
-                Text("↑ Gentle · Firm ↓").font(.system(size:10))
-            }
-            HStack(spacing:4) {
+        Button { model.pressPlay(deck:deck,vinylStop:vinylStop) } label: {
             ZStack {
-                VStack(spacing:2) {
-                    Text("Brake").font(.system(size:15,weight:.bold))
-                    if compact && state?.braking == true {
-                        Text("BRAKING · \(Int((state?.brakeRate ?? 0)*100))%")
-                            .font(.system(size:9,weight:.semibold).monospacedDigit())
-                        Text("↑ Gentle · Firm ↓").font(.system(size:8))
-                    }
-                }
-                    .foregroundStyle(state?.braking == true ? PerformancePalette.red : PerformancePalette.text)
-                TouchSurface(capturesDrag:true) { event in
-                    gesture.handle(event,height:50,
-                        begin:{model.beginBrake(deck:deck,duration:VinylBrakeSettings.duration())},
-                        shape:{model.shapeBrake(deck:deck,strength:$0)})
-                }.allowsHitTesting(available)
-            }.frame(minWidth:96,minHeight:50,maxHeight:50)
-                .bevelPanel(cornerRadius:3,sunken:state?.braking == true)
-                .opacity(available ? 1:0.45)
-                .accessibilityElement(children:.ignore)
-                .accessibilityAddTraits(.isButton)
-                .accessibilityLabel("Brake deck \(deck.rawValue.uppercased())")
-                .accessibilityHint("Touch to slow down. Drag down to brake harder. Release to finish the stop.")
-                .accessibilityValue(state?.braking == true ? "Braking" : "Ready")
-                .accessibilityAction { if available { model.beginBrake(deck:deck,duration:VinylBrakeSettings.duration()) } }
-            if compact && state?.braking == true {
-                Button { model.resumeBrake(deck:deck) } label: {
-                    Image(systemName:"play.fill").frame(width:44,height:50)
-                }.buttonStyle(BevelButtonStyle())
-                    .accessibilityLabel("Resume deck \(deck.rawValue.uppercased()) at saved speed")
+                Image(systemName:stopping ? "stop.fill":"play.fill")
+                    .foregroundStyle(state?.phase.active == true ? PerformancePalette.syncGreen : Color(white:0.65))
+                if model.preparingTrack.contains(deck) { ProgressView().controlSize(.small) }
             }
-            }
-        }.onDisappear {
-            gesture.handle(.init(phase:.cancelled,points:[],ending:[]),height:50,begin:{},shape:{_ in})
         }
+        .disabled(model.track(deck) == nil || model.preparingPlayback.contains(deck))
+        .accessibilityLabel("\(stopping ? "Stop":"Play") deck \(deck.rawValue.uppercased())")
     }
 }

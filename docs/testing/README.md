@@ -2,7 +2,7 @@
 
 Erik is the sole developer and acceptance tester. This chat implements his requests. Other project chats stay stopped. iPad is the only active target until Erik says otherwise.
 
-1. Erik tests **GenErik DJ Test** on the iPad.
+1. Erik tests **GenErik DJ** on the iPad.
 2. Erik describes a bug or requests a feature here.
 3. This chat records the report against the build and makes one focused change.
 4. This chat builds the iPad app incrementally, installs that saved app and reports its number.

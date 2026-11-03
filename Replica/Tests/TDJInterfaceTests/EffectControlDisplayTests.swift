@@ -181,4 +181,8 @@ private final class EffectDisplayChanges: @unchecked Sendable {
     #expect(slot.padLabel == "Delay · 25 ms")
     slot.publish(.init(kind:PerformanceEffect.reverb.rawValue,x:0.3,y:0.5,enabled:true,locked:false))
     #expect(slot.padLabel == "Reverb")
+    slot.publish(.init(kind:PerformanceEffect.transposeStretch.rawValue,x:0.75,y:0.5,enabled:true,locked:false))
+    #expect(slot.padLabel == "Transpose Stretch · +6.0 st")
+    slot.publish(.init(kind:PerformanceEffect.transposeStretch.rawValue,x:0.25,y:0.5,enabled:true,locked:false))
+    #expect(slot.padLabel == "Transpose Stretch · -30.0 st")
 }

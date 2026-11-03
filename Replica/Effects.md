@@ -30,7 +30,7 @@ Reverb and Iceverb add their return to the unchanged dry signal. Releasing an un
 
 Coefficient ramps and history invalidation keep these transitions bounded. There is no load-triggered quality reduction or device-dependent algorithm switch in this candidate. Neither algorithm is claimed to reproduce NI or Valhalla.
 
-Transpose has an 80 ms window and four read heads. Its cached ratio spans -60 to +12 semitones, with centre neutral. Reverse Grain captures up to one beat within the available eight-second history, then advances its captured traversal at half speed while its grain reads run backwards. Re-enabling starts a fresh capture. Neutral pitch and synthetic tone checks do not establish transparent processing of real music.
+Transpose has an 80 ms window and four read heads. Its cached ratio spans -60 to +12 semitones, with centre neutral. The effect panel shows the current semitone shift, offers one-semitone steps, and can match the other loaded deck when both keys have the same mode. Key matching enables a fully wet effect. Reverse Grain captures up to one beat within the available eight-second history, then advances its captured traversal at half speed while its grain reads run backwards. Re-enabling starts a fresh capture. Neutral pitch and synthetic tone checks do not establish transparent processing of real music.
 
 ## Storage and verification
 

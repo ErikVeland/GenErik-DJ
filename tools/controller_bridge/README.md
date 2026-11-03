@@ -2,22 +2,35 @@
 
 This relay carries the original Z1's HID input, crossfader calibration and light/meter feedback over a USB MIDI connection. It uses the app's existing native Z1 mapping, including MODE combinations and touch/FX axis coexistence. It is not a generic firmware adapter for every NI controller.
 
-The relay is implemented and has software framing/report checks. No physical Linux bridge, USB MIDI gadget or Z1 relay session has been tested. Direct iPad accessory communication remains separate.
+The relay and an opt-in USB MIDI gadget setup helper are implemented. No physical Linux bridge, USB MIDI gadget or Z1 relay session has been tested. Direct iPad accessory communication remains separate.
 
 ## Required setup
 
 - A Linux bridge with simultaneous USB host and USB device/gadget ports.
 - The original Z1, USB vendor/product `17cc:1210`, connected to the bridge's host side.
-- A configured USB MIDI gadget facing the iPad.
+- A USB device controller that can expose a USB MIDI gadget to the iPad.
 - Access to the Z1 HID character device and the gadget's ALSA raw MIDI character device.
 
-The relay does not configure the gadget, install drivers or change host services. The kernel documents the MIDI gadget function in its [gadget testing guide](https://www.kernel.org/doc/html/latest/usb/gadget-testing.html) and [configfs MIDI interface](https://github.com/torvalds/linux/blob/master/Documentation/ABI/testing/configfs-usb-gadget-midi). Use a board whose host/device ports can operate together.
+The helper creates one new MIDI gadget under configfs. It refuses an existing gadget path and does not change host services. You must provide USB IDs assigned to your bridge. It does not choose or claim vendor IDs. The kernel documents [gadget configfs](https://www.kernel.org/doc/html/latest/usb/gadget_configfs.html) and the [MIDI function attributes](https://github.com/torvalds/linux/blob/master/Documentation/ABI/testing/configfs-usb-gadget-midi). Use a board whose host/device ports can operate together.
 
 ## Audio boundary
 
 **This relay does not forward audio.** When the Z1's USB connection terminates at the bridge, its audio interface is on the bridge side. Do not assume the iPad can also use it directly. A composite audio bridge needs separate implementation, clock/latency work and hardware testing. Alternatively, use an independently supported iPad audio route.
 
 Z1 Main and Cue Vol are hardware audio controls. They do not emit HID controls and cannot be made into app parameters by inventing MIDI messages. Their audible effect depends on routing audio through the Z1. See [Mixxx's maintained Z1 description](https://manual.mixxx.org/2.7/en/hardware/controllers/native_instruments_traktor_kontrol_z1.html).
+
+## Configure the USB MIDI gadget
+
+Run the helper on the Linux bridge. It needs root access, mounted configfs, the MIDI gadget function and a USB device controller. Supply USB IDs assigned to your bridge and a unique serial number.
+
+```sh
+sudo python3 tools/controller_bridge/configure_midi_gadget.py \
+  --vendor-id 0x1234 --product-id 0x0001 \
+  --manufacturer 'Assigned bridge manufacturer' \
+  --serial 'Unique bridge serial' --udc '<device-controller-name>' --apply
+```
+
+Replace every example identity value before you run the command. The helper refuses to reuse an existing gadget name. To stop it, unbind the gadget by writing an empty value to its `UDC` file. Remove only its own configfs links and directories after unbinding. The helper does not configure boot-time startup.
 
 ## Run the relay
 

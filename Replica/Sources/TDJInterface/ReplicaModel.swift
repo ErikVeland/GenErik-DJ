@@ -12,11 +12,19 @@ public final class ReplicaModel {
     var selectedEffectSlots: [DeckID:Int] = [:]
     let performancePersistence=CoalescingFileWriter<PerformancePreparation>()
     let effectsPersistence=CoalescingFileWriter<[DeckID:[Int:EffectControl]]>()
+    let queuePersistence=CoalescingFileWriter<[String]>()
     var arrangements: [String: TrackArrangement] = [:]
+    var structureAnalyzing: Set<String> = []
+    @ObservationIgnored var arrangementVersions: [String: Int] = [:]
+    @ObservationIgnored var arrangementTasks: [String: Task<ArrangementPreparationResult, Never>] = [:]
     @ObservationIgnored var arrangementWriters: [String: CoalescingFileWriter<ArrangementCache>] = [:]
     public var performance = PerformancePreparation()
     let recoveryState = RecoveryState()
     public var frozen: Set<DeckID> = []
+    @ObservationIgnored var controllerJogTouched: Set<DeckID> = []
+    @ObservationIgnored var controllerJogBendOffsets: [DeckID: Double] = [:]
+    @ObservationIgnored var controllerJogBendTasks: [DeckID: Task<Void, Never>] = [:]
+    @ObservationIgnored var controllerJogBendTokens: [DeckID: UUID] = [:]
     public var filterLocked: Set<DeckID> = []
     public var superSlicerFamilies: [DeckID: SuperSlicerFamily] = [:]
     @ObservationIgnored private var storedLibrary: LibrarySnapshot
@@ -89,6 +97,7 @@ public final class ReplicaModel {
     public var gridDraft: [DeckID: BeatGrid] = [:]
     public var editing: Set<DeckID> = []
     public var browserVisible = true
+    public private(set) var browserPresentationID = UUID()
     public var helpVisible = false
     public var suggestionDestination: DeckID?
     public var selectedTrackID: String?
@@ -194,11 +203,15 @@ public final class ReplicaModel {
     public func cancelMusicLibraryImport() { musicLibraryImportTask?.cancel() }
     public func flushMusicLibraryImport() async { await musicLibraryImportTask?.value }
     public var musicLibraryError: String?
-    /// Songs the browser can list: every Music library item plus prepared tracks outside it.
+    /// Songs the browser can list: on-device Music items and app-managed tracks.
     public var browsableSongCount: Int {
         guard let catalog = musicLibraryCatalog else { return library.tracks.count }
-        let known = Set(catalog.items.map(\.source))
-        return catalog.items.count + library.tracks.filter { !($0.musicLibrarySources ?? []).contains(where: known.contains) }.count
+        let localItems = catalog.items.filter(\.isOnDevice)
+        let known = Set(localItems.map(\.source))
+        let appManaged = library.tracks.filter {
+            $0.nativeLibraryOnly != true && !($0.musicLibrarySources ?? []).contains(where: known.contains)
+        }
+        return localItems.count + appManaged.count
     }
     public var libraryFooterText: String {
         if !status.isEmpty { return status }
@@ -212,6 +225,7 @@ public final class ReplicaModel {
     @ObservationIgnored let nativeMusic = NativeMusicSessionState()
     let importAccess = SecurityScopedFileAccess()
     private let musicImportFileWork=BackgroundFileWork(label:"org.generikdj.music-import-cleanup")
+    @ObservationIgnored private let keyImportFileWork=BackgroundFileWork(label:"org.generikdj.key-import")
     public var preparingPlayback: Set<DeckID> = []
     var preparingNativeMusic: Set<DeckID> = []
     public var preparingTrack: Set<DeckID> { preparingPlayback.union(preparingNativeMusic) }
@@ -234,7 +248,7 @@ public final class ReplicaModel {
         collectionPersistence.enqueue(value,write:{ try $0.save(to:url) },reportError:{ [weak self] in self?.status=$0 })
     }
     public func flushPreferenceWrites() async {
-        await mixerPersistence.flush(); await collectionPersistence.flush(); await flushPerformanceWrites()
+        await mixerPersistence.flush(); await collectionPersistence.flush(); await queuePersistence.flush(); await flushPerformanceWrites()
         for writer in Array(arrangementWriters.values) { await writer.flush() }
     }
     public func finishForShutdown() async {
@@ -517,6 +531,91 @@ public final class ReplicaModel {
         status = "\(library.tracks.count) tracks analysed"
         refreshSuggestions()
     }
+
+    public func previewKeyImport(from url: URL) async throws -> (KeyImportManifest, KeyImportPlan) {
+        let data = try await importAccess.withAccess(to:url) {
+            let result: Result<Data,CoreError> = await self.keyImportFileWork.run {
+                do {
+                    let handle = try FileHandle(forReadingFrom: url)
+                    defer { try? handle.close() }
+                    let limit = 2 * 1024 * 1024
+                    var data = Data()
+                    while data.count <= limit {
+                        let remaining = limit + 1 - data.count
+                        let chunk = try handle.read(upToCount: min(64 * 1024, remaining)) ?? Data()
+                        if chunk.isEmpty { break }
+                        data.append(chunk)
+                    }
+                    guard data.count <= limit else { return .failure(.invalidAudio("The key import exceeds the 2 MB limit.")) }
+                    return .success(data)
+                } catch { return .failure(.invalidAudio(error.localizedDescription)) }
+            }
+            switch result {
+            case .success(let data): return data
+            case .failure(let error): throw error
+            }
+        }
+        let manifest=try JSONDecoder().decode(KeyImportManifest.self,from:data)
+        let plan=try await service.previewKeyImport(data:data)
+        return (manifest,plan)
+    }
+
+    public func previewEmbeddedKeyImport(from url: URL) async throws -> (KeyImportManifest, KeyImportPlan) {
+        try await previewEmbeddedKeyImport(from: [url])
+    }
+
+    public func previewEmbeddedKeyImport(from urls: [URL]) async throws -> (KeyImportManifest, KeyImportPlan) {
+        guard !urls.isEmpty, urls.count <= 10_000 else {
+            throw CoreError.invalidAudio("Select between 1 and 10,000 tagged audio files.")
+        }
+        var entriesByContent: [String: KeyImportManifest.Entry] = [:]
+        for url in urls {
+            try Task.checkCancellation()
+            let (contentSHA256, metadata) = try await importAccess.withAccess(to: url) {
+                let before = try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
+                let hashResult: Result<String, CoreError> = await self.keyImportFileWork.run {
+                    do { return .success(try AudioAnalyzer.sha256(url: url)) }
+                    catch { return .failure(.invalidAudio(error.localizedDescription)) }
+                }
+                let metadata = try await EmbeddedMetadata.read(url: url, includeArtwork: false)
+                let after = try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
+                guard before.fileSize == after.fileSize,
+                      before.contentModificationDate == after.contentModificationDate else { throw CoreError.staleContext }
+                switch hashResult {
+                case .success(let digest): return (digest, metadata)
+                case .failure(let error): throw error
+                }
+            }
+            guard metadata.initialKeys.count == 1, let rawKey = metadata.initialKeys.first else {
+                throw CoreError.invalidAudio(metadata.initialKeys.isEmpty
+                    ? "An audio file has no ID3 Initial Key tag."
+                    : "An audio file has conflicting ID3 Initial Key tags.")
+            }
+            guard let notation = [KeyNotation.camelot, .openKey, .musical].first(where: { (try? $0.parse(rawKey)) != nil }) else {
+                throw CoreError.invalidAudio("An ID3 Initial Key value uses an unsupported notation.")
+            }
+            let entry = KeyImportManifest.Entry(contentSHA256: contentSHA256, rawKey: rawKey, notation: notation)
+            if let previous = entriesByContent[contentSHA256] {
+                guard previous == entry else { throw CoreError.invalidAudio("Identical audio files have conflicting key tags.") }
+            } else {
+                entriesByContent[contentSHA256] = entry
+            }
+        }
+        let manifest = KeyImportManifest(source: .mixedInKey, attribution: .userConfirmed,
+            sourceDescription: "User-confirmed ID3 Initial Key tags from selected audio files.",
+            entries: entriesByContent.values.sorted { $0.contentSHA256 < $1.contentSHA256 })
+        let plan = try await service.previewKeyImport(data: JSONEncoder().encode(manifest))
+        return (manifest, plan)
+    }
+
+    public func applyKeyImport(_ plan: KeyImportPlan) async throws {
+        let changed=try await service.applyKeyImport(plan,preservePreparationFor:Set(loaded.values))
+        adoptLibrary(changed)
+        refreshSuggestions()
+        let count=plan.changes.filter(\.addsEvidence).count
+        status=count == 0 ? "No new key results were added." : "Applied \(count) key results."
+    }
+
     public func refreshMusicLibrary() async {
         if let pending = musicLibraryRefreshTask { await pending.value; return }
         guard !importing, !waveformShutdown else { return }
@@ -566,7 +665,7 @@ public final class ReplicaModel {
                 stopped = true; break
             }
             if preparedTrack(for: item) != nil { existing += 1; continue }
-            guard item.availability == .available else {
+            guard item.isOnDevice else {
                 musicLibraryFailures[item.id] = item.availability.message; continue
             }
             musicLibraryProgress = "Preparing \(index + 1) of \(items.count): \(item.title)"
@@ -664,10 +763,38 @@ public final class ReplicaModel {
             guard loadTokens[deck] == token else { return }
             do {
                 guard let requested=loadPreparations[deck], requested.token==token else { return }
-                let sourceTrack=requested.track
-                try await playback.load(track:sourceTrack,store:store,deck:deck,sourceURL:sourceURL,committed:{ [weak self = self] generation in
+                var sourceTrack=requested.track
+                if NativeAnalysisPlan.needsDeckAnalysis(deferred:sourceTrack.analysis.musicalAnalysisDeferred,bpm:sourceTrack.bpm,key:sourceTrack.key) {
+                    cancelNativeMusicAnalysis()
+                    status = "Analysing \(sourceTrack.title)…"
+                    let protectedTracks = Set(loaded.values).subtracting([trackID])
+                    let snapshot: LibrarySnapshot
+                    if let sourceURL, let nativeMetadata {
+                        snapshot = try await service.analyzeNativeMusic(url: sourceURL, musicLibrary: nativeMetadata,
+                            preservePreparationFor: protectedTracks)
+                    } else {
+                        snapshot = try await service.importAudio(
+                            url: sourceURL ?? store.mediaDirectory.appendingPathComponent(sourceTrack.mediaFilename),
+                            preservePreparationFor: protectedTracks, copyMedia: false, forceFullAnalysis: true)
+                    }
+                    try Task.checkCancellation()
+                    guard loadTokens[deck] == token else { return }
+                    guard let analysed = snapshot.track(id: trackID) else { throw TransportError.nativeSourceChanged }
+                    adoptLibrary(snapshot)
+                    sourceTrack = analysed.resolvingTraktorPreparation()
+                    if let pending = pendingPreparations[trackID] { sourceTrack.preparation = pending.value }
+                    loadPreparations[deck] = .init(token: token, track: sourceTrack)
+                    var missing=[String]()
+                    if sourceTrack.bpm == nil { missing.append("BPM") }
+                    if sourceTrack.key == nil { missing.append("key") }
+                    let result=missing.isEmpty ? "Analysis finished for \(sourceTrack.title).":"Analysis finished for \(sourceTrack.title). No reliable \(missing.joined(separator:" or ")) was detected."
+                    logAnalysis(result)
+                    if status == "Analysing \(requested.track.title)…" { status=missing.isEmpty ? "":result }
+                }
+                let preparedSourceTrack = sourceTrack
+                try await playback.load(track:preparedSourceTrack,store:store,deck:deck,sourceURL:sourceURL,committed:{ [weak self = self] generation in
                     guard let self else { return }
-                    var acceptedTrack = sourceTrack
+                    var acceptedTrack = preparedSourceTrack
                     if acceptedTrack.preparation.correctedKey != keyIntent.effective {
                         if let current = self.storedLibrary.track(id: trackID), current.preparation.correctedKey == keyIntent.effective {
                             acceptedTrack.preparation.copyKey(from: current.preparation)
@@ -677,14 +804,14 @@ public final class ReplicaModel {
                     self.committedPreparations[deck]=actual
                     self.committedTrackIDs[deck]=trackID
                     self.playback.registerRecordingTrack(deck: deck, generation: generation,
-                        artist: sourceTrack.artist, title: sourceTrack.title)
+                        artist: preparedSourceTrack.artist, title: preparedSourceTrack.title)
                     let needsLateReconciliation = !self.preparingPlayback.contains(deck) || self.loadTokens[deck] != token
                     if !self.preparingPlayback.contains(deck) {
                         self.loaded[deck]=trackID
                         self.loadTokens[deck]=token
                         self.loadPreparations[deck]=actual
                         self.gridDraft[deck]=keyIntent.grid == nil ? self.pendingPreparations[trackID]?.value.grid : nil
-                        self.prepareWaveform(sourceTrack)
+                        self.prepareWaveform(preparedSourceTrack)
                         self.warmCuePositions(deck:deck)
                     }
                     if needsLateReconciliation { self.reconcileAcceptedGrid(keyIntent,token:token,deck:deck,generation:generation) }
@@ -706,7 +833,7 @@ public final class ReplicaModel {
                 if performance.freezeOnLoad { frozen.insert(deck); previewing.insert(deck) }
                 preparingPlayback.remove(deck)
                 warmCuePositions(deck: deck)
-                prepareWaveform(track)
+                prepareWaveform(preparedSourceTrack)
                 enqueueHistory(event)
             } catch {
                 onFailure?(error)
@@ -726,6 +853,7 @@ public final class ReplicaModel {
             }
             if loadTokens[deck] == token, preparingPlayback.contains(deck) { preparingPlayback.remove(deck) }
             refreshPlayback()
+            if nativeMusic.loadOwners.isEmpty { startNativeMusicAnalysis() }
         }
         playbackLoads = loadTask
         return loadTask
@@ -782,6 +910,7 @@ public final class ReplicaModel {
     /// Play requests now submit synchronously. Retained for existing callers.
     public func flushTransportRequests() async {}
     public func showLibrary() {
+        browserPresentationID = UUID()
         suggestionWork?.cancel(); suggestionRequest=UUID()
         suggestionDestination = nil; suggestions = []; suggestionMessage = nil; browserVisible = true
     }
@@ -791,6 +920,7 @@ public final class ReplicaModel {
             showLibrary()
             return
         }
+        browserPresentationID = UUID()
         suggestionDestination = destination
         browserVisible = true
         selectedTrackID = nil
@@ -930,11 +1060,19 @@ public final class ReplicaModel {
         }
         if let error = messages.compactMap(\.error).last { status = error.localizedDescription }
     }
-    public func pressPlay(deck: DeckID) {
+    public func pressPlay(deck: DeckID, vinylStop: Bool? = nil) {
         guard !preparingPlayback.contains(deck) else { return }
         do {
-            let wasActive = playback.core.snapshot()?[deck].phase.active == true
-            try playback.play(deck)
+            let vinylStop = vinylStop ?? UserDefaults.standard.bool(forKey:DeckToolSettings.vinylStop)
+            let state = playback.core.snapshot()?[deck]
+            let wasActive = state?.phase.active == true
+            if vinylStop && state?.braking == true {
+                try playback.brake(.resume,deck:deck)
+            } else if vinylStop && state?.phase == .playing {
+                try playback.brake(.begin,value:VinylBrakeSettings.duration(),deck:deck)
+            } else {
+                try playback.play(deck)
+            }
             if !wasActive { recoveryState.attempted[deck] = nil }
             previewing.remove(deck)
             refreshPlayback()

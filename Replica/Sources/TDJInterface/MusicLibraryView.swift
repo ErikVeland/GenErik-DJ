@@ -26,11 +26,11 @@ struct MusicLibraryView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 12) {
-                Text("Choose local or synced songs to add to your DJ collection.")
+                Text("This list shows songs stored on this device.")
                     .font(.subheadline).foregroundStyle(.secondary)
                 if let catalog = model.musicLibraryCatalog {
                     Picker("Playlist", selection: $playlistID) {
-                        Text("All songs (\(catalog.items.count))").tag(String?.none)
+                        Text("All songs (\(catalog.items.filter(\.isOnDevice).count))").tag(String?.none)
                         ForEach(catalog.playlists) { playlist in
                             Text(playlist.name).tag(Optional(playlist.id))
                         }
@@ -65,7 +65,7 @@ struct MusicLibraryView: View {
                                         .font(.caption).foregroundStyle(.secondary).lineLimit(1)
                                     if let failure = model.musicLibraryFailures[item.id] {
                                         Text(failure).font(.caption).foregroundStyle(.orange)
-                                    } else if item.availability != .available {
+                                    } else if !item.isOnDevice {
                                         Text(item.availability.message).font(.caption).foregroundStyle(.secondary)
                                     }
                                 }
@@ -74,7 +74,7 @@ struct MusicLibraryView: View {
                             }.contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)
-                        .disabled(prepared || item.availability != .available || model.importing)
+                        .disabled(prepared || !item.isOnDevice || model.importing)
                         .accessibilityLabel("\(item.title), \(item.artist), \(prepared ? "Added" : item.availability.message)")
                     }
                 }

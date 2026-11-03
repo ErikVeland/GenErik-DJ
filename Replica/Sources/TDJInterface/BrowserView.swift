@@ -127,8 +127,12 @@ struct BrowserView: View {
                             .offset(x: detailWidth - detailVisible)
                             .frame(width: detailVisible, alignment: .leading)
                             .clipped()
-                            .simultaneousGesture(horizontalDrag(changed: { layout.dragDetail(translation: $0) },
-                                ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endDetail(translation: t, velocity: v, width: detailWidth) } }))
+                            .overlay(alignment: .trailing) {
+                                Color.clear.frame(width: 18).contentShape(Rectangle())
+                                    .gesture(horizontalDrag(changed: { layout.dragDetail(translation: $0) },
+                                        ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endDetail(translation: t, velocity: v, width: detailWidth) } }))
+                                    .accessibilityLabel("Swipe to hide recommendations")
+                            }
                     }
                 }
               }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .leading).clipped()
@@ -192,6 +196,7 @@ struct BrowserView: View {
                 HStack(spacing: 12) {
                     DeckArtwork(source:ArtworkSource.track(entry.track,item:entry.nativeItem,media:model.store.mediaDirectory),placeholderSize:14)
                         .frame(width:48,height:48).background(PerformancePalette.sunken).clipShape(RoundedRectangle(cornerRadius:3))
+                        .overlay { TrackHeadphoneIndicator(model:model,trackID:entry.track?.id) }
                         .accessibilityHidden(true)
                     VStack(alignment:.leading,spacing:2) {
                         HStack(spacing: 6) {
@@ -259,7 +264,7 @@ extension BrowserView {
                 TextField("", text: $query, prompt: Text("Search full library").foregroundStyle(PerformancePalette.secondaryText))
                     .textFieldStyle(.plain).foregroundStyle(PerformancePalette.text)
                     .accessibilityLabel("Search full library by song, artist, album or genre")
-            }.padding(.horizontal, 14).frame(maxWidth: 380).frame(height: 36)
+            }.padding(.horizontal, 14).frame(maxWidth: 380).frame(height: 44)
             .background(Capsule().fill(PerformancePalette.sunken)).overlay(Capsule().strokeBorder(Color.black.opacity(0.7)))
             if let destination = model.suggestionDestination {
                 Text("\(hasSearchQuery ? "All songs" : "Suggestions") → \(destination.rawValue.uppercased())").foregroundStyle(deckBlue)
@@ -269,10 +274,10 @@ extension BrowserView {
             }
             Spacer()
             if !showingSuggestions {
-                Button(selecting ? "Done" : "Edit") { selecting.toggle(); selection=[] }
+                Button(selecting ? "Done" : "Edit") { selecting.toggle(); selection=[] }.frame(minWidth: 44, minHeight: 44)
                 if selecting { Button("Add to Playlist") { adding=true }.disabled(selection.isEmpty) }
             }
-            Button { model.browserVisible = false } label: { Image(systemName: "chevron.down") }
+            Button { model.browserVisible = false } label: { Image(systemName: "chevron.down").frame(width: 44, height: 44) }
                 .accessibilityLabel("Close songs")
         }
         .font(.system(size: 15, weight: .semibold)).foregroundStyle(PerformancePalette.text)
@@ -308,7 +313,7 @@ extension BrowserView {
             HStack {
                 Spacer()
                 Button { newPlaylistPresented = true } label: {
-                    Image(systemName: "plus").font(.system(size: 17, weight: .semibold)).frame(width: 46, height: 36).bevelPanel(cornerRadius: 4)
+                    Image(systemName: "plus").font(.system(size: 17, weight: .semibold)).frame(width: 44, height: 44).bevelPanel(cornerRadius: 4)
                 }.accessibilityLabel("New playlist")
             }.padding(.horizontal, 14).frame(height: 56).background(PerformancePalette.panel)
             LibraryGroupList(title: "Playlists", source: groupSource, selectedID: group, includesAll: false,
@@ -372,7 +377,7 @@ extension BrowserView {
                 if !hasSearchQuery && category == .playlists {
                     Button { sort = nil } label: {
                         Image(systemName: "music.note.list").font(.system(size: 20, weight: .semibold))
-                            .foregroundStyle(sort == nil ? Color.black : PerformancePalette.secondaryText).frame(width: 42, height: 38)
+                            .foregroundStyle(sort == nil ? Color.black : PerformancePalette.secondaryText).frame(width: 44, height: 44)
                             .background(RoundedRectangle(cornerRadius: 5).fill(sort == nil ? deckBlue : Color.clear))
                     }.accessibilityLabel("Sort by playlist order")
                 }
@@ -434,7 +439,7 @@ extension BrowserView {
         Button { sort = value } label: {
             Image(systemName: symbol).font(.system(size: 20, weight: .semibold))
                 .foregroundStyle(displayedSort == value ? Color.black : PerformancePalette.secondaryText)
-                .frame(width: 42, height: 38)
+                .frame(width: 44, height: 44)
                 .background(RoundedRectangle(cornerRadius: 5).fill(displayedSort == value ? deckBlue : Color.clear))
         }.accessibilityLabel("Sort by \(label)")
     }
@@ -507,6 +512,7 @@ extension BrowserView {
                 let entry = currentSelection
                 DeckArtwork(source: entry.flatMap { ArtworkSource.track($0.track, item: $0.nativeItem, media: model.store.mediaDirectory) }, placeholderSize: 40)
                     .frame(width: 112, height: 112).background(PerformancePalette.sunken).clipShape(RoundedRectangle(cornerRadius: 3))
+                    .overlay { TrackHeadphoneIndicator(model:model,trackID:entry?.track?.id) }
                 VStack(alignment: .leading, spacing: 5) {
                     HStack(spacing: 6) {
                         Text(entry?.title ?? "Choose a song").font(.system(size: 18, weight: .bold)).lineLimit(2).minimumScaleFactor(0.8)
@@ -524,14 +530,14 @@ extension BrowserView {
                         guard let entry else { return }
                         model.enqueue(entry.id)
                     } label: {
-                        Image(systemName: "text.badge.plus").font(.system(size: 20)).frame(width: 56, height: 40).bevelPanel(cornerRadius: 4)
+                        Image(systemName: "text.badge.plus").font(.system(size: 20)).frame(width: 48, height: 44).bevelPanel(cornerRadius: 4)
                             .foregroundStyle(entry.map { model.queuedIDs.contains($0.id) } == true ? deckBlue : PerformancePalette.text)
                     }.disabled(entry == nil).accessibilityLabel("Add to prep list")
                 }
                 Spacer(minLength: 0)
                 LoadSlider(tall: true) { deck in if let entry { model.loadLibraryEntry(entry, deck: deck) } }
                     .disabled(entry?.canLoad != true)
-            }.padding(14).frame(height: 190)
+            }.padding(14).frame(height: TallLoadSliderMetrics.height + 8 + 28)
             Rectangle().fill(Color.white.opacity(0.08)).frame(height: 1).padding(.horizontal, 14)
             HStack(spacing: 8) {
                 detailTabButton(recommendationSeed.map { "Rec for \($0.title)" } ?? "Recommendations", .match)
@@ -556,6 +562,16 @@ extension BrowserView {
                             recommendationRow(entry, keyOK: false, tempoOK: false)
                                 .contextMenu { Button("Remove from prep list", role: .destructive) { model.dequeue(entry.id) } }
                         }
+                        ForEach(unavailableQueuedIDs, id: \.self) { queuedID in
+                            HStack {
+                                Image(systemName: "exclamationmark.triangle").foregroundStyle(PerformancePalette.secondaryText)
+                                Text("Track unavailable in library").font(.system(size: 14)).foregroundStyle(PerformancePalette.secondaryText)
+                                Spacer()
+                                Button("Remove") { model.dequeue(queuedID) }
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .accessibilityLabel("Remove unavailable track from prep list")
+                            }.padding(.horizontal, 14).frame(height: 56)
+                        }
                     }
                 }
             }
@@ -576,6 +592,7 @@ extension BrowserView {
             HStack(spacing: 10) {
                 DeckArtwork(source: ArtworkSource.track(entry.track, item: entry.nativeItem, media: model.store.mediaDirectory), placeholderSize: 12)
                     .frame(width: 44, height: 44).background(PerformancePalette.sunken).clipShape(RoundedRectangle(cornerRadius: 3))
+                    .overlay { TrackHeadphoneIndicator(model:model,trackID:entry.track?.id) }
                 VStack(alignment: .leading, spacing: 2) {
                     Text(entry.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(PerformancePalette.text).lineLimit(1)
                     Text(entry.artist).font(.system(size: 14)).foregroundStyle(PerformancePalette.secondaryText).lineLimit(1)
@@ -589,11 +606,16 @@ extension BrowserView {
         }
     }
     fileprivate var queuedEntries: [LibraryBrowserEntry] {
-        guard let entries = projection?.entries else { return [] }
+        guard let projection else { return [] }
         var byID: [String: LibraryBrowserEntry] = [:]
         let wanted = Set(model.queuedIDs)
-        for entry in entries where wanted.contains(entry.id) { byID[entry.id] = entry }
+        for entry in projection.allEntries + projection.entries where wanted.contains(entry.id) { byID[entry.id] = entry }
         return model.queuedIDs.compactMap { byID[$0] }
+    }
+    private var unavailableQueuedIDs: [String] {
+        guard projection != nil else { return [] }
+        let availableIDs = Set(queuedEntries.map(\.id))
+        return model.queuedIDs.filter { !availableIDs.contains($0) }
     }
     /// Recomputes when a deck loads or starts playing, the destination changes, or the list or hints change.
     fileprivate var recommendationKey: String {

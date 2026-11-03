@@ -1,0 +1,25 @@
+FAIL line 29: Optional(checks.ArrangementRole.unknown) != Optional(checks.ArrangementRole.chorus)
+FAIL line 30: Optional(checks.ArrangementRole.unknown) != Optional(checks.ArrangementRole.chorus)
+FAIL line 31: Optional(checks.ArrangementRole.unknown) != Optional(checks.ArrangementRole.verse)
+FAIL line 32: Optional(8753829) != Optional(16166761)
+FAIL line 33: Optional(8753829) != Optional(7450111)
+FAIL line 34: expected true
+FAIL line 35: expected true
+FAIL line 36: expected true
+FAIL line 48: Optional(checks.ArrangementBehaviour.sustaining) != Optional(checks.ArrangementBehaviour.breakingDown)
+FAIL line 49: expected true
+FAIL line 50: Optional(checks.ArrangementBehaviour.sustaining) != Optional(checks.ArrangementBehaviour.dropping)
+FAIL line 60: -1.0 != 88000.0
+FAIL line 63: expected a value
+FAIL line 64: inf > 16000.0
+FAIL line 65: -1.0 < 64000.0
+FAIL line 66: inf > 88000.0
+Five structure checks, 16 failed assertions
+Traceback (most recent call last):
+  File "/tmp/run-r09-checks.py", line 21, in <module>
+    subprocess.run([str(work/'checks')],check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/tmp/generik-r09-checks/checks']' returned non-zero exit status 1.

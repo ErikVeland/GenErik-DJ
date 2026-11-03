@@ -36,6 +36,6 @@ public struct LibraryBrowserEntry: Sendable, Identifiable {
         // Prepared values win; collection or first-minute results fill the rest.
         key=track?.key ?? hint?.key;bpm=track?.bpm ?? hint?.bpm
         isMix=hint?.isMix == true || NativeAnalysisPlan.isMix(duration:nativeItem?.duration ?? track?.analysis.duration)
-        canLoad=(track != nil && track?.nativeLibraryOnly != true) || nativeItem?.availability == .available
+        canLoad=(track != nil && track?.nativeLibraryOnly != true) || nativeItem?.isOnDevice == true
     }
 }

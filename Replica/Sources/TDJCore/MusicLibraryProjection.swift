@@ -17,7 +17,7 @@ public struct MusicLibraryProjection: Sendable {
             for song in songs {
                 try check()
                 if sources.contains(song.source) { prepared.insert(song.id) }
-                else if song.availability == .available { selectable.insert(song.id) }
+                else if song.isOnDevice { selectable.insert(song.id) }
             }
             return Self(songs: songs, preparedIDs: prepared, selectableIDs: selectable)
         }

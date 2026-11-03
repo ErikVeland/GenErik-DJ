@@ -1,0 +1,46 @@
+{
+  "notes": "R09/R29/R30: Automatic musical section names/colours, named section hot cues in free slots, vocal/mix/ending suggestions, full analysis on load when BPM or key is missing, larger main waveform with continuous resizing, vertical FX/EQ/Loop/Play rail, optional Cue/headphone buttons and cue artwork indicators. Inferred names show ?. Duo test; Erik acceptance pending.",
+  "sourceCommit": "4dfc867f889bf33a5cda2fdeeb2bc2ee57c6ccdc",
+  "sourceSHA256": "f62a51098a449c796010c9c07292fa681b4419e67eb11b26b64683c25494f9b7",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 57.54,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "date": "2026-11-03",
+      "requestIDs": [
+        "R29",
+        "R33"
+      ],
+      "text": "Assumed build 70: BPM detection needs better reliability. 3Cag has a long intro. Search for the first supported beat later in the track, even near the end, when the opening gives no reliable tempo."
+    },
+    {
+      "kind": "Erik UI feedback",
+      "text": "Confirmed build 70 installed on Duo. Restore fixed right FX/EQ/loop/Play stacks with centre fader. Extra loop length/hotcue/freeze/Flux controls must be visible and separately swipeable. Edit-grid icon must show four beat lines. Align buttons, rename display to GenErik DJ, inset header content for rounded viewport. Every add-track icon tap currently opens the library only a sliver and requires manual expansion."
+    }
+  ],
+  "log": "TestBuilds/ipad/build-70.log",
+  "build": 70,
+  "app": "TestBuilds/ipad/70/GenErikDJ.app",
+  "appSHA256": "78c880241354d758bc000556fc40026c651d80b00e41f8c39db8b4ddb7816c86",
+  "state": "testing",
+  "createdUTC": "2026-11-03T06:54:28.635562+00:00",
+  "installedUTC": "2026-11-03T06:56:15.151287+00:00",
+  "launchedUTC": "2026-11-03T06:56:15.984616+00:00",
+  "requestIDs": [
+    "R09",
+    "R29",
+    "R30"
+  ],
+  "deployments": [
+    {
+      "device": "GenErik Duo",
+      "deviceID": "00008160-000859C436800036",
+      "state": "installed-and-launched",
+      "installedUTC": "2026-11-03T06:56:15.151287+00:00",
+      "launchedUTC": "2026-11-03T06:56:15.984616+00:00"
+    }
+  ],
+  "focusedChecks": "Ten production checks passed, including actual PCM classification, cancellation, missing BPM/key policy, automatic section cue allocation, cue limits, manual cue preservation and deletion persistence. Continuous geometry checks passed. See docs/testing/checks/R09/2026-11-03-musical-structure/result.json.",
+  "acceptance": "Pending Erik testing real section labels/colours and cue positions, 3Cag reanalysis and resulting BPM/key, waveform readability, stacked controls, optional buttons, controller headphone indicators and clean other-deck audio. No further device actions after launch."
+}

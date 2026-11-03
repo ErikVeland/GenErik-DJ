@@ -1,0 +1,31 @@
+{
+  "notes": "R33/R29: Recover reliable BPM after long intros with local windows through the ending and backward beat-train recovery. Keep anchors and adaptive timing on the source timeline. Seven focused checks passed. Includes latest R30/R31/R32 Duo UI and controller integration. 3Cag acceptance pending.",
+  "sourceCommit": "31f38a45cac9d1b9f4077401a379a3f976bf46c9",
+  "sourceSHA256": "6a5c5972299e6caeebff30f8de15c98ca772892509e904b72ef28974fd56f782",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 53.55,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-75.log",
+  "build": 75,
+  "app": "TestBuilds/ipad/75/GenErikDJ.app",
+  "appSHA256": "b8e527d15c05794e3026a79b4a3918a32303887aa52e101d8067eebc4f90789d",
+  "state": "ready",
+  "createdUTC": "2026-11-03T07:20:55.509049+00:00",
+  "requestIDs": [
+    "R29",
+    "R33"
+  ],
+  "deploymentAttempts": [
+    {
+      "device": "GenErik Duo",
+      "deviceID": "00008160-000859C436800036",
+      "state": "connection-unavailable",
+      "attemptedUTC": "2026-11-03T07:23:10.740354+00:00",
+      "error": "CoreDeviceError 4016: no device states were assertable for installation. Installation and launch were not confirmed.",
+      "log": "docs/testing/checks/R29/2026-11-03-late-rhythm/build-75-install.log"
+    }
+  ],
+  "focusedChecks": "Seven late-rhythm production checks passed, including decoded generated audio. See docs/testing/checks/R29/2026-11-03-late-rhythm/result.json.",
+  "acceptance": "Not installed. Unlock and reconnect Duo, then deploy saved build 75 without rebuilding. Erik tests 3Cag BPM, the first supported beat position, ordinary tracks and other-deck audio continuity. Do not infer real-track detection or device acceptance from fixtures or signing."
+}

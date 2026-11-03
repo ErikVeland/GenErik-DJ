@@ -1,0 +1,33 @@
+{
+  "notes": "R05/R26: Show only on-device audio in library, search, recommendations and native playlists. Includes build 58 Load A/B gesture change and current integrated MIDI source. Install on iPad and Duo. Device acceptance pending.",
+  "sourceCommit": "70147b78c65d46f72f097f81b0053acf5cb637ba",
+  "sourceSHA256": "7bf579fa6a5faf4f5996d9c53691f35cdae5ce10d5317aacae35380082e62d47",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 58.52,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-59.log",
+  "build": 59,
+  "app": "TestBuilds/ipad/59/GenErikDJ.app",
+  "appSHA256": "26ce6fb196573f243c23257e959b29ace1eaff2d56bd4f58d3581c8426dae06d",
+  "state": "ready",
+  "createdUTC": "2026-11-03T05:54:58.730002+00:00",
+  "requestIDs": [
+    "R05",
+    "R26"
+  ],
+  "deployments": [
+    {
+      "device": "GenErik Duo",
+      "state": "installation-timeout",
+      "note": "First installation attempt exceeded the 20-second device timeout. Installation was not confirmed."
+    },
+    {
+      "device": "GenErik iPad",
+      "state": "installation-timeout",
+      "note": "First installation attempt exceeded the 20-second device timeout. Installation was not confirmed."
+    }
+  ],
+  "acceptance": "Pending Erik checking local songs, cloud-only exclusions, search, recommendations and playlists. Both first installation attempts timed out. Device readiness requested before retry.",
+  "focusedChecks": "Local library filter checks passed. See docs/testing/checks/R26/2026-11-03-local-library-filter/result.json."
+}

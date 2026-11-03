@@ -1,0 +1,36 @@
+{
+  "notes": "R27/R25: Fill the Duo window, hide duplicate system overlays, enable all orientations. Give tall loader a bounded rail and symmetric reachable A/B endpoints. Increase detail header to contain control. Duo-only test. Erik acceptance pending.",
+  "sourceCommit": "4ecd2bbe6685d43e3b32ad8ac61b0f97c1842c2e",
+  "sourceSHA256": "2abf77dadd86d618e5840f564301e7a079d65c8504e3f5e14d40a9808c0dbbfc",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 39.35,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "kind": "Erik request",
+      "text": "Any unanalysed track added to a deck should immediately be analysed. Record as R29. Last active target is Duo."
+    }
+  ],
+  "log": "TestBuilds/ipad/build-61.log",
+  "build": 61,
+  "app": "TestBuilds/ipad/61/GenErikDJ.app",
+  "appSHA256": "c35a483238476b1219d2caad17089719c3b6e21dbf5eddb1ae82bb8f161533c3",
+  "state": "testing",
+  "createdUTC": "2026-11-03T06:12:18.882987+00:00",
+  "installedUTC": "2026-11-03T06:12:45.159105+00:00",
+  "launchedUTC": "2026-11-03T06:12:48.078854+00:00",
+  "requestIDs": [
+    "R25",
+    "R27"
+  ],
+  "deployments": [
+    {
+      "device": "GenErik Duo",
+      "state": "installed-and-launched",
+      "installedUTC": "2026-11-03T06:12:45.159105+00:00",
+      "launchedUTC": "2026-11-03T06:12:48.078854+00:00"
+    }
+  ],
+  "focusedChecks": "Handle containment, exact A/B drag endpoint release, A/B endpoint taps, plist lint and packaged orientation checks passed. See docs/testing/checks/R27/2026-11-03-duo-window-loader/result.json.",
+  "acceptance": "Pending Erik checking full inner-screen coverage, both orientations, browser columns and performance controls. Verify the handle stays between A/B labels and dragging down releases to B. No further device actions after launch."
+}

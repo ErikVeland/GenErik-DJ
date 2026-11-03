@@ -51,7 +51,7 @@ extension ReplicaModel {
     public func startNativeMusicAnalysis() {
         let state = nativeMusic
         guard state.wanted, !state.closed, state.analysisOwner == nil, state.analyses.isEmpty,
-              state.loadOwners.isEmpty, let catalog = musicLibraryCatalog else { return }
+              state.loadOwners.isEmpty, preparingPlayback.isEmpty, let catalog = musicLibraryCatalog else { return }
         let token = UUID()
         let loadedSources = Set(loaded.values.flatMap { id in library.tracks.first { $0.id == id }?.musicLibrarySources ?? [] })
         let analysedMixes = Set(analysisHints.entries.filter { $0.value.isMix }.keys)
@@ -165,7 +165,7 @@ extension ReplicaModel {
                 guard let item else { throw MusicLibraryError.missingAudio }
                 selectedID = item.id
                 status = "Preparing \(item.title)…"
-                if item.availability == .available {
+                if item.isOnDevice {
                     try await withNativeAudio(item) { prepared in
                         var track = await self.preparedNativeTrack(item)
                         if track == nil {
@@ -232,7 +232,7 @@ extension ReplicaModel {
         let projection = nativeMusic.projection
         beginNativeMusicLoad(deck: deck) {
             await projection.run {
-                catalog?.items.first { sources.contains($0.source) && $0.availability == .available }
+                catalog?.items.first { sources.contains($0.source) && $0.isOnDevice }
             }
         }
     }

@@ -1,0 +1,43 @@
+{
+  "notes": "R30: Draggable deck/library split, matched overview transitions, collapsible controls beside transport with 48-point tool targets, and one current-section label. Reference was a JPEG, not a recording. Duo test candidate; Erik acceptance pending.",
+  "sourceCommit": "8f0469218be2d8469cd11420bc6da21dc9766881",
+  "sourceSHA256": "9f60c45831f91d80b76719cbaa31258b9fae6b165e3445928d5e521f97ac1473",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 37.49,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "date": "2026-11-03",
+      "requestIDs": [
+        "R09",
+        "R30"
+      ],
+      "text": "Assumed build 63: analysed tracks still lack agreed musical names and colours. Main waveform is squeezed to a thin strip on the Duo inner screen. Buttons must stay vertically stacked. Cue and headphone buttons should be optional, with a headphone icon over the cued track artwork. Erik requests a new Duo test build."
+    },
+    {
+      "kind": "Reference recording review",
+      "text": "Erik supplied RPReplay_Final1793686461.mov and asked for follow-through. Review confirms that Traktor expands one retained deck layout continuously, with the overview remaining at the deck bottom and the library sliding away. Build 63 still switches compact/full deck views at a threshold. R30 follow-up removes that switch."
+    }
+  ],
+  "log": "TestBuilds/ipad/build-63.log",
+  "build": 63,
+  "app": "TestBuilds/ipad/63/GenErikDJ.app",
+  "appSHA256": "801c6a902a80de139d59d67081927d2d4ce9e912fb5037c7f05d45e5aa82b3f6",
+  "state": "testing",
+  "createdUTC": "2026-11-03T06:26:26.361370+00:00",
+  "installedUTC": "2026-11-03T06:26:43.330679+00:00",
+  "launchedUTC": "2026-11-03T06:26:44.381178+00:00",
+  "requestIDs": [
+    "R30"
+  ],
+  "deployments": [
+    {
+      "device": "GenErik Duo",
+      "state": "installed-and-launched",
+      "installedUTC": "2026-11-03T06:26:43.330679+00:00",
+      "launchedUTC": "2026-11-03T06:26:44.381178+00:00"
+    }
+  ],
+  "focusedChecks": "Production layout sizing checks and Swift syntax parsing passed. See docs/testing/checks/R30/2026-11-03-flexible-layout/result.json.",
+  "acceptance": "Pending Erik checking divider drag, compact-to-expanded overview transition, rotation, show/hide controls, 48-point tool buttons, 56-point transport buttons, section label clarity and uninterrupted audio. Closed-phone design remains R28. Only a JPEG reference was available. No further device actions after launch."
+}

@@ -6,15 +6,20 @@ public struct PerformanceCue: Codable, Equatable, Sendable {
     public var frame: Double
     public var loopEnd: Double?
     public var kind: PerformanceCueKind?
+    public var sectionName: String?
+    public var sectionColour: UInt32?
     public var category: PerformanceCueKind { kind ?? (loopEnd == nil ? .cue : .loop) }
-    public init(frame: Double, loopEnd: Double? = nil, kind: PerformanceCueKind? = nil) {
+    public init(frame: Double, loopEnd: Double? = nil, kind: PerformanceCueKind? = nil,
+                sectionName: String? = nil, sectionColour: UInt32? = nil) {
         self.frame=frame; self.loopEnd=loopEnd; self.kind=kind
+        self.sectionName=sectionName; self.sectionColour=sectionColour
     }
 }
 
 /// Independent performance state with separately retained imported-cue history.
 public struct PerformancePreparation: Codable, Sendable {
     public var cues: [String: [Int: PerformanceCue]] = [:]
+    public var sectionCueTracks: Set<String>? = nil
     public static let quantizeSizes: [Double] = [0.25,0.5,1,4]
     public var quantize: Double = 0.5
     public var slicerQuantize = true

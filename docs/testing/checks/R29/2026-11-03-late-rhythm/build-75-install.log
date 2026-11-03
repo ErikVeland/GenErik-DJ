@@ -1,0 +1,9 @@
+ERROR: The device is not able to fulfill the requested usage assertion requirements. (com.apple.dt.CoreDeviceError error 4016 (0xFB0))
+       RequestedDeviceStates = (
+           "com.apple.coredevice.remoteServiceDiscoveryTrustedConnectivityAvailable",
+           "com.apple.coredevice.powerAssertionTaken",
+           "com.apple.coredevice.coreDeviceServicesLoaded"
+       )
+       CurrentlyAssertableStates = (
+       )
+Stopped: Command '['xcrun', 'devicectl', '--timeout', '20', 'device', 'install', 'app', '--device', '00008160-000859C436800036', '/Users/veland/GenErik DJ/TestBuilds/ipad/75/GenErikDJ.app']' returned non-zero exit status 1.

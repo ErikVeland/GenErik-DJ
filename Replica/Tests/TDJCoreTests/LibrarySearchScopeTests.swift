@@ -17,7 +17,7 @@ private func searchScopeItem(_ id: String, title: String,
     availability: MusicLibraryItem.Availability = .available) -> MusicLibraryItem {
     .init(source: .init(platform: .iosMusic, persistentID: id), title: title,
         artist: "Native artist", album: "Native album", genre: "Techno",
-        assetURL: nil, availability: availability)
+        assetURL: URL(string: "ipod-library://item/\(id)"), availability: availability)
 }
 
 @Test func librarySearchIgnoresRecommendationMembershipAndUsesNormalSort() async throws {
@@ -71,16 +71,27 @@ private func searchScopeItem(_ id: String, title: String,
     }
 }
 
-@Test func librarySearchIncludesUnanalysedAndUnavailableSongsWithoutMakingThemLoadable() async throws {
-    let available = searchScopeItem("available", title: "Needle available")
+@Test func librarySearchShowsOnlySongsStoredOnThisDevice() async throws {
+    let available = MusicLibraryItem(source: .init(platform: .iosMusic, persistentID: "available"),
+        title: "Needle available", artist: "Native artist", album: "Native album", genre: "Techno",
+        assetURL: URL(string: "ipod-library://item/available"), availability: .available)
     let cloud = searchScopeItem("cloud", title: "Needle cloud", availability: .notDownloaded)
     let protected = searchScopeItem("protected", title: "Needle protected", availability: .protected)
+    let catalog = MusicLibraryCatalog(items: [protected, cloud, available], playlists: [
+        .init(id: "mixed", name: "Mixed", itemIDs: [cloud.id, protected.id, available.id]),
+        .init(id: "cloud", name: "Cloud only", itemIDs: [cloud.id])
+    ])
+    #expect(catalog.playlists.map(\.id) == ["mixed"])
+    #expect(catalog.playlists.first?.itemIDs == [available.id])
     let result = try await LibraryBrowserProjection.build(tracks: [], suggestionIDs: [],
         search: "needle", sort: .title, category: .songs, group: nil, playlists: .init(),
-        catalog: .init(items: [protected, cloud, available], playlists: []))
-    #expect(result.entries.map(\.id) == [available.id, cloud.id, protected.id])
-    #expect(result.entries.allSatisfy { $0.track == nil })
-    #expect(result.entries.map(\.canLoad) == [true, false, false])
+        catalog: catalog)
+    #expect(result.entries.map(\.id) == [available.id])
+    #expect(result.entries.allSatisfy { $0.track == nil && $0.canLoad })
+    let mixed = try await LibraryBrowserProjection.build(tracks: [], suggestionIDs: nil,
+        search: "", sort: nil, category: .playlists, group: "music:mixed", playlists: .init(), catalog: catalog)
+    #expect(mixed.groups.map(\.id) == ["music:mixed"])
+    #expect(mixed.entries.map(\.id) == [available.id])
 }
 
 @Test func clearingLibrarySearchRestoresRecommendationRankAndPlaylistMembership() async throws {
@@ -122,6 +133,19 @@ private func searchScopeItem(_ id: String, title: String,
             group: group, playlists: playlists, catalog: nil)
         #expect(result.tracks.map(\.id) == [outside.id, current.id])
     }
+}
+
+@Test func customPlaylistRestoresPreparedLocalCopyWithoutMusicCatalogue() async throws {
+    var prepared = try searchScopeTrack(1, title: "Prepared local song")
+    let source = MusicLibrarySource(platform: .iosMusic, persistentID: "saved-source")
+    prepared.musicLibrarySources = [source]
+    var playlists = CollectionPlaylists()
+    try playlists.add(trackIDs: [source.id], name: "Offline set")
+    let group = try #require(playlists.playlists.first?.id.uuidString)
+    let result = try await CollectionProjection.build(tracks: [prepared], suggestionIDs: nil,
+        search: "", sort: .title, category: .playlists, group: group,
+        playlists: playlists, catalog: nil)
+    #expect(result.tracks.map(\.id) == [prepared.id])
 }
 
 @Test func nativeMusicSearchFindsMatchesOutsideTheSelectedPlaylist() async throws {

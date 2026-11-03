@@ -1,0 +1,23 @@
+{
+  "sourceCommit": "1d5e591cff2d8b9645dabb12dc3b3ab87bb5254d",
+  "checks": {
+    "swiftSyntaxParse": "passed for updated UI sources",
+    "projectPlist": "passed",
+    "buildHelperSyntax": "passed"
+  },
+  "changes": [
+    "Edit Grid uses four equal vertical lines",
+    "Toolbar controls use 44-point height and 32-point side insets",
+    "Progress uses its own row",
+    "Deck/grid-editor/browser button rows use common 44-point targets",
+    "Installed display name is GenErik DJ"
+  ],
+  "scope": "Source and syntax checks. Packaged display name and signed build are checked separately. Actual rounded-corner clearance and per-view visual alignment require Erik acceptance on Duo.",
+  "signedDeviceBuild": {
+    "build": 73,
+    "result": "passed",
+    "sourceCommit": "1d5e591cff2d8b9645dabb12dc3b3ab87bb5254d",
+    "sourceSHA256": "13199baaefbb6e3163a40c2074baea91e5f58dae7f257362b2e47f2d4e30150a"
+  },
+  "packagedDisplayName": "GenErik DJ"
+}

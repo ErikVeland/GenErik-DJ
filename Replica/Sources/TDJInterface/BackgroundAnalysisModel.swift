@@ -56,7 +56,7 @@ extension ReplicaModel {
 
     /// Mixes: analyse the opening minute for tempo, grid and key without exporting the whole file.
     func analyseMixOpening(_ item: MusicLibraryItem) async throws {
-        guard item.availability == .available, let url = item.assetURL else { throw MusicLibraryError.missingAudio }
+        guard item.isOnDevice, let url = item.assetURL else { throw MusicLibraryError.missingAudio }
         let directory = store.root.appendingPathComponent(".native-source-" + UUID().uuidString, isDirectory: true)
         let files = nativeMusic.files
         await files.run { try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true) }
