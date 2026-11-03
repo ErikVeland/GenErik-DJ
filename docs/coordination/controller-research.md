@@ -1,6 +1,6 @@
 # Controller implementation knowledge
 
-Reviewed 2 November 2026. Request R23 now covers **all NI controllers and class-compliant MIDI controllers**, including hardware marketed for Serato, Pioneer DJ/AlphaTheta and other DJ systems. Z1 Mk1 remains first. A hardware bridge is allowed. The app target remains the A10X iPad.
+Reviewed 3 November 2026. Request R23 now covers **all NI controllers and class-compliant MIDI controllers**, including hardware marketed for Serato, Pioneer DJ/AlphaTheta and other DJ systems. Z1 Mk1 remains first. A hardware bridge is allowed. The app target remains the A10X iPad.
 
 ## Evidence rules
 
@@ -47,6 +47,7 @@ The upstream controller scripts were inspected as protocol references. They are 
 - Three relative encodings with reversible direction. Continuous controls are coalesced per input drain.
 - Note buttons, poly/channel pressure and program-change button events.
 - Existing transport, mixer, filter, FX, ±8% tempo, loops, Beat Jump, Freeze and eight hotcues per deck exposed to Learn.
+- User-configured generic MIDI Note/Control Change feedback, scoped to the selected output destination.
 - Original Z1 development bridge framing, Linux HID relay, calibration, native input and light/meter output route.
 
-This does not finish all controller support. Model profiles, jog/touch support, simultaneous input selection, soft takeover, generic output feedback, native displays/motors and actual bridge audio remain open. Physical Z1 and bridge acceptance remain with Erik.
+This does not finish all controller support. Verified model profiles, jog/touch and modifier support, simultaneous input selection, soft takeover, native displays/motors and actual bridge audio remain open. Physical Z1 and bridge acceptance remain with Erik.
