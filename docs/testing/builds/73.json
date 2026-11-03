@@ -1,0 +1,31 @@
+{
+  "notes": "R30/R31/R32: Fixed TDJ1 right stacks and centred fader; visible separate swipe-away extra controls. Four-beat edit icon, aligned 44-point controls, inset responsive header, GenErik DJ display name. Every add-track tap maximizes browsing space. Includes current build 70 analysis/cue work. Supersedes uninstalled build 72. Duo acceptance pending.",
+  "sourceCommit": "1d5e591cff2d8b9645dabb12dc3b3ab87bb5254d",
+  "sourceSHA256": "13199baaefbb6e3163a40c2074baea91e5f58dae7f257362b2e47f2d4e30150a",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 51.95,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-73.log",
+  "build": 73,
+  "app": "TestBuilds/ipad/73/GenErikDJ.app",
+  "appSHA256": "aa138b5c6cd8db9185a2fbd947c1ddfafcba197b750739925f1ecaefc1c05983",
+  "state": "ready",
+  "createdUTC": "2026-11-03T07:13:19.605994+00:00",
+  "requestIDs": [
+    "R30",
+    "R31",
+    "R32"
+  ],
+  "displayName": "GenErik DJ",
+  "deployments": [
+    {
+      "device": "GenErik Duo",
+      "state": "installation-connection-refused",
+      "errorCode": "com.apple.dt.CoreDeviceError 4016",
+      "note": "No currently assertable device states for trusted connectivity, power assertion or developer services. Installation was not confirmed. Requested Erik unlock and reconnect Duo."
+    }
+  ],
+  "focusedChecks": "Panel state and fader clearance, continuous deck geometry, maximum library opening, Swift syntax, project plist, Python helper syntax, signature and packaged display name passed.",
+  "acceptance": "Pending installation and Erik checking fixed right stacks, centred fader, separate extra-controls swipe, repeated add-track browser expansion, four-beat grid icon, button alignment and header corner clearance."
+}
