@@ -7,6 +7,7 @@ public struct EmbeddedMetadata: Sendable {
     public var album: String?
     public var genre: String?
     public var artwork: Data?
+    public var initialKeys: [String] = []
     public init() {}
 
     public static func read(url: URL) async throws -> Self {
@@ -22,6 +23,11 @@ public struct EmbeddedMetadata: Sendable {
         for format in try await asset.load(.availableMetadataFormats) {
             for item in try await asset.loadMetadata(for: format) {
                 let identifier = item.identifier
+                if identifier == .id3MetadataInitialKey,
+                   let rawValue = try await item.load(.stringValue) {
+                    let value = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+                    if !value.isEmpty, !result.initialKeys.contains(value) { result.initialKeys.append(value) }
+                }
                 if identifier == .iTunesMetadataUserGenre || identifier == .id3MetadataContentType
                     || identifier == .quickTimeMetadataGenre {
                     if let value = try await item.load(.stringValue), !value.isEmpty { result.genre = value }

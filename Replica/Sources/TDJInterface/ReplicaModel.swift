@@ -521,7 +521,7 @@ public final class ReplicaModel {
 
     public func previewKeyImport(from url: URL) async throws -> (KeyImportManifest, KeyImportPlan) {
         let data = try await importAccess.withAccess(to:url) {
-            let result: Result<Data,String> = await self.keyImportFileWork.run {
+            let result: Result<Data,CoreError> = await self.keyImportFileWork.run {
                 do {
                     let handle = try FileHandle(forReadingFrom: url)
                     defer { try? handle.close() }
@@ -533,18 +533,48 @@ public final class ReplicaModel {
                         if chunk.isEmpty { break }
                         data.append(chunk)
                     }
-                    guard data.count <= limit else { return .failure("The key import exceeds the 2 MB limit.") }
+                    guard data.count <= limit else { return .failure(.invalidAudio("The key import exceeds the 2 MB limit.")) }
                     return .success(data)
-                } catch { return .failure(error.localizedDescription) }
+                } catch { return .failure(.invalidAudio(error.localizedDescription)) }
             }
             switch result {
             case .success(let data): return data
-            case .failure(let message): throw CoreError.invalidAudio(message)
+            case .failure(let error): throw error
             }
         }
         let manifest=try JSONDecoder().decode(KeyImportManifest.self,from:data)
         let plan=try await service.previewKeyImport(data:data)
         return (manifest,plan)
+    }
+
+    public func previewEmbeddedKeyImport(from url: URL) async throws -> (KeyImportManifest, KeyImportPlan) {
+        let (contentSHA256, metadata) = try await importAccess.withAccess(to: url) {
+            let before = try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
+            let hashResult: Result<String,CoreError> = await self.keyImportFileWork.run {
+                do { return .success(try AudioAnalyzer.sha256(url: url)) }
+                catch { return .failure(.invalidAudio(error.localizedDescription)) }
+            }
+            let metadata = try await EmbeddedMetadata.read(url: url)
+            let after = try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
+            guard before.fileSize == after.fileSize,
+                  before.contentModificationDate == after.contentModificationDate else { throw CoreError.staleContext }
+            switch hashResult {
+            case .success(let digest): return (digest, metadata)
+            case .failure(let error): throw error
+            }
+        }
+        guard metadata.initialKeys.count == 1, let rawKey = metadata.initialKeys.first else {
+            throw CoreError.invalidAudio(metadata.initialKeys.isEmpty
+                ? "The audio file has no ID3 Initial Key tag."
+                : "The audio file has conflicting ID3 Initial Key tags.")
+        }
+        let notation = [KeyNotation.camelot, .openKey, .musical].first { (try? $0.parse(rawKey)) != nil }
+        guard let notation else { throw CoreError.invalidAudio("The ID3 Initial Key value uses an unsupported notation.") }
+        let manifest = KeyImportManifest(source: .mixedInKey, attribution: .userConfirmed,
+            sourceDescription: "User-confirmed ID3 Initial Key tag from \(url.lastPathComponent)",
+            entries: [.init(contentSHA256: contentSHA256, rawKey: rawKey, notation: notation)])
+        let plan = try await service.previewKeyImport(data: JSONEncoder().encode(manifest))
+        return (manifest, plan)
     }
 
     public func applyKeyImport(_ plan: KeyImportPlan) async throws {

@@ -6,9 +6,11 @@ import TDJCore
 struct KeyImportReviewView: View {
     @Bindable var model: ReplicaModel
     @State private var importing = false
+    @State private var importingTaggedAudio = false
     @State private var showingReview = false
     @State private var preview: (manifest: KeyImportManifest, plan: KeyImportPlan)?
     @State private var errorMessage: String?
+    @State private var mixedInKeyConfirmed = false
 
     private var protectedTrackIDs: Set<String> { Set(model.loaded.values) }
     private var hasPreview: Bool {
@@ -18,12 +20,18 @@ struct KeyImportReviewView: View {
     private var hasProtectedChanges: Bool {
         preview?.plan.changes.contains { protectedTrackIDs.contains($0.trackID) } ?? false
     }
+    private var needsMixedInKeyConfirmation: Bool {
+        preview?.manifest.source == .mixedInKey && !mixedInKeyConfirmed
+    }
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Key review file").font(.headline)
-            Text("Import GenErik’s governed JSON interchange. Native Mixed In Key files are not supported here.")
+            Text("Review the governed JSON interchange or an ID3 Initial Key tag. Direct Mixed In Key export files are not supported here.")
                 .font(.caption).foregroundStyle(.secondary)
             Button { importing = true } label: { Label("Review key import…", systemImage: "key.horizontal") }
+            Button { importingTaggedAudio = true } label: { Label("Review ID3 Initial Key tag…", systemImage: "music.note.list") }
+            Text("The selected audio file must match a track in this library byte-for-byte. Retagged files need to be imported into the library first.")
+                .font(.caption).foregroundStyle(.secondary)
             if let errorMessage {
                 Text(errorMessage).font(.caption).foregroundStyle(.red)
             }
@@ -36,6 +44,25 @@ struct KeyImportReviewView: View {
                     do {
                         preview = try await model.previewKeyImport(from: url)
                         errorMessage = nil
+                        mixedInKeyConfirmed = false
+                        showingReview = true
+                    } catch {
+                        errorMessage = error.localizedDescription
+                    }
+                }
+            case .failure(let error):
+                errorMessage = error.localizedDescription
+            }
+        }
+        .fileImporter(isPresented: $importingTaggedAudio, allowedContentTypes: [.audio], allowsMultipleSelection: false) { result in
+            switch result {
+            case .success(let urls):
+                guard let url = urls.first else { return }
+                Task {
+                    do {
+                        preview = try await model.previewEmbeddedKeyImport(from: url)
+                        errorMessage = nil
+                        mixedInKeyConfirmed = false
                         showingReview = true
                     } catch {
                         errorMessage = error.localizedDescription
@@ -62,6 +89,10 @@ struct KeyImportReviewView: View {
                             LabeledContent("Description", value: preview.manifest.sourceDescription)
                             Text("Attribution is a declaration. It does not verify the vendor or key accuracy.")
                                 .font(.caption).foregroundStyle(.secondary)
+                            if preview.manifest.source == .mixedInKey {
+                                Toggle("I confirm these key results came from Mixed In Key and match the listed tracks.",
+                                       isOn: $mixedInKeyConfirmed)
+                            }
                             if let version = preview.manifest.producerVersion {
                                 LabeledContent("Producer version", value: version)
                             }
@@ -92,7 +123,7 @@ struct KeyImportReviewView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Apply") { applyPreview() }
-                        .disabled(!hasPreview || hasProtectedChanges)
+                        .disabled(!hasPreview || hasProtectedChanges || needsMixedInKeyConfirmation)
                 }
             }
         }
