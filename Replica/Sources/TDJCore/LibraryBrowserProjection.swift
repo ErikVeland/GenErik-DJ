@@ -2,24 +2,26 @@ import Foundation
 
 private final class LibraryBrowserStorage: Sendable {
     let entries:[LibraryBrowserEntry]
+    let allEntries:[LibraryBrowserEntry]
     let groups:[CollectionGroup]
     let groupSource:LibraryGroupSource
     let playlistTargets:LibraryGroupSource
     let selectedGroup:CollectionGroup?
     private static let retirement=DispatchQueue(label:"org.generikdj.browser-retirement",qos:.background)
-    init(entries:[LibraryBrowserEntry],groups:[CollectionGroup],groupSource:LibraryGroupSource,playlistTargets:LibraryGroupSource,selectedGroup:CollectionGroup?) {
-        self.entries=entries;self.groups=groups;self.selectedGroup=selectedGroup
+    init(entries:[LibraryBrowserEntry],allEntries:[LibraryBrowserEntry],groups:[CollectionGroup],groupSource:LibraryGroupSource,playlistTargets:LibraryGroupSource,selectedGroup:CollectionGroup?) {
+        self.entries=entries;self.allEntries=allEntries;self.groups=groups;self.selectedGroup=selectedGroup
         self.groupSource=groupSource;self.playlistTargets=playlistTargets
     }
     deinit {
-        let entries=self.entries,groups=self.groups
-        Self.retirement.async(qos:.background,flags:.enforceQoS) { withExtendedLifetime((entries,groups)) {} }
+        let entries=self.entries,allEntries=self.allEntries,groups=self.groups
+        Self.retirement.async(qos:.background,flags:.enforceQoS) { withExtendedLifetime((entries,allEntries,groups)) {} }
     }
 }
 
 public struct LibraryBrowserProjection: Sendable {
     private let storage:LibraryBrowserStorage
     public var entries:[LibraryBrowserEntry] { storage.entries }
+    public var allEntries:[LibraryBrowserEntry] { storage.allEntries }
     public var groups:[CollectionGroup] { storage.groups }
     public var groupSource:LibraryGroupSource { storage.groupSource }
     public var playlistTargets:LibraryGroupSource { storage.playlistTargets }
@@ -176,7 +178,7 @@ public struct LibraryBrowserProjection: Sendable {
         try check()
         let source=try LibraryGroupSource.prepared(groups:groups,sortByName:false,reusing:previous?.groupSource,checkCancellation:check)
         let targets=try LibraryGroupSource.prepared(groups:playlistTargets,sortByName:false,reusing:previous?.playlistTargets,checkCancellation:check)
-        return Self(storage:.init(entries:result,groups:groups,groupSource:source,playlistTargets:targets,selectedGroup:source.group(for:group)))
+        return Self(storage:.init(entries:result,allEntries:all,groups:groups,groupSource:source,playlistTargets:targets,selectedGroup:source.group(for:group)))
     }
     public static func selectedIDs(selection:Set<String>,tracks:[Track],catalog:MusicLibraryCatalog?) async throws -> [String] {
         try await worker.run { check in

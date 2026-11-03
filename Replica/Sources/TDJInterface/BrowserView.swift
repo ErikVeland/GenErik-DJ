@@ -589,10 +589,10 @@ extension BrowserView {
         }
     }
     fileprivate var queuedEntries: [LibraryBrowserEntry] {
-        guard let entries = projection?.entries else { return [] }
+        guard let projection else { return [] }
         var byID: [String: LibraryBrowserEntry] = [:]
         let wanted = Set(model.queuedIDs)
-        for entry in entries where wanted.contains(entry.id) { byID[entry.id] = entry }
+        for entry in projection.allEntries + projection.entries where wanted.contains(entry.id) { byID[entry.id] = entry }
         return model.queuedIDs.compactMap { byID[$0] }
     }
     /// Recomputes when a deck loads or starts playing, the destination changes, or the list or hints change.
