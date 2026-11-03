@@ -25,3 +25,7 @@ Final review: self-review under the project rule against parallel agents. Geomet
 ## Device check
 
 Open and close the library. Drag its divider through several positions. Hide and show each extra-controls panel. Confirm both four-button stacks and the centre crossfader stay in place. Check FX, EQ, loop, Play/Stop and the fader on both decks. Listen for clean audio. Confirm the R34 neutral vocal labels remain on the same recording.
+
+## Build 78 handover
+
+Source `e6cf72aa2` passed incremental device compilation and signature checks in 52.4 seconds. Build 78 installed on the 10.5-inch test iPad. Automatic launch timed out after 10 seconds. Launch is unconfirmed. No further device actions were taken. Erik opens the app manually and performs the device check above. The pre-build request note is superseded by this result. Acceptance remains pending.
