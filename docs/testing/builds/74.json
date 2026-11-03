@@ -1,0 +1,15 @@
+{
+  "notes": "R31/R29: Search later local rhythm windows when whole-track BPM is missing or weak. Recover the first supported beat with its source position, preserve adaptive-map timing, reject isolated hits and retain the normal steady-track path. Configuration 0.3.2. Seven focused checks passed. Duo test for long-intro 3Cag; Erik acceptance pending.",
+  "sourceCommit": "df6f4fbbe2b02529bf4ee66ef1413c7393ba18d1",
+  "sourceSHA256": "33963f0ba16d60375cd7d810c489bbe9abb2ab615df0eb0b2c4e4837d23b2fc3",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 61.12,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-74.log",
+  "build": 74,
+  "app": "TestBuilds/ipad/74/GenErikDJ.app",
+  "appSHA256": "60227b54e541a26242260c33dcc5caad9ff842f5d708284ec45ca33e82239a92",
+  "state": "ready",
+  "createdUTC": "2026-11-03T07:17:51.907948+00:00"
+}
