@@ -1,0 +1,32 @@
+{
+  "notes": "R02/R30/R31: Fixed right-hand FX/EQ/loop/Play stacks and centre crossfader during library and extra-panel resizing. Retains the committed R34 false-chorus fix. 1322 focused geometry assertions pass. Erik checks touch layout and clean audio.",
+  "sourceCommit": "e6cf72aa26b36e75a91b30f44ca2e0a479b5ff14",
+  "sourceSHA256": "5bbcc571186374ece5572e28fc6fd5fb73f3d8eb647c19b7da4505b17079e298",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 52.4,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-78.log",
+  "build": 78,
+  "app": "TestBuilds/ipad/78/GenErikDJ.app",
+  "appSHA256": "6e52408d24060505ad1620250fea936853f2e6e8eee4fbc903015d26c200b165",
+  "state": "installed",
+  "createdUTC": "2026-11-03T13:48:50.965783+00:00",
+  "installedUTC": "2026-11-03T13:49:15.328986+00:00",
+  "requestIDs": [
+    "R02",
+    "R30",
+    "R31"
+  ],
+  "focusedChecks": "1,322 production dock/workspace assertions passed across iPad/Duo viewport sizes and library extents. A wrong resize-height dependency produces 224 failures. All five R34 source/test/fixture hashes remain unchanged.",
+  "acceptance": "Installed on the 10.5-inch test iPad. Automatic launch timed out. Erik opens GenErik DJ manually and checks both fixed FX/EQ/loop/Play stacks, centre crossfader, library/extra-panel resizing, clean audio and retained R34 labels. Physical touch and listening acceptance remain pending.",
+  "deploymentAttempts": [
+    {
+      "device": "GenErik iPad (10.5-inch)",
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "installed-launch-timeout",
+      "installedUTC": "2026-11-03T13:49:15.328986+00:00",
+      "error": "Installation succeeded. devicectl automatic launch exceeded its 10-second timeout and exited 2. Launch is unconfirmed. No further device actions were taken."
+    }
+  ]
+}
