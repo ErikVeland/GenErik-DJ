@@ -57,6 +57,8 @@ private struct ControllerBinding: Codable {
     let channel: UInt8
     let kind: ControllerMIDIMessage.Kind
     let number: UInt8
+    let parameter: UInt16?
+    let noteNumber: UInt8?
     let action: ControllerAction
     let encoding: ControllerMIDIEncoding?
     let inverted: Bool?
@@ -464,7 +466,8 @@ final class ControllerMIDIConnection {
         }
         func binding(_ action: ControllerAction, kind: ControllerMIDIMessage.Kind, channel: UInt8,
                      number: UInt8, encoding: ControllerMIDIEncoding = .absolute) -> ControllerBinding {
-            .init(source: selected, group: 0, channel: channel, kind: kind, number: number, action: action,
+            .init(source: selected, group: 0, channel: channel, kind: kind, number: number,
+                  parameter: nil, noteNumber: nil, action: action,
                   encoding: encoding, inverted: false, shifted: false)
         }
         var profile: [ControllerBinding] = []
@@ -506,7 +509,9 @@ final class ControllerMIDIConnection {
         return assigned.sorted { !$0.isShifted && $1.isShifted }.map { binding in
             let layer = binding.isShifted ? "Shift" : "Base"
             let reversed = binding.inverted == true ? " · reversed" : ""
-            return "\(layer): \(binding.kind.rawValue) \(binding.number) · group \(Int(binding.umpGroup) + 1), ch \(Int(binding.channel) + 1) · \(binding.mode.title)\(reversed)"
+            let parameter = binding.parameter.map { " · parameter \($0)" } ?? ""
+            let note = binding.noteNumber.map { " · note \($0)" } ?? ""
+            return "\(layer): \(binding.kind.rawValue) \(binding.number)\(parameter)\(note) · group \(Int(binding.umpGroup) + 1), ch \(Int(binding.channel) + 1) · \(binding.mode.title)\(reversed)"
         }.joined(separator: " / ")
     }
     private func bindingStateKey(source: Int32, action: ControllerAction, shifted: Bool, group: UInt8 = 0) -> String {
@@ -553,7 +558,9 @@ final class ControllerMIDIConnection {
     }
     private func receive(_ message: ControllerMIDIMessage) {
         guard let selected else { return }
-        lastInput = "\(message.kind.rawValue) \(message.number) · channel \(Int(message.channel) + 1)"
+        let parameter = message.parameter.map { " parameter \($0)" } ?? ""
+        let note = message.noteNumber.map { " note \($0)" } ?? ""
+        lastInput = "\(message.kind.rawValue) \(message.number)\(parameter)\(note) · channel \(Int(message.channel) + 1)"
         if let learning, message.kind != .note || message.value > 0 {
             if learning == .shift {
                 guard learningEncoding == .absolute, message.kind == .note || message.kind == .control else {
@@ -563,7 +570,9 @@ final class ControllerMIDIConnection {
             guard message.kind != .program || learning.isButton else {
                 status = "Program changes map to button actions. Use a knob, fader or pressure control for an amount."; return
             }
-            guard learningEncoding == .absolute || (message.kind == .control && !learning.isButton) else {
+            guard message.kind.isRelativeController
+                ? learningEncoding == .absolute && !learning.isButton
+                : learningEncoding == .absolute || (message.kind == .control && !learning.isButton) else {
                 status = "Use a CC knob/encoder for this mode, or choose Knob / fader for buttons."; return
             }
             guard learningEncoding != .paired14Bit || message.maximum <= 127 else {
@@ -577,6 +586,7 @@ final class ControllerMIDIConnection {
             let bindingIsShifted = learning == .shift ? false : learningShifted
             let sameInput: (ControllerBinding) -> Bool = { binding in
                 binding.source == selected && binding.umpGroup == message.group && binding.kind == message.kind && binding.channel == message.channel &&
+                    binding.parameter == message.parameter && binding.noteNumber == message.noteNumber &&
                     (binding.number == number || (self.learningEncoding == .paired14Bit && binding.number == number + 32) ||
                      (binding.mode == .paired14Bit && binding.number < 32 && binding.number + 32 == number))
             }
@@ -590,7 +600,9 @@ final class ControllerMIDIConnection {
             }
             guard bindings.count < 256 else { status = "The controller mapping is full."; self.learning = nil; return }
             bindings.append(.init(source: selected, group: message.group, channel: message.channel, kind: message.kind, number: number,
-                                  action: learning, encoding: learningEncoding, inverted: learningInverted, shifted: bindingIsShifted))
+                                  parameter: message.parameter, noteNumber: message.noteNumber,
+                                  action: learning, encoding: learningEncoding,
+                                  inverted: learningInverted, shifted: bindingIsShifted))
             let key = bindingStateKey(source: selected, action: learning, shifted: bindingIsShifted, group: message.group)
             values[key] = message.normalized; valueStates[key] = .init()
             shiftActive = false; self.learning = nil; self.learningShifted = false
@@ -600,6 +612,7 @@ final class ControllerMIDIConnection {
         }
         let matches = bindings.filter {
             $0.source == selected && $0.umpGroup == message.group && $0.kind == message.kind && $0.channel == message.channel &&
+                $0.parameter == message.parameter && $0.noteNumber == message.noteNumber &&
                 ($0.number == message.number || ($0.mode == .paired14Bit && $0.number < 32 && $0.number + 32 == message.number))
         }
         for binding in matches {
@@ -613,7 +626,7 @@ final class ControllerMIDIConnection {
             case .relative(let delta):
                 guard !binding.action.isButton, delta != 0,
                       let target = pendingValues[binding.action] ?? currentValue?(binding.action), target.isFinite else { continue }
-                value = min(1, max(0, target + Double(binding.inverted == true ? -delta : delta) / 127))
+                value = min(1, max(0, target + (binding.inverted == true ? -delta : delta) / 127))
             }
             let previous = values.updateValue(value, forKey: key)
             if binding.action == .shift {

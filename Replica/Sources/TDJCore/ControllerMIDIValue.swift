@@ -15,7 +15,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
 }
 
 public enum ControllerMIDIValue: Equatable, Sendable {
-    case absolute(Double), relative(Int)
+    case absolute(Double), relative(Double)
 }
 
 public struct ControllerMIDIValueState: Sendable {
@@ -23,6 +23,10 @@ public struct ControllerMIDIValueState: Sendable {
     private var lsb: UInt8 = 0
     public init() {}
     public mutating func decode(_ message: ControllerMIDIMessage, encoding: ControllerMIDIEncoding, number: UInt8) -> ControllerMIDIValue? {
+        if message.kind.isRelativeController {
+            guard message.number == number, encoding == .absolute else { return nil }
+            return .relative(Double(max(-127, min(127, message.value))))
+        }
         if encoding == .paired14Bit {
             guard message.kind == .control, message.maximum <= 127, number < 32 else { return nil }
             if message.number == number { msb = UInt8(message.value); lsb = 0 }
@@ -35,9 +39,9 @@ public struct ControllerMIDIValueState: Sendable {
         if encoding == .absolute { return .absolute(message.normalized) }
         guard message.kind == .control, message.maximum <= 127 else { return nil }
         switch encoding {
-        case .twosComplement: return .relative(message.value < 64 ? message.value : message.value - 128)
-        case .binaryOffset: return .relative(message.value - 64)
-        case .signedBit: return .relative(message.value & 64 == 0 ? message.value : -(message.value & 63))
+        case .twosComplement: return .relative(Double(message.value < 64 ? message.value : message.value - 128))
+        case .binaryOffset: return .relative(Double(message.value - 64))
+        case .signedBit: return .relative(Double(message.value & 64 == 0 ? message.value : -(message.value & 63)))
         default: return nil
         }
     }

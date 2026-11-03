@@ -1,21 +1,34 @@
 import Foundation
 
 public struct ControllerMIDIMessage: Equatable, Sendable {
-    public enum Kind: String, Codable, Sendable { case note, control, pitch, polyPressure, pressure, program }
+    public enum Kind: String, Codable, Sendable {
+        case note, control, pitch, polyPressure, pressure, program
+        case registeredController, assignableController
+        case relativeRegisteredController, relativeAssignableController
+        case perNoteRegisteredController, perNoteAssignableController, perNotePitch
+        public var isRelativeController: Bool {
+            self == .relativeRegisteredController || self == .relativeAssignableController
+        }
+    }
     public let kind: Kind
     public let group: UInt8
     public let channel: UInt8
     public let number: UInt8
     public let value: Int
     public let maximum: Int
+    public let parameter: UInt16?
+    public let noteNumber: UInt8?
     public var normalized: Double { Double(value) / Double(maximum) }
-    public init(kind: Kind, group: UInt8 = 0, channel: UInt8, number: UInt8, value: Int, maximum: Int? = nil) {
+    public init(kind: Kind, group: UInt8 = 0, channel: UInt8, number: UInt8, value: Int,
+                maximum: Int? = nil, parameter: UInt16? = nil, noteNumber: UInt8? = nil) {
         self.kind = kind
         self.group = group
         self.channel = channel
         self.number = number
         self.value = value
         self.maximum = maximum ?? (kind == .pitch ? 16383 : 127)
+        self.parameter = parameter
+        self.noteNumber = noteNumber
     }
 }
 
@@ -70,12 +83,38 @@ public enum ControllerMIDIUMPDecoder {
         let number = UInt8((first >> 8) & 0x7f)
         let value = Int(second)
         switch status {
+        case 0x0, 0x1:
+            let note = UInt8((first >> 8) & 0x7f)
+            let number = UInt8(first & 0xff)
+            return .init(kind: status == 0 ? .perNoteRegisteredController : .perNoteAssignableController,
+                         group: group, channel: channel, number: number, value: value,
+                         maximum: Int(UInt32.max), noteNumber: note)
+        case 0x2, 0x3, 0x4, 0x5:
+            let bank = UInt16((first >> 8) & 0x7f)
+            let index = UInt16(first & 0x7f)
+            let parameter = bank << 7 | index
+            let kind: ControllerMIDIMessage.Kind
+            switch status {
+            case 0x2: kind = .registeredController
+            case 0x3: kind = .assignableController
+            case 0x4: kind = .relativeRegisteredController
+            default: kind = .relativeAssignableController
+            }
+            let data = kind.isRelativeController ? Int(Int32(bitPattern: second)) : value
+            return .init(kind: kind, group: group, channel: channel, number: UInt8(index), value: data,
+                         maximum: kind.isRelativeController ? Int(Int32.max) : Int(UInt32.max), parameter: parameter)
+        case 0x6:
+            let note = UInt8((first >> 8) & 0x7f)
+            return .init(kind: .perNotePitch, group: group, channel: channel, number: note,
+                         value: value, maximum: Int(UInt32.max), noteNumber: note)
         case 0x8: return .init(kind: .note, group: group, channel: channel, number: number, value: 0, maximum: 65535)
         case 0x9: return .init(kind: .note, group: group, channel: channel, number: number,
                                value: Int((second >> 16) & 0xffff), maximum: 65535)
         case 0xa: return .init(kind: .polyPressure, group: group, channel: channel, number: number, value: value, maximum: Int(UInt32.max))
         case 0xb: return .init(kind: .control, group: group, channel: channel, number: number, value: value, maximum: Int(UInt32.max))
-        case 0xc: return .init(kind: .program, group: group, channel: channel, number: number, value: 127)
+        case 0xc:
+            let program = UInt8((second >> 24) & 0x7f)
+            return .init(kind: .program, group: group, channel: channel, number: program, value: 127)
         case 0xd: return .init(kind: .pressure, group: group, channel: channel, number: 0, value: value, maximum: Int(UInt32.max))
         case 0xe: return .init(kind: .pitch, group: group, channel: channel, number: 0, value: value, maximum: Int(UInt32.max))
         default: return nil
