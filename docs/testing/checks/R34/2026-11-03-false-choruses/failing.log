@@ -1,0 +1,16 @@
+FAIL line 202: expected true
+FAIL line 203: expected true
+FAIL line 204: expected true
+FAIL line 223: expected true
+FAIL line 254: expected true
+FAIL line 255: expected true
+FAIL line 264: Optional("CHORUS ?") != Optional("Vocal section ?")
+Fifteen focused checks, 7 failed assertions
+Traceback (most recent call last):
+  File "/Users/veland/GenErik DJ/docs/testing/checks/R34/2026-11-03-false-choruses/check.py", line 27, in <module>
+    subprocess.run([str(work/'checks')],check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/Users/veland/GenErik DJ/TestBuilds/ipad/R34/focused/checks']' returned non-zero exit status 1.

@@ -77,7 +77,7 @@ extension ReplicaModel {
         }
     }
     private func installSectionCues(_ arrangement: TrackArrangement, trackID: String, deck: DeckID) {
-        guard arrangement.sections.contains(where:{ $0.role != .unknown || $0.behaviour != .sustaining }) else { return }
+        guard arrangement.sections.contains(where:{ $0.role != .unknown || $0.behaviour != .sustaining || !$0.name.isEmpty }) else { return }
         let old=performance.cues[trackID] ?? [:]
         let prepared=performance.sectionCueTracks?.contains(trackID) == true
         let cues=SectionCueAllocator.allocate(sections:arrangement.sections,existing:old,alreadyPrepared:prepared)

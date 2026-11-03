@@ -1,0 +1,41 @@
+{
+  "requestID": "R34",
+  "baselineCommit": "5409bba59c3f1ecdfd83832193bb9a6e17d4c7b3",
+  "candidateAppSourceSHA256": "33c86c08ef35621c9a186769be6f8f7febb10ac25563317addf5c7c0f4e3ff0f",
+  "filesSHA256": {
+    "Replica/Sources/TDJCore/MusicalStructureAnalyzer.swift": "0cb612565b1e98456851c650dca92cb590864fc2b3a40f3741a19f8025920528",
+    "Replica/Sources/TDJCore/SectionCueAllocator.swift": "deea508de2854599281973a9b09864a8e32d270dda382afb2addb3d0f62efb5b",
+    "Replica/Sources/TDJInterface/ArrangementModel.swift": "051b2c31a52f731f7aceaee5b8833cabc7611f9cca37e7ac30506d30b92ce377",
+    "Replica/Tests/TDJCoreTests/ChorusEvidenceTests.swift": "7e10a0cde92802dd00a826bf90a8ff5c5fcf708ac9c1f6ba86815f409325b6d1",
+    "Replica/Tests/TDJCoreTests/Fixtures/99-problems-structure.json": "2493fefd2df41a7991c6d02776991fe8c530aec89d47016f02527f44921a7433"
+  },
+  "recording": {
+    "title": "99 Problems",
+    "artist": "Danger Mouse",
+    "album": "The Grey Album (2012 Remaster)",
+    "pcmSHA256": "9945c25d99c410d1e3cac65466c5e32cfbac8bf9ef5b6ffee70ccbd049646f61"
+  },
+  "sourceContentSHA256": "01ed5962e6583b090ae9ca4309a6900218c06da2788df9e874838c76e8e217c9",
+  "sampleRate": 44100,
+  "frameCount": 10788864,
+  "baseline": {
+    "structureVersion": 2,
+    "sections": 19,
+    "chorusLabels": 17,
+    "newCheckFailedAssertions": 7
+  },
+  "candidate": {
+    "structureVersion": 3,
+    "sections": 19,
+    "chorusLabels": 0,
+    "focusedChecks": 15,
+    "failedAssertions": 0
+  },
+  "limits": [
+    "The remaining vocal passages are unclassified. This does not establish correct verse/chorus detection.",
+    "Section boundaries and detected tempo are unchanged.",
+    "Raw-audio checks ran on the host. Target-iPad cost, listening and recognition acceptance remain open."
+  ],
+  "build": null,
+  "deployment": "pending"
+}
