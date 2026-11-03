@@ -46,9 +46,10 @@ public enum ControllerMIDIUMPDecoder {
             let type = UInt8(first >> 28)
             let wordCount: Int
             switch type {
-            case 0x0, 0x1, 0x2, 0x6, 0x7, 0x8, 0x9, 0xa, 0xb, 0xc, 0xe: wordCount = 1
-            case 0x3, 0x4: wordCount = 2
-            case 0x5, 0xd, 0xf: wordCount = 4
+            case 0x0, 0x1, 0x2, 0x6, 0x7: wordCount = 1
+            case 0x3, 0x4, 0x8, 0x9, 0xa: wordCount = 2
+            case 0xb, 0xc: wordCount = 3
+            case 0x5, 0xd, 0xe, 0xf: wordCount = 4
             default: return nil
             }
             guard index <= words.count - wordCount else { return nil }
