@@ -138,13 +138,27 @@ public struct PreparedMusicLibraryAudio: Sendable {
         let items: [MusicLibraryItem] = (MPMediaQuery.songs().items ?? []).map { item -> MusicLibraryItem in
             let url = item.assetURL
             let hasLocalAsset: Bool
+            let isCloudOnly: Bool
             if let url, url.isFileURL {
                 hasLocalAsset = FileManager.default.isReadableFile(atPath: url.path)
+                isCloudOnly = false
+            } else if url?.scheme?.lowercased() == "ipod-library" {
+                hasLocalAsset = true
+                isCloudOnly = item.isCloudItem
             } else {
-                hasLocalAsset = url?.scheme?.lowercased() == "ipod-library"
+                hasLocalAsset = false
+                isCloudOnly = item.isCloudItem
             }
-            let availability: MusicLibraryItem.Availability = item.hasProtectedAsset ? .protected
-                : hasLocalAsset ? .available : item.isCloudItem ? .notDownloaded : .unavailable
+            let availability: MusicLibraryItem.Availability
+            if item.hasProtectedAsset {
+                availability = .protected
+            } else if hasLocalAsset && !isCloudOnly {
+                availability = .available
+            } else if item.isCloudItem {
+                availability = .notDownloaded
+            } else {
+                availability = .unavailable
+            }
             return MusicLibraryItem(source: .init(platform: .iosMusic, persistentID: String(item.persistentID)),
                 title: item.title ?? "Untitled", artist: item.artist ?? "", album: item.albumTitle ?? "",
                 genre: item.genre, duration: item.playbackDuration, assetURL: url, availability: availability)
