@@ -58,7 +58,8 @@ struct ArrangementWaveformOverlay: View {
                 let colour=Color(arrangementHex:section.colourHex)
                 context.fill(Path(CGRect(x:start,y:0,width:max(0,end-start),height:overview ? size.height:16)),with:.color(colour.opacity(overview ? 0.28:0.2)))
                 context.fill(Path(CGRect(x:start,y:0,width:max(0,end-start),height:3)),with:.color(colour))
-                if end-start > 60 {
+                let currentSection = arrangement.section(at: model.playbackSnapshot?[deck].sourceFrame ?? 0)
+                if !overview, section.id != currentSection?.id, end-start > 60 {
                     context.draw(Text(section.label).font(.system(size:overview ? 8:10,weight:.bold)).foregroundColor(colour),
                         at:CGPoint(x:start+4,y:overview ? 5:4),anchor:.topLeading)
                 }

@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 38.97,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "kind": "Erik request",
+      "text": "R30: Use one flexible layout inspired by the supplied Traktor still. Enlarge controls above transport and allow a collapsible panel beside transport. Remove redundant current-section labels. Only a JPEG arrived; no recording was available to inspect motion."
+    }
+  ],
   "log": "TestBuilds/ipad/build-62.log",
   "build": 62,
   "app": "TestBuilds/ipad/62/GenErikDJ.app",
