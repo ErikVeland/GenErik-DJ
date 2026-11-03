@@ -101,6 +101,35 @@ private final class ControllerMIDIInbox: @unchecked Sendable {
     }
 }
 
+/// Converts MIDI-1.0 UMP words into the byte stream used by the generic MIDI decoder.
+private func midi1Bytes(from eventList: UnsafePointer<MIDIEventList>) -> [UInt8] {
+    let packetOffset = MemoryLayout<MIDIEventList>.offset(of: \.packet)!
+    let wordsOffset = MemoryLayout<MIDIEventPacket>.offset(of: \.words)!
+    var packet = UnsafeMutablePointer(mutating:
+        UnsafeRawPointer(eventList).advanced(by: packetOffset).assumingMemoryBound(to: MIDIEventPacket.self))
+    var bytes: [UInt8] = []
+    for _ in 0..<min(Int(eventList.pointee.numPackets), 128) {
+        let wordCount = Int(packet.pointee.wordCount)
+        guard wordCount <= 1024 else { return Array(repeating: 0, count: 4097) }
+        let words = UnsafeRawPointer(packet).advanced(by: wordsOffset).assumingMemoryBound(to: UInt32.self)
+        for index in 0..<wordCount {
+            let word = words[index]
+            guard word >> 28 == 0x2 else { continue }
+            let status = UInt8((word >> 16) & 0xff)
+            let command = status & 0xf0
+            guard (0x80...0xe0).contains(command) else { continue }
+            bytes.append(status)
+            bytes.append(UInt8((word >> 8) & 0x7f))
+            if command != 0xc0 && command != 0xd0 { bytes.append(UInt8(word & 0x7f)) }
+            if bytes.count > 4096 { return Array(repeating: 0, count: 4097) }
+        }
+        packet = UnsafeMutableRawPointer(packet).advanced(by: wordsOffset + wordCount * MemoryLayout<UInt32>.size)
+            .assumingMemoryBound(to: MIDIEventPacket.self)
+    }
+    if Int(eventList.pointee.numPackets) > 128 { return Array(repeating: 0, count: 4097) }
+    return bytes
+}
+
 @MainActor @Observable
 final class ControllerMIDIConnection {
     struct Source: Identifiable { let id: Int32; let reference: MIDIEndpointRef; let name: String }
@@ -133,6 +162,8 @@ final class ControllerMIDIConnection {
     @ObservationIgnored var onBridgeReset: (() -> Void)?
     @ObservationIgnored private var client = MIDIClientRef()
     @ObservationIgnored private var port = MIDIPortRef()
+    @ObservationIgnored private var protocolPort = MIDIPortRef()
+    @ObservationIgnored private var protocolInputFailure: OSStatus?
     @ObservationIgnored private var outputPort = MIDIPortRef()
     @ObservationIgnored private var endpoint = MIDIEndpointRef()
     @ObservationIgnored private var decoder = ControllerMIDIDecoder()
@@ -183,6 +214,15 @@ final class ControllerMIDIConnection {
             }
         }
         guard result == noErr else { stop(); status = "MIDI input could not open (\(result))."; return }
+        let protocolResult = MIDIInputPortCreateWithProtocol(client, "Controller MIDI 1.0 input" as CFString,
+                                                              kMIDIProtocol_1_0, &protocolPort) { list, context in
+            guard let context else { return }
+            let source = UInt32(truncatingIfNeeded: UInt(bitPattern: context))
+            let bytes = midi1Bytes(from: list)
+            if !bytes.isEmpty { inbox.append(source: source, bytes: bytes) }
+        }
+        if protocolResult != noErr { protocolPort = 0; protocolInputFailure = protocolResult }
+        else { protocolInputFailure = nil }
         let outputResult = MIDIOutputPortCreate(client, "Controller feedback" as CFString, &outputPort)
         feedbackOutputAvailable = outputResult == noErr
         feedbackStatus = feedbackOutputAvailable ? "MIDI feedback output is available." : "MIDI feedback output could not open (\(outputResult))."
@@ -197,10 +237,12 @@ final class ControllerMIDIConnection {
     func stop() {
         timer?.invalidate(); timer = nil
         if port != 0 { MIDIPortDispose(port); port = 0 }
+        if protocolPort != 0 { MIDIPortDispose(protocolPort); protocolPort = 0 }
         if outputPort != 0 { MIDIPortDispose(outputPort); outputPort = 0 }
         feedbackOutputAvailable = false
         if client != 0 { MIDIClientDispose(client); client = 0 }
         endpoint = 0; selected = nil; enabled = false; learning = nil; learningShifted = false; shiftActive = false; midiFeedbackEnabled = false
+        protocolInputFailure = nil
         decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); _ = inbox.take()
         sentMIDIValues.removeAll()
         resetBridge()
@@ -225,13 +267,21 @@ final class ControllerMIDIConnection {
         if selected == nil { status = sources.isEmpty ? "No MIDI inputs found. Check the connection and MIDI mode." : "Choose the controller input to use." }
     }
     func select(_ id: Int32?) {
-        if endpoint != 0 { MIDIPortDisconnectSource(port, endpoint) }
+        if endpoint != 0 {
+            MIDIPortDisconnectSource(port, endpoint)
+            if protocolPort != 0 { MIDIPortDisconnectSource(protocolPort, endpoint) }
+        }
         endpoint = 0; selected = nil; learning = nil; learningShifted = false; shiftActive = false
         decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); _ = inbox.take()
         feedbackSelected = nil; midiFeedbackEnabled = false; sentMIDIValues.removeAll(); resetBridge()
         guard enabled, let source = sources.first(where: { $0.id == id }) else { return }
-        let result = MIDIPortConnectSource(port, source.reference, UnsafeMutableRawPointer(bitPattern: Int(source.reference)))
-        if result == noErr { endpoint = source.reference; selected = source.id; status = "Input connected: \(source.name)" }
+        let inputPort = !originalZ1Bridge && protocolPort != 0 ? protocolPort : port
+        let result = MIDIPortConnectSource(inputPort, source.reference, UnsafeMutableRawPointer(bitPattern: Int(source.reference)))
+        if result == noErr {
+            endpoint = source.reference; selected = source.id
+            let fallback = !originalZ1Bridge ? protocolInputFailure.map { " · MIDI 2 conversion unavailable (\($0))" } ?? "" : ""
+            status = "Input connected: \(source.name)\(fallback)"
+        }
         else { status = "The controller input could not connect (\(result))." }
     }
     func setBridgeMode(_ enabled: Bool) {
@@ -239,6 +289,16 @@ final class ControllerMIDIConnection {
         if enabled { midiFeedbackEnabled = false; sentMIDIValues.removeAll() }
         learning = nil; learningShifted = false; shiftActive = false
         decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); resetBridge()
+        guard let selected, let source = sources.first(where: { $0.id == selected }), endpoint != 0 else { return }
+        MIDIPortDisconnectSource(port, endpoint)
+        if protocolPort != 0 { MIDIPortDisconnectSource(protocolPort, endpoint) }
+        let inputPort = !originalZ1Bridge && protocolPort != 0 ? protocolPort : port
+        let result = MIDIPortConnectSource(inputPort, source.reference, UnsafeMutableRawPointer(bitPattern: Int(source.reference)))
+        if result == noErr {
+            let fallback = !originalZ1Bridge ? protocolInputFailure.map { " · MIDI 2 conversion unavailable (\($0))" } ?? "" : ""
+            status = "Input connected: \(source.name)\(fallback)"
+        }
+        else { endpoint = 0; self.selected = nil; status = "The controller input could not reconnect (\(result))." }
     }
     func setFeedbackDestination(_ id: Int32?) {
         feedbackSelected = id; sentFeedback = []; sentMIDIValues.removeAll()

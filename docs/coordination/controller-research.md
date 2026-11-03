@@ -38,7 +38,7 @@ The upstream controller scripts were inspected as protocol references. They are 
 | Pioneer DJ / AlphaTheta | Manufacturer MIDI maps, model-specific HID/native adapters where required. | Factory profiles, jog/touch scaling, LEDs/displays and audio acceptance. |
 | Serato-compatible hardware | The actual manufacturer's MIDI/HID/native protocol. | Per-model startup, controls, feedback, motors, audio and driver requirements. A Serato badge does not supply a common protocol. |
 | Denon, Numark, Rane, Reloop, Roland, Hercules, Vestax, Allen & Heath and other vendors | The same shared input layer and verified profiles. | No blanket claim for every product or Mk variant. Native-only features need their own adapters. |
-| Other class-compliant MIDI 1 controllers | MIDI Learn using notes, CCs, pitch bend, pressure and program buttons, with explicit value decoding. | Physical endpoint, mappings, modifiers, output feedback and actual DJ behaviour. Native MIDI 2/UMP-specific support is not established by the legacy input implementation. |
+| Other class-compliant MIDI controllers | MIDI Learn uses Core MIDI's protocol-aware input port and requests MIDI 1.0 messages. Core MIDI can convert MIDI 2.0 UMP input to that protocol. The existing decoder then maps notes, CCs, pitch bend, pressure and program buttons. | This conversion uses the existing 7-bit action values. Native MIDI 2.0 resolution, other UMP message types, model profiles, physical endpoints, mappings, modifiers, feedback and DJ behaviour remain unverified. See [Apple's Core MIDI protocol input API](https://developer.apple.com/documentation/coremidi/midiinputportcreatewithprotocol%28_%3A_%3A_%3A_%3A_%3A%29) and [MIDI 2 integration guide](https://developer.apple.com/documentation/coremidi/incorporating-midi-2-into-your-apps). |
 
 ## Implemented increment
 
@@ -48,6 +48,7 @@ The upstream controller scripts were inspected as protocol references. They are 
 - Note buttons, poly/channel pressure and program-change button events.
 - Existing transport, mixer, filter, FX, ±8% tempo, loops, Beat Jump, Freeze and eight hotcues per deck exposed to Learn.
 - One optional momentary Shift button selects a second set of learned mappings.
+- Protocol-aware Core MIDI input converts MIDI 2.0 messages into the existing MIDI 1.0 action path when Core MIDI supports the source. The Z1 SysEx bridge stays on the legacy byte input.
 - User-configured generic MIDI Note/Control Change feedback, scoped to the selected output destination.
 - Original Z1 development bridge framing, Linux HID relay, calibration, native input and light/meter output route.
 
