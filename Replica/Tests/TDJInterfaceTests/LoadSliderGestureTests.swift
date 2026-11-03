@@ -53,3 +53,20 @@ func tallLoadSliderFollowsTheFingerUntilItsEndpoint(direction: Double) {
     #expect(session.handle(event(.ended, distance: direction * 53), height: 178, maximumTravel: 53)
         == (direction < 0 ? .a : .b))
 }
+
+@Test(arguments: [-1.0, 1.0])
+func tallLoaderReachesBothDecksWithoutEnteringLabelAreas(direction: Double) {
+    let travel = TallLoadSliderMetrics.maximumTravel
+    #expect(travel >= 16)
+    #expect(travel + TallLoadSliderMetrics.handleHeight / 2 <= TallLoadSliderMetrics.railHeight / 2)
+    var session = LoadSliderGestureSession()
+    let height = TallLoadSliderMetrics.height + 8
+    _ = session.handle(.init(phase: .began, points: [.init(id: 1, x: 0.5, y: 0.5)], ending: []),
+                       height: height, maximumTravel: travel)
+    let point = SurfacePoint(id: 1, x: 0.5, y: 0.5 + direction * travel / height)
+    #expect(session.handle(.init(phase: .moved, points: [point], ending: []),
+                           height: height, maximumTravel: travel) == nil)
+    #expect(session.armedDeck == (direction < 0 ? .a : .b))
+    #expect(session.handle(.init(phase: .ended, points: [point], ending: [1]),
+                           height: height, maximumTravel: travel) == (direction < 0 ? .a : .b))
+}

@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 54.55,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "kind": "Erik feedback",
+      "text": "Assumed build 60: dragging to B does not load, and the handle goes under B. A works. Continue R27 inner-screen layout and install the next candidate on Duo only."
+    }
+  ],
   "log": "TestBuilds/ipad/build-60.log",
   "build": 60,
   "app": "TestBuilds/ipad/60/GenErikDJ.app",

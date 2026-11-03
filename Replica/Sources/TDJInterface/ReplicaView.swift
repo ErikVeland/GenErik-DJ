@@ -28,10 +28,18 @@ public struct ReplicaView: View {
     }
 
     public var body: some View {
-        HStack(spacing:0) {
-            if model.helpVisible { GestureHelp { model.helpVisible=false }.frame(width:280) }
-            performanceSurface
+        GeometryReader { geometry in
+            HStack(spacing: 0) {
+                if model.helpVisible { GestureHelp { model.helpVisible=false }.frame(width:280) }
+                performanceSurface.frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            .frame(width: geometry.size.width, height: geometry.size.height, alignment: .topLeading)
         }
+        .background(PerformancePalette.frame.ignoresSafeArea())
+#if os(iOS)
+        .statusBarHidden(true)
+        .persistentSystemOverlays(.hidden)
+#endif
     }
     private var performanceSurface: some View {
         VStack(spacing: 0) {
@@ -468,25 +476,26 @@ struct LoadSlider: View {
     @State private var contactActive = false
     @GestureState private var dragging = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    private let tallHeight = 170.0
-    private let tallHandleHeight = 64.0
-    private var maximumTravel: Double { tall ? (tallHeight - tallHandleHeight) / 2 : 18 }
+    private var maximumTravel: Double { tall ? TallLoadSliderMetrics.maximumTravel : 18 }
     var body: some View {
         VStack(spacing: 0) {
-            Text("A").font(.system(size: tall ? 40 : 9, weight: .heavy))
+            Text("A").font(.system(size: tall ? 28 : 9, weight: .heavy))
                 .foregroundStyle(gesture.armedDeck == .a ? PerformancePalette.cyan : Color(white: tall ? 0.45 : 0.88))
-            if tall { Spacer(minLength: 4) }
-            VStack(spacing: 2) {
-                if tall { Image(systemName: "chevron.up").font(.system(size: 10)) }
-                Text("LOAD").font(.system(size: tall ? 17 : 10, weight: .bold))
-                if tall { Image(systemName: "chevron.down").font(.system(size: 10)) }
-            }.padding(tall ? 10 : 6).frame(maxWidth: tall ? .infinity : nil)
-                .frame(height: tall ? tallHandleHeight : nil)
-                .bevelPanel(cornerRadius: 4).offset(y: gesture.offset)
-            if tall { Spacer(minLength: 4) }
-            Text("B").font(.system(size: tall ? 40 : 9, weight: .heavy))
+                .frame(height: tall ? TallLoadSliderMetrics.labelHeight : nil)
+            ZStack {
+                if tall { RoundedRectangle(cornerRadius: 4).fill(Color.black.opacity(0.3)) }
+                VStack(spacing: 2) {
+                    if tall { Image(systemName: "chevron.up").font(.system(size: 10)) }
+                    Text("LOAD").font(.system(size: tall ? 17 : 10, weight: .bold))
+                    if tall { Image(systemName: "chevron.down").font(.system(size: 10)) }
+                }.padding(tall ? 4 : 6).frame(maxWidth: tall ? .infinity : nil)
+                    .frame(height: tall ? TallLoadSliderMetrics.handleHeight : nil)
+                    .bevelPanel(cornerRadius: 4).offset(y: gesture.offset)
+            }.frame(height: tall ? TallLoadSliderMetrics.railHeight : nil)
+            Text("B").font(.system(size: tall ? 28 : 9, weight: .heavy))
                 .foregroundStyle(gesture.armedDeck == .b ? PerformancePalette.cyan : Color(white: tall ? 0.45 : 0.88))
-        }.frame(width: tall ? 96 : 64, height: tall ? tallHeight : 56).padding(tall ? 4 : 0)
+                .frame(height: tall ? TallLoadSliderMetrics.labelHeight : nil)
+        }.frame(width: tall ? 96 : 64, height: tall ? TallLoadSliderMetrics.height : 56).padding(tall ? 4 : 0)
             .background(RoundedRectangle(cornerRadius: 6).fill(PerformancePalette.sunken)).contentShape(Rectangle())
             .overlay {
                 GeometryReader { geometry in
@@ -522,7 +531,7 @@ struct LoadSlider: View {
             points: [.init(id: 1, x: point.x / max(1, size.width), y: point.y / max(1, size.height))],
             ending: phase == .ended ? [1] : [])
         let deck = gesture.handle(event, height: Double(size.height), maximumTravel: maximumTravel,
-                                  edgeTapThreshold: tall ? 0.28 : nil, edgeTapMovementTolerance: 10)
+                                  edgeTapThreshold: tall ? 0.22 : nil, edgeTapMovementTolerance: 10)
         if phase == .ended {
             withAnimation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.8)) {
                 gesture = LoadSliderGestureSession()

@@ -535,7 +535,7 @@ extension BrowserView {
                 Spacer(minLength: 0)
                 LoadSlider(tall: true) { deck in if let entry { model.loadLibraryEntry(entry, deck: deck) } }
                     .disabled(entry?.canLoad != true)
-            }.padding(14).frame(height: 190)
+            }.padding(14).frame(height: TallLoadSliderMetrics.height + 8 + 28)
             Rectangle().fill(Color.white.opacity(0.08)).frame(height: 1).padding(.horizontal, 14)
             HStack(spacing: 8) {
                 detailTabButton(recommendationSeed.map { "Rec for \($0.title)" } ?? "Recommendations", .match)

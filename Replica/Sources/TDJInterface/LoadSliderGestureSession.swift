@@ -1,5 +1,13 @@
 import TDJCore
 
+struct TallLoadSliderMetrics {
+    static let height = 170.0
+    static let labelHeight = 36.0
+    static let handleHeight = 52.0
+    static let railHeight = height - 2 * labelHeight
+    static let maximumTravel = (railHeight - handleHeight) / 2
+}
+
 /// Keeps a cancelled load gesture from leaving an offset or loading a deck.
 struct LoadSliderGestureSession {
     private var owner: Int?
