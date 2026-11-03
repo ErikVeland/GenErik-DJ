@@ -20,3 +20,10 @@ func draggingToTheEndMatchesTheCollapsedLibraryHeight(height: Double) {
     #expect(dragged == collapsed)
     #expect(height - collapsed == AdaptivePerformanceLayout.dividerHeight)
 }
+
+@Test(arguments: [300.0, 619, 800, 1024])
+func explicitLibraryOpenUsesTheMinimumDeckStripHeight(height: Double) {
+    let decks = AdaptivePerformanceLayout.deckHeight(available: height, browserVisible: true, share: 0)
+    #expect(decks == AdaptivePerformanceLayout.minimumDeckHeight)
+    #expect(height - decks - AdaptivePerformanceLayout.dividerHeight > 0)
+}

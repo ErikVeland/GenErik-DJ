@@ -10,7 +10,7 @@ struct AdaptivePerformanceLayout {
         guard browserVisible else { return max(0, height - dividerHeight) }
         let minimum = min(minimumDeckHeight, height)
         let maximum = max(minimum, height - dividerHeight)
-        return min(maximum, max(minimum, height * (share.isFinite ? share : 0.72)))
+        return min(maximum, max(minimum, height * (share.isFinite ? share : 0)))
     }
 
     static func crossfaderHeight(available: Double) -> Double { max(0, available) * 0.3 }
@@ -36,7 +36,7 @@ struct AdaptiveDeckGeometry {
         expansion = min(1, max(0, (height - 56) / 144))
         headerHeight = 48 * expansion
         sectionHeight = 0
-        footerHeight = 24 * expansion
+        footerHeight = 44 * expansion
         overviewHeight = min(height, 32 - 8 * expansion)
         hotcueHeight = hotcues ? 56 * expansion : 0
         waveformHeight = max(0, height - headerHeight - sectionHeight - footerHeight - overviewHeight - hotcueHeight)

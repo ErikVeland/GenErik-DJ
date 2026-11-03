@@ -17,7 +17,7 @@ public struct ReplicaView: View {
     @State private var traktorImportPresented = false
     @State private var tempoWheelVisible = false
     @State private var audioSettingsPresented = false
-    @State private var deckShare = 0.28
+    @State private var deckShare = 0.0
     @State private var dividerOrigin: Double?
     @GestureState private var resizingLibrary = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -105,8 +105,14 @@ public struct ReplicaView: View {
                 .frame(width: space.size.width, height: space.size.height, alignment: .top)
                 .animation(reduceMotion || dividerOrigin != nil ? nil : .smooth(duration: 0.25), value: model.browserVisible)
                 .onChange(of: resizingLibrary) { _, active in if !active { dividerOrigin = nil } }
+                .onChange(of: model.browserPresentationID) { _, _ in
+                    withAnimation(reduceMotion ? nil : .smooth(duration: 0.25)) {
+                        dividerOrigin = nil
+                        deckShare = 0
+                    }
+                }
                 .onChange(of: model.browserVisible) { _, visible in
-                    if visible && !resizingLibrary { deckShare = 0.28 }
+                    if visible && !resizingLibrary { deckShare = 0 }
                 }
             }
 
@@ -227,14 +233,9 @@ private struct DeckView: View {
         }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
             .offset(y: (1 - layout.expansion) * max(0, (deckSpace.size.height - 52) / 2))
         VStack(spacing: 0) {
-            DeckHeader(model: model, deck: deck, showsArtwork: false)
+            DeckHeader(model: model, deck: deck, dense: true, showsArtwork: false)
                 .frame(height: layout.headerHeight, alignment: .top).clipped()
                 .opacity(layout.expansion).allowsHitTesting(layout.headerHeight >= 44)
-            if track != nil {
-                ArrangementDeckStrip(model: model, deck: deck)
-                    .frame(height: layout.sectionHeight).clipped().opacity(layout.expansion)
-                    .allowsHitTesting(layout.sectionHeight >= 24)
-            }
             GeometryReader { geometry in
                 DeckWaveform(model:model,deck:deck,visibleSeconds:$visibleSeconds,mixerVisible:mixerVisible)
                 .overlay(alignment:.leading) {
@@ -267,8 +268,11 @@ private struct DeckView: View {
                 HotcuePadRow(model: model, deck: deck).frame(height: layout.hotcueHeight).clipped()
                     .allowsHitTesting(layout.hotcueHeight >= 44)
             }
-            DeckFooter(model: model, deck: deck)
-                .frame(height: layout.footerHeight).clipped().opacity(layout.expansion)
+            Group {
+                if editing { DeckFooter(model: model, deck: deck) }
+                else if track != nil { ArrangementDeckStrip(model: model, deck: deck, compact: true) }
+                else { Color.clear }
+            }.frame(height: layout.footerHeight).clipped().opacity(layout.expansion)
         }.padding(.leading, 52)
         }
         if tempoFader && track != nil { DeckTempoFader(model:model,deck:deck) }
@@ -639,62 +643,69 @@ private struct PerformanceToolbar: View {
     @Binding var traktorImportPresented: Bool
 
     var body: some View {
-            HStack(spacing: 12) {
-                GenErikBrandLockup()
-                Spacer(minLength: 8)
-                HStack(spacing: 0) {
+        VStack(spacing: 0) {
+            ViewThatFits(in: .horizontal) {
+                toolbarRow(showClock: true, showsWordmark: true)
+                toolbarRow(showClock: false, showsWordmark: true)
+                toolbarRow(showClock: false, showsWordmark: false)
+            }.frame(height: 60)
+            if model.preparationImport != nil || model.analysisProgress != nil {
+                HStack(spacing: 12) {
+                    if let progress = model.preparationImport { PreparationImportPill(progress: progress) }
+                    if let progress = model.analysisProgress { PreparationImportPill(progress: progress) }
+                    Spacer(minLength: 0)
+                }.padding(.horizontal, 32).frame(height: 24).clipped()
+            }
+        }
+        .background(LinearGradient(colors: [PerformancePalette.raised, PerformancePalette.frame], startPoint: .top, endPoint: .bottom))
+    }
+    private func toolbarRow(showClock: Bool, showsWordmark: Bool) -> some View {
+        HStack(spacing: 8) {
+            GenErikBrandLockup(showsWordmark: showsWordmark)
+            Spacer(minLength: 8)
+            HStack(spacing: 0) {
+                if showClock {
                     TimelineView(.everyMinute) { context in
                         HStack(spacing: 6) {
                             Image(systemName: "clock.fill")
                             Text(context.date.formatted(date: .omitted, time: .shortened)).monospacedDigit()
-                        }.padding(.horizontal, 14)
+                        }.padding(.horizontal, 12)
                     }
                     Divider().frame(height: 22)
-                    MasterTempoButton(model:model,tempoWheelVisible:$tempoWheelVisible).padding(.horizontal, 14)
-                        .popover(isPresented:$tempoWheelVisible) { TempoWheel(model:model).padding(16) }
-                    BatteryReadout()
                 }
-                .font(.system(size: 16, weight: .medium)).foregroundStyle(PerformancePalette.text)
-                .frame(height: 34).bevelPanel(cornerRadius: 6, sunken: true)
-                if let progress = model.preparationImport {
-                    PreparationImportPill(progress: progress).transition(.opacity)
-                }
-                if let progress = model.analysisProgress {
-                    PreparationImportPill(progress: progress).transition(.opacity)
-                }
-                Spacer(minLength: 8)
-                Button { model.helpVisible.toggle() } label: {
-                    Image(systemName: "info.circle.fill").font(.system(size: 18))
-                        .frame(width: 44, height: 34).bevelPanel(cornerRadius: 5)
-                        .overlay(alignment: .topLeading) {
-                            if noticeCount > 0 {
-                                Text("\(noticeCount)").font(.system(size: 11, weight: .bold)).foregroundStyle(.white)
-                                    .frame(minWidth: 18, minHeight: 18).background(Circle().fill(PerformancePalette.red)).offset(x: -6, y: -6)
-                            }
+                MasterTempoButton(model: model, tempoWheelVisible: $tempoWheelVisible).padding(.horizontal, 12)
+                    .popover(isPresented: $tempoWheelVisible) { TempoWheel(model: model).padding(16) }
+                if showClock { BatteryReadout() }
+            }
+            .font(.system(size: 16, weight: .medium)).foregroundStyle(PerformancePalette.text)
+            .fixedSize(horizontal: true, vertical: false)
+            .frame(height: 44).bevelPanel(cornerRadius: 6, sunken: true)
+            Spacer(minLength: 8)
+            Button { model.helpVisible.toggle() } label: {
+                Image(systemName: "info.circle.fill").font(.system(size: 18))
+                    .frame(width: 44, height: 44).bevelPanel(cornerRadius: 5)
+                    .overlay(alignment: .topLeading) {
+                        if noticeCount > 0 {
+                            Text("\(noticeCount)").font(.system(size: 11, weight: .bold)).foregroundStyle(.white)
+                                .frame(minWidth: 18, minHeight: 18).background(Circle().fill(PerformancePalette.red)).offset(x: -4, y: -4)
                         }
-                }.accessibilityLabel("Notification Center")
-                HStack(spacing: 0) {
-                    Button { if model.browserVisible { model.browserVisible = false } else { model.showLibrary() } } label: {
-                        Image(systemName: "music.note").font(.system(size: 18))
-                            .foregroundStyle(model.browserVisible ? PerformancePalette.cyan : PerformancePalette.text)
-                            .frame(width: 44, height: 34)
-                    }.accessibilityLabel("Music library")
-                    Divider().frame(height: 22)
-                    Button { audioSettingsPresented.toggle() } label: {
-                        Image(systemName: "speaker.wave.2.fill").font(.system(size: 16)).frame(width: 44, height: 34)
                     }
-                    .accessibilityLabel("Audio routing")
+            }.accessibilityLabel("Notification Center")
+            HStack(spacing: 0) {
+                Button { if model.browserVisible { model.browserVisible = false } else { model.showLibrary() } } label: {
+                    Image(systemName: "music.note").font(.system(size: 18))
+                        .foregroundStyle(model.browserVisible ? PerformancePalette.cyan : PerformancePalette.text)
+                        .frame(width: 44, height: 44)
+                }.accessibilityLabel("Music library")
+                Divider().frame(height: 22)
+                Button { audioSettingsPresented.toggle() } label: {
+                    Image(systemName: "speaker.wave.2.fill").font(.system(size: 18)).frame(width: 44, height: 44)
+                }.accessibilityLabel("Audio routing")
                     .popover(isPresented: $audioSettingsPresented) { AudioQuickPanel(model: model) }
-                }.bevelPanel(cornerRadius: 5)
-            }.padding(.horizontal, 14).frame(height: 50)
-            .background(LinearGradient(colors: [PerformancePalette.raised, PerformancePalette.frame], startPoint: .top, endPoint: .bottom))
-            .animation(.easeOut(duration: 0.4), value: model.preparationImport)
-            .animation(.easeOut(duration: 0.4), value: model.analysisProgress)
-
+            }.frame(height: 44).bevelPanel(cornerRadius: 5)
+        }.padding(.horizontal, 32)
     }
-    /// Unread problems: music library and analysis failures.
     private var noticeCount: Int { min(99, model.musicLibraryFailures.count + (model.musicLibraryError == nil ? 0 : 1)) }
-
 }
 
 /// RECORD, SPLIT OUTPUT and MASTER, as in the original speaker popover, with routing details below.
@@ -786,11 +797,12 @@ private struct BatteryReadout: View {
 private struct DeckHeader: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
+    var dense = false
     var showsArtwork = true
     @AppStorage(DeckToolSettings.beatJump) private var beatJump = false
 
     var body: some View {
-            HStack(alignment:.top, spacing: 12) {
+            HStack(alignment: .center, spacing: 8) {
                 if showsArtwork {
                 Button { model.showSuggestions(destination: deck) } label: {
                     ZStack {
@@ -803,7 +815,7 @@ private struct DeckHeader: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 6) {
                         Text(track?.title ?? "Deck \(deck.rawValue.uppercased())")
-                            .font(.system(size: 19, weight: .semibold)).foregroundStyle(PerformancePalette.text).lineLimit(1)
+                            .font(.system(size: dense ? 16 : 19, weight: .semibold)).foregroundStyle(PerformancePalette.text).lineLimit(1)
                         if NativeAnalysisPlan.isMix(duration: track?.analysis.duration) { MixBadge(size: 14) }
                     }
                     HStack(spacing: 10) {
@@ -818,7 +830,7 @@ private struct DeckHeader: View {
                                 DeckTempoReadout(model:model,deck:deck)
                             }
                         }
-                    }.font(.system(size: 15)).foregroundStyle(PerformancePalette.secondaryText)
+                    }.font(.system(size: dense ? 12 : 15)).foregroundStyle(PerformancePalette.secondaryText)
                 }
                 Spacer()
                 if editing { GridEditBar(model: model, deck: deck) } else {
@@ -826,26 +838,26 @@ private struct DeckHeader: View {
                     ForEach([-1.0, 1.0], id: \.self) { direction in
                         Button { model.beatJump(beats: direction * model.performance.loopBeats(for: deck), deck: deck) } label: {
                             Image(systemName: direction < 0 ? "chevron.left.2" : "chevron.right.2").font(.system(size: 15, weight: .semibold))
-                                .foregroundStyle(PerformancePalette.text).frame(width: 54, height: 36).bevelPanel(cornerRadius: 3)
+                                .foregroundStyle(PerformancePalette.text).frame(width: 54, height: 44).bevelPanel(cornerRadius: 3)
                         }.accessibilityLabel("Beat jump \(direction < 0 ? "back" : "forward") on deck \(deck.rawValue.uppercased())")
                     }
                 }
                 Button { model.toggleSync(deck: deck) } label: {
                     Text("SYNC").font(.system(size: 17, weight: .medium))
-                        .foregroundStyle(syncColour).padding(.horizontal, 12).frame(height: 36)
+                        .foregroundStyle(syncColour).padding(.horizontal, 12).frame(height: 44)
                         .background(RoundedRectangle(cornerRadius: 3).fill(playback?.synced == true ? PerformancePalette.syncGreenBackground : PerformancePalette.sunken))
                         .overlay(RoundedRectangle(cornerRadius: 3).strokeBorder(Color.white.opacity(0.08)))
                 }.disabled(track == nil || preparing).accessibilityLabel("Sync deck \(deck.rawValue.uppercased())")
                 Button {
                     model.toggleGridEditing(deck:deck)
                 } label: {
-                    Image(systemName: "chart.bar.fill").rotationEffect(.degrees(90)).font(.system(size: 15))
+                    FourBeatGridIcon()
                         .foregroundStyle(editing ? Color.orange : PerformancePalette.text)
-                        .frame(width: 44, height: 36).bevelPanel(cornerRadius: 3)
+                        .frame(width: 44, height: 44).bevelPanel(cornerRadius: 3)
                 }
                     .disabled(track == nil || preparing || playback?.phase == .queued).accessibilityLabel("Edit grid on deck \(deck.rawValue.uppercased())")
                 }
-            }.padding(.horizontal, 12).padding(.vertical, 8)
+            }.padding(.horizontal, 8).padding(.vertical, dense ? 2 : 8)
 
     }
     private var track: Track? { model.track(deck) }
@@ -945,8 +957,8 @@ private struct DeckOverview: View {
             if let track {
                 StripeView(model:model,deck:deck,track:track,visibleSeconds:$visibleSeconds) {
                     model.previewing.insert(deck); model.viewport[deck] = $0
-                }.frame(height: 31)
-            } else { Color.black.frame(height: 31) }
+                }
+            } else { Color.black }
 
     }
     private var track: Track? { model.track(deck) }
@@ -973,10 +985,11 @@ private struct DeckFooter: View {
                 if editing, let grid = model.grid(deck) {
                     ForEach(0..<4) { beat in
                         Button("\(beat + 1)") { model.selectDownbeat(deck: deck, beat: beat) }
+                            .frame(width: 44, height: 44)
                             .foregroundStyle((model.timing(deck)?.downbeatOffset ?? grid.downbeatOffset) == beat ? .orange : deckBlue)
                     }
                 }
-            }.padding(.horizontal, 18).frame(height: 36).background(surface)
+            }.padding(.horizontal, 8).frame(height: 44).background(surface)
 
     }
     private var track: Track? { model.track(deck) }
@@ -1064,7 +1077,7 @@ struct GridEditBar: View {
                 text("/2") { model.correctTempo(deck: deck, factor: 0.5) }
                 if tapping { text("TAP", active: true) { model.tapTempo(deck: deck) } }
                 else { Text(model.grid(deck).map { String(format: "%.1f", model.playbackSnapshot?[deck].adaptiveMap?.bpm(atFrame:model.viewport[deck] ?? 0) ?? $0.bpm) } ?? "—").font(.system(size: 15).monospacedDigit())
-                        .foregroundStyle(PerformancePalette.cyan).frame(width: 70, height: 34).background(PerformancePalette.sunken) }
+                        .foregroundStyle(PerformancePalette.cyan).frame(width: 70, height: 44).background(PerformancePalette.sunken) }
                 text("x2") { model.correctTempo(deck: deck, factor: 2) }
             }.disabled(locked || model.grid(deck) == nil)
             text("RESET") { model.resetGrid(deck: deck) }.disabled(locked)
@@ -1072,12 +1085,12 @@ struct GridEditBar: View {
         }.font(.system(size: 14, weight: .medium)).foregroundStyle(PerformancePalette.text)
     }
     private func button(_ symbol: String, label: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) { Image(systemName: symbol).frame(maxWidth: .infinity).frame(height: 34).bevelPanel(cornerRadius: 3) }
+        Button(action: action) { Image(systemName: symbol).frame(maxWidth: .infinity).frame(height: 44).bevelPanel(cornerRadius: 3) }
             .accessibilityLabel(label)
     }
     private func text(_ title: String, active: Bool = false, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Text(title).padding(.horizontal, 10).frame(height: 34)
+            Text(title).padding(.horizontal, 10).frame(height: 44)
                 .foregroundStyle(active ? PerformancePalette.cyan : PerformancePalette.text).bevelPanel(cornerRadius: 3)
         }
     }
@@ -1103,8 +1116,8 @@ struct GridBeatMarkers: View {
                 if x >= 0 && x <= geometry.size.width {
                     Button { model.setDownbeat(atBeat: beat, deck: deck) } label: {
                         Text("\(((beat-timing.downbeatOffset)%4+4)%4+1)").font(.system(size: 14, weight: .bold))
-                            .foregroundStyle(PerformancePalette.text).frame(width: 26, height: 28).bevelPanel(cornerRadius: 3)
-                    }.position(x: x + 15, y: 18).accessibilityLabel("Make this beat the downbeat")
+                            .foregroundStyle(PerformancePalette.text).frame(width: 44, height: 44).bevelPanel(cornerRadius: 3)
+                    }.position(x: x + 22, y: 22).accessibilityLabel("Make this beat the downbeat")
                 }
             }
         }.disabled(model.gridLocked.contains(deck))

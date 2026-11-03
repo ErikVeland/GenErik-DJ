@@ -264,7 +264,7 @@ extension BrowserView {
                 TextField("", text: $query, prompt: Text("Search full library").foregroundStyle(PerformancePalette.secondaryText))
                     .textFieldStyle(.plain).foregroundStyle(PerformancePalette.text)
                     .accessibilityLabel("Search full library by song, artist, album or genre")
-            }.padding(.horizontal, 14).frame(maxWidth: 380).frame(height: 36)
+            }.padding(.horizontal, 14).frame(maxWidth: 380).frame(height: 44)
             .background(Capsule().fill(PerformancePalette.sunken)).overlay(Capsule().strokeBorder(Color.black.opacity(0.7)))
             if let destination = model.suggestionDestination {
                 Text("\(hasSearchQuery ? "All songs" : "Suggestions") → \(destination.rawValue.uppercased())").foregroundStyle(deckBlue)
@@ -274,10 +274,10 @@ extension BrowserView {
             }
             Spacer()
             if !showingSuggestions {
-                Button(selecting ? "Done" : "Edit") { selecting.toggle(); selection=[] }
+                Button(selecting ? "Done" : "Edit") { selecting.toggle(); selection=[] }.frame(minWidth: 44, minHeight: 44)
                 if selecting { Button("Add to Playlist") { adding=true }.disabled(selection.isEmpty) }
             }
-            Button { model.browserVisible = false } label: { Image(systemName: "chevron.down") }
+            Button { model.browserVisible = false } label: { Image(systemName: "chevron.down").frame(width: 44, height: 44) }
                 .accessibilityLabel("Close songs")
         }
         .font(.system(size: 15, weight: .semibold)).foregroundStyle(PerformancePalette.text)
@@ -313,7 +313,7 @@ extension BrowserView {
             HStack {
                 Spacer()
                 Button { newPlaylistPresented = true } label: {
-                    Image(systemName: "plus").font(.system(size: 17, weight: .semibold)).frame(width: 46, height: 36).bevelPanel(cornerRadius: 4)
+                    Image(systemName: "plus").font(.system(size: 17, weight: .semibold)).frame(width: 44, height: 44).bevelPanel(cornerRadius: 4)
                 }.accessibilityLabel("New playlist")
             }.padding(.horizontal, 14).frame(height: 56).background(PerformancePalette.panel)
             LibraryGroupList(title: "Playlists", source: groupSource, selectedID: group, includesAll: false,
@@ -377,7 +377,7 @@ extension BrowserView {
                 if !hasSearchQuery && category == .playlists {
                     Button { sort = nil } label: {
                         Image(systemName: "music.note.list").font(.system(size: 20, weight: .semibold))
-                            .foregroundStyle(sort == nil ? Color.black : PerformancePalette.secondaryText).frame(width: 42, height: 38)
+                            .foregroundStyle(sort == nil ? Color.black : PerformancePalette.secondaryText).frame(width: 44, height: 44)
                             .background(RoundedRectangle(cornerRadius: 5).fill(sort == nil ? deckBlue : Color.clear))
                     }.accessibilityLabel("Sort by playlist order")
                 }
@@ -439,7 +439,7 @@ extension BrowserView {
         Button { sort = value } label: {
             Image(systemName: symbol).font(.system(size: 20, weight: .semibold))
                 .foregroundStyle(displayedSort == value ? Color.black : PerformancePalette.secondaryText)
-                .frame(width: 42, height: 38)
+                .frame(width: 44, height: 44)
                 .background(RoundedRectangle(cornerRadius: 5).fill(displayedSort == value ? deckBlue : Color.clear))
         }.accessibilityLabel("Sort by \(label)")
     }
@@ -530,7 +530,7 @@ extension BrowserView {
                         guard let entry else { return }
                         model.enqueue(entry.id)
                     } label: {
-                        Image(systemName: "text.badge.plus").font(.system(size: 20)).frame(width: 56, height: 40).bevelPanel(cornerRadius: 4)
+                        Image(systemName: "text.badge.plus").font(.system(size: 20)).frame(width: 48, height: 44).bevelPanel(cornerRadius: 4)
                             .foregroundStyle(entry.map { model.queuedIDs.contains($0.id) } == true ? deckBlue : PerformancePalette.text)
                     }.disabled(entry == nil).accessibilityLabel("Add to prep list")
                 }

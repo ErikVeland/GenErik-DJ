@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 57.54,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "kind": "Erik UI feedback",
+      "text": "Confirmed build 70 installed on Duo. Restore fixed right FX/EQ/loop/Play stacks with centre fader. Extra loop length/hotcue/freeze/Flux controls must be visible and separately swipeable. Edit-grid icon must show four beat lines. Align buttons, rename display to GenErik DJ, inset header content for rounded viewport. Every add-track icon tap currently opens the library only a sliver and requires manual expansion."
+    }
+  ],
   "log": "TestBuilds/ipad/build-70.log",
   "build": 70,
   "app": "TestBuilds/ipad/70/GenErikDJ.app",

@@ -94,6 +94,7 @@ public final class ReplicaModel {
     public var gridDraft: [DeckID: BeatGrid] = [:]
     public var editing: Set<DeckID> = []
     public var browserVisible = true
+    public private(set) var browserPresentationID = UUID()
     public var helpVisible = false
     public var suggestionDestination: DeckID?
     public var selectedTrackID: String?
@@ -906,6 +907,7 @@ public final class ReplicaModel {
     /// Play requests now submit synchronously. Retained for existing callers.
     public func flushTransportRequests() async {}
     public func showLibrary() {
+        browserPresentationID = UUID()
         suggestionWork?.cancel(); suggestionRequest=UUID()
         suggestionDestination = nil; suggestions = []; suggestionMessage = nil; browserVisible = true
     }
@@ -915,6 +917,7 @@ public final class ReplicaModel {
             showLibrary()
             return
         }
+        browserPresentationID = UUID()
         suggestionDestination = destination
         browserVisible = true
         selectedTrackID = nil
