@@ -11,5 +11,7 @@
   "app": "TestBuilds/ipad/69/GenErikDJ.app",
   "appSHA256": "7dbac32122149025b1970a24dd93ba2ab0f83679a7db20c3a6189af46de2bdfc",
   "state": "ready",
-  "createdUTC": "2026-11-03T06:48:16.674936+00:00"
+  "createdUTC": "2026-11-03T06:48:16.674936+00:00",
+  "supersededBy": 70,
+  "disposition": "Saved signed candidate, not installed by this chat. Retained as iteration evidence."
 }
