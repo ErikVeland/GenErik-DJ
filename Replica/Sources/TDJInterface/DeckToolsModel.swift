@@ -86,8 +86,10 @@ extension ReplicaModel {
         queuedIDs.removeAll { $0 == entryID }; saveQueue()
     }
     private func saveQueue() {
-        let ids = queuedIDs, url = store.root.appendingPathComponent("queue.json")
-        Task { await nativeMusic.files.run { try? JSONEncoder().encode(ids).write(to: url, options: .atomic) } }
+        let url = store.root.appendingPathComponent("queue.json")
+        queuePersistence.enqueue(queuedIDs,
+            write: { try JSONEncoder().encode($0).write(to: url, options: .atomic) },
+            reportError: { [weak self] in self?.status = $0 })
     }
 
     /// RESET: back to the collection grid, or the analysed grid when there is none.

@@ -12,6 +12,7 @@ public final class ReplicaModel {
     var selectedEffectSlots: [DeckID:Int] = [:]
     let performancePersistence=CoalescingFileWriter<PerformancePreparation>()
     let effectsPersistence=CoalescingFileWriter<[DeckID:[Int:EffectControl]]>()
+    let queuePersistence=CoalescingFileWriter<[String]>()
     var arrangements: [String: TrackArrangement] = [:]
     @ObservationIgnored var arrangementWriters: [String: CoalescingFileWriter<ArrangementCache>] = [:]
     public var performance = PerformancePreparation()
@@ -235,7 +236,7 @@ public final class ReplicaModel {
         collectionPersistence.enqueue(value,write:{ try $0.save(to:url) },reportError:{ [weak self] in self?.status=$0 })
     }
     public func flushPreferenceWrites() async {
-        await mixerPersistence.flush(); await collectionPersistence.flush(); await flushPerformanceWrites()
+        await mixerPersistence.flush(); await collectionPersistence.flush(); await queuePersistence.flush(); await flushPerformanceWrites()
         for writer in Array(arrangementWriters.values) { await writer.flush() }
     }
     public func finishForShutdown() async {
