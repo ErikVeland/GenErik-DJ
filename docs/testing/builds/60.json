@@ -1,0 +1,41 @@
+{
+  "notes": "R05/R26: Complete current local-audio filter including collection projection and empty Music playlists. Supersedes build 59 installation attempts. Retains Load A/B fix and integrated MIDI changes. Erik acceptance pending.",
+  "sourceCommit": "742315e066b1b6c1d452ba39455b353b5f3c1b92",
+  "sourceSHA256": "3accb1a49f340a3455ebf2b13271b9670a3fde068d81e5b2cdc93a9edd23515f",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 54.55,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-60.log",
+  "build": 60,
+  "app": "TestBuilds/ipad/60/GenErikDJ.app",
+  "appSHA256": "8cd7a75a686b647387f0b5747937ea216d648d1e3be3972f2f387b18f64d7c04",
+  "state": "ready",
+  "createdUTC": "2026-11-03T05:57:40.094487+00:00",
+  "requestIDs": [
+    "R05",
+    "R26"
+  ],
+  "deployments": [
+    {
+      "device": "GenErik Duo",
+      "state": "installation-timeout",
+      "installTimeoutSeconds": 20,
+      "note": "Initial build 60 install timed out. Erik confirmed both devices unlocked. Device info confirmed pairing and local-network transport."
+    },
+    {
+      "device": "GenErik Duo",
+      "state": "installation-timeout",
+      "installTimeoutSeconds": 60,
+      "note": "Extended transfer attempt also timed out. Requested direct USB reconnection."
+    },
+    {
+      "device": "GenErik iPad",
+      "state": "installation-timeout",
+      "installTimeoutSeconds": 20,
+      "note": "Build 60 installation timed out after Erik confirmed both devices unlocked and connected."
+    }
+  ],
+  "acceptance": "Pending installation and Erik device acceptance. No successful build 60 install or launch has been confirmed.",
+  "focusedChecks": "Catalogue asset, search and playlist checks passed against build 60 source. See docs/testing/checks/R26/2026-11-03-local-library-filter/build-60-result.json."
+}
