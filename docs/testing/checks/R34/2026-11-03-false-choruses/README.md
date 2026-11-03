@@ -47,3 +47,7 @@ Host elapsed times are diagnostic only. They do not establish iPad cost.
 The build number, source identity and installation result are recorded in `result.json` and the numbered build record.
 Erik must reload this track, check the replacement labels and listen for clean audio during analysis.
 Wider library accuracy, phrase boundaries and full song-form recognition remain open.
+
+Build 76 failed on two existing R23 endpoint conversions in `ControllerMIDIConnection.swift`.
+The iOS SDK defines these endpoints as `UInt32`, which already matches the dictionary key.
+The correction uses each endpoint directly. The failed output remains in `build-76-failed.log`.

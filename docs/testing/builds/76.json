@@ -1,0 +1,18 @@
+{
+  "build": 76,
+  "state": "build-failed",
+  "requestIDs": [
+    "R34",
+    "R23"
+  ],
+  "sourceCommit": "7428e32d30784dd23c425a84082ac702f57d2847",
+  "sourceSHA256": "33c86c08ef35621c9a186769be6f8f7febb10ac25563317addf5c7c0f4e3ff0f",
+  "notes": "R34 candidate compilation stopped on pre-existing R23 MIDI endpoint conversions. No app was archived or installed.",
+  "createdUTC": "2026-11-03T13:31:07.675169+00:00",
+  "log": "docs/testing/checks/R34/2026-11-03-false-choruses/build-76-failed.log",
+  "errors": [
+    "ControllerMIDIConnection.swift:392: UInt(bitPattern:) does not accept MIDIEndpointRef (UInt32).",
+    "ControllerMIDIConnection.swift:398: UInt(bitPattern:) does not accept MIDIEndpointRef (UInt32)."
+  ],
+  "feedback": []
+}
