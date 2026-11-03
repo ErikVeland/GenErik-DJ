@@ -1,0 +1,33 @@
+{
+  "notes": "R25: Replace loader UIKit touch bridge with SwiftUI tap/drag handling. Restrict recommendation pane swipe to trailing edge. Build 57 feedback recorded as R25-R28. Erik acceptance pending.",
+  "sourceCommit": "1fec44dd4230927bd202bc9d842b8a41e927eab5",
+  "sourceSHA256": "8f9c49a6507c694e697df0f72056030d6139b3898fb3d736d7e33e2d3d211e68",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 53.46,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-58.log",
+  "build": 58,
+  "app": "TestBuilds/ipad/58/GenErikDJ.app",
+  "appSHA256": "0ae450549cb481d6c50175068cea8c9fd1dfc6107da489e7315db9ba4bd6984d",
+  "state": "installed",
+  "createdUTC": "2026-11-03T05:24:45.643491+00:00",
+  "installedUTC": "2026-11-03T05:25:19.814162+00:00",
+  "requestIDs": [
+    "R25"
+  ],
+  "deployments": [
+    {
+      "device": "GenErik Duo",
+      "state": "installed-launch-timeout",
+      "installedUTC": "2026-11-03T05:25:00.756890+00:00"
+    },
+    {
+      "device": "GenErik iPad",
+      "state": "installed-launch-timeout",
+      "installedUTC": "2026-11-03T05:25:19.814162+00:00"
+    }
+  ],
+  "acceptance": "Pending Erik checking A/B endpoint taps and vertical drags on Duo, cancellation and trailing-edge pane swipe. Automatic launch timed out on both devices. Open GenErik DJ Test manually. R26-R28 remain open.",
+  "focusedChecks": "Six loader session checks passed. See docs/testing/checks/R25/2026-11-03-loader-gesture/result.json. Device gesture delivery remains unverified."
+}
