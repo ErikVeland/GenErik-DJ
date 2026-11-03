@@ -24,7 +24,7 @@ public struct ControllerMIDIValueState: Sendable {
     public init() {}
     public mutating func decode(_ message: ControllerMIDIMessage, encoding: ControllerMIDIEncoding, number: UInt8) -> ControllerMIDIValue? {
         if encoding == .paired14Bit {
-            guard message.kind == .control, number < 32 else { return nil }
+            guard message.kind == .control, message.maximum <= 127, number < 32 else { return nil }
             if message.number == number { msb = UInt8(message.value); lsb = 0 }
             else if message.number == number + 32 { lsb = UInt8(message.value) }
             else { return nil }
@@ -33,7 +33,7 @@ public struct ControllerMIDIValueState: Sendable {
         }
         guard message.number == number else { return nil }
         if encoding == .absolute { return .absolute(message.normalized) }
-        guard message.kind == .control else { return nil }
+        guard message.kind == .control, message.maximum <= 127 else { return nil }
         switch encoding {
         case .twosComplement: return .relative(message.value < 64 ? message.value : message.value - 128)
         case .binaryOffset: return .relative(message.value - 64)

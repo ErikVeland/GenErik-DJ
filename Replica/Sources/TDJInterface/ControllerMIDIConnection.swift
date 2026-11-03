@@ -53,6 +53,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
 
 private struct ControllerBinding: Codable {
     let source: Int32
+    let group: UInt8?
     let channel: UInt8
     let kind: ControllerMIDIMessage.Kind
     let number: UInt8
@@ -62,6 +63,7 @@ private struct ControllerBinding: Codable {
     let shifted: Bool?
     var mode: ControllerMIDIEncoding { encoding ?? .absolute }
     var isShifted: Bool { shifted ?? false }
+    var umpGroup: UInt8 { group ?? 0 }
 }
 
 enum ControllerFeedbackKind: String, CaseIterable, Codable, Sendable {
@@ -82,7 +84,8 @@ struct ControllerFeedbackBinding: Codable, Identifiable, Equatable {
 
 /// Core MIDI callbacks never touch the observed model or the audio renderer.
 private final class ControllerMIDIInbox: @unchecked Sendable {
-    struct Frame { let source: UInt32; let bytes: [UInt8] }
+    enum Payload { case bytes([UInt8]); case messages([ControllerMIDIMessage]) }
+    struct Frame { let source: UInt32; let payload: Payload }
     private let lock = NSLock()
     private var frames: [Frame] = []
     private var overflow = false
@@ -90,9 +93,15 @@ private final class ControllerMIDIInbox: @unchecked Sendable {
     func requestRefresh() { lock.lock(); refresh = true; lock.unlock() }
     func append(source: UInt32, bytes: [UInt8]) {
         lock.lock(); defer { lock.unlock() }
-        if frames.count < 128 && bytes.count <= 4096 { frames.append(.init(source: source, bytes: bytes)) }
+        if frames.count < 128 && bytes.count <= 4096 { frames.append(.init(source: source, payload: .bytes(bytes))) }
         else { overflow = true }
     }
+    func append(source: UInt32, messages: [ControllerMIDIMessage]) {
+        lock.lock(); defer { lock.unlock() }
+        if frames.count < 128 && messages.count <= 256 { frames.append(.init(source: source, payload: .messages(messages))) }
+        else { overflow = true }
+    }
+    func signalOverflow() { lock.lock(); overflow = true; lock.unlock() }
     func take() -> ([Frame], Bool, Bool) {
         lock.lock(); defer { lock.unlock() }
         let result = (frames, overflow, refresh)
@@ -101,35 +110,28 @@ private final class ControllerMIDIInbox: @unchecked Sendable {
     }
 }
 
-/// Converts MIDI-1.0 UMP words into the byte stream used by the generic MIDI decoder.
-private func midi1Bytes(from eventList: UnsafePointer<MIDIEventList>) -> [UInt8] {
+/// Copies bounded UMP channel voice messages before handing them to the observed model.
+private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) -> [ControllerMIDIMessage]? {
     let packetOffset = MemoryLayout<MIDIEventList>.offset(of: \.packet)!
     let wordsOffset = MemoryLayout<MIDIEventPacket>.offset(of: \.words)!
     var packet = UnsafeMutablePointer(mutating:
         UnsafeRawPointer(eventList).advanced(by: packetOffset).assumingMemoryBound(to: MIDIEventPacket.self))
-    var bytes: [UInt8] = []
+    var messages: [ControllerMIDIMessage] = []
     var totalWords = 0
-    for _ in 0..<min(Int(eventList.pointee.numPackets), 128) {
+    let packetCount = Int(eventList.pointee.numPackets)
+    guard packetCount <= 128 else { return nil }
+    for _ in 0..<packetCount {
         let wordCount = Int(packet.pointee.wordCount)
-        guard wordCount <= 1024, totalWords <= 4096 - wordCount else { return Array(repeating: 0, count: 4097) }
+        guard wordCount <= 1024, totalWords <= 4096 - wordCount else { return nil }
         totalWords += wordCount
         let words = UnsafeRawPointer(packet).advanced(by: wordsOffset).assumingMemoryBound(to: UInt32.self)
-        for index in 0..<wordCount {
-            let word = words[index]
-            guard word >> 28 == 0x2 else { continue }
-            let status = UInt8((word >> 16) & 0xff)
-            let command = status & 0xf0
-            guard (0x80...0xe0).contains(command) else { continue }
-            bytes.append(status)
-            bytes.append(UInt8((word >> 8) & 0x7f))
-            if command != 0xc0 && command != 0xd0 { bytes.append(UInt8(word & 0x7f)) }
-            if bytes.count > 4096 { return Array(repeating: 0, count: 4097) }
-        }
+        let packetWords = Array(UnsafeBufferPointer(start: words, count: wordCount))
+        guard let decoded = ControllerMIDIUMPDecoder.decode(packetWords), messages.count <= 256 - decoded.count else { return nil }
+        messages.append(contentsOf: decoded)
         packet = UnsafeMutableRawPointer(packet).advanced(by: wordsOffset + wordCount * MemoryLayout<UInt32>.size)
             .assumingMemoryBound(to: MIDIEventPacket.self)
     }
-    if Int(eventList.pointee.numPackets) > 128 { return Array(repeating: 0, count: 4097) }
-    return bytes
+    return messages
 }
 
 @MainActor @Observable
@@ -216,12 +218,12 @@ final class ControllerMIDIConnection {
             }
         }
         guard result == noErr else { stop(); status = "MIDI input could not open (\(result))."; return }
-        let protocolResult = MIDIInputPortCreateWithProtocol(client, "Controller MIDI 1.0 input" as CFString,
-                                                              kMIDIProtocol_1_0, &protocolPort) { list, context in
+        let protocolResult = MIDIInputPortCreateWithProtocol(client, "Controller MIDI 2.0 input" as CFString,
+                                                              kMIDIProtocol_2_0, &protocolPort) { list, context in
             guard let context else { return }
             let source = UInt32(truncatingIfNeeded: UInt(bitPattern: context))
-            let bytes = midi1Bytes(from: list)
-            if !bytes.isEmpty { inbox.append(source: source, bytes: bytes) }
+            guard let messages = controllerMessages(from: list) else { inbox.signalOverflow(); return }
+            if !messages.isEmpty { inbox.append(source: source, messages: messages) }
         }
         if protocolResult != noErr { protocolPort = 0; protocolInputFailure = protocolResult }
         else { protocolInputFailure = nil }
@@ -440,7 +442,7 @@ final class ControllerMIDIConnection {
         }
         func binding(_ action: ControllerAction, kind: ControllerMIDIMessage.Kind, channel: UInt8,
                      number: UInt8, encoding: ControllerMIDIEncoding = .absolute) -> ControllerBinding {
-            .init(source: selected, channel: channel, kind: kind, number: number, action: action,
+            .init(source: selected, group: 0, channel: channel, kind: kind, number: number, action: action,
                   encoding: encoding, inverted: false, shifted: false)
         }
         var profile: [ControllerBinding] = []
@@ -482,11 +484,11 @@ final class ControllerMIDIConnection {
         return assigned.sorted { !$0.isShifted && $1.isShifted }.map { binding in
             let layer = binding.isShifted ? "Shift" : "Base"
             let reversed = binding.inverted == true ? " · reversed" : ""
-            return "\(layer): \(binding.kind.rawValue) \(binding.number) · ch \(Int(binding.channel) + 1) · \(binding.mode.title)\(reversed)"
+            return "\(layer): \(binding.kind.rawValue) \(binding.number) · group \(Int(binding.umpGroup) + 1), ch \(Int(binding.channel) + 1) · \(binding.mode.title)\(reversed)"
         }.joined(separator: " / ")
     }
-    private func bindingStateKey(source: Int32, action: ControllerAction, shifted: Bool) -> String {
-        "\(source)-\(action.rawValue)-\(shifted ? 1 : 0)"
+    private func bindingStateKey(source: Int32, action: ControllerAction, shifted: Bool, group: UInt8 = 0) -> String {
+        "\(source)-\(group)-\(action.rawValue)-\(shifted ? 1 : 0)"
     }
     private func persist() {
         bindingCount = bindings.count
@@ -504,13 +506,18 @@ final class ControllerMIDIConnection {
         var processed = 0
         for frame in frames where frame.source == endpoint {
             if originalZ1Bridge {
-                let reports = bridgeDecoder.append(frame.bytes)
+                guard case .bytes(let bytes) = frame.payload else { continue }
+                let reports = bridgeDecoder.append(bytes)
                 processed += reports.count
                 guard processed <= 256 else { stop(); status = "Controller input overload. Reconnect to continue."; return }
                 for report in reports { receiveBridge(report) }
                 continue
             }
-            let messages = decoder.append(frame.bytes)
+            let messages: [ControllerMIDIMessage]
+            switch frame.payload {
+            case .bytes(let bytes): messages = decoder.append(bytes)
+            case .messages(let input): messages = input
+            }
             processed += messages.count
             guard processed <= 256 else {
                 stop(); status = "Controller input overload. Input disconnected; reconnect to continue."; return
@@ -537,6 +544,9 @@ final class ControllerMIDIConnection {
             guard learningEncoding == .absolute || (message.kind == .control && !learning.isButton) else {
                 status = "Use a CC knob/encoder for this mode, or choose Knob / fader for buttons."; return
             }
+            guard learningEncoding != .paired14Bit || message.maximum <= 127 else {
+                status = "MIDI 2.0 controls already use full resolution. Choose Knob / fader encoding."; return
+            }
             let number: UInt8
             if learningEncoding == .paired14Bit {
                 guard message.number < 64 else { status = "A paired high-resolution CC uses controllers 0–31 and their low bytes 32–63."; return }
@@ -544,7 +554,7 @@ final class ControllerMIDIConnection {
             } else { number = message.number }
             let bindingIsShifted = learning == .shift ? false : learningShifted
             let sameInput: (ControllerBinding) -> Bool = { binding in
-                binding.source == selected && binding.kind == message.kind && binding.channel == message.channel &&
+                binding.source == selected && binding.umpGroup == message.group && binding.kind == message.kind && binding.channel == message.channel &&
                     (binding.number == number || (learningEncoding == .paired14Bit && binding.number == number + 32) ||
                      (binding.mode == .paired14Bit && binding.number < 32 && binding.number + 32 == number))
             }
@@ -557,9 +567,9 @@ final class ControllerMIDIConnection {
                     ($0.isShifted == bindingIsShifted && sameInput($0)) || (learning == .shift && sameInput($0)))
             }
             guard bindings.count < 256 else { status = "The controller mapping is full."; self.learning = nil; return }
-            bindings.append(.init(source: selected, channel: message.channel, kind: message.kind, number: number,
+            bindings.append(.init(source: selected, group: message.group, channel: message.channel, kind: message.kind, number: number,
                                   action: learning, encoding: learningEncoding, inverted: learningInverted, shifted: bindingIsShifted))
-            let key = bindingStateKey(source: selected, action: learning, shifted: bindingIsShifted)
+            let key = bindingStateKey(source: selected, action: learning, shifted: bindingIsShifted, group: message.group)
             values[key] = message.normalized; valueStates[key] = .init()
             shiftActive = false; self.learning = nil; self.learningShifted = false
             persist()
@@ -567,11 +577,11 @@ final class ControllerMIDIConnection {
             return
         }
         let matches = bindings.filter {
-            $0.source == selected && $0.kind == message.kind && $0.channel == message.channel &&
+            $0.source == selected && $0.umpGroup == message.group && $0.kind == message.kind && $0.channel == message.channel &&
                 ($0.number == message.number || ($0.mode == .paired14Bit && $0.number < 32 && $0.number + 32 == message.number))
         }
         for binding in matches {
-            let key = bindingStateKey(source: binding.source, action: binding.action, shifted: binding.isShifted)
+            let key = bindingStateKey(source: binding.source, action: binding.action, shifted: binding.isShifted, group: binding.umpGroup)
             var state = valueStates[key, default: .init()]
             guard let decoded = state.decode(message, encoding: binding.mode, number: binding.number) else { continue }
             valueStates[key] = state
