@@ -7,7 +7,7 @@ struct PerformanceControls: View {
     @State private var settings=false
     @AppStorage(BrowserSettings.fluxModeKey) private var fluxMode = true
     var body: some View {
-        HStack(spacing:6) {
+        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
             Button { setLoopSize(direction:-1) } label: { Image(systemName:"minus") }
                 .accessibilityLabel("Halve loop length on deck \(deck.rawValue.uppercased())")
             Menu {
@@ -27,7 +27,6 @@ struct PerformanceControls: View {
                 Button("FLUX") { model.perform(.flux,deck:deck,enabled:model.controlDisplay[deck].fluxEnabled != true) }
                     .foregroundStyle(model.controlDisplay[deck].fluxEnabled == true ? Color.orange : Color.gray)
             }
-            Spacer(minLength:2)
             if model.previewing.contains(deck),!model.frozen.contains(deck),!model.editing.contains(deck) {
                 Button { model.returnToPlayhead(deck:deck) } label: { Image(systemName:"arrow.uturn.backward") }
                     .accessibilityLabel("Return to playhead on deck \(deck.rawValue.uppercased())")
@@ -39,11 +38,21 @@ struct PerformanceControls: View {
                         Button("Gesture guide") { settings=false; model.helpVisible=true }
                     }.padding().frame(width:300).onDisappear { model.savePerformance() }
                 }
-        }.font(.system(size:11,weight:.semibold)).padding(.horizontal,12).frame(height:40)
+        }.font(.system(size: 16, weight: .semibold))
+            .buttonStyle(PerformanceToolButtonStyle())
             .disabled(model.preparingPlayback.contains(deck) || model.controlDisplay[deck].phase == .queued)
     }
     private func setLoopSize(direction: Int) { model.stepLoopSize(direction:direction,deck:deck) }
     private func setLoopSize(_ beats: Double) { model.setLoopSize(beats,deck:deck) }
+}
+
+struct PerformanceToolButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(maxWidth: .infinity).frame(minHeight: 48)
+            .contentShape(Rectangle())
+            .bevelPanel(cornerRadius: 4, sunken: configuration.isPressed)
+    }
 }
 
 struct SuperSlicerControls: View {
