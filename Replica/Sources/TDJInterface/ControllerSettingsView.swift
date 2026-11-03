@@ -8,6 +8,7 @@ import ExternalAccessory
 struct ControllerSettingsView: View {
     @Bindable var model: ReplicaModel
     @State private var connections: [String] = []
+    @State private var replacingControllerMappings = false
     private var input: ControllerMIDIConnection { model.controllerInput }
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -19,6 +20,10 @@ struct ControllerSettingsView: View {
                     Text("Choose an input").tag(Int32?.none)
                     ForEach(input.sources) { source in Text(source.name).tag(Optional(source.id)) }
                 }
+                Button("DDJ-FLX4 basic MIDI profile") { replacingControllerMappings = true }
+                    .disabled(input.selected == nil || input.originalZ1Bridge)
+                Text("Maps transport and mixer controls plus Hot Cue pads when the controller is in Hot Cue pad mode. Jog, touch and light feedback are not mapped.")
+                    .font(.caption).foregroundStyle(.secondary)
                 Button("Refresh connections") { input.refreshSources(); refreshConnections() }
                 Toggle("Original Z1 through GenErik bridge", isOn: Binding(get: { input.originalZ1Bridge }, set: input.setBridgeMode))
                 if input.originalZ1Bridge {
@@ -91,7 +96,14 @@ struct ControllerSettingsView: View {
             }
             Button("Refresh connection details") { refreshConnections() }
             ShareLink("Share controller connection details", item: ([input.status, input.lastInput] + connections).joined(separator: "\n"))
-        }.onAppear { refreshConnections() }
+        }
+        .confirmationDialog("Replace mappings for this input?", isPresented: $replacingControllerMappings, titleVisibility: .visible) {
+            Button("Replace selected input mappings", role: .destructive) { input.applyDDJFLX4Profile() }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This replaces mappings for the selected MIDI input only. Mappings for other inputs stay in place.")
+        }
+        .onAppear { refreshConnections() }
     }
     private func enable(_ enabled: Bool) {
         if enabled {
