@@ -6,7 +6,7 @@ import ExternalAccessory
 #endif
 
 private enum LearnedControllerProfile: Equatable {
-    case flx4, rev1, rev5
+    case flx4, flx10, rev1, rev5
 }
 
 struct ControllerSettingsView: View {
@@ -30,6 +30,10 @@ struct ControllerSettingsView: View {
                 Button("DDJ-FLX4 MIDI profile") { replacingControllerMappings = .flx4 }
                     .disabled(input.selected == nil || input.originalZ1Bridge)
                 Text("Maps transport, mixer, Hot Cue pads and platter jog. Wheel-side jog bends playback by up to 8% and resets after 150 ms without input.")
+                    .font(.caption).foregroundStyle(.secondary)
+                Button("DDJ-FLX10 MIDI profile") { replacingControllerMappings = .flx10 }
+                    .disabled(input.selected == nil || input.originalZ1Bridge)
+                Text("Maps the published two-deck controls, loops, Beat Jump, mixer and jog messages. Deck 3/4 and stem controls are not mapped. Set the pads to Hot Cue mode.")
                     .font(.caption).foregroundStyle(.secondary)
                 Button("DDJ-REV1 MIDI profile") { replacingControllerMappings = .rev1 }
                     .disabled(input.selected == nil || input.originalZ1Bridge)
@@ -148,6 +152,8 @@ struct ControllerSettingsView: View {
         ), titleVisibility: .visible) {
             if replacingControllerMappings == .flx4 {
                 Button("Replace selected input mappings", role: .destructive) { input.applyDDJFLX4Profile() }
+            } else if replacingControllerMappings == .flx10 {
+                Button("Replace selected input mappings", role: .destructive) { input.applyDDJFLX10Profile() }
             } else if replacingControllerMappings == .rev1 {
                 Button("Replace selected input mappings", role: .destructive) { input.applyDDJREV1Profile() }
             } else if replacingControllerMappings == .rev5 {

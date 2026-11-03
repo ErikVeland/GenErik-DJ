@@ -78,6 +78,16 @@ struct ControllerBinding: Codable {
     var umpGroup: UInt8 { group ?? 0 }
 }
 
+struct ControllerShiftLayerState {
+    private var activeInputs: Set<String> = []
+    var isActive: Bool { !activeInputs.isEmpty }
+    mutating func update(input: String, isPressed: Bool) {
+        if isPressed { activeInputs.insert(input) }
+        else { activeInputs.remove(input) }
+    }
+    mutating func reset() { activeInputs.removeAll() }
+}
+
 enum ControllerFeedbackKind: String, CaseIterable, Codable, Sendable {
     case note, control
     var title: String { self == .note ? "Note" : "Control Change" }
@@ -204,6 +214,7 @@ final class ControllerMIDIConnection {
     @ObservationIgnored private var valueStates: [String: ControllerMIDIValueState] = [:]
     @ObservationIgnored private var pendingValues: [ControllerAction: Double] = [:]
     @ObservationIgnored private var shiftActive = false
+    @ObservationIgnored private var shiftLayer = ControllerShiftLayerState()
     @ObservationIgnored private var bindings: [ControllerBinding] = []
     @ObservationIgnored private var timer: Timer?
     @ObservationIgnored private let inbox = ControllerMIDIInbox()
@@ -267,7 +278,7 @@ final class ControllerMIDIConnection {
         if outputPort != 0 { MIDIPortDispose(outputPort); outputPort = 0 }
         feedbackOutputAvailable = false
         if client != 0 { MIDIClientDispose(client); client = 0 }
-        endpoint = 0; selected = nil; enabled = false; learning = nil; learningShifted = false; shiftActive = false; midiFeedbackEnabled = false
+        endpoint = 0; selected = nil; enabled = false; learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset(); midiFeedbackEnabled = false
         protocolInputFailure = nil
         decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); _ = inbox.take()
         sentMIDIValues.removeAll()
@@ -298,7 +309,7 @@ final class ControllerMIDIConnection {
             MIDIPortDisconnectSource(port, endpoint)
             if protocolPort != 0 { MIDIPortDisconnectSource(protocolPort, endpoint) }
         }
-        endpoint = 0; selected = nil; learning = nil; learningShifted = false; shiftActive = false
+        endpoint = 0; selected = nil; learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset()
         decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); _ = inbox.take()
         feedbackSelected = nil; midiFeedbackEnabled = false; sentMIDIValues.removeAll(); resetBridge()
         guard enabled, let source = sources.first(where: { $0.id == id }) else { return }
@@ -315,7 +326,7 @@ final class ControllerMIDIConnection {
         releaseMomentaryActions()
         originalZ1Bridge = enabled
         if enabled { midiFeedbackEnabled = false; sentMIDIValues.removeAll() }
-        learning = nil; learningShifted = false; shiftActive = false
+        learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset()
         decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); resetBridge()
         guard let selected, let source = sources.first(where: { $0.id == selected }), endpoint != 0 else { return }
         MIDIPortDisconnectSource(port, endpoint)
@@ -567,7 +578,7 @@ final class ControllerMIDIConnection {
     func clearBindings() {
         guard let selected else { return }
         bindings.removeAll { $0.source == selected }; values.removeAll(); valueStates.removeAll(); pendingValues.removeAll()
-        learning = nil; learningShifted = false; shiftActive = false; persist()
+        learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset(); persist()
     }
     func applyDDJFLX4Profile() {
         guard !originalZ1Bridge, let selected else {
@@ -618,9 +629,91 @@ final class ControllerMIDIConnection {
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
         pendingValues.removeAll()
-        learning = nil; learningShifted = false; shiftActive = false
+        learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset()
         persist()
         status = "Loaded the DDJ-FLX4 transport, mixer, Hot Cue, platter and wheel-side jog profile. Other lights are not mapped."
+    }
+    func applyDDJFLX10Profile() {
+        guard !originalZ1Bridge, let selected else {
+            status = "Select a generic MIDI input before loading this profile."
+            return
+        }
+        releaseMomentaryActions()
+        let profile = Self.ddjFLX10Bindings(source: selected)
+        bindings.removeAll { $0.source == selected }
+        bindings.append(contentsOf: profile)
+        values = values.filter { !$0.key.hasPrefix("\(selected)-") }
+        valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
+        pendingValues.removeAll()
+        learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset()
+        persist()
+        status = "Loaded the DDJ-FLX10 two-deck transport, mixer, loops, Beat Jump, Hot Cue and jog profile."
+    }
+    static func ddjFLX10Bindings(source: Int32) -> [ControllerBinding] {
+        func binding(_ action: ControllerAction, kind: ControllerMIDIMessage.Kind, channel: UInt8,
+                     number: UInt8, encoding: ControllerMIDIEncoding = .absolute,
+                     shifted: Bool = false) -> ControllerBinding {
+            .init(source: source, group: 0, channel: channel, kind: kind, number: number,
+                  parameter: nil, noteNumber: nil, action: action,
+                  encoding: encoding, inverted: false, shifted: shifted)
+        }
+        var profile: [ControllerBinding] = []
+        for (channel, padChannel, deck) in [(UInt8(0), UInt8(7), "A"), (UInt8(1), UInt8(9), "B")] {
+            let play: ControllerAction = deck == "A" ? .playA : .playB
+            let cueReturn: ControllerAction = deck == "A" ? .cueReturnA : .cueReturnB
+            let headphoneCue: ControllerAction = deck == "A" ? .cueA : .cueB
+            let sync: ControllerAction = deck == "A" ? .syncA : .syncB
+            let loop: ControllerAction = deck == "A" ? .loopA : .loopB
+            let loopDown: ControllerAction = deck == "A" ? .loopDownA : .loopDownB
+            let loopUp: ControllerAction = deck == "A" ? .loopUpA : .loopUpB
+            let jumpBack: ControllerAction = deck == "A" ? .jumpBackA : .jumpBackB
+            let jumpForward: ControllerAction = deck == "A" ? .jumpForwardA : .jumpForwardB
+            let tempo: ControllerAction = deck == "A" ? .tempoA : .tempoB
+            profile += [binding(play, kind: .note, channel: channel, number: 11),
+                        binding(cueReturn, kind: .note, channel: channel, number: 12),
+                        binding(headphoneCue, kind: .note, channel: channel, number: 84),
+                        binding(headphoneCue, kind: .note, channel: channel, number: 57, shifted: true),
+                        binding(sync, kind: .note, channel: channel, number: 88),
+                        binding(loop, kind: .note, channel: channel, number: 20),
+                        binding(loopDown, kind: .note, channel: channel, number: 16),
+                        binding(loopDown, kind: .note, channel: channel, number: 76, shifted: true),
+                        binding(loopUp, kind: .note, channel: channel, number: 17),
+                        binding(loopUp, kind: .note, channel: channel, number: 77, shifted: true),
+                        binding(jumpBack, kind: .note, channel: channel, number: 94),
+                        binding(jumpBack, kind: .note, channel: channel, number: 97, shifted: true),
+                        binding(jumpForward, kind: .note, channel: channel, number: 95),
+                        binding(jumpForward, kind: .note, channel: channel, number: 98, shifted: true),
+                        binding(tempo, kind: .control, channel: channel, number: 0, encoding: .paired14Bit),
+                        binding(tempo, kind: .control, channel: channel, number: 5, encoding: .paired14Bit, shifted: true)]
+            let controls: [(ControllerAction, UInt8)] = deck == "A"
+                ? [(.gainA, 4), (.highA, 7), (.midA, 11), (.lowA, 15), (.levelA, 19)]
+                : [(.gainB, 4), (.highB, 7), (.midB, 11), (.lowB, 15), (.levelB, 19)]
+            profile += controls.map {
+                binding($0.0, kind: .control, channel: channel, number: $0.1, encoding: .paired14Bit)
+            }
+            let hotcues: [ControllerAction] = deck == "A"
+                ? [.hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A]
+                : [.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B]
+            profile += hotcues.enumerated().map {
+                binding($0.element, kind: .note, channel: padChannel, number: UInt8($0.offset))
+            }
+            let jog: ControllerAction = deck == "A" ? .jogA : .jogB
+            let jogTouch: ControllerAction = deck == "A" ? .jogTouchA : .jogTouchB
+            let wheelJog: ControllerAction = deck == "A" ? .wheelJogA : .wheelJogB
+            profile += [binding(jog, kind: .control, channel: channel, number: 34, encoding: .binaryOffset),
+                        binding(jog, kind: .control, channel: channel, number: 35, encoding: .binaryOffset),
+                        binding(jogTouch, kind: .note, channel: channel, number: 54),
+                        binding(jogTouch, kind: .note, channel: channel, number: 103, shifted: true),
+                        binding(wheelJog, kind: .control, channel: channel, number: 33, encoding: .binaryOffset),
+                        binding(wheelJog, kind: .control, channel: channel, number: 38, encoding: .binaryOffset, shifted: true)]
+        }
+        profile += [binding(.crossfader, kind: .control, channel: 6, number: 31, encoding: .paired14Bit),
+                    binding(.master, kind: .control, channel: 6, number: 8, encoding: .paired14Bit),
+                    binding(.cueMix, kind: .control, channel: 6, number: 12, encoding: .paired14Bit),
+                    binding(.monitor, kind: .control, channel: 6, number: 13, encoding: .paired14Bit),
+                    binding(.shift, kind: .note, channel: 0, number: 63),
+                    binding(.shift, kind: .note, channel: 1, number: 63)]
+        return profile
     }
     func applyDDJREV1Profile() {
         guard !originalZ1Bridge, let selected else {
@@ -634,7 +727,7 @@ final class ControllerMIDIConnection {
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
         pendingValues.removeAll()
-        learning = nil; learningShifted = false; shiftActive = false
+        learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset()
         persist()
         status = "Loaded the DDJ-REV1 transport, mixer, Hot Cue, loop and jog profile. Set the performance pads to Hot Cue mode."
     }
@@ -650,7 +743,7 @@ final class ControllerMIDIConnection {
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
         pendingValues.removeAll()
-        learning = nil; learningShifted = false; shiftActive = false
+        learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset()
         persist()
         status = "Loaded the DDJ-REV5 two-deck transport, mixer, Hot Cue, jog and Shift profile. Set both pad banks to Hot Cue mode."
     }
@@ -862,7 +955,7 @@ final class ControllerMIDIConnection {
                                   inverted: learningInverted, shifted: bindingIsShifted))
             let key = bindingStateKey(source: selected, action: learning, shifted: bindingIsShifted, group: message.group)
             values[key] = message.normalized; valueStates[key] = .init()
-            shiftActive = false; self.learning = nil; self.learningShifted = false
+            shiftActive = false; shiftLayer.reset(); self.learning = nil; self.learningShifted = false
             persist()
             status = replacesShift ? "Saved \(learning.title). The old Shift mapping was removed." : "Saved \(learning.title)."
             return
@@ -894,7 +987,9 @@ final class ControllerMIDIConnection {
             if binding.action.isButton, message.kind == .note, !message.isNoteOff, value == 0 { value = 1 }
             let previous = values.updateValue(value, forKey: key)
             if binding.action == .shift {
-                shiftActive = value > 0
+                let inputKey = "\(binding.source)-\(binding.umpGroup)-\(binding.channel)-\(binding.kind.rawValue)-\(binding.number)-\(binding.parameter ?? 0)-\(binding.noteNumber ?? 0)"
+                shiftLayer.update(input: inputKey, isPressed: value > 0)
+                shiftActive = shiftLayer.isActive
                 status = shiftActive ? "Shift layer active." : "Base layer active."
                 continue
             }

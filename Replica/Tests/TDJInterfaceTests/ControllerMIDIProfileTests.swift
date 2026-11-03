@@ -1,6 +1,20 @@
 import Testing
 @testable import TDJInterface
 
+@Test func controllerShiftLayerStaysActiveUntilEveryShiftInputIsReleased() {
+    var shift = ControllerShiftLayerState()
+    shift.update(input: "deck-a", isPressed: true)
+    shift.update(input: "deck-b", isPressed: true)
+    #expect(shift.isActive)
+    shift.update(input: "deck-a", isPressed: false)
+    #expect(shift.isActive)
+    shift.update(input: "deck-b", isPressed: false)
+    #expect(!shift.isActive)
+    shift.update(input: "deck-a", isPressed: true)
+    shift.reset()
+    #expect(!shift.isActive)
+}
+
 @Test @MainActor func ddjREV1InputProfileUsesPublishedDeckChannelsAndControlEncodings() throws {
     let bindings = ControllerMIDIConnection.ddjREV1Bindings(source: 42)
     #expect(bindings.count == 57)
@@ -54,6 +68,40 @@ import Testing
     let hotcueB = bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .b }
     #expect(hotcueB.map(\.channel) == Array(repeating: 9, count: 8))
     #expect(hotcueB.map(\.number) == (0..<8).map { UInt8($0) })
+}
+
+@Test @MainActor func ddjFLX10InputProfileUsesPublishedTwoDeckChannelsAndEncodings() throws {
+    let bindings = ControllerMIDIConnection.ddjFLX10Bindings(source: 44)
+    #expect(bindings.count == 76)
+    #expect(bindings.allSatisfy { $0.source == 44 && $0.group == 0 })
+
+    func first(_ action: ControllerAction) throws -> ControllerBinding {
+        try #require(bindings.first { $0.action == action })
+    }
+    let playA = try first(.playA), playB = try first(.playB)
+    let cueReturnA = try first(.cueReturnA), cueA = try first(.cueA)
+    let syncA = try first(.syncA), loopA = try first(.loopA)
+    let tempoA = try first(.tempoA), crossfader = try first(.crossfader)
+    #expect(playA.channel == 0 && playA.number == 11)
+    #expect(playB.channel == 1 && playB.number == 11)
+    #expect(cueReturnA.number == 12)
+    #expect(cueA.number == 84)
+    #expect(syncA.number == 88)
+    #expect(loopA.number == 20)
+    #expect(bindings.filter { $0.action == .loopDownA }.map(\.number) == [16, 76])
+    #expect(bindings.filter { $0.action == .loopUpA }.map(\.number) == [17, 77])
+    #expect(bindings.filter { $0.action == .jumpBackA }.map(\.number) == [94, 97])
+    #expect(bindings.filter { $0.action == .jumpForwardA }.map(\.number) == [95, 98])
+    #expect(tempoA.encoding == .paired14Bit && tempoA.number == 0)
+    #expect(bindings.contains { $0.action == .tempoA && $0.number == 5 && $0.isShifted })
+    #expect(crossfader.channel == 6 && crossfader.number == 31)
+    #expect(bindings.filter { $0.action == .shift }.map(\.channel) == [0, 1])
+    #expect(bindings.filter { $0.action == .jogA }.map(\.number) == [34, 35])
+    #expect(bindings.filter { $0.action == .jogA }.allSatisfy { $0.encoding == .binaryOffset })
+    #expect(bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .a }
+        .map { "\($0.channel):\($0.number)" } == (0..<8).map { "7:\($0)" })
+    #expect(bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .b }
+        .map { "\($0.channel):\($0.number)" } == (0..<8).map { "9:\($0)" })
 }
 
 @Test @MainActor func ddjREV5InputProfileUsesPublishedTwoDeckChannelsAndEncodings() throws {
