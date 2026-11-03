@@ -223,6 +223,7 @@ private struct DeckView: View {
         Button { model.showSuggestions(destination: deck) } label: {
             DeckArtwork(source: ArtworkSource.track(track, media: model.store.mediaDirectory))
                 .frame(width: 44, height: 44).background(PerformancePalette.sunken).clipped()
+                .overlay { TrackHeadphoneIndicator(model: model, trackID: track?.id) }
         }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
             .offset(y: (1 - layout.expansion) * max(0, (deckSpace.size.height - 52) / 2))
         VStack(spacing: 0) {
@@ -274,10 +275,7 @@ private struct DeckView: View {
         ScrollView(.vertical) {
             VStack(spacing: 8) {
                 if track != nil { PerformanceControls(model: model, deck: deck) }
-                Button { model.setMixer(.cue, value: playback?.mixer.cue == true ? 0 : 1, deck: deck) } label: {
-                    Image(systemName: "headphones")
-                        .foregroundStyle(playback?.mixer.cue == true ? PerformancePalette.cyan : PerformancePalette.secondaryText)
-                }.accessibilityLabel("Headphone cue for deck \(deck.rawValue.uppercased())")
+                OptionalHeadphoneButton(model: model, deck: deck)
                 if cueButton {
                     Button("CUE") { model.pressCue(deck: deck) }.disabled(track == nil)
                         .accessibilityLabel("Cue on deck \(deck.rawValue.uppercased())")
@@ -392,6 +390,7 @@ private struct StripeView: View {
             WaveformView(track: track, grid: nil, centerFrame: Double(track.analysis.frameCount) / 2,
                          visibleSeconds: track.analysis.duration).equatable()
                 .overlay { ArrangementWaveformOverlay(model:model,deck:deck,track:track,center:Double(track.analysis.frameCount)/2,span:Double(track.analysis.frameCount),overview:true) }
+                .overlay { OverviewCueFlags(model:model,track:track) }
                 .overlay(alignment: .leading) {
                     StripeViewportMarker(model:model,deck:deck,width:geometry.size.width,
                         frameCount:Double(track.analysis.frameCount),duration:track.analysis.duration,

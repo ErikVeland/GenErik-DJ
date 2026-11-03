@@ -14,6 +14,9 @@ public final class ReplicaModel {
     let effectsPersistence=CoalescingFileWriter<[DeckID:[Int:EffectControl]]>()
     let queuePersistence=CoalescingFileWriter<[String]>()
     var arrangements: [String: TrackArrangement] = [:]
+    var structureAnalyzing: Set<String> = []
+    @ObservationIgnored var arrangementVersions: [String: Int] = [:]
+    @ObservationIgnored var arrangementTasks: [String: Task<ArrangementPreparationResult, Never>] = [:]
     @ObservationIgnored var arrangementWriters: [String: CoalescingFileWriter<ArrangementCache>] = [:]
     public var performance = PerformancePreparation()
     let recoveryState = RecoveryState()
@@ -757,7 +760,7 @@ public final class ReplicaModel {
             do {
                 guard let requested=loadPreparations[deck], requested.token==token else { return }
                 var sourceTrack=requested.track
-                if sourceTrack.analysis.musicalAnalysisDeferred == true {
+                if NativeAnalysisPlan.needsDeckAnalysis(deferred:sourceTrack.analysis.musicalAnalysisDeferred,bpm:sourceTrack.bpm,key:sourceTrack.key) {
                     cancelNativeMusicAnalysis()
                     status = "Analysing \(sourceTrack.title)…"
                     let protectedTracks = Set(loaded.values).subtracting([trackID])
@@ -777,7 +780,12 @@ public final class ReplicaModel {
                     sourceTrack = analysed.resolvingTraktorPreparation()
                     if let pending = pendingPreparations[trackID] { sourceTrack.preparation = pending.value }
                     loadPreparations[deck] = .init(token: token, track: sourceTrack)
-                    if status == "Analysing \(requested.track.title)…" { status = "" }
+                    var missing=[String]()
+                    if sourceTrack.bpm == nil { missing.append("BPM") }
+                    if sourceTrack.key == nil { missing.append("key") }
+                    let result=missing.isEmpty ? "Analysis finished for \(sourceTrack.title).":"Analysis finished for \(sourceTrack.title). No reliable \(missing.joined(separator:" or ")) was detected."
+                    logAnalysis(result)
+                    if status == "Analysing \(requested.track.title)…" { status=missing.isEmpty ? "":result }
                 }
                 let preparedSourceTrack = sourceTrack
                 try await playback.load(track:preparedSourceTrack,store:store,deck:deck,sourceURL:sourceURL,committed:{ [weak self = self] generation in

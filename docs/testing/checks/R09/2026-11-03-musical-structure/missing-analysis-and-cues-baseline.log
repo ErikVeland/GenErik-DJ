@@ -1,0 +1,111 @@
+/tmp/generik-r09-checks/Tests.swift:125:42: error: type 'NativeAnalysisPlan' has no member 'needsDeckAnalysis'
+123 |     func testMissingBPMOrKeyTriggersADeckAnalysisEvenWhenNotDeferred() {
+124 |         let key=MusicalKey(tonic:0,mode:.major)
+125 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:false,bpm:nil,key:key))
+    |                                          `- error: type 'NativeAnalysisPlan' has no member 'needsDeckAnalysis'
+126 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:nil,bpm:120,key:nil))
+127 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:false,bpm:.nan,key:key))
+
+/tmp/generik-r09-checks/Tests.swift:126:42: error: type 'NativeAnalysisPlan' has no member 'needsDeckAnalysis'
+124 |         let key=MusicalKey(tonic:0,mode:.major)
+125 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:false,bpm:nil,key:key))
+126 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:nil,bpm:120,key:nil))
+    |                                          `- error: type 'NativeAnalysisPlan' has no member 'needsDeckAnalysis'
+127 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:false,bpm:.nan,key:key))
+128 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:true,bpm:120,key:key))
+
+/tmp/generik-r09-checks/Tests.swift:127:42: error: type 'NativeAnalysisPlan' has no member 'needsDeckAnalysis'
+125 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:false,bpm:nil,key:key))
+126 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:nil,bpm:120,key:nil))
+127 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:false,bpm:.nan,key:key))
+    |                                          `- error: type 'NativeAnalysisPlan' has no member 'needsDeckAnalysis'
+128 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:true,bpm:120,key:key))
+129 |         XCTAssertFalse(NativeAnalysisPlan.needsDeckAnalysis(deferred:false,bpm:120,key:key))
+
+/tmp/generik-r09-checks/Tests.swift:128:42: error: type 'NativeAnalysisPlan' has no member 'needsDeckAnalysis'
+126 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:nil,bpm:120,key:nil))
+127 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:false,bpm:.nan,key:key))
+128 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:true,bpm:120,key:key))
+    |                                          `- error: type 'NativeAnalysisPlan' has no member 'needsDeckAnalysis'
+129 |         XCTAssertFalse(NativeAnalysisPlan.needsDeckAnalysis(deferred:false,bpm:120,key:key))
+130 |     }
+
+/tmp/generik-r09-checks/Tests.swift:129:43: error: type 'NativeAnalysisPlan' has no member 'needsDeckAnalysis'
+127 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:false,bpm:.nan,key:key))
+128 |         XCTAssertTrue(NativeAnalysisPlan.needsDeckAnalysis(deferred:true,bpm:120,key:key))
+129 |         XCTAssertFalse(NativeAnalysisPlan.needsDeckAnalysis(deferred:false,bpm:120,key:key))
+    |                                           `- error: type 'NativeAnalysisPlan' has no member 'needsDeckAnalysis'
+130 |     }
+131 | }
+
+/tmp/generik-r09-checks/Tests.swift:143:20: error: cannot find 'SectionCueAllocator' in scope
+141 |     func testSectionsFillFreeSlotsWithoutChangingExistingCues() {
+142 |         let manual=PerformanceCue(frame:123,loopEnd:456)
+143 |         let result=SectionCueAllocator.allocate(sections:sections,existing:[0:manual],alreadyPrepared:false)
+    |                    `- error: cannot find 'SectionCueAllocator' in scope
+144 |         XCTAssertEqual(result[0],manual)
+145 |         XCTAssertEqual(result[1]?.frame,0)
+
+/tmp/generik-r09-checks/Tests.swift:151:24: error: cannot find 'SectionCueAllocator' in scope
+149 |     func testEightSlotLimitAndExistingBoundaryCuesAreRespected() {
+150 |         let full=Dictionary(uniqueKeysWithValues:(0..<8).map { ($0,PerformanceCue(frame:Double($0))) })
+151 |         XCTAssertEqual(SectionCueAllocator.allocate(sections:sections,existing:full,alreadyPrepared:false),full)
+    |                        `- error: cannot find 'SectionCueAllocator' in scope
+152 |         let grid=PerformanceCue(frame:0,kind:.grid)
+153 |         let result=SectionCueAllocator.allocate(sections:sections,existing:[0:grid],alreadyPrepared:false)
+
+/tmp/generik-r09-checks/Tests.swift:153:20: error: cannot find 'SectionCueAllocator' in scope
+151 |         XCTAssertEqual(SectionCueAllocator.allocate(sections:sections,existing:full,alreadyPrepared:false),full)
+152 |         let grid=PerformanceCue(frame:0,kind:.grid)
+153 |         let result=SectionCueAllocator.allocate(sections:sections,existing:[0:grid],alreadyPrepared:false)
+    |                    `- error: cannot find 'SectionCueAllocator' in scope
+154 |         XCTAssertEqual(result.count,3)
+155 |         XCTAssertEqual(result[0],grid)
+
+/tmp/generik-r09-checks/Tests.swift:159:19: error: cannot find 'SectionCueAllocator' in scope
+157 |     }
+158 |     func testDeletedCuesStayDeletedAndSectionCorrectionsRefreshGeneratedLabels() throws {
+159 |         var first=SectionCueAllocator.allocate(sections:sections,existing:[:],alreadyPrepared:false)
+    |                   `- error: cannot find 'SectionCueAllocator' in scope
+160 |         first[1]=nil
+161 |         var edited=sections
+
+/tmp/generik-r09-checks/Tests.swift:163:20: error: cannot find 'SectionCueAllocator' in scope
+161 |         var edited=sections
+162 |         edited[2].role = .bridge
+163 |         let result=SectionCueAllocator.allocate(sections:edited,existing:first,alreadyPrepared:true)
+    |                    `- error: cannot find 'SectionCueAllocator' in scope
+164 |         XCTAssertNil(result[1])
+165 |         XCTAssertEqual(result[2]?.sectionName,"BRIDGE")
+
+/tmp/generik-r09-checks/Tests.swift:164:9: error: generic parameter 'T' could not be inferred
+162 |         edited[2].role = .bridge
+163 |         let result=SectionCueAllocator.allocate(sections:edited,existing:first,alreadyPrepared:true)
+164 |         XCTAssertNil(result[1])
+    |         `- error: generic parameter 'T' could not be inferred
+165 |         XCTAssertEqual(result[2]?.sectionName,"BRIDGE")
+166 |         XCTAssertEqual(result[2]?.sectionColour,0xB69BE8)
+
+/tmp/generik-r09-checks/Assertions.swift:9:6: note: in call to function 'XCTAssertNil(_:line:)'
+ 7 | func XCTAssertTrue(_ value: Bool, line: UInt = #line) { if !value { fail("expected true",line) } }
+ 8 | func XCTAssertFalse(_ value: Bool, line: UInt = #line) { XCTAssertTrue(!value,line:line) }
+ 9 | func XCTAssertNil<T>(_ value: T?, line: UInt = #line) { if value != nil { fail("expected nil",line) } }
+   |      `- note: in call to function 'XCTAssertNil(_:line:)'
+10 | func XCTFail(_ message: String, line: UInt = #line) { fail(message,line) }
+11 | func XCTAssertNotNil<T>(_ value: T?, line: UInt = #line) { if value == nil { fail("expected a value",line) } }
+
+/tmp/generik-r09-checks/Tests.swift:170:29: error: value of type 'PerformanceCue' has no member 'sectionName'
+168 |         let legacy=try JSONDecoder().decode(PerformanceCue.self,from:Data("{\"frame\":42}".utf8))
+169 |         XCTAssertEqual(legacy.frame,42)
+170 |         XCTAssertNil(legacy.sectionName)
+    |                             `- error: value of type 'PerformanceCue' has no member 'sectionName'
+171 |     }
+172 | }
+Traceback (most recent call last):
+  File "/Users/veland/GenErik DJ/docs/testing/checks/R09/2026-11-03-musical-structure/check.py", line 26, in <module>
+    subprocess.run(['xcrun','swiftc','-O',*files,'-o',str(work/'checks')],check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['xcrun', 'swiftc', '-O', '/tmp/generik-r09-checks/AnalysisValues.swift', '/Users/veland/GenErik DJ/Replica/Sources/TDJCore/TrackArrangement.swift', '/Users/veland/GenErik DJ/Replica/Sources/TDJCore/BeatGrid.swift', '/Users/veland/GenErik DJ/Replica/Sources/TDJCore/MusicalStructureAnalyzer.swift', '/tmp/generik-r09-checks/BeatGridMap.swift', '/tmp/generik-r09-checks/CueValues.swift', '/tmp/generik-r09-checks/NativePlan.swift', '/tmp/generik-r09-checks/Assertions.swift', '/tmp/generik-r09-checks/Tests.swift', '/tmp/generik-r09-checks/main.swift', '-o', '/tmp/generik-r09-checks/checks']' returned non-zero exit status 1.

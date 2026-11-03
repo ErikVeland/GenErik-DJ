@@ -27,3 +27,10 @@ The existing `TrackArrangementTests`, `ArrangementTimingTests` and `ArrangementI
 The retained waveform handover also records these implementation gaps. Its screenshot uses manually assigned sections on a synthetic fixture. That image does not demonstrate automatic recognition.
 
 No application source changed during this audit. No new build or device installation was required. R09 remains partial. Finish each missing analysis capability as a focused iPad iteration, then obtain Erik's acceptance on real music.
+
+
+## 3 November follow-up candidate
+
+The new local structure pass adds spectral and pitch-class repetition, bass-attack changes and Apple's trained vocal classifier. It produces automatic section names and colours, vocal and arrangement landmarks, mix regions and estimated rhythmic endings. Verse and chorus roles remain inferred estimates, marked with `?`. The new code is not a trained song-form model.
+
+The earlier table describes the 2 November source only. Current evidence and limits are in `../testing/checks/R09/2026-11-03-musical-structure/`. Real-library accuracy, physical display and uninterrupted playback still require Erik's acceptance. No new gig-readiness claim is made.

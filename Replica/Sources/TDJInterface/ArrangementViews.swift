@@ -18,20 +18,26 @@ struct ArrangementDeckStrip: View {
         HStack(spacing:8) {
             Text(status?.currentSection ?? "STRUCTURE PREPARING")
                 .foregroundStyle(currentColour).lineLimit(1)
-            if let status, !status.nextEvent.isEmpty { Text(status.nextEvent).lineLimit(1).foregroundStyle(.secondary) }
+            if let id=model.track(deck)?.id, model.structureAnalyzing.contains(id) {
+                Text("ANALYSING STRUCTURE").lineLimit(1).foregroundStyle(.secondary)
+            } else if let status, !status.nextEvent.isEmpty { Text(status.nextEvent).lineLimit(1).foregroundStyle(.secondary) }
             Spacer(minLength:0)
+            if compact, let status {
+                Text(status.endingText).lineLimit(1)
+                    .foregroundStyle(status.warning == .red || status.warning == .urgent ? Color.red:Color.secondary)
+            }
             Button { editor=true } label: { Image(systemName:"diamond") }
                 .accessibilityLabel("Edit sections and analysis landmarks")
                 .disabled(model.track(deck).flatMap { model.arrangements[$0.id] } == nil)
         }
-        .font(.system(size:compact ? 9:11,weight:.semibold,design:.monospaced))
-        .padding(.horizontal,8).frame(height:compact ? 16:24).background(PerformancePalette.sunken)
+        .font(.system(size:11,weight:.semibold,design:.monospaced))
+        .padding(.horizontal,8).frame(height:24).background(PerformancePalette.sunken)
         .task(id:preparationKey) { await model.prepareArrangement(deck:deck) }
         .sheet(isPresented:$editor) { ArrangementEditor(model:model,deck:deck) }
     }
     private var preparationKey: String {
         guard let track=model.track(deck) else { return "" }
-        return track.id + (track.analysis.waveform.isEmpty ? "-waiting" : "-ready")
+        return track.id + (model.preparingPlayback.contains(deck) ? "-loading":track.analysis.waveform.isEmpty ? "-waiting":"-ready")
     }
     private var currentColour: Color {
         guard let track=model.track(deck), let section=model.arrangements[track.id]?.section(at:model.playbackSnapshot?[deck].sourceFrame ?? 0) else { return .secondary }

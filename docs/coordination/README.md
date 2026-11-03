@@ -15,6 +15,7 @@ The release standard is Erik's acceptance on his real setup. A successful build 
 ## Current position
 
 - Active development branch: `feature/project-integration`.
+- Latest Duo candidate: build 70, application source `4dfc867f889bf33a5cda2fdeeb2bc2ee57c6ccdc`, installed and launched on 3 November. R09/R29/R30 add musical suggestions and section hot cues, missing-BPM/key analysis on deck load, larger waveforms, vertical controls and optional Cue/headphone buttons. Erik acceptance is pending. See `../testing/checks/R09/2026-11-03-musical-structure/result.json`.
 - Remote backup: `origin/feature/project-integration`. Review: [draft PR #3](https://github.com/ErikVeland/GenErik-DJ/pull/3), against `main`.
 - Prepared controller candidate: build 51, application source `a437cec2bc37506fa24c63e666e97ec53d570ed8`. Installed vinyl-stop candidate: build 55, installed and launched on 3 November. Erik's acceptance is pending.
 - Shared uncommitted work was backed up and committed as `7a974c385`.
