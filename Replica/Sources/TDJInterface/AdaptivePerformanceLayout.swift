@@ -13,6 +13,9 @@ struct AdaptivePerformanceLayout {
         return min(maximum, max(minimum, height * (share.isFinite ? share : 0.28)))
     }
 
+    static func crossfaderHeight(available: Double) -> Double { max(0, available) * 0.3 }
+    static func railClearance(available: Double) -> Double { crossfaderHeight(available: available) / 2 }
+
     static func panelWidth(available: Double) -> Double {
         min(196, max(144, available * 0.22))
     }
@@ -38,5 +41,16 @@ struct AdaptiveDeckGeometry {
         hotcueHeight = hotcues ? 56 * expansion : 0
         waveformHeight = max(0, height - headerHeight - sectionHeight - footerHeight - overviewHeight - hotcueHeight)
         transportWidth = 128 - 64 * expansion
+    }
+}
+
+struct PerformanceToolsPanelState {
+    var isVisible = true
+
+    mutating func finishSwipe(horizontal: Double, vertical: Double, velocity: Double = 0) {
+        guard horizontal.isFinite, vertical.isFinite, velocity.isFinite,
+              abs(horizontal) > abs(vertical),
+              abs(horizontal) >= 40 || (abs(horizontal) >= 16 && abs(velocity) >= 600) else { return }
+        isVisible = horizontal < 0
     }
 }

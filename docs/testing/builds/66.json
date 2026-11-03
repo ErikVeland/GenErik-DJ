@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 27.19,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "kind": "Erik correction",
+      "text": "Keep the right-hand TDJ1 vertical FX/EQ/loop/Play stacks visible and the crossfader in the middle. Only the loop length/hotcue/freeze/Flux controls belong in a separate swipe-away panel next to transport. Those extra controls appeared to have disappeared in build 66."
+    }
+  ],
   "log": "TestBuilds/ipad/build-66.log",
   "build": 66,
   "app": "TestBuilds/ipad/66/GenErikDJ.app",
