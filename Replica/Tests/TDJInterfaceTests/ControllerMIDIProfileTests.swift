@@ -156,3 +156,23 @@ import Testing
     #expect(hotcueB.map(\.channel) == Array(repeating: 8, count: 8))
     #expect(hotcueB.map(\.number) == (0..<8).map { UInt8($0) })
 }
+
+@Test @MainActor func ddjFLX10FeedbackProfileUsesPublishedTwoDeckStatusAndHotCueMessages() {
+    let bindings = ControllerMIDIConnection.ddjFLX10FeedbackBindings(destination: 53)
+    #expect(bindings.count == 22)
+    #expect(bindings.allSatisfy {
+        $0.destination == 53 && $0.kind == .note && $0.offValue == 0 && $0.onValue == 127
+            && $0.offUsesNoteOn == true
+    })
+    #expect(bindings.first { $0.action == .playA }?.channel == 0)
+    #expect(bindings.first { $0.action == .playA }?.number == 11)
+    #expect(bindings.first { $0.action == .syncB }?.channel == 1)
+    #expect(bindings.first { $0.action == .syncB }?.number == 88)
+    #expect(bindings.first { $0.action == .cueA }?.number == 84)
+    let hotcueA = bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .a }
+    let hotcueB = bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .b }
+    #expect(hotcueA.map(\.channel) == Array(repeating: 7, count: 8))
+    #expect(hotcueB.map(\.channel) == Array(repeating: 9, count: 8))
+    #expect(hotcueA.map(\.number) == (0..<8).map { UInt8($0) })
+    #expect(hotcueB.map(\.number) == (0..<8).map { UInt8($0) })
+}

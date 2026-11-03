@@ -14,6 +14,7 @@ struct ControllerSettingsView: View {
     @State private var connections: [String] = []
     @State private var replacingControllerMappings: LearnedControllerProfile?
     @State private var replacingControllerFeedback = false
+    @State private var replacingFLX10Feedback = false
     @State private var replacingREV1Feedback = false
     @State private var replacingREV5Feedback = false
     private var input: ControllerMIDIConnection { model.controllerInput }
@@ -68,6 +69,16 @@ struct ControllerSettingsView: View {
                         Text("This updates only the listed status and Hot Cue mappings for the selected MIDI output. Feedback stays off until you enable it.")
                     }
                 Text("Maps play, sync, headphone-cue and Hot Cue lights from the published DDJ-FLX4 MIDI list.")
+                    .font(.caption).foregroundStyle(.secondary)
+                Button("DDJ-FLX10 LED feedback profile") { replacingFLX10Feedback = true }
+                    .disabled(input.feedbackSelected == nil)
+                    .confirmationDialog("Replace DDJ-FLX10 LED feedback?", isPresented: $replacingFLX10Feedback, titleVisibility: .visible) {
+                        Button("Replace play, sync, headphone-cue and Hot Cue mappings", role: .destructive) { input.applyDDJFLX10FeedbackProfile() }
+                        Button("Cancel", role: .cancel) {}
+                    } message: {
+                        Text("This updates only the listed status and Hot Cue mappings for the selected MIDI output. Feedback stays off until you enable it.")
+                    }
+                Text("Maps play, sync, headphone-cue and Hot Cue lights from the published DDJ-FLX10 MIDI list. Hot Cue lights use one fixed colour.")
                     .font(.caption).foregroundStyle(.secondary)
                 Button("DDJ-REV1 LED feedback profile") { replacingREV1Feedback = true }
                     .disabled(input.feedbackSelected == nil)

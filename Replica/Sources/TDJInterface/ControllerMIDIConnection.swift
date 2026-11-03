@@ -426,6 +426,21 @@ final class ControllerMIDIConnection {
         persistFeedbackBindings()
         feedbackStatus = "Loaded DDJ-REV5 play, sync, headphone-cue and Hot Cue light mappings. Enable MIDI feedback to send them."
     }
+    func applyDDJFLX10FeedbackProfile() {
+        guard let destination = feedbackSelected else {
+            feedbackStatus = "Choose a DDJ-FLX10 MIDI output before loading status feedback."
+            return
+        }
+        let completeProfile = Self.ddjFLX10FeedbackBindings(destination: destination)
+        let actions = completeProfile.map(\.action)
+        feedbackBindings.removeAll { $0.destination == destination && actions.contains($0.action) }
+        feedbackBindings.append(contentsOf: completeProfile)
+        feedbackBindings.sort { $0.id < $1.id }
+        sentMIDIValues.removeAll()
+        midiFeedbackEnabled = false
+        persistFeedbackBindings()
+        feedbackStatus = "Loaded DDJ-FLX10 play, sync, headphone-cue and Hot Cue light mappings. Enable MIDI feedback to send them."
+    }
     static func ddjREV5FeedbackBindings(destination: Int32) -> [ControllerFeedbackBinding] {
         let profile: [ControllerFeedbackBinding] = [
             .init(destination: destination, action: .playA, kind: .note, channel: 0, number: 11, offValue: 0, onValue: 127, offUsesNoteOn: true),
@@ -440,6 +455,29 @@ final class ControllerMIDIConnection {
             (UInt8(7), [ControllerAction.hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A,
                         .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A]),
             (UInt8(8), [ControllerAction.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B,
+                        .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B])
+        ] {
+            for (number, action) in padActions.enumerated() {
+                completeProfile.append(.init(destination: destination, action: action, kind: .note,
+                    channel: padChannel, number: UInt8(number), offValue: 0, onValue: 127, offUsesNoteOn: true))
+            }
+        }
+        return completeProfile
+    }
+    static func ddjFLX10FeedbackBindings(destination: Int32) -> [ControllerFeedbackBinding] {
+        let profile: [ControllerFeedbackBinding] = [
+            .init(destination: destination, action: .playA, kind: .note, channel: 0, number: 11, offValue: 0, onValue: 127, offUsesNoteOn: true),
+            .init(destination: destination, action: .syncA, kind: .note, channel: 0, number: 88, offValue: 0, onValue: 127, offUsesNoteOn: true),
+            .init(destination: destination, action: .cueA, kind: .note, channel: 0, number: 84, offValue: 0, onValue: 127, offUsesNoteOn: true),
+            .init(destination: destination, action: .playB, kind: .note, channel: 1, number: 11, offValue: 0, onValue: 127, offUsesNoteOn: true),
+            .init(destination: destination, action: .syncB, kind: .note, channel: 1, number: 88, offValue: 0, onValue: 127, offUsesNoteOn: true),
+            .init(destination: destination, action: .cueB, kind: .note, channel: 1, number: 84, offValue: 0, onValue: 127, offUsesNoteOn: true)
+        ]
+        var completeProfile = profile
+        for (padChannel, padActions) in [
+            (UInt8(7), [ControllerAction.hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A,
+                        .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A]),
+            (UInt8(9), [ControllerAction.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B,
                         .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B])
         ] {
             for (number, action) in padActions.enumerated() {

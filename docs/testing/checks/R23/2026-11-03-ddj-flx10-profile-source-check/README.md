@@ -12,9 +12,9 @@ Application base commit: `94e2745`.
 | Focused package check | BLOCKED | `bash Replica/Scripts/check.sh --filter ControllerMIDIProfileTests` stopped before tests ran. Swift 6.3.3 crashed with `SmallVector unable to grow`; the compiler also reported `no such module 'Testing'`. The output and exit status are preserved here. |
 | iPad and controller check | NOT RUN | The user asked for development without iPad access. No iPad or controller was accessed. |
 
-The input profile uses Pioneer’s [published DDJ-FLX10 MIDI message list](https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-flx10/ddj-flx10_midi_message_list_e1.pdf). It maps two-deck transport, mixer, tempo, loop, Beat Jump, Hot Cue, jog and touch messages. It omits decks 3/4, stem controls and MIDI feedback. Either physical Shift button selects the same momentary layer. Releasing one Shift button leaves the layer active while the other remains held.
+The input and output profiles use Pioneer’s [published DDJ-FLX10 MIDI message list](https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-flx10/ddj-flx10_midi_message_list_e1.pdf). Input maps two-deck transport, mixer, tempo, loop, Beat Jump, Hot Cue, jog and touch messages. Output maps play, sync, headphone cue and Hot Cue lights. The Hot Cue lights use a fixed colour. Both profiles omit decks 3/4 and stem controls. Either physical Shift button selects the same momentary layer. Releasing one Shift button leaves the layer active while the other remains held.
 
-The profile source assignments match the published table. Core MIDI endpoint access, jog calibration, pad-mode behaviour and hardware acceptance remain open. The profile tests were added but did not execute.
+The profile source assignments match the published table. Core MIDI endpoint access, jog calibration, pad-mode behaviour, feedback colour tuning and hardware acceptance remain open. The profile tests were added but did not execute.
 
 ## Files
 
