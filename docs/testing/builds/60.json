@@ -42,8 +42,20 @@
       "deviceID": "791706CC-F256-59B2-92F6-ACAB34411FD0",
       "note": "Diagnostic retry used the resolved CoreDevice identifier. Tunnel, developer services and usage assertion succeeded. Install did not report success. Device lock-state query confirmed no passcode required. USB is unavailable. Requested Wi-Fi reconnection.",
       "log": "TestBuilds/ipad/60/duo-install-diagnostic.log"
+    },
+    {
+      "device": "GenErik iPad",
+      "state": "installation-timeout",
+      "installTimeoutSeconds": 20,
+      "note": "Retry after Erik reconnected Wi-Fi also timed out."
     }
   ],
   "acceptance": "Pending installation and Erik device acceptance. No successful build 60 install or launch has been confirmed.",
-  "focusedChecks": "Catalogue asset, search and playlist checks passed against build 60 source. See docs/testing/checks/R26/2026-11-03-local-library-filter/build-60-result.json."
+  "focusedChecks": "Catalogue asset, search and playlist checks passed against build 60 source. See docs/testing/checks/R26/2026-11-03-local-library-filter/build-60-result.json.",
+  "installedVersionCheck": {
+    "GenErik Duo": 58,
+    "GenErik iPad": 58,
+    "note": "Read-only installed-app queries confirmed build 58 remains installed on both devices."
+  },
+  "connectionDiagnosis": "An unrelated Hotel Dusk devicectl installation to Duo (PID 90777) had run for more than 34 minutes. It may block the shared device installation service. Requested Erik approval before stopping that separate transfer."
 }
