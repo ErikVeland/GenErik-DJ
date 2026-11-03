@@ -11,7 +11,7 @@ The decoder now skips reserved UMP message types using their allocated sizes: on
 | Check | Result | Detail |
 | --- | --- | --- |
 | Swift syntax parse | PASS | The decoder and focused test source parsed. |
-| Standalone decoder assertions | PASS | The compiled production decoder skipped reserved packet payloads, retained the following note event and rejected truncated packets. |
+| Standalone decoder assertions | PASS | The compiled production decoder preserved MIDI 1.0 note release and MIDI 2.0 group, full-resolution control, pitch centre, relative RPN, banked program, zero-velocity Note On, reserved-packet skipping and truncation behaviour. |
 | Repository test command | BLOCKED | `bash Replica/Scripts/check.sh --filter ControllerMIDIUMPDecoderTests` stopped during `TDJInterface` code generation with a Swift 6.3.3 `SmallVector unable to grow` crash. The test target also reported that it could not import `Testing`. The repository tests did not run. Captured output is in `package-check.log`. |
 | Whitespace check | PASS | `git diff --check` reported no errors. |
 | Controller and iPad checks | PENDING | No hardware or iPad was accessed. |
@@ -21,7 +21,7 @@ The decoder now skips reserved UMP message types using their allocated sizes: on
 | File | SHA-256 |
 | --- | --- |
 | `Replica/Sources/TDJCore/ControllerMIDI.swift` | `540b6b477194fdf1db3ee990ed40917302f1c9815b977f85d1125c3492bcb6eb` |
-| `Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift` | `610e17f6466dce5498b6da67c0d5377fc5cc9afd6fee40ef09bd96d797fdd288` |
+| `Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift` | `a6b0c4067ad8c1140f3a89ea1ef59faebb14b225a97c5be5f8b4d4cc493b0a1a` |
 
 ## Remaining work
 
