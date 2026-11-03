@@ -64,4 +64,4 @@ The upstream controller scripts were inspected as protocol references. They are 
 - User-configured generic MIDI Note/Control Change feedback, scoped to the selected output destination.
 - Original Z1 development bridge framing, Linux HID relay, calibration, native input and light/meter output route.
 
-This does not finish all controller support. Verified model profiles, jog/touch, model-specific modifier behaviour, simultaneous input selection, soft takeover, native displays/motors and actual bridge audio remain open. Physical Z1 and bridge acceptance remain with Erik.
+This does not finish all controller support. Profiles for other models, jog/touch calibration, model-specific modifier behaviour, simultaneous input selection, native displays/motors and actual bridge audio remain open. Physical Z1 and bridge acceptance remain with Erik.

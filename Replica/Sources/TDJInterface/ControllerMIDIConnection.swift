@@ -88,6 +88,25 @@ struct ControllerShiftLayerState {
     mutating func reset() { activeInputs.removeAll() }
 }
 
+struct ControllerMIDITakeoverState {
+    private var previousInput: Double?
+    private var isArmed = false
+    private var hasTakenControl = false
+    var isPending: Bool { isArmed && !hasTakenControl }
+
+    mutating func shouldApply(input: Double, target: Double?, tolerance: Double = 0.02) -> Bool {
+        guard input.isFinite, (0...1).contains(input),
+              let target, target.isFinite, (0...1).contains(target) else { return true }
+        guard !hasTakenControl else { return true }
+        isArmed = true
+        let close = abs(input - target) <= tolerance
+        let crossed = previousInput.map { ($0 - target) * (input - target) <= 0 } ?? false
+        previousInput = input
+        hasTakenControl = close || crossed
+        return hasTakenControl
+    }
+}
+
 enum ControllerFeedbackKind: String, CaseIterable, Codable, Sendable {
     case note, control
     var title: String { self == .note ? "Note" : "Control Change" }
@@ -212,6 +231,7 @@ final class ControllerMIDIConnection {
     @ObservationIgnored private var needsBridgeHello = true
     @ObservationIgnored private var values: [String: Double] = [:]
     @ObservationIgnored private var valueStates: [String: ControllerMIDIValueState] = [:]
+    @ObservationIgnored private var takeoverStates: [String: ControllerMIDITakeoverState] = [:]
     @ObservationIgnored private var pendingValues: [ControllerAction: Double] = [:]
     @ObservationIgnored private var shiftActive = false
     @ObservationIgnored private var shiftLayer = ControllerShiftLayerState()
@@ -280,7 +300,7 @@ final class ControllerMIDIConnection {
         if client != 0 { MIDIClientDispose(client); client = 0 }
         endpoint = 0; selected = nil; enabled = false; learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset(); midiFeedbackEnabled = false
         protocolInputFailure = nil
-        decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); _ = inbox.take()
+        decoder = .init(); values.removeAll(); valueStates.removeAll(); takeoverStates.removeAll(); pendingValues.removeAll(); _ = inbox.take()
         sentMIDIValues.removeAll()
         resetBridge()
         sources = []; destinations = []; feedbackSelected = nil; feedbackStatus = "Feedback output is off."; status = "Controller input is off."
@@ -310,7 +330,7 @@ final class ControllerMIDIConnection {
             if protocolPort != 0 { MIDIPortDisconnectSource(protocolPort, endpoint) }
         }
         endpoint = 0; selected = nil; learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset()
-        decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); _ = inbox.take()
+        decoder = .init(); values.removeAll(); valueStates.removeAll(); takeoverStates.removeAll(); pendingValues.removeAll(); _ = inbox.take()
         feedbackSelected = nil; midiFeedbackEnabled = false; sentMIDIValues.removeAll(); resetBridge()
         guard enabled, let source = sources.first(where: { $0.id == id }) else { return }
         let inputPort = !originalZ1Bridge && protocolPort != 0 ? protocolPort : port
@@ -327,7 +347,7 @@ final class ControllerMIDIConnection {
         originalZ1Bridge = enabled
         if enabled { midiFeedbackEnabled = false; sentMIDIValues.removeAll() }
         learning = nil; learningShifted = false; shiftActive = false; shiftLayer.reset()
-        decoder = .init(); values.removeAll(); valueStates.removeAll(); pendingValues.removeAll(); resetBridge()
+        decoder = .init(); values.removeAll(); valueStates.removeAll(); takeoverStates.removeAll(); pendingValues.removeAll(); resetBridge()
         guard let selected, let source = sources.first(where: { $0.id == selected }), endpoint != 0 else { return }
         MIDIPortDisconnectSource(port, endpoint)
         if protocolPort != 0 { MIDIPortDisconnectSource(protocolPort, endpoint) }
@@ -897,8 +917,12 @@ final class ControllerMIDIConnection {
     private func bindingStateKey(source: Int32, action: ControllerAction, shifted: Bool, group: UInt8 = 0) -> String {
         "\(source)-\(group)-\(action.rawValue)-\(shifted ? 1 : 0)"
     }
+    private func bindingTakeoverKey(_ binding: ControllerBinding) -> String {
+        "\(binding.source)-\(binding.umpGroup)-\(binding.channel)-\(binding.kind.rawValue)-\(binding.number)-\(binding.parameter ?? 0)-\(binding.noteNumber ?? 0)-\(binding.isShifted ? 1 : 0)"
+    }
     private func persist() {
         bindingCount = bindings.count
+        takeoverStates.removeAll()
         if let data = try? JSONEncoder().encode(bindings) { UserDefaults.standard.set(data, forKey: Self.storageKey) }
     }
     private func releaseMomentaryActions() {
@@ -1045,6 +1069,19 @@ final class ControllerMIDIConnection {
                 guard value > 0, (previous ?? 0) == 0 else { continue }
                 onAction?(binding.action, value)
             } else {
+                if !binding.action.isJog && !message.kind.isRelativeController
+                    && (binding.mode == .absolute || binding.mode == .paired14Bit) {
+                    let takeoverKey = bindingTakeoverKey(binding)
+                    var takeover = takeoverStates[takeoverKey, default: .init()]
+                    let wasPending = takeover.isPending
+                    let shouldApply = takeover.shouldApply(input: value, target: currentValue?(binding.action))
+                    takeoverStates[takeoverKey] = takeover
+                    guard shouldApply else {
+                        if !wasPending { status = "Move the control to its current value to take control." }
+                        continue
+                    }
+                    if wasPending { status = "MIDI control took over." }
+                }
                 pendingValues[binding.action] = value
             }
         }

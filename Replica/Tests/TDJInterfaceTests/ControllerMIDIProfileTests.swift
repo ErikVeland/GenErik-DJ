@@ -15,6 +15,28 @@ import Testing
     #expect(!shift.isActive)
 }
 
+@Test func controllerSoftTakeoverWaitsForTheCurrentValueThenStaysAcquired() {
+    var takeover = ControllerMIDITakeoverState()
+    #expect(!takeover.shouldApply(input: 0.1, target: 0.75))
+    #expect(takeover.isPending)
+    #expect(!takeover.shouldApply(input: 0.4, target: 0.75))
+    #expect(takeover.shouldApply(input: 0.74, target: 0.75))
+    #expect(!takeover.isPending)
+    #expect(takeover.shouldApply(input: 0.1, target: 0.75))
+}
+
+@Test func controllerSoftTakeoverAcquiresWhenAnInputCrossesTheCurrentValue() {
+    var takeover = ControllerMIDITakeoverState()
+    #expect(!takeover.shouldApply(input: 0.9, target: 0.5))
+    #expect(takeover.shouldApply(input: 0.2, target: 0.5))
+}
+
+@Test func controllerSoftTakeoverDoesNotBlockWhenTheCurrentValueIsUnavailable() {
+    var takeover = ControllerMIDITakeoverState()
+    #expect(takeover.shouldApply(input: 0.1, target: nil))
+    #expect(!takeover.shouldApply(input: 0.1, target: 0.8))
+}
+
 @Test @MainActor func ddjREV1InputProfileUsesPublishedDeckChannelsAndControlEncodings() throws {
     let bindings = ControllerMIDIConnection.ddjREV1Bindings(source: 42)
     #expect(bindings.count == 57)
