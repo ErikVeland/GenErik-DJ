@@ -189,17 +189,19 @@ private func unifiedProjection(tracks:[Track],catalog:MusicLibraryCatalog?,sort:
     #expect(row.nativeItem?.source == b.source && row.title == track.title)
 }
 
-@Test func unifiedStoredNativeOnlyMemberRemainsVisibleButUnavailable() async throws {
-    let b=unifiedItem("b"),track=try unifiedTrack(21,sources:[b.source],nativeOnly:true)
+@Test func unifiedStoredCloudOnlyMemberIsHiddenAndPreparationIsRetained() async throws {
+    let b=unifiedItem("b")
+    var track=try unifiedTrack(21,sources:[b.source],nativeOnly:true)
+    track.preparation.correctedKey = .init(tonic:7,mode:.minor)
+    let savedPreparation=track.preparation
     var playlists=CollectionPlaylists();try playlists.add(trackIDs:[b.id],name:"Cloud set")
     let group=try #require(playlists.playlists.first?.id.uuidString)
     let result=try await unifiedProjection(tracks:[track],catalog:.init(items:[],playlists:[]),category:.playlists,group:group,playlists:playlists)
-    #expect(result.entries.count == 1)
-    let members=try await LibraryBrowserProjection.selectedIDs(selection:[b.id],tracks:[track],catalog:nil)
-    #expect(members == [b.id])
-    let row=try #require(result.entries.first)
-    #expect(row.membershipID == b.id && row.track?.id == track.id && !row.canLoad)
-    #expect(row.nativeItem?.availability == .unavailable && row.bpm == track.bpm)
+    #expect(result.entries.isEmpty && result.groups.map(\.id) == [group])
+    let members=try await LibraryBrowserProjection.selectedIDs(selection:[b.id,track.id],tracks:[track],catalog:nil)
+    #expect(members.isEmpty)
+    #expect(playlists.playlists.first?.trackIDs == [b.id])
+    #expect(track.nativeLibraryOnly == true && track.preparation == savedPreparation)
 }
 
 @Test func unifiedCatalogueMetadataWinsOverStoredNativeFallback() async throws {

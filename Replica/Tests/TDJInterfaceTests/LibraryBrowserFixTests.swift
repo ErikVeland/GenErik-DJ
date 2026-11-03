@@ -9,10 +9,11 @@ import TDJCore
 @MainActor private final class LargeMusicLibrary: LocalMusicLibraryProviding {
     let snapshot: MusicLibraryCatalog
     var error: MusicLibraryError?
-    init(songs: Int, playlists: [String]) {
+    init(songs: Int, playlists: [String], local: Bool = true) {
         let items=(0..<songs).map { index in
             MusicLibraryItem(source:.init(platform:.iosMusic,persistentID:String(index+1)),title:String(format:"Song %05d",index),
-                             artist:"Artist \(index%40)",assetURL:nil,availability:.notDownloaded)
+                             artist:"Artist \(index%40)",assetURL:local ? URL(string:"ipod-library://item/\(index+1)") : nil,
+                             availability:local ? .available : .notDownloaded)
         }
         let lists=playlists.enumerated().map { index,name in
             MusicLibraryPlaylist(id:"ios-playlist:\(index)",name:name,itemIDs:items.prefix(10*(index+1)).map(\.id))
@@ -24,6 +25,20 @@ import TDJCore
         return snapshot
     }
     func prepare(_ item: MusicLibraryItem, in directory: URL) async throws -> PreparedMusicLibraryAudio { throw MusicLibraryError.missingAudio }
+}
+
+@Test @MainActor func cloudOnlyMusicDoesNotCreateLibraryRowsOrPlaylists() async throws {
+    let provider=LargeMusicLibrary(songs:3,playlists:["Cloud only"],local:false)
+    let (model,workspace)=try largeLibraryModel(provider)
+    defer { try? FileManager.default.removeItem(at:workspace) }
+    await model.refreshMusicLibrary()
+    #expect(model.browsableSongCount == 0)
+    let songs=try await LibraryBrowserProjection.build(librarySource:model.libraryReadSource(),catalogSource:model.catalogReadSource(),
+        suggestionIDs:nil,search:"",sort:.title,category:.songs,group:nil,playlists:CollectionPlaylists())
+    #expect(songs.entries.isEmpty)
+    let playlists=try await LibraryBrowserProjection.build(librarySource:model.libraryReadSource(),catalogSource:model.catalogReadSource(),
+        suggestionIDs:nil,search:"",sort:nil,category:.playlists,group:nil,playlists:CollectionPlaylists())
+    #expect(playlists.groups.isEmpty && playlists.entries.isEmpty)
 }
 
 @MainActor private func largeLibraryModel(_ provider: LargeMusicLibrary) throws -> (ReplicaModel, URL) {
