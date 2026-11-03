@@ -20,7 +20,11 @@ The four outputs and background workflow are working assumptions. The app has no
 
 HTDemucs separates vocals, drums, bass and other. The Meta repository reports the model family and its MIT license. A third-party Core ML conversion provides a 44.1 kHz stereo model with ten-second input chunks. Its README lists about 200 MB for FP16, while the model repository lists the package at 233 MB. The conversion recommends CPU/GPU units and warns against Neural Engine execution for its current model shapes. It supports iOS 17. See the [conversion README](https://huggingface.co/dexxdean/htdemucs-coreml/blob/main/README.md), [model package listing](https://huggingface.co/dexxdean/htdemucs-coreml/tree/main/HTDemucs_CoreML_FP16.mlpackage) and [Meta Demucs repository](https://github.com/facebookresearch/demucs).
 
-This conversion is a candidate, not an approved dependency. The repository contains no model package or Core ML integration. The conversion and A10X performance have not been checked in this project. Build 81 does not include stem processing.
+This conversion is a candidate, not an A10X-validated dependency. The working delivery choice is a one-time model download to app support. This keeps the app build smaller. The download must use revision `8b4d481` and verify the model SHA-256 `307ddf24af60111ba821d4ad6bf2d1d987d6531ca2f487b6a95ec16a16a9c644` and weights SHA-256 `efab790ad07d93faeb5a19b6e1eedad8c37ad351563a891a153fce307811c099`. The model download does not download or change music tracks. Internet access is needed only to install the model for first use. After installation, separation runs on the device.
+
+The repository does not bundle the model package and has no inference pipeline or stem playback route. This project has not checked the conversion or A10X performance. Build 81 does not include stem processing.
+
+The first local installer is in `Replica/Sources/TDJInterface/StemModelRepository.swift`. It pins the model revision, verifies model and weight hashes, and compiles the package into a caller-provided local directory. Its single-file source check is in `../testing/checks/R17/2026-11-04-stem-model-installer/README.md`. The app does not call the installer yet.
 
 ## Implementation gates
 
