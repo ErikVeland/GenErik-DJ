@@ -21,9 +21,9 @@ struct ControllerSettingsView: View {
                     Text("Choose an input").tag(Int32?.none)
                     ForEach(input.sources) { source in Text(source.name).tag(Optional(source.id)) }
                 }
-                Button("DDJ-FLX4 basic MIDI profile") { replacingControllerMappings = true }
+                Button("DDJ-FLX4 MIDI profile") { replacingControllerMappings = true }
                     .disabled(input.selected == nil || input.originalZ1Bridge)
-                Text("Maps transport and mixer controls plus Hot Cue pads when the controller is in Hot Cue pad mode. Jog, touch and light feedback are not mapped.")
+                Text("Maps transport and mixer controls, Hot Cue pads and vinyl-on platter jog with touch. Wheel-side and vinyl-off jog inputs are not mapped.")
                     .font(.caption).foregroundStyle(.secondary)
                 Button("Refresh connections") { input.refreshSources(); refreshConnections() }
                 Toggle("Original Z1 through GenErik bridge", isOn: Binding(get: { input.originalZ1Bridge }, set: input.setBridgeMode))
@@ -197,6 +197,20 @@ extension ReplicaModel {
         case .jumpForwardA, .jumpForwardB: beatJump(beats: performance.loopBeats(for: deck), deck: deck)
         case .cueReturnA, .cueReturnB: pressCue(deck: deck)
         case .freezeA, .freezeB: toggleFreeze(deck: deck)
+        case .jogTouchA, .jogTouchB:
+            if value > 0 {
+                controllerJogTouched.insert(deck)
+                guard let frame = playbackSnapshot?[deck].sourceFrame else { return }
+                perform(.touch, deck: deck, value: frame, touchRate: 0)
+            } else {
+                controllerJogTouched.remove(deck)
+                perform(.touch, deck: deck, enabled: false)
+            }
+        case .jogA, .jogB:
+            let rate = min(4, max(-4, (value - 0.5) * 8))
+            guard controllerJogTouched.contains(deck),
+                  let frame = playbackSnapshot?[deck].sourceFrame else { return }
+            perform(.touch, deck: deck, value: frame, touchRate: rate)
         case .hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A,
              .hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B:
             if let slot = action.hotcueSlot { cue(slot: slot, deck: deck) }

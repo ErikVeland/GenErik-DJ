@@ -58,7 +58,13 @@ public struct MusicLibraryCatalog: Sendable, Equatable {
     public let items: [MusicLibraryItem]
     public let playlists: [MusicLibraryPlaylist]
     public init(items: [MusicLibraryItem], playlists: [MusicLibraryPlaylist]) {
-        self.items = items; self.playlists = playlists
+        self.items = items
+        let localItemIDs = Set(items.lazy.filter(\.isOnDevice).map(\.id))
+        self.playlists = playlists.compactMap { playlist in
+            let localIDs = playlist.itemIDs.filter(localItemIDs.contains)
+            guard !localIDs.isEmpty else { return nil }
+            return MusicLibraryPlaylist(id: playlist.id, name: playlist.name, itemIDs: localIDs)
+        }
     }
     public func songs(playlistID: String? = nil, search: String = "") -> [MusicLibraryItem] {
         let query = search.trimmingCharacters(in: .whitespacesAndNewlines)

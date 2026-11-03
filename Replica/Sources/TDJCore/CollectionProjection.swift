@@ -15,6 +15,11 @@ public struct CollectionProjection: Sendable {
                              playlists: CollectionPlaylists, catalog: MusicLibraryCatalog?) async throws -> Self {
         try await worker.run { check in
             try check()
+            let localSources = Set((catalog?.items ?? []).lazy.filter(\.isOnDevice).map(\.source))
+            let visibleTracks = tracks.filter { track in
+                track.nativeLibraryOnly != true ||
+                    (track.musicLibrarySources ?? []).contains(where: localSources.contains)
+            }
             let groups: [CollectionGroup]
             if category == .playlists {
                 groups = playlists.playlists.map { .init(id: $0.id.uuidString, name: $0.name) }
@@ -22,27 +27,27 @@ public struct CollectionProjection: Sendable {
             } else if category == .songs {
                 groups = []
             } else {
-                groups = Set(tracks.map { category.value(for: $0) }).sorted {
+                groups = Set(visibleTracks.map { category.value(for: $0) }).sorted {
                     $0.localizedStandardCompare($1) == .orderedAscending
                 }.map { .init(id: $0, name: $0.isEmpty ? "Unknown" : $0) }
             }
             try check()
             let searching = search.contains { !$0.isWhitespace }
-            var candidates = tracks
+            var candidates = visibleTracks
             if !searching, let suggestionIDs {
-                let lookup = Dictionary(tracks.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+                let lookup = Dictionary(visibleTracks.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
                 candidates = suggestionIDs.compactMap { lookup[$0] }
             } else if !searching, let group {
                 if category == .playlists {
                     if group.hasPrefix("music:"), let catalog {
                         let sources = Set(catalog.songs(playlistID: String(group.dropFirst(6))).map(\.source))
-                        candidates = tracks.filter { !sources.isDisjoint(with: $0.musicLibrarySources ?? []) }
+                        candidates = visibleTracks.filter { !sources.isDisjoint(with: $0.musicLibrarySources ?? []) }
                     } else {
-                        let lookup = Dictionary(tracks.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+                        let lookup = Dictionary(visibleTracks.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
                         candidates = (playlists.playlists.first { $0.id.uuidString == group }?.trackIDs ?? []).compactMap { lookup[$0] }
                     }
                 } else if category != .songs {
-                    candidates = tracks.filter { category.value(for: $0) == group }
+                    candidates = visibleTracks.filter { category.value(for: $0) == group }
                 }
             }
             try check()
