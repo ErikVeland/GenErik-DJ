@@ -1,6 +1,6 @@
 # R23 reserved UMP packet length check: 3 November 2026
 
-Base commit: `95c092d`.
+Base commit: `95c092d`. The focused package attempt ran before the subsequent integration merge; it does not qualify the combined application.
 
 ## Change
 
@@ -12,7 +12,7 @@ The decoder now skips reserved UMP message types using their allocated sizes: on
 | --- | --- | --- |
 | Swift syntax parse | PASS | The decoder and focused test source parsed. |
 | Standalone decoder assertions | PASS | The compiled production decoder skipped reserved packet payloads, retained the following note event and rejected truncated packets. |
-| Repository test command | BLOCKED | `bash Replica/Scripts/check.sh --filter ControllerMIDIUMPDecoderTests` stopped during `TDJInterface` code generation with a Swift 6.3.3 `SmallVector unable to grow` crash. The test target also reported that it could not import `Testing`. The repository tests did not run. Full output is in `package-check.log`. |
+| Repository test command | BLOCKED | `bash Replica/Scripts/check.sh --filter ControllerMIDIUMPDecoderTests` stopped during `TDJInterface` code generation with a Swift 6.3.3 `SmallVector unable to grow` crash. The test target also reported that it could not import `Testing`. The repository tests did not run. Captured output is in `package-check.log`. |
 | Whitespace check | PASS | `git diff --check` reported no errors. |
 | Controller and iPad checks | PENDING | No hardware or iPad was accessed. |
 

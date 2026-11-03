@@ -47,5 +47,5 @@ error: emit-module command failed with exit code 1 (use -v to see invocation)
  2 | import Testing
    |        `- error: no such module 'Testing'
  3 | @testable import TDJCore
- 4 | 
+ 4 |
 error: fatalError
