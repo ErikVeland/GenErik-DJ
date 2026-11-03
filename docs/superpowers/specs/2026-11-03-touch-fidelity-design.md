@@ -14,9 +14,10 @@ Two outcomes remain separate. TDJ1 fidelity requires comparison with the origina
 
 ## Starting evidence
 
-- The planning base is integration commit `513453461`, included in main merge `5409bba59`.
-- At assessment time, build 70 was the latest confirmed Duo installation. Builds 73 and 75 were prepared but not confirmed installed.
-- Active R34 analysis work exists in the shared checkout and is excluded from this planning worktree. Reconcile its actual build before choosing a device baseline.
+- The initial planning base was integration commit `513453461`, included in main merge `5409bba59`. R34 landed during planning through source `629365b4b` and handover `9602dcc20`.
+- Build 77 is now recorded as installed on the 10.5-inch test iPad. Automatic launch timed out, so launch and Erik's acceptance remain unconfirmed.
+- Build 70 remains the latest confirmed Duo installation in the reviewed records. Builds 73 and 75 were prepared but not confirmed installed there. Track these devices separately.
+- This planning change edits documentation only. Preserve R34's analysis fix and any ongoing test edits. Confirm the actual launch/build on the intended device before choosing the touch baseline.
 - All 28 gesture families in the retained fidelity checklist remain partial or unresolved. Existing software tests do not close those comparisons.
 - The current library divider resizes continuously. FX/EQ overlays use fixed half-widths. Extra controls use a visibility switch. Section editing opens a sheet.
 - Current native surfaces cancel touches when their size changes. This protects against stuck actions but prevents seamless resizing during a held performance gesture.

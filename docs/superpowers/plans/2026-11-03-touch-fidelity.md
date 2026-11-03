@@ -71,6 +71,8 @@ python3 tools/ipad_test.py build --notes "R02/R30: describe this single touch co
 
 Do not build from this documentation worktree or create another device cache. Reconcile implementation into the coordinated checkout before building. Do not automatically deploy historical build 75 over a newer R34 candidate.
 
+Latest handover reviewed during planning: build 77 installed on the 10.5-inch test iPad, with automatic launch timed out and acceptance pending. The latest confirmed Duo installation remains build 70. Confirm launch and device identity separately. A result on one device does not accept the other.
+
 The new layout checker uses the host compiler for pure geometry assertions only. It does not package the Mac app. Existing Swift Testing cases can use a narrow `bash Replica/Scripts/check.sh --filter '<case-name>'` run when the toolchain works. If still blocked, retain that status and use the signed device build plus the named physical case. Do not substitute syntax checks for interaction acceptance or repair the whole toolchain within a touch task.
 
 ## Task 0: Establish the accepted baseline and evidence map
@@ -81,7 +83,7 @@ The new layout checker uses the host compiler for pure geometry assertions only.
 
 **Produces:** An exact baseline build/source and an evidence row for each G01–G28 family. Each row records status, reference version/source, replica build/source, initial state, case description, result and outstanding question. Unknown results remain unknown.
 
-- [ ] Reconcile the active R34 handover and current device installation. Choose the latest appropriate candidate without discarding its fix. Record the choice and rollback build.
+- [ ] Start with the R34 build 77 handover on the 10.5-inch test iPad. Confirm Erik can open it and obtain his result. Recheck newer records before acting. Establish Duo's baseline separately without discarding the R34 fix. Record each choice and rollback build.
 - [ ] Have Erik check loading A/B, Play/Stop, Sync, crossfader, EQ/filter and library access on that baseline. Record blocking failures before panel work.
 - [ ] Use retained original evidence and Erik's next demonstrations to fill the highest-priority gesture cases. Never promote an unmeasured development threshold to reference behaviour.
 - [ ] Record the design's proposed dock and shared panel rules as QoL changes. Retain a separate TDJ1-equivalence status.
