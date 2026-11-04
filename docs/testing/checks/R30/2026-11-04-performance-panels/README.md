@@ -33,3 +33,9 @@ Final review: self-review under the project rule against parallel agents. The re
 ## Erik's device check
 
 Show, resize, hide and reopen FX, EQ and MORE on both decks. Check separate portrait and landscape sizes. Open FX and EQ together and close either one. Hold a waveform, EQ, filter or FX gesture while resizing another panel or the library. Check effect selection, lock/release, the extra-controls scroll and all transport buttons. Confirm that the dock and full-height crossfader stay fixed and audio remains clean.
+
+## Final grab review
+
+Build 83 compiled and signed, but was retained without installation. Three runtime assertions reproduced an EQ grab movement when optional extras collapsed and a missing rollback on cancellation. The corrected state compensates for the layout shift while retaining raw finger travel for flick recognition. Cancel or an abandoned opening restores the extra controls. Performance-space requests occur on explicit or committed opening, so a resize preview does not move the library. Accessibility opening has the same request path.
+
+The final source passes 1,431 performance-panel assertions and all 1,545 earlier dock/library/contact assertions. `grab-runtime-red.log` and `space-request-red.log` retain the failing checks. Build 83 is superseded before installation.

@@ -1,0 +1,22 @@
+{
+  "notes": "R02/R30/R31: FX EQ and MORE use library-style direct show/hide, horizontal resize and session size memory per deck/orientation. Dedicated grab lanes, bounded panel pairs, 44-point selectors/locks, retained held-touch gates. Fixed dock, full-height fader and R34/R35 preserved. 2969 focused assertions pass. Erik checks feel and clean audio.",
+  "sourceCommit": "17684f584c86293756c419e30131d53388c5569a",
+  "sourceSHA256": "1837d74f2b56d018e9f7850c18c70be7ac296c5796cf3a730c741a046ccc8f65",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 35.71,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-83.log",
+  "build": 83,
+  "app": "TestBuilds/ipad/83/GenErikDJ.app",
+  "appSHA256": "acd92afbc4d237839c6bf842bda8a8dbe4ec6913d6f72a72e1fa6b828b05065d",
+  "state": "superseded-before-install",
+  "createdUTC": "2026-11-04T01:01:12.031646+00:00",
+  "requestIDs": [
+    "R02",
+    "R30",
+    "R31"
+  ],
+  "acceptance": "Not installed. Final review found that making room for EQ could move its grab strip away from the finger and cancellation did not restore extras. A corrected source supersedes this signed candidate.",
+  "supersededReason": "Correct direct EQ grab continuity, rollback of collapsed extras, and delayed performance-space requests before installing one test release."
+}

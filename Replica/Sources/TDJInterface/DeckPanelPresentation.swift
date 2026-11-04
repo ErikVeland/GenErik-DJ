@@ -9,6 +9,9 @@ final class DeckPanelPresentation {
     private var configuredWidth: Double?
     private var configuredPortrait: Bool?
     private(set) var presentationID = UUID()
+    private(set) var spaceRequestID = UUID()
+    private(set) var spaceRequestKind: PerformancePanel?
+    private var dragWasPresented: [PerformancePanel: Bool] = [:]
     let effectsInput = TouchSurfaceInputGate()
     let mixerInput = TouchSurfaceInputGate()
     var effectsVisible: Bool { sizing.isPresented(.effects) }
@@ -19,6 +22,7 @@ final class DeckPanelPresentation {
     func configure(width: Double, portrait: Bool) {
         guard width != configuredWidth || portrait != configuredPortrait else { return }
         sizing.configure(width: width, portrait: portrait)
+        dragWasPresented.removeAll()
         configuredWidth = width; configuredPortrait = portrait
         presentationID = UUID()
         updateGates()
@@ -29,15 +33,31 @@ final class DeckPanelPresentation {
     func maximum(_ kind: PerformancePanel) -> Double { sizing.maximum(kind) }
     func isPresented(_ kind: PerformancePanel) -> Bool { sizing.isPresented(kind) }
     func toggle(_ kind: PerformancePanel) {
-        sizing.setPresented(kind, !sizing.isPresented(kind)); presentationID = UUID(); updateGates()
+        let opening = !sizing.isPresented(kind)
+        sizing.setPresented(kind, opening); presentationID = UUID(); updateGates()
+        if opening && sizing.isPresented(kind) { requestSpace(kind) }
     }
-    func begin(_ kind: PerformancePanel) { sizing.begin(kind); updateGates() }
+    func begin(_ kind: PerformancePanel) {
+        dragWasPresented[kind] = sizing.isPresented(kind)
+        sizing.begin(kind); updateGates()
+    }
     func update(_ kind: PerformancePanel, translation: Double) { sizing.update(kind, translation: translation) }
-    func end(_ kind: PerformancePanel, velocity: Double) { sizing.end(kind, velocity: velocity); updateGates() }
-    func cancel(_ kind: PerformancePanel) { sizing.cancel(kind); updateGates() }
-    func adjust(_ kind: PerformancePanel, by delta: Double) { sizing.adjust(kind, by: delta); updateGates() }
+    func end(_ kind: PerformancePanel, velocity: Double) {
+        let opening = dragWasPresented.removeValue(forKey: kind) == false
+        sizing.end(kind, velocity: velocity); updateGates()
+        if opening && sizing.isPresented(kind) { requestSpace(kind) }
+    }
+    func cancel(_ kind: PerformancePanel) { dragWasPresented[kind] = nil; sizing.cancel(kind); updateGates() }
+    func adjust(_ kind: PerformancePanel, by delta: Double) {
+        let opening = !sizing.isPresented(kind)
+        sizing.adjust(kind, by: delta); updateGates()
+        if opening && sizing.isPresented(kind) { requestSpace(kind) }
+    }
     func toggleEffects() { toggle(.effects) }
     func toggleMixer() { toggle(.mixer) }
+    private func requestSpace(_ kind: PerformancePanel) {
+        spaceRequestKind = kind; spaceRequestID = UUID()
+    }
     private func updateGates() {
         effectsInput.setEnabled(effectsVisible)
         mixerInput.setEnabled(mixerVisible)

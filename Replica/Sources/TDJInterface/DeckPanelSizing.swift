@@ -54,6 +54,8 @@ struct DeckPanelsState {
     private var isPortrait = false
     private var width = 0.0
     private var presented: Set<PerformancePanel> = [.extra]
+    private var dragOffsets: [PerformancePanel: Double] = [:]
+    private var collapsedExtras: Set<PerformancePanel> = []
     private var bank: Bank {
         get { isPortrait ? portrait : landscape }
         set { if isPortrait { portrait = newValue } else { landscape = newValue } }
@@ -104,25 +106,43 @@ struct DeckPanelsState {
     }
 
     mutating func begin(_ kind: PerformancePanel) {
+        let before = geometry(height: 1)
+        let hadExtras = isPresented(.extra)
         if kind != .extra, extent(kind) == 0 { makeRoom(for: kind) }
         guard isPresented(kind) || maximum(kind) >= bank.panels[kind]!.minimumExtent else { return }
+        if hadExtras && !isPresented(.extra) { collapsedExtras.insert(kind) }
+        let offset = kind == .mixer ? geometry(height: 1).waveformWidth - before.waveformWidth : 0
+        dragOffsets[kind] = offset
         if !isPresented(kind) { presented.insert(kind) }
         mutate(kind) { $0.beginDrag() }
+        let limit = maximum(kind)
+        mutate(kind) { $0.updateDrag(translation: 0, maximumExtent: limit, layoutOffset: offset) }
     }
     mutating func update(_ kind: PerformancePanel, translation: Double) {
         let limit = maximum(kind)
-        mutate(kind) { $0.updateDrag(translation: translation, maximumExtent: limit) }
+        let offset = dragOffsets[kind] ?? 0
+        mutate(kind) { $0.updateDrag(translation: translation, maximumExtent: limit, layoutOffset: offset) }
     }
     mutating func end(_ kind: PerformancePanel, velocity: Double) {
+        defer { dragOffsets[kind] = nil; collapsedExtras.remove(kind) }
         let limit = maximum(kind)
-        if limit < bank.panels[kind]!.minimumExtent { setPresented(kind, false); return }
+        if limit < bank.panels[kind]!.minimumExtent {
+            setPresented(kind, false)
+            if collapsedExtras.contains(kind) { setPresented(.extra, true) }
+            return
+        }
         mutate(kind) { $0.endDrag(velocity: velocity, maximumExtent: limit) }
-        if bank.panels[kind]!.extent == 0 { presented.remove(kind) }
+        if bank.panels[kind]!.extent == 0 {
+            presented.remove(kind)
+            if collapsedExtras.contains(kind) { setPresented(.extra, true) }
+        }
     }
     mutating func cancel(_ kind: PerformancePanel) {
+        defer { dragOffsets[kind] = nil; collapsedExtras.remove(kind) }
         let dragging = isDragging(kind)
         mutate(kind) { $0.cancelDrag() }
         if dragging, bank.panels[kind]!.extent == 0 { presented.remove(kind) }
+        if dragging, collapsedExtras.contains(kind) { setPresented(.extra, true) }
     }
     mutating func adjust(_ kind: PerformancePanel, by delta: Double) {
         guard delta.isFinite else { return }

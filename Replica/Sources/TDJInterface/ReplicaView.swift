@@ -312,9 +312,11 @@ private struct DeckView: View {
         }
         .onChange(of:availableWidth) { _,width in panels.configure(width:width,portrait:portrait) }
         .onChange(of:portrait) { _,value in panels.configure(width:availableWidth,portrait:value) }
-        .onChange(of:effectsVisible) { _,visible in if visible && layout.waveformHeight < 184 { requestPerformanceSpace() } }
-        .onChange(of:mixerVisible) { _,visible in if visible && layout.waveformHeight < 184 { requestPerformanceSpace() } }
-        .onChange(of:panels.extraVisible) { _,visible in if visible && deckSpace.size.height < 168 { requestPerformanceSpace() } }
+        .onChange(of:panels.spaceRequestID) { _,_ in
+            if panels.spaceRequestKind == .extra {
+                if deckSpace.size.height < 168 { requestPerformanceSpace() }
+            } else if layout.waveformHeight < 184 { requestPerformanceSpace() }
+        }
         }
         .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
         .onChange(of:track?.id,initial:true) { _,_ in

@@ -36,10 +36,10 @@ struct TouchPanelState {
         translation = 0
     }
 
-    mutating func updateDrag(translation: Double, maximumExtent: Double) {
-        guard let origin = dragOrigin, translation.isFinite, maximumExtent.isFinite else { return }
+    mutating func updateDrag(translation: Double, maximumExtent: Double, layoutOffset: Double = 0) {
+        guard let origin = dragOrigin, translation.isFinite, maximumExtent.isFinite, layoutOffset.isFinite else { return }
         self.translation = translation
-        extent = min(max(0, maximumExtent), max(0, origin + translation))
+        extent = min(max(0, maximumExtent), max(0, origin + translation + layoutOffset))
     }
 
     mutating func endDrag(velocity: Double, maximumExtent: Double) {

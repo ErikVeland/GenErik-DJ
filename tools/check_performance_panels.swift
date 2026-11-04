@@ -110,6 +110,30 @@ enum PerformancePanelChecks {
         presentation.toggleEffects()
         expect(!presentation.effectsInput.isEnabled && cancellations == 1 && presentation.mixerInput.isEnabled, "explicit hide cancels only the intended pane once")
         presentation.effectsInput.unregister(registration)
+        var direct = DeckPanelsState()
+        direct.configure(width: 726, portrait: true)
+        direct.setPresented(.effects, true)
+        let grabStart = direct.geometry(height: 240).mixerHandle.minX
+        direct.begin(.mixer)
+        expect(direct.geometry(height: 240).mixerHandle.minX == grabStart, "making room keeps EQ grab under the finger")
+        direct.update(.mixer, translation: 50)
+        expect(direct.geometry(height: 240).mixerHandle.minX == grabStart - 50, "EQ grab follows finger after extras collapse")
+        direct.cancel(.mixer)
+        expect(direct.isPresented(.extra) && !direct.isPresented(.mixer), "cancelled opening restores extras")
+        direct.begin(.mixer)
+        direct.update(.mixer, translation: -20)
+        direct.end(.mixer, velocity: -900)
+        expect(!direct.isPresented(.mixer) && direct.isPresented(.extra), "closing flick uses finger travel and restores extras")
+        let requests = presentation.spaceRequestID
+        presentation.begin(.effects)
+        expect(presentation.spaceRequestID == requests, "beginning a drag does not move the library")
+        presentation.update(.effects, translation: 210)
+        presentation.end(.effects, velocity: 0)
+        expect(presentation.spaceRequestID != requests && presentation.spaceRequestKind == .effects, "committed opening requests performance height")
+        presentation.toggleEffects()
+        let accessibleRequest = presentation.spaceRequestID
+        presentation.adjust(.effects, by: 44)
+        expect(presentation.spaceRequestID != accessibleRequest, "accessible opening requests usable performance height")
         print("\(checks) performance panel checks; \(failures) failures")
         if failures > 0 { exit(1) }
     }
