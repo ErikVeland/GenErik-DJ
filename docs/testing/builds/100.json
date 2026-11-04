@@ -1,0 +1,38 @@
+{
+  "notes": "R28: Duo front deck pages follow the finger, reveal the neighbouring deck and smoothly settle or return. A/B taps share the slide. Retained deck state, protected swipe starts, fixed transport/crossfader and browser are preserved. Moving deck input is cancelled. Reduced Motion skips the settle animation. Interruptions reject stale completion. 198 front, 130 browser and 36 held-contact checks pass. Existing iPad and Duo inside layout sources are unchanged. Duo-only deployment using the existing device cache.",
+  "sourceCommit": "fba16a8c02c28f508a0062e3b4aa860648c53c38",
+  "sourceSHA256": "80a1872d8032b9981952424fc5a4fb47c3ded07c9f088eb18b9452f3a312c6c0",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 63.08,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-100.log",
+  "build": 100,
+  "app": "TestBuilds/ipad/100/GenErikDJ.app",
+  "appSHA256": "8bfbdb935728ff62f81ed7a926283ae892ba87989bec7fed6e265fef95434983",
+  "state": "installed",
+  "createdUTC": "2026-11-04T07:43:36.133271+00:00",
+  "installedUTC": "2026-11-04T07:44:39.990677+00:00",
+  "requestIDs": [
+    "R28"
+  ],
+  "focusedChecks": "364 focused assertions passed: 198 front interaction, 130 browser/presentation and 36 held-contact checks. Removing live tracking fails four assertions. Removing settlement identity fails two assertions.",
+  "artifactChecks": "Native device compilation, source identity, saved app digest, embedded-framework resolution and signing passed. The existing device cache was reused.",
+  "launchVerification": "The automatic launch command timed out after 10 seconds with exit code 2. Launch and continued operation are unconfirmed. Erik opens the installed app manually.",
+  "acceptance": "Installed on GenErik Duo only. Erik opens the app manually and checks finger tracking, reversal, short-release return, A/B taps and swipes, protected controls, Reduced Motion, folding/inside layout and clean audio. Physical touch and continued operation remain pending. No iPad operation. No further device actions after the launch timeout.",
+  "deployments": [
+    {
+      "device": "GenErik Duo",
+      "deviceID": "00008160-000859C436800036",
+      "installTimeoutSeconds": 240,
+      "state": "installed-launch-unconfirmed",
+      "installedUTC": "2026-11-04T07:44:39.990677+00:00",
+      "launchAttempt": {
+        "timeoutSeconds": 10,
+        "exitCode": 2,
+        "result": "Command timed out. Launch is unconfirmed."
+      },
+      "scope": "Duo closed/front testing only. Existing iPad and Duo inside layouts are preserved. No iPad operation."
+    }
+  ]
+}

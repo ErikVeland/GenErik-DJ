@@ -12,7 +12,8 @@
       "report": "Make the deck slide with my finger when I swipe between A and B, so the switch feels natural. Keep this on the Duo front screen only. Leave the iPad and Duo inside layouts alone.",
       "requestIDs": [
         "R28"
-      ]
+      ],
+      "candidateBuild": 100
     }
   ],
   "log": "TestBuilds/ipad/build-99.log",

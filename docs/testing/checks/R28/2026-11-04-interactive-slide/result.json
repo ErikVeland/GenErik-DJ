@@ -30,6 +30,13 @@
   "preservation": "preservation.json",
   "scope": "Duo closed/front workspace only. Changes are limited to the front view, its swipe capture and front-only interaction state. The existing root workspace routing, standard browser, dock, fader and layout sources are unchanged.",
   "review": "Retained A/B pages track the finger with adjoining full-width frames. Existing horizontal intent and protected-region checks remain. Short drags return, deliberate swipes settle and strong reverse flicks return to the origin. A/B taps share the slide. Moving deck input is cancelled and disabled. Fixed performance controls remain reachable. Reduced Motion omits the settling animation. Size, background, folding and interruption resets reject stale animation completions.",
-  "build": "pending",
-  "acceptance": "Erik checks physical finger tracking, reversal, short-release return, A/B taps and swipes, protected controls, reduced motion, folding/inside layout and clean audio. Duo only. No iPad operation. Physical acceptance remains pending."
+  "build": 100,
+  "acceptance": "Erik checks physical finger tracking, reversal, short-release return, A/B taps and swipes, protected controls, reduced motion, folding/inside layout and clean audio. Duo only. No iPad operation. Physical acceptance remains pending.",
+  "sourceCommit": "fba16a8c02c28f508a0062e3b4aa860648c53c38",
+  "sourceSHA256": "80a1872d8032b9981952424fc5a4fb47c3ded07c9f088eb18b9452f3a312c6c0",
+  "appSHA256": "8bfbdb935728ff62f81ed7a926283ae892ba87989bec7fed6e265fef95434983",
+  "buildState": "installed-launch-unconfirmed",
+  "installedUTC": "2026-11-04T07:44:39.990677+00:00",
+  "artifactChecks": "Native device compilation, source identity, saved app digest, embedded-framework resolution and signing passed. The existing device cache was reused.",
+  "launchVerification": "The automatic launch command timed out after 10 seconds with exit code 2. Launch and continued operation are unconfirmed. Erik opens the installed app manually."
 }
