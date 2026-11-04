@@ -5,7 +5,7 @@ public enum SectionCueAllocator {
     public static func allocate(sections: [ArrangementSection], existing: [Int: PerformanceCue],
                                 alreadyPrepared: Bool) -> [Int: PerformanceCue] {
         let sections=sections.filter { $0.start.isFinite && $0.start >= 0 && $0.end > $0.start &&
-            ($0.role != .unknown || $0.behaviour != .sustaining) }.sorted { $0.start < $1.start }
+            ($0.role != .unknown || $0.behaviour != .sustaining || !$0.name.isEmpty) }.sorted { $0.start < $1.start }
         var slots=existing
         for slot in slots.keys.sorted() {
             guard var cue=slots[slot], cue.sectionName != nil,

@@ -22,7 +22,7 @@ public struct MusicalStructureFrame: Sendable, Equatable {
 
 /// Runs on cached PCM at utility priority. Playback never calls this analyser.
 public enum MusicalStructureAnalyzer {
-    public static let version = 2
+    public static let version = 3
 
     public static func analyze(pcm url: URL, analysis: AudioAnalysis,
                                checkCancellation: () throws -> Void = { try Task.checkCancellation() }) throws -> [MusicalStructureFrame] {
@@ -226,21 +226,46 @@ extension TrackArrangement {
         }
         boundaries.sort()
         var sections=[ArrangementSection](), summaries=[MusicalStructureFrame](), rises=[Double]()
+        var signatures=[[MusicalStructureFrame]]()
         for (i,start) in boundaries.enumerated() {
             let end=i+1 < boundaries.count ? boundaries[i+1]:fileEnd
             let slice=frames.filter { $0.start >= start && $0.start < min(end,musicalEnd) }
             let summary=mean(slice[...])
             summaries.append(summary)
+            // Keep passage order. Equal averages can hide different musical sequences.
+            signatures.append(slice.count >= 8 ? (0..<8).map { part in
+                mean(slice[(part*slice.count/8)..<((part+1)*slice.count/8)])
+            } : [])
             let quarter=max(1,slice.count/4)
             let first=mean(slice.prefix(quarter)), last=mean(slice.suffix(quarter))
             rises.append((last.rms-first.rms)/max(peak*0.1,first.rms))
             sections.append(.init(start:start,end:end,role:.instrumental,boundaryConfidence:i == 0 ? 1:0.65,labelConfidence:0.5))
         }
         let maximum=summaries.map(\.rms).max() ?? peak
+        let vocalSections=summaries.indices.filter { (summaries[$0].vocal ?? 0) >= 0.45 }
+        let vocalDuration=vocalSections.reduce(0.0) { $0+sections[$1].end-sections[$1].start }
+        func hasVocalContrast(_ index: Int) -> Bool {
+            let contrasting=vocalSections.filter {
+                distance(summaries[index].chroma,summaries[$0].chroma) >= 0.25 ||
+                distance(summaries[index].bands,summaries[$0].bands) >= 0.25
+            }.reduce(0.0) { $0+sections[$1].end-sections[$1].start }
+            // A brief change does not distinguish a hook from the track's backing loop.
+            return contrasting >= max(rate*8,vocalDuration*0.25)
+        }
+        func repeatsInOrder(_ i: Int, _ j: Int) -> Bool {
+            let first=sections[i].end-sections[i].start, second=sections[j].end-sections[j].start
+            guard min(first,second)/max(first,second) >= 0.75,
+                  signatures[i].count == 8, signatures[j].count == 8 else { return false }
+            let distances=zip(signatures[i],signatures[j]).map {
+                max(distance($0.chroma,$1.chroma),distance($0.bands,$1.bands))
+            }
+            return distances.reduce(0,+)/8 < 0.18 && distances.filter { $0 < 0.18 }.count >= 6
+        }
+        let contrasted=Set(vocalSections.filter { hasVocalContrast($0) })
         var refrain=Set<Int>()
-        for i in summaries.indices where (summaries[i].vocal ?? 0) >= 0.45 && summaries[i].rms >= maximum*0.72 {
-            for j in summaries.indices where abs(j-i) >= 2 && (summaries[j].vocal ?? 0) >= 0.45 && summaries[j].rms >= maximum*0.72 {
-                if distance(summaries[i].chroma,summaries[j].chroma) < 0.18 && distance(summaries[i].bands,summaries[j].bands) < 0.18 {
+        for i in vocalSections where summaries[i].rms >= maximum*0.72 && contrasted.contains(i) {
+            for j in vocalSections where abs(j-i) >= 2 && summaries[j].rms >= maximum*0.72 && contrasted.contains(j) {
+                if distance(summaries[i].chroma,summaries[j].chroma) < 0.18 && distance(summaries[i].bands,summaries[j].bands) < 0.18 && repeatsInOrder(i,j) {
                     refrain.insert(i); refrain.insert(j)
                 }
             }
@@ -248,7 +273,12 @@ extension TrackArrangement {
         for i in sections.indices {
             let s=summaries[i], previous=i > 0 ? summaries[i-1]:s
             if refrain.contains(i) { sections[i].role = .chorus }
-            else if (s.vocal ?? 0) >= 0.45 { sections[i].role = .verse }
+            else if (s.vocal ?? 0) >= 0.45 {
+                if refrain.isEmpty {
+                    sections[i].role = .unknown
+                    sections[i].name = "Vocal section"
+                } else { sections[i].role = .verse }
+            }
             else if i == 0 && sections.count > 1 && s.rms < maximum*0.7 { sections[i].role = .intro }
             else if i == sections.count-1 && sections.count > 1 && s.rms < maximum*0.7 { sections[i].role = .outro }
             if rises[i] > 0.65 && s.bass < 0.4 {
@@ -278,7 +308,7 @@ extension TrackArrangement {
             if section.role == .chorus || section.behaviour == .dropping {
                 let returned=section.role == .chorus && seenChorus
                 marks.append(.init(frame:section.start,name:returned ? "Main return":"Chorus or drop start",kind:returned ? .mainReturn:.arrival,
-                    reason:"Repeated harmonic and timbral passage or a rhythmic bass arrival. Song form is estimated.",confidence:0.55))
+                    reason:"Ordered passage repetition with contrasting vocal passages, or a rhythmic bass arrival. Song form is estimated.",confidence:0.55))
                 if section.role == .chorus { seenChorus=true }
             } else if section.behaviour == .breakingDown {
                 marks.append(.init(frame:section.start,name:"Breakdown start",kind:.breakdown,

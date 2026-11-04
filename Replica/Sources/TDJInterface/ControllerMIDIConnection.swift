@@ -389,13 +389,13 @@ final class ControllerMIDIConnection {
         }
         connectedEndpoints[id] = source.reference
         connectedPorts[id] = inputPort
-        sourceIDsByEndpoint[UInt32(truncatingIfNeeded: UInt(bitPattern: source.reference))] = id
+        sourceIDsByEndpoint[source.reference] = id
         decoders[id] = .init(); bridgeDecoders[id] = .init()
     }
     private func disconnectInput(_ id: Int32) {
         guard let endpoint = connectedEndpoints.removeValue(forKey: id) else { return }
         if let connectedPort = connectedPorts.removeValue(forKey: id) { MIDIPortDisconnectSource(connectedPort, endpoint) }
-        sourceIDsByEndpoint[UInt32(truncatingIfNeeded: UInt(bitPattern: endpoint))] = nil
+        sourceIDsByEndpoint[endpoint] = nil
         decoders[id] = nil; bridgeDecoders[id] = nil
         shiftLayers[id] = nil
         values = values.filter { !$0.key.hasPrefix("\(id)-") }

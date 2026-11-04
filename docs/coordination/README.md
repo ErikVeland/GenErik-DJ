@@ -4,6 +4,8 @@ Updated 3 November 2026, Australia/Brisbane. This is the current project entry p
 
 **Current working mode:** [Erik's minute-scale iPad loop](../testing/README.md). iPad only, Erik as sole developer/tester. The broader release gates below are separate from routine iterations.
 
+**Proposed next programme:** [TDJ1 gesture fidelity and unified touch space](../superpowers/plans/2026-11-03-touch-fidelity.md), led by R02/R30. It prioritises stable essential controls, direct panel manipulation and source-bound gesture acceptance. This is a plan, not a completed feature or permission to replace the current test build.
+
 ## Goal
 
 Current completion scope: [remaining app work](completion-programme.md) and [all NI and class-compliant MIDI controllers](controller-coverage.md), with an allowed hardware bridge where necessary. Original Z1 is first for Erik's hardware testing.
@@ -14,6 +16,7 @@ The release standard is Erik's acceptance on his real setup. A successful build 
 
 ## Current position
 
+- Latest test-iPad candidate: build 78, application source `e6cf72aa26b36e75a91b30f44ca2e0a479b5ff14`, installed on the 10.5-inch iPad on 3 November. R02/R30/R31 add fixed right-hand FX/EQ/loop/Play stacks and a centred crossfader outside the resizable work area. The committed R34 false-chorus fix is unchanged. All 1,322 focused geometry assertions and signing passed. Automatic launch timed out. Erik opens the app manually and checks both stacks, fader, panel resizing and clean audio. Device acceptance remains pending. See `../testing/checks/R30/2026-11-03-stable-dock/result.json`.
 - Active development branch: `feature/project-integration`.
 - Latest installed Duo candidate: build 70, application source `4dfc867f889bf33a5cda2fdeeb2bc2ee57c6ccdc`, installed and launched on 3 November. R09/R29/R30 add musical suggestions and section hot cues, missing-BPM/key analysis on deck load, larger waveforms, vertical controls and optional Cue/headphone buttons. Erik acceptance is pending. See `../testing/checks/R09/2026-11-03-musical-structure/result.json`.
 - Prepared combined candidate: build 75, source `31f38a45cac9d1b9f4077401a379a3f976bf46c9`. It adds R33 late-rhythm recovery and includes the current R30/R31/R32 UI and controller work. Compilation/signing and seven focused rhythm checks passed. Installation is pending Duo reconnection after CoreDeviceError 4016.

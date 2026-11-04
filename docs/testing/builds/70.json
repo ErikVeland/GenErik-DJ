@@ -17,6 +17,13 @@
     {
       "kind": "Erik UI feedback",
       "text": "Confirmed build 70 installed on Duo. Restore fixed right FX/EQ/loop/Play stacks with centre fader. Extra loop length/hotcue/freeze/Flux controls must be visible and separately swipeable. Edit-grid icon must show four beat lines. Align buttons, rename display to GenErik DJ, inset header content for rounded viewport. Every add-track icon tap currently opens the library only a sliver and requires manual expansion."
+    },
+    {
+      "requestID": "R34",
+      "date": "2026-11-03",
+      "device": "GenErik Duo",
+      "buildAttribution": "Assumed latest installed Duo build from coordination record. Exact observed arrangement and PCM were copied before the fix.",
+      "report": "Erik reports eight chorus labels in 99 Problems. The saved Danger Mouse arrangement contains 17 chorus sections across 19 sections. User requests a focused fix, then build and install on the test iPad."
     }
   ],
   "log": "TestBuilds/ipad/build-70.log",
