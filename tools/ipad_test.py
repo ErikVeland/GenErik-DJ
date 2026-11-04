@@ -122,9 +122,10 @@ def deploy(config, number):
     write(path, record)
     run(["xcrun", "devicectl", "--timeout", "10", "device", "process", "launch", "--device", config["device"],
          "--terminate-existing", BUNDLE], timeout=15)
-    record.update(state="testing", launchedUTC=datetime.now(timezone.utc).isoformat())
+    record.update(state="testing", launchedUTC=datetime.now(timezone.utc).isoformat(),
+                  launchVerification="iPadOS accepted the launch request. Erik checks continued operation.")
     write(path, record)
-    print(f"Build {number} installed and open. Over to Erik. No further device actions.", flush=True)
+    print(f"Build {number} installed. iPadOS accepted the launch request. Over to Erik. No further device actions.", flush=True)
 
 
 def main():
