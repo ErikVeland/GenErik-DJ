@@ -25,3 +25,9 @@ These chats were active during the inventory. The final merge must include their
 Branch ancestry, final source checks, the combined build identity and any remaining work are recorded here when consolidation finishes. Historical build success does not establish that the combined source compiles or that Erik accepts its touch and audio behaviour.
 
 The committed integration source passed 198 front-screen assertions and 130 browser navigation/geometry assertions during consolidation. Build records 80, 82, 98 and 100 parse and retain valid source commits. `git diff --check` passed. These checks precede the active R43/R44/R45 handovers. The optional STE linter was unavailable at its configured path. Prose received manual review.
+
+## R44/R45 main handover
+
+At Erik’s request, waveform branch `9f6c693a3` was merged into main as `faa089d99`. The merge includes R44 direct waveform motion, release momentum and EOF reversal, plus R45 immediate waveform/loading feedback. It preserves the main workflow and all historical handovers. The request-ledger conflict retained R44, R45 and R46.
+
+The merged source passes 93 motion assertions and native waveform/Scratch checks at three sample rates. Fresh signed build 104 used clean main in the main project folder. It installed on the test iPad, and iPadOS accepted the launch request. Physical feel, listening and continued-operation acceptance remain open. This handover does not close the wider inventory or the uncommitted R43 work. See `../testing/checks/R44/2026-11-04-main-merge/result.json`.

@@ -1,0 +1,37 @@
+{
+  "notes": "R44/R46: Fresh signed iPad build from main after merging direct waveform manipulation, scroll momentum and EOF reversal. Preserve R45 immediate track loading. Merged-source motion and native audio checks pass. Erik tests physical feel and clean audio.",
+  "sourceCommit": "faa089d99bd7c87de6e4e89a8a9c58006e3109e0",
+  "sourceSHA256": "a130e5b1577b775b95dedfa6b96d50e6ccd5be664ceb87100bdabcfd29dfd68f",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 314.48,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-104.log",
+  "build": 104,
+  "app": "TestBuilds/ipad/104/GenErikDJ.app",
+  "appSHA256": "b29fb2312feae6cbaa78f474aa5b95733f4bd7dbeb2a8bd4234bf2403047814d",
+  "state": "testing",
+  "createdUTC": "2026-11-04T09:49:06.481118+00:00",
+  "installedUTC": "2026-11-04T09:50:28.759076+00:00",
+  "launchedUTC": "2026-11-04T09:50:37.120842+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R44",
+    "R45",
+    "R46"
+  ],
+  "sourceBranch": "main",
+  "sourceWorkingDirectory": "/Users/veland/GenErik DJ",
+  "focusedChecks": "On the merged main files: 93 motion assertions and native direct-drag, hold, reversal, Flux, EOF and Scratch checks at 44100, 48000 and 96000 Hz pass. The complete application source matches build 103. No broad regression sweep.",
+  "artifactChecks": "Fresh incremental signed iPad build from clean main. Compilation, framework resolution, signing and source/archive identity passed.",
+  "acceptance": "Installed on the 10.5-inch test iPad. iPadOS accepted the launch request. Device actions stopped. Erik checks waveform drag direction, 1:1 tracking, hold, throw, catch, track boundaries and clean audio. Physical feel, listening and continued operation remain pending.",
+  "deployments": [
+    {
+      "device": "GenErik iPad (10.5-inch)",
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "installed-launch-request-accepted",
+      "installedUTC": "2026-11-04T09:50:28.759076+00:00",
+      "launchAcceptedUTC": "2026-11-04T09:50:37.120842+00:00"
+    }
+  ]
+}
