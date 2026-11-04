@@ -12,6 +12,9 @@ public final class AnalysisWorker: Sendable {
     public func waveformOnly(url: URL) async throws -> AudioAnalysis {
         try await run { check in try AudioAnalyzer.waveformOnly(url: url, checkCancellation: check) }
     }
+    public func detectBeatGrid(pcm:URL,matching analysis:AudioAnalysis) async throws -> BeatGridDetection? {
+        try await run { check in try AudioAnalyzer.detectBeatGrid(pcm:pcm,matching:analysis,checkCancellation:check) }
+    }
     public func rebuildWaveform(url: URL, matching analysis: AudioAnalysis) async throws -> AudioAnalysis {
         try await run { check in try AudioAnalyzer.rebuildWaveform(url: url, matching: analysis, checkCancellation: check) }
     }

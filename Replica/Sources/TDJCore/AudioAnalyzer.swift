@@ -3,13 +3,73 @@ import CryptoKit
 import Foundation
 
 public struct AnalysisConfiguration: Sendable {
-    public var id: String { "independent-dsp-0.3.2-late-rhythm-adaptive-candidate-multiband-consensus-tuned-hpcp-\(minimumBPM)-\(maximumBPM)" }
+    public var id: String { "independent-dsp-0.3.3-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-\(minimumBPM)-\(maximumBPM)" }
     public var minimumBPM: Double = 60
     public var maximumBPM: Double = 200
     public init() {}
 }
 
+public struct BeatGridDetection: Codable, Sendable {
+    public let grid: BeatGrid
+    public let tempoConfidence: Double
+    public let downbeatConfidence: Double?
+}
+
 public enum AudioAnalyzer {
+    /// Read the prepared stereo cache without changing the saved source analysis or imported preparation.
+    public static func detectBeatGrid(pcm:URL,matching analysis:AudioAnalysis,
+        checkCancellation:@Sendable () throws -> Void = { try Task.checkCancellation() }) throws -> BeatGridDetection? {
+        try checkCancellation()
+        let before=try pcm.resourceValues(forKeys:[.fileSizeKey,.contentModificationDateKey])
+        guard analysis.sampleRate.isFinite,analysis.sampleRate > 0,analysis.frameCount > 0,
+              analysis.frameCount <= Int64.max/8,
+              before.fileSize.map({ Int64($0) == analysis.frameCount*8 }) == true else {
+            throw CoreError.invalidAudio("The prepared audio cache does not match the track. Reload the track and try again.")
+        }
+        let handle=try FileHandle(forReadingFrom:pcm)
+        defer { try? handle.close() }
+        var pulses=MusicalPulseAccumulator(sampleRate:analysis.sampleRate)
+        var previous=0.0,filtered=0.0,framesRead:Int64=0
+        let highPass=exp(-2 * .pi * 20/analysis.sampleRate)
+        while framesRead < analysis.frameCount {
+            try checkCancellation()
+            let requested=Int(min(32768,analysis.frameCount-framesRead))*8
+            guard let data=try handle.read(upToCount:requested),data.count == requested else {
+                throw CoreError.invalidAudio("The prepared audio cache is incomplete. Reload the track and try again.")
+            }
+            try data.withUnsafeBytes { bytes in
+                let samples=bytes.bindMemory(to:Float.self)
+                var leftPower=0.0,rightPower=0.0,monoPower=0.0
+                for index in stride(from:0,to:samples.count,by:2) {
+                    let left=Double(samples[index]),right=Double(samples[index+1])
+                    guard left.isFinite,right.isFinite else { throw CoreError.invalidAudio("Audio contains non-finite samples.") }
+                    leftPower += left*left;rightPower += right*right
+                    monoPower += pow((left+right)*0.5,2)
+                }
+                let singleChannel=monoPower < max(leftPower,rightPower)*0.05
+                for index in stride(from:0,to:samples.count,by:2) {
+                    let value=singleChannel ? samples[index+(leftPower >= rightPower ? 0:1)]
+                        : samples[index]*0.5+samples[index+1]*0.5
+                    let input=Double(value)
+                    filtered=input-previous+highPass*filtered;previous=input
+                    pulses.consume(filtered)
+                }
+            }
+            framesRead += Int64(requested/8)
+        }
+        pulses.finish()
+        try checkUnchanged(url:pcm,before:before)
+        let peak=pulses.frames.map(\.rms).max() ?? 0
+        let rises=zip(pulses.frames.dropFirst(),pulses.frames).reduce(0.0) { $0+max(0,$1.0.rms-$1.1.rms) }
+        let activity=analysis.musicalEnergy?.spectralActivity ?? min(1,4*rises/max(1e-12,peak*Double(pulses.frames.count)))
+        let rhythm=try MusicalRhythmAnalyzer.analyze(frames:pulses.frames,sampleRate:analysis.sampleRate,
+            framesPerBin:pulses.framesPerBin,spectralActivity:activity,configuration:.init(),checkCancellation:checkCancellation)
+        guard let bpm=rhythm.bpm,let anchor=rhythm.anchorSeconds,rhythm.confidence >= 0.72 else { return nil }
+        return BeatGridDetection(grid:try BeatGrid(bpm:bpm,anchorFrame:anchor*analysis.sampleRate,
+            sampleRate:analysis.sampleRate,downbeatOffset:rhythm.downbeat ?? 0),
+            tempoConfidence:rhythm.confidence,downbeatConfidence:rhythm.downbeatConfidence)
+    }
+
     public static func analyze(url: URL, configuration: AnalysisConfiguration = .init(),
                                checkCancellation: @Sendable () throws -> Void = { try Task.checkCancellation() }) throws -> AudioAnalysis {
         guard configuration.minimumBPM.isFinite, configuration.maximumBPM.isFinite,

@@ -1,0 +1,171 @@
+{
+  "requestID": "R43",
+  "baseCommit": "3b6a4195cca98fecce44bff88cf045ec2e05a8d4",
+  "sourceSHA256": "aeba4faba4abc00efef2fb6628e1813e0d5ee1e65850d99a2036f49e520bd18d",
+  "sourceFiles": {
+    "Replica/Sources/TDJCore/AudioAnalyzer.swift": "78c6764a35dcb95a4847abb5f8ef15bad0f7af5a3c16f75d0fd829a18e1983aa",
+    "Replica/Sources/TDJCore/MusicalAnalysisFeatures.swift": "b9fba923ee788710a456965e6a3df58d89a90ca1fa51608877380d4239306efe",
+    "Replica/Sources/TDJCore/AnalysisWorker.swift": "a484ab2c67440515096c7da0d6ef1af7e8d82b5a8b000435d9d0ba93869bf526",
+    "Replica/Sources/TDJInterface/ReplicaModel.swift": "2189fffbe7d1df6c963e8dd6ba4616fbd9d84ad1978a79cf10caffc5f3d956c5",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "2d7083d89dace94b2fa92764ae445d710722c6a7f8052116921dfb4b06913874",
+    "Replica/Sources/TDJInterface/ArrangementModel.swift": "013cdb44a1c39a2f6f1031a9779ce3133dd9b27017ed26859ce2776cb4476470"
+  },
+  "testCase": {
+    "artist": "TLC",
+    "title": "Creep (Tin Tin Out Remix)",
+    "sourcePath": "/Volumes/iTunes/Media/iTunes Media/Music/TLC/Essential Mixes 12_ Masters/09 Creep (Tin Tin Out Remix).mp3",
+    "sourceSHA256": "6d78180114509fa8136fbba71061e91a561832bb6b3793f6bf9750c3dbb82db6",
+    "iPadSourceID": "b3976d0fbdfdecfae3efdb5a673364b9509d6a3b90eaf8f98ca27a3eea774aab",
+    "matchEvidence": "Title, artist, source duration, frame count, sample rate and the complete saved numerical analysis agree. The iPad CAF itself was not copied.",
+    "displayedGrid": {
+      "origin": "Traktor import protected as manual preparation",
+      "bpm": 68.0085,
+      "anchorSeconds": 0.633356
+    },
+    "independentBaseline": {
+      "bpm": 68.01901725186296,
+      "beatAnchorFrame": 29172.000000000004,
+      "tempoConfidence": 1,
+      "detectedDownbeatOffset": null,
+      "downbeatConfidence": null,
+      "gridResidualMilliseconds": null,
+      "contentSHA256": "6d78180114509fa8136fbba71061e91a561832bb6b3793f6bf9750c3dbb82db6",
+      "sampleRate": 44100,
+      "frameCount": 22746240,
+      "configurationID": "independent-dsp-0.3.2-late-rhythm-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0"
+    },
+    "candidate": {
+      "bpm": 136.01776928783113,
+      "beatAnchorFrame": 7963.3294883132785,
+      "tempoConfidence": 1,
+      "detectedDownbeatOffset": null,
+      "downbeatConfidence": null,
+      "gridResidualMilliseconds": 1.210018999088902,
+      "contentSHA256": "6d78180114509fa8136fbba71061e91a561832bb6b3793f6bf9750c3dbb82db6",
+      "sampleRate": 44100,
+      "frameCount": 22746240,
+      "configurationID": "independent-dsp-0.3.3-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0"
+    },
+    "cacheDetection": {
+      "grid": {
+        "anchorFrame": 7963.329488313514,
+        "bpm": 136.01776928783116,
+        "downbeatOffset": 0,
+        "sampleRate": 44100
+      },
+      "tempoConfidence": 1
+    },
+    "openingPulseReferenceSeconds": 0.1836,
+    "referenceScope": "Opening kick pulse and approximate spacing measured from source audio features. Bar start remains unlabelled."
+  },
+  "focusedChecks": {
+    "denseAndOffbeatCases": 12,
+    "lateRhythmCases": 7,
+    "failedAssertions": 0,
+    "nativeCacheMatchesFullDecode": true,
+    "hostCancellationSeconds": 0.0594179630279541
+  },
+  "controls": [
+    {
+      "name": "creep-original",
+      "baseline": {
+        "bpm": 61.95718145697468,
+        "beatAnchorFrame": 566202,
+        "tempoConfidence": 1,
+        "detectedDownbeatOffset": null,
+        "downbeatConfidence": null,
+        "gridResidualMilliseconds": null,
+        "contentSHA256": "122564042af1d131a63cf44cc3cf95a99367fbc6e9cb6f7795f2caea6adf3282",
+        "sampleRate": 44100,
+        "frameCount": 11842320,
+        "configurationID": "independent-dsp-0.3.2-late-rhythm-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0"
+      },
+      "candidate": {
+        "bpm": 61.95718145697468,
+        "beatAnchorFrame": 566202,
+        "tempoConfidence": 0.69,
+        "detectedDownbeatOffset": null,
+        "downbeatConfidence": null,
+        "gridResidualMilliseconds": null,
+        "contentSHA256": "122564042af1d131a63cf44cc3cf95a99367fbc6e9cb6f7795f2caea6adf3282",
+        "sampleRate": 44100,
+        "frameCount": 11842320,
+        "configurationID": "independent-dsp-0.3.3-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0"
+      },
+      "review": "Numerical comparison only. No independent listening reference."
+    },
+    {
+      "name": "harrison-extended",
+      "baseline": {
+        "bpm": 126.02269305543285,
+        "beatAnchorFrame": 3757,
+        "tempoConfidence": 1,
+        "detectedDownbeatOffset": null,
+        "downbeatConfidence": null,
+        "gridResidualMilliseconds": null,
+        "contentSHA256": "57a889e05f1e673e2cdeacb63f03d61d1b0e8c6048692c666c47c3ba12aecbff",
+        "sampleRate": 44100,
+        "frameCount": 10137540,
+        "configurationID": "independent-dsp-0.3.2-late-rhythm-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0"
+      },
+      "candidate": {
+        "bpm": 125.99975993148725,
+        "beatAnchorFrame": 2981.4815321424758,
+        "tempoConfidence": 0.8055705140295704,
+        "detectedDownbeatOffset": null,
+        "downbeatConfidence": null,
+        "gridResidualMilliseconds": 3.512146719970133,
+        "contentSHA256": "57a889e05f1e673e2cdeacb63f03d61d1b0e8c6048692c666c47c3ba12aecbff",
+        "sampleRate": 44100,
+        "frameCount": 10137540,
+        "configurationID": "independent-dsp-0.3.3-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0"
+      },
+      "review": "Numerical comparison only. No independent listening reference."
+    },
+    {
+      "name": "jay-z",
+      "baseline": {
+        "bpm": 135.29063965144806,
+        "beatAnchorFrame": 125528.00000000001,
+        "tempoConfidence": 0.9583488690776352,
+        "detectedDownbeatOffset": null,
+        "downbeatConfidence": null,
+        "gridResidualMilliseconds": null,
+        "contentSHA256": "02965db03be249f94b75db385b0999bfbf7f46bc64dd08e1f23c739333196706",
+        "sampleRate": 44100,
+        "frameCount": 10347036,
+        "configurationID": "independent-dsp-0.3.2-late-rhythm-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0"
+      },
+      "candidate": {
+        "bpm": 135.29063965144806,
+        "beatAnchorFrame": 125528.00000000001,
+        "tempoConfidence": 0.69,
+        "detectedDownbeatOffset": null,
+        "downbeatConfidence": null,
+        "gridResidualMilliseconds": null,
+        "contentSHA256": "02965db03be249f94b75db385b0999bfbf7f46bc64dd08e1f23c739333196706",
+        "sampleRate": 44100,
+        "frameCount": 10347036,
+        "configurationID": "independent-dsp-0.3.3-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0"
+      },
+      "review": "Numerical comparison only. No independent listening reference."
+    }
+  ],
+  "incompleteChecks": [
+    {
+      "name": "Michael Jackson \u2014 Remember The Time (1992)",
+      "stage": "Unmodified baseline decoder",
+      "result": "NSOSStatusErrorDomain -39 eofErr; host probe terminated with SIGTRAP. No candidate comparison was completed."
+    }
+  ],
+  "remaining": [
+    "Distinctive-snare bar selection from the earlier R43 diagnosis remains unresolved.",
+    "Automatic bar position in the Creep remix remains unestablished.",
+    "Original Creep and Jay-Z control recordings keep their earlier tempo/anchor values. Their unsupported confidence falls to 0.69; the explicit grid action declines such a result.",
+    "Physical iPad grid-action checks, preparation time and clean audio acceptance remain pending."
+  ],
+  "build": {
+    "state": "pending"
+  },
+  "failedAttemptBinding": "The initial red fixture uses the base source. Intermediate failure logs are retained; exact edited source snapshots were not sealed for each attempt. Final source hashes bind the passing checks and native result."
+}
