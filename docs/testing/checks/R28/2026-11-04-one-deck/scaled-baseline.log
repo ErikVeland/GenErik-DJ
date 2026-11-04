@@ -1,0 +1,28 @@
+/Users/veland/.codex/worktrees/front-one-deck/GenErik DJ/tools/check_front_performance.swift:70:44: error: extra arguments at positions #4, #5 in call
+68 |             }
+69 |         }
+70 |         let scaled = FrontWorkspaceGeometry(width: 375, height: 700, browserExtent: 10000,
+   |                                            `- error: extra arguments at positions #4, #5 in call
+71 |             selectorHeight: 100, controlsHeight: 76)
+72 |         expect(scaled.selector.height == 100 && scaled.controls.height == 76, "larger text receives larger selector and control rows")
+
+/Users/veland/.codex/worktrees/front-one-deck/GenErik DJ/Replica/Sources/TDJInterface/FrontPerformanceLayout.swift:30:5: note: 'init(width:height:browserExtent:)' declared here
+28 |     let bodyHeight: Double
+29 | 
+30 |     init(width: Double, height: Double, browserExtent: Double) {
+   |     `- note: 'init(width:height:browserExtent:)' declared here
+31 |         let width = width.isFinite ? max(0, width) : 0
+32 |         let height = height.isFinite ? max(0, height) : 0
+Traceback (most recent call last):
+  File "/Users/veland/.codex/worktrees/front-one-deck/GenErik DJ/tools/check_front_performance.py", line 21, in <module>
+    main()
+    ~~~~^^
+  File "/Users/veland/.codex/worktrees/front-one-deck/GenErik DJ/tools/check_front_performance.py", line 15, in main
+    subprocess.run(["xcrun", "swiftc", "-parse-as-library", *map(str, sources),
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                    str(root / "tools/check_front_performance.swift"), "-o", str(executable)], check=True)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['xcrun', 'swiftc', '-parse-as-library', '/Users/veland/.codex/worktrees/front-one-deck/GenErik DJ/Replica/Sources/TDJInterface/FrontPerformanceLayout.swift', '/Users/veland/.codex/worktrees/front-one-deck/GenErik DJ/Replica/Sources/TDJInterface/BrowserPresentation.swift', '/Users/veland/.codex/worktrees/front-one-deck/GenErik DJ/Replica/Sources/TDJInterface/TouchPanelState.swift', '/Users/veland/.codex/worktrees/front-one-deck/GenErik DJ/Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift', '/Users/veland/.codex/worktrees/front-one-deck/GenErik DJ/tools/check_front_performance.swift', '-o', '/var/folders/x4/552661tn5vzgxk5405585gg80000gq/T/generik-front-performance-pi1e7s0s/check']' returned non-zero exit status 1.

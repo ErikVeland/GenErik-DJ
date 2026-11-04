@@ -9,6 +9,9 @@ struct FrontBrowserView: View {
     @Bindable var model: ReplicaModel
     var importAudio: () -> Void = {}
     var linkCollection: () -> Void = {}
+    var requestedTab = BrowserListTab.songs
+    var navigationID: UUID? = nil
+    var destinationDeck: DeckID? = nil
     @State private var query = ""
     @State private var suggestionQuery = ""
     @State private var prepQuery = ""
@@ -128,7 +131,11 @@ struct FrontBrowserView: View {
         .animation(reduceMotion ? nil : .smooth(duration: 0.22), value: layout.tab)
         .animation(reduceMotion || columnSizes.isDragging ? nil : .smooth(duration: 0.22), value: layout.categoriesHidden)
         .animation(reduceMotion || columnSizes.isDragging ? nil : .smooth(duration: 0.22), value: layout.detailHidden)
-        .onAppear { handleBrowserPresentation() }
+        .onAppear { navigationID == nil ? handleBrowserPresentation() : handleRequestedNavigation() }
+        .onChange(of: navigationID) { _, _ in handleRequestedNavigation() }
+        .onChange(of: destinationDeck) { _, deck in
+            if layout.tab == .suggestions { captureRecommendationReference(destination: deck) }
+        }
         .onChange(of: layout.categoriesHidden) { _, _ in syncColumnPresentation() }
         .onChange(of: layout.detailHidden) { _, _ in syncColumnPresentation() }
         .onChange(of: leadingColumn) { _, _ in configureColumns(width: browserWidth) }
@@ -238,7 +245,7 @@ struct FrontBrowserView: View {
                         }
                     }
                     Spacer(minLength: 4)
-                    if layout.listShowsTempoAndKey {
+                    if browserWidth >= 520 && layout.listShowsTempoAndKey {
                         HStack(spacing: 3) { Image(systemName: "music.note"); Text(entry.key?.openKeyName ?? "—") }
                             .foregroundStyle(KeyColour.colour(entry.key)).frame(width: 70, alignment: .leading)
                         HStack(spacing: 3) { Image(systemName: "waveform.path.ecg"); Text(entry.bpm.map { String(format:"%.1f",$0) } ?? "—") }
@@ -327,9 +334,9 @@ extension FrontBrowserView {
     fileprivate var searchBar: some View {
         HStack(spacing: 10) {
             Button { layout.categoriesHidden ? layout.showCategories() : closeDrawers() } label: {
-                Label("Sources", systemImage: "sidebar.left").frame(minHeight: 44)
+                Image(systemName: "sidebar.left").frame(width: 44, height: 44)
             }
-            .accessibilityFocused($sourcesFocused)
+            .accessibilityLabel("Sources").accessibilityFocused($sourcesFocused)
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass").foregroundStyle(PerformancePalette.secondaryText)
                 TextField("", text: activeQuery,
@@ -357,7 +364,9 @@ extension FrontBrowserView {
         HStack(spacing: 8) {
             ForEach(BrowserListTab.allCases, id: \.self) { tab in
                 Button {
-                    if tab == .suggestions && recommendationSeed == nil { captureRecommendationReference() }
+                    if tab == .suggestions && (recommendationSeed == nil || recommendationDestination != destinationDeck) {
+                        captureRecommendationReference(destination: destinationDeck)
+                    }
                     layout.selectTab(tab)
                 } label: {
                     Text(tab == .prep ? "Prep list (\(model.queuedIDs.count))" : tab.rawValue)
@@ -613,10 +622,10 @@ extension FrontBrowserView {
             HStack(spacing: 8) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(recommendationDestination.map { "Suggestions for \($0.rawValue.uppercased())" } ?? "Suggestions")
-                        .font(.headline)
+                        .font(.subheadline.weight(.semibold))
                     if let seed = recommendationSeed {
                         Text("Based on \(recommendationDeck.map { "\($0.rawValue.uppercased()): " } ?? "")\(seed.title)")
-                            .font(.subheadline).foregroundStyle(PerformancePalette.secondaryText).lineLimit(2)
+                            .font(.caption).foregroundStyle(PerformancePalette.secondaryText).lineLimit(1)
                     }
                 }
                 Spacer(minLength: 0)
@@ -673,48 +682,37 @@ extension FrontBrowserView {
     fileprivate var selectedSongShelf: some View {
         Group {
             if let entry = currentSelection {
-                ViewThatFits(in: .horizontal) {
-                    HStack(spacing: 12) {
-                        selectedSongTitle(entry).frame(minWidth: 160, maxWidth: .infinity, alignment: .leading)
-                        selectedSongActions(entry)
+                HStack(spacing: 8) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(entry.title).font(.caption.weight(.semibold)).lineLimit(1)
+                        Text(entry.artist).font(.caption2).foregroundStyle(PerformancePalette.secondaryText).lineLimit(1)
+                    }.frame(maxWidth: .infinity, alignment: .leading)
+                    ForEach(DeckID.allCases, id: \.self) { deck in
+                        Button { model.loadLibraryEntry(entry, deck: deck) } label: {
+                            Text("Load \(deck.rawValue.uppercased())").font(.caption.weight(.bold))
+                                .frame(minWidth: 60, minHeight: 44).bevelPanel(cornerRadius: 4)
+                        }.disabled(!entry.canLoad)
+                            .accessibilityLabel("Load \(entry.title) on deck \(deck.rawValue.uppercased())")
                     }
-                    VStack(alignment: .leading, spacing: 4) {
-                        selectedSongTitle(entry)
-                        selectedSongActions(entry).frame(maxWidth: .infinity, alignment: .trailing)
-                    }
-                }.padding(.horizontal, 12).padding(.vertical, 6)
+                    Menu {
+                        Button("Add to prep list") { model.enqueue(entry.id) }
+                        Button("Track details and drag loader") { layout.showDetail() }
+                    } label: {
+                        Image(systemName: "ellipsis.circle").frame(width: 44, height: 44)
+                    }.accessibilityLabel("Actions for \(entry.title)")
+                }.padding(.horizontal, 8).padding(.vertical, 4)
             } else {
                 Text("Select a song to load A or B").font(.subheadline).foregroundStyle(PerformancePalette.secondaryText)
                     .frame(maxWidth: .infinity, minHeight: 44)
             }
-        }.background(PerformancePalette.panel)
-            .overlay(alignment: .top) { Divider() }
+        }.background(PerformancePalette.panel).overlay(alignment: .top) { Divider() }
     }
 
-    private func selectedSongTitle(_ entry: LibraryBrowserEntry) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(entry.title).font(.subheadline.weight(.semibold)).lineLimit(1)
-            Text(entry.artist).font(.caption).foregroundStyle(PerformancePalette.secondaryText).lineLimit(1)
-        }
-    }
-
-    private func selectedSongActions(_ entry: LibraryBrowserEntry) -> some View {
-        HStack(spacing: 8) {
-            Button { model.enqueue(entry.id) } label: {
-                Image(systemName: "text.badge.plus").frame(width: 44, height: 44)
-            }.accessibilityLabel("Add \(entry.title) to prep list")
-            Button { layout.showDetail() } label: {
-                Image(systemName: "info.circle").frame(width: 44, height: 44)
-            }.accessibilityLabel("Details for \(entry.title)").accessibilityFocused($detailsFocused)
-            ForEach(DeckID.allCases, id: \.self) { deck in
-                Button { model.loadLibraryEntry(entry, deck: deck) } label: {
-                    Text("Load \(deck.rawValue.uppercased())").font(.subheadline.weight(.bold))
-                        .padding(.horizontal, 12).frame(minWidth: 76, minHeight: 44)
-                        .bevelPanel(cornerRadius: 4)
-                }.disabled(!entry.canLoad).accessibilityLabel("Load \(entry.title) on deck \(deck.rawValue.uppercased())")
-            }
-            LoadSlider { deck in model.loadLibraryEntry(entry, deck: deck) }.id(entry.id).disabled(!entry.canLoad)
-        }
+    private func handleRequestedNavigation() {
+        guard navigationID != nil else { return }
+        if !showingLists { section = .songs }
+        if requestedTab == .suggestions { captureRecommendationReference(destination: destinationDeck) }
+        layout.selectTab(requestedTab)
     }
 
     private func handleBrowserPresentation() {

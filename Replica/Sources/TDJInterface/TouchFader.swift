@@ -5,6 +5,7 @@ struct TouchFader: View {
     let range: ClosedRange<Double>
     let reset: Double?
     var axis: FaderAxis = .horizontal
+    var horizontalHeight: Double = 24
     let readValue: () -> Double
     let change: (Double) -> Void
     @State private var gesture=FaderGestureSession()
@@ -36,7 +37,7 @@ struct TouchFader: View {
                     handleTouch(event,length:Double(length),using:gesture)
                 }
             }.frame(maxHeight:.infinity)
-        }.frame(height:axis == .horizontal ? 24 : nil)
+        }.frame(height:axis == .horizontal ? horizontalHeight : nil)
             .onDisappear { gesture.handle(.init(phase:.cancelled,points:[],ending:[]),value:readValue(),range:range,reset:reset,axis:axis,change:change) }
     }
     func handleTouch(_ event:SurfaceEvent,length:Double,using session:FaderGestureSession) {
