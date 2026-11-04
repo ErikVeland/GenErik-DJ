@@ -103,3 +103,19 @@ Title and genre join the arrangement cache identity. Existing cue frames and man
 The 104-entry comparison retains 99 successful analyses and five failures. The profile applies on 22 entries.
 Ten recordings received a source/feature review. No independent full song-form accuracy is established.
 See `../testing/checks/R35/2026-11-04-dj-mix-sections/README.md`.
+
+## Vocal roles: R37
+
+The next iteration adds an offline vocal-word pass. Repeated words distinguish a refrain from a recurring backing loop.
+Rap or short sampled refrains can receive Hook. Sustained sung refrains can receive Chorus.
+The chorus score uses the refrain itself, so extended instrumental edges cannot dilute that evidence.
+Substantial changing lyrics and sustained voice evidence support Verse.
+
+The exact Danger Mouse source now has three verses, three main hooks, a short opening hook and an outro.
+The new pass replaces older acoustic vocal subdivisions where repeated words establish the new form.
+It preserves existing cue frames and manual preparation. Recognition pauses during playback and resumes when both decks are idle.
+The 190 MB model ships offline. It is pinned by checksum, and no lyrics are saved.
+
+The review records misses across the sampled genres and versions. It has no independent listening annotations or section-accuracy percentage.
+Dense remixes and language recognition remain limits. This is a first vocal-role improvement, not a completed genre classifier.
+See `../testing/checks/R37/2026-11-04-vocal-form/` for source-bound predictions and the device handover.

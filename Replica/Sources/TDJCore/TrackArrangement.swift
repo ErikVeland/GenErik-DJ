@@ -1,7 +1,7 @@
 import Foundation
 
 public enum ArrangementRole: String, Codable, CaseIterable, Sendable {
-    case intro, verse, preChorus, chorus, bridge, instrumental, outro, unknown
+    case intro, verse, preChorus, chorus, hook, bridge, instrumental, outro, unknown
     public var label: String {
         switch self {
         case .preChorus: "PRE-CHORUS"
@@ -47,7 +47,7 @@ public struct ArrangementSection: Codable, Equatable, Identifiable, Sendable {
         case .intro: return 0x64CFB6
         case .verse: return 0x71ADFF
         case .preChorus: return 0xE9CC70
-        case .chorus: return 0xF6AF69
+        case .chorus, .hook: return 0xF6AF69
         case .bridge: return 0xB69BE8
         case .outro: return 0x8DB3AA
         case .instrumental, .unknown: break
@@ -130,8 +130,13 @@ public struct TrackArrangement: Codable, Equatable, Sendable {
         landmarks.sort { $0.frame < $1.frame }
     }
     /// Use local musical evidence when available. Cached loudness alone retains neutral labels.
-    public static func prepare(analysis a: AudioAnalysis, features: [MusicalStructureFrame] = [], context: MusicalStructureContext = .init()) -> Self {
-        if !features.isEmpty { return musicalPreparation(analysis:a,features:features,context:context) }
+    public static func prepare(analysis a: AudioAnalysis, features: [MusicalStructureFrame] = [], context: MusicalStructureContext = .init(),
+                               vocalPhrases: [VocalPhrase] = []) -> Self {
+        if !features.isEmpty {
+            var result=musicalPreparation(analysis:a,features:features,context:context)
+            result.prepareVocalForm(phrases:vocalPhrases,features:features,analysis:a,context:context)
+            return result
+        }
         let end=Double(a.frameCount)
         guard a.sampleRate > 0, end > 0, !a.waveform.isEmpty else {
             return .init(sections: [.init(start:0,end:end,name:"SECTION A")], landmarks: [], musicalEnd:end, rhythmicEnd:nil)

@@ -1,0 +1,132 @@
+{
+  "request": "R37",
+  "feedbackBaseline": 82,
+  "sourceHashes": {
+    "Replica/Package.swift": "a9ae26233da4158f4151114ce0df3f22fff6a5add9d31bbc56aa4aebc0d321b4",
+    "Replica/Sources/TDJCore/TrackArrangement.swift": "ec075b7e3be1462673aa87b960b83c44769341d181db81f7fb846bcc8447432d",
+    "Replica/Sources/TDJCore/MusicalStructureAnalyzer.swift": "31b7916b57a18b611db165043bb20582bfda100d11fe909dba73359862e1c1ee",
+    "Replica/Sources/TDJCore/VocalFormAnalyzer.swift": "ec65a383d109b039ae16a65433f78ba2b0f3d5644e39e868742094b79a28a393",
+    "Replica/Sources/TDJInterface/VocalPhraseRecognizer.swift": "030475bb743e1bdc40d487719e29c409193ce3a30f020584dc0af9fa7bc46f5c",
+    "Replica/Sources/TDJInterface/ArrangementModel.swift": "759f5add8aae425f7adac35b170f757eeece64b55e5a3936706c3f044c2a85a0",
+    "Replica/Sources/TDJInterface/ReplicaModel.swift": "01bda6ecc2a1ac4edca798b39c02c1a3c4f22b61dee6cb3ebb4a02bf635e1d1b",
+    "Replica/Sources/TDJInterface/VocalModelAssets/model.json": "b60de2d4ebb97683d7b07401c62f84c9fe193d38e4a28dd7d8c0a7bf663740f2"
+  },
+  "structureVersion": 5,
+  "model": {
+    "model": "Whisper small multilingual Q5_1",
+    "filename": "vocal-model.bin",
+    "source": "https://huggingface.co/ggerganov/whisper.cpp/resolve/5359861c739e955e79d9a303bcbc70fb988958b1/ggml-small-q5_1.bin",
+    "bytes": 190085487,
+    "sha256": "ae85e4a935d7a567bd102fe55afc16bb595bdb618e11b2fc7591bc08120411bb",
+    "license": "MIT"
+  },
+  "focusedChecks": {
+    "count": 38,
+    "failedAssertions": 0,
+    "log": "green.log"
+  },
+  "corpus": {
+    "analysed": 28,
+    "failed": 0,
+    "valid": 28,
+    "genreFamilies": {
+      "ambient-downtempo": 2,
+      "drum-bass-breaks": 2,
+      "electronic-other": 3,
+      "hiphop-rnb-soul": 3,
+      "house-disco": 3,
+      "mashup": 2,
+      "pop-rock": 4,
+      "reggae-latin-afro": 2,
+      "techno-trance": 2,
+      "unclassified": 5
+    },
+    "versionHints": {
+      "remix": 4,
+      "unspecified": 4,
+      "acappella": 4,
+      "extended": 2,
+      "dub": 2,
+      "mashup": 2,
+      "radio-edit": 1,
+      "instrumental": 2,
+      "club": 1,
+      "12-inch": 7,
+      "live": 1
+    },
+    "roleInventoryChanged": 9,
+    "groundTruthStatus": "Unlabelled. No measured section-accuracy score.",
+    "formAssignedBefore": 1,
+    "formAssignedAfter": 9
+  },
+  "cancellation": {
+    "passed": true,
+    "hostSecondsIncludingFeatures": 2.1760369539260864,
+    "cancelDelaySeconds": 1,
+    "physicalPlaybackNotMeasured": true,
+    "log": "cancellation.log"
+  },
+  "sourcePolicy": "Existing cue positions, cue deletions and locked preparation are retained. Analysis cancels during playback and waveform performance touches.",
+  "acceptance": "Erik listening and A10X performance checks are pending.",
+  "exactRecording": {
+    "sourceContentSHA256": "01ed5962e6583b090ae9ca4309a6900218c06da2788df9e874838c76e8e217c9",
+    "sampleRate": 44100,
+    "frameCount": 10788864,
+    "structureVersion": 5,
+    "valid": true,
+    "elapsedHostSeconds": 31.830803990364075,
+    "sections": [
+      {
+        "startSeconds": 0.0,
+        "endSeconds": 5.08,
+        "role": "hook",
+        "name": "Opening hook"
+      },
+      {
+        "startSeconds": 5.08,
+        "endSeconds": 43.64,
+        "role": "verse",
+        "name": ""
+      },
+      {
+        "startSeconds": 43.64,
+        "endSeconds": 58.48,
+        "role": "hook",
+        "name": ""
+      },
+      {
+        "startSeconds": 58.48,
+        "endSeconds": 115.64,
+        "role": "verse",
+        "name": ""
+      },
+      {
+        "startSeconds": 115.64,
+        "endSeconds": 138.76,
+        "role": "hook",
+        "name": ""
+      },
+      {
+        "startSeconds": 138.76,
+        "endSeconds": 187.64,
+        "role": "verse",
+        "name": ""
+      },
+      {
+        "startSeconds": 187.64,
+        "endSeconds": 221.12,
+        "role": "hook",
+        "name": ""
+      },
+      {
+        "startSeconds": 221.12,
+        "endSeconds": 244.65,
+        "role": "outro",
+        "name": ""
+      }
+    ],
+    "phraseCount": 76,
+    "referenceStatus": "Machine-assisted review. Pickup boundaries and musical roles need Erik listening acceptance.",
+    "pcmSHA256": "9945c25d99c410d1e3cac65466c5e32cfbac8bf9ef5b6ffee70ccbd049646f61"
+  }
+}

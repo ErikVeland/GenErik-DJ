@@ -28,16 +28,18 @@ public struct MusicalStructureFrame: Sendable, Equatable {
     public var bands: [Double]
     public var chroma: [Double]
     public var vocal: Double?
+    public var rapping: Double?
+    public var singing: Double?
     public init(start: Double, end: Double, rms: Double, bass: Double, rhythm: Double,
-                bands: [Double], chroma: [Double], vocal: Double? = nil) {
+                bands: [Double], chroma: [Double], vocal: Double? = nil, rapping: Double? = nil, singing: Double? = nil) {
         self.start=start; self.end=end; self.rms=rms; self.bass=bass; self.rhythm=rhythm
-        self.bands=bands; self.chroma=chroma; self.vocal=vocal
+        self.bands=bands; self.chroma=chroma; self.vocal=vocal; self.rapping=rapping; self.singing=singing
     }
 }
 
 /// Runs on cached PCM at utility priority. Playback never calls this analyser.
 public enum MusicalStructureAnalyzer {
-    public static let version = 4
+    public static let version = 5
 
     public static func analyze(pcm url: URL, analysis: AudioAnalysis,
                                checkCancellation: () throws -> Void = { try Task.checkCancellation() }) throws -> [MusicalStructureFrame] {
@@ -106,6 +108,8 @@ public enum MusicalStructureAnalyzer {
             if !overlaps.isEmpty {
                 let duration=overlaps.reduce(0.0) { $0+max(0,min(end,$1.end)-max(start,$1.start)) }
                 result[index].vocal=overlaps.reduce(0.0) { $0+$1.confidence*max(0,min(end,$1.end)-max(start,$1.start)) }/max(1e-9,duration)
+                result[index].rapping=overlaps.reduce(0.0) { $0+$1.rapping*max(0,min(end,$1.end)-max(start,$1.start)) }/max(1e-9,duration)
+                result[index].singing=overlaps.reduce(0.0) { $0+$1.singing*max(0,min(end,$1.end)-max(start,$1.start)) }/max(1e-9,duration)
             }
         }
         return result
@@ -113,7 +117,7 @@ public enum MusicalStructureAnalyzer {
 }
 
 private final class VocalResults: NSObject, SNResultsObserving {
-    struct Window { var start: Double; var end: Double; var confidence: Double }
+    struct Window { var start: Double; var end: Double; var confidence: Double; var rapping: Double; var singing: Double }
     var names=Set<String>()
     private let lock=NSCondition()
     private var windows=[Window]()
@@ -122,8 +126,11 @@ private final class VocalResults: NSObject, SNResultsObserving {
     func request(_ request: SNRequest, didProduce result: SNResult) {
         guard let result=result as? SNClassificationResult else { return }
         let confidence=result.classifications.filter { names.contains($0.identifier) }.map(\.confidence).max() ?? 0
+        let rapping=result.classification(forIdentifier:"rapping")?.confidence ?? 0
+        let singing=max(result.classification(forIdentifier:"singing")?.confidence ?? 0, result.classification(forIdentifier:"choir")?.confidence ?? 0)
         lock.lock(); defer { lock.unlock() }
-        windows.append(.init(start:result.timeRange.start.seconds,end:CMTimeRangeGetEnd(result.timeRange).seconds,confidence:confidence))
+        windows.append(.init(start:result.timeRange.start.seconds,end:CMTimeRangeGetEnd(result.timeRange).seconds,
+            confidence:confidence,rapping:rapping,singing:singing))
     }
     func request(_ request: SNRequest, didFailWithError error: Error) {
         lock.lock(); defer { lock.unlock() }; failure=error; completed=true; lock.broadcast()

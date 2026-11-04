@@ -39,7 +39,7 @@ def digest(paths, base):
 
 
 def source_identity():
-    paths = [ROOT / "Replica/Package.swift"]
+    paths = [ROOT / "Replica/Package.swift", ROOT / "Replica/THIRD_PARTY_NOTICES.txt"]
     for folder in ["Replica/Sources", "Replica/iPad"]:
         paths.extend((ROOT / folder).rglob("*"))
     return digest(paths, ROOT)
@@ -67,6 +67,8 @@ def archive(app, record):
 
 
 def build(config, notes):
+    from prepare_vocal_model import prepare
+    prepare()
     app = CACHE / "Build/Products/Release-iphoneos/GenErikDJ.app"
     last = int(info(app)["CFBundleVersion"]) if app.exists() else 44
     if app.exists() and not (RECORDS / f"{last}.json").exists() and not (LOCAL / str(last)).exists():

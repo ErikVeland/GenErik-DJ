@@ -236,7 +236,11 @@ public final class ReplicaModel {
     let controlDisplay = PlaybackControlDisplay()
     @ObservationIgnored let mixerFaderInputs=MixerFaderInputValues()
     public var playbackSnapshot: PlaybackSnapshot? {
-        didSet { controlDisplay.update(playbackSnapshot) }
+        didSet {
+            controlDisplay.update(playbackSnapshot)
+            let wasPlaying=DeckID.allCases.contains { oldValue?[$0].phase.active == true || oldValue?[$0].touchActive == true }
+            updateArrangementScheduling(wasPlaying:wasPlaying)
+        }
     }
     private var mixerPreferences = MixerPreferences()
     private let mixerPersistence=CoalescingFileWriter<MixerPreferences>()
