@@ -6,6 +6,7 @@ struct PlaybackSettings: View {
     @Bindable var model: ReplicaModel
     var showsPlayback = true
     func extrasOnly() -> Self { var copy = self; copy.showsPlayback = false; return copy }
+    @AppStorage(DeckToolSettings.sectionWaveformColours) private var sectionWaveformColours = false
     @AppStorage(DeckToolSettings.beatJump) private var beatJump = false
     @AppStorage(DeckToolSettings.tempoFader) private var tempoFader = false
     @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
@@ -29,6 +30,7 @@ struct PlaybackSettings: View {
             Divider()
             Text("Extra deck controls").font(.headline)
             }
+            Toggle("Section colours in waveform", isOn: $sectionWaveformColours)
             Toggle("Beat jump",isOn:$beatJump)
             Toggle("Tempo fader",isOn:$tempoFader)
             Toggle("CUE button",isOn:$cueButton)
@@ -60,6 +62,7 @@ struct PlaybackSettings: View {
 
 /// Controls the original app did not have. Each is off by default, so the deck stays as it was.
 enum DeckToolSettings {
+    static let sectionWaveformColours = "waveform.sectionColours"
     static let largePanelHandles = "interface.largePanelHandles"
     static let beatJump = "deckTools.beatJump"
     static let tempoFader = "deckTools.tempoFader"

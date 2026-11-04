@@ -1,0 +1,27 @@
+warning: 'replica': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/DeckSpaceRenderingTests.swift
+Building for debugging...
+[7 / 27] TDJInterface
+[9 / 31]
+[11 / 31] TDJInterface
+[15 / 31] TDJInterface
+[29 / 45] TDJInterface
+[32 / 44] TDJInterfaceTests-product
+[34 / 46] TDJInterfaceTests-product
+[39 / 51] TDJInterfaceTests-product
+[43 / 50] TDJInterfaceTests-product
+[45 / 50] TDJInterfaceTests-product
+[47 / 50] TDJInterfaceTests-product
+Build complete! (11.40 sec.)
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test savedNativeWaveformAppearsWhileItsAudioSourceIsStillHeld() started.
+􀢄  Test savedNativeWaveformAppearsWhileItsAudioSourceIsStillHeld() recorded an issue at FirstUseNativePlaybackTests.swift:211:5: Expectation failed: model.pendingNativeWaveforms[.b]?.analysis.waveform.isEmpty == false
+􀄵  model.pendingNativeWaveforms[.b]?.analysis.waveform.isEmpty == false → false
+􀄵    model.pendingNativeWaveforms[.b]?.analysis.waveform.isEmpty → nil
+􀄵      some → false
+􀢄  Test savedNativeWaveformAppearsWhileItsAudioSourceIsStillHeld() failed after 1.834 seconds with 1 issue.
+􀢄  Test run with 1 test in 0 suites failed after 1.834 seconds with 1 issue.
+Note: Some test targets reported failures:
+  - TDJInterfaceTests (Swift Testing)

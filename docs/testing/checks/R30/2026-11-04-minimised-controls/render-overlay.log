@@ -1,0 +1,44 @@
+Building for debugging...
+[Using on-disk description]
+[1 / 1]
+[7 / 27] TDJInterface
+[9 / 36]
+[16 / 36] TDJInterface
+[18 / 38] TDJInterface
+[26 / 46] TDJInterface
+[32 / 60] TDJInterface
+[34 / 60] TDJInterface
+[37 / 60] TDJInterface
+[39 / 60] TDJInterface
+[40 / 60] TDJInterface
+[44 / 60] TDJInterface
+[57 / 74] TDJInterface
+[58 / 74] TDJInterface
+[60 / 74] TDJInterface
+[63 / 73] TDJInterface-product
+[63 / 75] TDJInterfaceTests-product
+[66 / 78] TDJInterfaceTests-product
+[70 / 77] TDJInterfaceTests-product
+[72 / 77] TDJInterfaceTests-product
+[74 / 77] TDJInterfaceTests-product
+Build complete! (14.52 sec.)
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test deckControlsRenderInsideTheirAllocatedSpace(deck:) started.
+􀟈  Test case passing 1 argument deck → .a to deckControlsRenderInsideTheirAllocatedSpace(deck:) started.
+􀢄  Test deckControlsRenderInsideTheirAllocatedSpace(deck:) recorded an issue with 1 argument deck → .a at DeckSpaceRenderingTests.swift:65:9: Expectation failed: remaining != nil
+􀄵  remaining != nil → false
+􀄵    remaining → nil
+􀢄  Test deckControlsRenderInsideTheirAllocatedSpace(deck:) recorded an issue with 1 argument deck → .a at DeckSpaceRenderingTests.swift:73:9: Expectation failed: labels.contains { $0.contains("LOOP") }
+􀄵  labels.contains { $0.contains("LOOP") } → <not evaluated>
+􀟈  Test case passing 1 argument deck → .b to deckControlsRenderInsideTheirAllocatedSpace(deck:) started.
+􀢄  Test deckControlsRenderInsideTheirAllocatedSpace(deck:) recorded an issue with 1 argument deck → .b at DeckSpaceRenderingTests.swift:65:9: Expectation failed: remaining != nil
+􀄵  remaining != nil → false
+􀄵    remaining → nil
+􀢄  Test deckControlsRenderInsideTheirAllocatedSpace(deck:) recorded an issue with 1 argument deck → .b at DeckSpaceRenderingTests.swift:73:9: Expectation failed: labels.contains { $0.contains("LOOP") }
+􀄵  labels.contains { $0.contains("LOOP") } → <not evaluated>
+􀢄  Test deckControlsRenderInsideTheirAllocatedSpace(deck:) with 2 test cases failed after 6.338 seconds with 4 issues.
+􀢄  Test run with 1 test in 0 suites failed after 6.338 seconds with 4 issues.
+Note: Some test targets reported failures:
+  - TDJInterfaceTests (Swift Testing)

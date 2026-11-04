@@ -24,11 +24,11 @@ func deckControlsRenderInsideTheirAllocatedSpace(deck: DeckID) async throws {
     let panels = DeckPanelPresentation()
     panels.configure(width: 1004, portrait: false, handleExtent: 12)
     panels.setTrackAvailable(true)
-    #expect(panels.extraVisible)
+    #expect(!panels.extraVisible)
     let folder = URL(fileURLWithPath: ProcessInfo.processInfo.environment["DECK_RENDER_OUTPUT"]
         ?? root.appendingPathComponent("renders").path).appendingPathComponent(deck.rawValue)
     try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-    for height in [180.0, 344] {
+    for height in [224.0, 344] {
         let view = DeckView(model: model, deck: deck, panels: panels)
             .frame(width: 1004, height: height).environment(\.colorScheme, .dark)
         let host = NSHostingView(rootView: view)
@@ -70,10 +70,7 @@ func deckControlsRenderInsideTheirAllocatedSpace(deck: DeckID) async throws {
         #expect(labels.contains { $0.contains("FLUX") })
         #expect(labels.contains { $0.contains("FREEZE") })
         #expect(labels.contains { $0.contains("CUES") })
-        if height == 344 {
-            let bottom = try #require(hosted.colorAt(x: hosted.pixelsWide - 60, y: hosted.pixelsHigh - 100)?.usingColorSpace(.deviceRGB))
-            #expect(bottom.redComponent > 0.15)
-        }
+        #expect(labels.contains { $0.contains("LOOP") })
         window.contentView = nil
         panels.toggleControls()
         let renderer = ImageRenderer(content: view)
@@ -95,6 +92,11 @@ func deckControlsRenderInsideTheirAllocatedSpace(deck: DeckID) async throws {
         .frame(width: 1004, height: 344).environment(\.colorScheme, .dark))
     let bitmap = NSBitmapImageRep(cgImage: try #require(empty.cgImage))
     try bitmap.representation(using: .png, properties: [:])!.write(to: folder.appendingPathComponent("empty.png"))
+    let emptyText = VNRecognizeTextRequest()
+    emptyText.recognitionLevel = .accurate
+    try VNImageRequestHandler(cgImage: try #require(empty.cgImage), options: [:]).perform([emptyText])
+    let emptyLabels = emptyText.results?.compactMap { $0.topCandidates(1).first?.string.uppercased() } ?? []
+    #expect(!emptyLabels.contains { $0.contains("FLUX") || $0.contains("CUES") || $0.contains("ACTIONS") })
     let background = try #require(bitmap.colorAt(x: 100, y: 162)?.usingColorSpace(.deviceRGB))
     #expect(background.redComponent == 0 && background.greenComponent == 0 && background.blueComponent == 0)
     let geometry = PerformanceDockGeometry(width: 1112, height: 720)

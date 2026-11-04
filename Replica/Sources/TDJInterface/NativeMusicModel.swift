@@ -147,6 +147,16 @@ extension ReplicaModel {
         state.loadOwners[deck] = token
         preparingNativeMusic.insert(deck)
         pendingNativeSelection[deck] = selection
+        if let selection, let known = preparedTrack(for: selection) {
+            pendingNativeWaveforms[deck] = known
+            nativePreviewTasks[deck] = Task { [weak self] in
+                guard let self else { return }
+                defer { if state.loadOwners[deck] == token { nativePreviewTasks[deck] = nil } }
+                guard let hydrated = try? await store.hydrateAsync(known), !Task.isCancelled,
+                      state.loadOwners[deck] == token else { return }
+                pendingNativeWaveforms[deck] = hydrated
+            }
+        }
         browserVisible = false
         selectedTrackID = nil
         status = "Preparing track…"
@@ -157,6 +167,8 @@ extension ReplicaModel {
                 if state.loadOwners[deck] == token {
                     state.loadOwners[deck] = nil
                     pendingNativeSelection[deck] = nil
+                    pendingNativeWaveforms[deck] = nil
+                    nativePreviewTasks.removeValue(forKey: deck)?.cancel()
                     preparingNativeMusic.remove(deck)
                     if Task.isCancelled { cancelDeckLoadIntent(deck: deck) }
                     scheduleDeckAnalysis(deck: deck)
@@ -180,6 +192,13 @@ extension ReplicaModel {
                     })
                     try Task.checkCancellation()
                     guard state.loadOwners[deck] == token else { throw CancellationError() }
+                    if pendingNativeWaveforms[deck]?.analysis.waveform.isEmpty != false {
+                        var preview = try Track(title: item.title, artist: item.artist,
+                            mediaFilename: opening.analysis.contentSHA256 + ".native", analysis: opening.analysis)
+                        preview.nativeLibraryOnly = true
+                        preview.musicLibrarySources = [item.source]
+                        pendingNativeWaveforms[deck] = preview
+                    }
                     adoptLibrary(try await service.registerNativePlayback(analysis: opening.analysis, metadata: source.metadata))
                     try Task.checkCancellation()
                     guard state.loadOwners[deck] == token, let track = await preparedNativeTrack(item) else { throw CancellationError() }
@@ -240,6 +259,8 @@ extension ReplicaModel {
         guard let root else { throw TransportError.stale }
         nativeMusic.rootLoads[token] = root
         pendingNativeSelection[deck] = nil
+        pendingNativeWaveforms[deck] = nil
+        nativePreviewTasks.removeValue(forKey: deck)?.cancel()
         preparingNativeMusic.remove(deck)
         await root.value
         try Task.checkCancellation()
@@ -266,6 +287,8 @@ extension ReplicaModel {
     func cancelNativeMusicLoad(deck: DeckID) {
         guard let old = nativeMusic.loadOwners.removeValue(forKey: deck) else { return }
         pendingNativeSelection[deck] = nil
+        pendingNativeWaveforms[deck] = nil
+        nativePreviewTasks.removeValue(forKey: deck)?.cancel()
         preparingNativeMusic.remove(deck)
         nativeMusic.loads[old]?.cancel()
         nativeMusic.rootLoads[old]?.cancel()
@@ -276,6 +299,9 @@ extension ReplicaModel {
         for task in nativeMusic.rootLoads.values { task.cancel() }
         nativeMusic.loadOwners.removeAll()
         pendingNativeSelection.removeAll()
+        pendingNativeWaveforms.removeAll()
+        for task in nativePreviewTasks.values { task.cancel() }
+        nativePreviewTasks.removeAll()
         preparingNativeMusic.removeAll()
     }
 

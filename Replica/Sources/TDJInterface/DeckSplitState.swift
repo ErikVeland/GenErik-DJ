@@ -3,7 +3,7 @@ import CoreGraphics
 
 struct DeckSplitGeometry {
     static let handleHeight = 44.0
-    static let minimumDeckHeight = 52.0
+    static let minimumDeckHeight = AdaptivePerformanceLayout.minimumCompactDeckHeight
     let a: CGRect
     let handle: CGRect
     let b: CGRect
@@ -48,7 +48,7 @@ struct DeckSplitState {
         viewport = next
     }
     mutating func beginDrag(height: Double, handleExtent: Double = 44) {
-        guard dragOrigin == nil, height.isFinite, height > 104 + handleExtent else { return }
+        guard dragOrigin == nil, height.isFinite, height > 2 * DeckSplitGeometry.minimumDeckHeight + handleExtent else { return }
         dragOrigin = geometry(width: 0, height: height, handleExtent: handleExtent).a.height
         translation = 0
     }
@@ -58,7 +58,7 @@ struct DeckSplitState {
     }
     mutating func endDrag(height: Double, handleExtent: Double = 44) {
         guard isDragging else { return }
-        guard height.isFinite, height > 104 + handleExtent else { cancelDrag(); return }
+        guard height.isFinite, height > 2 * DeckSplitGeometry.minimumDeckHeight + handleExtent else { cancelDrag(); return }
         let layout = geometry(width: 0, height: height, handleExtent: handleExtent)
         share = layout.a.height / (layout.a.height + layout.b.height)
         cancelDrag()
@@ -68,7 +68,7 @@ struct DeckSplitState {
         let layout = geometry(width: 0, height: height, handleExtent: handleExtent)
         let current = upper ? layout.a.height : layout.b.height
         guard current < minimum else { return }
-        let desired = min(max(52, minimum), max(52, height - handleExtent - 52))
+        let desired = min(max(DeckSplitGeometry.minimumDeckHeight, minimum), max(DeckSplitGeometry.minimumDeckHeight, height - handleExtent - DeckSplitGeometry.minimumDeckHeight))
         adjust(by: (desired - current) * (upper ? 1 : -1), height: height, handleExtent: handleExtent)
     }
     mutating func cancelDrag() { dragOrigin = nil; translation = 0 }

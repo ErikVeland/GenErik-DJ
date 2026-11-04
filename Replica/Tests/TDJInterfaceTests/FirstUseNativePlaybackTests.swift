@@ -186,3 +186,33 @@ func nativeSelectionAppearsSynchronouslyBeforeAnySourceWork(deck: DeckID) async 
     await model.finishForShutdown()
     await control.finishForShutdown()
 }
+
+@Test @MainActor func savedNativeWaveformAppearsWhileItsAudioSourceIsStillHeld() async throws {
+    var base = URL(fileURLWithPath: #filePath)
+    for _ in 0..<4 { base.deleteLastPathComponent() }
+    let source = base.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures/clock-a-120.wav")
+    let provider = DirectNativeLibrary(url: source)
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let store = try WorkspaceStore(root: root)
+    let analysis = try await AnalysisWorker.shared.waveformOnly(url: source)
+    var track = try Track(title: "Saved waveform", artist: "Fixture", mediaFilename: "clock.native", analysis: analysis)
+    track.nativeLibraryOnly = true
+    track.musicLibrarySources = [provider.item.source]
+    var library = LibrarySnapshot()
+    library.tracks = [track]
+    try store.save(library)
+    let model = try ReplicaModel(root: root, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    let gate = AsyncStream<Void>.makeStream()
+    provider.openingGate = gate.stream
+    defer { gate.continuation.finish() }
+    model.loadNativeMusic(provider.item, deck: .b)
+    await model.flushNativeWaveformPreviews()
+    #expect(model.pendingNativeWaveforms[.b]?.analysis.waveform.isEmpty == false)
+    #expect(model.loaded[.b] == nil)
+    #expect(model.preparingTrack.contains(.b))
+    model.stopAudio()
+    #expect(model.pendingNativeWaveforms.isEmpty)
+    gate.continuation.finish()
+    await model.finishForShutdown()
+}

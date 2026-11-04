@@ -105,7 +105,7 @@ struct LibraryPanelState {
     var isDragging: Bool { panel.isDragging }
     var acceptsContentInput: Bool { extent > 0 && extent >= min(panel.minimumExtent, maximumExtent) }
     private var browseExtent: Double {
-        min(maximumExtent, max(panel.minimumExtent, (maximumExtent + 104 + handleExtent) / 2))
+        min(maximumExtent, max(panel.minimumExtent, (maximumExtent + 2 * AdaptivePerformanceLayout.minimumCompactDeckHeight + handleExtent) / 2))
     }
     var selectedShortcut: LibraryWorkspaceShortcut? {
         if extent == 0 { return .performance }
@@ -139,6 +139,11 @@ struct LibraryPanelState {
     mutating func present(fullyExpanded: Bool) {
         if fullyExpanded { panel.expand(maximumExtent: maximumExtent) }
         else { setPresented(true) }
+    }
+
+    mutating func makeRoom(by points: Double) {
+        guard points.isFinite, points > 0, extent > 0 else { return }
+        panel.expand(maximumExtent: max(min(132, maximumExtent), extent - points))
     }
 
     mutating func adjust(by delta: Double) {

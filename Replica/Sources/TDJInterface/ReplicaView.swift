@@ -82,10 +82,12 @@ public struct ReplicaView: View {
                                 snapshotEffects: snapshotEffectsDeck == .a,
                                 snapshotMixer: snapshotMixerDecks.contains(.a), snapshotFilter: snapshotFilterDecks.contains(.a),
                                 requestPerformanceSpace: { minimum in
-                                    libraryPanel.setPresented(false); model.browserVisible = false
-                                    let full = PerformanceWorkspaceGeometry(width: space.size.width, height: space.size.height,
-                                        libraryExtent: 0, handleExtent: workspaceHandle)
-                                    deckSplit.ensureHeight(upper: true, minimum: minimum, height: full.deckArea.height, handleExtent: handleExtent)
+                                    if model.browserVisible {
+                                        libraryPanel.makeRoom(by: max(0, minimum - split.a.height))
+                                    }
+                                    let available = PerformanceWorkspaceGeometry(width: space.size.width, height: space.size.height,
+                                        libraryExtent: libraryPanel.extent, handleExtent: workspaceHandle)
+                                    deckSplit.ensureHeight(upper: true, minimum: minimum, height: available.deckArea.height, handleExtent: handleExtent)
                                 })
                                 .frame(height: split.a.height).contentShape(Rectangle()).clipped()
                             DeckSplitHandle(interruption: touchInterruption,
@@ -100,10 +102,12 @@ public struct ReplicaView: View {
                                 snapshotEffects: snapshotEffectsDeck == .b,
                                 snapshotMixer: snapshotMixerDecks.contains(.b), snapshotFilter: snapshotFilterDecks.contains(.b),
                                 requestPerformanceSpace: { minimum in
-                                    libraryPanel.setPresented(false); model.browserVisible = false
-                                    let full = PerformanceWorkspaceGeometry(width: space.size.width, height: space.size.height,
-                                        libraryExtent: 0, handleExtent: workspaceHandle)
-                                    deckSplit.ensureHeight(upper: false, minimum: minimum, height: full.deckArea.height, handleExtent: handleExtent)
+                                    if model.browserVisible {
+                                        libraryPanel.makeRoom(by: max(0, minimum - split.b.height))
+                                    }
+                                    let available = PerformanceWorkspaceGeometry(width: space.size.width, height: space.size.height,
+                                        libraryExtent: libraryPanel.extent, handleExtent: workspaceHandle)
+                                    deckSplit.ensureHeight(upper: false, minimum: minimum, height: available.deckArea.height, handleExtent: handleExtent)
                                 })
                                 .frame(height: split.b.height).contentShape(Rectangle()).clipped()
                         }.padding(.horizontal, 6).frame(height: workspace.deckArea.height)
@@ -298,7 +302,7 @@ struct DeckView: View {
         let layout = AdaptiveDeckGeometry(height: max(0, deckSpace.size.height - 8),
             hotcues: (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil, compactControls: track != nil || selection != nil, editing: editing)
         let availableWidth = max(0, deckSpace.size.width - (tempoFader && track != nil ? 68:0))
-        let sizes = panels.geometry(width: availableWidth, height: layout.waveformHeight)
+        let sizes = panels.geometry(width: availableWidth, height: layout.waveformHeight, inlineControls: true)
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 Button { model.showSuggestions(destination: deck) } label: {
@@ -321,6 +325,7 @@ struct DeckView: View {
                     })
                     .buttonStyle(.plain)
             }
+            .background(DeckSectionHeader(model: model, deck: deck))
             .frame(height: layout.headerHeight, alignment: .top).clipped()
             HStack(spacing: 4) {
                 VStack(spacing: 0) {
@@ -347,41 +352,18 @@ struct DeckView: View {
                     .frame(width:sizes.waveformWidth,height:layout.waveformHeight)
                     .clipShape(DeckPanelHorizontalBounds())
                     .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
+                    .overlay(alignment: .bottomLeading) {
+                        if track != nil {
+                            DeckActionPane(model: model, deck: deck, panels: panels)
+                                .padding(4)
+                        }
+                    }
                     if (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil {
                         HotcuePadRow(model: model, deck: deck).frame(height: layout.hotcueHeight).clipped()
                             .allowsHitTesting(layout.hotcueHeight >= 44).protectsFrontDeckSwipe()
                     }
                 }.frame(width: sizes.mainWidth)
                 if tempoFader && track != nil { DeckTempoFader(model:model,deck:deck) }
-                panelHandle(.extra, edge:.trailing, title:"MORE")
-                GeometryReader { controlSpace in
-                    let returnControl = model.previewing.contains(deck) && !model.frozen.contains(deck) && !editing
-                    ScrollView(.vertical) {
-                        VStack(spacing: 8) {
-                            if track != nil {
-                                PerformanceControls(model: model, deck: deck)
-                            } else if selection != nil {
-                                Text("Preparing audio…").font(.caption).foregroundStyle(.secondary)
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            }
-                            OptionalHeadphoneButton(model: model, deck: deck)
-                            if cueButton {
-                                Button("CUE") { model.pressCue(deck: deck) }.disabled(track == nil)
-                                    .accessibilityLabel("Cue on deck \(deck.rawValue.uppercased())")
-                            }
-                        }
-                        .padding(8)
-                        .frame(height: max(176 + (cueButton ? 56 : 0) + (headphoneButton ? 56 : 0) + (returnControl ? 56 : 0), controlSpace.size.height))
-                    }
-                }
-                .font(.system(size: 17, weight: .semibold))
-                .buttonStyle(PerformanceToolButtonStyle())
-                .frame(width:max(144,sizes.extraWidth))
-                .frame(width:sizes.extraWidth,alignment:.trailing)
-                .background(PerformancePalette.sunken).clipped()
-                .protectsFrontDeckSwipe()
-                .environment(\.deckPanelPresented,panels.extraVisible)
-                .disabled(sizes.extraWidth < 144).accessibilityHidden(sizes.extraWidth < 144)
             }.frame(height: layout.waveformHeight + layout.hotcueHeight)
             HStack(alignment: .bottom, spacing: 6) {
                 Text(elapsedTime).frame(width: 56, height: layout.footerHeight, alignment: .bottomLeading)
@@ -453,9 +435,7 @@ struct DeckView: View {
             if sectionPanel.isPresented { sectionPanel.setPresented(false) }
         }
         .onChange(of:panels.spaceRequestID) { _,_ in
-            if panels.spaceRequestKind == .extra {
-                if deckSpace.size.height < 168 { requestPerformanceSpace(168) }
-            } else if layout.waveformHeight < 184 {
+            if panels.spaceRequestKind != .extra && layout.waveformHeight < 184 {
                 requestPerformanceSpace(260 + (((hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil) ? 56 : 0))
             }
         }
@@ -497,6 +477,56 @@ struct DeckView: View {
     }
 
 
+}
+
+@MainActor
+private struct DeckActionPane: View {
+    @Bindable var model: ReplicaModel
+    let deck: DeckID
+    @Bindable var panels: DeckPanelPresentation
+    @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    var body: some View {
+        HStack(spacing: 6) {
+            Button { panels.toggleControls() } label: {
+                VStack(spacing: 2) {
+                    Image(systemName: "slider.horizontal.3")
+                    Text("Actions").font(.system(size: 8, weight: .semibold))
+                }.frame(width: 44, height: 44)
+                    .foregroundStyle(panels.extraVisible ? PerformancePalette.cyan : PerformancePalette.text)
+                    .bevelPanel(cornerRadius: 5, sunken: panels.extraVisible)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("\(panels.extraVisible ? "Hide" : "Show") actions for deck \(deck.rawValue.uppercased())")
+            .simultaneousGesture(DragGesture(minimumDistance: 12).onEnded { value in
+                let open = value.translation.height < -16 || value.translation.width > 24
+                let close = value.translation.height > 16 || value.translation.width < -24
+                if (open && !panels.extraVisible) || (close && panels.extraVisible) { panels.toggleControls() }
+            })
+            if panels.extraVisible {
+                HStack(spacing: 6) {
+                    PerformanceControls(model: model, deck: deck, compact: true)
+                    OptionalHeadphoneButton(model: model, deck: deck).frame(maxWidth: 48)
+                    if cueButton {
+                        Button("CUE") { model.pressCue(deck: deck) }.frame(width: 48)
+                    }
+                }
+                .buttonStyle(PerformanceToolButtonStyle())
+                .padding(4)
+                .background {
+                    RoundedRectangle(cornerRadius: 6).fill(PerformancePalette.sunken.opacity(0.97))
+                        .onTapGesture {}
+                }
+                .overlay { RoundedRectangle(cornerRadius: 6).strokeBorder(PerformancePalette.secondaryText.opacity(0.3)).allowsHitTesting(false) }
+                .transition(.offset(x: -16, y: 40).combined(with: .opacity))
+            }
+        }
+        .frame(height: 56)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .environment(\.deckPanelPresented, panels.extraVisible)
+        .protectsFrontDeckSwipe()
+        .animation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.9), value: panels.extraVisible)
+    }
 }
 
 struct DeckRailButtonStyle: ButtonStyle {
@@ -576,7 +606,7 @@ private struct WaveformView: View, Equatable {
             && lhs.track.analysis.waveformDecodedFrames == rhs.track.analysis.waveformDecodedFrames
             && lhs.grid == rhs.grid && lhs.adaptiveMap == rhs.adaptiveMap && lhs.centerFrame == rhs.centerFrame
             && lhs.visibleSeconds == rhs.visibleSeconds && lhs.playheadFrame == rhs.playheadFrame
-            && lhs.leadInFrame == rhs.leadInFrame && (lhs.band == nil) == (rhs.band == nil)
+            && lhs.leadInFrame == rhs.leadInFrame && (lhs.band == nil) == (rhs.band == nil) && lhs.sections == rhs.sections
     }
     /// A filled shape mirrored about the centre line, one vertex per device pixel, anti-aliased.
     static func mirrored(_ heights: [Double], scale: Double, middle: Double) -> Path {
@@ -589,20 +619,24 @@ private struct WaveformView: View, Equatable {
         return path
     }
     /// Low body (translucent dark blue), mids (cyan), then transients (near white) on top.
-    static func draw(_ bands: BandWaveformColumns, in context: inout GraphicsContext, size: CGSize, scale: Double) {
+    static func draw(_ bands: BandWaveformColumns, in context: inout GraphicsContext, size: CGSize, scale: Double, sectionShading: GraphicsContext.Shading? = nil) {
         let middle=size.height/2
-        context.fill(mirrored(bands.low,scale:scale,middle:middle),with:.color(PerformancePalette.waveLow.opacity(0.92)))
-        context.fill(mirrored(bands.mid,scale:scale,middle:middle),with:.color(PerformancePalette.waveMid.opacity(0.95)))
-        context.fill(mirrored(bands.high,scale:scale,middle:middle),with:.color(PerformancePalette.waveHigh.opacity(0.9)))
+        var low = context, mid = context, high = context
+        if sectionShading != nil { low.opacity = 0.55; mid.opacity = 0.8 }
+        low.fill(mirrored(bands.low,scale:scale,middle:middle),with:sectionShading ?? .color(PerformancePalette.waveLow.opacity(0.92)))
+        mid.fill(mirrored(bands.mid,scale:scale,middle:middle),with:sectionShading ?? .color(PerformancePalette.waveMid.opacity(0.95)))
+        high.fill(mirrored(bands.high,scale:scale,middle:middle),with:sectionShading ?? .color(PerformancePalette.waveHigh.opacity(0.9)))
     }
     /// Stored-bin fallback while the band waveform is prepared: peak, RMS and core as smooth shapes.
-    static func draw(_ layers: WaveformLayers, in context: inout GraphicsContext, size: CGSize, scale: Double) {
+    static func draw(_ layers: WaveformLayers, in context: inout GraphicsContext, size: CGSize, scale: Double, sectionShading: GraphicsContext.Shading? = nil) {
         let middle=size.height/2,count=Int(size.width*scale)
         for keyPath in [\WaveformLayers.Column.peak,\WaveformLayers.Column.body,\WaveformLayers.Column.core] {
             var heights=[Double](repeating:0,count:max(0,count))
             for column in layers.columns where column.x<count { heights[column.x]=column[keyPath:keyPath] }
             let colour=keyPath == \WaveformLayers.Column.peak ? PerformancePalette.waveLow : keyPath == \WaveformLayers.Column.body ? PerformancePalette.waveMid : PerformancePalette.waveHigh
-            context.fill(mirrored(heights,scale:scale,middle:middle),with:.color(colour))
+            var layer = context
+            if sectionShading != nil { layer.opacity = keyPath == \WaveformLayers.Column.peak ? 0.55 : keyPath == \WaveformLayers.Column.body ? 0.8 : 1 }
+            layer.fill(mirrored(heights,scale:scale,middle:middle),with:sectionShading ?? .color(colour))
         }
     }
     /// Bar lines brighter than beat lines. Positions are in device pixels.
@@ -621,6 +655,7 @@ private struct WaveformView: View, Equatable {
     var playheadFrame: Double? = nil
     var leadInFrame: Double? = nil
     var band: BandWaveform? = nil
+    var sections: [ArrangementSection] = []
     @Environment(\.displayScale) private var displayScale
     @State private var prepared: (WaveformIndexKey,WaveformRangeIndex)?
     @Environment(\.snapshotWaveformIndexes) private var snapshotIndexes
@@ -638,12 +673,20 @@ private struct WaveformView: View, Equatable {
                 context.fill(Path(CGRect(x: x, y: 0, width: size.width-x, height: size.height)),
                     with: .color(Color.gray.opacity(0.10)))
             }
+            let stops = sections.flatMap { section -> [Gradient.Stop] in
+                let start = max(0, min(1, (section.start - left) / span))
+                let end = max(0, min(1, (section.end - left) / span))
+                let colour = Color(arrangementHex: section.colourHex)
+                return [.init(color: colour, location: start), .init(color: colour, location: end)]
+            }.sorted { $0.location < $1.location }
+            let shading: GraphicsContext.Shading? = stops.isEmpty ? nil : .linearGradient(
+                Gradient(stops: stops), startPoint: .zero, endPoint: CGPoint(x: size.width, y: 0))
             if let band, band.frameCount == a.frameCount {
                 WaveformView.draw(BandWaveformColumns(band,left:left,span:span,pixelWidth:pixels,height:size.height),
-                                  in:&context,size:size,scale:scale)
+                                  in:&context,size:size,scale:scale,sectionShading:shading)
             } else if let index {
                 WaveformView.draw(WaveformLayers(index:index,framesPerBin:a.waveformFramesPerBin,left:left,span:span,
-                                                 width:pixels,height:size.height),in:&context,size:size,scale:scale)
+                                                 width:pixels,height:size.height),in:&context,size:size,scale:scale,sectionShading:shading)
             }
             if let grid,let index=(prepared?.0 == key ? prepared?.1 : nil) ?? snapshotIndexes[key] {
                 WaveformView.drawBeats(WaveformLayers(index:index,framesPerBin:a.waveformFramesPerBin,left:left,span:span,
@@ -1028,14 +1071,6 @@ private struct DeckHeader: View {
                     .disabled(track == nil || preparing || playback?.phase == .queued).protectsFrontDeckSwipe().accessibilityLabel("Edit grid on deck \(deck.rawValue.uppercased())")
                 }
                 }.frame(minWidth: 0, maxWidth: .infinity).clipped().contentShape(Rectangle())
-                Button(action: toggleControls) {
-                    Label("Flux / Cues", systemImage: "slider.horizontal.3")
-                        .font(.system(size: 12, weight: .semibold)).frame(width: 96, height: 44)
-                        .foregroundStyle(controlsVisible ? PerformancePalette.cyan : PerformancePalette.text)
-                        .bevelPanel(cornerRadius: 3, sunken: !controlsVisible)
-                }.disabled(!controlsEnabled)
-                    .accessibilityLabel("\(controlsVisible ? "Hide" : "Show") controls for deck \(deck.rawValue.uppercased())")
-                    .accessibilityIdentifier("deck-\(deck.rawValue)-controls")
             }.padding(.horizontal, 8).padding(.vertical, dense ? 0 : 8)
 
     }
@@ -1062,9 +1097,12 @@ private struct DeckWaveform: View {
     var body: some View {
                 Group {
                 if model.pendingNativeSelection[deck] != nil {
-                    ZStack {
-                        Color.black.opacity(0.4)
-                        Text("Preparing audio…").font(.caption).foregroundStyle(.secondary)
+                    if let preview = model.pendingNativeWaveforms[deck], !preview.analysis.waveform.isEmpty {
+                        WaveformView(track: preview, grid: preview.grid,
+                            centerFrame: preview.grid?.anchorFrame ?? 0, visibleSeconds: visibleSeconds,
+                            playheadFrame: preview.grid?.anchorFrame ?? 0)
+                    } else {
+                        Color.black
                     }
                 } else if let track {
                     HStack(spacing:0) {
@@ -1117,13 +1155,15 @@ private struct DeckWaveformDrawing: View {
     let deck: DeckID
     let track: Track
     let visibleSeconds: Double
+    @AppStorage(DeckToolSettings.sectionWaveformColours) private var sectionColours = false
     @State private var band: (String, BandWaveform)?
     @Environment(\.snapshotBandWaveforms) private var snapshotBands
     var body: some View {
         WaveformView(track:track,grid:model.grid(deck),centerFrame:model.viewport[deck] ?? 0,
                      visibleSeconds:visibleSeconds,adaptiveMap:model.playbackSnapshot?[deck].adaptiveMap,playheadFrame:model.playbackSnapshot?[deck].sourceFrame,
                      leadInFrame:model.playbackSnapshot?[deck].leadInSourceFrame,
-                     band:band?.0 == track.id ? band?.1 : snapshotBands[track.id])
+                     band:band?.0 == track.id ? band?.1 : snapshotBands[track.id],
+                     sections: sectionColours ? model.arrangements[track.id]?.sections ?? [] : [])
         .overlay { ArrangementWaveformOverlay(model:model,deck:deck,track:track,center:model.viewport[deck] ?? 0,span:visibleSeconds*track.analysis.sampleRate) }
         .task(id:track.id) {
             let id=track.id
@@ -1140,7 +1180,10 @@ private struct DeckOverview: View {
     @Binding var visibleSeconds: Double
 
     var body: some View {
-            if model.pendingNativeSelection[deck] == nil, let track {
+            if model.pendingNativeSelection[deck] != nil, let preview = model.pendingNativeWaveforms[deck] {
+                WaveformView(track: preview, grid: nil, centerFrame: Double(preview.analysis.frameCount) / 2,
+                    visibleSeconds: preview.analysis.duration)
+            } else if let track {
                 StripeView(model:model,deck:deck,track:track,visibleSeconds:$visibleSeconds) {
                     model.previewing.insert(deck); model.viewport[deck] = $0
                 }

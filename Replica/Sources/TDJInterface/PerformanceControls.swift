@@ -6,12 +6,41 @@ struct PerformanceControls: View {
     let deck: DeckID
     @State private var settings=false
     @Environment(\.deckPanelPresented) private var presented
+    var compact = false
     var body: some View {
-        VStack(spacing: 8) {
-        HStack(spacing: 8) {
+        Group {
+            if compact {
+                HStack(spacing: 6) {
+                    fluxButton.frame(minWidth: 50)
+                    freezeButton.frame(minWidth: 54)
+                    cuesButton.frame(minWidth: 44)
+                    loopControls.frame(width: 144)
+                    settingsButton.frame(minWidth: 44)
+                    if canReturn { returnButton.frame(minWidth: 44) }
+                }
+            } else {
+                VStack(spacing: 8) {
+                    HStack(spacing: 8) { fluxButton; settingsButton }
+                    HStack(spacing: 8) { freezeButton; cuesButton }
+                    loopControls
+                    if canReturn { returnButton }
+                }
+            }
+        }
+        .font(.system(size: 16, weight: .semibold))
+        .buttonStyle(PerformanceToolButtonStyle(fillsHeight: !compact))
+        .disabled(model.preparingTrack.contains(deck) || model.controlDisplay[deck].phase == .queued)
+        .onChange(of:presented) { _, visible in if !visible { settings=false } }
+    }
+    private var canReturn: Bool {
+        model.previewing.contains(deck) && !model.frozen.contains(deck) && !model.editing.contains(deck)
+    }
+    private var fluxButton: some View {
             Button("FLUX") { model.perform(.flux,deck:deck,enabled:model.controlDisplay[deck].fluxEnabled != true) }
                 .foregroundStyle(model.controlDisplay[deck].fluxEnabled == true ? Color.orange : Color.gray)
                 .accessibilityLabel("Flux on deck \(deck.rawValue.uppercased())")
+    }
+    private var settingsButton: some View {
             Button { settings.toggle() } label: { Image(systemName:"gearshape") }
                 .popover(isPresented:$settings) {
                     VStack(alignment:.leading) {
@@ -19,8 +48,8 @@ struct PerformanceControls: View {
                         Button("Gesture guide") { settings=false; model.helpVisible=true }
                     }.padding().frame(width:300).onDisappear { model.savePerformance() }
                 }
-        }
-        HStack(spacing: 8) {
+    }
+    private var freezeButton: some View {
             Button { model.toggleFreeze(deck:deck) } label: {
                 VStack(spacing: 3) {
                     Image(systemName: "snowflake")
@@ -28,6 +57,8 @@ struct PerformanceControls: View {
                 }
             }
                 .foregroundStyle(model.frozen.contains(deck) ? Color.cyan : Color.gray)
+    }
+    private var cuesButton: some View {
             Button { model.toggleHotcuePads(deck:deck) } label: {
                 VStack(spacing: 3) {
                     Image(systemName: "flag.fill")
@@ -36,7 +67,8 @@ struct PerformanceControls: View {
             }
                 .foregroundStyle(model.hotcuePadsVisible.contains(deck) ? Color.cyan : Color.gray)
                 .accessibilityLabel("Hotcues for deck \(deck.rawValue.uppercased())")
-        }
+    }
+    private var loopControls: some View {
         HStack(spacing: 6) {
             Button { setLoopSize(direction:-1) } label: { Image(systemName:"minus") }
                 .frame(width: 44)
@@ -57,14 +89,10 @@ struct PerformanceControls: View {
                 .frame(width: 44)
                 .accessibilityLabel("Double loop length on deck \(deck.rawValue.uppercased())")
         }
-        if model.previewing.contains(deck), !model.frozen.contains(deck), !model.editing.contains(deck) {
+    }
+    private var returnButton: some View {
             Button { model.returnToPlayhead(deck:deck) } label: { Image(systemName:"arrow.uturn.backward") }
                 .accessibilityLabel("Return to playhead on deck \(deck.rawValue.uppercased())")
-        }
-        }.font(.system(size: 16, weight: .semibold))
-            .buttonStyle(PerformanceToolButtonStyle(fillsHeight: true))
-            .disabled(model.preparingTrack.contains(deck) || model.controlDisplay[deck].phase == .queued)
-            .onChange(of:presented) { _, visible in if !visible { settings=false } }
     }
     private func setLoopSize(direction: Int) { model.stepLoopSize(direction:direction,deck:deck) }
     private func setLoopSize(_ beats: Double) { model.setLoopSize(beats,deck:deck) }

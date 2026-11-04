@@ -1,0 +1,22 @@
+Building for debugging...
+[3 / 14] TDJInterface
+[5 / 24]
+[13 / 24] TDJInterface
+[15 / 26] TDJInterface
+[17 / 28] TDJInterface
+[21 / 32] TDJInterface
+[23 / 32] TDJInterfaceTests-product
+[25 / 31] TDJInterfaceTests-product
+[27 / 33] TDJInterfaceTests-product
+[29 / 33] TDJInterfaceTests-product
+[31 / 36] TDJInterfaceTests-product
+[33 / 36] TDJInterfaceTests-product
+Build complete! (7.70 sec.)
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test deckControlsRenderInsideTheirAllocatedSpace(deck:) started.
+􀟈  Test case passing 1 argument deck → .a to deckControlsRenderInsideTheirAllocatedSpace(deck:) started.
+􀟈  Test case passing 1 argument deck → .b to deckControlsRenderInsideTheirAllocatedSpace(deck:) started.
+􁁛  Test deckControlsRenderInsideTheirAllocatedSpace(deck:) with 2 test cases passed after 7.604 seconds.
+􁁛  Test run with 1 test in 0 suites passed after 7.604 seconds.

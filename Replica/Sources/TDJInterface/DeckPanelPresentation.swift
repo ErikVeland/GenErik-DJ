@@ -5,7 +5,7 @@ import Observation
 @MainActor
 @Observable
 final class DeckPanelPresentation {
-    private var sizing = DeckPanelsState(extraVisible: false, adaptiveDefaults: true)
+    private var sizing = DeckPanelsState(extraVisible: false, adaptiveDefaults: true, overlayControls: true)
     private var hasTrack = false
     private var handleExtent = 44.0
     private var configuredWidth: Double?
@@ -24,17 +24,15 @@ final class DeckPanelPresentation {
 
     func configure(width: Double, portrait: Bool, handleExtent: Double = 44) {
         guard width != configuredWidth || portrait != configuredPortrait || self.handleExtent != handleExtent else { return }
-        let firstConfiguration = configuredWidth == nil
         sizing.configure(width: width, portrait: portrait, handleExtent: handleExtent)
-        if firstConfiguration && hasTrack { sizing.setPresented(.extra, true) }
         self.handleExtent = handleExtent
         dragWasPresented.removeAll()
         configuredWidth = width; configuredPortrait = portrait
         for kind in PerformancePanel.allCases { commands[kind] = UUID() }
         updateGates()
     }
-    func geometry(width: Double, height: Double) -> DeckPanelsGeometry {
-        .init(width: width, height: height, effects: sizing.extent(.effects), mixer: sizing.extent(.mixer), extra: sizing.extent(.extra), handleExtent: handleExtent)
+    func geometry(width: Double, height: Double, inlineControls: Bool = true) -> DeckPanelsGeometry {
+        .init(width: width, height: height, effects: sizing.extent(.effects), mixer: sizing.extent(.mixer), extra: sizing.extent(.extra), handleExtent: handleExtent, inlineControls: inlineControls)
     }
     func maximum(_ kind: PerformancePanel) -> Double { sizing.maximum(kind) }
     func presentationID(for kind: PerformancePanel) -> UUID { commands[kind]! }
@@ -42,9 +40,7 @@ final class DeckPanelPresentation {
     func setTrackAvailable(_ available: Bool) {
         guard available != hasTrack else { return }
         hasTrack = available
-        if available {
-            sizing.setPresented(.extra, true)
-        } else {
+        if !available {
             for kind in PerformancePanel.allCases {
                 sizing.cancel(kind); sizing.setPresented(kind, false); commands[kind] = UUID()
             }

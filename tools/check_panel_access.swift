@@ -18,12 +18,19 @@ enum PanelAccessChecks {
             expect(layout.headerHeight > 0 && layout.footerHeight > 0, "both corner bands remain present while resizing")
             expect(abs(layout.headerHeight + layout.footerHeight + layout.waveformHeight - height) < 0.001, "corner bands leave every remaining point to the waveform")
         }
+        for height in [720.0, 964] {
+            let library = AdaptivePerformanceLayout.maximumLibraryExtent(available: height, handleExtent: 12)
+            let workspace = PerformanceWorkspaceGeometry(width: 1112, height: height, libraryExtent: library, handleExtent: 12)
+            let split = DeckSplitGeometry(width: workspace.deckArea.width, height: workspace.deckArea.height, share: 0.5, handleExtent: 12)
+            expect(split.a.height >= 164 && split.b.height >= 164, "maximised browser preserves all compact deck controls")
+            expect(library >= 132, "browser remains usable beside the compact decks")
+        }
         let deck = DeckPanelPresentation()
         deck.configure(width: 1004, portrait: false, handleExtent: 12)
         expect(!deck.controlsEnabled, "empty deck disables the Controls entry")
         deck.setTrackAvailable(true)
         expect(deck.controlsEnabled, "loaded deck enables the Controls entry")
-        expect(deck.extraVisible, "loading a deck immediately shows Flux and the other controls")
+        expect(!deck.extraVisible, "loaded deck actions start collapsed above the preview strip")
         if deck.extraVisible { deck.toggleControls() }
         let full = deck.geometry(width: 1004, height: 240)
         expect(full.waveformWidth == full.mainWidth, "expanded waveforms use the space below the cover")
@@ -36,12 +43,12 @@ enum PanelAccessChecks {
         let eq = deck.mixerInput.register { cancellations += 1 }
         deck.toggleControls()
         let withControls = deck.geometry(width: 1004, height: 240)
-        expect(deck.extraVisible && withControls.extraWidth >= 144, "Controls opens even when FX and EQ have filled the panel budget")
+        expect(deck.extraVisible && withControls.extraWidth == 0, "Controls opens even when FX and EQ have filled the panel budget")
         expect(withControls.effectsContent.width >= 200 && withControls.mixerContent.width >= 200, "opening Controls retains usable FX and EQ")
         expect(cancellations == 0 && deck.effectsInput.isEnabled && deck.mixerInput.isEnabled, "making room for Controls retains held FX and EQ")
         let before = withControls.mixerHandle.minX
-        deck.begin(.mixer); deck.update(.mixer, translation: -24)
-        expect(deck.geometry(width: 1004, height: 240).mixerHandle.minX == before + 24, "constrained EQ grab follows the finger without a dead zone")
+        deck.begin(.mixer); deck.update(.mixer, translation: -16)
+        expect(deck.geometry(width: 1004, height: 240).mixerHandle.minX == before + 16, "constrained EQ grab follows the finger without a dead zone")
         deck.cancel(.mixer)
         expect(deck.geometry(width: 1004, height: 240).mixerHandle.minX == before, "cancel restores the constrained EQ boundary")
         deck.toggleControls()
@@ -69,7 +76,7 @@ enum PanelAccessChecks {
             if panels.extraVisible { panels.toggleControls() }
             panels.toggleEffects(); panels.toggleMixer(); panels.toggleControls()
             let g = panels.geometry(width: width, height: 240)
-            expect(panels.extraVisible && g.extraWidth >= 144, "Controls remains reachable in both iPad orientations")
+            expect(panels.extraVisible && g.extraWidth == 0, "Controls remains reachable in both iPad orientations")
             expect(g.effectsContent.width >= 200 && g.mixerContent.width >= 200, "paired panes retain usable minimums with Controls")
         }
         print("\(checks) performance access checks; \(failures) failures")

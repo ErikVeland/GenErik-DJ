@@ -8,6 +8,28 @@ extension Color {
 }
 
 @MainActor
+struct DeckSectionHeader: View {
+    @Bindable var model: ReplicaModel
+    let deck: DeckID
+    var body: some View {
+        Canvas { context, size in
+            guard let track = model.track(deck), let arrangement = model.arrangements[track.id] else { return }
+            let frames = max(1, Double(track.analysis.frameCount))
+            for section in arrangement.sections {
+                let x = max(0, section.start / frames * size.width)
+                let end = min(size.width, section.end / frames * size.width)
+                let colour = Color(arrangementHex: section.colourHex)
+                context.fill(Path(CGRect(x: x, y: 0, width: max(0, end - x), height: size.height)), with: .color(colour.opacity(0.2)))
+                context.fill(Path(CGRect(x: x, y: 0, width: max(0, end - x), height: 3)), with: .color(colour))
+            }
+            let frame = model.playbackSnapshot?[deck].sourceFrame ?? 0
+            let x = frame / frames * size.width
+            context.fill(Path(CGRect(x: x, y: 0, width: 2, height: size.height)), with: .color(PerformancePalette.red))
+        }.allowsHitTesting(false).accessibilityHidden(true)
+    }
+}
+
+@MainActor
 struct ArrangementDeckStrip: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID

@@ -16,13 +16,13 @@ struct DeckPanelsGeometry {
     let mixerHandle: CGRect
     let mixerContent: CGRect
 
-    init(width: Double, height: Double, effects: Double, mixer: Double, extra: Double, handleExtent: Double = 44) {
+    init(width: Double, height: Double, effects: Double, mixer: Double, extra: Double, handleExtent: Double = 44, inlineControls: Bool = false) {
         func finite(_ value: Double) -> Double { value.isFinite ? max(0, value) : 0 }
         let inner = max(0, finite(width) - 8)
         extraBudget = max(0, inner - handleExtent - 8 - 2 * handleExtent - 44)
         maximumExtraWidth = min(320, extraBudget)
-        extraWidth = min(maximumExtraWidth, finite(extra))
-        mainWidth = max(0, inner - extraWidth - handleExtent - 8)
+        extraWidth = inlineControls ? 0 : min(maximumExtraWidth, finite(extra))
+        mainWidth = inlineControls ? inner : max(0, inner - extraWidth - handleExtent - 8)
         waveformWidth = mainWidth
         sideBudget = max(0, waveformWidth - 2 * handleExtent - 44)
         let fx = min(max(0, sideBudget - min(200, finite(mixer))), finite(effects))
@@ -50,8 +50,9 @@ struct DeckPanelsState {
             }
         }
     }
-    init(extraVisible: Bool = true, adaptiveDefaults: Bool = false) {
+    init(extraVisible: Bool = true, adaptiveDefaults: Bool = false, overlayControls: Bool = false) {
         self.adaptiveDefaults = adaptiveDefaults
+        self.overlayControls = overlayControls
         if !extraVisible {
             presented.remove(.extra)
             portrait.panels[.extra]!.setPresented(false, maximumExtent: 10000)
@@ -59,6 +60,7 @@ struct DeckPanelsState {
         }
     }
     private var adaptiveDefaults = false
+    private var overlayControls = false
     private var handleExtent = 44.0
     private var portrait = Bank()
     private var landscape = Bank()
@@ -77,7 +79,7 @@ struct DeckPanelsState {
     func isDragging(_ kind: PerformancePanel) -> Bool { bank.panels[kind]!.isDragging }
     var isDragging: Bool { PerformancePanel.allCases.contains { isDragging($0) } }
     func geometry(height: Double) -> DeckPanelsGeometry {
-        .init(width: width, height: height, effects: extent(.effects), mixer: extent(.mixer), extra: extent(.extra), handleExtent: handleExtent)
+        .init(width: width, height: height, effects: extent(.effects), mixer: extent(.mixer), extra: extent(.extra), handleExtent: handleExtent, inlineControls: overlayControls)
     }
     func maximum(_ kind: PerformancePanel) -> Double {
         let layout = geometry(height: 1)

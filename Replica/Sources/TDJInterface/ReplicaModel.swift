@@ -232,6 +232,8 @@ public final class ReplicaModel {
     private let musicImportFileWork=BackgroundFileWork(label:"org.generikdj.music-import-cleanup")
     @ObservationIgnored private let keyImportFileWork=BackgroundFileWork(label:"org.generikdj.key-import")
     public var preparingPlayback: Set<DeckID> = []
+    public internal(set) var pendingNativeWaveforms: [DeckID: Track] = [:]
+    @ObservationIgnored var nativePreviewTasks: [DeckID: Task<Void, Never>] = [:]
     public internal(set) var pendingNativeSelection: [DeckID: MusicLibraryItem] = [:]
     var preparingNativeMusic: Set<DeckID> = []
     public var preparingTrack: Set<DeckID> { preparingPlayback.union(preparingNativeMusic) }
@@ -1034,6 +1036,9 @@ public final class ReplicaModel {
         await playbackLoads?.value
         await preparationWrites?.value
         await flushHistoryWrites()
+    }
+    func flushNativeWaveformPreviews() async {
+        for task in Array(nativePreviewTasks.values) { await task.value }
     }
     public func flushWaveforms() async { for work in Array(waveformWork.values) { await work.value } }
     private func prepareWaveform(_ track: Track) {

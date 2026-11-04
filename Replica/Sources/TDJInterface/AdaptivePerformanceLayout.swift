@@ -64,12 +64,13 @@ struct AdaptivePerformanceLayout {
     static let libraryHandleHeight = 44.0
     // Two padded 44-point targets and the separate 44-point deck divider.
     static let minimumDeckHeight = 148.0
+    static let minimumCompactDeckHeight = 224.0
     static let librarySnapDistance = 80.0
 
     static func maximumLibraryExtent(available: Double, handleExtent: Double = 44) -> Double {
         guard available.isFinite else { return 0 }
         let handle = handleExtent.isFinite ? max(0, handleExtent) : 44
-        return max(0, available - handle - (104 + handle))
+        return max(0, available - handle - (2 * minimumCompactDeckHeight + handle))
     }
 
     static func deckHeight(available: Double, browserVisible: Bool, share: Double) -> Double {
@@ -95,10 +96,11 @@ struct AdaptiveDeckGeometry {
     let footerHeight: Double
     let overviewHeight: Double
     let hotcueHeight: Double
+    let controlsHeight: Double
     let waveformHeight: Double
     let transportWidth: Double
 
-    init(height: Double, hotcues: Bool = false, compactControls: Bool = false, editing: Bool = false) {
+    init(height: Double, hotcues: Bool = false, compactControls: Bool = false, editing: Bool = false, inlineControls: Bool = false) {
         let height = max(0, height)
         expansion = min(1, max(0, (height - 56) / 144))
         footerHeight = min(editing ? 44 : 24, height * 0.35)
@@ -106,8 +108,9 @@ struct AdaptiveDeckGeometry {
         sectionHeight = 0
         overviewHeight = 0
         let available = max(0, height - headerHeight - footerHeight)
-        hotcueHeight = hotcues ? min(available, 56 * expansion) : 0
-        waveformHeight = max(0, available - hotcueHeight)
+        controlsHeight = inlineControls ? min(48, available) : 0
+        hotcueHeight = hotcues ? min(max(0, available - controlsHeight), 56 * expansion) : 0
+        waveformHeight = max(0, available - hotcueHeight - controlsHeight)
         transportWidth = 128 - 64 * expansion
     }
 }
