@@ -1,6 +1,6 @@
 # GenErik DJ
 
-A touch-first DJ app for Erik's 2017 10.5-inch iPad Pro (A10X). Continuous audio and immediate performance controls come first.
+A touch-first DJ app for Erik's 2017 10.5-inch iPad Pro (A10X). The main goal is live performance with uninterrupted audio and consistently responsive UI, matching Erik's TDJ1 performance standard. Audio gaps, visible stutter and delayed controls block acceptance. See [performance acceptance](docs/coordination/release-gates.md).
 
 ## Develop and test
 

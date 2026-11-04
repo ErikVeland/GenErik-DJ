@@ -1,55 +1,35 @@
-# Test candidate and gig acceptance
+# A10X performance acceptance
 
-The goal is Erik's personal TDJ1 successor for real performance. The reference workflow comes from 13 years of use. The minimum recorded device is the 2017 10.5-inch A10X iPad Pro. Existing deployment targets and performance limits remain unchanged.
+The main goal is a performance-ready app on Erik's 2017 10.5-inch A10X iPad Pro. Live sets must have uninterrupted audio and consistently responsive UI. TDJ1's performance is Erik's reference standard.
 
-## Small test releases
+Any audio gap, dropout, click, crackle, visible stutter, UI stall, missed touch or delayed performance control blocks acceptance. Features and background work must fit this requirement. Pause, defer or cancel secondary work before it compromises performance. Do not relax deadlines to obtain a pass.
 
-Use [the micro-release loop](micro-releases.md) for development feedback. The five gates below govern gig acceptance. They are not prerequisites for each test installation. Historical reconciliation and unrelated unfinished features do not block a small test release.
+## Source and build
 
-## Gate 1: Preserved source
+- Verify the exact signed Release app and source installed on the A10X iPad.
+- Retain test conditions, results and failures against that source.
+- Keep a saved app and rollback route.
 
-- [x] Commit the shared source, tests and feature notes.
-- [x] Include remote main, full-library search, beatgrids and reverb in one integration branch.
-- [x] Retain the old branches and local evidence.
-- [x] Push the integration branch and record the review location. Draft PR #3: https://github.com/ErikVeland/GenErik-DJ/pull/3.
-- [ ] Complete the historical private-candidate/request reconciliation, or explicitly list unresolved items.
+## Audio and UI together
 
-## Gate 2: Combined application
+- Exercise two decks, fixed/adaptive Sync, scratch, loops, slices, Flux, six FX slots and recording.
+- Include loading, cancellation, library browsing/search, analysis and other enabled background work.
+- Require zero callback deadline misses, source starvation, invalid audio and recording drops under the existing gates.
+- Require zero missed control deadlines. Verify actual frame presentation and physical touch response alongside audio.
+- Check moving waveforms, panel changes and browsing for visible stutter or freezes during playback.
+- Verify route changes, queued starts, recovery, Brake and deck replacement without unintended audio or control interruption.
 
-- [x] Build the exact combined Release application for Mac and the generic iPad simulator.
-- [x] Complete the serial regression run and retain every failure or crash. The combined run passed 688 tests.
-- [ ] Verify search/layout merge behaviour and the new feature interactions.
-- [ ] Resolve reproduced blocking defects with focused regressions. Do not relax tests or limits to obtain a pass.
-- [x] Record the exact source, commands, result counts and known issues.
+Deadlines belong to the actual sample rate, callback size and workload. The retained 512-frame/48 kHz workload allows 10.667 ms per callback and 20 ms for exact control completion. Preserve each workload's existing limits. These numbers do not define a UI frame budget or prove sustained A10X performance.
 
-## Gate 3: Audio and performance
+## Real setup and sustained use
 
-- [ ] Run the existing short and sustained workloads on the frozen combined source.
-- [ ] Combine two decks, fixed/adaptive Sync, scratch, loops, slices, Flux, six FX slots, background analysis/search and recording.
-- [ ] Require zero unexplained callback faults, invalid audio, source misses, recording drops and control deadline misses under the existing gates.
-- [ ] Retain route changes and interrupted runs with their true status.
-- [ ] Cover queued loading, cancellation, recovery, Brake and outgoing/incoming deck ownership.
+- Use the real library, preparation, output route, headphones and required controller.
+- Listen through performance gestures, Sync, keylock, loops, effects, recovery and recording.
+- Check both decks, intended orientations and the separate phone layouts where applicable.
+- Measure memory and thermal behaviour through a representative sustained set on the A10X.
+- Verify recording, tracklist and transfer on the actual device.
+- Obtain Erik's acceptance of sound, touch, UI continuity and continued operation before claiming gig readiness.
 
-The retained adaptive workload uses 10.667 ms per 512-frame callback at 48 kHz and 20 ms for exact control completion. Other workloads retain their own recorded limits. Do not copy a limit between different block sizes or scenarios without its context.
+Host timings, compilation, launch and repository cleanliness do not establish this acceptance. Build 112 remains a test candidate with physical performance acceptance open.
 
-## Gate 4: Real setup and musical quality
-
-- [ ] Agree on a device window before operating Erik's iPad or replacing an installed build.
-- [ ] Verify the signed test build and its exact source identity.
-- [ ] Test the real library, playlists, preparation imports, headphone cueing, output route and required controller.
-- [ ] Listen to real music through scratch, Sync, key lock, loops, effects, recovery and Brake.
-- [ ] Compare reverb texture, output balance and tails at actual app settings.
-- [ ] Inspect portrait/landscape layouts, warnings, touch targets and reduced-motion behaviour.
-- [ ] Verify recording, tracklist and transfer using the actual device.
-
-Synthetic recognition results do not prove real-song structure accuracy. Silent stress tests do not prove good sound. A passing Mac test does not prove A10X acceptance.
-
-## Gate 5: Erik's rehearsal and acceptance
-
-- [ ] Rehearse a representative set on the intended performance setup.
-- [ ] Record the session duration, build, routes, controller and music/preparation conditions.
-- [ ] Resolve any audible defect, unintended transport action, lost preparation or blocked performance control.
-- [ ] Confirm that the familiar gestures, visual treatment, sound and optional features meet Erik's expectations.
-- [ ] Retain a known working build and rollback route before considering use at a gig.
-
-No fixed duration or generic test count can promise perfection. Gate completion requires evidence and Erik's judgement. The current combined candidate has not passed these gates.
+The [single-change iPad loop](../testing/README.md) continues during development. Full qualification is separate and user-directed. Install when Erik hands over for testing, then stop device actions after launch.

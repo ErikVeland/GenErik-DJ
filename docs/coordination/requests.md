@@ -4,7 +4,7 @@ Every request ID is retained. “Implemented” describes source availability, n
 
 | ID | Priority | Request | Current state and remaining work |
 | --- | --- | --- | --- |
-| R01 | First | Continuous, clean audio during real performance | Audio fixes included. Current-source A10X listening and sustained stress remain open. |
+| R01 | First | Continuous, clean audio during real performance | Primary acceptance requirement, reinforced by R49. Any gap or dropout blocks acceptance. Current-source A10X listening and sustained stress remain open. |
 | R02 | First | Keep the TDJ1 touch-first workflow | Touch workflow implemented. Physical gesture equivalence remains open. |
 | R03 | First | Persistent Sync and audible waveform manipulation | Sync and waveform transport corrections included. Verify interaction edges on hardware. |
 | R04 | First | Reliable loading and a usable browser | Loading and browser repairs included. Verify large-library loading and touch. |
@@ -52,3 +52,4 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R46 | First | Consolidate all latest work into main and provide one current test source | Existing branch work consolidated into main. Historical evidence preserved. |
 | R47 | First | Consolidate work and remove waste for the A10X iPad | Build 111 installed. Duplicate waveform geometry removed. Physical performance acceptance remains open. |
 | R48 | First | Clean the whole repository and remove avoidable runtime work | Cleanup merged and build 112 installed. Source, focused tests, geometry, native transport, repository hygiene and signing checks pass. Physical A10X performance acceptance remains open. See [cleanup report](../maintenance.md). |
+| R49 | First | Make uninterrupted audio and consistently responsive UI on A10X the main project goal | Governs every change. TDJ1 is Erik's performance reference. Audio gaps, dropouts, UI stalls, visible stutter and delayed controls block acceptance. Actual A10X measurements, listening, touch and sustained real-setup rehearsal remain required. |

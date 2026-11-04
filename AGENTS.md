@@ -2,7 +2,9 @@
 
 ## Product priority
 
-Preserve Erik's TDJ1 touch-first performance workflow. Continuous clean audio and immediate performance controls take priority over new features. Read `docs/coordination/README.md` and the request ledger before starting work.
+The main goal is a performance-ready app on the 2017 A10X iPad Pro, with uninterrupted audio and consistently responsive UI throughout a live set. TDJ1's performance is Erik's reference standard. Any audible gap, dropout, UI stall, visible stutter or delayed performance control is a blocking defect.
+
+Preserve Erik's TDJ1 touch-first workflow. Audio and UI performance take priority over features, analysis quality, visual polish and repository cleanup. Background work must yield, pause or cancel before it compromises live performance. Verify improvements on the actual A10X. Keep existing deadlines and limits. Build success, host timings and a tidy repository do not establish performance readiness. Read `docs/coordination/README.md` and the request ledger before starting work.
 
 The single-screen browser redesign and Performance/Browse/Expand shortcuts apply only to the closed/front phone screen. Preserve the existing iPad and Duo inside layouts. Portrait orientation alone must never select the front-screen design.
 

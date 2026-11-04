@@ -2,7 +2,9 @@
 
 Use `main` in `/Users/veland/GenErik DJ` for every test build. Work serially on short-lived `feature/` branches and merge before building. Other chats and historical working folders remain inactive.
 
-The active target is the 2017 10.5-inch A10X iPad Pro. Preserve continuous clean audio, immediate controls and the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
+The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Live sets must have uninterrupted audio and consistently responsive UI, matching Erik's TDJ1 performance standard. Audio gaps, dropouts, visible stutter, UI stalls and delayed controls block acceptance. Features, analysis, polish and repository cleanup are subordinate to this goal. Background work must yield before it compromises performance. [Performance acceptance](release-gates.md) requires actual A10X evidence and Erik's listening and touch checks.
+
+Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
 Latest installed candidate: **build 112**, application source `4cdd0b927`. R48 removes generated/historical clutter from the active tree, standardises first-party source, repairs MIDI test compilation and reduces catalogue counting/search allocations. All 31 focused Swift tests, 4,484 geometry assertions, loading-order checks and native transport checks at three rates pass. The repository check reports no issues. Source identity, signing and framework resolution passed. Installation succeeded, and iPadOS accepted launch. Device actions stopped. Erik's physical acceptance remains open.
 
