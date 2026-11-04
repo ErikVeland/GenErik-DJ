@@ -6,8 +6,8 @@
     "R25",
     "R30"
   ],
-  "baselineCommit": "685004419010defed1b4f52fdbbc102855889b7c",
-  "baselineBuild": 89,
+  "baselineCommit": "b6eb512e0e8c58375932c11e54b870e07cc8d84a",
+  "baselineBuild": 91,
   "status": "source-verified-device-build-pending",
   "filesSHA256": {
     "Replica/Sources/TDJInterface/BrowserLayoutState.swift": "9ccacfef68996b688c01731d3feadbaa509c5a896f82a1ec4de3a853ed6290c8",
@@ -60,5 +60,6 @@
   "preparedUninstalledBuilds": [
     90
   ],
-  "integrationContext": "R39 full-width browsing and R40 Performance/Browse/Expand shortcuts are retained. Build 90 signed successfully but was withheld to include R40 before one iPad handover."
+  "integrationContext": "Retains R39 full-width browsing, R40 Performance/Browse/Expand shortcuts and the committed R41 embedded-framework launch repair. Build 90 remains signed and uninstalled.",
+  "runtimeRepair": "The final build and deployment use the R41 framework-resolution checks. Continued operation remains Erik acceptance."
 }

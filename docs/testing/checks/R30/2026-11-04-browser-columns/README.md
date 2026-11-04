@@ -36,3 +36,5 @@ Final review: self-review under the project rule against parallel agents. Review
 ## Shortcut integration
 
 Build 90 passed compilation and signing but was not installed. R40’s Performance, Browse and Expand shortcuts arrived during compilation. The final source retains those shortcuts and their 22 additional library assertions. The signed build 90 remains saved. No device operation ran for that candidate.
+
+The final candidate also retains R41’s embedded-framework runtime path repair and the build/deployment dependency checks. Build 91’s launch acceptance record is preserved. iPadOS launch acceptance does not establish continued operation.
