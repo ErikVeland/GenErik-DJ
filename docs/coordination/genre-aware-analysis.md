@@ -119,3 +119,14 @@ The 190 MB model ships offline. It is pinned by checksum, and no lyrics are save
 The review records misses across the sampled genres and versions. It has no independent listening annotations or section-accuracy percentage.
 Dense remixes and language recognition remain limits. This is a first vocal-role improvement, not a completed genre classifier.
 See `../testing/checks/R37/2026-11-04-vocal-form/` for source-bound predictions and the device handover.
+
+## Dense remixes: R38
+
+Version 6 retries recordings whose first pass has no vocal form. It starts with the strongest measured vocal windows,
+retains full-source positions and combines word recognition with music-aware voice evidence. Guided phrases can support longer lyric lines
+and quieter vocals. Existing first-pass assignments, cue frames and manual preparation retain their authority.
+
+The same 28-source comparison changes coverage from nine to 15 recordings. Six new results include an extended mix,
+a club mix and two 12-inch versions. The nine previous inventories are unchanged, and both explicit instrumental controls retain no vocal roles.
+The study remains development evidence without independent listening annotations. Some dense recordings remain unassigned.
+See `../testing/checks/R38/2026-11-04-dense-remixes/`.

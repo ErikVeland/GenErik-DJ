@@ -1,0 +1,3877 @@
+{
+  "format": "generik.dense-remix-review/v1",
+  "sourceHashes": {
+    "Replica/Package.swift": "a9ae26233da4158f4151114ce0df3f22fff6a5add9d31bbc56aa4aebc0d321b4",
+    "Replica/Sources/TDJCore/TrackArrangement.swift": "ec075b7e3be1462673aa87b960b83c44769341d181db81f7fb846bcc8447432d",
+    "Replica/Sources/TDJCore/MusicalStructureAnalyzer.swift": "3139902ed1e95d6175f9cea8df3c21fa93e613183cb72211f2bb05a4ea51c4a9",
+    "Replica/Sources/TDJCore/VocalFormAnalyzer.swift": "bdfcd1c9a5d7a93e3c251017266414fc529bdc3ba9037b059b559631e7ad8654",
+    "Replica/Sources/TDJInterface/VocalPhraseRecognizer.swift": "0333572e3c2b768bd726bae53c480c21e07d63606c33646125fb63499486d5ca",
+    "Replica/Sources/TDJInterface/ArrangementModel.swift": "6b658c3b8a2e56a3bbb58faee689e2eb98ed48f3dea3ed91f8ea11ea1885c960",
+    "Replica/Sources/TDJInterface/ReplicaModel.swift": "01bda6ecc2a1ac4edca798b39c02c1a3c4f22b61dee6cb3ebb4a02bf635e1d1b",
+    "Replica/Sources/TDJInterface/VocalModelAssets/model.json": "b60de2d4ebb97683d7b07401c62f84c9fe193d38e4a28dd7d8c0a7bf663740f2",
+    "Replica/Sources/TDJCore/VocalRecognitionWindow.swift": "de7961e6c6c06f46ef79b03568961c37f2731e2cf047f720c4094e8e3ce4c1e4"
+  },
+  "method": "Reuse the pinned R37 first-pass word fingerprints and classifier frames. Run the production vocal-guided refinement on each original source. No lyric text is saved.",
+  "timingScope": "Elapsed time includes decoding and refinement. The reused first recognition pass is excluded.",
+  "referenceStatus": "Machine-assisted review without independent listening annotations. Coverage is not accuracy.",
+  "tracks": [
+    {
+      "id": "6c2dd17db3a94400b70863c2d9171af31d0013a51288b9f0d5e0ae709b1e7261",
+      "artist": "Dan Croll",
+      "title": "From Nowhere (Baardsen Remix)",
+      "genre": "Indietronica, Chillwave",
+      "genreFamilyHint": "ambient-downtempo",
+      "versionHints": [
+        "remix"
+      ],
+      "split": "held-out",
+      "inputSHA256": "bddafaf952f84f84a9f463fca2d3b10b33776d88bf01e0b4a7602bd106168882",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 19,
+        "unknown": 3,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": true,
+      "attemptedWindows": 3,
+      "phraseCount": 11,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 11,
+        "unknown": 3,
+        "chorus": 2,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 10.78,
+          "role": "intro",
+          "name": ""
+        },
+        {
+          "startSeconds": 10.78,
+          "endSeconds": 32.59,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 32.59,
+          "endSeconds": 43.49,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 43.49,
+          "endSeconds": 44.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 44.0,
+          "endSeconds": 53.0,
+          "role": "chorus",
+          "name": ""
+        },
+        {
+          "startSeconds": 53.0,
+          "endSeconds": 65.3,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 65.3,
+          "endSeconds": 76.21,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 76.21,
+          "endSeconds": 108.92,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 108.92,
+          "endSeconds": 119.83,
+          "role": "instrumental",
+          "name": "BREAKDOWN"
+        },
+        {
+          "startSeconds": 119.83,
+          "endSeconds": 128.01,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 128.01,
+          "endSeconds": 141.64,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 141.64,
+          "endSeconds": 142.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 142.0,
+          "endSeconds": 150.0,
+          "role": "chorus",
+          "name": ""
+        },
+        {
+          "startSeconds": 150.0,
+          "endSeconds": 158.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 158.0,
+          "endSeconds": 166.18,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 166.18,
+          "endSeconds": 177.08,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 177.08,
+          "endSeconds": 245.24,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 245.24,
+          "endSeconds": 267.36,
+          "role": "outro",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 9.56,
+      "reviewFlags": [],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "4d2b91a64808f52976e7842cfccca7ec3bdc2d769c20b2d1470f7e2095b39304",
+      "artist": "Twin Shadow",
+      "title": "Shooting Holes",
+      "genre": "Indietronica, Chillwave",
+      "genreFamilyHint": "ambient-downtempo",
+      "versionHints": [
+        "unspecified"
+      ],
+      "split": "development",
+      "inputSHA256": "e62b9527452f86c38e73486dcf5ccb2728183550f6712f5fb5df91595945da01",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 6,
+        "hook": 2,
+        "unknown": 1,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 0,
+      "phraseCount": 23,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 6,
+        "hook": 2,
+        "unknown": 1,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 12.24,
+          "role": "intro",
+          "name": ""
+        },
+        {
+          "startSeconds": 12.24,
+          "endSeconds": 34.4,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 34.4,
+          "endSeconds": 87.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 87.0,
+          "endSeconds": 104.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 104.0,
+          "endSeconds": 126.72,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 126.72,
+          "endSeconds": 145.19,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 145.19,
+          "endSeconds": 150.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 150.0,
+          "endSeconds": 168.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 168.0,
+          "endSeconds": 185.81,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 185.81,
+          "endSeconds": 196.89,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 196.89,
+          "endSeconds": 209.03,
+          "role": "outro",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 1.242,
+      "reviewFlags": [],
+      "preservedExistingForm": true,
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "fddc98c68cf3a79ee9c92c4d8d46866f09fbdd8c36e4c1f3a8c2cdcdab3a34b2",
+      "artist": "Grim",
+      "title": "Seemingly Unaware",
+      "genre": "Drum'n'bass",
+      "genreFamilyHint": "drum-bass-breaks",
+      "versionHints": [
+        "unspecified"
+      ],
+      "split": "development",
+      "inputSHA256": "2131bcf65842bbccbf28c5c9336f011c6e9277c568109c6b895565203acb1a53",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 14,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 0,
+      "phraseCount": 0,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 14,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 29.8,
+          "role": "intro",
+          "name": "Rhythmic intro"
+        },
+        {
+          "startSeconds": 29.8,
+          "endSeconds": 31.62,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 31.62,
+          "endSeconds": 44.43,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 44.43,
+          "endSeconds": 57.24,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 57.24,
+          "endSeconds": 71.87,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 71.87,
+          "endSeconds": 86.51,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 86.51,
+          "endSeconds": 99.31,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 99.31,
+          "endSeconds": 117.61,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 117.61,
+          "endSeconds": 128.58,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 128.58,
+          "endSeconds": 141.39,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 141.39,
+          "endSeconds": 150.53,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 150.53,
+          "endSeconds": 161.51,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 161.51,
+          "endSeconds": 172.49,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 172.49,
+          "endSeconds": 183.46,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 183.46,
+          "endSeconds": 187.12,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 187.12,
+          "endSeconds": 300.09,
+          "role": "outro",
+          "name": "Rhythmic outro"
+        }
+      ],
+      "elapsedSeconds": 1.367,
+      "reviewFlags": [
+        "vocal-form-unassigned-or-instrumental"
+      ],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "937b055936991a9518ea18d8a6cb2e6c0ee17311b022314b033dee2ac563bcc0",
+      "artist": "The Beatles",
+      "title": "Come Together (DJ Prince 2013 Remix)",
+      "genre": "Breakbeat",
+      "genreFamilyHint": "drum-bass-breaks",
+      "versionHints": [
+        "remix"
+      ],
+      "split": "development",
+      "inputSHA256": "11ac9d1f81ed45f4bb7858d5e7246e1734c794dc6fd6f412d1663b347429a042",
+      "beforeRoles": {
+        "instrumental": 8,
+        "unknown": 8
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": true,
+      "attemptedWindows": 5,
+      "phraseCount": 23,
+      "afterRoles": {
+        "instrumental": 5,
+        "unknown": 6,
+        "verse": 2,
+        "hook": 4,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 18.26,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 18.26,
+          "endSeconds": 42.96,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 42.96,
+          "endSeconds": 57.08,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 57.08,
+          "endSeconds": 60.6,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 60.6,
+          "endSeconds": 74.6,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 74.6,
+          "endSeconds": 80.12,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 80.12,
+          "endSeconds": 92.38,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 92.38,
+          "endSeconds": 94.26,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 94.26,
+          "endSeconds": 107.52,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 107.52,
+          "endSeconds": 113.12,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 113.12,
+          "endSeconds": 113.56,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 113.56,
+          "endSeconds": 123.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 123.0,
+          "endSeconds": 142.08,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 142.08,
+          "endSeconds": 145.33,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 145.33,
+          "endSeconds": 177.09,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 177.09,
+          "endSeconds": 196.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 196.0,
+          "endSeconds": 202.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 202.0,
+          "endSeconds": 225.93,
+          "role": "outro",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 73.866,
+      "reviewFlags": [],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "689a0cf61231b4c84bb6358a565c8fa61b54b19fc42c1d4a4478989fd51e07b3",
+      "artist": "Fred again..",
+      "title": "Jungle (acapella)",
+      "genre": "Electronic",
+      "genreFamilyHint": "electronic-other",
+      "versionHints": [
+        "acappella"
+      ],
+      "split": "development",
+      "inputSHA256": "423dc98f62e26e45019f0948ec453f93823aa15c6f24aed2cdb9287def97d184",
+      "beforeRoles": {
+        "instrumental": 1,
+        "unknown": 5,
+        "chorus": 4,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 0,
+      "phraseCount": 43,
+      "afterRoles": {
+        "instrumental": 1,
+        "unknown": 5,
+        "chorus": 4,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 8.96,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 8.96,
+          "endSeconds": 19.71,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 19.71,
+          "endSeconds": 37.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 37.0,
+          "endSeconds": 48.5,
+          "role": "chorus",
+          "name": ""
+        },
+        {
+          "startSeconds": 48.5,
+          "endSeconds": 52.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 52.0,
+          "endSeconds": 62.5,
+          "role": "chorus",
+          "name": ""
+        },
+        {
+          "startSeconds": 62.5,
+          "endSeconds": 66.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 66.0,
+          "endSeconds": 112.5,
+          "role": "chorus",
+          "name": ""
+        },
+        {
+          "startSeconds": 112.5,
+          "endSeconds": 119.5,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 119.5,
+          "endSeconds": 192.5,
+          "role": "chorus",
+          "name": ""
+        },
+        {
+          "startSeconds": 192.5,
+          "endSeconds": 198.81,
+          "role": "outro",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 0.575,
+      "reviewFlags": [],
+      "preservedExistingForm": true,
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "c02b5f3e5f313a3c52a45dab3a93591a41fb49c297a46a9aa9526dc556779578",
+      "artist": "Harrison",
+      "title": "All The Things She Said (Extended Mix)",
+      "genre": "Dance",
+      "genreFamilyHint": "electronic-other",
+      "versionHints": [
+        "extended"
+      ],
+      "split": "development",
+      "inputSHA256": "57a889e05f1e673e2cdeacb63f03d61d1b0e8c6048692c666c47c3ba12aecbff",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 9,
+        "unknown": 1,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": true,
+      "attemptedWindows": 3,
+      "phraseCount": 21,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 5,
+        "hook": 2,
+        "unknown": 1,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 30.56,
+          "role": "intro",
+          "name": "Rhythmic intro"
+        },
+        {
+          "startSeconds": 30.56,
+          "endSeconds": 47.7,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 47.7,
+          "endSeconds": 91.5,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 91.5,
+          "endSeconds": 108.64,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 108.64,
+          "endSeconds": 150.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 150.0,
+          "endSeconds": 159.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 159.0,
+          "endSeconds": 163.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 163.0,
+          "endSeconds": 170.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 170.0,
+          "endSeconds": 186.72,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 186.72,
+          "endSeconds": 229.88,
+          "role": "outro",
+          "name": "Rhythmic outro"
+        }
+      ],
+      "elapsedSeconds": 50.107,
+      "reviewFlags": [],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "22833568c243430affd1a8c3f312044f4659d5b768d09d9efe1101d73a7f036c",
+      "artist": "Destiny's Child",
+      "title": "Bug a Boo (A Cappella)",
+      "genre": "R&B",
+      "genreFamilyHint": "hiphop-rnb-soul",
+      "versionHints": [
+        "acappella"
+      ],
+      "split": "development",
+      "inputSHA256": "d1411dbb5fb42ceb322344e01748f63e759c3eda18a4a1038849c851f3fb88d9",
+      "beforeRoles": {
+        "unknown": 3,
+        "verse": 3,
+        "chorus": 3,
+        "hook": 2,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 0,
+      "phraseCount": 71,
+      "afterRoles": {
+        "unknown": 3,
+        "verse": 3,
+        "chorus": 3,
+        "hook": 2,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 28.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 28.0,
+          "endSeconds": 39.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 39.0,
+          "endSeconds": 57.0,
+          "role": "chorus",
+          "name": ""
+        },
+        {
+          "startSeconds": 57.0,
+          "endSeconds": 60.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 60.0,
+          "endSeconds": 67.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 67.0,
+          "endSeconds": 69.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 69.0,
+          "endSeconds": 74.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 74.0,
+          "endSeconds": 94.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 94.0,
+          "endSeconds": 129.0,
+          "role": "chorus",
+          "name": ""
+        },
+        {
+          "startSeconds": 129.0,
+          "endSeconds": 148.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 148.0,
+          "endSeconds": 182.0,
+          "role": "chorus",
+          "name": ""
+        },
+        {
+          "startSeconds": 182.0,
+          "endSeconds": 186.07,
+          "role": "outro",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 0.525,
+      "reviewFlags": [],
+      "preservedExistingForm": true,
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "3855cd66b2e31dd90dce96b51ad1e021e792085f8e7a4a5892a6c49c74919f35",
+      "artist": "Rock Master Scott And The Dynamic Three",
+      "title": "Request Line (Dub)",
+      "genre": "Rap/Hip Hop",
+      "genreFamilyHint": "hiphop-rnb-soul",
+      "versionHints": [
+        "dub"
+      ],
+      "split": "development",
+      "inputSHA256": "43e444aae0ac8259828eafb5d4a804fcbbd3a1fbf5f68bf523e448850b98107f",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 14,
+        "unknown": 3
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 2,
+      "phraseCount": 8,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 14,
+        "unknown": 3
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 8.37,
+          "role": "intro",
+          "name": ""
+        },
+        {
+          "startSeconds": 8.37,
+          "endSeconds": 24.83,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 24.83,
+          "endSeconds": 34.7,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 34.7,
+          "endSeconds": 47.87,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 47.87,
+          "endSeconds": 64.33,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 64.33,
+          "endSeconds": 77.49,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 77.49,
+          "endSeconds": 90.66,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 90.66,
+          "endSeconds": 100.54,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 100.54,
+          "endSeconds": 110.41,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 110.41,
+          "endSeconds": 120.29,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 120.29,
+          "endSeconds": 136.75,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 136.75,
+          "endSeconds": 149.91,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 149.91,
+          "endSeconds": 163.08,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 163.08,
+          "endSeconds": 176.25,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 176.25,
+          "endSeconds": 186.12,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 186.12,
+          "endSeconds": 202.58,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 202.58,
+          "endSeconds": 215.75,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 215.75,
+          "endSeconds": 229.53,
+          "role": "unknown",
+          "name": "Vocal section"
+        }
+      ],
+      "elapsedSeconds": 9.108,
+      "reviewFlags": [
+        "vocal-form-unassigned-or-instrumental"
+      ],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "1de8395866199dd227c53b8658493bb8212c7b461cc2c890f9431b131d4bb2d5",
+      "artist": "GenErik",
+      "title": "Matt Berry - Theme From Snuff Box (GenErik EXPLICIT Extended Edit)",
+      "genre": "Disco",
+      "genreFamilyHint": "house-disco",
+      "versionHints": [
+        "extended"
+      ],
+      "split": "development",
+      "inputSHA256": "2dc902e4c465c3df5adab8555b1b228109350a911210e912c354a5e5a85173da",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 4,
+        "unknown": 5,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 6,
+      "phraseCount": 1,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 4,
+        "unknown": 5,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 30.0,
+          "role": "intro",
+          "name": ""
+        },
+        {
+          "startSeconds": 30.0,
+          "endSeconds": 48.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 48.0,
+          "endSeconds": 66.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 66.0,
+          "endSeconds": 87.99,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 87.99,
+          "endSeconds": 103.99,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 103.99,
+          "endSeconds": 127.99,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 127.99,
+          "endSeconds": 143.99,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 143.99,
+          "endSeconds": 167.99,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 167.99,
+          "endSeconds": 179.99,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 179.99,
+          "endSeconds": 215.98,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 215.98,
+          "endSeconds": 252.31,
+          "role": "outro",
+          "name": "Rhythmic outro"
+        }
+      ],
+      "elapsedSeconds": 23.379,
+      "reviewFlags": [
+        "vocal-form-unassigned-or-instrumental"
+      ],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "6fcdedd91d359f52d9188405957dae3dbfe20196f76969fc35050f79d1d769b8",
+      "artist": "Sash!",
+      "title": "Raindrops (Featuring Stunt - Encore Une Fois) (Kinderwater Edit)",
+      "genre": "Electronic : Trance, Euro House",
+      "genreFamilyHint": "house-disco",
+      "versionHints": [
+        "unspecified"
+      ],
+      "split": "development",
+      "inputSHA256": "8aa83a0e40910b51177900fcd126043cea1375e3f32e665e0f50d4569b58e757",
+      "beforeRoles": {
+        "intro": 1,
+        "unknown": 3,
+        "instrumental": 8
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 4,
+      "phraseCount": 19,
+      "afterRoles": {
+        "intro": 1,
+        "unknown": 3,
+        "instrumental": 8
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 10.91,
+          "role": "intro",
+          "name": ""
+        },
+        {
+          "startSeconds": 10.91,
+          "endSeconds": 24.62,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 24.62,
+          "endSeconds": 38.33,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 38.33,
+          "endSeconds": 52.04,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 52.04,
+          "endSeconds": 65.75,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 65.75,
+          "endSeconds": 79.46,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 79.46,
+          "endSeconds": 93.17,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 93.17,
+          "endSeconds": 110.31,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 110.31,
+          "endSeconds": 120.59,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 120.59,
+          "endSeconds": 141.16,
+          "role": "instrumental",
+          "name": "BREAKDOWN"
+        },
+        {
+          "startSeconds": 141.16,
+          "endSeconds": 158.3,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 158.3,
+          "endSeconds": 175.76,
+          "role": "instrumental",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 39.175,
+      "reviewFlags": [
+        "vocal-form-unassigned-or-instrumental"
+      ],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "0710024f32924daef9b2f8cd081c7e0a96ce81e6b8fb3aeccbbae6378fe36f06",
+      "artist": "GenErik",
+      "title": "Zombie Thumper (Die Antwoord x Kernkraft 400)",
+      "genre": "Mashup",
+      "genreFamilyHint": "mashup",
+      "versionHints": [
+        "mashup"
+      ],
+      "split": "development",
+      "inputSHA256": "0b19ccf40bae6c141c91b3f8a747245ba7b03a0e4d5065b19f41ae64a56e7c64",
+      "beforeRoles": {
+        "instrumental": 11,
+        "unknown": 4
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 2,
+      "phraseCount": 19,
+      "afterRoles": {
+        "instrumental": 11,
+        "unknown": 4
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 14.21,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 14.21,
+          "endSeconds": 26.56,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 26.56,
+          "endSeconds": 42.44,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 42.44,
+          "endSeconds": 56.55,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 56.55,
+          "endSeconds": 70.66,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 70.66,
+          "endSeconds": 84.78,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 84.78,
+          "endSeconds": 93.6,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 93.6,
+          "endSeconds": 111.24,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 111.24,
+          "endSeconds": 125.35,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 125.35,
+          "endSeconds": 141.23,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 141.23,
+          "endSeconds": 155.35,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 155.35,
+          "endSeconds": 169.46,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 169.46,
+          "endSeconds": 181.81,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 181.81,
+          "endSeconds": 197.69,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 197.69,
+          "endSeconds": 211.76,
+          "role": "instrumental",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 26.794,
+      "reviewFlags": [
+        "vocal-form-unassigned-or-instrumental"
+      ],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "fd0a221944ef35e91dc1e330e88527c57237e0a4da36f524b5ccefec7d924d57",
+      "artist": "MixmstrStel",
+      "title": "Can't Kill The War Pigs (The Glitch Mob x Black Sabbath) [Radio Edit]",
+      "genre": "Mashup",
+      "genreFamilyHint": "mashup",
+      "versionHints": [
+        "radio-edit",
+        "mashup"
+      ],
+      "split": "development",
+      "inputSHA256": "1da32f0dadf806d8855454634bbd1ee29d86c284b14dda4b8511b47cebfefc32",
+      "beforeRoles": {
+        "intro": 1,
+        "unknown": 14,
+        "instrumental": 8,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 6,
+      "phraseCount": 18,
+      "afterRoles": {
+        "intro": 1,
+        "unknown": 14,
+        "instrumental": 8,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 13.25,
+          "role": "intro",
+          "name": ""
+        },
+        {
+          "startSeconds": 13.25,
+          "endSeconds": 22.54,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 22.54,
+          "endSeconds": 31.82,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 31.82,
+          "endSeconds": 41.11,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 41.11,
+          "endSeconds": 52.25,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 52.25,
+          "endSeconds": 65.25,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 65.25,
+          "endSeconds": 80.1,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 80.1,
+          "endSeconds": 89.38,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 89.38,
+          "endSeconds": 102.38,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 102.38,
+          "endSeconds": 115.38,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 115.38,
+          "endSeconds": 126.52,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 126.52,
+          "endSeconds": 141.38,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 141.38,
+          "endSeconds": 158.09,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 158.09,
+          "endSeconds": 167.37,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 167.37,
+          "endSeconds": 176.66,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 176.66,
+          "endSeconds": 185.94,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 185.94,
+          "endSeconds": 195.23,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 195.23,
+          "endSeconds": 206.37,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 206.37,
+          "endSeconds": 217.51,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 217.51,
+          "endSeconds": 232.36,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 232.36,
+          "endSeconds": 243.5,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 243.5,
+          "endSeconds": 258.36,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 258.36,
+          "endSeconds": 269.5,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 269.5,
+          "endSeconds": 283.21,
+          "role": "outro",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 19.627,
+      "reviewFlags": [
+        "vocal-form-unassigned-or-instrumental"
+      ],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "3aa09a62b6bd43ba8fdb7eebd85dd0680019561b3d0e7be2a6fe991e5c0278ad",
+      "artist": "Vampire Weekend",
+      "title": "White Sky (Basement Jaxx Vamp Dub Mix)",
+      "genre": "Indie",
+      "genreFamilyHint": "pop-rock",
+      "versionHints": [
+        "dub"
+      ],
+      "split": "held-out",
+      "inputSHA256": "2c99e76b8774836a2973e54b3572c0c3e5b67c5c2c85ac5bdc58520d4570ddd1",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 15,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 0,
+      "phraseCount": 0,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 15,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 29.65,
+          "role": "intro",
+          "name": "Rhythmic intro"
+        },
+        {
+          "startSeconds": 29.65,
+          "endSeconds": 44.42,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 44.42,
+          "endSeconds": 55.5,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 55.5,
+          "endSeconds": 72.12,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 72.12,
+          "endSeconds": 81.35,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 81.35,
+          "endSeconds": 90.58,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 90.58,
+          "endSeconds": 103.51,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 103.51,
+          "endSeconds": 116.43,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 116.43,
+          "endSeconds": 131.21,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 131.21,
+          "endSeconds": 140.44,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 140.44,
+          "endSeconds": 155.21,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 155.21,
+          "endSeconds": 166.29,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 166.29,
+          "endSeconds": 179.22,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 179.22,
+          "endSeconds": 195.84,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 195.84,
+          "endSeconds": 205.07,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 205.07,
+          "endSeconds": 216.15,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 216.15,
+          "endSeconds": 237.46,
+          "role": "outro",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 0.45,
+      "reviewFlags": [
+        "vocal-form-unassigned-or-instrumental"
+      ],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "e64aca50a26601149af543bcde159472e0ef0c93b7f3390d2686e988f6c12bd2",
+      "artist": "t.A.T.u.",
+      "title": "All The Things She Said (Instrumental)",
+      "genre": "Industrial Pop",
+      "genreFamilyHint": "pop-rock",
+      "versionHints": [
+        "instrumental"
+      ],
+      "split": "development",
+      "inputSHA256": "434ecd83c98005583fc4caeab1313edbcca0341a8dbbb76766a5c0c0f14d07d6",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 13,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 0,
+      "phraseCount": 1,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 13,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 10.39,
+          "role": "intro",
+          "name": ""
+        },
+        {
+          "startSeconds": 10.39,
+          "endSeconds": 24.39,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 24.39,
+          "endSeconds": 34.39,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 34.39,
+          "endSeconds": 46.39,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 46.39,
+          "endSeconds": 58.39,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 58.39,
+          "endSeconds": 84.39,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 84.39,
+          "endSeconds": 98.39,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 98.39,
+          "endSeconds": 106.39,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 106.39,
+          "endSeconds": 116.39,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 116.39,
+          "endSeconds": 126.39,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 126.39,
+          "endSeconds": 160.39,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 160.39,
+          "endSeconds": 170.39,
+          "role": "instrumental",
+          "name": "BREAKDOWN"
+        },
+        {
+          "startSeconds": 170.39,
+          "endSeconds": 180.39,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 180.39,
+          "endSeconds": 204.4,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 204.4,
+          "endSeconds": 214.54,
+          "role": "outro",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 0.833,
+      "reviewFlags": [
+        "vocal-form-unassigned-or-instrumental"
+      ],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "0272d5207fed78fbfe4a59f1ceb9161f65c1b72ffb1ee0e4d89fe79890caa884",
+      "artist": "Jamelia",
+      "title": "Superstar (Tomcio & Robin Roij Remix)",
+      "genre": "Moombahton",
+      "genreFamilyHint": "reggae-latin-afro",
+      "versionHints": [
+        "remix"
+      ],
+      "split": "held-out",
+      "inputSHA256": "6e82c6965506274d1eb7b0bcdf06c76475c1e38a25f31def6c07352be0097003",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 3,
+        "unknown": 3,
+        "chorus": 2
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 0,
+      "phraseCount": 31,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 3,
+        "unknown": 3,
+        "chorus": 2
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 16.32,
+          "role": "intro",
+          "name": ""
+        },
+        {
+          "startSeconds": 16.32,
+          "endSeconds": 24.74,
+          "role": "instrumental",
+          "name": "BREAKDOWN"
+        },
+        {
+          "startSeconds": 24.74,
+          "endSeconds": 39.47,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 39.47,
+          "endSeconds": 43.48,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 43.48,
+          "endSeconds": 69.42,
+          "role": "chorus",
+          "name": ""
+        },
+        {
+          "startSeconds": 69.42,
+          "endSeconds": 100.51,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 100.51,
+          "endSeconds": 119.28,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 119.28,
+          "endSeconds": 145.0,
+          "role": "chorus",
+          "name": ""
+        },
+        {
+          "startSeconds": 145.0,
+          "endSeconds": 210.53,
+          "role": "instrumental",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 0.509,
+      "reviewFlags": [],
+      "preservedExistingForm": true,
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "3734bf1045eb52be563d7bc575e84ef4d8931d376810953acc4d7c60eef476db",
+      "artist": "The Bug",
+      "title": "Angry (feat. Tippa Irie)",
+      "genre": "Dancehall",
+      "genreFamilyHint": "reggae-latin-afro",
+      "versionHints": [
+        "unspecified"
+      ],
+      "split": "development",
+      "inputSHA256": "61e897d37dc1ecaa0c8e08f7abe44547b5825a3e73d766a60daf182ed51034dc",
+      "beforeRoles": {
+        "unknown": 3,
+        "instrumental": 9,
+        "hook": 5,
+        "verse": 4
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 0,
+      "phraseCount": 54,
+      "afterRoles": {
+        "unknown": 3,
+        "instrumental": 9,
+        "hook": 5,
+        "verse": 4
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 18.03,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 18.03,
+          "endSeconds": 26.76,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 26.76,
+          "endSeconds": 27.0,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 27.0,
+          "endSeconds": 31.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 31.0,
+          "endSeconds": 42.0,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 42.0,
+          "endSeconds": 53.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 53.0,
+          "endSeconds": 61.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 61.0,
+          "endSeconds": 66.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 66.0,
+          "endSeconds": 68.23,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 68.23,
+          "endSeconds": 70.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 70.0,
+          "endSeconds": 88.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 88.0,
+          "endSeconds": 101.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 101.0,
+          "endSeconds": 105.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 105.0,
+          "endSeconds": 122.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 122.0,
+          "endSeconds": 140.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 140.0,
+          "endSeconds": 158.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 158.0,
+          "endSeconds": 171.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 171.0,
+          "endSeconds": 175.17,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 175.17,
+          "endSeconds": 183.9,
+          "role": "instrumental",
+          "name": "BREAKDOWN"
+        },
+        {
+          "startSeconds": 183.9,
+          "endSeconds": 203.54,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 203.54,
+          "endSeconds": 217.2,
+          "role": "instrumental",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 0.837,
+      "reviewFlags": [],
+      "preservedExistingForm": true,
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "9dca2fb97f2f558d1c0cc76e4ff5d19dd4d5281b28e5021e42f729541e66a6eb",
+      "artist": "Scooter",
+      "title": "Endless Summer (Datura Instrumental Version)",
+      "genre": "Trance / Techno",
+      "genreFamilyHint": "techno-trance",
+      "versionHints": [
+        "instrumental"
+      ],
+      "split": "development",
+      "inputSHA256": "8de8401cb1e99a89504747d78da879ed5c93d2545c268856155a0b26911cbe63",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 20,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 0,
+      "phraseCount": 0,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 20,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 24.75,
+          "role": "intro",
+          "name": ""
+        },
+        {
+          "startSeconds": 24.75,
+          "endSeconds": 35.26,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 35.26,
+          "endSeconds": 50.26,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 50.26,
+          "endSeconds": 71.28,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 71.28,
+          "endSeconds": 86.28,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 86.28,
+          "endSeconds": 95.29,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 95.29,
+          "endSeconds": 113.3,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 113.3,
+          "endSeconds": 125.3,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 125.3,
+          "endSeconds": 137.31,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 137.31,
+          "endSeconds": 146.31,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 146.31,
+          "endSeconds": 155.32,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 155.32,
+          "endSeconds": 170.33,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 170.33,
+          "endSeconds": 182.33,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 182.33,
+          "endSeconds": 194.34,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 194.34,
+          "endSeconds": 206.35,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 206.35,
+          "endSeconds": 215.35,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 215.35,
+          "endSeconds": 227.36,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 227.36,
+          "endSeconds": 239.36,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 239.36,
+          "endSeconds": 251.37,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 251.37,
+          "endSeconds": 266.38,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 266.38,
+          "endSeconds": 278.38,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 278.38,
+          "endSeconds": 292.76,
+          "role": "outro",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 0.512,
+      "reviewFlags": [
+        "vocal-form-unassigned-or-instrumental"
+      ],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "aab3973d8b9e6809cd319a43f87f6e1514130a894412c408c64a0563a4ec3b25",
+      "artist": "Grim",
+      "title": "The Legend Comes To Life (Remix)",
+      "genre": "Techno",
+      "genreFamilyHint": "techno-trance",
+      "versionHints": [
+        "remix"
+      ],
+      "split": "development",
+      "inputSHA256": "a7aa825eb355f316a2cb3193022522aa29879ab3c09d82ca6ed0448a1baff4e7",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 14,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 0,
+      "phraseCount": 14,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 14,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 12.88,
+          "role": "intro",
+          "name": ""
+        },
+        {
+          "startSeconds": 12.88,
+          "endSeconds": 23.59,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 23.59,
+          "endSeconds": 38.59,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 38.59,
+          "endSeconds": 51.44,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 51.44,
+          "endSeconds": 62.16,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 62.16,
+          "endSeconds": 72.87,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 72.87,
+          "endSeconds": 83.58,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 83.58,
+          "endSeconds": 92.15,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 92.15,
+          "endSeconds": 102.86,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 102.86,
+          "endSeconds": 117.86,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 117.86,
+          "endSeconds": 132.86,
+          "role": "instrumental",
+          "name": "BREAKDOWN"
+        },
+        {
+          "startSeconds": 132.86,
+          "endSeconds": 141.42,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 141.42,
+          "endSeconds": 154.28,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 154.28,
+          "endSeconds": 164.99,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 164.99,
+          "endSeconds": 177.85,
+          "role": "instrumental",
+          "name": "BREAKDOWN"
+        },
+        {
+          "startSeconds": 177.85,
+          "endSeconds": 184.76,
+          "role": "outro",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 0.728,
+      "reviewFlags": [
+        "vocal-form-unassigned-or-instrumental"
+      ],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "54cd35d92f7fbd531ee956cc0a039712a90830cc46aa9b6a8d104dec70b9cfad",
+      "artist": "Andre Previn",
+      "title": "Executive Party (Rhythm Scholar & Big Once Acapella)",
+      "genre": null,
+      "genreFamilyHint": "unclassified",
+      "versionHints": [
+        "acappella"
+      ],
+      "split": "held-out",
+      "inputSHA256": "eca63ead71528bf360ea862d82173048a858ce0615dbd684fba1cfe47103bf46",
+      "beforeRoles": {
+        "unknown": 3,
+        "hook": 3,
+        "instrumental": 2,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 0,
+      "phraseCount": 25,
+      "afterRoles": {
+        "unknown": 3,
+        "hook": 3,
+        "instrumental": 2,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 16.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 16.0,
+          "endSeconds": 35.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 35.0,
+          "endSeconds": 36.28,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 36.28,
+          "endSeconds": 47.57,
+          "role": "instrumental",
+          "name": "BREAKDOWN"
+        },
+        {
+          "startSeconds": 47.57,
+          "endSeconds": 57.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 57.0,
+          "endSeconds": 101.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 101.0,
+          "endSeconds": 121.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 121.0,
+          "endSeconds": 140.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 140.0,
+          "endSeconds": 145.75,
+          "role": "outro",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 0.394,
+      "reviewFlags": [],
+      "preservedExistingForm": true,
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "457593149b69e52cd1ec39998e434eb85d25e4b4517570ba5c15ee0ec43b66e8",
+      "artist": "Depeche Mode",
+      "title": "Policy Of Truth (DJ Tripp 2011 Club Mix)",
+      "genre": null,
+      "genreFamilyHint": "unclassified",
+      "versionHints": [
+        "club"
+      ],
+      "split": "development",
+      "inputSHA256": "98b1ed73c56261e4a42de07cf5760da9b28388c57adc316d2226840590e3ff43",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 12,
+        "unknown": 2
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": true,
+      "attemptedWindows": 4,
+      "phraseCount": 20,
+      "afterRoles": {
+        "intro": 1,
+        "verse": 3,
+        "instrumental": 5,
+        "hook": 2
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 45.0,
+          "role": "intro",
+          "name": "Rhythmic intro"
+        },
+        {
+          "startSeconds": 45.0,
+          "endSeconds": 75.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 75.0,
+          "endSeconds": 87.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 87.0,
+          "endSeconds": 113.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 113.0,
+          "endSeconds": 165.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 165.0,
+          "endSeconds": 188.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 188.0,
+          "endSeconds": 198.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 198.0,
+          "endSeconds": 204.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 204.0,
+          "endSeconds": 213.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 213.0,
+          "endSeconds": 219.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 219.0,
+          "endSeconds": 266.67,
+          "role": "instrumental",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 15.297,
+      "reviewFlags": [],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "393c240e5350b8906e1f3f80521953bee1cbc623797e67ff7e0fc5949c8a0908",
+      "artist": "Donna Summer",
+      "title": "I Feel Love (12 Inch Version)",
+      "genre": "R&B",
+      "genreFamilyHint": "hiphop-rnb-soul",
+      "versionHints": [
+        "12-inch"
+      ],
+      "split": "development",
+      "inputSHA256": "d580c2d88f533535544316dff2e3fbad92d2a411a094b29d05208a517e7a0444",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 30,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 1,
+      "phraseCount": 24,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 30,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 13.7,
+          "role": "intro",
+          "name": ""
+        },
+        {
+          "startSeconds": 13.7,
+          "endSeconds": 34.3,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 34.3,
+          "endSeconds": 43.66,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 43.66,
+          "endSeconds": 58.65,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 58.65,
+          "endSeconds": 68.01,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 68.01,
+          "endSeconds": 86.74,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 86.74,
+          "endSeconds": 101.72,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 101.72,
+          "endSeconds": 120.45,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 120.45,
+          "endSeconds": 133.56,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 133.56,
+          "endSeconds": 148.54,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 148.54,
+          "endSeconds": 161.65,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 161.65,
+          "endSeconds": 172.89,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 172.89,
+          "endSeconds": 182.26,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 182.26,
+          "endSeconds": 191.62,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 191.62,
+          "endSeconds": 210.35,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 210.35,
+          "endSeconds": 221.59,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 221.59,
+          "endSeconds": 242.19,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 242.19,
+          "endSeconds": 259.04,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 259.04,
+          "endSeconds": 275.9,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 275.9,
+          "endSeconds": 289.01,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 289.01,
+          "endSeconds": 309.61,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 309.61,
+          "endSeconds": 326.47,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 326.47,
+          "endSeconds": 339.58,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 339.58,
+          "endSeconds": 348.94,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 348.94,
+          "endSeconds": 358.31,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 358.31,
+          "endSeconds": 371.42,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 371.42,
+          "endSeconds": 386.4,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 386.4,
+          "endSeconds": 405.13,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 405.13,
+          "endSeconds": 420.11,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 420.11,
+          "endSeconds": 433.22,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 433.22,
+          "endSeconds": 450.08,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 450.08,
+          "endSeconds": 495.19,
+          "role": "outro",
+          "name": "Rhythmic outro"
+        }
+      ],
+      "elapsedSeconds": 3.633,
+      "reviewFlags": [
+        "vocal-form-unassigned-or-instrumental"
+      ],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "97bb9aa37a58d7d01520e788b95b6c15c6552f7e10cc85ecce27ad7eebc7ce28",
+      "artist": "Michael Jackson",
+      "title": "Remember The Time (12'' Main Mix)",
+      "genre": "Pop/House",
+      "genreFamilyHint": "house-disco",
+      "versionHints": [
+        "12-inch"
+      ],
+      "split": "development",
+      "inputSHA256": "ca988889562cbfe7ea285a1860eed81231cdf8ba73e527058d830a49cc54648d",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 10,
+        "unknown": 12
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": true,
+      "attemptedWindows": 9,
+      "phraseCount": 53,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 7,
+        "unknown": 5,
+        "verse": 5,
+        "hook": 2,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 20.19,
+          "role": "intro",
+          "name": "Rhythmic intro"
+        },
+        {
+          "startSeconds": 20.19,
+          "endSeconds": 26.85,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 26.85,
+          "endSeconds": 33.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 33.0,
+          "endSeconds": 63.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 63.0,
+          "endSeconds": 75.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 75.0,
+          "endSeconds": 104.6,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 104.6,
+          "endSeconds": 116.76,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 116.76,
+          "endSeconds": 161.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 161.0,
+          "endSeconds": 166.71,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 166.71,
+          "endSeconds": 180.02,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 180.02,
+          "endSeconds": 188.9,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 188.9,
+          "endSeconds": 197.78,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 197.78,
+          "endSeconds": 202.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 202.0,
+          "endSeconds": 207.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 207.0,
+          "endSeconds": 213.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 213.0,
+          "endSeconds": 231.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 231.0,
+          "endSeconds": 231.08,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 231.08,
+          "endSeconds": 238.0,
+          "role": "instrumental",
+          "name": "BREAKDOWN"
+        },
+        {
+          "startSeconds": 238.0,
+          "endSeconds": 255.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 255.0,
+          "endSeconds": 259.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 259.0,
+          "endSeconds": 288.31,
+          "role": "outro",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 93.59,
+      "reviewFlags": [
+        "review-possible-verse-fragmentation"
+      ],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "89af8a3ea13a75ab1b9b78778a2048798a668748c9eb407c5cbd2a6332e6955f",
+      "artist": "Chic",
+      "title": "My Forbidden Lover (12\" Version)",
+      "genre": "Pop",
+      "genreFamilyHint": "pop-rock",
+      "versionHints": [
+        "12-inch"
+      ],
+      "split": "development",
+      "inputSHA256": "2752864b706a9d3d1db31ffcd1ae75328750f5ee012fa59ca9ec6e431c123861",
+      "beforeRoles": {
+        "instrumental": 6,
+        "hook": 1,
+        "chorus": 4,
+        "verse": 2,
+        "unknown": 6
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 0,
+      "phraseCount": 38,
+      "afterRoles": {
+        "instrumental": 6,
+        "hook": 1,
+        "chorus": 4,
+        "verse": 2,
+        "unknown": 6
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 27.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 27.0,
+          "endSeconds": 32.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 32.0,
+          "endSeconds": 55.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 55.0,
+          "endSeconds": 71.0,
+          "role": "chorus",
+          "name": ""
+        },
+        {
+          "startSeconds": 71.0,
+          "endSeconds": 75.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 75.0,
+          "endSeconds": 109.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 109.0,
+          "endSeconds": 110.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 110.0,
+          "endSeconds": 143.0,
+          "role": "chorus",
+          "name": ""
+        },
+        {
+          "startSeconds": 143.0,
+          "endSeconds": 145.41,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 145.41,
+          "endSeconds": 147.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 147.0,
+          "endSeconds": 182.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 182.0,
+          "endSeconds": 183.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 183.0,
+          "endSeconds": 271.0,
+          "role": "chorus",
+          "name": ""
+        },
+        {
+          "startSeconds": 271.0,
+          "endSeconds": 274.24,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 274.24,
+          "endSeconds": 287.8,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 287.8,
+          "endSeconds": 326.22,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 326.22,
+          "endSeconds": 328.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 328.0,
+          "endSeconds": 380.0,
+          "role": "chorus",
+          "name": ""
+        },
+        {
+          "startSeconds": 380.0,
+          "endSeconds": 383.76,
+          "role": "unknown",
+          "name": "Vocal section"
+        }
+      ],
+      "elapsedSeconds": 1.084,
+      "reviewFlags": [],
+      "preservedExistingForm": true,
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "43a8e6ffe6a2524fedc1293fcd566e9597b753702e42f7e42aec61ebfae9cdd9",
+      "artist": "Michael Jackson",
+      "title": "Jam (Silky 12\" Mix)",
+      "genre": "Pop",
+      "genreFamilyHint": "pop-rock",
+      "versionHints": [
+        "12-inch"
+      ],
+      "split": "development",
+      "inputSHA256": "656eeb8cb7753a1562efe8087d0087caa737fd46a5e115804a1d7d811b7e7bc4",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 9,
+        "hook": 7,
+        "unknown": 7,
+        "verse": 2,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 0,
+      "phraseCount": 63,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 9,
+        "hook": 7,
+        "unknown": 7,
+        "verse": 2,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 48.41,
+          "role": "intro",
+          "name": "Rhythmic intro"
+        },
+        {
+          "startSeconds": 48.41,
+          "endSeconds": 51.44,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 51.44,
+          "endSeconds": 64.26,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 64.26,
+          "endSeconds": 80.4,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 80.4,
+          "endSeconds": 88.36,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 88.36,
+          "endSeconds": 92.4,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 92.4,
+          "endSeconds": 104.4,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 104.4,
+          "endSeconds": 105.24,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 105.24,
+          "endSeconds": 112.16,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 112.16,
+          "endSeconds": 128.39,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 128.39,
+          "endSeconds": 131.76,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 131.76,
+          "endSeconds": 177.52,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 177.52,
+          "endSeconds": 198.37,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 198.37,
+          "endSeconds": 208.48,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 208.48,
+          "endSeconds": 230.56,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 230.56,
+          "endSeconds": 234.56,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 234.56,
+          "endSeconds": 248.35,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 248.35,
+          "endSeconds": 259.96,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 259.96,
+          "endSeconds": 264.44,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 264.44,
+          "endSeconds": 296.34,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 296.34,
+          "endSeconds": 303.4,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 303.4,
+          "endSeconds": 307.4,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 307.4,
+          "endSeconds": 309.4,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 309.4,
+          "endSeconds": 312.4,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 312.4,
+          "endSeconds": 320.33,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 320.33,
+          "endSeconds": 360.32,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 360.32,
+          "endSeconds": 386.15,
+          "role": "outro",
+          "name": "Rhythmic outro"
+        }
+      ],
+      "elapsedSeconds": 0.972,
+      "reviewFlags": [],
+      "preservedExistingForm": true,
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "14c8a6c6f0884ede39c3711aaca84e7e1f641a9a54ebf78b89a655148148aa79",
+      "artist": "Chic",
+      "title": "02 Everybody Dance (12_ Mix)",
+      "genre": null,
+      "genreFamilyHint": "unclassified",
+      "versionHints": [
+        "12-inch"
+      ],
+      "split": "held-out",
+      "inputSHA256": "a97fb1abe293807582bf4416e07e34571dedcdd1acaf82b11551daa9eaba6e25",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 30,
+        "unknown": 3,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": true,
+      "attemptedWindows": 6,
+      "phraseCount": 45,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 3,
+        "verse": 2,
+        "hook": 3,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 44.93,
+          "role": "intro",
+          "name": "Rhythmic intro"
+        },
+        {
+          "startSeconds": 44.93,
+          "endSeconds": 69.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 69.0,
+          "endSeconds": 108.54,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 108.54,
+          "endSeconds": 123.38,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 123.38,
+          "endSeconds": 173.34,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 173.34,
+          "endSeconds": 192.46,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 192.46,
+          "endSeconds": 230.0,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 230.0,
+          "endSeconds": 257.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 257.0,
+          "endSeconds": 489.5,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 489.5,
+          "endSeconds": 496.81,
+          "role": "outro",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 50.26,
+      "reviewFlags": [],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "1556452514fe675e1d08c678f046565089cddce0b7f0d435c97ffaebeb7b8f7a",
+      "artist": "Madonna",
+      "title": "Buenos Aires (12'' Acapella)",
+      "genre": "Acapella",
+      "genreFamilyHint": "unclassified",
+      "versionHints": [
+        "12-inch",
+        "acappella"
+      ],
+      "split": "development",
+      "inputSHA256": "849163f93e0e49f470efa88e6418420134141ab651c6b887fe4c519e3f95fc6b",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 7,
+        "unknown": 9,
+        "verse": 3,
+        "hook": 3
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 0,
+      "phraseCount": 70,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 7,
+        "unknown": 9,
+        "verse": 3,
+        "hook": 3
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 80.42,
+          "role": "intro",
+          "name": ""
+        },
+        {
+          "startSeconds": 80.42,
+          "endSeconds": 88.69,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 88.69,
+          "endSeconds": 98.61,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 98.61,
+          "endSeconds": 111.83,
+          "role": "instrumental",
+          "name": "BREAKDOWN"
+        },
+        {
+          "startSeconds": 111.83,
+          "endSeconds": 122.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 122.0,
+          "endSeconds": 180.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 180.0,
+          "endSeconds": 204.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 204.0,
+          "endSeconds": 223.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 223.0,
+          "endSeconds": 224.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 224.0,
+          "endSeconds": 237.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 237.0,
+          "endSeconds": 240.8,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 240.8,
+          "endSeconds": 293.71,
+          "role": "instrumental",
+          "name": "BREAKDOWN"
+        },
+        {
+          "startSeconds": 293.71,
+          "endSeconds": 301.98,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 301.98,
+          "endSeconds": 321.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 321.0,
+          "endSeconds": 397.0,
+          "role": "verse",
+          "name": ""
+        },
+        {
+          "startSeconds": 397.0,
+          "endSeconds": 398.0,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 398.0,
+          "endSeconds": 414.0,
+          "role": "hook",
+          "name": ""
+        },
+        {
+          "startSeconds": 414.0,
+          "endSeconds": 416.07,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 416.07,
+          "endSeconds": 427.64,
+          "role": "instrumental",
+          "name": "BREAKDOWN"
+        },
+        {
+          "startSeconds": 427.64,
+          "endSeconds": 442.53,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 442.53,
+          "endSeconds": 455.75,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 455.75,
+          "endSeconds": 464.02,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 464.02,
+          "endSeconds": 478.25,
+          "role": "unknown",
+          "name": "Vocal section"
+        }
+      ],
+      "elapsedSeconds": 1.283,
+      "reviewFlags": [],
+      "preservedExistingForm": true,
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "aeeb26906ac0fb99bc8b239852804dd8b208f85f806dd7f04acde1c206caf391",
+      "artist": "New Order",
+      "title": "01 The Perfect Kiss (12')",
+      "genre": null,
+      "genreFamilyHint": "unclassified",
+      "versionHints": [
+        "12-inch"
+      ],
+      "split": "development",
+      "inputSHA256": "590778810345406ca96e9400b044b4517abe6cf7f4c891095e308bab3c24aaa4",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 19,
+        "unknown": 3,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 3,
+      "phraseCount": 0,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 19,
+        "unknown": 3,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 93.11,
+          "role": "intro",
+          "name": "Rhythmic intro"
+        },
+        {
+          "startSeconds": 93.11,
+          "endSeconds": 102.32,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 102.32,
+          "endSeconds": 113.37,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 113.37,
+          "endSeconds": 126.26,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 126.26,
+          "endSeconds": 137.31,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 137.31,
+          "endSeconds": 153.89,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 153.89,
+          "endSeconds": 163.1,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 163.1,
+          "endSeconds": 183.35,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 183.35,
+          "endSeconds": 192.56,
+          "role": "unknown",
+          "name": "Vocal section"
+        },
+        {
+          "startSeconds": 192.56,
+          "endSeconds": 201.77,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 201.77,
+          "endSeconds": 216.5,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 216.5,
+          "endSeconds": 227.55,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 227.55,
+          "endSeconds": 240.45,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 240.45,
+          "endSeconds": 253.34,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 253.34,
+          "endSeconds": 284.65,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 284.65,
+          "endSeconds": 299.38,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 299.38,
+          "endSeconds": 308.59,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 308.59,
+          "endSeconds": 328.85,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 328.85,
+          "endSeconds": 345.42,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 345.42,
+          "endSeconds": 354.63,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 354.63,
+          "endSeconds": 371.21,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 371.21,
+          "endSeconds": 408.04,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 408.04,
+          "endSeconds": 513.02,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 513.02,
+          "endSeconds": 529.87,
+          "role": "outro",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 13.85,
+      "reviewFlags": [
+        "vocal-form-unassigned-or-instrumental"
+      ],
+      "evaluationUse": "development-review"
+    },
+    {
+      "id": "188882199a41c805e8753dcd02d21ff1f0d55498b4463e72ad5b18299937b27e",
+      "artist": "R\u00f6yksopp",
+      "title": "Only This Moment (Live)",
+      "genre": "Electronica/Dance",
+      "genreFamilyHint": "electronic-other",
+      "versionHints": [
+        "live"
+      ],
+      "split": "development",
+      "inputSHA256": "e51b47a2677a800280d698e4bbcdfa1e525060a6cd72f2883b4591935dcce7c5",
+      "beforeRoles": {
+        "intro": 1,
+        "instrumental": 17,
+        "outro": 1
+      },
+      "state": "analysed",
+      "valid": true,
+      "usedFocusedResult": false,
+      "attemptedWindows": 0,
+      "phraseCount": 0,
+      "afterRoles": {
+        "intro": 1,
+        "instrumental": 17,
+        "outro": 1
+      },
+      "sections": [
+        {
+          "startSeconds": 0.0,
+          "endSeconds": 35.98,
+          "role": "intro",
+          "name": "Rhythmic intro"
+        },
+        {
+          "startSeconds": 35.98,
+          "endSeconds": 40.37,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 40.37,
+          "endSeconds": 56.47,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 56.47,
+          "endSeconds": 75.49,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 75.49,
+          "endSeconds": 88.66,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 88.66,
+          "endSeconds": 103.29,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 103.29,
+          "endSeconds": 113.53,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 113.53,
+          "endSeconds": 122.31,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 122.31,
+          "endSeconds": 131.09,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 131.09,
+          "endSeconds": 142.8,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 142.8,
+          "endSeconds": 151.58,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 151.58,
+          "endSeconds": 161.82,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 161.82,
+          "endSeconds": 176.45,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 176.45,
+          "endSeconds": 186.7,
+          "role": "instrumental",
+          "name": "THINNING OUT"
+        },
+        {
+          "startSeconds": 186.7,
+          "endSeconds": 201.33,
+          "role": "instrumental",
+          "name": "DROP"
+        },
+        {
+          "startSeconds": 201.33,
+          "endSeconds": 211.57,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 211.57,
+          "endSeconds": 220.35,
+          "role": "instrumental",
+          "name": ""
+        },
+        {
+          "startSeconds": 220.35,
+          "endSeconds": 236.45,
+          "role": "instrumental",
+          "name": "BREAKDOWN"
+        },
+        {
+          "startSeconds": 236.45,
+          "endSeconds": 245.16,
+          "role": "outro",
+          "name": ""
+        }
+      ],
+      "elapsedSeconds": 0.399,
+      "reviewFlags": [
+        "vocal-form-unassigned-or-instrumental"
+      ],
+      "evaluationUse": "development-review"
+    }
+  ],
+  "recognitionSourceHashes": {
+    "Replica/Package.swift": "a9ae26233da4158f4151114ce0df3f22fff6a5add9d31bbc56aa4aebc0d321b4",
+    "Replica/Sources/TDJCore/TrackArrangement.swift": "ec075b7e3be1462673aa87b960b83c44769341d181db81f7fb846bcc8447432d",
+    "Replica/Sources/TDJCore/MusicalStructureAnalyzer.swift": "3139902ed1e95d6175f9cea8df3c21fa93e613183cb72211f2bb05a4ea51c4a9",
+    "Replica/Sources/TDJCore/VocalFormAnalyzer.swift": "9f9846fc1167f85a8fc005428881c7fcf719a1bc41f48eafec26c85961e971a7",
+    "Replica/Sources/TDJInterface/VocalPhraseRecognizer.swift": "0333572e3c2b768bd726bae53c480c21e07d63606c33646125fb63499486d5ca",
+    "Replica/Sources/TDJInterface/ArrangementModel.swift": "6b658c3b8a2e56a3bbb58faee689e2eb98ed48f3dea3ed91f8ea11ea1885c960",
+    "Replica/Sources/TDJInterface/ReplicaModel.swift": "01bda6ecc2a1ac4edca798b39c02c1a3c4f22b61dee6cb3ebb4a02bf635e1d1b",
+    "Replica/Sources/TDJInterface/VocalModelAssets/model.json": "b60de2d4ebb97683d7b07401c62f84c9fe193d38e4a28dd7d8c0a7bf663740f2",
+    "Replica/Sources/TDJCore/VocalRecognitionWindow.swift": "05ef9a61e26bfe068a8456d7fe30043dfea81e9ecbef82414844d72b88e218b8"
+  },
+  "finalCoreReplayVerified": true,
+  "summary": {
+    "analysed": 28,
+    "failed": 0,
+    "valid": 28,
+    "formBefore": 9,
+    "formAfter": 15,
+    "newlyAssigned": 6,
+    "existingFormsPreserved": 9,
+    "genreFamilies": {
+      "ambient-downtempo": 2,
+      "drum-bass-breaks": 2,
+      "electronic-other": 3,
+      "hiphop-rnb-soul": 3,
+      "house-disco": 3,
+      "mashup": 2,
+      "pop-rock": 4,
+      "reggae-latin-afro": 2,
+      "techno-trance": 2,
+      "unclassified": 5
+    },
+    "versionHints": {
+      "remix": 4,
+      "unspecified": 4,
+      "acappella": 4,
+      "extended": 2,
+      "dub": 2,
+      "mashup": 2,
+      "radio-edit": 1,
+      "instrumental": 2,
+      "club": 1,
+      "12-inch": 7,
+      "live": 1
+    }
+  },
+  "interpretation": "Coverage increased. Assignments remain automatic estimates without independent listening annotations. Missing vocal form is a miss on vocal sources, not proof of instrumental content.",
+  "splitNote": "Historical split tags are retained as provenance. These reviewed sources now supply development evidence. No held-out accuracy score is reported.",
+  "finalWindowPlansVerified": true
+}

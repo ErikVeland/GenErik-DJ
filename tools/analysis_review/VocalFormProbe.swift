@@ -11,12 +11,20 @@ var analysisValues=(values["analysis"] as? [String:Any]) ?? values
 for name in ["waveform","chroma","timbre"] where analysisValues[name] == nil { analysisValues[name]=[] }
 let analysisData=try JSONSerialization.data(withJSONObject:analysisValues)
 let analysis=try JSONDecoder().decode(AudioAnalysis.self,from:analysisData)
-if CommandLine.arguments.contains("--replay") {
-    let features=(values["frames"] as! [[String:Any]]).map { f in
+func savedFeatures() -> [MusicalStructureFrame] {
+    (values["frames"] as! [[String:Any]]).map { f in
         MusicalStructureFrame(start:f["start"] as! Double,end:f["end"] as! Double,rms:f["rms"] as! Double,
             bass:f["bass"] as! Double,rhythm:f["rhythm"] as! Double,bands:f["bands"] as! [Double],chroma:f["chroma"] as! [Double],
             vocal:f["vocal"] as? Double,rapping:f["rapping"] as? Double,singing:f["singing"] as? Double)
     }
+}
+if CommandLine.arguments.contains("--plan") {
+    let plan=VocalRecognitionWindow.plan(features:savedFeatures(),sampleRate:analysis.sampleRate,frameCount:analysis.frameCount)
+    try JSONEncoder().encode(plan).write(to:output)
+    exit(0)
+}
+if CommandLine.arguments.contains("--replay") {
+    let features=savedFeatures()
     let phrases=try JSONDecoder().decode([VocalPhrase].self,from:JSONSerialization.data(withJSONObject:values["phrases"]!))
     let arrangement=TrackArrangement.prepare(analysis:analysis,features:features,context:context,vocalPhrases:phrases)
     var replay=values
@@ -60,19 +68,24 @@ if CommandLine.arguments.contains("--resample") {
     exit(0)
 }
 let started=Date()
-let features=try MusicalStructureAnalyzer.analyze(pcm:pcm,analysis:analysis)
+let reuse=CommandLine.arguments.contains("--refine")
+let features=try reuse ? savedFeatures():MusicalStructureAnalyzer.analyze(pcm:pcm,analysis:analysis)
 let cancellation=VocalInferenceCancellation()
 if CommandLine.arguments.contains("--cancel") {
     DispatchQueue.global().asyncAfter(deadline:.now()+1) { cancellation.cancel() }
 }
-let phrases: [VocalPhrase]
+let prepared: VocalPhrasePreparation
 do {
-    phrases=try VocalPhraseRecognizer.phrases(pcm:pcm,analysis:analysis,model:model,cancellation:cancellation)
+    let initial=try reuse
+        ? JSONDecoder().decode([VocalPhrase].self,from:JSONSerialization.data(withJSONObject:values["phrases"]!))
+        : VocalPhraseRecognizer.phrases(pcm:pcm,analysis:analysis,model:model,cancellation:cancellation)
+    prepared=try VocalPhraseRecognizer.refine(pcm:pcm,analysis:analysis,features:features,context:context,
+        initial:initial,model:model,cancellation:cancellation)
 } catch is CancellationError {
     print("Cancelled offline inference after \(Date().timeIntervalSince(started)) seconds, including feature extraction")
     exit(0)
 }
-let arrangement=TrackArrangement.prepare(analysis:analysis,features:features,context:context,vocalPhrases:phrases)
+let phrases=prepared.phrases, arrangement=prepared.arrangement
 let frames: [[String:Any]]=features.map { f in
     var value: [String:Any]=["start":f.start,"end":f.end,"rms":f.rms,"bass":f.bass,"rhythm":f.rhythm,"bands":f.bands,"chroma":f.chroma]
     value["vocal"]=f.vocal; value["rapping"]=f.rapping; value["singing"]=f.singing
@@ -81,7 +94,9 @@ let frames: [[String:Any]]=features.map { f in
 let result: [String:Any]=["structureVersion":MusicalStructureAnalyzer.version,"analysis":try JSONSerialization.jsonObject(with:JSONEncoder().encode(analysis)),
     "arrangement":try JSONSerialization.jsonObject(with:JSONEncoder().encode(arrangement)),
     "phrases":try JSONSerialization.jsonObject(with:JSONEncoder().encode(phrases)),"frames":frames,
-    "elapsedSeconds":Date().timeIntervalSince(started),"valid":arrangement.isValid(fileEnd:Double(analysis.frameCount))]
+    "elapsedSeconds":Date().timeIntervalSince(started),"valid":arrangement.isValid(fileEnd:Double(analysis.frameCount)),
+    "initialPassReused":reuse,"usedFocusedResult":prepared.usedFocusedResult,
+    "attemptedWindows":try JSONSerialization.jsonObject(with:JSONEncoder().encode(prepared.attemptedWindows))]
 try JSONSerialization.data(withJSONObject:result,options:[.sortedKeys]).write(to:output,options:.atomic)
 for section in arrangement.sections {
     print(String(format:"%6.2f–%6.2f %@",section.start/analysis.sampleRate,section.end/analysis.sampleRate,section.label))

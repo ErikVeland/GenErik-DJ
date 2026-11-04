@@ -1,0 +1,79 @@
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift:567:20: error: cannot find 'VocalRecognitionWindow' in scope
+565 |     }
+566 |     func testExtendedIntroDoesNotFillTheRecognitionWindow() {
+567 |         let result=VocalRecognitionWindow.plan(features: frames { (64..<128).contains($0) ? 0.8:0.02 }, sampleRate: 1000, frameCount: 240_000)
+    |                    `- error: cannot find 'VocalRecognitionWindow' in scope
+568 |         XCTAssertEqual(result.first?.coreStart, 60_000)
+569 |         XCTAssertEqual(result.first?.start, 57_000)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift:574:20: error: cannot find 'VocalRecognitionWindow' in scope
+572 |     }
+573 |     func testLongInstrumentalBreakDoesNotTriggerMoreRecognition() {
+574 |         let result=VocalRecognitionWindow.plan(features: frames { (32..<56).contains($0) || (160..<184).contains($0) ? 0.8:0.02 }, sampleRate: 1000, frameCount: 240_000)
+    |                    `- error: cannot find 'VocalRecognitionWindow' in scope
+575 |         XCTAssertFalse(result.contains { $0.coreStart >= 80_000 && $0.coreEnd <= 150_000 })
+576 |         XCTAssertTrue(result.contains { $0.coreStart >= 148_000 })
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift:580:23: error: cannot find 'VocalRecognitionWindow' in scope
+578 |     }
+579 |     func testMissingVoiceAndInstrumentalEvidenceDoNotForceWords() {
+580 |         XCTAssertTrue(VocalRecognitionWindow.plan(features: frames { _ in nil }, sampleRate: 1000, frameCount: 240_000).isEmpty)
+    |                       `- error: cannot find 'VocalRecognitionWindow' in scope
+581 |         XCTAssertTrue(VocalRecognitionWindow.plan(features: frames { _ in 0.07 }, sampleRate: 1000, frameCount: 240_000).isEmpty)
+582 |         XCTAssertTrue(VocalRecognitionWindow.plan(features: frames { $0.isMultiple(of: 50) ? 0.9:0.02 }, sampleRate: 1000, frameCount: 240_000).isEmpty)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift:581:23: error: cannot find 'VocalRecognitionWindow' in scope
+579 |     func testMissingVoiceAndInstrumentalEvidenceDoNotForceWords() {
+580 |         XCTAssertTrue(VocalRecognitionWindow.plan(features: frames { _ in nil }, sampleRate: 1000, frameCount: 240_000).isEmpty)
+581 |         XCTAssertTrue(VocalRecognitionWindow.plan(features: frames { _ in 0.07 }, sampleRate: 1000, frameCount: 240_000).isEmpty)
+    |                       `- error: cannot find 'VocalRecognitionWindow' in scope
+582 |         XCTAssertTrue(VocalRecognitionWindow.plan(features: frames { $0.isMultiple(of: 50) ? 0.9:0.02 }, sampleRate: 1000, frameCount: 240_000).isEmpty)
+583 |     }
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift:582:23: error: cannot find 'VocalRecognitionWindow' in scope
+580 |         XCTAssertTrue(VocalRecognitionWindow.plan(features: frames { _ in nil }, sampleRate: 1000, frameCount: 240_000).isEmpty)
+581 |         XCTAssertTrue(VocalRecognitionWindow.plan(features: frames { _ in 0.07 }, sampleRate: 1000, frameCount: 240_000).isEmpty)
+582 |         XCTAssertTrue(VocalRecognitionWindow.plan(features: frames { $0.isMultiple(of: 50) ? 0.9:0.02 }, sampleRate: 1000, frameCount: 240_000).isEmpty)
+    |                       `- error: cannot find 'VocalRecognitionWindow' in scope
+583 |     }
+584 |     func testContextAndOwnershipStayOnTheOriginalTimeline() {
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift:585:20: error: cannot find 'VocalRecognitionWindow' in scope
+583 |     }
+584 |     func testContextAndOwnershipStayOnTheOriginalTimeline() {
+585 |         let result=VocalRecognitionWindow.plan(features: frames { _ in 0.8 }, sampleRate: 1000, frameCount: 240_000)
+    |                    `- error: cannot find 'VocalRecognitionWindow' in scope
+586 |         XCTAssertEqual(result.first?.start, 0)
+587 |         XCTAssertEqual(result.first?.coreStart, 0)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift:590:9: error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+588 |         XCTAssertEqual(result.last?.coreEnd, 240_000)
+589 |         XCTAssertEqual(result.last?.end, 240_000)
+590 |         XCTAssertTrue(result.allSatisfy { $0.start <= $0.coreStart && $0.end >= $0.coreEnd && $0.start >= 0 && $0.end <= 240_000 })
+    |         `- error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+591 |     }
+592 |     func testSampleRateDoesNotChangeWindowTimes() {
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift:593:17: error: cannot find 'VocalRecognitionWindow' in scope
+591 |     }
+592 |     func testSampleRateDoesNotChangeWindowTimes() {
+593 |         let low=VocalRecognitionWindow.plan(features: frames { (64..<128).contains($0) ? 0.8:0.02 }, sampleRate: 1000, frameCount: 240_000)
+    |                 `- error: cannot find 'VocalRecognitionWindow' in scope
+594 |         for rate in [44_100.0,48_000] {
+595 |             let high=VocalRecognitionWindow.plan(features: frames(rate: rate) { (64..<128).contains($0) ? 0.8:0.02 }, sampleRate: rate, frameCount: Int64(240*rate))
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift:595:22: error: cannot find 'VocalRecognitionWindow' in scope
+593 |         let low=VocalRecognitionWindow.plan(features: frames { (64..<128).contains($0) ? 0.8:0.02 }, sampleRate: 1000, frameCount: 240_000)
+594 |         for rate in [44_100.0,48_000] {
+595 |             let high=VocalRecognitionWindow.plan(features: frames(rate: rate) { (64..<128).contains($0) ? 0.8:0.02 }, sampleRate: rate, frameCount: Int64(240*rate))
+    |                      `- error: cannot find 'VocalRecognitionWindow' in scope
+596 |             XCTAssertEqual(high.map { $0.start/rate }, low.map { $0.start/1000 })
+597 |             XCTAssertEqual(high.map { $0.coreEnd/rate }, low.map { $0.coreEnd/1000 })
+Traceback (most recent call last):
+  File "/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/docs/testing/checks/R38/2026-11-04-dense-remixes/check.py", line 21, in <module>
+    subprocess.run(['xcrun','swiftc','-O',*files,'-o',str(work/'checks')],check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['xcrun', 'swiftc', '-O', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/AnalysisValues.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/TrackArrangement.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/BeatGrid.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/MusicalStructureAnalyzer.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/VocalFormAnalyzer.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/BeatGridMap.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/CueValues.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/NativePlan.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Assertions.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/main.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/SectionCueAllocator.swift', '-o', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/checks']' returned non-zero exit status 1.
