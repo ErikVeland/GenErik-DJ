@@ -134,6 +134,9 @@ enum PerformancePanelChecks {
         let accessibleRequest = presentation.spaceRequestID
         presentation.adjust(.effects, by: 44)
         expect(presentation.spaceRequestID != accessibleRequest, "accessible opening requests usable performance height")
+        let fxCommand = presentation.presentationID(for: .effects)
+        presentation.toggleMixer()
+        expect(presentation.presentationID(for: .effects) == fxCommand, "EQ commands cannot cancel an FX resize")
         print("\(checks) performance panel checks; \(failures) failures")
         if failures > 0 { exit(1) }
     }

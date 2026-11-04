@@ -8,7 +8,7 @@ final class DeckPanelPresentation {
     private var sizing = DeckPanelsState()
     private var configuredWidth: Double?
     private var configuredPortrait: Bool?
-    private(set) var presentationID = UUID()
+    private var commands = Dictionary(uniqueKeysWithValues: PerformancePanel.allCases.map { ($0, UUID()) })
     private(set) var spaceRequestID = UUID()
     private(set) var spaceRequestKind: PerformancePanel?
     private var dragWasPresented: [PerformancePanel: Bool] = [:]
@@ -24,17 +24,22 @@ final class DeckPanelPresentation {
         sizing.configure(width: width, portrait: portrait)
         dragWasPresented.removeAll()
         configuredWidth = width; configuredPortrait = portrait
-        presentationID = UUID()
+        for kind in PerformancePanel.allCases { commands[kind] = UUID() }
         updateGates()
     }
     func geometry(width: Double, height: Double) -> DeckPanelsGeometry {
         .init(width: width, height: height, effects: sizing.extent(.effects), mixer: sizing.extent(.mixer), extra: sizing.extent(.extra))
     }
     func maximum(_ kind: PerformancePanel) -> Double { sizing.maximum(kind) }
+    func presentationID(for kind: PerformancePanel) -> UUID { commands[kind]! }
     func isPresented(_ kind: PerformancePanel) -> Bool { sizing.isPresented(kind) }
     func toggle(_ kind: PerformancePanel) {
         let opening = !sizing.isPresented(kind)
-        sizing.setPresented(kind, opening); presentationID = UUID(); updateGates()
+        let before = Set(PerformancePanel.allCases.filter { sizing.isPresented($0) })
+        sizing.setPresented(kind, opening)
+        commands[kind] = UUID()
+        for other in PerformancePanel.allCases where before.contains(other) != sizing.isPresented(other) { commands[other] = UUID() }
+        updateGates()
         if opening && sizing.isPresented(kind) { requestSpace(kind) }
     }
     func begin(_ kind: PerformancePanel) {

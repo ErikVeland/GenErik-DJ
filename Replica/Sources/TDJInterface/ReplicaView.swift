@@ -333,7 +333,7 @@ private struct DeckView: View {
     }
     private func panelHandle(_ kind: PerformancePanel, edge: TouchPanelEdge, title: String) -> some View {
         TouchPanelHandle(presented:panels.isPresented(kind),maximumExtent:panels.maximum(kind),
-            presentationID:panels.presentationID,edge:edge,title:title,
+            presentationID:panels.presentationID(for:kind),edge:edge,title:title,
             accessibilityName:"Deck \(deck.rawValue.uppercased()) \(title)",
             canToggle:kind != .extra || panels.extraVisible || panels.maximum(.extra) >= 144,
             toggle:{ panels.toggle(kind) },begin:{ panels.begin(kind) },

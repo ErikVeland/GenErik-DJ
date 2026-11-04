@@ -1,0 +1,22 @@
+{
+  "notes": "R02/R30/R31: Resizable FX EQ and MORE with shared library gestures, per-deck/orientation size memory, stable held contacts and fixed dock/full-height fader. Corrected EQ grab continuity and cancellation after final review. R34/R35 retained. 2976 focused assertions passed. Supersedes uninstalled build 83.",
+  "sourceCommit": "d6287ff0df0f01a966814edf4babf5cd798c11cd",
+  "sourceSHA256": "4e98c804de0ff9bccac105b0b3f23de44312f851a5d813fa68cc28b551569c4a",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 31.31,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-84.log",
+  "build": 84,
+  "app": "TestBuilds/ipad/84/GenErikDJ.app",
+  "appSHA256": "7d11900f4b82479a92ec7794bfec8ffff567afad9e14ab8eca12eeaaaef7aba8",
+  "state": "superseded-before-install",
+  "createdUTC": "2026-11-04T01:07:29.767598+00:00",
+  "requestIDs": [
+    "R02",
+    "R30",
+    "R31"
+  ],
+  "acceptance": "Not installed. A focused regression found that an EQ command could interrupt an FX resize. Separate per-panel commands supersede this signed candidate.",
+  "supersededReason": "Keep an unrelated panel command from cancelling a resize and a held contact admitted during that resize."
+}

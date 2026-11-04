@@ -10,7 +10,7 @@ The content views remain mounted. Presentation intent and visible extent are sep
 
 ## Verification
 
-`green.log` retains 1,330 dock, 179 library, 36 held-contact and 1,424 performance-panel assertions with zero failures. The last group compiles the actual panel presentation class and input gates. It checks remembered sizes, orientation changes, hidden and clipped content, opposite-pane stability, bounded pairs, grab-lane separation, held mapping, zero-width previews and explicit-close isolation.
+`green.log` retains 1,330 dock, 179 library, 36 held-contact and 1,432 performance-panel assertions with zero failures. The last group compiles the actual panel presentation class and input gates. It checks remembered sizes, orientation changes, hidden and clipped content, opposite-pane stability, bounded pairs, grab-lane separation, held mapping, zero-width previews and explicit-close isolation.
 
 `red.log` and `gates-red.log` retain the missing-interface baselines. `first-check.log` and `diagnostic.log` retain the initial extra-budget defect and the empty-rectangle intersection diagnosis. The budget now caps after subtracting the side panels. Empty clipped regions have no active area. Temporary compiled mutations produce one failure for an ignored opposite-pane budget and five failures when resizing disables FX input. Production source was not mutated.
 
@@ -24,7 +24,7 @@ Task 4: Ruling: combine the three panel migrations into the single test release 
 
 Task 4: Ruling: keep a 200-point minimum side content width, 144-point minimum extras width and separate 44-point grab lanes. Optional extras collapse first when a newly opened side needs room. Very narrow layouts keep their reveal lanes. Cost if wrong: Erik may prefer a different balance of waveform and controls.
 
-Task 4: Ruling: horizontal handle capacity can change during a drag as room is made. It clamps continuously rather than cancelling itself. A new presentation command or viewport configuration still invalidates the old resize gesture. Cost if wrong: simultaneous layout gestures need a focused follow-up.
+Task 4: Ruling: horizontal handle capacity can change during a drag as room is made. It clamps continuously rather than cancelling itself. A command for that panel or a viewport configuration still invalidates its old resize gesture. Cost if wrong: simultaneous layout gestures need a focused follow-up.
 
 Task 4: Ruling: panel size memory remains session-local, as for the library. Cost if wrong: relaunch restores usable defaults instead of saved widths.
 
@@ -38,4 +38,8 @@ Show, resize, hide and reopen FX, EQ and MORE on both decks. Check separate port
 
 Build 83 compiled and signed, but was retained without installation. Three runtime assertions reproduced an EQ grab movement when optional extras collapsed and a missing rollback on cancellation. The corrected state compensates for the layout shift while retaining raw finger travel for flick recognition. Cancel or an abandoned opening restores the extra controls. Performance-space requests occur on explicit or committed opening, so a resize preview does not move the library. Accessibility opening has the same request path.
 
-The final source passes 1,431 performance-panel assertions and all 1,545 earlier dock/library/contact assertions. `grab-runtime-red.log` and `space-request-red.log` retain the failing checks. Build 83 is superseded before installation.
+The final source passes 1,432 performance-panel assertions and all 1,545 earlier dock/library/contact assertions. `grab-runtime-red.log` and `space-request-red.log` retain the failing checks. Build 83 is superseded before installation.
+
+## Separate panel commands
+
+Build 84 compiled and signed but was retained without installation. `panel-command-red.log` reproduces the shared-command defect. Opening EQ changed the FX resize command and could interrupt a held FX contact admitted during that resize. Commands are now separate for each panel. Only commands for the affected panel invalidate its resize. All 2,977 focused assertions pass. Builds 83 and 84 remain saved as uninstalled candidates.

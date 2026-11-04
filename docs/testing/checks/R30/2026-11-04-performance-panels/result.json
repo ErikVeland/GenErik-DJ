@@ -10,29 +10,30 @@
   "status": "source-verified-device-build-pending",
   "filesSHA256": {
     "Replica/Sources/TDJInterface/DeckPanelSizing.swift": "9afef929b6dcd660ec443d28ba2197d8536eeeab94e3003fbf9c7efac55341da",
-    "Replica/Sources/TDJInterface/DeckPanelPresentation.swift": "2331bf03b75bb622a562ad40c3f81565da257e3b39dbb2f8962e9bc6950f74b6",
+    "Replica/Sources/TDJInterface/DeckPanelPresentation.swift": "28a51f5146450428f6e967c6235a5f64d027570ac5a7ac4f521dd4007487405e",
     "Replica/Sources/TDJInterface/TouchPanelState.swift": "6ac8933cbfbbe0f10b8f4451b09245e8aa285ef8dab7c79c4cef06ee244171d0",
     "Replica/Sources/TDJInterface/TouchPanel.swift": "2202559145a0e5e4a8f65e04dc5f291f64a09c4091ab67c2b023d55b3b09bc2c",
-    "Replica/Sources/TDJInterface/ReplicaView.swift": "5210e49119c0b1d6f7c2e69456dc4ac301f8d9b0312ee6aa4d8b86957923af92",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "cac9925fa9fa1ed400b8c3f91b06bba556ea3cbce362ffa546d21cf7bea22d64",
     "Replica/Sources/TDJInterface/PerformanceDock.swift": "08abdfb109108b739ba6d3524de9beed9e3aadde0019d2909cc2479d66c62fe3",
     "Replica/Sources/TDJInterface/EffectsView.swift": "e61a761b0346320fbb30df2c70a291a9976ed3551ab6f7420caa3787da498a12",
     "Replica/Sources/TDJInterface/MixerView.swift": "9c4ff7935e6c97bbf09e05834f841eb5252b78e21db4214f8c4779a78511fc3b",
     "Replica/Sources/TDJInterface/PerformanceControls.swift": "3529f9cf44f8cdaf385e81ec826e727066b8ee30372766ffec51ac4d81ad9cc8",
     "tools/check_touch_layout.py": "671beced4924346ee571409adae0192bab3ed7c9baa7393b933e611a14ff82c9",
-    "tools/check_performance_panels.swift": "4ad0f6005e7cb792f4a693c68605bca4f808a15bd2c547186faecc644fa022b2"
+    "tools/check_performance_panels.swift": "bd088c2ae5c181e1865a9350a17c7713a3718d2731007d88477c49ee094b3a57"
   },
   "checks": {
     "command": "python3 tools/check_touch_layout.py --group all",
     "dock": 1330,
     "library": 179,
     "heldContacts": 36,
-    "performancePanels": 1431,
+    "performancePanels": 1432,
     "failedAssertions": 0,
     "oppositePaneBudgetMutationFailures": 1,
     "resizeCancelsInputMutationFailures": 5,
     "integrity": "R34/R35 source and fixture, R82 native contact bridge, dock rendering and fader geometry unchanged",
     "review": "self-review; no parallel agents under the iPad loop",
-    "reviewCorrections": "Three runtime assertions reproduced grab movement and missing extras restoration; an additional assertion reproduced missing accessibility space requests. All now pass."
+    "reviewCorrections": "Runtime regressions reproduced grab movement, missing extras restoration, missing accessibility space requests and shared panel-command cancellation. All now pass.",
+    "totalAssertions": 2977
   },
   "behaviour": [
     "FX, EQ and extra controls share TouchPanelState and dedicated horizontal grab lanes.",
@@ -50,5 +51,8 @@
     "Auxiliary FX controls retain their existing vertical layout; legibility at the chosen size remains a device check.",
     "This is a layout and input candidate, not a claim of original TDJ1 sound or gesture equivalence."
   ],
-  "preparedUninstalledBuild": 83
+  "preparedUninstalledBuilds": [
+    83,
+    84
+  ]
 }
