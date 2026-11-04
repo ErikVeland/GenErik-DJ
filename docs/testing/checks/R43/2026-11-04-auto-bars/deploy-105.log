@@ -1,0 +1,4 @@
+ERROR: Command timeout of 60.0 seconds exceeded. Assuming command got stuck and aborting.
+Stopped: devicectl device install app exited with code 2. ipad_test.py exited with code 1.
+Saved app: /Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/105/GenErikDJ.app
+No retry or launch request followed. Device installation state is unconfirmed.

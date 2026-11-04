@@ -38,4 +38,9 @@ Run `python3 docs/testing/checks/R29/2026-11-03-late-rhythm/check.py` for the se
 The source-bound genre results are in `genre-review.json`. Native input audio and caches remain local under `TestBuilds/ipad/R43/`.
 Failed and invalid attempts remain recorded. The README and result distinguish the excerpt assumption from the full-song regression.
 
-The signed build and physical iPad handover are pending.
+Signed build **105** passed compilation, framework resolution, signing and source identity checks.
+Its source is `bdbd174157029a0051674225dfc58ef4cfed29d2`. Compilation took 315.86 seconds.
+The installer timed out after 60 seconds. Installation is unconfirmed and launch was not requested.
+The consolidation chat then took ownership of the main merge and final installation. No retry or later device action occurred here.
+The previous cache archive 104 matches the authoritative main-104 digest. Its duplicate record is retained separately.
+See `../../../../coordination/handovers/R43-automatic-bars-2026-11-04.md` for the checkpoint and remaining acceptance.
