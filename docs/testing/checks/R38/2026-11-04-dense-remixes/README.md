@@ -69,3 +69,15 @@ Host checks do not establish A10X preparation cost or physical audio continuity.
 Rejected attempts remain under `TestBuilds/ipad/R38/`. Fixed windows admitted too much instrumental audio and one Dan Croll attempt timed out.
 The stronger-window pass removed that failure. The speech-silence and section evidence fixes recovered the additional vocal roles.
 The diagnostic tools can retain word fingerprints and numerical scores without lyric text.
+
+## iPad handover
+
+Signed build **95** was installed on the 10.5-inch test iPad. iPadOS accepted the launch request.
+Its application source is `1e6ddabecf089c8aec05c1f6b52f1884da25a377`. The build took 63 seconds.
+Embedded-framework resolution, signing, source identity and the bundled model checksum pass.
+The current iPad controls, section editor and launch repairs are included. Device actions stopped after the launch request.
+
+Leave both decks paused while the new section preparation runs.
+Check the Harrison extended mix, the Chic and Michael Jackson 12-inch versions, and a familiar track with existing preparation.
+Check section pickups, cue positions and clean audio during playback and scratching.
+Michael Jackson’s five verse candidates need a fragmentation review. Physical acceptance remains pending.

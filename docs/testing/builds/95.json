@@ -1,0 +1,27 @@
+{
+  "notes": "R38: vocal-guided retries for dense remixes, extended and 12-inch versions. The 28-track genre review gains six vocal-role assignments and preserves nine existing inventories. 48 focused checks, fresh 99 Problems and Dan Croll checks, and guided cancellation pass. Includes current iPad controls and launch repairs. Listening acceptance remains pending.",
+  "sourceCommit": "1e6ddabecf089c8aec05c1f6b52f1884da25a377",
+  "sourceSHA256": "8ca28fea7746cbc72d970dab07de1764fb21f80590d1f9550f9505398e35d42e",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 63.03,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-95.log",
+  "build": 95,
+  "app": "TestBuilds/ipad/95/GenErikDJ.app",
+  "appSHA256": "4acf12f9169979ea1755736b52ef22736eaa49ad07749299c9bbe7e526aa3c03",
+  "state": "testing",
+  "createdUTC": "2026-11-04T03:10:54.894158+00:00",
+  "installedUTC": "2026-11-04T03:12:16.816821+00:00",
+  "launchedUTC": "2026-11-04T03:12:17.193071+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R38",
+    "R35",
+    "R37"
+  ],
+  "focusedChecks": "48 focused checks pass. The 28-track review has 28 valid source timelines and arrangements, six added vocal-role results and nine preserved inventories. Fresh full-source 99 Problems and Dan Croll checks and guided cancellation pass.",
+  "artifactChecks": "Signing, embedded-framework resolution, saved source identity and archive digest pass. The bundled vocal model matches its pinned SHA-256 and byte count.",
+  "buildToolSHA256": "434486e83a8dff384c4e96d8ce83d281775ad1321af4a307ce7483198059d2ea",
+  "acceptance": "Installed on the 10.5-inch test iPad. iPadOS accepted the launch request. Erik checks continued operation, vocal roles, pickup boundaries, possible verse fragmentation, preparation time and clean playback/scratching audio. Both decks must be idle for new structure preparation. Device actions stopped after the launch request."
+}
