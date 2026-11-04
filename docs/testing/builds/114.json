@@ -1,0 +1,27 @@
+{
+  "notes": "R52: icon-only corner control flush with the waveform, five-beat default zoom, and full-height side buttons that follow the visible deck area. Crossfader centres on the divider between equal or unequal decks. Focused layout checks, six core waveform tests and six rendered deck cases pass. Physical acceptance and combined-load profiling remain pending.",
+  "sourceCommit": "b02866e54836da796816c4fc4b353828d8dbea72",
+  "sourceSHA256": "ece005eaae80dedae17ada3bae1302231c1f5828708f3da9b5c5871987b9a01b",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 55.72,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-114.log",
+  "build": 114,
+  "app": "TestBuilds/ipad/114/GenErikDJ.app",
+  "appSHA256": "c7d786ce007911e288a9bed811d274ab80c16c5039d57ca6df1bf28081b0db30",
+  "state": "testing",
+  "createdUTC": "2026-11-04T23:48:33.070288+00:00",
+  "installedUTC": "2026-11-04T23:49:15.181351+00:00",
+  "launchedUTC": "2026-11-04T23:49:15.563090+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "verification": {
+    "request": "R52",
+    "geometryChecks": 2661,
+    "coreWaveformTests": 6,
+    "renderedDeckCases": 6,
+    "failures": 0,
+    "evidence": "TestBuilds/r52/verification.json",
+    "physicalAcceptance": "Pending Erik\u2019s corner control, zoom, deck split and browser resize checks. Combined-load profiling remains open."
+  }
+}

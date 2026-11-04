@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 37.95,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R52",
+      "date": "2026-11-05",
+      "report": "Remove the Actions label and put its icon flush in the waveform corner. Default zoom must cover at least one bar and one beat. Side controls must fill and follow the visible deck area, with the crossfader between the decks.",
+      "fixBuild": 114,
+      "fixCommit": "b02866e54836da796816c4fc4b353828d8dbea72",
+      "state": "awaiting-acceptance"
+    }
+  ],
   "log": "TestBuilds/ipad/build-113.log",
   "build": 113,
   "app": "TestBuilds/ipad/113/GenErikDJ.app",

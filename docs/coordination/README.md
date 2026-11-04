@@ -6,9 +6,9 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
-Latest installed candidate: **build 113**, application source `526ae0e25`. R51 lets the iPad browser expand to the full workspace below the toolbar. Normal opening size, orientation memory and right-hand control positions are retained. Fast release at full height retains that height. All 3,142 focused geometry checks, source identity, signing and framework checks pass. Installation succeeded, iPadOS accepted launch and device actions stopped.
+Latest installed candidate: **build 114**, application source `b02866e54`. R52 removes the visible Actions label and places the icon flush in the waveform corner. Default zoom shows five beats. Side controls fill and follow the deck area, with the crossfader centred on the divider between equal or unequal decks. All 2,661 focused geometry checks, six core waveform tests, six rendered deck cases, source identity, signing and framework checks pass. Installation succeeded, iPadOS accepted launch and device actions stopped.
 
-Erik’s browser drag and control checks remain open. Current request **R50** resumes after that check, as Erik requested. Build 112 has setup captures only, with no combined-load performance result. Profiling both decks, FX, recording and background analysis remains pending on build 113. Automatic analysis pauses during playback by design. Setup evidence and failed attempts remain under ignored `TestBuilds/r50/`, and R51 checks remain under `TestBuilds/r51/`.
+Erik’s corner control, zoom, deck split and browser resize checks remain open. R51 full-height browsing remains included. Current request **R50** resumes after these UI checks. Build 112 has setup captures only, with no combined-load performance result. Profiling both decks, FX, recording and background analysis remains pending on build 114, and automatic analysis pauses during playback by design. Setup and failed evidence remain under ignored `TestBuilds/r50/`, with the UI checks under `TestBuilds/r51/` and `TestBuilds/r52/`.
 
 R48 is recorded in [the cleanup report](../maintenance.md). The stem model, original media, private candidates and failed evidence remain preserved.
 
