@@ -10,6 +10,27 @@ enum BrowserLayoutChecks {
             checks += 1
             if !condition { failures += 1; print("FAIL: \(message)") }
         }
+        for width in [320.0, 375, 430, 599, 600, 619, 744, 834, 1112] {
+            expect(BrowserPresentation.select(isPhone: false, windowWidth: width) == .standard,
+                "iPad keeps its existing layout at every window width")
+        }
+        for (width, front) in [(320.0, true), (375, true), (430, true), (599, true),
+                               (600, false), (619, false), (744, false), (834, false), (1112, false)] {
+            expect((BrowserPresentation.select(isPhone: true, windowWidth: width) == .frontPhone) == front,
+                "only a compact phone window receives the front-screen design")
+        }
+        for width in [0.0, -1, .nan, .infinity] {
+            expect(BrowserPresentation.select(isPhone: true, windowWidth: width) == .standard,
+                "unknown geometry cannot opt into the front-screen design")
+        }
+        var standard = StandardBrowserLayoutState(categoriesHidden: true)
+        expect(!standard.detailHidden, "existing wide browser opens its detail column")
+        standard.showCategories()
+        expect(!standard.categoriesHidden && !standard.detailHidden, "wide browser retains independent side columns")
+        _ = standard.endDetail(translation: 150, velocity: 0, width: 400)
+        expect(standard.detailHidden && !standard.categoriesHidden, "closing wide details leaves categories visible")
+        standard.showDetail()
+        expect(!standard.detailHidden && !standard.categoriesHidden, "restoring wide details retains categories")
         var state = BrowserLayoutState(categoriesHidden: true)
         expect(state.detailHidden, "opening Songs gives the list all available width")
         state.showDetail()

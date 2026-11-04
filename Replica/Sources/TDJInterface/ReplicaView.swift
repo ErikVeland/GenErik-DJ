@@ -37,7 +37,7 @@ public struct ReplicaView: View {
         GeometryReader { geometry in
             HStack(spacing: 0) {
                 if model.helpVisible { GestureHelp { model.helpVisible=false }.frame(width:280) }
-                performanceSurface.frame(maxWidth: .infinity, maxHeight: .infinity)
+                performanceSurface(windowWidth: geometry.size.width).frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             .frame(width: geometry.size.width, height: geometry.size.height, alignment: .topLeading)
             .onChange(of: geometry.size) { _, _ in touchInterruption = UUID() }
@@ -49,12 +49,21 @@ public struct ReplicaView: View {
         .persistentSystemOverlays(.hidden)
 #endif
     }
-    private var performanceSurface: some View {
+    private var isPhone: Bool {
+#if os(iOS)
+        UIDevice.current.userInterfaceIdiom == .phone
+#else
+        false
+#endif
+    }
+
+    private func performanceSurface(windowWidth: Double) -> some View {
         VStack(spacing: 0) {
             PerformanceToolbar(model:model,tempoWheelVisible:$tempoWheelVisible,
                 audioSettingsPresented:$audioSettingsPresented,
                 importPresented:$importPresented,traktorImportPresented:$traktorImportPresented)
             GeometryReader { space in
+                let frontBrowser = BrowserPresentation.select(isPhone: isPhone, windowWidth: windowWidth) == .frontPhone
                 let workspace = PerformanceWorkspaceGeometry(width: space.size.width, height: space.size.height,
                     libraryExtent: libraryPanel.extent)
                 let split = deckSplit.geometry(width: workspace.deckArea.width - 12, height: workspace.deckArea.height)
@@ -98,15 +107,23 @@ public struct ReplicaView: View {
                                 libraryPanel.adjust(by: delta)
                                 model.browserVisible = libraryPanel.extent > 0
                             })
-                            .frame(minWidth: 180, maxWidth: .infinity)
-                          LibraryWorkspaceShortcuts(selected: libraryPanel.selectedShortcut) { shortcut in
-                              libraryPanel.apply(shortcut)
-                              model.browserVisible = libraryPanel.extent > 0
-                          }.layoutPriority(1)
+                            .frame(minWidth: frontBrowser ? 180 : 0, maxWidth: .infinity)
+                          if frontBrowser {
+                              LibraryWorkspaceShortcuts(selected: libraryPanel.selectedShortcut) { shortcut in
+                                  libraryPanel.apply(shortcut)
+                                  model.browserVisible = libraryPanel.extent > 0
+                              }.layoutPriority(1)
+                          }
                         }
                         .frame(height: AdaptivePerformanceLayout.libraryHandleHeight)
                         .background(PerformancePalette.frame)
-                        BrowserView(model: model, importAudio: { importPresented = true }, linkCollection: { traktorImportPresented = true })
+                        Group {
+                            if frontBrowser {
+                                FrontBrowserView(model: model, importAudio: { importPresented = true }, linkCollection: { traktorImportPresented = true })
+                            } else {
+                                BrowserView(model: model, importAudio: { importPresented = true }, linkCollection: { traktorImportPresented = true })
+                            }
+                        }
                             .frame(width: workspace.libraryArea.width, height: workspace.libraryArea.height, alignment: .top)
                             .clipped().allowsHitTesting(libraryPanel.acceptsContentInput)
                             .disabled(!libraryPanel.acceptsContentInput).accessibilityHidden(!libraryPanel.acceptsContentInput)

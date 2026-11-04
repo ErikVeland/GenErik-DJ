@@ -1,0 +1,32 @@
+{
+  "requestIDs": [
+    "R42",
+    "R28",
+    "R39",
+    "R40"
+  ],
+  "baselineWideSource": "811d75fd3",
+  "sourceSHA256": "bad1e35a3328c04ae0176d8f2753de4a1d4e47dbeee1ae3437d1fa8e52302a34",
+  "scope": "Closed/front phone windows only. Every iPad window and phone windows of at least 600 points retain the existing browser. Selection uses full window width, so help and drawers cannot trigger a front-screen layout.",
+  "checks": {
+    "browser": {
+      "assertions": 130,
+      "failures": 0,
+      "log": "browser.log"
+    },
+    "dock": {
+      "assertions": 1330,
+      "failures": 0,
+      "log": "dock.log"
+    },
+    "tabletRoutingMutation": {
+      "assertions": 130,
+      "failures": 4,
+      "log": "mutation.log"
+    }
+  },
+  "restoration": "restoration.json",
+  "build": "pending",
+  "deviceScope": "Prepare and install the restored iPad layout only. Do not deploy to Duo.",
+  "acceptance": "Erik checks the restored iPad browser, fixed controls and clean audio. Front-screen physical usability and Duo inside routing remain untested on hardware."
+}
