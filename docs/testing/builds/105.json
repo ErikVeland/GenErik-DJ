@@ -1,0 +1,33 @@
+{
+  "notes": "R43: automatic bar starts and untouched import refresh. Actual iPad Creep cache gives 136.017769 BPM and bar one at 0.180574 seconds. Thirty focused checks pass; nine recordings across eight genre hints and extended, 12-inch, dub, remix and instrumental versions reviewed. Preserve edited, locked and adaptive grids; retain weaker imports. Includes latest immediate-load and waveform fixes. Physical audio and handoff acceptance remain pending.",
+  "sourceCommit": "bdbd174157029a0051674225dfc58ef4cfed29d2",
+  "sourceSHA256": "9906996ab9fd2f88e0b6deba2f62162b192487c5d0300829778ebe3b693f2d91",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 315.86,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-105.log",
+  "build": 105,
+  "app": "TestBuilds/ipad/105/GenErikDJ.app",
+  "appSHA256": "d07ad11d43f459d1f8e93a123e4ab1c63a5128362f7c1e730e3091a173a1bfbf",
+  "state": "ready-install-timeout",
+  "createdUTC": "2026-11-04T10:12:37.861881+00:00",
+  "requestIDs": [
+    "R43"
+  ],
+  "artifactLocation": "/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/105/GenErikDJ.app",
+  "deploymentStatus": "Installation unconfirmed after the 60-second installer timeout. Launch was not requested.",
+  "focusedChecks": "30 focused cases pass; actual iPad Creep cache and saved-preparation replay pass. Nine recordings across eight genre-family hints reviewed. Two bar results remain unresolved; five lower-support candidates retain their imports.",
+  "acceptance": "Consolidation handoff: no further edits, builds, pushes or device operations from this chat. Merge and verify from main. Physical handoff and audio acceptance remain pending.",
+  "deploymentAttempts": [
+    {
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "timed-out-unconfirmed",
+      "installTimeoutSeconds": 60,
+      "installerExitCode": 2,
+      "helperExitCode": 1,
+      "launchRequested": false,
+      "note": "No retry was started. No device-version read occurred after the stop instruction."
+    }
+  ]
+}

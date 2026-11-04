@@ -82,12 +82,27 @@
     "First reliable anchor times in long intros are not necessarily the earliest mathematically extrapolated bar."
   ],
   "build": {
-    "state": "pending"
+    "build": 105,
+    "sourceCommit": "bdbd174157029a0051674225dfc58ef4cfed29d2",
+    "sourceSHA256": "9906996ab9fd2f88e0b6deba2f62162b192487c5d0300829778ebe3b693f2d91",
+    "appSHA256": "d07ad11d43f459d1f8e93a123e4ab1c63a5128362f7c1e730e3091a173a1bfbf",
+    "buildSeconds": 315.86,
+    "state": "ready-install-timeout",
+    "artifactLocation": "/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/105/GenErikDJ.app",
+    "deploymentStatus": "Installation unconfirmed after the 60-second installer timeout. Launch was not requested."
   },
   "failedEvidence": {
     "initialRed": "The existing distinctiveness detector selects a loud snare and misses the Creep bar.",
     "invalidRun": "One check reused generated files during another compile. Its result is invalid and retained as overlapping-check-invalid.log. Later runs use unique temporary folders.",
     "excerptAssumption": "A 32-second excerpt was initially expected to establish Creep\u2019s bar. It remains inconclusive. The target regression now freezes the full-song beat features and asserts bar zero; the short-excerpt test asserts uncertainty and preserved beat alignment.",
     "intermediateSourceBinding": "Intermediate edited source snapshots were not sealed for every failure. The final source hashes bind the passing checks; logs remain preserved."
+  },
+  "consolidationHandoff": {
+    "implementationCommit": "d3b233b7c",
+    "combinedSourceCommit": "bdbd174157029a0051674225dfc58ef4cfed29d2",
+    "branch": "feature/automatic-bars-r43",
+    "scope": "Source is committed. The consolidation chat owns the final main merge, verification and installation.",
+    "deviceState": "105 installation timed out; no launch, no retry, no later device check.",
+    "retainedCache104": "The helper-retained archive digest matches the authoritative main build 104 record. Its duplicate unverified record is retained as parallel-cache-104.json; main\u2019s build 104 record was not changed."
   }
 }
