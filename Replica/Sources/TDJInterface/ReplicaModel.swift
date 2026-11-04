@@ -242,6 +242,7 @@ public final class ReplicaModel {
             controlDisplay.update(playbackSnapshot)
             let wasPlaying=DeckID.allCases.contains { oldValue?[$0].phase.active == true || oldValue?[$0].touchActive == true }
             updateArrangementScheduling(wasPlaying:wasPlaying)
+            updateDeckAnalysisScheduling(wasPlaying:wasPlaying)
         }
     }
     private var mixerPreferences = MixerPreferences()
@@ -262,6 +263,8 @@ public final class ReplicaModel {
     }
     public func finishForShutdown() async {
         waveformShutdown=true
+        for task in deckAnalysisTasks.values { task.cancel() }
+        for task in Array(deckAnalysisTasks.values) { await task.value }
         musicLibraryRefreshTask?.cancel()
         waveformRequests.removeAll()
         for task in waveformWork.values { task.cancel() }
@@ -412,6 +415,10 @@ public final class ReplicaModel {
     }
     @ObservationIgnored private var committedPreparations: [DeckID:LoadPreparation] = [:]
     private var playbackMonitor: Task<Void, Never>?
+    private var pendingLoadPlay: [DeckID: UUID] = [:]
+    public var playWhenReady: Set<DeckID> { Set(pendingLoadPlay.keys) }
+    private var deckAnalysisTasks: [DeckID: Task<Void, Never>] = [:]
+    private var deckAnalysisAttempts: [DeckID: UUID] = [:]
     private var loadTokens: [DeckID: UUID] = [:]
     private var committedTrackIDs: [DeckID: String] = [:]
 
@@ -748,6 +755,8 @@ public final class ReplicaModel {
         do {
             if try performance.installTraktorCues(for: track) { savePerformance() }
         } catch { status = error.localizedDescription; onFailure?(error); return nil }
+        if nativeLoadOwner == nil { pendingLoadPlay.removeValue(forKey: deck) }
+        deckAnalysisTasks[deck]?.cancel()
         let token = UUID()
         let keyIntent = PendingLoadKey(trackID:trackID,stored:storedKey,effective:track.preparation.correctedKey)
         pendingLoadKeys = pendingLoadKeys.filter { $0.value.value != nil }
@@ -766,40 +775,14 @@ public final class ReplicaModel {
         selectedTrackID = nil
         let event = PerformanceEvent(sessionID: sessionID, kind: .load, timestamp: Date(),
             fromTrackID: loaded[deck == .a ? .b : .a], toTrackID: trackID)
+        prepareWaveform(track)
         let previous = playbackLoads
         let loadTask = Task {
             await previous?.value
             guard loadTokens[deck] == token else { return }
             do {
                 guard let requested=loadPreparations[deck], requested.token==token else { return }
-                var sourceTrack=requested.track
-                if NativeAnalysisPlan.needsDeckAnalysis(deferred:sourceTrack.analysis.musicalAnalysisDeferred,bpm:sourceTrack.bpm,key:sourceTrack.key) {
-                    cancelNativeMusicAnalysis()
-                    status = "Analysing \(sourceTrack.title)…"
-                    let protectedTracks = Set(loaded.values).subtracting([trackID])
-                    let snapshot: LibrarySnapshot
-                    if let sourceURL, let nativeMetadata {
-                        snapshot = try await service.analyzeNativeMusic(url: sourceURL, musicLibrary: nativeMetadata,
-                            preservePreparationFor: protectedTracks)
-                    } else {
-                        snapshot = try await service.importAudio(
-                            url: sourceURL ?? store.mediaDirectory.appendingPathComponent(sourceTrack.mediaFilename),
-                            preservePreparationFor: protectedTracks, copyMedia: false, forceFullAnalysis: true)
-                    }
-                    try Task.checkCancellation()
-                    guard loadTokens[deck] == token else { return }
-                    guard let analysed = snapshot.track(id: trackID) else { throw TransportError.nativeSourceChanged }
-                    adoptLibrary(snapshot)
-                    sourceTrack = analysed.resolvingTraktorPreparation()
-                    if let pending = pendingPreparations[trackID] { sourceTrack.preparation = pending.value }
-                    loadPreparations[deck] = .init(token: token, track: sourceTrack)
-                    var missing=[String]()
-                    if sourceTrack.bpm == nil { missing.append("BPM") }
-                    if sourceTrack.key == nil { missing.append("key") }
-                    let result=missing.isEmpty ? "Analysis finished for \(sourceTrack.title).":"Analysis finished for \(sourceTrack.title). No reliable \(missing.joined(separator:" or ")) was detected."
-                    logAnalysis(result)
-                    if status == "Analysing \(requested.track.title)…" { status=missing.isEmpty ? "":result }
-                }
+                let sourceTrack=requested.track
                 let preparedSourceTrack = sourceTrack
                 try await playback.load(track:preparedSourceTrack,store:store,deck:deck,sourceURL:sourceURL,committed:{ [weak self = self] generation in
                     guard let self else { return }
@@ -844,9 +827,15 @@ public final class ReplicaModel {
                 warmCuePositions(deck: deck)
                 prepareWaveform(preparedSourceTrack)
                 enqueueHistory(event)
+                if pendingLoadPlay[deck] == (nativeLoadOwner ?? token) {
+                    pendingLoadPlay[deck] = nil
+                    pressPlay(deck: deck, vinylStop: false)
+                }
+                scheduleDeckAnalysis(deck: deck)
             } catch {
                 onFailure?(error)
                 if loadTokens[deck] == token {
+                    if pendingLoadPlay[deck] == (nativeLoadOwner ?? token) { pendingLoadPlay[deck] = nil }
                     let obsoleteNativeLoad = nativeLoadOwner.map { nativeMusic.loadOwners[deck] != $0 } ?? false
                     let handledNativeFailure = nativeLoadOwner != nil
                         && (error is CancellationError || (error as? TransportError) == .nativeSourceChanged)
@@ -867,6 +856,87 @@ public final class ReplicaModel {
         playbackLoads = loadTask
         return loadTask
     }
+    var deckAnalysisIsRunning: Bool { !deckAnalysisTasks.isEmpty }
+
+    func cancelDeckLoadIntent(deck: DeckID) {
+        pendingLoadPlay.removeValue(forKey: deck)
+        deckAnalysisTasks[deck]?.cancel()
+    }
+
+    func scheduleDeckAnalysis(deck: DeckID) {
+        guard !waveformShutdown, !arrangementPlaybackActive, !preparingTrack.contains(deck),
+              deckAnalysisTasks[deck] == nil, let pin = loadPreparations[deck],
+              let generation = pin.generation, deckAnalysisAttempts[deck] != pin.token,
+              NativeAnalysisPlan.needsDeckAnalysis(deferred: pin.track.analysis.musicalAnalysisDeferred,
+                  bpm: pin.track.bpm, key: pin.track.key) else { return }
+        let token = pin.token, id = pin.track.id
+        cancelNativeMusicAnalysis()
+        deckAnalysisAttempts[deck] = token
+        deckAnalysisTasks[deck] = Task(priority: .background) { [weak self] in
+            guard let self else { return }
+            defer {
+                self.deckAnalysisTasks[deck] = nil
+                if Task.isCancelled { self.scheduleDeckAnalysis(deck: deck) }
+                if self.deckAnalysisTasks.isEmpty { self.startNativeMusicAnalysis() }
+            }
+            do {
+                self.logAnalysis("Analysing \(pin.track.title) after audio readiness")
+                let snapshot: LibrarySnapshot
+                if pin.track.nativeLibraryOnly == true {
+                    guard let item = self.musicLibraryCatalog?.items.first(where: {
+                        pin.track.musicLibrarySources?.contains($0.source) == true && $0.isOnDevice
+                    }) else { throw MusicLibraryError.missingAudio }
+                    snapshot = try await self.withNativeAudio(item) { prepared in
+                        try await self.service.analyzeNativeMusic(url: prepared.url, musicLibrary: prepared.metadata,
+                            preservePreparationFor: Set(self.loaded.values).subtracting([id]))
+                    }
+                } else {
+                    snapshot = try await self.service.importAudio(
+                        url: self.store.mediaDirectory.appendingPathComponent(pin.track.mediaFilename),
+                        preservePreparationFor: Set(self.loaded.values).subtracting([id]),
+                        copyMedia: false, forceFullAnalysis: true)
+                }
+                try Task.checkCancellation()
+                self.adoptLibrary(snapshot)
+                guard self.loadTokens[deck] == token, self.loadPreparations[deck]?.generation == generation,
+                      !self.arrangementPlaybackActive, let analysed = snapshot.track(id: id) else { return }
+                var updated = analysed.resolvingTraktorPreparation()
+                if let pending = self.pendingPreparations[id] { updated.preparation = pending.value }
+                if let grid = updated.grid, grid != self.grid(deck) {
+                    try self.playback.updateGrid(grid, deck: deck)
+                }
+                let accepted = LoadPreparation(token: token, track: updated, generation: generation)
+                self.loadPreparations[deck] = accepted
+                self.committedPreparations[deck] = accepted
+                self.prepareWaveform(updated)
+                self.refreshPlayback()
+                var missing = [String]()
+                if updated.bpm == nil { missing.append("BPM") }
+                if updated.key == nil { missing.append("key") }
+                self.logAnalysis(missing.isEmpty ? "Analysis finished for \(updated.title)."
+                    : "Analysis finished for \(updated.title). No reliable \(missing.joined(separator: " or ")) was detected.")
+            } catch is CancellationError {
+                if self.deckAnalysisAttempts[deck] == token { self.deckAnalysisAttempts[deck] = nil }
+            } catch {
+                self.logAnalysis("Analysis unavailable for \(pin.track.title): \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func updateDeckAnalysisScheduling(wasPlaying: Bool) {
+        if arrangementPlaybackActive {
+            cancelNativeMusicAnalysis()
+            for task in deckAnalysisTasks.values { task.cancel() }
+        } else if wasPlaying {
+            for deck in DeckID.allCases { scheduleDeckAnalysis(deck: deck) }
+            startNativeMusicAnalysis()
+        }
+    }
+
+    func flushDeckAnalysis() async {
+        for task in Array(deckAnalysisTasks.values) { await task.value }
+    }
+
     private func reconcileAcceptedGrid(_ intent: PendingLoadKey, token: UUID, deck: DeckID, generation: UInt64) {
         guard let grid = intent.grid, let actual = committedPreparations[deck],
               actual.token == token, actual.generation == generation, actual.track.grid != grid else { return }
@@ -1106,7 +1176,11 @@ public final class ReplicaModel {
         if let error = messages.compactMap(\.error).last { status = error.localizedDescription }
     }
     public func pressPlay(deck: DeckID, vinylStop: Bool? = nil) {
-        guard !preparingPlayback.contains(deck) else { return }
+        if preparingTrack.contains(deck) {
+            guard let owner = nativeMusic.loadOwners[deck] ?? loadTokens[deck] else { return }
+            pendingLoadPlay[deck] = pendingLoadPlay[deck] == owner ? nil : owner
+            return
+        }
         do {
             let vinylStop = vinylStop ?? UserDefaults.standard.bool(forKey:DeckToolSettings.vinylStop)
             let state = playback.core.snapshot()?[deck]
@@ -1167,6 +1241,7 @@ public final class ReplicaModel {
         catch { status = error.localizedDescription }
     }
     public func stopAudio() {
+        pendingLoadPlay.removeAll()
         cancelPendingNativeMusicLoads()
         persistMixerPreferences()
         refreshPlayback()

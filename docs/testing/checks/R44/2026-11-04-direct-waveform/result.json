@@ -1,0 +1,82 @@
+{
+  "request": "R44",
+  "baseCommit": "921b1569603fafe8150d19b396dee80c9751127b",
+  "feedbackBuild": 98,
+  "feedbackBuildAssumed": true,
+  "files": {
+    "Replica/Scripts/transport-transition-native-check.cpp": "ff4c06912714b72e712b4cb9e67797543be264672c25b2e9120de15b88034e96",
+    "Replica/Sources/CTDJTransport/TDJTransport.c": "56c0e045a77d4ab75226158ab7b914c1cee12ff030e70a8bf0bde0b6d41ac34c",
+    "Replica/Sources/CTDJTransport/include/TDJTransport.h": "65b9e0bae42c5be24e84bc1307271453c9e1bbfff4c692717d67922dfbe8a755",
+    "Replica/Sources/TDJCore/SampleTransport.swift": "1071aa25ca905d8eb022ce2e1233c622d122616f11dc7502488cfa4243517aea",
+    "Replica/Sources/TDJCore/SourceControl.swift": "78ca406da7bd33d602061906b4994f40bd10f10f27c908197e24ecc973ff9714",
+    "Replica/Sources/TDJCore/SourceControlPlanning.swift": "d7b6ccb23b369ad03d69b4a2a17af1b825bb1a39efdbc734c884d48a53c255ed",
+    "Replica/Sources/TDJInterface/PerformanceModel.swift": "b540a2c345f0789e175c5438626c72bb630198f7a238d8c18d9cff706fd0c76d",
+    "Replica/Sources/TDJInterface/PlaybackController.swift": "f2fc602ce50e6e2ea220d5fd95d207e5028aa611cc9495b4c95b33e0d0cf9ebb",
+    "Replica/Sources/TDJInterface/WaveformTouch.swift": "9b2b3f0f558f4292fb1e33b884fbe5f754e14e721123487b4948aeebf68fd55e",
+    "Replica/Tests/TDJInterfaceTests/WaveformScratchContinuityTests.swift": "7fd998d8946406eaf7adabb4b707fcedc5e81b6a682782b7f49fc80edf4e1984",
+    "docs/coordination/requests.md": "fb8559cbbd036b85bd8c23ffe2eca78763cba122bcd5a24557f1fb934839bdc1",
+    "docs/testing/builds/98.json": "4edb96eb6652230a2be6f5a65a93cf5f912ce34017099bc5cb151be59f578fcd",
+    "Replica/Sources/TDJInterface/WaveformDragMotion.swift": "2062393cd12d1b614866d55ac78bce14de8112f9d76ebf24814105edc9743db3",
+    "tools/check_waveform_motion.swift": "f9d0b9f95bdfb2245c659aea1384bc9b9394c336ea4650fa91a3c8b995dffca1",
+    "tools/check_waveform_session.py": "b927349aadf49b0996b2d2b7890edfc6f3c6a1776e27dd4e42719f7f56070473"
+  },
+  "checks": {
+    "motion": {
+      "assertions": 93,
+      "result": "pass"
+    },
+    "native": {
+      "sampleRates": [
+        44100,
+        48000,
+        96000
+      ],
+      "result": "pass",
+      "scope": "Direct position, hold, reversal, Flux, paused/playing release and legacy scratch continuity. PCM software output only."
+    },
+    "session": {
+      "tests": 2,
+      "result": "pass",
+      "scope": "Real ReplicaModel and WaveformGestureSession using package objects. Direct motion, stationary hold, throw, catch and cancellation."
+    },
+    "packageAttempt": {
+      "result": "blocked",
+      "reason": "Existing ControllerMIDIUMPDecoderTests.swift optional chaining on non-optional arrays prevents the package runner. No unrelated test repair."
+    },
+    "combinedModule": {
+      "result": "incomplete",
+      "reason": "Another task modified BeatGrid.swift during the check in the shared integration checkout. No pass is claimed. The signed build uses the isolated R44 checkout."
+    },
+    "eofReversal": {
+      "red": "eof-red.log reproduces silence after EOF",
+      "green": "eof-green.log passes at 44100, 48000 and 96000 Hz",
+      "scope": "Held contact resumes playback after moving back from EOF. The clock restarts. Release restores the original paused state."
+    },
+    "signedIPad": {
+      "result": "pass",
+      "sourceCommit": "3b241891ab033301471c0d9eee688917ee70d6bc",
+      "uncommittedAppChanges": "",
+      "scope": "Compilation, framework resolution, signing, archive identity and current source identity. Installation succeeded. Automatic launch timed out."
+    }
+  },
+  "limitations": "The shared combined host check was incomplete. The signed combined app compiled successfully. Physical feel, listening, launch and continued-operation acceptance remain pending.",
+  "sessionApplicationCommit": "e72fde5b6",
+  "combinedApplicationCommit": "63c80376f",
+  "buildQueue": {
+    "firstAttempt": "Did not start. The shared build lock was held by R45 build 101. No device action."
+  },
+  "finalNativeFiles": {
+    "Replica/Sources/CTDJTransport/TDJTransport.c": "0775f949d435a9006a9a2c9dfb0eae14079be3f4683ec8d211a7af02c9454cd0",
+    "Replica/Scripts/transport-transition-native-check.cpp": "f6c196aff62d90239683cadb4afee692c576c541684be08b0e0beb414d3c4c02"
+  },
+  "interruptedBuild": 102,
+  "candidate": {
+    "build": 103,
+    "sourceCommit": "3b241891ab033301471c0d9eee688917ee70d6bc",
+    "sourceSHA256": "a130e5b1577b775b95dedfa6b96d50e6ccd5be664ceb87100bdabcfd29dfd68f",
+    "appSHA256": "8e9ea0a4c5f2e26786423de0237bf46a18d9d5aaab8d0e89417939532bb9a657",
+    "state": "installed",
+    "installedUTC": "2026-11-04T09:32:36.484004+00:00",
+    "launchVerification": "Automatic launch timed out after 10 seconds. No successful launch is claimed. Erik opens the app manually."
+  }
+}

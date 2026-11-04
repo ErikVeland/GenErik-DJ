@@ -1,0 +1,1585 @@
+Downloading binary artifact https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip
+[0/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (16 KB / 50.4 MB)
+[1/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (604 KB / 50.4 MB)
+[1/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (866 KB / 50.4 MB)
+[2/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (1.1 MB / 50.4 MB)
+[2/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (1.4 MB / 50.4 MB)
+[3/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (1.7 MB / 50.4 MB)
+[3/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (1.9 MB / 50.4 MB)
+[4/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (2.2 MB / 50.4 MB)
+[4/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (2.5 MB / 50.4 MB)
+[5/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (2.7 MB / 50.4 MB)
+[5/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (3 MB / 50.4 MB)
+[6/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (3.2 MB / 50.4 MB)
+[6/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (3.5 MB / 50.4 MB)
+[7/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (3.8 MB / 50.4 MB)
+[8/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (4.1 MB / 50.4 MB)
+[8/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (4.3 MB / 50.4 MB)
+[9/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (4.6 MB / 50.4 MB)
+[9/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (4.8 MB / 50.4 MB)
+[10/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (5.1 MB / 50.4 MB)
+[10/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (5.4 MB / 50.4 MB)
+[11/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (5.7 MB / 50.4 MB)
+[11/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (5.9 MB / 50.4 MB)
+[12/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (6.2 MB / 50.4 MB)
+[12/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (6.5 MB / 50.4 MB)
+[13/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (6.7 MB / 50.4 MB)
+[13/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (7 MB / 50.4 MB)
+[14/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (7.2 MB / 50.4 MB)
+[14/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (7.5 MB / 50.4 MB)
+[15/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (7.8 MB / 50.4 MB)
+[15/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (8 MB / 50.4 MB)
+[16/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (8.3 MB / 50.4 MB)
+[16/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (8.6 MB / 50.4 MB)
+[17/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (8.8 MB / 50.4 MB)
+[18/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (9.1 MB / 50.4 MB)
+[18/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (9.4 MB / 50.4 MB)
+[19/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (9.6 MB / 50.4 MB)
+[19/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (9.9 MB / 50.4 MB)
+[20/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (10.2 MB / 50.4 MB)
+[20/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (10.4 MB / 50.4 MB)
+[20/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (10.5 MB / 50.4 MB)
+[21/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (10.8 MB / 50.4 MB)
+[21/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (11 MB / 50.4 MB)
+[22/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (11.3 MB / 50.4 MB)
+[22/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (11.6 MB / 50.4 MB)
+[23/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (11.8 MB / 50.4 MB)
+[24/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (12.1 MB / 50.4 MB)
+[24/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (12.4 MB / 50.4 MB)
+[25/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (12.6 MB / 50.4 MB)
+[25/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (12.9 MB / 50.4 MB)
+[26/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (13.2 MB / 50.4 MB)
+[26/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (13.4 MB / 50.4 MB)
+[27/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (13.7 MB / 50.4 MB)
+[27/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (14 MB / 50.4 MB)
+[28/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (14.3 MB / 50.4 MB)
+[28/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (14.5 MB / 50.4 MB)
+[29/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (14.8 MB / 50.4 MB)
+[29/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (15 MB / 50.4 MB)
+[30/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (15.3 MB / 50.4 MB)
+[30/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (15.6 MB / 50.4 MB)
+[31/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (15.8 MB / 50.4 MB)
+[31/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (16.1 MB / 50.4 MB)
+[32/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (16.4 MB / 50.4 MB)
+[33/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (16.6 MB / 50.4 MB)
+[33/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (16.9 MB / 50.4 MB)
+[34/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (17.4 MB / 50.4 MB)
+[35/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (17.7 MB / 50.4 MB)
+[35/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (18 MB / 50.4 MB)
+[36/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (18.3 MB / 50.4 MB)
+[36/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (18.5 MB / 50.4 MB)
+[37/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (18.8 MB / 50.4 MB)
+[37/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (19.1 MB / 50.4 MB)
+[38/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (19.3 MB / 50.4 MB)
+[38/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (19.6 MB / 50.4 MB)
+[39/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (19.8 MB / 50.4 MB)
+[39/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (20.1 MB / 50.4 MB)
+[40/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (20.4 MB / 50.4 MB)
+[40/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (20.6 MB / 50.4 MB)
+[41/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (20.9 MB / 50.4 MB)
+[41/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (21 MB / 50.4 MB)
+[42/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (21.2 MB / 50.4 MB)
+[42/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (21.5 MB / 50.4 MB)
+[43/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (21.8 MB / 50.4 MB)
+[43/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (22.1 MB / 50.4 MB)
+[44/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (22.3 MB / 50.4 MB)
+[44/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (22.6 MB / 50.4 MB)
+[45/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (22.9 MB / 50.4 MB)
+[45/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (23.1 MB / 50.4 MB)
+[46/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (23.4 MB / 50.4 MB)
+[46/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (23.7 MB / 50.4 MB)
+[47/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (23.9 MB / 50.4 MB)
+[47/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (24.2 MB / 50.4 MB)
+[48/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (24.5 MB / 50.4 MB)
+[49/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (24.7 MB / 50.4 MB)
+[49/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (25 MB / 50.4 MB)
+[50/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (25.2 MB / 50.4 MB)
+[50/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (25.5 MB / 50.4 MB)
+[51/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (25.8 MB / 50.4 MB)
+[51/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (26 MB / 50.4 MB)
+[52/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (26.3 MB / 50.4 MB)
+[52/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (26.6 MB / 50.4 MB)
+[53/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (26.8 MB / 50.4 MB)
+[53/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (27.1 MB / 50.4 MB)
+[54/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (27.4 MB / 50.4 MB)
+[54/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (27.6 MB / 50.4 MB)
+[55/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (27.9 MB / 50.4 MB)
+[55/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (28.2 MB / 50.4 MB)
+[56/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (28.4 MB / 50.4 MB)
+[56/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (28.7 MB / 50.4 MB)
+[57/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (29 MB / 50.4 MB)
+[57/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (29.2 MB / 50.4 MB)
+[58/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (29.5 MB / 50.4 MB)
+[58/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (29.8 MB / 50.4 MB)
+[59/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (30 MB / 50.4 MB)
+[60/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (30.3 MB / 50.4 MB)
+[60/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (30.6 MB / 50.4 MB)
+[61/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (30.9 MB / 50.4 MB)
+[61/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (31.1 MB / 50.4 MB)
+[62/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (31.4 MB / 50.4 MB)
+[62/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (31.5 MB / 50.4 MB)
+[62/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (31.7 MB / 50.4 MB)
+[63/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (32 MB / 50.4 MB)
+[63/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (32.3 MB / 50.4 MB)
+[64/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (32.6 MB / 50.4 MB)
+[65/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (32.8 MB / 50.4 MB)
+[65/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (33.1 MB / 50.4 MB)
+[66/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (33.3 MB / 50.4 MB)
+[66/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (33.6 MB / 50.4 MB)
+[67/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (34.1 MB / 50.4 MB)
+[68/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (34.4 MB / 50.4 MB)
+[68/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (34.6 MB / 50.4 MB)
+[69/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (34.9 MB / 50.4 MB)
+[69/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (35.2 MB / 50.4 MB)
+[70/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (35.5 MB / 50.4 MB)
+[70/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (35.7 MB / 50.4 MB)
+[71/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (36 MB / 50.4 MB)
+[71/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (36.3 MB / 50.4 MB)
+[72/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (36.6 MB / 50.4 MB)
+[73/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (36.8 MB / 50.4 MB)
+[73/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (37.1 MB / 50.4 MB)
+[74/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (37.4 MB / 50.4 MB)
+[74/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (37.7 MB / 50.4 MB)
+[75/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (37.9 MB / 50.4 MB)
+[75/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (38.2 MB / 50.4 MB)
+[76/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (38.5 MB / 50.4 MB)
+[76/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (38.7 MB / 50.4 MB)
+[77/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (39 MB / 50.4 MB)
+[77/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (39.3 MB / 50.4 MB)
+[78/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (39.6 MB / 50.4 MB)
+[78/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (39.8 MB / 50.4 MB)
+[79/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (40.1 MB / 50.4 MB)
+[80/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (40.4 MB / 50.4 MB)
+[80/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (40.7 MB / 50.4 MB)
+[81/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (40.9 MB / 50.4 MB)
+[81/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (41.2 MB / 50.4 MB)
+[82/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (41.5 MB / 50.4 MB)
+[82/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (41.7 MB / 50.4 MB)
+[83/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (41.9 MB / 50.4 MB)
+[83/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (42.2 MB / 50.4 MB)
+[84/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (42.8 MB / 50.4 MB)
+[85/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (43.1 MB / 50.4 MB)
+[85/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (43.3 MB / 50.4 MB)
+[86/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (43.6 MB / 50.4 MB)
+[87/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (43.9 MB / 50.4 MB)
+[87/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (44.2 MB / 50.4 MB)
+[88/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (44.4 MB / 50.4 MB)
+[88/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (44.7 MB / 50.4 MB)
+[89/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (45 MB / 50.4 MB)
+[89/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (45.3 MB / 50.4 MB)
+[90/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (45.5 MB / 50.4 MB)
+[90/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (45.8 MB / 50.4 MB)
+[91/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (46.1 MB / 50.4 MB)
+[91/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (46.3 MB / 50.4 MB)
+[92/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (46.6 MB / 50.4 MB)
+[92/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (46.9 MB / 50.4 MB)
+[93/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (47.2 MB / 50.4 MB)
+[94/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (47.4 MB / 50.4 MB)
+[94/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (47.7 MB / 50.4 MB)
+[95/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (48 MB / 50.4 MB)
+[95/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (48.3 MB / 50.4 MB)
+[96/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (48.6 MB / 50.4 MB)
+[96/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (48.8 MB / 50.4 MB)
+[97/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (49.1 MB / 50.4 MB)
+[97/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (49.4 MB / 50.4 MB)
+[98/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (49.7 MB / 50.4 MB)
+[99/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (50 MB / 50.4 MB)
+[99/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (50.2 MB / 50.4 MB)
+[100/100] Downloading https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (50.4 MB / 50.4 MB)
+Downloaded https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip (4.30s)
+Building for debugging...
+[0/47] /Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik runner.swift
+[1/47] Write sources
+[2/47] Write tdj-tool-entitlement.plist
+[2/47] Write tdj-runtime-validation-entitlement.plist
+[4/47] Write tdj-preview-entitlement.plist
+[5/47] Write tdj-audio-check-preview-entitlement.plist
+[6/47] Write sources
+[11/47] Copying whisper.framework
+[12/47] Write sources
+[16/47] Copying VocalModelAssets
+[17/47] Copying StemModelAssets
+[18/47] Copying Rajdhani-Bold.ttf
+[19/47] Copying OFL.txt
+[20/47] Copying GenErikHeaderWordmark.png
+[21/47] Copying GenErikHeaderMark.png
+[22/47] Copying BrandAssets.xcassets
+[23/47] Copying Fixtures
+[24/47] Write sources
+[25/47] Write swift-version-39B54973F684ADAB.txt
+[26/47] Compiling CTDJTransport TDJStreaming.c
+[27/47] Compiling CTDJTransport TDJRecording.c
+[28/47] Compiling CTDJTransport TDJKeylockDiagnostics.c
+[29/47] Compiling CTDJTransport TDJTransport.c
+[30/47] Compiling CTDJTransport TDJCallbackMetrics.c
+[31/47] Compiling CTDJAudioSource TDJNativeAudioSource.mm
+[32/47] Compiling CTDJTransport TDJKeylock.cpp
+[34/72] Emitting module TDJCore
+[35/72] Compiling TDJCore AdaptiveRhythmAnalyzer.swift
+[36/72] Compiling TDJCore AnalysisBenchmark.swift
+[37/72] Compiling TDJCore AnalysisWorker.swift
+[38/72] Compiling TDJCore AudioAnalyzer.swift
+[39/72] Compiling TDJCore AudioCallbackMetrics.swift
+[40/72] Compiling TDJCore BackgroundOwnedResource.swift
+[41/72] Compiling TDJCore BackgroundOwnedValue.swift
+[42/72] Compiling TDJCore BandWaveform.swift
+[43/72] Compiling TDJCore BeatGrid.swift
+[44/72] Compiling TDJCore BeatGridMap.swift
+[45/72] Compiling TDJCore BrowserRecommendations.swift
+[46/72] Compiling TDJCore CollectionBrowser.swift
+[47/72] Compiling TDJCore CollectionPlaylists.swift
+[48/72] Compiling TDJCore CollectionProjection.swift
+[49/72] Compiling TDJCore ControllerBridge.swift
+[50/72] Compiling TDJCore ControllerJogBend.swift
+[51/72] Compiling TDJCore ControllerMIDI.swift
+[52/72] Compiling TDJCore ControllerMIDIValue.swift
+[53/72] Compiling TDJCore EmbeddedMetadata.swift
+[54/72] Compiling TDJCore HistorySessions.swift
+[55/72] Compiling TDJCore KeyGovernance.swift
+[56/72] Compiling TDJCore KeyImportPlan.swift
+[57/72] Compiling TDJCore KeyShift.swift
+[58/72] Compiling TDJCore LibraryBrowserEntry.swift
+[59/119] Compiling TDJCore SampleTransport.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[60/119] Compiling TDJCore SectionCueAllocator.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[61/119] Compiling TDJCore SetRecorder.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[62/119] Compiling TDJCore SourceControl.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[63/119] Compiling TDJCore SourceControlPlanning.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[64/119] Compiling TDJCore Suggestions.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[65/119] Compiling TDJCore SyncAlignment.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[66/119] Compiling TDJCore TrackArrangement.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[67/119] Compiling TDJCore TraktorCollectionReferenceReader.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[68/119] Compiling TDJCore TraktorNMLReferenceReader.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[69/119] Compiling TDJCore TraktorPreparationCatalog.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[70/119] Compiling TDJCore TraktorPreparationMergePlan.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[71/119] Compiling TDJCore TraktorPreparationReferenceWorker.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[72/119] Compiling TDJCore TraktorPreparationStorage.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[73/119] Compiling TDJCore TraktorPreparedTrack.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[74/119] Compiling TDJCore VinylBrake.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[75/119] Compiling TDJCore VocalFormAnalyzer.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[76/119] Compiling TDJCore VocalRecognitionWindow.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[77/119] Compiling TDJCore WaveformLayers.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[78/119] Compiling TDJCore WaveformRangeIndex.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[79/119] Compiling TDJCore WaveformStorage.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[80/119] Compiling TDJCore Workspace.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[81/119] Compiling TDJCore Z1Protocol.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[82/119] Compiling TDJCore LibraryBrowserProjection.swift
+[83/119] Compiling TDJCore LibraryGroupProjection.swift
+[84/119] Compiling TDJCore LibraryPlaylistOccurrences.swift
+[85/119] Compiling TDJCore LibraryTrackLookup.swift
+[86/119] Compiling TDJCore MixerPreferences.swift
+[87/119] Compiling TDJCore Models.swift
+[88/119] Compiling TDJCore MusicLibrary.swift
+[89/119] Compiling TDJCore MusicLibraryAudio.swift
+[90/119] Compiling TDJCore MusicLibraryProjection.swift
+[91/119] Compiling TDJCore MusicLibraryReconciliation.swift
+[92/119] Compiling TDJCore MusicalAnalysisFeatures.swift
+[93/119] Compiling TDJCore MusicalSpectrumAnalyzer.swift
+[94/119] Compiling TDJCore MusicalStructureAnalyzer.swift
+[95/119] Compiling TDJCore NativeAnalysisPlan.swift
+[96/119] Compiling TDJCore NativeAudioRenderOwnership.swift
+[97/119] Compiling TDJCore NativeBeatGridMap.swift
+[98/119] Compiling TDJCore OutputSourcePreparation.swift
+[99/119] Compiling TDJCore PCMCache.swift
+[100/119] Compiling TDJCore PCMStreaming.swift
+[101/119] Compiling TDJCore PCMStreamingTelemetry.swift
+[102/119] Compiling TDJCore PerformanceEffect.swift
+[103/119] Compiling TDJCore PerformancePreparation.swift
+[104/119] Compiling TDJCore PerformerSuggestions.swift
+[105/119] Compiling TDJCore Recovery.swift
+[106/148] Emitting module TDJTool
+[107/148] Compiling TDJInterface AdaptivePerformanceLayout.swift
+[108/148] Compiling TDJInterface ArrangementModel.swift
+[109/149] Compiling TDJTool TransportProbe.swift
+[110/170] Compiling TDJCoreTests AdaptivePreparationTests.swift
+[111/170] Compiling TDJCoreTests AdaptiveRhythmTests.swift
+[112/170] Compiling TDJCoreTests AdaptiveTransportTests.swift
+[113/170] Compiling TDJCoreTests AnalysisBenchmarkTests.swift
+[114/170] Compiling TDJCoreTests AnalysisTests.swift
+[115/170] Compiling TDJCoreTests AnalysisWorkerTests.swift
+[116/170] Compiling TDJCoreTests ArrangementTimingTests.swift
+[117/170] Compiling TDJCoreTests AudioCallbackMetricsTests.swift
+[118/170] Compiling TDJCoreTests AutomaticPreparationImportTests.swift
+[119/170] Compiling TDJCoreTests AutomaticTraktorPreparationTests.swift
+[120/170] Compiling TDJCoreTests BackgroundOwnedValueTests.swift
+[121/170] Compiling TDJCoreTests BandWaveformTests.swift
+[122/170] Compiling TDJCoreTests BaseEffectTests.swift
+[123/170] Compiling TDJCoreTests BeatGridMapTests.swift
+[124/170] Compiling TDJCoreTests ChorusEvidenceTests.swift
+[125/170] Compiling TDJCoreTests CollectionSortIndexTests.swift
+[126/170] Compiling TDJCoreTests CollectionTests.swift
+[127/170] Compiling TDJCoreTests ControllerJogBendTests.swift
+[128/170] Compiling TDJCoreTests ControllerMIDIUMPDecoderTests.swift
+[129/170] Compiling TDJCoreTests DeckAnalysisPolicyTests.swift
+[130/170] Compiling TDJInterface DeckArtwork.swift
+[131/170] Compiling TDJInterface DeckPanelPresentation.swift
+[132/170] Compiling TDJInterface DeckPanelSizing.swift
+[133/170] Compiling TDJInterface DeckSplitHandle.swift
+[134/170] Compiling TDJInterface DeckSplitState.swift
+[135/170] Emitting module TDJInterface
+[136/220] Emitting module TDJCoreTests
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:63:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+61 |     let messages = try #require(ControllerMIDIUMPDecoder.decode([program, bankedProgramData, noteOn, 0, noteOff, 0]))
+62 | 
+63 |     #expect(messages?.count == 3)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:64:54: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+62 | 
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+   |                                                      `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+65 |     #expect(messages?[0].parameter == 517)
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/ControllerMIDIUMPDecoderTests.swift:65:21: error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+63 |     #expect(messages?.count == 3)
+64 |     #expect(messages?[0].kind == .program && messages?[0].number == 17)
+65 |     #expect(messages?[0].parameter == 517)
+   |                     `- error: cannot use optional chaining on non-optional value of type '[ControllerMIDIMessage]'
+66 |     #expect(messages[1].kind == .note && !messages[1].isNoteOff && messages[1].value == 0)
+67 |     #expect(messages[2].kind == .note && messages[2].isNoteOff)
+[157/259] Compiling TDJCoreTests MixAnalysisPlanTests.swift
+[158/259] Compiling TDJCoreTests MixerTests.swift
+[159/259] Compiling TDJCoreTests MusicDecodePriorityTests.swift
+[160/259] Compiling TDJCoreTests MusicLibraryTests.swift
+[161/259] Compiling TDJCoreTests MusicalRhythmRegressionTests.swift
+[162/259] Compiling TDJCoreTests MusicalStructureTests.swift
+[163/259] Compiling TDJCoreTests NativeSourceIntegrityTests.swift
+[164/259] Compiling TDJCoreTests PerformanceTests.swift
+[165/259] Compiling TDJCoreTests PerformerSuggestionTests.swift
+[166/259] Compiling TDJCoreTests PreparationConflictGuardTests.swift
+[167/259] Compiling TDJCoreTests RecordingEffectsTests.swift
+[168/259] Compiling TDJCoreTests RecordingFinalDrainTests.swift
+[169/259] Compiling TDJCoreTests RecordingSidecarCaseTests.swift
+[170/259] Compiling TDJCoreTests RecordingTests.swift
+[171/259] Compiling TDJCoreTests RecordingUnicodeLocationTests.swift
+[172/259] Compiling TDJCoreTests RecoveryTests.swift
+[173/259] Compiling TDJCoreTests ReservedLoadTests.swift
+[174/259] Compiling TDJCoreTests ReverbQualityTests.swift
+[175/259] Compiling TDJCoreTests SectionCueAllocatorTests.swift
+[176/278] Compiling TDJCoreTests GridTests.swift
+[177/278] Compiling TDJCoreTests DenseBeatAlignmentTests.swift
+[178/278] Compiling TDJCoreTests ImportTests.swift
+[179/278] Compiling TDJCoreTests DlcEffectTests.swift
+[180/278] Compiling TDJCoreTests KeyGovernanceTests.swift
+[181/278] Compiling TDJCoreTests GenreVersionStructureTests.swift
+[182/278] Compiling TDJCoreTests KeyShiftTests.swift
+[183/278] Compiling TDJCoreTests GridCueTests.swift
+[184/278] Compiling TDJCoreTests KeylockPrimeProbeTests.swift
+[185/278] Compiling TDJCoreTests GridLockedEffectTests.swift
+[186/278] Compiling TDJCoreTests KeylockTests.swift
+[188/278] Compiling TDJCoreTests LateRhythmTests.swift
+[190/278] Compiling TDJCoreTests LegacyCueClearMigrationReviewTests.swift
+[192/278] Compiling TDJCoreTests LibraryBrowserProjectionTests.swift
+[193/278] Compiling TDJCoreTests LibraryGroupProjectionTests.swift
+[195/278] Compiling TDJCoreTests LibraryPlaylistOccurrenceTests.swift
+[197/278] Compiling TDJCoreTests LibrarySearchScopeTests.swift
+[199/278] Compiling TDJCoreTests LibrarySnapshotMutationTests.swift
+[201/278] Compiling TDJCoreTests LibraryTrackLookupRetirementTests.swift
+[203/278] Compiling TDJCoreTests LibraryTrackLookupTests.swift
+[230/302] Compiling TDJCoreTests SuggestionTests.swift
+[231/302] Compiling TDJCoreTests SyncRestorationTests.swift
+[232/302] Compiling TDJCoreTests TrackArrangementTests.swift
+[233/302] Compiling TDJCoreTests TraktorAnalysisPreservationTests.swift
+[234/302] Compiling TDJCoreTests TraktorGzipReferenceTests.swift
+[235/302] Compiling TDJCoreTests TraktorNMLEncodingRegressionTests.swift
+[236/302] Compiling TDJCoreTests TraktorNMLReferenceReaderTests.swift
+[237/302] Compiling TDJCoreTests TraktorPreparationIntegrationTests.swift
+[238/302] Compiling TDJCoreTests TraktorPreparationMergePlanTests.swift
+[239/302] Compiling TDJCoreTests TraktorPreparationReferenceWorkerTests.swift
+[240/302] Compiling TDJCoreTests TransportTests.swift
+[241/302] Compiling TDJCoreTests VinylBrakeTests.swift
+[242/302] Compiling TDJCoreTests VocalFormTests.swift
+[243/302] Compiling TDJCoreTests VocalRecognitionWindowTests.swift
+[244/302] Compiling TDJCoreTests WaveformRangeIndexTests.swift
+[245/302] Compiling TDJCoreTests WaveformStorageTests.swift
+[246/302] Compiling TDJInterface RuntimeEffectControlAccess.swift
+[247/302] Compiling TDJInterface RuntimeFilterContactSession.swift
+[248/302] Compiling TDJInterface SectionEditorPanelState.swift
+[249/302] Compiling TDJInterface SecurityScopedFileAccess.swift
+[250/302] Compiling TDJInterface StandardBrowserLayoutState.swift
+[251/302] Compiling TDJInterface StemModelRepository.swift
+[252/302] Compiling TDJInterface SuperSlicerGeometry.swift
+[253/302] Compiling TDJInterface TempoWheel.swift
+[254/302] Compiling TDJInterface TempoWheelGestureSession.swift
+[255/302] Compiling TDJInterface TempoWheelReset.swift
+[256/302] Compiling TDJInterface TouchAxisSession.swift
+[257/302] Compiling TDJInterface TouchContactGeometry.swift
+[258/302] Compiling TDJInterface TouchFader.swift
+[259/302] Compiling TDJInterface TouchPanel.swift
+[260/302] Compiling TDJInterface TouchPanelState.swift
+[261/302] Compiling TDJInterface TouchSurface.swift
+[262/302] Compiling TDJInterface TouchSurfaceInputGate.swift
+[263/302] Compiling TDJInterface VinylBrakeControl.swift
+[264/302] Compiling TDJInterface VocalPhraseRecognizer.swift
+[265/302] Compiling TDJInterface WaveformDragMotion.swift
+[266/302] Compiling TDJInterface WaveformIndexes.swift
+[267/302] Compiling TDJInterface WaveformTouch.swift
+[268/302] Compiling TDJInterface Z1HIDConnection.swift
+[269/302] Compiling TDJInterface resource_bundle_accessor.swift
+[269/302] Write Objects.LinkFileList
+[271/310] Compiling TDJRuntimeChecks AudioCheckDisplayMetrics.swift
+[272/310] Compiling TDJRuntimeChecks AudioCheckPanelMotion.swift
+[273/310] Compiling TDJRuntimeChecks AudioRuntimeCheckLaunch.swift
+[274/310] Compiling TDJRuntimeChecks AudioRuntimeCheckPresentation.swift
+[275/310] Compiling TDJRuntimeChecks AudioRuntimeChecks.swift
+[276/310] Compiling TDJRuntimeChecks AudioRuntimeFixture.swift
+[277/310] Compiling TDJRuntimeChecks AudioRuntimeKeylockStress.swift
+[278/310] Emitting module TDJRuntimeChecks
+[279/316] Compiling TDJRuntimeChecks RuntimeControlCompletionTiming.swift
+[280/316] Compiling TDJRuntimeChecks RuntimeControlSubmissionTrace.swift
+[281/316] Compiling TDJRuntimeChecks RuntimeDirectControlDriver.swift
+[282/316] Compiling TDJRuntimeChecks RuntimeModelFXStressReport.swift
+[283/316] Compiling TDJRuntimeChecks RuntimeModelFilterStressReport.swift
+[284/316] Compiling TDJRuntimeChecks RuntimePreparationImportStress.swift
+[284/316] Linking tdj-tool
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:142:14: warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+140 |     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
+141 |     var asset: PCMAsset? = try stereoAsset(left: 0.2, right: 0)
+142 |     weak var weakAsset = asset
+    |              `- warning: weak variable 'weakAsset' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+143 |     let old = try core.load(try #require(asset), deck: .a, grid: grid)
+144 |     asset = nil
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Tests/TDJCoreTests/TransportTests.swift:264:14: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+262 |     core.processControlsWhileIdle(); _ = core.acknowledgements()
+263 |     var rejected: PCMAsset? = try stereoAsset(left: 0, right: 0.2)
+264 |     weak var released = rejected
+    |              `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+265 |     let rejectedGeneration = try core.load(try #require(rejected), deck: .a, grid: nil)
+266 |     rejected = nil
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+error: fatalError

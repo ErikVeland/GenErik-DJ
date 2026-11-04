@@ -1,0 +1,31 @@
+{
+  "notes": "R44: Direct waveform movement with scroll momentum and held reversal after EOF. Preserve R45 immediate track loading. Focused motion, real gesture-session and native PCM checks pass. Erik tests physical feel and clean audio.",
+  "sourceCommit": "3b241891ab033301471c0d9eee688917ee70d6bc",
+  "sourceSHA256": "a130e5b1577b775b95dedfa6b96d50e6ccd5be664ceb87100bdabcfd29dfd68f",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 348.02,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-103.log",
+  "build": 103,
+  "app": "TestBuilds/ipad/103/GenErikDJ.app",
+  "appSHA256": "8e9ea0a4c5f2e26786423de0237bf46a18d9d5aaab8d0e89417939532bb9a657",
+  "state": "installed",
+  "createdUTC": "2026-11-04T09:31:19.287695+00:00",
+  "installedUTC": "2026-11-04T09:32:36.484004+00:00",
+  "requestIDs": [
+    "R44",
+    "R45"
+  ],
+  "focusedChecks": "R44: 93 motion assertions, two real gesture-session tests and native direct-touch/Scratch checks at 44100, 48000 and 96000 Hz pass. The EOF reversal regression failed first, then passed. Session tests preceded the R45 merge. The combined signed app passes compilation, framework resolution and signing.",
+  "launchVerification": "Automatic launch timed out after 10 seconds. No successful launch is claimed. Erik opens the app manually.",
+  "acceptance": "Installed on the 10.5-inch test iPad. Device actions stopped. Erik checks both drag directions, off-centre grabs, holds, throws, catches, boundaries, Sync takeover, Flux return and clean other-deck audio. Physical feel, listening and continued operation remain pending.",
+  "deployments": [
+    {
+      "device": "GenErik iPad (10.5-inch)",
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "installed-launch-timeout",
+      "installedUTC": "2026-11-04T09:32:36.484004+00:00"
+    }
+  ]
+}

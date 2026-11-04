@@ -13,7 +13,7 @@ public enum SourceControl: Sendable {
     case adaptiveMap(BeatGridMap?, DeckID, UInt64)
     case seek(Double, DeckID, UInt64)
     case cueRecall(DeckID, UInt64, frame: Double, loopEnd: Double?, quantum: Double)
-    case performance(PerformanceAction, DeckID, UInt64, value: Double, end: Double, enabled: Bool, quantum: Double, touchRate: Double? = nil)
+    case performance(PerformanceAction, DeckID, UInt64, value: Double, end: Double, enabled: Bool, quantum: Double, touchRate: Double? = nil, followsPosition: Bool = false)
 
     var command: tdj_command {
         var result = tdj_command()
@@ -46,11 +46,11 @@ public enum SourceControl: Sendable {
         case .cueRecall(let id, let generation, let frame, let loopEnd, let quantum):
             result.kind = TDJ_CUE_RECALL; deck(id, generation)
             result.value = frame; result.value2 = loopEnd ?? 0; result.value3 = quantum
-        case .performance(let action, let id, let generation, let value, let end, let enabled, let quantum, let touchRate):
+        case .performance(let action, let id, let generation, let value, let end, let enabled, let quantum, let touchRate, let followsPosition):
             result.kind = action.rawValue; deck(id, generation)
             result.value = value; result.value2 = end; result.value3 = quantum; result.flag = enabled ? 1 : 0
             if action == .touch, enabled, let touchRate {
-                result.flag = TDJ_TOUCH_WITH_RATE; result.touch_rate = touchRate
+                result.flag = followsPosition ? TDJ_TOUCH_FOLLOWS_POSITION : TDJ_TOUCH_WITH_RATE; result.touch_rate = touchRate
             }
         }
         return result

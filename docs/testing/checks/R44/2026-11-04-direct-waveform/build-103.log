@@ -1,0 +1,20 @@
+2026-11-04 19:25:41.247 xcodebuild[87581:5993415] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+error: the following command failed with exit code 0 but produced no further output
+SwiftCompile normal arm64 (in target 'TDJCore' from project 'GenErikDJ' at path '/Users/veland/.codex/worktrees/waveform-direct-r44/GenErik DJ/Replica/Package.swift')
+/Users/veland/.codex/worktrees/waveform-direct-r44/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+In file included from /Users/veland/.codex/worktrees/waveform-direct-r44/GenErik DJ/Replica/Sources/CTDJTransport/TDJKeylock.cpp:5:
+/Users/veland/.codex/worktrees/waveform-direct-r44/GenErik DJ/Replica/Sources/CTDJTransport/Vendor/signalsmith-stretch/signalsmith-stretch.h:39:47: warning: implicit conversion loses integer precision: 'long' to 'result_type' (aka 'unsigned int') [-Wshorten-64-to-32]
+   39 |         SignalsmithStretch(long seed) : randomEngine(seed) {}
+      |                                         ~~~~~~~~~~~~ ^~~~
+/Users/veland/.codex/worktrees/waveform-direct-r44/GenErik DJ/Replica/Sources/CTDJTransport/TDJKeylock.cpp:109:60: note: in instantiation of member function 'signalsmith::stretch::SignalsmithStretch<>::SignalsmithStretch' requested here
+  109 |     signalsmith::stretch::SignalsmithStretch<float> stretch{0};
+      |                                                            ^
+1 warning generated.

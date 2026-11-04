@@ -954,8 +954,9 @@ static int apply(tdj_engine *e, tdj_command c) {
         d->flux_enabled=proposed.flux_enabled;d->continuing=proposed.continuing;return TDJ_OK;
     }
     if (c.kind == TDJ_TOUCH) {
-        if (c.flag != 0 && c.flag != 1 && c.flag!=TDJ_TOUCH_WITH_RATE) return TDJ_INVALID;
-        bool with_rate=c.flag==TDJ_TOUCH_WITH_RATE;
+        if (c.flag != 0 && c.flag != 1 && c.flag!=TDJ_TOUCH_WITH_RATE && c.flag!=TDJ_TOUCH_FOLLOWS_POSITION) return TDJ_INVALID;
+        bool follows_position=c.flag==TDJ_TOUCH_FOLLOWS_POSITION;
+        bool with_rate=c.flag==TDJ_TOUCH_WITH_RATE || follows_position;
         if(with_rate && (!isfinite(c.touch_rate) || c.touch_rate < -4 || c.touch_rate > 4))return TDJ_INVALID;
         if(!c.flag && !d->touch_active) {
             d->pending_touch_rate_valid=false;
@@ -975,11 +976,26 @@ static int apply(tdj_engine *e, tdj_command c) {
             if(same_pending || same_active) {
                 deck proposed=*d;
                 if(same_pending){proposed.pending_touch_rate=c.touch_rate;proposed.pending_touch_rate_valid=true;}
-                else proposed.performance_rate=c.touch_rate;
+                else {
+                    proposed.performance_rate=c.touch_rate;
+                    if(follows_position){proposed.position=c.value;proposed.state=TDJ_PLAYING;}
+                }
                 int status=stream_validate(e,c.deck,&proposed,e->bpm,c.preparation_ticket,c.generation);
                 if(status!=TDJ_OK)return status;
                 if(same_pending){d->pending_touch_rate=c.touch_rate;d->pending_touch_rate_valid=true;}
-                else set_performance_rate(e,c.deck,c.touch_rate);
+                else {
+                    // Direct drags own position. Keep the existing output-edge ramp.
+                    if(follows_position && d->position!=c.value) {
+                        d->position=c.value;d->touch_start=c.value;
+                        tdj_keylock_reset(e->keylocks[c.deck]);
+                        transition_request(e,c.deck,0);
+                    }
+                    if(follows_position) {
+                        d->state=TDJ_PLAYING;
+                        if(!e->running){anchor_clock(e,beat_now(e));e->running=true;}
+                    }
+                    set_performance_rate(e,c.deck,c.touch_rate);
+                }
                 return TDJ_OK;
             }
             deck proposed=*d;proposed.position=c.value;proposed.touch_active=true;

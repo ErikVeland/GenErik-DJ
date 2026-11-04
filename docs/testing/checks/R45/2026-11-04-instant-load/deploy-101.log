@@ -1,0 +1,9 @@
+App installed:
+• bundleID: org.generikdj.replica.audiocheck
+• installationURL: file:///private/var/containers/Bundle/Application/C230EE16-50BE-4DBE-B5CA-774E5A08A369/GenErikDJ.app/
+• launchServicesIdentifier: unknown
+• databaseUUID: DA58E574-1F0C-47C3-94C9-9A20F72FE673
+• databaseSequenceNumber: 2488
+• options: 
+ERROR: Command timeout of 10.0 seconds exceeded. Assuming command got stuck and aborting.
+Stopped: Command '['xcrun', 'devicectl', '--timeout', '10', 'device', 'process', 'launch', '--device', '3c4b6e12624a577712d178b63203c9d7c249bf77', '--terminate-existing', 'org.generikdj.replica.audiocheck']' returned non-zero exit status 2.

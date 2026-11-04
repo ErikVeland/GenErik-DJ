@@ -26,6 +26,7 @@ typedef struct tdj_engine tdj_engine;
 #define TDJ_FLUX 12
 #define TDJ_TOUCH 13
 #define TDJ_TOUCH_WITH_RATE 3
+#define TDJ_TOUCH_FOLLOWS_POSITION 4
 #define TDJ_RATE 14
 #define TDJ_FX 15
 #define TDJ_CUE_RECALL 16

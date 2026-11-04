@@ -9,9 +9,16 @@ struct WaveformTouch: View {
     let span: Double
     var onZoom: (Double) -> Void = { _ in }
     @State private var session=WaveformGestureSession()
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.touchSurfaceInputGate) private var inputGate
     var body: some View {
+        let _ = session.inputGate = inputGate
         TouchSurface(geometryPolicy:.retainContactSpace) { session.handle($0,model:model,deck:deck,span:span,onZoom:onZoom) }
             .accessibilityLabel("Deck \(deck.rawValue) waveform")
+            .onDisappear { session.stopMotion(model:model,deck:deck) }
+            .onChange(of:scenePhase) { _,phase in
+                if phase != .active { session.stopMotion(model:model,deck:deck) }
+            }
     }
 }
 
@@ -41,7 +48,6 @@ final class WaveformGestureSession {
     private var oldLoop: (Double,Double)?
     private var initialTiming: BeatTiming?
     private var wasLoop=false
-    private var wasPlaying=false
     private var lastSlice: Double?
     private var lastAction: SuperSlicerAction?
     private var dismissLoop=false
@@ -55,6 +61,69 @@ final class WaveformGestureSession {
     private var lastScratchTime: TimeInterval?
     private var scratchContact: Int?
     private var gestureSpan = TouchGestureValue()
+    private var motion: WaveformDragMotion?
+    private var motionTask: Task<Void,Never>?
+    private var directActive=false
+    weak var inputGate: TouchSurfaceInputGate?
+
+    func stopMotion(model: ReplicaModel, deck: DeckID) {
+        motionTask?.cancel(); motionTask=nil; motion=nil
+        guard directActive else { return }
+        directActive=false; audition=false
+        if activeTrack == model.loaded[deck], activeLoad == model.loadIdentity(deck) {
+            model.previewing.remove(deck)
+            model.perform(.touch,deck:deck,enabled:false)
+        }
+    }
+    private func applyMotion(frame: Double, velocity: Double, model: ReplicaModel, deck: DeckID) {
+        guard let track=model.track(deck) else { return }
+        model.disengageSyncForManualControl(deck:deck)
+        model.previewing.insert(deck)
+        let speed=model.playbackSnapshot?[deck].speed ?? 1
+        let rate=model.performance.waveformScratchAudio ? min(4,max(-4,velocity/(track.analysis.sampleRate*max(0.001,speed)))):0
+        model.perform(.touch,deck:deck,value:frame,touchRate:rate,followsPosition:true)
+        model.viewport[deck]=frame
+        directActive=true; audition=true
+    }
+    private func validMotion(model: ReplicaModel, deck: DeckID) -> Bool {
+        model.refreshPlayback()
+        return activeTrack == model.loaded[deck] && activeLoad == model.loadIdentity(deck)
+            && !model.editing.contains(deck) && !model.frozen.contains(deck)
+            && inputGate?.isEnabled != false && model.previewing.contains(deck)
+            && (model.playbackSnapshot?[deck].touchActive == true || model.preparingSourceActions.contains(deck))
+    }
+    private func monitorHold(model: ReplicaModel, deck: DeckID) {
+        guard motionTask == nil else { return }
+        motionTask=Task { @MainActor [weak self,weak model] in
+            var stopped=false
+            while !Task.isCancelled {
+                do { try await Task.sleep(for:.milliseconds(16)) } catch { return }
+                guard let self,let model else { return }
+                guard self.validMotion(model:model,deck:deck) else { self.stopMotion(model:model,deck:deck); return }
+                guard let motion=self.motion else { return }
+                if ProcessInfo.processInfo.systemUptime-motion.lastMovement>0.05 {
+                    if !stopped { self.applyMotion(frame:motion.frame,velocity:0,model:model,deck:deck); stopped=true }
+                } else { stopped=false }
+            }
+        }
+    }
+    private func releaseMotion(model: ReplicaModel, deck: DeckID) {
+        motionTask?.cancel(); motionTask=nil
+        guard let coast=motion?.coast(at:ProcessInfo.processInfo.systemUptime) else {
+            stopMotion(model:model,deck:deck); return
+        }
+        motion=nil
+        motionTask=Task { @MainActor [weak self,weak model] in
+            while !Task.isCancelled {
+                do { try await Task.sleep(for:.milliseconds(16)) } catch { return }
+                guard let self,let model else { return }
+                guard self.validMotion(model:model,deck:deck) else { self.stopMotion(model:model,deck:deck); return }
+                let sample=coast.sample(at:ProcessInfo.processInfo.systemUptime)
+                self.applyMotion(frame:sample.frame,velocity:sample.velocity,model:model,deck:deck)
+                if sample.finished { self.stopMotion(model:model,deck:deck); return }
+            }
+        }
+    }
     func handle(_ event: SurfaceEvent, model: ReplicaModel, deck: DeckID, span: Double,
                 onZoom: (Double) -> Void = { _ in }) {
         let span = gestureSpan.value(for:event,current:span)
@@ -80,6 +149,7 @@ final class WaveformGestureSession {
         if !initial.isEmpty && (activeTrack != model.loaded[deck] || activeLoad != model.loadIdentity(deck) || editingAtStart != model.editing.contains(deck)
             || frozenAtStart != model.frozen.contains(deck) || familyAtStart != model.superSlicerFamily(deck:deck)) {
             // A held contact cannot become an unrelated gesture when the deck mode changes.
+            stopMotion(model:model,deck:deck)
             if activeTrack == model.loaded[deck] && activeLoad == model.loadIdentity(deck) {
                 if audition { model.perform(.touch,deck:deck,enabled:false) }
                 if editingAtStart { model.gridDraft[deck]=nil; model.viewport[deck]=center }
@@ -90,6 +160,8 @@ final class WaveformGestureSession {
         }
         guard let first=event.remaining.last ?? event.points.last,model.track(deck) != nil,model.playbackSnapshot?[deck].phase != .queued else { return }
         if initial.isEmpty {
+            let catching=directActive
+            stopMotion(model:model,deck:deck)
             activeTrack=model.loaded[deck]; activeLoad=model.loadIdentity(deck); editingAtStart=model.editing.contains(deck)
             frozenAtStart=model.frozen.contains(deck); familyAtStart=model.superSlicerFamily(deck:deck)
             initial=event.points; center=model.viewport[deck] ?? 0; initialGrid=model.grid(deck); initialTiming=model.timing(deck)
@@ -97,8 +169,12 @@ final class WaveformGestureSession {
             lastScratchX=first.x; lastScratchTime=ProcessInfo.processInfo.systemUptime; scratchContact=nil
             let state=model.playbackSnapshot?[deck]
             wasLoop=state?.loopEnabled == true
-            wasPlaying=state?.phase == .playing
             oldLoop=wasLoop ? (state!.loopStart,state!.loopEnd) : nil
+            if !editingAtStart && !frozenAtStart,let track=model.track(deck) {
+                motion=WaveformDragMotion(frame:center,x:first.x,time:ProcessInfo.processInfo.systemUptime,
+                    span:span,limit:Double(track.analysis.frameCount)-1)
+                if catching { applyMotion(frame:center,velocity:0,model:model,deck:deck) }
+            }
         }
         if editingAtStart,(gridPinch != nil || event.points.count>1),event.phase != .cancelled {
             // A second contact cancels phase preview before owning view-only zoom.
@@ -135,6 +211,7 @@ final class WaveformGestureSession {
             return
         }
         if event.phase == .cancelled {
+            stopMotion(model:model,deck:deck)
             if audition { model.perform(.touch,deck:deck,enabled:false) }
             if model.editing.contains(deck) { model.gridDraft[deck]=nil; model.viewport[deck]=center }
             if multi {
@@ -145,6 +222,7 @@ final class WaveformGestureSession {
         }
         if event.points.count>=2 && event.phase != .ended && !model.editing.contains(deck) && !model.frozen.contains(deck) {
             if !multi {
+                stopMotion(model:model,deck:deck)
                 if audition { model.perform(.touch,deck:deck,enabled:false); audition=false }
                 initial=Array(event.points.prefix(2)); multi=true
                 if oldLoop == nil {
@@ -221,33 +299,23 @@ final class WaveformGestureSession {
                         lastSlice=region.target; lastAction=action; audition=true
                     }
                 }
-            } else if event.phase == .moved && abs(dx)>abs(dy)*0.3 {
-                let target=model.boundedFrame(frame(first.x),deck:deck)
-                model.disengageSyncForManualControl(deck:deck)
-                if model.performance.waveformScratchAudio {
-                    let now=ProcessInfo.processInfo.systemUptime
-                    let elapsed=max(0.001,now-(lastScratchTime ?? now))
-                    let track=model.track(deck)
-                    let movement=first.x-(lastScratchX ?? first.x)
-                    // Stationary contacts and delayed events retain the moving rate.
-                    // Only actual movement changes the scratch trajectory.
-                    if movement != 0 {
-                        let rate=track.map { movement*span/($0.analysis.sampleRate*elapsed) } ?? 1
-                        model.perform(.touch,deck:deck,value:target,touchRate:min(4,max(-4,rate)))
-                        audition=true
+            } else if (event.phase == .moved || event.phase == .ended && directActive),
+                      directActive || abs(dx)>abs(dy)*0.3 {
+                if event.phase == .moved || first.x != lastScratchX {
+                    motion?.move(x:first.x,time:ProcessInfo.processInfo.systemUptime)
+                    if let motion {
+                        applyMotion(frame:motion.frame,velocity:motion.velocity,model:model,deck:deck)
+                        monitorHold(model:model,deck:deck)
                     }
-                    lastScratchX=first.x; lastScratchTime=now
-                } else if abs(dx)>0.01 && wasPlaying {
-                    model.perform(.touch,deck:deck,value:target); audition=true
-                } else if abs(dx)>0.01 {
-                    model.jump(target,deck:deck,quantized:false)
                 }
+                lastScratchX=first.x
             }
         }
         if event.phase == .ended && event.remaining.isEmpty {
             if model.editing.contains(deck) {
                 if moved,let grid=model.gridDraft[deck] { model.saveGrid(grid,deck:deck) }
             } else if multi && dismissLoop { model.perform(.loop,deck:deck,enabled:false) }
+            else if directActive { releaseMotion(model:model,deck:deck) }
             else if audition { model.perform(.touch,deck:deck,enabled:false) }
             else if !model.frozen.contains(deck) && !multi && !moved { model.jump(model.snappedFrame(frame(first.x),deck:deck),deck:deck) }
             else if !multi && first.y-initial[0].y < -0.35 { model.showLibrary() }
