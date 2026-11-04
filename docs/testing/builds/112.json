@@ -11,14 +11,18 @@
       "date": "2026-11-05",
       "report": "A10X reconnected and unlocked. Installed build 112 confirmed. Device-wide CPU, UI and audio-instrument setup captures succeeded. Combined workload is not running. Erik requested setup help. Automatic analysis pauses during playback. No combined-load performance result or fix is claimed.",
       "evidence": "TestBuilds/r50/",
-      "state": "workload-setup-pending"
+      "state": "baseline-not-captured",
+      "nextBuild": 113,
+      "nextStep": "Erik requested the browser fix and installation before profiling resumes."
     },
     {
       "request": "R51",
       "date": "2026-11-05",
       "report": "Erik cannot expand the browser pane to full height. Device screenshot shows deck A loaded and deck B empty. Source confirms a fixed minimum of 240 points per deck limits browser height.",
       "evidence": "TestBuilds/r50/browser-height.png; Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift",
-      "state": "open"
+      "state": "awaiting-acceptance",
+      "fixBuild": 113,
+      "fixCommit": "526ae0e2591f72a9fc6b40b41dd4506b13b499a4"
     }
   ],
   "log": "TestBuilds/ipad/build-112.log",

@@ -1,0 +1,25 @@
+{
+  "notes": "R51: allow the browser to fill the iPad workspace below the toolbar. Retain the normal opening size, orientation memory and right-hand controls. Keep full height after a fast release. Make room for deck controls when requested. 3142 focused geometry checks pass. Physical drag acceptance and combined-load profiling remain pending.",
+  "sourceCommit": "526ae0e2591f72a9fc6b40b41dd4506b13b499a4",
+  "sourceSHA256": "7e8726f432e20d0d3eab7eca859bf372dd5691de57f113b79bea61b456a0f4cd",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 37.95,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-113.log",
+  "build": 113,
+  "app": "TestBuilds/ipad/113/GenErikDJ.app",
+  "appSHA256": "c2b984c997a97e6eeb8342a000b0bb077980acb763b93205b0350cfb5718d9e9",
+  "state": "testing",
+  "createdUTC": "2026-11-04T23:19:20.695857+00:00",
+  "installedUTC": "2026-11-04T23:19:49.881510+00:00",
+  "launchedUTC": "2026-11-04T23:19:50.315394+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "verification": {
+    "request": "R51",
+    "geometryChecks": 3142,
+    "failures": 0,
+    "evidence": "TestBuilds/r51/verification.json",
+    "physicalAcceptance": "Pending Erik\u2019s resize and control checks. Combined-load profiling has not run."
+  }
+}
