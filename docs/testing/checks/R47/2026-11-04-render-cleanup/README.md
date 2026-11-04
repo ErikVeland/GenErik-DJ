@@ -25,3 +25,7 @@ These numbers exclude Canvas drawing, band geometry, audio and device scheduling
 ## Remaining scope
 
 Follow the single-change iPad loop. Erik checks both decks, zoom, fixed/adaptive beat lines, Actions, touch response and clean audio. Full-session A10X memory, thermal and callback measurements remain open. Section-colour drawing cost, native decoder cost and library-size startup costs need separate measurement before further changes. Existing MIDI test compilation failures need a separate repair. This pass does not establish that the entire project is free of waste or gig-ready.
+
+## iPad handover
+
+Signed main source `921fbf92b` produced build 111. Source identity, framework resolution and signing passed. Build 111 installed, and iPadOS accepted the launch request. Device actions stopped. The build record retains the app digest and timestamps. Physical acceptance remains open.

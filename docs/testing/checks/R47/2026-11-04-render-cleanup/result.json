@@ -19,5 +19,10 @@
     "timingScope": "Optimised Mac geometry only. See comparison.log."
   },
   "physicalAcceptance": "pending",
-  "build": null
+  "build": 111,
+  "sourceCommit": "921fbf92bfe1ab5e456085cac3214761ed307b2f",
+  "applicationSHA256": "56ab0dd6845d3cc3bfce3e8cef2227dd1d2d038164143e1f2baf2be7dae8de3c",
+  "buildRecord": "docs/testing/builds/111.json",
+  "deviceState": "testing",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
 }

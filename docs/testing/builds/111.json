@@ -1,0 +1,18 @@
+{
+  "notes": "R47: remove repeated waveform geometry and unused range queries. Exact parity across 800 cases; seven core tests and six rendered deck cases pass. Optimised host geometry takes 59.2% less time; A10X touch, frame pacing and clean audio remain Erik checks. Stem model retained.",
+  "sourceCommit": "921fbf92bfe1ab5e456085cac3214761ed307b2f",
+  "sourceSHA256": "56ab0dd6845d3cc3bfce3e8cef2227dd1d2d038164143e1f2baf2be7dae8de3c",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 120.97,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-111.log",
+  "build": 111,
+  "app": "TestBuilds/ipad/111/GenErikDJ.app",
+  "appSHA256": "28f5356c9ef3bd1245af9d690034369d331097ea371071daedd022a146285f2a",
+  "state": "testing",
+  "createdUTC": "2026-11-04T13:19:22.873831+00:00",
+  "installedUTC": "2026-11-04T13:19:34.900514+00:00",
+  "launchedUTC": "2026-11-04T13:19:35.413669+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
