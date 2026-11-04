@@ -38,6 +38,7 @@ struct FrontPerformanceView: View {
                 browserBar.frame(height: layout.handle.height)
                 FrontBrowserView(model: model, importAudio: importAudio, linkCollection: linkCollection,
                     requestedTab: requestedTab, navigationID: browserRequest, destinationDeck: activeDeck)
+                    .environment(\.touchSurfaceInterruption, browser.contactID)
                     .frame(width: layout.library.width, height: layout.library.height, alignment: .top)
                     .clipped().allowsHitTesting(browser.acceptsContentInput)
                     .disabled(!browser.acceptsContentInput).accessibilityHidden(!browser.acceptsContentInput)
@@ -69,12 +70,12 @@ struct FrontPerformanceView: View {
                 model.browserVisible = true
             }
             .onChange(of: model.browserVisible) { _, visible in browser.setPresented(visible) }
-            .onChange(of: interruption) { _, _ in selection.interrupt(); browser.cancelDrag() }
+            .onChange(of: interruption) { _, _ in selection.interrupt(); browser.interrupt() }
             .onChange(of: scenePhase) { _, phase in
-                if phase != .active { selection.interrupt(); browser.cancelDrag() }
+                if phase != .active { selection.interrupt(); browser.interrupt() }
             }
             .onDisappear {
-                browser.cancelDrag()
+                browser.interrupt()
                 selection.interrupt()
                 model.browserVisible = previousBrowserVisible
             }

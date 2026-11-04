@@ -49,6 +49,7 @@ struct FrontWorkspaceGeometry {
 
 struct FrontBrowserPanelState {
     private var panel = TouchPanelState(minimumExtent: 220, initialExtent: 0)
+    private(set) var contactID = UUID()
     private(set) var maximumExtent = 0.0
     private var bodyHeight = 0.0
     var extent: Double { panel.extent }
@@ -57,6 +58,7 @@ struct FrontBrowserPanelState {
 
     mutating func configure(width: Double, height: Double, selectorHeight: Double = 64, controlsHeight: Double = 52) {
         panel.cancelDrag()
+        contactID = UUID()
         let geometry = FrontWorkspaceGeometry(width: width, height: height, browserExtent: extent,
             selectorHeight: selectorHeight, controlsHeight: controlsHeight)
         maximumExtent = geometry.maximumBrowserExtent
@@ -72,11 +74,18 @@ struct FrontBrowserPanelState {
         }
     }
 
-    mutating func setPresented(_ presented: Bool) { panel.setPresented(presented, maximumExtent: maximumExtent) }
+    mutating func setPresented(_ presented: Bool) {
+        panel.setPresented(presented, maximumExtent: maximumExtent)
+        if !presented { contactID = UUID() }
+    }
     mutating func beginDrag() { panel.beginDrag() }
     mutating func updateDrag(translation: Double) { panel.updateDrag(translation: translation, maximumExtent: maximumExtent) }
-    mutating func endDrag(velocity: Double) { panel.endDrag(velocity: velocity, maximumExtent: maximumExtent) }
+    mutating func endDrag(velocity: Double) {
+        panel.endDrag(velocity: velocity, maximumExtent: maximumExtent)
+        if extent == 0 { contactID = UUID() }
+    }
     mutating func cancelDrag() { panel.cancelDrag() }
+    mutating func interrupt() { panel.cancelDrag(); contactID = UUID() }
     mutating func adjust(by amount: Double) {
         guard amount.isFinite else { return }
         if extent == 0 && amount > 0 { setPresented(true) }

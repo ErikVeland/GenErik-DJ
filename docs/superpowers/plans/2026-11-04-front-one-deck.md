@@ -38,3 +38,7 @@
 - [x] Run focused checks and review preservation of the wide workspace/browser/dock.
 - [ ] Commit, integrate, build once, verify runtime/signing and deploy to Duo only.
 - [ ] Record the exact source, numbered build and pending touch/audio acceptance. Stop device actions after launch.
+
+## Execution ruling
+
+The shared integration checkout contains unrelated uncommitted R43 work. Build this committed front-only source in its isolated workspace. Link to the single existing device cache and saved-app directory. Do not include or alter the R43 work. Integrate the front commits without replacing that work.
