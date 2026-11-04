@@ -3,35 +3,19 @@ import CryptoKit
 import Foundation
 
 public enum StemModelRepositoryError: LocalizedError {
-    case invalidResponse
+    case missingBundledModel
     case invalidArtifact(String)
     case insufficientStorage
 
     public var errorDescription: String? {
         switch self {
-        case .invalidResponse:
-            return "The stem model download returned an invalid response."
+        case .missingBundledModel:
+            return "The bundled stem model is missing. Reinstall GenErik DJ to restore it."
         case .invalidArtifact(let name):
-            return "The downloaded stem model file failed its integrity check: \(name)."
+            return "The bundled stem model file failed its integrity check: \(name)."
         case .insufficientStorage:
-            return "Free at least 500 MB of storage before installing the stem model."
+            return "Free at least 500 MB of storage before preparing the stem model."
         }
-    }
-}
-
-public protocol StemModelDownloading: Sendable {
-    func download(from source: URL, to destination: URL) async throws
-}
-
-public struct URLSessionStemModelDownloader: StemModelDownloading {
-    public init() {}
-
-    public func download(from source: URL, to destination: URL) async throws {
-        let (temporary, response) = try await URLSession.shared.download(from: source)
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            throw StemModelRepositoryError.invalidResponse
-        }
-        try FileManager.default.moveItem(at: temporary, to: destination)
     }
 }
 
@@ -47,7 +31,7 @@ public struct CoreMLStemModelCompiler: StemModelCompiling {
     }
 }
 
-/// Downloads and compiles a pinned four-stem Core ML model into local app storage.
+/// Reconstructs and compiles the pinned four-stem model that ships in the app bundle.
 public actor StemModelRepository {
     private struct Artifact: Sendable {
         let name: String
@@ -56,29 +40,10 @@ public actor StemModelRepository {
         let sha256: String
     }
 
-    private static let revision = "8b4d481"
-    private static let modelName = "htdemucs-coreml-fp16-\(revision)"
-    private static let packageManifest = """
-    {
-      "fileFormatVersion": "1.0.0",
-      "itemInfoEntries": {
-        "02CB79C0-A986-4E3F-ABF8-796A39543460": {
-          "author": "com.apple.CoreML",
-          "description": "CoreML Model Weights",
-          "name": "weights",
-          "path": "com.apple.CoreML/weights"
-        },
-        "5472320A-6037-4CD3-AA89-B348A89A8D53": {
-          "author": "com.apple.CoreML",
-          "description": "CoreML Model Specification",
-          "name": "model.mlmodel",
-          "path": "com.apple.CoreML/model.mlmodel"
-        }
-      },
-      "rootModelIdentifier": "5472320A-6037-4CD3-AA89-B348A89A8D53"
-    }
-    """
-
+    private static let modelIdentity = "htdemucs-coreml-fp16-8b4d481"
+    private static let packageName = "HTDemucs_CoreML_FP16.mlpackage"
+    private static let manifestSHA256 = "14606502456a841e914dd1231cefd357eaf4cf3e2e7323c939543ab49f661b4c"
+    private static let weightParts = ["weight.bin.part-aa", "weight.bin.part-ab", "weight.bin.part-ac"]
     private static let artifacts = [
         Artifact(
             name: "model.mlmodel",
@@ -95,18 +60,30 @@ public actor StemModelRepository {
     ]
 
     private let root: URL
-    private let downloader: any StemModelDownloading
     private let compiler: any StemModelCompiling
+    private var compilationTask: Task<URL, Error>?
 
-    public init(root: URL, downloader: any StemModelDownloading = URLSessionStemModelDownloader(),
-                compiler: any StemModelCompiling = CoreMLStemModelCompiler()) {
+    public init(root: URL, compiler: any StemModelCompiling = CoreMLStemModelCompiler()) {
         self.root = root.appendingPathComponent("StemModels", isDirectory: true)
-        self.downloader = downloader
         self.compiler = compiler
     }
 
     public func compiledModelURL() async throws -> URL {
-        let compiled = root.appendingPathComponent(Self.modelName + ".mlmodelc", isDirectory: true)
+        if let compilationTask { return try await compilationTask.value }
+        let task = Task { try await self.compileBundledModel() }
+        compilationTask = task
+        do {
+            let url = try await task.value
+            compilationTask = nil
+            return url
+        } catch {
+            compilationTask = nil
+            throw error
+        }
+    }
+
+    private func compileBundledModel() async throws -> URL {
+        let compiled = root.appendingPathComponent(Self.modelIdentity + ".mlmodelc", isDirectory: true)
         if FileManager.default.fileExists(atPath: compiled.path) { return compiled }
 
         try makeSureStorageIsAvailable()
@@ -115,26 +92,7 @@ public actor StemModelRepository {
         try FileManager.default.createDirectory(at: staging, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: staging) }
 
-        for artifact in Self.artifacts {
-            try Task.checkCancellation()
-            let destination = staging.appendingPathComponent(artifact.path)
-            try FileManager.default.createDirectory(
-                at: destination.deletingLastPathComponent(),
-                withIntermediateDirectories: true
-            )
-            let source = URL(string: "https://huggingface.co/dexxdean/htdemucs-coreml/resolve/\(Self.revision)/HTDemucs_CoreML_FP16.mlpackage/\(artifact.path)")!
-            try await downloader.download(from: source, to: destination)
-            let attributes = try FileManager.default.attributesOfItem(atPath: destination.path)
-            guard (attributes[.size] as? NSNumber)?.int64Value == artifact.size,
-                  try Self.sha256(of: destination) == artifact.sha256 else {
-                throw StemModelRepositoryError.invalidArtifact(artifact.name)
-            }
-        }
-
-        try Data(Self.packageManifest.utf8).write(
-            to: staging.appendingPathComponent("Manifest.json"),
-            options: .atomic
-        )
+        try reconstructBundledPackage(at: staging)
         try Task.checkCancellation()
         let temporaryCompiled = try await compiler.compile(packageAt: staging)
         if FileManager.default.fileExists(atPath: compiled.path) {
@@ -142,6 +100,76 @@ public actor StemModelRepository {
         }
         try FileManager.default.moveItem(at: temporaryCompiled, to: compiled)
         return compiled
+    }
+
+    private func reconstructBundledPackage(at destination: URL) throws {
+        let bundledPackage = try bundledPackageURL()
+        let manifest = bundledPackage.appendingPathComponent("Manifest.json")
+        let manifestAttributes = try FileManager.default.attributesOfItem(atPath: manifest.path)
+        guard (manifestAttributes[.size] as? NSNumber)?.int64Value == 617,
+              try Self.sha256(of: manifest) == Self.manifestSHA256 else {
+            throw StemModelRepositoryError.invalidArtifact("Manifest.json")
+        }
+        try FileManager.default.copyItem(at: manifest, to: destination.appendingPathComponent("Manifest.json"))
+
+        for artifact in Self.artifacts {
+            try Task.checkCancellation()
+            let target = destination.appendingPathComponent(artifact.path)
+            try FileManager.default.createDirectory(
+                at: target.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
+
+            if artifact.name == "weight.bin" {
+                try concatenateBundledWeights(to: target)
+            } else {
+                let source = bundledPackage.appendingPathComponent(artifact.path)
+                try FileManager.default.copyItem(at: source, to: target)
+            }
+
+            let attributes = try FileManager.default.attributesOfItem(atPath: target.path)
+            guard (attributes[.size] as? NSNumber)?.int64Value == artifact.size,
+                  try Self.sha256(of: target) == artifact.sha256 else {
+                throw StemModelRepositoryError.invalidArtifact(artifact.name)
+            }
+        }
+    }
+
+    private func bundledPackageURL() throws -> URL {
+        guard let resources = Bundle.module.resourceURL else {
+            throw StemModelRepositoryError.missingBundledModel
+        }
+        let url = resources
+            .appendingPathComponent("StemModelAssets", isDirectory: true)
+            .appendingPathComponent(Self.packageName, isDirectory: true)
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            throw StemModelRepositoryError.missingBundledModel
+        }
+        return url
+    }
+
+    private func concatenateBundledWeights(to destination: URL) throws {
+        guard let resources = Bundle.module.resourceURL else {
+            throw StemModelRepositoryError.missingBundledModel
+        }
+        let weightDirectory = resources
+            .appendingPathComponent("StemModelAssets", isDirectory: true)
+            .appendingPathComponent(Self.packageName, isDirectory: true)
+            .appendingPathComponent("Data/com.apple.CoreML/weights", isDirectory: true)
+
+        try Data().write(to: destination, options: .atomic)
+        let output = try FileHandle(forWritingTo: destination)
+        defer { try? output.close() }
+
+        for part in Self.weightParts {
+            try Task.checkCancellation()
+            let source = weightDirectory.appendingPathComponent(part)
+            let input = try FileHandle(forReadingFrom: source)
+            defer { try? input.close() }
+            while let data = try input.read(upToCount: 1_048_576), !data.isEmpty {
+                try output.write(contentsOf: data)
+            }
+        }
     }
 
     private func makeSureStorageIsAvailable() throws {

@@ -23,7 +23,7 @@ let package = Package(
                 linkerSettings: [.linkedFramework("AVFoundation"), .linkedFramework("Foundation")]),
         .target(name: "TDJCore", dependencies: ["CTDJTransport"]),
         .target(name: "TDJInterface", dependencies: ["TDJCore", "CTDJAudioSource"],
-                resources: [.process("Resources")]),
+                resources: [.process("Resources"), .copy("StemModelAssets")]),
         .executableTarget(name: "TDJPreview", dependencies: ["TDJInterface", "TDJCore"]),
         .executableTarget(name: "TDJTool", dependencies: ["TDJCore"]),
         .target(name: "TDJRuntimeChecks", dependencies: ["TDJCore", "TDJInterface"]),
