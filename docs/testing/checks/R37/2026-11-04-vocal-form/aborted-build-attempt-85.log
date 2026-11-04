@@ -1,0 +1,10 @@
+2026-11-04 11:10:47.900 xcodebuild[77728:3492595] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+In file included from /Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/CTDJTransport/TDJKeylock.cpp:5:
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/CTDJTransport/Vendor/signalsmith-stretch/signalsmith-stretch.h:39:47: warning: implicit conversion loses integer precision: 'long' to 'result_type' (aka 'unsigned int') [-Wshorten-64-to-32]
+   39 |         SignalsmithStretch(long seed) : randomEngine(seed) {}
+      |                                         ~~~~~~~~~~~~ ^~~~
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/CTDJTransport/TDJKeylock.cpp:109:60: note: in instantiation of member function 'signalsmith::stretch::SignalsmithStretch<>::SignalsmithStretch' requested here
+  109 |     signalsmith::stretch::SignalsmithStretch<float> stretch{0};
+      |                                                            ^
+1 warning generated.
+** BUILD INTERRUPTED **

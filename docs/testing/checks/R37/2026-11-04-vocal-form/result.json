@@ -128,5 +128,29 @@
     "phraseCount": 76,
     "referenceStatus": "Machine-assisted review. Pickup boundaries and musical roles need Erik listening acceptance.",
     "pcmSHA256": "9945c25d99c410d1e3cac65466c5e32cfbac8bf9ef5b6ffee70ccbd049646f61"
-  }
+  },
+  "integratedSourceCommit": "301e1799bd77e56cb6b0eeb005bd258ae6973f33",
+  "integratedSourceHashes": {
+    "Replica/Package.swift": "a9ae26233da4158f4151114ce0df3f22fff6a5add9d31bbc56aa4aebc0d321b4",
+    "Replica/Sources/TDJCore/TrackArrangement.swift": "ec075b7e3be1462673aa87b960b83c44769341d181db81f7fb846bcc8447432d",
+    "Replica/Sources/TDJCore/MusicalStructureAnalyzer.swift": "31b7916b57a18b611db165043bb20582bfda100d11fe909dba73359862e1c1ee",
+    "Replica/Sources/TDJCore/VocalFormAnalyzer.swift": "ec65a383d109b039ae16a65433f78ba2b0f3d5644e39e868742094b79a28a393",
+    "Replica/Sources/TDJInterface/VocalPhraseRecognizer.swift": "030475bb743e1bdc40d487719e29c409193ce3a30f020584dc0af9fa7bc46f5c",
+    "Replica/Sources/TDJInterface/ArrangementModel.swift": "759f5add8aae425f7adac35b170f757eeece64b55e5a3936706c3f044c2a85a0",
+    "Replica/Sources/TDJInterface/ReplicaModel.swift": "01bda6ecc2a1ac4edca798b39c02c1a3c4f22b61dee6cb3ebb4a02bf635e1d1b",
+    "Replica/Sources/TDJInterface/VocalModelAssets/model.json": "b60de2d4ebb97683d7b07401c62f84c9fe193d38e4a28dd7d8c0a7bf663740f2"
+  },
+  "integrationNote": "The merge preserves the current independent-panel changes. The core analyser, recogniser and model identities match the tested feature source.",
+  "build": {
+    "number": 86,
+    "sourceCommit": "301e1799bd77e56cb6b0eeb005bd258ae6973f33",
+    "sourceSHA256": "19437acc7e867058842eaf3ddd967658aec9348e67be0be75bb90025e1ff9905",
+    "appSHA256": "3b07b299d85fb379c513bad7aad2b179bbb8237f643cbf4ee60d678b89cfba62",
+    "buildSeconds": 55.03,
+    "installedUTC": "2026-11-04T01:15:35.079947+00:00",
+    "launchedUTC": "2026-11-04T01:15:35.433877+00:00",
+    "state": "installed-and-launched",
+    "archiveModelVerified": true
+  },
+  "scopeNote": "Physical role and audio acceptance remain pending. The full iPad build uses the combined source. The earlier core/model checks match its tested analysis files."
 }

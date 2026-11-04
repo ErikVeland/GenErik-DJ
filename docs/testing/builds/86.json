@@ -1,0 +1,25 @@
+{
+  "notes": "R37: offline verse, hook and chorus detection. Danger Mouse 99 Problems has three verses and three main hooks. Reviewed 28 genre/version recordings. Preparation cancels during playback and performance touches. Includes the current panel fixes. Erik listening acceptance remains pending.",
+  "sourceCommit": "301e1799bd77e56cb6b0eeb005bd258ae6973f33",
+  "sourceSHA256": "19437acc7e867058842eaf3ddd967658aec9348e67be0be75bb90025e1ff9905",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 55.03,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-86.log",
+  "build": 86,
+  "app": "TestBuilds/ipad/86/GenErikDJ.app",
+  "appSHA256": "3b07b299d85fb379c513bad7aad2b179bbb8237f643cbf4ee60d678b89cfba62",
+  "state": "testing",
+  "createdUTC": "2026-11-04T01:14:34.752800+00:00",
+  "installedUTC": "2026-11-04T01:15:35.079947+00:00",
+  "launchedUTC": "2026-11-04T01:15:35.433877+00:00",
+  "requestIDs": [
+    "R37",
+    "R35",
+    "R34"
+  ],
+  "focusedChecks": "38 focused checks passed. The final native source has three verses, three main hooks, an opening hook and an outro. All 28 reviewed source timelines and boundaries are valid. The sample remains unlabelled.",
+  "artifactChecks": "Signing, source identity and archive digest passed. The bundled vocal model matches the pinned byte count and SHA-256. The native cancellation class and embedded whisper framework are present.",
+  "acceptance": "Installed and launched on the 10.5-inch test iPad. Erik checks vocal-role accuracy, pickup boundaries, manual preparation, preparation time and clean audio during playback and scratching. Both decks must be idle for new section preparation. No device actions after launch."
+}

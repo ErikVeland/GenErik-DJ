@@ -75,3 +75,18 @@ The shipped settings allow non-speech output. The exact native run then recovers
 6. Replay final role assignments with its `--replay` option.
 
 The older `CorpusProbe.swift` remains an acoustic-only baseline tool. Its output now states that the vocal-form pass did not run.
+
+## iPad handover
+
+Build **86** was signed, installed and launched on the 10.5-inch test iPad.
+Its application source is `301e1799bd77e56cb6b0eeb005bd258ae6973f33`. The build took 55 seconds.
+The archive contains the verified pinned model and native recogniser.
+The current independent-panel fixes are included. All device actions stopped after launch.
+
+Leave both decks paused while section preparation runs. Playback and performance touches cancel this work.
+Check the three main hooks and verse pickups in 99 Problems, then compare a sung chorus and an extended mix.
+Check cue positions, manual preparation and clean audio. Erik’s physical acceptance remains pending.
+
+An interrupted pre-merge attempt and its log are retained separately.
+A later successful panel build used number 85. Its archived app matches the authoritative remote record.
+The combined R37 candidate is build 86.

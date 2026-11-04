@@ -1,0 +1,11 @@
+{
+  "build": 85,
+  "state": "aborted",
+  "sourceCommit": "ec3eaaa82d6f4cc9f91615d77e4c526febc57c41",
+  "sourceSHA256": "6ef2db16f77ae9f23185b2717f2c9c678496be866da089d9317afb663408ff3e",
+  "notes": "Stopped after the fast-forward merge failed. The shell continued into a build before R37 was included. No deployment occurred. A combined-source build follows.",
+  "log": "docs/testing/checks/R37/2026-11-04-vocal-form/aborted-build-attempt-85.log",
+  "installed": false,
+  "createdUTC": "2026-11-04T01:12:15.692483+00:00",
+  "numberReconciliation": "A separate successful panel build later used number 85. Its matching archive and authoritative build record are retained. This file describes only the interrupted R37 attempt."
+}
