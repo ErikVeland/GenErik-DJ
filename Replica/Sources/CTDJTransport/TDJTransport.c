@@ -976,7 +976,10 @@ static int apply(tdj_engine *e, tdj_command c) {
             if(same_pending || same_active) {
                 deck proposed=*d;
                 if(same_pending){proposed.pending_touch_rate=c.touch_rate;proposed.pending_touch_rate_valid=true;}
-                else {proposed.performance_rate=c.touch_rate;if(follows_position)proposed.position=c.value;}
+                else {
+                    proposed.performance_rate=c.touch_rate;
+                    if(follows_position){proposed.position=c.value;proposed.state=TDJ_PLAYING;}
+                }
                 int status=stream_validate(e,c.deck,&proposed,e->bpm,c.preparation_ticket,c.generation);
                 if(status!=TDJ_OK)return status;
                 if(same_pending){d->pending_touch_rate=c.touch_rate;d->pending_touch_rate_valid=true;}
@@ -986,6 +989,10 @@ static int apply(tdj_engine *e, tdj_command c) {
                         d->position=c.value;d->touch_start=c.value;
                         tdj_keylock_reset(e->keylocks[c.deck]);
                         transition_request(e,c.deck,0);
+                    }
+                    if(follows_position) {
+                        d->state=TDJ_PLAYING;
+                        if(!e->running){anchor_clock(e,beat_now(e));e->running=true;}
                     }
                     set_performance_rate(e,c.deck,c.touch_rate);
                 }

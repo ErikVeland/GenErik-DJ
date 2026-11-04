@@ -1,0 +1,2 @@
+Assertion failed: (snapshot(e).a.state==TDJ_PLAYING), function waveform_direct_checks, file transport-transition-native-check.cpp, line 221.
+Replica/Scripts/check-transport-transitions-native.sh: line 23: 84907 Abort trap: 6           "$TDJ_TRANSITION_CACHE/check" "$@"
