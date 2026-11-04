@@ -16,7 +16,7 @@ The fixed dock shipped to the test iPad in build 78. Library gestures followed i
 
 Build 87 adds Task 2’s direct A/B divider and separate session size memory per orientation. All 3,665 focused assertions and signing passed. It installed and launched on the test iPad. Physical acceptance remains pending. See `../../testing/checks/R30/2026-11-04-deck-divider/`.
 
-Physical touch, hide/lock semantics, audio acceptance and the original TDJ1 comparisons remain open. Browser side columns and later tasks are not complete. See `../../testing/checks/R30/2026-11-04-performance-panels/`.
+Physical touch, hide/lock semantics, audio acceptance and the original TDJ1 comparisons remain open. Build 92 adds direct Sources/Details drawer sizing and orientation-specific session widths. It retains the newer R39 full-width lists, R40 shortcuts and R41 launch repair. All 4,429 focused assertions and artifact checks passed. The build is installed with launch-request acceptance. Physical acceptance and later tasks remain open. See `../../testing/checks/R30/2026-11-04-browser-columns/`. See `../../testing/checks/R30/2026-11-04-performance-panels/`.
 
 ## Global constraints
 

@@ -38,3 +38,7 @@ Final review: self-review under the project rule against parallel agents. Review
 Build 90 passed compilation and signing but was not installed. R40’s Performance, Browse and Expand shortcuts arrived during compilation. The final source retains those shortcuts and their 22 additional library assertions. The signed build 90 remains saved. No device operation ran for that candidate.
 
 The final candidate also retains R41’s embedded-framework runtime path repair and the build/deployment dependency checks. Build 91’s launch acceptance record is preserved. iPadOS launch acceptance does not establish continued operation.
+
+## iPad handover
+
+Build 92 passed compilation, framework resolution and signing. It installed on the 10.5-inch test iPad, and iPadOS accepted the launch request. Application source: `7e27819e6b76c528b5c1b502343e40942a605779`. The source and saved app hashes are bound in the build record. Build 90 remains signed and uninstalled. No further device actions followed launch acceptance. Erik’s touch, audio and continued-operation checks remain pending.

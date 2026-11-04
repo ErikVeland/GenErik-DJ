@@ -8,7 +8,7 @@
   ],
   "baselineCommit": "b6eb512e0e8c58375932c11e54b870e07cc8d84a",
   "baselineBuild": 91,
-  "status": "source-verified-device-build-pending",
+  "status": "installed-awaiting-Erik-acceptance",
   "filesSHA256": {
     "Replica/Sources/TDJInterface/BrowserLayoutState.swift": "9ccacfef68996b688c01731d3feadbaa509c5a896f82a1ec4de3a853ed6290c8",
     "Replica/Sources/TDJInterface/BrowserView.swift": "75563114f650dab42cd54794e6c81f782f7c115549fcbe7daabe064e4cb1d874",
@@ -61,5 +61,26 @@
     90
   ],
   "integrationContext": "Retains R39 full-width browsing, R40 Performance/Browse/Expand shortcuts and the committed R41 embedded-framework launch repair. Build 90 remains signed and uninstalled.",
-  "runtimeRepair": "The final build and deployment use the R41 framework-resolution checks. Continued operation remains Erik acceptance."
+  "runtimeRepair": "The final build and deployment use the R41 framework-resolution checks. Continued operation remains Erik acceptance.",
+  "build": 92,
+  "sourceCommit": "7e27819e6b76c528b5c1b502343e40942a605779",
+  "sourceSHA256": "fd7db626a33a9431e45a541d2bcd5ef2a2d89b91f36766517a9db5777c6c4b84",
+  "buildVerification": {
+    "compiled": true,
+    "signatureVerified": true,
+    "embeddedFrameworkResolution": true,
+    "nativeTypeCheck": "Passed in signed iPad build 92.",
+    "uncommittedAppChanges": "",
+    "buildSeconds": 58.31,
+    "appSHA256": "2eeb82b6497bc08b6503c22d08306f0867736306fe7737b29884c37ed9c2648f"
+  },
+  "deployment": {
+    "device": "GenErik iPad (10.5-inch)",
+    "state": "installed-launch-request-accepted",
+    "installedUTC": "2026-11-04T02:23:09.429238+00:00",
+    "launchAcceptedUTC": "2026-11-04T02:23:09.831921+00:00",
+    "continuedOperation": "Pending Erik acceptance.",
+    "furtherDeviceActions": false
+  },
+  "acceptance": "Pending Erik physical touch, listening and continued-operation checks."
 }
