@@ -3,7 +3,7 @@ import CryptoKit
 import Foundation
 
 public struct AnalysisConfiguration: Sendable {
-    public var id: String { "independent-dsp-0.3.3-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-\(minimumBPM)-\(maximumBPM)" }
+    public var id: String { "independent-dsp-0.4.0-meter-context-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-\(minimumBPM)-\(maximumBPM)" }
     public var minimumBPM: Double = 60
     public var maximumBPM: Double = 200
     public init() {}
@@ -29,6 +29,7 @@ public enum AudioAnalyzer {
         let handle=try FileHandle(forReadingFrom:pcm)
         defer { try? handle.close() }
         var pulses=MusicalPulseAccumulator(sampleRate:analysis.sampleRate)
+        let spectrum=try MusicalSpectrumAnalyzer(sampleRate:analysis.sampleRate)
         var previous=0.0,filtered=0.0,framesRead:Int64=0
         let highPass=exp(-2 * .pi * 20/analysis.sampleRate)
         while framesRead < analysis.frameCount {
@@ -52,18 +53,17 @@ public enum AudioAnalyzer {
                         : samples[index]*0.5+samples[index+1]*0.5
                     let input=Double(value)
                     filtered=input-previous+highPass*filtered;previous=input
-                    pulses.consume(filtered)
+                    pulses.consume(filtered);spectrum.consume(filtered)
                 }
             }
             framesRead += Int64(requested/8)
         }
         pulses.finish()
         try checkUnchanged(url:pcm,before:before)
-        let peak=pulses.frames.map(\.rms).max() ?? 0
-        let rises=zip(pulses.frames.dropFirst(),pulses.frames).reduce(0.0) { $0+max(0,$1.0.rms-$1.1.rms) }
-        let activity=analysis.musicalEnergy?.spectralActivity ?? min(1,4*rises/max(1e-12,peak*Double(pulses.frames.count)))
+        let activity=spectrum.activity
         let rhythm=try MusicalRhythmAnalyzer.analyze(frames:pulses.frames,sampleRate:analysis.sampleRate,
-            framesPerBin:pulses.framesPerBin,spectralActivity:activity,configuration:.init(),checkCancellation:checkCancellation)
+            framesPerBin:pulses.framesPerBin,spectralActivity:activity,configuration:.init(),
+            harmonicFrames:spectrum.harmonicFrames,checkCancellation:checkCancellation)
         guard let bpm=rhythm.bpm,let anchor=rhythm.anchorSeconds,rhythm.confidence >= 0.72 else { return nil }
         return BeatGridDetection(grid:try BeatGrid(bpm:bpm,anchorFrame:anchor*analysis.sampleRate,
             sampleRate:analysis.sampleRate,downbeatOffset:rhythm.downbeat ?? 0),
@@ -87,7 +87,7 @@ public enum AudioAnalyzer {
         }
         let rhythm = try MusicalRhythmAnalyzer.analyze(frames: pulses.frames, sampleRate: decoded.sampleRate,
             framesPerBin: pulses.framesPerBin, spectralActivity: spectrum.activity,
-            configuration: configuration, checkCancellation: checkCancellation)
+            configuration: configuration, harmonicFrames:spectrum.harmonicFrames, checkCancellation: checkCancellation)
         try checkCancellation()
         let harmonic = spectrum.finish()
         let duration = Double(decoded.frameCount) / decoded.sampleRate
@@ -106,6 +106,7 @@ public enum AudioAnalyzer {
         }
         analysis.detectedDownbeatOffset = rhythm.downbeat
         analysis.downbeatConfidence = rhythm.downbeatConfidence
+        analysis.barAnalysisVersion = BarStartAnalysis.version
         analysis.musicalEnergy = energy
         analysis.cachedEnergyLevel = energy?.level
         analysis.tuningCents = harmonic.tuningCents

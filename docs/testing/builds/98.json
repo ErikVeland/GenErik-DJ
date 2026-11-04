@@ -17,6 +17,14 @@
       "reportedLocalDate": "2026-11-04",
       "buildAssumption": "Build 98 is the last recorded iPad installation. Erik did not give a build number. Duo build 100 is separate.",
       "report": "Track loading must show an immediate waveform and accept Play even when analysis is incomplete. Visual feedback and immediate performance actions take priority."
+    },
+    {
+      "dateUTC": "2026-11-04T10:00:21.580039+00:00",
+      "requestID": "R43",
+      "report": "Creep still does not detect its first beat. Fix automatic bar starts, check genres/versions, build and install on iPad.",
+      "buildAssumedFromLastInstall": true,
+      "state": "candidate-fix",
+      "evidence": "docs/testing/checks/R43/2026-11-04-auto-bars/"
     }
   ],
   "log": "TestBuilds/ipad/build-98.log",

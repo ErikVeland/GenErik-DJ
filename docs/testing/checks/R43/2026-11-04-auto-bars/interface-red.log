@@ -1,0 +1,39 @@
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift:167:22: error: cannot find 'MusicalHarmonicFrame' in scope
+165 |     }
+166 |     func testHarmonicChangesIdentifyABarAfterAnUnaccentedPickup() throws {
+167 |         var harmony=[MusicalHarmonicFrame]()
+    |                      `- error: cannot find 'MusicalHarmonicFrame' in scope
+168 |         for beat in 0..<80 {
+169 |             let roots=[0,5,7,9],bar=(beat+399)/4
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift:167:21: error: cannot call value of non-function type '[Element]'
+165 |     }
+166 |     func testHarmonicChangesIdentifyABarAfterAnUnaccentedPickup() throws {
+167 |         var harmony=[MusicalHarmonicFrame]()
+    |                     `- error: cannot call value of non-function type '[Element]'
+168 |         for beat in 0..<80 {
+169 |             let roots=[0,5,7,9],bar=(beat+399)/4
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift:176:71: error: extra argument 'harmonicFrames' in call
+174 |         }
+175 |         let result=try MusicalRhythmAnalyzer.analyze(frames:pattern(uniform:true),sampleRate:1000,framesPerBin:5,
+176 |             spectralActivity:0.2,configuration:.init(),harmonicFrames:harmony,checkCancellation:{})
+    |                                                                       `- error: extra argument 'harmonicFrames' in call
+177 |         XCTAssertEqual(result.downbeat,1)
+178 |     }
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift:193:28: error: cannot find 'AutomaticGridPolicy' in scope
+191 |         ]
+192 |         for (manual,user,locked,adaptive,current,imported,unlocked,expected) in cases {
+193 |             XCTAssertEqual(AutomaticGridPolicy.mayRefresh(isManual:manual,wasEditedByUser:user,isLocked:locked,
+    |                            `- error: cannot find 'AutomaticGridPolicy' in scope
+194 |                 hasAdaptiveMap:adaptive,current:current,imported:imported,importIsUnlocked:unlocked),expected)
+195 |         }
+Traceback (most recent call last):
+  File "/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/docs/testing/checks/R43/2026-11-04-auto-bars/check.py", line 55, in <module>
+    subprocess.run(["xcrun", "swiftc", "-O", *map(str, files), "-o", str(WORK / "checks")], check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['xcrun', 'swiftc', '-O', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Values.swift', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/R43/bar-focused/BeatGridMap.swift', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/AudioAnalyzer.swift', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/MusicalSpectrumAnalyzer.swift', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/MusicalAnalysisFeatures.swift', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/AdaptiveRhythmAnalyzer.swift', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/BeatGrid.swift', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Assertions.swift', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/R43/bar-focused/main.swift', '-o', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/R43/bar-focused/checks']' returned non-zero exit status 1.

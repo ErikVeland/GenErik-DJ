@@ -319,7 +319,11 @@ public actor LibraryService {
     private func apply(_ original: ImportedTraktorPreparation, to track: inout Track, preservePreparation: Bool) {
         track.traktorPreparation = original
         guard !preservePreparation else { return }
-        if !track.preparation.gridIsManual && !track.preparation.gridLocked, let grid = original.normalized.grid {
+        if let grid=track.automaticBarGrid {
+            track.preparation.grid=grid
+            track.preparation.gridIsManual=false
+        } else if !track.preparation.gridIsManual && track.preparation.gridWasEditedByUser != true && !track.preparation.gridLocked,
+            let grid = original.normalized.grid {
             track.preparation.grid = grid
             track.preparation.gridIsManual = true
         }
@@ -352,7 +356,10 @@ public actor LibraryService {
             let previousAnalysis = track.analysis
             track.analysis = analysis
             track.recordKeyAnalysisChange(from: previousAnalysis)
-            if !track.preparation.gridIsManual && !track.preparation.gridLocked {
+            if let grid=track.automaticBarGrid {
+                track.preparation.grid=grid
+                track.preparation.gridIsManual=false
+            } else if !track.preparation.gridIsManual && track.preparation.gridWasEditedByUser != true && !track.preparation.gridLocked {
                 track.preparation.grid = try analysis.bpm.map {
                     try BeatGrid(bpm: $0, anchorFrame: analysis.beatAnchorFrame ?? 0,
                         sampleRate: analysis.sampleRate, downbeatOffset: analysis.detectedDownbeatOffset ?? 0)
@@ -395,7 +402,10 @@ public actor LibraryService {
         var changed = library
         changed.tracks[index].analysis = analysis
         changed.tracks[index].recordKeyAnalysisChange(from: previous)
-        if !changed.tracks[index].preparation.gridIsManual && !changed.tracks[index].preparation.gridLocked {
+        if let grid=changed.tracks[index].automaticBarGrid {
+            changed.tracks[index].preparation.grid=grid
+            changed.tracks[index].preparation.gridIsManual=false
+        } else if !changed.tracks[index].preparation.gridIsManual && changed.tracks[index].preparation.gridWasEditedByUser != true && !changed.tracks[index].preparation.gridLocked {
             changed.tracks[index].preparation.grid = try analysis.bpm.map {
                 try BeatGrid(bpm: $0, anchorFrame: analysis.beatAnchorFrame ?? 0, sampleRate: analysis.sampleRate,
                     downbeatOffset: analysis.detectedDownbeatOffset ?? 0)

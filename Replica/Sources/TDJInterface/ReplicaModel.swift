@@ -867,8 +867,8 @@ public final class ReplicaModel {
         guard !waveformShutdown, !arrangementPlaybackActive, !preparingTrack.contains(deck),
               deckAnalysisTasks[deck] == nil, let pin = loadPreparations[deck],
               let generation = pin.generation, deckAnalysisAttempts[deck] != pin.token,
-              NativeAnalysisPlan.needsDeckAnalysis(deferred: pin.track.analysis.musicalAnalysisDeferred,
-                  bpm: pin.track.bpm, key: pin.track.key) else { return }
+              (NativeAnalysisPlan.needsDeckAnalysis(deferred: pin.track.analysis.musicalAnalysisDeferred,
+                  bpm: pin.track.bpm, key: pin.track.key) || pin.track.needsAutomaticBarAnalysis) else { return }
         let token = pin.token, id = pin.track.id
         cancelNativeMusicAnalysis()
         deckAnalysisAttempts[deck] = token
@@ -879,6 +879,8 @@ public final class ReplicaModel {
                 if Task.isCancelled { self.scheduleDeckAnalysis(deck: deck) }
                 if self.deckAnalysisTasks.isEmpty { self.startNativeMusicAnalysis() }
             }
+            let barProgress=pin.track.needsAutomaticBarAnalysis ? "Finding the beat grid for \(pin.track.title)…":nil
+            if let barProgress { self.status=barProgress }
             do {
                 self.logAnalysis("Analysing \(pin.track.title) after audio readiness")
                 let snapshot: LibrarySnapshot
@@ -904,20 +906,32 @@ public final class ReplicaModel {
                 if let pending = self.pendingPreparations[id] { updated.preparation = pending.value }
                 if let grid = updated.grid, grid != self.grid(deck) {
                     try self.playback.updateGrid(grid, deck: deck)
+                    if updated.automaticBarGrid != nil {
+                        self.synchronizeGridCue(trackID:id,grid:grid)
+                        if !self.editing.contains(deck),self.viewport[deck] == (pin.track.grid?.anchorFrame ?? 0) {
+                            self.viewport[deck]=grid.frame(atBeat:Double(grid.downbeatOffset))
+                        }
+                    }
                 }
                 let accepted = LoadPreparation(token: token, track: updated, generation: generation)
                 self.loadPreparations[deck] = accepted
                 self.committedPreparations[deck] = accepted
                 self.prepareWaveform(updated)
                 self.refreshPlayback()
+                if let barProgress,self.status == barProgress {
+                    self.status=updated.automaticBarGrid.map { String(format:"Beat grid ready: %.2f BPM.",$0.bpm) }
+                        ?? "Beat-grid analysis finished. Saved preparation is retained."
+                }
                 var missing = [String]()
                 if updated.bpm == nil { missing.append("BPM") }
                 if updated.key == nil { missing.append("key") }
                 self.logAnalysis(missing.isEmpty ? "Analysis finished for \(updated.title)."
                     : "Analysis finished for \(updated.title). No reliable \(missing.joined(separator: " or ")) was detected.")
             } catch is CancellationError {
+                if let barProgress,self.status == barProgress { self.status="" }
                 if self.deckAnalysisAttempts[deck] == token { self.deckAnalysisAttempts[deck] = nil }
             } catch {
+                if let barProgress,self.status == barProgress { self.status="Beat-grid analysis failed. Saved preparation is retained." }
                 self.logAnalysis("Analysis unavailable for \(pin.track.title): \(error.localizedDescription)")
             }
         }
@@ -946,10 +960,12 @@ public final class ReplicaModel {
                       accepted.token == token, accepted.generation == generation else { return }
                 accepted.track.preparation.grid = grid
                 accepted.track.preparation.gridIsManual = true
+                accepted.track.preparation.gridWasEditedByUser = true
                 self.committedPreparations[deck] = accepted
                 if self.loadPreparations[deck]?.token == token, self.loadPreparations[deck]?.generation == generation {
                     self.loadPreparations[deck]?.track.preparation.grid = grid
                     self.loadPreparations[deck]?.track.preparation.gridIsManual = true
+                    self.loadPreparations[deck]?.track.preparation.gridWasEditedByUser = true
                 }
             }
         } catch { status = error.localizedDescription }
@@ -1083,14 +1099,14 @@ public final class ReplicaModel {
             do {
                 preparation.adaptiveMap = try map.transforming(tempoFactor:grid.bpm/fixed.bpm,
                     frameOffset:grid.anchorFrame-fixed.anchorFrame,frameCount:track.analysis.frameCount)
-                preparation.gridIsManual=true
+                preparation.gridIsManual=true;preparation.gridWasEditedByUser=true
                 gridDraft[deck]=nil
                 saveAdaptivePreparation(preparation,deck:deck)
             } catch { gridDraft[deck]=nil;status=error.localizedDescription }
             return
         }
         preparation.adaptiveMap = nil; preparation.gridMode = .fixed
-        preparation.grid = grid; preparation.gridIsManual = true
+        preparation.grid = grid; preparation.gridIsManual = true;preparation.gridWasEditedByUser=true
         do { if !preparingPlayback.contains(deck) { try playback.updateGrid(grid,deck:deck) } }
         catch { status=error.localizedDescription; return }
         adaptiveUndo[track.id]=nil
@@ -1099,6 +1115,7 @@ public final class ReplicaModel {
             if let identity = loadPreparations[destination]?.token { pendingLoadKeys[identity]?.value?.grid = grid }
             loadPreparations[destination]?.track.preparation.grid=grid
             loadPreparations[destination]?.track.preparation.gridIsManual=true
+            loadPreparations[destination]?.track.preparation.gridWasEditedByUser=true
             if !preparingPlayback.contains(destination), let pin=loadPreparations[destination] {
                 committedPreparations[destination]=pin
             }
@@ -1279,7 +1296,7 @@ public final class ReplicaModel {
         if var preparation=gridPreparation(deck),let map=preparation.adaptiveMap,preparation.gridMode != .fixed {
             guard !preparation.gridLocked,(0..<4).contains(beat) else { return }
             preparation.adaptiveMap=BeatGridMap(anchors:map.anchors,sampleRate:map.sampleRate,downbeatOffset:beat)
-            preparation.gridIsManual=true
+            preparation.gridIsManual=true;preparation.gridWasEditedByUser=true
             saveAdaptivePreparation(preparation,deck:deck)
             return
         }

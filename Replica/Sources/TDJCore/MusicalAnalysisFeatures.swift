@@ -9,6 +9,17 @@ public struct MusicalEnergyAnalysis: Codable, Equatable, Sendable {
     public let crestFactorDB: Double
 }
 
+struct MusicalHarmonicFrame:Sendable {
+    let seconds:Double
+    let chroma:[Double]
+}
+
+struct MusicalBarFrame:Codable,Sendable {
+    let level:Double
+    let attackBands:[Double]
+    let chroma:[Double]
+}
+
 struct MusicalPulseFrame {
     let rms: Double
     let bass: Double
@@ -111,16 +122,29 @@ enum MusicalRhythmAnalyzer {
 
     static func analyze(frames: [MusicalPulseFrame], sampleRate: Double, framesPerBin: Int,
                         spectralActivity: Double, configuration: AnalysisConfiguration,
+                        harmonicFrames:[MusicalHarmonicFrame] = [],
                         checkCancellation: @Sendable () throws -> Void) throws -> MusicalRhythmResult {
         try checkCancellation()
         guard sampleRate.isFinite, sampleRate > 0, framesPerBin > 0 else { return .init() }
+        func finishBar(_ input:MusicalRhythmResult) throws -> MusicalRhythmResult {
+            var result=input
+            if let bpm=result.bpm,let anchor=result.anchorSeconds {
+                let bar=try detectDownbeat(frames:frames,binsPerSecond:sampleRate/Double(framesPerBin),
+                    period:60/bpm,anchor:anchor,harmonicFrames:harmonicFrames,checkCancellation:checkCancellation)
+                result.downbeat=bar.offset;result.downbeatConfidence=bar.confidence
+                if let map=result.adaptiveCandidate {
+                    result.adaptiveCandidate=BeatGridMap(anchors:map.anchors,sampleRate:map.sampleRate,downbeatOffset:bar.offset ?? 0)
+                }
+            }
+            return result
+        }
         let whole=try analyzeWhole(frames:frames,sampleRate:sampleRate,framesPerBin:framesPerBin,
             spectralActivity:spectralActivity,configuration:configuration,checkCancellation:checkCancellation)
-        guard whole.bpm == nil || whole.confidence < 0.72 else { return whole }
+        guard whole.bpm == nil || whole.confidence < 0.72 else { return try finishBar(whole) }
         let binsPerSecond=sampleRate/Double(framesPerBin)
         let window=max(1,Int((24*binsPerSecond).rounded()))
         let minimum=max(1,Int((12*binsPerSecond).rounded()))
-        guard frames.count >= minimum else { return whole }
+        guard frames.count >= minimum else { return try finishBar(whole) }
         var starts=Array(stride(from:0,to:frames.count-minimum+1,by:max(1,window/2)))
         starts.append(max(0,frames.count-window))
         starts.append(max(0,frames.count-minimum))
@@ -154,9 +178,9 @@ enum MusicalRhythmAnalyzer {
                     sampleRate:map.sampleRate,downbeatOffset:candidate.downbeat ?? map.downbeatOffset)
                 candidate.adaptiveCandidate=(try? shifted.validate(frameCount:Int64(frames.count*framesPerBin))) != nil ? shifted:nil
             }
-            return candidate
+            return try finishBar(candidate)
         }
-        return whole
+        return try finishBar(whole)
     }
 
     /// Extend a supported late beat train back to its first audible attack, using local contrast.
@@ -560,59 +584,126 @@ enum MusicalRhythmAnalyzer {
         return .init(period: period, phase: phase, score: score, residual: residual, matched: selected.count, first: first)
     }
 
-    private static func detectDownbeat(frames: [MusicalPulseFrame], binsPerSecond: Double, period: Double,
-                                       anchor: Double, checkCancellation: @Sendable () throws -> Void) throws -> (offset: Int?, confidence: Double?) {
-        let duration = Double(frames.count) / binsPerSecond
-        let count = Int(floor((duration - anchor) / period))
-        guard count >= 12 else { return (nil, nil) }
-        var vectors: [[Double]] = []
+    private static func detectDownbeat(frames:[MusicalPulseFrame],binsPerSecond:Double,period:Double,
+        anchor:Double,harmonicFrames:[MusicalHarmonicFrame] = [],
+        checkCancellation:@Sendable () throws -> Void) throws -> (offset:Int?,confidence:Double?) {
+        try barStart(beats:barFrames(frames:frames,binsPerSecond:binsPerSecond,period:period,anchor:anchor,
+            harmonicFrames:harmonicFrames,checkCancellation:checkCancellation),checkCancellation:checkCancellation)
+    }
+
+    static func barFrames(frames:[MusicalPulseFrame],binsPerSecond:Double,period:Double,
+        anchor:Double,harmonicFrames:[MusicalHarmonicFrame] = [],
+        checkCancellation:@Sendable () throws -> Void) throws -> [MusicalBarFrame] {
+        let count=Int(floor((Double(frames.count)/binsPerSecond-anchor)/period))
+        guard count >= 16 else { return [] }
+        var levels=[Double](),bands=[[Double]]()
         for beat in 0..<count {
-            if beat.isMultiple(of: 256) { try checkCancellation() }
-            let time = anchor + Double(beat) * period
-            let start = max(0, Int(((time - 0.005) * binsPerSecond).rounded(.down)))
-            let end = min(frames.count, Int(((time + min(0.12, period * 0.3)) * binsPerSecond).rounded(.up)))
-            guard end > start else { continue }
-            var powers = [Double](repeating: 0, count: 4)
-            for index in start..<end {
-                for band in 0..<4 { powers[band] += pow(frames[index].value(band), 2) }
-            }
-            let sum = powers[1] + powers[2] + powers[3]
-            vectors.append(sum > 1e-14 ? [powers[1] / sum, powers[2] / sum, powers[3] / sum, sqrt(powers[0])] : [0, 0, 0, 0])
-        }
-        guard vectors.count == count else { return (nil, nil) }
-        let magnitudes = vectors.map { $0[3] }.filter { $0 > 1e-7 }.sorted()
-        guard magnitudes.count >= 12 else { return (nil, nil) }
-        let median = magnitudes[magnitudes.count / 2]
-        for index in vectors.indices { vectors[index][3] = min(2, vectors[index][3] / median) * 0.25 }
-        func scores(parity: Int?) -> [Double] {
-            var means = Array(repeating: [Double](repeating: 0, count: 4), count: 4)
-            var counts = [Double](repeating: 0, count: 4)
-            for beat in vectors.indices where vectors[beat][3] > 0.01 {
-                if let parity, (beat / 4) % 2 != parity { continue }
-                let position = beat % 4
-                counts[position] += 1
-                for feature in 0..<4 { means[position][feature] += vectors[beat][feature] }
-            }
-            guard counts.allSatisfy({ $0 >= 1 }) else { return [0, 0, 0, 0] }
-            for position in 0..<4 {
-                for feature in 0..<4 { means[position][feature] /= counts[position] }
-            }
-            return (0..<4).map { position in
-                (0..<4).reduce(0.0) { total, feature in
-                    let other = (0..<4).filter { $0 != position }.reduce(0.0) { $0 + means[$1][feature] } / 3
-                    return total + pow(means[position][feature] - other, 2)
+            if beat.isMultiple(of:256) { try checkCancellation() }
+            let time=anchor+Double(beat)*period
+            let lower=max(0,Int((time*binsPerSecond).rounded(.down)))
+            let upper=min(frames.count,Int(((time+period*0.7)*binsPerSecond).rounded(.up)))
+            guard upper > lower else { return [] }
+            var powers=[Double](repeating:0,count:4),attacks=powers
+            let attackEnd=min(upper,Int(((time+min(0.12,period*0.3))*binsPerSecond).rounded(.up)))
+            for i in lower..<upper {
+                for band in 0..<4 {
+                    let value=pow(frames[i].value(band),2)
+                    powers[band] += value
+                    if i < attackEnd { attacks[band] += value }
                 }
             }
+            let total=max(1e-14,attacks[1]+attacks[2]+attacks[3])
+            levels.append(sqrt(powers[0]/Double(upper-lower)))
+            bands.append([attacks[1]/total,attacks[2]/total,attacks[3]/total])
         }
-        let total = scores(parity: nil)
-        let ranked = total.indices.sorted { total[$0] > total[$1] }
-        let best = ranked[0], second = ranked[1]
-        guard total[best] > 0.004, total[best] > total[second] * 1.5 else { return (nil, nil) }
-        for parity in 0..<2 {
-            let split = scores(parity: parity)
-            guard split.indices.max(by: { split[$0] < split[$1] }) == best else { return (nil, nil) }
+        var chroma=Array(repeating:[Double](repeating:0,count:12),count:count)
+        var tonalCount=[Int](repeating:0,count:count)
+        for (index,frame) in harmonicFrames.enumerated() {
+            if index.isMultiple(of:256) { try checkCancellation() }
+            let beat=Int(floor((frame.seconds-anchor)/period))
+            guard beat >= 0,beat < count,frame.chroma.count == 12 else { continue }
+            for pitch in 0..<12 { chroma[beat][pitch] += frame.chroma[pitch] }
+            tonalCount[beat] += 1
         }
-        return (best, min(1, max(0, 1 - total[second] / total[best])))
+        for beat in 0..<count where tonalCount[beat] > 0 {
+            for pitch in 0..<12 { chroma[beat][pitch] /= Double(tonalCount[beat]) }
+        }
+        return (0..<count).map { MusicalBarFrame(level:levels[$0],attackBands:bands[$0],chroma:chroma[$0]) }
+    }
+
+    static func barStart(beats:[MusicalBarFrame],checkCancellation:@Sendable () throws -> Void = {}) throws
+        -> (offset:Int?,confidence:Double?) {
+        guard beats.count >= 16,beats.allSatisfy({ $0.level.isFinite && $0.level >= 0 && $0.attackBands.count == 3 && $0.chroma.count == 12 }) else { return (nil,nil) }
+        var count=beats.count,levels=beats.map(\.level),bands=beats.map(\.attackBands)
+        let active=levels.filter { $0 > 1e-7 }.sorted()
+        guard active.count >= 16 else { return (nil,nil) }
+        let median=active[active.count/2]
+        if let last=levels.lastIndex(where:{ $0 > median*0.1 }) {
+            count=last+1;levels=Array(levels.prefix(count));bands=Array(bands.prefix(count))
+        }
+        guard count >= 16 else { return (nil,nil) }
+        let vectors=(0..<count).map { [log1p(levels[$0]/median)]+bands[$0] }
+        func mean(_ values:[[Double]]) -> [Double] {
+            guard let first=values.first else { return [Double](repeating:0,count:4) }
+            return first.indices.map { feature in values.reduce(0) { $0+$1[feature] }/Double(values.count) }
+        }
+        func distance(_ a:[Double],_ b:[Double]) -> Double {
+            sqrt(zip(a,b).reduce(0) { $0+pow($1.0-$1.1,2) })
+        }
+        func lagDistance(_ lag:Int,_ values:[[Double]]) -> Double {
+            let indices=(lag..<values.count).filter { levels[$0] > median*0.1 && levels[$0-lag] > median*0.1 }
+            return indices.isEmpty ? 0:indices.reduce(0) { $0+distance(values[$1],values[$1-lag]) }/Double(indices.count)
+        }
+        let lag4=lagDistance(4,vectors),lag3=lagDistance(3,vectors)
+        guard lag4 < 0.01 || lag3 >= lag4*0.65 else { return (nil,nil) }
+        var votes=[Double](repeating:0,count:4)
+        let prefix=Array(vectors.prefix(min(32,count)))
+        let introMeans=(0..<4).map { offset in mean(stride(from:offset,to:prefix.count,by:4).map { prefix[$0] }) }
+        let introMean=mean(introMeans)
+        let introSpread=introMeans.reduce(0) { $0+pow(distance($1,introMean),2) }/4
+        if introSpread > 0.0005,lagDistance(4,prefix) < lagDistance(1,prefix)*0.95,levels[0] > median*0.4 {
+            votes[0] += 0.8
+        }
+        for beat in 1..<min(4,count-4) {
+            let before=levels[..<beat].reduce(0,+)/Double(beat)
+            let after=levels[beat..<(beat+4)].reduce(0,+)/4
+            if after > max(median*0.5,before*3) { votes[beat%4] += min(1.5,after/max(before,median*0.05)*0.15) }
+        }
+        let means=(0..<4).map { offset in mean(stride(from:offset,to:count,by:4).filter { levels[$0] > median*0.1 }.map { vectors[$0] }) }
+        let bassOrder=(0..<4).sorted { means[$0][1] > means[$1][1] }
+        let bassMargin=means[bassOrder[0]][1]-means[bassOrder[1]][1]
+        if bassMargin > 0.06 {
+            votes[bassOrder[0]] += min(2.0,bassMargin*8)
+        }
+        var novelty=[Double](repeating:0,count:count)
+        for beat in 4..<(count-4) {
+            if beat.isMultiple(of:256) { try checkCancellation() }
+            novelty[beat]=distance(mean(Array(vectors[(beat-4)..<beat])),mean(Array(vectors[beat..<(beat+4)])))
+        }
+        let ordered=novelty.sorted(),baseline=ordered[ordered.count/2]
+        for beat in 4..<(count-4) where novelty[beat] > max(0.12,baseline*2.5)
+            && novelty[beat] >= novelty[beat-1] && novelty[beat] > novelty[beat+1] {
+            votes[beat%4] += min(1,novelty[beat])*0.6
+        }
+        let chroma=Array(beats.prefix(count)).map(\.chroma)
+        let tonalCount=chroma.map { $0.reduce(0,+) > 1e-12 ? 1:0 }
+        var harmonicChange=[Double](repeating:0,count:count)
+        for beat in 1..<count where tonalCount[beat] > 0 && tonalCount[beat-1] > 0 {
+            let a=chroma[beat],b=chroma[beat-1]
+            let dot=zip(a,b).reduce(0) { $0+$1.0*$1.1 }
+            let norm=sqrt(a.reduce(0) { $0+$1*$1 }*b.reduce(0) { $0+$1*$1 })
+            harmonicChange[beat]=max(0,1-dot/max(norm,1e-12))
+        }
+        let harmonicSorted=harmonicChange.sorted(),harmonicMedian=harmonicSorted[harmonicSorted.count/2]
+        for beat in 1..<(count-1) where harmonicChange[beat] > max(0.12,harmonicMedian*2.5)
+            && harmonicChange[beat] >= harmonicChange[beat-1] && harmonicChange[beat] > harmonicChange[beat+1] {
+            votes[beat%4] += harmonicChange[beat]
+        }
+        let ranked=(0..<4).sorted { votes[$0] > votes[$1] }
+        let best=votes[ranked[0]],second=votes[ranked[1]]
+        guard best >= 0.3,best > second*1.25 else { return (nil,nil) }
+        let margin=(best-second)/max(best+second,1e-12)
+        return (ranked[0],min(1,0.5+margin*0.5))
     }
 
     static func energy(frames: [MusicalPulseFrame], duration: Double, rhythm: MusicalRhythmResult,

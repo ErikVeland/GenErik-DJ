@@ -96,7 +96,7 @@ extension Preparation {
         anchors.sort { $0.beat < $1.beat }
         let changed = BeatGridMap(anchors: anchors, sampleRate: map.sampleRate, downbeatOffset: map.downbeatOffset)
         try changed.validate(frameCount: frameCount)
-        adaptiveMap = changed; gridMode = .adaptive; gridIsManual = true
+        adaptiveMap = changed; gridMode = .adaptive; gridIsManual = true;gridWasEditedByUser = true
     }
 }
 

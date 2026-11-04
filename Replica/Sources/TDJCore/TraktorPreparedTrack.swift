@@ -5,7 +5,11 @@ extension Track {
     public func resolvingTraktorPreparation() -> Track {
         guard let original=traktorPreparation else { return self }
         var result=self
-        if !result.preparation.gridIsManual, let grid=original.normalized.grid {
+        if let grid=result.automaticBarGrid {
+            result.preparation.grid=grid
+            result.preparation.gridIsManual=false
+        } else if !result.preparation.gridIsManual,result.preparation.gridWasEditedByUser != true,
+            !result.preparation.gridLocked,let grid=original.normalized.grid {
             result.preparation.grid=grid
             result.preparation.gridIsManual=true
         }
