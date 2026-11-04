@@ -1,0 +1,394 @@
+{
+  "sourceFiles": {
+    "TestBuilds/ipad/R43/bar-native/Values.swift": "ac66ecac0268f584becb97e05ad6aee1e39f486c4f62743865f6f4a17a88052b",
+    "TestBuilds/ipad/R43/bar-native/BeatGridMap.swift": "b3e7543dab5fdd5d37ca43695745e45910eaae1099e144fab7399a72d1480b0a",
+    "Replica/Sources/TDJCore/AudioAnalyzer.swift": "17c1bd68ef713f5cbf181ad7d55e7fd4edcc287b365244f9926644935a0cdfc4",
+    "Replica/Sources/TDJCore/MusicalSpectrumAnalyzer.swift": "5daeb71c64d93e958d4f71aa1a45e48e5018c614d2fa49f75d31862147ccc683",
+    "Replica/Sources/TDJCore/MusicalAnalysisFeatures.swift": "b631221db34de5a3c3e4789dae70fa778d213d00594974ddeff9f787a92bef19",
+    "Replica/Sources/TDJCore/AdaptiveRhythmAnalyzer.swift": "f8ac9378f03ec3e51f55ee08628c14a4885664c81a378210d1c0ef4c288a9f01",
+    "Replica/Sources/TDJCore/BeatGrid.swift": "084b1d6a092b2bc75fcf51286dfc5b45d53021e7a8e4b6eaa8577ac6ab3f5a5e",
+    "TestBuilds/ipad/R43/bar-native/main.swift": "8a24191b9a783ba0712782999017459872857906132231917919d86ae1a60e45"
+  },
+  "tracks": [
+    {
+      "artist": "Harrison",
+      "title": "All The Things She Said (Extended Mix)",
+      "genreFamilyHint": "electronic-other",
+      "versionHints": [
+        "extended"
+      ],
+      "sourcePath": "/Volumes/iTunes/Media/iTunes Media/Music/Harrison/All The Things She Said (Extended Mix) - Single/01 All The Things She Said (Extended Mix).m4a",
+      "seconds": 6.44,
+      "state": "analyzed",
+      "exitCode": 0,
+      "log": "BPM Optional(125.9997599315177) anchor Optional(0.06760729106393626) bar Optional(0) confidence 0.8055705120852505\n",
+      "analysis": {
+        "barAnalysisVersion": 1,
+        "beatAnchorFrame": 2981.481535919589,
+        "bpm": 125.9997599315177,
+        "cachedEnergyLevel": 8,
+        "channelCount": 2,
+        "configurationID": "independent-dsp-0.4.0-meter-context-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0",
+        "contentSHA256": "57a889e05f1e673e2cdeacb63f03d61d1b0e8c6048692c666c47c3ba12aecbff",
+        "detectedDownbeatOffset": 0,
+        "downbeatConfidence": 0.7003801444993348,
+        "frameCount": 10137540,
+        "gridResidualMilliseconds": 3.512146764165891,
+        "implementation": "Independent multiband consensus DSP v0.2.1. TDJ1 equivalence unverified.",
+        "key": {
+          "mode": "minor",
+          "tonic": 8
+        },
+        "keyConfidence": 1,
+        "keyStability": 1,
+        "musicalEnergy": {
+          "brightness": 0.4763515858056807,
+          "crestFactorDB": 5.220396075263137,
+          "level": 8,
+          "onsetsPerSecond": 7.534362783239453,
+          "rhythmicity": 0.8055705120852505,
+          "spectralActivity": 0.251185347080048
+        },
+        "sampleRate": 44100,
+        "tempoConfidence": 0.8055705120852505,
+        "tuningCents": -4.146523419248636,
+        "waveformFramesPerBin": 441
+      },
+      "valid": true,
+      "automaticBarEligible": true,
+      "firstBarSeconds": 0.06760729106393626,
+      "referenceStatus": "unlabelled; no independent listening reference"
+    },
+    {
+      "artist": "Michael Jackson",
+      "title": "Remember The Time (12'' Main Mix)",
+      "genreFamilyHint": "house-disco",
+      "versionHints": [
+        "12-inch"
+      ],
+      "sourcePath": "/Volumes/iTunes/Media/iTunes Media/Music/Michael Jackson/Remember The Time (CD Maxi Single)/1-03 Remember The Time (12'' Main Mix).m4a",
+      "seconds": 8.14,
+      "state": "analyzed",
+      "exitCode": 0,
+      "log": "BPM Optional(108.12095701183289) anchor Optional(0.203443622514186) bar nil confidence 0.9569262550647499\n",
+      "analysis": {
+        "barAnalysisVersion": 1,
+        "beatAnchorFrame": 8971.863752875603,
+        "bpm": 108.12095701183289,
+        "cachedEnergyLevel": 9,
+        "channelCount": 2,
+        "configurationID": "independent-dsp-0.4.0-meter-context-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0",
+        "contentSHA256": "ca988889562cbfe7ea285a1860eed81231cdf8ba73e527058d830a49cc54648d",
+        "frameCount": 12714324,
+        "gridResidualMilliseconds": 6.360962120595559,
+        "implementation": "Independent multiband consensus DSP v0.2.1. TDJ1 equivalence unverified.",
+        "key": {
+          "mode": "minor",
+          "tonic": 5
+        },
+        "keyConfidence": 0.398220956610238,
+        "keyStability": 0.7142857142857143,
+        "musicalEnergy": {
+          "brightness": 0.5497714332043072,
+          "crestFactorDB": 6.085332391341955,
+          "level": 9,
+          "onsetsPerSecond": 7.533628731816512,
+          "rhythmicity": 0.9569262550647499,
+          "spectralActivity": 0.2570147402015815
+        },
+        "sampleRate": 44100,
+        "tempoConfidence": 0.9569262550647499,
+        "tuningCents": 0.8623124252218178,
+        "waveformFramesPerBin": 441
+      },
+      "valid": true,
+      "automaticBarEligible": false,
+      "firstBarSeconds": null,
+      "referenceStatus": "unlabelled; no independent listening reference"
+    },
+    {
+      "artist": "Vampire Weekend",
+      "title": "White Sky (Basement Jaxx Vamp Dub Mix)",
+      "genreFamilyHint": "pop-rock",
+      "versionHints": [
+        "dub"
+      ],
+      "sourcePath": "/Volumes/iTunes/Media/iTunes Media/Music/Vampire Weekend/White Sky/04 White Sky (Basement Jaxx Vamp Dub Mix).m4a",
+      "seconds": 6.1,
+      "state": "analyzed",
+      "exitCode": 0,
+      "log": "BPM Optional(129.9942739097755) anchor Optional(0.11581050279212945) bar Optional(0) confidence 1.0\n",
+      "analysis": {
+        "barAnalysisVersion": 1,
+        "beatAnchorFrame": 5107.243173132909,
+        "bpm": 129.9942739097755,
+        "cachedEnergyLevel": 9,
+        "channelCount": 2,
+        "configurationID": "independent-dsp-0.4.0-meter-context-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0",
+        "contentSHA256": "2c99e76b8774836a2973e54b3572c0c3e5b67c5c2c85ac5bdc58520d4570ddd1",
+        "detectedDownbeatOffset": 0,
+        "downbeatConfidence": 0.5878939810278162,
+        "frameCount": 10471982,
+        "gridResidualMilliseconds": 4.798672400781356,
+        "implementation": "Independent multiband consensus DSP v0.2.1. TDJ1 equivalence unverified.",
+        "key": {
+          "mode": "minor",
+          "tonic": 9
+        },
+        "keyConfidence": 0.26929336513359586,
+        "keyStability": 0.5714285714285714,
+        "musicalEnergy": {
+          "brightness": 0.5202105951435376,
+          "crestFactorDB": 3.9810856473676752,
+          "level": 9,
+          "onsetsPerSecond": 7.0411193186457135,
+          "rhythmicity": 1,
+          "spectralActivity": 0.24585791640055915
+        },
+        "sampleRate": 44100,
+        "tempoConfidence": 1,
+        "tuningCents": 32.423711597602505,
+        "waveformFramesPerBin": 441
+      },
+      "valid": true,
+      "automaticBarEligible": true,
+      "firstBarSeconds": 0.11581050279212945,
+      "referenceStatus": "unlabelled; no independent listening reference"
+    },
+    {
+      "artist": "Scooter",
+      "title": "Endless Summer (Datura Instrumental Version)",
+      "genreFamilyHint": "techno-trance",
+      "versionHints": [
+        "instrumental"
+      ],
+      "sourcePath": "/Volumes/iTunes/Media/iTunes Media/Music/Scooter/_..And The Beat Goes On! (20 Years Of Hardcore Expanded Edition)/3-06 Endless Summer (Datura Instrumental Version).m4a",
+      "seconds": 25.76,
+      "state": "analyzed",
+      "exitCode": 0,
+      "log": "BPM Optional(159.96165121622852) anchor Optional(39.22374149659864) bar Optional(0) confidence 0.8353212379320304\n",
+      "analysis": {
+        "barAnalysisVersion": 1,
+        "beatAnchorFrame": 1729767,
+        "bpm": 159.96165121622852,
+        "cachedEnergyLevel": 5,
+        "channelCount": 2,
+        "configurationID": "independent-dsp-0.4.0-meter-context-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0",
+        "contentSHA256": "8de8401cb1e99a89504747d78da879ed5c93d2545c268856155a0b26911cbe63",
+        "detectedDownbeatOffset": 0,
+        "downbeatConfidence": 0.6699986171400567,
+        "frameCount": 12910610,
+        "gridResidualMilliseconds": 6.392653809616178,
+        "implementation": "Independent multiband consensus DSP v0.2.1. TDJ1 equivalence unverified.",
+        "keyConfidence": 0.03031264923653809,
+        "keyStability": 0.3076923076923077,
+        "musicalEnergy": {
+          "brightness": 0.5010183498627114,
+          "crestFactorDB": 5.0638256932884556,
+          "level": 5,
+          "onsetsPerSecond": 0.6763164539510269,
+          "rhythmicity": 0.8353212379320304,
+          "spectralActivity": 0.22195874177711242
+        },
+        "sampleRate": 44100,
+        "tempoConfidence": 0.8353212379320304,
+        "tuningCents": -0.09333307859690174,
+        "waveformFramesPerBin": 441
+      },
+      "valid": true,
+      "automaticBarEligible": true,
+      "firstBarSeconds": 39.22374149659864,
+      "referenceStatus": "unlabelled; no independent listening reference"
+    },
+    {
+      "artist": "The Bug",
+      "title": "Angry (feat. Tippa Irie)",
+      "genreFamilyHint": "reggae-latin-afro",
+      "versionHints": [
+        "unspecified"
+      ],
+      "sourcePath": "/Volumes/iTunes/Media/iTunes Media/Music/The Bug/London Zoo/01 Angry (feat. Tippa Irie).mp3",
+      "seconds": 5.96,
+      "state": "analyzed",
+      "exitCode": 0,
+      "log": "BPM Optional(109.99504258805526) anchor Optional(119.93634920634923) bar Optional(2) confidence 0.8154537130796702\n",
+      "analysis": {
+        "barAnalysisVersion": 1,
+        "beatAnchorFrame": 5289193.000000001,
+        "bpm": 109.99504258805526,
+        "cachedEnergyLevel": 5,
+        "channelCount": 2,
+        "configurationID": "independent-dsp-0.4.0-meter-context-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0",
+        "contentSHA256": "61e897d37dc1ecaa0c8e08f7abe44547b5825a3e73d766a60daf182ed51034dc",
+        "detectedDownbeatOffset": 2,
+        "downbeatConfidence": 0.7333549441240736,
+        "frameCount": 9578520,
+        "gridResidualMilliseconds": 3.6002553842946483,
+        "implementation": "Independent multiband consensus DSP v0.2.1. TDJ1 equivalence unverified.",
+        "key": {
+          "mode": "minor",
+          "tonic": 8
+        },
+        "keyConfidence": 0.5410679489974187,
+        "keyStability": 0.8571428571428571,
+        "musicalEnergy": {
+          "brightness": 0.47500838349310603,
+          "crestFactorDB": 4.947654870264169,
+          "level": 5,
+          "onsetsPerSecond": 0.7826836999464012,
+          "rhythmicity": 0.8154537130796702,
+          "spectralActivity": 0.2469764313574006
+        },
+        "sampleRate": 44100,
+        "tempoConfidence": 0.8154537130796702,
+        "tuningCents": -12.255687717249915,
+        "waveformFramesPerBin": 441
+      },
+      "valid": true,
+      "automaticBarEligible": true,
+      "firstBarSeconds": 121.02730746389011,
+      "referenceStatus": "unlabelled; no independent listening reference"
+    },
+    {
+      "artist": "The Beatles",
+      "title": "Come Together (DJ Prince 2013 Remix)",
+      "genreFamilyHint": "drum-bass-breaks",
+      "versionHints": [
+        "remix"
+      ],
+      "sourcePath": "/Volumes/iTunes/Media/iTunes Media/Music/The Beatles/www.djprince.no/Come Together (DJ Prince 2013 Remix).mp3",
+      "seconds": 6.42,
+      "state": "analyzed",
+      "exitCode": 0,
+      "log": "BPM Optional(101.9423685032915) anchor Optional(54.71879818594104) bar Optional(3) confidence 0.8014870974803513\n",
+      "analysis": {
+        "barAnalysisVersion": 1,
+        "beatAnchorFrame": 2413099,
+        "bpm": 101.9423685032915,
+        "cachedEnergyLevel": 5,
+        "channelCount": 2,
+        "configurationID": "independent-dsp-0.4.0-meter-context-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0",
+        "contentSHA256": "11ac9d1f81ed45f4bb7858d5e7246e1734c794dc6fd6f412d1663b347429a042",
+        "detectedDownbeatOffset": 3,
+        "downbeatConfidence": 0.70721908349122,
+        "frameCount": 9963648,
+        "gridResidualMilliseconds": 5.750023183617614,
+        "implementation": "Independent multiband consensus DSP v0.2.1. TDJ1 equivalence unverified.",
+        "key": {
+          "mode": "minor",
+          "tonic": 2
+        },
+        "keyConfidence": 0.6648457202692886,
+        "keyStability": 0.5294117647058824,
+        "musicalEnergy": {
+          "brightness": 0.39170657596428404,
+          "crestFactorDB": 5.669669797794937,
+          "level": 5,
+          "onsetsPerSecond": 0.7347207913458589,
+          "rhythmicity": 0.8014870974803513,
+          "spectralActivity": 0.2452064724493892
+        },
+        "sampleRate": 44100,
+        "tempoConfidence": 0.8014870974803513,
+        "tuningCents": 2.856830927511681,
+        "waveformFramesPerBin": 441
+      },
+      "valid": true,
+      "automaticBarEligible": true,
+      "firstBarSeconds": 56.484501716698105,
+      "referenceStatus": "unlabelled; no independent listening reference"
+    },
+    {
+      "artist": "Dan Croll",
+      "title": "From Nowhere (Baardsen Remix)",
+      "genreFamilyHint": "ambient-downtempo",
+      "versionHints": [
+        "remix"
+      ],
+      "sourcePath": "/Volumes/iTunes/Media/iTunes Media/Music/Dan Croll/Grand Theft Auto V - Radio Mirror Park/04 From Nowhere (Baardsen Remix).mp3",
+      "seconds": 4.14,
+      "state": "analyzed",
+      "exitCode": 0,
+      "log": "BPM Optional(175.99284686369953) anchor Optional(0.48459328694505704) bar Optional(0) confidence 0.8248488432926293\n",
+      "analysis": {
+        "barAnalysisVersion": 1,
+        "beatAnchorFrame": 21370.563954277015,
+        "bpm": 175.99284686369953,
+        "cachedEnergyLevel": 8,
+        "channelCount": 2,
+        "configurationID": "independent-dsp-0.4.0-meter-context-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0",
+        "contentSHA256": "bddafaf952f84f84a9f463fca2d3b10b33776d88bf01e0b4a7602bd106168882",
+        "detectedDownbeatOffset": 0,
+        "downbeatConfidence": 0.5899829954410846,
+        "frameCount": 11790720,
+        "gridResidualMilliseconds": 4.298331298741687,
+        "implementation": "Independent multiband consensus DSP v0.2.1. TDJ1 equivalence unverified.",
+        "key": {
+          "mode": "minor",
+          "tonic": 8
+        },
+        "keyConfidence": 0.8823529411764706,
+        "keyStability": 0.7647058823529411,
+        "musicalEnergy": {
+          "brightness": 0.4308822013685838,
+          "crestFactorDB": 5.075642564101699,
+          "level": 8,
+          "onsetsPerSecond": 7.285922777706536,
+          "rhythmicity": 0.8248488432926293,
+          "spectralActivity": 0.22956173507625224
+        },
+        "sampleRate": 44100,
+        "tempoConfidence": 0.8248488432926293,
+        "tuningCents": -12.24274235427463,
+        "waveformFramesPerBin": 441
+      },
+      "valid": true,
+      "automaticBarEligible": true,
+      "firstBarSeconds": 0.48459328694505704,
+      "referenceStatus": "unlabelled; no independent listening reference"
+    },
+    {
+      "artist": "GenErik",
+      "title": "Zombie Thumper (Die Antwoord x Kernkraft 400)",
+      "genreFamilyHint": "mashup",
+      "versionHints": [
+        "mashup"
+      ],
+      "sourcePath": "/Volumes/iTunes/Media/iTunes Media/Music/GenErik/GenErik Mashups 2014/05 Zombie Thumper (Die Antwoord x Kernkraft 400).mp3",
+      "seconds": 1.83,
+      "state": "analyzed",
+      "exitCode": 0,
+      "log": "BPM Optional(136.11573193153362) anchor Optional(191.9542857142857) bar nil confidence 0.786076133969615\n",
+      "analysis": {
+        "barAnalysisVersion": 1,
+        "beatAnchorFrame": 8465184,
+        "bpm": 136.11573193153362,
+        "cachedEnergyLevel": 5,
+        "channelCount": 2,
+        "configurationID": "independent-dsp-0.4.0-meter-context-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-60.0-200.0",
+        "contentSHA256": "0b19ccf40bae6c141c91b3f8a747245ba7b03a0e4d5065b19f41ae64a56e7c64",
+        "frameCount": 9338823,
+        "gridResidualMilliseconds": 4.590949649447396,
+        "implementation": "Independent multiband consensus DSP v0.2.1. TDJ1 equivalence unverified.",
+        "keyConfidence": 0.05558345051264568,
+        "keyStability": 0.5,
+        "musicalEnergy": {
+          "brightness": 0.6296512120693203,
+          "crestFactorDB": 2.736914764369596,
+          "level": 5,
+          "onsetsPerSecond": 0.7791504417273849,
+          "rhythmicity": 0.786076133969615,
+          "spectralActivity": 0.23878865185702206
+        },
+        "sampleRate": 44100,
+        "tempoConfidence": 0.786076133969615,
+        "tuningCents": 38.22533499867117,
+        "waveformFramesPerBin": 441
+      },
+      "valid": true,
+      "automaticBarEligible": false,
+      "firstBarSeconds": null,
+      "referenceStatus": "unlabelled; no independent listening reference"
+    }
+  ]
+}

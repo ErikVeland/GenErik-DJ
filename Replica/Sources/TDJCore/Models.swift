@@ -73,6 +73,7 @@ public struct AudioAnalysis: Codable, Equatable, Sendable {
     public var cachedEnergyLevel: Int? = nil
     public var detectedDownbeatOffset: Int? = nil
     public var downbeatConfidence: Double? = nil
+    public var barAnalysisVersion: Int? = nil
     public var musicalEnergy: MusicalEnergyAnalysis? = nil
     public var tuningCents: Double? = nil
     public var keyStability: Double? = nil
@@ -93,6 +94,7 @@ extension AudioAnalysis {
         copy.cachedEnergyLevel = cachedEnergyLevel
         copy.detectedDownbeatOffset = detectedDownbeatOffset
         copy.downbeatConfidence = downbeatConfidence
+        copy.barAnalysisVersion = barAnalysisVersion
         copy.musicalEnergy = musicalEnergy
         copy.tuningCents = tuningCents
         copy.keyStability = keyStability
@@ -110,10 +112,24 @@ public struct Preparation: Codable, Equatable, Sendable {
     }
     public internal(set) var correctedKeyAuthority: KeyAuthority?
     public var gridIsManual: Bool
+    public var gridWasEditedByUser: Bool? = nil
     public var adaptiveMap: BeatGridMap? = nil
     public var gridLocked = false
     public var gridMode: GridMode = .automatic
-    private enum CodingKeys: String, CodingKey { case grid, correctedKey, correctedKeyAuthority, gridIsManual, adaptiveMap, gridLocked, gridMode }
+    /// Choose a detected bar grid only when the saved grid has no user edits.
+    public func detectedBarGrid(analysis:AudioAnalysis,imported:BeatGrid?,importIsUnlocked:Bool) -> BeatGrid? {
+        guard AutomaticGridPolicy.mayRefresh(isManual:gridIsManual,wasEditedByUser:gridWasEditedByUser == true,
+                  isLocked:gridLocked,hasAdaptiveMap:adaptiveMap != nil,current:grid,imported:imported,importIsUnlocked:importIsUnlocked),
+              analysis.barAnalysisVersion == BarStartAnalysis.version,analysis.tempoConfidence >= 0.72,
+              (analysis.downbeatConfidence ?? 0) >= (imported == nil ? 0.55:0.72),let bpm=analysis.bpm,let anchor=analysis.beatAnchorFrame,
+              let bar=analysis.detectedDownbeatOffset else { return nil }
+        if let imported {
+            let ratio=bpm/imported.bpm
+            guard [0.5,1.0,2.0].contains(where:{ abs(ratio/$0-1) <= 0.01 }) else { return nil }
+        }
+        return try? BeatGrid(bpm:bpm,anchorFrame:anchor,sampleRate:analysis.sampleRate,downbeatOffset:bar)
+    }
+    private enum CodingKeys: String, CodingKey { case grid, correctedKey, correctedKeyAuthority, gridIsManual, gridWasEditedByUser, adaptiveMap, gridLocked, gridMode }
     public init(from decoder: any Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         grid = try c.decodeIfPresent(BeatGrid.self, forKey: .grid)
@@ -123,6 +139,7 @@ public struct Preparation: Codable, Equatable, Sendable {
             throw CoreError.invalidWorkspace("Invalid imported key authority.")
         }
         gridIsManual = try c.decodeIfPresent(Bool.self, forKey: .gridIsManual) ?? false
+        gridWasEditedByUser = try c.decodeIfPresent(Bool.self, forKey: .gridWasEditedByUser)
         adaptiveMap = try? c.decodeIfPresent(BeatGridMap.self, forKey: .adaptiveMap)
         gridLocked = try c.decodeIfPresent(Bool.self, forKey: .gridLocked) ?? false
         gridMode = try c.decodeIfPresent(GridMode.self, forKey: .gridMode) ?? .automatic
@@ -133,6 +150,7 @@ public struct Preparation: Codable, Equatable, Sendable {
         try c.encodeIfPresent(correctedKey,forKey:.correctedKey)
         try c.encodeIfPresent(correctedKeyAuthority,forKey:.correctedKeyAuthority)
         try c.encode(gridIsManual,forKey:.gridIsManual)
+        try c.encodeIfPresent(gridWasEditedByUser,forKey:.gridWasEditedByUser)
         try c.encodeIfPresent(adaptiveMap,forKey:.adaptiveMap)
         if gridLocked { try c.encode(true,forKey:.gridLocked) }
         if gridMode != .automatic { try c.encode(gridMode,forKey:.gridMode) }
@@ -166,8 +184,23 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
         return map
     }
     public var timing: BeatTiming? { grid.map { BeatTiming(fixed:$0,adaptive:adaptiveMap) } }
+    public var mayRefreshAutomaticGrid:Bool {
+        AutomaticGridPolicy.mayRefresh(isManual:preparation.gridIsManual,
+            wasEditedByUser:preparation.gridWasEditedByUser == true,isLocked:preparation.gridLocked,
+            hasAdaptiveMap:preparation.adaptiveMap != nil,current:preparation.grid,
+            imported:traktorPreparation?.normalized.grid,
+            importIsUnlocked:traktorPreparation?.record.rawEntry.attributes["LOCK"] == "0")
+    }
+    public var needsAutomaticBarAnalysis:Bool {
+        mayRefreshAutomaticGrid && analysis.barAnalysisVersion != BarStartAnalysis.version
+    }
+    public var automaticBarGrid:BeatGrid? {
+        preparation.detectedBarGrid(analysis:analysis,imported:traktorPreparation?.normalized.grid,
+            importIsUnlocked:traktorPreparation?.record.rawEntry.attributes["LOCK"] == "0")
+    }
     public var grid: BeatGrid? {
-        if preparation.gridIsManual { return preparation.grid }
+        if let automaticBarGrid { return automaticBarGrid }
+        if preparation.gridIsManual || preparation.gridWasEditedByUser == true || preparation.gridLocked { return preparation.grid }
         return traktorPreparation?.normalized.grid ?? preparation.grid
     }
     public init(title: String, artist: String = "", genre: String? = nil,

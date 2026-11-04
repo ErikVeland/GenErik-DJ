@@ -1,0 +1,93 @@
+{
+  "requestID": "R43",
+  "reportedBuild": 98,
+  "reportedBuildAssumedFromLastInstall": true,
+  "baseCommit": "63c80376fe3e9157c536f94753f9589158e1814f",
+  "sourceFiles": {
+    "Replica/Sources/TDJCore/AudioAnalyzer.swift": "17c1bd68ef713f5cbf181ad7d55e7fd4edcc287b365244f9926644935a0cdfc4",
+    "Replica/Sources/TDJCore/BeatGrid.swift": "084b1d6a092b2bc75fcf51286dfc5b45d53021e7a8e4b6eaa8577ac6ab3f5a5e",
+    "Replica/Sources/TDJCore/BeatGridMap.swift": "b7e33bab7ece8c3a6bdc3d59391cac8ac7a4fe44fbf5789cf161632ced3b5a56",
+    "Replica/Sources/TDJCore/Models.swift": "82aa51fae26251ede911a7cdba53e23eec1ac24c69670f8ee721795a70edb5fd",
+    "Replica/Sources/TDJCore/MusicalAnalysisFeatures.swift": "b631221db34de5a3c3e4789dae70fa778d213d00594974ddeff9f787a92bef19",
+    "Replica/Sources/TDJCore/MusicalSpectrumAnalyzer.swift": "5daeb71c64d93e958d4f71aa1a45e48e5018c614d2fa49f75d31862147ccc683",
+    "Replica/Sources/TDJCore/TraktorPreparedTrack.swift": "e487fd645ed0fe690b2a93710335949eca5b277c75df2c7e9c8efdf1f682eb77",
+    "Replica/Sources/TDJCore/Workspace.swift": "7a10432f2bc0f94b12d62b5336a43b1133263f4058dfbd0dfb6579067375a82b",
+    "Replica/Sources/TDJInterface/ReplicaModel.swift": "16a07e40f1368888e188f70bd090be6d7795eaca4534542f37d1602262ddbe53"
+  },
+  "case": {
+    "artist": "TLC",
+    "title": "Creep (Tin Tin Out Remix)",
+    "iPadTrackID": "b3976d0fbdfdecfae3efdb5a673364b9509d6a3b90eaf8f98ca27a3eea774aab",
+    "decodedPlaybackCacheSHA256": "02af5cf502a5b871b052c259c4224c10f316a1dcc10eee3309b131b5b746cbb7",
+    "decodedPlaybackCacheBytes": 181969920,
+    "firstAttackSeconds": 0.18040816326530612,
+    "first32SecondsMonoDifference": 0.0,
+    "savedGridBefore": {
+      "bpm": 68.0085,
+      "anchorSeconds": 0.633356,
+      "manualFlag": true,
+      "originalLock": "0"
+    },
+    "savedAnalysisBefore": {
+      "bpm": 136.01776928783113,
+      "anchorSeconds": 0.18057436481436,
+      "barAnalysisVersion": null
+    },
+    "freshDetection": {
+      "downbeatConfidence": 0.7834721734595959,
+      "grid": {
+        "anchorFrame": 7963.3294883136705,
+        "bpm": 136.0177692878312,
+        "downbeatOffset": 0,
+        "sampleRate": 44100
+      },
+      "tempoConfidence": 1
+    },
+    "handoff": "Frozen iPad preparation selects the fresh detected bar grid. Explicit user edits, locks, adaptive maps, lower bar support and unrelated tempos decline automatic replacement."
+  },
+  "checks": {
+    "rhythmAndBarCases": 23,
+    "lateRhythmCases": 7,
+    "failedAssertions": 0,
+    "nativeCacheFirstBeatAndBar": "passed",
+    "nativeHostCancellationSeconds": 0.05610799789428711,
+    "audioAcceptance": "Erik physical iPad listening and scratching remain pending."
+  },
+  "review": {
+    "recordings": 9,
+    "genreFamilyHints": 8,
+    "versionTypes": [
+      "remix",
+      "extended",
+      "12-inch",
+      "dub",
+      "instrumental",
+      "mashup",
+      "unspecified"
+    ],
+    "analysesValid": 9,
+    "barCandidates": 7,
+    "barUnresolved": 2,
+    "strongEnoughToProposeUntouchedImportUpdate": 2,
+    "interpretation": "Native machine-assisted development review. Genre/version labels are metadata hints. No independent real-song bar accuracy score or held-out evaluation is claimed. Full detector and prepared-cache evidence include the actual iPad Creep audio.",
+    "unresolved": [
+      "Michael Jackson \u2014 Remember The Time (12'' Main Mix)",
+      "GenErik \u2014 Zombie Thumper (Die Antwoord x Kernkraft 400)"
+    ]
+  },
+  "remaining": [
+    "Physical iPad load-to-grid handoff and audio acceptance remain Erik\u2019s.",
+    "Five genre-review bar candidates do not meet the stronger import-update support threshold.",
+    "Two genre-review bar assignments remain unresolved.",
+    "First reliable anchor times in long intros are not necessarily the earliest mathematically extrapolated bar."
+  ],
+  "build": {
+    "state": "pending"
+  },
+  "failedEvidence": {
+    "initialRed": "The existing distinctiveness detector selects a loud snare and misses the Creep bar.",
+    "invalidRun": "One check reused generated files during another compile. Its result is invalid and retained as overlapping-check-invalid.log. Later runs use unique temporary folders.",
+    "excerptAssumption": "A 32-second excerpt was initially expected to establish Creep\u2019s bar. It remains inconclusive. The target regression now freezes the full-song beat features and asserts bar zero; the short-excerpt test asserts uncertainty and preserved beat alignment.",
+    "intermediateSourceBinding": "Intermediate edited source snapshots were not sealed for every failure. The final source hashes bind the passing checks; logs remain preserved."
+  }
+}

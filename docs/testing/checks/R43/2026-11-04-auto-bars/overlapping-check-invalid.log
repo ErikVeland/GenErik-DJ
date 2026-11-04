@@ -1,0 +1,56 @@
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift:200:27: error: value of type 'Preparation' has no member 'gridWasEditedByUser'
+198 |     func testUserGridEditsSurviveSavingAndLegacyPreparationStillDecodes() throws {
+199 |         var prep=try JSONDecoder().decode(Preparation.self,from:Data("{\"gridIsManual\":true}".utf8))
+200 |         XCTAssertNil(prep.gridWasEditedByUser)
+    |                           `- error: value of type 'Preparation' has no member 'gridWasEditedByUser'
+201 |         prep.gridWasEditedByUser=true
+202 |         let restored=try JSONDecoder().decode(Preparation.self,from:JSONEncoder().encode(prep))
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift:201:14: error: value of type 'Preparation' has no member 'gridWasEditedByUser'
+199 |         var prep=try JSONDecoder().decode(Preparation.self,from:Data("{\"gridIsManual\":true}".utf8))
+200 |         XCTAssertNil(prep.gridWasEditedByUser)
+201 |         prep.gridWasEditedByUser=true
+    |              `- error: value of type 'Preparation' has no member 'gridWasEditedByUser'
+202 |         let restored=try JSONDecoder().decode(Preparation.self,from:JSONEncoder().encode(prep))
+203 |         XCTAssertEqual(restored.gridWasEditedByUser,true)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift:203:33: error: value of type 'Preparation' has no member 'gridWasEditedByUser'
+201 |         prep.gridWasEditedByUser=true
+202 |         let restored=try JSONDecoder().decode(Preparation.self,from:JSONEncoder().encode(prep))
+203 |         XCTAssertEqual(restored.gridWasEditedByUser,true)
+    |                                 `- error: value of type 'Preparation' has no member 'gridWasEditedByUser'
+204 |     }
+205 |     func testBarAnalysisVersionSurvivesWaveformReplacement() throws {
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift:209:15: error: value of type 'AudioAnalysis' has no member 'barAnalysisVersion'
+207 |             sampleRate:1000,frameCount:10000,channelCount:2,waveformFramesPerBin:10,waveform:[],bpm:120,
+208 |             beatAnchorFrame:250,tempoConfidence:1,key:nil,keyConfidence:0,chroma:[],timbre:[])
+209 |         value.barAnalysisVersion=1
+    |               `- error: value of type 'AudioAnalysis' has no member 'barAnalysisVersion'
+210 |         XCTAssertEqual(value.replacingWaveform([]).barAnalysisVersion,1)
+211 |         let decoded=try JSONDecoder().decode(AudioAnalysis.self,from:JSONEncoder().encode(value))
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift:210:52: error: value of type 'AudioAnalysis' has no member 'barAnalysisVersion'
+208 |             beatAnchorFrame:250,tempoConfidence:1,key:nil,keyConfidence:0,chroma:[],timbre:[])
+209 |         value.barAnalysisVersion=1
+210 |         XCTAssertEqual(value.replacingWaveform([]).barAnalysisVersion,1)
+    |                                                    `- error: value of type 'AudioAnalysis' has no member 'barAnalysisVersion'
+211 |         let decoded=try JSONDecoder().decode(AudioAnalysis.self,from:JSONEncoder().encode(value))
+212 |         XCTAssertEqual(decoded.barAnalysisVersion,1)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift:212:32: error: value of type 'AudioAnalysis' has no member 'barAnalysisVersion'
+210 |         XCTAssertEqual(value.replacingWaveform([]).barAnalysisVersion,1)
+211 |         let decoded=try JSONDecoder().decode(AudioAnalysis.self,from:JSONEncoder().encode(value))
+212 |         XCTAssertEqual(decoded.barAnalysisVersion,1)
+    |                                `- error: value of type 'AudioAnalysis' has no member 'barAnalysisVersion'
+213 |     }
+214 | 
+error: input file '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/main.swift' was modified during the build
+error: input file '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/main.swift' was modified during the build
+Traceback (most recent call last):
+  File "/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/docs/testing/checks/R43/2026-11-04-auto-bars/check.py", line 55, in <module>
+    files = [WORK / "Values.swift", WORK / "KeyAuthority.swift", WORK / "BeatGridMap.swift"]
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['xcrun', 'swiftc', '-O', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Values.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/BeatGridMap.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/AudioAnalyzer.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/MusicalSpectrumAnalyzer.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/MusicalAnalysisFeatures.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/AdaptiveRhythmAnalyzer.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/BeatGrid.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Assertions.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/main.swift', '-o', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/checks']' returned non-zero exit status 1.

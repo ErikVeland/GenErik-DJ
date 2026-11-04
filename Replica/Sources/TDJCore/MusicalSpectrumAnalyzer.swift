@@ -35,6 +35,8 @@ final class MusicalSpectrumAnalyzer {
     private var tuningX = 0.0
     private var tuningY = 0.0
 
+    private(set) var harmonicFrames:[MusicalHarmonicFrame] = []
+
     var activity: Double { fluxSum / max(activeFrames, 1) }
 
     init(sampleRate: Double) throws {
@@ -148,6 +150,9 @@ final class MusicalSpectrumAnalyzer {
         }
         let total = frameProfile.reduce(0, +)
         guard total > 0 else { return }
+        var chroma=[Double](repeating:0,count:12)
+        for index in 0..<120 { chroma[Int((Double(index)/10).rounded())%12] += frameProfile[index]/total }
+        harmonicFrames.append(.init(seconds:Double(samples-size/2)/sampleRate,chroma:chroma))
         for index in 0..<120 {
             let value = frameProfile[index] / total
             pitchProfile[index] += value

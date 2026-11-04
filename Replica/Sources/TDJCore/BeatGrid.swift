@@ -77,3 +77,17 @@ public struct GridDrag: Sendable {
         return (grid, originalViewportFrame - delta)
     }
 }
+
+public enum BarStartAnalysis {
+    public static let version=1
+}
+
+public enum AutomaticGridPolicy {
+    public static func mayRefresh(isManual:Bool,wasEditedByUser:Bool,isLocked:Bool,hasAdaptiveMap:Bool,
+        current:BeatGrid?,imported:BeatGrid?,importIsUnlocked:Bool) -> Bool {
+        guard !wasEditedByUser,!isLocked,!hasAdaptiveMap else { return false }
+        if imported != nil && !importIsUnlocked { return false }
+        if isManual { return imported != nil && current == imported }
+        return true
+    }
+}

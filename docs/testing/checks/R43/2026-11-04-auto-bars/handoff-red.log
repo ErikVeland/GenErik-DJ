@@ -1,0 +1,48 @@
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/MusicalAnalysisFeatures.swift:597:13: warning: variable 'count' was never mutated; consider changing to 'let' constant [#VariableNeverMutated]
+595 |         anchor:Double,harmonicFrames:[MusicalHarmonicFrame] = [],
+596 |         checkCancellation:@Sendable () throws -> Void) throws -> [MusicalBarFrame] {
+597 |         var count=Int(floor((Double(frames.count)/binsPerSecond-anchor)/period))
+    |             `- warning: variable 'count' was never mutated; consider changing to 'let' constant [#VariableNeverMutated]
+598 |         guard count >= 16 else { return [] }
+599 |         var levels=[Double](),bands=[[Double]]()
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift:235:26: error: value of type 'Preparation' has no member 'detectedBarGrid'
+233 |         var analysis=try decoder.decode(AudioAnalysis.self,from:JSONSerialization.data(withJSONObject:value["analysis"]!))
+234 |         let original=try decoder.decode(BeatGrid.self,from:JSONSerialization.data(withJSONObject:value["importedGrid"]!))
+235 |         let adopted=prep.detectedBarGrid(analysis:analysis,imported:original,importIsUnlocked:true)
+    |                          `- error: value of type 'Preparation' has no member 'detectedBarGrid'
+236 |         XCTAssertEqual(adopted?.bpm ?? -1,136.017769,accuracy:0.0001)
+237 |         XCTAssertEqual((adopted?.anchorFrame ?? -44100)/44100,0.180408,accuracy:0.01)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift:241:27: error: value of type 'Preparation' has no member 'detectedBarGrid'
+239 |         XCTAssertEqual(prep.grid,original)
+240 |         prep.gridWasEditedByUser=true
+241 |         XCTAssertNil(prep.detectedBarGrid(analysis:analysis,imported:original,importIsUnlocked:true))
+    |                           `- error: value of type 'Preparation' has no member 'detectedBarGrid'
+242 |         prep.gridWasEditedByUser=nil;prep.gridLocked=true
+243 |         XCTAssertNil(prep.detectedBarGrid(analysis:analysis,imported:original,importIsUnlocked:true))
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift:243:27: error: value of type 'Preparation' has no member 'detectedBarGrid'
+241 |         XCTAssertNil(prep.detectedBarGrid(analysis:analysis,imported:original,importIsUnlocked:true))
+242 |         prep.gridWasEditedByUser=nil;prep.gridLocked=true
+243 |         XCTAssertNil(prep.detectedBarGrid(analysis:analysis,imported:original,importIsUnlocked:true))
+    |                           `- error: value of type 'Preparation' has no member 'detectedBarGrid'
+244 |         prep.gridLocked=false;analysis.barAnalysisVersion=nil
+245 |         XCTAssertNil(prep.detectedBarGrid(analysis:analysis,imported:original,importIsUnlocked:true))
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift:245:27: error: value of type 'Preparation' has no member 'detectedBarGrid'
+243 |         XCTAssertNil(prep.detectedBarGrid(analysis:analysis,imported:original,importIsUnlocked:true))
+244 |         prep.gridLocked=false;analysis.barAnalysisVersion=nil
+245 |         XCTAssertNil(prep.detectedBarGrid(analysis:analysis,imported:original,importIsUnlocked:true))
+    |                           `- error: value of type 'Preparation' has no member 'detectedBarGrid'
+246 |     }
+247 | 
+Traceback (most recent call last):
+  File "/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/docs/testing/checks/R43/2026-11-04-auto-bars/check.py", line 60, in <module>
+    subprocess.run(["xcrun", "swiftc", "-O", *map(str, files), "-o", str(WORK / "checks")], check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['xcrun', 'swiftc', '-O', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Values.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/KeyAuthority.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/BeatGridMap.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/AudioAnalyzer.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/MusicalSpectrumAnalyzer.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/MusicalAnalysisFeatures.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/AdaptiveRhythmAnalyzer.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/BeatGrid.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Assertions.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/Tests.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/main.swift', '-o', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R43/bar-focused/checks']' returned non-zero exit status 1.
