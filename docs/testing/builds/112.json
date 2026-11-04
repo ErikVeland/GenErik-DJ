@@ -1,0 +1,26 @@
+{
+  "notes": "R48: repository cleanup, consistent first-party source formatting, MIDI test repairs and fewer catalogue/search allocations. 31 focused Swift tests, 4484 geometry assertions and native transport checks at three rates pass. Retried after correcting the relocated cache artifact path. Failed attempt retained in TestBuilds/r48. Stem model retained. Physical acceptance remains Erik checks.",
+  "sourceCommit": "4cdd0b9273d4a779bea324b857779f9b2f51066e",
+  "sourceSHA256": "60a70145c9422165198c2808a8f53b8b1ff73c4392b1428077e853474edf5c4c",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 69.56,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-112.log",
+  "build": 112,
+  "app": "TestBuilds/ipad/112/GenErikDJ.app",
+  "appSHA256": "c88dfb2aac1cb54ce8efec7b2a661173a6ebc9277bb120563962b3ee4765fef0",
+  "state": "testing",
+  "createdUTC": "2026-11-04T13:53:46.537358+00:00",
+  "installedUTC": "2026-11-04T13:53:58.289478+00:00",
+  "launchedUTC": "2026-11-04T13:53:58.604732+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "previousAttempt": {
+    "state": "build-failed",
+    "sourceCommit": "4cdd0b9273d4a779bea324b857779f9b2f51066e",
+    "sourceSHA256": "60a70145c9422165198c2808a8f53b8b1ff73c4392b1428077e853474edf5c4c",
+    "log": "TestBuilds/r48/build-112-first-attempt.log",
+    "logSHA256": "c4a41def333bd812cff6bfd4b270d4ecd0498c86480973cdaea2937a67fac2d9",
+    "reason": "The relocated build cache retained the previous framework path. Corrected cached artifact metadata before retry. Application source unchanged."
+  }
+}

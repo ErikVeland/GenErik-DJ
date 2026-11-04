@@ -10,4 +10,4 @@ Verification: 31 focused Swift tests, 4,484 geometry assertions, five loading-or
 
 An attempted Git repack exhausted temporary space. Its incomplete temporary pack was removed. Finder metadata inside Git refs was also removed, and connectivity then passed. A filter-cache experiment showed no reliable gain and was discarded. The formatter's conditional-directive issue was corrected before the passing build checks.
 
-The next signed iPad build is pending.
+Signed main source `4cdd0b927` produced build 112. Its application fingerprint matches the checked source. Signing and framework resolution passed. Installation succeeded, and iPadOS accepted launch. Device actions stopped. The first cache-path failure is preserved in the build record. Physical A10X acceptance remains open.
