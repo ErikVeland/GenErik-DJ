@@ -1,0 +1,61 @@
+{
+  "notes": "R39: Full-width Songs, Suggestions and Prep list. Exclusive source/detail drawers, selected-song Load A/B shelf and existing directional loader. Recommendation reference stays fixed during selection. Build 87 performance dock, crossfader, deck divider and audio analysis retained. 104 browser and 1330 dock checks pass; Erik checks touch feel and clean audio.",
+  "sourceCommit": "c7316fb9e1bae49c25a5ca6a316172807e043d13",
+  "sourceSHA256": "f70c2a8477964c1d4a50126b64501e2300b077689091255fe8be806a7c94db14",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 62.92,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "date": "2026-11-04",
+      "requestIDs": [
+        "R02",
+        "R04",
+        "R25",
+        "R30"
+      ],
+      "text": "This full-width browser release arrived during the browser sizing task. The next candidate retains its lists, reference state, drawers and loading shelf while adding direct drawer resizing and remembered widths. Original request is recorded against build 87. Acceptance of build 88 is not implied."
+    },
+    {
+      "recordedUTC": "2026-11-04T02:13:54.965699+00:00",
+      "requestIDs": [
+        "R40"
+      ],
+      "report": "Erik requests Performance, Browse and Expand shortcuts to change the song browser space quickly. Build 88 is the assumed baseline because no number was supplied. This request does not establish acceptance of build 88.",
+      "nextBuild": 89
+    },
+    {
+      "recordedUTC": "2026-11-04T02:21:50.297774+00:00",
+      "requestIDs": [
+        "R41"
+      ],
+      "report": "Erik reports that the iPad app immediately crashes. Build 89 is the assumed reported build. Device crash reports independently confirm the same DYLD failure for builds 88 and 89.",
+      "evidence": "../checks/R41/2026-11-04-launch-crash/crash-summary.json",
+      "replacementBuild": 91
+    }
+  ],
+  "log": "TestBuilds/ipad/build-88.log",
+  "build": 88,
+  "app": "TestBuilds/ipad/88/GenErikDJ.app",
+  "appSHA256": "9e1c353a9d598c6114e4237470b8d871d4a21b242bf3e714044cda52cd2ac5d4",
+  "state": "failed-at-launch",
+  "createdUTC": "2026-11-04T02:06:34.314128+00:00",
+  "installedUTC": "2026-11-04T02:07:13.096653+00:00",
+  "launchedUTC": "2026-11-04T02:07:13.410321+00:00",
+  "requestIDs": [
+    "R39",
+    "R04",
+    "R30",
+    "R32"
+  ],
+  "focusedChecks": "104 production browser navigation/geometry assertions and 1,330 dock/workspace assertions passed. Initial browser state: three failures. A temporary width mutation: 16 failures. Swift syntax checks passed. Full package tests, Mac packaging and simulator builds were not run.",
+  "acceptance": "The launch command was accepted, then DYLD terminated the app before the interface appeared. The crash report identifies an unresolved whisper framework. This build does not establish runtime or device acceptance. R41 corrects the runtime search path in build 91.",
+  "deployments": [
+    {
+      "device": "GenErik iPad (10.5-inch)",
+      "state": "installed-and-launched",
+      "installedUTC": "2026-11-04T02:07:13.096653+00:00",
+      "launchedUTC": "2026-11-04T02:07:13.410321+00:00"
+    }
+  ]
+}

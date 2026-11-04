@@ -1,0 +1,1 @@
+Runtime check failed: Cannot load @rpath/whisper.framework/whisper from GenErikDJ. Check the embedded framework and runtime search paths.

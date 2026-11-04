@@ -89,6 +89,7 @@ enum PerformancePanelChecks {
         expect(TouchPanelEdge.trailing.translation(horizontal: -30, vertical: 90) == 30, "EQ and extras open toward left")
         expect(TouchPanelEdge.bottom.translation(horizontal: 30, vertical: -90) == 90, "library keeps upward opening")
         let presentation = DeckPanelPresentation()
+        presentation.setTrackAvailable(true)
         presentation.configure(width: 1004, portrait: false)
         presentation.toggleEffects()
         var cancellations = 0

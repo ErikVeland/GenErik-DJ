@@ -20,7 +20,11 @@ public struct ReplicaView: View {
     @State private var deckAPanels = DeckPanelPresentation()
     @State private var deckBPanels = DeckPanelPresentation()
     @State private var libraryPanel = LibraryPanelState()
+    @State private var deckSplit = DeckSplitState()
     @State private var touchInterruption = UUID()
+    @AppStorage(DeckToolSettings.largePanelHandles) private var largePanelHandles = false
+    @Environment(\.accessibilityVoiceOverEnabled) private var voiceOver
+    private var handleExtent: Double { PanelHandleMetrics(expanded: largePanelHandles || voiceOver).extent }
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     private let snapshotEffectsDeck: DeckID?
     private let snapshotMixerDecks: Set<DeckID>
@@ -36,7 +40,7 @@ public struct ReplicaView: View {
         GeometryReader { geometry in
             HStack(spacing: 0) {
                 if model.helpVisible { GestureHelp { model.helpVisible=false }.frame(width:280) }
-                performanceSurface.frame(maxWidth: .infinity, maxHeight: .infinity)
+                performanceSurface(windowWidth: geometry.size.width).frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             .frame(width: geometry.size.width, height: geometry.size.height, alignment: .topLeading)
             .onChange(of: geometry.size) { _, _ in touchInterruption = UUID() }
@@ -48,27 +52,49 @@ public struct ReplicaView: View {
         .persistentSystemOverlays(.hidden)
 #endif
     }
-    private var performanceSurface: some View {
+    private var isPhone: Bool {
+#if os(iOS)
+        UIDevice.current.userInterfaceIdiom == .phone
+#else
+        false
+#endif
+    }
+
+    private func performanceSurface(windowWidth: Double) -> some View {
         VStack(spacing: 0) {
             PerformanceToolbar(model:model,tempoWheelVisible:$tempoWheelVisible,
                 audioSettingsPresented:$audioSettingsPresented,
                 importPresented:$importPresented,traktorImportPresented:$traktorImportPresented)
             GeometryReader { space in
+                let frontBrowser = BrowserPresentation.select(isPhone: isPhone, windowWidth: windowWidth) == .frontPhone
+                let workspaceHandle = frontBrowser ? 44.0 : handleExtent
                 let workspace = PerformanceWorkspaceGeometry(width: space.size.width, height: space.size.height,
-                    libraryExtent: libraryPanel.extent)
+                    libraryExtent: libraryPanel.extent, handleExtent: workspaceHandle)
+                let split = deckSplit.geometry(width: workspace.deckArea.width - 12, height: workspace.deckArea.height, handleExtent: handleExtent)
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
-                        VStack(spacing: 2) {
+                        VStack(spacing: 0) {
                             DeckView(model: model, deck: .a, panels: deckAPanels,
                                 snapshotEffects: snapshotEffectsDeck == .a,
                                 snapshotMixer: snapshotMixerDecks.contains(.a), snapshotFilter: snapshotFilterDecks.contains(.a),
                                 requestPerformanceSpace: { libraryPanel.setPresented(false); model.browserVisible = false })
+                                .frame(height: split.a.height).contentShape(Rectangle()).clipped()
+                            DeckSplitHandle(interruption: touchInterruption,
+                                aShare: split.a.height / max(1, split.a.height + split.b.height),
+                                begin: { deckSplit.beginDrag(height: workspace.deckArea.height, handleExtent: handleExtent) },
+                                update: { deckSplit.updateDrag(translation: $0) },
+                                end: { deckSplit.endDrag(height: workspace.deckArea.height, handleExtent: handleExtent) },
+                                cancel: { deckSplit.cancelDrag() }, balance: { deckSplit.balance() },
+                                adjust: { deckSplit.adjust(by: $0, height: workspace.deckArea.height, handleExtent: handleExtent) })
+                                .frame(height: split.handle.height).clipped()
                             DeckView(model: model, deck: .b, panels: deckBPanels,
                                 snapshotEffects: snapshotEffectsDeck == .b,
                                 snapshotMixer: snapshotMixerDecks.contains(.b), snapshotFilter: snapshotFilterDecks.contains(.b),
                                 requestPerformanceSpace: { libraryPanel.setPresented(false); model.browserVisible = false })
+                                .frame(height: split.b.height).contentShape(Rectangle()).clipped()
                         }.padding(.horizontal, 6).frame(height: workspace.deckArea.height)
-                        TouchPanelHandle(presented: libraryPanel.extent > 0,
+                        HStack(spacing: 0) {
+                          TouchPanelHandle(presented: libraryPanel.extent > 0,
                             maximumExtent: libraryPanel.maximumExtent, presentationID: model.browserPresentationID,
                             toggle: {
                                 libraryPanel.setPresented(libraryPanel.extent == 0)
@@ -85,20 +111,41 @@ public struct ReplicaView: View {
                                 libraryPanel.adjust(by: delta)
                                 model.browserVisible = libraryPanel.extent > 0
                             })
-                        BrowserView(model: model, importAudio: { importPresented = true }, linkCollection: { traktorImportPresented = true })
+                            .frame(minWidth: frontBrowser ? 180 : 0, maxWidth: .infinity)
+                          if frontBrowser {
+                              LibraryWorkspaceShortcuts(selected: libraryPanel.selectedShortcut) { shortcut in
+                                  libraryPanel.apply(shortcut)
+                                  model.browserVisible = libraryPanel.extent > 0
+                              }.layoutPriority(1)
+                          }
+                        }
+                        .frame(height: frontBrowser ? AdaptivePerformanceLayout.libraryHandleHeight : handleExtent)
+                        .background(largePanelHandles ? PerformancePalette.frame : Color.clear)
+                        Group {
+                            if frontBrowser {
+                                FrontBrowserView(model: model, importAudio: { importPresented = true }, linkCollection: { traktorImportPresented = true })
+                            } else {
+                                BrowserView(model: model, importAudio: { importPresented = true }, linkCollection: { traktorImportPresented = true })
+                            }
+                        }
                             .frame(width: workspace.libraryArea.width, height: workspace.libraryArea.height, alignment: .top)
                             .clipped().allowsHitTesting(libraryPanel.acceptsContentInput)
                             .disabled(!libraryPanel.acceptsContentInput).accessibilityHidden(!libraryPanel.acceptsContentInput)
                     }
                     .frame(width: workspace.dock.workArea.width, height: space.size.height, alignment: .top)
                     .clipped()
-                    .animation(reduceMotion || libraryPanel.isDragging ? nil : .smooth(duration: 0.25), value: libraryPanel.extent)
+                    .animation(reduceMotion || libraryPanel.isDragging || deckSplit.isDragging ? nil : .smooth(duration: 0.25), value: libraryPanel.extent)
                     .onAppear {
-                        libraryPanel.updateViewport(width: space.size.width, height: space.size.height, presented: model.browserVisible)
+                        libraryPanel.updateViewport(width: space.size.width, height: space.size.height, presented: model.browserVisible, handleExtent: workspaceHandle)
+                        deckSplit.updateViewport(width: space.size.width, height: space.size.height)
                     }
                     .onChange(of: space.size) { _, size in
-                        libraryPanel.updateViewport(width: size.width, height: size.height, presented: model.browserVisible)
+                        libraryPanel.updateViewport(width: size.width, height: size.height, presented: model.browserVisible, handleExtent: workspaceHandle)
+                        deckSplit.updateViewport(width: size.width, height: size.height)
                         model.browserVisible = libraryPanel.extent > 0
+                    }
+                    .onChange(of: workspaceHandle) { _, value in
+                        libraryPanel.updateViewport(width: space.size.width, height: space.size.height, presented: model.browserVisible, handleExtent: value)
                     }
                     .onChange(of: model.browserPresentationID) { _, _ in
                         libraryPanel.present(fullyExpanded: model.browserPresentationExpands)
@@ -110,6 +157,7 @@ public struct ReplicaView: View {
                     .onChange(of: scenePhase) { _, phase in
                         if phase != .active {
                             libraryPanel.cancelDrag()
+                            deckSplit.cancelDrag()
                             model.browserVisible = libraryPanel.extent > 0
                         }
                     }
@@ -209,6 +257,11 @@ private struct DeckView: View {
     var snapshotFilter = false
     var requestPerformanceSpace: () -> Void = {}
     @Environment(\.performancePanelPortrait) private var portrait
+    @State private var sectionPanel = SectionEditorPanelState()
+    @Environment(\.scenePhase) private var scenePhase
+    @AppStorage(DeckToolSettings.largePanelHandles) private var largePanelHandles = false
+    @Environment(\.accessibilityVoiceOverEnabled) private var voiceOver
+    private var handleExtent: Double { PanelHandleMetrics(expanded: largePanelHandles || voiceOver).extent }
     @State private var visibleSeconds = WaveformLayers.defaultSeconds(bpm: nil)
     @State private var previousSpan: Double?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -235,6 +288,10 @@ private struct DeckView: View {
             DeckArtwork(source: ArtworkSource.track(track, media: model.store.mediaDirectory))
                 .frame(width: 44, height: 44).background(PerformancePalette.sunken).clipped()
                 .overlay { TrackHeadphoneIndicator(model: model, trackID: track?.id) }
+                .overlay(alignment: .bottomLeading) {
+                    Text(deck.rawValue.uppercased()).font(.system(size: 10, weight: .bold))
+                        .padding(2).background(PerformancePalette.frame).allowsHitTesting(false)
+                }
         }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
             .offset(y: (1 - layout.expansion) * max(0, (deckSpace.size.height - 52) / 2))
         VStack(spacing: 0) {
@@ -277,9 +334,16 @@ private struct DeckView: View {
             }
             Group {
                 if editing { DeckFooter(model: model, deck: deck) }
-                else if track != nil { ArrangementDeckStrip(model: model, deck: deck, compact: true) }
+                else if track != nil {
+                    ArrangementDeckStrip(model: model, deck: deck, compact: true, openEditor: {
+                        guard let track else { return }
+                        sectionPanel.open(trackID: track.id, loadID: model.loadIdentity(deck))
+                        requestPerformanceSpace()
+                    })
+                }
                 else { Color.clear }
             }.frame(height: layout.footerHeight).clipped().opacity(layout.expansion)
+                .allowsHitTesting(layout.footerHeight >= 44).accessibilityHidden(layout.footerHeight < 44)
         }.padding(.leading, 52)
         }.frame(width:sizes.mainWidth)
         if tempoFader && track != nil { DeckTempoFader(model:model,deck:deck) }
@@ -306,12 +370,46 @@ private struct DeckView: View {
         .animation(reduceMotion || panels.isDragging ? nil:.smooth(duration:0.22),value:sizes.effectsContent.width)
         .animation(reduceMotion || panels.isDragging ? nil:.smooth(duration:0.22),value:sizes.mixerContent.width)
         .onAppear {
-            panels.configure(width:availableWidth,portrait:portrait)
+            panels.configure(width:availableWidth,portrait:portrait,handleExtent:handleExtent)
+            panels.setTrackAvailable(track != nil)
+            sectionPanel.configure(height:deckSpace.size.height,portrait:portrait,handleExtent:handleExtent)
             if snapshotEffects && !effectsVisible { panels.toggleEffects() }
             if snapshotMixer && !mixerVisible { panels.toggleMixer() }
         }
-        .onChange(of:availableWidth) { _,width in panels.configure(width:width,portrait:portrait) }
-        .onChange(of:portrait) { _,value in panels.configure(width:availableWidth,portrait:value) }
+        .onChange(of:availableWidth) { _,width in panels.configure(width:width,portrait:portrait,handleExtent:handleExtent) }
+        .onChange(of:portrait) { _,value in panels.configure(width:availableWidth,portrait:value,handleExtent:handleExtent)
+            sectionPanel.configure(height:deckSpace.size.height,portrait:value,handleExtent:handleExtent) }
+        .onChange(of: handleExtent) { _, value in
+            panels.configure(width:availableWidth,portrait:portrait,handleExtent:value)
+            sectionPanel.configure(height:deckSpace.size.height,portrait:portrait,handleExtent:value)
+        }
+        .onChange(of: deckSpace.size.height) { _, height in
+            sectionPanel.configure(height:height,portrait:portrait,handleExtent:handleExtent)
+        }
+        .onChange(of: model.loadIdentity(deck)) { _, _ in
+            sectionPanel.validate(trackID:track?.id,loadID:model.loadIdentity(deck))
+        }
+        .onChange(of: scenePhase) { _, phase in if phase != .active { sectionPanel.cancelDrag() } }
+        .overlay(alignment: .bottom) {
+            if let session = sectionPanel.session {
+                VStack(spacing: 0) {
+                    TouchPanelHandle(presented:sectionPanel.isPresented,maximumExtent:sectionPanel.maximumExtent,
+                        presentationID:sectionPanel.presentationID,title:"SECTIONS",accessibilityName:"Section editor",
+                        toggle:{ sectionPanel.setPresented(!sectionPanel.isPresented) },
+                        begin:{ sectionPanel.beginDrag() },update:{ sectionPanel.updateDrag(translation:$0) },
+                        end:{ sectionPanel.endDrag(velocity:$0) },cancel:{ sectionPanel.cancelDrag() },
+                        adjust:{ sectionPanel.adjust(by:$0) })
+                    ArrangementEditor(model:model,deck:deck,identity:session,isPresented:sectionPanel.isPresented,close:{ sectionPanel.discard() })
+                        .id(session.id)
+                        .frame(height:sectionPanel.extent).clipped().contentShape(Rectangle())
+                        .allowsHitTesting(sectionPanel.isPresented)
+                        .overlay { if !sectionPanel.acceptsContentInput { Color.clear.contentShape(Rectangle()) } }
+                        .accessibilityHidden(!sectionPanel.acceptsContentInput)
+                }
+                .frame(width:deckSpace.size.width,height:sectionPanel.extent + handleExtent)
+                .background(PerformancePalette.panel).clipped()
+            }
+        }
         .onChange(of:panels.spaceRequestID) { _,_ in
             if panels.spaceRequestKind == .extra {
                 if deckSpace.size.height < 168 { requestPerformanceSpace() }
@@ -320,6 +418,8 @@ private struct DeckView: View {
         }
         .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
         .onChange(of:track?.id,initial:true) { _,_ in
+            panels.setTrackAvailable(track != nil)
+            sectionPanel.validate(trackID:track?.id,loadID:model.loadIdentity(deck))
             // About four and a half beats, centred on the playhead.
             visibleSeconds=WaveformLayers.defaultSeconds(bpm:track?.bpm)
         }
@@ -339,6 +439,7 @@ private struct DeckView: View {
             toggle:{ panels.toggle(kind) },begin:{ panels.begin(kind) },
             update:{ panels.update(kind,translation:$0) },end:{ panels.end(kind,velocity:$0) },
             cancel:{ panels.cancel(kind) },adjust:{ panels.adjust(kind,by:$0) })
+            .opacity(track == nil ? 0 : 1).allowsHitTesting(track != nil).accessibilityHidden(track == nil)
     }
     private var preparing: Bool { model.preparingPlayback.contains(deck) }
     private var elapsedTime: String {
@@ -383,7 +484,7 @@ private struct StripeView: View {
                         visibleSeconds:visibleSeconds)
                 }.clipped().contentShape(Rectangle())
                 .overlay {
-                    TouchSurface { event in
+                    TouchSurface(geometryPolicy: .retainContactSpace) { event in
                         if event.phase == .cancelled { contacts=[]; zoomStart=nil; zooming=false; return }
                         if event.points.count>=2 {
                             if !zooming { contacts=event.points; zoomStart=visibleSeconds; zooming=true }
@@ -394,7 +495,7 @@ private struct StripeView: View {
                             navigate(Double(track.analysis.frameCount)*max(0,min(1,point.x)))
                         }
                         if event.phase == .ended && event.remaining.isEmpty { contacts=[]; zoomStart=nil; zooming=false }
-                    }
+                    }.id(track.id)
                 }
 #if os(macOS)
                 .simultaneousGesture(MagnifyGesture().onChanged { value in
@@ -518,8 +619,13 @@ struct LoadSlider: View {
     let load: (DeckID) -> Void
     @State private var gesture = LoadSliderGestureSession()
     @State private var contactActive = false
+    @State private var contactGeometry = LoadSliderContactGeometry()
+    @State private var ignoreUntilRelease = false
     @GestureState private var dragging = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.deckPanelPresented) private var panelPresented
+    @Environment(\.touchSurfaceAcceptsNewContacts) private var acceptsNewContacts
+    @Environment(\.touchSurfaceInterruption) private var touchInterruption
     private var maximumTravel: Double { tall ? TallLoadSliderMetrics.maximumTravel : 18 }
     var body: some View {
         VStack(spacing: 0) {
@@ -544,37 +650,46 @@ struct LoadSlider: View {
             .overlay {
                 GeometryReader { geometry in
                     Color.clear.contentShape(Rectangle())
-                        .highPriorityGesture(DragGesture(minimumDistance: 0)
+                        .highPriorityGesture(DragGesture(minimumDistance: 0, coordinateSpace: .global)
                             .updating($dragging) { _, active, _ in active = true }
                             .onChanged { value in
+                                guard !ignoreUntilRelease else { return }
                                 if !contactActive {
+                                    guard panelPresented, acceptsNewContacts,
+                                          contactGeometry.begin(frame: geometry.frame(in: .global)) else {
+                                        ignoreUntilRelease = true; return
+                                    }
                                     contactActive = true
-                                    handle(.began, at: value.startLocation, size: geometry.size)
+                                    handle(.began, at: value.startLocation)
                                 }
-                                handle(.moved, at: value.location, size: geometry.size)
+                                handle(.moved, at: value.location)
                             }
                             .onEnded { value in
-                                handle(.ended, at: value.location, size: geometry.size)
-                                contactActive = false
+                                if !ignoreUntilRelease, contactActive, panelPresented { handle(.ended, at: value.location) }
+                                cancelContact(untilRelease: false)
                             })
                 }
             }
             .onChange(of: dragging) { _, active in
-                if !active && contactActive {
-                    contactActive = false
-                    gesture = LoadSliderGestureSession()
-                }
+                if !active { cancelContact(untilRelease: false) }
             }
+            .onChange(of: panelPresented) { _, presented in if !presented { cancelContact() } }
+            .onChange(of: touchInterruption) { _, _ in cancelContact() }
             .accessibilityLabel("Load track. Drag up for deck A or down for deck B.")
-            .accessibilityAction(named: "Load deck A") { load(.a) }
-            .accessibilityAction(named: "Load deck B") { load(.b) }
-            .onDisappear { contactActive = false; gesture = LoadSliderGestureSession() }
+            .accessibilityAction(named: "Load deck A") { if panelPresented && acceptsNewContacts { load(.a) } }
+            .accessibilityAction(named: "Load deck B") { if panelPresented && acceptsNewContacts { load(.b) } }
+            .onDisappear { cancelContact() }
     }
-    private func handle(_ phase: SurfaceEvent.Phase, at point: CGPoint, size: CGSize) {
+    private func cancelContact(untilRelease: Bool = true) {
+        contactActive = false; contactGeometry.cancel(); gesture = LoadSliderGestureSession()
+        ignoreUntilRelease = untilRelease && dragging
+    }
+    private func handle(_ phase: SurfaceEvent.Phase, at point: CGPoint) {
+        guard contactActive, let mapped = contactGeometry.point(at: point) else { return }
         let event = SurfaceEvent(phase: phase,
-            points: [.init(id: 1, x: point.x / max(1, size.width), y: point.y / max(1, size.height))],
+            points: [mapped],
             ending: phase == .ended ? [1] : [])
-        let deck = gesture.handle(event, height: Double(size.height), maximumTravel: maximumTravel,
+        let deck = gesture.handle(event, height: contactGeometry.height, maximumTravel: maximumTravel,
                                   edgeTapThreshold: tall ? 0.22 : nil, edgeTapMovementTolerance: 10)
         if phase == .ended {
             withAnimation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.8)) {

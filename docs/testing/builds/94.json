@@ -1,0 +1,37 @@
+{
+  "notes": "R02/R09/R30: Section editor inside its deck with direct resize/hide and remembered per-deck/orientation heights. Draft identity survives hiding; stale track/load saves are blocked. Quiet 12-point grips default, expanded handles remain in accessibility settings. Empty action trays closed. Dock full-height fader R34 and restored iPad/Duo browser preserved. 4569 focused assertions passed.",
+  "sourceCommit": "65378bbffb3c3cbf36e759b11d4a824216a054de",
+  "sourceSHA256": "60b80e39f7c70bbb72960fcaaf0f48e25814b933ded89a3b6bd9011b3a0719dd",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 62.1,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-94.log",
+  "build": 94,
+  "app": "TestBuilds/ipad/94/GenErikDJ.app",
+  "appSHA256": "fd7892a9102376e5a2bc67bc6782efce1059654cbe3edf8cad9ca8a868152146",
+  "state": "testing",
+  "createdUTC": "2026-11-04T02:53:44.096820+00:00",
+  "installedUTC": "2026-11-04T02:53:55.591782+00:00",
+  "launchedUTC": "2026-11-04T02:53:55.961823+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R02",
+    "R09",
+    "R30"
+  ],
+  "focusedChecks": "4,569 focused assertions passed: 1,330 dock, 201 library, 36 held-contact, 1,432 performance-panel, 688 divider, 638 browser sizing/loader, 114 editor/quiet-workspace and 130 browser navigation assertions. A stale-load mutation fails two assertions. The empty-tray mutation fails three assertions.",
+  "artifactChecks": "Native iPad compilation, exact source identity, archive digest, embedded-framework resolution and signing passed. Dock rendering/full-height fader geometry, native musical contact mapping, R34 analysis/preparation and R42 browser layouts remain preserved.",
+  "acceptance": "Installed on the 10.5-inch test iPad. iPadOS accepted the launch request. Erik checks the in-deck section editor, resizing/hiding/reopening with a retained draft, Save/Cancel and reload cancellation, quiet grips and expanded handles, empty-deck tray closure, held musical gestures, fixed dock/fader and clean audio. Physical touch, keyboard/picker behaviour and continued-operation acceptance remain pending. No further device actions after launch acceptance.",
+  "settingsLocation": "Large panel handles is available in the loaded deck action-tray gear menu. The main browser Settings > Features page does not expose it in this build. VoiceOver automatically selects expanded handles.",
+  "deployments": [
+    {
+      "device": "GenErik iPad (10.5-inch)",
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "installed-launch-request-accepted",
+      "installedUTC": "2026-11-04T02:53:55.591782+00:00",
+      "launchAcceptedUTC": "2026-11-04T02:53:55.961823+00:00"
+    }
+  ],
+  "artifactLocation": "/Users/veland/GenErik DJ/TestBuilds/ipad/94/GenErikDJ.app"
+}

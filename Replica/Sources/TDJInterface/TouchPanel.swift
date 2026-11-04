@@ -14,13 +14,21 @@ struct TouchPanelHandle: View {
     let end: (Double) -> Void
     let cancel: () -> Void
     let adjust: (Double) -> Void
+    @AppStorage(DeckToolSettings.largePanelHandles) private var largeHandles = false
+    @Environment(\.accessibilityVoiceOverEnabled) private var voiceOver
+    private var metrics: PanelHandleMetrics { .init(expanded: largeHandles || voiceOver) }
     @GestureState private var active = false
     @State private var ownsDrag: Bool?
     @State private var ignoreUntilRelease = false
 
     var body: some View {
         Group {
-            if edge.horizontal {
+            if !metrics.expanded {
+                Capsule().fill(PerformancePalette.secondaryText.opacity(active ? 0.65 : 0.12))
+                    .frame(width: edge.horizontal ? 1 : 28, height: edge.horizontal ? 28 : 1)
+                    .frame(width: edge.horizontal ? CGFloat(metrics.extent) : nil, height: edge.horizontal ? nil : CGFloat(metrics.extent))
+                    .frame(maxWidth: edge.horizontal ? nil : .infinity, maxHeight: edge.horizontal ? .infinity : nil)
+            } else if edge.horizontal {
                 VStack(spacing: 8) {
                     toggleButton
                     Spacer(minLength: 0)
@@ -38,7 +46,7 @@ struct TouchPanelHandle: View {
                 }.frame(height: AdaptivePerformanceLayout.libraryHandleHeight)
             }
         }
-        .background(PerformancePalette.frame)
+        .background(metrics.expanded ? PerformancePalette.frame : Color.clear)
         .contentShape(Rectangle())
         .gesture(DragGesture(minimumDistance: 4, coordinateSpace: .global)
             .updating($active) { _, active, _ in active = true }
@@ -58,6 +66,7 @@ struct TouchPanelHandle: View {
                 ownsDrag = nil
                 ignoreUntilRelease = false
             })
+        .onTapGesture(count: 2) { if !metrics.expanded && canToggle { toggle() } }
         .onChange(of: active) { _, active in
             if !active { cancel(); ownsDrag = nil; ignoreUntilRelease = false }
         }
@@ -66,6 +75,7 @@ struct TouchPanelHandle: View {
         .onDisappear { cancel() }
         .accessibilityLabel("\(accessibilityName) resize handle")
         .accessibilityAdjustableAction { direction in adjust(direction == .increment ? 44 : -44) }
+        .accessibilityAction(named: Text(presented ? "Hide" : "Show")) { if canToggle { toggle() } }
     }
 
     private var toggleButton: some View {
@@ -81,6 +91,51 @@ struct TouchPanelHandle: View {
 
     private func invalidateDrag() {
         if active { cancel(); ignoreUntilRelease = true }
+    }
+}
+
+struct LibraryWorkspaceShortcuts: View {
+    let selected: LibraryWorkspaceShortcut?
+    let apply: (LibraryWorkspaceShortcut) -> Void
+
+    var body: some View {
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 4) {
+                ForEach(LibraryWorkspaceShortcut.allCases, id: \.self) { shortcut in
+                    Button { apply(shortcut) } label: {
+                        Text(shortcut.rawValue).font(.subheadline.weight(.semibold))
+                            .fixedSize(horizontal: true, vertical: false)
+                            .padding(.horizontal, 10).frame(minWidth: 44, minHeight: 44)
+                            .background(selected == shortcut ? PerformancePalette.cyan.opacity(0.2) : Color.clear,
+                                        in: RoundedRectangle(cornerRadius: 5))
+                    }
+                    .accessibilityLabel("\(shortcut.rawValue) layout")
+                    .accessibilityHint(hint(shortcut))
+                    .accessibilityAddTraits(selected == shortcut ? .isSelected : [])
+                }
+            }
+            Menu {
+                ForEach(LibraryWorkspaceShortcut.allCases, id: \.self) { shortcut in
+                    Button { apply(shortcut) } label: {
+                        if selected == shortcut { Label(shortcut.rawValue, systemImage: "checkmark") }
+                        else { Text(shortcut.rawValue) }
+                    }
+                }
+            } label: {
+                Label("Layout", systemImage: "rectangle.split.1x2").frame(minWidth: 44, minHeight: 44)
+            }.accessibilityLabel("Library layout shortcuts")
+        }
+        .foregroundStyle(PerformancePalette.text)
+        .padding(.trailing, 8)
+        .background(PerformancePalette.frame)
+    }
+
+    private func hint(_ shortcut: LibraryWorkspaceShortcut) -> String {
+        switch shortcut {
+        case .performance: "Hide the song browser"
+        case .browse: "Share space between the decks and song browser"
+        case .expand: "Give the song browser the most space"
+        }
     }
 }
 

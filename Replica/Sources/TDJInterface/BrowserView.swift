@@ -19,7 +19,7 @@ struct BrowserView: View {
     @State private var selectedEntry: LibraryBrowserEntry?
     @State private var recommendations: [BrowserRecommendations.Match] = []
     @State private var recommendationSeed: LibraryBrowserEntry?
-    @State private var layout = BrowserLayoutState(categoriesHidden: true)
+    @State private var layout = StandardBrowserLayoutState(categoriesHidden: true)
     @State private var section = BrowserSection.songs
     private var displayedSection: BrowserSection { hasSearchQuery ? .songs : section }
     private var showingSuggestions: Bool { !hasSearchQuery && model.suggestionDestination != nil }

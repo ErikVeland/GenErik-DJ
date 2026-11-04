@@ -1,0 +1,52 @@
+{
+  "requestIDs": [
+    "R42",
+    "R28",
+    "R39",
+    "R40"
+  ],
+  "baselineWideSource": "811d75fd3",
+  "sourceSHA256": "bad1e35a3328c04ae0176d8f2753de4a1d4e47dbeee1ae3437d1fa8e52302a34",
+  "scope": "Closed/front phone windows only. Every iPad window and phone windows of at least 600 points retain the existing browser. Selection uses full window width, so help and drawers cannot trigger a front-screen layout.",
+  "checks": {
+    "browser": {
+      "assertions": 130,
+      "failures": 0,
+      "log": "browser.log"
+    },
+    "dock": {
+      "assertions": 1330,
+      "failures": 0,
+      "log": "dock.log"
+    },
+    "tabletRoutingMutation": {
+      "assertions": 130,
+      "failures": 4,
+      "log": "mutation.log"
+    }
+  },
+  "restoration": "restoration.json",
+  "build": 93,
+  "deviceScope": "Prepare and install the restored iPad layout only. Do not deploy to Duo.",
+  "acceptance": "Erik checks the restored iPad browser, fixed controls and clean audio. Front-screen physical usability and Duo inside routing remain untested on hardware.",
+  "sourceCommit": "d66b403f331e2eaa3383465050698393934c7d6a",
+  "buildState": "installed-launch-request-accepted",
+  "installedUTC": "2026-11-04T02:30:42.065105+00:00",
+  "launchRequestAcceptedUTC": "2026-11-04T02:30:42.473742+00:00",
+  "buildSeconds": 59.19,
+  "additionalDeployments": [
+    {
+      "device": "GenErik Duo",
+      "deviceID": "00008160-000859C436800036",
+      "state": "installed-launch-request-accepted",
+      "installedUTC": "2026-11-04T03:02:40.988022+00:00",
+      "launchRequestAcceptedUTC": "2026-11-04T03:02:41.604744+00:00",
+      "sourceCommit": "d66b403f331e2eaa3383465050698393934c7d6a",
+      "appSHA256": "74af1fb858e2466c4618c7273c560875c296631ecf9fd472fdb4876284f85c2b",
+      "transport": "localNetwork",
+      "installTimeoutSeconds": 90,
+      "scope": "Closed/front-phone testing. Saved build retains the existing wide inside browser. No iPad operation.",
+      "acceptance": "Erik verifies closed/front browser and shortcuts, inside layout retention and clean audio. No device actions after launch."
+    }
+  ]
+}

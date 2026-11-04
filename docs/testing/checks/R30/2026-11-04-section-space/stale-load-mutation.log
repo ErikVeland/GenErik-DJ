@@ -1,0 +1,3 @@
+FAIL: reloading the same track cannot receive a stale save
+FAIL: changed load identity discards the old edit
+114 section editor and quiet workspace checks; 2 failures

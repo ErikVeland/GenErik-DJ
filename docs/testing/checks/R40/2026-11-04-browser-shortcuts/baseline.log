@@ -1,0 +1,148 @@
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:124:19: error: value of type 'LibraryPanelState' has no member 'apply'
+122 |         var shortcuts = LibraryPanelState()
+123 |         shortcuts.updateViewport(width: 834, height: 1052, presented: false)
+124 |         shortcuts.apply(.browse)
+    |                   `- error: value of type 'LibraryPanelState' has no member 'apply'
+125 |         expect(shortcuts.extent == 504 && shortcuts.selectedShortcut == .browse, "Browse shares usable portrait space evenly")
+126 |         expect(shortcuts.acceptsContentInput, "Browse exposes usable browser content")
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:125:53: error: value of type 'LibraryPanelState' has no member 'selectedShortcut'
+123 |         shortcuts.updateViewport(width: 834, height: 1052, presented: false)
+124 |         shortcuts.apply(.browse)
+125 |         expect(shortcuts.extent == 504 && shortcuts.selectedShortcut == .browse, "Browse shares usable portrait space evenly")
+    |                                                     `- error: value of type 'LibraryPanelState' has no member 'selectedShortcut'
+126 |         expect(shortcuts.acceptsContentInput, "Browse exposes usable browser content")
+127 |         shortcuts.apply(.expand)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:127:19: error: value of type 'LibraryPanelState' has no member 'apply'
+125 |         expect(shortcuts.extent == 504 && shortcuts.selectedShortcut == .browse, "Browse shares usable portrait space evenly")
+126 |         expect(shortcuts.acceptsContentInput, "Browse exposes usable browser content")
+127 |         shortcuts.apply(.expand)
+    |                   `- error: value of type 'LibraryPanelState' has no member 'apply'
+128 |         expect(shortcuts.extent == 860 && shortcuts.selectedShortcut == .expand, "Expand fills portrait browser space")
+129 |         shortcuts.apply(.performance)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:128:53: error: value of type 'LibraryPanelState' has no member 'selectedShortcut'
+126 |         expect(shortcuts.acceptsContentInput, "Browse exposes usable browser content")
+127 |         shortcuts.apply(.expand)
+128 |         expect(shortcuts.extent == 860 && shortcuts.selectedShortcut == .expand, "Expand fills portrait browser space")
+    |                                                     `- error: value of type 'LibraryPanelState' has no member 'selectedShortcut'
+129 |         shortcuts.apply(.performance)
+130 |         expect(shortcuts.extent == 0 && shortcuts.selectedShortcut == .performance, "Performance hides the browser")
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:129:19: error: value of type 'LibraryPanelState' has no member 'apply'
+127 |         shortcuts.apply(.expand)
+128 |         expect(shortcuts.extent == 860 && shortcuts.selectedShortcut == .expand, "Expand fills portrait browser space")
+129 |         shortcuts.apply(.performance)
+    |                   `- error: value of type 'LibraryPanelState' has no member 'apply'
+130 |         expect(shortcuts.extent == 0 && shortcuts.selectedShortcut == .performance, "Performance hides the browser")
+131 |         expect(!shortcuts.acceptsContentInput, "Performance rejects hidden browser touches")
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:130:51: error: value of type 'LibraryPanelState' has no member 'selectedShortcut'
+128 |         expect(shortcuts.extent == 860 && shortcuts.selectedShortcut == .expand, "Expand fills portrait browser space")
+129 |         shortcuts.apply(.performance)
+130 |         expect(shortcuts.extent == 0 && shortcuts.selectedShortcut == .performance, "Performance hides the browser")
+    |                                                   `- error: value of type 'LibraryPanelState' has no member 'selectedShortcut'
+131 |         expect(!shortcuts.acceptsContentInput, "Performance rejects hidden browser touches")
+132 |         shortcuts.setPresented(true)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:134:19: error: value of type 'LibraryPanelState' has no member 'apply'
+132 |         shortcuts.setPresented(true)
+133 |         expect(shortcuts.extent == 860, "ordinary opening restores the preceding shortcut size")
+134 |         shortcuts.apply(.browse)
+    |                   `- error: value of type 'LibraryPanelState' has no member 'apply'
+135 |         shortcuts.beginDrag()
+136 |         shortcuts.updateDrag(translation: -54)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:138:53: error: value of type 'LibraryPanelState' has no member 'selectedShortcut'
+136 |         shortcuts.updateDrag(translation: -54)
+137 |         shortcuts.endDrag(velocity: 0)
+138 |         expect(shortcuts.extent == 450 && shortcuts.selectedShortcut == nil, "manual resize remains free between shortcuts")
+    |                                                     `- error: value of type 'LibraryPanelState' has no member 'selectedShortcut'
+139 |         shortcuts.apply(.performance)
+140 |         shortcuts.setPresented(true)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:139:19: error: value of type 'LibraryPanelState' has no member 'apply'
+137 |         shortcuts.endDrag(velocity: 0)
+138 |         expect(shortcuts.extent == 450 && shortcuts.selectedShortcut == nil, "manual resize remains free between shortcuts")
+139 |         shortcuts.apply(.performance)
+    |                   `- error: value of type 'LibraryPanelState' has no member 'apply'
+140 |         shortcuts.setPresented(true)
+141 |         expect(shortcuts.extent == 450, "Performance retains the manually chosen size")
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:144:19: error: value of type 'LibraryPanelState' has no member 'apply'
+142 |         shortcuts.beginDrag()
+143 |         shortcuts.updateDrag(translation: -200)
+144 |         shortcuts.apply(.expand)
+    |                   `- error: value of type 'LibraryPanelState' has no member 'apply'
+145 |         shortcuts.updateDrag(translation: -400)
+146 |         shortcuts.endDrag(velocity: -800)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:148:19: error: value of type 'LibraryPanelState' has no member 'apply'
+146 |         shortcuts.endDrag(velocity: -800)
+147 |         expect(shortcuts.extent == 860 && !shortcuts.isDragging, "a shortcut rejects stale resize updates")
+148 |         shortcuts.apply(.browse)
+    |                   `- error: value of type 'LibraryPanelState' has no member 'apply'
+149 |         shortcuts.present(fullyExpanded: true)
+150 |         expect(shortcuts.extent == 860, "add-track still overrides Browse with maximum space")
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:152:19: error: value of type 'LibraryPanelState' has no member 'apply'
+150 |         expect(shortcuts.extent == 860, "add-track still overrides Browse with maximum space")
+151 |         shortcuts.updateViewport(width: 1112, height: 774, presented: true)
+152 |         shortcuts.apply(.browse)
+    |                   `- error: value of type 'LibraryPanelState' has no member 'apply'
+153 |         expect(shortcuts.extent == 365, "Browse shares usable landscape space evenly")
+154 |         shortcuts.apply(.performance)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:154:19: error: value of type 'LibraryPanelState' has no member 'apply'
+152 |         shortcuts.apply(.browse)
+153 |         expect(shortcuts.extent == 365, "Browse shares usable landscape space evenly")
+154 |         shortcuts.apply(.performance)
+    |                   `- error: value of type 'LibraryPanelState' has no member 'apply'
+155 |         shortcuts.updateViewport(width: 834, height: 1052, presented: false)
+156 |         shortcuts.setPresented(true)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:158:19: error: value of type 'LibraryPanelState' has no member 'apply'
+156 |         shortcuts.setPresented(true)
+157 |         expect(shortcuts.extent == 860, "landscape shortcuts preserve portrait memory")
+158 |         shortcuts.apply(.browse)
+    |                   `- error: value of type 'LibraryPanelState' has no member 'apply'
+159 |         shortcuts.updateViewport(width: 1112, height: 774, presented: true)
+160 |         expect(shortcuts.extent == 365, "rotation restores the previous landscape shortcut size")
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:164:19: error: value of type 'LibraryPanelState' has no member 'apply'
+162 |             var small = LibraryPanelState()
+163 |             small.updateViewport(width: width, height: height, presented: false)
+164 |             small.apply(.browse)
+    |                   `- error: value of type 'LibraryPanelState' has no member 'apply'
+165 |             expect(small.extent == expected, "Browse clamps to constrained geometry")
+166 |             small.apply(.expand)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:166:19: error: value of type 'LibraryPanelState' has no member 'apply'
+164 |             small.apply(.browse)
+165 |             expect(small.extent == expected, "Browse clamps to constrained geometry")
+166 |             small.apply(.expand)
+    |                   `- error: value of type 'LibraryPanelState' has no member 'apply'
+167 |             expect(small.extent == small.maximumExtent, "Expand clamps to the viewport")
+168 |             small.apply(.performance)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift:168:19: error: value of type 'LibraryPanelState' has no member 'apply'
+166 |             small.apply(.expand)
+167 |             expect(small.extent == small.maximumExtent, "Expand clamps to the viewport")
+168 |             small.apply(.performance)
+    |                   `- error: value of type 'LibraryPanelState' has no member 'apply'
+169 |             expect(small.extent == 0, "Performance closes in constrained geometry")
+170 |         }
+Traceback (most recent call last):
+  File "/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_layout.py", line 37, in <module>
+    main()
+    ~~~~^^
+  File "/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_layout.py", line 31, in main
+    subprocess.run(["xcrun", "swiftc", "-parse-as-library",
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        *map(str, sources), str(root / "tools" / harness), "-o", str(executable)], check=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['xcrun', 'swiftc', '-parse-as-library', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJInterface/TouchPanelState.swift', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_touch_panels.swift', '-o', '/var/folders/x4/552661tn5vzgxk5405585gg80000gq/T/generik-touch-layout-m575kzjv/check']' returned non-zero exit status 1.

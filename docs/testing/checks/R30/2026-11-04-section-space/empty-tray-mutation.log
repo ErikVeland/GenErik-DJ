@@ -1,0 +1,4 @@
+FAIL: empty decks have no open action tray
+FAIL: empty deck cannot open a blank action tray
+FAIL: loaded deck can open its action controls
+114 section editor and quiet workspace checks; 3 failures

@@ -1,0 +1,20 @@
+{
+  "requestIDs": [
+    "R41"
+  ],
+  "baselineBuild": 89,
+  "sourceCommit": "c16ccd775d9ef9ca0b2dd06ad6d685b270698ea0",
+  "sourceSHA256": "52338dc654c8f3c18d80568fa7fbb8826e5b76000d834335c8adc7e1ba06ca30",
+  "runtimeCheckerSHA256": "1df2208956589f6c2317a4c72d50fc1e0fbc3110c32ae85411d27c2c888e1a99",
+  "diagnosis": "The embedded whisper framework exists. The app executable has only /usr/lib/swift as its runtime search path, so DYLD cannot resolve @rpath/whisper.framework/whisper. Crash binary UUID matches saved build 89. Build 88 has the same reported termination.",
+  "cases": "runtime-cases.json",
+  "crashes": "crash-summary.json",
+  "fixedArtifactCheck": "build-91-runtime.log",
+  "build": 91,
+  "buildState": "installed-launch-request-accepted",
+  "installedUTC": "2026-11-04T02:20:55.486645+00:00",
+  "launchRequestAcceptedUTC": "2026-11-04T02:20:55.889256+00:00",
+  "acceptance": "Erik must confirm that the app stays open, the browser/shortcuts work and audio remains clean. The launch request is not runtime acceptance.",
+  "buildPreparation": "An initial build request did not start because the shared build lock was held. Build 91 started after that lock was released. No other saved build was changed.",
+  "scope": "App changes are the runtime search paths in Debug and Release. Browser, shortcuts and audio sources are unchanged. Build and deployment now reject unresolved bundled framework paths."
+}

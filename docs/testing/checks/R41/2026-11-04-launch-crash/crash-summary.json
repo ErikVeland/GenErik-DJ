@@ -1,0 +1,36 @@
+[
+  {
+    "build": 89,
+    "os": "iPhone OS 17.7.11 (21H461)",
+    "timestamp": "2026-11-04 12:13:26.00 +1000",
+    "binaryUUID": "bdb15c82-7453-304c-bad1-debadbd89b7c",
+    "termination": {
+      "namespace": "DYLD",
+      "indicator": "Library missing"
+    },
+    "missingDependency": "@rpath/whisper.framework/whisper",
+    "frameworkPresentInSavedApp": true,
+    "executableRunpaths": [
+      "/usr/lib/swift"
+    ],
+    "originalReport": "TestBuilds/ipad/89/GenErikDJ-2026-11-04-121326.ips",
+    "originalSHA256": "5cedde96745215984d59878999fecb99b0d230962ca9977f6de394fbf0897f70"
+  },
+  {
+    "build": 88,
+    "os": "iPhone OS 17.7.11 (21H461)",
+    "timestamp": "2026-11-04 12:07:13.00 +1000",
+    "binaryUUID": "5d4debea-557f-35c1-a432-ff301ae4f1a5",
+    "termination": {
+      "namespace": "DYLD",
+      "indicator": "Library missing"
+    },
+    "missingDependency": "@rpath/whisper.framework/whisper",
+    "frameworkPresentInSavedApp": true,
+    "executableRunpaths": [
+      "/usr/lib/swift"
+    ],
+    "originalReport": "TestBuilds/ipad/89/GenErikDJ-2026-11-04-120713.ips",
+    "originalSHA256": "0695c1aebe56e6737f722029527f1e5f4878c6d4179a7a2c39ff8107561ef162"
+  }
+]

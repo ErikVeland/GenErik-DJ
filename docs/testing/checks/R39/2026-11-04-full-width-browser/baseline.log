@@ -1,0 +1,52 @@
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_browser_layout.swift:20:20: error: cannot find 'BrowserListTab' in scope
+18 |         state.showDetail()
+19 |         expect(state.categoriesHidden && !state.detailHidden, "Details replaces Sources")
+20 |         for tab in BrowserListTab.allCases {
+   |                    `- error: cannot find 'BrowserListTab' in scope
+21 |             state.showDetail()
+22 |             state.selectTab(tab)
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_browser_layout.swift:22:19: error: value of type 'BrowserLayoutState' has no member 'selectTab'
+20 |         for tab in BrowserListTab.allCases {
+21 |             state.showDetail()
+22 |             state.selectTab(tab)
+   |                   `- error: value of type 'BrowserLayoutState' has no member 'selectTab'
+23 |             expect(state.tab == tab, "requested list is selected")
+24 |             expect(state.detailHidden && state.categoriesHidden, "switching lists closes drawers")
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_browser_layout.swift:23:26: error: value of type 'BrowserLayoutState' has no member 'tab'
+21 |             state.showDetail()
+22 |             state.selectTab(tab)
+23 |             expect(state.tab == tab, "requested list is selected")
+   |                          `- error: value of type 'BrowserLayoutState' has no member 'tab'
+24 |             expect(state.detailHidden && state.categoriesHidden, "switching lists closes drawers")
+25 |             expect(state.detailOffset == 0 && state.categoryOffset == 0, "switching lists clears stale drags")
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_browser_layout.swift:31:31: error: cannot find 'BrowserContentGeometry' in scope
+29 |             for extent in [180.0, 320, 600, 800] {
+30 |                 let workspace = PerformanceWorkspaceGeometry(width: width, height: height, libraryExtent: extent)
+31 |                 let browser = BrowserContentGeometry(width: workspace.libraryArea.width, height: workspace.libraryArea.height)
+   |                               `- error: cannot find 'BrowserContentGeometry' in scope
+32 |                 expect(browser.listArea.minX == 0 && browser.listArea.width == width - 96,
+33 |                     "songs and suggestions have no reserved side columns")
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_browser_layout.swift:44:27: error: cannot find 'BrowserContentGeometry' in scope
+42 |         }
+43 |         for (width, height) in [(0.0, 0.0), (-1, -2), (.nan, .infinity)] {
+44 |             let browser = BrowserContentGeometry(width: width, height: height)
+   |                           `- error: cannot find 'BrowserContentGeometry' in scope
+45 |             expect([browser.listArea.width, browser.listArea.height, browser.drawerWidth].allSatisfy { $0.isFinite && $0 >= 0 },
+46 |                 "invalid dimensions remain finite and non-negative")
+Traceback (most recent call last):
+  File "/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_browser_layout.py", line 20, in <module>
+    main()
+    ~~~~^^
+  File "/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_browser_layout.py", line 14, in main
+    subprocess.run(["xcrun", "swiftc", "-parse-as-library", *map(str, sources),
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                    str(root / "tools/check_browser_layout.swift"), "-o", str(executable)], check=True)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['xcrun', 'swiftc', '-parse-as-library', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJInterface/BrowserLayoutState.swift', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift', '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/tools/check_browser_layout.swift', '-o', '/var/folders/x4/552661tn5vzgxk5405585gg80000gq/T/generik-browser-layout-to7tqnpm/check']' returned non-zero exit status 1.

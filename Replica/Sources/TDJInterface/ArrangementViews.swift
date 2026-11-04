@@ -12,7 +12,7 @@ struct ArrangementDeckStrip: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
     var compact = false
-    @State private var editor = false
+    var openEditor: () -> Void = {}
     var body: some View {
         let status=model.arrangementStatus(deck:deck)
         HStack(spacing:8) {
@@ -26,14 +26,13 @@ struct ArrangementDeckStrip: View {
                 Text(status.endingText).lineLimit(1)
                     .foregroundStyle(status.warning == .red || status.warning == .urgent ? Color.red:Color.secondary)
             }
-            Button { editor=true } label: { Image(systemName:"diamond").frame(width:44,height:44) }
+            Button(action: openEditor) { Image(systemName:"diamond").frame(width:44,height:44) }
                 .accessibilityLabel("Edit sections and analysis landmarks")
                 .disabled(model.track(deck).flatMap { model.arrangements[$0.id] } == nil)
         }
         .font(.system(size:11,weight:.semibold,design:.monospaced))
-        .padding(.horizontal,8).frame(height:24).background(PerformancePalette.sunken)
+        .padding(.horizontal,8).frame(height:44).background(PerformancePalette.sunken)
         .task(id:preparationKey) { await model.prepareArrangement(deck:deck) }
-        .sheet(isPresented:$editor) { ArrangementEditor(model:model,deck:deck) }
     }
     private var preparationKey: String {
         guard let track=model.track(deck) else { return "" }
@@ -131,11 +130,28 @@ struct ArrangementRemainingTime: View {
 struct ArrangementEditor: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
-    @Environment(\.dismiss) private var dismiss
+    let identity: SectionEditIdentity
+    let isPresented: Bool
+    var close: () -> Void
+    @FocusState private var focusedField: EditorField?
+    private enum EditorField: Hashable {
+        case sectionName(Int), boundary(Int), landmarkName(Int), landmarkTime(Int, Bool), reason(Int)
+    }
+    private var validLoad: Bool { identity.matches(trackID: model.track(deck)?.id, loadID: model.loadIdentity(deck)) }
     @State private var draft: TrackArrangement?
     @AppStorage("arrangement.prepareBars") private var prepareBars = 32
     var body: some View {
-        NavigationStack {
+        VStack(spacing: 0) {
+            HStack {
+                Button("Cancel", action: close).frame(minWidth:44,minHeight:44)
+                Spacer(minLength: 8)
+                Text("Deck \(deck.rawValue.uppercased()) sections").font(.headline).lineLimit(1)
+                Spacer(minLength: 8)
+                Button("Save") {
+                    guard validLoad, let draft else { close(); return }
+                    if model.updateArrangement(draft,deck:deck) { close() }
+                }.frame(minWidth:44,minHeight:44).disabled(!validLoad || draft == nil)
+            }.padding(.horizontal,12).background(PerformancePalette.frame)
             Form {
                 Picker("Ending preparation cue",selection:$prepareBars) {
                     ForEach([32,48,64,96],id:\.self) { Text("\($0) bars").tag($0) }
@@ -148,7 +164,7 @@ struct ArrangementEditor: View {
                             DisclosureGroup(value.sections[index].label) {
                                 Text(value.sections[index].locked ? "Assignment: Manual" : "Assignment: Automatic")
                                     .font(.caption).foregroundStyle(.secondary)
-                                TextField("Name",text:sectionBinding(index,\.name))
+                                TextField("Name",text:sectionBinding(index,\.name)).focused($focusedField,equals:.sectionName(index))
                                 Picker("Musical role",selection:roleBinding(index)) {
                                     ForEach(ArrangementRole.allCases,id:\.self) { Text($0.label).tag($0) }
                                 }
@@ -156,7 +172,7 @@ struct ArrangementEditor: View {
                                     ForEach(ArrangementBehaviour.allCases,id:\.self) { Text($0 == .sustaining ? "SUSTAINING":$0.label).tag($0) }
                                 }
                                 if index > 0 {
-                                    HStack { Text("Start (seconds)"); TextField("Start",value:boundaryBinding(index),format:.number).frame(width:100) }
+                                    HStack { Text("Start (seconds)"); TextField("Start",value:boundaryBinding(index),format:.number).frame(width:100).focused($focusedField,equals:.boundary(index)) }
                                 }
                                 Text("Edits lock this section against reanalysis.").font(.caption).foregroundStyle(.secondary)
                             }.foregroundStyle(Color(arrangementHex:value.sections[index].colourHex))
@@ -166,23 +182,23 @@ struct ArrangementEditor: View {
                     Section("Analysis landmarks") {
                         ForEach(value.landmarks.indices,id:\.self) { index in
                             DisclosureGroup("◇ " + value.landmarks[index].name + (value.landmarks[index].state == .dismissed ? " · DISMISSED":"")) {
-                                TextField("Name",text:landmarkBinding(index,\.name))
+                                TextField("Name",text:landmarkBinding(index,\.name)).focused($focusedField,equals:.landmarkName(index))
                                 Picker("Kind",selection:landmarkBinding(index,\.kind)) {
                                     ForEach(ArrangementLandmarkKind.allCases,id:\.self) { Text($0.label).tag($0) }
                                 }
-                                HStack { Text("Position (seconds)"); TextField("Position",value:landmarkTime(index),format:.number).frame(width:100) }
-                                TextField("Mixing reason",text:landmarkBinding(index,\.reason))
+                                HStack { Text("Position (seconds)"); TextField("Position",value:landmarkTime(index),format:.number).frame(width:100).focused($focusedField,equals:.landmarkTime(index,false)) }
+                                TextField("Mixing reason",text:landmarkBinding(index,\.reason)).focused($focusedField,equals:.reason(index))
                                 Toggle("Region",isOn:Binding(get: { draft?.landmarks[index].end != nil },set: { enabled in
                                     draft?.landmarks[index].end=enabled ? min(fileEnd,(draft?.landmarks[index].frame ?? 0)+8*sampleRate):nil
                                     draft?.landmarks[index].locked=true
                                 }))
                                 if value.landmarks[index].end != nil {
-                                    HStack { Text("Finish by (seconds)"); TextField("Region end",value:landmarkTime(index,end:true),format:.number).frame(width:100) }
+                                    HStack { Text("Finish by (seconds)"); TextField("Region end",value:landmarkTime(index,end:true),format:.number).frame(width:100).focused($focusedField,equals:.landmarkTime(index,true)) }
                                 }
                                 HStack {
                                     Button("Accept") { draft?.landmarks[index].state = .accepted; draft?.landmarks[index].locked=true }
                                     Button("Dismiss") { draft?.landmarks[index].state = .dismissed; draft?.landmarks[index].locked=true }
-                                    Button("Promote to hot cue") { if let mark=draft?.landmarks[index] { model.promoteLandmark(mark,deck:deck) } }
+                                    Button("Promote to hot cue") { if validLoad, let mark=draft?.landmarks[index] { model.promoteLandmark(mark,deck:deck) } }
                                 }
                                 Text(value.landmarks[index].reason).font(.caption).foregroundStyle(.secondary)
                             }
@@ -194,17 +210,12 @@ struct ArrangementEditor: View {
                 }
                 Text(model.status).font(.caption).foregroundStyle(.secondary)
             }
-            .formStyle(.grouped).navigationTitle("Musical structure")
-            .toolbar {
-                ToolbarItem(placement:.cancellationAction) { Button("Cancel") { dismiss() } }
-                ToolbarItem(placement:.confirmationAction) {
-                    Button("Save") { if let draft, model.updateArrangement(draft,deck:deck) { dismiss() } }
-                }
-            }
+            .formStyle(.grouped).disabled(!validLoad)
         }
-        .frame(minWidth:480,minHeight:440)
-        .onAppear { if let track=model.track(deck) { draft=model.arrangements[track.id] } }
-        .onChange(of:model.loaded[deck]) { _,_ in dismiss() }
+        .onAppear { if draft == nil, validLoad { draft = model.arrangements[identity.trackID] } }
+        .onChange(of: isPresented) { _, visible in if !visible { focusedField = nil } }
+        .onChange(of: model.loaded[deck]) { _, _ in if !validLoad { close() } }
+        .onChange(of: model.loadIdentity(deck)) { _, _ in if !validLoad { close() } }
     }
     private var sampleRate: Double { model.track(deck)?.analysis.sampleRate ?? 44100 }
     private var fileEnd: Double { Double(model.track(deck)?.analysis.frameCount ?? 0) }

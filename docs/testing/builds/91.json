@@ -1,0 +1,23 @@
+{
+  "notes": "R41: Fix immediate launch failure by adding the embedded Frameworks runtime search path. The saved build 89 reproduces the runtime check failure; an isolated search-path correction resolves whisper. Build and deploy now verify bundled framework resolution. Browser and workspace shortcuts are unchanged. Erik checks launch and clean audio.",
+  "sourceCommit": "c16ccd775d9ef9ca0b2dd06ad6d685b270698ea0",
+  "sourceSHA256": "52338dc654c8f3c18d80568fa7fbb8826e5b76000d834335c8adc7e1ba06ca30",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 68.11,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-91.log",
+  "build": 91,
+  "app": "TestBuilds/ipad/91/GenErikDJ.app",
+  "appSHA256": "58b4a00fbdb3115333fcc360a32f50b68a534b7f5f72802bf970a385eebb7d60",
+  "state": "testing",
+  "createdUTC": "2026-11-04T02:20:28.418930+00:00",
+  "installedUTC": "2026-11-04T02:20:55.486645+00:00",
+  "launchedUTC": "2026-11-04T02:20:55.889256+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R41"
+  ],
+  "focusedChecks": "Saved build 89 fails the runtime dependency check. A temporary copy resolves whisper when only @executable_path/Frameworks is added, and fails when the framework is removed. The actual signed build 91 passes runtime dependency resolution and contains the corrected LC_RPATH. Project syntax and Python compilation pass.",
+  "acceptance": "Installed on the 10.5-inch test iPad. iPadOS accepted the launch request. Continued operation, browser/shortcut use and clean audio await Erik confirmation. No device actions after launch."
+}

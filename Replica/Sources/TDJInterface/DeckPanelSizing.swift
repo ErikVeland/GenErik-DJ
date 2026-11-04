@@ -16,23 +16,23 @@ struct DeckPanelsGeometry {
     let mixerHandle: CGRect
     let mixerContent: CGRect
 
-    init(width: Double, height: Double, effects: Double, mixer: Double, extra: Double) {
+    init(width: Double, height: Double, effects: Double, mixer: Double, extra: Double, handleExtent: Double = 44) {
         func finite(_ value: Double) -> Double { value.isFinite ? max(0, value) : 0 }
         let inner = max(0, finite(width) - 8)
-        extraBudget = max(0, inner - 44 - 8 - 52 - 88 - 44)
+        extraBudget = max(0, inner - handleExtent - 8 - 52 - 2 * handleExtent - 44)
         maximumExtraWidth = min(320, extraBudget)
         extraWidth = min(maximumExtraWidth, finite(extra))
-        mainWidth = max(0, inner - extraWidth - 44 - 8)
+        mainWidth = max(0, inner - extraWidth - handleExtent - 8)
         waveformWidth = max(0, mainWidth - 52)
-        sideBudget = max(0, waveformWidth - 88 - 44)
+        sideBudget = max(0, waveformWidth - 2 * handleExtent - 44)
         let fx = min(sideBudget, finite(effects))
         let eq = min(max(0, sideBudget - fx), finite(mixer))
         let height = finite(height)
         effectsContent = CGRect(x: 0, y: 0, width: fx, height: height)
-        effectsHandle = CGRect(x: fx, y: 0, width: min(44, waveformWidth), height: height)
-        let mixerX = max(effectsHandle.maxX, waveformWidth - eq - 44)
+        effectsHandle = CGRect(x: fx, y: 0, width: min(handleExtent, waveformWidth), height: height)
+        let mixerX = max(effectsHandle.maxX, waveformWidth - eq - handleExtent)
         waveform = CGRect(x: effectsHandle.maxX, y: 0, width: max(0, mixerX - effectsHandle.maxX), height: height)
-        mixerHandle = CGRect(x: mixerX, y: 0, width: min(44, max(0, waveformWidth - mixerX)), height: height)
+        mixerHandle = CGRect(x: mixerX, y: 0, width: min(handleExtent, max(0, waveformWidth - mixerX)), height: height)
         mixerContent = CGRect(x: mixerHandle.maxX, y: 0, width: eq, height: height)
     }
 }
@@ -49,6 +49,14 @@ struct DeckPanelsState {
             }
         }
     }
+    init(extraVisible: Bool = true) {
+        if !extraVisible {
+            presented.remove(.extra)
+            portrait.panels[.extra]!.setPresented(false, maximumExtent: 10000)
+            landscape.panels[.extra]!.setPresented(false, maximumExtent: 10000)
+        }
+    }
+    private var handleExtent = 44.0
     private var portrait = Bank()
     private var landscape = Bank()
     private var isPortrait = false
@@ -66,7 +74,7 @@ struct DeckPanelsState {
     func isDragging(_ kind: PerformancePanel) -> Bool { bank.panels[kind]!.isDragging }
     var isDragging: Bool { PerformancePanel.allCases.contains { isDragging($0) } }
     func geometry(height: Double) -> DeckPanelsGeometry {
-        .init(width: width, height: height, effects: extent(.effects), mixer: extent(.mixer), extra: extent(.extra))
+        .init(width: width, height: height, effects: extent(.effects), mixer: extent(.mixer), extra: extent(.extra), handleExtent: handleExtent)
     }
     func maximum(_ kind: PerformancePanel) -> Double {
         let layout = geometry(height: 1)
@@ -77,11 +85,12 @@ struct DeckPanelsState {
         }
     }
 
-    mutating func configure(width: Double, portrait: Bool) {
-        guard width.isFinite, width >= 0, self.width != width || isPortrait != portrait else { return }
+    mutating func configure(width: Double, portrait: Bool, handleExtent: Double = 44) {
+        guard width.isFinite, width >= 0, self.width != width || isPortrait != portrait || self.handleExtent != handleExtent else { return }
         let restoreBank = self.width == 0 || isPortrait != portrait
         for kind in PerformancePanel.allCases { cancel(kind) }
         self.width = width
+        self.handleExtent = handleExtent
         isPortrait = portrait
         guard restoreBank else { return }
         let visible = presented

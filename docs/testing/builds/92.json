@@ -1,0 +1,49 @@
+{
+  "notes": "R02/R04/R25/R30: Resizable Sources/Details with remembered session widths and stable held loader coordinates. Retains full-width Songs Suggestions Prep, Performance Browse Expand shortcuts, R41 framework launch repair, fixed dock full-height crossfader A/B divider and R34/R35/R37. All 4429 focused assertions pass. Build and deployment verify framework resolution. One final iPad handover.",
+  "sourceCommit": "7e27819e6b76c528b5c1b502343e40942a605779",
+  "sourceSHA256": "fd7db626a33a9431e45a541d2bcd5ef2a2d89b91f36766517a9db5777c6c4b84",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 58.31,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "recordedUTC": "2026-11-04T02:31:53.388901+00:00",
+      "requestIDs": [
+        "R42"
+      ],
+      "report": "Erik explicitly rejects applying the single-screen browser design to iPad or Duo inside. He confirms closed/front phone only, with the earlier wide layouts restored.",
+      "replacementBuild": 93
+    }
+  ],
+  "log": "TestBuilds/ipad/build-92.log",
+  "build": 92,
+  "app": "TestBuilds/ipad/92/GenErikDJ.app",
+  "appSHA256": "2eeb82b6497bc08b6503c22d08306f0867736306fe7737b29884c37ed9c2648f",
+  "state": "testing",
+  "createdUTC": "2026-11-04T02:22:58.330393+00:00",
+  "installedUTC": "2026-11-04T02:23:09.429238+00:00",
+  "launchedUTC": "2026-11-04T02:23:09.831921+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R02",
+    "R04",
+    "R25",
+    "R30"
+  ],
+  "focusedChecks": "4,429 assertions passed: 1,330 dock, 201 library, 36 held-contact, 1,432 performance-panel, 688 divider, 638 browser sizing/loader and 104 full-width navigation/geometry assertions. A temporary compiled mutation that forgets drawer widths fails six assertions.",
+  "artifactChecks": "Native iPad compilation, source identity, archive digest, embedded-framework resolution and signing passed. Runtime paths resolve the bundled whisper framework. Build 92 includes R39 full-width browsing, R40 layout shortcuts and the R41 launch repair.",
+  "acceptance": "Installed on the 10.5-inch test iPad. iPadOS accepted the launch request. Erik checks continued operation, Sources/Details resizing and reopening, separate orientation widths, full-width searches/scrolling, both loader directions and end taps, held musical gestures, fixed dock/full-height fader and clean audio. Touch, listening and continued-operation acceptance remain pending. No further device actions after launch acceptance.",
+  "deployments": [
+    {
+      "device": "GenErik iPad (10.5-inch)",
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "installed-launch-request-accepted",
+      "installedUTC": "2026-11-04T02:23:09.429238+00:00",
+      "launchAcceptedUTC": "2026-11-04T02:23:09.831921+00:00"
+    }
+  ],
+  "supersedesUninstalledBuilds": [
+    90
+  ],
+  "artifactLocation": "/Users/veland/GenErik DJ/TestBuilds/ipad/92/GenErikDJ.app"
+}

@@ -3,6 +3,7 @@ import Testing
 
 @Test func detailPaneFollowsTheFingerOffAndBackAndWidensTheList() {
     var layout = BrowserLayoutState()
+    layout.showDetail()
     #expect(!layout.listShowsTempoAndKey)
     for translation in [0.0, 40, 133.5] { layout.dragDetail(translation: translation); #expect(layout.detailOffset == translation) }
     layout.dragDetail(translation: -30)
@@ -18,6 +19,20 @@ import Testing
     _ = layout.endDetail(translation: 300, velocity: 0, width: 400)
     layout.showDetail()
     #expect(!layout.detailHidden)
+}
+
+@Test func browserListsUseTheFullWidthAndCloseBothDrawers() {
+    var layout = BrowserLayoutState(categoriesHidden: true)
+    #expect(layout.detailHidden && layout.listShowsTempoAndKey)
+    layout.showDetail()
+    layout.showCategories()
+    #expect(layout.detailHidden && !layout.categoriesHidden)
+    layout.showDetail()
+    #expect(!layout.detailHidden && layout.categoriesHidden)
+    for tab in BrowserListTab.allCases {
+        layout.selectTab(tab)
+        #expect(layout.tab == tab && layout.detailHidden && layout.categoriesHidden)
+    }
 }
 
 @Test func categoryColumnCollapsesLeftAndReturns() {

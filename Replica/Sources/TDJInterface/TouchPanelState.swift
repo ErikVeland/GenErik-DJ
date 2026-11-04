@@ -86,12 +86,17 @@ struct TouchPanelState {
     }
 }
 
+enum LibraryWorkspaceShortcut: String, CaseIterable {
+    case performance = "Performance", browse = "Browse", expand = "Expand"
+}
+
 struct LibraryPanelState {
     enum Orientation { case portrait, landscape }
     private var portrait = TouchPanelState(minimumExtent: 132, initialExtent: 0)
     private var landscape = TouchPanelState(minimumExtent: 132, initialExtent: 0)
     private(set) var orientation = Orientation.landscape
     private(set) var maximumExtent = 0.0
+    private var handleExtent = 44.0
     private var panel: TouchPanelState {
         get { orientation == .portrait ? portrait : landscape }
         set { if orientation == .portrait { portrait = newValue } else { landscape = newValue } }
@@ -99,13 +104,31 @@ struct LibraryPanelState {
     var extent: Double { panel.extent }
     var isDragging: Bool { panel.isDragging }
     var acceptsContentInput: Bool { extent > 0 && extent >= min(panel.minimumExtent, maximumExtent) }
+    private var browseExtent: Double {
+        min(maximumExtent, max(panel.minimumExtent, (maximumExtent + 104 + handleExtent) / 2))
+    }
+    var selectedShortcut: LibraryWorkspaceShortcut? {
+        if extent == 0 { return .performance }
+        if abs(extent - maximumExtent) < 0.5 { return .expand }
+        if abs(extent - browseExtent) < 0.5 { return .browse }
+        return nil
+    }
 
-    mutating func updateViewport(width: Double, height: Double, presented: Bool) {
+    mutating func apply(_ shortcut: LibraryWorkspaceShortcut) {
+        switch shortcut {
+        case .performance: setPresented(false)
+        case .browse: panel.expand(maximumExtent: browseExtent)
+        case .expand: present(fullyExpanded: true)
+        }
+    }
+
+    mutating func updateViewport(width: Double, height: Double, presented: Bool, handleExtent: Double = 44) {
+        self.handleExtent = handleExtent
         let dragging = isDragging
         panel.cancelDrag()
         let visible = dragging ? extent > 0 : presented
         orientation = width < height ? .portrait : .landscape
-        maximumExtent = AdaptivePerformanceLayout.maximumLibraryExtent(available: height)
+        maximumExtent = AdaptivePerformanceLayout.maximumLibraryExtent(available: height, handleExtent: handleExtent)
         panel.setPresented(visible, maximumExtent: maximumExtent)
     }
 
