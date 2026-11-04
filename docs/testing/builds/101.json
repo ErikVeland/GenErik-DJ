@@ -1,0 +1,21 @@
+{
+  "notes": "R45: show saved waveforms at selection, prepare audio before analysis, retain and visibly acknowledge Play during loading. Cancel queued Play on a second tap or track replacement. Analyse idle decks without reloading audio. First-use native export and waveform/PCM decoding still take time. Erik checks both decks, immediate Play, replacement/failure and clean audio.",
+  "sourceCommit": "df33fd13f2d7ad53318f2bffbda54b60668447a3",
+  "sourceSHA256": "f3043bfd045f5c37b7b00536139cfccedbb1950176519aafb38e8070c7c9c9d3",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 531.9,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-101.log",
+  "build": 101,
+  "app": "TestBuilds/ipad/101/GenErikDJ.app",
+  "appSHA256": "8b7086dadf945bc83467d15ef37dd071b02e7dc980e0244f97d8c76909fe17e0",
+  "state": "ready",
+  "createdUTC": "2026-11-04T09:14:54.585926+00:00",
+  "requestIDs": [
+    "R45"
+  ],
+  "focusedChecks": "Five source-order checks and five runtime tests covering eight cases passed. The initial focused command stopped on existing ControllerMIDIUMPDecoderTests optional-chaining errors. An isolated test manifest includes only the two selected test files. The original manifest was restored. Both outputs are retained.",
+  "artifactChecks": "Compilation, source identity, saved app digest, embedded framework resolution and signing passed. Reused the existing iPad device-build cache.",
+  "acceptance": "Erik checks cold/warm A/B loads, saved waveform feedback before analysis, immediate Play, second-tap cancellation, replacement and failure recovery, manual preparation and clean other-deck audio. First-use native export and initial waveform/PCM decoding remain open latency work."
+}

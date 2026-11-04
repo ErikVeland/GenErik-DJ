@@ -1,0 +1,59 @@
+{
+  "requestID": "R45",
+  "sourceCommit": "df33fd13f2d7ad53318f2bffbda54b60668447a3",
+  "sourceHashes": {
+    "Replica/Sources/TDJInterface/ReplicaModel.swift": "b938efd32bbacd1d2903a63382a154055b9134945bf90775ae43bcac20f1b6b6",
+    "Replica/Sources/TDJInterface/NativeMusicModel.swift": "b606095e1810f48b03050548e8339ab628b770323c459da263ebfc8aa0322134",
+    "Replica/Sources/TDJInterface/VinylBrakeControl.swift": "b3862d0953f0c7e26e793b9b36e4aca19c8074eb5890b5428c21cd1db0aae7e6",
+    "Replica/Tests/TDJInterfaceTests/InstantTrackLoadTests.swift": "9ddc675f373f87735efd25363c9413214257cbf611d2ea2fbfd4caeec4c4fc30",
+    "Replica/Tests/TDJInterfaceTests/BackgroundPreparationTests.swift": "fce37d2d9841f0f9385f103f42976aed18db35552f7cba25b7a06766d946d4f2",
+    "tools/check_instant_load.py": "10d034633a66babd853e821995fa1031f07201c8e2b634883b5d4ef47868cc11"
+  },
+  "sourceOrderChecks": {
+    "baseline": "5 failed",
+    "candidate": "5 passed"
+  },
+  "syntaxParse": "passed",
+  "whitespace": "passed",
+  "deviceAcceptance": "pending",
+  "firstUseLimitation": "Native export, initial waveform generation and full PCM-cache decoding remain on the first-use load path.",
+  "initialRuntimeAttempt": {
+    "state": "blocked-before-execution",
+    "command": "xcrun swift test --package-path Replica --filter 'instantTrackLoad|deckSelectionCompletesDeferredAnalysis'",
+    "exitCode": 1,
+    "reason": "Four existing optional-chaining errors in ControllerMIDIUMPDecoderTests.swift:63\u201365. No selected runtime tests ran.",
+    "log": "focused-tests.log"
+  },
+  "runtimeTests": {
+    "state": "passed",
+    "exitCode": 0,
+    "testFunctions": 5,
+    "cases": 8,
+    "seconds": 87.427,
+    "scope": "InstantTrackLoadTests.swift and the deferred deck-analysis test in BackgroundPreparationTests.swift. No other tests executed.",
+    "log": "isolated-focused-tests.log",
+    "testManifest": "focused-Package.swift",
+    "testManifestSHA256": "2603057e5225f63b5a230d275c0fd34a0508c29ce337b2b88bf5c677455bc9cd",
+    "productionManifestRestored": true
+  },
+  "build": {
+    "number": 101,
+    "state": "ready",
+    "sourceCommit": "df33fd13f2d7ad53318f2bffbda54b60668447a3",
+    "record": "../../../builds/101.json",
+    "checks": "Compilation, source identity, saved app digest, embedded framework resolution and signing passed. The log contains a compiler-task diagnostic with exit code 0, but xcodebuild and the build helper both exited successfully.",
+    "log": "build-101.log"
+  },
+  "deploymentAttempts": [
+    {
+      "state": "blocked-before-device-action",
+      "reason": "Shared iPad-cycle lock was held. It was released before retry."
+    },
+    {
+      "state": "install-unconfirmed",
+      "timeoutSeconds": 20,
+      "exitCode": 2,
+      "reason": "devicectl installation command timed out. No launch attempted."
+    }
+  ]
+}
