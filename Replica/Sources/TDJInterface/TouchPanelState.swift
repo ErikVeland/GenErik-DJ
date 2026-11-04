@@ -96,6 +96,7 @@ struct LibraryPanelState {
     private var landscape = TouchPanelState(minimumExtent: 132, initialExtent: 0)
     private(set) var orientation = Orientation.landscape
     private(set) var maximumExtent = 0.0
+    private var handleExtent = 44.0
     private var panel: TouchPanelState {
         get { orientation == .portrait ? portrait : landscape }
         set { if orientation == .portrait { portrait = newValue } else { landscape = newValue } }
@@ -104,7 +105,7 @@ struct LibraryPanelState {
     var isDragging: Bool { panel.isDragging }
     var acceptsContentInput: Bool { extent > 0 && extent >= min(panel.minimumExtent, maximumExtent) }
     private var browseExtent: Double {
-        min(maximumExtent, max(panel.minimumExtent, (maximumExtent + AdaptivePerformanceLayout.minimumDeckHeight) / 2))
+        min(maximumExtent, max(panel.minimumExtent, (maximumExtent + 104 + handleExtent) / 2))
     }
     var selectedShortcut: LibraryWorkspaceShortcut? {
         if extent == 0 { return .performance }
@@ -121,12 +122,13 @@ struct LibraryPanelState {
         }
     }
 
-    mutating func updateViewport(width: Double, height: Double, presented: Bool) {
+    mutating func updateViewport(width: Double, height: Double, presented: Bool, handleExtent: Double = 44) {
+        self.handleExtent = handleExtent
         let dragging = isDragging
         panel.cancelDrag()
         let visible = dragging ? extent > 0 : presented
         orientation = width < height ? .portrait : .landscape
-        maximumExtent = AdaptivePerformanceLayout.maximumLibraryExtent(available: height)
+        maximumExtent = AdaptivePerformanceLayout.maximumLibraryExtent(available: height, handleExtent: handleExtent)
         panel.setPresented(visible, maximumExtent: maximumExtent)
     }
 

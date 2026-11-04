@@ -9,21 +9,31 @@ struct DeckSplitHandle: View {
     let cancel: () -> Void
     let balance: () -> Void
     let adjust: (Double) -> Void
+    @AppStorage(DeckToolSettings.largePanelHandles) private var largeHandles = false
+    @Environment(\.accessibilityVoiceOverEnabled) private var voiceOver
+    private var metrics: PanelHandleMetrics { .init(expanded: largeHandles || voiceOver) }
     @GestureState private var active = false
     @State private var ownsDrag: Bool?
     @State private var ignoreUntilRelease = false
 
     var body: some View {
-        HStack(spacing: 8) {
-            Label("A", systemImage: "chevron.up").padding(.leading, 12)
-            Spacer(minLength: 0)
-            Capsule().fill(PerformancePalette.secondaryText).frame(width: 44, height: 4)
-            Spacer(minLength: 0)
-            Label("B", systemImage: "chevron.down").padding(.trailing, 12)
+        Group {
+            if metrics.expanded {
+                HStack(spacing: 8) {
+                    Label("A", systemImage: "chevron.up").padding(.leading, 12)
+                    Spacer(minLength: 0)
+                    Capsule().fill(PerformancePalette.secondaryText).frame(width: 44, height: 4)
+                    Spacer(minLength: 0)
+                    Label("B", systemImage: "chevron.down").padding(.trailing, 12)
+                }
+                .font(.system(size: 11, weight: .semibold))
+                .frame(height: DeckSplitGeometry.handleHeight)
+                .background(PerformancePalette.frame)
+            } else {
+                Capsule().fill(PerformancePalette.secondaryText.opacity(active ? 0.65 : 0.12))
+                    .frame(width: 28, height: 1).frame(maxWidth: .infinity).frame(height: metrics.extent)
+            }
         }
-        .font(.system(size: 11, weight: .semibold))
-        .frame(height: DeckSplitGeometry.handleHeight)
-        .background(PerformancePalette.frame)
         .contentShape(Rectangle())
         .gesture(DragGesture(minimumDistance: 4, coordinateSpace: .global)
             .updating($active) { _, active, _ in active = true }

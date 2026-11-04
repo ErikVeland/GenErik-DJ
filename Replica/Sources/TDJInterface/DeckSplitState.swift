@@ -8,10 +8,10 @@ struct DeckSplitGeometry {
     let handle: CGRect
     let b: CGRect
 
-    init(width: Double, height: Double, share: Double, proposedAHeight: Double? = nil) {
+    init(width: Double, height: Double, share: Double, proposedAHeight: Double? = nil, handleExtent: Double = 44) {
         let width = width.isFinite ? max(0, width) : 0
         let height = height.isFinite ? max(0, height) : 0
-        let lane = min(Self.handleHeight, height)
+        let lane = min(handleExtent, height)
         let usable = height - lane
         let minimum = min(Self.minimumDeckHeight, usable / 2)
         let share = share.isFinite ? min(1, max(0, share)) : 0.5
@@ -36,8 +36,8 @@ struct DeckSplitState {
         set { if portrait { portraitShare = newValue } else { landscapeShare = newValue } }
     }
 
-    func geometry(width: Double, height: Double) -> DeckSplitGeometry {
-        .init(width: width, height: height, share: share, proposedAHeight: dragOrigin.map { $0 + translation })
+    func geometry(width: Double, height: Double, handleExtent: Double = 44) -> DeckSplitGeometry {
+        .init(width: width, height: height, share: share, proposedAHeight: dragOrigin.map { $0 + translation }, handleExtent: handleExtent)
     }
     mutating func updateViewport(width: Double, height: Double) {
         guard width.isFinite, height.isFinite, width > 0, height > 0 else { cancelDrag(); return }
@@ -47,29 +47,29 @@ struct DeckSplitState {
         portrait = width < height
         viewport = next
     }
-    mutating func beginDrag(height: Double) {
-        guard dragOrigin == nil, height.isFinite, height > 148 else { return }
-        dragOrigin = geometry(width: 0, height: height).a.height
+    mutating func beginDrag(height: Double, handleExtent: Double = 44) {
+        guard dragOrigin == nil, height.isFinite, height > 104 + handleExtent else { return }
+        dragOrigin = geometry(width: 0, height: height, handleExtent: handleExtent).a.height
         translation = 0
     }
     mutating func updateDrag(translation: Double) {
         guard isDragging, translation.isFinite else { return }
         self.translation = translation
     }
-    mutating func endDrag(height: Double) {
+    mutating func endDrag(height: Double, handleExtent: Double = 44) {
         guard isDragging else { return }
-        guard height.isFinite, height > 148 else { cancelDrag(); return }
-        let layout = geometry(width: 0, height: height)
+        guard height.isFinite, height > 104 + handleExtent else { cancelDrag(); return }
+        let layout = geometry(width: 0, height: height, handleExtent: handleExtent)
         share = layout.a.height / (layout.a.height + layout.b.height)
         cancelDrag()
     }
     mutating func cancelDrag() { dragOrigin = nil; translation = 0 }
     mutating func balance() { cancelDrag(); share = 0.5 }
-    mutating func adjust(by delta: Double, height: Double) {
+    mutating func adjust(by delta: Double, height: Double, handleExtent: Double = 44) {
         guard delta.isFinite else { return }
         cancelDrag()
-        beginDrag(height: height)
+        beginDrag(height: height, handleExtent: handleExtent)
         updateDrag(translation: delta)
-        endDrag(height: height)
+        endDrag(height: height, handleExtent: handleExtent)
     }
 }

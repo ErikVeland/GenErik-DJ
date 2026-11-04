@@ -1,6 +1,11 @@
 import Foundation
 import CoreGraphics
 
+struct PanelHandleMetrics {
+    let expanded: Bool
+    var extent: Double { expanded ? 44 : 12 }
+}
+
 struct PerformanceDockGeometry {
     static let dockWidth = 96.0
     static let minimumHeight = 576.0
@@ -32,12 +37,12 @@ struct PerformanceWorkspaceGeometry {
     let deckArea: CGRect
     let libraryArea: CGRect
 
-    init(width: Double, height: Double, libraryExtent: Double) {
+    init(width: Double, height: Double, libraryExtent: Double, handleExtent: Double = 44) {
         dock = PerformanceDockGeometry(width: width, height: height)
         let available = dock.workArea.height
-        let maximum = AdaptivePerformanceLayout.maximumLibraryExtent(available: available)
+        let maximum = AdaptivePerformanceLayout.maximumLibraryExtent(available: available, handleExtent: handleExtent)
         let extent = libraryExtent.isFinite ? min(maximum, max(0, libraryExtent)) : 0
-        let handle = min(AdaptivePerformanceLayout.libraryHandleHeight, available)
+        let handle = min(handleExtent, available)
         let deckHeight = max(0, available - handle - extent)
         deckArea = CGRect(x: 0, y: 0, width: dock.workArea.width, height: deckHeight)
         libraryArea = CGRect(x: 0, y: deckHeight + handle, width: dock.workArea.width, height: extent)
@@ -61,9 +66,10 @@ struct AdaptivePerformanceLayout {
     static let minimumDeckHeight = 148.0
     static let librarySnapDistance = 80.0
 
-    static func maximumLibraryExtent(available: Double) -> Double {
+    static func maximumLibraryExtent(available: Double, handleExtent: Double = 44) -> Double {
         guard available.isFinite else { return 0 }
-        return max(0, available - libraryHandleHeight - minimumDeckHeight)
+        let handle = handleExtent.isFinite ? max(0, handleExtent) : 44
+        return max(0, available - handle - (104 + handle))
     }
 
     static func deckHeight(available: Double, browserVisible: Bool, share: Double) -> Double {

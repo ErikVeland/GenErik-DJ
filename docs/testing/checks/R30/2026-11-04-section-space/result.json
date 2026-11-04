@@ -1,0 +1,58 @@
+{
+  "date": "2026-11-04",
+  "requestIDs": [
+    "R02",
+    "R09",
+    "R30"
+  ],
+  "baselineCommit": "158e3ec9c735de2dbcf56cf712e4e168bdaac7e3",
+  "baselineBuild": 93,
+  "status": "source-verified-device-build-pending",
+  "filesSHA256": {
+    "Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift": "ed3327ca9e968d3ab5879769bc6b12f01be66a529e9d91f8a41c39e52537dce2",
+    "Replica/Sources/TDJInterface/ArrangementViews.swift": "4f45425e4d583641b34e4e4e26880db1e7594985ee644932cc2ade5d6d8ff5da",
+    "Replica/Sources/TDJInterface/DeckPanelPresentation.swift": "52b9fe18da9ece7a9c76107cbbe22f1f0abc1eee94b5863ae7d10f985b270b46",
+    "Replica/Sources/TDJInterface/DeckPanelSizing.swift": "5eec2002e14f3feeea61df33fe22a24afcf8a76b035f0515a754039231e1a411",
+    "Replica/Sources/TDJInterface/DeckSplitHandle.swift": "99efd587cd4c2fed8f9fa7407aff09881e8ca9a3e34224e739238130b88c3bee",
+    "Replica/Sources/TDJInterface/DeckSplitState.swift": "80175a399a0a1e27fb496daf5dc947c7c042683ad1b8183eba2bc321c18d92fc",
+    "Replica/Sources/TDJInterface/PlaybackSettings.swift": "837086788c9129130126df5e17326c7f42e76fff8f6d507337453d1a20c02ead",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "fed18ee5c2c1513eb5d548940033081eccc283f68d841af93fe5c73ac1001860",
+    "Replica/Sources/TDJInterface/TouchPanel.swift": "72680f7ea894a7abe5e620784e5c04473127201a956f66341b4218f40e0c0745",
+    "Replica/Sources/TDJInterface/TouchPanelState.swift": "03695135d513c44d53cee2ab6a6086f4f2332f81da52eda63fd66add7b21b194",
+    "tools/check_performance_panels.swift": "48653a6e013a73812ab6eb3b53ad92c45c6c31c4abe619ee86352f7e0bce6916",
+    "tools/check_touch_layout.py": "039772252fda467eb0da6d4632764f68a554eb1d5fa7a9e0281fc703f6ce6113",
+    "Replica/Sources/TDJInterface/SectionEditorPanelState.swift": "66043f20f7506092b7dbea705d90246e9672b1bf2520e2a7a539b551ce069ccb",
+    "tools/check_section_workspace.swift": "408962338158164e76fd239fe5930594b4572c02daaaf5d5eee717af6394ba0f"
+  },
+  "checks": {
+    "command": "python3 tools/check_touch_layout.py --group all && python3 tools/check_browser_layout.py",
+    "dock": 1330,
+    "library": 201,
+    "heldContacts": 36,
+    "performancePanels": 1432,
+    "deckDivider": 688,
+    "browserSizingAndLoader": 638,
+    "sectionWorkspace": 114,
+    "browserNavigation": 130,
+    "totalAssertions": 4569,
+    "failedAssertions": 0,
+    "staleLoadMutationFailures": 2,
+    "emptyTrayMutationFailures": 2,
+    "syntaxParse": "passed",
+    "integrity": "Dock rendering/full-height fader geometry, native musical contact mapping, R34/R35/R37 analysis and preparation, R41 framework paths and R42 browser layouts match the baseline.",
+    "review": "Self-review under the project rule against parallel agents. Legacy geometry checks exercise expanded handles. The new workspace checks exercise both 12-point and 44-point policies."
+  },
+  "behaviour": [
+    "The section editor is a bottom-attached in-deck overlay, with direct grab sizing and separate session heights per deck and orientation. The fixed performance dock stays outside it.",
+    "Hiding or resizing preserves draft/view identity. Cancel and Save discard the session. Save and landmark promotion require the captured track and load identity.",
+    "An unloaded or reloaded track closes its editor. Existing arrangement validation and manual locks remain unchanged. Opening/closing sends no seek or zoom command.",
+    "Quiet 12-point grab lanes replace 44-point labelled grips by default. Settings enables Large panel handles; VoiceOver also selects expanded grips. Musical targets remain separate from the grab lanes.",
+    "FX/EQ and action trays start closed. Empty decks reject opening and reclaim the action-tray width. Loaded decks can reopen controls explicitly.",
+    "The original iPad/Duo inside browser and front-phone selection rules remain unchanged."
+  ],
+  "limits": [
+    "Touch feel, keyboard focus, draft Save/Cancel, landmark promotion and clean audio require Erik acceptance.",
+    "Memory lasts for the session. Expanded handles remain available in accessibility settings.",
+    "This test release does not establish full TDJ1 equivalence or gig acceptance."
+  ]
+}

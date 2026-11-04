@@ -14,13 +14,21 @@ struct TouchPanelHandle: View {
     let end: (Double) -> Void
     let cancel: () -> Void
     let adjust: (Double) -> Void
+    @AppStorage(DeckToolSettings.largePanelHandles) private var largeHandles = false
+    @Environment(\.accessibilityVoiceOverEnabled) private var voiceOver
+    private var metrics: PanelHandleMetrics { .init(expanded: largeHandles || voiceOver) }
     @GestureState private var active = false
     @State private var ownsDrag: Bool?
     @State private var ignoreUntilRelease = false
 
     var body: some View {
         Group {
-            if edge.horizontal {
+            if !metrics.expanded {
+                Capsule().fill(PerformancePalette.secondaryText.opacity(active ? 0.65 : 0.12))
+                    .frame(width: edge.horizontal ? 1 : 28, height: edge.horizontal ? 28 : 1)
+                    .frame(width: edge.horizontal ? CGFloat(metrics.extent) : nil, height: edge.horizontal ? nil : CGFloat(metrics.extent))
+                    .frame(maxWidth: edge.horizontal ? nil : .infinity, maxHeight: edge.horizontal ? .infinity : nil)
+            } else if edge.horizontal {
                 VStack(spacing: 8) {
                     toggleButton
                     Spacer(minLength: 0)
@@ -38,7 +46,7 @@ struct TouchPanelHandle: View {
                 }.frame(height: AdaptivePerformanceLayout.libraryHandleHeight)
             }
         }
-        .background(PerformancePalette.frame)
+        .background(metrics.expanded ? PerformancePalette.frame : Color.clear)
         .contentShape(Rectangle())
         .gesture(DragGesture(minimumDistance: 4, coordinateSpace: .global)
             .updating($active) { _, active, _ in active = true }
@@ -58,6 +66,7 @@ struct TouchPanelHandle: View {
                 ownsDrag = nil
                 ignoreUntilRelease = false
             })
+        .onTapGesture(count: 2) { if !metrics.expanded && canToggle { toggle() } }
         .onChange(of: active) { _, active in
             if !active { cancel(); ownsDrag = nil; ignoreUntilRelease = false }
         }
@@ -66,6 +75,7 @@ struct TouchPanelHandle: View {
         .onDisappear { cancel() }
         .accessibilityLabel("\(accessibilityName) resize handle")
         .accessibilityAdjustableAction { direction in adjust(direction == .increment ? 44 : -44) }
+        .accessibilityAction(named: Text(presented ? "Hide" : "Show")) { if canToggle { toggle() } }
     }
 
     private var toggleButton: some View {

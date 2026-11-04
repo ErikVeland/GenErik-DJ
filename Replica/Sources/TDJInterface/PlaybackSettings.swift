@@ -13,6 +13,7 @@ struct PlaybackSettings: View {
     @AppStorage(DeckToolSettings.hotcuePads) private var hotcuePads = false
     @AppStorage(DeckToolSettings.vinylStop) private var vinylStop = false
     @AppStorage(DeckToolSettings.vinylStopDuration) private var vinylStopDuration = 1.0
+    @AppStorage(DeckToolSettings.largePanelHandles) private var largePanelHandles = false
     var body: some View {
         VStack(alignment:.leading,spacing:12) {
             if showsPlayback {
@@ -25,6 +26,10 @@ struct PlaybackSettings: View {
             Toggle("Slicer Quantize",isOn:preference(\.slicerQuantize))
             Toggle("Freeze on Load",isOn:preference(\.freezeOnLoad))
             RecoverySettingsView(model: model)
+            Divider()
+            Text("Accessibility").font(.headline)
+            Toggle("Large panel handles", isOn: $largePanelHandles)
+            Text("Show larger, labelled grips for panel resizing.").font(.caption).foregroundStyle(.secondary)
             Divider()
             Text("Extra deck controls").font(.headline)
             }
@@ -55,6 +60,7 @@ struct PlaybackSettings: View {
 
 /// Controls the original app did not have. Each is off by default, so the deck stays as it was.
 enum DeckToolSettings {
+    static let largePanelHandles = "interface.largePanelHandles"
     static let beatJump = "deckTools.beatJump"
     static let tempoFader = "deckTools.tempoFader"
     static let cueButton = "deckTools.cueButton"
