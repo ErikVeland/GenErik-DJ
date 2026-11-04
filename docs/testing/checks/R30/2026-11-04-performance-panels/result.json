@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-04",
+  "requestIDs": [
+    "R02",
+    "R30",
+    "R31"
+  ],
+  "baselineCommit": "7dec2047fa967c41f7613ba28240f9beda66ca28",
+  "baselineBuild": 82,
+  "status": "source-verified-device-build-pending",
+  "filesSHA256": {
+    "Replica/Sources/TDJInterface/DeckPanelSizing.swift": "8bead5092f3096db403024824f6799ef1b6b280766590de8f048e042219a21a6",
+    "Replica/Sources/TDJInterface/DeckPanelPresentation.swift": "ece4fb132848c2d90f97a216f3f4639f3c1137c1aaed5256182f414539f27309",
+    "Replica/Sources/TDJInterface/TouchPanelState.swift": "6c59072af9e7dc0cf43a17ede9ababc8e3327b7bc688d4a6494b4b43a402012c",
+    "Replica/Sources/TDJInterface/TouchPanel.swift": "2202559145a0e5e4a8f65e04dc5f291f64a09c4091ab67c2b023d55b3b09bc2c",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "1ebb90ea359773fc317f6de6dd5e967f6bb2946a22e219e6e3c1d996c7b80d25",
+    "Replica/Sources/TDJInterface/PerformanceDock.swift": "08abdfb109108b739ba6d3524de9beed9e3aadde0019d2909cc2479d66c62fe3",
+    "Replica/Sources/TDJInterface/EffectsView.swift": "e61a761b0346320fbb30df2c70a291a9976ed3551ab6f7420caa3787da498a12",
+    "Replica/Sources/TDJInterface/MixerView.swift": "9c4ff7935e6c97bbf09e05834f841eb5252b78e21db4214f8c4779a78511fc3b",
+    "Replica/Sources/TDJInterface/PerformanceControls.swift": "3529f9cf44f8cdaf385e81ec826e727066b8ee30372766ffec51ac4d81ad9cc8",
+    "tools/check_touch_layout.py": "671beced4924346ee571409adae0192bab3ed7c9baa7393b933e611a14ff82c9",
+    "tools/check_performance_panels.swift": "07056ece0bf6fc1a72a99f739e56953d0cb1c2dc16c01da99f400695ea1811cf"
+  },
+  "checks": {
+    "command": "python3 tools/check_touch_layout.py --group all",
+    "dock": 1330,
+    "library": 179,
+    "heldContacts": 36,
+    "performancePanels": 1424,
+    "failedAssertions": 0,
+    "oppositePaneBudgetMutationFailures": 1,
+    "resizeCancelsInputMutationFailures": 5,
+    "integrity": "R34/R35 source and fixture, R82 native contact bridge, dock rendering and fader geometry unchanged",
+    "review": "self-review; no parallel agents under the iPad loop"
+  },
+  "behaviour": [
+    "FX, EQ and extra controls share TouchPanelState and dedicated horizontal grab lanes.",
+    "Widths are remembered independently per deck, panel and orientation for the session.",
+    "Opening FX/EQ makes room by collapsing optional extras when needed.",
+    "FX/EQ widths are bounded to prevent overlap and retain a waveform region. Closing one retains the other size.",
+    "Resize previews keep performance input gates open, including zero-width previews. Explicit hiding cancels only the affected pane.",
+    "Small clipped content rejects new contacts; existing held contacts retain their R82 mappings.",
+    "Opening a pane from compact browser strips expands performance space while retaining the library memory.",
+    "EQ/filter tabs, FX selectors, menu rows and lock targets use 44-point sizing."
+  ],
+  "limits": [
+    "Physical gesture feel, focus, scrolling, FX menu access, locked-state behaviour and clean audio need Erik acceptance.",
+    "Very narrow layouts keep compact reveal lanes; extras remain unavailable until enough width is freed.",
+    "Auxiliary FX controls retain their existing vertical layout; legibility at the chosen size remains a device check.",
+    "This is a layout and input candidate, not a claim of original TDJ1 sound or gesture equivalence."
+  ]
+}

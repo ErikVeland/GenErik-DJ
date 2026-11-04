@@ -4,6 +4,10 @@ struct TouchPanelHandle: View {
     let presented: Bool
     let maximumExtent: Double
     let presentationID: UUID
+    var edge = TouchPanelEdge.bottom
+    var title = "LIBRARY"
+    var accessibilityName = "Music library"
+    var canToggle = true
     let toggle: () -> Void
     let begin: () -> Void
     let update: (Double) -> Void
@@ -11,52 +15,81 @@ struct TouchPanelHandle: View {
     let cancel: () -> Void
     let adjust: (Double) -> Void
     @GestureState private var active = false
-    @State private var vertical: Bool?
+    @State private var ownsDrag: Bool?
     @State private var ignoreUntilRelease = false
 
     var body: some View {
-        HStack(spacing: 8) {
-            Button(action: toggle) {
-                Image(systemName: presented ? "chevron.down" : "chevron.up")
-                    .frame(width: 44, height: 44)
-            }.accessibilityLabel(presented ? "Hide music library" : "Show music library")
-            Spacer(minLength: 0)
-            Capsule().fill(PerformancePalette.secondaryText).frame(width: 44, height: 4)
-            Spacer(minLength: 0)
-            Text("LIBRARY").font(.system(size: 11, weight: .semibold)).padding(.trailing, 12)
+        Group {
+            if edge.horizontal {
+                VStack(spacing: 8) {
+                    toggleButton
+                    Spacer(minLength: 0)
+                    Capsule().fill(PerformancePalette.secondaryText).frame(width: 4, height: 44)
+                    Spacer(minLength: 0)
+                    Text(title).font(.system(size: 10, weight: .semibold)).padding(.bottom, 8)
+                }.frame(width: 44).frame(minHeight: 44)
+            } else {
+                HStack(spacing: 8) {
+                    toggleButton
+                    Spacer(minLength: 0)
+                    Capsule().fill(PerformancePalette.secondaryText).frame(width: 44, height: 4)
+                    Spacer(minLength: 0)
+                    Text(title).font(.system(size: 11, weight: .semibold)).padding(.trailing, 12)
+                }.frame(height: AdaptivePerformanceLayout.libraryHandleHeight)
+            }
         }
-        .frame(height: AdaptivePerformanceLayout.libraryHandleHeight)
         .background(PerformancePalette.frame)
         .contentShape(Rectangle())
         .gesture(DragGesture(minimumDistance: 4, coordinateSpace: .global)
             .updating($active) { _, active, _ in active = true }
             .onChanged { value in
                 guard !ignoreUntilRelease else { return }
-                if vertical == nil {
-                    vertical = abs(value.translation.height) >= abs(value.translation.width)
-                    if vertical == true { begin() }
+                if ownsDrag == nil {
+                    ownsDrag = edge.horizontal ? abs(value.translation.width) > abs(value.translation.height) : abs(value.translation.height) >= abs(value.translation.width)
+                    if ownsDrag == true { begin() }
                 }
-                if vertical == true { update(-value.translation.height) }
+                if ownsDrag == true { update(edge.translation(horizontal: value.translation.width, vertical: value.translation.height)) }
             }
             .onEnded { value in
-                if vertical == true, !ignoreUntilRelease {
-                    update(-value.translation.height)
-                    end(-value.velocity.height)
+                if ownsDrag == true, !ignoreUntilRelease {
+                    update(edge.translation(horizontal: value.translation.width, vertical: value.translation.height))
+                    end(edge.translation(horizontal: value.velocity.width, vertical: value.velocity.height))
                 }
-                vertical = nil
+                ownsDrag = nil
                 ignoreUntilRelease = false
             })
         .onChange(of: active) { _, active in
-            if !active { cancel(); vertical = nil; ignoreUntilRelease = false }
+            if !active { cancel(); ownsDrag = nil; ignoreUntilRelease = false }
         }
-        .onChange(of: maximumExtent) { _, _ in invalidateDrag() }
+        .onChange(of: maximumExtent) { _, _ in if !edge.horizontal { invalidateDrag() } }
         .onChange(of: presentationID) { _, _ in invalidateDrag() }
         .onDisappear { cancel() }
-        .accessibilityLabel("Music library resize handle")
+        .accessibilityLabel("\(accessibilityName) resize handle")
         .accessibilityAdjustableAction { direction in adjust(direction == .increment ? 44 : -44) }
+    }
+
+    private var toggleButton: some View {
+        let symbol: String = switch edge {
+        case .bottom: presented ? "chevron.down" : "chevron.up"
+        case .leading: presented ? "chevron.left" : "chevron.right"
+        case .trailing: presented ? "chevron.right" : "chevron.left"
+        }
+        return Button(action: toggle) { Image(systemName: symbol).frame(width: 44, height: 44) }
+            .accessibilityLabel("\(presented ? "Hide" : "Show") \(accessibilityName)")
+            .disabled(!canToggle)
     }
 
     private func invalidateDrag() {
         if active { cancel(); ignoreUntilRelease = true }
+    }
+}
+
+private struct PerformancePanelPortraitKey: EnvironmentKey {
+    static let defaultValue = false
+}
+extension EnvironmentValues {
+    var performancePanelPortrait: Bool {
+        get { self[PerformancePanelPortraitKey.self] }
+        set { self[PerformancePanelPortraitKey.self] = newValue }
     }
 }

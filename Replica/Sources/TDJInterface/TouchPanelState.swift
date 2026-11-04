@@ -1,5 +1,17 @@
 import Foundation
 
+enum TouchPanelEdge {
+    case bottom, leading, trailing
+    var horizontal: Bool { self != .bottom }
+    func translation(horizontal: Double, vertical: Double) -> Double {
+        switch self {
+        case .bottom: -vertical
+        case .leading: horizontal
+        case .trailing: -horizontal
+        }
+    }
+}
+
 struct TouchPanelState {
     let minimumExtent: Double
     private(set) var extent: Double

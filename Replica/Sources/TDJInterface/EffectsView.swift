@@ -39,7 +39,7 @@ struct EffectsView: View {
                 guard let update=gesture.handle(event,selectedSlot:selected) else { return }
                 model.effectTouch(event,slot:update.slot,deck:deck,updateX:update.updateX,selectSlot:false)
             }.padding(6)
-        }.frame(maxWidth:520,maxHeight:.infinity)
+        }.frame(maxWidth:.infinity,maxHeight:.infinity)
             .background(Color.black.opacity(0.7))
             .onChange(of:panelPresented) { _,presented in if !presented { cancelContact() } }
             .onDisappear { cancelContact() }
@@ -56,6 +56,7 @@ private struct TransposeKeyControls: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
     let slot: Int
+    @Environment(\.touchSurfaceAcceptsNewContacts) private var acceptsNewContacts
 
     private var otherDeck: DeckID { deck == .a ? .b : .a }
     private var effect: EffectControl { model.effects[deck]?[slot] ?? .init() }
@@ -86,7 +87,7 @@ private struct TransposeKeyControls: View {
                     }
                 }
             }
-        }
+        }.disabled(!acceptsNewContacts)
     }
 
     private func step(_ amount: Int) {
@@ -117,6 +118,7 @@ private struct EffectDelayControl: View {
     let deck: DeckID
     let slot: Int
     @Environment(\.deckPanelPresented) private var panelPresented
+    @Environment(\.touchSurfaceAcceptsNewContacts) private var acceptsNewContacts
     @State private var cache=MixerPaneDisplayCache(EffectDelayDisplayValue())
     var body: some View {
         let display=model.effectDisplay[deck,slot]
@@ -131,6 +133,7 @@ private struct EffectDelayControl: View {
                         model.toggleEffectDelaySync(slot:slot,deck:deck)
                     }
                     .foregroundStyle((value.delaySync ?? true) ? Color.orange : Color.gray)
+                    .disabled(!acceptsNewContacts)
                     if value.delaySync ?? true {
                         let beats=0.25 * pow(2,Double(value.beatStep))
                         Text("\(beats.formatted()) BEAT")
@@ -168,7 +171,7 @@ private struct EffectPad: View {
                     EffectPadMarker(display:model.effectDisplay[deck,slot],size:geometry.size)
                     TouchSurface(geometryPolicy:.retainContactSpace,action:touch)
                         .accessibilityLabel("Deck \(deck.rawValue.uppercased()) effect \(slot+1) XY pad")
-                }.clipped().padding(.trailing,24)
+                }.clipped().padding(.trailing,44)
                 .overlay(alignment:.trailing) {
                     EffectPadLock(display:model.effectDisplay[deck,slot],slot:slot,toggle:toggleLock)
                 }
@@ -191,10 +194,10 @@ private struct EffectPadGrid: View, Equatable {
     var body: some View {
         Path { path in
             for tick in 0...8 {
-                let x=max(1,size.width-24)*Double(tick)/8
+                let x=max(1,size.width-44)*Double(tick)/8
                 let y=size.height*Double(tick)/8
                 path.move(to:.init(x:x,y:0)); path.addLine(to:.init(x:x,y:size.height))
-                path.move(to:.init(x:0,y:y)); path.addLine(to:.init(x:max(1,size.width-24),y:y))
+                path.move(to:.init(x:0,y:y)); path.addLine(to:.init(x:max(1,size.width-44),y:y))
             }
         }.stroke(.white.opacity(0.08),lineWidth:1)
     }
@@ -211,7 +214,7 @@ private struct EffectPadMarker: View {
         let colour=value.enabled ? Color.orange : Color.gray
         Circle().stroke(colour.opacity(0.7),lineWidth:1).frame(width:28,height:28)
             .overlay { Circle().fill(colour).frame(width:10,height:10) }
-            .position(x:value.x*max(1,size.width-24),y:(1-value.y)*size.height)
+            .position(x:value.x*max(1,size.width-44),y:(1-value.y)*size.height)
             .onChange(of:panelPresented,initial:true) { _,presented in
                 if !presented { cache.freeze(EffectPadDisplayValue(display)) }
             }
@@ -225,11 +228,13 @@ private struct EffectPadLock: View {
     let toggle: () -> Void
     @Environment(\.deckPanelPresented) private var panelPresented
     @State private var cache=MixerPaneDisplayCache(false)
+    @Environment(\.touchSurfaceAcceptsNewContacts) private var acceptsNewContacts
     var body: some View {
         let locked=cache.value(active:panelPresented) { display.locked }
         Button(action:toggle) { Image(systemName:locked ? "lock.fill" : "lock.open") }
-            .frame(width:24,height:44).foregroundStyle(locked ? Color.orange : Color(white:0.65))
+            .frame(width:44,height:44).foregroundStyle(locked ? Color.orange : Color(white:0.65))
             .accessibilityLabel("Lock effect \(slot+1)")
+            .disabled(!acceptsNewContacts)
             .onChange(of:panelPresented,initial:true) { _,presented in
                 if !presented { cache.freeze(display.locked) }
             }
@@ -302,12 +307,13 @@ private struct EffectSelector: View {
     @State private var gesture=EffectSelectorGestureSession()
     @Environment(\.deckPanelPresented) private var panelPresented
     @State private var contactGeneration=0
+    @Environment(\.touchSurfaceAcceptsNewContacts) private var acceptsNewContacts
     var body: some View {
-        Text(names[selected]).lineLimit(1).minimumScaleFactor(0.65).frame(maxWidth:.infinity).frame(height:28)
+        Text(names[selected]).lineLimit(1).minimumScaleFactor(0.65).frame(maxWidth:.infinity).frame(height:44)
             .accessibilityLabel("\(accessibilityName): \(names[selected])")
             .background(.white.opacity(0.08))
             .overlay {
-                TouchSurface { event in
+                TouchSurface(geometryPolicy:.retainContactSpace) { event in
                     let activeAtStart=isActive
                     if event.phase == .began && !gesture.isTracking { contactGeneration &+= 1; activate() }
                     if let selection=gesture.handle(event,at:ProcessInfo.processInfo.systemUptime,count:names.count,tapOpensMenu:activeAtStart) {
@@ -323,10 +329,11 @@ private struct EffectSelector: View {
                         ForEach(names.indices,id:\.self) { index in
                             Button(names[index]) { choose(index); gesture.opened=false }
                                 .accessibilityLabel("\(accessibilityName): \(names[index])")
-                                .frame(maxWidth:.infinity).frame(height:28)
+                                .disabled(!acceptsNewContacts)
+                                .frame(maxWidth:.infinity).frame(height:44)
                                 .background(index == selected ? Color.blue : Color(white:0.15))
                         }
-                    } }.frame(height:Double(min(6,names.count))*28).id(contactGeneration).offset(y:28)
+                    } }.frame(height:Double(min(6,names.count))*44).id(contactGeneration).offset(y:44)
                 }
             }
     }

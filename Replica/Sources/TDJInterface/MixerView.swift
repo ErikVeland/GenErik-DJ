@@ -22,7 +22,7 @@ struct DeckMixerView: View {
                         input.synchronize(selection:panel,presented:panelPresented)
                     } label: {
                         Text(item.rawValue).font(.system(size:11))
-                            .frame(maxWidth:.infinity).frame(height:28)
+                            .frame(maxWidth:.infinity).frame(height:44)
                             .foregroundStyle(panel == item ? PerformancePalette.cyan : Color(white:0.7))
                             .background(panel == item ? Color.white.opacity(0.12) : Color.black.opacity(0.2))
                     }.accessibilityLabel("Deck \(deck.rawValue.uppercased()) \(item.rawValue)")
@@ -121,10 +121,10 @@ private struct RetainedFilterGrid: View, Equatable {
     var body: some View {
         Path { path in
             for tick in 0...8 {
-                let x=max(1,size.width-24)*Double(tick)/8
+                let x=max(1,size.width-44)*Double(tick)/8
                 let y=size.height*Double(tick)/8
                 path.move(to:.init(x:x,y:0)); path.addLine(to:.init(x:x,y:size.height))
-                path.move(to:.init(x:0,y:y)); path.addLine(to:.init(x:max(1,size.width-24),y:y))
+                path.move(to:.init(x:0,y:y)); path.addLine(to:.init(x:max(1,size.width-44),y:y))
             }
         }.stroke(.white.opacity(0.08),lineWidth:1)
     }
@@ -143,7 +143,7 @@ private struct RetainedFilterMarker: View {
         let colour=value.enabled ? PerformancePalette.cyan : Color.gray
         Circle().stroke(colour.opacity(0.7),lineWidth:1).frame(width:28,height:28)
             .overlay { Circle().fill(colour).frame(width:10,height:10) }
-            .position(x:((value.x)+1)/2*max(1,size.width-24),y:(1-value.y)*size.height)
+            .position(x:((value.x)+1)/2*max(1,size.width-44),y:(1-value.y)*size.height)
             .onChange(of:active,initial:true) { _,visible in if !visible { display.freeze(liveValue()) } }
     }
 }
@@ -154,6 +154,7 @@ private struct RetainedFilterLock: View {
     let deck: DeckID
     let active: Bool
     @State private var display=MixerPaneDisplayCache(false)
+    @Environment(\.touchSurfaceAcceptsNewContacts) private var acceptsNewContacts
     private func liveValue() -> Bool { model.filterLocked.contains(deck) }
     var body: some View {
         let locked=display.value(active:active,read:liveValue)
@@ -162,9 +163,10 @@ private struct RetainedFilterLock: View {
             if model.filterLocked.contains(deck) { model.filterLocked.remove(deck); model.releaseFilter(deck:deck) }
             else { model.filterLocked.insert(deck) }
         } label: { Image(systemName:locked ? "lock.fill" : "lock.open") }
-            .frame(width:24,height:44)
+            .frame(width:44,height:44)
             .foregroundStyle(locked ? PerformancePalette.cyan : Color(white:0.65))
             .accessibilityLabel("Lock filter on deck \(deck.rawValue.uppercased())")
+            .disabled(!acceptsNewContacts)
             .onChange(of:active,initial:true) { _,visible in if !visible { display.freeze(liveValue()) } }
     }
 }

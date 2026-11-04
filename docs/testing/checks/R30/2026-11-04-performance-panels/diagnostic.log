@@ -1,0 +1,33 @@
+FAIL: extra controls remember resized width: 0.0 vs 40.0
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+FAIL: content and grab lanes cannot overlap: (0.0, 0.0, 0.0, 240.0) vs (0.0, 0.0, 44.0, 240.0)
+1417 performance panel checks; 21 failures
+Traceback (most recent call last):
+  File "/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_touch_layout.py", line 34, in <module>
+    main()
+    ~~~~^^
+  File "/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_touch_layout.py", line 30, in main
+    subprocess.run([str(executable)], check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/var/folders/x4/552661tn5vzgxk5405585gg80000gq/T/generik-touch-layout-c0bwn9rv/check']' returned non-zero exit status 1.

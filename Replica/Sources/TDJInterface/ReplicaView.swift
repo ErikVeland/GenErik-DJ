@@ -61,10 +61,12 @@ public struct ReplicaView: View {
                         VStack(spacing: 2) {
                             DeckView(model: model, deck: .a, panels: deckAPanels,
                                 snapshotEffects: snapshotEffectsDeck == .a,
-                                snapshotMixer: snapshotMixerDecks.contains(.a), snapshotFilter: snapshotFilterDecks.contains(.a))
+                                snapshotMixer: snapshotMixerDecks.contains(.a), snapshotFilter: snapshotFilterDecks.contains(.a),
+                                requestPerformanceSpace: { libraryPanel.setPresented(false); model.browserVisible = false })
                             DeckView(model: model, deck: .b, panels: deckBPanels,
                                 snapshotEffects: snapshotEffectsDeck == .b,
-                                snapshotMixer: snapshotMixerDecks.contains(.b), snapshotFilter: snapshotFilterDecks.contains(.b))
+                                snapshotMixer: snapshotMixerDecks.contains(.b), snapshotFilter: snapshotFilterDecks.contains(.b),
+                                requestPerformanceSpace: { libraryPanel.setPresented(false); model.browserVisible = false })
                         }.padding(.horizontal, 6).frame(height: workspace.deckArea.height)
                         TouchPanelHandle(presented: libraryPanel.extent > 0,
                             maximumExtent: libraryPanel.maximumExtent, presentationID: model.browserPresentationID,
@@ -114,6 +116,7 @@ public struct ReplicaView: View {
                     PerformanceDock(model: model, panelsA: deckAPanels, panelsB: deckBPanels, geometry: workspace.dock)
                 }
                 .frame(width: space.size.width, height: space.size.height, alignment: .topLeading)
+                .environment(\.performancePanelPortrait, space.size.width < space.size.height)
             }
 
         }
@@ -175,26 +178,24 @@ private struct SlidingDeckPanel<Content: View>: View {
     let isPresented: Bool
     let edge: Edge
     let panelWidth: CGFloat
+    let acceptsNewContacts: Bool
     let inputGate: TouchSurfaceInputGate
     @ViewBuilder var content: () -> Content
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    private var alignment: Alignment { edge == .leading ? .leading : .trailing }
     var body: some View {
-        ZStack(alignment:alignment) {
-            content()
-                .environment(\.deckPanelPresented,isPresented)
-                .geometryGroup()
-                .offset(x:isPresented ? 0:(edge == .leading ? -panelWidth:panelWidth))
-        }
-        .frame(maxWidth:.infinity,maxHeight:.infinity,alignment:alignment)
-        .clipShape(DeckPanelHorizontalBounds())
-        .allowsHitTesting(isPresented)
-        .disabled(!isPresented)
-        .accessibilityHidden(!isPresented)
-        .onAppear { inputGate.setEnabled(isPresented) }
-        .onChange(of:isPresented) { _,presented in inputGate.setEnabled(presented) }
-        .onDisappear { inputGate.setEnabled(false) }
-        .animation(reduceMotion ? nil : .smooth(duration:0.22,extraBounce:0),value:isPresented)
+        content()
+            .environment(\.deckPanelPresented,isPresented)
+            .environment(\.touchSurfaceAcceptsNewContacts,acceptsNewContacts)
+            .geometryGroup()
+            .frame(width:max(200,panelWidth))
+            .frame(width:panelWidth,alignment:edge == .leading ? .leading:.trailing)
+            .clipShape(DeckPanelHorizontalBounds())
+            .contentShape(Rectangle())
+            .allowsHitTesting(isPresented)
+            .disabled(!isPresented)
+            .accessibilityHidden(!acceptsNewContacts)
+            .onAppear { inputGate.setEnabled(isPresented) }
+            .onChange(of:isPresented) { _,presented in inputGate.setEnabled(presented) }
+            .onDisappear { inputGate.setEnabled(false) }
     }
 }
 
@@ -206,10 +207,11 @@ private struct DeckView: View {
     var snapshotEffects = false
     var snapshotMixer = false
     var snapshotFilter = false
+    var requestPerformanceSpace: () -> Void = {}
+    @Environment(\.performancePanelPortrait) private var portrait
     @State private var visibleSeconds = WaveformLayers.defaultSeconds(bpm: nil)
     @State private var previousSpan: Double?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var tools = PerformanceToolsPanelState()
     @State private var mixerPanel = MixerPanel.equalizer
     private var mixerVisible: Bool { panels.mixerVisible }
     private var effectsVisible: Bool { panels.effectsVisible }
@@ -225,6 +227,8 @@ private struct DeckView: View {
         GeometryReader { deckSpace in
         let layout = AdaptiveDeckGeometry(height: max(0, deckSpace.size.height - 8),
             hotcues: (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil)
+        let availableWidth = max(0, deckSpace.size.width - (tempoFader && track != nil ? 68:0))
+        let sizes = panels.geometry(width: availableWidth, height: layout.waveformHeight)
         HStack(spacing: 4) {
         ZStack(alignment: .topLeading) {
         Button { model.showSuggestions(destination: deck) } label: {
@@ -237,27 +241,28 @@ private struct DeckView: View {
             DeckHeader(model: model, deck: deck, dense: true, showsArtwork: false)
                 .frame(height: layout.headerHeight, alignment: .top).clipped()
                 .opacity(layout.expansion).allowsHitTesting(layout.headerHeight >= 44)
-            GeometryReader { geometry in
-                DeckWaveform(model:model,deck:deck,visibleSeconds:$visibleSeconds,mixerVisible:mixerVisible)
-                .overlay(alignment:.leading) {
-                    SlidingDeckPanel(isPresented:effectsVisible || snapshotEffects,edge:.leading,
-                                     panelWidth:geometry.size.width/2,inputGate:effectsInput) {
-                        EffectsView(model:model,deck:deck).frame(width:geometry.size.width/2)
-                            .environment(\.touchSurfaceInputGate,effectsInput)
-                    }
+            HStack(spacing: 0) {
+                SlidingDeckPanel(isPresented:effectsVisible || snapshotEffects,edge:.leading,
+                    panelWidth:sizes.effectsContent.width,acceptsNewContacts:sizes.effectsContent.width >= 200 && layout.waveformHeight >= 184,
+                    inputGate:effectsInput) {
+                    EffectsView(model:model,deck:deck)
+                        .environment(\.touchSurfaceInputGate,effectsInput)
                 }
-                .overlay(alignment:.trailing) {
-                    SlidingDeckPanel(isPresented:mixerVisible || snapshotMixer,edge:.trailing,
-                                     panelWidth:geometry.size.width/2,inputGate:mixerInput) {
-                        DeckMixerView(model:model,deck:deck,panel:snapshotFilter ? .constant(.filter) : $mixerPanel,
-                                      width:geometry.size.width/2)
-                            .environment(\.touchSurfaceInputGate,mixerInput)
-                    }
+                panelHandle(.effects, edge:.leading, title:"FX")
+                DeckWaveform(model:model,deck:deck,visibleSeconds:$visibleSeconds,mixerVisible:mixerVisible)
+                    .frame(width:sizes.waveform.width)
+                    .environment(\.touchSurfaceAcceptsNewContacts,layout.waveformHeight >= 44 && sizes.waveform.width >= 44)
+                panelHandle(.mixer, edge:.trailing, title:"EQ")
+                SlidingDeckPanel(isPresented:mixerVisible || snapshotMixer,edge:.trailing,
+                    panelWidth:sizes.mixerContent.width,acceptsNewContacts:sizes.mixerContent.width >= 200 && layout.waveformHeight >= 184,
+                    inputGate:mixerInput) {
+                    DeckMixerView(model:model,deck:deck,panel:snapshotFilter ? .constant(.filter) : $mixerPanel,
+                        width:max(200,sizes.mixerContent.width))
+                        .environment(\.touchSurfaceInputGate,mixerInput)
                 }
             }
-            .frame(height: layout.waveformHeight)
+            .frame(width:sizes.waveformWidth,height:layout.waveformHeight)
             .clipShape(DeckPanelHorizontalBounds())
-            .environment(\.touchSurfaceAcceptsNewContacts, layout.waveformHeight >= 44)
             .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
             HStack(spacing: 6) {
                 Text(elapsedTime).frame(width: 48, alignment: .trailing)
@@ -276,8 +281,9 @@ private struct DeckView: View {
                 else { Color.clear }
             }.frame(height: layout.footerHeight).clipped().opacity(layout.expansion)
         }.padding(.leading, 52)
-        }
+        }.frame(width:sizes.mainWidth)
         if tempoFader && track != nil { DeckTempoFader(model:model,deck:deck) }
+        panelHandle(.extra, edge:.trailing, title:"MORE")
         ScrollView(.vertical) {
             VStack(spacing: 8) {
                 if track != nil { PerformanceControls(model: model, deck: deck) }
@@ -290,19 +296,25 @@ private struct DeckView: View {
         }
         .font(.system(size: 17, weight: .semibold))
         .buttonStyle(PerformanceToolButtonStyle())
-        .frame(width: tools.isVisible ? AdaptivePerformanceLayout.panelWidth(available: deckSpace.size.width) : 0)
+        .frame(width:max(144,sizes.extraWidth))
+        .frame(width:sizes.extraWidth,alignment:.trailing)
         .background(PerformancePalette.sunken).clipped()
-        .allowsHitTesting(tools.isVisible).disabled(!tools.isVisible).accessibilityHidden(!tools.isVisible)
-        .simultaneousGesture(toolsSwipe)
-        Button {
-            withAnimation(reduceMotion ? nil : .smooth(duration: 0.22)) { tools.isVisible.toggle() }
-        } label: {
-            Image(systemName: tools.isVisible ? "chevron.right" : "chevron.left")
-                .font(.system(size: 18, weight: .semibold)).frame(width: 44, height: 48)
-        }
-        .accessibilityLabel("\(tools.isVisible ? "Hide" : "Show") loop length, hotcue, freeze and Flux controls for deck \(deck.rawValue.uppercased())")
-        .simultaneousGesture(toolsSwipe)
+        .environment(\.deckPanelPresented,panels.extraVisible)
+        .disabled(sizes.extraWidth < 144).accessibilityHidden(sizes.extraWidth < 144)
         }.padding(4).background(PerformancePalette.stage).bevelPanel(cornerRadius: 6, sunken: true)
+        .animation(reduceMotion || panels.isDragging ? nil:.smooth(duration:0.22),value:sizes.extraWidth)
+        .animation(reduceMotion || panels.isDragging ? nil:.smooth(duration:0.22),value:sizes.effectsContent.width)
+        .animation(reduceMotion || panels.isDragging ? nil:.smooth(duration:0.22),value:sizes.mixerContent.width)
+        .onAppear {
+            panels.configure(width:availableWidth,portrait:portrait)
+            if snapshotEffects && !effectsVisible { panels.toggleEffects() }
+            if snapshotMixer && !mixerVisible { panels.toggleMixer() }
+        }
+        .onChange(of:availableWidth) { _,width in panels.configure(width:width,portrait:portrait) }
+        .onChange(of:portrait) { _,value in panels.configure(width:availableWidth,portrait:value) }
+        .onChange(of:effectsVisible) { _,visible in if visible && layout.waveformHeight < 184 { requestPerformanceSpace() } }
+        .onChange(of:mixerVisible) { _,visible in if visible && layout.waveformHeight < 184 { requestPerformanceSpace() } }
+        .onChange(of:panels.extraVisible) { _,visible in if visible && deckSpace.size.height < 168 { requestPerformanceSpace() } }
         }
         .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
         .onChange(of:track?.id,initial:true) { _,_ in
@@ -317,12 +329,14 @@ private struct DeckView: View {
             } else if !enabled,let previousSpan { visibleSeconds=previousSpan; self.previousSpan=nil }
         }
     }
-    private var toolsSwipe: some Gesture {
-        DragGesture(minimumDistance: 16).onEnded { value in
-            withAnimation(reduceMotion ? nil : .smooth(duration: 0.22)) {
-                tools.finishSwipe(horizontal: value.translation.width, vertical: value.translation.height, velocity: value.velocity.width)
-            }
-        }
+    private func panelHandle(_ kind: PerformancePanel, edge: TouchPanelEdge, title: String) -> some View {
+        TouchPanelHandle(presented:panels.isPresented(kind),maximumExtent:panels.maximum(kind),
+            presentationID:panels.presentationID,edge:edge,title:title,
+            accessibilityName:"Deck \(deck.rawValue.uppercased()) \(title)",
+            canToggle:kind != .extra || panels.extraVisible || panels.maximum(.extra) >= 144,
+            toggle:{ panels.toggle(kind) },begin:{ panels.begin(kind) },
+            update:{ panels.update(kind,translation:$0) },end:{ panels.end(kind,velocity:$0) },
+            cancel:{ panels.cancel(kind) },adjust:{ panels.adjust(kind,by:$0) })
     }
     private var preparing: Bool { model.preparingPlayback.contains(deck) }
     private var elapsedTime: String {

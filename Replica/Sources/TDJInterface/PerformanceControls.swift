@@ -5,6 +5,7 @@ struct PerformanceControls: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
     @State private var settings=false
+    @Environment(\.deckPanelPresented) private var presented
     @AppStorage(BrowserSettings.fluxModeKey) private var fluxMode = true
     var body: some View {
         VStack(spacing: 8) {
@@ -53,6 +54,7 @@ struct PerformanceControls: View {
         }.font(.system(size: 16, weight: .semibold))
             .buttonStyle(PerformanceToolButtonStyle())
             .disabled(model.preparingPlayback.contains(deck) || model.controlDisplay[deck].phase == .queued)
+            .onChange(of:presented) { _, visible in if !visible { settings=false } }
     }
     private func setLoopSize(direction: Int) { model.stepLoopSize(direction:direction,deck:deck) }
     private func setLoopSize(_ beats: Double) { model.setLoopSize(beats,deck:deck) }

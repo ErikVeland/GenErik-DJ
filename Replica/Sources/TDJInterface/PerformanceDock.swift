@@ -1,26 +1,5 @@
 import SwiftUI
-import Observation
 import TDJCore
-
-/// The dock and retained deck surfaces share panel state and cancellation gates.
-@MainActor
-@Observable
-final class DeckPanelPresentation {
-    private(set) var effectsVisible = false
-    private(set) var mixerVisible = false
-    let effectsInput = TouchSurfaceInputGate()
-    let mixerInput = TouchSurfaceInputGate()
-
-    func toggleEffects() {
-        effectsInput.setEnabled(!effectsVisible)
-        effectsVisible.toggle()
-    }
-
-    func toggleMixer() {
-        mixerInput.setEnabled(!mixerVisible)
-        mixerVisible.toggle()
-    }
-}
 
 @MainActor
 struct PerformanceDock: View {
