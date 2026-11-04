@@ -14,7 +14,7 @@ The content views remain mounted. Presentation intent and visible extent are sep
 
 `red.log` and `gates-red.log` retain the missing-interface baselines. `first-check.log` and `diagnostic.log` retain the initial extra-budget defect and the empty-rectangle intersection diagnosis. The budget now caps after subtracting the side panels. Empty clipped regions have no active area. Temporary compiled mutations produce one failure for an ignored opposite-pane budget and five failures when resizing disables FX input. Production source was not mutated.
 
-R34/R35 analysis/preparation and the original recording fixture are unchanged. The R82 contact mapping, viewport cancellation, waveform span and fader inset sources are unchanged. Dock button anchors, full-gap fader geometry and native audio/transport code are unchanged.
+R34/R35 analysis/preparation and the original recording fixture are unchanged. The build 82 contact mapping, viewport cancellation, waveform span and fader inset sources are unchanged. Dock button anchors, full-gap fader geometry and native audio/transport code are unchanged.
 
 ## Execution decisions
 
@@ -43,3 +43,7 @@ The final source passes 1,432 performance-panel assertions and all 1,545 earlier
 ## Separate panel commands
 
 Build 84 compiled and signed but was retained without installation. `panel-command-red.log` reproduces the shared-command defect. Opening EQ changed the FX resize command and could interrupt a held FX contact admitted during that resize. Commands are now separate for each panel. Only commands for the affected panel invalidate its resize. All 2,977 focused assertions pass. Builds 83 and 84 remain saved as uninstalled candidates.
+
+## iPad handover
+
+Build 85 compiled, passed signing, and installed and launched on the 10.5-inch test iPad. Application source: `ec3eaaa82d6f4cc9f91615d77e4c526febc57c41`. The build record binds the source and saved app hashes. Builds 83 and 84 remain saved without installation. No device actions followed launch. Erik’s physical touch and audio checks remain pending.

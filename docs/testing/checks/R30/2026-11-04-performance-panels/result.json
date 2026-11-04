@@ -7,7 +7,7 @@
   ],
   "baselineCommit": "7dec2047fa967c41f7613ba28240f9beda66ca28",
   "baselineBuild": 82,
-  "status": "source-verified-device-build-pending",
+  "status": "installed-awaiting-Erik-acceptance",
   "filesSHA256": {
     "Replica/Sources/TDJInterface/DeckPanelSizing.swift": "9afef929b6dcd660ec443d28ba2197d8536eeeab94e3003fbf9c7efac55341da",
     "Replica/Sources/TDJInterface/DeckPanelPresentation.swift": "28a51f5146450428f6e967c6235a5f64d027570ac5a7ac4f521dd4007487405e",
@@ -33,7 +33,8 @@
     "integrity": "R34/R35 source and fixture, R82 native contact bridge, dock rendering and fader geometry unchanged",
     "review": "self-review; no parallel agents under the iPad loop",
     "reviewCorrections": "Runtime regressions reproduced grab movement, missing extras restoration, missing accessibility space requests and shared panel-command cancellation. All now pass.",
-    "totalAssertions": 2977
+    "totalAssertions": 2977,
+    "nativeTypeCheck": "Passed in the signed incremental iPad build 85."
   },
   "behaviour": [
     "FX, EQ and extra controls share TouchPanelState and dedicated horizontal grab lanes.",
@@ -54,5 +55,23 @@
   "preparedUninstalledBuilds": [
     83,
     84
-  ]
+  ],
+  "sourceCommit": "ec3eaaa82d6f4cc9f91615d77e4c526febc57c41",
+  "sourceSHA256": "6ef2db16f77ae9f23185b2717f2c9c678496be866da089d9317afb663408ff3e",
+  "build": 85,
+  "buildVerification": {
+    "compiled": true,
+    "signatureVerified": true,
+    "uncommittedAppChanges": "",
+    "buildSeconds": 52.41,
+    "appSHA256": "8dc1c51b8cb2ea71cc77d073fe531c143a9d35177b86627e715b48a24ebeb905"
+  },
+  "deployment": {
+    "device": "GenErik iPad (10.5-inch)",
+    "state": "installed-and-launched",
+    "installedUTC": "2026-11-04T01:13:04.473378+00:00",
+    "launchedUTC": "2026-11-04T01:13:04.823591+00:00",
+    "furtherDeviceActions": false
+  },
+  "acceptance": "Pending Erik physical touch and listening checks."
 }
