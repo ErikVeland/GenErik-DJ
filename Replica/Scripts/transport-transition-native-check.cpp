@@ -213,6 +213,18 @@ static void waveform_direct_checks(double rate,tdj_asset *asset) {
         if(flux)assert(snapshot(e).a.source_frame==rate+(playing ? 768:0));
         tdj_engine_destroy(e);
     }
+    auto e=engine(rate,asset,false,rate);
+    command(e,TDJ_TOUCH,0,rate*4-2,0,0,4,nullptr,2);
+    render(e,256,17);
+    assert(snapshot(e).a.state==TDJ_ENDED);
+    command(e,TDJ_TOUCH,0,rate,0,0,4,nullptr,-.5);
+    assert(snapshot(e).a.state==TDJ_PLAYING);
+    render(e,256,17);
+    assert(fabs(snapshot(e).a.source_frame-(rate-128))<.001);
+    assert(snapshot(e).clock_running);
+    command(e,TDJ_TOUCH);
+    assert(snapshot(e).a.state==TDJ_PAUSED);
+    tdj_engine_destroy(e);
 }
 
 static void waveform_scratch_checks(double rate,tdj_asset *asset,const std::vector<float> &source) {

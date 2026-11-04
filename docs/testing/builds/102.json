@@ -1,0 +1,12 @@
+{
+  "build": 102,
+  "state": "interrupted",
+  "sourceCommit": "63c80376fe3e9157c536f94753f9589158e1814f",
+  "requestIDs": [
+    "R44"
+  ],
+  "notes": "Stopped before installation to correct held waveform reversal after EOF. No device action.",
+  "log": "TestBuilds/ipad/build-102.log",
+  "feedback": [],
+  "createdUTC": "2026-11-04T09:22:00.593236+00:00"
+}
