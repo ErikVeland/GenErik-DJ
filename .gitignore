@@ -19,6 +19,7 @@ Replica/Validation/**/apps/
 # Private source snapshots and local device builds
 /Private/
 /TestBuilds/
+/Replica/Sources/TDJInterface/VocalModelAssets/vocal-model.bin
 /Replica/Calibration/
 /Replica/Validation/*
 !/Replica/Validation/AdaptiveBeatgridReliabilityBaseline-2026-11-02-01/

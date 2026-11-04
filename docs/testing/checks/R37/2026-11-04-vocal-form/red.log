@@ -1,0 +1,223 @@
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:406:32: error: cannot find type 'VocalPhrase' in scope
+404 |         }
+405 |     }
+406 |     private func phrases() -> [VocalPhrase] {
+    |                                `- error: cannot find type 'VocalPhrase' in scope
+407 |         var values=[VocalPhrase]()
+408 |         for start in [8,72] {
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:400:9: error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+398 |     }
+399 |     private func features(sung: Bool = false, voice: Double = 0.9) -> [MusicalStructureFrame] {
+400 |         (0..<160).map { i in
+    |         `- error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+401 |             .init(start: Double(i*1000), end: Double((i+1)*1000), rms: 0.4, bass: 0.5, rhythm: 0.8,
+402 |                   bands: [0.3,0.2,0.2,0.1,0.1,0.1], chroma: [1,0,0,0,0,0,0,0,0,0,0,0],
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:407:21: error: cannot find 'VocalPhrase' in scope
+405 |     }
+406 |     private func phrases() -> [VocalPhrase] {
+407 |         var values=[VocalPhrase]()
+    |                     `- error: cannot find 'VocalPhrase' in scope
+408 |         for start in [8,72] {
+409 |             for line in 0..<8 {
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:407:20: error: cannot call value of non-function type '[Element]'
+405 |     }
+406 |     private func phrases() -> [VocalPhrase] {
+407 |         var values=[VocalPhrase]()
+    |                    `- error: cannot call value of non-function type '[Element]'
+408 |         for start in [8,72] {
+409 |             for line in 0..<8 {
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:410:17: error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+408 |         for start in [8,72] {
+409 |             for line in 0..<8 {
+410 |                 values.append(.init(start: Double((start+line*4)*1000), end: Double((start+line*4+4)*1000),
+    |                 `- error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+411 |                     words: (0..<10).map { UInt64(1000+start*100+line*10+$0) }, confidence: 0.9))
+412 |             }
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:421:137: error: extra argument 'vocalPhrases' in call
+419 |     }
+420 |     func testRapRefrainsBecomeHooksAndUniquePassagesBecomeVerses() {
+421 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(), context: .init(genre: "Hip-Hop"), vocalPhrases: phrases())
+    |                                                                                                                                         `- error: extra argument 'vocalPhrases' in call
+422 |         XCTAssertEqual(result.section(at: 20_000)?.role, .verse)
+423 |         XCTAssertEqual(result.section(at: 44_000)?.role, .hook)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:422:59: error: type 'Equatable' has no member 'verse'
+420 |     func testRapRefrainsBecomeHooksAndUniquePassagesBecomeVerses() {
+421 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(), context: .init(genre: "Hip-Hop"), vocalPhrases: phrases())
+422 |         XCTAssertEqual(result.section(at: 20_000)?.role, .verse)
+    |                                                           `- error: type 'Equatable' has no member 'verse'
+423 |         XCTAssertEqual(result.section(at: 44_000)?.role, .hook)
+424 |         XCTAssertEqual(result.section(at: 90_000)?.role, .verse)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:423:59: error: type 'Equatable' has no member 'hook'
+421 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(), context: .init(genre: "Hip-Hop"), vocalPhrases: phrases())
+422 |         XCTAssertEqual(result.section(at: 20_000)?.role, .verse)
+423 |         XCTAssertEqual(result.section(at: 44_000)?.role, .hook)
+    |                                                           `- error: type 'Equatable' has no member 'hook'
+424 |         XCTAssertEqual(result.section(at: 90_000)?.role, .verse)
+425 |         XCTAssertEqual(result.sections.filter { $0.role == .hook }.count, 2)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:424:59: error: type 'Equatable' has no member 'verse'
+422 |         XCTAssertEqual(result.section(at: 20_000)?.role, .verse)
+423 |         XCTAssertEqual(result.section(at: 44_000)?.role, .hook)
+424 |         XCTAssertEqual(result.section(at: 90_000)?.role, .verse)
+    |                                                           `- error: type 'Equatable' has no member 'verse'
+425 |         XCTAssertEqual(result.sections.filter { $0.role == .hook }.count, 2)
+426 |         XCTAssertTrue(result.isValid(fileEnd: 160_000))
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:425:61: error: cannot infer contextual base in reference to member 'hook'
+423 |         XCTAssertEqual(result.section(at: 44_000)?.role, .hook)
+424 |         XCTAssertEqual(result.section(at: 90_000)?.role, .verse)
+425 |         XCTAssertEqual(result.sections.filter { $0.role == .hook }.count, 2)
+    |                                                             `- error: cannot infer contextual base in reference to member 'hook'
+426 |         XCTAssertTrue(result.isValid(fileEnd: 160_000))
+427 |     }
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:429:143: error: extra argument 'vocalPhrases' in call
+427 |     }
+428 |     func testSungRefrainsBecomeChorusesWithNoArbitraryCountLimit() {
+429 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(sung: true), context: .init(genre: "Pop"), vocalPhrases: phrases())
+    |                                                                                                                                               `- error: extra argument 'vocalPhrases' in call
+430 |         XCTAssertEqual(result.section(at: 44_000)?.role, .chorus)
+431 |         XCTAssertEqual(result.section(at: 108_000)?.role, .chorus)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:430:59: error: type 'Equatable' has no member 'chorus'
+428 |     func testSungRefrainsBecomeChorusesWithNoArbitraryCountLimit() {
+429 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(sung: true), context: .init(genre: "Pop"), vocalPhrases: phrases())
+430 |         XCTAssertEqual(result.section(at: 44_000)?.role, .chorus)
+    |                                                           `- error: type 'Equatable' has no member 'chorus'
+431 |         XCTAssertEqual(result.section(at: 108_000)?.role, .chorus)
+432 |         XCTAssertEqual(result.section(at: 20_000)?.role, .verse)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:431:60: error: type 'Equatable' has no member 'chorus'
+429 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(sung: true), context: .init(genre: "Pop"), vocalPhrases: phrases())
+430 |         XCTAssertEqual(result.section(at: 44_000)?.role, .chorus)
+431 |         XCTAssertEqual(result.section(at: 108_000)?.role, .chorus)
+    |                                                            `- error: type 'Equatable' has no member 'chorus'
+432 |         XCTAssertEqual(result.section(at: 20_000)?.role, .verse)
+433 |     }
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:432:59: error: type 'Equatable' has no member 'verse'
+430 |         XCTAssertEqual(result.section(at: 44_000)?.role, .chorus)
+431 |         XCTAssertEqual(result.section(at: 108_000)?.role, .chorus)
+432 |         XCTAssertEqual(result.section(at: 20_000)?.role, .verse)
+    |                                                           `- error: type 'Equatable' has no member 'verse'
+433 |     }
+434 |     func testBackingAndLowConfidenceWordsCannotInventVocalRoles() {
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:435:114: error: extra argument 'vocalPhrases' in call
+433 |     }
+434 |     func testBackingAndLowConfidenceWordsCannotInventVocalRoles() {
+435 |         let silent=TrackArrangement.prepare(analysis: analysis(), features: features(voice: 0.01), vocalPhrases: phrases())
+    |                                                                                                                  `- error: extra argument 'vocalPhrases' in call
+436 |         XCTAssertFalse(silent.sections.contains { $0.role == .verse || $0.role == .hook || $0.role == .chorus })
+437 |         var uncertain=phrases()
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:436:9: error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+434 |     func testBackingAndLowConfidenceWordsCannotInventVocalRoles() {
+435 |         let silent=TrackArrangement.prepare(analysis: analysis(), features: features(voice: 0.01), vocalPhrases: phrases())
+436 |         XCTAssertFalse(silent.sections.contains { $0.role == .verse || $0.role == .hook || $0.role == .chorus })
+    |         `- error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+437 |         var uncertain=phrases()
+438 |         for i in uncertain.indices { uncertain[i].confidence=0.1 }
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:440:103: error: extra argument 'vocalPhrases' in call
+438 |         for i in uncertain.indices { uncertain[i].confidence=0.1 }
+439 |         let baseline=TrackArrangement.prepare(analysis: analysis(), features: features())
+440 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(), vocalPhrases: uncertain)
+    |                                                                                                       `- error: extra argument 'vocalPhrases' in call
+441 |         XCTAssertEqual(result.sections, baseline.sections)
+442 |     }
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:445:13: error: cannot find 'VocalPhrase' in scope
+443 |     func testShortRepeatedSampleIsAHookAndDoesNotCreateVerses() {
+444 |         let samples=[16,48,80,112].map { start in
+445 |             VocalPhrase(start: Double(start*1000), end: Double((start+4)*1000), words: Array(1...6), confidence: 0.9)
+    |             `- error: cannot find 'VocalPhrase' in scope
+446 |         }
+447 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(sung: true),
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:444:21: error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+442 |     }
+443 |     func testShortRepeatedSampleIsAHookAndDoesNotCreateVerses() {
+444 |         let samples=[16,48,80,112].map { start in
+    |                     `- error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+445 |             VocalPhrase(start: Double(start*1000), end: Double((start+4)*1000), words: Array(1...6), confidence: 0.9)
+446 |         }
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:448:90: error: extra argument 'vocalPhrases' in call
+446 |         }
+447 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(sung: true),
+448 |             context: .init(title: "Track (12\" Dub Mix)", genre: "House"), vocalPhrases: samples)
+    |                                                                                          `- error: extra argument 'vocalPhrases' in call
+449 |         XCTAssertFalse(result.sections.contains { $0.role == .chorus || $0.role == .verse })
+450 |         XCTAssertEqual(result.sections.filter { $0.role == .hook }.count, 4)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:449:9: error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+447 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(sung: true),
+448 |             context: .init(title: "Track (12\" Dub Mix)", genre: "House"), vocalPhrases: samples)
+449 |         XCTAssertFalse(result.sections.contains { $0.role == .chorus || $0.role == .verse })
+    |         `- error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+450 |         XCTAssertEqual(result.sections.filter { $0.role == .hook }.count, 4)
+451 |     }
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:450:61: error: cannot infer contextual base in reference to member 'hook'
+448 |             context: .init(title: "Track (12\" Dub Mix)", genre: "House"), vocalPhrases: samples)
+449 |         XCTAssertFalse(result.sections.contains { $0.role == .chorus || $0.role == .verse })
+450 |         XCTAssertEqual(result.sections.filter { $0.role == .hook }.count, 4)
+    |                                                             `- error: cannot infer contextual base in reference to member 'hook'
+451 |     }
+452 |     func testAnAdlibDoesNotSplitOneRefrainIntoSeveralSections() {
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:457:103: error: extra argument 'vocalPhrases' in call
+455 |             words.append(.init(start: Double(start*1000), end: Double((start+1)*1000), words: [900,901], confidence: 0.9))
+456 |         }
+457 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(), vocalPhrases: words)
+    |                                                                                                       `- error: extra argument 'vocalPhrases' in call
+458 |         XCTAssertEqual(result.sections.filter { $0.role == .hook }.count, 2)
+459 |         XCTAssertEqual(result.sections.first { $0.role == .hook }?.end, 52_000)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:458:61: error: cannot infer contextual base in reference to member 'hook'
+456 |         }
+457 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(), vocalPhrases: words)
+458 |         XCTAssertEqual(result.sections.filter { $0.role == .hook }.count, 2)
+    |                                                             `- error: cannot infer contextual base in reference to member 'hook'
+459 |         XCTAssertEqual(result.sections.first { $0.role == .hook }?.end, 52_000)
+460 |     }
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:459:60: error: cannot infer contextual base in reference to member 'hook'
+457 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(), vocalPhrases: words)
+458 |         XCTAssertEqual(result.sections.filter { $0.role == .hook }.count, 2)
+459 |         XCTAssertEqual(result.sections.first { $0.role == .hook }?.end, 52_000)
+    |                                                            `- error: cannot infer contextual base in reference to member 'hook'
+460 |     }
+461 |     func testWordNormalisationKeepsStableHashesWithoutSavingText() throws {
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:462:15: error: cannot find 'VocalPhrase' in scope
+460 |     }
+461 |     func testWordNormalisationKeepsStableHashesWithoutSavingText() throws {
+462 |         let a=VocalPhrase(start: 0, end: 1000, text: "We’re HERE, in the night!", confidence: 0.9)
+    |               `- error: cannot find 'VocalPhrase' in scope
+463 |         let b=VocalPhrase(start: 0, end: 1000, text: "we're here in the NIGHT", confidence: 0.9)
+464 |         XCTAssertEqual(a.words, b.words)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift:463:15: error: cannot find 'VocalPhrase' in scope
+461 |     func testWordNormalisationKeepsStableHashesWithoutSavingText() throws {
+462 |         let a=VocalPhrase(start: 0, end: 1000, text: "We’re HERE, in the night!", confidence: 0.9)
+463 |         let b=VocalPhrase(start: 0, end: 1000, text: "we're here in the NIGHT", confidence: 0.9)
+    |               `- error: cannot find 'VocalPhrase' in scope
+464 |         XCTAssertEqual(a.words, b.words)
+465 |         let encoded=String(decoding: try JSONEncoder().encode(a), as: UTF8.self)
+Traceback (most recent call last):
+  File "/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/docs/testing/checks/R37/2026-11-04-vocal-form/check.py", line 21, in <module>
+    subprocess.run(['xcrun','swiftc','-O',*files,'-o',str(work/'checks')],check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['xcrun', 'swiftc', '-O', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/AnalysisValues.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/TrackArrangement.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/BeatGrid.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/MusicalStructureAnalyzer.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/BeatGridMap.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/CueValues.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/NativePlan.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Assertions.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/Tests.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/main.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/SectionCueAllocator.swift', '-o', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R37/vocal-focused/checks']' returned non-zero exit status 1.

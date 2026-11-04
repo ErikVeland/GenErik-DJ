@@ -38,6 +38,7 @@ extension ReplicaModel {
         if arrangementVersions[id] == MusicalStructureAnalyzer.version, arrangementContexts[id] == context, let value=arrangements[id] {
             installSectionCues(value,trackID:id,deck:deck); return
         }
+        guard !arrangementPlaybackActive else { return }
         structureAnalyzing.insert(id)
         let task: Task<ArrangementPreparationResult,Never>
         if let pending=arrangementTasks[id], !pending.isCancelled, arrangementTaskContexts[id] == context { task=pending }
@@ -68,7 +69,7 @@ extension ReplicaModel {
             arrangementTaskContexts[id]=nil
             structureAnalyzing.remove(id)
         }
-        guard !Task.isCancelled, loaded[deck] == id,
+        guard !Task.isCancelled, !task.isCancelled, !arrangementPlaybackActive, loaded[deck] == id,
               self.track(deck).map({ MusicalStructureContext(title:$0.title,genre:$0.genre) }) == context else { return }
         switch result {
         case .ready(var value):
@@ -82,6 +83,19 @@ extension ReplicaModel {
             persistArrangement(trackID:id)
             installSectionCues(value,trackID:id,deck:deck)
         case .failed(let message): status=message
+        case .cancelled: break
+        }
+    }
+    var arrangementPlaybackActive: Bool {
+        DeckID.allCases.contains { playbackSnapshot?[$0].phase.active == true || playbackSnapshot?[$0].touchActive == true }
+    }
+    func updateArrangementScheduling(wasPlaying: Bool) {
+        if arrangementPlaybackActive {
+            for task in arrangementTasks.values { task.cancel() }
+        } else if wasPlaying {
+            for deck in DeckID.allCases where loaded[deck] != nil {
+                Task { [weak self] in await self?.prepareArrangement(deck:deck) }
+            }
         }
     }
     private func installSectionCues(_ arrangement: TrackArrangement, trackID: String, deck: DeckID) {
@@ -161,17 +175,29 @@ extension ReplicaModel {
 enum ArrangementPreparationResult: Sendable {
     case ready(TrackArrangement)
     case failed(String)
+    case cancelled
 }
 
 /// Serial preparation keeps two deck loads from running classifiers together.
 private actor ArrangementPreparationQueue {
     static let shared=ArrangementPreparationQueue()
-    func prepare(pcm: URL, analysis: AudioAnalysis, context: MusicalStructureContext) -> ArrangementPreparationResult {
-        do {
-            let features=try MusicalStructureAnalyzer.analyze(pcm:pcm,analysis:analysis)
-            return .ready(TrackArrangement.prepare(analysis:analysis,features:features,context:context))
-        } catch {
-            return .failed("Musical structure analysis failed: \(error.localizedDescription)")
-        }
+    func prepare(pcm: URL, analysis: AudioAnalysis, context: MusicalStructureContext) async -> ArrangementPreparationResult {
+        let cancellation=VocalInferenceCancellation()
+        return await withTaskCancellationHandler {
+            do {
+                try Task.checkCancellation()
+                let features=try MusicalStructureAnalyzer.analyze(pcm:pcm,analysis:analysis,checkCancellation:cancellation.check)
+                var phrases=[VocalPhrase]()
+                if features.filter({ ($0.vocal ?? 0) >= 0.3 }).count >= 3 {
+                    guard let model=VocalPhraseRecognizer.bundledModel else {
+                        return .failed("The offline vocal model is missing. Reinstall the app to restore it.")
+                    }
+                    phrases=try VocalPhraseRecognizer.phrases(pcm:pcm,analysis:analysis,model:model,cancellation:cancellation)
+                }
+                try cancellation.check()
+                return .ready(TrackArrangement.prepare(analysis:analysis,features:features,context:context,vocalPhrases:phrases))
+            } catch is CancellationError { return .cancelled }
+            catch { return .failed("Musical structure analysis failed: \(error.localizedDescription)") }
+        } onCancel: { cancellation.cancel() }
     }
 }

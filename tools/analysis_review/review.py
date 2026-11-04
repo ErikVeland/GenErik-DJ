@@ -73,7 +73,7 @@ def compile_probe(work):
     (work/'main.swift').write_text((Path(__file__).parent/'CorpusProbe.swift').read_text())
     sources=[work/'Values.swift',work/'BeatGridMap.swift',work/'main.swift']
     sources += [core/name for name in ['AudioAnalyzer.swift','MusicalSpectrumAnalyzer.swift','MusicalAnalysisFeatures.swift',
-                'AdaptiveRhythmAnalyzer.swift','BeatGrid.swift','TrackArrangement.swift','MusicalStructureAnalyzer.swift']]
+                'AdaptiveRhythmAnalyzer.swift','BeatGrid.swift','TrackArrangement.swift','MusicalStructureAnalyzer.swift','VocalFormAnalyzer.swift']]
     subprocess.run(['xcrun','swiftc','-O',*map(str,sources),'-o',str(work/'probe')],check=True)
     return {str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sources if p.is_relative_to(ROOT)}
 
@@ -85,7 +85,7 @@ def audit(track, result):
     if sum(s['end']-s['start'] for s in sections if s['role']=='chorus')/analysis['frameCount']>0.6:
         flags.append('review-high-chorus-coverage')
     if len(sections)/(duration/60)>4: flags.append('review-many-short-sections')
-    if result['vocalSeconds']>8 and not any(s['role'] in ['verse','chorus','preChorus','bridge'] for s in sections):
+    if result['vocalSeconds']>8 and not any(s['role'] in ['verse','chorus','hook','preChorus','bridge'] for s in sections):
         flags.append('vocal-form-unassigned')
     if analysis.get('bpm') is None: flags.append('tempo-unresolved')
     if analysis.get('key') is None: flags.append('key-unresolved')

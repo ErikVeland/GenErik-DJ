@@ -42,5 +42,6 @@ let arrangement=TrackArrangement.prepare(analysis:analysis,features:features,con
 var values=try JSONSerialization.jsonObject(with:JSONEncoder().encode(analysis.replacingWaveform([]))) as! [String:Any]
 for key in ["waveform","chroma","timbre","adaptiveCandidate"] { values.removeValue(forKey:key) }
 let result: [String:Any]=["analysis":values,"arrangement":try JSONSerialization.jsonObject(with:JSONEncoder().encode(arrangement)),
-    "structureVersion":MusicalStructureAnalyzer.version,"vocalSeconds":features.filter { ($0.vocal ?? 0) >= 0.45 }.count]
+    "structureVersion":MusicalStructureAnalyzer.version,"vocalFormPass":"not-run-by-acoustic-probe",
+    "vocalSeconds":features.filter { ($0.vocal ?? 0) >= 0.45 }.count]
 try JSONSerialization.data(withJSONObject:result,options:[.sortedKeys]).write(to:output,options:.atomic)
