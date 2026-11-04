@@ -6,16 +6,18 @@ public struct VocalPhrase: Codable, Equatable, Sendable {
     public var end: Double
     public var words: [UInt64]
     public var confidence: Double
-    public init(start: Double, end: Double, words: [UInt64], confidence: Double) {
+    public var windowed: Bool?
+    public init(start: Double, end: Double, words: [UInt64], confidence: Double, windowed: Bool = false) {
         self.start=start; self.end=end; self.words=words; self.confidence=confidence
+        self.windowed=windowed ? true:nil
     }
-    public init(start: Double, end: Double, text: String, confidence: Double) {
+    public init(start: Double, end: Double, text: String, confidence: Double, windowed: Bool = false) {
         let normal=text.folding(options:[.caseInsensitive,.diacriticInsensitive],locale:Locale(identifier:"en_US_POSIX"))
             .replacingOccurrences(of:"’",with:"'")
         let words=normal.split { !$0.isLetter && !$0.isNumber && $0 != "'" }.map { word in
             word.utf8.reduce(UInt64(14695981039346656037)) { ($0 ^ UInt64($1)) &* 1099511628211 }
         }
-        self.init(start:start,end:end,words:words,confidence:confidence)
+        self.init(start:start,end:end,words:words,confidence:confidence,windowed:windowed)
     }
 }
 
@@ -30,9 +32,12 @@ extension TrackArrangement {
             return zip(frames,weights).reduce(0) { $0+value($1.0)*$1.1 }/max(1,weights.reduce(0,+))
         }
         let phrases=input.filter { p in
-            p.start.isFinite && p.end.isFinite && p.start >= 0 && p.end <= fileEnd && p.end > p.start &&
-            p.end-p.start <= 18*rate && p.confidence.isFinite && p.confidence >= 0.45 &&
-            !p.words.isEmpty && p.words.count <= 160 && voice(p.start,p.end,{ $0.vocal ?? 0 }) >= 0.3
+            let vocal=voice(p.start,p.end,{ $0.vocal ?? 0 })
+            let wordSupport=p.windowed == true && p.confidence >= 0.75 && vocal >= 0.15
+            let maximum=p.windowed == true ? 30.0:18.0
+            return p.start.isFinite && p.end.isFinite && p.start >= 0 && p.end <= fileEnd && p.end > p.start &&
+            p.end-p.start <= maximum*rate && p.confidence.isFinite && p.confidence >= 0.45 &&
+            !p.words.isEmpty && p.words.count <= 160 && (vocal >= 0.3 || wordSupport)
         }.sorted { $0.start < $1.start }
         guard phrases.count >= 2 else { return }
         struct Word { let value: UInt64; let phrase: Int; let offset: Int }
@@ -44,7 +49,8 @@ extension TrackArrangement {
         if words.count >= 5 {
             for i in 0...(words.count-5) {
                 let slice=words[i..<(i+5)], first=words[i].phrase, last=words[i+4].phrase
-                guard phrases[last].end-phrases[first].start <= 9*rate,
+                let windowed=(first...last).allSatisfy { phrases[$0].windowed == true }
+                guard phrases[last].end-phrases[first].start <= (windowed ? 30:9)*rate,
                       (first == last || (first..<last).allSatisfy({ phrases[$0+1].start-phrases[$0].end <= 2*rate })) else { continue }
                 let key=slice.map(\.value)
                 if Set(key).count >= 4 { grams[key,default:[]].append(i) }

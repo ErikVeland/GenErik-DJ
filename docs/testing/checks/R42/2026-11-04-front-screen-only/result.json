@@ -33,5 +33,20 @@
   "buildState": "installed-launch-request-accepted",
   "installedUTC": "2026-11-04T02:30:42.065105+00:00",
   "launchRequestAcceptedUTC": "2026-11-04T02:30:42.473742+00:00",
-  "buildSeconds": 59.19
+  "buildSeconds": 59.19,
+  "additionalDeployments": [
+    {
+      "device": "GenErik Duo",
+      "deviceID": "00008160-000859C436800036",
+      "state": "installed-launch-request-accepted",
+      "installedUTC": "2026-11-04T03:02:40.988022+00:00",
+      "launchRequestAcceptedUTC": "2026-11-04T03:02:41.604744+00:00",
+      "sourceCommit": "d66b403f331e2eaa3383465050698393934c7d6a",
+      "appSHA256": "74af1fb858e2466c4618c7273c560875c296631ecf9fd472fdb4876284f85c2b",
+      "transport": "localNetwork",
+      "installTimeoutSeconds": 90,
+      "scope": "Closed/front-phone testing. Saved build retains the existing wide inside browser. No iPad operation.",
+      "acceptance": "Erik verifies closed/front browser and shortcuts, inside layout retention and clean audio. No device actions after launch."
+    }
+  ]
 }

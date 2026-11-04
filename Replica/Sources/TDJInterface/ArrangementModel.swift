@@ -193,6 +193,9 @@ private actor ArrangementPreparationQueue {
                         return .failed("The offline vocal model is missing. Reinstall the app to restore it.")
                     }
                     phrases=try VocalPhraseRecognizer.phrases(pcm:pcm,analysis:analysis,model:model,cancellation:cancellation)
+                    let prepared=try VocalPhraseRecognizer.refine(pcm:pcm,analysis:analysis,features:features,context:context,
+                        initial:phrases,model:model,cancellation:cancellation)
+                    return .ready(prepared.arrangement)
                 }
                 try cancellation.check()
                 return .ready(TrackArrangement.prepare(analysis:analysis,features:features,context:context,vocalPhrases:phrases))

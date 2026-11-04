@@ -1,0 +1,55 @@
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift:522:43: error: value of type 'VocalPhrase' has no member 'windowed'
+520 |     private func quietRefrains(confidence: Double) -> ([VocalPhrase],[MusicalStructureFrame]) {
+521 |         var words=phrases().filter { (40_000..<52_000).contains($0.start) || (104_000..<116_000).contains($0.start) }
+522 |         for i in words.indices { words[i].windowed=true; words[i].confidence=confidence }
+    |                                           `- error: value of type 'VocalPhrase' has no member 'windowed'
+523 |         var frames=features()
+524 |         for i in frames.indices { frames[i].vocal=0.2; frames[i].rapping=0.1; frames[i].singing=0.18 }
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift:541:109: error: extra argument 'windowed' in call
+539 |     }
+540 |     func testWindowedLyricRepetitionSurvivesDifferentTranscriptLineLengths() {
+541 |         let words=[VocalPhrase(start: 40_000, end: 60_000, words: Array(1...20), confidence: 0.9, windowed: true),
+    |                                                                                                             `- error: extra argument 'windowed' in call
+542 |                    VocalPhrase(start: 104_000, end: 114_000, words: Array(1...10), confidence: 0.9, windowed: true),
+543 |                    VocalPhrase(start: 114_000, end: 124_000, words: Array(11...20), confidence: 0.9, windowed: true)]
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift:542:111: error: extra argument 'windowed' in call
+540 |     func testWindowedLyricRepetitionSurvivesDifferentTranscriptLineLengths() {
+541 |         let words=[VocalPhrase(start: 40_000, end: 60_000, words: Array(1...20), confidence: 0.9, windowed: true),
+542 |                    VocalPhrase(start: 104_000, end: 114_000, words: Array(1...10), confidence: 0.9, windowed: true),
+    |                                                                                                               `- error: extra argument 'windowed' in call
+543 |                    VocalPhrase(start: 114_000, end: 124_000, words: Array(11...20), confidence: 0.9, windowed: true)]
+544 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(), vocalPhrases: words)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift:543:112: error: extra argument 'windowed' in call
+541 |         let words=[VocalPhrase(start: 40_000, end: 60_000, words: Array(1...20), confidence: 0.9, windowed: true),
+542 |                    VocalPhrase(start: 104_000, end: 114_000, words: Array(1...10), confidence: 0.9, windowed: true),
+543 |                    VocalPhrase(start: 114_000, end: 124_000, words: Array(11...20), confidence: 0.9, windowed: true)]
+    |                                                                                                                `- error: extra argument 'windowed' in call
+544 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(), vocalPhrases: words)
+545 |         XCTAssertEqual(result.sections.filter { $0.role == .hook }.count, 2)
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift:545:61: error: cannot infer contextual base in reference to member 'hook'
+543 |                    VocalPhrase(start: 114_000, end: 124_000, words: Array(11...20), confidence: 0.9, windowed: true)]
+544 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(), vocalPhrases: words)
+545 |         XCTAssertEqual(result.sections.filter { $0.role == .hook }.count, 2)
+    |                                                             `- error: cannot infer contextual base in reference to member 'hook'
+546 |         XCTAssertEqual(result.sections.first { $0.role == .hook }?.start, 40_000)
+547 |     }
+
+/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift:546:60: error: cannot infer contextual base in reference to member 'hook'
+544 |         let result=TrackArrangement.prepare(analysis: analysis(), features: features(), vocalPhrases: words)
+545 |         XCTAssertEqual(result.sections.filter { $0.role == .hook }.count, 2)
+546 |         XCTAssertEqual(result.sections.first { $0.role == .hook }?.start, 40_000)
+    |                                                            `- error: cannot infer contextual base in reference to member 'hook'
+547 |     }
+548 |     func test99ProblemsHasThreeVersesAndThreeMainHooks() throws {
+Traceback (most recent call last):
+  File "/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/docs/testing/checks/R38/2026-11-04-dense-remixes/check.py", line 21, in <module>
+    subprocess.run(['xcrun','swiftc','-O',*files,'-o',str(work/'checks')],check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['xcrun', 'swiftc', '-O', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/AnalysisValues.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/TrackArrangement.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/BeatGrid.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/MusicalStructureAnalyzer.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/VocalFormAnalyzer.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/VocalRecognitionWindow.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/BeatGridMap.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/CueValues.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/NativePlan.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Assertions.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/Tests.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/main.swift', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/Replica/Sources/TDJCore/SectionCueAllocator.swift', '-o', '/Users/veland/.codex/worktrees/vocal-form-r37/GenErik DJ/TestBuilds/ipad/R38/focused/checks']' returned non-zero exit status 1.

@@ -39,7 +39,7 @@ public struct MusicalStructureFrame: Sendable, Equatable {
 
 /// Runs on cached PCM at utility priority. Playback never calls this analyser.
 public enum MusicalStructureAnalyzer {
-    public static let version = 5
+    public static let version = 6
 
     public static func analyze(pcm url: URL, analysis: AudioAnalysis,
                                checkCancellation: () throws -> Void = { try Task.checkCancellation() }) throws -> [MusicalStructureFrame] {

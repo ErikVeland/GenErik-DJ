@@ -129,6 +129,34 @@ final class VocalFormTests: XCTestCase {
         XCTAssertEqual(result.section(at: 44_000)?.role, .chorus)
         XCTAssertEqual(result.section(at: 108_000)?.role, .chorus)
     }
+    private func quietRefrains(confidence: Double) -> ([VocalPhrase],[MusicalStructureFrame]) {
+        var words=phrases().filter { (40_000..<52_000).contains($0.start) || (104_000..<116_000).contains($0.start) }
+        for i in words.indices { words[i].windowed=true; words[i].confidence=confidence }
+        var frames=features()
+        for i in frames.indices { frames[i].vocal=0.2; frames[i].rapping=0.1; frames[i].singing=0.18 }
+        for i in [36,37,38,39,52,53,54,55,56,57,100,101,102,103,116,117,118,119,120,121] {
+            frames[i].vocal=0.9; frames[i].singing=0.9
+        }
+        return (words,frames)
+    }
+    func testStrongWindowedWordsSupportQuieterVocalsInADenseMix() {
+        let (words,frames)=quietRefrains(confidence: 0.9)
+        let result=TrackArrangement.prepare(analysis: analysis(), features: frames, vocalPhrases: words)
+        XCTAssertEqual(result.sections.filter { $0.role == .hook }.count, 2)
+    }
+    func testWeakWordsCannotUseTheQuieterVocalRoute() {
+        let (words,frames)=quietRefrains(confidence: 0.65)
+        let result=TrackArrangement.prepare(analysis: analysis(), features: frames, vocalPhrases: words)
+        XCTAssertFalse(result.sections.contains { $0.role == .hook || $0.role == .chorus })
+    }
+    func testWindowedLyricRepetitionSurvivesDifferentTranscriptLineLengths() {
+        let words=[VocalPhrase(start: 40_000, end: 60_000, words: Array(1...20), confidence: 0.9, windowed: true),
+                   VocalPhrase(start: 104_000, end: 114_000, words: Array(1...10), confidence: 0.9, windowed: true),
+                   VocalPhrase(start: 114_000, end: 124_000, words: Array(11...20), confidence: 0.9, windowed: true)]
+        let result=TrackArrangement.prepare(analysis: analysis(), features: features(), vocalPhrases: words)
+        XCTAssertEqual(result.sections.filter { $0.role == .hook }.count, 2)
+        XCTAssertEqual(result.sections.first { $0.role == .hook }?.start, 40_000)
+    }
     func test99ProblemsHasThreeVersesAndThreeMainHooks() throws {
         struct Frame: Decodable {
             let start, end, rms, bass, rhythm: Double
