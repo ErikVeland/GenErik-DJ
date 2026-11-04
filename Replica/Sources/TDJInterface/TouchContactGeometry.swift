@@ -79,4 +79,3 @@ struct SurfaceEvent {
         return .init(phase:phase,points:points,ending:ending.intersection(points.lazy.map(\.id)))
     }
 }
-
