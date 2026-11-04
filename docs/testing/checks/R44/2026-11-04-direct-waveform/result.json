@@ -1,0 +1,48 @@
+{
+  "request": "R44",
+  "baseCommit": "921b1569603fafe8150d19b396dee80c9751127b",
+  "feedbackBuild": 98,
+  "feedbackBuildAssumed": true,
+  "files": {
+    "Replica/Scripts/transport-transition-native-check.cpp": "ff4c06912714b72e712b4cb9e67797543be264672c25b2e9120de15b88034e96",
+    "Replica/Sources/CTDJTransport/TDJTransport.c": "56c0e045a77d4ab75226158ab7b914c1cee12ff030e70a8bf0bde0b6d41ac34c",
+    "Replica/Sources/CTDJTransport/include/TDJTransport.h": "65b9e0bae42c5be24e84bc1307271453c9e1bbfff4c692717d67922dfbe8a755",
+    "Replica/Sources/TDJCore/SampleTransport.swift": "1071aa25ca905d8eb022ce2e1233c622d122616f11dc7502488cfa4243517aea",
+    "Replica/Sources/TDJCore/SourceControl.swift": "78ca406da7bd33d602061906b4994f40bd10f10f27c908197e24ecc973ff9714",
+    "Replica/Sources/TDJCore/SourceControlPlanning.swift": "d7b6ccb23b369ad03d69b4a2a17af1b825bb1a39efdbc734c884d48a53c255ed",
+    "Replica/Sources/TDJInterface/PerformanceModel.swift": "b540a2c345f0789e175c5438626c72bb630198f7a238d8c18d9cff706fd0c76d",
+    "Replica/Sources/TDJInterface/PlaybackController.swift": "f2fc602ce50e6e2ea220d5fd95d207e5028aa611cc9495b4c95b33e0d0cf9ebb",
+    "Replica/Sources/TDJInterface/WaveformTouch.swift": "9b2b3f0f558f4292fb1e33b884fbe5f754e14e721123487b4948aeebf68fd55e",
+    "Replica/Tests/TDJInterfaceTests/WaveformScratchContinuityTests.swift": "7fd998d8946406eaf7adabb4b707fcedc5e81b6a682782b7f49fc80edf4e1984",
+    "docs/coordination/requests.md": "fb8559cbbd036b85bd8c23ffe2eca78763cba122bcd5a24557f1fb934839bdc1",
+    "docs/testing/builds/98.json": "4edb96eb6652230a2be6f5a65a93cf5f912ce34017099bc5cb151be59f578fcd",
+    "Replica/Sources/TDJInterface/WaveformDragMotion.swift": "2062393cd12d1b614866d55ac78bce14de8112f9d76ebf24814105edc9743db3",
+    "tools/check_waveform_motion.swift": "f9d0b9f95bdfb2245c659aea1384bc9b9394c336ea4650fa91a3c8b995dffca1",
+    "tools/check_waveform_session.py": "b927349aadf49b0996b2d2b7890edfc6f3c6a1776e27dd4e42719f7f56070473"
+  },
+  "checks": {
+    "motion": {
+      "assertions": 93,
+      "result": "pass"
+    },
+    "native": {
+      "sampleRates": [
+        44100,
+        48000,
+        96000
+      ],
+      "result": "pass",
+      "scope": "Direct position, hold, reversal, Flux, paused/playing release and legacy scratch continuity. PCM software output only."
+    },
+    "session": {
+      "tests": 2,
+      "result": "pass",
+      "scope": "Real ReplicaModel and WaveformGestureSession using package objects. Direct motion, stationary hold, throw, catch and cancellation."
+    },
+    "packageAttempt": {
+      "result": "blocked",
+      "reason": "Existing ControllerMIDIUMPDecoderTests.swift optional chaining on non-optional arrays prevents the package runner. No unrelated test repair."
+    }
+  },
+  "limitations": "Physical iPad feel, listening and uninterrupted audio acceptance remain pending."
+}

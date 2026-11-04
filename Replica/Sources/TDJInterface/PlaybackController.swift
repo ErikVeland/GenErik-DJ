@@ -257,7 +257,7 @@ public final class PlaybackController {
         if !outputActive { core.processControlsWhileIdle() }
     }
     public func perform(_ action: PerformanceAction, deck: DeckID, value: Double = 0, end: Double = 0, enabled: Bool = true, quantum: Double = 0,
-                        touchRate: Double? = nil) throws {
+                        touchRate: Double? = nil, followsPosition: Bool = false) throws {
         guard let generation=generations[deck] else { throw TransportError.stale }
         if action == .touch && enabled && !offline { try startOutput() }
         if action == .touch, !enabled {
@@ -265,7 +265,7 @@ public final class PlaybackController {
             invalidateSource(.performance(deck, PerformanceAction.rate.rawValue))
         }
         try submitSource(.performance(action, deck, generation, value:value, end:end,
-            enabled:enabled, quantum:quantum, touchRate:touchRate))
+            enabled:enabled, quantum:quantum, touchRate:touchRate,followsPosition:followsPosition))
         if !outputActive { core.processControlsWhileIdle() }
     }
     public func setEffect(_ kind: Int, slot: Int, x: Double, y: Double, enabled: Bool, deck: DeckID, synced: Bool = true) throws {
@@ -558,7 +558,7 @@ extension PlaybackController {
             case .grid(_, let deck, _), .adaptiveMap(_, let deck, _): self = .grid(deck)
             case .seek(_, let deck, _): self = .seek(deck)
             case .cueRecall(let deck, _, _, _, _): self = .recall(deck)
-            case .performance(let action, let deck, _, _, _, _, _, _): self = .performance(deck, action.rawValue)
+            case .performance(let action, let deck, _, _, _, _, _, _, _): self = .performance(deck, action.rawValue)
             }
         }
         var deck: DeckID? {

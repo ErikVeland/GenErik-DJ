@@ -1,0 +1,3 @@
+command 13 status 3 expected 0
+Assertion failed: (m.status==expected), function command, file transport-transition-native-check.cpp, line 20.
+Replica/Scripts/check-transport-transitions-native.sh: line 23: 57279 Abort trap: 6           "$TDJ_TRANSITION_CACHE/check" "$@"

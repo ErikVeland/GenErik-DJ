@@ -360,12 +360,12 @@ public final class SampleTransport: @unchecked Sendable {
     }
     public func perform(_ action: PerformanceAction, deck: DeckID, generation: UInt64,
                         value: Double = 0, end: Double = 0, enabled: Bool = true, quantum: Double = 0,
-                        touchRate: Double? = nil) throws {
+                        touchRate: Double? = nil, followsPosition: Bool = false) throws {
         var command = tdj_command(); command.kind=action.rawValue; command.deck=index(deck)
         command.generation=generation; command.value=value; command.value2=end; command.value3=quantum; command.flag=enabled ? 1 : 0
         if let touchRate {
             guard action == .touch, enabled else { throw TransportError.invalid }
-            command.flag=TDJ_TOUCH_WITH_RATE; command.touch_rate=touchRate
+            command.flag=followsPosition ? TDJ_TOUCH_FOLLOWS_POSITION : TDJ_TOUCH_WITH_RATE; command.touch_rate=touchRate
         }
         try send(command)
     }

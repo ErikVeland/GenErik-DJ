@@ -6,7 +6,7 @@ extension SourceControl {
         case .tempo: nil
         case .brake(_, _, let deck, _), .play(let deck, _), .freeRate(_, let deck, _), .sync(_, let deck, _), .restoreSync(let deck, _), .keylock(_, let deck, _),
              .grid(_, let deck, _), .adaptiveMap(_, let deck, _), .seek(_, let deck, _), .cueRecall(let deck, _, _, _, _),
-             .performance(_, let deck, _, _, _, _, _, _): deck
+             .performance(_, let deck, _, _, _, _, _, _, _): deck
         }
     }
     public var generation: UInt64? {
@@ -15,7 +15,7 @@ extension SourceControl {
         case .brake(_, _, _, let generation), .play(_, let generation), .freeRate(_, _, let generation), .sync(_, _, let generation), .restoreSync(_, let generation), .keylock(_, _, let generation),
              .grid(_, _, let generation), .adaptiveMap(_, _, let generation), .seek(_, _, let generation),
              .cueRecall(_, let generation, _, _, _),
-             .performance(_, _, let generation, _, _, _, _, _): generation
+             .performance(_, _, let generation, _, _, _, _, _, _): generation
         }
     }
 
@@ -65,7 +65,7 @@ extension SourceControl {
                 }
                 target.reserveContinuing = state.fluxEnabled
             }
-        case .performance(let action, _, _, let value, let end, let enabled, let quantum, let touchRate):
+        case .performance(let action, _, _, let value, let end, let enabled, let quantum, let touchRate, let followsPosition):
             switch action {
             case .jump:
                 target.position = bounded(value); preservePending = false
@@ -84,7 +84,7 @@ extension SourceControl {
             case .touch:
                 preservePending = false
                 if enabled {
-                    target.position = state.touchActive && touchRate != nil ? state.sourceFrame : bounded(value)
+                    target.position = state.touchActive && touchRate != nil && !followsPosition ? state.sourceFrame : bounded(value)
                     target.loopStart = end > value ? value : state.loopEnabled ? state.loopStart : 0
                     target.loopEnd = end > value ? end : state.loopEnabled ? state.loopEnd : 0
                     if !state.touchActive && !state.loopEnabled { target.continuingPosition = state.sourceFrame }
