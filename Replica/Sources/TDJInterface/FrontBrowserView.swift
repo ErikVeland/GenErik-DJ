@@ -62,7 +62,15 @@ struct FrontBrowserView: View {
         guard displayedRequest?.category == category else { return .empty }
         return projection?.groupSource ?? .empty
     }
-    private var groupSourceLoading:Bool { snapshotProjection == nil && displayedRequest?.category != category }
+    private var catalogueLoading: Bool {
+        model.musicLibraryRefreshing || (model.musicLibraryCatalog == nil && model.musicLibraryError == nil)
+    }
+    private var groupSourceLoading:Bool { snapshotProjection == nil && (catalogueLoading || searching || displayedRequest?.category != category) }
+    private var libraryPresentation: FrontLibraryPresentation {
+        .resolve(count: entryCount, catalogueReady: model.musicLibraryCatalog != nil,
+            catalogueRefreshing: model.musicLibraryRefreshing, projecting: searching,
+            requestReady: displayedRequest == request, hasQuery: hasSearchQuery, error: model.musicLibraryError)
+    }
     private func visibleEntries(in range: Range<Int>) -> [LibraryBrowserEntry] {
         if let snapshotProjection { return snapshotProjection.tracks[range].map { LibraryBrowserEntry(track:$0) } }
         guard let projection else { return [] }
@@ -99,6 +107,7 @@ struct FrontBrowserView: View {
                         columnHandle(leadingColumn, edge: .leading, title: "SOURCES")
                             .frame(width: layout.categoriesHidden ? 0 : 44).clipped()
                             .allowsHitTesting(!layout.categoriesHidden).accessibilityHidden(layout.categoriesHidden)
+                            .protectsFrontDeckSwipe()
                         Spacer(minLength: 0)
                     }
                     HStack(spacing: 0) {
@@ -106,6 +115,7 @@ struct FrontBrowserView: View {
                         columnHandle(.detail, edge: .trailing, title: "DETAILS")
                             .frame(width: layout.detailHidden ? 0 : 44).clipped()
                             .allowsHitTesting(!layout.detailHidden).accessibilityHidden(layout.detailHidden)
+                            .protectsFrontDeckSwipe()
                         BrowserColumnContent(width: layout.detailHidden ? 0 : columnSizes.geometry().detail.width,
                             minimum: BrowserColumn.detail.minimum, presented: !layout.detailHidden,
                             acceptsInput: !layout.detailHidden && columnSizes.geometry().detail.width >= BrowserColumn.detail.minimum && geometry.size.height >= 250,
@@ -422,6 +432,7 @@ extension FrontBrowserView {
         }.frame(height: 44)
         .background(PerformancePalette.frame)
         .accessibilityAction(named: "Close \(title.lowercased())") { closeDrawers() }
+        .protectsFrontDeckSwipe()
     }
 
     private func closeDrawers() {
@@ -505,7 +516,7 @@ extension FrontBrowserView {
                 }, ended: { translation, velocity in
                     guard !hasSearchQuery else { return }
                     _ = panes.dragEnded(translation: translation, velocity: velocity, width: browserWidth)
-                }))
+                })).protectsFrontDeckSwipe()
             GeometryReader { geometry in
                 ZStack(alignment: .topLeading) {
                     let drilled = !hasSearchQuery && panes.depth > 0
@@ -552,8 +563,17 @@ extension FrontBrowserView {
 
     @ViewBuilder fileprivate var songPane: some View {
         if entryCount == 0 {
-            VStack { Spacer(); Text(searching ? "Searching…" : hasSearchQuery ? "No matching songs." : "No songs available.")
-                .font(.system(size: 13)).foregroundStyle(.secondary); Spacer() }.frame(maxWidth: .infinity)
+            VStack {
+                Spacer()
+                switch libraryPresentation {
+                case .loading: ProgressView("Loading library…")
+                case .failed(let error): Text("Music library unavailable: \(error)").foregroundStyle(.secondary)
+                case .noMatches: Text("No matching songs.").foregroundStyle(.secondary)
+                case .empty: Text("No songs available.").foregroundStyle(.secondary)
+                case .content: EmptyView()
+                }
+                Spacer()
+            }.font(.subheadline).frame(maxWidth: .infinity)
         } else if snapshotProjection != nil {
             // ImageRenderer does not draw scroll views or lazy rows; snapshots list their few rows directly.
             VStack(spacing:0) { ForEach(visibleEntries(in:0..<entryCount)) { songRow($0).padding(.bottom,1) }; Spacer(minLength:0) }
@@ -611,7 +631,7 @@ extension FrontBrowserView {
                 }
                 Spacer(minLength: 0)
                 LoadSlider(tall: true) { deck in if let entry { model.loadLibraryEntry(entry, deck: deck) } }
-                    .id(entry?.id).disabled(entry?.canLoad != true).padding(.leading, 14)
+                    .id(entry?.id).disabled(entry?.canLoad != true).padding(.leading, 14).protectsFrontDeckSwipe()
             }.padding(14).frame(height: TallLoadSliderMetrics.height + 8 + 28)
             }
         }
@@ -635,7 +655,9 @@ extension FrontBrowserView {
             }.padding(.horizontal, 12).padding(.vertical, 6).background(PerformancePalette.panel)
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    if recommendations.isEmpty {
+                    if recommendations.isEmpty && (catalogueLoading || searching || displayedRequest != request) {
+                        ProgressView("Loading library…").padding(24)
+                    } else if recommendations.isEmpty {
                         Text(recommendationSeed == nil ? "Load or select a reference song, then update suggestions." : "No matching tracks yet.")
                             .font(.subheadline).foregroundStyle(.secondary).padding(24)
                     } else if !recommendations.contains(where: { matchesSearch($0.entry, query: suggestionQuery) }) {
@@ -691,7 +713,7 @@ extension FrontBrowserView {
                         Button { model.loadLibraryEntry(entry, deck: deck) } label: {
                             Text("Load \(deck.rawValue.uppercased())").font(.caption.weight(.bold))
                                 .frame(minWidth: 60, minHeight: 44).bevelPanel(cornerRadius: 4)
-                        }.disabled(!entry.canLoad)
+                        }.disabled(!entry.canLoad).protectsFrontDeckSwipe()
                             .accessibilityLabel("Load \(entry.title) on deck \(deck.rawValue.uppercased())")
                     }
                     Menu {

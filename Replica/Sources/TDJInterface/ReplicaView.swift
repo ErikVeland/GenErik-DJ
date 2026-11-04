@@ -315,6 +315,7 @@ struct DeckView: View {
                 toggleControls: { panels.toggleControls() })
                 .frame(height: layout.headerHeight, alignment: .top).clipped()
                 .opacity(layout.expansion).allowsHitTesting(layout.headerHeight >= 44)
+                .transformEnvironment(\.frontDeckSwipeEnabled) { $0 = $0 && layout.headerHeight >= 44 }
             HStack(spacing: 0) {
                 SlidingDeckPanel(isPresented:effectsVisible || snapshotEffects,edge:.leading,
                     panelWidth:sizes.effectsContent.width,acceptsNewContacts:sizes.effectsContent.width >= 200 && layout.waveformHeight >= 184,
@@ -356,6 +357,7 @@ struct DeckView: View {
             if (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil {
                 HotcuePadRow(model: model, deck: deck).frame(height: layout.hotcueHeight).clipped()
                     .allowsHitTesting(layout.hotcueHeight >= 44)
+                    .protectsFrontDeckSwipe()
             }
             Group {
                 if editing { DeckFooter(model: model, deck: deck) }
@@ -369,6 +371,7 @@ struct DeckView: View {
                 else { Color.clear }
             }.frame(height: layout.footerHeight).clipped().opacity(layout.expansion)
                 .allowsHitTesting(layout.footerHeight >= 44).accessibilityHidden(layout.footerHeight < 44)
+                .protectsFrontDeckSwipe()
         }.padding(.leading, 52)
         }.frame(width:sizes.mainWidth)
         if tempoFader && track != nil { DeckTempoFader(model:model,deck:deck) }
@@ -388,6 +391,7 @@ struct DeckView: View {
         .frame(width:max(144,sizes.extraWidth))
         .frame(width:sizes.extraWidth,alignment:.trailing)
         .background(PerformancePalette.sunken).clipped()
+        .protectsFrontDeckSwipe()
         .environment(\.deckPanelPresented,panels.extraVisible)
         .disabled(sizes.extraWidth < 144).accessibilityHidden(sizes.extraWidth < 144)
         }.padding(4).background(PerformancePalette.stage).bevelPanel(cornerRadius: 6, sunken: true)
@@ -428,6 +432,7 @@ struct DeckView: View {
                         .id(session.id)
                         .frame(height:sectionPanel.extent).clipped().contentShape(Rectangle())
                         .allowsHitTesting(sectionPanel.isPresented)
+                        .protectsFrontDeckSwipe()
                         .overlay { if !sectionPanel.acceptsContentInput { Color.clear.contentShape(Rectangle()) } }
                         .accessibilityHidden(!sectionPanel.acceptsContentInput)
                 }
@@ -470,6 +475,7 @@ struct DeckView: View {
             update:{ panels.update(kind,translation:$0) },end:{ panels.end(kind,velocity:$0) },
             cancel:{ panels.cancel(kind) },adjust:{ panels.adjust(kind,by:$0) })
             .opacity(track == nil ? 0 : 1).allowsHitTesting(track != nil).accessibilityHidden(track == nil)
+            .protectsFrontDeckSwipe()
     }
     private var preparing: Bool { model.preparingPlayback.contains(deck) }
     private var elapsedTime: String {
@@ -971,13 +977,13 @@ private struct DeckHeader: View {
                     }.font(.system(size: dense ? 12 : 15)).foregroundStyle(PerformancePalette.secondaryText)
                 }
                 Spacer()
-                if editing { GridEditBar(model: model, deck: deck) } else {
+                if editing { GridEditBar(model: model, deck: deck).protectsFrontDeckSwipe() } else {
                 if beatJump && track != nil {
                     ForEach([-1.0, 1.0], id: \.self) { direction in
                         Button { model.beatJump(beats: direction * model.performance.loopBeats(for: deck), deck: deck) } label: {
                             Image(systemName: direction < 0 ? "chevron.left.2" : "chevron.right.2").font(.system(size: 15, weight: .semibold))
                                 .foregroundStyle(PerformancePalette.text).frame(width: 54, height: 44).bevelPanel(cornerRadius: 3)
-                        }.accessibilityLabel("Beat jump \(direction < 0 ? "back" : "forward") on deck \(deck.rawValue.uppercased())")
+                        }.protectsFrontDeckSwipe().accessibilityLabel("Beat jump \(direction < 0 ? "back" : "forward") on deck \(deck.rawValue.uppercased())")
                     }
                 }
                 Button { model.toggleSync(deck: deck) } label: {
@@ -985,7 +991,7 @@ private struct DeckHeader: View {
                         .foregroundStyle(syncColour).padding(.horizontal, 12).frame(height: 44)
                         .background(RoundedRectangle(cornerRadius: 3).fill(playback?.synced == true ? PerformancePalette.syncGreenBackground : PerformancePalette.sunken))
                         .overlay(RoundedRectangle(cornerRadius: 3).strokeBorder(Color.white.opacity(0.08)))
-                }.disabled(track == nil || preparing).accessibilityLabel("Sync deck \(deck.rawValue.uppercased())")
+                }.disabled(track == nil || preparing).protectsFrontDeckSwipe().accessibilityLabel("Sync deck \(deck.rawValue.uppercased())")
                 Button {
                     model.toggleGridEditing(deck:deck)
                 } label: {
@@ -993,7 +999,7 @@ private struct DeckHeader: View {
                         .foregroundStyle(editing ? Color.orange : PerformancePalette.text)
                         .frame(width: 44, height: 44).bevelPanel(cornerRadius: 3)
                 }
-                    .disabled(track == nil || preparing || playback?.phase == .queued).accessibilityLabel("Edit grid on deck \(deck.rawValue.uppercased())")
+                    .disabled(track == nil || preparing || playback?.phase == .queued).protectsFrontDeckSwipe().accessibilityLabel("Edit grid on deck \(deck.rawValue.uppercased())")
                 }
                 }.frame(minWidth: 0, maxWidth: .infinity).clipped().contentShape(Rectangle())
                 Button(action: toggleControls) {

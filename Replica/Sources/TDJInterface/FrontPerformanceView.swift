@@ -43,10 +43,21 @@ struct FrontPerformanceView: View {
                     .clipped().allowsHitTesting(browser.acceptsContentInput)
                     .disabled(!browser.acceptsContentInput).accessibilityHidden(!browser.acceptsContentInput)
                 performanceControls.id(activeDeck).frame(height: layout.controls.height)
+                    .protectsFrontDeckSwipe()
                 crossfader.frame(height: layout.crossfader.height)
+                    .protectsFrontDeckSwipe()
             }
             .frame(width: space.size.width, height: space.size.height, alignment: .top)
             .clipped().background(PerformancePalette.stage)
+            .overlayPreferenceValue(FrontDeckSwipeProtectionKey.self) { anchors in
+                GeometryReader { geometry in
+                    FrontDeckSwipeCapture(protectedRegions: anchors.map { geometry[$0] }, selectorRegion: layout.selector,
+                        contactID: selection.contactID) { direction in
+                        selection.select(direction == .next ? .b : .a)
+                    }.allowsHitTesting(false)
+                }
+            }
+            .environment(\.frontDeckSwipeEnabled, true)
             .environment(\.performancePanelPortrait, true)
             .animation(reduceMotion || browser.isDragging ? nil : .smooth(duration: 0.22), value: browser.extent)
             .onAppear {
@@ -124,6 +135,7 @@ struct FrontPerformanceView: View {
         .opacity(activeDeck == deck ? 1 : 0)
         .allowsHitTesting(activeDeck == deck).disabled(activeDeck != deck)
         .accessibilityHidden(activeDeck != deck)
+        .environment(\.frontDeckSwipeEnabled, activeDeck == deck)
     }
 
     private var browserBar: some View {
@@ -133,6 +145,7 @@ struct FrontPerformanceView: View {
                 end: { browser.endDrag(velocity: $0); model.browserVisible = browser.extent > 0 },
                 cancel: { browser.cancelDrag() },
                 adjust: { browser.adjust(by: $0); model.browserVisible = browser.extent > 0 })
+                .protectsFrontDeckSwipe()
             ViewThatFits(in: .horizontal) {
                 browserButtons(compact: false)
                 browserButtons(compact: true)

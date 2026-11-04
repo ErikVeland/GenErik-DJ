@@ -10,6 +10,56 @@ enum FrontPerformanceChecks {
             checks += 1
             if !condition { failures += 1; print("FAIL: \(message)") }
         }
+        expect(FrontLibraryPresentation.resolve(count: 0, catalogueReady: false, catalogueRefreshing: true,
+            projecting: false, requestReady: true, hasQuery: false, error: nil) == .loading,
+            "an empty early projection cannot report an empty library during catalogue loading")
+        expect(FrontLibraryPresentation.resolve(count: 0, catalogueReady: false, catalogueRefreshing: false,
+            projecting: false, requestReady: true, hasQuery: false, error: nil) == .loading,
+            "an unread catalogue cannot report an empty library")
+        expect(FrontLibraryPresentation.resolve(count: 0, catalogueReady: true, catalogueRefreshing: true,
+            projecting: false, requestReady: true, hasQuery: false, error: nil) == .loading,
+            "refreshing an empty catalogue cannot show a completed empty state")
+        expect(FrontLibraryPresentation.resolve(count: 0, catalogueReady: true, catalogueRefreshing: false,
+            projecting: false, requestReady: false, hasQuery: false, error: nil) == .loading,
+            "a changed request waits for its own projection")
+        expect(FrontLibraryPresentation.resolve(count: 0, catalogueReady: true, catalogueRefreshing: false,
+            projecting: false, requestReady: true, hasQuery: false, error: nil) == .empty,
+            "a completed empty catalogue may report no songs")
+        expect(FrontLibraryPresentation.resolve(count: 0, catalogueReady: true, catalogueRefreshing: false,
+            projecting: false, requestReady: true, hasQuery: true, error: nil) == .noMatches,
+            "a completed search distinguishes no matches")
+        expect(FrontLibraryPresentation.resolve(count: 4, catalogueReady: false, catalogueRefreshing: true,
+            projecting: true, requestReady: false, hasQuery: false, error: nil) == .content,
+            "known songs remain visible while the catalogue refreshes")
+        expect(FrontLibraryPresentation.resolve(count: 0, catalogueReady: false, catalogueRefreshing: false,
+            projecting: false, requestReady: true, hasQuery: false, error: "Permission denied") == .failed("Permission denied"),
+            "catalogue failure is not an empty library")
+        expect(FrontDeckSwipePolicy.direction(horizontal: -80, vertical: 8, velocity: -100) == .next,
+            "left swipe selects B")
+        expect(FrontDeckSwipePolicy.direction(horizontal: 80, vertical: 8, velocity: 100) == .previous,
+            "right swipe selects A")
+        expect(FrontDeckSwipePolicy.direction(horizontal: 20, vertical: 3, velocity: 700) == .previous,
+            "a deliberate short flick may switch")
+        expect(FrontDeckSwipePolicy.direction(horizontal: 8, vertical: 0, velocity: 2000) == nil,
+            "tap drift cannot become a deck switch")
+        expect(FrontDeckSwipePolicy.direction(horizontal: 80, vertical: 100, velocity: 900) == nil,
+            "vertical list scrolling cannot switch decks")
+        expect(FrontDeckSwipePolicy.direction(horizontal: 70, vertical: 60, velocity: 900) == nil,
+            "ambiguous diagonal gestures do not switch")
+        expect(FrontDeckSwipePolicy.direction(horizontal: .nan, vertical: 0, velocity: 1000) == nil,
+            "invalid input cannot switch")
+        let bounds = CGRect(x: 0, y: 0, width: 375, height: 700)
+        let blocked = [CGRect(x: 0, y: 604, width: 375, height: 52), CGRect(x: 0, y: 656, width: 375, height: 44)]
+        expect(FrontDeckSwipePolicy.allowsStart(at: CGPoint(x: 160, y: 30), bounds: bounds, protected: blocked),
+            "A/B selector accepts a deck swipe")
+        expect(FrontDeckSwipePolicy.allowsStart(at: CGPoint(x: 160, y: 200), bounds: bounds, protected: blocked),
+            "unclaimed space accepts a deck swipe")
+        expect(!FrontDeckSwipePolicy.allowsStart(at: CGPoint(x: 160, y: 630), bounds: bounds, protected: blocked),
+            "transport cannot start a deck swipe")
+        expect(!FrontDeckSwipePolicy.allowsStart(at: CGPoint(x: 160, y: 675), bounds: bounds, protected: blocked),
+            "crossfader cannot start a deck swipe")
+        expect(!FrontDeckSwipePolicy.allowsStart(at: CGPoint(x: 380, y: 200), bounds: bounds, protected: blocked),
+            "a touch outside the front workspace cannot switch decks")
         var selection = FrontDeckSelection(selected: "A")
         let aContact = selection.contactID
         selection.select("B")

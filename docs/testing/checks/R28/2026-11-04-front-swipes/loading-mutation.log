@@ -1,0 +1,2 @@
+FAIL: refreshing an empty catalogue cannot show a completed empty state
+172 front performance checks; 1 failures

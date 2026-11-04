@@ -9,6 +9,7 @@ struct BrowserColumnContent<Content: View>: View {
     @ViewBuilder let content: () -> Content
     var body: some View {
         content()
+            .transformEnvironment(\.frontDeckSwipeEnabled) { $0 = $0 && presented && acceptsInput }
             .environment(\.deckPanelPresented, presented)
             .environment(\.touchSurfaceAcceptsNewContacts, acceptsInput)
             .frame(width: max(minimum, width))

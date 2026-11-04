@@ -1,0 +1,34 @@
+{
+  "requestIDs": [
+    "R28",
+    "R39"
+  ],
+  "baselineDuoBuild": 97,
+  "baselineCommit": "ebc12c4db",
+  "checks": {
+    "front": {
+      "assertions": 172,
+      "failures": 0,
+      "log": "front.log"
+    },
+    "browser": {
+      "assertions": 130,
+      "failures": 0,
+      "log": "browser.log"
+    },
+    "contacts": {
+      "assertions": 36,
+      "failures": 0,
+      "log": "contacts.log"
+    }
+  },
+  "mutations": [
+    "loading-mutation.log",
+    "protected-controls-mutation.log"
+  ],
+  "preservation": "preservation.json",
+  "scope": "Closed/front phone only. The UIKit recognizer exists only in the front workspace and detaches on removal. Shared swipe-protection annotations emit no anchors outside that scope and change no frames, actions or styles. Existing wide browser, dock, fader and geometry files are unchanged.",
+  "review": "One-finger horizontal direction/threshold gate; touch-start protected regions; native musical surfaces and text/control exclusion; no transport/fader start; existing drag handles and loader protected; hidden drawer/retired deck annotations disabled; contact identity prevents a stale swipe from replacing a later selection. Catalogue loading and current request readiness take precedence over empty text.",
+  "build": "pending",
+  "acceptance": "Erik checks selector and blank-area swipes, vertical scrolling, pane resizing, loader/transport/fader isolation, loading text and clean audio. Duo only, no iPad operation."
+}
