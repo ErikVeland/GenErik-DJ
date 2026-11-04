@@ -1,0 +1,41 @@
+warning: 'replica': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/SectionColourRenderingTests.swift
+Building for debugging...
+[3 / 13] TDJInterface
+[7 / 17] TDJInterface
+[11 / 21] TDJInterface
+[15 / 25] TDJInterface
+[19 / 25] TDJInterface-product
+[19 / 25] TDJInterfaceTests-product
+[21 / 27] TDJInterfaceTests-product
+[24 / 31] TDJInterfaceTests-product
+[26 / 31] TDJInterfaceTests-product
+[28 / 31] TDJInterfaceTests-product
+Build complete! (6.83 sec.)
+Test Suite 'All tests' started at 2026-11-04 22:58:07.616.
+Test Suite 'All tests' passed at 2026-11-04 22:58:07.618.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test minimisedBrowserKeepsBothDecksAndOptionalControlsVisible(size:) started.
+􀟈  Test case passing 1 argument size → (1112.0, 774.0) to minimisedBrowserKeepsBothDecksAndOptionalControlsVisible(size:) started.
+􀟈  Test case passing 1 argument size → (834.0, 1052.0) to minimisedBrowserKeepsBothDecksAndOptionalControlsVisible(size:) started.
+􁁛  Test minimisedBrowserKeepsBothDecksAndOptionalControlsVisible(size:) with 2 test cases passed after 6.610 seconds.
+􀟈  Test sectionWaveformColoursHaveAnExplicitFrequencyAlternativeAndKeepTheHeader() started.
+􁁛  Test sectionWaveformColoursHaveAnExplicitFrequencyAlternativeAndKeepTheHeader() passed after 2.172 seconds.
+􀟈  Test deckControlsRenderInsideTheirAllocatedSpace(deck:width:) started.
+􀟈  Test case passing 2 arguments deck → .a, width → 1004.0 to deckControlsRenderInsideTheirAllocatedSpace(deck:width:) started.
+􀟈  Test case passing 2 arguments deck → .a, width → 726.0 to deckControlsRenderInsideTheirAllocatedSpace(deck:width:) started.
+􀢄  Test deckControlsRenderInsideTheirAllocatedSpace(deck:width:) recorded an issue with 2 arguments deck → .a, width → 726.0 at DeckSpaceRenderingTests.swift:83:9: Expectation failed: labels.contains { $0.contains("LOOP") || $0.contains("L00P") }
+􀄵  Recognised control labels: ["CONTROL VISIBILITY FIXTURE", "J - 1 - STRUCTURE PREPARING", "FLUX", "FREEZE", "CUES", "ACTIONS", "0:00", "4", "DOOT", "SYNC", "+0.0%", "CUE", "-0:16"]
+􀄵  labels.contains { $0.contains("LOOP") || $0.contains("L00P") } → <not evaluated>
+􀟈  Test case passing 2 arguments deck → .b, width → 1004.0 to deckControlsRenderInsideTheirAllocatedSpace(deck:width:) started.
+􀟈  Test case passing 2 arguments deck → .b, width → 726.0 to deckControlsRenderInsideTheirAllocatedSpace(deck:width:) started.
+􀢄  Test deckControlsRenderInsideTheirAllocatedSpace(deck:width:) recorded an issue with 2 arguments deck → .b, width → 726.0 at DeckSpaceRenderingTests.swift:83:9: Expectation failed: labels.contains { $0.contains("LOOP") || $0.contains("L00P") }
+􀄵  Recognised control labels: ["CONTROL VISIBILITY FIXTURE", "J - 1 - STRUCTURE PREPARING", "FLUX", "FREEZE", "CUES", "ACTIONS", "0:00", "4", "DOOT", "SYNC", "+0.0%", "CUE", "-0:16"]
+􀄵  labels.contains { $0.contains("LOOP") || $0.contains("L00P") } → <not evaluated>
+􀢄  Test deckControlsRenderInsideTheirAllocatedSpace(deck:width:) with 4 test cases failed after 14.073 seconds with 2 issues.
+􀢄  Test run with 3 tests in 0 suites failed after 22.855 seconds with 2 issues.
+Note: Some test targets reported failures:
+  - TDJInterfaceTests (Swift Testing)

@@ -1,0 +1,32 @@
+Building for debugging...
+[Pre-planning 1 / 214]
+[Planning deferred tasks]
+[1 / 1]
+[7 / 27] TDJInterface
+[9 / 31]
+[11 / 31] TDJInterface
+[14 / 30] TDJInterface
+[16 / 30] TDJInterface
+[19 / 31] TDJInterfaceTests-product
+[22 / 34] TDJInterfaceTests-product
+[26 / 33] TDJInterfaceTests-product
+[28 / 33] TDJInterfaceTests-product
+[30 / 33] TDJInterfaceTests-product
+Build complete! (9.63 sec.)
+Test Suite 'All tests' started at 2026-11-04 22:42:40.461.
+Test Suite 'All tests' passed at 2026-11-04 22:42:40.463.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.002) seconds
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test minimisedBrowserKeepsBothDecksAndOptionalControlsVisible(size:) started.
+􀟈  Test case passing 1 argument size → (1112.0, 774.0) to minimisedBrowserKeepsBothDecksAndOptionalControlsVisible(size:) started.
+􀟈  Test case passing 1 argument size → (834.0, 1052.0) to minimisedBrowserKeepsBothDecksAndOptionalControlsVisible(size:) started.
+􁁛  Test minimisedBrowserKeepsBothDecksAndOptionalControlsVisible(size:) with 2 test cases passed after 5.315 seconds.
+􀟈  Test sectionWaveformColoursAreOptionalAndTheHeaderKeepsItsSectionBar() started.
+􁁛  Test sectionWaveformColoursAreOptionalAndTheHeaderKeepsItsSectionBar() passed after 1.591 seconds.
+􀟈  Test deckControlsRenderInsideTheirAllocatedSpace(deck:) started.
+􀟈  Test case passing 1 argument deck → .a to deckControlsRenderInsideTheirAllocatedSpace(deck:) started.
+􀟈  Test case passing 1 argument deck → .b to deckControlsRenderInsideTheirAllocatedSpace(deck:) started.
+􁁛  Test deckControlsRenderInsideTheirAllocatedSpace(deck:) with 2 test cases passed after 5.674 seconds.
+􁁛  Test run with 3 tests in 0 suites passed after 12.582 seconds.

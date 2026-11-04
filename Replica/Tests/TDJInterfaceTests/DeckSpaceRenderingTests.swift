@@ -6,8 +6,8 @@ import Testing
 import TDJCore
 @testable import TDJInterface
 
-@Test(arguments: [DeckID.a, .b]) @MainActor
-func deckControlsRenderInsideTheirAllocatedSpace(deck: DeckID) async throws {
+@Test(arguments: [DeckID.a, .b], [1004.0, 726]) @MainActor
+func deckControlsRenderInsideTheirAllocatedSpace(deck: DeckID, width: Double) async throws {
     var base = URL(fileURLWithPath: #filePath)
     for _ in 0..<4 { base.deleteLastPathComponent() }
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -21,21 +21,30 @@ func deckControlsRenderInsideTheirAllocatedSpace(deck: DeckID) async throws {
     try store.save(library)
     let model = try ReplicaModel(root: root, playback: PlaybackController(offline: true))
     model.loaded[deck] = track.id
+    model.previewing.insert(deck)
+    let keys = [DeckToolSettings.cueButton, DeckToolSettings.headphoneButton, DeckToolSettings.tempoFader, DeckToolSettings.hotcuePads]
+    let previous = keys.map { UserDefaults.standard.object(forKey: $0) }
+    defer {
+        for (key, value) in zip(keys, previous) {
+            if let value { UserDefaults.standard.set(value, forKey: key) } else { UserDefaults.standard.removeObject(forKey: key) }
+        }
+    }
+    for key in keys { UserDefaults.standard.set(true, forKey: key) }
     let panels = DeckPanelPresentation()
-    panels.configure(width: 1004, portrait: false, handleExtent: 12)
+    panels.configure(width: width, portrait: width < 800, handleExtent: 12)
     panels.setTrackAvailable(true)
     #expect(!panels.extraVisible)
     let folder = URL(fileURLWithPath: ProcessInfo.processInfo.environment["DECK_RENDER_OUTPUT"]
-        ?? root.appendingPathComponent("renders").path).appendingPathComponent(deck.rawValue)
+        ?? root.appendingPathComponent("renders").path).appendingPathComponent("\(deck.rawValue)-\(Int(width))")
     try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-    for height in [224.0, 344] {
+    for height in [240.0, 344] {
         let view = DeckView(model: model, deck: deck, panels: panels)
-            .frame(width: 1004, height: height).environment(\.colorScheme, .dark)
+            .frame(width: width, height: height).environment(\.colorScheme, .dark)
         let host = NSHostingView(rootView: view)
-        let window = NSWindow(contentRect: CGRect(x: 0, y: 0, width: 1004, height: height),
+        let window = NSWindow(contentRect: CGRect(x: 0, y: 0, width: width, height: height),
             styleMask: .borderless, backing: .buffered, defer: false)
         window.contentView = host
-        host.frame = CGRect(x: 0, y: 0, width: 1004, height: height)
+        host.frame = CGRect(x: 0, y: 0, width: width, height: height)
         host.layoutSubtreeIfNeeded()
         try await Task.sleep(for: .milliseconds(100))
         if !panels.extraVisible { panels.toggleControls() }
@@ -57,6 +66,7 @@ func deckControlsRenderInsideTheirAllocatedSpace(deck: DeckID) async throws {
         #expect(firstBlueRow != nil && firstBlueRow! < 40)
         let request = VNRecognizeTextRequest()
         request.recognitionLevel = .accurate
+        request.minimumTextHeight = 0.005
         try VNImageRequestHandler(cgImage: hosted.cgImage!, options: [:]).perform([request])
         let labels = request.results?.compactMap { $0.topCandidates(1).first?.string.uppercased() } ?? []
         let current = request.results?.first { $0.topCandidates(1).first?.string == "0:00" }
@@ -70,13 +80,15 @@ func deckControlsRenderInsideTheirAllocatedSpace(deck: DeckID) async throws {
         #expect(labels.contains { $0.contains("FLUX") })
         #expect(labels.contains { $0.contains("FREEZE") })
         #expect(labels.contains { $0.contains("CUES") })
-        #expect(labels.contains { $0.contains("LOOP") })
+        #expect(labels.contains { $0.contains("LOOP") }, "Recognised control labels: \(labels)")
+        #expect(labels.contains("CUE"))
         window.contentView = nil
         panels.toggleControls()
         let renderer = ImageRenderer(content: view)
         let image = try #require(renderer.cgImage)
         let hiddenRequest = VNRecognizeTextRequest()
         hiddenRequest.recognitionLevel = .accurate
+        hiddenRequest.minimumTextHeight = 0.005
         try VNImageRequestHandler(cgImage: image, options: [:]).perform([hiddenRequest])
         let hiddenCurrent = hiddenRequest.results?.first { $0.topCandidates(1).first?.string == "0:00" }
         let hiddenRemaining = hiddenRequest.results?.first { $0.topCandidates(1).first?.string.contains("0:16") == true }
@@ -89,11 +101,12 @@ func deckControlsRenderInsideTheirAllocatedSpace(deck: DeckID) async throws {
         try bitmap.representation(using: .png, properties: [:])!.write(to: folder.appendingPathComponent("deck-\(Int(height)).png"))
     }
     let empty = ImageRenderer(content: DeckView(model: model, deck: deck == .a ? .b : .a, panels: DeckPanelPresentation())
-        .frame(width: 1004, height: 344).environment(\.colorScheme, .dark))
+        .frame(width: width, height: 344).environment(\.colorScheme, .dark))
     let bitmap = NSBitmapImageRep(cgImage: try #require(empty.cgImage))
     try bitmap.representation(using: .png, properties: [:])!.write(to: folder.appendingPathComponent("empty.png"))
     let emptyText = VNRecognizeTextRequest()
     emptyText.recognitionLevel = .accurate
+    emptyText.minimumTextHeight = 0.005
     try VNImageRequestHandler(cgImage: try #require(empty.cgImage), options: [:]).perform([emptyText])
     let emptyLabels = emptyText.results?.compactMap { $0.topCandidates(1).first?.string.uppercased() } ?? []
     #expect(!emptyLabels.contains { $0.contains("FLUX") || $0.contains("CUES") || $0.contains("ACTIONS") })

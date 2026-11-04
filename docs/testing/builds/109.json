@@ -14,7 +14,7 @@
       "date": "2026-11-04",
       "buildAssumption": 109,
       "report": "Make every UI element in the A/B slots also fit into the minimised view with the browser.",
-      "status": "Reflowing compact controls and protecting usable browser/deck space."
+      "status": "Combined compact Actions and early waveform candidate passed focused checks. iPad build pending."
     },
     {
       "requestIDs": [
@@ -26,6 +26,22 @@
       "buildAssumption": 109,
       "report": "Make section colours a consistent UX cue. Move the section strip and guidance behind the top track-information controls. Overlay time and ending information on a full-width overview. Preserve waveform space and performance controls.",
       "status": "Colour candidate under focused rendered verification. Combined iPad build owned by the loading/compact-deck chat."
+    },
+    {
+      "requestIDs": [
+        "R02",
+        "R30",
+        "R45"
+      ],
+      "date": "2026-11-04",
+      "buildAssumption": 109,
+      "report": "Put Actions in a lower-left pane over the main waveform, above the preview strip. Hide Flux/Cues on empty decks. Render real waveform data during preparation. Fit all optional deck controls with the browser open.",
+      "clarification": "Transport means the bottom preview waveform strip. Keep the fixed right-hand transport.",
+      "referenceImages": [
+        "docs/testing/checks/R30/2026-11-04-minimised-controls/reference-layout.png",
+        "docs/testing/checks/R30/2026-11-04-minimised-controls/reference-section-bar.png"
+      ],
+      "status": "Combined focused checks pass. Signed iPad build pending."
     }
   ],
   "log": "TestBuilds/ipad/build-109.log",

@@ -79,7 +79,7 @@ struct PerformanceControls: View {
                 }
             } label: {
                 VStack(spacing: 2) {
-                    Text("Loop").font(.system(size: 11))
+                    Text("LOOP").font(.system(size: 12, weight: .semibold))
                     Text(PerformancePreparation.loopSizeLabel(model.performance.loopBeats(for: deck)))
                         .monospacedDigit().lineLimit(1).minimumScaleFactor(0.7)
                 }.frame(maxWidth: .infinity)

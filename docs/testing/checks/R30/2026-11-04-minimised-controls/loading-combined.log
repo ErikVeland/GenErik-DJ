@@ -1,0 +1,43 @@
+warning: 'replica': found 3 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/DeckBrowserPresentationTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/DeckSpaceRenderingTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/SectionColourRenderingTests.swift
+Building for debugging...
+[1 / 1]
+[7 / 27] TDJInterface
+[11 / 31] TDJInterface
+[19 / 29] TDJInterface-product
+[19 / 31] TDJInterfaceTests-product
+[24 / 36] TDJInterfaceTests-product
+[28 / 35] TDJInterfaceTests-product
+[30 / 35] TDJInterfaceTests-product
+[32 / 35] TDJInterfaceTests-product
+Build complete! (5.89 sec.)
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test firstNativeLoadShowsRealWaveformAndAcceptsPlayBeforeExportOrFullPCM() started.
+􁁛  Test firstNativeLoadShowsRealWaveformAndAcceptsPlayBeforeExportOrFullPCM() passed after 7.921 seconds.
+􀟈  Test directNativeReplacementCannotConsumeEarlierQueuedPlay() started.
+􁁛  Test directNativeReplacementCannotConsumeEarlierQueuedPlay() passed after 0.395 seconds.
+􀟈  Test nativeSelectionAppearsSynchronouslyBeforeAnySourceWork(deck:) started.
+􀟈  Test case passing 1 argument deck → .a to nativeSelectionAppearsSynchronouslyBeforeAnySourceWork(deck:) started.
+􀟈  Test case passing 1 argument deck → .b to nativeSelectionAppearsSynchronouslyBeforeAnySourceWork(deck:) started.
+􁁛  Test nativeSelectionAppearsSynchronouslyBeforeAnySourceWork(deck:) with 2 test cases passed after 0.146 seconds.
+􀟈  Test failedNativeSelectionRestoresThePreviousDeck() started.
+􁁛  Test failedNativeSelectionRestoresThePreviousDeck() passed after 0.050 seconds.
+􀟈  Test cancelledNativeSelectionCannotClearItsImmediateReplacement() started.
+􁁛  Test cancelledNativeSelectionCannotClearItsImmediateReplacement() passed after 0.007 seconds.
+􀟈  Test secondDeckSelectionKeepsPlayingDeckAudioUnchanged() started.
+􁁛  Test secondDeckSelectionKeepsPlayingDeckAudioUnchanged() passed after 0.100 seconds.
+􀟈  Test savedNativeWaveformAppearsWhileItsAudioSourceIsStillHeld() started.
+􁁛  Test savedNativeWaveformAppearsWhileItsAudioSourceIsStillHeld() passed after 1.972 seconds.
+􀟈  Test instantTrackLoadShowsWaveformBeforeAudioReadiness() started.
+􁁛  Test instantTrackLoadShowsWaveformBeforeAudioReadiness() passed after 2.196 seconds.
+􀟈  Test instantTrackLoadQueuesPlayBeforeAnalysisAndKeepsTheAudioGeneration() started.
+􁁛  Test instantTrackLoadQueuesPlayBeforeAnalysisAndKeepsTheAudioGeneration() passed after 9.077 seconds.
+􀟈  Test instantTrackLoadSecondTapCancelsPendingPlay() started.
+􁁛  Test instantTrackLoadSecondTapCancelsPendingPlay() passed after 2.211 seconds.
+􀟈  Test instantTrackLoadReplacementClearsPendingPlay() started.
+􁁛  Test instantTrackLoadReplacementClearsPendingPlay() passed after 2.270 seconds.
+􁁛  Test run with 11 tests in 0 suites passed after 26.351 seconds.

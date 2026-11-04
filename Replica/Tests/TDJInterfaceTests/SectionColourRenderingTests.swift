@@ -70,6 +70,10 @@ func sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck: DeckID, presentati
             try VNImageRequestHandler(cgImage: try #require(bitmap.cgImage), options: [:]).perform([text])
             let sectionLabel = text.results?.first { $0.topCandidates(1).first?.string.uppercased().contains("INTRO") == true }
             #expect(sectionLabel != nil && sectionLabel!.boundingBox.minY > 0.78, "Current section guidance belongs in the header.")
+            let actions = try #require(text.results?.first { $0.topCandidates(1).first?.string.uppercased().contains("ACTIONS") == true })
+            let actionsX = actions.boundingBox.minX * 1004
+            #expect(actionsX >= 4 + waveformOrigin && actionsX < 48 + waveformOrigin,
+                "The Actions button stays inside the waveform's lower-left corner.")
             let overviewLeft = try #require(bitmap.colorAt(x: 10, y: 197)?.usingColorSpace(.deviceRGB))
             #expect(overviewLeft.greenComponent > 0.4 && overviewLeft.greenComponent > overviewLeft.redComponent * 1.3, "The overview extends behind the current-time readout.")
             for (seconds, role) in [(5.57, ArrangementRole.intro), (6.43, .chorus), (9.57, .chorus), (10.43, .bridge)] where abs(seconds - center) < 1.1 {

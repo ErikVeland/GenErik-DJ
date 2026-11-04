@@ -64,7 +64,7 @@ struct AdaptivePerformanceLayout {
     static let libraryHandleHeight = 44.0
     // Two padded 44-point targets and the separate 44-point deck divider.
     static let minimumDeckHeight = 148.0
-    static let minimumCompactDeckHeight = 224.0
+    static let minimumCompactDeckHeight = 240.0
     static let librarySnapDistance = 80.0
 
     static func maximumLibraryExtent(available: Double, handleExtent: Double = 44) -> Double {

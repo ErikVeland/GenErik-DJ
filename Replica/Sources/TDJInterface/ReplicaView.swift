@@ -359,7 +359,8 @@ struct DeckView: View {
                     .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
                     .overlay(alignment: .bottomLeading) {
                         if track != nil {
-                            DeckActionPane(model: model, deck: deck, panels: panels)
+                            DeckActionPane(model: model, deck: deck, panels: panels,
+                                anchorX: waveformAxis.minX, availableWidth: sizes.mainWidth - 8)
                                 .padding(4)
                         }
                     }
@@ -499,10 +500,33 @@ private struct DeckActionPane: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
     @Bindable var panels: DeckPanelPresentation
+    let anchorX: Double
+    let availableWidth: Double
     @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     var body: some View {
-        HStack(spacing: 6) {
+        let paneWidth = min(600, max(0, availableWidth))
+        let paneX = min(anchorX, max(0, availableWidth - paneWidth))
+        ZStack(alignment: .bottomLeading) {
+            if panels.extraVisible {
+                HStack(spacing: 6) {
+                    PerformanceControls(model: model, deck: deck, compact: true)
+                    OptionalHeadphoneButton(model: model, deck: deck).frame(maxWidth: 48)
+                    if cueButton {
+                        Button("CUE") { model.pressCue(deck: deck) }.frame(width: 48)
+                    }
+                }
+                .buttonStyle(PerformanceToolButtonStyle())
+                .padding(4)
+                .frame(width: paneWidth, height: 56)
+                .background {
+                    RoundedRectangle(cornerRadius: 6).fill(PerformancePalette.sunken.opacity(0.97))
+                        .onTapGesture {}
+                }
+                .overlay { RoundedRectangle(cornerRadius: 6).strokeBorder(PerformancePalette.secondaryText.opacity(0.3)).allowsHitTesting(false) }
+                .offset(x: paneX, y: -44)
+                .transition(.offset(x: -16, y: 40).combined(with: .opacity))
+            }
             Button { panels.toggleControls() } label: {
                 VStack(spacing: 2) {
                     Image(systemName: "slider.horizontal.3")
@@ -518,26 +542,9 @@ private struct DeckActionPane: View {
                 let close = value.translation.height > 16 || value.translation.width < -24
                 if (open && !panels.extraVisible) || (close && panels.extraVisible) { panels.toggleControls() }
             })
-            if panels.extraVisible {
-                HStack(spacing: 6) {
-                    PerformanceControls(model: model, deck: deck, compact: true)
-                    OptionalHeadphoneButton(model: model, deck: deck).frame(maxWidth: 48)
-                    if cueButton {
-                        Button("CUE") { model.pressCue(deck: deck) }.frame(width: 48)
-                    }
-                }
-                .buttonStyle(PerformanceToolButtonStyle())
-                .padding(4)
-                .frame(maxWidth: 600)
-                .background {
-                    RoundedRectangle(cornerRadius: 6).fill(PerformancePalette.sunken.opacity(0.97))
-                        .onTapGesture {}
-                }
-                .overlay { RoundedRectangle(cornerRadius: 6).strokeBorder(PerformancePalette.secondaryText.opacity(0.3)).allowsHitTesting(false) }
-                .transition(.offset(x: -16, y: 40).combined(with: .opacity))
-            }
+            .offset(x: anchorX)
         }
-        .frame(height: 56)
+        .frame(height: panels.extraVisible ? 100 : 44, alignment: .bottomLeading)
         .frame(maxWidth: .infinity, alignment: .leading)
         .environment(\.deckPanelPresented, panels.extraVisible)
         .protectsFrontDeckSwipe()

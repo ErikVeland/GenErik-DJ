@@ -1,0 +1,37 @@
+Building for debugging...
+[Pre-planning 1 / 214]
+[Planning deferred tasks]
+[1 / 1]
+[8 / 20] TDJInterfaceTests-product
+[15 / 27] TDJInterfaceTests-product
+[19 / 26] TDJInterfaceTests-product
+[21 / 26] TDJInterfaceTests-product
+[23 / 26] TDJInterfaceTests-product
+Build complete! (4.51 sec.)
+Test Suite 'All tests' started at 2026-11-04 23:00:22.110.
+Test Suite 'All tests' passed at 2026-11-04 23:00:22.111.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test minimisedBrowserKeepsBothDecksAndOptionalControlsVisible(size:) started.
+􀟈  Test case passing 1 argument size → (1112.0, 774.0) to minimisedBrowserKeepsBothDecksAndOptionalControlsVisible(size:) started.
+􀟈  Test case passing 1 argument size → (834.0, 1052.0) to minimisedBrowserKeepsBothDecksAndOptionalControlsVisible(size:) started.
+􁁛  Test minimisedBrowserKeepsBothDecksAndOptionalControlsVisible(size:) with 2 test cases passed after 6.709 seconds.
+􀟈  Test sectionWaveformColoursHaveAnExplicitFrequencyAlternativeAndKeepTheHeader() started.
+􁁛  Test sectionWaveformColoursHaveAnExplicitFrequencyAlternativeAndKeepTheHeader() passed after 2.184 seconds.
+􀟈  Test deckControlsRenderInsideTheirAllocatedSpace(deck:width:) started.
+􀟈  Test case passing 2 arguments deck → .a, width → 1004.0 to deckControlsRenderInsideTheirAllocatedSpace(deck:width:) started.
+􀟈  Test case passing 2 arguments deck → .a, width → 726.0 to deckControlsRenderInsideTheirAllocatedSpace(deck:width:) started.
+􀟈  Test case passing 2 arguments deck → .b, width → 1004.0 to deckControlsRenderInsideTheirAllocatedSpace(deck:width:) started.
+􀟈  Test case passing 2 arguments deck → .b, width → 726.0 to deckControlsRenderInsideTheirAllocatedSpace(deck:width:) started.
+􁁛  Test deckControlsRenderInsideTheirAllocatedSpace(deck:width:) with 4 test cases passed after 13.892 seconds.
+􀟈  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) started.
+􀟈  Test case passing 2 arguments deck → .a, presentation → "normal" to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) started.
+􀟈  Test case passing 2 arguments deck → .a, presentation → "effects" to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) started.
+􀟈  Test case passing 2 arguments deck → .a, presentation → "freeze" to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) started.
+􀟈  Test case passing 2 arguments deck → .b, presentation → "normal" to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) started.
+􀟈  Test case passing 2 arguments deck → .b, presentation → "effects" to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) started.
+􀟈  Test case passing 2 arguments deck → .b, presentation → "freeze" to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) started.
+􁁛  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) with 6 test cases passed after 14.282 seconds.
+􁁛  Test run with 4 tests in 0 suites passed after 37.069 seconds.
