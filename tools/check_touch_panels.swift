@@ -63,8 +63,34 @@ import Foundation
         }
 
         var library = LibraryPanelState()
+        for (width, height, handle, full) in [
+            (1112.0, 774.0, 12.0, 762.0), (834, 1052, 12, 1040),
+            (1112, 774, 44, 730), (834, 1052, 44, 1008),
+        ] {
+            var fullHeight = LibraryPanelState()
+            fullHeight.updateViewport(width: width, height: height, presented: true, handleExtent: handle)
+            fullHeight.beginDrag()
+            fullHeight.updateDrag(translation: height)
+            fullHeight.endDrag(velocity: 0)
+            let workspace = PerformanceWorkspaceGeometry(
+                width: width, height: height, libraryExtent: fullHeight.extent, handleExtent: handle)
+            expect(fullHeight.extent == full, "drag reaches full browser height in both iPad orientations")
+            expect(workspace.deckArea.height == 0, "full browser height releases all deck space")
+            expect(workspace.libraryArea.minY == handle, "full browser starts directly below its resize handle")
+            fullHeight.setPresented(false)
+            fullHeight.setPresented(true)
+            expect(fullHeight.extent == full, "reopening retains the full browser height")
+            fullHeight.beginDrag()
+            fullHeight.updateDrag(translation: -100)
+            fullHeight.endDrag(velocity: 0)
+            expect(fullHeight.extent == full - 100, "dragging down restores deck space directly")
+            fullHeight.beginDrag()
+            fullHeight.updateDrag(translation: height)
+            fullHeight.endDrag(velocity: 800)
+            expect(fullHeight.extent == full, "fast release at full height cannot snap to a smaller remembered size")
+        }
         library.updateViewport(width: 1112, height: 774, presented: true)
-        expect(library.extent == 206 && library.maximumExtent == 206, "first opening reserves both compact decks")
+        expect(library.extent == 206 && library.maximumExtent == 730, "first opening reserves both compact decks")
         library.beginDrag()
         library.updateDrag(translation: -16)
         library.endDrag(velocity: 0)
@@ -92,15 +118,15 @@ import Foundation
         library.adjust(by: -1000)
         expect(library.extent == 0, "accessible adjustment can close library")
         library.present(fullyExpanded: true)
-        expect(library.extent == 206, "add-track expands an already-open library")
+        expect(library.extent == 730, "add-track expands an already-open library")
         library.beginDrag()
         library.updateDrag(translation: -56)
         library.endDrag(velocity: 0)
         library.present(fullyExpanded: true)
-        expect(library.extent == 206, "repeated add-track expands after manual resize")
+        expect(library.extent == 730, "repeated add-track expands after manual resize")
         library.setPresented(false)
         library.present(fullyExpanded: true)
-        expect(library.extent == 206, "add-track expands a hidden library")
+        expect(library.extent == 730, "add-track expands a hidden library")
         library.updateViewport(width: 834, height: 1052, presented: true)
         expect(library.extent == 400, "landscape expansion does not overwrite portrait size")
         library.beginDrag()
@@ -113,7 +139,7 @@ import Foundation
         library.updateViewport(width: 834, height: 1052, presented: true)
         expect(library.extent == 400 && !library.isDragging, "rotation ends the old geometry gesture")
         library.updateViewport(width: 1112, height: 774, presented: true)
-        expect(library.extent == 206, "rotation cancellation keeps preceding landscape extent")
+        expect(library.extent == 730, "rotation cancellation keeps preceding landscape extent")
         library.beginDrag()
         library.updateDrag(translation: -200)
         library.setPresented(false)
@@ -121,11 +147,11 @@ import Foundation
         library.endDrag(velocity: 800)
         expect(library.extent == 0 && !library.acceptsContentInput, "external close rejects stale drag updates")
         library.setPresented(true)
-        expect(library.extent == 206, "external close preserves settled memory rather than drag preview")
+        expect(library.extent == 730, "external close preserves settled memory rather than drag preview")
 
         library.makeRoom(by: 40)
         expect(
-            library.extent == 166 && library.acceptsContentInput,
+            library.extent == 690 && library.acceptsContentInput,
             "a deck can borrow space while the browser stays usable")
         library.makeRoom(by: 1000)
         expect(
@@ -142,16 +168,16 @@ import Foundation
         shortcuts.updateViewport(width: 834, height: 1052, presented: false)
         shortcuts.apply(.browse)
         expect(
-            shortcuts.extent == 484 && shortcuts.selectedShortcut == .expand,
+            shortcuts.extent == 484 && shortcuts.selectedShortcut == .browse,
             "Browse shares usable portrait space evenly")
         expect(shortcuts.acceptsContentInput, "Browse exposes usable browser content")
         shortcuts.apply(.expand)
-        expect(shortcuts.extent == 484 && shortcuts.selectedShortcut == .expand, "Expand fills portrait browser space")
+        expect(shortcuts.extent == 1008 && shortcuts.selectedShortcut == .expand, "Expand fills portrait browser space")
         shortcuts.apply(.performance)
         expect(shortcuts.extent == 0 && shortcuts.selectedShortcut == .performance, "Performance hides the browser")
         expect(!shortcuts.acceptsContentInput, "Performance rejects hidden browser touches")
         shortcuts.setPresented(true)
-        expect(shortcuts.extent == 484, "ordinary opening restores the preceding shortcut size")
+        expect(shortcuts.extent == 1008, "ordinary opening restores the preceding shortcut size")
         shortcuts.apply(.browse)
         shortcuts.beginDrag()
         shortcuts.updateDrag(translation: -54)
@@ -167,17 +193,17 @@ import Foundation
         shortcuts.apply(.expand)
         shortcuts.updateDrag(translation: -400)
         shortcuts.endDrag(velocity: -800)
-        expect(shortcuts.extent == 484 && !shortcuts.isDragging, "a shortcut rejects stale resize updates")
+        expect(shortcuts.extent == 1008 && !shortcuts.isDragging, "a shortcut rejects stale resize updates")
         shortcuts.apply(.browse)
         shortcuts.present(fullyExpanded: true)
-        expect(shortcuts.extent == 484, "add-track still overrides Browse with maximum space")
+        expect(shortcuts.extent == 1008, "add-track still overrides Browse with maximum space")
         shortcuts.updateViewport(width: 1112, height: 774, presented: true)
         shortcuts.apply(.browse)
         expect(shortcuts.extent == 206, "Browse reserves both compact decks in landscape")
         shortcuts.apply(.performance)
         shortcuts.updateViewport(width: 834, height: 1052, presented: false)
         shortcuts.setPresented(true)
-        expect(shortcuts.extent == 484, "landscape shortcuts preserve portrait memory")
+        expect(shortcuts.extent == 1008, "landscape shortcuts preserve portrait memory")
         shortcuts.apply(.browse)
         shortcuts.updateViewport(width: 1112, height: 774, presented: true)
         expect(shortcuts.extent == 206, "rotation restores the previous landscape shortcut size")
@@ -205,8 +231,8 @@ import Foundation
                     workspace.libraryArea.minY - workspace.deckArea.maxY == 44,
                     "grab strip occupies its own 44-point lane")
                 expect(
-                    workspace.deckArea.height >= 524,
-                    "full opening retains both complete compact decks and their divider")
+                    workspace.deckArea.height >= 0,
+                    "browser expansion cannot produce negative deck space")
                 expect(workspace.libraryArea.maxY == height, "browser remains attached to bottom edge")
                 expect(workspace.libraryArea.maxX <= baseline.workArea.maxX, "browser cannot cover dock")
             }

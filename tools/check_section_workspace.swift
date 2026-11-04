@@ -110,8 +110,9 @@ import Foundation
                             && work.dock.crossfader == dock.crossfader,
                         "quiet or large handles cannot move dock or full-height fader")
                     expect(
-                        split.a.height >= 52 && split.b.height >= 52 && split.handle.height == extent,
-                        "both compact decks fit the selected handle size")
+                        split.a.height >= 0 && split.b.height >= 0
+                            && split.handle.height == min(extent, work.deckArea.height),
+                        "deck geometry fits while the browser expands")
                     expect(
                         work.libraryArea.minY - work.deckArea.maxY == extent,
                         "library reserves only the selected grab thickness")

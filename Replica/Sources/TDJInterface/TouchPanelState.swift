@@ -51,7 +51,7 @@ struct TouchPanelState {
             return
         }
         let maximum = max(0, maximumExtent)
-        if translation >= 12 && velocity >= 600 {
+        if translation >= 12 && velocity >= 600 && extent < maximum {
             extent = min(maximum, max(minimumExtent, rememberedExtent > 0 ? rememberedExtent : maximum))
         } else if translation <= -12 && velocity <= -600 {
             extent = 0
@@ -114,12 +114,11 @@ struct LibraryPanelState {
     var extent: Double { panel.extent }
     var isDragging: Bool { panel.isDragging }
     var acceptsContentInput: Bool { extent > 0 && extent >= min(panel.minimumExtent, maximumExtent) }
+    private var initialExtent: Double {
+        max(0, maximumExtent - 2 * AdaptivePerformanceLayout.minimumCompactDeckHeight - handleExtent)
+    }
     private var browseExtent: Double {
-        min(
-            maximumExtent,
-            max(
-                panel.minimumExtent,
-                (maximumExtent + 2 * AdaptivePerformanceLayout.minimumCompactDeckHeight + handleExtent) / 2))
+        min(initialExtent, max(panel.minimumExtent, maximumExtent / 2))
     }
     var selectedShortcut: LibraryWorkspaceShortcut? {
         if extent == 0 { return .performance }
@@ -143,10 +142,13 @@ struct LibraryPanelState {
         let visible = dragging ? extent > 0 : presented
         orientation = width < height ? .portrait : .landscape
         maximumExtent = AdaptivePerformanceLayout.maximumLibraryExtent(available: height, handleExtent: handleExtent)
-        panel.setPresented(visible, maximumExtent: maximumExtent)
+        setPresented(visible)
     }
 
-    mutating func setPresented(_ presented: Bool) { panel.setPresented(presented, maximumExtent: maximumExtent) }
+    mutating func setPresented(_ presented: Bool) {
+        let limit = presented && panel.rememberedExtent == 0 ? initialExtent : maximumExtent
+        panel.setPresented(presented, maximumExtent: limit)
+    }
 
     mutating func present(fullyExpanded: Bool) {
         if fullyExpanded { panel.expand(maximumExtent: maximumExtent) } else { setPresented(true) }

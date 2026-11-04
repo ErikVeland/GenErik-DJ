@@ -70,7 +70,7 @@ struct AdaptivePerformanceLayout {
     static func maximumLibraryExtent(available: Double, handleExtent: Double = 44) -> Double {
         guard available.isFinite else { return 0 }
         let handle = handleExtent.isFinite ? max(0, handleExtent) : 44
-        return max(0, available - handle - (2 * minimumCompactDeckHeight + handle))
+        return max(0, available - handle)
     }
 
     static func deckHeight(available: Double, browserVisible: Bool, share: Double) -> Double {

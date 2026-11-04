@@ -33,8 +33,9 @@ import Foundation
             let split = DeckSplitGeometry(
                 width: workspace.deckArea.width, height: workspace.deckArea.height, share: 0.5, handleExtent: 12)
             expect(
-                split.a.height >= 164 && split.b.height >= 164, "maximised browser preserves all compact deck controls")
-            expect(library >= 132, "browser remains usable beside the compact decks")
+                split.a.height == 0 && split.b.height == 0 && split.handle.height == 0,
+                "maximised browser collapses both decks and their divider")
+            expect(library >= 132, "maximised browser remains usable")
         }
         let deck = DeckPanelPresentation()
         deck.configure(width: 1004, portrait: false, handleExtent: 12)

@@ -92,7 +92,11 @@ private let surface = PerformancePalette.panel
                                     snapshotFilter: snapshotFilterDecks.contains(.a),
                                     requestPerformanceSpace: { minimum in
                                         if model.browserVisible {
-                                            libraryPanel.makeRoom(by: max(0, minimum - split.a.height))
+                                            libraryPanel.makeRoom(
+                                                by: max(
+                                                    minimum - split.a.height,
+                                                    minimum + DeckSplitGeometry.minimumDeckHeight + handleExtent
+                                                        - workspace.deckArea.height))
                                         }
                                         let available = PerformanceWorkspaceGeometry(
                                             width: space.size.width, height: space.size.height,
@@ -124,7 +128,11 @@ private let surface = PerformancePalette.panel
                                     snapshotFilter: snapshotFilterDecks.contains(.b),
                                     requestPerformanceSpace: { minimum in
                                         if model.browserVisible {
-                                            libraryPanel.makeRoom(by: max(0, minimum - split.b.height))
+                                            libraryPanel.makeRoom(
+                                                by: max(
+                                                    minimum - split.b.height,
+                                                    minimum + DeckSplitGeometry.minimumDeckHeight + handleExtent
+                                                        - workspace.deckArea.height))
                                         }
                                         let available = PerformanceWorkspaceGeometry(
                                             width: space.size.width, height: space.size.height,

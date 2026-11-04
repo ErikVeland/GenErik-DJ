@@ -99,9 +99,11 @@ import Foundation
                     let layout = DeckSplitGeometry(
                         width: workspace.deckArea.width - 12, height: workspace.deckArea.height, share: share)
                     expect(
-                        layout.a.height >= 240 && layout.b.height >= 240, "both complete compact decks remain reachable"
+                        layout.a.height >= 0 && layout.b.height >= 0, "collapsed deck heights remain nonnegative"
                     )
-                    expect(layout.handle.height == 44, "divider has a dedicated 44-point lane")
+                    expect(
+                        layout.handle.height == min(44, workspace.deckArea.height),
+                        "deck divider collapses with the available deck space")
                     expect(
                         layout.a.maxY == layout.handle.minY && layout.handle.maxY == layout.b.minY,
                         "grab lane never overlays a deck")
