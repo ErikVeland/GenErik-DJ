@@ -1,0 +1,7 @@
+FAIL: Browse shares usable portrait space evenly
+FAIL: manual resize remains free between shortcuts
+FAIL: Performance retains the manually chosen size
+FAIL: Browse shares usable landscape space evenly
+FAIL: rotation restores the previous landscape shortcut size
+FAIL: Browse clamps to constrained geometry
+201 panel and library checks; 6 failures

@@ -1,0 +1,34 @@
+{
+  "requestIDs": [
+    "R40",
+    "R30",
+    "R32"
+  ],
+  "baselineBuild": 88,
+  "baseCommit": "465b87b3b",
+  "sourceSHA256": "85c5d6d89215f15a5ce3be8ed7dd632c56dfea8b0fccd334413917b17f33ae70",
+  "checks": {
+    "panels": {
+      "assertions": 201,
+      "failures": 0,
+      "log": "panels.log"
+    },
+    "dock": {
+      "assertions": 1330,
+      "failures": 0,
+      "log": "dock.log"
+    },
+    "mutation": {
+      "result": "Detected wrong Browse extent",
+      "summary": "201 panel and library checks; 6 failures",
+      "log": "mutation.log"
+    },
+    "baseline": {
+      "result": "New shortcut API absent",
+      "log": "baseline.log"
+    }
+  },
+  "review": "Shortcuts sit outside the handle gesture. All three use the existing LibraryPanelState. Browse uses half of the usable workspace height, excluding the 44-point handle, with minimum/maximum bounds. Viewport memory, manual sizes, full add-track opening, hidden-content input gates and Reduce Motion animation remain on the existing path. BrowserView, PerformanceDock and audio code are unchanged.",
+  "build": "pending",
+  "acceptance": "Pending Erik touch and listening checks."
+}

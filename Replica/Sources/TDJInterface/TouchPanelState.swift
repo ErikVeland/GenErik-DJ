@@ -86,6 +86,10 @@ struct TouchPanelState {
     }
 }
 
+enum LibraryWorkspaceShortcut: String, CaseIterable {
+    case performance = "Performance", browse = "Browse", expand = "Expand"
+}
+
 struct LibraryPanelState {
     enum Orientation { case portrait, landscape }
     private var portrait = TouchPanelState(minimumExtent: 132, initialExtent: 0)
@@ -99,6 +103,23 @@ struct LibraryPanelState {
     var extent: Double { panel.extent }
     var isDragging: Bool { panel.isDragging }
     var acceptsContentInput: Bool { extent > 0 && extent >= min(panel.minimumExtent, maximumExtent) }
+    private var browseExtent: Double {
+        min(maximumExtent, max(panel.minimumExtent, (maximumExtent + AdaptivePerformanceLayout.minimumDeckHeight) / 2))
+    }
+    var selectedShortcut: LibraryWorkspaceShortcut? {
+        if extent == 0 { return .performance }
+        if abs(extent - maximumExtent) < 0.5 { return .expand }
+        if abs(extent - browseExtent) < 0.5 { return .browse }
+        return nil
+    }
+
+    mutating func apply(_ shortcut: LibraryWorkspaceShortcut) {
+        switch shortcut {
+        case .performance: setPresented(false)
+        case .browse: panel.expand(maximumExtent: browseExtent)
+        case .expand: present(fullyExpanded: true)
+        }
+    }
 
     mutating func updateViewport(width: Double, height: Double, presented: Bool) {
         let dragging = isDragging
