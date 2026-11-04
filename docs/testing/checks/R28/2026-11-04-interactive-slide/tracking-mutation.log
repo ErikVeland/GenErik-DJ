@@ -1,0 +1,5 @@
+FAIL: A follows the finger without a release-only jump
+FAIL: B follows directly beside A without a gap
+FAIL: reversing the finger reverses the deck immediately
+FAIL: a right drag reveals A beside B
+198 front performance checks; 4 failures

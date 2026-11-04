@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 63.84,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "recordedUTC": "2026-11-04T07:42:31.902350+00:00",
+      "buildAssumption": "Erik did not give a build number. Build 99 was the last installed Duo candidate in this chat.",
+      "report": "Make the deck slide with my finger when I swipe between A and B, so the switch feels natural. Keep this on the Duo front screen only. Leave the iPad and Duo inside layouts alone.",
+      "requestIDs": [
+        "R28"
+      ]
+    }
+  ],
   "log": "TestBuilds/ipad/build-99.log",
   "build": 99,
   "app": "TestBuilds/ipad/99/GenErikDJ.app",

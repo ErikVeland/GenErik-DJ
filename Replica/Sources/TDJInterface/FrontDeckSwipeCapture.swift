@@ -1,5 +1,12 @@
 import SwiftUI
 
+enum FrontDeckSwipeEvent {
+    case began(horizontal: Double, vertical: Double)
+    case changed(horizontal: Double, vertical: Double)
+    case ended(horizontal: Double, vertical: Double, velocity: Double)
+    case cancelled
+}
+
 struct FrontDeckSwipeProtectionKey: PreferenceKey {
     static var defaultValue: [Anchor<CGRect>] { [] }
     static func reduce(value: inout [Anchor<CGRect>], nextValue: () -> [Anchor<CGRect>]) {
@@ -37,7 +44,8 @@ struct FrontDeckSwipeCapture: UIViewRepresentable {
     let protectedRegions: [CGRect]
     let selectorRegion: CGRect
     let contactID: UUID
-    let choose: (FrontDeckSwipeDirection) -> Void
+    let acceptsNewSwipe: Bool
+    let event: (FrontDeckSwipeEvent) -> Void
 
     func makeCoordinator() -> Coordinator { Coordinator() }
     func makeUIView(context: Context) -> CaptureView {
@@ -51,7 +59,8 @@ struct FrontDeckSwipeCapture: UIViewRepresentable {
         context.coordinator.regions = protectedRegions
         context.coordinator.selectorRegion = selectorRegion
         context.coordinator.contactID = contactID
-        context.coordinator.choose = choose
+        context.coordinator.acceptsNewSwipe = acceptsNewSwipe
+        context.coordinator.event = event
     }
     static func dismantleUIView(_ view: CaptureView, coordinator: Coordinator) { coordinator.attach(to: nil) }
 
@@ -68,7 +77,8 @@ struct FrontDeckSwipeCapture: UIViewRepresentable {
         var selectorRegion = CGRect.zero
         var contactID = UUID()
         private var initialContact: UUID?
-        var choose: ((FrontDeckSwipeDirection) -> Void)?
+        var acceptsNewSwipe = true
+        var event: ((FrontDeckSwipeEvent) -> Void)?
 
         func attach(to window: UIWindow?) {
             guard self.window !== window else { return }
@@ -86,7 +96,7 @@ struct FrontDeckSwipeCapture: UIViewRepresentable {
         }
 
         func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-            guard let view, view.window != nil,
+            guard acceptsNewSwipe, let view, view.window != nil,
                   FrontDeckSwipePolicy.allowsStart(at: touch.location(in: view), bounds: view.bounds, protected: regions) else { return false }
             if selectorRegion.contains(touch.location(in: view)) {
                 initialContact = contactID
@@ -102,7 +112,8 @@ struct FrontDeckSwipeCapture: UIViewRepresentable {
         }
 
         func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-            guard initialContact == contactID, let pan = gestureRecognizer as? UIPanGestureRecognizer, let view else { return false }
+            guard acceptsNewSwipe, initialContact == contactID,
+                  let pan = gestureRecognizer as? UIPanGestureRecognizer, let view else { return false }
             let velocity = pan.velocity(in: view)
             return abs(velocity.x) > abs(velocity.y) * 1.4
         }
@@ -111,11 +122,18 @@ struct FrontDeckSwipeCapture: UIViewRepresentable {
                                shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool { true }
 
         @objc private func handle(_ pan: UIPanGestureRecognizer) {
-            guard pan.state == .ended, initialContact == contactID, let view else { return }
+            guard initialContact == contactID, let view else { return }
             let translation = pan.translation(in: view)
-            if let direction = FrontDeckSwipePolicy.direction(horizontal: translation.x, vertical: translation.y,
-                                                              velocity: pan.velocity(in: view).x) {
-                choose?(direction)
+            switch pan.state {
+            case .began: event?(.began(horizontal: translation.x, vertical: translation.y))
+            case .changed: event?(.changed(horizontal: translation.x, vertical: translation.y))
+            case .ended:
+                initialContact = nil
+                event?(.ended(horizontal: translation.x, vertical: translation.y, velocity: pan.velocity(in: view).x))
+            case .cancelled, .failed:
+                initialContact = nil
+                event?(.cancelled)
+            default: break
             }
         }
     }
@@ -125,7 +143,8 @@ struct FrontDeckSwipeCapture: View {
     let protectedRegions: [CGRect]
     let selectorRegion: CGRect
     let contactID: UUID
-    let choose: (FrontDeckSwipeDirection) -> Void
+    let acceptsNewSwipe: Bool
+    let event: (FrontDeckSwipeEvent) -> Void
     var body: some View { Color.clear.allowsHitTesting(false) }
 }
 #endif

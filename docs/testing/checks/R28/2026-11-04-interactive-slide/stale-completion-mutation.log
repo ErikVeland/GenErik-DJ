@@ -1,0 +1,3 @@
+FAIL: a later selector choice rejects completion from the previous animation
+FAIL: only the latest selector animation can finish the deck switch
+198 front performance checks; 2 failures

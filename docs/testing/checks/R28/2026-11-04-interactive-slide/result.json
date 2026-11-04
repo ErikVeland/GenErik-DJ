@@ -1,0 +1,35 @@
+{
+  "requestIDs": [
+    "R28"
+  ],
+  "baselineDuoBuild": 99,
+  "baselineIntegrationCommit": "dbdb07bce37b0b64314388de4c8aef693d179be9",
+  "checks": {
+    "front": {
+      "assertions": 198,
+      "failures": 0,
+      "log": "front.log"
+    },
+    "browser": {
+      "assertions": 130,
+      "failures": 0,
+      "log": "browser.log"
+    },
+    "contacts": {
+      "assertions": 36,
+      "failures": 0,
+      "log": "contacts.log"
+    }
+  },
+  "failedAndMutationEvidence": {
+    "red.log": "New slide checks could not compile before the slide state existed.",
+    "first-check.log": "One exact floating-point comparison failed. The assertion now uses a sub-pixel tolerance.",
+    "tracking-mutation.log": "Disabling live tracking fails four assertions.",
+    "stale-completion-mutation.log": "Removing settlement identity fails two assertions."
+  },
+  "preservation": "preservation.json",
+  "scope": "Duo closed/front workspace only. Changes are limited to the front view, its swipe capture and front-only interaction state. The existing root workspace routing, standard browser, dock, fader and layout sources are unchanged.",
+  "review": "Retained A/B pages track the finger with adjoining full-width frames. Existing horizontal intent and protected-region checks remain. Short drags return, deliberate swipes settle and strong reverse flicks return to the origin. A/B taps share the slide. Moving deck input is cancelled and disabled. Fixed performance controls remain reachable. Reduced Motion omits the settling animation. Size, background, folding and interruption resets reject stale animation completions.",
+  "build": "pending",
+  "acceptance": "Erik checks physical finger tracking, reversal, short-release return, A/B taps and swipes, protected controls, reduced motion, folding/inside layout and clean audio. Duo only. No iPad operation. Physical acceptance remains pending."
+}

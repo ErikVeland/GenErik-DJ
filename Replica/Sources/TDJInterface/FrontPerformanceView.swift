@@ -7,6 +7,7 @@ struct FrontPerformanceView: View {
     var importAudio: () -> Void
     var linkCollection: () -> Void
     @State private var selection = FrontDeckSelection(selected: DeckID.a)
+    @State private var deckSlide = FrontDeckSlideState()
     @State private var panelsA = DeckPanelPresentation()
     @State private var panelsB = DeckPanelPresentation()
     @State private var browser = FrontBrowserPanelState()
@@ -31,7 +32,11 @@ struct FrontPerformanceView: View {
                 deckSelector.frame(height: layout.selector.height)
                 ZStack {
                     retainedDeck(.a, panels: panelsA)
+                        .frame(width: layout.deck.width, height: layout.deck.height)
+                        .offset(x: deckSlide.offset(isB: false, width: layout.deck.width))
                     retainedDeck(.b, panels: panelsB)
+                        .frame(width: layout.deck.width, height: layout.deck.height)
+                        .offset(x: deckSlide.offset(isB: true, width: layout.deck.width))
                 }
                 .environment(\.touchSurfaceInterruption, selection.contactID)
                 .frame(height: layout.deck.height).clipped()
@@ -52,8 +57,8 @@ struct FrontPerformanceView: View {
             .overlayPreferenceValue(FrontDeckSwipeProtectionKey.self) { anchors in
                 GeometryReader { geometry in
                     FrontDeckSwipeCapture(protectedRegions: anchors.map { geometry[$0] }, selectorRegion: layout.selector,
-                        contactID: selection.contactID) { direction in
-                        selection.select(direction == .next ? .b : .a)
+                        contactID: deckSlide.sessionID, acceptsNewSwipe: !deckSlide.blocksDeckInput) { event in
+                        handleSwipe(event, width: layout.deck.width)
                     }.allowsHitTesting(false)
                 }
             }
@@ -63,17 +68,21 @@ struct FrontPerformanceView: View {
             .onAppear {
                 browser.configure(width: space.size.width, height: space.size.height, selectorHeight: selectorHeight, controlsHeight: controlsHeight)
                 selection.select(DeckID(rawValue: savedDeck) ?? .a)
+                deckSlide.reset(selectedIsB: activeDeck == .b)
                 previousBrowserVisible = model.browserVisible
                 model.browserVisible = false
             }
             .onChange(of: selection.selected) { _, deck in savedDeck = deck.rawValue }
             .onChange(of: space.size) { _, size in
+                resetDeckSlide()
                 browser.configure(width: size.width, height: size.height, selectorHeight: selectorHeight, controlsHeight: controlsHeight)
             }
             .onChange(of: selectorHeight) { _, _ in
+                resetDeckSlide()
                 browser.configure(width: space.size.width, height: space.size.height, selectorHeight: selectorHeight, controlsHeight: controlsHeight)
             }
             .onChange(of: controlsHeight) { _, _ in
+                resetDeckSlide()
                 browser.configure(width: space.size.width, height: space.size.height, selectorHeight: selectorHeight, controlsHeight: controlsHeight)
             }
             .onChange(of: model.browserPresentationID) { _, _ in
@@ -81,12 +90,13 @@ struct FrontPerformanceView: View {
                 model.browserVisible = true
             }
             .onChange(of: model.browserVisible) { _, visible in browser.setPresented(visible) }
-            .onChange(of: interruption) { _, _ in selection.interrupt(); browser.interrupt() }
+            .onChange(of: interruption) { _, _ in resetDeckSlide(); selection.interrupt(); browser.interrupt() }
             .onChange(of: scenePhase) { _, phase in
-                if phase != .active { selection.interrupt(); browser.interrupt() }
+                if phase != .active { resetDeckSlide(); selection.interrupt(); browser.interrupt() }
             }
             .onDisappear {
                 browser.interrupt()
+                resetDeckSlide()
                 selection.interrupt()
                 model.browserVisible = previousBrowserVisible
             }
@@ -96,7 +106,7 @@ struct FrontPerformanceView: View {
     private var deckSelector: some View {
         HStack(spacing: 4) {
             ForEach(DeckID.allCases, id: \.self) { deck in
-                Button { selection.select(deck) } label: {
+                Button { settleDeck(on: deck) } label: {
                     VStack(alignment: .leading, spacing: 3) {
                         HStack {
                             Text(deck.rawValue.uppercased()).font(.headline)
@@ -132,10 +142,50 @@ struct FrontPerformanceView: View {
             guard activeDeck == deck else { return }
             apply(.performance)
         })
-        .opacity(activeDeck == deck ? 1 : 0)
-        .allowsHitTesting(activeDeck == deck).disabled(activeDeck != deck)
-        .accessibilityHidden(activeDeck != deck)
+        .allowsHitTesting(activeDeck == deck && !deckSlide.blocksDeckInput)
+        .disabled(activeDeck != deck || deckSlide.blocksDeckInput)
+        .accessibilityHidden(activeDeck != deck || deckSlide.blocksDeckInput)
         .environment(\.frontDeckSwipeEnabled, activeDeck == deck)
+    }
+
+    private func handleSwipe(_ event: FrontDeckSwipeEvent, width: Double) {
+        switch event {
+        case let .began(horizontal, vertical):
+            guard deckSlide.begin(selectedIsB: activeDeck == .b, width: width) else { return }
+            selection.interrupt()
+            deckSlide.update(horizontal: horizontal, vertical: vertical)
+        case let .changed(horizontal, vertical):
+            deckSlide.update(horizontal: horizontal, vertical: vertical)
+        case let .ended(horizontal, vertical, velocity):
+            guard deckSlide.isDragging else { return }
+            deckSlide.update(horizontal: horizontal, vertical: vertical)
+            let settlementID = UUID()
+            withAnimation(reduceMotion ? nil : .smooth(duration: 0.24), completionCriteria: .logicallyComplete) {
+                deckSlide.end(velocity: velocity, settlementID: settlementID)
+            } completion: { completeDeckSlide(settlementID) }
+        case .cancelled:
+            settleDeck(on: activeDeck)
+        }
+    }
+
+    private func settleDeck(on deck: DeckID) {
+        guard deckSlide.blocksDeckInput || deck != activeDeck else { return }
+        selection.interrupt()
+        let settlementID = UUID()
+        withAnimation(reduceMotion ? nil : .smooth(duration: 0.24), completionCriteria: .logicallyComplete) {
+            deckSlide.settle(on: deck == .b, settlementID: settlementID)
+        } completion: { completeDeckSlide(settlementID) }
+    }
+
+    private func completeDeckSlide(_ settlementID: UUID) {
+        guard let isB = deckSlide.complete(settlementID: settlementID) else { return }
+        selection.select(isB ? .b : .a)
+    }
+
+    private func resetDeckSlide() {
+        var transaction = Transaction()
+        transaction.disablesAnimations = true
+        withTransaction(transaction) { deckSlide.reset(selectedIsB: activeDeck == .b) }
     }
 
     private var browserBar: some View {
