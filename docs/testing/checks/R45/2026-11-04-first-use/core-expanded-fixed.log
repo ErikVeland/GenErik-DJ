@@ -1,0 +1,42 @@
+Building for debugging...
+[Computing dependencies]
+[1 / 13] CTDJTransport
+[2 / 12] TDJCore
+[5 / 16] TDJCore
+[5 / 17] TDJCore
+[5 / 30] TDJCore
+[7 / 30] TDJCore
+[9 / 30] TDJCore
+[11 / 32] TDJCore
+[14 / 32] TDJCore
+[15 / 32] TDJCore
+[17 / 32] TDJCore
+[18 / 32] TDJCore
+[19 / 34] TDJCore
+[21 / 34] TDJCore
+[22 / 34] TDJCore
+[23 / 34] TDJCore
+[24 / 34] TDJCore
+[25 / 34] TDJCore
+[26 / 34] TDJCore
+[28 / 33] TDJCore-product
+[28 / 33] TDJCoreTests-product
+[30 / 35] TDJCoreTests-product
+[33 / 36] TDJCoreTests-product
+[35 / 39] TDJCoreTests-product
+[36 / 39] TDJCoreTests-product
+Build complete! (35.04 sec.)
+Test Suite 'All tests' started at 2026-11-04 20:53:33.979.
+Test Suite 'All tests' passed at 2026-11-04 20:53:33.984.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.005) seconds
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test coldStreamedPlaybackDoesNotBuildAWholePCMCache() started.
+􀟈  Test nativeWaveformCompletesWithoutChangingTheOpeningAndWritesExactPCM() started.
+􀟈  Test nativeOpeningHasRealPartialWaveformAndKeepsPreparationThroughAnalysis() started.
+2026-11-04 20:53:34.321 swiftpm-testing-helper[46315:6258259] Audio files cannot be non-interleaved. Ignoring setting AVLinearPCMIsNonInterleaved YES.
+􁁛  Test coldStreamedPlaybackDoesNotBuildAWholePCMCache() passed after 1.294 seconds.
+􁁛  Test nativeWaveformCompletesWithoutChangingTheOpeningAndWritesExactPCM() passed after 2.524 seconds.
+􁁛  Test nativeOpeningHasRealPartialWaveformAndKeepsPreparationThroughAnalysis() passed after 13.987 seconds.
+􁁛  Test run with 3 tests in 0 suites passed after 13.987 seconds.

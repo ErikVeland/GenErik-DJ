@@ -1,0 +1,59 @@
+Fetching binary artifact https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip from cache
+Fetched https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.7/whisper-v1.8.7-xcframework.zip from cache (2.04s)
+Building for debugging...
+[Pre-planning 1 / 214]
+[Planning deferred tasks]
+[1 / 21] TDJInterfaceTests-product
+[7 / 52]
+[12 / 44] TDJInterface
+[14 / 44] TDJInterface
+[15 / 61]
+[17 / 61] GenErikDJ_TDJInterface
+[18 / 61] GenErikDJ_TDJInterface
+[20 / 59] TDJInterface
+[21 / 59] TDJInterface
+[22 / 59] TDJInterface
+[24 / 58] TDJInterface
+[29 / 58] TDJInterface
+[30 / 58] TDJInterface
+[31 / 56] TDJInterfaceTests-product
+[33 / 56] TDJInterface
+[34 / 56] TDJInterface
+[35 / 56] TDJInterface
+[36 / 56] TDJInterface
+[37 / 56] TDJInterface
+[38 / 56] GenErikDJ_TDJInterface
+[38 / 56] TDJInterface
+[40 / 56] TDJInterface
+[43 / 56] TDJInterfaceTests-product
+[43 / 56] TDJInterface-product
+[44 / 56] TDJInterfaceTests-product
+[47 / 61] TDJInterfaceTests-product
+[50 / 60] TDJInterfaceTests-product
+[53 / 60] TDJInterfaceTests-product
+[55 / 60] TDJInterfaceTests-product
+[56 / 60] TDJInterfaceTests-product
+[57 / 60] TDJInterfaceTests-product
+Build complete! (85.72 sec.)
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck:preprepared:) started.
+􀟈  Test instantTrackLoadQueuesPlayBeforeAnalysisAndKeepsTheAudioGeneration() started.
+􀟈  Test instantTrackLoadSecondTapCancelsPendingPlay() started.
+􀟈  Test firstNativeLoadShowsRealWaveformAndAcceptsPlayBeforeExportOrFullPCM() started.
+􀟈  Test instantTrackLoadShowsWaveformBeforeAudioReadiness() started.
+􀟈  Test instantTrackLoadReplacementClearsPendingPlay() started.
+􀟈  Test directNativeReplacementCannotConsumeEarlierQueuedPlay() started.
+􀟈  Test case passing 2 arguments deck → .b, preprepared → true to deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck:preprepared:) started.
+􀟈  Test case passing 2 arguments deck → .b, preprepared → false to deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck:preprepared:) started.
+􀟈  Test case passing 2 arguments deck → .a, preprepared → false to deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck:preprepared:) started.
+􀟈  Test case passing 2 arguments deck → .a, preprepared → true to deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck:preprepared:) started.
+􁁛  Test instantTrackLoadShowsWaveformBeforeAudioReadiness() passed after 13.478 seconds.
+􁁛  Test directNativeReplacementCannotConsumeEarlierQueuedPlay() passed after 13.478 seconds.
+􁁛  Test instantTrackLoadReplacementClearsPendingPlay() passed after 13.479 seconds.
+􁁛  Test instantTrackLoadSecondTapCancelsPendingPlay() passed after 13.480 seconds.
+􁁛  Test firstNativeLoadShowsRealWaveformAndAcceptsPlayBeforeExportOrFullPCM() passed after 19.803 seconds.
+􁁛  Test instantTrackLoadQueuesPlayBeforeAnalysisAndKeepsTheAudioGeneration() passed after 53.010 seconds.
+􁁛  Test deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck:preprepared:) with 4 test cases passed after 60.835 seconds.
+􁁛  Test run with 7 tests in 0 suites passed after 60.835 seconds.

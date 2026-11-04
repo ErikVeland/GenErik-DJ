@@ -1,0 +1,59 @@
+Building for debugging...
+[Computing dependencies]
+[Constructing description]
+[Pre-planning 1 / 125]
+[Planning deferred tasks]
+[1 / 23] TDJCoreTests-product
+[1 / 42] CTDJTransport
+[7 / 34]
+[9 / 35] CTDJTransport
+[11 / 39] CTDJTransport
+[12 / 39] CTDJTransport
+[12 / 39] TDJCore
+[14 / 57] CTDJTransport
+[15 / 57]
+[17 / 57]
+[19 / 57] TDJCore
+[20 / 57] CTDJTransport
+[22 / 56] TDJCore
+[28 / 56] TDJCore
+[29 / 56] TDJCore
+[30 / 56] TDJCore
+[32 / 56] TDJCore
+[35 / 56] TDJCore
+[36 / 56] TDJCore
+[37 / 56] TDJCore
+[38 / 56] TDJCore
+[38 / 56] CTDJTransport
+/Users/veland/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[38 / 54] TDJCore
+[43 / 54] TDJCoreTests-product
+[46 / 57] TDJCoreTests-product
+[51 / 57] TDJCoreTests-product
+[53 / 57] TDJCoreTests-product
+Build complete! (33.29 sec.)
+Test Suite 'All tests' started at 2026-11-04 20:36:41.271.
+Test Suite 'All tests' passed at 2026-11-04 20:36:41.274.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.003) seconds
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test coldStreamedPlaybackDoesNotBuildAWholePCMCache() started.
+2026-11-04 20:36:41.385 swiftpm-testing-helper[34971:6205988] Audio files cannot be non-interleaved. Ignoring setting AVLinearPCMIsNonInterleaved YES.
+􀢄  Test coldStreamedPlaybackDoesNotBuildAWholePCMCache() recorded an issue at FirstLoadStreamingTests.swift:23:5: Expectation failed: !FileManager.default.fileExists(atPath: pcm.path)
+􀄵  !FileManager.default.fileExists(atPath: pcm.path) → true
+􀄵    FileManager.default.fileExists(atPath: pcm.path) → false
+􀄵      FileManager.default → <NSFileManager: 0x102f65980>
+􀄵      pcm.path → "/var/folders/x4/552661tn5vzgxk5405585gg80000gq/T/EC0B36FA-8479-4D6D-912E-1DBC88123086/PlaybackCache/66d7888044b9b480556e9f876b63a2ef3e050cd9f465812c717dd45e1c7b3207-stereo-f32-v1.pcm"
+􀢄  Test coldStreamedPlaybackDoesNotBuildAWholePCMCache() failed after 0.497 seconds with 1 issue.
+􀢄  Test run with 1 test in 0 suites failed after 0.497 seconds with 1 issue.
+Note: Some test targets reported failures:
+  - TDJCoreTests (Swift Testing)

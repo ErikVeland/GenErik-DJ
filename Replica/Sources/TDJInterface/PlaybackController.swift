@@ -174,14 +174,23 @@ public final class PlaybackController {
     enum LoadCheckpoint { case decoded, submitted(UInt64), accepted(UInt64) }
     var loadCheckpoint: ((LoadCheckpoint) async throws -> Void)?
 
-    public func load(track: Track, store: WorkspaceStore, deck: DeckID, sourceURL: URL? = nil,
+    public func load(track: Track, store: WorkspaceStore, deck: DeckID, sourceURL: URL? = nil, preparedAsset: PCMAsset? = nil, opening: NativePlaybackOpening? = nil,
                      committed: @escaping (UInt64) -> Void = { _ in }) async throws {
         guard core.snapshot()?[deck].phase.active != true else { throw TransportError.protectedDeck }
         invalidateRecovery(deck: deck)
         cancelSourcePreparations(deck: deck)
-        let asset = try await PCMCache.prepareAsync(track: track, store: store, streamed: streamingPlayback,
+        let asset: PCMAsset
+        if let preparedAsset { asset = preparedAsset }
+        else if let opening {
+            let rate = core.sampleRate
+            let maximum = core.configuredMaximumOutputFrames == 0 ? 4096 : core.configuredMaximumOutputFrames
+            asset = try await Task.detached(priority: .userInitiated) {
+                try opening.asset(outputSampleRate: rate, maximumOutputFrames: maximum)
+            }.value
+        }
+        else { asset = try await PCMCache.prepareAsync(track: track, store: store, streamed: streamingPlayback,
                                                    outputSampleRate: core.sampleRate,
-                                                   maximumOutputFrames: core.configuredMaximumOutputFrames == 0 ? 4096 : core.configuredMaximumOutputFrames, sourceURL: sourceURL)
+                                                   maximumOutputFrames: core.configuredMaximumOutputFrames == 0 ? 4096 : core.configuredMaximumOutputFrames, sourceURL: sourceURL) }
         try Task.checkCancellation()
         if let loadCheckpoint { try await loadCheckpoint(.decoded) }
         // The output route can change while the decoder is working. A cold LOAD

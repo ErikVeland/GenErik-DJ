@@ -169,7 +169,20 @@ extension ReplicaModel {
                 guard let item else { throw MusicLibraryError.missingAudio }
                 selectedID = item.id
                 status = "Preparing \(item.title)…"
-                if item.isOnDevice {
+                if item.isOnDevice, let source = try await musicLibraryProvider.playbackSource(item) {
+                    let scoped = await state.files.run { source.url.startAccessingSecurityScopedResource() }
+                    let opening = try await NativePlaybackOpening.open(url: source.url, sourceIdentity: item.source.id, cleanup: {
+                        if scoped { source.url.stopAccessingSecurityScopedResource() }
+                        if source.temporary { try? FileManager.default.removeItem(at: source.url) }
+                    })
+                    try Task.checkCancellation()
+                    guard state.loadOwners[deck] == token else { throw CancellationError() }
+                    adoptLibrary(try await service.registerNativePlayback(analysis: opening.analysis, metadata: source.metadata))
+                    try Task.checkCancellation()
+                    guard state.loadOwners[deck] == token, let track = await preparedNativeTrack(item) else { throw CancellationError() }
+                    try await loadOwnedNativeTrack(track, deck: deck, sourceURL: source.url,
+                        metadata: source.metadata, token: token, opening: opening)
+                } else if item.isOnDevice {
                     try await withNativeAudio(item) { prepared in
                         var track = await self.preparedNativeTrack(item)
                         if track == nil {
@@ -214,12 +227,12 @@ extension ReplicaModel {
     }
 
     private func loadOwnedNativeTrack(_ track: Track, deck: DeckID, sourceURL: URL?,
-        metadata: MusicLibraryImportMetadata, token: UUID) async throws {
+        metadata: MusicLibraryImportMetadata, token: UUID, asset: PCMAsset? = nil, opening: NativePlaybackOpening? = nil) async throws {
         try Task.checkCancellation()
         guard nativeMusic.loadOwners[deck] == token else { throw CancellationError() }
         let attempt = NativeMusicLoadAttempt()
         let root = loadPreparedTrack(trackID: track.id, deck: deck, sourceURL: sourceURL,
-            nativeMetadata: metadata, nativeLoadOwner: token, onFailure: { attempt.failure = $0 })
+            nativeMetadata: metadata, nativeLoadOwner: token, preparedAsset: asset, opening: opening, onFailure: { attempt.failure = $0 })
         if let failure = attempt.failure { throw failure }
         guard let root else { throw TransportError.stale }
         nativeMusic.rootLoads[token] = root

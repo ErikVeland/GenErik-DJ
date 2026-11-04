@@ -1,0 +1,61 @@
+{
+  "requestID": "R45",
+  "parentCommit": "f141c8543d6e4f5e98c16ed6400e6315b820a9d4",
+  "branch": "feature/r43-main-install",
+  "ownedFileHashes": {
+    "Replica/Scripts/streaming-native-check.cpp": "a2e0039b1937240d2075376cf1c31059f251c6a2386073b6b7e9ba5153d50148",
+    "Replica/Sources/CTDJTransport/TDJStreaming.c": "e38d166ae09c09306d0b311aa064e16a3068502beb523c223f62b160b2fff5cc",
+    "Replica/Sources/CTDJTransport/include/TDJStreaming.h": "73a99aa7f494b93c1fd3b4d83818b445f8e939c0a556b6f9d3f79220b65dc276",
+    "Replica/Sources/TDJCore/DecodedAudioSource.swift": "618874bd3a282e065d58195efd7cc85b549e46f28ff1283cf5cb3cbd9059219e",
+    "Replica/Sources/TDJCore/Models.swift": "30abd6e80f25c0be5a3b67a241e1d700242940596949939fe88bcb7ee004f2db",
+    "Replica/Sources/TDJCore/PCMCache.swift": "4845b3521eff2c15af6016ecd70d1f2b8063d7007d99e13f98d2a61d1886dbe6",
+    "Replica/Sources/TDJCore/SampleTransport.swift": "97e69b0c219a4ba1e4e10e61267aa3ab0bd4d9b74d46ea95729bfe27f72f68ba",
+    "Replica/Sources/TDJCore/TraktorPreparationMergePlan.swift": "f77db5a015dbcdf89679a4257e6e039490728ee749db39a3deb59aa0d71e7920",
+    "Replica/Sources/TDJCore/WaveformStorage.swift": "8229eff9186de9158925ca04b05d6abc75c4f27edf7f4c474395307d9b084542",
+    "Replica/Sources/TDJCore/Workspace.swift": "9cfb4af518f130e55b61f24b5a9782bcc0ec993cadab1219ef3666111e0cba75",
+    "Replica/Sources/TDJInterface/BandWaveforms.swift": "d286677c8659cfa9a7e639fcea96491418008b96efdd9e3622eae09c594494a6",
+    "Replica/Sources/TDJInterface/LocalMusicLibrary.swift": "676f8fe85215e4f4da60f40578d55909c25a524e3c20f961d803ebd1a53a691a",
+    "Replica/Sources/TDJInterface/NativeMusicModel.swift": "fbdfc847ce06c0af0a1ed657df67bf797194400faefd2c22b37db08ed055e11b",
+    "Replica/Sources/TDJInterface/PlaybackController.swift": "ace1b0426607810b48f6800d1791739f03f694a7cbba377e2ca710ae41b4aa54",
+    "Replica/Sources/TDJInterface/ReplicaModel.swift": "56602546009aafd41038fc14acf83d362501c29e07cb6197ea51828df199ac79",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "68c0f664c229918eba06864c1f4850b9d4fb172aa925002be56e40b955b6d1b9",
+    "Replica/Tests/TDJCoreTests/FirstLoadStreamingTests.swift": "5d9563399b24ebcb7ee1fe21bd2ce84fbb7e2e9fb6ae13f30f44535e7cdf5456",
+    "Replica/Tests/TDJInterfaceTests/FirstUseNativePlaybackTests.swift": "a7c77c7bee8f4192b094d76cb6d6c322ef65e20c0d604fe467120c66b035cb50"
+  },
+  "checks": {
+    "coldCacheRed": "Expected failure in core-red.log",
+    "core": {
+      "functions": 7,
+      "seconds": 27.053,
+      "exitCode": 0,
+      "log": "core-final.log"
+    },
+    "interface": {
+      "functions": 7,
+      "cases": 10,
+      "seconds": 60.835,
+      "exitCode": 0,
+      "log": "interface-initial.log"
+    },
+    "nativeStream": {
+      "exitCode": 0,
+      "log": "native-stream.log",
+      "decoderChecks": "No opening reads, bounded priming, exact output, decoder I/O failure, one release, failed-open ownership retained."
+    },
+    "loadingOrder": "5 passed",
+    "sourceWhitespace": "passed",
+    "packageManifest": "restored exactly"
+  },
+  "failedAttempts": [
+    "core-red.log: expected cold-cache failure",
+    "core-expanded.log: missing artist argument in new test setup, corrected before subsequent passes"
+  ],
+  "preservation": "The existing-record test retains ID, Traktor reference, cue, manual preparation and bar version with 22,746,240 saved frames at 44,100 Hz despite different opening metadata. Native aliases remain separately bound after analysis.",
+  "deviceState": "No new iPad build or device action by this checkpoint. Consolidation chat owns final main merge, signed build and installation.",
+  "limitations": [
+    "Physical iPad timing and clean other-deck audio require acceptance.",
+    "Source metadata and the opening/reserve decode remain necessary. No whole-track preparation is required for readiness.",
+    "Full analysis still exports native audio after readiness while decks are idle.",
+    "Actual compressed Creep integration evidence belongs to the R43 chat and remains outside this commit."
+  ]
+}

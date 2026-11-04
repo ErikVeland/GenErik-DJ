@@ -31,6 +31,9 @@ typedef struct {
 typedef struct { _Atomic int state; tdj_stream_request request; } request_mailbox;
 struct tdj_stream {
     int fd, input_latency, output_latency, seek_length;
+    tdj_stream_read_frames decode;
+    tdj_stream_release_reader release_decoder;
+    void *decoder_context;
     tdj_stream_config config;
     _Atomic uint32_t maximum_output_frames;
     float *pool;
@@ -92,23 +95,26 @@ static stream_ticket *ticket_find(tdj_stream *s,uint64_t id) {
     return NULL;
 }
 uint64_t tdj_stream_reserved_pcm_bytes(void) { return atomic_load(&global_bytes); }
-tdj_asset *tdj_asset_open_stream(const char *path,uint64_t frames,double rate,
-    const tdj_stream_config *config,int32_t *error) {
+static tdj_asset *open_stream(const char *path,uint64_t frames,double rate,
+    const tdj_stream_config *config,tdj_stream_read_frames decode,
+    tdj_stream_release_reader release_decoder,void *context,int32_t *error) {
     int status=TDJ_STREAM_INVALID,fd=-1; tdj_asset *a=NULL; tdj_stream *s=NULL; bool reserved=false;
-    if(!path || !frames || frames>INT64_MAX/8 || !isfinite(rate) || rate<8000 || rate>384000 ||
+    if((!path && !decode) || (decode && !release_decoder) || !frames || frames>INT64_MAX/8 || !isfinite(rate) || rate<8000 || rate>384000 ||
         !config || !isfinite(config->output_rate) || config->output_rate<8000 || config->output_rate>384000 ||
         !isfinite(config->forward_seconds) || config->forward_seconds<0 || config->forward_seconds>30 ||
         !isfinite(config->backward_seconds) || config->backward_seconds<0 || config->backward_seconds>30 ||
         !config->max_output_frames || config->max_output_frames>65536) goto fail;
-    fd=open(path,O_RDONLY); if(fd<0) { status=TDJ_STREAM_IO_ERROR;goto fail; }
-    struct stat info;
-    if(fstat(fd,&info) || info.st_size<0 || (uint64_t)info.st_size!=frames*8) { status=TDJ_STREAM_IO_ERROR;goto fail; }
+    if(path) {
+        fd=open(path,O_RDONLY); if(fd<0) { status=TDJ_STREAM_IO_ERROR;goto fail; }
+        struct stat info;
+        if(fstat(fd,&info) || info.st_size<0 || (uint64_t)info.st_size!=frames*8) { status=TDJ_STREAM_IO_ERROR;goto fail; }
+    }
     uint64_t used=atomic_load(&global_bytes);
     do { if(used>TDJ_STREAM_GLOBAL_PCM_BYTES-POOL_BYTES) { status=TDJ_STREAM_CAPACITY;goto fail; } }
     while(!atomic_compare_exchange_weak(&global_bytes,&used,used+POOL_BYTES));
     reserved=true; a=calloc(1,sizeof(*a));s=calloc(1,sizeof(*s));
     if(!a || !s) { status=TDJ_STREAM_CAPACITY;goto fail; }
-    s->fd=fd;s->config=*config;s->bootstrap=-1;s->reader_table=-1;s->reader_block=UINT64_MAX;
+    s->fd=fd;s->decode=decode;s->release_decoder=release_decoder;s->decoder_context=context;s->config=*config;s->bootstrap=-1;s->reader_table=-1;s->reader_block=UINT64_MAX;
     atomic_init(&s->maximum_output_frames,config->max_output_frames);
     atomic_init(&s->pending,-1);atomic_init(&s->current,-1);
     atomic_init(&s->first_missing_output_frame,UINT64_MAX);
@@ -129,9 +135,17 @@ fail:
     if(reserved)atomic_fetch_sub(&global_bytes,POOL_BYTES);
     if(error)*error=status;return NULL;
 }
+tdj_asset *tdj_asset_open_stream(const char *path,uint64_t frames,double rate,
+    const tdj_stream_config *config,int32_t *error) {
+    return open_stream(path,frames,rate,config,NULL,NULL,NULL,error);
+}
+tdj_asset *tdj_asset_open_decoder(uint64_t frames,double rate,const tdj_stream_config *config,
+    tdj_stream_read_frames read,tdj_stream_release_reader release,void *context,int32_t *error) {
+    return open_stream(NULL,frames,rate,config,read,release,context,error);
+}
 void tdj_stream_destroy(tdj_asset *a) {
     tdj_stream *s=a->stream;if(!s)return;
-    close(s->fd);free(s->pool);free(s);a->stream=NULL;atomic_fetch_sub(&global_bytes,POOL_BYTES);
+    if(s->fd>=0)close(s->fd);if(s->release_decoder)s->release_decoder(s->decoder_context);free(s->pool);free(s);a->stream=NULL;atomic_fetch_sub(&global_bytes,POOL_BYTES);
 }
 uint64_t tdj_asset_request_prepare(tdj_asset *a,const tdj_stream_request *r) {
     if(!a || !a->stream || !valid_request(a,r))return 0;
@@ -506,6 +520,12 @@ static int read_block(tdj_asset *a,unsigned slot,uint64_t id) {
     tdj_stream *s=a->stream;uint64_t first=id*TDJ_STREAM_BLOCK_FRAMES;
     size_t bytes=(size_t)fmin(TDJ_STREAM_BLOCK_FRAMES,a->frames-first)*8,done=0;
     char *destination=(char *)(s->pool+(size_t)slot*TDJ_STREAM_BLOCK_FRAMES*2);
+    if(s->decode) {
+        if(atomic_load_explicit(&s->cancelled,memory_order_acquire))return TDJ_STREAM_CANCELLED;
+        int status=s->decode(s->decoder_context,first,(uint32_t)(bytes/8),(float *)destination);
+        if(status!=TDJ_STREAM_READY)return status<0 ? status:TDJ_STREAM_IO_ERROR;
+        s->bytes_read_worker+=bytes;done=bytes;
+    }
     while(done<bytes) {
         if(atomic_load_explicit(&s->cancelled,memory_order_acquire))return TDJ_STREAM_CANCELLED;
         if(s->test_io.delay_microseconds_per_read)usleep(s->test_io.delay_microseconds_per_read);

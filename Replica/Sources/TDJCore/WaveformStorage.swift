@@ -98,7 +98,7 @@ enum WaveformStorage {
               word(8) == analysis.sampleRate.bitPattern, word(16) == UInt64(analysis.frameCount),
               word(24) == UInt64(analysis.waveformFramesPerBin), count <= UInt64((Int.max-72)/12),
               data.count == 72+Int(count)*12,
-              count == (UInt64(analysis.frameCount)+UInt64(analysis.waveformFramesPerBin)-1)/UInt64(analysis.waveformFramesPerBin),
+              count == (UInt64(analysis.waveformDecodedFrames ?? analysis.frameCount)+UInt64(analysis.waveformFramesPerBin)-1)/UInt64(analysis.waveformFramesPerBin),
               data.suffix(32).elementsEqual(SHA256.hash(data:data.prefix(data.count-32))) else { throw invalid() }
         var result: [WaveformBin] = []
         result.reserveCapacity(Int(count))

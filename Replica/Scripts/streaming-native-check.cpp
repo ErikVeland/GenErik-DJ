@@ -452,7 +452,53 @@ static void free_rate_coverage_checks(const std::vector<float> &source,const cha
     assert(cold>0);tdj_asset_destroy(memory);
     puts("Sixteen speed-change cache boundaries preserve current audio while cold and emit exact prepared samples with zero misses.");
 }
+struct DecodedReaderCheck {
+    const std::vector<float> *samples;
+    uint64_t requested=0;
+    unsigned calls=0, releases=0;
+    bool fail=false;
+};
+static int32_t decode_check(void *context,uint64_t first,uint32_t count,float *stereo) {
+    auto *reader=static_cast<DecodedReaderCheck *>(context);
+    reader->calls++;reader->requested+=count;
+    if(reader->fail || (first+count)*2>reader->samples->size())return TDJ_STREAM_IO_ERROR;
+    std::memcpy(stereo,reader->samples->data()+first*2,count*2*sizeof(float));
+    return TDJ_STREAM_READY;
+}
+static void release_decode_check(void *context) { static_cast<DecodedReaderCheck *>(context)->releases++; }
+static void decoded_reader_checks() {
+    std::vector<float> source(48000*60*2);
+    for(size_t n=0;n<source.size();n++)source[n]=(float)std::sin(n*0.003)*0.1f;
+    tdj_stream_config config{48000,2,1,4096,0};int32_t status=0;
+    DecodedReaderCheck reader{&source};
+    auto *asset=tdj_asset_open_decoder(source.size()/2,48000,&config,decode_check,release_decode_check,&reader,&status);
+    assert(asset && reader.calls==0 && reader.releases==0);
+    auto ticket=prepare(asset,nullptr,0);
+    assert(reader.requested<48000*4 && reader.calls>0);
+    auto *engine=tdj_engine_create(48000,1),*reference=tdj_engine_create(48000,1);
+    auto *memory=tdj_asset_create(source.data(),source.size()/2,48000);
+    auto load=action(TDJ_LOAD);load.asset=asset;load.flag=0;load.preparation_ticket=ticket;
+    assert(command(engine,load)==TDJ_OK);tdj_asset_release_preparation(asset,ticket);
+    load.asset=memory;load.preparation_ticket=0;assert(command(reference,load)==TDJ_OK);
+    assert(command(engine,action(TDJ_PLAY))==TDJ_OK);assert(command(reference,action(TDJ_PLAY))==TDJ_OK);
+    equal(engine,reference,asset,200);
+    tdj_engine_destroy(engine);tdj_engine_destroy(reference);tdj_asset_destroy(memory);
+    tdj_asset_cancel_service(asset);tdj_asset_destroy(asset);assert(reader.releases==1);
+    reader={&source};reader.fail=true;
+    asset=tdj_asset_open_decoder(source.size()/2,48000,&config,decode_check,release_decode_check,&reader,&status);
+    tdj_stream_target target{};target.source_speed=1;target.performance_rate=1;
+    tdj_stream_request request{};assert(tdj_asset_plan_target(asset,&target,1,1,&request)==TDJ_STREAM_READY);
+    ticket=tdj_asset_request_prepare(asset,&request);assert(ticket);
+    assert(tdj_asset_service(asset,16)==TDJ_STREAM_IO_ERROR);
+    assert(tdj_asset_prepare_status(asset,ticket)==TDJ_STREAM_IO_ERROR);
+    tdj_asset_release_preparation(asset,ticket);tdj_asset_destroy(asset);assert(reader.releases==1);
+    config.max_output_frames=0;reader.releases=0;
+    assert(!tdj_asset_open_decoder(source.size()/2,48000,&config,decode_check,release_decode_check,&reader,&status));
+    assert(reader.releases==0);
+    puts("Decoder stream: no opening reads, bounded priming, exact output, failure and single release passed.");
+}
 int main() {
+    decoded_reader_checks();
     streaming_handoff_checks();
     constexpr uint64_t frames=48000*90;
     std::vector<float> source(frames*2);

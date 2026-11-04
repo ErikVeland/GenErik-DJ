@@ -70,6 +70,7 @@ public struct AudioAnalysis: Codable, Equatable, Sendable {
     public let timbre: [Double]
     public var musicalAnalysisDeferred: Bool? = nil
     public var waveformReference: String? = nil
+    public var waveformDecodedFrames: Int64? = nil
     public var cachedEnergyLevel: Int? = nil
     public var detectedDownbeatOffset: Int? = nil
     public var downbeatConfidence: Double? = nil
@@ -85,12 +86,17 @@ public struct AudioAnalysis: Codable, Equatable, Sendable {
 
 extension AudioAnalysis {
     public func replacingWaveform(_ bins: [WaveformBin]) -> AudioAnalysis {
+        replacingWaveform(bins, configurationID: configurationID, frameCount: frameCount, decodedFrames: waveformDecodedFrames)
+    }
+    public func replacingWaveform(_ bins: [WaveformBin], configurationID: String,
+                                  frameCount: Int64, decodedFrames: Int64?) -> AudioAnalysis {
         var copy = AudioAnalysis(implementation:implementation,configurationID:configurationID,
             contentSHA256:contentSHA256,sampleRate:sampleRate,frameCount:frameCount,channelCount:channelCount,
             waveformFramesPerBin:waveformFramesPerBin,waveform:bins,bpm:bpm,beatAnchorFrame:beatAnchorFrame,
             tempoConfidence:tempoConfidence,key:key,keyConfidence:keyConfidence,chroma:chroma,timbre:timbre)
         copy.musicalAnalysisDeferred = musicalAnalysisDeferred
-        copy.waveformReference = waveformReference
+        copy.waveformReference = configurationID == self.configurationID ? waveformReference : nil
+        copy.waveformDecodedFrames = decodedFrames
         copy.cachedEnergyLevel = cachedEnergyLevel
         copy.detectedDownbeatOffset = detectedDownbeatOffset
         copy.downbeatConfidence = downbeatConfidence
@@ -176,6 +182,8 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
     public var keyGovernance: KeyGovernanceState? = nil
     public var musicLibrarySources: [MusicLibrarySource]?
     public var nativeLibraryOnly: Bool? = nil
+    public var nativePlaybackIdentity: String? = nil
+    public var nativeSourceNeedsAnalysis: Bool? = nil
     public var bpm: Double? { grid?.bpm ?? analysis.bpm }
     public var key: MusicalKey? { keyDecision.key }
     public var adaptiveMap: BeatGridMap? {

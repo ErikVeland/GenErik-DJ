@@ -263,6 +263,8 @@ public final class ReplicaModel {
     }
     public func finishForShutdown() async {
         waveformShutdown=true
+        for task in nativeWaveformTasks.values { task.cancel() }
+        for task in Array(nativeWaveformTasks.values) { await task.value }
         for task in deckAnalysisTasks.values { task.cancel() }
         for task in Array(deckAnalysisTasks.values) { await task.value }
         musicLibraryRefreshTask?.cancel()
@@ -417,6 +419,8 @@ public final class ReplicaModel {
     private var playbackMonitor: Task<Void, Never>?
     private var pendingLoadPlay: [DeckID: UUID] = [:]
     public var playWhenReady: Set<DeckID> { Set(pendingLoadPlay.keys) }
+    private var nativeWaveformTasks: [DeckID: Task<Void, Never>] = [:]
+    private var nativeWaveformTokens: [DeckID: UUID] = [:]
     private var deckAnalysisTasks: [DeckID: Task<Void, Never>] = [:]
     private var deckAnalysisAttempts: [DeckID: UUID] = [:]
     private var loadTokens: [DeckID: UUID] = [:]
@@ -453,10 +457,12 @@ public final class ReplicaModel {
         let waveform = loadedWaveforms[id]
         if let cached = loadedTrackCache[deck], cached.0 == id { return cached.1 }
         var track = pin?.track.id == id ? pin?.track : storedLibrary.track(id:id)
-        if let waveform, let analysis = track?.analysis, analysis.waveform.isEmpty,
+        if let waveform, let analysis = track?.analysis,
+           analysis.waveform.isEmpty || waveform.waveform.count > analysis.waveform.count,
            analysis.configurationID == waveform.configurationID,
            analysis.waveformReference == waveform.waveformReference {
             track?.analysis = analysis.replacingWaveform(waveform.waveform)
+            track?.analysis.waveformDecodedFrames = waveform.waveformDecodedFrames
         }
         loadedTrackCache[deck] = (id, track)
         return track
@@ -733,6 +739,7 @@ public final class ReplicaModel {
     @discardableResult
     func loadPreparedTrack(trackID: String, deck: DeckID, sourceURL: URL?,
                            nativeMetadata: MusicLibraryImportMetadata?, nativeLoadOwner: UUID?,
+                           preparedAsset: PCMAsset? = nil, opening: NativePlaybackOpening? = nil,
                            onFailure: (@MainActor (Error) -> Void)? = nil) -> Task<Void, Never>? {
         refreshPlayback()
         guard var track = storedLibrary.track(id:trackID) else { onFailure?(TransportError.stale); return nil }
@@ -741,6 +748,10 @@ public final class ReplicaModel {
             if !nativeMetadata.title.isEmpty { track.title = nativeMetadata.title }
             if !nativeMetadata.artist.isEmpty { track.artist = nativeMetadata.artist }
             if !nativeMetadata.album.isEmpty { track.album = nativeMetadata.album }
+        }
+        if let opening, track.analysis.configurationID == opening.analysis.configurationID,
+           track.analysis.waveformDecodedFrames != nil {
+            track.analysis = track.analysis.replacingWaveform(opening.analysis.waveform)
         }
         let storedKey=track.preparation.correctedKey
         if let pending = pendingPreparations[trackID] { track.preparation = pending.value }
@@ -757,6 +768,7 @@ public final class ReplicaModel {
         } catch { status = error.localizedDescription; onFailure?(error); return nil }
         if nativeLoadOwner == nil { pendingLoadPlay.removeValue(forKey: deck) }
         deckAnalysisTasks[deck]?.cancel()
+        nativeWaveformTasks[deck]?.cancel()
         let token = UUID()
         let keyIntent = PendingLoadKey(trackID:trackID,stored:storedKey,effective:track.preparation.correctedKey)
         pendingLoadKeys = pendingLoadKeys.filter { $0.value.value != nil }
@@ -784,7 +796,7 @@ public final class ReplicaModel {
                 guard let requested=loadPreparations[deck], requested.token==token else { return }
                 let sourceTrack=requested.track
                 let preparedSourceTrack = sourceTrack
-                try await playback.load(track:preparedSourceTrack,store:store,deck:deck,sourceURL:sourceURL,committed:{ [weak self = self] generation in
+                try await playback.load(track:preparedSourceTrack,store:store,deck:deck,sourceURL:sourceURL,preparedAsset:preparedAsset,opening:opening,committed:{ [weak self = self] generation in
                     guard let self else { return }
                     var acceptedTrack = preparedSourceTrack
                     if acceptedTrack.preparation.correctedKey != keyIntent.effective {
@@ -827,6 +839,7 @@ public final class ReplicaModel {
                 warmCuePositions(deck: deck)
                 prepareWaveform(preparedSourceTrack)
                 enqueueHistory(event)
+                if let opening { prepareNativeWaveform(opening, track: preparedSourceTrack, deck: deck, token: token) }
                 if pendingLoadPlay[deck] == (nativeLoadOwner ?? token) {
                     pendingLoadPlay[deck] = nil
                     pressPlay(deck: deck, vinylStop: false)
@@ -856,11 +869,53 @@ public final class ReplicaModel {
         playbackLoads = loadTask
         return loadTask
     }
+    private func prepareNativeWaveform(_ opening: NativePlaybackOpening, track: Track, deck: DeckID, token: UUID) {
+        guard track.nativePlaybackIdentity != nil, track.analysis.waveformDecodedFrames != nil else { return }
+        nativeWaveformTasks[deck]?.cancel()
+        nativeWaveformTokens[deck] = token
+        let cache = BandWaveforms.cacheURL(track: track, store: store)
+        nativeWaveformTasks[deck] = Task { [weak self] in
+            guard let self else { return }
+            defer {
+                if self.nativeWaveformTokens[deck] == token { self.nativeWaveformTasks[deck] = nil }
+            }
+            do {
+                let full = try await opening.waveform(cache: cache, matching: track.analysis) { [weak self] value in
+                    Task { @MainActor in
+                        guard let self, self.loadTokens[deck] == token,
+                              self.loadPreparations[deck]?.track.analysis.configurationID == value.configurationID else { return }
+                        var value = value
+                        value.waveformReference = track.analysis.waveformReference
+                        self.loadedWaveforms[track.id] = value
+                    }
+                }
+                try Task.checkCancellation()
+                guard self.loadTokens[deck] == token else { return }
+                let snapshot = try await self.service.updateNativeWaveform(trackID: track.id, analysis: full)
+                self.adoptLibrary(snapshot)
+                guard snapshot.track(id: track.id)?.analysis.configurationID == full.configurationID else { return }
+                for target in DeckID.allCases {
+                    guard var pin = self.loadPreparations[target], pin.track.id == track.id,
+                          pin.track.analysis.configurationID == track.analysis.configurationID else { continue }
+                    pin.track.analysis = full
+                    self.loadPreparations[target] = pin
+                    if self.committedPreparations[target]?.token == pin.token { self.committedPreparations[target] = pin }
+                }
+                self.loadedWaveforms[track.id] = full
+            } catch is CancellationError { }
+            catch { self.logAnalysis("Waveform unavailable for \(track.title): \(error.localizedDescription)") }
+        }
+    }
+    func flushNativeWaveforms() async {
+        for task in Array(nativeWaveformTasks.values) { await task.value }
+    }
+
     var deckAnalysisIsRunning: Bool { !deckAnalysisTasks.isEmpty }
 
     func cancelDeckLoadIntent(deck: DeckID) {
         pendingLoadPlay.removeValue(forKey: deck)
         deckAnalysisTasks[deck]?.cancel()
+        nativeWaveformTasks[deck]?.cancel()
     }
 
     func scheduleDeckAnalysis(deck: DeckID) {
@@ -902,7 +957,10 @@ public final class ReplicaModel {
                 self.adoptLibrary(snapshot)
                 guard self.loadTokens[deck] == token, self.loadPreparations[deck]?.generation == generation,
                       !self.arrangementPlaybackActive, let analysed = snapshot.track(id: id) else { return }
-                var updated = analysed.resolvingTraktorPreparation()
+                var updated = try await self.store.hydrateAsync(analysed).resolvingTraktorPreparation()
+                try Task.checkCancellation()
+                guard self.loadTokens[deck] == token, self.loadPreparations[deck]?.generation == generation,
+                      !self.arrangementPlaybackActive else { return }
                 if let pending = self.pendingPreparations[id] { updated.preparation = pending.value }
                 if let grid = updated.grid, grid != self.grid(deck) {
                     try self.playback.updateGrid(grid, deck: deck)

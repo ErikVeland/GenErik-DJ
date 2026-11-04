@@ -41,7 +41,7 @@ public struct TraktorPreparationMergePlan: Sendable {
         func digest(_ value:String) -> Bool { value.count==64 && value.allSatisfy(\.isHexDigit) }
         let count=Double(reference.frameCount)
         guard digest(reference.collectionSHA256),digest(reference.contentSHA256),reference.entryIndex>=0,
-              reference.contentSHA256==track.id,reference.sampleRate==track.analysis.sampleRate,
+              (reference.contentSHA256==track.id || (track.nativePlaybackIdentity != nil && reference.contentSHA256==track.analysis.contentSHA256)),reference.sampleRate==track.analysis.sampleRate,
               reference.frameCount==track.analysis.frameCount,reference.sampleRate.isFinite,reference.sampleRate>0,
               reference.frameCount>0,
               history.previouslyImportedSlots.allSatisfy({ (0..<8).contains($0) }),
@@ -71,7 +71,7 @@ public struct TraktorPreparationMergePlan: Sendable {
 
     /// Check inside the storage transaction. A false result requires a new proposal.
     public func matchesCurrent(track:Track,cues:[Int:PerformanceCue],history:TraktorPreparationImportHistory) -> Bool {
-        reference.contentSHA256==track.id && reference.sampleRate==track.analysis.sampleRate &&
+        (reference.contentSHA256==track.id || (track.nativePlaybackIdentity != nil && reference.contentSHA256==track.analysis.contentSHA256)) && reference.sampleRate==track.analysis.sampleRate &&
         reference.frameCount==track.analysis.frameCount && track.preparation==expectedPreparation && cues==expectedCues && history==expectedHistory
     }
 }

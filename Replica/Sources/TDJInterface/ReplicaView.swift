@@ -564,6 +564,7 @@ private struct WaveformView: View, Equatable {
         WaveformIndexKey(lhs.track.analysis) == WaveformIndexKey(rhs.track.analysis)
             && lhs.track.analysis.frameCount == rhs.track.analysis.frameCount
             && lhs.track.analysis.sampleRate == rhs.track.analysis.sampleRate
+            && lhs.track.analysis.waveformDecodedFrames == rhs.track.analysis.waveformDecodedFrames
             && lhs.grid == rhs.grid && lhs.adaptiveMap == rhs.adaptiveMap && lhs.centerFrame == rhs.centerFrame
             && lhs.visibleSeconds == rhs.visibleSeconds && lhs.playheadFrame == rhs.playheadFrame
             && lhs.leadInFrame == rhs.leadInFrame && (lhs.band == nil) == (rhs.band == nil)
@@ -621,10 +622,17 @@ private struct WaveformView: View, Equatable {
             let left = centerFrame - span / 2
             let key=WaveformIndexKey(a)
             let scale=max(1,Double(displayScale)),pixels=max(1,Int(size.width*scale))
+            let index = (prepared?.0 == key ? prepared?.1 : nil) ?? snapshotIndexes[key]
+                ?? (a.waveform.count <= 128 ? WaveformRangeIndex(a.waveform) : nil)
+            if let decoded = a.waveformDecodedFrames {
+                let x = max(0, min(size.width, (Double(decoded) - left) / span * size.width))
+                context.fill(Path(CGRect(x: x, y: 0, width: size.width-x, height: size.height)),
+                    with: .color(Color.gray.opacity(0.10)))
+            }
             if let band, band.frameCount == a.frameCount {
                 WaveformView.draw(BandWaveformColumns(band,left:left,span:span,pixelWidth:pixels,height:size.height),
                                   in:&context,size:size,scale:scale)
-            } else if let index = (prepared?.0 == key ? prepared?.1 : nil) ?? snapshotIndexes[key] {
+            } else if let index {
                 WaveformView.draw(WaveformLayers(index:index,framesPerBin:a.waveformFramesPerBin,left:left,span:span,
                                                  width:pixels,height:size.height),in:&context,size:size,scale:scale)
             }
@@ -1043,6 +1051,8 @@ private struct DeckWaveform: View {
                                 Text("Preparing audio…").font(.caption).foregroundStyle(.secondary).allowsHitTesting(false)
                             } else if model.preparingWaveforms.contains(track.id) {
                                 Text("Preparing waveform…").font(.caption).foregroundStyle(.secondary).allowsHitTesting(false)
+                            } else if track.analysis.waveformDecodedFrames != nil {
+                                Text("Reading waveform…").font(.caption).foregroundStyle(.secondary).allowsHitTesting(false)
                             }
                         }
                         .contentShape(Rectangle())

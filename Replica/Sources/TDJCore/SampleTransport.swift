@@ -59,6 +59,10 @@ public final class PCMAsset: @unchecked Sendable {
         self.pointer = pointer; self.frames = frames; self.sampleRate = sampleRate
         streamingWorker = PCMStreamWorker(pointer: pointer)
     }
+    init(streamPointer: OpaquePointer, frames: UInt64, sampleRate: Double) {
+        pointer = streamPointer; self.frames = frames; self.sampleRate = sampleRate
+        streamingWorker = PCMStreamWorker(pointer: streamPointer)
+    }
     deinit {
         if let streamingWorker { streamingWorker.dispose() }
         else { PCMAssetDisposal.enqueue(pointer) }

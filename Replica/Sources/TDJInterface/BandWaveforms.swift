@@ -31,6 +31,10 @@ actor BandWaveforms {
         let url = Self.cacheURL(track: track, store: store), rate = track.analysis.sampleRate
         let expected = Int64(track.analysis.frameCount) * 8
         let task = Task.detached(priority: .utility) { () -> BandWaveform? in
+            if track.nativeLibraryOnly != true,
+               (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize).map({ Int64($0) }) != expected {
+                _ = try? await PCMCache.prepareAsync(track: track, store: store)
+            }
             let deadline = Date().addingTimeInterval(patience)
             while (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize).map({ Int64($0) }) != expected {
                 guard Date() < deadline, !Task.isCancelled else { return nil }

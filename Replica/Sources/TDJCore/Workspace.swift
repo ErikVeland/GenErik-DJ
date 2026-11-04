@@ -94,7 +94,12 @@ public struct WorkspaceStore: Sendable {
                 guard artwork == (artwork as NSString).lastPathComponent, !artwork.isEmpty,
                       artwork != ".", artwork != ".." else { throw CoreError.invalidWorkspace("Invalid artwork path.") }
             }
-            guard track.id == a.contentSHA256, track.id.count == 64,
+            guard a.waveformDecodedFrames.map({ $0 > 0 && $0 <= a.frameCount }) ?? true else {
+                throw CoreError.invalidWorkspace("Invalid decoded waveform coverage.")
+            }
+            guard a.contentSHA256.count == 64, a.contentSHA256.allSatisfy({ $0.isHexDigit }),
+                  track.nativePlaybackIdentity.map({ $0.count == 64 && $0.allSatisfy({ $0.isHexDigit }) }) ?? true,
+                  (track.id == a.contentSHA256 || track.nativePlaybackIdentity != nil), track.id.count == 64,
                   track.id.allSatisfy({ $0.isHexDigit }), a.sampleRate.isFinite, a.sampleRate > 0,
                   a.frameCount > 0, a.waveformFramesPerBin > 0,
                   track.mediaFilename == (track.mediaFilename as NSString).lastPathComponent,
@@ -235,6 +240,53 @@ public actor LibraryService {
     }
     public func snapshot() -> LibrarySnapshot { library }
 
+    public func registerNativePlayback(analysis: AudioAnalysis, metadata: MusicLibraryImportMetadata) throws -> LibrarySnapshot {
+        if let index = library.tracks.firstIndex(where: { $0.musicLibrarySources?.contains(metadata.source) == true }) {
+            var current = library.tracks[index]
+            guard current.analysis.sampleRate == analysis.sampleRate else {
+                throw CoreError.invalidAudio("The Music sample rate changed. Saved preparation is retained.")
+            }
+            if current.nativePlaybackIdentity == analysis.contentSHA256 { return library }
+            let refresh = current.nativePlaybackIdentity != nil
+            current.nativePlaybackIdentity = analysis.contentSHA256
+            current.nativeSourceNeedsAnalysis = true
+            if refresh {
+                current.analysis = current.analysis.replacingWaveform(analysis.waveform,
+                    configurationID: "native-refresh-1-" + analysis.contentSHA256,
+                    frameCount: current.analysis.frameCount,
+                    decodedFrames: min(current.analysis.frameCount, analysis.waveformDecodedFrames ?? analysis.frameCount))
+            }
+            var changed = library
+            changed.tracks[index] = current
+            changed.revision += 1; library = try store.save(changed)
+            return library
+        }
+        var track = try Track(title: metadata.title, artist: metadata.artist, genre: metadata.genre,
+            mediaFilename: analysis.contentSHA256 + ".native", analysis: analysis)
+        track.album = metadata.album; track.nativeLibraryOnly = true
+        track.nativePlaybackIdentity = track.id; track.musicLibrarySources = [metadata.source]
+        var changed = library
+        for index in changed.tracks.indices { changed.tracks[index].musicLibrarySources?.removeAll { $0 == metadata.source } }
+        if let index = changed.tracks.firstIndex(where: { $0.id == track.id }) {
+            track.preparation = changed.tracks[index].preparation
+            changed.tracks[index] = track
+        } else { changed.tracks.append(track) }
+        changed.revision += 1; library = try store.save(changed)
+        return library
+    }
+
+    public func updateNativeWaveform(trackID: String, analysis: AudioAnalysis) throws -> LibrarySnapshot {
+        guard let index = library.tracks.firstIndex(where: { $0.id == trackID }),
+              library.tracks[index].nativePlaybackIdentity != nil,
+              library.tracks[index].analysis.waveformDecodedFrames != nil,
+              library.tracks[index].analysis.sampleRate == analysis.sampleRate,
+              library.tracks[index].analysis.frameCount == analysis.frameCount else { return library }
+        var changed = library
+        changed.tracks[index].analysis = analysis
+        changed.revision += 1; library = try store.save(changed)
+        return library
+    }
+
     public func analyzeNativeMusic(url: URL, musicLibrary: MusicLibraryImportMetadata,
                                    preservePreparationFor protectedTracks: Set<String> = [], quickLoad: Bool = false) async throws -> LibrarySnapshot {
         try await importAudio(url: url, musicLibrary: musicLibrary, preservePreparationFor: protectedTracks,
@@ -266,13 +318,18 @@ public actor LibraryService {
             }
         }
         try Task.checkCancellation()
-        if let index = library.tracks.firstIndex(where: { $0.id == analysis.contentSHA256 }) {
+        if let index = musicLibrary.flatMap({ metadata in library.tracks.firstIndex(where: {
+                $0.nativePlaybackIdentity != nil && $0.musicLibrarySources?.contains(metadata.source) == true
+            }) }) ?? library.tracks.firstIndex(where: {
+                $0.id == analysis.contentSHA256 || ($0.nativePlaybackIdentity != nil && $0.analysis.contentSHA256 == analysis.contentSHA256)
+            }) {
             if copyMedia, library.tracks[index].nativeLibraryOnly == true {
                 let filename = library.tracks[index].mediaFilename
+                let existingID = library.tracks[index].id
                 try await Self.copyVerifiedAudio(url: url, destination: store.mediaDirectory.appendingPathComponent(filename),
                                                  sourceIdentity: analysis.contentSHA256)
                 try Task.checkCancellation()
-                guard let current = library.tracks.firstIndex(where: { $0.id == analysis.contentSHA256 }) else {
+                guard let current = library.tracks.firstIndex(where: { $0.id == existingID }) else {
                     throw CoreError.staleContext
                 }
                 return try commitExisting(analysis: analysis, original: original, metadata: musicLibrary,
@@ -289,7 +346,7 @@ public actor LibraryService {
         let sourceIdentity = analysis.contentSHA256
         if copyMedia { try await Self.copyVerifiedAudio(url: url, destination: destination, sourceIdentity: sourceIdentity) }
         try Task.checkCancellation()
-        if let index = library.tracks.firstIndex(where: { $0.id == analysis.contentSHA256 }) {
+        if let index = library.tracks.firstIndex(where: { $0.id == analysis.contentSHA256 || ($0.nativePlaybackIdentity != nil && $0.analysis.contentSHA256 == analysis.contentSHA256) }) {
             return try commitExisting(analysis: analysis, original: original, metadata: musicLibrary,
                 index: index, preservePreparation: protectedTracks.contains(analysis.contentSHA256),
                 managedMediaFilename: copyMedia ? filename : nil)
@@ -349,12 +406,15 @@ public actor LibraryService {
             track.nativeLibraryOnly = nil
         }
         let wouldDiscardAnalysis = analysis.musicalAnalysisDeferred == true && track.analysis.musicalAnalysisDeferred != true
-        if !preservePreparation, !wouldDiscardAnalysis, track.analysis.configurationID != analysis.configurationID {
-            guard track.analysis.sampleRate == analysis.sampleRate, track.analysis.frameCount == analysis.frameCount else {
+        if !preservePreparation, !wouldDiscardAnalysis,
+           track.analysis.configurationID != analysis.configurationID || track.nativeSourceNeedsAnalysis == true {
+            guard track.analysis.sampleRate == analysis.sampleRate,
+                  track.analysis.frameCount == analysis.frameCount || track.nativePlaybackIdentity != nil else {
                 throw CoreError.invalidAudio("Updated analysis does not match the prepared source.")
             }
             let previousAnalysis = track.analysis
             track.analysis = analysis
+            if analysis.musicalAnalysisDeferred != true { track.nativeSourceNeedsAnalysis = nil }
             track.recordKeyAnalysisChange(from: previousAnalysis)
             if let grid=track.automaticBarGrid {
                 track.preparation.grid=grid

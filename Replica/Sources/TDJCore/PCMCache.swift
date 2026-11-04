@@ -30,7 +30,7 @@ public enum PCMCache {
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         let frames = track.analysis.frameCount
         guard frames > 0, frames <= Int64.max / 8 else { throw TransportError.invalid }
-        if let sourceURL { try verifyNativeSource(sourceURL, identity: track.id, checkCancellation: checkCancellation) }
+        if let sourceURL { try verifyNativeSource(sourceURL, identity: track.analysis.contentSHA256, checkCancellation: checkCancellation) }
         let cache = directory.appendingPathComponent(track.id + "-stereo-f32-v1.pcm")
         let expectedBytes = frames * 8
         if let size = try? cache.resourceValues(forKeys: [.fileSizeKey]).fileSize, Int64(size) == expectedBytes {
@@ -38,6 +38,11 @@ public enum PCMCache {
                              streamed: streamed, outputSampleRate: outputSampleRate, maximumOutputFrames: maximumOutputFrames)
         }
         let source = sourceURL ?? store.mediaDirectory.appendingPathComponent(track.mediaFilename)
+        if streamed {
+            let decoder = try DecodedAudioSource.file(url: source)
+            guard decoder.frames == frames, decoder.rate == track.analysis.sampleRate else { throw TransportError.nativeSourceChanged }
+            return try PCMAsset(decoder: decoder, outputSampleRate: outputSampleRate, maximumOutputFrames: maximumOutputFrames)
+        }
         let file = try AVAudioFile(forReading: source, commonFormat: .pcmFormatFloat32, interleaved: false)
         guard file.processingFormat.sampleRate == track.analysis.sampleRate,
               file.length == frames, file.processingFormat.channelCount > 0,
@@ -67,7 +72,7 @@ public enum PCMCache {
         }
         try handle.synchronize()
         try handle.close()
-        if let sourceURL { try verifyNativeSource(sourceURL, identity: track.id, checkCancellation: checkCancellation) }
+        if let sourceURL { try verifyNativeSource(sourceURL, identity: track.analysis.contentSHA256, checkCancellation: checkCancellation) }
         if FileManager.default.fileExists(atPath: cache.path) {
             // Only a cache owned by this build is replaceable.
             _ = try FileManager.default.replaceItemAt(cache, withItemAt: temporary)

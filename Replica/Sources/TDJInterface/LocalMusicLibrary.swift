@@ -19,13 +19,19 @@ public struct PreparedMusicLibraryAudio: Sendable {
 @MainActor public protocol LocalMusicLibraryProviding {
     func catalog() async throws -> MusicLibraryCatalog
     func prepare(_ item: MusicLibraryItem, in directory: URL) async throws -> PreparedMusicLibraryAudio
+    func playbackSource(_ item: MusicLibraryItem) async throws -> PreparedMusicLibraryAudio?
+}
+extension LocalMusicLibraryProviding {
+    public func playbackSource(_ item: MusicLibraryItem) async throws -> PreparedMusicLibraryAudio? { nil }
 }
 
 @MainActor public final class LocalMusicLibrary: LocalMusicLibraryProviding {
     private nonisolated static let mediaQueue = DispatchQueue(label: "org.generikdj.music-library", qos: .background)
-    private nonisolated static func onMediaQueue<T: Sendable>(_ work: @escaping @Sendable () throws -> T) async throws -> T {
+    private nonisolated static let playbackQueue = DispatchQueue(label: "org.generikdj.music-playback-source", qos: .userInitiated)
+    private nonisolated static func onMediaQueue<T: Sendable>(playback: Bool = false, _ work: @escaping @Sendable () throws -> T) async throws -> T {
         try await withCheckedThrowingContinuation { continuation in
-            mediaQueue.async(qos: .background, flags: .enforceQoS) {
+            let queue = playback ? playbackQueue : mediaQueue
+            queue.async(qos: playback ? .userInitiated : .background, flags: .enforceQoS) {
                 do { continuation.resume(returning: try autoreleasepool(invoking: work)) }
                 catch { continuation.resume(throwing: error) }
             }
@@ -70,14 +76,20 @@ public struct PreparedMusicLibraryAudio: Sendable {
 #endif
     }
 
+    public func playbackSource(_ item: MusicLibraryItem) async throws -> PreparedMusicLibraryAudio? {
+        try await prepare(item, in: FileManager.default.temporaryDirectory, export: false)
+    }
     public func prepare(_ item: MusicLibraryItem, in directory: URL) async throws -> PreparedMusicLibraryAudio {
+        try await prepare(item, in: directory, export: true)
+    }
+    private func prepare(_ item: MusicLibraryItem, in directory: URL, export: Bool) async throws -> PreparedMusicLibraryAudio {
         guard item.availability != .protected else { throw MusicLibraryError.protected }
         guard item.isOnDevice, let catalogURL = item.assetURL else { throw MusicLibraryError.missingAudio }
         var url = catalogURL
         var metadata = MusicLibraryImportMetadata(item: item)
 #if os(iOS)
         guard MPMediaLibrary.authorizationStatus() == .authorized else { throw MusicLibraryError.permissionDenied }
-        let prepared = try await Self.onMediaQueue { () -> (URL, MusicLibraryImportMetadata) in
+        let prepared = try await Self.onMediaQueue(playback: !export) { () -> (URL, MusicLibraryImportMetadata) in
             guard let persistentID = UInt64(item.source.persistentID) else { throw MusicLibraryError.missingAudio }
             let query = MPMediaQuery.songs()
             query.addFilterPredicate(MPMediaPropertyPredicate(value: NSNumber(value: persistentID), forProperty: MPMediaItemPropertyPersistentID))
@@ -94,7 +106,7 @@ public struct PreparedMusicLibraryAudio: Sendable {
             } else {
                 guard !current.isCloudItem else { throw MusicLibraryError.missingAudio }
             }
-            let artwork = current.artwork?.image(at: CGSize(width: 512, height: 512))?.jpegData(compressionQuality: 0.9)
+            let artwork = export ? current.artwork?.image(at: CGSize(width: 512, height: 512))?.jpegData(compressionQuality: 0.9) : nil
             let metadata = MusicLibraryImportMetadata(item: item, artwork: artwork.flatMap { $0.count <= 5 * 1024 * 1024 ? $0 : nil })
             return (currentURL, metadata)
         }
@@ -102,7 +114,7 @@ public struct PreparedMusicLibraryAudio: Sendable {
         (url, metadata) = prepared
 #endif
         guard url.isFileURL || url.scheme?.lowercased() == "ipod-library" else { throw MusicLibraryError.missingAudio }
-        if url.isFileURL {
+        if url.isFileURL || !export {
             return .init(url: url, metadata: metadata)
         }
         let destination = directory.appendingPathComponent(UUID().uuidString + ".caf")

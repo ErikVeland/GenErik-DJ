@@ -51,6 +51,13 @@ typedef struct {
 /* Open/service/destroy run on the preparation or disposal queue. */
 tdj_asset *tdj_asset_open_stream(const char *, uint64_t frames, double source_rate,
     const tdj_stream_config *, int32_t *error);
+/* Decoder callbacks run only on the serial preparation/service/disposal queues.
+   A successful open owns context until release. A failed open leaves ownership
+   with the caller. The read callback fills exactly count stereo float frames. */
+typedef int32_t (*tdj_stream_read_frames)(void *context, uint64_t first, uint32_t count, float *stereo);
+typedef void (*tdj_stream_release_reader)(void *context);
+tdj_asset *tdj_asset_open_decoder(uint64_t frames, double source_rate, const tdj_stream_config *,
+    tdj_stream_read_frames, tdj_stream_release_reader, void *context, int32_t *error);
 /* One serial control producer. A ticket is single-use after command acceptance;
    one command may share it across both decks. Release after acknowledgement even
    though native live handoff retires its ranges without producer polling.
