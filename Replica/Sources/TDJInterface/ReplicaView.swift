@@ -546,8 +546,13 @@ struct LoadSlider: View {
     let load: (DeckID) -> Void
     @State private var gesture = LoadSliderGestureSession()
     @State private var contactActive = false
+    @State private var contactGeometry = LoadSliderContactGeometry()
+    @State private var ignoreUntilRelease = false
     @GestureState private var dragging = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.deckPanelPresented) private var panelPresented
+    @Environment(\.touchSurfaceAcceptsNewContacts) private var acceptsNewContacts
+    @Environment(\.touchSurfaceInterruption) private var touchInterruption
     private var maximumTravel: Double { tall ? TallLoadSliderMetrics.maximumTravel : 18 }
     var body: some View {
         VStack(spacing: 0) {
@@ -572,37 +577,46 @@ struct LoadSlider: View {
             .overlay {
                 GeometryReader { geometry in
                     Color.clear.contentShape(Rectangle())
-                        .highPriorityGesture(DragGesture(minimumDistance: 0)
+                        .highPriorityGesture(DragGesture(minimumDistance: 0, coordinateSpace: .global)
                             .updating($dragging) { _, active, _ in active = true }
                             .onChanged { value in
+                                guard !ignoreUntilRelease else { return }
                                 if !contactActive {
+                                    guard panelPresented, acceptsNewContacts,
+                                          contactGeometry.begin(frame: geometry.frame(in: .global)) else {
+                                        ignoreUntilRelease = true; return
+                                    }
                                     contactActive = true
-                                    handle(.began, at: value.startLocation, size: geometry.size)
+                                    handle(.began, at: value.startLocation)
                                 }
-                                handle(.moved, at: value.location, size: geometry.size)
+                                handle(.moved, at: value.location)
                             }
                             .onEnded { value in
-                                handle(.ended, at: value.location, size: geometry.size)
-                                contactActive = false
+                                if !ignoreUntilRelease, contactActive, panelPresented { handle(.ended, at: value.location) }
+                                cancelContact(untilRelease: false)
                             })
                 }
             }
             .onChange(of: dragging) { _, active in
-                if !active && contactActive {
-                    contactActive = false
-                    gesture = LoadSliderGestureSession()
-                }
+                if !active { cancelContact(untilRelease: false) }
             }
+            .onChange(of: panelPresented) { _, presented in if !presented { cancelContact() } }
+            .onChange(of: touchInterruption) { _, _ in cancelContact() }
             .accessibilityLabel("Load track. Drag up for deck A or down for deck B.")
-            .accessibilityAction(named: "Load deck A") { load(.a) }
-            .accessibilityAction(named: "Load deck B") { load(.b) }
-            .onDisappear { contactActive = false; gesture = LoadSliderGestureSession() }
+            .accessibilityAction(named: "Load deck A") { if panelPresented && acceptsNewContacts { load(.a) } }
+            .accessibilityAction(named: "Load deck B") { if panelPresented && acceptsNewContacts { load(.b) } }
+            .onDisappear { cancelContact() }
     }
-    private func handle(_ phase: SurfaceEvent.Phase, at point: CGPoint, size: CGSize) {
+    private func cancelContact(untilRelease: Bool = true) {
+        contactActive = false; contactGeometry.cancel(); gesture = LoadSliderGestureSession()
+        ignoreUntilRelease = untilRelease && dragging
+    }
+    private func handle(_ phase: SurfaceEvent.Phase, at point: CGPoint) {
+        guard contactActive, let mapped = contactGeometry.point(at: point) else { return }
         let event = SurfaceEvent(phase: phase,
-            points: [.init(id: 1, x: point.x / max(1, size.width), y: point.y / max(1, size.height))],
+            points: [mapped],
             ending: phase == .ended ? [1] : [])
-        let deck = gesture.handle(event, height: Double(size.height), maximumTravel: maximumTravel,
+        let deck = gesture.handle(event, height: contactGeometry.height, maximumTravel: maximumTravel,
                                   edgeTapThreshold: tall ? 0.22 : nil, edgeTapMovementTolerance: 10)
         if phase == .ended {
             withAnimation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.8)) {

@@ -26,6 +26,11 @@ struct BrowserView: View {
     @State private var recommendationDestination: DeckID?
     @State private var layout = BrowserLayoutState(categoriesHidden: true)
     @State private var browserWidth = 0.0
+    @State private var columnSizes = BrowserColumnSizingState()
+    @Environment(\.performancePanelPortrait) private var portrait
+    @Environment(\.touchSurfaceInterruption) private var touchInterruption
+    @Environment(\.scenePhase) private var scenePhase
+    private var leadingColumn: BrowserColumn { displayedSection == .playlists ? .playlists : .categories }
     @State private var section = BrowserSection.songs
     private var displayedSection: BrowserSection { hasSearchQuery || layout.tab != .songs ? .songs : section }
     private var showingSuggestions: Bool { showingLists && layout.tab == .suggestions }
@@ -83,39 +88,56 @@ struct BrowserView: View {
                         Button { closeDrawers() } label: { Color.black.opacity(0.4) }
                             .buttonStyle(.plain).accessibilityLabel("Close browser drawer")
                     }
-                    if !layout.categoriesHidden {
-                        sourceDrawer.frame(width: bounds.drawerWidth)
-                            .background(PerformancePalette.panel)
-                            .offset(x: layout.categoryOffset)
-                            .transition(.move(edge: .leading))
+                    HStack(spacing: 0) {
+                        BrowserColumnContent(width: layout.categoriesHidden ? 0 : columnSizes.geometry().leading.width,
+                            minimum: leadingColumn.minimum, presented: !layout.categoriesHidden,
+                            acceptsInput: !layout.categoriesHidden && columnSizes.geometry().leading.width >= leadingColumn.minimum && geometry.size.height >= 44,
+                            trailing: false) { sourceDrawer.background(PerformancePalette.panel) }
+                        columnHandle(leadingColumn, edge: .leading, title: "SOURCES")
+                            .frame(width: layout.categoriesHidden ? 0 : 44).clipped()
+                            .allowsHitTesting(!layout.categoriesHidden).accessibilityHidden(layout.categoriesHidden)
+                        Spacer(minLength: 0)
                     }
-                    if !layout.detailHidden {
-                        detailPane.frame(width: bounds.drawerWidth)
-                            .background(PerformancePalette.panel)
-                            .offset(x: layout.detailOffset)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                            .transition(.move(edge: .trailing))
+                    HStack(spacing: 0) {
+                        Spacer(minLength: 0)
+                        columnHandle(.detail, edge: .trailing, title: "DETAILS")
+                            .frame(width: layout.detailHidden ? 0 : 44).clipped()
+                            .allowsHitTesting(!layout.detailHidden).accessibilityHidden(layout.detailHidden)
+                        BrowserColumnContent(width: layout.detailHidden ? 0 : columnSizes.geometry().detail.width,
+                            minimum: BrowserColumn.detail.minimum, presented: !layout.detailHidden,
+                            acceptsInput: !layout.detailHidden && columnSizes.geometry().detail.width >= BrowserColumn.detail.minimum && geometry.size.height >= 250,
+                            trailing: true) {
+                            detailPane(width: max(BrowserColumn.detail.minimum, columnSizes.geometry().detail.width))
+                                .background(PerformancePalette.panel)
+                        }
                     }
                 }
                 .frame(width: bounds.listArea.width, height: bounds.listArea.height)
                 .clipped()
-                .onAppear { browserWidth = bounds.listArea.width }
+                .onAppear { browserWidth = bounds.listArea.width; configureColumns(width: browserWidth) }
                 .onChange(of: bounds.listArea.width) { _, width in
                     browserWidth = width
                     panes.dragChanged(translation: 0)
                     layout.hideDrawers()
+                    configureColumns(width: width)
                 }
             }
             if showingLists { selectedSongShelf }
         }
         .background(PerformancePalette.stage)
         .animation(reduceMotion ? nil : .smooth(duration: 0.22), value: layout.tab)
-        .animation(reduceMotion ? nil : .smooth(duration: 0.22), value: layout.categoriesHidden)
-        .animation(reduceMotion ? nil : .smooth(duration: 0.22), value: layout.detailHidden)
+        .animation(reduceMotion || columnSizes.isDragging ? nil : .smooth(duration: 0.22), value: layout.categoriesHidden)
+        .animation(reduceMotion || columnSizes.isDragging ? nil : .smooth(duration: 0.22), value: layout.detailHidden)
         .onAppear { handleBrowserPresentation() }
+        .onChange(of: layout.categoriesHidden) { _, _ in syncColumnPresentation() }
+        .onChange(of: layout.detailHidden) { _, _ in syncColumnPresentation() }
+        .onChange(of: leadingColumn) { _, _ in configureColumns(width: browserWidth) }
+        .onChange(of: portrait) { _, _ in configureColumns(width: browserWidth) }
+        .onChange(of: touchInterruption) { _, _ in cancelColumnDrags() }
+        .onChange(of: scenePhase) { _, phase in if phase != .active { cancelColumnDrags() } }
         .onChange(of: model.browserPresentationID) { _, _ in handleBrowserPresentation() }
         .task(id: recommendationKey) { await refreshRecommendations() }
-        .onDisappear { playlistSave.cancel() }
+        .onDisappear { playlistSave.cancel(); cancelColumnDrags() }
         .onChange(of:adding) { _,presented in
             if !presented { playlistSave.cancel() }
         }
@@ -249,6 +271,34 @@ struct BrowserView: View {
                 ended(value.translation.width, value.velocity.width)
             }
     }
+    private func configureColumns(width: Double) {
+        columnSizes.configure(width: width, portrait: portrait, leading: leadingColumn)
+        syncColumnPresentation()
+    }
+    private func syncColumnPresentation() {
+        for kind in BrowserColumn.allCases {
+            let visible = kind == .detail ? !layout.detailHidden : kind == leadingColumn && !layout.categoriesHidden
+            columnSizes.setPresented(kind, visible)
+        }
+    }
+    private func cancelColumnDrags() {
+        for kind in BrowserColumn.allCases { columnSizes.cancel(kind) }
+    }
+    private func columnHandle(_ kind: BrowserColumn, edge: TouchPanelEdge, title: String) -> some View {
+        let visible = kind == .detail ? !layout.detailHidden : !layout.categoriesHidden
+        return TouchPanelHandle(presented: visible, maximumExtent: columnSizes.maximum(kind),
+            presentationID: columnSizes.presentationID(for: kind), edge: edge, title: title,
+            accessibilityName: kind == .detail ? "Track details" : "Sources",
+            toggle: { closeDrawers() }, begin: { columnSizes.begin(kind) },
+            update: { columnSizes.update(kind, translation: $0) },
+            end: { velocity in
+                columnSizes.end(kind, velocity: velocity)
+                if !columnSizes.isPresented(kind) { closeDrawers() }
+            }, cancel: { columnSizes.cancel(kind) }, adjust: { delta in
+                columnSizes.adjust(kind, by: delta)
+                if !columnSizes.isPresented(kind) { closeDrawers() }
+            })
+    }
     private func savePlaylist(id:UUID?=nil) {
         let selected=selection,name=playlistName,librarySource=model.libraryReadSource(),catalogSource=model.catalogReadSource()
         playlistSave.start(resolve:{
@@ -360,13 +410,6 @@ extension BrowserView {
                     .accessibilityLabel("Close \(title.lowercased())")
             }
             .padding(.leading, 14).contentShape(Rectangle())
-            .simultaneousGesture(horizontalDrag(changed: { translation in
-                if source { layout.dragCategories(translation: translation) }
-                else { layout.dragDetail(translation: translation) }
-            }, ended: { translation, velocity in
-                if source { _ = layout.endCategories(translation: translation, velocity: velocity, width: geometry.size.width) }
-                else { _ = layout.endDetail(translation: translation, velocity: velocity, width: geometry.size.width) }
-            }))
         }.frame(height: 44)
         .background(PerformancePalette.frame)
         .accessibilityAction(named: "Close \(title.lowercased())") { closeDrawers() }
@@ -526,15 +569,16 @@ extension BrowserView {
         }
     }
 
-    fileprivate var detailPane: some View {
+    fileprivate func detailPane(width: Double) -> some View {
         VStack(spacing: 0) {
             drawerHeader("Track details", source: false)
             ScrollView {
-            HStack(alignment: .top, spacing: 14) {
+            HStack(alignment: .top, spacing: 0) {
                 let entry = currentSelection
                 DeckArtwork(source: entry.flatMap { ArtworkSource.track($0.track, item: $0.nativeItem, media: model.store.mediaDirectory) }, placeholderSize: 40)
                     .frame(width: 112, height: 112).background(PerformancePalette.sunken).clipShape(RoundedRectangle(cornerRadius: 3))
                     .overlay { TrackHeadphoneIndicator(model:model,trackID:entry?.track?.id) }
+                    .padding(.trailing, 14).frame(width: width >= 440 ? 126 : 0, alignment: .leading).clipped().accessibilityHidden(width < 440)
                 VStack(alignment: .leading, spacing: 5) {
                     HStack(spacing: 6) {
                         Text(entry?.title ?? "Choose a song").font(.system(size: 18, weight: .bold)).lineLimit(2).minimumScaleFactor(0.8)
@@ -558,7 +602,7 @@ extension BrowserView {
                 }
                 Spacer(minLength: 0)
                 LoadSlider(tall: true) { deck in if let entry { model.loadLibraryEntry(entry, deck: deck) } }
-                    .disabled(entry?.canLoad != true)
+                    .id(entry?.id).disabled(entry?.canLoad != true).padding(.leading, 14)
             }.padding(14).frame(height: TallLoadSliderMetrics.height + 8 + 28)
             }
         }
@@ -669,7 +713,7 @@ extension BrowserView {
                         .bevelPanel(cornerRadius: 4)
                 }.disabled(!entry.canLoad).accessibilityLabel("Load \(entry.title) on deck \(deck.rawValue.uppercased())")
             }
-            LoadSlider { deck in model.loadLibraryEntry(entry, deck: deck) }.disabled(!entry.canLoad)
+            LoadSlider { deck in model.loadLibraryEntry(entry, deck: deck) }.id(entry.id).disabled(!entry.canLoad)
         }
     }
 

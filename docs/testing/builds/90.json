@@ -1,0 +1,23 @@
+{
+  "notes": "R02/R04/R25/R30: Direct resize/hide grabs and remembered drawer widths per orientation. Retains R39 full-width Songs Suggestions Prep list exclusive Sources/Details and loading shelf. Loader holds use captured global coordinates. Dock full-height crossfader A/B divider and R34/R35/R37 retained. All 4407 focused assertions pass.",
+  "sourceCommit": "c5fd1df63dedf261d6433bfeb5a6e89fdf4a73de",
+  "sourceSHA256": "7a2e4a54858cd3192e0bdcf34697a1e19cbe4d8d15ccd885c5be006a63b71218",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 58.03,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-90.log",
+  "build": 90,
+  "app": "TestBuilds/ipad/90/GenErikDJ.app",
+  "appSHA256": "ba289c413fae7f0dedbc1a488347e3c7140f2d166345682ae457995c58937a9a",
+  "state": "superseded-before-install",
+  "createdUTC": "2026-11-04T02:18:54.336989+00:00",
+  "requestIDs": [
+    "R02",
+    "R04",
+    "R25",
+    "R30"
+  ],
+  "acceptance": "Not installed. The signed drawer-sizing candidate is superseded so the final test release also retains the newer R40 Performance, Browse and Expand shortcuts.",
+  "supersededReason": "Combine the newer library layout shortcuts before one iPad handover."
+}
