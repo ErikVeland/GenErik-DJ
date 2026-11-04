@@ -19,7 +19,7 @@ def main():
                 sources += [root / "Replica/Sources/TDJInterface" / name for name in ["DeckSplitState.swift", "TouchContactGeometry.swift"]]
             if group == "browser":
                 source = root / "Replica/Sources/TDJInterface"
-                sources += [source / name for name in ["BrowserLayoutState.swift", "TouchPanelState.swift", "TouchContactGeometry.swift", "LoadSliderContactGeometry.swift"]]
+                sources += [source / name for name in ["BrowserColumnSizingState.swift", "TouchPanelState.swift", "TouchContactGeometry.swift", "LoadSliderContactGeometry.swift"]]
                 loader = Path(directory) / "LoadSliderGestureSession.swift"
                 loader.write_text((source / "LoadSliderGestureSession.swift").read_text().replace("import TDJCore", ""))
                 deck = Path(directory) / "DeckID.swift"

@@ -10,8 +10,9 @@ enum BrowserColumnChecks {
             if !condition { failures += 1; print("FAIL: \(message)") }
         }
         func near(_ a: Double, _ b: Double) -> Bool { abs(a - b) < 0.000001 }
-        var state = BrowserLayoutState(categoriesHidden: true)
+        var state = BrowserColumnSizingState()
         state.configure(width: 1016, portrait: false, leading: .categories)
+        state.setPresented(.detail, true)
         expect(state.geometry().detail.width == 320, "detail starts at a usable width")
         state.begin(.detail)
         state.update(.detail, translation: 61)
@@ -22,7 +23,7 @@ enum BrowserColumnChecks {
         state.cancel(.detail)
         expect(state.geometry().detail.width == 381, "zero-width preview cancellation restores the detail size")
         state.setPresented(.detail, false)
-        state.showDetail()
+        state.setPresented(.detail, true)
         expect(state.geometry().detail.width == 381, "detail reopening restores the chosen width")
         state.setPresented(.categories, true)
         expect(state.geometry().leading.width == 180, "category opening restores its default width")
@@ -45,13 +46,14 @@ enum BrowserColumnChecks {
         state.configure(width: 738, portrait: true, leading: .categories)
         expect(state.geometry().detail.width == 280, "portrait width is independently remembered")
         state.setPresented(.categories, true)
-        expect(state.geometry().leading.width == 180 && !state.isPresented(.detail), "narrow layouts make room for an explicitly opened column")
-        state.setPresented(.categories, false); state.showDetail()
+        expect(state.geometry().leading.width == 180 && state.isPresented(.detail), "drawer size storage does not change unrelated presentation")
+        state.setPresented(.categories, false); state.setPresented(.detail, true)
         state.begin(.categories); state.update(.categories, translation: 100)
         state.cancel(.categories)
-        expect(!state.isPresented(.categories) && state.geometry().detail.width == 280, "cancel of an opening restores the displaced detail column")
+        expect(!state.isPresented(.categories) && state.geometry().detail.width == 280, "cancel of an opening preserves the detail width")
         state.configure(width: 1016, portrait: false, leading: .playlists)
         state.setPresented(.detail, false)
+        state.setPresented(.playlists, true)
         state.begin(.playlists); state.update(.playlists, translation: 49); state.end(.playlists, velocity: 0)
         expect(state.geometry().leading.width == 289, "playlist column can resize directly")
         state.configure(width: 1016, portrait: false, leading: .categories)
@@ -76,9 +78,9 @@ enum BrowserColumnChecks {
             for left in [0.0, 80, 180, 300, 1000] {
                 for right in [0.0, 100, 260, 400, 1000] {
                     let g = BrowserColumnsGeometry(width: width, leading: left, detail: right)
-                    expect(g.list.width >= 240, "song list retains usable width")
+                    expect(g.list.width == width, "song list retains the full browser width beneath exclusive drawers")
                     expect(g.leadingHandle.width == 44 && g.detailHandle.width == 44, "both columns have dedicated 44-point grabs")
-                    expect(g.leading.maxX == g.leadingHandle.minX && g.leadingHandle.maxX == g.list.minX && near(g.list.maxX, g.detailHandle.minX) && near(g.detailHandle.maxX, g.detail.minX), "grab strips never overlap the list or loader")
+                    expect(g.leading.maxX == g.leadingHandle.minX && near(g.detailHandle.maxX, g.detail.minX), "dedicated grab strips stay outside drawer controls")
                     expect(near(g.detail.maxX, width), "detail stays attached to the browser edge")
                 }
             }

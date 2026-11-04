@@ -6,18 +6,19 @@
     "R25",
     "R30"
   ],
-  "baselineCommit": "811d75fd377acfcd8e169981916ccf6bda51510a",
-  "baselineBuild": 87,
+  "baselineCommit": "465b87b3b4f4b7c00d08fb1abd5e9cf1af2d2607",
+  "baselineBuild": 88,
   "status": "source-verified-device-build-pending",
   "filesSHA256": {
-    "Replica/Sources/TDJInterface/BrowserLayoutState.swift": "4b0e8cdd16d915449f4ff6a78615580a176d9c9f5ba7f88f3fbf9b693175f409",
-    "Replica/Sources/TDJInterface/BrowserView.swift": "439235b303f4bcbc74a7abfac39f5a943ec35c7eb6fd181ec6b002892b1b9cd3",
+    "Replica/Sources/TDJInterface/BrowserLayoutState.swift": "9ccacfef68996b688c01731d3feadbaa509c5a896f82a1ec4de3a853ed6290c8",
+    "Replica/Sources/TDJInterface/BrowserView.swift": "75563114f650dab42cd54794e6c81f782f7c115549fcbe7daabe064e4cb1d874",
     "Replica/Sources/TDJInterface/BrowserColumnContent.swift": "036459c12f032269fa0d45c76010e97354faafe064cba347fa5345358a89cd46",
     "Replica/Sources/TDJInterface/LoadSliderContactGeometry.swift": "d85b27f5ba2df7667ffb376846e79576cac25157da6730ee9fecfcb4401daf2a",
     "Replica/Sources/TDJInterface/ReplicaView.swift": "b9ce74cae64a1be0e23a836ddf681c20a82c4c8c6f32a42824ba85d2e49dfb19",
-    "Replica/Tests/TDJInterfaceTests/BrowserLayoutStateTests.swift": "aa122214144648fd80634d9c79d29bf7afb033159d58d37f10ee60d26769e99a",
-    "tools/check_browser_columns.swift": "7c31a119d391348fa0f0fd652d629468a8ce46dcc8aae4127bbb5726e7c67496",
-    "tools/check_touch_layout.py": "86bebe49550cb307625e9e0cf9db67f585415a882cdacff5bc9858ee48a010f3"
+    "Replica/Tests/TDJInterfaceTests/BrowserLayoutStateTests.swift": "402e3c42eff4124ecc2e1fbaf2a68376839fb9125ef74631184b4555e7e5d8b9",
+    "tools/check_browser_columns.swift": "5132869976fe4619d495a91df428a2dbc59b7669c8045b3e0685301f1662fc64",
+    "tools/check_touch_layout.py": "b232b17936d1641f108e6739c7606e9ed2912944c9c01fa37701e9e9975b0bca",
+    "Replica/Sources/TDJInterface/BrowserColumnSizingState.swift": "80d1bdca79974c258a20671e12ed4b2b1a14bc1288eb84706c87cf5429bd9442"
   },
   "checks": {
     "command": "python3 tools/check_touch_layout.py --group all",
@@ -27,25 +28,33 @@
     "performancePanels": 1432,
     "deckDivider": 688,
     "browserColumnsAndLoader": 638,
-    "totalAssertions": 4303,
+    "totalAssertions": 4407,
     "failedAssertions": 0,
     "forgottenWidthMutationFailures": 6,
     "syntaxParse": "passed",
-    "integrity": "The fixed dock, full-height fader geometry, A/B divider, performance-panel/contact sources, R34/R35/R37 analysis and preparation match the baseline. ReplicaView changes are confined to LoadSlider.",
+    "integrity": "The fixed dock, full-height fader geometry, A/B divider, performance contact sources, R34/R35/R37 analysis/preparation and R39 navigation state match the integration baseline. ReplicaView changes are confined to LoadSlider.",
     "review": "Self-review under the project rule against parallel agents.",
-    "harnessScope": "The browser harness compiles production column, contact and loader sources. It removes the TDJCore import from a temporary copy and uses the exact DeckID enum declaration from Models.swift. The signed iPad build checks the full module integration."
+    "harnessScope": "The browser harness compiles production column, contact and loader sources. It removes the TDJCore import from a temporary copy and uses the exact DeckID enum declaration from Models.swift. The signed iPad build checks the full module integration.",
+    "fullWidthNavigation": 104,
+    "integratedCommand": "python3 tools/check_touch_layout.py --group all && python3 tools/check_browser_layout.py"
   },
   "behaviour": [
-    "Categories, playlists and detail/prep use the shared TouchPanelState and dedicated 44-point horizontal grab lanes.",
-    "Each column retains independent session widths for portrait and landscape. Search temporarily frees the left column without changing its width.",
-    "The song list reserves 240 points. In narrow layouts, explicit opening can close the opposite column while retaining its size. Cancelling an opening restores the displaced column.",
-    "Partial column content blocks new touches while existing loader contacts retain their original global mapping. Explicit close, track selection change and interruption cancel the loader.",
-    "The detail header keeps one loader mounted at full size and hides optional artwork at narrow widths. The list toolbar has a compact fallback.",
-    "Search, selection, queue, playlist storage, loading commands and musical actions use their existing paths."
+    "Sources and Details retain their exclusive drawer presentation over the full-width Songs, Suggestions and Prep lists. The selected-song loading shelf is unchanged apart from retained loader coordinates and selection identity.",
+    "Visible drawers have dedicated 44-point grab lanes. Existing Sources and Details buttons reopen them at their remembered widths.",
+    "Source widths for song/playlist navigation and Details widths are remembered per orientation for the session. Navigation/query state is separate from sizing.",
+    "Partial drawer content blocks new touches while held loader contacts retain their original global frame. Explicit close, selected-song replacement and interruption cancel the loader.",
+    "Optional detail artwork yields at narrow widths while its loader keeps full size. No resize grab overlays a list row or loader.",
+    "R39 full-library suggestions, fixed reference, separate queries, queue and selected-song loading remain on their existing paths."
   ],
   "limits": [
-    "Physical gesture delivery, scrolling, both loader ends, compact headers and clean audio need Erik acceptance.",
-    "Sizes last for the session. Very small windows cannot fit the optional columns.",
+    "Physical gesture delivery, scrolling, both loader ends, drawer reopening, accessibility focus and clean audio need Erik acceptance.",
+    "Sizes last for the session. Very small windows cannot fit the optional drawers.",
     "This does not establish original TDJ1 gesture or sound equivalence."
-  ]
+  ],
+  "preIntegrationCandidate": {
+    "sourceCommit": "d589b79f1",
+    "assertions": 4303,
+    "state": "source-verified-not-built",
+    "reason": "Full-width R39 browser work arrived before compilation. Final integration retains it and adds drawer sizing."
+  }
 }

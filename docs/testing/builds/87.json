@@ -16,6 +16,14 @@
       ],
       "assumedBuild": true,
       "text": "Next, give the browser side columns direct show/hide, resizing and remembered sizes. Keep held gestures stable, the dock and full-height crossfader fixed, preserve R34, then install one iPad test build. Build 87 is the latest recorded installation. Acceptance is not implied."
+    },
+    {
+      "recordedUTC": "2026-11-04T02:08:08.927725+00:00",
+      "requestIDs": [
+        "R39"
+      ],
+      "report": "Erik requests a usable portrait song browser and recommendations with sliding panes and accessible performance controls. Build 87 is the assumed baseline because no number was supplied. He approved starting with full-width Songs and Suggestions.",
+      "nextBuild": 88
     }
   ],
   "log": "TestBuilds/ipad/build-87.log",
