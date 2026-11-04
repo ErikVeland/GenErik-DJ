@@ -68,6 +68,7 @@ def archive(app, record):
 
 def build(config, notes):
     from prepare_vocal_model import prepare
+    from check_ipad_runtime import verify_embedded_frameworks
     prepare()
     app = CACHE / "Build/Products/Release-iphoneos/GenErikDJ.app"
     last = int(info(app)["CFBundleVersion"]) if app.exists() else 44
@@ -96,21 +97,25 @@ def build(config, notes):
             raise
     if before != source_identity() or int(info(app)["CFBundleVersion"]) != number:
         raise ValueError("Source or build identity changed. Installation stopped.")
+    frameworks = verify_embedded_frameworks(app)
+    print(f"Runtime search paths resolve {frameworks} embedded framework(s).", flush=True)
     run(["codesign", "--verify", "--deep", "--strict", str(app)])
     archive(app, {"notes": notes, "sourceCommit": commit, "sourceSHA256": before,
                   "uncommittedAppChanges": dirty, "buildSeconds": round(time.monotonic() - started, 2),
-                  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+                  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
                   "feedback": [], "log": str(log.relative_to(ROOT))})
     print(f"Build {number} ready.", flush=True)
     return number
 
 
 def deploy(config, number):
+    from check_ipad_runtime import verify_embedded_frameworks
     path = RECORDS / f"{number}.json"
     record = json.loads(path.read_text())
     app = ROOT / record["app"]
     if int(info(app)["CFBundleVersion"]) != number or digest(app.rglob("*"), app) != record["appSHA256"]:
         raise ValueError("The saved app changed. Installation stopped.")
+    verify_embedded_frameworks(app)
     run(["codesign", "--verify", "--deep", "--strict", str(app)])
     run(["xcrun", "devicectl", "--timeout", "20", "device", "install", "app", "--device", config["device"], str(app)], timeout=25)
     record.update(state="installed", installedUTC=datetime.now(timezone.utc).isoformat())
