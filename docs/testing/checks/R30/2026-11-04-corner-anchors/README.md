@@ -13,3 +13,5 @@ The original source fails three rendered time-position assertions and two geomet
 Before/after images, failed runs and the focused package manifest remain here. The production manifest is restored after each host check. These checks do not replace Erik's physical iPad acceptance. Erik checks album-art/load taps, times, waveform area, section/grid access, drawer gestures, fixed transport, crossfader and clean audio.
 
 All 2,798 geometry assertions pass: 36 access/allocation, 1,432 panel and 1,330 fixed-dock checks. Both rendered deck cases pass at two heights and both drawer states in 12.826 seconds. Final A/B images were inspected.
+
+Build 109 from merged main source `454049366` passed compilation, source identity, framework resolution and signing checks. It installed on the test iPad, and iPadOS accepted launch. Device actions stopped. Physical acceptance remains open.

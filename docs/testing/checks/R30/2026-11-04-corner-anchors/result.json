@@ -62,5 +62,19 @@
     "geometry-red.log: missing corner bands in a compact deck and insufficient expanded waveform height",
     "render-red.log: three missing or misplaced time-readout assertions on the original source"
   ],
-  "acceptance": "Erik checks both artwork/load controllers, current and remaining time corners, waveform area, section/grid access, drawer gestures, fixed transport and crossfader, touching and clean audio. Physical acceptance remains open."
+  "acceptance": "Erik checks both artwork/load controllers, current and remaining time corners, waveform area, section/grid access, drawer gestures, fixed transport and crossfader, touching and clean audio. Physical acceptance remains open.",
+  "build": {
+    "number": 109,
+    "sourceCommit": "454049366c384882fff6539adac7b047c30f7a0b",
+    "sourceSHA256": "6fe7043ada49fa3d96931bee5929d364825266144f64d391ed642d659798fb52",
+    "uncommittedAppChanges": "",
+    "buildSeconds": 45.06,
+    "appSHA256": "4fd23005418f40b9182852e030a4b5753d2fb9591623b6c57afb3c638e2a0e20",
+    "installedUTC": "2026-11-04T12:14:38.563179+00:00",
+    "launchedUTC": "2026-11-04T12:14:38.911618+00:00",
+    "buildLogSHA256": "f07d4f7c3042c16f21c206fc834964e38b3eba655f4c84e9b4fef73dc5c01ce4",
+    "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+    "sourceUnchanged": true,
+    "deviceActionsStoppedAfterLaunch": true
+  }
 }

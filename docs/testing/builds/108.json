@@ -14,7 +14,9 @@
       "date": "2026-11-04",
       "buildAssumption": 108,
       "report": "Anchor album art/load controller top left, current time bottom left and time left bottom right in both A and B. Arrange controls, transports and information around these anchors. Maximise waveform space.",
-      "status": "Implementing fixed deck corners and a compact information frame."
+      "status": "Corner-anchor layout installed in build 109. Physical acceptance remains open.",
+      "fixCommit": "454049366c384882fff6539adac7b047c30f7a0b",
+      "testBuild": 109
     }
   ],
   "log": "TestBuilds/ipad/build-108.log",
