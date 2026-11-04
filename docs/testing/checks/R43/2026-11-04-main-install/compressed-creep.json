@@ -1,0 +1,49 @@
+{
+  "assetFrames": 22746240,
+  "checks": [
+    {
+      "firstFrame": 0,
+      "frames": 8192,
+      "maximumSampleDifference": 0
+    },
+    {
+      "firstFrame": 4096,
+      "frames": 8192,
+      "maximumSampleDifference": 0
+    },
+    {
+      "firstFrame": 8192,
+      "frames": 8192,
+      "maximumSampleDifference": 0
+    },
+    {
+      "firstFrame": 16447,
+      "frames": 8192,
+      "maximumSampleDifference": 0
+    },
+    {
+      "firstFrame": 44100,
+      "frames": 8192,
+      "maximumSampleDifference": 0
+    },
+    {
+      "firstFrame": 22050,
+      "frames": 8192,
+      "maximumSampleDifference": 0
+    },
+    {
+      "firstFrame": 22729856,
+      "frames": 8192,
+      "maximumSampleDifference": 0
+    }
+  ],
+  "fileFrames": 22746240,
+  "maximumSampleDifference": 0,
+  "passed": true,
+  "sampleRate": 44100,
+  "productionDecoderPrefixSHA256": "af2738bef487d4b78e8ce21771658bd60532464b5247111b9b5bcede40738be3",
+  "probeSHA256": "cf99fbcf301e66f0154800f5f9a138cd64da2aeced274feda8d5b81fa04a46dd",
+  "sourceFileSHA256": "618874bd3a282e065d58195efd7cc85b549e46f28ff1283cf5cb3cbd9059219e",
+  "audioFileSHA256": "6d78180114509fa8136fbba71061e91a561832bb6b3793f6bf9750c3dbb82db6",
+  "scope": "Production DecodedAudioSource prefix compiled with host error adapters. Compare AVAssetReader against AVAudioFile on the local Creep MP3. Physical iPad ipod-library access remains an acceptance check."
+}

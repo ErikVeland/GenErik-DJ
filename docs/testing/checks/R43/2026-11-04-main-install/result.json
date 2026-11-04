@@ -36,5 +36,44 @@
     "implementationCommit": "d3b233b7cf2933b36eab88149dfce67837f852ec",
     "mainContainsImplementation": true,
     "mergeCommit": "770a53322b55adc1be936c0edea302bb586f3901"
+  },
+  "combinedVerification": {
+    "sourceSHA256": "48c113d64539fb26a9c6837a1000895bedbf0ff3b329b93800e0800f90073c21",
+    "applicationUnchangedDuringProbe": true,
+    "sourceFiles": {
+      "Replica/Sources/TDJCore/Models.swift": "30abd6e80f25c0be5a3b67a241e1d700242940596949939fe88bcb7ee004f2db",
+      "Replica/Sources/TDJCore/KeyGovernance.swift": "141f3ab001d8cf4fe06a377a1d0fd65b6ae4282603ac1d8d4d49e81bec867fd4",
+      "Replica/Sources/TDJCore/BeatGridMap.swift": "b7e33bab7ece8c3a6bdc3d59391cac8ac7a4fe44fbf5789cf161632ced3b5a56",
+      "Replica/Sources/TDJCore/AudioAnalyzer.swift": "17c1bd68ef713f5cbf181ad7d55e7fd4edcc287b365244f9926644935a0cdfc4",
+      "Replica/Sources/TDJCore/MusicalSpectrumAnalyzer.swift": "5daeb71c64d93e958d4f71aa1a45e48e5018c614d2fa49f75d31862147ccc683",
+      "Replica/Sources/TDJCore/MusicalAnalysisFeatures.swift": "b631221db34de5a3c3e4789dae70fa778d213d00594974ddeff9f787a92bef19",
+      "Replica/Sources/TDJCore/AdaptiveRhythmAnalyzer.swift": "f8ac9378f03ec3e51f55ee08628c14a4885664c81a378210d1c0ef4c288a9f01",
+      "Replica/Sources/TDJCore/BeatGrid.swift": "084b1d6a092b2bc75fcf51286dfc5b45d53021e7a8e4b6eaa8577ac6ab3f5a5e"
+    },
+    "detection": {
+      "downbeatConfidence": 0.7834721734595959,
+      "grid": {
+        "anchorFrame": 7963.329488313436,
+        "bpm": 136.0177692878311,
+        "downbeatOffset": 0,
+        "sampleRate": 44100
+      },
+      "tempoConfidence": 1
+    },
+    "openingBarSeconds": 0.18057436481436362,
+    "compiledModelsPrefixSHA256": "5a2e783e3d815b0f14a247ccb1fb0f50e4c1c1fdbfd98fec5136bba731039e0f",
+    "checks": {
+      "barCases": 23,
+      "lateRhythmCases": 7,
+      "failedAssertions": 0,
+      "loadingOrderAssertions": 5,
+      "waveformMotionAssertions": 93,
+      "focusedModelsSnapshotMatchesCurrentSource": true,
+      "compressedCreepRanges": 7,
+      "compressedMaximumSampleDifference": 0
+    },
+    "r45FocusedChecks": "Seven core tests, seven interface test functions covering ten cases, and native decoder/stream checks pass. See ../../R45/2026-11-04-first-use/result.json.",
+    "r45ImplementationCommit": "d2bf0e28092a9c785e3b5cc1fcc76366f4b0add3",
+    "r45Stopped": true
   }
 }

@@ -1,0 +1,10 @@
+{
+  "downbeatConfidence" : 0.7834721734595959,
+  "grid" : {
+    "anchorFrame" : 7963.329488313436,
+    "bpm" : 136.0177692878311,
+    "downbeatOffset" : 0,
+    "sampleRate" : 44100
+  },
+  "tempoConfidence" : 1
+}
