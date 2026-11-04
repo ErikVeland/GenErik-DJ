@@ -17,7 +17,7 @@ The earlier nine-recording genre/version review remains in `../2026-11-04-auto-b
 It has two unresolved bar results and five candidates below the inherited-import support gate.
 No new broad song review or independent listening evaluation was run for this handover.
 
-Build and installation evidence will be recorded after the shared working folder is stable.
+Build and installation evidence is recorded below.
 Physical opening-bar alignment, later alignment, saved cues, playback and scratching remain Erik’s acceptance checks.
 
 ## Combined R43/R44/R45 check
@@ -36,6 +36,26 @@ Commercial audio remains local. This host check does not establish physical iPad
 
 The loading checkpoint records seven core tests, seven interface test functions covering ten cases and native stream checks.
 See `../../R45/2026-11-04-first-use/result.json` for its source hashes, failed attempts and remaining device acceptance.
-The combined signed build and installation record will complete this handover.
+The combined signed build and installation record completes the software handover.
 
 R45 checkpoint `d2bf0e280` is committed and its chat has stopped. Its owned file hashes match the combined source.
+
+## Build 106 handover
+
+Main source `1147096218b3893ff964ac06e0d767f4ab18d4ee` produced signed build 106 in 257.34 seconds.
+The complete application fingerprint matches the combined-source check. The saved app passes bundle identity, runtime framework resolution and strict signature checks.
+The build contains both the R43 bar detector and R45 direct native loader. `artifact-checks-106.json` records their binary markers.
+An initial extra marker check expected an obsolete waveform literal. Its correction remains recorded. No app change or rebuild followed.
+
+Build 106 installed on the 10.5-inch test iPad. iPadOS accepted the launch request. Device actions then stopped.
+The 240-second limit was available for installation. The deployment completed successfully without a retry.
+The previous build 105 timeout remains in its original record. No historical build or audio evidence was deleted.
+
+Erik's acceptance remains open:
+
+1. Pause both decks.
+2. Reload Creep and wait for “Beat grid ready”.
+3. Check beat one near 0.180574 seconds and later bar alignment.
+4. Check saved cues, manual preparation, playback and scratching.
+5. Load an unanalysed native track and check its opening waveform and Play response.
+6. Check clean other-deck audio and continued operation.

@@ -74,6 +74,35 @@
     },
     "r45FocusedChecks": "Seven core tests, seven interface test functions covering ten cases, and native decoder/stream checks pass. See ../../R45/2026-11-04-first-use/result.json.",
     "r45ImplementationCommit": "d2bf0e28092a9c785e3b5cc1fcc76366f4b0add3",
-    "r45Stopped": true
-  }
+    "r45Stopped": true,
+    "builtFromMainCommit": "1147096218b3893ff964ac06e0d767f4ab18d4ee",
+    "applicationFingerprintMatchesBuild": true
+  },
+  "build": {
+    "build": 106,
+    "sourceCommit": "1147096218b3893ff964ac06e0d767f4ab18d4ee",
+    "sourceSHA256": "48c113d64539fb26a9c6837a1000895bedbf0ff3b329b93800e0800f90073c21",
+    "appSHA256": "4d5b6296a83c7ee293261d33c8ef9de4847887a980883ef2a20614c51cc84581",
+    "buildSeconds": 257.34,
+    "state": "testing",
+    "installedUTC": "2026-11-04T11:19:44.832187+00:00",
+    "launchedUTC": "2026-11-04T11:19:47.071137+00:00",
+    "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+    "uncommittedAppChanges": ""
+  },
+  "deployment": {
+    "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+    "installTimeoutSeconds": 240,
+    "helperExitCode": 0,
+    "deviceActionsStoppedAfterLaunch": true,
+    "physicalAcceptance": "Pending Erik. Launch acceptance does not establish continued operation."
+  },
+  "artifactVerification": "artifact-checks-106.json",
+  "artifactVerificationCorrection": "artifact-check-first.json retains an obsolete expected string in the verifier. The corrected check uses the actual native-opening-1 source literal. No application change or rebuild followed.",
+  "branchInventory": "inventory.json records all 36 branch references included in the build source. Historical worktrees and evidence remain preserved.",
+  "remaining": [
+    "Erik checks the physical Creep load-to-grid handoff, opening bar, later alignment and saved cues.",
+    "Erik checks first-use loading, Play, scratching, clean other-deck audio and continued operation.",
+    "Two earlier genre-review bar results remain unresolved. Five lower-support candidates retain their inherited grids."
+  ]
 }

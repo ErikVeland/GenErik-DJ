@@ -1,0 +1,6 @@
+{
+  "build": 106,
+  "state": "verification-assumption-corrected",
+  "incorrectExpectedMarker": "native-waveform-1",
+  "actualSource": "The waveform configuration derives from native-opening-1 plus -waveform. The removed literal was an obsolete verifier assumption. No application change or rebuild."
+}

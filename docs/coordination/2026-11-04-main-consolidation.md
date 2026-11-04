@@ -49,3 +49,26 @@ The final inventory also found stash `9de12b5cb`. It contains only a later build
 Historical worktrees remain inactive archives. No branch, private candidate, recording, model or validation directory was deleted. The older private-candidate reconciliation remains tracked separately under R19.
 
 The final [branch and worktree inventory](../testing/checks/R46/2026-11-04-consolidation/inventory.json) verifies every local and fetched remote branch tip against the combined source. All other existing checkouts are clean. The missing historical recovery checkout retains its Git registration and merged branch. The main folder contains the current source, build record and verified signed candidate.
+
+
+## Combined main build 106
+
+Erik then requested the R43 main merge, Creep verification and iPad installation. He expanded that request to consolidate all current work and build.
+R43 was already in main. The active R45 chat completed its first-use loading change as `d2bf0e280`, preserved the R43 evidence and stopped.
+Checkpoint `114709621` combines both handovers on main. It was pushed before the build.
+All 36 branch references at the source checkpoint are included. Other existing worktrees are clean and remain inactive archives.
+
+Fresh combined-source checks pass: 23 bar cases, seven late-rhythm cases, five loading-order assertions and 93 waveform-motion assertions.
+The R45 checkpoint also passes seven core tests, seven interface test functions covering ten cases and native stream checks.
+The actual saved iPad Creep cache again gives 136.017769 BPM and bar zero at 0.180574 seconds.
+The new decoder matches AVAudioFile samples over seven compressed-source ranges. Both report 22,746,240 frames at 44,100 Hz.
+
+Clean main produced signed build 106 in 257.34 seconds.
+Its application fingerprint is `48c113d64539fb26a9c6837a1000895bedbf0ff3b329b93800e0800f90073c21`.
+Its saved app digest is `4d5b6296a83c7ee293261d33c8ef9de4847887a980883ef2a20614c51cc84581`.
+Source identity, bundle identity, runtime framework resolution and strict signing checks pass.
+Build 106 installed on the test iPad. iPadOS accepted the launch request. Device actions stopped immediately.
+The earlier build 105 timeout remains preserved. No historical source, recording, build or validation evidence was deleted.
+
+Physical Creep alignment, saved cues, first-use timing, touch, listening and continued operation remain Erik's acceptance checks.
+See `../testing/checks/R43/2026-11-04-main-install/result.json` and `../testing/builds/106.json` for exact evidence and timestamps.
