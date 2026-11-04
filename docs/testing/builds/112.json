@@ -5,7 +5,15 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 69.56,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R50",
+      "date": "2026-11-05",
+      "report": "A10X reconnected and unlocked. Installed build 112 confirmed. Device-wide CPU, UI and audio-instrument setup captures succeeded. Combined workload is not running. Erik requested setup help. Automatic analysis pauses during playback. No combined-load performance result or fix is claimed.",
+      "evidence": "TestBuilds/r50/",
+      "state": "workload-setup-pending"
+    }
+  ],
   "log": "TestBuilds/ipad/build-112.log",
   "build": 112,
   "app": "TestBuilds/ipad/112/GenErikDJ.app",
