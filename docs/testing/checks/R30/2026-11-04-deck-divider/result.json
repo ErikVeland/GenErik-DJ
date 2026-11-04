@@ -6,7 +6,7 @@
   ],
   "baselineCommit": "bc9238cadd5883185a7a9474bc48fdd2b7dc3ea8",
   "baselineBuild": 86,
-  "status": "source-verified-device-build-pending",
+  "status": "installed-awaiting-Erik-acceptance",
   "filesSHA256": {
     "Replica/Sources/TDJInterface/DeckSplitState.swift": "5455813ee9245a70ba35067c6c994ce3b243a40112f77cb88358d2fd2da30ba8",
     "Replica/Sources/TDJInterface/DeckSplitHandle.swift": "a73717cdcc070269a59b926287fc2688cdcc29cabe1cf571497ddee4bc8f47ac",
@@ -43,5 +43,24 @@
     "Physical multitouch, compact strips, effect menus and clean audio need Erik acceptance.",
     "Size memory lasts for the session and is separate for portrait and landscape.",
     "Unsupported small windows return bounded geometry but are not accepted two-deck layouts."
-  ]
+  ],
+  "build": 87,
+  "sourceCommit": "9b41326410293ba7ffc5db6b12fc0ddb3dedf876",
+  "sourceSHA256": "62d673d9dc2cfe2c6b2c3edc271bd5a7c41a4917f6e0a4205d77c361e126fd3c",
+  "buildVerification": {
+    "compiled": true,
+    "signatureVerified": true,
+    "nativeTypeCheck": "Passed in the signed incremental iPad build 87.",
+    "uncommittedAppChanges": "",
+    "buildSeconds": 60.9,
+    "appSHA256": "ccf6b23144f4056daef9818198cd562e24fce7fcba2aa464d56b4f4b918b4f60"
+  },
+  "deployment": {
+    "device": "GenErik iPad (10.5-inch)",
+    "state": "installed-and-launched",
+    "installedUTC": "2026-11-04T01:51:29.271231+00:00",
+    "launchedUTC": "2026-11-04T01:51:29.623591+00:00",
+    "furtherDeviceActions": false
+  },
+  "acceptance": "Pending Erik physical touch and listening checks."
 }

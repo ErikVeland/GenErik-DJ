@@ -29,3 +29,7 @@ Final review: self-review under the project rule against parallel agents. Review
 5. Hold waveform, overview, EQ, filter or FX input while resizing.
 6. Check effect menus, both button stacks and the full-height crossfader.
 7. Confirm that audio remains clean.
+
+## iPad handover
+
+Build 87 compiled, passed signing, then installed and launched on the 10.5-inch test iPad. Application source: `9b41326410293ba7ffc5db6b12fc0ddb3dedf876`. The build record binds the exact source and saved app hashes. No device actions followed launch. Erik’s physical touch and audio checks remain pending.

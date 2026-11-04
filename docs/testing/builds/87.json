@@ -1,0 +1,32 @@
+{
+  "notes": "R02/R30: Direct A/B deck divider with a dedicated 44-point grab lane and remembered session proportions per orientation. Both compact decks stay reachable. Held musical contacts, fixed dock and full-height crossfader retained. R34/R35/R37 unchanged. All 3665 focused assertions pass. Erik checks touch feel and clean audio.",
+  "sourceCommit": "9b41326410293ba7ffc5db6b12fc0ddb3dedf876",
+  "sourceSHA256": "62d673d9dc2cfe2c6b2c3edc271bd5a7c41a4917f6e0a4205d77c361e126fd3c",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 60.9,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-87.log",
+  "build": 87,
+  "app": "TestBuilds/ipad/87/GenErikDJ.app",
+  "appSHA256": "ccf6b23144f4056daef9818198cd562e24fce7fcba2aa464d56b4f4b918b4f60",
+  "state": "testing",
+  "createdUTC": "2026-11-04T01:51:11.205070+00:00",
+  "installedUTC": "2026-11-04T01:51:29.271231+00:00",
+  "launchedUTC": "2026-11-04T01:51:29.623591+00:00",
+  "requestIDs": [
+    "R02",
+    "R30"
+  ],
+  "focusedChecks": "All 3,665 focused assertions passed: 1,330 dock, 179 library, 36 held-contact, 1,432 performance-panel and 688 divider checks. A temporary compiled mutation that forgets the saved split fails three assertions. R34/R35/R37 analysis, native held-contact mapping, dock rendering and full-gap fader geometry match the build 86 baseline.",
+  "acceptance": "Installed and launched on the 10.5-inch test iPad. Erik checks direct A/B resizing, intermediate sizes and both extremes, compact labels/overviews, remembered sizes after library changes and rotation, double-tap balance, held waveform/overview/EQ/filter/FX gestures, effect menu access, fixed dock/full-height fader and clean audio. Physical touch and listening acceptance remain pending. No further device actions after launch.",
+  "deployments": [
+    {
+      "device": "GenErik iPad (10.5-inch)",
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "installed-and-launched",
+      "installedUTC": "2026-11-04T01:51:29.271231+00:00",
+      "launchedUTC": "2026-11-04T01:51:29.623591+00:00"
+    }
+  ]
+}
