@@ -1,0 +1,15 @@
+{
+  "notes": "R02/R09/R30/R45: lower-left Actions pane over the waveform; complete compact decks with the browser; section colours and header guidance; full-width overview with time overlays; real saved/opening waveforms during native preparation. 3696 geometry assertions, 13 rendered cases and 12 loading cases pass. Physical display timing, touch and clean audio remain Erik checks.",
+  "sourceCommit": "7cb4dc3462c6f98063e8a634d94b4ab973c52155",
+  "sourceSHA256": "f01fc2e854d89077ad6140bfa168fac1fc4c4574aae74a9dc0594a709a289d01",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 47.14,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-110.log",
+  "build": 110,
+  "app": "TestBuilds/ipad/110/GenErikDJ.app",
+  "appSHA256": "9ac99869c27e479ca47af5c1a3be2c2a3f0b90f0ba6c1c2200a471dcc5e2c254",
+  "state": "ready",
+  "createdUTC": "2026-11-04T13:03:35.936808+00:00"
+}
