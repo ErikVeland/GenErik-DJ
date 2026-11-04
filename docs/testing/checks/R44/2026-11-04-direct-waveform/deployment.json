@@ -1,0 +1,9 @@
+{
+  "build": 103,
+  "installed": true,
+  "installedUTC": "2026-11-04T09:32:36.484004+00:00",
+  "automaticLaunch": "timeout",
+  "launchTimeoutSeconds": 10,
+  "deviceActionsStopped": true,
+  "nextAction": "Erik opens GenErik DJ manually and tests the waveform."
+}

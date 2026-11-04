@@ -21,3 +21,7 @@ The EOF regression first failed, then passed at all three sample rates. A direct
 Test both decks in each direction. Grab the waveform near either edge and in the centre. Hold, throw, catch and reverse it. Check track boundaries, Sync takeover, Flux return, cancellation and clean audio. Physical feel, latency and uninterrupted audio remain Erik’s acceptance tests.
 
 The isolated session runner links existing package objects. Build the `TDJInterface` target from the intended source before using it. The passing session record above used the objects from the first package attempt.
+
+## iPad handover
+
+Build 103, source `3b241891ab033301471c0d9eee688917ee70d6bc`, passed compilation, framework resolution, signing and source/archive identity checks. It includes R45 immediate loading. It installed on the 10.5-inch test iPad on 4 November. Automatic launch timed out after 10 seconds. Open GenErik DJ manually. Device actions have stopped. Physical feel, listening and continued operation remain pending.
