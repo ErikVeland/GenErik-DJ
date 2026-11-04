@@ -1,0 +1,3059 @@
+{
+  "requestID": "R35",
+  "sourceHashes": {
+    "TestBuilds/ipad/R35/review-2026-11-04/compare/Values.swift": "4fdc22630db39295c8f5f010b16494d099621a674a53c76f5fc5e363908e279c",
+    "TestBuilds/ipad/R35/review-2026-11-04/compare/BeatGridMap.swift": "b3e7543dab5fdd5d37ca43695745e45910eaae1099e144fab7399a72d1480b0a",
+    "TestBuilds/ipad/R35/review-2026-11-04/compare/main.swift": "0a2f994588adb719415ffc7f6a61a7a95a8e295b90a9a8367ea8ed90494bba53",
+    "Replica/Sources/TDJCore/AudioAnalyzer.swift": "d20787e19d6f4e75933ea5473f1cd30de0aaee6bf7a10a48f9c70019cef6a127",
+    "Replica/Sources/TDJCore/MusicalSpectrumAnalyzer.swift": "f788fdc0b4106f843cbcb6bc9bb38c2855ca58fa7de6153e243df012da36139a",
+    "Replica/Sources/TDJCore/MusicalAnalysisFeatures.swift": "042972e6be2e43cd5212836cfa257e9f9288d5ae35f054b0a895c18c39607ac3",
+    "Replica/Sources/TDJCore/AdaptiveRhythmAnalyzer.swift": "f8ac9378f03ec3e51f55ee08628c14a4885664c81a378210d1c0ef4c288a9f01",
+    "Replica/Sources/TDJCore/BeatGrid.swift": "29c68e3aec771069438f570b353e1d21ad8f7bc317b3fdf25e9fcbcd3196c02d",
+    "Replica/Sources/TDJCore/TrackArrangement.swift": "7bb9806560df7b3738c09b1ee6f7aaca88a8ab368913557d139655afa53c04e5",
+    "Replica/Sources/TDJCore/MusicalStructureAnalyzer.swift": "e6f45a87024452b2a1ba90886f08ce28581ec841cb59a33f423f2783b6b558d6"
+  },
+  "rows": [
+    {
+      "id": "22833568c243430affd1a8c3f312044f4659d5b768d09d9efe1101d73a7f036c",
+      "title": "Bug a Boo (A Cappella)",
+      "artist": "Destiny's Child",
+      "genre": "R&B",
+      "split": "development",
+      "state": "compared",
+      "sourceSHA256": "d1411dbb5fb42ceb322344e01748f63e759c3eda18a4a1038849c851f3fb88d9",
+      "oldSections": 14,
+      "newSections": 14,
+      "baseline": [
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 17.77683971584944
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 17.77683971584944,
+          "endSeconds": 28.085134021549578
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 28.085134021549578,
+          "endSeconds": 38.393428327249715
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 38.393428327249715,
+          "endSeconds": 52.1378207348499
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 52.1378207348499,
+          "endSeconds": 62.44611504055004
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 62.44611504055004,
+          "endSeconds": 86.49880175385037
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 86.49880175385037,
+          "endSeconds": 96.80709605955052
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 96.80709605955052,
+          "endSeconds": 107.11539036525065
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 107.11539036525065,
+          "endSeconds": 117.4236846709508
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 117.4236846709508,
+          "endSeconds": 131.16807707855097
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "building",
+          "startSeconds": 131.16807707855097,
+          "endSeconds": 148.3485675880512
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 148.3485675880512,
+          "endSeconds": 162.0929599956514
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 162.0929599956514,
+          "endSeconds": 172.40125430135154
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 172.40125430135154,
+          "endSeconds": 186.06666666666666
+        }
+      ],
+      "candidate": [
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 17.77683971584944
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 17.77683971584944,
+          "endSeconds": 28.085134021549578
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 28.085134021549578,
+          "endSeconds": 38.393428327249715
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 38.393428327249715,
+          "endSeconds": 52.1378207348499
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 52.1378207348499,
+          "endSeconds": 62.44611504055004
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 62.44611504055004,
+          "endSeconds": 86.49880175385037
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 86.49880175385037,
+          "endSeconds": 96.80709605955052
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 96.80709605955052,
+          "endSeconds": 107.11539036525065
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 107.11539036525065,
+          "endSeconds": 117.4236846709508
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 117.4236846709508,
+          "endSeconds": 131.16807707855097
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "building",
+          "startSeconds": 131.16807707855097,
+          "endSeconds": 148.3485675880512
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 148.3485675880512,
+          "endSeconds": 162.0929599956514
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 162.0929599956514,
+          "endSeconds": 172.40125430135154
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 172.40125430135154,
+          "endSeconds": 186.06666666666666
+        }
+      ]
+    },
+    {
+      "id": "1de8395866199dd227c53b8658493bb8212c7b461cc2c890f9431b131d4bb2d5",
+      "title": "Matt Berry - Theme From Snuff Box (GenErik EXPLICIT Extended Edit)",
+      "artist": "GenErik",
+      "genre": "Disco",
+      "split": "development",
+      "state": "compared",
+      "sourceSHA256": "2dc902e4c465c3df5adab8555b1b228109350a911210e912c354a5e5a85173da",
+      "oldSections": 11,
+      "newSections": 11,
+      "baseline": [
+        {
+          "role": "intro",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 29.99987403218776
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 29.99987403218776,
+          "endSeconds": 47.99819502664544
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 47.99819502664544,
+          "endSeconds": 65.99651602110313
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 65.99651602110313,
+          "endSeconds": 87.99446390321809
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 87.99446390321809,
+          "endSeconds": 103.99297145384715
+        },
+        {
+          "role": "instrumental",
+          "name": "THINNING OUT",
+          "behaviour": "thinning",
+          "startSeconds": 103.99297145384715,
+          "endSeconds": 127.99073277979073
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 127.99073277979073,
+          "endSeconds": 143.9892403304198
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 143.9892403304198,
+          "endSeconds": 167.98700165636336
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 167.98700165636336,
+          "endSeconds": 179.98588231933516
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 179.98588231933516,
+          "endSeconds": 215.98252430825053
+        },
+        {
+          "role": "outro",
+          "name": "",
+          "behaviour": "thinning",
+          "startSeconds": 215.98252430825053,
+          "endSeconds": 252.31249433106575
+        }
+      ],
+      "candidate": [
+        {
+          "role": "intro",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 29.99987403218776
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 29.99987403218776,
+          "endSeconds": 47.99819502664544
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 47.99819502664544,
+          "endSeconds": 65.99651602110313
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 65.99651602110313,
+          "endSeconds": 87.99446390321809
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 87.99446390321809,
+          "endSeconds": 103.99297145384715
+        },
+        {
+          "role": "instrumental",
+          "name": "THINNING OUT",
+          "behaviour": "thinning",
+          "startSeconds": 103.99297145384715,
+          "endSeconds": 127.99073277979073
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 127.99073277979073,
+          "endSeconds": 143.9892403304198
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 143.9892403304198,
+          "endSeconds": 167.98700165636336
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 167.98700165636336,
+          "endSeconds": 179.98588231933516
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 179.98588231933516,
+          "endSeconds": 215.98252430825053
+        },
+        {
+          "role": "outro",
+          "name": "Rhythmic outro",
+          "behaviour": "sustaining",
+          "startSeconds": 215.98252430825053,
+          "endSeconds": 252.31249433106575
+        }
+      ]
+    },
+    {
+      "id": "c02b5f3e5f313a3c52a45dab3a93591a41fb49c297a46a9aa9526dc556779578",
+      "title": "All The Things She Said (Extended Mix)",
+      "artist": "Harrison",
+      "genre": "Dance",
+      "split": "development",
+      "state": "compared",
+      "sourceSHA256": "57a889e05f1e673e2cdeacb63f03d61d1b0e8c6048692c666c47c3ba12aecbff",
+      "oldSections": 15,
+      "newSections": 12,
+      "baseline": [
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 15.32054404002207
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 15.32054404002207,
+          "endSeconds": 30.555895336279967
+        },
+        {
+          "role": "instrumental",
+          "name": "THINNING OUT",
+          "behaviour": "thinning",
+          "startSeconds": 30.555895336279967,
+          "endSeconds": 47.695665544570105
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 47.695665544570105,
+          "endSeconds": 61.026597928795766
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 61.026597928795766,
+          "endSeconds": 72.45311140098919
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 72.45311140098919,
+          "endSeconds": 91.49730052131156
+        },
+        {
+          "role": "instrumental",
+          "name": "THINNING OUT",
+          "behaviour": "thinning",
+          "startSeconds": 91.49730052131156,
+          "endSeconds": 108.63707072960169
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 108.63707072960169,
+          "endSeconds": 121.96800311382735
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 121.96800311382735,
+          "endSeconds": 135.29893549805303
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 135.29893549805303,
+          "endSeconds": 152.43870570634314
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "thinning",
+          "startSeconds": 152.43870570634314,
+          "endSeconds": 167.67405700260105
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 167.67405700260105,
+          "endSeconds": 186.71824612292343
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 186.71824612292343,
+          "endSeconds": 200.04917850714907
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 200.04917850714907,
+          "endSeconds": 215.28452980340697
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 215.28452980340697,
+          "endSeconds": 229.8761904761905
+        }
+      ],
+      "candidate": [
+        {
+          "role": "intro",
+          "name": "Rhythmic intro",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 30.555895336279967
+        },
+        {
+          "role": "instrumental",
+          "name": "THINNING OUT",
+          "behaviour": "thinning",
+          "startSeconds": 30.555895336279967,
+          "endSeconds": 47.695665544570105
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 47.695665544570105,
+          "endSeconds": 61.026597928795766
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 61.026597928795766,
+          "endSeconds": 72.45311140098919
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 72.45311140098919,
+          "endSeconds": 91.49730052131156
+        },
+        {
+          "role": "instrumental",
+          "name": "THINNING OUT",
+          "behaviour": "thinning",
+          "startSeconds": 91.49730052131156,
+          "endSeconds": 108.63707072960169
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 108.63707072960169,
+          "endSeconds": 121.96800311382735
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 121.96800311382735,
+          "endSeconds": 135.29893549805303
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 135.29893549805303,
+          "endSeconds": 152.43870570634314
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "thinning",
+          "startSeconds": 152.43870570634314,
+          "endSeconds": 167.67405700260105
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 167.67405700260105,
+          "endSeconds": 186.71824612292343
+        },
+        {
+          "role": "outro",
+          "name": "Rhythmic outro",
+          "behaviour": "sustaining",
+          "startSeconds": 186.71824612292343,
+          "endSeconds": 229.8761904761905
+        }
+      ]
+    },
+    {
+      "id": "1131577b85c4128e15ec793ecb33dd1b08543f2f47a5181f073bd6d3741e9c00",
+      "title": "Bug a Boo (Refugee Camp Remix feat. Wyclef Jean)",
+      "artist": "Destiny's Child",
+      "genre": "R&B",
+      "split": "development",
+      "state": "compared",
+      "sourceSHA256": "2e41544ebc5519003f80569a9ebc0b45821f3d44566271ea7385400dd4e46776",
+      "oldSections": 17,
+      "newSections": 17,
+      "baseline": [
+        {
+          "role": "intro",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 10.188975631518096
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "dropping",
+          "startSeconds": 10.188975631518096,
+          "endSeconds": 27.27848324887034
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 27.27848324887034,
+          "endSeconds": 40.570322506810975
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 40.570322506810975,
+          "endSeconds": 53.86216176475162
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 53.86216176475162,
+          "endSeconds": 65.25516684298644
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 65.25516684298644,
+          "endSeconds": 82.3446744603387
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 82.3446744603387,
+          "endSeconds": 101.33301625739674
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 101.33301625739674,
+          "endSeconds": 116.52368969504317
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 116.52368969504317,
+          "endSeconds": 131.71436313268964
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 131.71436313268964,
+          "endSeconds": 141.20853403121865
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 141.20853403121865,
+          "endSeconds": 150.70270492974768
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 150.70270492974768,
+          "endSeconds": 167.79221254709992
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 167.79221254709992,
+          "endSeconds": 188.6793885238638
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 188.6793885238638,
+          "endSeconds": 203.8700619615102
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 203.8700619615102,
+          "endSeconds": 213.36423286003924
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 213.36423286003924,
+          "endSeconds": 228.5549062976857
+        },
+        {
+          "role": "outro",
+          "name": "",
+          "behaviour": "thinning",
+          "startSeconds": 228.5549062976857,
+          "endSeconds": 244.56
+        }
+      ],
+      "candidate": [
+        {
+          "role": "intro",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 10.188975631518096
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "dropping",
+          "startSeconds": 10.188975631518096,
+          "endSeconds": 27.27848324887034
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 27.27848324887034,
+          "endSeconds": 40.570322506810975
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 40.570322506810975,
+          "endSeconds": 53.86216176475162
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 53.86216176475162,
+          "endSeconds": 65.25516684298644
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 65.25516684298644,
+          "endSeconds": 82.3446744603387
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 82.3446744603387,
+          "endSeconds": 101.33301625739674
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 101.33301625739674,
+          "endSeconds": 116.52368969504317
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 116.52368969504317,
+          "endSeconds": 131.71436313268964
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 131.71436313268964,
+          "endSeconds": 141.20853403121865
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 141.20853403121865,
+          "endSeconds": 150.70270492974768
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 150.70270492974768,
+          "endSeconds": 167.79221254709992
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 167.79221254709992,
+          "endSeconds": 188.6793885238638
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 188.6793885238638,
+          "endSeconds": 203.8700619615102
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 203.8700619615102,
+          "endSeconds": 213.36423286003924
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 213.36423286003924,
+          "endSeconds": 228.5549062976857
+        },
+        {
+          "role": "outro",
+          "name": "",
+          "behaviour": "thinning",
+          "startSeconds": 228.5549062976857,
+          "endSeconds": 244.56
+        }
+      ]
+    },
+    {
+      "id": "7d047e48eb76eb9df11dbbcfbf737762ad7c9c7fd8af101b3e623e618fcf32a4",
+      "title": "Plastic Dreams (Radio Edit)",
+      "artist": "Jaydee",
+      "genre": "House",
+      "split": "development",
+      "state": "compared",
+      "sourceSHA256": "7509ddf81594c6b1d3fb8d6c16e81ffec49fe3d11105f265e4036d712ddeec90",
+      "oldSections": 19,
+      "newSections": 19,
+      "baseline": [
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 16.138235213897328
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 16.138235213897328,
+          "endSeconds": 38.479538540260044
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 38.479538540260044,
+          "endSeconds": 51.51196548063829
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 51.51196548063829,
+          "endSeconds": 60.82084186662276
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 60.82084186662276,
+          "endSeconds": 73.853268807001
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 73.853268807001,
+          "endSeconds": 90.60924630177303
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 90.60924630177303,
+          "endSeconds": 107.36522379654507
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 107.36522379654507,
+          "endSeconds": 118.53587545972643
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 118.53587545972643,
+          "endSeconds": 133.43007767730157
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 133.43007767730157,
+          "endSeconds": 148.32427989487672
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 148.32427989487672,
+          "endSeconds": 163.21848211245185
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 163.21848211245185,
+          "endSeconds": 174.3891337756332
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 174.3891337756332,
+          "endSeconds": 183.69801016161767
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 183.69801016161767,
+          "endSeconds": 198.59221237919283
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 198.59221237919283,
+          "endSeconds": 209.76286404237416
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 209.76286404237416,
+          "endSeconds": 226.5188415371462
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 226.5188415371462,
+          "endSeconds": 237.68949320032755
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 237.68949320032755,
+          "endSeconds": 252.58369541790267
+        },
+        {
+          "role": "outro",
+          "name": "",
+          "behaviour": "thinning",
+          "startSeconds": 252.58369541790267,
+          "endSeconds": 277.14666666666665
+        }
+      ],
+      "candidate": [
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 16.138235213897328
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 16.138235213897328,
+          "endSeconds": 38.479538540260044
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 38.479538540260044,
+          "endSeconds": 51.51196548063829
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 51.51196548063829,
+          "endSeconds": 60.82084186662276
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 60.82084186662276,
+          "endSeconds": 73.853268807001
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 73.853268807001,
+          "endSeconds": 90.60924630177303
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 90.60924630177303,
+          "endSeconds": 107.36522379654507
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 107.36522379654507,
+          "endSeconds": 118.53587545972643
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 118.53587545972643,
+          "endSeconds": 133.43007767730157
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 133.43007767730157,
+          "endSeconds": 148.32427989487672
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 148.32427989487672,
+          "endSeconds": 163.21848211245185
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 163.21848211245185,
+          "endSeconds": 174.3891337756332
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 174.3891337756332,
+          "endSeconds": 183.69801016161767
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 183.69801016161767,
+          "endSeconds": 198.59221237919283
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 198.59221237919283,
+          "endSeconds": 209.76286404237416
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 209.76286404237416,
+          "endSeconds": 226.5188415371462
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 226.5188415371462,
+          "endSeconds": 237.68949320032755
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 237.68949320032755,
+          "endSeconds": 252.58369541790267
+        },
+        {
+          "role": "outro",
+          "name": "",
+          "behaviour": "thinning",
+          "startSeconds": 252.58369541790267,
+          "endSeconds": 277.14666666666665
+        }
+      ]
+    },
+    {
+      "id": "770b969d54953c1dbf7a0902b9ebcf58ba14e47c355c167b72a964a56aed06d4",
+      "title": "The Business (Extended Mix)",
+      "artist": "Ti\u00ebsto",
+      "genre": "Dance / Electro Pop",
+      "split": "development",
+      "state": "compared",
+      "sourceSHA256": "ee8b88d7e1624c3059e8b0787678d3e01f32d99ebf80dc83d5973b81bb6f2464",
+      "oldSections": 14,
+      "newSections": 13,
+      "baseline": [
+        {
+          "role": "intro",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 10.002931132821587
+        },
+        {
+          "role": "instrumental",
+          "name": "DROP",
+          "behaviour": "dropping",
+          "startSeconds": 10.002931132821587,
+          "endSeconds": 31.998354681718418
+        },
+        {
+          "role": "instrumental",
+          "name": "THINNING OUT",
+          "behaviour": "thinning",
+          "startSeconds": 31.998354681718418,
+          "endSeconds": 47.99502635364338
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 47.99502635364338,
+          "endSeconds": 57.99294614859649
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 57.99294614859649,
+          "endSeconds": 71.99003386153083
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "dropping",
+          "startSeconds": 71.99003386153083,
+          "endSeconds": 85.98712157446518
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 85.98712157446518,
+          "endSeconds": 103.98337720538078
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 103.98337720538078,
+          "endSeconds": 119.98004887730573
+        },
+        {
+          "role": "instrumental",
+          "name": "BREAKDOWN",
+          "behaviour": "breakingDown",
+          "startSeconds": 119.98004887730573,
+          "endSeconds": 135.97672054923072
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 135.97672054923072,
+          "endSeconds": 151.97339222115568
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "dropping",
+          "startSeconds": 151.97339222115568,
+          "endSeconds": 165.97047993409004
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 165.97047993409004,
+          "endSeconds": 181.967151606015
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 181.967151606015,
+          "endSeconds": 199.96340723693058
+        },
+        {
+          "role": "outro",
+          "name": "",
+          "behaviour": "thinning",
+          "startSeconds": 199.96340723693058,
+          "endSeconds": 226.0
+        }
+      ],
+      "candidate": [
+        {
+          "role": "intro",
+          "name": "Rhythmic intro",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 33.99793864070904
+        },
+        {
+          "role": "instrumental",
+          "name": "THINNING OUT",
+          "behaviour": "thinning",
+          "startSeconds": 33.99793864070904,
+          "endSeconds": 47.99502635364338
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 47.99502635364338,
+          "endSeconds": 57.99294614859649
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 57.99294614859649,
+          "endSeconds": 71.99003386153083
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "dropping",
+          "startSeconds": 71.99003386153083,
+          "endSeconds": 85.98712157446518
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 85.98712157446518,
+          "endSeconds": 103.98337720538078
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 103.98337720538078,
+          "endSeconds": 119.98004887730573
+        },
+        {
+          "role": "instrumental",
+          "name": "BREAKDOWN",
+          "behaviour": "breakingDown",
+          "startSeconds": 119.98004887730573,
+          "endSeconds": 135.97672054923072
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 135.97672054923072,
+          "endSeconds": 151.97339222115568
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "dropping",
+          "startSeconds": 151.97339222115568,
+          "endSeconds": 165.97047993409004
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 165.97047993409004,
+          "endSeconds": 181.967151606015
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 181.967151606015,
+          "endSeconds": 183.96673556500562
+        },
+        {
+          "role": "outro",
+          "name": "Rhythmic outro",
+          "behaviour": "sustaining",
+          "startSeconds": 183.96673556500562,
+          "endSeconds": 226.0
+        }
+      ]
+    },
+    {
+      "id": "20c00c92d5ec968b2ecd366dfba71175e1e9971267d06b2dffe31042610ad53b",
+      "title": "She Will Be Loved (Radio Mix)",
+      "artist": "Maroon 5",
+      "genre": "Pop",
+      "split": "development",
+      "state": "compared",
+      "sourceSHA256": "2bbfbb08f5851e7510c362ced832ed8fe40fc3f3470f1726029d8cbc35cf0040",
+      "oldSections": 22,
+      "newSections": 22,
+      "baseline": [
+        {
+          "role": "intro",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 11.98120511175693
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 11.98120511175693,
+          "endSeconds": 26.232365531579532
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 26.232365531579532,
+          "endSeconds": 35.7331391447946
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 35.7331391447946,
+          "endSeconds": 45.233912758009666
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 45.233912758009666,
+          "endSeconds": 54.73468637122474
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 54.73468637122474,
+          "endSeconds": 64.2354599844398
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 64.2354599844398,
+          "endSeconds": 78.48662040426241
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 78.48662040426241,
+          "endSeconds": 95.11297422738876
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 95.11297422738876,
+          "endSeconds": 104.61374784060385
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 104.61374784060385,
+          "endSeconds": 114.11452145381892
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 114.11452145381892,
+          "endSeconds": 125.99048847033775
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 125.99048847033775,
+          "endSeconds": 135.4912620835528
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 135.4912620835528,
+          "endSeconds": 144.99203569676789
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 144.99203569676789,
+          "endSeconds": 156.86800271328673
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 156.86800271328673,
+          "endSeconds": 175.86954993971685
+        },
+        {
+          "role": "instrumental",
+          "name": "THINNING OUT",
+          "behaviour": "thinning",
+          "startSeconds": 175.86954993971685,
+          "endSeconds": 185.37032355293192
+        },
+        {
+          "role": "instrumental",
+          "name": "DROP",
+          "behaviour": "dropping",
+          "startSeconds": 185.37032355293192,
+          "endSeconds": 194.871097166147
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 194.871097166147,
+          "endSeconds": 204.37187077936204
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 204.37187077936204,
+          "endSeconds": 218.62303119918468
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 218.62303119918468,
+          "endSeconds": 230.4989982157035
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 230.4989982157035,
+          "endSeconds": 242.37496523222234
+        },
+        {
+          "role": "outro",
+          "name": "",
+          "behaviour": "thinning",
+          "startSeconds": 242.37496523222234,
+          "endSeconds": 257.44
+        }
+      ],
+      "candidate": [
+        {
+          "role": "intro",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 11.98120511175693
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 11.98120511175693,
+          "endSeconds": 26.232365531579532
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 26.232365531579532,
+          "endSeconds": 35.7331391447946
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 35.7331391447946,
+          "endSeconds": 45.233912758009666
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 45.233912758009666,
+          "endSeconds": 54.73468637122474
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 54.73468637122474,
+          "endSeconds": 64.2354599844398
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 64.2354599844398,
+          "endSeconds": 78.48662040426241
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 78.48662040426241,
+          "endSeconds": 95.11297422738876
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 95.11297422738876,
+          "endSeconds": 104.61374784060385
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 104.61374784060385,
+          "endSeconds": 114.11452145381892
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 114.11452145381892,
+          "endSeconds": 125.99048847033775
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 125.99048847033775,
+          "endSeconds": 135.4912620835528
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 135.4912620835528,
+          "endSeconds": 144.99203569676789
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 144.99203569676789,
+          "endSeconds": 156.86800271328673
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 156.86800271328673,
+          "endSeconds": 175.86954993971685
+        },
+        {
+          "role": "instrumental",
+          "name": "THINNING OUT",
+          "behaviour": "thinning",
+          "startSeconds": 175.86954993971685,
+          "endSeconds": 185.37032355293192
+        },
+        {
+          "role": "instrumental",
+          "name": "DROP",
+          "behaviour": "dropping",
+          "startSeconds": 185.37032355293192,
+          "endSeconds": 194.871097166147
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 194.871097166147,
+          "endSeconds": 204.37187077936204
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 204.37187077936204,
+          "endSeconds": 218.62303119918468
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 218.62303119918468,
+          "endSeconds": 230.4989982157035
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 230.4989982157035,
+          "endSeconds": 242.37496523222234
+        },
+        {
+          "role": "outro",
+          "name": "",
+          "behaviour": "thinning",
+          "startSeconds": 242.37496523222234,
+          "endSeconds": 257.44
+        }
+      ]
+    },
+    {
+      "id": "393c240e5350b8906e1f3f80521953bee1cbc623797e67ff7e0fc5949c8a0908",
+      "title": "I Feel Love (12 Inch Version)",
+      "artist": "Donna Summer",
+      "genre": "R&B",
+      "split": "development",
+      "state": "compared",
+      "sourceSHA256": "d580c2d88f533535544316dff2e3fbad92d2a411a094b29d05208a517e7a0444",
+      "oldSections": 35,
+      "newSections": 32,
+      "baseline": [
+        {
+          "role": "intro",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 13.695986394557822
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 13.695986394557822,
+          "endSeconds": 34.29768822283166
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 34.29768822283166,
+          "endSeconds": 43.66209814477432
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 43.66209814477432,
+          "endSeconds": 58.64515401988256
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 58.64515401988256,
+          "endSeconds": 68.0095639418252
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 68.0095639418252,
+          "endSeconds": 86.73838378571052
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 86.73838378571052,
+          "endSeconds": 101.72143966081877
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 101.72143966081877,
+          "endSeconds": 120.45025950470406
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 120.45025950470406,
+          "endSeconds": 133.5604333954238
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 133.5604333954238,
+          "endSeconds": 148.54348927053204
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 148.54348927053204,
+          "endSeconds": 161.65366316125176
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 161.65366316125176,
+          "endSeconds": 172.89095506758295
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 172.89095506758295,
+          "endSeconds": 182.2553649895256
+        },
+        {
+          "role": "instrumental",
+          "name": "THINNING OUT",
+          "behaviour": "thinning",
+          "startSeconds": 182.2553649895256,
+          "endSeconds": 191.61977491146828
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 191.61977491146828,
+          "endSeconds": 210.34859475535356
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 210.34859475535356,
+          "endSeconds": 221.58588666168475
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 221.58588666168475,
+          "endSeconds": 242.18758848995859
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 242.18758848995859,
+          "endSeconds": 259.04352634945536
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 259.04352634945536,
+          "endSeconds": 275.89946420895217
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 275.89946420895217,
+          "endSeconds": 289.00963809967186
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 289.00963809967186,
+          "endSeconds": 309.61133992794566
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 309.61133992794566,
+          "endSeconds": 326.46727778744247
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 326.46727778744247,
+          "endSeconds": 339.57745167816216
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 339.57745167816216,
+          "endSeconds": 348.9418616001048
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 348.9418616001048,
+          "endSeconds": 358.3062715220475
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 358.3062715220475,
+          "endSeconds": 371.4164454127672
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 371.4164454127672,
+          "endSeconds": 386.3995012878755
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 386.3995012878755,
+          "endSeconds": 405.1283211317608
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 405.1283211317608,
+          "endSeconds": 420.111377006869
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 420.111377006869,
+          "endSeconds": 433.2215508975887
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 433.2215508975887,
+          "endSeconds": 450.0774887570855
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 450.0774887570855,
+          "endSeconds": 461.3147806634167
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 461.3147806634167,
+          "endSeconds": 476.29783653852496
+        },
+        {
+          "role": "instrumental",
+          "name": "THINNING OUT",
+          "behaviour": "thinning",
+          "startSeconds": 476.29783653852496,
+          "endSeconds": 485.6622464604676
+        },
+        {
+          "role": "outro",
+          "name": "",
+          "behaviour": "thinning",
+          "startSeconds": 485.6622464604676,
+          "endSeconds": 495.18666666666667
+        }
+      ],
+      "candidate": [
+        {
+          "role": "intro",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 13.695986394557822
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 13.695986394557822,
+          "endSeconds": 34.29768822283166
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 34.29768822283166,
+          "endSeconds": 43.66209814477432
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 43.66209814477432,
+          "endSeconds": 58.64515401988256
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 58.64515401988256,
+          "endSeconds": 68.0095639418252
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 68.0095639418252,
+          "endSeconds": 86.73838378571052
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 86.73838378571052,
+          "endSeconds": 101.72143966081877
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 101.72143966081877,
+          "endSeconds": 120.45025950470406
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 120.45025950470406,
+          "endSeconds": 133.5604333954238
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 133.5604333954238,
+          "endSeconds": 148.54348927053204
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 148.54348927053204,
+          "endSeconds": 161.65366316125176
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 161.65366316125176,
+          "endSeconds": 172.89095506758295
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 172.89095506758295,
+          "endSeconds": 182.2553649895256
+        },
+        {
+          "role": "instrumental",
+          "name": "THINNING OUT",
+          "behaviour": "thinning",
+          "startSeconds": 182.2553649895256,
+          "endSeconds": 191.61977491146828
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 191.61977491146828,
+          "endSeconds": 210.34859475535356
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 210.34859475535356,
+          "endSeconds": 221.58588666168475
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 221.58588666168475,
+          "endSeconds": 242.18758848995859
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 242.18758848995859,
+          "endSeconds": 259.04352634945536
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 259.04352634945536,
+          "endSeconds": 275.89946420895217
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 275.89946420895217,
+          "endSeconds": 289.00963809967186
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 289.00963809967186,
+          "endSeconds": 309.61133992794566
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 309.61133992794566,
+          "endSeconds": 326.46727778744247
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 326.46727778744247,
+          "endSeconds": 339.57745167816216
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 339.57745167816216,
+          "endSeconds": 348.9418616001048
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 348.9418616001048,
+          "endSeconds": 358.3062715220475
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 358.3062715220475,
+          "endSeconds": 371.4164454127672
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 371.4164454127672,
+          "endSeconds": 386.3995012878755
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 386.3995012878755,
+          "endSeconds": 405.1283211317608
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 405.1283211317608,
+          "endSeconds": 420.111377006869
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 420.111377006869,
+          "endSeconds": 433.2215508975887
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 433.2215508975887,
+          "endSeconds": 450.0774887570855
+        },
+        {
+          "role": "outro",
+          "name": "Rhythmic outro",
+          "behaviour": "sustaining",
+          "startSeconds": 450.0774887570855,
+          "endSeconds": 495.18666666666667
+        }
+      ]
+    },
+    {
+      "id": "14c8a6c6f0884ede39c3711aaca84e7e1f641a9a54ebf78b89a655148148aa79",
+      "title": "02 Everybody Dance (12_ Mix)",
+      "artist": "Chic",
+      "genre": null,
+      "split": "held-out",
+      "state": "compared",
+      "sourceSHA256": "a97fb1abe293807582bf4416e07e34571dedcdd1acaf82b11551daa9eaba6e25",
+      "oldSections": 37,
+      "newSections": 35,
+      "baseline": [
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 11.451268991935256
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 11.451268991935256,
+          "endSeconds": 30.052287984540882
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 30.052287984540882,
+          "endSeconds": 44.93310317862538
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 44.93310317862538,
+          "endSeconds": 57.95381647344932
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 57.95381647344932,
+          "endSeconds": 72.83463166753383
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 72.83463166753383,
+          "endSeconds": 85.85534496235776
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 85.85534496235776,
+          "endSeconds": 98.8760582571817
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 98.8760582571817,
+          "endSeconds": 113.7568734512662
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 113.7568734512662,
+          "endSeconds": 124.91748484682957
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 124.91748484682957,
+          "endSeconds": 141.65840194017463
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 141.65840194017463,
+          "endSeconds": 152.81901333573802
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 152.81901333573802,
+          "endSeconds": 167.69982852982253
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 167.69982852982253,
+          "endSeconds": 178.8604399253859
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 178.8604399253859,
+          "endSeconds": 188.1609494216887
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 188.1609494216887,
+          "endSeconds": 197.4614589179915
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 197.4614589179915,
+          "endSeconds": 212.342274112076
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 212.342274112076,
+          "endSeconds": 225.36298740689995
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 225.36298740689995,
+          "endSeconds": 240.24380260098448
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 240.24380260098448,
+          "endSeconds": 255.12461779506893
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 255.12461779506893,
+          "endSeconds": 264.4251272913718
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 264.4251272913718,
+          "endSeconds": 279.3059424854563
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 279.3059424854563,
+          "endSeconds": 290.46655388101965
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 290.46655388101965,
+          "endSeconds": 299.7670633773224
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 299.7670633773224,
+          "endSeconds": 318.3680823699281
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 318.3680823699281,
+          "endSeconds": 327.6685918662309
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 327.6685918662309,
+          "endSeconds": 340.68930516105485
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 340.68930516105485,
+          "endSeconds": 359.29032415366044
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 359.29032415366044,
+          "endSeconds": 374.17113934774494
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 374.17113934774494,
+          "endSeconds": 387.1918526425689
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 387.1918526425689,
+          "endSeconds": 403.93276973591395
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 403.93276973591395,
+          "endSeconds": 415.0933811314773
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 415.0933811314773,
+          "endSeconds": 426.2539925270407
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 426.2539925270407,
+          "endSeconds": 437.4146039226041
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 437.4146039226041,
+          "endSeconds": 452.29541911668855
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 452.29541911668855,
+          "endSeconds": 470.8964381092942
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 470.8964381092942,
+          "endSeconds": 489.4974571018998
+        },
+        {
+          "role": "outro",
+          "name": "",
+          "behaviour": "thinning",
+          "startSeconds": 489.4974571018998,
+          "endSeconds": 496.81333333333333
+        }
+      ],
+      "candidate": [
+        {
+          "role": "intro",
+          "name": "Rhythmic intro",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 44.93310317862538
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 44.93310317862538,
+          "endSeconds": 57.95381647344932
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 57.95381647344932,
+          "endSeconds": 72.83463166753383
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 72.83463166753383,
+          "endSeconds": 85.85534496235776
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 85.85534496235776,
+          "endSeconds": 98.8760582571817
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 98.8760582571817,
+          "endSeconds": 113.7568734512662
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 113.7568734512662,
+          "endSeconds": 124.91748484682957
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 124.91748484682957,
+          "endSeconds": 141.65840194017463
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 141.65840194017463,
+          "endSeconds": 152.81901333573802
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 152.81901333573802,
+          "endSeconds": 167.69982852982253
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 167.69982852982253,
+          "endSeconds": 178.8604399253859
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 178.8604399253859,
+          "endSeconds": 188.1609494216887
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 188.1609494216887,
+          "endSeconds": 197.4614589179915
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 197.4614589179915,
+          "endSeconds": 212.342274112076
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 212.342274112076,
+          "endSeconds": 225.36298740689995
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 225.36298740689995,
+          "endSeconds": 240.24380260098448
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 240.24380260098448,
+          "endSeconds": 255.12461779506893
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 255.12461779506893,
+          "endSeconds": 264.4251272913718
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 264.4251272913718,
+          "endSeconds": 279.3059424854563
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 279.3059424854563,
+          "endSeconds": 290.46655388101965
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 290.46655388101965,
+          "endSeconds": 299.7670633773224
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 299.7670633773224,
+          "endSeconds": 318.3680823699281
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 318.3680823699281,
+          "endSeconds": 327.6685918662309
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 327.6685918662309,
+          "endSeconds": 340.68930516105485
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 340.68930516105485,
+          "endSeconds": 359.29032415366044
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 359.29032415366044,
+          "endSeconds": 374.17113934774494
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 374.17113934774494,
+          "endSeconds": 387.1918526425689
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 387.1918526425689,
+          "endSeconds": 403.93276973591395
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 403.93276973591395,
+          "endSeconds": 415.0933811314773
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 415.0933811314773,
+          "endSeconds": 426.2539925270407
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 426.2539925270407,
+          "endSeconds": 437.4146039226041
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 437.4146039226041,
+          "endSeconds": 452.29541911668855
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 452.29541911668855,
+          "endSeconds": 470.8964381092942
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 470.8964381092942,
+          "endSeconds": 489.4974571018998
+        },
+        {
+          "role": "outro",
+          "name": "",
+          "behaviour": "thinning",
+          "startSeconds": 489.4974571018998,
+          "endSeconds": 496.81333333333333
+        }
+      ]
+    },
+    {
+      "id": "aeeb26906ac0fb99bc8b239852804dd8b208f85f806dd7f04acde1c206caf391",
+      "title": "01 The Perfect Kiss (12')",
+      "artist": "New Order",
+      "genre": null,
+      "split": "development",
+      "state": "compared",
+      "sourceSHA256": "590778810345406ca96e9400b044b4517abe6cf7f4c891095e308bab3c24aaa4",
+      "oldSections": 30,
+      "newSections": 24,
+      "baseline": [
+        {
+          "role": "intro",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 15.760811204143208
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 15.760811204143208,
+          "endSeconds": 28.652612277609784
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 28.652612277609784,
+          "endSeconds": 39.702727483438274
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 39.702727483438274,
+          "endSeconds": 50.75284268926677
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 50.75284268926677,
+          "endSeconds": 63.644643762733345
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 63.644643762733345,
+          "endSeconds": 72.85307310092377
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 72.85307310092377,
+          "endSeconds": 93.11161764494265
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 93.11161764494265,
+          "endSeconds": 102.32004698313308
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 102.32004698313308,
+          "endSeconds": 113.37016218896157
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 113.37016218896157,
+          "endSeconds": 126.26196326242815
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 126.26196326242815,
+          "endSeconds": 137.31207846825663
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 137.31207846825663,
+          "endSeconds": 153.88725127699936
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 153.88725127699936,
+          "endSeconds": 163.0956806151898
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 163.0956806151898,
+          "endSeconds": 183.3542251592087
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 183.3542251592087,
+          "endSeconds": 192.56265449739914
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 192.56265449739914,
+          "endSeconds": 201.77108383558954
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 201.77108383558954,
+          "endSeconds": 216.50457077669418
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 216.50457077669418,
+          "endSeconds": 227.55468598252267
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 227.55468598252267,
+          "endSeconds": 240.44648705598925
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 240.44648705598925,
+          "endSeconds": 253.33828812945583
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 253.33828812945583,
+          "endSeconds": 284.64694787930324
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 284.64694787930324,
+          "endSeconds": 299.38043482040786
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 299.38043482040786,
+          "endSeconds": 308.58886415859826
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 308.58886415859826,
+          "endSeconds": 328.8474087026172
+        },
+        {
+          "role": "instrumental",
+          "name": "DROP",
+          "behaviour": "dropping",
+          "startSeconds": 328.8474087026172,
+          "endSeconds": 345.4225815113599
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 345.4225815113599,
+          "endSeconds": 354.63101084955036
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 354.63101084955036,
+          "endSeconds": 371.20618365829307
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 371.20618365829307,
+          "endSeconds": 408.0399010110548
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 408.0399010110548,
+          "endSeconds": 513.0159954664254
+        },
+        {
+          "role": "outro",
+          "name": "",
+          "behaviour": "thinning",
+          "startSeconds": 513.0159954664254,
+          "endSeconds": 529.8666666666667
+        }
+      ],
+      "candidate": [
+        {
+          "role": "intro",
+          "name": "Rhythmic intro",
+          "behaviour": "sustaining",
+          "startSeconds": 0.0,
+          "endSeconds": 93.11161764494265
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 93.11161764494265,
+          "endSeconds": 102.32004698313308
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 102.32004698313308,
+          "endSeconds": 113.37016218896157
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 113.37016218896157,
+          "endSeconds": 126.26196326242815
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 126.26196326242815,
+          "endSeconds": 137.31207846825663
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 137.31207846825663,
+          "endSeconds": 153.88725127699936
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 153.88725127699936,
+          "endSeconds": 163.0956806151898
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 163.0956806151898,
+          "endSeconds": 183.3542251592087
+        },
+        {
+          "role": "unknown",
+          "name": "Vocal section",
+          "behaviour": "sustaining",
+          "startSeconds": 183.3542251592087,
+          "endSeconds": 192.56265449739914
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 192.56265449739914,
+          "endSeconds": 201.77108383558954
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 201.77108383558954,
+          "endSeconds": 216.50457077669418
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 216.50457077669418,
+          "endSeconds": 227.55468598252267
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 227.55468598252267,
+          "endSeconds": 240.44648705598925
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 240.44648705598925,
+          "endSeconds": 253.33828812945583
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 253.33828812945583,
+          "endSeconds": 284.64694787930324
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 284.64694787930324,
+          "endSeconds": 299.38043482040786
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 299.38043482040786,
+          "endSeconds": 308.58886415859826
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 308.58886415859826,
+          "endSeconds": 328.8474087026172
+        },
+        {
+          "role": "instrumental",
+          "name": "DROP",
+          "behaviour": "dropping",
+          "startSeconds": 328.8474087026172,
+          "endSeconds": 345.4225815113599
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 345.4225815113599,
+          "endSeconds": 354.63101084955036
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 354.63101084955036,
+          "endSeconds": 371.20618365829307
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 371.20618365829307,
+          "endSeconds": 408.0399010110548
+        },
+        {
+          "role": "instrumental",
+          "name": "",
+          "behaviour": "sustaining",
+          "startSeconds": 408.0399010110548,
+          "endSeconds": 513.0159954664254
+        },
+        {
+          "role": "outro",
+          "name": "",
+          "behaviour": "thinning",
+          "startSeconds": 513.0159954664254,
+          "endSeconds": 529.8666666666667
+        }
+      ]
+    }
+  ],
+  "interpretation": "Default-context and genre/version-context outputs use identical decoded audio and feature extraction. This is a focused feature review, not independent semantic ground truth or a blind held-out evaluation."
+}

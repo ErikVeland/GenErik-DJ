@@ -1,0 +1,34 @@
+{
+  "notes": "R02/R30/R32: Unified library grab strip for direct show/hide and height; remembered session sizes per orientation; every add-track tap fully expands. Fixed dock and R34 preserved. 1501 focused assertions passed. Erik checks gestures, search/loading and clean audio.",
+  "sourceCommit": "62efd9076de38ab9b3a706f68162befaf8db14b1",
+  "sourceSHA256": "14b85ec626ff4dc5391cc2afece33f3a1abc9d6389ed5593798a0ddacbb127f5",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 59.05,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-80.log",
+  "build": 80,
+  "app": "TestBuilds/ipad/80/GenErikDJ.app",
+  "appSHA256": "ddbabb4b55f84d36d72d6da4462c8e593b8a50c10fe957dd4906b6db73edab7e",
+  "state": "testing",
+  "createdUTC": "2026-11-03T14:12:08.815344+00:00",
+  "installedUTC": "2026-11-03T14:12:36.200880+00:00",
+  "launchedUTC": "2026-11-03T14:12:36.597257+00:00",
+  "requestIDs": [
+    "R02",
+    "R30",
+    "R32"
+  ],
+  "focusedChecks": "1,322 production dock assertions and 179 library assertions passed. Missing expansion and lost-memory mutations produce five and 12 failures respectively. R34 source/fixture hashes and the dock view remain unchanged.",
+  "acceptance": "Installed and launched on the 10.5-inch test iPad. Erik checks direct reveal/hide/resize, remembered session sizes per orientation, repeated A/B add-track full expansion, search/scroll/load isolation, fixed dock and clean audio. Acceptance remains pending. No further device actions after launch.",
+  "deployments": [
+    {
+      "device": "GenErik iPad (10.5-inch)",
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "installed-and-launched",
+      "installedUTC": "2026-11-03T14:12:36.200880+00:00",
+      "launchedUTC": "2026-11-03T14:12:36.597257+00:00"
+    }
+  ],
+  "integrationContext": "Retains the committed R34 false-chorus fix, R36 label presentation and the fixed dock. R31 header-inset source 0f0042ea0 arrived while this app compiled; it is preserved separately in integration history and is not part of archived build 80."
+}

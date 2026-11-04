@@ -1,0 +1,6 @@
+FAIL: add-track expands an already-open library
+FAIL: repeated add-track expands after manual resize
+FAIL: add-track expands a hidden library
+FAIL: rotation cancellation keeps preceding landscape extent
+FAIL: external close preserves settled memory rather than drag preview
+179 panel and library checks; 5 failures

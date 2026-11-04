@@ -146,6 +146,8 @@ struct ArrangementEditor: View {
                     Section("Sections") {
                         ForEach(value.sections.indices,id:\.self) { index in
                             DisclosureGroup(value.sections[index].label) {
+                                Text(value.sections[index].locked ? "Assignment: Manual" : "Assignment: Automatic")
+                                    .font(.caption).foregroundStyle(.secondary)
                                 TextField("Name",text:sectionBinding(index,\.name))
                                 Picker("Musical role",selection:roleBinding(index)) {
                                     ForEach(ArrangementRole.allCases,id:\.self) { Text($0.label).tag($0) }
