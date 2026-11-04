@@ -1,0 +1,291 @@
+[0/1] Planning build
+Building for debugging...
+[0/4] Write sources
+[1/7] Write swift-version-39B54973F684ADAB.txt
+[2/7] Write sources
+[3/7] Compiling CTDJAudioSource TDJNativeAudioSource.mm
+[4/7] Compiling CTDJTransport TDJStreaming.c
+[5/7] Compiling CTDJTransport TDJKeylockDiagnostics.c
+[6/7] Compiling CTDJTransport TDJTransport.c
+[8/32] Emitting module TDJCore
+[9/56] Compiling TDJCore AdaptiveRhythmAnalyzer.swift
+[10/56] Compiling TDJCore AnalysisBenchmark.swift
+[11/56] Compiling TDJCore AnalysisWorker.swift
+[12/56] Compiling TDJCore AudioAnalyzer.swift
+[13/56] Compiling TDJCore AudioCallbackMetrics.swift
+[14/56] Compiling TDJCore BackgroundOwnedResource.swift
+[15/56] Compiling TDJCore BackgroundOwnedValue.swift
+[16/56] Compiling TDJCore BandWaveform.swift
+[17/56] Compiling TDJCore BeatGrid.swift
+[18/56] Compiling TDJCore BeatGridMap.swift
+[19/56] Compiling TDJCore BrowserRecommendations.swift
+[20/56] Compiling TDJCore CollectionBrowser.swift
+[21/56] Compiling TDJCore CollectionPlaylists.swift
+[22/56] Compiling TDJCore CollectionProjection.swift
+[23/56] Compiling TDJCore ControllerBridge.swift
+[24/56] Compiling TDJCore ControllerJogBend.swift
+[25/56] Compiling TDJCore ControllerMIDI.swift
+[26/56] Compiling TDJCore ControllerMIDIValue.swift
+[27/56] Compiling TDJCore EmbeddedMetadata.swift
+[28/56] Compiling TDJCore HistorySessions.swift
+[29/56] Compiling TDJCore KeyGovernance.swift
+[30/56] Compiling TDJCore KeyImportPlan.swift
+[31/56] Compiling TDJCore KeyShift.swift
+[32/56] Compiling TDJCore LibraryBrowserEntry.swift
+[33/79] Compiling TDJCore LibraryBrowserProjection.swift
+[34/79] Compiling TDJCore LibraryGroupProjection.swift
+[35/79] Compiling TDJCore LibraryPlaylistOccurrences.swift
+[36/79] Compiling TDJCore LibraryTrackLookup.swift
+[37/79] Compiling TDJCore MixerPreferences.swift
+[38/79] Compiling TDJCore Models.swift
+[39/79] Compiling TDJCore MusicLibrary.swift
+[40/79] Compiling TDJCore MusicLibraryAudio.swift
+[41/79] Compiling TDJCore MusicLibraryProjection.swift
+[42/79] Compiling TDJCore MusicLibraryReconciliation.swift
+[43/79] Compiling TDJCore MusicalAnalysisFeatures.swift
+[44/79] Compiling TDJCore MusicalSpectrumAnalyzer.swift
+[45/79] Compiling TDJCore MusicalStructureAnalyzer.swift
+[46/79] Compiling TDJCore NativeAnalysisPlan.swift
+[47/79] Compiling TDJCore NativeAudioRenderOwnership.swift
+[48/79] Compiling TDJCore NativeBeatGridMap.swift
+[49/79] Compiling TDJCore OutputSourcePreparation.swift
+[50/79] Compiling TDJCore PCMCache.swift
+[51/79] Compiling TDJCore PCMStreaming.swift
+[52/79] Compiling TDJCore PCMStreamingTelemetry.swift
+[53/79] Compiling TDJCore PerformanceEffect.swift
+[54/79] Compiling TDJCore PerformancePreparation.swift
+[55/79] Compiling TDJCore PerformerSuggestions.swift
+[56/79] Compiling TDJCore Recovery.swift
+[57/79] Compiling TDJCore SampleTransport.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[58/79] Compiling TDJCore SectionCueAllocator.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[59/79] Compiling TDJCore SetRecorder.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[60/79] Compiling TDJCore SourceControl.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[61/79] Compiling TDJCore SourceControlPlanning.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[62/79] Compiling TDJCore Suggestions.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[63/79] Compiling TDJCore SyncAlignment.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[64/79] Compiling TDJCore TrackArrangement.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[65/79] Compiling TDJCore TraktorCollectionReferenceReader.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[66/79] Compiling TDJCore TraktorNMLReferenceReader.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[67/79] Compiling TDJCore TraktorPreparationCatalog.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[68/79] Compiling TDJCore TraktorPreparationMergePlan.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[69/79] Compiling TDJCore TraktorPreparationReferenceWorker.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[70/79] Compiling TDJCore TraktorPreparationStorage.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[71/79] Compiling TDJCore TraktorPreparedTrack.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[72/79] Compiling TDJCore VinylBrake.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[73/79] Compiling TDJCore VocalFormAnalyzer.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[74/79] Compiling TDJCore VocalRecognitionWindow.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[75/79] Compiling TDJCore WaveformLayers.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[76/79] Compiling TDJCore WaveformRangeIndex.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[77/79] Compiling TDJCore WaveformStorage.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[78/79] Compiling TDJCore Workspace.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[79/79] Compiling TDJCore Z1Protocol.swift
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/Z1Protocol.swift:74:16: warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 72 |         }
+ 73 |         // Connection establishes button state without firing buttons already held.
+ 74 |         if let previous {
+    |                `- warning: value 'previous' was defined but never used; consider replacing with boolean test [#NoUsage]
+ 75 |             for (mask,deck) in [(UInt8(0x10),DeckID.a),(UInt8(1),DeckID.b)] where rising & mask != 0 {
+ 76 |                 actions.append(report.mode ? .play(deck) : .cue(deck))
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+error: input file '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/BeatGrid.swift' was modified during the build
+error: input file '/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/TDJCore/BeatGrid.swift' was modified during the build
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.

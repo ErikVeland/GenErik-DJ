@@ -42,7 +42,41 @@
     "packageAttempt": {
       "result": "blocked",
       "reason": "Existing ControllerMIDIUMPDecoderTests.swift optional chaining on non-optional arrays prevents the package runner. No unrelated test repair."
+    },
+    "combinedModule": {
+      "result": "incomplete",
+      "reason": "Another task modified BeatGrid.swift during the check in the shared integration checkout. No pass is claimed. The signed build uses the isolated R44 checkout."
+    },
+    "eofReversal": {
+      "red": "eof-red.log reproduces silence after EOF",
+      "green": "eof-green.log passes at 44100, 48000 and 96000 Hz",
+      "scope": "Held contact resumes playback after moving back from EOF. The clock restarts. Release restores the original paused state."
+    },
+    "signedIPad": {
+      "result": "pass",
+      "sourceCommit": "3b241891ab033301471c0d9eee688917ee70d6bc",
+      "uncommittedAppChanges": "",
+      "scope": "Compilation, framework resolution, signing, archive identity and current source identity. Installation succeeded. Automatic launch timed out."
     }
   },
-  "limitations": "Physical iPad feel, listening and uninterrupted audio acceptance remain pending."
+  "limitations": "The shared combined host check was incomplete. The signed combined app compiled successfully. Physical feel, listening, launch and continued-operation acceptance remain pending.",
+  "sessionApplicationCommit": "e72fde5b6",
+  "combinedApplicationCommit": "63c80376f",
+  "buildQueue": {
+    "firstAttempt": "Did not start. The shared build lock was held by R45 build 101. No device action."
+  },
+  "finalNativeFiles": {
+    "Replica/Sources/CTDJTransport/TDJTransport.c": "0775f949d435a9006a9a2c9dfb0eae14079be3f4683ec8d211a7af02c9454cd0",
+    "Replica/Scripts/transport-transition-native-check.cpp": "f6c196aff62d90239683cadb4afee692c576c541684be08b0e0beb414d3c4c02"
+  },
+  "interruptedBuild": 102,
+  "candidate": {
+    "build": 103,
+    "sourceCommit": "3b241891ab033301471c0d9eee688917ee70d6bc",
+    "sourceSHA256": "a130e5b1577b775b95dedfa6b96d50e6ccd5be664ceb87100bdabcfd29dfd68f",
+    "appSHA256": "8e9ea0a4c5f2e26786423de0237bf46a18d9d5aaab8d0e89417939532bb9a657",
+    "state": "installed",
+    "installedUTC": "2026-11-04T09:32:36.484004+00:00",
+    "launchVerification": "Automatic launch timed out after 10 seconds. No successful launch is claimed. Erik opens the app manually."
+  }
 }
