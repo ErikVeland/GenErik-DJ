@@ -46,3 +46,18 @@ Physical menu operation, listening, preparation cost, clean playback and scratch
 Run `python3 docs/testing/checks/R43/2026-11-04-creep-grid/check.py` for the twelve dense-grid and offbeat cases.
 Run `python3 docs/testing/checks/R29/2026-11-03-late-rhythm/check.py` for the seven late-rhythm cases.
 `NativeGridProbe.swift` retains the native full-source/cache probe. Input audio and raw caches remain local under `TestBuilds/ipad/R43/`.
+
+## iPad handover
+
+Signed build **98** was installed on the 10.5-inch test iPad. iPadOS accepted the launch request.
+Its application source is `73997dbc26632be6e82032fe88f4f99372672d96`. The build took 64 seconds.
+Signing, framework resolution and saved source identity pass. The combined app retains the current iPad controls and phone-only changes.
+Device actions stopped after launch-request acceptance.
+
+1. Pause both decks and load Creep (Tin Tin Out Remix).
+2. Open Edit Grid and its sliders menu.
+3. Select Detect grid from audio. Unlock the grid first if necessary.
+4. Check 136.02 BPM, the opening kick and later grid alignment.
+5. Check the bar start, saved cues and clean playback or scratching.
+
+RESET restores the imported grid. Physical acceptance remains pending.

@@ -1,13 +1,13 @@
 {
   "requestID": "R43",
   "baseCommit": "3b6a4195cca98fecce44bff88cf045ec2e05a8d4",
-  "sourceSHA256": "aeba4faba4abc00efef2fb6628e1813e0d5ee1e65850d99a2036f49e520bd18d",
+  "sourceSHA256": "118bcb1967a2fefb4e23665da27a79dbc900e8e55b092667d56f3e598c9ab9c0",
   "sourceFiles": {
     "Replica/Sources/TDJCore/AudioAnalyzer.swift": "78c6764a35dcb95a4847abb5f8ef15bad0f7af5a3c16f75d0fd829a18e1983aa",
     "Replica/Sources/TDJCore/MusicalAnalysisFeatures.swift": "b9fba923ee788710a456965e6a3df58d89a90ca1fa51608877380d4239306efe",
     "Replica/Sources/TDJCore/AnalysisWorker.swift": "a484ab2c67440515096c7da0d6ef1af7e8d82b5a8b000435d9d0ba93869bf526",
     "Replica/Sources/TDJInterface/ReplicaModel.swift": "2189fffbe7d1df6c963e8dd6ba4616fbd9d84ad1978a79cf10caffc5f3d956c5",
-    "Replica/Sources/TDJInterface/ReplicaView.swift": "2d7083d89dace94b2fa92764ae445d710722c6a7f8052116921dfb4b06913874",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "647512b55176f33141a88f9f93eb0077654f7b3765cc5d1f17cda8f822967286",
     "Replica/Sources/TDJInterface/ArrangementModel.swift": "013cdb44a1c39a2f6f1031a9779ce3133dd9b27017ed26859ce2776cb4476470"
   },
   "testCase": {
@@ -165,7 +165,27 @@
     "Physical iPad grid-action checks, preparation time and clean audio acceptance remain pending."
   ],
   "build": {
-    "state": "pending"
+    "number": 98,
+    "sourceCommit": "73997dbc26632be6e82032fe88f4f99372672d96",
+    "sourceSHA256": "118bcb1967a2fefb4e23665da27a79dbc900e8e55b092667d56f3e598c9ab9c0",
+    "appSHA256": "7f6c439fcbeae462a268381b69999dd2055f83f57a90946303f79dfd4d1b6079",
+    "buildSeconds": 64.28,
+    "installedUTC": "2026-11-04T05:34:48.654430+00:00",
+    "launchRequestedUTC": "2026-11-04T05:34:49.059619+00:00",
+    "state": "installed-launch-request-accepted",
+    "acceptance": "Erik listening, menu operation, preparation time and physical audio acceptance remain pending."
   },
-  "failedAttemptBinding": "The initial red fixture uses the base source. Intermediate failure logs are retained; exact edited source snapshots were not sealed for each attempt. Final source hashes bind the passing checks and native result."
+  "failedAttemptBinding": "The initial red fixture uses the base source. Intermediate failure logs are retained; exact edited source snapshots were not sealed for each attempt. Final source hashes bind the passing checks and native result.",
+  "verificationSourceSHA256": "aeba4faba4abc00efef2fb6628e1813e0d5ee1e65850d99a2036f49e520bd18d",
+  "verificationSourceFiles": {
+    "Replica/Sources/TDJCore/AudioAnalyzer.swift": "78c6764a35dcb95a4847abb5f8ef15bad0f7af5a3c16f75d0fd829a18e1983aa",
+    "Replica/Sources/TDJCore/MusicalAnalysisFeatures.swift": "b9fba923ee788710a456965e6a3df58d89a90ca1fa51608877380d4239306efe",
+    "Replica/Sources/TDJCore/AnalysisWorker.swift": "a484ab2c67440515096c7da0d6ef1af7e8d82b5a8b000435d9d0ba93869bf526",
+    "Replica/Sources/TDJInterface/ReplicaModel.swift": "2189fffbe7d1df6c963e8dd6ba4616fbd9d84ad1978a79cf10caffc5f3d956c5",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "2d7083d89dace94b2fa92764ae445d710722c6a7f8052116921dfb4b06913874",
+    "Replica/Sources/TDJInterface/ArrangementModel.swift": "013cdb44a1c39a2f6f1031a9779ce3133dd9b27017ed26859ce2776cb4476470"
+  },
+  "sourceCommit": "73997dbc26632be6e82032fe88f4f99372672d96",
+  "implementationCommit": "26056eae27a2ed4c1a7674e492db04ad1b5cced0",
+  "integrationVerification": "The phone-only integration merge changes no verified detector files. The combined app passes compilation, signing and runtime-framework resolution."
 }
