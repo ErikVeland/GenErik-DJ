@@ -20,6 +20,7 @@ public struct ReplicaView: View {
     @State private var deckAPanels = DeckPanelPresentation()
     @State private var deckBPanels = DeckPanelPresentation()
     @State private var libraryPanel = LibraryPanelState()
+    @State private var deckSplit = DeckSplitState()
     @State private var touchInterruption = UUID()
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     private let snapshotEffectsDeck: DeckID?
@@ -56,17 +57,28 @@ public struct ReplicaView: View {
             GeometryReader { space in
                 let workspace = PerformanceWorkspaceGeometry(width: space.size.width, height: space.size.height,
                     libraryExtent: libraryPanel.extent)
+                let split = deckSplit.geometry(width: workspace.deckArea.width - 12, height: workspace.deckArea.height)
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
-                        VStack(spacing: 2) {
+                        VStack(spacing: 0) {
                             DeckView(model: model, deck: .a, panels: deckAPanels,
                                 snapshotEffects: snapshotEffectsDeck == .a,
                                 snapshotMixer: snapshotMixerDecks.contains(.a), snapshotFilter: snapshotFilterDecks.contains(.a),
                                 requestPerformanceSpace: { libraryPanel.setPresented(false); model.browserVisible = false })
+                                .frame(height: split.a.height).contentShape(Rectangle()).clipped()
+                            DeckSplitHandle(interruption: touchInterruption,
+                                aShare: split.a.height / max(1, split.a.height + split.b.height),
+                                begin: { deckSplit.beginDrag(height: workspace.deckArea.height) },
+                                update: { deckSplit.updateDrag(translation: $0) },
+                                end: { deckSplit.endDrag(height: workspace.deckArea.height) },
+                                cancel: { deckSplit.cancelDrag() }, balance: { deckSplit.balance() },
+                                adjust: { deckSplit.adjust(by: $0, height: workspace.deckArea.height) })
+                                .frame(height: split.handle.height).clipped()
                             DeckView(model: model, deck: .b, panels: deckBPanels,
                                 snapshotEffects: snapshotEffectsDeck == .b,
                                 snapshotMixer: snapshotMixerDecks.contains(.b), snapshotFilter: snapshotFilterDecks.contains(.b),
                                 requestPerformanceSpace: { libraryPanel.setPresented(false); model.browserVisible = false })
+                                .frame(height: split.b.height).contentShape(Rectangle()).clipped()
                         }.padding(.horizontal, 6).frame(height: workspace.deckArea.height)
                         TouchPanelHandle(presented: libraryPanel.extent > 0,
                             maximumExtent: libraryPanel.maximumExtent, presentationID: model.browserPresentationID,
@@ -92,12 +104,14 @@ public struct ReplicaView: View {
                     }
                     .frame(width: workspace.dock.workArea.width, height: space.size.height, alignment: .top)
                     .clipped()
-                    .animation(reduceMotion || libraryPanel.isDragging ? nil : .smooth(duration: 0.25), value: libraryPanel.extent)
+                    .animation(reduceMotion || libraryPanel.isDragging || deckSplit.isDragging ? nil : .smooth(duration: 0.25), value: libraryPanel.extent)
                     .onAppear {
                         libraryPanel.updateViewport(width: space.size.width, height: space.size.height, presented: model.browserVisible)
+                        deckSplit.updateViewport(width: space.size.width, height: space.size.height)
                     }
                     .onChange(of: space.size) { _, size in
                         libraryPanel.updateViewport(width: size.width, height: size.height, presented: model.browserVisible)
+                        deckSplit.updateViewport(width: size.width, height: size.height)
                         model.browserVisible = libraryPanel.extent > 0
                     }
                     .onChange(of: model.browserPresentationID) { _, _ in
@@ -110,6 +124,7 @@ public struct ReplicaView: View {
                     .onChange(of: scenePhase) { _, phase in
                         if phase != .active {
                             libraryPanel.cancelDrag()
+                            deckSplit.cancelDrag()
                             model.browserVisible = libraryPanel.extent > 0
                         }
                     }
@@ -235,6 +250,10 @@ private struct DeckView: View {
             DeckArtwork(source: ArtworkSource.track(track, media: model.store.mediaDirectory))
                 .frame(width: 44, height: 44).background(PerformancePalette.sunken).clipped()
                 .overlay { TrackHeadphoneIndicator(model: model, trackID: track?.id) }
+                .overlay(alignment: .bottomLeading) {
+                    Text(deck.rawValue.uppercased()).font(.system(size: 10, weight: .bold))
+                        .padding(2).background(PerformancePalette.frame).allowsHitTesting(false)
+                }
         }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
             .offset(y: (1 - layout.expansion) * max(0, (deckSpace.size.height - 52) / 2))
         VStack(spacing: 0) {
@@ -383,7 +402,7 @@ private struct StripeView: View {
                         visibleSeconds:visibleSeconds)
                 }.clipped().contentShape(Rectangle())
                 .overlay {
-                    TouchSurface { event in
+                    TouchSurface(geometryPolicy: .retainContactSpace) { event in
                         if event.phase == .cancelled { contacts=[]; zoomStart=nil; zooming=false; return }
                         if event.points.count>=2 {
                             if !zooming { contacts=event.points; zoomStart=visibleSeconds; zooming=true }
@@ -394,7 +413,7 @@ private struct StripeView: View {
                             navigate(Double(track.analysis.frameCount)*max(0,min(1,point.x)))
                         }
                         if event.phase == .ended && event.remaining.isEmpty { contacts=[]; zoomStart=nil; zooming=false }
-                    }
+                    }.id(track.id)
                 }
 #if os(macOS)
                 .simultaneousGesture(MagnifyGesture().onChanged { value in

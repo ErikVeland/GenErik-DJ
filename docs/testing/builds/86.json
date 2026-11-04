@@ -5,7 +5,17 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 55.03,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-04",
+      "requestIDs": [
+        "R02",
+        "R30"
+      ],
+      "assumedBuild": true,
+      "text": "Next, make the A/B deck divider directly resizable with remembered sizes. Keep held gestures stable, the dock and full-height crossfader fixed, preserve R34, then install one iPad test build. Build 86 is the latest recorded installation, including the build 85 panels. Acceptance is not implied."
+    }
+  ],
   "log": "TestBuilds/ipad/build-86.log",
   "build": 86,
   "app": "TestBuilds/ipad/86/GenErikDJ.app",
