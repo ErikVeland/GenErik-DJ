@@ -130,10 +130,10 @@ extension ReplicaModel {
     }
 
     public func loadNativeMusic(_ item: MusicLibraryItem, deck: DeckID) {
-        beginNativeMusicLoad(deck: deck) { item }
+        beginNativeMusicLoad(deck: deck, selection: item) { item }
     }
 
-    private func beginNativeMusicLoad(deck: DeckID,
+    private func beginNativeMusicLoad(deck: DeckID, selection: MusicLibraryItem? = nil,
         resolve: @escaping @MainActor () async -> MusicLibraryItem?) {
         let state = nativeMusic
         guard !state.closed else { return }
@@ -146,6 +146,7 @@ extension ReplicaModel {
         let token = UUID()
         state.loadOwners[deck] = token
         preparingNativeMusic.insert(deck)
+        pendingNativeSelection[deck] = selection
         browserVisible = false
         selectedTrackID = nil
         status = "Preparing track…"
@@ -155,6 +156,7 @@ extension ReplicaModel {
                 state.loads[token] = nil; state.rootLoads[token] = nil
                 if state.loadOwners[deck] == token {
                     state.loadOwners[deck] = nil
+                    pendingNativeSelection[deck] = nil
                     preparingNativeMusic.remove(deck)
                     if Task.isCancelled { cancelDeckLoadIntent(deck: deck) }
                     scheduleDeckAnalysis(deck: deck)
@@ -167,6 +169,7 @@ extension ReplicaModel {
                 try Task.checkCancellation()
                 guard state.loadOwners[deck] == token else { throw CancellationError() }
                 guard let item else { throw MusicLibraryError.missingAudio }
+                pendingNativeSelection[deck] = item
                 selectedID = item.id
                 status = "Preparing \(item.title)…"
                 if item.isOnDevice, let source = try await musicLibraryProvider.playbackSource(item) {
@@ -236,6 +239,7 @@ extension ReplicaModel {
         if let failure = attempt.failure { throw failure }
         guard let root else { throw TransportError.stale }
         nativeMusic.rootLoads[token] = root
+        pendingNativeSelection[deck] = nil
         preparingNativeMusic.remove(deck)
         await root.value
         try Task.checkCancellation()
@@ -248,7 +252,11 @@ extension ReplicaModel {
         let catalog = musicLibraryCatalog
         let sources = track.musicLibrarySources ?? []
         let projection = nativeMusic.projection
-        beginNativeMusicLoad(deck: deck) {
+        let selection = sources.first.map {
+            MusicLibraryItem(source: $0, title: track.title, artist: track.artist, album: track.album ?? "",
+                duration: track.analysis.duration, assetURL: nil, availability: .unavailable)
+        }
+        beginNativeMusicLoad(deck: deck, selection: selection) {
             await projection.run {
                 catalog?.items.first { sources.contains($0.source) && $0.isOnDevice }
             }
@@ -257,6 +265,7 @@ extension ReplicaModel {
 
     func cancelNativeMusicLoad(deck: DeckID) {
         guard let old = nativeMusic.loadOwners.removeValue(forKey: deck) else { return }
+        pendingNativeSelection[deck] = nil
         preparingNativeMusic.remove(deck)
         nativeMusic.loads[old]?.cancel()
         nativeMusic.rootLoads[old]?.cancel()
@@ -266,6 +275,7 @@ extension ReplicaModel {
         for task in nativeMusic.loads.values { task.cancel() }
         for task in nativeMusic.rootLoads.values { task.cancel() }
         nativeMusic.loadOwners.removeAll()
+        pendingNativeSelection.removeAll()
         preparingNativeMusic.removeAll()
     }
 

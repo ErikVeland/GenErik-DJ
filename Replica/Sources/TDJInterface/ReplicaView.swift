@@ -288,19 +288,20 @@ struct DeckView: View {
     @AppStorage(DeckToolSettings.tempoFader) private var tempoFader = false
     @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
     @AppStorage(DeckToolSettings.hotcuePads) private var hotcuePads = false
-    private var track: Track? { model.track(deck) }
-    private var editing: Bool { model.editing.contains(deck) }
+    private var selection: MusicLibraryItem? { model.pendingNativeSelection[deck] }
+    private var track: Track? { selection == nil ? model.track(deck) : nil }
+    private var editing: Bool { selection == nil && model.editing.contains(deck) }
     private var playback: DeckPlaybackSnapshot? { model.playbackSnapshot?[deck] }
     var body: some View {
         GeometryReader { deckSpace in
         let layout = AdaptiveDeckGeometry(height: max(0, deckSpace.size.height - 8),
-            hotcues: (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil, compactControls: track != nil)
+            hotcues: (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil, compactControls: track != nil || selection != nil)
         let availableWidth = max(0, deckSpace.size.width - (tempoFader && track != nil ? 68:0))
         let sizes = panels.geometry(width: availableWidth, height: layout.waveformHeight)
         HStack(spacing: 4) {
         ZStack(alignment: .topLeading) {
         Button { model.showSuggestions(destination: deck) } label: {
-            DeckArtwork(source: ArtworkSource.track(track, media: model.store.mediaDirectory))
+            DeckArtwork(source: ArtworkSource.track(track, item: selection, media: model.store.mediaDirectory))
                 .frame(width: 44, height: 44).background(PerformancePalette.sunken).clipped()
                 .overlay { TrackHeadphoneIndicator(model: model, trackID: track?.id) }
                 .overlay(alignment: .bottomLeading) {
@@ -479,11 +480,11 @@ struct DeckView: View {
     }
     private var preparing: Bool { model.preparingPlayback.contains(deck) }
     private var elapsedTime: String {
-        let seconds = max(0, Int((playback?.sourceFrame ?? 0) / (track?.analysis.sampleRate ?? 1)))
+        let seconds = max(0, Int((selection == nil ? playback?.sourceFrame ?? 0 : 0) / (track?.analysis.sampleRate ?? 1)))
         return String(format: "%d:%02d", seconds / 60, seconds % 60)
     }
     private var remainingTime: String {
-        let seconds = max(0, Int(ceil((track?.analysis.duration ?? 0) - (playback?.sourceFrame ?? 0) / (track?.analysis.sampleRate ?? 1))))
+        let seconds = max(0, Int(ceil((selection?.duration ?? track?.analysis.duration ?? 0) - (selection == nil ? playback?.sourceFrame ?? 0 : 0) / (track?.analysis.sampleRate ?? 1))))
         return String(format: "−%d:%02d", seconds / 60, seconds % 60)
     }
 
@@ -959,19 +960,19 @@ private struct DeckHeader: View {
                 Button { model.showSuggestions(destination: deck) } label: {
                     ZStack {
                         PerformancePalette.sunken
-                        DeckArtwork(source:ArtworkSource.track(track,media:model.store.mediaDirectory))
+                        DeckArtwork(source:ArtworkSource.track(track,item:selection,media:model.store.mediaDirectory))
                     }.frame(width: 64, height: 64).clipShape(RoundedRectangle(cornerRadius: 3))
                     .overlay(RoundedRectangle(cornerRadius: 3).strokeBorder(Color.black.opacity(0.7)))
                 }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
                 }
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 6) {
-                        Text(track?.title ?? "Deck \(deck.rawValue.uppercased())")
+                        Text(selection?.title ?? track?.title ?? "Deck \(deck.rawValue.uppercased())")
                             .font(.system(size: dense ? 16 : 19, weight: .semibold)).foregroundStyle(PerformancePalette.text).lineLimit(1)
                         if NativeAnalysisPlan.isMix(duration: track?.analysis.duration) { MixBadge(size: 14) }
                     }
                     HStack(spacing: 10) {
-                        Text(track?.artist ?? "Swipe up to browse your collection").lineLimit(1)
+                        Text(selection?.artist ?? track?.artist ?? "Swipe up to browse your collection").lineLimit(1)
                         if track != nil {
                             HStack(spacing: 3) {
                                 Image(systemName: playback?.keylock == true ? "lock.fill" : "music.note").font(.system(size: 11))
@@ -1021,10 +1022,11 @@ private struct DeckHeader: View {
             }.padding(.horizontal, 8).padding(.vertical, dense ? 2 : 8)
 
     }
-    private var track: Track? { model.track(deck) }
+    private var selection: MusicLibraryItem? { model.pendingNativeSelection[deck] }
+    private var track: Track? { selection == nil ? model.track(deck) : nil }
     private var playback: DeckControlDisplay? { model.controlDisplay[deck] }
-    private var editing: Bool { model.editing.contains(deck) }
-    private var preparing: Bool { model.preparingPlayback.contains(deck) }
+    private var editing: Bool { selection == nil && model.editing.contains(deck) }
+    private var preparing: Bool { model.preparingTrack.contains(deck) }
     private var syncColour: Color {
         guard let playback, playback.synced else { return Color(white: 0.6) }
         if model.controlDisplay[deck].needsAlignment { return PerformancePalette.red }
@@ -1042,7 +1044,12 @@ private struct DeckWaveform: View {
 
     var body: some View {
                 Group {
-                if let track {
+                if model.pendingNativeSelection[deck] != nil {
+                    ZStack {
+                        Color.black.opacity(0.4)
+                        Text("Preparing audio…").font(.caption).foregroundStyle(.secondary)
+                    }
+                } else if let track {
                     HStack(spacing:0) {
                     if model.frozen.contains(deck), !editing, superSlicer { SuperSlicerControls(model:model,deck:deck) }
                     DeckWaveformDrawing(model:model,deck:deck,track:track,visibleSeconds:visibleSeconds)
@@ -1117,7 +1124,7 @@ private struct DeckOverview: View {
     @Binding var visibleSeconds: Double
 
     var body: some View {
-            if let track {
+            if model.pendingNativeSelection[deck] == nil, let track {
                 StripeView(model:model,deck:deck,track:track,visibleSeconds:$visibleSeconds) {
                     model.previewing.insert(deck); model.viewport[deck] = $0
                 }

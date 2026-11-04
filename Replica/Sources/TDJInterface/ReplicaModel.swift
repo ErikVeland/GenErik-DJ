@@ -232,6 +232,7 @@ public final class ReplicaModel {
     private let musicImportFileWork=BackgroundFileWork(label:"org.generikdj.music-import-cleanup")
     @ObservationIgnored private let keyImportFileWork=BackgroundFileWork(label:"org.generikdj.key-import")
     public var preparingPlayback: Set<DeckID> = []
+    public internal(set) var pendingNativeSelection: [DeckID: MusicLibraryItem] = [:]
     var preparingNativeMusic: Set<DeckID> = []
     public var preparingTrack: Set<DeckID> { preparingPlayback.union(preparingNativeMusic) }
     public var previewing: Set<DeckID> = []

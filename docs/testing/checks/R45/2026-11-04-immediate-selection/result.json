@@ -1,0 +1,33 @@
+{
+  "requestID": "R45",
+  "feedbackBuild": 106,
+  "parentCommit": "38ca40e31e363dfc2799a6aa3421ddda30c29f01",
+  "branch": "feature/r45-immediate-deck-display",
+  "sourceHashes": {
+    "Replica/Sources/TDJInterface/NativeMusicModel.swift": "93c4111858b2f9f756b5d083441d47116b7f0513750c38235916084608f324f0",
+    "Replica/Sources/TDJInterface/ReplicaModel.swift": "3d6497a391c0effb1a3247fd42b483bdc3a8cbd7201b0b660a223c1730dc7c3f",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "2efc6518c644242b8a40b0ea1df69dc0370c73d4e4e0dcd8968e4c80ce69d86f",
+    "Replica/Tests/TDJInterfaceTests/FirstUseNativePlaybackTests.swift": "8143efca56e806e923bd6317c7473f217679f2537678b06d78c20e286cf76c44"
+  },
+  "checks": {
+    "serialLoading": {
+      "exitCode": 0,
+      "functions": 11,
+      "cases": 15,
+      "seconds": 63.884,
+      "log": "serial-final.log"
+    },
+    "otherDeckAudio": "4096 stereo frames match the control exactly while deck B source preparation is held. Deck A remains playing with the same generation.",
+    "selection": "Title and artist are published synchronously on A and B before source work. Failure, replacement and stop cleanup pass.",
+    "sourceWhitespace": "passed",
+    "productionManifest": "restored exactly"
+  },
+  "failedAttempts": [
+    "red.log: seven expected missing-selection assertions",
+    "green.log: optional album argument compile error, corrected",
+    "green-corrected.log: concurrent fixture streams exceed global capacity",
+    "focused-final.log: concurrent fixture streams exceed global capacity",
+    "load-diagnostic.log: PCMStreamingError.capacity confirmed. Each stream reserves 32 MiB from a process-wide 128 MiB pool. Final checks use explicit --no-parallel."
+  ],
+  "acceptance": "Physical iPad display latency, actual audio readiness, queued Play, replacements, clean audio and continued operation remain Erik checks."
+}

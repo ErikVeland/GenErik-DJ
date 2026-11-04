@@ -1,0 +1,37 @@
+Building for debugging...
+[Computing dependencies]
+[Using on-disk description]
+[1 / 18] TDJInterfaceTests-product
+Build complete! (1.48 sec.)
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck:preprepared:) started.
+􀟈  Test case passing 2 arguments deck → .a, preprepared → false to deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck:preprepared:) started.
+􀟈  Test case passing 2 arguments deck → .a, preprepared → true to deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck:preprepared:) started.
+􀟈  Test case passing 2 arguments deck → .b, preprepared → false to deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck:preprepared:) started.
+􀟈  Test case passing 2 arguments deck → .b, preprepared → true to deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck:preprepared:) started.
+􁁛  Test deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck:preprepared:) with 4 test cases passed after 37.500 seconds.
+􀟈  Test firstNativeLoadShowsRealWaveformAndAcceptsPlayBeforeExportOrFullPCM() started.
+􁁛  Test firstNativeLoadShowsRealWaveformAndAcceptsPlayBeforeExportOrFullPCM() passed after 8.625 seconds.
+􀟈  Test directNativeReplacementCannotConsumeEarlierQueuedPlay() started.
+􁁛  Test directNativeReplacementCannotConsumeEarlierQueuedPlay() passed after 0.472 seconds.
+􀟈  Test nativeSelectionAppearsSynchronouslyBeforeAnySourceWork(deck:) started.
+􀟈  Test case passing 1 argument deck → .a to nativeSelectionAppearsSynchronouslyBeforeAnySourceWork(deck:) started.
+􀟈  Test case passing 1 argument deck → .b to nativeSelectionAppearsSynchronouslyBeforeAnySourceWork(deck:) started.
+􁁛  Test nativeSelectionAppearsSynchronouslyBeforeAnySourceWork(deck:) with 2 test cases passed after 1.100 seconds.
+􀟈  Test failedNativeSelectionRestoresThePreviousDeck() started.
+􁁛  Test failedNativeSelectionRestoresThePreviousDeck() passed after 0.462 seconds.
+􀟈  Test cancelledNativeSelectionCannotClearItsImmediateReplacement() started.
+􁁛  Test cancelledNativeSelectionCannotClearItsImmediateReplacement() passed after 0.201 seconds.
+􀟈  Test secondDeckSelectionKeepsPlayingDeckAudioUnchanged() started.
+􁁛  Test secondDeckSelectionKeepsPlayingDeckAudioUnchanged() passed after 0.595 seconds.
+􀟈  Test instantTrackLoadShowsWaveformBeforeAudioReadiness() started.
+􁁛  Test instantTrackLoadShowsWaveformBeforeAudioReadiness() passed after 2.168 seconds.
+􀟈  Test instantTrackLoadQueuesPlayBeforeAnalysisAndKeepsTheAudioGeneration() started.
+􁁛  Test instantTrackLoadQueuesPlayBeforeAnalysisAndKeepsTheAudioGeneration() passed after 8.699 seconds.
+􀟈  Test instantTrackLoadSecondTapCancelsPendingPlay() started.
+􁁛  Test instantTrackLoadSecondTapCancelsPendingPlay() passed after 1.970 seconds.
+􀟈  Test instantTrackLoadReplacementClearsPendingPlay() started.
+􁁛  Test instantTrackLoadReplacementClearsPendingPlay() passed after 2.084 seconds.
+􁁛  Test run with 11 tests in 0 suites passed after 63.884 seconds.
