@@ -1,0 +1,23 @@
+{
+  "requestID": "R47",
+  "baselineCommit": "7cb4dc3462c6f98063e8a634d94b4ab973c52155",
+  "sourceHashes": {
+    "Replica/Sources/TDJCore/WaveformLayers.swift": "39804779da2d7051cce29c0d37d0ba5e00c9c374c1bbbde2fd0cd00bdfd5aca3",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "449ec5a952fcdfe47fb2398abc43a329b606ff8048d1c2d56dbf22eda5cb46f7",
+    "Replica/Tests/TDJCoreTests/MixAnalysisPlanTests.swift": "ed8610bd9d40c755535cddca10ce1fd4156db0662017f9727ac965fc92ce807e",
+    "Replica/Tests/TDJCoreTests/WaveformBeatLineTests.swift": "4e2a58e6740c7069605bd814acca7f568895714e3508c2da6b24c3d26da00267",
+    "Replica/Package.swift": "a9ae26233da4158f4151114ce0df3f22fff6a5add9d31bbc56aa4aebc0d321b4"
+  },
+  "checks": {
+    "exactParityCases": 800,
+    "coreTests": 7,
+    "renderCases": 6,
+    "renderImages": 24,
+    "packageManifestRestored": true,
+    "normalFilteredPackageRun": "blocked by existing MIDI test compile errors",
+    "focusedPackageRun": "passed with temporary test-source selection",
+    "timingScope": "Optimised Mac geometry only. See comparison.log."
+  },
+  "physicalAcceptance": "pending",
+  "build": null
+}

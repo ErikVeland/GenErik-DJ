@@ -718,9 +718,9 @@ private struct WaveformView: View, Equatable {
                 WaveformView.draw(WaveformLayers(index:index,framesPerBin:a.waveformFramesPerBin,left:left,span:span,
                                                  width:pixels,height:size.height),in:&context,size:size,scale:scale,regions:regions)
             }
-            if let grid,let index=(prepared?.0 == key ? prepared?.1 : nil) ?? snapshotIndexes[key] {
-                WaveformView.drawBeats(WaveformLayers(index:index,framesPerBin:a.waveformFramesPerBin,left:left,span:span,
-                                                      width:pixels,height:0,grid:grid,adaptiveMap:adaptiveMap).beats,in:&context,size:size,scale:scale)
+            if let grid {
+                WaveformView.drawBeats(WaveformLayers.beatLines(grid:grid,adaptiveMap:adaptiveMap,left:left,span:span,
+                                                              width:pixels),in:&context,size:size,scale:scale)
             }
             let perPixel = span / max(1, size.width)
             for (frame, colour, width) in [(playheadFrame, PerformancePalette.red, 2.0), (leadInFrame, Color(white: 0.8), 1.0)] {

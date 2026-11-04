@@ -62,12 +62,13 @@ private func item(_ id: String, _ seconds: Double) -> MusicLibraryItem {
     // Four and a half beats at 120 BPM, 256 frames per bin.
     let span = WaveformLayers.defaultSeconds(bpm: 120) * 48000
     #expect(abs(span - 108000) < 1)
-    let layers = WaveformLayers(index: index, framesPerBin: 256, left: 48000, span: span, width: 900, height: 200, grid: grid)
+    let layers = WaveformLayers(index: index, framesPerBin: 256, left: 48000, span: span, width: 900, height: 200)
     #expect(layers.columns.count == 900)
     #expect(layers.columns.allSatisfy { $0.peak >= $0.body && $0.body >= $0.core && $0.core > 0 })
     #expect(layers.columns.allSatisfy { $0.peak <= 100 * WaveformLayers.headroom + 1e-9 })
     #expect(layers.columns.contains { $0.peak - $0.body > 10 })
     // Beats every 24,000 frames = 200 points; 5 lines from 48,000 to 156,000.
-    #expect(layers.beats.count == 5)
-    #expect(zip(layers.beats, layers.beats.dropFirst()).allSatisfy { abs(($1.x - $0.x) - 200) < 0.01 })
+    let beats = WaveformLayers.beatLines(grid: grid, left: 48000, span: span, width: 900)
+    #expect(beats.count == 5)
+    #expect(zip(beats, beats.dropFirst()).allSatisfy { abs(($1.x - $0.x) - 200) < 0.01 })
 }

@@ -1,0 +1,3 @@
+Exact waveform and beat parity: 800 cases passed
+Stored-bin geometry and beat overlay: 1000 geometry passes, median 43.020 ms -> 17.550 ms (59.2% less time)
+Beat overlay with bands ready: 1000 geometry passes, median 19.881 ms -> 0.237 ms (98.8% less time)

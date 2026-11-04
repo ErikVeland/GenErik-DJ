@@ -9,11 +9,6 @@ public struct WaveformLayers: Sendable, Equatable {
         public let peak: Double, body: Double, core: Double
     }
     public let columns: [Column]
-    /// Beat-grid line positions in points, with downbeat flags.
-    public let beats: [(x: Double, downbeat: Bool)]
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.columns == rhs.columns && lhs.beats.map(\.x) == rhs.beats.map(\.x) && lhs.beats.map(\.downbeat) == rhs.beats.map(\.downbeat)
-    }
 
     /// Fraction of half the height a full-scale peak uses, leaving headroom like a DJ display.
     public static let headroom=0.86
@@ -23,8 +18,7 @@ public struct WaveformLayers: Sendable, Equatable {
         return 4.5*60/bpm
     }
 
-    public init(index: WaveformRangeIndex, framesPerBin: Int, left: Double, span: Double, width: Int, height: Double,
-                grid: BeatGrid? = nil, adaptiveMap: BeatGridMap? = nil) {
+    public init(index: WaveformRangeIndex, framesPerBin: Int, left: Double, span: Double, width: Int, height: Double) {
         let width=max(1,width), perPixel=max(1e-9,span/Double(width)), bin=Double(max(1,framesPerBin))
         let half=max(0,height)/2*Self.headroom
         var columns: [Column]=[]
@@ -33,7 +27,7 @@ public struct WaveformLayers: Sendable, Equatable {
             let low=max(0,Int(floor((left+Double(x)*perPixel)/bin)))
             let high=min(index.count,Int(ceil((left+Double(x+1)*perPixel)/bin)))
             guard low<high else { continue }
-            var extent=index.extent(from:low,to:high)
+            let extent: WaveformRangeIndex.Extent
             // Narrower than one bin: interpolate between bin centres so edges are continuous.
             if perPixel<bin {
                 let position=(left+(Double(x)+0.5)*perPixel)/bin-0.5
@@ -41,16 +35,23 @@ public struct WaveformLayers: Sendable, Equatable {
                 let t=Float(max(0,min(1,position-Double(lower))))
                 let a=index.extent(from:lower,to:lower+1),b=index.extent(from:upper,to:upper+1)
                 extent = .init(minimum:a.minimum+(b.minimum-a.minimum)*t,maximum:a.maximum+(b.maximum-a.maximum)*t,rms:a.rms+(b.rms-a.rms)*t)
+            } else {
+                extent=index.extent(from:low,to:high)
             }
             let peak=Double(min(1,max(extent.maximum,-extent.minimum)))*half
             let body=min(peak,Double(min(1,extent.rms))*1.6*half)
             columns.append(.init(x:x,peak:peak,body:body,core:body*0.45))
         }
         self.columns=columns
+    }
+
+    /// Beat positions depend on the grid and viewport, without reading waveform samples.
+    public static func beatLines(grid fixed: BeatGrid, adaptiveMap: BeatGridMap? = nil,
+                                 left: Double, span: Double, width: Int) -> [(x: Double, downbeat: Bool)] {
+        let width=max(1,width),perPixel=max(1e-9,span/Double(width))
+        let grid=BeatTiming(fixed:fixed,adaptive:adaptiveMap)
         var beats: [(Double,Bool)]=[]
-        if let fixed=grid,
-           case let grid=BeatTiming(fixed:fixed,adaptive:adaptiveMap),
-           let first=Int(exactly:floor(grid.beat(atFrame:left))),
+        if let first=Int(exactly:floor(grid.beat(atFrame:left))),
            let last=Int(exactly:ceil(grid.beat(atFrame:left+span))),
            first<=last,last-first<300 {
             for beat in first...last {
@@ -58,6 +59,6 @@ public struct WaveformLayers: Sendable, Equatable {
                 if x>=0 && x<=Double(width) { beats.append((x,grid.isDownbeat(beat))) }
             }
         }
-        self.beats=beats
+        return beats
     }
 }
