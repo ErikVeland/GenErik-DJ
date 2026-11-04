@@ -8,6 +8,35 @@ struct PerformanceControls: View {
     @Environment(\.deckPanelPresented) private var presented
     var body: some View {
         VStack(spacing: 8) {
+        HStack(spacing: 8) {
+            Button("FLUX") { model.perform(.flux,deck:deck,enabled:model.controlDisplay[deck].fluxEnabled != true) }
+                .foregroundStyle(model.controlDisplay[deck].fluxEnabled == true ? Color.orange : Color.gray)
+                .accessibilityLabel("Flux on deck \(deck.rawValue.uppercased())")
+            Button { settings.toggle() } label: { Image(systemName:"gearshape") }
+                .popover(isPresented:$settings) {
+                    VStack(alignment:.leading) {
+                        PlaybackSettings(model:model)
+                        Button("Gesture guide") { settings=false; model.helpVisible=true }
+                    }.padding().frame(width:300).onDisappear { model.savePerformance() }
+                }
+        }
+        HStack(spacing: 8) {
+            Button { model.toggleFreeze(deck:deck) } label: {
+                VStack(spacing: 3) {
+                    Image(systemName: "snowflake")
+                    Text("FREEZE").font(.system(size: 11, weight: .semibold))
+                }
+            }
+                .foregroundStyle(model.frozen.contains(deck) ? Color.cyan : Color.gray)
+            Button { model.toggleHotcuePads(deck:deck) } label: {
+                VStack(spacing: 3) {
+                    Image(systemName: "flag.fill")
+                    Text("CUES").font(.system(size: 11, weight: .semibold))
+                }
+            }
+                .foregroundStyle(model.hotcuePadsVisible.contains(deck) ? Color.cyan : Color.gray)
+                .accessibilityLabel("Hotcues for deck \(deck.rawValue.uppercased())")
+        }
         HStack(spacing: 6) {
             Button { setLoopSize(direction:-1) } label: { Image(systemName:"minus") }
                 .frame(width: 44)
@@ -27,35 +56,6 @@ struct PerformanceControls: View {
             Button { setLoopSize(direction:1) } label: { Image(systemName:"plus") }
                 .frame(width: 44)
                 .accessibilityLabel("Double loop length on deck \(deck.rawValue.uppercased())")
-        }
-        HStack(spacing: 8) {
-            Button { model.toggleFreeze(deck:deck) } label: {
-                VStack(spacing: 3) {
-                    Image(systemName: "snowflake")
-                    Text("FREEZE").font(.system(size: 11, weight: .semibold))
-                }
-            }
-                .foregroundStyle(model.frozen.contains(deck) ? Color.cyan : Color.gray)
-            Button { model.toggleHotcuePads(deck:deck) } label: {
-                VStack(spacing: 3) {
-                    Image(systemName: "flag.fill")
-                    Text("CUES").font(.system(size: 11, weight: .semibold))
-                }
-            }
-                .foregroundStyle(model.hotcuePadsVisible.contains(deck) ? Color.cyan : Color.gray)
-                .accessibilityLabel("Hotcues for deck \(deck.rawValue.uppercased())")
-        }
-        HStack(spacing: 8) {
-            Button("FLUX") { model.perform(.flux,deck:deck,enabled:model.controlDisplay[deck].fluxEnabled != true) }
-                .foregroundStyle(model.controlDisplay[deck].fluxEnabled == true ? Color.orange : Color.gray)
-                .accessibilityLabel("Flux on deck \(deck.rawValue.uppercased())")
-            Button { settings.toggle() } label: { Image(systemName:"gearshape") }
-                .popover(isPresented:$settings) {
-                    VStack(alignment:.leading) {
-                        PlaybackSettings(model:model)
-                        Button("Gesture guide") { settings=false; model.helpVisible=true }
-                    }.padding().frame(width:300).onDisappear { model.savePerformance() }
-                }
         }
         if model.previewing.contains(deck), !model.frozen.contains(deck), !model.editing.contains(deck) {
             Button { model.returnToPlayhead(deck:deck) } label: { Image(systemName:"arrow.uturn.backward") }

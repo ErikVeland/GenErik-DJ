@@ -6,7 +6,8 @@ import Testing
 import TDJCore
 @testable import TDJInterface
 
-@Test @MainActor func deckControlsRenderInsideTheirAllocatedSpace() async throws {
+@Test(arguments: [DeckID.a, .b]) @MainActor
+func deckControlsRenderInsideTheirAllocatedSpace(deck: DeckID) async throws {
     var base = URL(fileURLWithPath: #filePath)
     for _ in 0..<4 { base.deleteLastPathComponent() }
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -19,16 +20,16 @@ import TDJCore
     library.tracks = [track]
     try store.save(library)
     let model = try ReplicaModel(root: root, playback: PlaybackController(offline: true))
-    model.loaded[.a] = track.id
+    model.loaded[deck] = track.id
     let panels = DeckPanelPresentation()
     panels.configure(width: 1004, portrait: false, handleExtent: 12)
     panels.setTrackAvailable(true)
     #expect(panels.extraVisible)
     let folder = URL(fileURLWithPath: ProcessInfo.processInfo.environment["DECK_RENDER_OUTPUT"]
-        ?? root.appendingPathComponent("renders").path)
+        ?? root.appendingPathComponent("renders").path).appendingPathComponent(deck.rawValue)
     try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
     for height in [180.0, 344] {
-        let view = DeckView(model: model, deck: .a, panels: panels)
+        let view = DeckView(model: model, deck: deck, panels: panels)
             .frame(width: 1004, height: height).environment(\.colorScheme, .dark)
         let host = NSHostingView(rootView: view)
         let window = NSWindow(contentRect: CGRect(x: 0, y: 0, width: 1004, height: height),
@@ -43,25 +44,54 @@ import TDJCore
         let hosted = try #require(host.bitmapImageRepForCachingDisplay(in: host.bounds))
         host.cacheDisplay(in: host.bounds, to: hosted)
         try hosted.representation(using: .png, properties: [:])!.write(to: folder.appendingPathComponent("hosted-\(Int(height)).png"))
+        var firstBlueRow: Int?
+        for y in 0..<min(88, hosted.pixelsHigh) where firstBlueRow == nil {
+            for x in 0..<min(88, hosted.pixelsWide) {
+                if let pixel = hosted.colorAt(x: x, y: y)?.usingColorSpace(.deviceRGB),
+                   pixel.blueComponent > 0.5, pixel.blueComponent > pixel.redComponent * 1.4 {
+                    firstBlueRow = y
+                    break
+                }
+            }
+        }
+        #expect(firstBlueRow != nil && firstBlueRow! < 40)
         let request = VNRecognizeTextRequest()
         request.recognitionLevel = .accurate
         try VNImageRequestHandler(cgImage: hosted.cgImage!, options: [:]).perform([request])
         let labels = request.results?.compactMap { $0.topCandidates(1).first?.string.uppercased() } ?? []
+        let current = request.results?.first { $0.topCandidates(1).first?.string == "0:00" }
+        let remaining = request.results?.first { $0.topCandidates(1).first?.string.contains("0:16") == true }
+        #expect(current != nil)
+        #expect(remaining != nil)
+        if let current, let remaining {
+            #expect(current.boundingBox.minX < 0.04 && current.boundingBox.maxY < 0.15)
+            #expect(remaining.boundingBox.maxX > 0.96 && remaining.boundingBox.maxY < 0.15)
+        }
         #expect(labels.contains { $0.contains("FLUX") })
         #expect(labels.contains { $0.contains("FREEZE") })
         #expect(labels.contains { $0.contains("CUES") })
         if height == 344 {
-            let bottom = try #require(hosted.colorAt(x: hosted.pixelsWide - 60, y: hosted.pixelsHigh - 40)?.usingColorSpace(.deviceRGB))
+            let bottom = try #require(hosted.colorAt(x: hosted.pixelsWide - 60, y: hosted.pixelsHigh - 100)?.usingColorSpace(.deviceRGB))
             #expect(bottom.redComponent > 0.15)
         }
         window.contentView = nil
         panels.toggleControls()
         let renderer = ImageRenderer(content: view)
         let image = try #require(renderer.cgImage)
+        let hiddenRequest = VNRecognizeTextRequest()
+        hiddenRequest.recognitionLevel = .accurate
+        try VNImageRequestHandler(cgImage: image, options: [:]).perform([hiddenRequest])
+        let hiddenCurrent = hiddenRequest.results?.first { $0.topCandidates(1).first?.string == "0:00" }
+        let hiddenRemaining = hiddenRequest.results?.first { $0.topCandidates(1).first?.string.contains("0:16") == true }
+        #expect(hiddenCurrent != nil && hiddenRemaining != nil)
+        if let hiddenCurrent, let hiddenRemaining {
+            #expect(hiddenCurrent.boundingBox.minX < 0.04 && hiddenCurrent.boundingBox.maxY < 0.15)
+            #expect(hiddenRemaining.boundingBox.maxX > 0.96 && hiddenRemaining.boundingBox.maxY < 0.15)
+        }
         let bitmap = NSBitmapImageRep(cgImage: image)
         try bitmap.representation(using: .png, properties: [:])!.write(to: folder.appendingPathComponent("deck-\(Int(height)).png"))
     }
-    let empty = ImageRenderer(content: DeckView(model: model, deck: .b, panels: DeckPanelPresentation())
+    let empty = ImageRenderer(content: DeckView(model: model, deck: deck == .a ? .b : .a, panels: DeckPanelPresentation())
         .frame(width: 1004, height: 344).environment(\.colorScheme, .dark))
     let bitmap = NSBitmapImageRep(cgImage: try #require(empty.cgImage))
     try bitmap.representation(using: .png, properties: [:])!.write(to: folder.appendingPathComponent("empty.png"))

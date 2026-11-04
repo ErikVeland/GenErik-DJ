@@ -12,6 +12,8 @@ struct ArrangementDeckStrip: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
     var compact = false
+    var rowHeight: Double = 44
+    var showsEditorButton = true
     var openEditor: () -> Void = {}
     var body: some View {
         let status=model.arrangementStatus(deck:deck)
@@ -26,12 +28,14 @@ struct ArrangementDeckStrip: View {
                 Text(status.endingText).lineLimit(1)
                     .foregroundStyle(status.warning == .red || status.warning == .urgent ? Color.red:Color.secondary)
             }
+            if showsEditorButton {
             Button(action: openEditor) { Image(systemName:"diamond").frame(width:44,height:44) }
                 .accessibilityLabel("Edit sections and analysis landmarks")
                 .disabled(model.track(deck).flatMap { model.arrangements[$0.id] } == nil)
+            }
         }
         .font(.system(size:11,weight:.semibold,design:.monospaced))
-        .padding(.horizontal,8).frame(height:44).background(PerformancePalette.sunken)
+        .padding(.horizontal,8).frame(height:rowHeight).background(PerformancePalette.sunken)
         .task(id:preparationKey) { await model.prepareArrangement(deck:deck) }
     }
     private var preparationKey: String {

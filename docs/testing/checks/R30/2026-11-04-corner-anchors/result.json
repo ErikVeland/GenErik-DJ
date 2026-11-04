@@ -1,0 +1,66 @@
+{
+  "requestIDs": [
+    "R02",
+    "R30"
+  ],
+  "feedbackBuild": 108,
+  "parentCommit": "82cc5478121728bd6fabbdda2aa2a12caaf7dc37",
+  "sourceHashes": {
+    "Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift": "b00e2d117aabdf7f0f88613aa6932045a18c1459b3c7411bb64fb3d64188d425",
+    "Replica/Sources/TDJInterface/ArrangementViews.swift": "3cce3dec1ca32bf48c70ed1ef681567e7472ed1de41df5a78709cd6f182d2ed1",
+    "Replica/Sources/TDJInterface/PerformanceControls.swift": "dbc4a8ac7d2666fc8d45cd482003c3937d0a98d033e3d8a5c51b010e9731c60f",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "6e0dc0573c8667afbbcfb0439e492b9197eda586fbdeda8a723d85e9c3e4d8f1",
+    "Replica/Tests/TDJInterfaceTests/DeckSpaceRenderingTests.swift": "d87054f82ff59e516436000675d8a4759ee0710ac8ec72b265d79ad2b36133ac",
+    "tools/check_panel_access.swift": "c5ecdf2d6db4ed8dd5011cbd0946f04d86caa7ae03246ef79a13d7eb2c657077"
+  },
+  "checks": {
+    "access": {
+      "assertions": 36,
+      "failures": 0,
+      "log": "access-final.log"
+    },
+    "panels": {
+      "assertions": 1432,
+      "failures": 0,
+      "log": "panels-final.log"
+    },
+    "dock": {
+      "assertions": 1330,
+      "failures": 0,
+      "log": "dock-final.log"
+    },
+    "render": {
+      "exitCode": 0,
+      "cases": 2,
+      "seconds": 12.826,
+      "decks": [
+        "a",
+        "b"
+      ],
+      "heights": [
+        180,
+        344
+      ],
+      "drawerStates": [
+        "open",
+        "closed"
+      ],
+      "log": "render-final.log",
+      "assertions": "Recognised current/remaining time at the outer bottom corners, artwork pixels at top left, visible Flux/Freeze/Cues, filled control panel and black empty state. A/B images inspected."
+    },
+    "waveformHeight": {
+      "deckHeight": 344,
+      "previous": 220,
+      "current": 268,
+      "gained": 48
+    },
+    "manifest": "restored exactly",
+    "whitespace": "passed",
+    "review": "Serial self-review under the project rule against additional agents."
+  },
+  "failedAttempts": [
+    "geometry-red.log: missing corner bands in a compact deck and insufficient expanded waveform height",
+    "render-red.log: three missing or misplaced time-readout assertions on the original source"
+  ],
+  "acceptance": "Erik checks both artwork/load controllers, current and remaining time corners, waveform area, section/grid access, drawer gestures, fixed transport and crossfader, touching and clean audio. Physical acceptance remains open."
+}

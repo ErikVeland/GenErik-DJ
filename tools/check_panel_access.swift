@@ -10,7 +10,14 @@ enum PanelAccessChecks {
             if !condition { failures += 1; print("FAIL: \(message)") }
         }
         let compact = AdaptiveDeckGeometry(height: 44, compactControls: true)
-        expect(compact.overviewHeight == 44 && compact.waveformHeight == 0, "compact deck reserves a complete Controls button beside the overview")
+        expect(compact.headerHeight > 0 && compact.footerHeight > 0, "compact deck retains its artwork and bottom time anchors")
+        let expanded = AdaptiveDeckGeometry(height: 336, compactControls: true)
+        expect(expanded.waveformHeight >= 264, "normal deck gives at least 264 points to the detailed waveform")
+        for height in [44.0, 60, 104, 172, 336, 700] {
+            let layout = AdaptiveDeckGeometry(height: height)
+            expect(layout.headerHeight > 0 && layout.footerHeight > 0, "both corner bands remain present while resizing")
+            expect(abs(layout.headerHeight + layout.footerHeight + layout.waveformHeight - height) < 0.001, "corner bands leave every remaining point to the waveform")
+        }
         let deck = DeckPanelPresentation()
         deck.configure(width: 1004, portrait: false, handleExtent: 12)
         expect(!deck.controlsEnabled, "empty deck disables the Controls entry")
