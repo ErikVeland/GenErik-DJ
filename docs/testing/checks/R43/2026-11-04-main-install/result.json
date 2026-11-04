@@ -1,0 +1,40 @@
+{
+  "requestID": "R43",
+  "testedCommit": "db5b29c10b59c155bdef23d6bebd1b685a8de47a",
+  "cacheSHA256": "02af5cf502a5b871b052c259c4224c10f316a1dcc10eee3309b131b5b746cbb7",
+  "cacheBytes": 181969920,
+  "cachePath": "/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/R43/bar-start/ipad-creep.pcm",
+  "detection": {
+    "downbeatConfidence": 0.7834721734595959,
+    "grid": {
+      "anchorFrame": 7963.329488313514,
+      "bpm": 136.01776928783116,
+      "downbeatOffset": 0,
+      "sampleRate": 44100
+    },
+    "tempoConfidence": 1
+  },
+  "openingBarSeconds": 0.1805743648143654,
+  "sourceFiles": {
+    "Replica/Sources/TDJCore/AudioAnalyzer.swift": "17c1bd68ef713f5cbf181ad7d55e7fd4edcc287b365244f9926644935a0cdfc4",
+    "Replica/Sources/TDJCore/MusicalSpectrumAnalyzer.swift": "5daeb71c64d93e958d4f71aa1a45e48e5018c614d2fa49f75d31862147ccc683",
+    "Replica/Sources/TDJCore/MusicalAnalysisFeatures.swift": "b631221db34de5a3c3e4789dae70fa778d213d00594974ddeff9f787a92bef19",
+    "Replica/Sources/TDJCore/AdaptiveRhythmAnalyzer.swift": "f8ac9378f03ec3e51f55ee08628c14a4885664c81a378210d1c0ef4c288a9f01",
+    "Replica/Sources/TDJCore/BeatGrid.swift": "084b1d6a092b2bc75fcf51286dfc5b45d53021e7a8e4b6eaa8577ac6ab3f5a5e"
+  },
+  "nativeCacheAssertions": "passed",
+  "deviceAcceptance": "Pending Erik physical iPad check.",
+  "observedWorkspaceSHA256DuringNativeCheck": "776f9ff5a54aa1cdcd1aa4d05b6f227f8bff4f3bddd40d3551dc72e9917efe7c",
+  "fingerprintNote": "The first whole-application fingerprint captured a temporary R45 test manifest from another active chat. The detector file hashes below match committed main. No conclusion uses that temporary fingerprint.",
+  "checks": {
+    "barCases": 23,
+    "lateRhythmCases": 7,
+    "failedAssertions": 0,
+    "detectorFilesMatchCommittedMain": true
+  },
+  "merge": {
+    "implementationCommit": "d3b233b7cf2933b36eab88149dfce67837f852ec",
+    "mainContainsImplementation": true,
+    "mergeCommit": "770a53322b55adc1be936c0edea302bb586f3901"
+  }
+}
