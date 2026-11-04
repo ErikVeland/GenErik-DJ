@@ -31,3 +31,7 @@ Final review: self-review under the project rule against parallel agents. Explic
 ## Erik's device check
 
 Hold a waveform gesture while resizing the library or extra panel with another finger. Repeat with EQ, filter and FX on both decks. Confirm that stationary fingers retain their value, movement stays smooth and release behaves normally. Try a second finger, reverse release order, and full library expansion. Confirm that explicit close and rotation still clear temporary gestures. Listen for clean audio. Check that the crossfader spans the whole gap and reaches both ends.
+
+## Build 82 handover
+
+Source `e0a26d640` passed native iPad compilation and signing in 53.65 seconds. Build 82 installed and launched on the 10.5-inch test iPad. No further device actions were taken. Erik performs the checks above. The exact source and hashes remain in `result.json` and the build record. Separate remote stem work is preserved in integration history and excluded from this archived candidate.

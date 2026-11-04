@@ -7,7 +7,7 @@
   ],
   "baselineCommit": "d7ec9c6b33091a3cd074035eec48677e5dadc687",
   "baselineBuild": 81,
-  "status": "source-verified-device-build-pending",
+  "status": "installed-and-launched-acceptance-pending",
   "filesSHA256": {
     "Replica/Sources/TDJInterface/TouchContactGeometry.swift": "516ba5f2931efd119fa1ee7d671c30b301d559cb86260d5d891e80fa71e0a9ef",
     "Replica/Sources/TDJInterface/FaderGestureSession.swift": "1cb5cb05a7a332eb967b6120a5cc8331e99bfd2e99d80a19b17b357548a59660",
@@ -37,7 +37,8 @@
     "perFingerBaseline": "Three failing assertions before new fingers received their own geometry and EQ inset",
     "analysisPreservation": "R34/R35 analysis/preparation sources and original recording fixture byte-identical to baseline",
     "swiftSyntax": "passed for changed interface sources",
-    "review": "self-review under the project no-agent iPad loop"
+    "review": "self-review under the project no-agent iPad loop",
+    "signedDeviceBuild": "Build 82 passed native iPad compilation and signature checks in 53.65 seconds."
   },
   "behaviour": [
     "Waveform, EQ, filter and FX opt into captured window-space touch frames.",
@@ -52,5 +53,12 @@
     "Physical overlapping gestures, UIKit delivery and listening require Erik acceptance.",
     "The host check exercises production geometry and gesture state, not physical iPad input or audio rendering.",
     "Mouse fallback keeps its existing cancellation behaviour; iPad is the only active target."
-  ]
+  ],
+  "build": 82,
+  "sourceCommit": "e0a26d64018f799f923cb6dc9c26a290952b8d90",
+  "sourceSHA256": "99ae325189ab576e0243158888bfd336051fcb0eb7e33c8ddaf874d35247c8ec",
+  "appSHA256": "823dcf5c5b3f615cccb9d58c260065a14fef88fb63f4ce71df536335cf9f0721",
+  "installedUTC": "2026-11-04T00:32:17.847968+00:00",
+  "launchedUTC": "2026-11-04T00:32:18.234186+00:00",
+  "acceptance": "Installed and launched on the 10.5-inch test iPad. Erik holds waveform, EQ, filter and FX gestures while resizing the library/extra controls, adds and releases fingers, checks full expansion/collapse and listens for clean audio. Check the crossfader fills the complete A Play-to-B FX gap and reaches both ends. Physical input and listening acceptance remain pending. No further device actions after launch."
 }

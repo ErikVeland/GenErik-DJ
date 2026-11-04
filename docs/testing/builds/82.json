@@ -1,0 +1,34 @@
+{
+  "notes": "R01/R02/R30: Retain held waveform/EQ/filter/FX coordinates during panel resize, keep per-finger EQ scale and waveform span, and stop compact-layout cancellation. Full-height crossfader spans A Play to B FX. Fixed button anchors and R34/R35 preserved. 1545 focused assertions pass. Erik checks touch feel and clean audio.",
+  "sourceCommit": "e0a26d64018f799f923cb6dc9c26a290952b8d90",
+  "sourceSHA256": "99ae325189ab576e0243158888bfd336051fcb0eb7e33c8ddaf874d35247c8ec",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 53.65,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-82.log",
+  "build": 82,
+  "app": "TestBuilds/ipad/82/GenErikDJ.app",
+  "appSHA256": "823dcf5c5b3f615cccb9d58c260065a14fef88fb63f4ce71df536335cf9f0721",
+  "state": "testing",
+  "createdUTC": "2026-11-04T00:32:07.852429+00:00",
+  "installedUTC": "2026-11-04T00:32:17.847968+00:00",
+  "launchedUTC": "2026-11-04T00:32:18.234186+00:00",
+  "requestIDs": [
+    "R01",
+    "R02",
+    "R30"
+  ],
+  "focusedChecks": "1,330 dock/workspace, 179 library and 36 held-contact assertions passed. Compiled mutations detect moving coordinate, EQ inset and waveform-span regressions. R34/R35 analysis/preparation and recording fixture remain byte-identical to the baseline.",
+  "acceptance": "Installed and launched on the 10.5-inch test iPad. Erik holds waveform, EQ, filter and FX gestures while resizing the library/extra controls, adds and releases fingers, checks full expansion/collapse and listens for clean audio. Check the crossfader fills the complete A Play-to-B FX gap and reaches both ends. Physical input and listening acceptance remain pending. No further device actions after launch.",
+  "deployments": [
+    {
+      "device": "GenErik iPad (10.5-inch)",
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "installed-and-launched",
+      "installedUTC": "2026-11-04T00:32:17.847968+00:00",
+      "launchedUTC": "2026-11-04T00:32:18.234186+00:00"
+    }
+  ],
+  "integrationContext": "Retains build 81 analysis, R34 preparation protection, R31 header spacing and the unified library gestures. Separate remote stem-model work arrived during compilation and is preserved in integration history; it is not part of archived build 82."
+}
