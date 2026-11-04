@@ -1,0 +1,58 @@
+{
+  "date": "2026-11-04",
+  "requestIDs": [
+    "R02",
+    "R30"
+  ],
+  "baselineCommit": "b5fbf286cb1db7c5762d266651ee2e55115ab131",
+  "baselineBuild": 94,
+  "status": "source-verified-device-build-pending",
+  "filesSHA256": {
+    "Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift": "56a095b765f544c63c25c61e50d82afe2ef055c1cb4fe6f0ce70045444cc1ad1",
+    "Replica/Sources/TDJInterface/DeckPanelPresentation.swift": "5c5335e108e5e9b22bd249702d3ecde06dae66d36ca6b311d8f43b4a09a30cf6",
+    "Replica/Sources/TDJInterface/DeckPanelSizing.swift": "805e41c80ce5e06bab13f01f29c509f2bc6fb71052b09d602012492b68e44305",
+    "Replica/Sources/TDJInterface/DeckSplitState.swift": "490b2d9bf389042bdb6ec59f9b9d8c95b0394c57f0701aa0675d60606a5bbda9",
+    "Replica/Sources/TDJInterface/PlaybackSettings.swift": "59112c405c903433badb9356625d24e11c7d16547a3f678ece795be4c1cc2ab0",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "0c5ba2d94ab4233d34744959ac4453a9a8d9332d02b2404ec7109100bb7ff124",
+    "tools/check_touch_layout.py": "984ade763fe938ee2b2e267d1d6479dc3b094577253cd650263cb63f2955b0d2",
+    "tools/check_panel_access.swift": "3a46eb5273e6ae1e038b70aed367daf2a9005398ee6af934486dc05f591b16b2"
+  },
+  "checks": {
+    "command": "python3 tools/check_touch_layout.py --group all && python3 tools/check_browser_layout.py",
+    "dock": 1330,
+    "library": 201,
+    "heldContacts": 36,
+    "performancePanels": 1432,
+    "deckDivider": 688,
+    "browserSizingAndLoader": 638,
+    "sectionWorkspace": 114,
+    "performanceAccess": 21,
+    "browserNavigation": 130,
+    "totalAssertions": 4590,
+    "failedAssertions": 0,
+    "minimumDefaultMutationFailures": 6,
+    "syntaxParse": "passed",
+    "integrity": "Dock rendering/full-height fader geometry, native musical contact mapping, R34/R35/R37 analysis and preparation, editor identity, R41 launch paths and R42 browser layouts match build 94.",
+    "review": "Self-review under the project rule against parallel agents."
+  },
+  "causes": [
+    "Quiet grips removed the visible action-tray entry without a replacement.",
+    "FX/EQ first opening used the 200-point usable minimum as its preferred size.",
+    "A compacted deck could retain insufficient vertical space after opening FX/EQ.",
+    "An open section editor could obscure newly selected performance controls."
+  ],
+  "behaviour": [
+    "Loaded decks have a labelled Controls button in the full header and a 44-point button beside the overview in compact strips.",
+    "Untouched FX/EQ defaults use half the available panel budget. At 1004-point deck width with quiet grips, each opens at 428 points. Explicit resize choices remain remembered.",
+    "Controls can open while FX/EQ occupy the panel budget. Held performance input gates remain enabled during redistribution.",
+    "Constrained panel drags start at their visible width, avoiding a dead zone. Cancelling restores the preceding intent.",
+    "Opening a pane makes enough vertical room for that deck where possible. The dock and fader stay fixed.",
+    "Switching performance panels hides the section editor while retaining its draft.",
+    "Large panel handles is also visible in the main Settings Features page, through the existing extras-only settings view."
+  ],
+  "limits": [
+    "Erik still checks button access, pad size, FX selection, held gestures, editor return and clean audio.",
+    "Narrow layouts cannot show every optional pane at its full preferred size.",
+    "Memory lasts for the session. This is a regression test release, not TDJ1 or gig acceptance."
+  ]
+}

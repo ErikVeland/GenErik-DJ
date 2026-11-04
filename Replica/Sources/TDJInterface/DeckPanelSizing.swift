@@ -25,7 +25,7 @@ struct DeckPanelsGeometry {
         mainWidth = max(0, inner - extraWidth - handleExtent - 8)
         waveformWidth = max(0, mainWidth - 52)
         sideBudget = max(0, waveformWidth - 2 * handleExtent - 44)
-        let fx = min(sideBudget, finite(effects))
+        let fx = min(max(0, sideBudget - min(200, finite(mixer))), finite(effects))
         let eq = min(max(0, sideBudget - fx), finite(mixer))
         let height = finite(height)
         effectsContent = CGRect(x: 0, y: 0, width: fx, height: height)
@@ -40,6 +40,7 @@ struct DeckPanelsGeometry {
 struct DeckPanelsState {
     private struct Bank {
         var panels: [PerformancePanel: TouchPanelState] = [:]
+        var customized: Set<PerformancePanel> = []
         init() {
             for kind in PerformancePanel.allCases {
                 let width = kind == .extra ? 160.0 : 200.0
@@ -49,13 +50,15 @@ struct DeckPanelsState {
             }
         }
     }
-    init(extraVisible: Bool = true) {
+    init(extraVisible: Bool = true, adaptiveDefaults: Bool = false) {
+        self.adaptiveDefaults = adaptiveDefaults
         if !extraVisible {
             presented.remove(.extra)
             portrait.panels[.extra]!.setPresented(false, maximumExtent: 10000)
             landscape.panels[.extra]!.setPresented(false, maximumExtent: 10000)
         }
     }
+    private var adaptiveDefaults = false
     private var handleExtent = 44.0
     private var portrait = Bank()
     private var landscape = Bank()
@@ -81,7 +84,7 @@ struct DeckPanelsState {
         switch kind {
         case .effects: return max(0, layout.sideBudget - layout.mixerContent.width)
         case .mixer: return max(0, layout.sideBudget - layout.effectsContent.width)
-        case .extra: return min(320, max(0, layout.extraBudget - layout.effectsContent.width - layout.mixerContent.width))
+        case .extra: return layout.maximumExtraWidth
         }
     }
 
@@ -92,7 +95,14 @@ struct DeckPanelsState {
         self.width = width
         self.handleExtent = handleExtent
         isPortrait = portrait
-        guard restoreBank else { return }
+        if !restoreBank {
+            if adaptiveDefaults {
+                for kind in [PerformancePanel.effects, .mixer] where isPresented(kind) && !bank.customized.contains(kind) {
+                    setPresented(kind, true)
+                }
+            }
+            return
+        }
         let visible = presented
         for kind in [PerformancePanel.extra, .effects, .mixer] { setPresented(kind, visible.contains(kind)) }
     }
@@ -103,7 +113,10 @@ struct DeckPanelsState {
         let minimum = bank.panels[kind]!.minimumExtent
         if visible, maximum < minimum, !isPresented(kind) { return }
         if visible { presented.insert(kind) } else { presented.remove(kind) }
-        mutate(kind) { $0.setPresented(visible, maximumExtent: maximum) }
+        if visible && adaptiveDefaults && kind != .extra && !bank.customized.contains(kind) {
+            let preferred = min(maximum, max(minimum, geometry(height: 1).extraBudget / 2))
+            mutate(kind) { $0.expand(maximumExtent: preferred) }
+        } else { mutate(kind) { $0.setPresented(visible, maximumExtent: maximum) } }
     }
 
     private mutating func makeRoom(for kind: PerformancePanel) {
@@ -120,7 +133,13 @@ struct DeckPanelsState {
         if kind != .extra, extent(kind) == 0 { makeRoom(for: kind) }
         guard isPresented(kind) || maximum(kind) >= bank.panels[kind]!.minimumExtent else { return }
         if hadExtras && !isPresented(.extra) { collapsedExtras.insert(kind) }
-        let offset = kind == .mixer ? geometry(height: 1).waveformWidth - before.waveformWidth : 0
+        if adaptiveDefaults, kind != .extra, !isPresented(kind), !bank.customized.contains(kind) {
+            let preferred = min(maximum(kind), max(200, geometry(height: 1).extraBudget / 2))
+            let limit = maximum(kind)
+            mutate(kind) { $0.expand(maximumExtent: preferred); $0.setPresented(false, maximumExtent: limit) }
+        }
+        let visible = kind == .effects ? before.effectsContent.width : kind == .mixer ? before.mixerContent.width : before.extraWidth
+        let offset = visible - extent(kind) + (kind == .mixer ? geometry(height: 1).waveformWidth - before.waveformWidth : 0)
         dragOffsets[kind] = offset
         if !isPresented(kind) { presented.insert(kind) }
         mutate(kind) { $0.beginDrag() }
@@ -140,7 +159,11 @@ struct DeckPanelsState {
             if collapsedExtras.contains(kind) { setPresented(.extra, true) }
             return
         }
+        let wasDragging = isDragging(kind)
         mutate(kind) { $0.endDrag(velocity: velocity, maximumExtent: limit) }
+        if wasDragging, velocity.isFinite, abs(velocity) < 600, bank.panels[kind]!.extent > 0 {
+            var value = bank; value.customized.insert(kind); bank = value
+        }
         if bank.panels[kind]!.extent == 0 {
             presented.remove(kind)
             if collapsedExtras.contains(kind) { setPresented(.extra, true) }

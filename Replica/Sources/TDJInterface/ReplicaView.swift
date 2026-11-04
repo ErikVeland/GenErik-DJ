@@ -77,7 +77,12 @@ public struct ReplicaView: View {
                             DeckView(model: model, deck: .a, panels: deckAPanels,
                                 snapshotEffects: snapshotEffectsDeck == .a,
                                 snapshotMixer: snapshotMixerDecks.contains(.a), snapshotFilter: snapshotFilterDecks.contains(.a),
-                                requestPerformanceSpace: { libraryPanel.setPresented(false); model.browserVisible = false })
+                                requestPerformanceSpace: { minimum in
+                                    libraryPanel.setPresented(false); model.browserVisible = false
+                                    let full = PerformanceWorkspaceGeometry(width: space.size.width, height: space.size.height,
+                                        libraryExtent: 0, handleExtent: workspaceHandle)
+                                    deckSplit.ensureHeight(upper: true, minimum: minimum, height: full.deckArea.height, handleExtent: handleExtent)
+                                })
                                 .frame(height: split.a.height).contentShape(Rectangle()).clipped()
                             DeckSplitHandle(interruption: touchInterruption,
                                 aShare: split.a.height / max(1, split.a.height + split.b.height),
@@ -90,7 +95,12 @@ public struct ReplicaView: View {
                             DeckView(model: model, deck: .b, panels: deckBPanels,
                                 snapshotEffects: snapshotEffectsDeck == .b,
                                 snapshotMixer: snapshotMixerDecks.contains(.b), snapshotFilter: snapshotFilterDecks.contains(.b),
-                                requestPerformanceSpace: { libraryPanel.setPresented(false); model.browserVisible = false })
+                                requestPerformanceSpace: { minimum in
+                                    libraryPanel.setPresented(false); model.browserVisible = false
+                                    let full = PerformanceWorkspaceGeometry(width: space.size.width, height: space.size.height,
+                                        libraryExtent: 0, handleExtent: workspaceHandle)
+                                    deckSplit.ensureHeight(upper: false, minimum: minimum, height: full.deckArea.height, handleExtent: handleExtent)
+                                })
                                 .frame(height: split.b.height).contentShape(Rectangle()).clipped()
                         }.padding(.horizontal, 6).frame(height: workspace.deckArea.height)
                         HStack(spacing: 0) {
@@ -255,7 +265,7 @@ private struct DeckView: View {
     var snapshotEffects = false
     var snapshotMixer = false
     var snapshotFilter = false
-    var requestPerformanceSpace: () -> Void = {}
+    var requestPerformanceSpace: (Double) -> Void = { _ in }
     @Environment(\.performancePanelPortrait) private var portrait
     @State private var sectionPanel = SectionEditorPanelState()
     @Environment(\.scenePhase) private var scenePhase
@@ -279,7 +289,7 @@ private struct DeckView: View {
     var body: some View {
         GeometryReader { deckSpace in
         let layout = AdaptiveDeckGeometry(height: max(0, deckSpace.size.height - 8),
-            hotcues: (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil)
+            hotcues: (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil, compactControls: track != nil)
         let availableWidth = max(0, deckSpace.size.width - (tempoFader && track != nil ? 68:0))
         let sizes = panels.geometry(width: availableWidth, height: layout.waveformHeight)
         HStack(spacing: 4) {
@@ -295,7 +305,9 @@ private struct DeckView: View {
         }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
             .offset(y: (1 - layout.expansion) * max(0, (deckSpace.size.height - 52) / 2))
         VStack(spacing: 0) {
-            DeckHeader(model: model, deck: deck, dense: true, showsArtwork: false)
+            DeckHeader(model: model, deck: deck, dense: true, showsArtwork: false,
+                controlsVisible: panels.extraVisible, controlsEnabled: panels.controlsEnabled,
+                toggleControls: { panels.toggleControls() })
                 .frame(height: layout.headerHeight, alignment: .top).clipped()
                 .opacity(layout.expansion).allowsHitTesting(layout.headerHeight >= 44)
             HStack(spacing: 0) {
@@ -322,7 +334,15 @@ private struct DeckView: View {
             .clipShape(DeckPanelHorizontalBounds())
             .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
             HStack(spacing: 6) {
-                Text(elapsedTime).frame(width: 48, alignment: .trailing)
+                if track != nil && layout.headerHeight < 44 {
+                    Button { panels.toggleControls() } label: {
+                        Image(systemName: "slider.horizontal.3").frame(width: 44, height: 44)
+                            .foregroundStyle(panels.extraVisible ? PerformancePalette.cyan : PerformancePalette.text)
+                            .bevelPanel(cornerRadius: 3, sunken: !panels.extraVisible)
+                    }.disabled(!panels.controlsEnabled)
+                        .accessibilityLabel("\(panels.extraVisible ? "Hide" : "Show") controls for deck \(deck.rawValue.uppercased())")
+                        .accessibilityIdentifier("deck-\(deck.rawValue)-controls-compact")
+                } else { Text(elapsedTime).frame(width: 48, alignment: .trailing) }
                 DeckOverview(model: model, deck: deck, visibleSeconds: $visibleSeconds)
                     .frame(maxWidth: .infinity)
                 Text(remainingTime).frame(width: 60, alignment: .leading)
@@ -338,7 +358,7 @@ private struct DeckView: View {
                     ArrangementDeckStrip(model: model, deck: deck, compact: true, openEditor: {
                         guard let track else { return }
                         sectionPanel.open(trackID: track.id, loadID: model.loadIdentity(deck))
-                        requestPerformanceSpace()
+                        requestPerformanceSpace(52 + handleExtent + 260)
                     })
                 }
                 else { Color.clear }
@@ -410,10 +430,15 @@ private struct DeckView: View {
                 .background(PerformancePalette.panel).clipped()
             }
         }
+        .onChange(of: [effectsVisible, mixerVisible, panels.extraVisible]) { _, _ in
+            if sectionPanel.isPresented { sectionPanel.setPresented(false) }
+        }
         .onChange(of:panels.spaceRequestID) { _,_ in
             if panels.spaceRequestKind == .extra {
-                if deckSpace.size.height < 168 { requestPerformanceSpace() }
-            } else if layout.waveformHeight < 184 { requestPerformanceSpace() }
+                if deckSpace.size.height < 168 { requestPerformanceSpace(168) }
+            } else if layout.waveformHeight < 184 {
+                requestPerformanceSpace(312 + (((hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil) ? 56 : 0))
+            }
         }
         }
         .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
@@ -903,10 +928,14 @@ private struct DeckHeader: View {
     let deck: DeckID
     var dense = false
     var showsArtwork = true
+    var controlsVisible = false
+    var controlsEnabled = false
+    var toggleControls: () -> Void = {}
     @AppStorage(DeckToolSettings.beatJump) private var beatJump = false
 
     var body: some View {
             HStack(alignment: .center, spacing: 8) {
+                HStack(alignment: .center, spacing: 8) {
                 if showsArtwork {
                 Button { model.showSuggestions(destination: deck) } label: {
                     ZStack {
@@ -961,6 +990,15 @@ private struct DeckHeader: View {
                 }
                     .disabled(track == nil || preparing || playback?.phase == .queued).accessibilityLabel("Edit grid on deck \(deck.rawValue.uppercased())")
                 }
+                }.frame(minWidth: 0, maxWidth: .infinity).clipped().contentShape(Rectangle())
+                Button(action: toggleControls) {
+                    Label("Controls", systemImage: "slider.horizontal.3")
+                        .font(.system(size: 12, weight: .semibold)).frame(width: 96, height: 44)
+                        .foregroundStyle(controlsVisible ? PerformancePalette.cyan : PerformancePalette.text)
+                        .bevelPanel(cornerRadius: 3, sunken: !controlsVisible)
+                }.disabled(!controlsEnabled)
+                    .accessibilityLabel("\(controlsVisible ? "Hide" : "Show") controls for deck \(deck.rawValue.uppercased())")
+                    .accessibilityIdentifier("deck-\(deck.rawValue)-controls")
             }.padding(.horizontal, 8).padding(.vertical, dense ? 2 : 8)
 
     }

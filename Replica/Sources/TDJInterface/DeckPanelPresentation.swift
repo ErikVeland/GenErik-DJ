@@ -5,7 +5,7 @@ import Observation
 @MainActor
 @Observable
 final class DeckPanelPresentation {
-    private var sizing = DeckPanelsState(extraVisible: false)
+    private var sizing = DeckPanelsState(extraVisible: false, adaptiveDefaults: true)
     private var hasTrack = false
     private var handleExtent = 44.0
     private var configuredWidth: Double?
@@ -19,6 +19,7 @@ final class DeckPanelPresentation {
     var effectsVisible: Bool { sizing.isPresented(.effects) }
     var mixerVisible: Bool { sizing.isPresented(.mixer) }
     var extraVisible: Bool { sizing.isPresented(.extra) }
+    var controlsEnabled: Bool { hasTrack }
     var isDragging: Bool { sizing.isDragging }
 
     func configure(width: Double, portrait: Bool, handleExtent: Double = 44) {
@@ -74,6 +75,7 @@ final class DeckPanelPresentation {
         sizing.adjust(kind, by: delta); updateGates()
         if opening && sizing.isPresented(kind) { requestSpace(kind) }
     }
+    func toggleControls() { toggle(.extra) }
     func toggleEffects() { toggle(.effects) }
     func toggleMixer() { toggle(.mixer) }
     private func requestSpace(_ kind: PerformancePanel) {

@@ -5,7 +5,17 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 62.1,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-04",
+      "requestIDs": [
+        "R02",
+        "R30"
+      ],
+      "assumedBuild": true,
+      "text": "Now I cannot access the action controls at all. Why are FX/EQ tiny panels in the full screen/open layout? Assumed build 94, the latest recorded installation. This reports regressions; acceptance remains open."
+    }
+  ],
   "log": "TestBuilds/ipad/build-94.log",
   "build": 94,
   "app": "TestBuilds/ipad/94/GenErikDJ.app",

@@ -27,10 +27,6 @@ struct PlaybackSettings: View {
             Toggle("Freeze on Load",isOn:preference(\.freezeOnLoad))
             RecoverySettingsView(model: model)
             Divider()
-            Text("Accessibility").font(.headline)
-            Toggle("Large panel handles", isOn: $largePanelHandles)
-            Text("Show larger, labelled grips for panel resizing.").font(.caption).foregroundStyle(.secondary)
-            Divider()
             Text("Extra deck controls").font(.headline)
             }
             Toggle("Beat jump",isOn:$beatJump)
@@ -48,6 +44,10 @@ struct PlaybackSettings: View {
                 Text("Tap Stop during playback to slow down. Tap Play to resume at the saved speed.")
                     .font(.caption).foregroundStyle(.secondary)
             }
+            Divider()
+            Text("Accessibility").font(.headline)
+            Toggle("Large panel handles", isOn: $largePanelHandles)
+            Text("Show larger, labelled grips for panel resizing.").font(.caption).foregroundStyle(.secondary)
         }
     }
     private func preference<Value>(_ key: WritableKeyPath<PerformancePreparation,Value>) -> Binding<Value> {

@@ -63,6 +63,14 @@ struct DeckSplitState {
         share = layout.a.height / (layout.a.height + layout.b.height)
         cancelDrag()
     }
+    mutating func ensureHeight(upper: Bool, minimum: Double, height: Double, handleExtent: Double = 44) {
+        guard minimum.isFinite, height.isFinite else { return }
+        let layout = geometry(width: 0, height: height, handleExtent: handleExtent)
+        let current = upper ? layout.a.height : layout.b.height
+        guard current < minimum else { return }
+        let desired = min(max(52, minimum), max(52, height - handleExtent - 52))
+        adjust(by: (desired - current) * (upper ? 1 : -1), height: height, handleExtent: handleExtent)
+    }
     mutating func cancelDrag() { dragOrigin = nil; translation = 0 }
     mutating func balance() { cancelDrag(); share = 0.5 }
     mutating func adjust(by delta: Double, height: Double, handleExtent: Double = 44) {

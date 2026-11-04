@@ -98,13 +98,13 @@ struct AdaptiveDeckGeometry {
     let waveformHeight: Double
     let transportWidth: Double
 
-    init(height: Double, hotcues: Bool = false) {
+    init(height: Double, hotcues: Bool = false, compactControls: Bool = false) {
         let height = max(0, height)
         expansion = min(1, max(0, (height - 56) / 144))
         headerHeight = 48 * expansion
         sectionHeight = 0
         footerHeight = 44 * expansion
-        overviewHeight = min(height, 32 - 8 * expansion)
+        overviewHeight = min(height, compactControls && headerHeight < 44 ? 44 : 32 - 8 * expansion)
         hotcueHeight = hotcues ? 56 * expansion : 0
         waveformHeight = max(0, height - headerHeight - sectionHeight - footerHeight - overviewHeight - hotcueHeight)
         transportWidth = 128 - 64 * expansion

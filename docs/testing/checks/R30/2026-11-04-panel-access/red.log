@@ -1,0 +1,76 @@
+/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_panel_access.swift:14:22: error: value of type 'DeckPanelPresentation' has no member 'controlsEnabled'
+12 |         let deck = DeckPanelPresentation()
+13 |         deck.configure(width: 1004, portrait: false, handleExtent: 12)
+14 |         expect(!deck.controlsEnabled, "empty deck disables the Controls entry")
+   |                      `- error: value of type 'DeckPanelPresentation' has no member 'controlsEnabled'
+15 |         deck.setTrackAvailable(true)
+16 |         expect(deck.controlsEnabled, "loaded deck enables the Controls entry")
+
+/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_panel_access.swift:16:21: error: value of type 'DeckPanelPresentation' has no member 'controlsEnabled'
+14 |         expect(!deck.controlsEnabled, "empty deck disables the Controls entry")
+15 |         deck.setTrackAvailable(true)
+16 |         expect(deck.controlsEnabled, "loaded deck enables the Controls entry")
+   |                     `- error: value of type 'DeckPanelPresentation' has no member 'controlsEnabled'
+17 |         deck.toggleEffects()
+18 |         expect(deck.geometry(width: 1004, height: 240).effectsContent.width == 428, "FX opens at half the available panel budget")
+
+/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_panel_access.swift:24:14: error: value of type 'DeckPanelPresentation' has no member 'toggleControls'
+22 |         let fx = deck.effectsInput.register { cancellations += 1 }
+23 |         let eq = deck.mixerInput.register { cancellations += 1 }
+24 |         deck.toggleControls()
+   |              `- error: value of type 'DeckPanelPresentation' has no member 'toggleControls'
+25 |         let withControls = deck.geometry(width: 1004, height: 240)
+26 |         expect(deck.extraVisible && withControls.extraWidth >= 144, "Controls opens even when FX and EQ have filled the panel budget")
+
+/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_panel_access.swift:34:14: error: value of type 'DeckPanelPresentation' has no member 'toggleControls'
+32 |         deck.cancel(.mixer)
+33 |         expect(deck.geometry(width: 1004, height: 240).mixerHandle.minX == before, "cancel restores the constrained EQ boundary")
+34 |         deck.toggleControls()
+   |              `- error: value of type 'DeckPanelPresentation' has no member 'toggleControls'
+35 |         expect(!deck.extraVisible && deck.geometry(width: 1004, height: 240).mixerContent.width == 428, "hiding Controls restores the chosen panel space")
+36 |         deck.begin(.effects); deck.update(.effects, translation: -64); deck.end(.effects, velocity: 0)
+
+/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_panel_access.swift:44:22: error: value of type 'DeckPanelPresentation' has no member 'controlsEnabled'
+42 |         deck.effectsInput.unregister(fx); deck.mixerInput.unregister(eq)
+43 |         deck.setTrackAvailable(false)
+44 |         expect(!deck.controlsEnabled && !deck.extraVisible, "unloading still closes empty Controls")
+   |                      `- error: value of type 'DeckPanelPresentation' has no member 'controlsEnabled'
+45 |         var split = DeckSplitState()
+46 |         split.updateViewport(width: 1112, height: 774)
+
+/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_panel_access.swift:48:15: error: value of type 'DeckSplitState' has no member 'ensureHeight'
+46 |         split.updateViewport(width: 1112, height: 774)
+47 |         split.beginDrag(height: 720, handleExtent: 12); split.updateDrag(translation: -1000); split.endDrag(height: 720, handleExtent: 12)
+48 |         split.ensureHeight(upper: true, minimum: 312, height: 720, handleExtent: 12)
+   |               `- error: value of type 'DeckSplitState' has no member 'ensureHeight'
+49 |         expect(split.geometry(width: 1004, height: 720, handleExtent: 12).a.height >= 312, "FX can request usable height for a compact upper deck")
+50 |         split.ensureHeight(upper: false, minimum: 368, height: 720, handleExtent: 12)
+
+/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_panel_access.swift:50:15: error: value of type 'DeckSplitState' has no member 'ensureHeight'
+48 |         split.ensureHeight(upper: true, minimum: 312, height: 720, handleExtent: 12)
+49 |         expect(split.geometry(width: 1004, height: 720, handleExtent: 12).a.height >= 312, "FX can request usable height for a compact upper deck")
+50 |         split.ensureHeight(upper: false, minimum: 368, height: 720, handleExtent: 12)
+   |               `- error: value of type 'DeckSplitState' has no member 'ensureHeight'
+51 |         expect(split.geometry(width: 1004, height: 720, handleExtent: 12).b.height >= 368, "lower deck can make room for FX with hotcue pads")
+52 |         let fixed = PerformanceDockGeometry(width: 1112, height: 774)
+
+/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_panel_access.swift:56:66: error: value of type 'DeckPanelPresentation' has no member 'toggleControls'
+54 |             let panels = DeckPanelPresentation()
+55 |             panels.setTrackAvailable(true); panels.configure(width: width, portrait: width < 800, handleExtent: 12)
+56 |             panels.toggleEffects(); panels.toggleMixer(); panels.toggleControls()
+   |                                                                  `- error: value of type 'DeckPanelPresentation' has no member 'toggleControls'
+57 |             let g = panels.geometry(width: width, height: 240)
+58 |             expect(panels.extraVisible && g.extraWidth >= 144, "Controls remains reachable in both iPad orientations")
+Traceback (most recent call last):
+  File "/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_touch_layout.py", line 47, in <module>
+    main()
+    ~~~~^^
+  File "/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_touch_layout.py", line 41, in main
+    subprocess.run(["xcrun", "swiftc", "-parse-as-library",
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        *map(str, sources), str(root / "tools" / harness), "-o", str(executable)], check=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['xcrun', 'swiftc', '-parse-as-library', '/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift', '/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/Replica/Sources/TDJInterface/SectionEditorPanelState.swift', '/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/Replica/Sources/TDJInterface/TouchPanelState.swift', '/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/Replica/Sources/TDJInterface/DeckSplitState.swift', '/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/Replica/Sources/TDJInterface/DeckPanelSizing.swift', '/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/Replica/Sources/TDJInterface/DeckPanelPresentation.swift', '/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/Replica/Sources/TDJInterface/TouchSurfaceInputGate.swift', '/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/Replica/Sources/TDJInterface/TouchContactGeometry.swift', '/Users/veland/.codex/worktrees/stable-performance-dock/GenErik DJ/tools/check_panel_access.swift', '-o', '/var/folders/x4/552661tn5vzgxk5405585gg80000gq/T/generik-touch-layout-salcgdhv/check']' returned non-zero exit status 1.
