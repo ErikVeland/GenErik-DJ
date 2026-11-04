@@ -12,11 +12,13 @@ Erik is the sole developer and acceptance tester. The active target is iPad only
 
 ## Coordination and Git hygiene
 
-- Use `feature/project-integration` as the current integration branch. Do not commit directly to `main`.
+- Use `main` as the consolidated source for every test build. The working folder is `/Users/veland/GenErik DJ`.
+- Make changes serially on short-lived `feature/` branches in that folder. Merge each change into `main` before a build or handover. Do not commit directly to `main`.
 - Other project chats are stopped. Do not resume them without Erik's instruction.
 - Give each change a request ID from `docs/coordination/requests.md`. Record remaining work and its verification scope.
 - Before editing, inspect the current branch and working changes. Preserve work owned by other tasks.
-- Use an isolated worktree for separate concurrent work. Do not let multiple chats edit the shared checkout.
+- Do not start concurrent implementation chats or create routine worktrees. Use a separate worktree only when Erik explicitly requests concurrent work.
+- Keep historical worktrees inactive. Merge their committed work into `main` before calling it the latest test source. Preserve local edits and ignored build evidence before any cleanup.
 - Keep changes coherent and committed. Do not silently leave source or tests untracked.
 - Do not delete old branches, private candidates or validation evidence before verifying their disposition.
 - Bind verification results to the source that ran. Preserve failed and incomplete results.

@@ -2,6 +2,8 @@
 
 Erik is the sole developer and acceptance tester. This chat implements his requests. Other project chats stay stopped. iPad is the only active target until Erik says otherwise.
 
+Build from `main` in `/Users/veland/GenErik DJ`. This is the single consolidated test source. Make one change at a time on a short-lived feature branch in the same folder. Commit and merge it into `main` before building. Historical worktrees are inactive archives.
+
 1. Erik tests **GenErik DJ** on the iPad.
 2. Erik describes a bug or requests a feature here.
 3. This chat records the report against the build and makes one focused change.
@@ -44,4 +46,4 @@ The established test-app identity stays `org.generikdj.replica.audiocheck`. The 
 
 Ignored `TestBuilds/ipad/config.json` holds `team` and `device`. Signed apps and logs stay under ignored `TestBuilds/ipad/`. Build records are tracked under `docs/testing/builds/`. Previous local build 44 is archived before the first new build. This does not claim build 44 is known-good. App rollback does not reverse changes to library/preparation data.
 
-Record feedback, fix commits and Erik's result in the corresponding build record. A reported issue remains open until Erik confirms the fix. Commit and push changes and records on `feature/project-integration`.
+Record feedback, fix commits and Erik's result in the corresponding build record. A reported issue remains open until Erik confirms the fix. Commit changes and records on the feature branch. Merge them into `main` and push before handover. `feature/project-integration` is a historical branch, not a separate test source.
