@@ -1,0 +1,7 @@
+FAIL: detail reopening restores the chosen width
+FAIL: categories remember their width
+FAIL: cancel restores the preceding width
+FAIL: landscape width survives rotation
+FAIL: cancel of an opening restores the displaced detail column
+FAIL: playlist resizing does not overwrite categories
+638 browser column and loader checks; 6 failures

@@ -1,0 +1,51 @@
+{
+  "date": "2026-11-04",
+  "requestIDs": [
+    "R02",
+    "R04",
+    "R25",
+    "R30"
+  ],
+  "baselineCommit": "811d75fd377acfcd8e169981916ccf6bda51510a",
+  "baselineBuild": 87,
+  "status": "source-verified-device-build-pending",
+  "filesSHA256": {
+    "Replica/Sources/TDJInterface/BrowserLayoutState.swift": "4b0e8cdd16d915449f4ff6a78615580a176d9c9f5ba7f88f3fbf9b693175f409",
+    "Replica/Sources/TDJInterface/BrowserView.swift": "439235b303f4bcbc74a7abfac39f5a943ec35c7eb6fd181ec6b002892b1b9cd3",
+    "Replica/Sources/TDJInterface/BrowserColumnContent.swift": "036459c12f032269fa0d45c76010e97354faafe064cba347fa5345358a89cd46",
+    "Replica/Sources/TDJInterface/LoadSliderContactGeometry.swift": "d85b27f5ba2df7667ffb376846e79576cac25157da6730ee9fecfcb4401daf2a",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "b9ce74cae64a1be0e23a836ddf681c20a82c4c8c6f32a42824ba85d2e49dfb19",
+    "Replica/Tests/TDJInterfaceTests/BrowserLayoutStateTests.swift": "aa122214144648fd80634d9c79d29bf7afb033159d58d37f10ee60d26769e99a",
+    "tools/check_browser_columns.swift": "7c31a119d391348fa0f0fd652d629468a8ce46dcc8aae4127bbb5726e7c67496",
+    "tools/check_touch_layout.py": "86bebe49550cb307625e9e0cf9db67f585415a882cdacff5bc9858ee48a010f3"
+  },
+  "checks": {
+    "command": "python3 tools/check_touch_layout.py --group all",
+    "dock": 1330,
+    "library": 179,
+    "heldContacts": 36,
+    "performancePanels": 1432,
+    "deckDivider": 688,
+    "browserColumnsAndLoader": 638,
+    "totalAssertions": 4303,
+    "failedAssertions": 0,
+    "forgottenWidthMutationFailures": 6,
+    "syntaxParse": "passed",
+    "integrity": "The fixed dock, full-height fader geometry, A/B divider, performance-panel/contact sources, R34/R35/R37 analysis and preparation match the baseline. ReplicaView changes are confined to LoadSlider.",
+    "review": "Self-review under the project rule against parallel agents.",
+    "harnessScope": "The browser harness compiles production column, contact and loader sources. It removes the TDJCore import from a temporary copy and uses the exact DeckID enum declaration from Models.swift. The signed iPad build checks the full module integration."
+  },
+  "behaviour": [
+    "Categories, playlists and detail/prep use the shared TouchPanelState and dedicated 44-point horizontal grab lanes.",
+    "Each column retains independent session widths for portrait and landscape. Search temporarily frees the left column without changing its width.",
+    "The song list reserves 240 points. In narrow layouts, explicit opening can close the opposite column while retaining its size. Cancelling an opening restores the displaced column.",
+    "Partial column content blocks new touches while existing loader contacts retain their original global mapping. Explicit close, track selection change and interruption cancel the loader.",
+    "The detail header keeps one loader mounted at full size and hides optional artwork at narrow widths. The list toolbar has a compact fallback.",
+    "Search, selection, queue, playlist storage, loading commands and musical actions use their existing paths."
+  ],
+  "limits": [
+    "Physical gesture delivery, scrolling, both loader ends, compact headers and clean audio need Erik acceptance.",
+    "Sizes last for the session. Very small windows cannot fit the optional columns.",
+    "This does not establish original TDJ1 gesture or sound equivalence."
+  ]
+}

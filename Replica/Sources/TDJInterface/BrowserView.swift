@@ -20,9 +20,13 @@ struct BrowserView: View {
     @State private var recommendations: [BrowserRecommendations.Match] = []
     @State private var recommendationSeed: LibraryBrowserEntry?
     @State private var layout = BrowserLayoutState(categoriesHidden: true)
+    @Environment(\.performancePanelPortrait) private var portrait
+    @Environment(\.touchSurfaceInterruption) private var touchInterruption
+    @Environment(\.scenePhase) private var scenePhase
     @State private var section = BrowserSection.songs
     private var displayedSection: BrowserSection { hasSearchQuery ? .songs : section }
     private var showingSuggestions: Bool { !hasSearchQuery && model.suggestionDestination != nil }
+    private var leadingColumn: BrowserColumn? { hasSearchQuery ? nil : displayedSection == .playlists ? .playlists : .categories }
     @State private var newPlaylistPresented = false
     @State private var detailTab = DetailTab.match
     enum DetailTab { case match, queue }
@@ -65,12 +69,7 @@ struct BrowserView: View {
         VStack(spacing: 0) {
             searchBar
             GeometryReader { geometry in
-              let available = max(0, geometry.size.width - 64)
-              let categoryWidth = min(180, available * 0.3)
-              let categoryVisible = hasSearchQuery ? 0 : max(0, min(categoryWidth, layout.categoriesHidden ? layout.categoryOffset : categoryWidth + layout.categoryOffset))
-              let remaining = max(0, available - categoryVisible)
-              let detailWidth = remaining / 2
-              let detailVisible = max(0, min(detailWidth, layout.detailHidden ? -layout.detailOffset : detailWidth - layout.detailOffset))
+              let sizes = layout.geometry()
               HStack(spacing: 0) {
                 iconRail.frame(width: 64)
                 if displayedSection == .settings {
@@ -79,50 +78,33 @@ struct BrowserView: View {
                     RecordingsBrowser(model: model)
                 } else if displayedSection == .history {
                     HistoryBrowser(model: model)
-                } else if displayedSection == .playlists {
-                    playlistColumn.frame(width: available / 2).clipped()
-                    listColumn.frame(width: available / 2).clipped()
                 } else {
-                    if !hasSearchQuery && (!layout.categoriesHidden || layout.categoryOffset > 0) {
-                        categoryColumn.frame(width: categoryWidth)
-                            .offset(x: layout.categoriesHidden ? -categoryWidth + categoryVisible : categoryVisible - categoryWidth)
-                            .frame(width: categoryVisible, alignment: .leading)
-                            .clipped()
-                            .simultaneousGesture(horizontalDrag(changed: { layout.dragCategories(translation: $0) },
-                                ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endCategories(translation: t, velocity: v, width: categoryWidth) } }))
+                    BrowserColumnContent(width: sizes.leading.width, minimum: leadingColumn?.minimum ?? 144,
+                        presented: leadingColumn.map { layout.isPresented($0) } ?? false,
+                        acceptsInput: leadingColumn.map { sizes.leading.width >= $0.minimum && geometry.size.height >= 44 } ?? false,
+                        trailing: false) {
+                        if displayedSection == .playlists { playlistColumn } else { categoryColumn }
                     }
-                    listColumn.frame(width: max(0, remaining - detailVisible)).clipped()
-                        .overlay(alignment: .leading) {
-                            if !hasSearchQuery && layout.categoriesHidden {
-                                Color.clear.frame(width: 18).contentShape(Rectangle())
-                                    .gesture(horizontalDrag(changed: { layout.dragCategories(translation: $0) },
-                                        ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endCategories(translation: t, velocity: v, width: categoryWidth) } }))
-                            }
-                        }
-                        .overlay(alignment: .trailing) {
-                            if layout.detailHidden {
-                                Color.clear.frame(width: 18).contentShape(Rectangle())
-                                    .gesture(horizontalDrag(changed: { layout.dragDetail(translation: $0) },
-                                        ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endDetail(translation: t, velocity: v, width: detailWidth) } }))
-                            }
-                        }
-                    if !layout.detailHidden || layout.detailOffset < 0 {
-                        detailPane.frame(width: detailWidth)
-                            .offset(x: detailWidth - detailVisible)
-                            .frame(width: detailVisible, alignment: .leading)
-                            .clipped()
-                            .overlay(alignment: .trailing) {
-                                Color.clear.frame(width: 18).contentShape(Rectangle())
-                                    .gesture(horizontalDrag(changed: { layout.dragDetail(translation: $0) },
-                                        ended: { t, v in withAnimation(.smooth(duration: 0.22)) { _ = layout.endDetail(translation: t, velocity: v, width: detailWidth) } }))
-                                    .accessibilityLabel("Swipe to hide recommendations")
-                            }
+                    if let leadingColumn { columnHandle(leadingColumn, edge: .leading, title: leadingColumn == .playlists ? "LISTS" : "BROWSE") }
+                    listColumn.frame(width: sizes.list.width).clipped().contentShape(Rectangle())
+                    columnHandle(.detail, edge: .trailing, title: "DETAIL")
+                    BrowserColumnContent(width: sizes.detail.width, minimum: BrowserColumn.detail.minimum,
+                        presented: layout.isPresented(.detail),
+                        acceptsInput: sizes.detail.width >= BrowserColumn.detail.minimum && geometry.size.height >= 206,
+                        trailing: true) {
+                        detailPane(width: max(BrowserColumn.detail.minimum, sizes.detail.width))
                     }
                 }
               }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .leading).clipped()
+              .onAppear { configureColumns(width: geometry.size.width) }
+              .onChange(of: geometry.size.width) { _, width in configureColumns(width: width) }
+              .onChange(of: leadingColumn) { _, _ in configureColumns(width: geometry.size.width) }
+              .onChange(of: portrait) { _, _ in configureColumns(width: geometry.size.width) }
             }
         }.background(PerformancePalette.stage)
-        .onDisappear { playlistSave.cancel() }
+        .onDisappear { playlistSave.cancel(); cancelColumnDrags() }
+        .onChange(of: touchInterruption) { _, _ in cancelColumnDrags() }
+        .onChange(of: scenePhase) { _, phase in if phase != .active { cancelColumnDrags() } }
         .onChange(of:adding) { _,presented in
             if !presented { playlistSave.cancel() }
         }
@@ -213,16 +195,23 @@ struct BrowserView: View {
     private func select(_ entry: LibraryBrowserEntry) {
         model.selectedTrackID=entry.id
         selectedEntry=entry
-        if layout.detailHidden { withAnimation(.smooth(duration: 0.22)) { layout.showDetail() } }
+        layout.showDetail()
     }
-    /// Horizontal-only drag in global space, so the moving pane does not change the finger's reading.
-    private func horizontalDrag(changed: @escaping (Double) -> Void, ended: @escaping (Double, Double) -> Void) -> some Gesture {
-        DragGesture(minimumDistance: 10, coordinateSpace: .global)
-            .onChanged { value in
-                guard abs(value.translation.width) > abs(value.translation.height) else { return }
-                changed(value.translation.width)
-            }
-            .onEnded { value in ended(value.translation.width, value.velocity.width) }
+    private func configureColumns(width: Double) {
+        layout.configure(width: width, portrait: portrait, leading: leadingColumn)
+    }
+    private func cancelColumnDrags() {
+        for kind in BrowserColumn.allCases { layout.cancel(kind) }
+    }
+    private func columnHandle(_ kind: BrowserColumn, edge: TouchPanelEdge, title: String) -> some View {
+        TouchPanelHandle(presented: layout.isPresented(kind), maximumExtent: layout.maximum(kind),
+            presentationID: layout.presentationID(for: kind), edge: edge, title: title,
+            accessibilityName: kind == .detail ? "Recommendations and prep" : kind == .playlists ? "Playlists" : "Categories",
+            canToggle: layout.isPresented(kind) || layout.geometry().sideBudget >= kind.minimum,
+            toggle: { layout.setPresented(kind, !layout.isPresented(kind)) },
+            begin: { layout.begin(kind) }, update: { layout.update(kind, translation: $0) },
+            end: { layout.end(kind, velocity: $0) }, cancel: { layout.cancel(kind) },
+            adjust: { layout.adjust(kind, by: $0) })
     }
     private func savePlaylist(id:UUID?=nil) {
         let selected=selection,name=playlistName,librarySource=model.libraryReadSource(),catalogSource=model.catalogReadSource()
@@ -347,39 +336,9 @@ extension BrowserView {
 
     fileprivate var listColumn: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 4) {
-                if !hasSearchQuery && panes.depth > 0 {
-                    Button { withAnimation(.smooth(duration: 0.25)) { panes.back() } } label: {
-                        Label(category.rawValue, systemImage: "chevron.left").font(.system(size: 15, weight: .semibold))
-                    }.foregroundStyle(deckBlue)
-                }
-                if !hasSearchQuery && category == .playlists {
-                    Button { sort = nil } label: {
-                        Image(systemName: "music.note.list").font(.system(size: 20, weight: .semibold))
-                            .foregroundStyle(sort == nil ? Color.black : PerformancePalette.secondaryText).frame(width: 44, height: 44)
-                            .background(RoundedRectangle(cornerRadius: 5).fill(sort == nil ? deckBlue : Color.clear))
-                    }.accessibilityLabel("Sort by playlist order")
-                }
-                sortTab("record.circle", "All", .title)
-                sortTab("person.fill", "Artist", .artist)
-                sortTab("music.note", "Key", .key)
-                sortTab("waveform.path.ecg", "BPM", .bpm)
-                Spacer()
-                Menu {
-                    ForEach(CollectionSort.allCases, id: \.self) { item in
-                        Button { sort = item } label: { if displayedSort == item { Label(item.rawValue, systemImage: "checkmark") } else { Text(item.rawValue) } }
-                    }
-                } label: {
-                    VStack(alignment: .trailing, spacing: 0) {
-                        Text("SORTED BY").font(.system(size: 10, weight: .semibold)).foregroundStyle(PerformancePalette.secondaryText)
-                        HStack(spacing: 4) { Text(displayedSort?.rawValue ?? "Playlist order"); Image(systemName: "chevron.down") }
-                            .font(.system(size: 15, weight: .medium)).foregroundStyle(PerformancePalette.text)
-                    }
-                }.accessibilityLabel("Sorted by \(displayedSort?.rawValue ?? "playlist order")")
-                if layout.listShowsTempoAndKey {
-                    Button(selecting ? "Done" : "Edit") { selecting.toggle(); selection=[] }
-                        .font(.system(size: 15, weight: .semibold)).padding(.horizontal, 12).frame(height: 36).bevelPanel(cornerRadius: 4)
-                }
+            ViewThatFits(in: .horizontal) {
+                listToolbar(compact: false).fixedSize(horizontal: true, vertical: false)
+                listToolbar(compact: true)
             }.padding(.horizontal, 10).frame(height: 56).background(PerformancePalette.panel)
             GeometryReader { geometry in
                 ZStack(alignment: .topLeading) {
@@ -411,6 +370,44 @@ extension BrowserView {
                 Text("Analysing: \(progress.done)/\(progress.total)").font(.system(size: 14).monospacedDigit())
                     .foregroundStyle(PerformancePalette.secondaryText).frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 22).frame(height: 36).background(PerformancePalette.panel)
+            }
+        }
+    }
+    private func listToolbar(compact: Bool) -> some View {
+        HStack(spacing: 4) {
+            if !hasSearchQuery && panes.depth > 0 {
+                Button { withAnimation(.smooth(duration: 0.25)) { panes.back() } } label: {
+                    Image(systemName: "chevron.left").frame(width: 44, height: 44)
+                }.foregroundStyle(deckBlue).accessibilityLabel("Back to \(category.rawValue)")
+            }
+            if !hasSearchQuery && category == .playlists {
+                Button { sort = nil } label: {
+                    Image(systemName: "music.note.list").font(.system(size: 20, weight: .semibold))
+                        .foregroundStyle(sort == nil ? Color.black : PerformancePalette.secondaryText).frame(width: 44, height: 44)
+                        .background(RoundedRectangle(cornerRadius: 5).fill(sort == nil ? deckBlue : Color.clear))
+                }.accessibilityLabel("Sort by playlist order")
+            }
+            if !compact {
+                sortTab("record.circle", "All", .title)
+                sortTab("person.fill", "Artist", .artist)
+                sortTab("music.note", "Key", .key)
+                sortTab("waveform.path.ecg", "BPM", .bpm)
+            }
+            Spacer()
+            Menu {
+                ForEach(CollectionSort.allCases, id: \.self) { item in
+                    Button { sort = item } label: { if displayedSort == item { Label(item.rawValue, systemImage: "checkmark") } else { Text(item.rawValue) } }
+                }
+            } label: {
+                VStack(alignment: .trailing, spacing: 0) {
+                    Text("SORTED BY").font(.system(size: 10, weight: .semibold)).foregroundStyle(PerformancePalette.secondaryText)
+                    HStack(spacing: 4) { Text(displayedSort?.rawValue ?? "Playlist order"); Image(systemName: "chevron.down") }
+                        .font(.system(size: 15, weight: .medium)).foregroundStyle(PerformancePalette.text)
+                }
+            }.accessibilityLabel("Sorted by \(displayedSort?.rawValue ?? "playlist order")")
+            if layout.listShowsTempoAndKey {
+                Button(selecting ? "Done" : "Edit") { selecting.toggle(); selection=[] }
+                    .font(.system(size: 15, weight: .semibold)).padding(.horizontal, 12).frame(height: 36).bevelPanel(cornerRadius: 4)
             }
         }
     }
@@ -485,13 +482,15 @@ extension BrowserView {
         }
     }
 
-    fileprivate var detailPane: some View {
+    fileprivate func detailPane(width: Double) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .top, spacing: 14) {
+            HStack(alignment: .top, spacing: 0) {
                 let entry = currentSelection
                 DeckArtwork(source: entry.flatMap { ArtworkSource.track($0.track, item: $0.nativeItem, media: model.store.mediaDirectory) }, placeholderSize: 40)
                     .frame(width: 112, height: 112).background(PerformancePalette.sunken).clipShape(RoundedRectangle(cornerRadius: 3))
                     .overlay { TrackHeadphoneIndicator(model:model,trackID:entry?.track?.id) }
+                    .padding(.trailing, 14).frame(width: width >= 440 ? 126 : 0, alignment: .leading).clipped()
+                    .accessibilityHidden(width < 440)
                 VStack(alignment: .leading, spacing: 5) {
                     HStack(spacing: 6) {
                         Text(entry?.title ?? "Choose a song").font(.system(size: 18, weight: .bold)).lineLimit(2).minimumScaleFactor(0.8)
@@ -515,7 +514,9 @@ extension BrowserView {
                 }
                 Spacer(minLength: 0)
                 LoadSlider(tall: true) { deck in if let entry { model.loadLibraryEntry(entry, deck: deck) } }
+                    .id(entry?.id)
                     .disabled(entry?.canLoad != true)
+                    .padding(.leading, 14)
             }.padding(14).frame(height: TallLoadSliderMetrics.height + 8 + 28)
             Rectangle().fill(Color.white.opacity(0.08)).frame(height: 1).padding(.horizontal, 14)
             HStack(spacing: 8) {
@@ -556,7 +557,9 @@ extension BrowserView {
             }
         }
         .background(PerformancePalette.panel)
-        .task(id: recommendationKey) { await refreshRecommendations() }
+        .task(id: "\(recommendationKey)|\(layout.isPresented(.detail))") {
+            if layout.isPresented(.detail) { await refreshRecommendations() }
+        }
     }
 
     private func detailTabButton(_ title: String, _ tab: DetailTab) -> some View {

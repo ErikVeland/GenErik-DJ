@@ -5,7 +5,19 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 60.9,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-04",
+      "requestIDs": [
+        "R02",
+        "R04",
+        "R25",
+        "R30"
+      ],
+      "assumedBuild": true,
+      "text": "Next, give the browser side columns direct show/hide, resizing and remembered sizes. Keep held gestures stable, the dock and full-height crossfader fixed, preserve R34, then install one iPad test build. Build 87 is the latest recorded installation. Acceptance is not implied."
+    }
+  ],
   "log": "TestBuilds/ipad/build-87.log",
   "build": 87,
   "app": "TestBuilds/ipad/87/GenErikDJ.app",
