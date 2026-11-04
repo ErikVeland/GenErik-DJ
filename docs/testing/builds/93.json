@@ -23,8 +23,8 @@
   "appSHA256": "74af1fb858e2466c4618c7273c560875c296631ecf9fd472fdb4876284f85c2b",
   "state": "testing",
   "createdUTC": "2026-11-04T02:30:19.052039+00:00",
-  "installedUTC": "2026-11-04T02:30:42.065105+00:00",
-  "launchedUTC": "2026-11-04T02:30:42.473742+00:00",
+  "installedUTC": "2026-11-04T03:02:40.988022+00:00",
+  "launchedUTC": "2026-11-04T03:02:41.604744+00:00",
   "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
   "requestIDs": [
     "R42",
@@ -33,5 +33,63 @@
     "R40"
   ],
   "focusedChecks": "130 browser/presentation assertions and 1,330 dock/workspace assertions passed. Removing the phone-device guard fails four assertions. The restored wide browser and independent pane state match pre-redesign source 811d75fd3 after the state type rename. Runtime framework resolution, compilation and signing pass.",
-  "acceptance": "Restoration installed on the 10.5-inch test iPad only. iPadOS accepted the launch request. Erik checks the original column browser, absence of the new workspace shortcuts, fixed performance controls and clean audio. No Duo deployment. Front-screen usability and Duo inside routing remain untested on hardware. No further device actions after launch."
+  "acceptance": "Saved build 93 installed on GenErik Duo for closed/front-screen testing. iPadOS accepted the launch request. The new view is limited to compact phone windows; wide inside windows retain the pre-redesign browser. No iPad operation in this deployment. Hardware layout, continued operation and audio acceptance remain pending.",
+  "deployments": [
+    {
+      "device": "GenErik iPad (10.5-inch)",
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "installed-launch-request-accepted",
+      "installedUTC": "2026-11-04T02:30:42.065105+00:00",
+      "launchRequestAcceptedUTC": "2026-11-04T02:30:42.473742+00:00",
+      "acceptance": "Historical restoration deployment. Erik acceptance remains unrecorded."
+    },
+    {
+      "device": "GenErik Duo",
+      "deviceID": "00008160-000859C436800036",
+      "state": "installed-launch-request-accepted",
+      "installedUTC": "2026-11-04T03:02:40.988022+00:00",
+      "launchRequestAcceptedUTC": "2026-11-04T03:02:41.604744+00:00",
+      "sourceCommit": "d66b403f331e2eaa3383465050698393934c7d6a",
+      "appSHA256": "74af1fb858e2466c4618c7273c560875c296631ecf9fd472fdb4876284f85c2b",
+      "transport": "localNetwork",
+      "installTimeoutSeconds": 90,
+      "scope": "Closed/front-phone testing. Saved build retains the existing wide inside browser. No iPad operation.",
+      "acceptance": "Erik verifies closed/front browser and shortcuts, inside layout retention and clean audio. No device actions after launch."
+    }
+  ],
+  "deploymentRequests": [
+    {
+      "requestedUTC": "2026-11-04T02:59:37.951708+00:00",
+      "device": "GenErik Duo",
+      "deviceID": "00008160-000859C436800036",
+      "requestIDs": [
+        "R28",
+        "R39",
+        "R40",
+        "R42"
+      ],
+      "instruction": "Install the new layout for closed/front-screen testing. Preserve iPad and Duo inside layouts.",
+      "savedBuild": 93,
+      "scope": "Deploy the saved scoped app to Duo only. No iPad operation or source change."
+    }
+  ],
+  "deploymentAttempts": [
+    {
+      "device": "GenErik Duo",
+      "deviceID": "00008160-000859C436800036",
+      "result": "Installation command timed out after 20 seconds. Installation and launch are not confirmed.",
+      "sourceChanged": false,
+      "savedAppChanged": false
+    },
+    {
+      "device": "GenErik Duo",
+      "deviceID": "00008160-000859C436800036",
+      "transport": "localNetwork",
+      "installTimeoutSeconds": 90,
+      "result": "Installation confirmed and launch request accepted.",
+      "installedUTC": "2026-11-04T03:02:40.988022+00:00",
+      "launchRequestAcceptedUTC": "2026-11-04T03:02:41.604744+00:00"
+    }
+  ],
+  "currentDeploymentAuthorisation": "Erik explicitly requested the saved scoped layout on Duo for closed/front-screen testing on 4 November. This supersedes the earlier no-Duo deployment instruction for this operation. Preserve iPad and Duo inside layouts."
 }

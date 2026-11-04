@@ -117,7 +117,9 @@ def deploy(config, number):
         raise ValueError("The saved app changed. Installation stopped.")
     verify_embedded_frameworks(app)
     run(["codesign", "--verify", "--deep", "--strict", str(app)])
-    run(["xcrun", "devicectl", "--timeout", "20", "device", "install", "app", "--device", config["device"], str(app)], timeout=25)
+    install_timeout = config.get("install_timeout", 20)
+    run(["xcrun", "devicectl", "--timeout", str(install_timeout), "device", "install", "app",
+         "--device", config["device"], str(app)], timeout=install_timeout + 5)
     record.update(state="installed", installedUTC=datetime.now(timezone.utc).isoformat())
     write(path, record)
     run(["xcrun", "devicectl", "--timeout", "10", "device", "process", "launch", "--device", config["device"],
@@ -135,7 +137,10 @@ def main():
     parser.add_argument("--number", type=int, help="Saved build to install, including rollback")
     parser.add_argument("--device", help="Override the saved test iPad device ID")
     parser.add_argument("--team", help="Override the saved signing team")
+    parser.add_argument("--install-timeout", type=int, default=20, help="Installation limit in seconds")
     args = parser.parse_args()
+    if args.install_timeout < 1:
+        parser.error("The installation limit must be at least one second.")
     if args.action == "deploy" and args.number is None:
         parser.error("deploy requires --number")
     LOCAL.mkdir(parents=True, exist_ok=True)
@@ -146,6 +151,7 @@ def main():
             parser.error("An iPad build or installation is already running.")
         config_path = LOCAL / "config.json"
         config = json.loads(config_path.read_text()) if config_path.exists() else {}
+        config["install_timeout"] = args.install_timeout
         for key in ["device", "team"]:
             if getattr(args, key):
                 config[key] = getattr(args, key)
