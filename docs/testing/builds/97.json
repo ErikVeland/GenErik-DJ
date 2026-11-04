@@ -5,7 +5,18 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 65.3,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "recordedUTC": "2026-11-04T05:52:32.717265+00:00",
+      "buildAssumption": "Erik did not give a build number. Build 97 was the last installed Duo candidate in this chat.",
+      "report": "When it is loading the library it should not show \"No songs in Library\". You should be able to swipe between A/B decks on the top A/B buttons and anywhere there is no transport or fade controls.",
+      "requestIDs": [
+        "R28",
+        "R39"
+      ],
+      "candidateBuild": 99
+    }
+  ],
   "log": "TestBuilds/ipad/build-97.log",
   "build": 97,
   "app": "TestBuilds/ipad/97/GenErikDJ.app",

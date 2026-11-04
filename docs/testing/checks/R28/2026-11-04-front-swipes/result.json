@@ -29,6 +29,13 @@
   "preservation": "preservation.json",
   "scope": "Closed/front phone only. The UIKit recognizer exists only in the front workspace and detaches on removal. Shared swipe-protection annotations emit no anchors outside that scope and change no frames, actions or styles. Existing wide browser, dock, fader and geometry files are unchanged.",
   "review": "One-finger horizontal direction/threshold gate; touch-start protected regions; native musical surfaces and text/control exclusion; no transport/fader start; existing drag handles and loader protected; hidden drawer/retired deck annotations disabled; contact identity prevents a stale swipe from replacing a later selection. Catalogue loading and current request readiness take precedence over empty text.",
-  "build": "pending",
-  "acceptance": "Erik checks selector and blank-area swipes, vertical scrolling, pane resizing, loader/transport/fader isolation, loading text and clean audio. Duo only, no iPad operation."
+  "build": 99,
+  "acceptance": "Erik checks selector and blank-area swipes, vertical scrolling, pane resizing, loader/transport/fader isolation, loading text and clean audio. Duo only, no iPad operation.",
+  "sourceCommit": "9661687c2d831c25452719290f4d40db35d49495",
+  "sourceSHA256": "5e1f83a3182e3c7d593a863f393b498940d0df4d5dce021f38bcd5efe0559fb3",
+  "appSHA256": "4b99bf3a0a244084e8a5d4e8fdd5918e0a50580f3d0c175112c84188a19b405c",
+  "buildState": "installed-launch-request-accepted",
+  "installedUTC": "2026-11-04T05:50:58.197320+00:00",
+  "launchRequestAcceptedUTC": "2026-11-04T05:50:59.150829+00:00",
+  "artifactChecks": "Native device compilation, source identity, saved app digest, embedded-framework resolution and signing passed. The incremental build reused the existing device cache."
 }

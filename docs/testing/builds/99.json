@@ -1,0 +1,36 @@
+{
+  "notes": "R28/R39: Show Loading library until catalogue and current projection finish. Add horizontal A/B swipes on the front selector and unclaimed areas. Protect transport, crossfader, native musical surfaces, text controls, loader and pane drags. Hidden panes emit no protection regions. 172 front, 130 browser and 36 native contact checks pass. No layout changes to iPad or Duo inside. Duo-only update using the existing cache.",
+  "sourceCommit": "9661687c2d831c25452719290f4d40db35d49495",
+  "sourceSHA256": "5e1f83a3182e3c7d593a863f393b498940d0df4d5dce021f38bcd5efe0559fb3",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 63.84,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-99.log",
+  "build": 99,
+  "app": "TestBuilds/ipad/99/GenErikDJ.app",
+  "appSHA256": "4b99bf3a0a244084e8a5d4e8fdd5918e0a50580f3d0c175112c84188a19b405c",
+  "state": "testing",
+  "createdUTC": "2026-11-04T05:49:52.447862+00:00",
+  "installedUTC": "2026-11-04T05:50:58.197320+00:00",
+  "launchedUTC": "2026-11-04T05:50:59.150829+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R28",
+    "R39"
+  ],
+  "focusedChecks": "338 focused assertions passed: 172 front interaction, 130 browser/presentation and 36 held-contact assertions. Refresh-loading and protected-control mutations fail as expected. Existing wide browser, dock, fader and geometry files match the build 97 baseline.",
+  "artifactChecks": "Native device compilation, source identity, saved app digest, embedded-framework resolution and signing passed. The incremental build reused the existing device cache.",
+  "acceptance": "Installed on GenErik Duo only. iPadOS accepted the launch request. Erik checks Loading library before catalogue and visible-list readiness, selector and safe-area A/B swipes, vertical scrolling, pane resizing, loader/transport/fader isolation, folding/inside layout and clean audio. Physical touch and continued operation remain pending. No iPad operation. No device actions after launch.",
+  "deployments": [
+    {
+      "device": "GenErik Duo",
+      "deviceID": "00008160-000859C436800036",
+      "installTimeoutSeconds": 240,
+      "state": "installed-launch-request-accepted",
+      "installedUTC": "2026-11-04T05:50:58.197320+00:00",
+      "launchRequestAcceptedUTC": "2026-11-04T05:50:59.150829+00:00",
+      "scope": "Closed/front phone testing only. Existing iPad and Duo inside layouts are preserved. No iPad operation."
+    }
+  ]
+}
