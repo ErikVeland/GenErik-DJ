@@ -15,6 +15,14 @@
       ],
       "assumedBuild": true,
       "text": "Next, bring the section editor into the same touch space with direct show/hide, resizing and remembered sizes. Keep held gestures, the dock and full-height crossfader stable, preserve R34, then install one iPad test build. I am not a fan of these chunky drag targets; leave them as an accessibility option, but make the drag targets mostly invisible. They should be closed by default when there are no tracks loaded. The action button tray is just empty space. Build 93 is the latest recorded installation. Acceptance is not implied."
+    },
+    {
+      "recordedUTC": "2026-11-04T05:32:06.488866+00:00",
+      "requestIDs": [
+        "R28"
+      ],
+      "report": "Erik requests one deck at a time on the closed/front screen, quick A/B switching and easy Songs/Suggestions access. Preserve iPad and Duo inside layouts. Build 93 is the assumed Duo baseline.",
+      "nextDuoBuild": 97
     }
   ],
   "log": "TestBuilds/ipad/build-93.log",

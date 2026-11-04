@@ -37,7 +37,13 @@
   "preservation": "preservation.json",
   "review": "Front workspace is behind the unchanged R42 gate. The existing wide workspace block and wide browser/dock/geometry files match the baseline. Front panel state is separate. A/B changes selection/contact identity only. Selected-deck control identity changes on switching. Native crossfader handling is reused with an opt-in 44-point height; its existing default is unchanged. No audio or analysis code changed.",
   "scope": "Build through the shared cache after integration. Deploy only to GenErik Duo with a 90-second Wi-Fi limit. Do not operate the iPad.",
-  "build": "pending",
+  "build": 97,
   "acceptance": "Erik must check physical front-screen usability, folding/inside layout, old-contact cancellation, loading, recommendations and clean audio.",
-  "buildWorkspace": "Isolated committed front-one-deck source. The shared integration checkout has uncommitted R43 work. Reuse the existing .build-claude-duo and TestBuilds/ipad paths through links, without another device-build cache."
+  "buildWorkspace": "Isolated committed front-one-deck source. The shared integration checkout has uncommitted R43 work. Reuse the existing .build-claude-duo and TestBuilds/ipad paths through links, without another device-build cache.",
+  "sourceCommit": "fd13c60a74e1f1e194e53070ed3c989081913830",
+  "sourceSHA256": "0367dd1ba99588f2faf3ef46784781b98ca178eda148c447ee08eb859859d2a3",
+  "buildSeconds": 65.3,
+  "buildState": "installed-launch-request-accepted",
+  "installedUTC": "2026-11-04T05:30:17.503136+00:00",
+  "launchRequestAcceptedUTC": "2026-11-04T05:30:18.247087+00:00"
 }
