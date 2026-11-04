@@ -4,6 +4,9 @@ import Foundation
 let input=URL(fileURLWithPath:CommandLine.arguments[1])
 let output=URL(fileURLWithPath:CommandLine.arguments[2])
 let pcm=URL(fileURLWithPath:CommandLine.arguments[3])
+let context=try CommandLine.arguments.count > 4
+    ? JSONDecoder().decode(MusicalStructureContext.self,from:Data(contentsOf:URL(fileURLWithPath:CommandLine.arguments[4])))
+    : MusicalStructureContext()
 func phase(_ message: String) { FileHandle.standardError.write(Data((message+"\n").utf8)) }
 phase("Production musical analysis")
 let analysis=try AudioAnalyzer.analyze(url:input)
@@ -35,7 +38,7 @@ guard decoded == analysis.frameCount, audio.processingFormat.sampleRate == analy
 }
 phase("Production structure analysis")
 let features=try MusicalStructureAnalyzer.analyze(pcm:pcm,analysis:analysis)
-let arrangement=TrackArrangement.prepare(analysis:analysis,features:features)
+let arrangement=TrackArrangement.prepare(analysis:analysis,features:features,context:context)
 var values=try JSONSerialization.jsonObject(with:JSONEncoder().encode(analysis.replacingWaveform([]))) as! [String:Any]
 for key in ["waveform","chroma","timbre","adaptiveCandidate"] { values.removeValue(forKey:key) }
 let result: [String:Any]=["analysis":values,"arrangement":try JSONSerialization.jsonObject(with:JSONEncoder().encode(arrangement)),

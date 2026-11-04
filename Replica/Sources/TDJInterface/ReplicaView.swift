@@ -19,9 +19,7 @@ public struct ReplicaView: View {
     @State private var audioSettingsPresented = false
     @State private var deckAPanels = DeckPanelPresentation()
     @State private var deckBPanels = DeckPanelPresentation()
-    @State private var deckShare = 0.0
-    @State private var dividerOrigin: Double?
-    @GestureState private var resizingLibrary = false
+    @State private var libraryPanel = LibraryPanelState()
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     private let snapshotEffectsDeck: DeckID?
     private let snapshotMixerDecks: Set<DeckID>
@@ -54,10 +52,9 @@ public struct ReplicaView: View {
                 importPresented:$importPresented,traktorImportPresented:$traktorImportPresented)
             GeometryReader { space in
                 let workspace = PerformanceWorkspaceGeometry(width: space.size.width, height: space.size.height,
-                    browserVisible: model.browserVisible, deckShare: deckShare)
-                let deckHeight = workspace.deckArea.height
+                    libraryExtent: libraryPanel.extent)
                 HStack(spacing: 0) {
-                VStack(spacing: 0) {
+                    VStack(spacing: 0) {
                         VStack(spacing: 2) {
                             DeckView(model: model, deck: .a, panels: deckAPanels,
                                 snapshotEffects: snapshotEffectsDeck == .a,
@@ -65,52 +62,53 @@ public struct ReplicaView: View {
                             DeckView(model: model, deck: .b, panels: deckBPanels,
                                 snapshotEffects: snapshotEffectsDeck == .b,
                                 snapshotMixer: snapshotMixerDecks.contains(.b), snapshotFilter: snapshotFilterDecks.contains(.b))
-                        }.padding(.horizontal, 6).frame(height: deckHeight)
-                    Group {
-                        Capsule().fill(PerformancePalette.secondaryText.opacity(0.5))
-                            .frame(width: 44, height: 4)
-                            .frame(maxWidth: .infinity).frame(height: AdaptivePerformanceLayout.dividerHeight)
-                            .background(PerformancePalette.frame).contentShape(Rectangle())
-                            .gesture(DragGesture(minimumDistance: 2, coordinateSpace: .global)
-                                .updating($resizingLibrary) { _, active, _ in active = true }
-                                .onChanged { value in
-                                    if dividerOrigin == nil { dividerOrigin = deckHeight }
-                                    if !model.browserVisible { model.browserVisible = true }
-                                    deckShare = ((dividerOrigin ?? deckHeight) + value.translation.height) / max(1, space.size.height)
-                                }
-                                .onEnded { _ in
-                                    deckShare = AdaptivePerformanceLayout.deckHeight(available: space.size.height,
-                                        browserVisible: true, share: deckShare) / max(1, space.size.height)
-                                    if space.size.height - deckShare * space.size.height < AdaptivePerformanceLayout.librarySnapDistance {
-                                        model.browserVisible = false
-                                    }
-                                    dividerOrigin = nil
-                                })
-                            .accessibilityLabel("Deck and library divider")
-                            .accessibilityAdjustableAction { direction in
-                                deckShare = min(0.8, max(0.1, deckShare + (direction == .increment ? 0.05 : -0.05)))
-                            }
+                        }.padding(.horizontal, 6).frame(height: workspace.deckArea.height)
+                        TouchPanelHandle(presented: libraryPanel.extent > 0,
+                            maximumExtent: libraryPanel.maximumExtent, presentationID: model.browserPresentationID,
+                            toggle: {
+                                libraryPanel.setPresented(libraryPanel.extent == 0)
+                                model.browserVisible = libraryPanel.extent > 0
+                            }, begin: { libraryPanel.beginDrag() }, update: { translation in
+                                libraryPanel.updateDrag(translation: translation)
+                            }, end: { velocity in
+                                libraryPanel.endDrag(velocity: velocity)
+                                model.browserVisible = libraryPanel.extent > 0
+                            }, cancel: {
+                                libraryPanel.cancelDrag()
+                                model.browserVisible = libraryPanel.extent > 0
+                            }, adjust: { delta in
+                                libraryPanel.adjust(by: delta)
+                                model.browserVisible = libraryPanel.extent > 0
+                            })
                         BrowserView(model: model, importAudio: { importPresented = true }, linkCollection: { traktorImportPresented = true })
-                            .frame(maxWidth: .infinity)
-                            .frame(height: workspace.libraryArea.height, alignment: .top)
-                            .clipped().allowsHitTesting(model.browserVisible)
-                            .disabled(!model.browserVisible).accessibilityHidden(!model.browserVisible)
+                            .frame(width: workspace.libraryArea.width, height: workspace.libraryArea.height, alignment: .top)
+                            .clipped().allowsHitTesting(libraryPanel.acceptsContentInput)
+                            .disabled(!libraryPanel.acceptsContentInput).accessibilityHidden(!libraryPanel.acceptsContentInput)
                     }
-                }
-                .frame(width: workspace.dock.workArea.width, height: space.size.height, alignment: .top)
-                .clipped()
-                .animation(reduceMotion || dividerOrigin != nil ? nil : .smooth(duration: 0.25), value: model.browserVisible)
-                .onChange(of: resizingLibrary) { _, active in if !active { dividerOrigin = nil } }
-                .onChange(of: model.browserPresentationID) { _, _ in
-                    withAnimation(reduceMotion ? nil : .smooth(duration: 0.25)) {
-                        dividerOrigin = nil
-                        deckShare = 0
+                    .frame(width: workspace.dock.workArea.width, height: space.size.height, alignment: .top)
+                    .clipped()
+                    .animation(reduceMotion || libraryPanel.isDragging ? nil : .smooth(duration: 0.25), value: libraryPanel.extent)
+                    .onAppear {
+                        libraryPanel.updateViewport(width: space.size.width, height: space.size.height, presented: model.browserVisible)
                     }
-                }
-                .onChange(of: model.browserVisible) { _, visible in
-                    if visible && !resizingLibrary { deckShare = 0 }
-                }
-                PerformanceDock(model: model, panelsA: deckAPanels, panelsB: deckBPanels, geometry: workspace.dock)
+                    .onChange(of: space.size) { _, size in
+                        libraryPanel.updateViewport(width: size.width, height: size.height, presented: model.browserVisible)
+                        model.browserVisible = libraryPanel.extent > 0
+                    }
+                    .onChange(of: model.browserPresentationID) { _, _ in
+                        libraryPanel.present(fullyExpanded: model.browserPresentationExpands)
+                        model.browserVisible = libraryPanel.extent > 0
+                    }
+                    .onChange(of: model.browserVisible) { _, visible in
+                        libraryPanel.setPresented(visible)
+                    }
+                    .onChange(of: scenePhase) { _, phase in
+                        if phase != .active {
+                            libraryPanel.cancelDrag()
+                            model.browserVisible = libraryPanel.extent > 0
+                        }
+                    }
+                    PerformanceDock(model: model, panelsA: deckAPanels, panelsB: deckBPanels, geometry: workspace.dock)
                 }
                 .frame(width: space.size.width, height: space.size.height, alignment: .topLeading)
             }
@@ -605,6 +603,13 @@ private struct PerformanceToolbar: View {
     @Binding var importPresented: Bool
     @Binding var traktorImportPresented: Bool
 
+    private var horizontalInset: CGFloat {
+#if os(iOS)
+        if UIDevice.current.userInterfaceIdiom == .pad { return 12 }
+#endif
+        return 32
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             ViewThatFits(in: .horizontal) {
@@ -617,7 +622,7 @@ private struct PerformanceToolbar: View {
                     if let progress = model.preparationImport { PreparationImportPill(progress: progress) }
                     if let progress = model.analysisProgress { PreparationImportPill(progress: progress) }
                     Spacer(minLength: 0)
-                }.padding(.horizontal, 32).frame(height: 24).clipped()
+                }.padding(.horizontal, horizontalInset).frame(height: 24).clipped()
             }
         }
         .background(LinearGradient(colors: [PerformancePalette.raised, PerformancePalette.frame], startPoint: .top, endPoint: .bottom))
@@ -666,7 +671,7 @@ private struct PerformanceToolbar: View {
                 }.accessibilityLabel("Audio routing")
                     .popover(isPresented: $audioSettingsPresented) { AudioQuickPanel(model: model) }
             }.frame(height: 44).bevelPanel(cornerRadius: 5)
-        }.padding(.horizontal, 32)
+        }.padding(.horizontal, horizontalInset)
     }
     private var noticeCount: Int { min(99, model.musicLibraryFailures.count + (model.musicLibraryError == nil ? 0 : 1)) }
 }

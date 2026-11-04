@@ -30,6 +30,17 @@ struct PerformanceWorkspaceGeometry {
     let deckArea: CGRect
     let libraryArea: CGRect
 
+    init(width: Double, height: Double, libraryExtent: Double) {
+        dock = PerformanceDockGeometry(width: width, height: height)
+        let available = dock.workArea.height
+        let maximum = AdaptivePerformanceLayout.maximumLibraryExtent(available: available)
+        let extent = libraryExtent.isFinite ? min(maximum, max(0, libraryExtent)) : 0
+        let handle = min(AdaptivePerformanceLayout.libraryHandleHeight, available)
+        let deckHeight = max(0, available - handle - extent)
+        deckArea = CGRect(x: 0, y: 0, width: dock.workArea.width, height: deckHeight)
+        libraryArea = CGRect(x: 0, y: deckHeight + handle, width: dock.workArea.width, height: extent)
+    }
+
     init(width: Double, height: Double, browserVisible: Bool, deckShare: Double) {
         dock = PerformanceDockGeometry(width: width, height: height)
         let available = dock.workArea.height
@@ -43,8 +54,14 @@ struct PerformanceWorkspaceGeometry {
 
 struct AdaptivePerformanceLayout {
     static let dividerHeight = 16.0
+    static let libraryHandleHeight = 44.0
     static let minimumDeckHeight = 132.0
     static let librarySnapDistance = 80.0
+
+    static func maximumLibraryExtent(available: Double) -> Double {
+        guard available.isFinite else { return 0 }
+        return max(0, available - libraryHandleHeight - minimumDeckHeight)
+    }
 
     static func deckHeight(available: Double, browserVisible: Bool, share: Double) -> Double {
         let height = max(0, available)

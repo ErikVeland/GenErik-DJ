@@ -8,17 +8,19 @@ import tempfile
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--group", choices=["anchors"], default="anchors")
-    parser.parse_args()
+    parser.add_argument("--group", choices=["anchors", "panels", "all"], default="anchors")
+    args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     with tempfile.TemporaryDirectory(prefix="generik-touch-layout-") as directory:
         executable = Path(directory) / "check"
-        subprocess.run([
-            "xcrun", "swiftc", "-parse-as-library",
-            str(root / "Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift"),
-            str(root / "tools/check_touch_layout.swift"), "-o", str(executable),
-        ], check=True)
-        subprocess.run([str(executable)], check=True)
+        for group in (["anchors", "panels"] if args.group == "all" else [args.group]):
+            sources = [root / "Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift"]
+            if group == "panels":
+                sources.append(root / "Replica/Sources/TDJInterface/TouchPanelState.swift")
+            harness = "check_touch_layout.swift" if group == "anchors" else "check_touch_panels.swift"
+            subprocess.run(["xcrun", "swiftc", "-parse-as-library",
+                *map(str, sources), str(root / "tools" / harness), "-o", str(executable)], check=True)
+            subprocess.run([str(executable)], check=True)
 
 
 if __name__ == "__main__":

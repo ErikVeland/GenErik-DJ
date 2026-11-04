@@ -3,6 +3,21 @@ import AVFoundation
 import Foundation
 import SoundAnalysis
 
+public struct MusicalStructureContext: Codable, Equatable, Sendable {
+    public var title: String
+    public var genre: String?
+    public init(title: String = "", genre: String? = nil) { self.title=title; self.genre=genre }
+    var prefersRhythmicEdges: Bool {
+        func matches(_ text: String, _ pattern: String) -> Bool {
+            text.range(of:pattern,options:[.regularExpression,.caseInsensitive]) != nil
+        }
+        if matches(title,#"\ba\s?cap+p?ella\b"#) { return false }
+        let version=matches(title,#"\bextended\s+(?:mix|edit|remix|version)\b|12(?:[\s-]*(?:["”″']|inch)|_\s*(?:mix|version|scratch))|\b(?:club|dub)\s+(?:mix|remix|version)\b"#)
+        let dance=matches(genre ?? "",#"\b(?:house|disco|techno|trance|dance|electronic|garage|jungle|breakbeat|breaks)\b|drum.{0,5}bass"#)
+        return version || dance
+    }
+}
+
 /// One second of local evidence. Frames use the source audio timeline.
 public struct MusicalStructureFrame: Sendable, Equatable {
     public var start: Double
@@ -22,7 +37,7 @@ public struct MusicalStructureFrame: Sendable, Equatable {
 
 /// Runs on cached PCM at utility priority. Playback never calls this analyser.
 public enum MusicalStructureAnalyzer {
-    public static let version = 3
+    public static let version = 4
 
     public static func analyze(pcm url: URL, analysis: AudioAnalysis,
                                checkCancellation: () throws -> Void = { try Task.checkCancellation() }) throws -> [MusicalStructureFrame] {
@@ -172,7 +187,7 @@ private final class StructureSpectrum {
 }
 
 extension TrackArrangement {
-    static func musicalPreparation(analysis a: AudioAnalysis, features input: [MusicalStructureFrame]) -> Self {
+    static func musicalPreparation(analysis a: AudioAnalysis, features input: [MusicalStructureFrame], context: MusicalStructureContext) -> Self {
         let fileEnd=Double(a.frameCount), rate=a.sampleRate
         let frames=input.filter { $0.start.isFinite && $0.end.isFinite && $0.start >= 0 && $0.end > $0.start && $0.end <= fileEnd &&
             $0.rms.isFinite && $0.bass.isFinite && $0.rhythm.isFinite && $0.bands.count == 6 && $0.chroma.count == 12 &&
@@ -353,7 +368,59 @@ extension TrackArrangement {
             let frame=timing.frame(atBeat:Double(timing.downbeatOffset))
             if frame >= 0, frame < musicalEnd { marks.append(.init(frame:frame,name:"First grid downbeat",kind:.downbeat,reason:"Beat-grid suggestion. Check against the audio.",confidence:a.tempoConfidence)) }
         }
-        return .init(sections:sections,landmarks:marks.sorted { $0.frame < $1.frame },musicalEnd:musicalEnd,
+        var result=Self(sections:sections,landmarks:marks.sorted { $0.frame < $1.frame },musicalEnd:musicalEnd,
             rhythmicEnd:rhythmicEnd.flatMap { musicalEnd-$0 >= rate*3 ? $0:nil })
+        if context.prefersRhythmicEdges, let timing {
+            let origin=timing.beat(atFrame:0)
+            let minimum=timing.frame(atBeat:origin+32)-timing.frame(atBeat:origin)
+            result.prepareRhythmicEdges(frames:frames,rate:rate,fileEnd:fileEnd,minimum:minimum,aligned:aligned)
+        }
+        return result
+    }
+
+    private mutating func prepareRhythmicEdges(frames: [MusicalStructureFrame], rate: Double, fileEnd: Double,
+                                              minimum: Double, aligned: (Double) -> Double) {
+        guard minimum.isFinite, minimum > 0, frames.count >= 8 else { return }
+        let peak=frames.map(\.rms).max() ?? 0
+        let audible=frames.indices.filter { frames[$0].rms > peak*0.05 }
+        guard let first=audible.first, let last=audible.last, last-first >= 4 else { return }
+        let good=frames.map { f in
+            f.vocal.map { $0 <= 0.25 } == true && f.rhythm >= 0.55 && f.bass >= 0.12 && f.rms > peak*0.05
+        }
+        // A sustained change ends the passage. A single fill does not create a new section.
+        var front=(first..<(last-3)).first { i in good[i..<(i+4)].filter { $0 }.count < 2 } ?? last
+        var back=stride(from:last,through:first+3,by:-1).first { i in good[(i-3)...i].filter { $0 }.count < 2 }.map { $0+1 } ?? first
+        while front < last && good[front] { front += 1 }
+        while back > first && good[back-1] { back -= 1 }
+        func supported(_ range: Range<Int>) -> Bool {
+            !range.isEmpty && Double(good[range].filter { $0 }.count)/Double(range.count) >= 0.75
+        }
+        let proposedIntroEnd=aligned(frames[front].start)
+        // Retain the established transition if the sustained-change window reports it slightly late.
+        let introEnd=sections.map(\.start).filter { $0 > 0 && $0 <= proposedIntroEnd && proposedIntroEnd-$0 <= rate*3 }.max() ?? proposedIntroEnd
+        if frames[first].start <= rate*8, frames[front].start-frames[first].start >= minimum,
+           introEnd <= musicalEnd*0.4, supported(first..<front) {
+            replaceEdge(start:0,end:introEnd,role:.intro,name:"Rhythmic intro")
+        }
+        if back <= last {
+            let outroStart=aligned(frames[back].start)
+            if frames[last].end-frames[back].start >= minimum, outroStart >= musicalEnd*0.6,
+               supported(back..<(last+1)) {
+                replaceEdge(start:outroStart,end:fileEnd,role:.outro,name:"Rhythmic outro")
+            }
+        }
+    }
+
+    private mutating func replaceEdge(start: Double, end: Double, role: ArrangementRole, name: String) {
+        guard end > start else { return }
+        var retained=[ArrangementSection]()
+        for section in sections {
+            if section.end <= start || section.start >= end { retained.append(section); continue }
+            if section.start < start { var before=section; before.end=start; retained.append(before) }
+            if section.end > end { var after=section; after.start=end; retained.append(after) }
+        }
+        retained.append(.init(start:start,end:end,role:role,name:name,boundaryConfidence:0.65,labelConfidence:0.65))
+        sections=retained.sorted { $0.start < $1.start }
+        landmarks.removeAll { $0.frame > start && $0.frame < end && [.arrival,.mainReturn,.breakdown].contains($0.kind) && !$0.locked && $0.state == .suggested }
     }
 }

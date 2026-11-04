@@ -5,6 +5,7 @@ struct ArrangementCache: Codable, Sendable {
     var version = 1
     var content: String
     var configuration: String
+    var context: MusicalStructureContext? = nil
     var arrangement: TrackArrangement
 }
 
@@ -16,7 +17,8 @@ extension ReplicaModel {
     func prepareArrangement(deck: DeckID) async {
         guard !preparingPlayback.contains(deck), let track=track(deck), !track.analysis.waveform.isEmpty else { return }
         let id=track.id, url=arrangementURL(id), analysis=track.analysis
-        if let value=arrangements[id], arrangementVersions[id] == MusicalStructureAnalyzer.version {
+        let context=MusicalStructureContext(title:track.title,genre:track.genre)
+        if let value=arrangements[id], arrangementVersions[id] == MusicalStructureAnalyzer.version, arrangementContexts[id] == context {
             installSectionCues(value,trackID:id,deck:deck); return
         }
         let old=await Task.detached(priority:.utility) {
@@ -26,19 +28,21 @@ extension ReplicaModel {
         if arrangements[id] == nil {
             if let old, old.content == analysis.contentSHA256, old.arrangement.isValid(fileEnd:Double(analysis.frameCount)) {
                 arrangements[id]=old.arrangement
-                arrangementVersions[id]=old.configuration == analysis.configurationID ? old.version:1
+                arrangementContexts[id]=old.context
+                arrangementVersions[id]=old.configuration == analysis.configurationID && old.context == context ? old.version:1
             } else {
                 arrangements[id]=TrackArrangement.prepare(analysis:analysis)
                 arrangementVersions[id]=1
             }
         }
-        if arrangementVersions[id] == MusicalStructureAnalyzer.version, let value=arrangements[id] {
+        if arrangementVersions[id] == MusicalStructureAnalyzer.version, arrangementContexts[id] == context, let value=arrangements[id] {
             installSectionCues(value,trackID:id,deck:deck); return
         }
         structureAnalyzing.insert(id)
         let task: Task<ArrangementPreparationResult,Never>
-        if let pending=arrangementTasks[id], !pending.isCancelled { task=pending }
+        if let pending=arrangementTasks[id], !pending.isCancelled, arrangementTaskContexts[id] == context { task=pending }
         else {
+            arrangementTasks[id]?.cancel()
             let pcm=BandWaveforms.cacheURL(track:track,store:store)
             task=Task.detached(priority:.utility) {
                 let deadline=Date().addingTimeInterval(30)
@@ -46,9 +50,10 @@ extension ReplicaModel {
                     guard !Task.isCancelled, Date() < deadline else { return .failed("The audio cache is not ready. Reload the track to retry musical structure analysis.") }
                     try? await Task.sleep(for:.milliseconds(250))
                 }
-                return await ArrangementPreparationQueue.shared.prepare(pcm:pcm,analysis:analysis)
+                return await ArrangementPreparationQueue.shared.prepare(pcm:pcm,analysis:analysis,context:context)
             }
             arrangementTasks[id]=task
+            arrangementTaskContexts[id]=context
         }
         let result=await withTaskCancellationHandler {
             await task.value
@@ -60,9 +65,11 @@ extension ReplicaModel {
         }
         if arrangementTasks[id] == task {
             arrangementTasks[id]=nil
+            arrangementTaskContexts[id]=nil
             structureAnalyzing.remove(id)
         }
-        guard !Task.isCancelled, loaded[deck] == id else { return }
+        guard !Task.isCancelled, loaded[deck] == id,
+              self.track(deck).map({ MusicalStructureContext(title:$0.title,genre:$0.genre) }) == context else { return }
         switch result {
         case .ready(var value):
             if let previous=arrangements[id] { value.retainCorrections(from:previous) }
@@ -71,6 +78,7 @@ extension ReplicaModel {
             }
             arrangements[id]=value
             arrangementVersions[id]=MusicalStructureAnalyzer.version
+            arrangementContexts[id]=context
             persistArrangement(trackID:id)
             installSectionCues(value,trackID:id,deck:deck)
         case .failed(let message): status=message
@@ -91,7 +99,7 @@ extension ReplicaModel {
     func persistArrangement(trackID: String) {
         guard let value=arrangements[trackID], let track=DeckID.allCases.compactMap({ self.track($0) }).first(where: { $0.id == trackID }) else { return }
         let url=arrangementURL(trackID)
-        let cache=ArrangementCache(version:arrangementVersions[trackID] ?? 1,content:track.analysis.contentSHA256,configuration:track.analysis.configurationID,arrangement:value)
+        let cache=ArrangementCache(version:arrangementVersions[trackID] ?? 1,content:track.analysis.contentSHA256,configuration:track.analysis.configurationID,context:arrangementContexts[trackID],arrangement:value)
         let writer=arrangementWriters[trackID] ?? CoalescingFileWriter<ArrangementCache>()
         arrangementWriters[trackID]=writer
         writer.enqueue(cache,write: {
@@ -158,10 +166,10 @@ enum ArrangementPreparationResult: Sendable {
 /// Serial preparation keeps two deck loads from running classifiers together.
 private actor ArrangementPreparationQueue {
     static let shared=ArrangementPreparationQueue()
-    func prepare(pcm: URL, analysis: AudioAnalysis) -> ArrangementPreparationResult {
+    func prepare(pcm: URL, analysis: AudioAnalysis, context: MusicalStructureContext) -> ArrangementPreparationResult {
         do {
             let features=try MusicalStructureAnalyzer.analyze(pcm:pcm,analysis:analysis)
-            return .ready(TrackArrangement.prepare(analysis:analysis,features:features))
+            return .ready(TrackArrangement.prepare(analysis:analysis,features:features,context:context))
         } catch {
             return .failed("Musical structure analysis failed: \(error.localizedDescription)")
         }

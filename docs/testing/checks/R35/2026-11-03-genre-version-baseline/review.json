@@ -23,11 +23,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -299,11 +302,14 @@
       ],
       "error": "Production musical analysis\nSwift/ErrorType.swift:254: Fatal error: Error raised at top level: Error Domain=NSOSStatusErrorDomain Code=-39 \"eofErr: End of file\"\n",
       "review": {
-        "status": "unreviewed",
+        "status": "pipeline-failure-reviewed",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "The production musical analyser still reports EOF before structure extraction. The failure is retained; this section-profile change does not repair the decoder.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -335,11 +341,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -532,11 +541,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "feature-reviewed",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Reviewed timecoded predictions and decoded local vocal/rhythm features. See the 4 November comparison. No listening-based full-song annotation is claimed.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -714,11 +726,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "feature-reviewed",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Reviewed timecoded predictions and decoded local vocal/rhythm features. See the 4 November comparison. No listening-based full-song annotation is claimed.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -876,11 +891,14 @@
         "review-half-double-tempo"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -1067,11 +1085,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -1290,11 +1311,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -1514,11 +1538,14 @@
         "review-half-double-tempo"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -1769,11 +1796,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -1917,11 +1947,14 @@
         "review-half-double-tempo"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -2113,11 +2146,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -2375,11 +2411,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "feature-reviewed",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Reviewed timecoded predictions and decoded local vocal/rhythm features. See the 4 November comparison. No listening-based full-song annotation is claimed.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -2572,11 +2611,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -2794,11 +2836,14 @@
       ],
       "error": "Production musical analysis\nSwift/ErrorType.swift:254: Fatal error: Error raised at top level: Error Domain=NSOSStatusErrorDomain Code=-39 \"eofErr: End of file\"\n",
       "review": {
-        "status": "unreviewed",
+        "status": "pipeline-failure-reviewed",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "The production musical analyser still reports EOF before structure extraction. The failure is retained; this section-profile change does not repair the decoder.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -2833,11 +2878,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -3110,11 +3158,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -3301,11 +3352,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -3513,11 +3567,14 @@
         "review-many-short-sections"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -3718,11 +3775,14 @@
         "review-half-double-tempo"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -3941,11 +4001,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -4182,11 +4245,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -4387,11 +4453,14 @@
         "key-unresolved"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -4623,11 +4692,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -4872,11 +4944,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -5041,11 +5116,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -5265,11 +5343,14 @@
         "review-half-double-tempo"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -5497,11 +5578,14 @@
         "key-unresolved"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -5698,11 +5782,14 @@
         "review-half-double-tempo"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -6180,11 +6267,14 @@
       ],
       "error": "Production musical analysis\nSwift/ErrorType.swift:254: Fatal error: Error raised at top level: Error Domain=NSOSStatusErrorDomain Code=-39 \"eofErr: End of file\"\n",
       "review": {
-        "status": "unreviewed",
+        "status": "pipeline-failure-reviewed",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "The production musical analyser still reports EOF before structure extraction. The failure is retained; this section-profile change does not repair the decoder.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -6217,11 +6307,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -6502,11 +6595,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -6750,11 +6846,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -6938,11 +7037,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "feature-reviewed",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Reviewed timecoded predictions and decoded local vocal/rhythm features. See the 4 November comparison. No listening-based full-song annotation is claimed.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -7152,11 +7254,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -7402,11 +7507,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -7587,11 +7695,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -7791,11 +7902,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -8033,11 +8147,14 @@
         "review-half-double-tempo"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -8222,11 +8339,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -8443,11 +8563,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -8674,11 +8797,14 @@
       ],
       "error": "Production musical analysis\nSwift/ErrorType.swift:254: Fatal error: Error raised at top level: Error Domain=NSOSStatusErrorDomain Code=-39 \"eofErr: End of file\"\n",
       "review": {
-        "status": "unreviewed",
+        "status": "pipeline-failure-reviewed",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "The production musical analyser still reports EOF before structure extraction. The failure is retained; this section-profile change does not repair the decoder.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       }
     },
     {
@@ -8702,11 +8828,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -8916,11 +9045,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -9137,11 +9269,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -9344,11 +9479,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -9572,11 +9710,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -9822,11 +9963,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -9993,11 +10137,14 @@
         "review-half-double-tempo"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -10211,11 +10358,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -10444,11 +10594,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -10711,11 +10864,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -10870,11 +11026,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -11039,11 +11198,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -11235,11 +11397,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -11467,11 +11632,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -11690,11 +11858,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -11796,11 +11967,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -12054,11 +12228,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -12274,11 +12451,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "detected": {
         "bpm": 131.04275140474832,
@@ -12425,11 +12605,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -12686,11 +12869,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -12972,11 +13158,14 @@
         "review-half-double-tempo"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -13159,11 +13348,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -13408,11 +13600,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "feature-reviewed",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Reviewed timecoded predictions and decoded local vocal/rhythm features. See the 4 November comparison. No listening-based full-song annotation is claimed.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -13640,11 +13835,14 @@
         "key-unresolved"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "detected": {
         "bpm": 106.96019139815974,
@@ -13832,11 +14030,14 @@
         "key-unresolved"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "feature-reviewed",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Reviewed timecoded predictions and decoded local vocal/rhythm features. See the 4 November comparison. No listening-based full-song annotation is claimed.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -14015,11 +14216,14 @@
         "key-unresolved"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -14198,11 +14402,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -14366,11 +14573,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -14588,11 +14798,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -14721,11 +14934,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -14971,11 +15187,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -15208,11 +15427,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -15440,11 +15662,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -15699,11 +15924,14 @@
         "review-half-double-tempo"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -15912,11 +16140,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "feature-reviewed",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Reviewed timecoded predictions and decoded local vocal/rhythm features. See the 4 November comparison. No listening-based full-song annotation is claimed.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -16173,11 +16404,14 @@
         "review-half-double-tempo"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -16446,11 +16680,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -16659,11 +16896,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -16864,11 +17104,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -17078,11 +17321,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -17284,11 +17530,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -17515,11 +17764,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -17757,11 +18009,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -18000,11 +18255,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -18178,11 +18436,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -18365,11 +18626,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -18588,11 +18852,14 @@
         "review-half-double-tempo"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -18766,11 +19033,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -18990,11 +19260,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -19195,11 +19468,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -19436,11 +19712,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -19641,11 +19920,14 @@
         "review-tempo-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -19837,11 +20119,14 @@
         "review-half-double-tempo"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -20016,11 +20301,14 @@
         "review-key-vs-unverified-reference"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "comparisonReference": {
         "status": "recording identity and values need confirmation",
@@ -20238,11 +20526,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "feature-reviewed",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Reviewed timecoded predictions and decoded local vocal/rhythm features. See the 4 November comparison. No listening-based full-song annotation is claimed.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "detected": {
         "bpm": 128.14475338036667,
@@ -20605,11 +20896,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "detected": {
         "bpm": 108.11477329834923,
@@ -20864,11 +21158,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "detected": {
         "bpm": 106.18936300428409,
@@ -21177,11 +21474,14 @@
         "key-unresolved"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "feature-reviewed",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Reviewed timecoded predictions and decoded local vocal/rhythm features. See the 4 November comparison. No listening-based full-song annotation is claimed.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "detected": {
         "bpm": 129.025189477741,
@@ -21558,11 +21858,14 @@
         "key-unresolved"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "detected": {
         "bpm": 120.03625811516247,
@@ -21796,11 +22099,14 @@
         "vocal-form-unassigned"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "source-and-diagnostic-audited",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Exact source, matching key/energy level, tempo agreement within 0.000001 BPM and valid candidate section timeline checked. Semantic role correctness still needs review.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "detected": {
         "bpm": 145.15079383980867,
@@ -22135,11 +22441,14 @@
       ],
       "error": "Production musical analysis\nSwift/ErrorType.swift:254: Fatal error: Error raised at top level: Error Domain=NSOSStatusErrorDomain Code=-39 \"eofErr: End of file\"\n",
       "review": {
-        "status": "unreviewed",
+        "status": "pipeline-failure-reviewed",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "The production musical analyser still reports EOF before structure extraction. The failure is retained; this section-profile change does not repair the decoder.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       }
     },
     {
@@ -22162,11 +22471,14 @@
         "key-unresolved"
       ],
       "review": {
-        "status": "unreviewed",
+        "status": "feature-reviewed",
         "expectedSections": [],
         "boundaryCorrections": [],
         "roleCorrections": [],
-        "notes": ""
+        "notes": "Reviewed timecoded predictions and decoded local vocal/rhythm features. See the 4 November comparison. No listening-based full-song annotation is claimed.",
+        "reviewDate": "2026-11-04",
+        "independentFullSongAnnotation": false,
+        "candidateComparison": "../2026-11-04-dj-mix-sections/corpus-comparison.json"
       },
       "detected": {
         "bpm": 130.31538343061416,

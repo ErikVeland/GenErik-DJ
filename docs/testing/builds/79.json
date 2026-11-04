@@ -5,7 +5,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 75.23,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "requestID": "R35",
+      "date": "2026-11-04",
+      "report": "Erik authorises review of the flagged recordings, the first real genre/version-aware section detection improvement, and a signed build installed on the test iPad."
+    }
+  ],
   "log": "TestBuilds/ipad/build-79.log",
   "build": 79,
   "app": "TestBuilds/ipad/79/GenErikDJ.app",

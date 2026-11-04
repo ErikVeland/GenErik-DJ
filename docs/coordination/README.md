@@ -1,6 +1,6 @@
 # GenErik DJ project control
 
-Updated 3 November 2026, Australia/Brisbane. This is the current project entry point.
+Updated 4 November 2026, Australia/Brisbane. This is the current project entry point.
 
 **Current working mode:** [Erik's minute-scale iPad loop](../testing/README.md). iPad only, Erik as sole developer/tester. The broader release gates below are separate from routine iterations.
 
@@ -16,7 +16,8 @@ The release standard is Erik's acceptance on his real setup. A successful build 
 
 ## Current position
 
-- Latest test-iPad candidate: build 79, application source `ca1a31f2bf4ef67f5f348c8745ba87aca165ebac`, installed and launched on the 10.5-inch iPad on 3 November. R36 removes blanket question marks and shows Automatic/Manual provenance in the editor. It retains R30’s stable dock from build 78. Fifteen focused structure/cue checks and signing passed. Erik acceptance is pending. R35 also records a 104-entry genre/version baseline: 99 analyses succeeded, five entries failed, and all semantic annotations remain unreviewed. See `genre-aware-analysis.md` and `../testing/checks/R35/2026-11-03-genre-version-baseline/README.md`.
+- Latest test-iPad candidate: build 81, application source `888dfcf4e45e8a4d96957283a3145ce7e881aecb`, installed and launched on the 10.5-inch iPad on 4 November. R35 adds the first genre/version-aware rhythmic-edge profile. In the same 104-entry study, 99 analyses succeed and five source EOF failures remain. The profile applies on 22 entries; short-section flags change from 79 to 74. Twenty-five focused checks and signing pass. Ten recordings have source/feature review, not independent listening-based full-song annotations. Erik acceptance remains pending. See `../testing/checks/R35/2026-11-04-dj-mix-sections/result.json`.
+- Previous test-iPad candidate: build 80, application source `62efd9076de38ab9b3a706f68162befaf8db14b1`, installed and launched on the 10.5-inch iPad on 4 November. R02/R30/R32 unify direct library reveal/hide/resize, remembered session sizes per orientation and full expansion on every add-track request. The dock and R34 remain unchanged. All 1,501 focused assertions and signing passed. Erik checks gestures, search/loading and clean audio. Device acceptance remains pending. See `../testing/checks/R30/2026-11-04-library-panel/result.json`.
 - Previous test-iPad candidate: build 78, application source `e6cf72aa26b36e75a91b30f44ca2e0a479b5ff14`, installed on the 10.5-inch iPad on 3 November. R02/R30/R31 add fixed right-hand FX/EQ/loop/Play stacks and a centred crossfader outside the resizable work area. The committed R34 false-chorus fix is unchanged. All 1,322 focused geometry assertions and signing passed. Automatic launch timed out. Erik opens the app manually and checks both stacks, fader, panel resizing and clean audio. Device acceptance remains pending. See `../testing/checks/R30/2026-11-03-stable-dock/result.json`.
 - Active development branch: `feature/project-integration`.
 - Latest installed Duo candidate: build 70, application source `4dfc867f889bf33a5cda2fdeeb2bc2ee57c6ccdc`, installed and launched on 3 November. R09/R29/R30 add musical suggestions and section hot cues, missing-BPM/key analysis on deck load, larger waveforms, vertical controls and optional Cue/headphone buttons. Erik acceptance is pending. See `../testing/checks/R09/2026-11-03-musical-structure/result.json`.

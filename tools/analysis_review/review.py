@@ -110,7 +110,9 @@ def run(manifest, work):
             source=Path(track['path'])
             before=source.stat()
             with source.open('rb') as stream: row['inputSHA256']=hashlib.file_digest(stream,'sha256').hexdigest()
-            completed=subprocess.run([str(work/'probe'),str(source),str(output),str(pcm)],capture_output=True,text=True,timeout=90)
+            context=work/'current-context.json'
+            context.write_text(json.dumps({'title':track['title'],'genre':track.get('genre')}))
+            completed=subprocess.run([str(work/'probe'),str(source),str(output),str(pcm),str(context)],capture_output=True,text=True,timeout=90)
             if completed.returncode:
                 raise RuntimeError(completed.stderr[-2000:] or f'Probe exited {completed.returncode}')
             result=json.loads(output.read_text())

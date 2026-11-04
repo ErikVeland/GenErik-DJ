@@ -130,8 +130,8 @@ public struct TrackArrangement: Codable, Equatable, Sendable {
         landmarks.sort { $0.frame < $1.frame }
     }
     /// Use local musical evidence when available. Cached loudness alone retains neutral labels.
-    public static func prepare(analysis a: AudioAnalysis, features: [MusicalStructureFrame] = []) -> Self {
-        if !features.isEmpty { return musicalPreparation(analysis:a,features:features) }
+    public static func prepare(analysis a: AudioAnalysis, features: [MusicalStructureFrame] = [], context: MusicalStructureContext = .init()) -> Self {
+        if !features.isEmpty { return musicalPreparation(analysis:a,features:features,context:context) }
         let end=Double(a.frameCount)
         guard a.sampleRate > 0, end > 0, !a.waveform.isEmpty else {
             return .init(sections: [.init(start:0,end:end,name:"SECTION A")], landmarks: [], musicalEnd:end, rhythmicEnd:nil)
