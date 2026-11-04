@@ -11,6 +11,12 @@
       "assumedBuild": true,
       "report": "Waveform manipulation runs backward and lacks direct 1:1 tracking and natural scroll momentum.",
       "date": "2026-11-04"
+    },
+    {
+      "requestID": "R45",
+      "reportedLocalDate": "2026-11-04",
+      "buildAssumption": "Build 98 is the last recorded iPad installation. Erik did not give a build number. Duo build 100 is separate.",
+      "report": "Track loading must show an immediate waveform and accept Play even when analysis is incomplete. Visual feedback and immediate performance actions take priority."
     }
   ],
   "log": "TestBuilds/ipad/build-98.log",
