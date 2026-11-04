@@ -1,0 +1,55 @@
+{
+  "requestID": "R43",
+  "reportedBuild": 95,
+  "buildAssumedFromLastInstall": true,
+  "sourceCommit": "f130c8c3cad7fbe78375ce2672c745b92b45577c",
+  "scope": "Focused production rhythm detector diagnosis. No application source changes or device actions.",
+  "confirmed": [
+    "A distinctive snare on beat two is selected as the downbeat, despite a correct 120 BPM beat grid.",
+    "The downbeat confidence measures distinctiveness, not musical bar-start correctness.",
+    "When automatic bar position is absent, grid construction uses downbeat offset zero.",
+    "The periodicity fallback selects phase by total onset energy; its reported confidence is derived from periodicity strength.",
+    "R38 changed section detection only. Its structure refresh reuses the saved AudioAnalysis and does not recalculate the beat grid."
+  ],
+  "unverified": [
+    "The specific recordings in Erik\u2019s report have not been identified or reproduced.",
+    "An offbeat or drifting grid is not demonstrated by this synthetic bar-position case.",
+    "Physical iPad playback timing and the displayed waveform-to-grid alignment remain unverified."
+  ],
+  "observations": [
+    {
+      "pattern": "distinctive snare on beat 2",
+      "expectedBPM": 120,
+      "actualBPM": 120.0001070372795,
+      "expectedDownbeatOffset": 0,
+      "actualDownbeatOffset": 1,
+      "downbeatConfidence": 0.8888888888888888,
+      "outcome": "wrong bar start"
+    },
+    {
+      "pattern": "distinctive bass on beat 1",
+      "expectedBPM": 120,
+      "actualBPM": 120.00011861762927,
+      "expectedDownbeatOffset": 0,
+      "actualDownbeatOffset": 0,
+      "downbeatConfidence": 0.888888888888889,
+      "outcome": "correct bar start"
+    },
+    {
+      "pattern": "equal beats",
+      "expectedBPM": 120,
+      "actualBPM": 120.00011711655794,
+      "expectedDownbeatOffset": null,
+      "actualDownbeatOffset": null,
+      "outcome": "bar start correctly withheld by detector; grid creation still defaults to zero"
+    }
+  ],
+  "sourceFiles": {
+    "Replica/Sources/TDJCore/Models.swift": "f7b536db792235358fb6bc3677ec9b3081265e70ebae2df3a05872fc0caa6185",
+    "Replica/Sources/TDJCore/AudioAnalyzer.swift": "d20787e19d6f4e75933ea5473f1cd30de0aaee6bf7a10a48f9c70019cef6a127",
+    "Replica/Sources/TDJCore/BeatGrid.swift": "29c68e3aec771069438f570b353e1d21ad8f7bc317b3fdf25e9fcbcd3196c02d",
+    "Replica/Sources/TDJCore/BeatGridMap.swift": "334922add72d7dafc2510689c3d8b7e9ab28f3323df8840325056e551ad5ec04",
+    "Replica/Sources/TDJCore/MusicalAnalysisFeatures.swift": "042972e6be2e43cd5212836cfa257e9f9288d5ae35f054b0a895c18c39607ac3",
+    "Replica/Sources/TDJCore/AdaptiveRhythmAnalyzer.swift": "f8ac9378f03ec3e51f55ee08628c14a4885664c81a378210d1c0ef4c288a9f01"
+  }
+}
