@@ -92,6 +92,7 @@ extension ReplicaModel {
     func updateArrangementScheduling(wasPlaying: Bool) {
         if arrangementPlaybackActive {
             for task in arrangementTasks.values { task.cancel() }
+            for task in gridDetectionTasks.values { task.cancel() }
         } else if wasPlaying {
             for deck in DeckID.allCases where loaded[deck] != nil {
                 Task { [weak self] in await self?.prepareArrangement(deck:deck) }

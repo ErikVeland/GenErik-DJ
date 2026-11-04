@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 61.47,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "dateUTC": "2026-11-04T05:30:33.276124+00:00",
+      "requestID": "R43",
+      "report": "Erik identifies TLC \u2014 Creep (Tin Tin Out Remix) as a clear misplaced-grid example.",
+      "buildAssumedFromLastInstall": true,
+      "state": "candidate-fix",
+      "evidence": "docs/testing/checks/R43/2026-11-04-creep-grid/"
+    }
+  ],
   "log": "TestBuilds/ipad/build-96.log",
   "build": 96,
   "app": "TestBuilds/ipad/96/GenErikDJ.app",

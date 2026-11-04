@@ -1212,6 +1212,10 @@ struct GridEditBar: View {
                         Button("Automatic") { model.selectGridMode(.automatic, deck: deck) }
                         Button("Fixed") { model.selectGridMode(.fixed, deck: deck) }
                         Button("Adaptive") { model.selectGridMode(.adaptive, deck: deck) }
+                        Button(model.detectingGrids.contains(deck) ? "Detecting grid…":"Detect grid from audio") {
+                            model.detectGrid(deck:deck)
+                        }.disabled(locked || model.detectingGrids.contains(deck) || model.arrangementPlaybackActive ||
+                            (model.gridPreparation(deck)?.gridMode != .fixed && model.gridPreparation(deck)?.adaptiveMap != nil))
                         Button("Correct local anchor") { model.correctLocalAnchor(deck: deck) }
                             .disabled(model.gridPreparation(deck)?.adaptiveMap == nil)
                         Button("Undo correction") { model.undoGridCorrection(deck: deck) }

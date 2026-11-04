@@ -1,0 +1,34 @@
+{
+  "notes": "R43: TLC Creep Tin Tin Out Remix detects 136.018 BPM at 0.181 seconds. Validate tempo multiples and bass attacks; add explicit Detect grid from audio for protected imports. Nineteen focused cases and full-source/cache agreement pass. Includes current controls, launch repairs and phone-only changes. Physical audio and bar-start acceptance remain pending.",
+  "sourceCommit": "73997dbc26632be6e82032fe88f4f99372672d96",
+  "sourceSHA256": "118bcb1967a2fefb4e23665da27a79dbc900e8e55b092667d56f3e598c9ab9c0",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 64.28,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-98.log",
+  "build": 98,
+  "app": "TestBuilds/ipad/98/GenErikDJ.app",
+  "appSHA256": "7f6c439fcbeae462a268381b69999dd2055f83f57a90946303f79dfd4d1b6079",
+  "state": "testing",
+  "createdUTC": "2026-11-04T05:34:08.058462+00:00",
+  "installedUTC": "2026-11-04T05:34:48.654430+00:00",
+  "launchedUTC": "2026-11-04T05:34:49.059619+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R43"
+  ],
+  "focusedChecks": "Nineteen focused cases pass: twelve dense-grid/cache/offbeat cases and seven late-rhythm cases. Full Creep source and prepared-cache detection agree within one sample. Native host cancellation takes about 0.06 seconds. Limited source controls and their unresolved results remain recorded.",
+  "artifactChecks": "Compilation, embedded-framework resolution, signing, source identity and archive digest pass. The saved executable contains the new grid menu action and analysis configuration. Current iPad controls, launch repair and phone-only integration changes are included.",
+  "acceptance": "Installed on the 10.5-inch test iPad. iPadOS accepted the launch request. Device actions stopped. Erik pauses both decks, loads TLC Creep (Tin Tin Out Remix), opens Edit Grid and its sliders menu, then selects Detect grid from audio. Check 136.02 BPM, the opening kick, later grid alignment, RESET restoration, cues and clean playback/scratching. Bar position, preparation time and continued operation remain pending.",
+  "buildToolSHA256": "434486e83a8dff384c4e96d8ce83d281775ad1321af4a307ce7483198059d2ea",
+  "deployments": [
+    {
+      "device": "GenErik iPad (10.5-inch)",
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "installed-launch-request-accepted",
+      "installedUTC": "2026-11-04T05:34:48.654430+00:00",
+      "launchAcceptedUTC": "2026-11-04T05:34:49.059619+00:00"
+    }
+  ]
+}

@@ -91,6 +91,8 @@ public final class ReplicaModel {
     /// Grid edit lock and tap mode, per deck.
     public var gridLocked: Set<DeckID> = []
     public var gridTapMode: Set<DeckID> = []
+    public private(set) var detectingGrids: Set<DeckID> = []
+    @ObservationIgnored var gridDetectionTasks: [DeckID:Task<Void,Never>] = [:]
     /// CUE button points, per deck, in source frames.
     public internal(set) var cuePoints: [DeckID: Double] = [:]
     public var viewport: [DeckID: Double] = [:]
@@ -964,6 +966,40 @@ public final class ReplicaModel {
             catch { if suggestionRequest == request { suggestions=[]; suggestionMessage=error.localizedDescription } }
         }
     }
+    public func detectGrid(deck:DeckID) {
+        guard let track=track(deck),let preparation=gridPreparation(deck),
+              !arrangementPlaybackActive,!preparingPlayback.contains(deck),!applyingGrids.contains(deck),
+              !preparation.gridLocked,!gridLocked.contains(deck),!detectingGrids.contains(deck),
+              preparation.gridMode == .fixed || preparation.adaptiveMap == nil,
+              let state=playbackSnapshot?[deck],!state.loopEnabled,!state.jumpPending else {
+            status="Pause both decks and unlock the fixed grid before detection.";return
+        }
+        let pcm=BandWaveforms.cacheURL(track:track,store:store)
+        let generation=state.generation
+        detectingGrids.insert(deck)
+        status="Detecting the beat grid from audio."
+        gridDetectionTasks[deck]=Task {
+            defer { detectingGrids.remove(deck);gridDetectionTasks[deck]=nil }
+            do {
+                let result=try await AnalysisWorker.shared.detectBeatGrid(pcm:pcm,matching:track.analysis)
+                try Task.checkCancellation()
+                guard loaded[deck] == track.id,playbackSnapshot?[deck].generation == generation,
+                      !arrangementPlaybackActive,!preparingPlayback.contains(deck),!applyingGrids.contains(deck),
+                      !gridLocked.contains(deck),gridPreparation(deck) == preparation,
+                      playbackSnapshot?[deck].loopEnabled == false,playbackSnapshot?[deck].jumpPending == false else { return }
+                guard let result else {
+                    status="No reliable beat grid was detected. The saved grid is retained.";return
+                }
+                saveGrid(result.grid,deck:deck)
+                status=String(format:"Detected %.2f BPM.",result.grid.bpm)
+                if track.traktorPreparation?.normalized.grid != nil { status += " RESET restores the imported grid." }
+                if result.downbeatConfidence == nil { status += " Check the bar start." }
+            } catch is CancellationError {
+                status="Grid detection stopped. The saved grid is retained."
+            } catch { status=error.localizedDescription }
+        }
+    }
+
     public func saveGrid(_ grid: BeatGrid, deck: DeckID) {
         guard let track = track(deck) else { return }
         guard playbackSnapshot?[deck].phase != .queued else {

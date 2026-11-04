@@ -197,18 +197,74 @@ enum MusicalRhythmAnalyzer {
                         checkCancellation: @Sendable () throws -> Void) throws -> MusicalRhythmResult {
         var result = try consensus(frames: frames, sampleRate: sampleRate, framesPerBin: framesPerBin,
                                    spectralActivity: spectralActivity, configuration: configuration, checkCancellation: checkCancellation)
-        guard result.bpm == nil, frames.count > 400, spectralActivity > 0.008,
-              let periodic = try periodicity(frames: frames, binsPerSecond: sampleRate / Double(framesPerBin),
-                                             configuration: configuration, checkCancellation: checkCancellation) else { return result }
-        // Dense real-world mixes rarely satisfy the onset consensus. Use the onset-envelope periodicity.
-        result.bpm = periodic.bpm
-        result.anchorSeconds = periodic.anchorSeconds
-        result.confidence = periodic.confidence
-        let downbeat = try detectDownbeat(frames: frames, binsPerSecond: sampleRate / Double(framesPerBin),
-            period: 60 / periodic.bpm, anchor: periodic.anchorSeconds, checkCancellation: checkCancellation)
-        result.downbeat = downbeat.offset
-        result.downbeatConfidence = downbeat.confidence
+        let usedPeriodicity=result.bpm == nil
+        if result.bpm == nil {
+            guard frames.count > 400,spectralActivity > 0.008,
+                  let periodic=try periodicity(frames:frames,binsPerSecond:sampleRate/Double(framesPerBin),
+                    configuration:configuration,checkCancellation:checkCancellation) else { return result }
+            result.bpm=periodic.bpm
+            result.anchorSeconds=periodic.anchorSeconds
+            result.confidence=periodic.confidence
+        }
+        if result.adaptiveCandidate == nil,let bpm=result.bpm,let supported=try supportedPulseTrain(frames:frames,
+            binsPerSecond:sampleRate/Double(framesPerBin),bpm:bpm,configuration:configuration,
+            checkCancellation:checkCancellation) {
+            result.bpm=supported.bpm
+            result.anchorSeconds=supported.anchorSeconds
+            result.confidence=supported.confidence
+            result.gridResidualMilliseconds=supported.residual*1000
+        } else if usedPeriodicity,result.adaptiveCandidate == nil {
+            result.confidence=min(result.confidence,0.69)
+        }
+        if let bpm=result.bpm,let anchor=result.anchorSeconds {
+            let downbeat=try detectDownbeat(frames:frames,binsPerSecond:sampleRate/Double(framesPerBin),
+                period:60/bpm,anchor:anchor,checkCancellation:checkCancellation)
+            result.downbeat=downbeat.offset
+            result.downbeatConfidence=downbeat.confidence
+        }
         return result
+    }
+
+    /// Check tempo multiples against sustained bass attacks before accepting a dense-mix grid.
+    private static func supportedPulseTrain(frames:[MusicalPulseFrame],binsPerSecond:Double,bpm:Double,
+        configuration:AnalysisConfiguration,checkCancellation:@Sendable () throws -> Void) throws
+        -> (bpm:Double,anchorSeconds:Double,confidence:Double,residual:Double)? {
+        let radius=max(1,Int((0.0125*binsPerSecond).rounded(.down)))
+        guard frames.count > radius*4 else { return nil }
+        var sums=[Double](repeating:0,count:frames.count+1)
+        for index in frames.indices {
+            if index.isMultiple(of:4096) { try checkCancellation() }
+            sums[index+1]=sums[index]+frames[index].bass*frames[index].bass
+        }
+        let envelope=frames.indices.map { index -> Double in
+            let lower=max(0,index-radius),upper=min(frames.count,index+radius+1)
+            return sqrt(max(0,(sums[upper]-sums[lower])/Double(upper-lower)))
+        }
+        let difference=max(1,Int((0.01*binsPerSecond).rounded()))
+        var novelty=[Double](repeating:0,count:frames.count)
+        for index in frames.indices { novelty[index]=max(0,envelope[index]-(index >= difference ? envelope[index-difference]:0)) }
+        guard let peak=novelty.max(),peak > 1e-8 else { return nil }
+        var onsets=[MusicalOnset]()
+        for index in frames.indices where novelty[index] > peak*0.08
+            && (index == 0 || novelty[index] >= novelty[index-1])
+            && (index+1 == frames.count || novelty[index] > novelty[index+1]) {
+            let event=MusicalOnset(seconds:Double(index+difference/2)/binsPerSecond,weight:novelty[index]/peak)
+            if let previous=onsets.last,event.seconds-previous.seconds < 0.18 {
+                if event.weight > previous.weight { onsets[onsets.count-1]=event }
+            } else { onsets.append(event) }
+        }
+        guard onsets.count >= 24 else { return nil }
+        let duration=Double(frames.count)/binsPerSecond
+        var best:Fit?
+        for tempo in [bpm,bpm*2,bpm/2] where tempo >= configuration.minimumBPM && tempo <= configuration.maximumBPM {
+            try checkCancellation()
+            guard let candidate=try fit(period:60/tempo,onsets:onsets,duration:duration,checkCancellation:checkCancellation),
+                  candidate.score >= 0.4,candidate.matched >= 24 else { continue }
+            if best == nil || candidate.score > best!.score+0.04 { best=candidate }
+        }
+        guard let best else { return nil }
+        let anchor=best.phase+((best.first-best.phase)/best.period).rounded()*best.period
+        return (60/best.period,max(0,anchor),min(1,best.score/0.75),best.residual)
     }
 
     /// Onset-strength autocorrelation with a broad log-tempo prior, refined at eight-beat lags.
