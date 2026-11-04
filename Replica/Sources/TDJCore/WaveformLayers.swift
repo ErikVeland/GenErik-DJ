@@ -12,10 +12,10 @@ public struct WaveformLayers: Sendable, Equatable {
 
     /// Fraction of half the height a full-scale peak uses, leaving headroom like a DJ display.
     public static let headroom = 0.86
-    /// Visible span for about four and a half beats at the given tempo.
+    /// Visible span for one bar and one beat at the given tempo.
     public static func defaultSeconds(bpm: Double?) -> Double {
-        guard let bpm, bpm.isFinite, bpm > 0 else { return 2.2 }
-        return 4.5 * 60 / bpm
+        guard let bpm, bpm.isFinite, bpm > 0 else { return 2.5 }
+        return 5 * 60 / bpm
     }
 
     public init(index: WaveformRangeIndex, framesPerBin: Int, left: Double, span: Double, width: Int, height: Double) {

@@ -82,7 +82,7 @@ private let surface = PerformancePalette.panel
                     let split = deckSplit.geometry(
                         width: workspace.deckArea.width - 12, height: workspace.deckArea.height,
                         handleExtent: handleExtent)
-                    HStack(spacing: 0) {
+                    HStack(alignment: .top, spacing: 0) {
                         VStack(spacing: 0) {
                             VStack(spacing: 0) {
                                 DeckView(
@@ -220,7 +220,10 @@ private let surface = PerformancePalette.panel
                                 }
                             }
                         PerformanceDock(
-                            model: model, panelsA: deckAPanels, panelsB: deckBPanels, geometry: workspace.dock)
+                            model: model, panelsA: deckAPanels, panelsB: deckBPanels,
+                            geometry: PerformanceDockGeometry(
+                                width: space.size.width, height: workspace.deckArea.height,
+                                deckBoundary: split.handle.midY))
                     }.frame(width: space.size.width, height: space.size.height, alignment: .topLeading).environment(
                         \.performancePanelPortrait, space.size.width < space.size.height)
                 }
@@ -406,8 +409,7 @@ private struct DeckPanelHorizontalBounds: Shape {
                             if track != nil {
                                 DeckActionPane(
                                     model: model, deck: deck, panels: panels, anchorX: waveformAxis.minX,
-                                    availableWidth: sizes.mainWidth - 8
-                                ).padding(4)
+                                    availableWidth: sizes.mainWidth)
                             }
                         }
                         if (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil {
@@ -507,7 +509,7 @@ private struct DeckPanelHorizontalBounds: Shape {
         }.zIndex(effectsVisible || snapshotEffects ? 1 : 0).onChange(of: track?.id, initial: true) { _, _ in
             panels.setTrackAvailable(track != nil)
             sectionPanel.validate(trackID: track?.id, loadID: model.loadIdentity(deck))
-            // About four and a half beats, centred on the playhead.
+            // One bar and one beat, centred on the playhead.
             visibleSeconds = WaveformLayers.defaultSeconds(bpm: track?.bpm)
         }.onChange(of: model.frozen.contains(deck)) { _, enabled in
             if enabled, let track, let state = playback, state.loopEnabled {
@@ -577,10 +579,7 @@ private struct DeckPanelHorizontalBounds: Shape {
             Button {
                 panels.toggleControls()
             } label: {
-                VStack(spacing: 2) {
-                    Image(systemName: "slider.horizontal.3")
-                    Text("Actions").font(.system(size: 8, weight: .semibold))
-                }.frame(width: 44, height: 44).foregroundStyle(
+                Image(systemName: "slider.horizontal.3").frame(width: 44, height: 44).foregroundStyle(
                     panels.extraVisible ? PerformancePalette.cyan : PerformancePalette.text
                 ).bevelPanel(cornerRadius: 5, sunken: panels.extraVisible)
             }.buttonStyle(.plain).accessibilityLabel(

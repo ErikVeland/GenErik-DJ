@@ -2,6 +2,13 @@ import Testing
 
 @testable import TDJCore
 
+@Test func waveformDefaultZoomCoversOneBarAndOneBeat() {
+    for (bpm, seconds) in [(60.0, 5.0), (120, 2.5), (150, 2), (240, 1.25)] {
+        #expect(abs(WaveformLayers.defaultSeconds(bpm: bpm) - seconds) < 1e-9)
+    }
+    #expect(WaveformLayers.defaultSeconds(bpm: nil) == 2.5)
+}
+
 @Test func waveformBeatLinesKeepPixelPositionsAndDownbeats() throws {
     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000, downbeatOffset: 1)
     for width in [900, 1800, 2700] {

@@ -224,8 +224,9 @@ import Foundation
             for extent in [0.0, 20, 132, maximum / 2, maximum, maximum + 100] {
                 let workspace = PerformanceWorkspaceGeometry(width: width, height: height, libraryExtent: extent)
                 expect(
-                    workspace.dock.aButtons == baseline.aButtons && workspace.dock.bButtons == baseline.bButtons
-                        && workspace.dock.crossfader == baseline.crossfader, "library motion cannot move dock")
+                    workspace.dock.workArea.width == baseline.workArea.width
+                        && workspace.dock.workArea.height == workspace.deckArea.height,
+                    "library motion keeps the side controls beside the decks")
                 expect(workspace.libraryArea.height == min(maximum, extent), "extent controls actual browser height")
                 expect(
                     workspace.libraryArea.minY - workspace.deckArea.maxY == 44,

@@ -36,7 +36,7 @@ private func longestFlatRun(_ heights: [Double]) -> Int {
     let samples = kickPattern()
     let waveform = try samples.withUnsafeBufferPointer { try BandWaveform(interleavedStereo: $0, sampleRate: 44100) }
     #expect(waveform.levels.count == 4 && waveform.levels[0].count == (samples.count / 2 + 63) / 64)
-    // Deck zoom: 4.5 beats across a 900-point waveform on a 2x display.
+    // Deck zoom: five beats across a 900-point waveform on a 2x display.
     let span = WaveformLayers.defaultSeconds(bpm: 120) * 44100
     let columns = BandWaveformColumns(waveform, left: 44100, span: span, pixelWidth: 1800, height: 400)
     for heights in [columns.low, columns.mid, columns.high] { #expect(longestFlatRun(heights) <= 2) }

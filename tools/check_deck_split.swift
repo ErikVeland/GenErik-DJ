@@ -108,10 +108,24 @@ import Foundation
                         layout.a.maxY == layout.handle.minY && layout.handle.maxY == layout.b.minY,
                         "grab lane never overlays a deck")
                     expect(near(layout.b.maxY, workspace.deckArea.height), "split fills the available deck region")
+                    let controls = PerformanceDockGeometry(
+                        width: width, height: workspace.deckArea.height, deckBoundary: layout.handle.midY)
+                    if controls.fits {
+                        expect(
+                            near(controls.crossfader.midY, layout.handle.midY),
+                            "crossfader stays centred on the divider between unequal decks")
+                        expect(
+                            controls.aButtons[0].minY == 0
+                                && near(controls.bButtons[3].maxY, workspace.deckArea.height),
+                            "side controls fill the deck area from top to bottom")
+                        expect(
+                            (controls.aButtons + controls.bButtons).allSatisfy { $0.height >= 44 },
+                            "unequal decks retain usable side buttons")
+                    }
                     expect(
-                        workspace.dock.aButtons == dock.aButtons && workspace.dock.bButtons == dock.bButtons
-                            && workspace.dock.crossfader == dock.crossfader,
-                        "both divider extremes retain every dock anchor")
+                        workspace.dock.workArea.width == dock.workArea.width
+                            && workspace.dock.workArea.height == workspace.deckArea.height,
+                        "side controls follow the visible deck area")
                     for (id, original, resized) in [
                         (1, CGRect(x: 58, y: 80, width: 450, height: 220), layout.a),
                         (2, CGRect(x: 58, y: 420, width: 450, height: 220), layout.b),

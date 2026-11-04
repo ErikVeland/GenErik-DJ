@@ -78,12 +78,13 @@ import Foundation
                 expect(browser.drawerWidth <= browser.listArea.width, "drawer fits inside browser")
                 expect(browser.listArea.maxY <= workspace.libraryArea.height, "list fits inside library")
                 expect(
-                    workspace.dock.aButtons == dock.aButtons && workspace.dock.bButtons == dock.bButtons
-                        && workspace.dock.crossfader == dock.crossfader, "library keeps performance anchors")
+                    workspace.dock.workArea.width == dock.workArea.width
+                        && workspace.dock.workArea.height == workspace.deckArea.height,
+                    "library resizing keeps side controls beside the decks")
                 let globalList = browser.listArea.offsetBy(
                     dx: workspace.libraryArea.minX, dy: workspace.libraryArea.minY)
                 expect(
-                    !(dock.aButtons + dock.bButtons + [dock.crossfader]).contains { $0.intersects(globalList) },
+                    !(workspace.dock.aButtons + workspace.dock.bButtons + [workspace.dock.crossfader]).contains { $0.intersects(globalList) },
                     "browser content cannot cover a performance control")
             }
         }

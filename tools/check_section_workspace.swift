@@ -106,9 +106,9 @@ import Foundation
                     let split = DeckSplitGeometry(
                         width: work.deckArea.width, height: work.deckArea.height, share: 0.8, handleExtent: extent)
                     expect(
-                        work.dock.aButtons == dock.aButtons && work.dock.bButtons == dock.bButtons
-                            && work.dock.crossfader == dock.crossfader,
-                        "quiet or large handles cannot move dock or full-height fader")
+                        work.dock.workArea.width == dock.workArea.width
+                            && work.dock.workArea.height == work.deckArea.height,
+                        "both handle sizes keep side controls aligned with the decks")
                     expect(
                         split.a.height >= 0 && split.b.height >= 0
                             && split.handle.height == min(extent, work.deckArea.height),

@@ -20,6 +20,9 @@ import Foundation
             let targets = baseline.aButtons + baseline.bButtons + [baseline.crossfader]
             expect(baseline.fits, "supported viewport \(width)x\(height)")
             expect(baseline.aButtons.count == 4 && baseline.bButtons.count == 4, "both four-button stacks")
+            expect(baseline.aButtons[0].minY == 0, "side buttons start at the top edge")
+            expect(baseline.bButtons[3].maxY == height, "side buttons finish at the bottom edge")
+            expect(baseline.crossfader.midY == height / 2, "crossfader is centred between equal decks")
             expect(baseline.crossfader.minY == baseline.aButtons[3].maxY, "crossfader starts at A Play boundary")
             expect(baseline.crossfader.maxY == baseline.bButtons[0].minY, "crossfader fills gap to B FX boundary")
             for (index, target) in targets.enumerated() {
@@ -27,16 +30,18 @@ import Foundation
                 expect(CGRect(x: 0, y: 0, width: width, height: height).contains(target), "target inside window")
                 expect(!baseline.workArea.intersects(target), "work area cannot cover dock")
                 for other in targets.dropFirst(index + 1) {
-                    expect(!target.intersects(other), "dock targets do not intersect")
+                    expect(
+                        !target.intersects(other),
+                        "dock targets \(target) and \(other) do not intersect at \(width)x\(height)")
                 }
             }
             for visible in [false, true] {
                 for share in [0.0, 0.1, 0.25, 0.5, 0.72, 0.95, 1.0] {
                     let layout = PerformanceWorkspaceGeometry(
                         width: width, height: height, browserVisible: visible, deckShare: share)
-                    expect(layout.dock.aButtons == baseline.aButtons, "A anchors through resize")
-                    expect(layout.dock.bButtons == baseline.bButtons, "B anchors through resize")
-                    expect(layout.dock.crossfader == baseline.crossfader, "fader anchor through resize")
+                    expect(layout.dock.aButtons[0].minY == 0, "upper controls retain the top edge")
+                    expect(layout.dock.workArea.height == layout.deckArea.height, "side controls follow the visible deck area")
+                    expect(layout.dock.workArea.width == baseline.workArea.width, "side controls retain their horizontal position")
                     expect(layout.deckArea.maxX <= baseline.workArea.maxX, "deck width reserves dock")
                     expect(layout.libraryArea.maxX <= baseline.workArea.maxX, "library width reserves dock")
                     expect(layout.deckArea.maxY <= layout.libraryArea.minY, "library does not cover decks")
@@ -44,7 +49,7 @@ import Foundation
                 }
             }
         }
-        for (width, height) in [(80.0, 300.0), (300, 500), (0, 0), (-20, -10), (.nan, .infinity)] {
+        for (width, height) in [(80.0, 300.0), (300, 400), (0, 0), (-20, -10), (.nan, .infinity)] {
             let geometry = PerformanceDockGeometry(width: width, height: height)
             expect(!geometry.fits, "unsupported viewport is explicit")
             let rectangles = geometry.aButtons + geometry.bButtons + [geometry.crossfader, geometry.workArea]

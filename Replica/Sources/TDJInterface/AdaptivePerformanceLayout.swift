@@ -8,27 +8,41 @@ struct PanelHandleMetrics {
 
 struct PerformanceDockGeometry {
     static let dockWidth = 96.0
-    static let minimumHeight = 576.0
-    let aButtons: [CGRect]
-    let bButtons: [CGRect]
+    // Eight 44-point buttons and an 88-point crossfader.
+    static let minimumHeight = 440.0
+    var aButtons: [CGRect] {
+        let row = crossfader.minY / 4
+        return (0..<4).map {
+            let top = Double($0) * row
+            let bottom = Double($0 + 1) * row
+            return CGRect(x: workArea.width + 8, y: top, width: 80, height: bottom - top)
+        }
+    }
+    var bButtons: [CGRect] {
+        let row = (contentHeight - crossfader.maxY) / 4
+        return (0..<4).map {
+            let top = crossfader.maxY + Double($0) * row
+            let bottom = crossfader.maxY + Double($0 + 1) * row
+            return CGRect(x: workArea.width + 8, y: top, width: 80, height: bottom - top)
+        }
+    }
     let crossfader: CGRect
     let workArea: CGRect
     let contentHeight: Double
     let fits: Bool
 
-    init(width: Double, height: Double) {
+    init(width: Double, height: Double, deckBoundary: Double? = nil) {
         let width = width.isFinite ? max(0, width) : 0
         let height = height.isFinite ? max(0, height) : 0
         let contentHeight = max(Self.minimumHeight, height)
         self.contentHeight = contentHeight
         fits = width >= Self.dockWidth + 44 && height >= Self.minimumHeight
         workArea = CGRect(x: 0, y: 0, width: max(0, width - Self.dockWidth), height: height)
-        let x = workArea.width + 8
-        let aButtons = (0..<4).map { CGRect(x: x, y: 28 + Double($0) * 52, width: 80, height: 48) }
-        let bButtons = (0..<4).map { CGRect(x: x, y: contentHeight - 212 + Double($0) * 52, width: 80, height: 48) }
-        self.aButtons = aButtons
-        self.bButtons = bButtons
-        crossfader = CGRect(x: x, y: aButtons[3].maxY, width: 80, height: bButtons[0].minY - aButtons[3].maxY)
+        let proposed = deckBoundary.flatMap { $0.isFinite ? $0 : nil } ?? contentHeight / 2
+        let minimumSide = Self.minimumHeight / 2
+        let center = min(contentHeight - minimumSide, max(minimumSide, proposed))
+        let half = min(contentHeight * 0.1, min(center, contentHeight - center) - 4 * 44)
+        crossfader = CGRect(x: workArea.width + 8, y: center - half, width: 80, height: 2 * half)
     }
 }
 
@@ -38,21 +52,21 @@ struct PerformanceWorkspaceGeometry {
     let libraryArea: CGRect
 
     init(width: Double, height: Double, libraryExtent: Double, handleExtent: Double = 44) {
-        dock = PerformanceDockGeometry(width: width, height: height)
-        let available = dock.workArea.height
+        let available = height.isFinite ? max(0, height) : 0
         let maximum = AdaptivePerformanceLayout.maximumLibraryExtent(available: available, handleExtent: handleExtent)
         let extent = libraryExtent.isFinite ? min(maximum, max(0, libraryExtent)) : 0
         let handle = min(handleExtent, available)
         let deckHeight = max(0, available - handle - extent)
+        dock = PerformanceDockGeometry(width: width, height: deckHeight)
         deckArea = CGRect(x: 0, y: 0, width: dock.workArea.width, height: deckHeight)
         libraryArea = CGRect(x: 0, y: deckHeight + handle, width: dock.workArea.width, height: extent)
     }
 
     init(width: Double, height: Double, browserVisible: Bool, deckShare: Double) {
-        dock = PerformanceDockGeometry(width: width, height: height)
-        let available = dock.workArea.height
+        let available = height.isFinite ? max(0, height) : 0
         let deckHeight = AdaptivePerformanceLayout.deckHeight(
             available: available, browserVisible: browserVisible, share: deckShare)
+        dock = PerformanceDockGeometry(width: width, height: deckHeight)
         deckArea = CGRect(x: 0, y: 0, width: dock.workArea.width, height: deckHeight)
         let libraryY = min(available, deckHeight + AdaptivePerformanceLayout.dividerHeight)
         libraryArea = CGRect(x: 0, y: libraryY, width: dock.workArea.width, height: max(0, available - libraryY))
