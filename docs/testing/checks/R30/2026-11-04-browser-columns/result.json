@@ -6,15 +6,15 @@
     "R25",
     "R30"
   ],
-  "baselineCommit": "465b87b3b4f4b7c00d08fb1abd5e9cf1af2d2607",
-  "baselineBuild": 88,
+  "baselineCommit": "685004419010defed1b4f52fdbbc102855889b7c",
+  "baselineBuild": 89,
   "status": "source-verified-device-build-pending",
   "filesSHA256": {
     "Replica/Sources/TDJInterface/BrowserLayoutState.swift": "9ccacfef68996b688c01731d3feadbaa509c5a896f82a1ec4de3a853ed6290c8",
     "Replica/Sources/TDJInterface/BrowserView.swift": "75563114f650dab42cd54794e6c81f782f7c115549fcbe7daabe064e4cb1d874",
     "Replica/Sources/TDJInterface/BrowserColumnContent.swift": "036459c12f032269fa0d45c76010e97354faafe064cba347fa5345358a89cd46",
     "Replica/Sources/TDJInterface/LoadSliderContactGeometry.swift": "d85b27f5ba2df7667ffb376846e79576cac25157da6730ee9fecfcb4401daf2a",
-    "Replica/Sources/TDJInterface/ReplicaView.swift": "b9ce74cae64a1be0e23a836ddf681c20a82c4c8c6f32a42824ba85d2e49dfb19",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "95d8a8867d70f5d21f35784277b4a3bfa8d2d2cc3bc7c63804860008be0a6aed",
     "Replica/Tests/TDJInterfaceTests/BrowserLayoutStateTests.swift": "402e3c42eff4124ecc2e1fbaf2a68376839fb9125ef74631184b4555e7e5d8b9",
     "tools/check_browser_columns.swift": "5132869976fe4619d495a91df428a2dbc59b7669c8045b3e0685301f1662fc64",
     "tools/check_touch_layout.py": "b232b17936d1641f108e6739c7606e9ed2912944c9c01fa37701e9e9975b0bca",
@@ -23,16 +23,16 @@
   "checks": {
     "command": "python3 tools/check_touch_layout.py --group all",
     "dock": 1330,
-    "library": 179,
+    "library": 201,
     "heldContacts": 36,
     "performancePanels": 1432,
     "deckDivider": 688,
     "browserColumnsAndLoader": 638,
-    "totalAssertions": 4407,
+    "totalAssertions": 4429,
     "failedAssertions": 0,
     "forgottenWidthMutationFailures": 6,
     "syntaxParse": "passed",
-    "integrity": "The fixed dock, full-height fader geometry, A/B divider, performance contact sources, R34/R35/R37 analysis/preparation and R39 navigation state match the integration baseline. ReplicaView changes are confined to LoadSlider.",
+    "integrity": "Dock and fader geometry, A/B divider, native performance contact mapping, R34/R35/R37 analysis/preparation, R39 navigation and R40 shortcuts match the current integration baseline.",
     "review": "Self-review under the project rule against parallel agents.",
     "harnessScope": "The browser harness compiles production column, contact and loader sources. It removes the TDJCore import from a temporary copy and uses the exact DeckID enum declaration from Models.swift. The signed iPad build checks the full module integration.",
     "fullWidthNavigation": 104,
@@ -56,5 +56,9 @@
     "assertions": 4303,
     "state": "source-verified-not-built",
     "reason": "Full-width R39 browser work arrived before compilation. Final integration retains it and adds drawer sizing."
-  }
+  },
+  "preparedUninstalledBuilds": [
+    90
+  ],
+  "integrationContext": "R39 full-width browsing and R40 Performance/Browse/Expand shortcuts are retained. Build 90 signed successfully but was withheld to include R40 before one iPad handover."
 }

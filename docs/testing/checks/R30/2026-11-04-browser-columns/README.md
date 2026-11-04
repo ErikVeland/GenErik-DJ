@@ -10,7 +10,7 @@ Drawer content stays mounted through resizing. Partial content blocks new touche
 
 ## Verification
 
-All 4,407 focused assertions pass: the existing 3,665 touch-layout assertions, 638 drawer/loader assertions and 104 R39 navigation/geometry assertions. The sizing checks cover direct travel, exact settlement, cancellation, separate memory, search-context changes, grab separation, both loader directions and both end taps. A compiled temporary mutation that forgets widths fails six assertions. Production source was not mutated.
+All 4,429 focused assertions pass: the existing 3,687 touch-layout assertions, 638 drawer/loader assertions and 104 R39 navigation/geometry assertions. The sizing checks cover direct travel, exact settlement, cancellation, separate memory, search-context changes, grab separation, both loader directions and both end taps. A compiled temporary mutation that forgets widths fails six assertions. Production source was not mutated.
 
 The harness compiles production sizing, contact and loader sources. A temporary loader copy removes its TDJCore import and uses the exact DeckID declaration from Models.swift. Native module integration requires the signed iPad build.
 
@@ -32,3 +32,7 @@ Final review: self-review under the project rule against parallel agents. Review
 6. Hold a loader while resizing its drawer. Close it during a hold.
 7. Hold waveform, EQ, filter or FX input while resizing drawers.
 8. Confirm fixed dock/fader positions and clean audio.
+
+## Shortcut integration
+
+Build 90 passed compilation and signing but was not installed. R40’s Performance, Browse and Expand shortcuts arrived during compilation. The final source retains those shortcuts and their 22 additional library assertions. The signed build 90 remains saved. No device operation ran for that candidate.

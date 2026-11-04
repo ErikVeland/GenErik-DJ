@@ -84,6 +84,51 @@ struct TouchPanelHandle: View {
     }
 }
 
+struct LibraryWorkspaceShortcuts: View {
+    let selected: LibraryWorkspaceShortcut?
+    let apply: (LibraryWorkspaceShortcut) -> Void
+
+    var body: some View {
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 4) {
+                ForEach(LibraryWorkspaceShortcut.allCases, id: \.self) { shortcut in
+                    Button { apply(shortcut) } label: {
+                        Text(shortcut.rawValue).font(.subheadline.weight(.semibold))
+                            .fixedSize(horizontal: true, vertical: false)
+                            .padding(.horizontal, 10).frame(minWidth: 44, minHeight: 44)
+                            .background(selected == shortcut ? PerformancePalette.cyan.opacity(0.2) : Color.clear,
+                                        in: RoundedRectangle(cornerRadius: 5))
+                    }
+                    .accessibilityLabel("\(shortcut.rawValue) layout")
+                    .accessibilityHint(hint(shortcut))
+                    .accessibilityAddTraits(selected == shortcut ? .isSelected : [])
+                }
+            }
+            Menu {
+                ForEach(LibraryWorkspaceShortcut.allCases, id: \.self) { shortcut in
+                    Button { apply(shortcut) } label: {
+                        if selected == shortcut { Label(shortcut.rawValue, systemImage: "checkmark") }
+                        else { Text(shortcut.rawValue) }
+                    }
+                }
+            } label: {
+                Label("Layout", systemImage: "rectangle.split.1x2").frame(minWidth: 44, minHeight: 44)
+            }.accessibilityLabel("Library layout shortcuts")
+        }
+        .foregroundStyle(PerformancePalette.text)
+        .padding(.trailing, 8)
+        .background(PerformancePalette.frame)
+    }
+
+    private func hint(_ shortcut: LibraryWorkspaceShortcut) -> String {
+        switch shortcut {
+        case .performance: "Hide the song browser"
+        case .browse: "Share space between the decks and song browser"
+        case .expand: "Give the song browser the most space"
+        }
+    }
+}
+
 private struct PerformancePanelPortraitKey: EnvironmentKey {
     static let defaultValue = false
 }

@@ -15,6 +15,14 @@
         "R30"
       ],
       "text": "This full-width browser release arrived during the browser sizing task. The next candidate retains its lists, reference state, drawers and loading shelf while adding direct drawer resizing and remembered widths. Original request is recorded against build 87. Acceptance of build 88 is not implied."
+    },
+    {
+      "recordedUTC": "2026-11-04T02:13:54.965699+00:00",
+      "requestIDs": [
+        "R40"
+      ],
+      "report": "Erik requests Performance, Browse and Expand shortcuts to change the song browser space quickly. Build 88 is the assumed baseline because no number was supplied. This request does not establish acceptance of build 88.",
+      "nextBuild": 89
     }
   ],
   "log": "TestBuilds/ipad/build-88.log",

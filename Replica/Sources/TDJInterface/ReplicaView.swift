@@ -80,7 +80,8 @@ public struct ReplicaView: View {
                                 requestPerformanceSpace: { libraryPanel.setPresented(false); model.browserVisible = false })
                                 .frame(height: split.b.height).contentShape(Rectangle()).clipped()
                         }.padding(.horizontal, 6).frame(height: workspace.deckArea.height)
-                        TouchPanelHandle(presented: libraryPanel.extent > 0,
+                        HStack(spacing: 0) {
+                          TouchPanelHandle(presented: libraryPanel.extent > 0,
                             maximumExtent: libraryPanel.maximumExtent, presentationID: model.browserPresentationID,
                             toggle: {
                                 libraryPanel.setPresented(libraryPanel.extent == 0)
@@ -97,6 +98,14 @@ public struct ReplicaView: View {
                                 libraryPanel.adjust(by: delta)
                                 model.browserVisible = libraryPanel.extent > 0
                             })
+                            .frame(minWidth: 180, maxWidth: .infinity)
+                          LibraryWorkspaceShortcuts(selected: libraryPanel.selectedShortcut) { shortcut in
+                              libraryPanel.apply(shortcut)
+                              model.browserVisible = libraryPanel.extent > 0
+                          }.layoutPriority(1)
+                        }
+                        .frame(height: AdaptivePerformanceLayout.libraryHandleHeight)
+                        .background(PerformancePalette.frame)
                         BrowserView(model: model, importAudio: { importPresented = true }, linkCollection: { traktorImportPresented = true })
                             .frame(width: workspace.libraryArea.width, height: workspace.libraryArea.height, alignment: .top)
                             .clipped().allowsHitTesting(libraryPanel.acceptsContentInput)
