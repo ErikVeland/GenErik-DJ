@@ -6,7 +6,7 @@
   ],
   "baselineCommit": "833ebf9049242623c3c778b440392fff57877ce6",
   "baselineBuild": 95,
-  "status": "source-verified-device-build-pending",
+  "status": "installed-awaiting-Erik-acceptance",
   "filesSHA256": {
     "Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift": "56a095b765f544c63c25c61e50d82afe2ef055c1cb4fe6f0ce70045444cc1ad1",
     "Replica/Sources/TDJInterface/DeckPanelPresentation.swift": "5c5335e108e5e9b22bd249702d3ecde06dae66d36ca6b311d8f43b4a09a30cf6",
@@ -56,5 +56,25 @@
     "Memory lasts for the session. This is a regression test release, not TDJ1 or gig acceptance."
   ],
   "initialFeedbackBuild": 94,
-  "integrationContext": "The current R38 dense-remix analysis, R43 beat-grid diagnosis and prior Duo deployment records arrived during the UI correction and are preserved. The control regression remains from build 94. No analysis or beat-grid change is part of this correction."
+  "integrationContext": "The current R38 dense-remix analysis, R43 beat-grid diagnosis and prior Duo deployment records arrived during the UI correction and are preserved. The control regression remains from build 94. No analysis or beat-grid change is part of this correction.",
+  "build": 96,
+  "sourceCommit": "40b1f51fe47fdea8cf0090cfe9a07ae50805c7b4",
+  "sourceSHA256": "2d7ae3427041b311b4f56937d7522a97e565f953d614b0119b199210a41711ef",
+  "buildVerification": {
+    "compiled": true,
+    "signatureVerified": true,
+    "embeddedFrameworkResolution": true,
+    "nativeTypeCheck": "Passed in signed iPad build 96.",
+    "uncommittedAppChanges": "",
+    "buildSeconds": 61.47,
+    "appSHA256": "db7788229b93167ac87c5a1ac144ce1d1cf8a7db2e64400fd24b57982462571b"
+  },
+  "deployment": {
+    "device": "GenErik iPad (10.5-inch)",
+    "state": "installed-launch-request-accepted",
+    "installedUTC": "2026-11-04T03:26:28.620102+00:00",
+    "launchAcceptedUTC": "2026-11-04T03:26:29.006296+00:00",
+    "furtherDeviceActions": false
+  },
+  "acceptance": "Pending Erik touch, layout and listening checks."
 }

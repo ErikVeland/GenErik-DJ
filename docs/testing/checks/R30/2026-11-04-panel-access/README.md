@@ -28,3 +28,7 @@ All 4,590 focused assertions pass. The 21 new access checks cover loaded/empty e
 8. Confirm fixed dock/fader positions and clean audio.
 
 The final candidate also retains the current R38 analysis and R43 beat-grid diagnosis from integration. Their source and existing evidence are preserved. This change does not alter analysis, preparation validation or beat-grid policy.
+
+## iPad handover
+
+Build 96 passed compilation, framework resolution and signing. It installed on the 10.5-inch test iPad, and iPadOS accepted the launch request. Application source: `40b1f51fe47fdea8cf0090cfe9a07ae50805c7b4`. Source and saved-app hashes are bound in the build record. No further device actions followed launch acceptance. Erik’s physical layout, touch and audio checks remain pending.

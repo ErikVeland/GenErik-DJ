@@ -1,0 +1,35 @@
+{
+  "notes": "R02/R30: Fix inaccessible action controls and minimum-size FX/EQ. Full/compact Controls buttons; adaptive half-budget defaults with chosen size memory; constrained drag continuity; adequate deck height; preserved editor draft; Features-page large-handle option. Retains current R38 analysis, R34 protection, R41 launch fix, R42 browser and fixed full-height fader/dock. 4590 focused assertions passed.",
+  "sourceCommit": "40b1f51fe47fdea8cf0090cfe9a07ae50805c7b4",
+  "sourceSHA256": "2d7ae3427041b311b4f56937d7522a97e565f953d614b0119b199210a41711ef",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 61.47,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-96.log",
+  "build": 96,
+  "app": "TestBuilds/ipad/96/GenErikDJ.app",
+  "appSHA256": "db7788229b93167ac87c5a1ac144ce1d1cf8a7db2e64400fd24b57982462571b",
+  "state": "testing",
+  "createdUTC": "2026-11-04T03:25:36.009583+00:00",
+  "installedUTC": "2026-11-04T03:26:28.620102+00:00",
+  "launchedUTC": "2026-11-04T03:26:29.006296+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R02",
+    "R30"
+  ],
+  "focusedChecks": "4,590 focused assertions passed: 1,330 dock, 201 library, 36 held-contact, 1,432 performance-panel, 688 divider, 638 browser sizing/loader, 114 section workspace, 21 performance-access and 130 browser navigation assertions. The minimum-size-default mutation fails six assertions.",
+  "artifactChecks": "Native iPad compilation, source identity, archive digest, embedded-framework resolution and signing passed. Current R38 analysis, R34 protection, R41 launch repair, R42 browser layouts, fixed dock and full-height crossfader remain included.",
+  "acceptance": "Installed on the 10.5-inch test iPad. iPadOS accepted the launch request. Erik checks Controls in both full and compact deck views, large FX/EQ defaults, chosen size memory, paired panes with Controls open, held gestures, return from the section editor, main Features accessibility toggle and clean audio. Physical touch and continued-operation acceptance remain pending. No further device actions after launch acceptance.",
+  "deployments": [
+    {
+      "device": "GenErik iPad (10.5-inch)",
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "installed-launch-request-accepted",
+      "installedUTC": "2026-11-04T03:26:28.620102+00:00",
+      "launchAcceptedUTC": "2026-11-04T03:26:29.006296+00:00"
+    }
+  ],
+  "artifactLocation": "/Users/veland/GenErik DJ/TestBuilds/ipad/96/GenErikDJ.app"
+}
