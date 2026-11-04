@@ -1,0 +1,32 @@
+{
+  "notes": "R40: Performance, Browse and Expand shortcuts beside the library handle. Browse splits usable height evenly. Existing drag resizing, per-orientation memory, full add-track opening and fixed performance dock retained. 201 panel/library and 1330 dock checks pass. Erik checks touch feel, larger text and clean audio.",
+  "sourceCommit": "61ff7478b4817fc73662ffe40ac7dc67f9b0c22f",
+  "sourceSHA256": "85c5d6d89215f15a5ce3be8ed7dd632c56dfea8b0fccd334413917b17f33ae70",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 32.12,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-89.log",
+  "build": 89,
+  "app": "TestBuilds/ipad/89/GenErikDJ.app",
+  "appSHA256": "a236489f1fb63d8d11f4108d88c739ca39ba72e9ad4ead9cac4ad8ecac1338f0",
+  "state": "testing",
+  "createdUTC": "2026-11-04T02:13:04.143960+00:00",
+  "installedUTC": "2026-11-04T02:13:26.301118+00:00",
+  "launchedUTC": "2026-11-04T02:13:26.758308+00:00",
+  "requestIDs": [
+    "R40",
+    "R30",
+    "R32"
+  ],
+  "focusedChecks": "201 production panel/library assertions and 1,330 dock/workspace assertions passed. A temporary mutation that makes Browse expand fully fails six assertions. Swift syntax checks passed. No Mac packaging, simulator builds or broad regression sweeps.",
+  "acceptance": "Installed and launched on the 10.5-inch test iPad. Erik checks Performance/Browse/Expand from hidden and manually resized states, free resizing, list/search retention, rotation, larger text, fixed performance controls and clean audio. Physical acceptance remains pending. No device actions after launch.",
+  "deployments": [
+    {
+      "device": "GenErik iPad (10.5-inch)",
+      "state": "installed-and-launched",
+      "installedUTC": "2026-11-04T02:13:26.301118+00:00",
+      "launchedUTC": "2026-11-04T02:13:26.758308+00:00"
+    }
+  ]
+}

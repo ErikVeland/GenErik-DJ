@@ -29,6 +29,11 @@
     }
   },
   "review": "Shortcuts sit outside the handle gesture. All three use the existing LibraryPanelState. Browse uses half of the usable workspace height, excluding the 44-point handle, with minimum/maximum bounds. Viewport memory, manual sizes, full add-track opening, hidden-content input gates and Reduce Motion animation remain on the existing path. BrowserView, PerformanceDock and audio code are unchanged.",
-  "build": "pending",
-  "acceptance": "Pending Erik touch and listening checks."
+  "build": 89,
+  "acceptance": "Pending Erik touch and listening checks.",
+  "sourceCommit": "61ff7478b4817fc73662ffe40ac7dc67f9b0c22f",
+  "buildState": "installed-and-launched",
+  "buildSeconds": 32.12,
+  "installedUTC": "2026-11-04T02:13:26.301118+00:00",
+  "launchedUTC": "2026-11-04T02:13:26.758308+00:00"
 }
