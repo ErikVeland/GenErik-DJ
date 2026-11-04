@@ -8,6 +8,8 @@ Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace th
 
 Latest installed candidate: **build 112**, application source `4cdd0b927`. R48 removes generated/historical clutter from the active tree, standardises first-party source, repairs MIDI test compilation and reduces catalogue counting/search allocations. All 31 focused Swift tests, 4,484 geometry assertions, loading-order checks and native transport checks at three rates pass. The repository check reports no issues. Source identity, signing and framework resolution passed. Installation succeeded, and iPadOS accepted launch. Device actions stopped. Erik's physical acceptance remains open.
 
+Current request: **R50**, profile build 112 on the actual A10X with both decks, FX, recording and background analysis. On 5 November the device was offline, and Erik confirmed it is unavailable now. The saved app digest and current application source match build 112. Profiling, measured fixes and the next build remain pending. Build 112 stays installed.
+
 R48 is recorded in [the cleanup report](../maintenance.md). The stem model, original media, private candidates and failed evidence remain preserved.
 
 - [Requests](requests.md) retain every request ID and remaining work.
