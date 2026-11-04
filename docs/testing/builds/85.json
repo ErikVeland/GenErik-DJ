@@ -1,0 +1,38 @@
+{
+  "notes": "R02/R30/R31: FX EQ and MORE share library-style reveal hide resize and session size memory per deck and orientation. Independent panel commands preserve held gestures across resizing. Fixed dock and full-height crossfader retained. R34/R35 unchanged. All 2977 focused assertions pass. Supersedes uninstalled builds 83 and 84.",
+  "sourceCommit": "ec3eaaa82d6f4cc9f91615d77e4c526febc57c41",
+  "sourceSHA256": "6ef2db16f77ae9f23185b2717f2c9c678496be866da089d9317afb663408ff3e",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 52.41,
+  "checks": "Signed incremental device build. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-85.log",
+  "build": 85,
+  "app": "TestBuilds/ipad/85/GenErikDJ.app",
+  "appSHA256": "8dc1c51b8cb2ea71cc77d073fe531c143a9d35177b86627e715b48a24ebeb905",
+  "state": "testing",
+  "createdUTC": "2026-11-04T01:12:53.029238+00:00",
+  "installedUTC": "2026-11-04T01:13:04.473378+00:00",
+  "launchedUTC": "2026-11-04T01:13:04.823591+00:00",
+  "requestIDs": [
+    "R02",
+    "R30",
+    "R31"
+  ],
+  "focusedChecks": "1,330 dock/workspace, 179 library, 36 held-contact and 1,432 performance-panel assertions passed. The signed iPad build passed compilation and signature checks. R34/R35 analysis, held-touch bridge and full-height fader geometry match the baseline.",
+  "acceptance": "Installed and launched on the 10.5-inch test iPad. Erik checks FX, EQ and MORE reveal/hide/resize, remembered widths on both decks and orientations, simultaneous FX/EQ access, held gestures during panel/library resizing, fixed dock and full-height fader, and clean audio. Physical touch and audio acceptance remain pending. No further device actions after launch.",
+  "deployments": [
+    {
+      "device": "GenErik iPad (10.5-inch)",
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "installed-and-launched",
+      "installedUTC": "2026-11-04T01:13:04.473378+00:00",
+      "launchedUTC": "2026-11-04T01:13:04.823591+00:00"
+    }
+  ],
+  "supersedesUninstalledBuilds": [
+    83,
+    84
+  ],
+  "integrationContext": "Build 85 is bound to ec3eaaa82 and includes the panel work and baseline R34/R35 analysis. Separate R37 vocal-form work arrived in the local integration checkout after this build. It is preserved there and is not part of the archived build 85."
+}

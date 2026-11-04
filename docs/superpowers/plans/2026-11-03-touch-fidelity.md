@@ -10,6 +10,12 @@
 
 **Spec:** [TDJ1 gestures and a unified touch space](../specs/2026-11-03-touch-fidelity-design.md). The spatial defaults are proposals. This plan does not start implementation or deployment.
 
+## Test-release progress — 4 November 2026
+
+The fixed dock shipped to the test iPad in build 78. Library gestures followed in build 80. Build 82 added retained held-contact mapping and the full-height crossfader. Build 85 now adds the Task 4 FX, EQ and extra-control panel implementation, with 2,977 focused assertions and signing passed. It installed and launched on the 10.5-inch test iPad. Erik explicitly requested the three panel migrations in one test release. Builds 83 and 84 remain saved without installation after review corrections.
+
+Physical touch, hide/lock semantics, audio acceptance and the original TDJ1 comparisons remain open. The A/B work divider, browser side columns and later tasks are not complete. See `../../testing/checks/R30/2026-11-04-performance-panels/`.
+
 ## Global constraints
 
 - Prioritise TDJ1 gesture fidelity.
