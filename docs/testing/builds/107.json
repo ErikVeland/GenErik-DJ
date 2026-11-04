@@ -14,7 +14,9 @@
       "date": "2026-11-04",
       "report": "Controls shows nothing. Flux and other controls remain hard to find. Use blank space under artwork and between right-side controls. Give No track loaded a black background without a line through it.",
       "buildAssumption": 107,
-      "status": "Investigating rendered control layout and unused space."
+      "status": "Visible-controls and space-use change installed in build 108. Physical acceptance remains open.",
+      "fixCommit": "d7a84fc592598b017ff18955ad7e639912c21210",
+      "testBuild": 108
     }
   ],
   "log": "TestBuilds/ipad/build-107.log",

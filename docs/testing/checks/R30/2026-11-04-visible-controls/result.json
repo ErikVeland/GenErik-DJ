@@ -58,5 +58,19 @@
     "render-red.log: seven visibility, label, fill and background failures",
     "geometry-green.log: old explicit-open fixture toggled the newly automatic panel closed. Fixture corrected."
   ],
-  "acceptance": "Erik checks actual iPad control visibility and access, Flux/Freeze/Cues, drawer gestures, waveform space, crossfader feel, empty background and clean audio. Physical acceptance remains open."
+  "acceptance": "Erik checks actual iPad control visibility and access, Flux/Freeze/Cues, drawer gestures, waveform space, crossfader feel, empty background and clean audio. Physical acceptance remains open.",
+  "build": {
+    "number": 108,
+    "sourceCommit": "d7a84fc592598b017ff18955ad7e639912c21210",
+    "sourceSHA256": "06fd066b82a06c34a951def85ada0ae5cd7ba4610dc9eba4e5de56e59da9ea40",
+    "uncommittedAppChanges": "",
+    "buildSeconds": 222.49,
+    "appSHA256": "2ae498bfb60a486443d1aaef4aa5484278561488a962fbdb93f604e037ea48e7",
+    "installedUTC": "2026-11-04T12:03:14.617590+00:00",
+    "launchedUTC": "2026-11-04T12:03:15.119699+00:00",
+    "buildLogSHA256": "613bf6220766c82ee9bcc1e10e2ae1ac911713f432cc09991aa65ccf2090e52f",
+    "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+    "sourceUnchanged": true,
+    "deviceActionsStoppedAfterLaunch": true
+  }
 }

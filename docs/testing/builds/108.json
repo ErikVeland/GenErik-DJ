@@ -1,0 +1,37 @@
+{
+  "notes": "R02/R30: show Flux, Freeze and Cues when a track loads. Fill the control panel with eager labelled rows. Use waveform space below the cover. Make the full crossfader lane visible. Give empty waveforms a solid black background without a centre line. Mounted renders and 2785 focused geometry checks pass. Physical access, touch and clean audio remain Erik checks.",
+  "sourceCommit": "d7a84fc592598b017ff18955ad7e639912c21210",
+  "sourceSHA256": "06fd066b82a06c34a951def85ada0ae5cd7ba4610dc9eba4e5de56e59da9ea40",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 222.49,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-108.log",
+  "build": 108,
+  "app": "TestBuilds/ipad/108/GenErikDJ.app",
+  "appSHA256": "2ae498bfb60a486443d1aaef4aa5484278561488a962fbdb93f604e037ea48e7",
+  "state": "testing",
+  "createdUTC": "2026-11-04T12:03:01.890407+00:00",
+  "installedUTC": "2026-11-04T12:03:14.617590+00:00",
+  "launchedUTC": "2026-11-04T12:03:15.119699+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R02",
+    "R30"
+  ],
+  "feedbackBuild": 107,
+  "fixCommit": "d7a84fc592598b017ff18955ad7e639912c21210",
+  "verification": "docs/testing/checks/R30/2026-11-04-visible-controls/result.json",
+  "focusedChecks": {
+    "accessAssertions": 23,
+    "panelAssertions": 1432,
+    "dockAssertions": 1330,
+    "renderedHeights": [
+      180,
+      344
+    ],
+    "renderedLabelAndPixelChecks": "passed"
+  },
+  "deviceActionsStoppedAfterLaunch": true,
+  "acceptance": "Erik checks actual iPad control visibility and access, Flux/Freeze/Cues, drawer gestures, waveform space, crossfader feel, empty background and clean audio. Physical acceptance remains open."
+}

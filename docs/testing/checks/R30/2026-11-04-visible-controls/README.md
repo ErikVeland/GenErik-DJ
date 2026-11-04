@@ -23,3 +23,5 @@ Mounted renders at 180 and 344 points check Flux, Freeze and Cues with text reco
 No simulator build, Mac app package, full regression run or additional agent is part of this iteration. Compilation, source identity, framework resolution and signing support the iPad installation. Erik checks actual button access, panel gestures, crossfader feel, empty appearance and clean audio.
 
 All 2,785 geometry assertions pass: 23 access, 1,432 panel and 1,330 dock/workspace checks. The final mounted render check passes at both heights in 3.551 seconds. The final dock image was inspected.
+
+Build 108 from merged main source `d7a84fc59` passed compilation, source identity, framework resolution and signing checks. It installed on the test iPad, and iPadOS accepted launch. Device actions stopped. Physical acceptance remains open.
