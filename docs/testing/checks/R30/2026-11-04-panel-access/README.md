@@ -26,3 +26,5 @@ All 4,590 focused assertions pass. The 21 new access checks cover loaded/empty e
 6. Open the section editor, then switch back to performance controls.
 7. Check the main Settings → Features handle option.
 8. Confirm fixed dock/fader positions and clean audio.
+
+The final candidate also retains the current R38 analysis and R43 beat-grid diagnosis from integration. Their source and existing evidence are preserved. This change does not alter analysis, preparation validation or beat-grid policy.

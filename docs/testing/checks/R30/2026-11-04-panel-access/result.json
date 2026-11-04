@@ -4,8 +4,8 @@
     "R02",
     "R30"
   ],
-  "baselineCommit": "b5fbf286cb1db7c5762d266651ee2e55115ab131",
-  "baselineBuild": 94,
+  "baselineCommit": "833ebf9049242623c3c778b440392fff57877ce6",
+  "baselineBuild": 95,
   "status": "source-verified-device-build-pending",
   "filesSHA256": {
     "Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift": "56a095b765f544c63c25c61e50d82afe2ef055c1cb4fe6f0ce70045444cc1ad1",
@@ -32,7 +32,7 @@
     "failedAssertions": 0,
     "minimumDefaultMutationFailures": 6,
     "syntaxParse": "passed",
-    "integrity": "Dock rendering/full-height fader geometry, native musical contact mapping, R34/R35/R37 analysis and preparation, editor identity, R41 launch paths and R42 browser layouts match build 94.",
+    "integrity": "Dock rendering/full-height fader geometry, native musical contact mapping, current R34/R38 analysis/preparation, editor identity, R41 paths and R42 browser layouts match the latest integration baseline.",
     "review": "Self-review under the project rule against parallel agents."
   },
   "causes": [
@@ -54,5 +54,7 @@
     "Erik still checks button access, pad size, FX selection, held gestures, editor return and clean audio.",
     "Narrow layouts cannot show every optional pane at its full preferred size.",
     "Memory lasts for the session. This is a regression test release, not TDJ1 or gig acceptance."
-  ]
+  ],
+  "initialFeedbackBuild": 94,
+  "integrationContext": "The current R38 dense-remix analysis, R43 beat-grid diagnosis and prior Duo deployment records arrived during the UI correction and are preserved. The control regression remains from build 94. No analysis or beat-grid change is part of this correction."
 }
