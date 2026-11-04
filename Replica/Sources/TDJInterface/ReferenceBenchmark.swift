@@ -40,35 +40,42 @@ extension ReplicaModel {
         defer { startNativeMusicAnalysis() }
         var report = ReferenceBenchmarkReport()
         let hints = collectionHints
-        let candidates = (musicLibraryCatalog?.items ?? []).filter {
-            $0.isOnDevice && hints[$0.id]?.bpm != nil
-        }
+        let candidates = (musicLibraryCatalog?.items ?? []).filter { $0.isOnDevice && hints[$0.id]?.bpm != nil }
         // An even spread through the library, not just the first titles alphabetically.
         let step = max(1, candidates.count / max(1, count))
         for item in stride(from: 0, to: candidates.count, by: step).prefix(count).map({ candidates[$0] }) {
             guard !Task.isCancelled, let url = item.assetURL else { break }
             let directory = store.root.appendingPathComponent(".native-source-" + UUID().uuidString, isDirectory: true)
-            await nativeMusic.files.run { try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true) }
+            await nativeMusic.files.run {
+                try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+            }
             let excerpt = directory.appendingPathComponent("opening.caf")
             var analysis: AudioAnalysis?
             do {
-                try await MusicLibraryAudio.decodeAsset(url: url, destination: excerpt, maximumSeconds: NativeAnalysisPlan.excerptSeconds)
+                try await MusicLibraryAudio.decodeAsset(
+                    url: url, destination: excerpt, maximumSeconds: NativeAnalysisPlan.excerptSeconds)
                 analysis = try await AnalysisWorker.shared.analyze(url: excerpt)
             } catch { logAnalysis("Benchmark skipped \(item.title): \(error.localizedDescription)") }
             await nativeMusic.files.run { try? FileManager.default.removeItem(at: directory) }
             guard let analysis else { continue }
             let reference = hints[item.id]
-            report.rows.append(.init(title: item.title, referenceBPM: reference?.bpm, ourBPM: analysis.bpm,
-                referenceKey: reference?.key?.openKeyName, ourKey: analysis.key?.openKeyName,
-                tempo: ReferenceBenchmarkReport.tempoVerdict(ours: analysis.bpm, reference: reference?.bpm),
-                key: ReferenceBenchmarkReport.keyVerdict(ours: analysis.key, reference: reference?.key)))
+            report.rows.append(
+                .init(
+                    title: item.title, referenceBPM: reference?.bpm, ourBPM: analysis.bpm,
+                    referenceKey: reference?.key?.openKeyName, ourKey: analysis.key?.openKeyName,
+                    tempo: ReferenceBenchmarkReport.tempoVerdict(ours: analysis.bpm, reference: reference?.bpm),
+                    key: ReferenceBenchmarkReport.keyVerdict(ours: analysis.key, reference: reference?.key)))
             analysisProgress = .init(done: report.analysed, total: count, title: "Comparing")
         }
         analysisProgress = nil
-        let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        let data = try? encoder.encode(report), url = referenceBenchmarkURL
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        let data = try? encoder.encode(report)
+        let url = referenceBenchmarkURL
         await nativeMusic.files.run { try? data?.write(to: url, options: .atomic) }
-        logAnalysis("Reference comparison: \(report.analysed) songs; tempo exact \(report.count(tempo: "exact")), octave \(report.count(tempo: "octave")), miss \(report.count(tempo: "miss")), none \(report.count(tempo: "none")); key exact \(report.count(key: "exact")), compatible \(report.count(key: "compatible")), miss \(report.count(key: "miss"))")
+        logAnalysis(
+            "Reference comparison: \(report.analysed) songs; tempo exact \(report.count(tempo: "exact")), octave \(report.count(tempo: "octave")), miss \(report.count(tempo: "miss")), none \(report.count(tempo: "none")); key exact \(report.count(key: "exact")), compatible \(report.count(key: "compatible")), miss \(report.count(key: "miss"))"
+        )
         return report
     }
 }

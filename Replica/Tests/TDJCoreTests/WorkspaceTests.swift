@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+
 @testable import TDJCore
 
 @Test func manualPreparationSurvivesRelaunch() async throws {
@@ -33,17 +34,18 @@ import Testing
 }
 
 @Test func concurrentImportsCommitOneVerifiedLibraryEntry() async throws {
-    let source = try #require(Bundle.module.url(forResource:"metadata-clock",withExtension:"m4a",subdirectory:"Fixtures"))
+    let source = try #require(
+        Bundle.module.url(forResource: "metadata-clock", withExtension: "m4a", subdirectory: "Fixtures"))
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-    defer { try? FileManager.default.removeItem(at:root) }
-    let store = try WorkspaceStore(root:root)
-    let service = try LibraryService(store:store)
-    async let first = service.importAudio(url:source)
-    async let second = service.importAudio(url:source)
-    _ = try await (first,second)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let store = try WorkspaceStore(root: root)
+    let service = try LibraryService(store: store)
+    async let first = service.importAudio(url: source)
+    async let second = service.importAudio(url: source)
+    _ = try await (first, second)
     let restored = try store.load()
     #expect(restored.tracks.count == 1)
     #expect(restored.revision == 1)
     let track = try #require(restored.tracks.first)
-    #expect(try AudioAnalyzer.sha256(url:store.mediaDirectory.appendingPathComponent(track.mediaFilename)) == track.id)
+    #expect(try AudioAnalyzer.sha256(url: store.mediaDirectory.appendingPathComponent(track.mediaFilename)) == track.id)
 }

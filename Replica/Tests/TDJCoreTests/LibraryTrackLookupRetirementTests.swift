@@ -1,6 +1,7 @@
 import Dispatch
 import Foundation
 import Testing
+
 @testable import TDJCore
 
 private struct LookupRetirementEvent: Sendable {
@@ -21,17 +22,12 @@ private final class RetiredLookupResource: Sendable {
         self.events = events
         self.queueIdentity = queueIdentity
     }
-    deinit {
-        events.yield(.init(onMain: Thread.isMainThread, onExpectedQueue: queueIdentity.isCurrent))
-    }
+    deinit { events.yield(.init(onMain: Thread.isMainThread, onExpectedQueue: queueIdentity.isCurrent)) }
 }
 
-@MainActor private final class WeakRetirementResource {
-    weak var value: RetiredLookupResource?
-}
+@MainActor private final class WeakRetirementResource { weak var value: RetiredLookupResource? }
 
-@inline(never) @MainActor
-private func retirementResourceIsAlive(_ observation: WeakRetirementResource) -> Bool {
+@inline(never) @MainActor private func retirementResourceIsAlive(_ observation: WeakRetirementResource) -> Bool {
     observation.value != nil
 }
 
@@ -54,7 +50,10 @@ private func retirementResourceIsAlive(_ observation: WeakRetirementResource) ->
     queue.resume()
     suspended = false
     await withCheckedContinuation { continuation in
-        queue.async { events.continuation.finish(); continuation.resume() }
+        queue.async {
+            events.continuation.finish()
+            continuation.resume()
+        }
     }
     var count = 0
     for await event in events.stream {
@@ -75,10 +74,13 @@ private func retirementResourceIsAlive(_ observation: WeakRetirementResource) ->
             RetiredLookupResource(events: events.continuation, queueIdentity: identity)
         }
         owner.withResource { _ in }
-        withExtendedLifetime(owner) { }
+        withExtendedLifetime(owner) {}
     }
     await withCheckedContinuation { continuation in
-        queue.async(flags: .barrier) { events.continuation.finish(); continuation.resume() }
+        queue.async(flags: .barrier) {
+            events.continuation.finish()
+            continuation.resume()
+        }
     }
     var count = 0
     for await event in events.stream {

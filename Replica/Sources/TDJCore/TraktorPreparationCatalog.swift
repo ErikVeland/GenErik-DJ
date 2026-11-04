@@ -20,8 +20,7 @@ public struct TraktorPreparationRecord: Codable, Equatable, Sendable {
         rawEntry = entry
         func unambiguousChild(_ name: String) -> TraktorNMLElement? {
             let children = entry.children.filter { $0.name == name }
-            guard let first = children.first,
-                  children.dropFirst().allSatisfy({ $0 == first }) else { return nil }
+            guard let first = children.first, children.dropFirst().allSatisfy({ $0 == first }) else { return nil }
             return first
         }
         let identity = unambiguousChild("ITUNES")
@@ -34,35 +33,44 @@ public struct TraktorPreparationRecord: Codable, Equatable, Sendable {
         let numericKey = unambiguousChild("MUSICAL_KEY")?.attributes["VALUE"].flatMap(Int.init)
         if let numericKey, (0..<24).contains(numericKey) {
             key = .init(tonic: numericKey % 12, mode: numericKey < 12 ? .major : .minor)
-        } else { key = nil }
+        } else {
+            key = nil
+        }
         let grids = entry.children.filter { $0.name == "CUE_V2" && $0.attributes["TYPE"] == "4" }
         let origins = grids.compactMap { $0.attributes["START"].flatMap(Double.init) }.filter { $0.isFinite && $0 >= 0 }
-        if origins.count == grids.count, let first = origins.first,
-           origins.allSatisfy({ abs($0 - first) <= 0.000001 }) {
+        if origins.count == grids.count, let first = origins.first, origins.allSatisfy({ abs($0 - first) <= 0.000001 })
+        {
             gridMilliseconds = first
-        } else { gridMilliseconds = nil }
+        } else {
+            gridMilliseconds = nil
+        }
         var warnings: [String] = []
-        for name in ["ITUNES", "TEMPO", "MUSICAL_KEY"] where
-            entry.children.contains(where: { $0.name == name }) && unambiguousChild(name) == nil {
+        for name in ["ITUNES", "TEMPO", "MUSICAL_KEY"]
+        where entry.children.contains(where: { $0.name == name }) && unambiguousChild(name) == nil {
             warnings.append("Conflicting \(name) elements were retained without selecting a value.")
         }
         if persistentID == nil { warnings.append("No supported iTunes persistent identity.") }
         if durationSeconds == nil { warnings.append("Source duration is unavailable.") }
         if numericKey != nil && key == nil { warnings.append("The original key code is unknown or unsupported.") }
-        if grids.count > 1 && gridMilliseconds == nil { warnings.append("Multiple distinct grid origins are retained without selecting one.") }
+        if grids.count > 1 && gridMilliseconds == nil {
+            warnings.append("Multiple distinct grid origins are retained without selecting one.")
+        }
         if origins.count != grids.count { warnings.append("An original grid position is unsupported.") }
         self.warnings = warnings
     }
 
     public func normalized(collectionSHA256: String, analysis: AudioAnalysis) throws -> NormalizedTraktorPreparation {
         let duration = analysis.duration
-        guard duration.isFinite, duration > 0 else { throw CoreError.invalidAudio("The decoded source has no valid duration.") }
+        guard duration.isFinite, duration > 0 else {
+            throw CoreError.invalidAudio("The decoded source has no valid duration.")
+        }
         guard let expected = durationSeconds else {
             throw CoreError.invalidAudio("The original collection item has no duration for identity verification.")
         }
         do {
             guard abs(expected - duration) <= max(0.25, min(2, expected * 0.001)) else {
-                throw CoreError.invalidAudio("The audio duration differs from the original collection item. Preparation was not applied.")
+                throw CoreError.invalidAudio(
+                    "The audio duration differs from the original collection item. Preparation was not applied.")
             }
         }
         let grid: BeatGrid?
@@ -72,12 +80,15 @@ public struct TraktorPreparationRecord: Codable, Equatable, Sendable {
                 throw CoreError.invalidAudio("The original grid lies outside this audio file.")
             }
             grid = try BeatGrid(bpm: bpm, anchorFrame: frame, sampleRate: analysis.sampleRate, downbeatOffset: 0)
-        } else { grid = nil }
+        } else {
+            grid = nil
+        }
         var cues: [Int: PerformanceCue] = [:]
         for cue in rawEntry.children where cue.name == "CUE_V2" {
             guard let slotText = cue.attributes["HOTCUE"], let slot = Int(slotText), (0..<8).contains(slot),
-                  let type = cue.attributes["TYPE"].flatMap(Int.init), [0, 4, 5].contains(type),
-                  let milliseconds = cue.attributes["START"].flatMap(Double.init), milliseconds.isFinite else { continue }
+                let type = cue.attributes["TYPE"].flatMap(Int.init), [0, 4, 5].contains(type),
+                let milliseconds = cue.attributes["START"].flatMap(Double.init), milliseconds.isFinite
+            else { continue }
             let frame = milliseconds * analysis.sampleRate / 1000
             guard frame.isFinite, frame >= 0, frame < Double(analysis.frameCount), cues[slot] == nil else {
                 throw CoreError.invalidAudio("An original cue is duplicated or outside this audio file.")
@@ -92,10 +103,13 @@ public struct TraktorPreparationRecord: Codable, Equatable, Sendable {
                     throw CoreError.invalidAudio("An original loop extends beyond this audio file.")
                 }
                 end = value
-            } else { end = nil }
+            } else {
+                end = nil
+            }
             cues[slot] = .init(frame: frame, loopEnd: end, kind: type == 4 ? .grid : type == 5 ? .loop : .cue)
         }
-        return .init(collectionSHA256: collectionSHA256, entryIndex: entryIndex, contentSHA256: analysis.contentSHA256,
+        return .init(
+            collectionSHA256: collectionSHA256, entryIndex: entryIndex, contentSHA256: analysis.contentSHA256,
             sampleRate: analysis.sampleRate, frameCount: analysis.frameCount, grid: grid, key: key, cues: cues)
     }
 }
@@ -113,13 +127,15 @@ public struct TraktorPreparationCatalog: Sendable {
     public let records: [TraktorPreparationRecord]
     private let identities: [UInt64: [Int]]
 
-    public static func read(_ data: Data, checkCancellation: @escaping @Sendable () throws -> Void = {}) throws -> Self {
+    public static func read(_ data: Data, checkCancellation: @escaping @Sendable () throws -> Void = {}) throws -> Self
+    {
         var records: [TraktorPreparationRecord] = []
-        let summary = try TraktorNMLReferenceReader.scanCollection(data, checkCancellation: checkCancellation) { entry in
-            records.append(.init(entry: entry, index: records.count))
+        let summary = try TraktorNMLReferenceReader.scanCollection(data, checkCancellation: checkCancellation) {
+            entry in records.append(.init(entry: entry, index: records.count))
         }
         guard summary.document.version == "17", summary.document.program == "Traktor DJ" else {
-            throw CoreError.invalidAudio("Use an original NML version 17 DJ collection. The collection was not imported.")
+            throw CoreError.invalidAudio(
+                "Use an original NML version 17 DJ collection. The collection was not imported.")
         }
         var identities: [UInt64: [Int]] = [:]
         for record in records {
@@ -130,16 +146,21 @@ public struct TraktorPreparationCatalog: Sendable {
     }
 
     public func match(_ source: MusicLibrarySource) -> TraktorPreparationRecord? {
-        guard let id = UInt64(source.persistentID), let positions = identities[id], positions.count == 1 else { return nil }
+        guard let id = UInt64(source.persistentID), let positions = identities[id], positions.count == 1 else {
+            return nil
+        }
         return records[positions[0]]
     }
 
-    public func bind(_ record: TraktorPreparationRecord, source: MusicLibrarySource, analysis: AudioAnalysis) throws -> ImportedTraktorPreparation {
+    public func bind(_ record: TraktorPreparationRecord, source: MusicLibrarySource, analysis: AudioAnalysis) throws
+        -> ImportedTraktorPreparation
+    {
         guard match(source)?.entryIndex == record.entryIndex else {
             throw CoreError.invalidAudio("Preparation needs a unique exact music-library identity.")
         }
         let normalized = try record.normalized(collectionSHA256: summary.sourceSHA256, analysis: analysis)
-        return .init(collection: summary, record: record, matchedSource: source, normalized: normalized,
+        return .init(
+            collection: summary, record: record, matchedSource: source, normalized: normalized,
             mappingProfile: "tdj-nml17-ms-zero-based-key-v1-single-grid")
     }
 }

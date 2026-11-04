@@ -1,8 +1,8 @@
 # Immediate half-sync restoration implementation
 
-Documentation reviewed against the shared implementation on 30 October 2026. [Current readiness and verification](Status.md) is the implementation status record. Dated measurements below apply only to their recorded source and workload.
+Current build and acceptance: [project status](../docs/coordination/README.md). Historical measurements apply only to their recorded source.
 
-Implemented on 29 October 2026. The performer confirmed an immediate correction using the smallest jump to the nearest beat, with backward movement allowed. The [focused validation](Validation/ImmediateSync-2026-10-29-01/manifest.json) passes 27 Swift checks and the native zero-allocation render check. The current full-regression and physical-acceptance status is recorded in Status.md; this focused result is historical evidence for the immediate-restoration implementation.
+Implemented on 29 October 2026. The performer confirmed an immediate correction using the smallest jump to the nearest beat, with backward movement allowed. The [focused validation](../docs/history.md#local-validation) passes 27 Swift checks and the native zero-allocation render check. The current full-regression and physical-acceptance status is recorded in Status.md; this focused result is historical evidence for the immediate-restoration implementation.
 
 NI’s S4 manual, app section5.2.3, documents matched tempo with displaced phase after scratching or out-of-time cues. Sync appears red. Pressing it restores alignment and green. The user confirmed the precise timing and smallest-jump policy. The original colour threshold and interaction edges still need comparison.
 

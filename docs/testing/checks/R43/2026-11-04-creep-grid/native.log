@@ -1,3 +1,0 @@
-Optional(probe.BeatGridDetection(grid: probe.BeatGrid(bpm: 136.01776928783116, anchorFrame: 7963.329488313514, sampleRate: 44100.0, downbeatOffset: 0), tempoConfidence: 1.0, downbeatConfidence: nil))
-BPM Optional(136.01776928783113) anchor Optional(0.18057436481436007) bar nil confidence 1.0
-Grid detection cancelled after 0.0594179630279541 seconds

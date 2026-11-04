@@ -10,7 +10,8 @@ extension ReplicaModel {
     func saveCollectionLink(_ url: URL) {
         let scoped = url.startAccessingSecurityScopedResource()
         defer { if scoped { url.stopAccessingSecurityScopedResource() } }
-        guard let bookmark = try? url.bookmarkData(options: [], includingResourceValuesForKeys: nil, relativeTo: nil) else { return }
+        guard let bookmark = try? url.bookmarkData(options: [], includingResourceValuesForKeys: nil, relativeTo: nil)
+        else { return }
         try? bookmark.write(to: collectionLinkURL, options: .atomic)
     }
 
@@ -21,8 +22,8 @@ extension ReplicaModel {
     }
 
     func refreshLinkedCollection() async {
-        guard let bookmark = try? Data(contentsOf: collectionLinkURL),
-              let url = Self.resolveCollectionLink(bookmark) else { return }
+        guard let bookmark = try? Data(contentsOf: collectionLinkURL), let url = Self.resolveCollectionLink(bookmark)
+        else { return }
         let digest: String? = await nativeMusic.files.run {
             let scoped = url.startAccessingSecurityScopedResource()
             defer { if scoped { url.stopAccessingSecurityScopedResource() } }
@@ -31,7 +32,9 @@ extension ReplicaModel {
         }
         guard let digest, digest != (await service.activeCollectionDigest()) else { return }
         do {
-            let summary = try await importAccess.withAccess(to: url) { try await self.service.importTraktorCollection(url: url) }
+            let summary = try await importAccess.withAccess(to: url) {
+                try await self.service.importTraktorCollection(url: url)
+            }
             traktorPreparationRecords = summary.document.entryCount
             logAnalysis("Linked collection updated: \(summary.document.entryCount) records")
         } catch { logAnalysis("Linked collection not imported: \(error.localizedDescription)") }

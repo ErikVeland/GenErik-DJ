@@ -1,4 +1,5 @@
 import Testing
+
 @testable import TDJCore
 
 @Test func waveformBeatLinesKeepPixelPositionsAndDownbeats() throws {
@@ -12,8 +13,9 @@ import Testing
 
 @Test func waveformBeatLinesFollowAdaptiveTempoAcrossSegments() throws {
     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
-    let map = BeatGridMap(anchors: [.init(beat: 0, frame: 0), .init(beat: 4, frame: 96000),
-                                  .init(beat: 8, frame: 176000)], sampleRate: 48000, downbeatOffset: 2)
+    let map = BeatGridMap(
+        anchors: [.init(beat: 0, frame: 0), .init(beat: 4, frame: 96000), .init(beat: 8, frame: 176000)],
+        sampleRate: 48000, downbeatOffset: 2)
     let beats = WaveformLayers.beatLines(grid: grid, adaptiveMap: map, left: 72000, span: 104000, width: 1040)
     #expect(beats.map(\.x) == [0, 240, 440, 640, 840, 1040])
     #expect(beats.map(\.downbeat) == [false, false, false, true, false, false])

@@ -2,9 +2,7 @@ import Foundation
 import SwiftUI
 import TDJCore
 
-private struct SnapshotBandWaveforms: EnvironmentKey {
-    static let defaultValue: [String: BandWaveform] = [:]
-}
+private struct SnapshotBandWaveforms: EnvironmentKey { static let defaultValue: [String: BandWaveform] = [:] }
 extension EnvironmentValues {
     /// ImageRenderer does not run view tasks; snapshots supply band waveforms directly.
     var snapshotBandWaveforms: [String: BandWaveform] {
@@ -21,18 +19,21 @@ actor BandWaveforms {
     private var pending: [String: Task<BandWaveform?, Never>] = [:]
 
     static func cacheURL(track: Track, store: WorkspaceStore) -> URL {
-        store.root.appendingPathComponent("PlaybackCache", isDirectory: true).appendingPathComponent(track.id + "-stereo-f32-v1.pcm")
+        store.root.appendingPathComponent("PlaybackCache", isDirectory: true).appendingPathComponent(
+            track.id + "-stereo-f32-v1.pcm")
     }
 
     /// Waits up to `patience` seconds for the playback cache a deck load writes, then builds.
     func load(track: Track, store: WorkspaceStore, patience: Double = 30) async -> BandWaveform? {
         if let cached = cache[track.id] { return cached }
         if let task = pending[track.id] { return await task.value }
-        let url = Self.cacheURL(track: track, store: store), rate = track.analysis.sampleRate
+        let url = Self.cacheURL(track: track, store: store)
+        let rate = track.analysis.sampleRate
         let expected = Int64(track.analysis.frameCount) * 8
         let task = Task.detached(priority: .utility) { () -> BandWaveform? in
             if track.nativeLibraryOnly != true,
-               (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize).map({ Int64($0) }) != expected {
+                (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize).map({ Int64($0) }) != expected
+            {
                 _ = try? await PCMCache.prepareAsync(track: track, store: store)
             }
             let deadline = Date().addingTimeInterval(patience)
@@ -46,7 +47,8 @@ actor BandWaveforms {
         let result = await task.value
         pending[track.id] = nil
         if let result {
-            cache[track.id] = result; order.append(track.id)
+            cache[track.id] = result
+            order.append(track.id)
             if order.count > 4 { cache[order.removeFirst()] = nil }
         }
         return result

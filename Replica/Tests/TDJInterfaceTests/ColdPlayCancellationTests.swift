@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+
 @testable import TDJCore
 @testable import TDJInterface
 
@@ -18,10 +19,11 @@ import Testing
     defer { if !complete { try? FileManager.default.removeItem(at: root) } }
     let store = try WorkspaceStore(root: root)
     try FileManager.default.copyItem(at: source, to: store.mediaDirectory.appendingPathComponent("source.wav"))
-    let analysis = AudioAnalysis(implementation: "cold-play-test", configurationID: "cold-play-test",
-        contentSHA256: try AudioAnalyzer.sha256(url: source), sampleRate: 44100, frameCount: 705600,
-        channelCount: 2, waveformFramesPerBin: 441, waveform: [], bpm: 120, beatAnchorFrame: 0,
-        tempoConfidence: 1, key: nil, keyConfidence: 0, chroma: [], timbre: [])
+    let analysis = AudioAnalysis(
+        implementation: "cold-play-test", configurationID: "cold-play-test",
+        contentSHA256: try AudioAnalyzer.sha256(url: source), sampleRate: 44100, frameCount: 705600, channelCount: 2,
+        waveformFramesPerBin: 441, waveform: [], bpm: 120, beatAnchorFrame: 0, tempoConfidence: 1, key: nil,
+        keyConfidence: 0, chroma: [], timbre: [])
     let track = try Track(title: "Cold Play", mediaFilename: "source.wav", analysis: analysis)
     let actual = try PlaybackController(offline: true, streamingPlayback: true)
     let reference = try PlaybackController(offline: true)
@@ -42,8 +44,9 @@ import Testing
     for controller in [actual, reference] { try #require(controller.core.snapshot()?.b.phase == .ended) }
     let generation = try #require(actual.generations[.b])
     let asset = try #require(actual.core.asset(generation: generation))
-    let ticket = try await asset.prepareSources([.init(position: Double(analysis.frameCount - 128))],
-        generation: generation, whileWaiting: { _ = actual.core.processControlsWhileIdle() })
+    let ticket = try await asset.prepareSources(
+        [.init(position: Double(analysis.frameCount - 128))], generation: generation,
+        whileWaiting: { _ = actual.core.processControlsWhileIdle() })
     asset.releaseSourcePreparation(ticket)
     for controller in [actual, reference] {
         try controller.setSync(true, deck: .b)
@@ -62,7 +65,8 @@ import Testing
     let reference = rig.reference.core.renderOffline(frames: frames)
     #expect(actual.left == reference.left)
     #expect(actual.right == reference.right)
-    let state = rig.actual.core.snapshot(), expected = rig.reference.core.snapshot()
+    let state = rig.actual.core.snapshot()
+    let expected = rig.reference.core.snapshot()
     #expect(state?.a == expected?.a)
     #expect(state?.outputFrame == expected?.outputFrame)
     #expect(state?.masterBeat == expected?.masterBeat)
@@ -72,7 +76,8 @@ import Testing
 @MainActor private func cancelColdPlay(afterRetry: Bool, keylock: Bool) async throws {
     let rig = try await coldPlayRig(keylock: keylock)
     defer {
-        rig.actual.stopAudio(); rig.reference.stopAudio()
+        rig.actual.stopAudio()
+        rig.reference.stopAudio()
         try? FileManager.default.removeItem(at: rig.root)
     }
     // Compare like-for-like meters after zero-frame control processing.

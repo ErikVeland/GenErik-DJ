@@ -1,6 +1,6 @@
 # Playback master tempo and early Play
 
-Documentation reviewed against the shared implementation on 30 October 2026. [Current readiness and verification](Status.md) is the implementation status record. Dated measurements below apply only to their recorded source and workload.
+Current build and acceptance: [project status](../docs/coordination/README.md). Historical measurements apply only to their recorded source.
 
 The implemented journey follows R1/S20: one deck plays against shared musical time, and a synced incoming deck accepts Play before the next bar. The source position waits, then starts at the boundary. S15 supplies the master-BPM entry and rotary gesture. S35/S38 supply the green-Play and moving lead-in sequence.
 
@@ -56,7 +56,7 @@ The displayed half-sync threshold is provisional. The app does not claim origina
 
 ## Reproducible timing evidence
 
-Run `.build/debug/tdj-tool transport-probe Validation/Playback` after building. It writes two four-second PCM WAV files and a [trace manifest](Validation/Playback/transport-traces.json). A generated reference tone occupies the left channel. The incoming tone occupies the right channel, so its silence and onset can be measured independently.
+Run `.build/debug/tdj-tool transport-probe Validation/Playback` after building. It writes two four-second PCM WAV files and a [trace manifest](../docs/history.md#local-validation). A generated reference tone occupies the left channel. The incoming tone occupies the right channel, so its silence and onset can be measured independently.
 
 At 48 kHz, Play is accepted at frame 36,000 / master beat 1.5. Both scenarios target master beat 4:
 
@@ -65,11 +65,11 @@ At 48 kHz, Play is accepted at frame 36,000 / master beat 1.5. Both scenarios ta
 | Remain at 120 BPM | 96,000 | 96,001 |
 | Change to 128 BPM at frame 60,000 | 93,750 | 93,751 |
 
-The extra sample is the generated sine's zero-valued first sample. It is not a scheduler delay. The [regression suite](Validation/playback-tests.log) also checks several buffer sizes, three output rates, source-position retention, end-of-file bounds, stale generations, queue backpressure, retained PCM identity and the live-view state model.
+The extra sample is the generated sine's zero-valued first sample. It is not a scheduler delay. The [regression suite](../docs/history.md#local-validation) also checks several buffer sizes, three output rates, source-position retention, end-of-file bounds, stale generations, queue backpressure, retained PCM identity and the live-view state model.
 
 These files contain synthetic signals. They measure the reconstruction renderer at its mix output. They do not measure touch recognition, speaker latency or the original TDJ1 engine.
 
-The native Mac check used the bundled synthetic clocks. A started at output frame 0 and B started at 96,000, one bar later. The lead-in showed green Play and a pale marker before B's waveform advanced. After stopping, rotating the master wheel from 120 to 129 BPM updated both synced rates to 1.075. A resumed through the native output at that speed. The captured snapshots are [the bar launch](Validation/native-bar-launch.json) and [the master-tempo change](Validation/native-master-tempo.json).
+The native Mac check used the bundled synthetic clocks. A started at output frame 0 and B started at 96,000, one bar later. The lead-in showed green Play and a pale marker before B's waveform advanced. After stopping, rotating the master wheel from 120 to 129 BPM updated both synced rates to 1.075. A resumed through the native output at that speed. The captured snapshots are [the bar launch](../docs/history.md#local-validation) and [the master-tempo change](../docs/history.md#local-validation).
 
 The first native Play exposed a Swift actor-isolation trap in the audio closure. The callback now explicitly uses `@Sendable`; the native checks above passed after that fix. This check confirms native callback execution and displayed state. It does not certify speaker routing, acoustic onset or performance under load. **Stop audio** saves a local development snapshot to `.workspace/last-playback-stop.json` when device output was active.
 
@@ -85,4 +85,4 @@ The controller reads the source node's maximum after engine preparation and pass
 
 Resuming already active logical playback holds engine start until current, pending and Flux source coverage is prepared and adopted. Zero-frame consumer progress runs while awaiting worker reads. Both decks sharing one asset prepare as a combined request. Source geometry and host bounds are rechecked after preparation, and the native renderer must confirm its adopted coverage before engine start; mixer/FX updates do not restart it. Stop, route changes and interruptions cancel startup. A successful cold action can request startup again if the earlier active deck stopped while preparation was pending. A second Play that cancels an incoming action cannot replay captured old intent.
 
-The real-engine startup/cancellation checks and current 60/300-second combined results are in [the current audio priority report](Validation/audio-priority-2026-10-29.md). Hardware output was silenced for these Mac checks. Sync restoration is implemented. Its exact original interaction edges and current-source target-iPad acceptance remain open.
+The real-engine startup/cancellation checks and current 60/300-second combined results are in [the current audio priority report](../docs/history.md#local-validation). Hardware output was silenced for these Mac checks. Sync restoration is implemented. Its exact original interaction edges and current-source target-iPad acceptance remain open.

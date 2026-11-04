@@ -1,8 +1,7 @@
 import SwiftUI
 import TDJCore
 
-@MainActor
-struct FrontPerformanceView: View {
+@MainActor struct FrontPerformanceView: View {
     @Bindable var model: ReplicaModel
     var importAudio: () -> Void
     var linkCollection: () -> Void
@@ -26,75 +25,79 @@ struct FrontPerformanceView: View {
 
     var body: some View {
         GeometryReader { space in
-            let layout = FrontWorkspaceGeometry(width: space.size.width, height: space.size.height,
-                browserExtent: browser.extent, selectorHeight: selectorHeight, controlsHeight: controlsHeight)
+            let layout = FrontWorkspaceGeometry(
+                width: space.size.width, height: space.size.height, browserExtent: browser.extent,
+                selectorHeight: selectorHeight, controlsHeight: controlsHeight)
             VStack(spacing: 0) {
                 deckSelector.frame(height: layout.selector.height)
                 ZStack {
-                    retainedDeck(.a, panels: panelsA)
-                        .frame(width: layout.deck.width, height: layout.deck.height)
+                    retainedDeck(.a, panels: panelsA).frame(width: layout.deck.width, height: layout.deck.height)
                         .offset(x: deckSlide.offset(isB: false, width: layout.deck.width))
-                    retainedDeck(.b, panels: panelsB)
-                        .frame(width: layout.deck.width, height: layout.deck.height)
+                    retainedDeck(.b, panels: panelsB).frame(width: layout.deck.width, height: layout.deck.height)
                         .offset(x: deckSlide.offset(isB: true, width: layout.deck.width))
-                }
-                .environment(\.touchSurfaceInterruption, selection.contactID)
-                .frame(height: layout.deck.height).clipped()
+                }.environment(\.touchSurfaceInterruption, selection.contactID).frame(height: layout.deck.height)
+                    .clipped()
                 browserBar.frame(height: layout.handle.height)
-                FrontBrowserView(model: model, importAudio: importAudio, linkCollection: linkCollection,
-                    requestedTab: requestedTab, navigationID: browserRequest, destinationDeck: activeDeck)
-                    .environment(\.touchSurfaceInterruption, browser.contactID)
-                    .frame(width: layout.library.width, height: layout.library.height, alignment: .top)
-                    .clipped().allowsHitTesting(browser.acceptsContentInput)
-                    .disabled(!browser.acceptsContentInput).accessibilityHidden(!browser.acceptsContentInput)
-                performanceControls.id(activeDeck).frame(height: layout.controls.height)
-                    .protectsFrontDeckSwipe()
-                crossfader.frame(height: layout.crossfader.height)
-                    .protectsFrontDeckSwipe()
-            }
-            .frame(width: space.size.width, height: space.size.height, alignment: .top)
-            .clipped().background(PerformancePalette.stage)
-            .overlayPreferenceValue(FrontDeckSwipeProtectionKey.self) { anchors in
+                FrontBrowserView(
+                    model: model, importAudio: importAudio, linkCollection: linkCollection, requestedTab: requestedTab,
+                    navigationID: browserRequest, destinationDeck: activeDeck
+                ).environment(\.touchSurfaceInterruption, browser.contactID).frame(
+                    width: layout.library.width, height: layout.library.height, alignment: .top
+                ).clipped().allowsHitTesting(browser.acceptsContentInput).disabled(!browser.acceptsContentInput)
+                    .accessibilityHidden(!browser.acceptsContentInput)
+                performanceControls.id(activeDeck).frame(height: layout.controls.height).protectsFrontDeckSwipe()
+                crossfader.frame(height: layout.crossfader.height).protectsFrontDeckSwipe()
+            }.frame(width: space.size.width, height: space.size.height, alignment: .top).clipped().background(
+                PerformancePalette.stage
+            ).overlayPreferenceValue(FrontDeckSwipeProtectionKey.self) { anchors in
                 GeometryReader { geometry in
-                    FrontDeckSwipeCapture(protectedRegions: anchors.map { geometry[$0] }, selectorRegion: layout.selector,
-                        contactID: deckSlide.sessionID, acceptsNewSwipe: !deckSlide.blocksDeckInput) { event in
-                        handleSwipe(event, width: layout.deck.width)
-                    }.allowsHitTesting(false)
+                    FrontDeckSwipeCapture(
+                        protectedRegions: anchors.map { geometry[$0] }, selectorRegion: layout.selector,
+                        contactID: deckSlide.sessionID, acceptsNewSwipe: !deckSlide.blocksDeckInput
+                    ) { event in handleSwipe(event, width: layout.deck.width) }.allowsHitTesting(false)
                 }
-            }
-            .environment(\.frontDeckSwipeEnabled, true)
-            .environment(\.performancePanelPortrait, true)
-            .animation(reduceMotion || browser.isDragging ? nil : .smooth(duration: 0.22), value: browser.extent)
-            .onAppear {
-                browser.configure(width: space.size.width, height: space.size.height, selectorHeight: selectorHeight, controlsHeight: controlsHeight)
+            }.environment(\.frontDeckSwipeEnabled, true).environment(\.performancePanelPortrait, true).animation(
+                reduceMotion || browser.isDragging ? nil : .smooth(duration: 0.22), value: browser.extent
+            ).onAppear {
+                browser.configure(
+                    width: space.size.width, height: space.size.height, selectorHeight: selectorHeight,
+                    controlsHeight: controlsHeight)
                 selection.select(DeckID(rawValue: savedDeck) ?? .a)
                 deckSlide.reset(selectedIsB: activeDeck == .b)
                 previousBrowserVisible = model.browserVisible
                 model.browserVisible = false
-            }
-            .onChange(of: selection.selected) { _, deck in savedDeck = deck.rawValue }
-            .onChange(of: space.size) { _, size in
+            }.onChange(of: selection.selected) { _, deck in savedDeck = deck.rawValue }.onChange(of: space.size) {
+                _, size in
                 resetDeckSlide()
-                browser.configure(width: size.width, height: size.height, selectorHeight: selectorHeight, controlsHeight: controlsHeight)
-            }
-            .onChange(of: selectorHeight) { _, _ in
+                browser.configure(
+                    width: size.width, height: size.height, selectorHeight: selectorHeight,
+                    controlsHeight: controlsHeight)
+            }.onChange(of: selectorHeight) { _, _ in
                 resetDeckSlide()
-                browser.configure(width: space.size.width, height: space.size.height, selectorHeight: selectorHeight, controlsHeight: controlsHeight)
-            }
-            .onChange(of: controlsHeight) { _, _ in
+                browser.configure(
+                    width: space.size.width, height: space.size.height, selectorHeight: selectorHeight,
+                    controlsHeight: controlsHeight)
+            }.onChange(of: controlsHeight) { _, _ in
                 resetDeckSlide()
-                browser.configure(width: space.size.width, height: space.size.height, selectorHeight: selectorHeight, controlsHeight: controlsHeight)
-            }
-            .onChange(of: model.browserPresentationID) { _, _ in
+                browser.configure(
+                    width: space.size.width, height: space.size.height, selectorHeight: selectorHeight,
+                    controlsHeight: controlsHeight)
+            }.onChange(of: model.browserPresentationID) { _, _ in
                 browser.apply(.expand)
                 model.browserVisible = true
-            }
-            .onChange(of: model.browserVisible) { _, visible in browser.setPresented(visible) }
-            .onChange(of: interruption) { _, _ in resetDeckSlide(); selection.interrupt(); browser.interrupt() }
-            .onChange(of: scenePhase) { _, phase in
-                if phase != .active { resetDeckSlide(); selection.interrupt(); browser.interrupt() }
-            }
-            .onDisappear {
+            }.onChange(of: model.browserVisible) { _, visible in browser.setPresented(visible) }.onChange(
+                of: interruption
+            ) { _, _ in
+                resetDeckSlide()
+                selection.interrupt()
+                browser.interrupt()
+            }.onChange(of: scenePhase) { _, phase in
+                if phase != .active {
+                    resetDeckSlide()
+                    selection.interrupt()
+                    browser.interrupt()
+                }
+            }.onDisappear {
                 browser.interrupt()
                 resetDeckSlide()
                 selection.interrupt()
@@ -106,7 +109,9 @@ struct FrontPerformanceView: View {
     private var deckSelector: some View {
         HStack(spacing: 4) {
             ForEach(DeckID.allCases, id: \.self) { deck in
-                Button { settleDeck(on: deck) } label: {
+                Button {
+                    settleDeck(on: deck)
+                } label: {
                     VStack(alignment: .leading, spacing: 3) {
                         HStack {
                             Text(deck.rawValue.uppercased()).font(.headline)
@@ -114,13 +119,12 @@ struct FrontPerformanceView: View {
                             Text(status(deck)).font(.caption.weight(.semibold))
                         }
                         Text(model.track(deck)?.title ?? "No track").font(.caption).lineLimit(1)
-                    }
-                    .padding(.horizontal, 10).frame(maxWidth: .infinity, minHeight: 60)
-                    .background(activeDeck == deck ? PerformancePalette.cyan.opacity(0.2) : PerformancePalette.panel,
-                                in: RoundedRectangle(cornerRadius: 5))
-                }
-                .accessibilityLabel("Deck \(deck.rawValue.uppercased()), \(status(deck)), \(model.track(deck)?.title ?? "no track")")
-                .accessibilityAddTraits(activeDeck == deck ? .isSelected : [])
+                    }.padding(.horizontal, 10).frame(maxWidth: .infinity, minHeight: 60).background(
+                        activeDeck == deck ? PerformancePalette.cyan.opacity(0.2) : PerformancePalette.panel,
+                        in: RoundedRectangle(cornerRadius: 5))
+                }.accessibilityLabel(
+                    "Deck \(deck.rawValue.uppercased()), \(status(deck)), \(model.track(deck)?.title ?? "no track")"
+                ).accessibilityAddTraits(activeDeck == deck ? .isSelected : [])
             }
         }.padding(.horizontal, 4).foregroundStyle(PerformancePalette.text)
     }
@@ -138,33 +142,35 @@ struct FrontPerformanceView: View {
     }
 
     private func retainedDeck(_ deck: DeckID, panels: DeckPanelPresentation) -> some View {
-        DeckView(model: model, deck: deck, panels: panels, requestPerformanceSpace: { _ in
-            guard activeDeck == deck else { return }
-            apply(.performance)
-        })
-        .allowsHitTesting(activeDeck == deck && !deckSlide.blocksDeckInput)
-        .disabled(activeDeck != deck || deckSlide.blocksDeckInput)
-        .accessibilityHidden(activeDeck != deck || deckSlide.blocksDeckInput)
-        .environment(\.frontDeckSwipeEnabled, activeDeck == deck)
+        DeckView(
+            model: model, deck: deck, panels: panels,
+            requestPerformanceSpace: { _ in
+                guard activeDeck == deck else { return }
+                apply(.performance)
+            }
+        ).allowsHitTesting(activeDeck == deck && !deckSlide.blocksDeckInput).disabled(
+            activeDeck != deck || deckSlide.blocksDeckInput
+        ).accessibilityHidden(activeDeck != deck || deckSlide.blocksDeckInput).environment(
+            \.frontDeckSwipeEnabled, activeDeck == deck)
     }
 
     private func handleSwipe(_ event: FrontDeckSwipeEvent, width: Double) {
         switch event {
-        case let .began(horizontal, vertical):
+        case .began(let horizontal, let vertical):
             guard deckSlide.begin(selectedIsB: activeDeck == .b, width: width) else { return }
             selection.interrupt()
             deckSlide.update(horizontal: horizontal, vertical: vertical)
-        case let .changed(horizontal, vertical):
-            deckSlide.update(horizontal: horizontal, vertical: vertical)
-        case let .ended(horizontal, vertical, velocity):
+        case .changed(let horizontal, let vertical): deckSlide.update(horizontal: horizontal, vertical: vertical)
+        case .ended(let horizontal, let vertical, let velocity):
             guard deckSlide.isDragging else { return }
             deckSlide.update(horizontal: horizontal, vertical: vertical)
             let settlementID = UUID()
             withAnimation(reduceMotion ? nil : .smooth(duration: 0.24), completionCriteria: .logicallyComplete) {
                 deckSlide.end(velocity: velocity, settlementID: settlementID)
-            } completion: { completeDeckSlide(settlementID) }
-        case .cancelled:
-            settleDeck(on: activeDeck)
+            } completion: {
+                completeDeckSlide(settlementID)
+            }
+        case .cancelled: settleDeck(on: activeDeck)
         }
     }
 
@@ -174,7 +180,9 @@ struct FrontPerformanceView: View {
         let settlementID = UUID()
         withAnimation(reduceMotion ? nil : .smooth(duration: 0.24), completionCriteria: .logicallyComplete) {
             deckSlide.settle(on: deck == .b, settlementID: settlementID)
-        } completion: { completeDeckSlide(settlementID) }
+        } completion: {
+            completeDeckSlide(settlementID)
+        }
     }
 
     private func completeDeckSlide(_ settlementID: UUID) {
@@ -190,12 +198,17 @@ struct FrontPerformanceView: View {
 
     private var browserBar: some View {
         HStack(spacing: 4) {
-            FrontLibraryGrip(begin: { browser.beginDrag() },
-                update: { browser.updateDrag(translation: $0) },
-                end: { browser.endDrag(velocity: $0); model.browserVisible = browser.extent > 0 },
-                cancel: { browser.cancelDrag() },
-                adjust: { browser.adjust(by: $0); model.browserVisible = browser.extent > 0 })
-                .protectsFrontDeckSwipe()
+            FrontLibraryGrip(
+                begin: { browser.beginDrag() }, update: { browser.updateDrag(translation: $0) },
+                end: {
+                    browser.endDrag(velocity: $0)
+                    model.browserVisible = browser.extent > 0
+                }, cancel: { browser.cancelDrag() },
+                adjust: {
+                    browser.adjust(by: $0)
+                    model.browserVisible = browser.extent > 0
+                }
+            ).protectsFrontDeckSwipe()
             ViewThatFits(in: .horizontal) {
                 browserButtons(compact: false)
                 browserButtons(compact: true)
@@ -207,23 +220,32 @@ struct FrontPerformanceView: View {
             } label: {
                 Image(systemName: "rectangle.split.1x2").frame(width: 44, height: 44)
             }.accessibilityLabel("Performance, Browse and Expand")
-        }
-        .font(.subheadline.weight(.semibold)).foregroundStyle(PerformancePalette.text)
-        .background(PerformancePalette.frame)
+        }.font(.subheadline.weight(.semibold)).foregroundStyle(PerformancePalette.text).background(
+            PerformancePalette.frame)
     }
 
     private func browserButtons(compact: Bool) -> some View {
         HStack(spacing: 4) {
-            Button { open(.songs) } label: {
+            Button {
+                open(.songs)
+            } label: {
                 Group {
-                    if compact { Image(systemName: "music.note").font(.system(size: 18)) }
-                    else { Text("Songs").fixedSize(horizontal: true, vertical: false) }
+                    if compact {
+                        Image(systemName: "music.note").font(.system(size: 18))
+                    } else {
+                        Text("Songs").fixedSize(horizontal: true, vertical: false)
+                    }
                 }.frame(maxWidth: .infinity, minHeight: 44)
             }.accessibilityLabel("Songs")
-            Button { open(.suggestions) } label: {
+            Button {
+                open(.suggestions)
+            } label: {
                 Group {
-                    if compact { Image(systemName: "sparkles").font(.system(size: 18)) }
-                    else { Text("Suggestions").fixedSize(horizontal: true, vertical: false) }
+                    if compact {
+                        Image(systemName: "sparkles").font(.system(size: 18))
+                    } else {
+                        Text("Suggestions").fixedSize(horizontal: true, vertical: false)
+                    }
                 }.frame(maxWidth: .infinity, minHeight: 44)
             }.accessibilityLabel("Suggestions for deck \(activeDeck.rawValue.uppercased())")
         }
@@ -243,34 +265,41 @@ struct FrontPerformanceView: View {
 
     private var performanceControls: some View {
         HStack(spacing: 4) {
-            Button("FX") { panels.toggleEffects() }
-                .foregroundStyle(panels.effectsVisible ? Color.orange : PerformancePalette.text)
-            Button("EQ") { panels.toggleMixer() }
-                .foregroundStyle(panels.mixerVisible ? PerformancePalette.cyan : PerformancePalette.text)
-            Button { model.toggleLoop(deck: activeDeck) } label: { Image(systemName: "repeat") }
-                .foregroundStyle(model.playbackSnapshot?[activeDeck].loopEnabled == true ? PerformancePalette.syncGreen : PerformancePalette.text)
-                .accessibilityLabel("Loop on deck \(activeDeck.rawValue.uppercased())")
-            Button { model.toggleSync(deck: activeDeck) } label: { Text("Sync") }
-                .accessibilityLabel("Sync deck \(activeDeck.rawValue.uppercased())")
+            Button("FX") { panels.toggleEffects() }.foregroundStyle(
+                panels.effectsVisible ? Color.orange : PerformancePalette.text)
+            Button("EQ") { panels.toggleMixer() }.foregroundStyle(
+                panels.mixerVisible ? PerformancePalette.cyan : PerformancePalette.text)
+            Button {
+                model.toggleLoop(deck: activeDeck)
+            } label: {
+                Image(systemName: "repeat")
+            }.foregroundStyle(
+                model.playbackSnapshot?[activeDeck].loopEnabled == true
+                    ? PerformancePalette.syncGreen : PerformancePalette.text
+            ).accessibilityLabel("Loop on deck \(activeDeck.rawValue.uppercased())")
+            Button {
+                model.toggleSync(deck: activeDeck)
+            } label: {
+                Text("Sync")
+            }.accessibilityLabel("Sync deck \(activeDeck.rawValue.uppercased())")
             DeckPlaybackButton(model: model, deck: activeDeck)
-        }
-        .buttonStyle(FrontControlButtonStyle())
-        .disabled(model.track(activeDeck) == nil)
-        .padding(.horizontal, 4).background(PerformancePalette.frame)
+        }.buttonStyle(FrontControlButtonStyle()).disabled(model.track(activeDeck) == nil).padding(.horizontal, 4)
+            .background(PerformancePalette.frame)
     }
 
     private var crossfader: some View {
         HStack(spacing: 8) {
             Text("A").font(.caption.bold()).accessibilityHidden(true)
-            TouchFader(value: model.controlDisplay.crossfader, range: 0...1, reset: 0.5,
-                horizontalHeight: 44, readValue: { model.controlDisplay.crossfader },
-                change: { model.setMixer(.crossfader, value: $0) })
-                .accessibilityElement(children: .ignore)
-                .accessibilityLabel("Crossfader")
-                .accessibilityValue(String(format: "%.0f percent toward B", model.controlDisplay.crossfader * 100))
-                .accessibilityAdjustableAction { direction in
-                    model.setMixer(.crossfader, value: min(1, max(0, model.controlDisplay.crossfader + (direction == .increment ? 0.05 : -0.05))))
-                }
+            TouchFader(
+                value: model.controlDisplay.crossfader, range: 0...1, reset: 0.5, horizontalHeight: 44,
+                readValue: { model.controlDisplay.crossfader }, change: { model.setMixer(.crossfader, value: $0) }
+            ).accessibilityElement(children: .ignore).accessibilityLabel("Crossfader").accessibilityValue(
+                String(format: "%.0f percent toward B", model.controlDisplay.crossfader * 100)
+            ).accessibilityAdjustableAction { direction in
+                model.setMixer(
+                    .crossfader,
+                    value: min(1, max(0, model.controlDisplay.crossfader + (direction == .increment ? 0.05 : -0.05))))
+            }
             Text("B").font(.caption.bold()).accessibilityHidden(true)
         }.padding(.horizontal, 12).background(PerformancePalette.panel)
     }
@@ -278,10 +307,9 @@ struct FrontPerformanceView: View {
 
 private struct FrontControlButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label.font(.subheadline.weight(.bold))
-            .frame(maxWidth: .infinity, minHeight: 44)
-            .background(configuration.isPressed ? PerformancePalette.raised : PerformancePalette.panel,
-                        in: RoundedRectangle(cornerRadius: 4))
+        configuration.label.font(.subheadline.weight(.bold)).frame(maxWidth: .infinity, minHeight: 44).background(
+            configuration.isPressed ? PerformancePalette.raised : PerformancePalette.panel,
+            in: RoundedRectangle(cornerRadius: 4))
     }
 }
 
@@ -295,24 +323,29 @@ private struct FrontLibraryGrip: View {
     @State private var vertical: Bool?
 
     var body: some View {
-        Image(systemName: "line.3.horizontal")
-            .frame(width: 44, height: 44).contentShape(Rectangle())
-            .gesture(DragGesture(minimumDistance: 4, coordinateSpace: .global)
-                .updating($touching) { _, active, _ in active = true }
-                .onChanged { value in
-                    if vertical == nil {
-                        vertical = abs(value.translation.height) >= abs(value.translation.width)
-                        if vertical == true { begin() }
-                    }
-                    if vertical == true { update(-value.translation.height) }
+        Image(systemName: "line.3.horizontal").frame(width: 44, height: 44).contentShape(Rectangle()).gesture(
+            DragGesture(minimumDistance: 4, coordinateSpace: .global).updating($touching) { _, active, _ in
+                active = true
+            }.onChanged { value in
+                if vertical == nil {
+                    vertical = abs(value.translation.height) >= abs(value.translation.width)
+                    if vertical == true { begin() }
                 }
-                .onEnded { value in
-                    if vertical == true { update(-value.translation.height); end(-value.velocity.height) }
-                    vertical = nil
-                })
-            .onChange(of: touching) { _, active in if !active { cancel(); vertical = nil } }
-            .onDisappear { cancel() }
-            .accessibilityLabel("Resize song browser")
-            .accessibilityAdjustableAction { direction in adjust(direction == .increment ? 44 : -44) }
+                if vertical == true { update(-value.translation.height) }
+            }.onEnded { value in
+                if vertical == true {
+                    update(-value.translation.height)
+                    end(-value.velocity.height)
+                }
+                vertical = nil
+            }
+        ).onChange(of: touching) { _, active in
+            if !active {
+                cancel()
+                vertical = nil
+            }
+        }.onDisappear { cancel() }.accessibilityLabel("Resize song browser").accessibilityAdjustableAction {
+            direction in adjust(direction == .increment ? 44 : -44)
+        }
     }
 }

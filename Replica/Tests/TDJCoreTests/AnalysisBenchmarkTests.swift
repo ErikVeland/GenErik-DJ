@@ -1,26 +1,28 @@
 import Foundation
 import Testing
+
 @testable import TDJCore
 
 private let benchmarkHash = String(repeating: "a", count: 64)
-private let benchmarkLimits = AnalysisBenchmarkLimits(maximumBPMError: 0.02,
-    maximumBeatPhaseErrorMilliseconds: 10, maximumGridDriftMilliseconds: 20,
+private let benchmarkLimits = AnalysisBenchmarkLimits(
+    maximumBPMError: 0.02, maximumBeatPhaseErrorMilliseconds: 10, maximumGridDriftMilliseconds: 20,
     maximumDownbeatErrorMilliseconds: 20, maximumSimilarEnergyDistance: 1)
 
 private func annotatedTrack(_ id: String = "reference") -> AnalysisBenchmarkTrack {
-    .init(id: id, path: "reference.wav", sha256: benchmarkHash, annotation: "Synthetic scorer test, not TDJ1 evidence.",
+    .init(
+        id: id, path: "reference.wav", sha256: benchmarkHash, annotation: "Synthetic scorer test, not TDJ1 evidence.",
         tags: ["test"], tempo: .init(status: .labelled, bpm: 120, beatAnchorSeconds: 0),
         key: .init(status: .labelled, key: .init(tonic: 0, mode: .major)),
         downbeat: .init(status: .labelled, barStartSeconds: 0))
 }
 
-private func measuredAnalysis(bpm: Double = 120, anchorSeconds: Double = 0,
-                              key: MusicalKey = .init(tonic: 0, mode: .major),
-                              downbeat: Int? = 0) -> AudioAnalysis {
-    var result = AudioAnalysis(implementation: "Synthetic scorer test", configurationID: "test",
-        contentSHA256: benchmarkHash, sampleRate: 48000, frameCount: 48000 * 600, channelCount: 2,
-        waveformFramesPerBin: 480, waveform: [], bpm: bpm, beatAnchorFrame: anchorSeconds * 48000,
-        tempoConfidence: 1, key: key, keyConfidence: 1, chroma: [], timbre: [])
+private func measuredAnalysis(
+    bpm: Double = 120, anchorSeconds: Double = 0, key: MusicalKey = .init(tonic: 0, mode: .major), downbeat: Int? = 0
+) -> AudioAnalysis {
+    var result = AudioAnalysis(
+        implementation: "Synthetic scorer test", configurationID: "test", contentSHA256: benchmarkHash,
+        sampleRate: 48000, frameCount: 48000 * 600, channelCount: 2, waveformFramesPerBin: 480, waveform: [], bpm: bpm,
+        beatAnchorFrame: anchorSeconds * 48000, tempoConfidence: 1, key: key, keyConfidence: 1, chroma: [], timbre: [])
     result.cachedEnergyLevel = 5
     result.detectedDownbeatOffset = downbeat
     result.downbeatConfidence = downbeat == nil ? nil : 0.9
@@ -28,33 +30,39 @@ private func measuredAnalysis(bpm: Double = 120, anchorSeconds: Double = 0,
 }
 
 private func benchmarkManifest() -> AnalysisBenchmarkManifest {
-    .init(format: "tdj1.analysis-benchmark/v1", corpus: .synthetic, referenceBuild: nil, requiredTags: ["test"],
+    .init(
+        format: "tdj1.analysis-benchmark/v1", corpus: .synthetic, referenceBuild: nil, requiredTags: ["test"],
         limits: benchmarkLimits, tracks: [annotatedTrack("a"), annotatedTrack("b")],
-        energyComparisons: [.init(firstTrackID: "a", secondTrackID: "b", relation: .similar, annotation: "Equal synthetic energy.")])
+        energyComparisons: [
+            .init(firstTrackID: "a", secondTrackID: "b", relation: .similar, annotation: "Equal synthetic energy.")
+        ])
 }
 
 @Test func exactTempoAndLongTrackDriftAreIndependentAcceptanceChecks() throws {
-    let result = AnalysisBenchmark.evaluate(measuredAnalysis(bpm: 120.01), expected: annotatedTrack(), limits: benchmarkLimits)
+    let result = AnalysisBenchmark.evaluate(
+        measuredAnalysis(bpm: 120.01), expected: annotatedTrack(), limits: benchmarkLimits)
     #expect(result.checks.first { $0.metric == "bpm" }?.outcome == .pass)
     #expect(result.checks.first { $0.metric == "gridDriftMilliseconds" }?.outcome == .fail)
     #expect(try #require(result.checks.first { $0.metric == "gridDriftMilliseconds" }?.error) > 49)
 }
 
 @Test func doubledTempoNeverReceivesOctaveEquivalenceCredit() {
-    let result = AnalysisBenchmark.evaluate(measuredAnalysis(bpm: 240), expected: annotatedTrack(), limits: benchmarkLimits)
+    let result = AnalysisBenchmark.evaluate(
+        measuredAnalysis(bpm: 240), expected: annotatedTrack(), limits: benchmarkLimits)
     #expect(result.checks.first { $0.metric == "bpm" }?.outcome == .fail)
     #expect(result.checks.first { $0.metric == "gridDriftMilliseconds" }?.outcome == .fail)
 }
 
 @Test func relativeKeyIsNotAnExactKeyDetection() {
-    let result = AnalysisBenchmark.evaluate(measuredAnalysis(key: .init(tonic: 9, mode: .minor)),
-        expected: annotatedTrack(), limits: benchmarkLimits)
+    let result = AnalysisBenchmark.evaluate(
+        measuredAnalysis(key: .init(tonic: 9, mode: .minor)), expected: annotatedTrack(), limits: benchmarkLimits)
     #expect(result.checks.first { $0.metric == "key" }?.outcome == .fail)
 }
 
 @Test func correctBeatPhaseDoesNotHideWrongBarPhase() {
     for offset in [1, 2, 3] {
-        let result = AnalysisBenchmark.evaluate(measuredAnalysis(downbeat: offset), expected: annotatedTrack(), limits: benchmarkLimits)
+        let result = AnalysisBenchmark.evaluate(
+            measuredAnalysis(downbeat: offset), expected: annotatedTrack(), limits: benchmarkLimits)
         #expect(result.checks.first { $0.metric == "beatPhaseMilliseconds" }?.outcome == .pass)
         #expect(result.checks.first { $0.metric == "downbeat" }?.outcome == .fail)
     }
@@ -70,7 +78,8 @@ private func benchmarkManifest() -> AnalysisBenchmarkManifest {
 }
 
 @Test func beatAnchorsMayDifferByWholeBarsWithoutChangingTheGrid() {
-    let result = AnalysisBenchmark.evaluate(measuredAnalysis(anchorSeconds: 8), expected: annotatedTrack(), limits: benchmarkLimits)
+    let result = AnalysisBenchmark.evaluate(
+        measuredAnalysis(anchorSeconds: 8), expected: annotatedTrack(), limits: benchmarkLimits)
     #expect(result.checks.allSatisfy { $0.outcome == .pass })
 }
 
@@ -86,7 +95,9 @@ private func benchmarkManifest() -> AnalysisBenchmarkManifest {
 @Test func syntheticSuccessNeverClaimsReferenceParity() throws {
     let manifest = benchmarkManifest()
     try manifest.validate()
-    let results = manifest.tracks.map { AnalysisBenchmark.evaluate(measuredAnalysis(), expected: $0, limits: manifest.limits) }
+    let results = manifest.tracks.map {
+        AnalysisBenchmark.evaluate(measuredAnalysis(), expected: $0, limits: manifest.limits)
+    }
     let report = AnalysisBenchmark.report(manifest: manifest, measurements: results)
     #expect(report.labelledChecksPassed)
     #expect(!report.referenceCorpusPassed)
@@ -101,7 +112,9 @@ private func benchmarkManifest() -> AnalysisBenchmarkManifest {
     manifest.requiredTags = ["test", "detuned"]
     manifest.energyComparisons = []
     manifest.tracks[0].key = .init(status: .unlabelled)
-    let results = manifest.tracks.map { AnalysisBenchmark.evaluate(measuredAnalysis(), expected: $0, limits: manifest.limits) }
+    let results = manifest.tracks.map {
+        AnalysisBenchmark.evaluate(measuredAnalysis(), expected: $0, limits: manifest.limits)
+    }
     let report = AnalysisBenchmark.report(manifest: manifest, measurements: results)
     #expect(!report.referenceCorpusPassed)
     #expect(report.blockers.contains { $0.contains("detuned") })
@@ -128,8 +141,10 @@ private func benchmarkManifest() -> AnalysisBenchmarkManifest {
     manifest.energyComparisons[0].relation = .higher
     var quiet = measuredAnalysis()
     quiet.cachedEnergyLevel = 2
-    let results = [AnalysisBenchmark.evaluate(measuredAnalysis(), expected: manifest.tracks[0], limits: manifest.limits),
-        AnalysisBenchmark.evaluate(quiet, expected: manifest.tracks[1], limits: manifest.limits)]
+    let results = [
+        AnalysisBenchmark.evaluate(measuredAnalysis(), expected: manifest.tracks[0], limits: manifest.limits),
+        AnalysisBenchmark.evaluate(quiet, expected: manifest.tracks[1], limits: manifest.limits),
+    ]
     #expect(AnalysisBenchmark.report(manifest: manifest, measurements: results).energyChecks.first?.outcome == .pass)
     manifest.energyComparisons[0].relation = .similar
     #expect(AnalysisBenchmark.report(manifest: manifest, measurements: results).energyChecks.first?.outcome == .fail)
@@ -154,7 +169,8 @@ private func benchmarkManifest() -> AnalysisBenchmarkManifest {
     var manifest = benchmarkManifest()
     manifest.tracks = [annotatedTrack()]
     manifest.energyComparisons = []
-    let report = try await AnalysisBenchmark.run(manifest: manifest, relativeTo: URL(fileURLWithPath: "/no-such-tdj-corpus"))
+    let report = try await AnalysisBenchmark.run(
+        manifest: manifest, relativeTo: URL(fileURLWithPath: "/no-such-tdj-corpus"))
     #expect(report.tracks.count == 1)
     #expect(report.tracks.first?.checks.first?.outcome == .fail)
     #expect(!report.labelledChecksPassed)

@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+
 @testable import TDJInterface
 
 private final class WorkValueReleaseRecord: @unchecked Sendable {
@@ -18,7 +19,8 @@ private func makeWorkValue(_ record: WorkValueReleaseRecord) -> BackgroundWorkVa
 }
 
 @Test @MainActor func backgroundWorkValueReleasesItsPayloadAwayFromTheMainThread() async {
-    let record = WorkValueReleaseRecord(), value = makeWorkValue(record)
+    let record = WorkValueReleaseRecord()
+    let value = makeWorkValue(record)
     #expect(record.releasedOnMain == nil)
     await value.clear()
     #expect(record.releasedOnMain == false)
@@ -33,5 +35,9 @@ private func makeWorkValue(_ record: WorkValueReleaseRecord) -> BackgroundWorkVa
     }
     #expect(await value.update { $0 } == 100)
     await value.clear()
-    #expect(await value.update { $0 += 1; return $0 } == nil)
+    #expect(
+        await value.update {
+            $0 += 1
+            return $0
+        } == nil)
 }

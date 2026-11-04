@@ -1,14 +1,13 @@
-# Open candidate issues
+# Known issues
 
-| ID | Related request | Issue / uncertainty | Next evidence needed |
-| --- | --- | --- | --- |
-| B01 | R13 | The packaged empty-workspace snapshot shows a yellow/prohibited-style search field. The cause and live-app impact are unknown. | Compare the actual live Mac and simulator browser with the snapshot path. Retain the current render before any fix. |
-| B02 | R01/R07/R20 | The exact combined source has not completed sustained audio or physical A10X qualification. | Run the unchanged combined workloads, then listening and rehearsal gates. |
-| B03 | R09/R11 | Automatic semantic drop/song-structure recognition and validated musical-ending detection remain incomplete. | Reference-labelled real music, conservative uncertainty handling and correct manual overrides. |
-| B04 | R12 | The app reviews governed JSON and one ID3 Initial Key field, but does not parse Mixed In Key project exports or write changes to Traktor Pro files. The ID3 field does not identify its writer. | Obtain representative native exports and collection files; verify field and identity mappings; add adapter tests and preview/backup/write-back checks before external writes. |
-| B05 | R14/R23 | Z1 bridge and opt-in controller profiles do not establish physical accessory compatibility, model mappings, output behaviour or accepted control feel. The configfs helper has filesystem-fixture tests, not bridge-hardware checks. | Verify supported connection, input mappings, output messages, calibration, audio route and control feel on available hardware. |
-| B06 | R19 | The 18 candidate folders are absent here. The inventory lists 909 differing file entries; 908 current paths differ by hash and one is missing. Hashes cannot show whether changes were superseded or incorporated differently. | Restore candidate source and inspect meaningful patches before assigning dispositions. See `private-worktree-comparison.md`. |
-| B07 | R20 | Build 81 from source `888dfcf` is installed and launched. Full Xcode is installed, but its licence is not accepted. The signing config is absent. A further signed increment cannot be prepared here. | Accept the Xcode licence and restore signing configuration before the next signed build. Erik's build 81 review, audio qualification and rehearsal remain pending. |
-| B08 | R17 | Erik chose bundled on-device separation for local tracks. The pinned 233 MB HTDemucs Core ML model is now a Swift package resource. The app has no user flow, inference pipeline, stem cache or deck mixer route. A10X performance is unverified. | Connect the bundled model to a user flow. Add background separation and local stem caches, then connect cached stems to the deck mixer. Measure processing time, memory and clean playback on the target iPad before acceptance. See `stems-on-device.md`. |
+| Request | Open work |
+| --- | --- |
+| R01/R07/R20 | Sustained current-source audio, adaptive timing, memory/thermal behaviour and real-setup rehearsal need A10X acceptance. |
+| R09/R11/R35–R38 | Verse/chorus/drop/ending labels remain estimates. Dense remixes and unresolved vocal tracks need reference-labelled listening checks. |
+| R12 | Mixed In Key native exports and Traktor Pro write-back need verified format/identity mappings and preview/backup checks. |
+| R14/R23 | Controller profiles and bridge code need physical connection, calibration, routing and feedback acceptance. Original Z1 is first. |
+| R17 | The stem model is bundled. Inference, cached stem playback and mixer controls are not implemented. A10X cost is unknown. |
+| R19 | Eighteen private candidates remain preserved in the external archive. Their meaningful differences still need source review. |
+| R28/R39/R40/R42 | Front/inside phone layouts and shortcuts need physical acceptance. iPad layout stays separate. |
 
-These issues are open. The passing package suite does not close them.
+Earlier screenshots, failures and superseded installation blockers remain in [history](../history.md). The old Xcode licence/signing blocker is superseded by successful signed builds through 111.

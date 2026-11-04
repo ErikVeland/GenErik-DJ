@@ -4,13 +4,7 @@
 #include <limits.h>
 #include <stdint.h>
 
-enum {
-    REVERB_MID_GAIN,
-    REVERB_INJECTION_GAIN,
-    REVERB_BASS_RATIO,
-    REVERB_TREBLE_RATIO,
-    REVERB_COEFFICIENT_COUNT
-};
+enum { REVERB_MID_GAIN, REVERB_INJECTION_GAIN, REVERB_BASS_RATIO, REVERB_TREBLE_RATIO, REVERB_COEFFICIENT_COUNT };
 
 typedef struct {
     float *data;
@@ -39,7 +33,8 @@ typedef struct {
 } stereo_reverb;
 
 static unsigned reverb_prime(unsigned n) {
-    if (n < 3) return 3;
+    if (n < 3)
+        return 3;
     n |= 1;
     for (;;) {
         bool prime = true;
@@ -49,49 +44,55 @@ static unsigned reverb_prime(unsigned n) {
                 break;
             }
         }
-        if (prime) return n;
-        if (n > UINT_MAX - 2) return 0;
+        if (prime)
+            return n;
+        if (n > UINT_MAX - 2)
+            return 0;
         n += 2;
     }
 }
 
 static bool reverb_reserve_line(stereo_reverb *v, reverb_line *line, double requested, bool prime) {
-    if (!isfinite(requested) || requested < 0 || requested > UINT_MAX) return false;
+    if (!isfinite(requested) || requested < 0 || requested > UINT_MAX)
+        return false;
     unsigned length = prime ? reverb_prime((unsigned)requested) : (unsigned)requested;
-    if (!length || (size_t)length > SIZE_MAX / sizeof(float) - v->storage_samples) return false;
+    if (!length || (size_t)length > SIZE_MAX / sizeof(float) - v->storage_samples)
+        return false;
     line->length = length;
     v->storage_samples += length;
     return true;
 }
 
 static bool reverb_init(stereo_reverb *v, double rate) {
-    static const double tank_seconds[8] = {
-        0.0217, 0.0271, 0.0319, 0.0379, 0.0437, 0.0533, 0.0599, 0.0677
-    };
-    static const double diffusion_seconds[2][4] = {
-        {0.00191, 0.00473, 0.00937, 0.01373},
-        {0.00217, 0.00511, 0.01003, 0.01459}
-    };
-    if (!v || !isfinite(rate) || rate <= 0) return false;
+    static const double tank_seconds[8] = {0.0217, 0.0271, 0.0319, 0.0379, 0.0437, 0.0533, 0.0599, 0.0677};
+    static const double diffusion_seconds[2][4] = {{0.00191, 0.00473, 0.00937, 0.01373},
+                                                   {0.00217, 0.00511, 0.01003, 0.01459}};
+    if (!v || !isfinite(rate) || rate <= 0)
+        return false;
     v->rate = rate;
     v->storage_samples = 0;
     for (int i = 0; i < 8; i++) {
-        if (!reverb_reserve_line(v, &v->tank[i], ceil(rate * tank_seconds[i]), true)) return false;
+        if (!reverb_reserve_line(v, &v->tank[i], ceil(rate * tank_seconds[i]), true))
+            return false;
         v->coefficient[REVERB_INJECTION_GAIN][i] = 1;
         v->coefficient[REVERB_BASS_RATIO][i] = 1;
         v->coefficient[REVERB_TREBLE_RATIO][i] = 1;
     }
     for (int ch = 0; ch < 2; ch++) {
         for (int i = 0; i < 4; i++) {
-            if (!reverb_reserve_line(v, &v->diffuser[ch][i], ceil(rate * diffusion_seconds[ch][i]), true)) return false;
+            if (!reverb_reserve_line(v, &v->diffuser[ch][i], ceil(rate * diffusion_seconds[ch][i]), true))
+                return false;
         }
-        if (!reverb_reserve_line(v, &v->early[ch], ceil(rate * 0.055) + 1, false)) return false;
+        if (!reverb_reserve_line(v, &v->early[ch], ceil(rate * 0.055) + 1, false))
+            return false;
     }
     v->storage = calloc(v->storage_samples, sizeof(float));
-    if (!v->storage) return false;
+    if (!v->storage)
+        return false;
     volatile unsigned char *pages = (volatile unsigned char *)v->storage;
     size_t bytes = v->storage_samples * sizeof(float);
-    for (size_t offset = 0; offset < bytes; offset += 4096) pages[offset] = 0;
+    for (size_t offset = 0; offset < bytes; offset += 4096)
+        pages[offset] = 0;
     pages[bytes - 1] = 0;
     float *at = v->storage;
     for (int i = 0; i < 8; i++) {
@@ -146,45 +147,47 @@ static void reverb_prepare(stereo_reverb *v, double x, bool ice, unsigned smooth
     }
     v->ice = ice;
     v->decay_seconds = ice ? 1.5 * pow(12, x) : 0.35 * pow(24, x);
-    v->bass_decay_seconds = fmin(ice ? 2.6 : 1.8,
-        v->decay_seconds * (ice ? 0.48 - 0.15 * x : 0.62 - 0.20 * x));
-    v->treble_decay_seconds = fmin(ice ? 5.0 : 2.0,
-        v->decay_seconds * (ice ? 0.48 - 0.10 * x : 0.40 - 0.12 * x));
+    v->bass_decay_seconds = fmin(ice ? 2.6 : 1.8, v->decay_seconds * (ice ? 0.48 - 0.15 * x : 0.62 - 0.20 * x));
+    v->treble_decay_seconds = fmin(ice ? 5.0 : 2.0, v->decay_seconds * (ice ? 0.48 - 0.10 * x : 0.40 - 0.12 * x));
     v->early_target = (ice ? 0.45 : 0.70) * (1 - 0.30 * x);
     v->early_step = smoothing ? (v->early_target - v->early_gain) / smoothing : 0;
-    if (!smoothing) v->early_gain = v->early_target;
+    if (!smoothing)
+        v->early_gain = v->early_target;
     for (int i = 0; i < 8; i++) {
         double delay = v->tank[i].length / v->rate;
         double attenuation = 6.907755278982137 * delay;
         double gain = exp(-attenuation / v->decay_seconds);
         v->coefficient_target[REVERB_MID_GAIN][i] = gain;
         v->coefficient_target[REVERB_INJECTION_GAIN][i] = sqrt(fmax(0, 1 - gain * gain));
-        v->coefficient_target[REVERB_BASS_RATIO][i] = exp(-attenuation *
-            (1 / v->bass_decay_seconds - 1 / v->decay_seconds));
-        v->coefficient_target[REVERB_TREBLE_RATIO][i] = exp(-attenuation *
-            (1 / v->treble_decay_seconds - 1 / v->decay_seconds));
+        v->coefficient_target[REVERB_BASS_RATIO][i] =
+            exp(-attenuation * (1 / v->bass_decay_seconds - 1 / v->decay_seconds));
+        v->coefficient_target[REVERB_TREBLE_RATIO][i] =
+            exp(-attenuation * (1 / v->treble_decay_seconds - 1 / v->decay_seconds));
     }
     for (int parameter = 0; parameter < REVERB_COEFFICIENT_COUNT; parameter++) {
         for (int i = 0; i < 8; i++) {
             double target = v->coefficient_target[parameter][i];
-            v->coefficient_step[parameter][i] = smoothing ?
-                (target - v->coefficient[parameter][i]) / smoothing : 0;
-            if (!smoothing) v->coefficient[parameter][i] = target;
+            v->coefficient_step[parameter][i] = smoothing ? (target - v->coefficient[parameter][i]) / smoothing : 0;
+            if (!smoothing)
+                v->coefficient[parameter][i] = target;
         }
     }
     v->coefficient_remaining = smoothing;
 }
 
 static double reverb_read(const reverb_line *line, unsigned back) {
-    if (!back || back > line->length || line->valid < back) return 0;
+    if (!back || back > line->length || line->valid < back)
+        return 0;
     unsigned at = line->cursor >= back ? line->cursor - back : line->cursor + line->length - back;
     return line->data[at];
 }
 
 static void reverb_write(reverb_line *line, double value) {
     line->data[line->cursor] = (float)(fabs(value) < 1e-24 ? 0 : value);
-    if (++line->cursor == line->length) line->cursor = 0;
-    if (line->valid < line->length) line->valid++;
+    if (++line->cursor == line->length)
+        line->cursor = 0;
+    if (line->valid < line->length)
+        line->valid++;
 }
 
 static double reverb_allpass(reverb_line *line, double input, double gain) {
@@ -195,7 +198,8 @@ static double reverb_allpass(reverb_line *line, double input, double gain) {
 }
 
 static void reverb_step_coefficients(stereo_reverb *v) {
-    if (!v->coefficient_remaining) return;
+    if (!v->coefficient_remaining)
+        return;
     if (!--v->coefficient_remaining) {
         for (int parameter = 0; parameter < REVERB_COEFFICIENT_COUNT; parameter++) {
             for (int i = 0; i < 8; i++) {
@@ -216,12 +220,16 @@ static void reverb_step_coefficients(stereo_reverb *v) {
 static void reverb_step_motion(stereo_reverb *v) {
     if (!v->motion_remaining) {
         for (int i = 0; i < 8; i++) {
-            if (fabs(v->damping[i]) < 1e-24) v->damping[i] = 0;
-            if (fabs(v->bass_state[i]) < 1e-24) v->bass_state[i] = 0;
+            if (fabs(v->damping[i]) < 1e-24)
+                v->damping[i] = 0;
+            if (fabs(v->bass_state[i]) < 1e-24)
+                v->bass_state[i] = 0;
         }
         for (int ch = 0; ch < 2; ch++) {
-            if (fabs(v->input_low[ch]) < 1e-24) v->input_low[ch] = 0;
-            if (fabs(v->input_high[ch]) < 1e-24) v->input_high[ch] = 0;
+            if (fabs(v->input_low[ch]) < 1e-24)
+                v->input_low[ch] = 0;
+            if (fabs(v->input_high[ch]) < 1e-24)
+                v->input_high[ch] = 0;
         }
         for (int i = 0; i < 2; i++) {
             double phase = v->motion_phase[i] + v->motion_velocity[i] * 32;
@@ -311,8 +319,8 @@ static void reverb_process(stereo_reverb *v, const double input[2], double outpu
     }
     double left = 0, right = 0;
     for (int i = 0; i < 8; i++) {
-        double excitation = (diffused[0] * left_sign[i] + diffused[1] * right_sign[i]) *
-            0.25 * v->coefficient[REVERB_INJECTION_GAIN][i];
+        double excitation = (diffused[0] * left_sign[i] + diffused[1] * right_sign[i]) * 0.25 *
+                            v->coefficient[REVERB_INJECTION_GAIN][i];
         reverb_write(&v->tank[i], feedback[i] * 0.3535533905932738 + excitation);
         left += delayed[i] * left_sign[i];
         right += delayed[i] * right_sign[i];

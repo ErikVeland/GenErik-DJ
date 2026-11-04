@@ -1,18 +1,19 @@
-import Foundation
 import CoreGraphics
+import Foundation
 
-@main
-enum TouchLayoutChecks {
+@main enum TouchLayoutChecks {
     static func main() {
         var checks = 0
         var failures = 0
         func expect(_ condition: Bool, _ message: String) {
             checks += 1
-            if !condition { failures += 1; print("FAIL: \(message)") }
+            if !condition {
+                failures += 1
+                print("FAIL: \(message)")
+            }
         }
         let viewports: [(Double, Double)] = [
-            (1112, 774), (834, 1052), (1024, 708), (768, 964),
-            (880, 619), (619, 880), (744, 1073), (1133, 684),
+            (1112, 774), (834, 1052), (1024, 708), (768, 964), (880, 619), (619, 880), (744, 1073), (1133, 684),
         ]
         for (width, height) in viewports {
             let baseline = PerformanceDockGeometry(width: width, height: height)
@@ -31,8 +32,8 @@ enum TouchLayoutChecks {
             }
             for visible in [false, true] {
                 for share in [0.0, 0.1, 0.25, 0.5, 0.72, 0.95, 1.0] {
-                    let layout = PerformanceWorkspaceGeometry(width: width, height: height,
-                        browserVisible: visible, deckShare: share)
+                    let layout = PerformanceWorkspaceGeometry(
+                        width: width, height: height, browserVisible: visible, deckShare: share)
                     expect(layout.dock.aButtons == baseline.aButtons, "A anchors through resize")
                     expect(layout.dock.bButtons == baseline.bButtons, "B anchors through resize")
                     expect(layout.dock.crossfader == baseline.crossfader, "fader anchor through resize")
@@ -47,8 +48,10 @@ enum TouchLayoutChecks {
             let geometry = PerformanceDockGeometry(width: width, height: height)
             expect(!geometry.fits, "unsupported viewport is explicit")
             let rectangles = geometry.aButtons + geometry.bButtons + [geometry.crossfader, geometry.workArea]
-            expect(rectangles.allSatisfy { [$0.minX, $0.minY, $0.width, $0.height].allSatisfy { $0.isFinite && $0 >= 0 } },
-                "unsupported and invalid geometry remains finite and non-negative")
+            expect(
+                rectangles.allSatisfy {
+                    [$0.minX, $0.minY, $0.width, $0.height].allSatisfy { $0.isFinite && $0 >= 0 }
+                }, "unsupported and invalid geometry remains finite and non-negative")
         }
         print("\(checks) anchor and workspace checks; \(failures) failures")
         if failures > 0 { exit(1) }

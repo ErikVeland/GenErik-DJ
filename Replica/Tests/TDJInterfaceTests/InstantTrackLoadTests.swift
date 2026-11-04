@@ -1,6 +1,7 @@
 import Foundation
-import Testing
 import TDJCore
+import Testing
+
 @testable import TDJInterface
 
 @MainActor private func instantLoadModel() async throws -> (ReplicaModel, URL, Track) {

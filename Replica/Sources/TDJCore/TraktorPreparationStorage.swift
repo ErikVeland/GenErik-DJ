@@ -7,7 +7,8 @@ public enum TraktorPreparationStorage {
         let origin: CollectionOrigin?
     }
 
-    public static func importCollection(at source: URL, store: WorkspaceStore) async throws -> TraktorPreparationCatalog {
+    public static func importCollection(at source: URL, store: WorkspaceStore) async throws -> TraktorPreparationCatalog
+    {
         try await AnalysisWorker.shared.run(checkAfterWork: false) { check in
             let data = try readBounded(source)
             let catalog = try withoutActuallyEscaping(check) { cancellation in
@@ -19,8 +20,9 @@ public enum TraktorPreparationStorage {
         }
     }
 
-    public static func discover(store: WorkspaceStore, includeSyncedFolder: Bool = false,
-                                automaticSources: [URL] = []) async throws -> TraktorPreparationCatalog? {
+    public static func discover(store: WorkspaceStore, includeSyncedFolder: Bool = false, automaticSources: [URL] = [])
+        async throws -> TraktorPreparationCatalog?
+    {
         try await AnalysisWorker.shared.run(checkAfterWork: false) { check in
             let directory = store.root.appendingPathComponent("TraktorReferences", isDirectory: true)
             let pointer = directory.appendingPathComponent("current.json")
@@ -35,18 +37,26 @@ public enum TraktorPreparationStorage {
                 let catalog = try withoutActuallyEscaping(check) { cancellation in
                     try TraktorPreparationCatalog.read(data, checkCancellation: cancellation)
                 }
-                guard catalog.summary.sourceSHA256 == state.digest else { throw CoreError.invalidWorkspace("Collection reference integrity check failed.") }
+                guard catalog.summary.sourceSHA256 == state.digest else {
+                    throw CoreError.invalidWorkspace("Collection reference integrity check failed.")
+                }
                 // A legacy pointer represents the user's existing selection.
                 if state.origin != .automatic { return catalog }
                 retained = catalog
                 retainedData = data
             }
-            var candidates = automaticSources + [directory.appendingPathComponent("collection.nml.gz"), directory.appendingPathComponent("collection.nml")]
-#if os(macOS)
-            if includeSyncedFolder {
-                candidates.append(FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Mobile Documents/iCloud~com~native-instruments~tdj/Documents/collection.nml.gz"))
-            }
-#endif
+            var candidates =
+                automaticSources + [
+                    directory.appendingPathComponent("collection.nml.gz"),
+                    directory.appendingPathComponent("collection.nml"),
+                ]
+            #if os(macOS)
+                if includeSyncedFolder {
+                    candidates.append(
+                        FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(
+                            "Library/Mobile Documents/iCloud~com~native-instruments~tdj/Documents/collection.nml.gz"))
+                }
+            #endif
             for candidate in candidates {
                 try check()
                 guard FileManager.default.isReadableFile(atPath: candidate.path) else { continue }
@@ -72,17 +82,23 @@ public enum TraktorPreparationStorage {
         }
     }
 
-    private static func retain(_ data: Data, catalog: TraktorPreparationCatalog, store: WorkspaceStore,
-                                origin: CollectionOrigin, check: () throws -> Void) throws {
-            let directory = store.root.appendingPathComponent("TraktorReferences", isDirectory: true)
-            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
-            let archive = directory.appendingPathComponent(catalog.summary.sourceSHA256 + ".collection")
-            if FileManager.default.fileExists(atPath: archive.path) {
-                guard try readBounded(archive) == data else { throw CoreError.invalidWorkspace("The archived collection reference has changed.") }
-            } else { try data.write(to: archive, options: .atomic) }
-            try check()
-            let pointer = try JSONEncoder().encode(ActiveCollection(digest: catalog.summary.sourceSHA256, origin: origin))
-            try pointer.write(to: directory.appendingPathComponent("current.json"), options: .atomic)
+    private static func retain(
+        _ data: Data, catalog: TraktorPreparationCatalog, store: WorkspaceStore, origin: CollectionOrigin,
+        check: () throws -> Void
+    ) throws {
+        let directory = store.root.appendingPathComponent("TraktorReferences", isDirectory: true)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        let archive = directory.appendingPathComponent(catalog.summary.sourceSHA256 + ".collection")
+        if FileManager.default.fileExists(atPath: archive.path) {
+            guard try readBounded(archive) == data else {
+                throw CoreError.invalidWorkspace("The archived collection reference has changed.")
+            }
+        } else {
+            try data.write(to: archive, options: .atomic)
+        }
+        try check()
+        let pointer = try JSONEncoder().encode(ActiveCollection(digest: catalog.summary.sourceSHA256, origin: origin))
+        try pointer.write(to: directory.appendingPathComponent("current.json"), options: .atomic)
     }
 
     private static func readBounded(_ url: URL) throws -> Data {

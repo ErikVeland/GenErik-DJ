@@ -1,7 +1,0 @@
-FAIL: FX opens at half the available panel budget
-FAIL: EQ opens at a substantial width beside FX
-FAIL: hiding Controls restores the chosen panel space
-FAIL: explicitly resized FX width survives reopening
-FAIL: full-screen expansion retains the user's chosen FX size
-FAIL: untouched EQ defaults grow with the available workspace
-21 performance access checks; 6 failures

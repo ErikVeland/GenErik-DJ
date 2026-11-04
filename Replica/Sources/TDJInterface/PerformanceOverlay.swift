@@ -6,92 +6,106 @@ struct PerformanceOverlay: View {
     let deck: DeckID
     let span: Double
     var body: some View {
-        Canvas { context,size in
-            let left=(model.viewport[deck] ?? 0)-span/2
-            if let state=model.playbackSnapshot?[deck],state.loopEnabled {
-                let start=(state.loopStart-left)/max(1,span)*size.width
-                let end=(state.loopEnd-left)/max(1,span)*size.width
-                let region=CGRect(x:start,y:0,width:max(1,end-start),height:size.height)
-                context.fill(Path(region),with:.color(.green.opacity(0.13)))
-                context.stroke(Path(region),with:.color(.green.opacity(0.8)),lineWidth:1)
+        Canvas { context, size in
+            let left = (model.viewport[deck] ?? 0) - span / 2
+            if let state = model.playbackSnapshot?[deck], state.loopEnabled {
+                let start = (state.loopStart - left) / max(1, span) * size.width
+                let end = (state.loopEnd - left) / max(1, span) * size.width
+                let region = CGRect(x: start, y: 0, width: max(1, end - start), height: size.height)
+                context.fill(Path(region), with: .color(.green.opacity(0.13)))
+                context.stroke(Path(region), with: .color(.green.opacity(0.8)), lineWidth: 1)
             }
-            if let track=model.track(deck),let cues=model.performance.cues[track.id] {
+            if let track = model.track(deck), let cues = model.performance.cues[track.id] {
                 for slot in cues.keys.sorted() {
-                    guard let cue=cues[slot] else { continue }
-                    let x=(cue.frame-left)/max(1,span)*size.width
-                    guard x>=0,x<=size.width else { continue }
-                    let colour: Color = cue.sectionColour.map { Color(arrangementHex:$0) } ?? (cue.category == .grid ? .white : cue.category == .loop ? .green : .cyan)
-                    var line=Path()
-                    line.move(to:.init(x:x,y:0)); line.addLine(to:.init(x:x,y:size.height))
-                    context.stroke(line,with:.color(colour.opacity(0.65)),lineWidth:1)
-                    let width=cue.sectionName.map { min(128,Double($0.count)*6+24) } ?? 18
-                    let label=CGRect(x:min(max(0,x),max(0,size.width-width)),y:max(0,size.height-18),width:width,height:18)
-                    context.fill(Path(label),with:.color(colour.opacity(0.8)))
-                    if let name=cue.sectionName {
-                        context.draw(Text("\(slot+1) \(name)").font(.system(size:10,weight:.bold)).foregroundStyle(.black),at:.init(x:label.midX,y:label.midY))
-                    } else if (0..<8).contains(slot),let symbol=context.resolveSymbol(id:slot) {
-                        context.draw(symbol,at:.init(x:label.midX,y:label.midY))
+                    guard let cue = cues[slot] else { continue }
+                    let x = (cue.frame - left) / max(1, span) * size.width
+                    guard x >= 0, x <= size.width else { continue }
+                    let colour: Color =
+                        cue.sectionColour.map { Color(arrangementHex: $0) }
+                        ?? (cue.category == .grid ? .white : cue.category == .loop ? .green : .cyan)
+                    var line = Path()
+                    line.move(to: .init(x: x, y: 0))
+                    line.addLine(to: .init(x: x, y: size.height))
+                    context.stroke(line, with: .color(colour.opacity(0.65)), lineWidth: 1)
+                    let width = cue.sectionName.map { min(128, Double($0.count) * 6 + 24) } ?? 18
+                    let label = CGRect(
+                        x: min(max(0, x), max(0, size.width - width)), y: max(0, size.height - 18), width: width,
+                        height: 18)
+                    context.fill(Path(label), with: .color(colour.opacity(0.8)))
+                    if let name = cue.sectionName {
+                        context.draw(
+                            Text("\(slot+1) \(name)").font(.system(size: 10, weight: .bold)).foregroundStyle(.black),
+                            at: .init(x: label.midX, y: label.midY))
+                    } else if (0..<8).contains(slot), let symbol = context.resolveSymbol(id: slot) {
+                        context.draw(symbol, at: .init(x: label.midX, y: label.midY))
                     } else {
-                        context.draw(Text("\(slot+1)").font(.caption.bold()).foregroundStyle(.black),at:.init(x:label.midX,y:label.midY))
+                        context.draw(
+                            Text("\(slot+1)").font(.caption.bold()).foregroundStyle(.black),
+                            at: .init(x: label.midX, y: label.midY))
                     }
                 }
             }
             if model.frozen.contains(deck) {
                 if !model.editing.contains(deck) {
-                    context.fill(Path(CGRect(origin:.zero,size:size)),with:.color(.green.opacity(0.04)))
+                    context.fill(Path(CGRect(origin: .zero, size: size)), with: .color(.green.opacity(0.04)))
                     for row in 0..<3 {
-                        if row>0 {
-                            var boundary=Path()
-                            let y=Double(row)*size.height/3
-                            boundary.move(to:.init(x:0,y:y)); boundary.addLine(to:.init(x:size.width,y:y))
-                            context.stroke(boundary,with:.color(.green.opacity(0.6)),lineWidth:1)
+                        if row > 0 {
+                            var boundary = Path()
+                            let y = Double(row) * size.height / 3
+                            boundary.move(to: .init(x: 0, y: y))
+                            boundary.addLine(to: .init(x: size.width, y: y))
+                            context.stroke(boundary, with: .color(.green.opacity(0.6)), lineWidth: 1)
                         }
-                        if let symbol=context.resolveSymbol(id:16+row) {
-                            context.draw(symbol,
-                                         at:.init(x:size.width/2,y:(Double(row)+0.5)*size.height/3))
+                        if let symbol = context.resolveSymbol(id: 16 + row) {
+                            context.draw(symbol, at: .init(x: size.width / 2, y: (Double(row) + 0.5) * size.height / 3))
                         }
                     }
                 }
                 for slice in 0..<8 {
-                    let rect=CGRect(x:Double(slice)*size.width/8,y:0,width:size.width/8,height:size.height)
-                    context.stroke(Path(rect),with:.color(.cyan.opacity(0.6)),lineWidth:1)
-                    if let symbol=context.resolveSymbol(id:8+slice) {
-                        context.draw(symbol,at:.init(x:rect.midX,y:12))
+                    let rect = CGRect(
+                        x: Double(slice) * size.width / 8, y: 0, width: size.width / 8, height: size.height)
+                    context.stroke(Path(rect), with: .color(.cyan.opacity(0.6)), lineWidth: 1)
+                    if let symbol = context.resolveSymbol(id: 8 + slice) {
+                        context.draw(symbol, at: .init(x: rect.midX, y: 12))
                     }
                 }
             }
         } symbols: {
-            ForEach(0..<8,id:\.self) { slot in
+            ForEach(0..<8, id: \.self) { slot in
                 Text("\(slot+1)").font(.caption.bold()).foregroundStyle(.black).tag(slot)
             }
-            ForEach(8..<16,id:\.self) { symbolID in
-                let slice=symbolID-8
+            ForEach(8..<16, id: \.self) { symbolID in
+                let slice = symbolID - 8
                 Text("\(slice+1)").font(.caption).foregroundStyle(.cyan).tag(symbolID)
             }
-            ForEach(16..<19,id:\.self) { symbolID in
-                let row=symbolID-16
-                if let label=model.superSlicerFamily(deck:deck).label(row:row) {
-                    Text(label).font(.system(size:11,weight:.semibold)).foregroundStyle(.green).tag(symbolID)
+            ForEach(16..<19, id: \.self) { symbolID in
+                let row = symbolID - 16
+                if let label = model.superSlicerFamily(deck: deck).label(row: row) {
+                    Text(label).font(.system(size: 11, weight: .semibold)).foregroundStyle(.green).tag(symbolID)
                 }
             }
         }.clipped().allowsHitTesting(false)
     }
 }
 
-
 struct OverviewCueFlags: View {
     @Bindable var model: ReplicaModel
     let track: Track
     var body: some View {
-        Canvas { context,size in
-            let cues=model.performance.cues[track.id] ?? [:]
+        Canvas { context, size in
+            let cues = model.performance.cues[track.id] ?? [:]
             for slot in cues.keys.sorted() {
-                guard let cue=cues[slot] else { continue }
-                let x=cue.frame/max(1,Double(track.analysis.frameCount))*size.width
-                let colour=cue.sectionColour.map { Color(arrangementHex:$0) } ?? (cue.category == .grid ? Color.white:Color.cyan)
-                let box=CGRect(x:min(max(0,x),max(0,size.width-12)),y:max(0,size.height-12),width:12,height:12)
-                context.fill(Path(box),with:.color(colour.opacity(0.9)))
-                context.draw(Text("\(slot+1)").font(.system(size:8,weight:.bold)).foregroundStyle(.black),at:.init(x:box.midX,y:box.midY))
+                guard let cue = cues[slot] else { continue }
+                let x = cue.frame / max(1, Double(track.analysis.frameCount)) * size.width
+                let colour =
+                    cue.sectionColour.map { Color(arrangementHex: $0) }
+                    ?? (cue.category == .grid ? Color.white : Color.cyan)
+                let box = CGRect(
+                    x: min(max(0, x), max(0, size.width - 12)), y: max(0, size.height - 12), width: 12, height: 12)
+                context.fill(Path(box), with: .color(colour.opacity(0.9)))
+                context.draw(
+                    Text("\(slot+1)").font(.system(size: 8, weight: .bold)).foregroundStyle(.black),
+                    at: .init(x: box.midX, y: box.midY))
             }
         }.allowsHitTesting(false).accessibilityHidden(true)
     }

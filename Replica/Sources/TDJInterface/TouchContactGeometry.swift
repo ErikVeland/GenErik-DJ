@@ -1,5 +1,5 @@
-import Foundation
 import CoreGraphics
+import Foundation
 
 enum TouchSurfaceGeometryPolicy { case cancelOnResize, retainContactSpace }
 
@@ -17,11 +17,15 @@ struct TouchContactGeometry {
 
     mutating func begin(id: Int, frame: CGRect, viewport: TouchSurfaceViewport) -> Bool {
         guard frame.width > 0, frame.height > 0,
-              [frame.minX, frame.minY, frame.width, frame.height, viewport.size.width, viewport.size.height].allSatisfy(\.isFinite),
-              viewport.size.width > 0, viewport.size.height > 0,
-              originalViewport == nil || originalViewport == viewport else { return false }
+            [frame.minX, frame.minY, frame.width, frame.height, viewport.size.width, viewport.size.height].allSatisfy(
+                \.isFinite), viewport.size.width > 0, viewport.size.height > 0,
+            originalViewport == nil || originalViewport == viewport
+        else { return false }
         guard frames[id] == nil else { return false }
-        if frames.isEmpty { originalFrame = frame; originalViewport = viewport }
+        if frames.isEmpty {
+            originalFrame = frame
+            originalViewport = viewport
+        }
         frames[id] = frame
         return true
     }
@@ -30,7 +34,8 @@ struct TouchContactGeometry {
         guard let captured = frames[id], location.x.isFinite, location.y.isFinite else { return nil }
         let reference = policy == .retainContactSpace ? captured : frame
         guard reference.width > 0, reference.height > 0 else { return nil }
-        return SurfacePoint(id: id, x: (location.x - reference.minX) / reference.width,
+        return SurfacePoint(
+            id: id, x: (location.x - reference.minX) / reference.width,
             y: (location.y - reference.minY) / reference.height)
     }
 
@@ -75,7 +80,7 @@ struct SurfaceEvent {
     let ending: Set<Int>
     var remaining: [SurfacePoint] { points.filter { !ending.contains($0.id) } }
     static func owned(phase: Phase, points: [SurfacePoint], changed: Set<Int>, ending: Set<Int> = []) -> SurfaceEvent? {
-        guard !points.isEmpty, !changed.isDisjoint(with:points.lazy.map(\.id)) else { return nil }
-        return .init(phase:phase,points:points,ending:ending.intersection(points.lazy.map(\.id)))
+        guard !points.isEmpty, !changed.isDisjoint(with: points.lazy.map(\.id)) else { return nil }
+        return .init(phase: phase, points: points, ending: ending.intersection(points.lazy.map(\.id)))
     }
 }

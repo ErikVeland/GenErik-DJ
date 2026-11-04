@@ -1,5 +1,5 @@
-import Foundation
 import CoreGraphics
+import Foundation
 
 /// Selection owns input identity, not playback or loaded-track state.
 struct FrontDeckSelection<Deck: Equatable> {
@@ -27,11 +27,13 @@ struct FrontWorkspaceGeometry {
     let maximumBrowserExtent: Double
     let bodyHeight: Double
 
-    init(width: Double, height: Double, browserExtent: Double, selectorHeight: Double = 64, controlsHeight: Double = 52) {
+    init(width: Double, height: Double, browserExtent: Double, selectorHeight: Double = 64, controlsHeight: Double = 52)
+    {
         let width = width.isFinite ? max(0, width) : 0
         let height = height.isFinite ? max(0, height) : 0
         let selectorHeight = min(selectorHeight.isFinite ? max(64, selectorHeight) : 64, height)
-        let controlsHeight = min(controlsHeight.isFinite ? max(52, controlsHeight) : 52, max(0, height - selectorHeight))
+        let controlsHeight = min(
+            controlsHeight.isFinite ? max(52, controlsHeight) : 52, max(0, height - selectorHeight))
         let crossfaderHeight = min(44, max(0, height - selectorHeight - controlsHeight))
         let handleHeight = min(44, max(0, height - selectorHeight - controlsHeight - crossfaderHeight))
         let body = max(0, height - selectorHeight - controlsHeight - crossfaderHeight - handleHeight)
@@ -59,8 +61,9 @@ struct FrontBrowserPanelState {
     mutating func configure(width: Double, height: Double, selectorHeight: Double = 64, controlsHeight: Double = 52) {
         panel.cancelDrag()
         contactID = UUID()
-        let geometry = FrontWorkspaceGeometry(width: width, height: height, browserExtent: extent,
-            selectorHeight: selectorHeight, controlsHeight: controlsHeight)
+        let geometry = FrontWorkspaceGeometry(
+            width: width, height: height, browserExtent: extent, selectorHeight: selectorHeight,
+            controlsHeight: controlsHeight)
         maximumExtent = geometry.maximumBrowserExtent
         bodyHeight = geometry.bodyHeight
         panel.setPresented(extent > 0, maximumExtent: maximumExtent)
@@ -79,18 +82,26 @@ struct FrontBrowserPanelState {
         if !presented { contactID = UUID() }
     }
     mutating func beginDrag() { panel.beginDrag() }
-    mutating func updateDrag(translation: Double) { panel.updateDrag(translation: translation, maximumExtent: maximumExtent) }
+    mutating func updateDrag(translation: Double) {
+        panel.updateDrag(translation: translation, maximumExtent: maximumExtent)
+    }
     mutating func endDrag(velocity: Double) {
         panel.endDrag(velocity: velocity, maximumExtent: maximumExtent)
         if extent == 0 { contactID = UUID() }
     }
     mutating func cancelDrag() { panel.cancelDrag() }
-    mutating func interrupt() { panel.cancelDrag(); contactID = UUID() }
+    mutating func interrupt() {
+        panel.cancelDrag()
+        contactID = UUID()
+    }
     mutating func adjust(by amount: Double) {
         guard amount.isFinite else { return }
-        if extent == 0 && amount > 0 { setPresented(true) }
-        else {
-            beginDrag(); updateDrag(translation: amount); endDrag(velocity: 0)
+        if extent == 0 && amount > 0 {
+            setPresented(true)
+        } else {
+            beginDrag()
+            updateDrag(translation: amount)
+            endDrag(velocity: 0)
         }
     }
 }

@@ -1,6 +1,0 @@
-FAIL: resizing FX does not cancel its held contacts
-FAIL: EQ and extras resizing retain FX input gate
-FAIL: zero-width drag preview does not cancel held sound
-FAIL: cancelled resize restores pane without cancelling sound
-FAIL: explicit hide cancels only the intended pane once
-1431 performance panel checks; 5 failures

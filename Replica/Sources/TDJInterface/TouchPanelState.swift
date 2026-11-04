@@ -37,14 +37,19 @@ struct TouchPanelState {
     }
 
     mutating func updateDrag(translation: Double, maximumExtent: Double, layoutOffset: Double = 0) {
-        guard let origin = dragOrigin, translation.isFinite, maximumExtent.isFinite, layoutOffset.isFinite else { return }
+        guard let origin = dragOrigin, translation.isFinite, maximumExtent.isFinite, layoutOffset.isFinite else {
+            return
+        }
         self.translation = translation
         extent = min(max(0, maximumExtent), max(0, origin + translation + layoutOffset))
     }
 
     mutating func endDrag(velocity: Double, maximumExtent: Double) {
         guard dragOrigin != nil else { return }
-        guard velocity.isFinite, maximumExtent.isFinite else { cancelDrag(); return }
+        guard velocity.isFinite, maximumExtent.isFinite else {
+            cancelDrag()
+            return
+        }
         let maximum = max(0, maximumExtent)
         if translation >= 12 && velocity >= 600 {
             extent = min(maximum, max(minimumExtent, rememberedExtent > 0 ? rememberedExtent : maximum))
@@ -70,8 +75,11 @@ struct TouchPanelState {
         cancelDrag()
         let maximum = max(0, maximumExtent)
         if presented {
-            if extent > 0 { extent = min(maximum, max(minimumExtent, extent)) }
-            else { extent = min(maximum, max(minimumExtent, rememberedExtent > 0 ? rememberedExtent : maximum)) }
+            if extent > 0 {
+                extent = min(maximum, max(minimumExtent, extent))
+            } else {
+                extent = min(maximum, max(minimumExtent, rememberedExtent > 0 ? rememberedExtent : maximum))
+            }
         } else {
             if extent >= min(minimumExtent, maximum), extent > 0 { rememberedExtent = extent }
             extent = 0
@@ -87,7 +95,9 @@ struct TouchPanelState {
 }
 
 enum LibraryWorkspaceShortcut: String, CaseIterable {
-    case performance = "Performance", browse = "Browse", expand = "Expand"
+    case performance = "Performance"
+    case browse = "Browse"
+    case expand = "Expand"
 }
 
 struct LibraryPanelState {
@@ -105,7 +115,11 @@ struct LibraryPanelState {
     var isDragging: Bool { panel.isDragging }
     var acceptsContentInput: Bool { extent > 0 && extent >= min(panel.minimumExtent, maximumExtent) }
     private var browseExtent: Double {
-        min(maximumExtent, max(panel.minimumExtent, (maximumExtent + 2 * AdaptivePerformanceLayout.minimumCompactDeckHeight + handleExtent) / 2))
+        min(
+            maximumExtent,
+            max(
+                panel.minimumExtent,
+                (maximumExtent + 2 * AdaptivePerformanceLayout.minimumCompactDeckHeight + handleExtent) / 2))
     }
     var selectedShortcut: LibraryWorkspaceShortcut? {
         if extent == 0 { return .performance }
@@ -132,13 +146,10 @@ struct LibraryPanelState {
         panel.setPresented(visible, maximumExtent: maximumExtent)
     }
 
-    mutating func setPresented(_ presented: Bool) {
-        panel.setPresented(presented, maximumExtent: maximumExtent)
-    }
+    mutating func setPresented(_ presented: Bool) { panel.setPresented(presented, maximumExtent: maximumExtent) }
 
     mutating func present(fullyExpanded: Bool) {
-        if fullyExpanded { panel.expand(maximumExtent: maximumExtent) }
-        else { setPresented(true) }
+        if fullyExpanded { panel.expand(maximumExtent: maximumExtent) } else { setPresented(true) }
     }
 
     mutating func makeRoom(by points: Double) {
@@ -148,9 +159,11 @@ struct LibraryPanelState {
 
     mutating func adjust(by delta: Double) {
         guard delta.isFinite else { return }
-        if extent == 0, delta > 0 { setPresented(true) }
-        else if extent <= min(132, maximumExtent), delta < 0 { setPresented(false) }
-        else {
+        if extent == 0, delta > 0 {
+            setPresented(true)
+        } else if extent <= min(132, maximumExtent), delta < 0 {
+            setPresented(false)
+        } else {
             beginDrag()
             updateDrag(translation: delta)
             endDrag(velocity: 0)
@@ -158,7 +171,9 @@ struct LibraryPanelState {
     }
 
     mutating func beginDrag() { panel.beginDrag() }
-    mutating func updateDrag(translation: Double) { panel.updateDrag(translation: translation, maximumExtent: maximumExtent) }
+    mutating func updateDrag(translation: Double) {
+        panel.updateDrag(translation: translation, maximumExtent: maximumExtent)
+    }
     mutating func endDrag(velocity: Double) { panel.endDrag(velocity: velocity, maximumExtent: maximumExtent) }
     mutating func cancelDrag() { panel.cancelDrag() }
 }

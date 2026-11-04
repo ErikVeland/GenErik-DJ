@@ -2,8 +2,7 @@ import Observation
 import TDJCore
 
 // Stable control values are separate from the continuously advancing playback clock.
-@MainActor @Observable
-final class MixerControlDisplay {
+@MainActor @Observable final class MixerControlDisplay {
     private(set) var volume: Double = 1
     private(set) var low: Double = 1
     private(set) var mid: Double = 1
@@ -24,8 +23,7 @@ final class MixerControlDisplay {
     }
 }
 
-@MainActor @Observable
-final class DeckControlDisplay {
+@MainActor @Observable final class DeckControlDisplay {
     private(set) var phase: PlaybackPhase = .empty
     private(set) var synced: Bool = false
     private(set) var keylock: Bool = false
@@ -46,8 +44,7 @@ final class DeckControlDisplay {
     }
 }
 
-@MainActor @Observable
-final class PlaybackControlDisplay {
+@MainActor @Observable final class PlaybackControlDisplay {
     private(set) var masterBPM = 120.0
     private(set) var crossfader = 0.5
     private let a = DeckControlDisplay()

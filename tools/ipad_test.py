@@ -14,7 +14,7 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 LOCAL = ROOT / "TestBuilds/ipad"
 RECORDS = ROOT / "docs/testing/builds"
-CACHE = ROOT / ".build-claude-duo"
+CACHE = ROOT / ".build-ipad"
 BUNDLE = "org.generikdj.replica.audiocheck"
 
 

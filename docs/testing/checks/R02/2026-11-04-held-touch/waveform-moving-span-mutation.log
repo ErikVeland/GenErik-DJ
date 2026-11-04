@@ -1,3 +1,0 @@
-FAIL: held waveform retains span after redraw
-FAIL: release uses original waveform span
-36 held-contact checks; 2 failures

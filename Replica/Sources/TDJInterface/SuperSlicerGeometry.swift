@@ -21,7 +21,7 @@ public enum SuperSlicerFamily: String, CaseIterable, Sendable, Identifiable {
     }
     /// Equal thirds are a development hit-boundary policy, not measured NI thresholds.
     func action(at y: Double) -> SuperSlicerAction {
-        let row = y < 1.0/3 ? 0 : y < 2.0/3 ? 1 : 2
+        let row = y < 1.0 / 3 ? 0 : y < 2.0 / 3 ? 1 : 2
         switch self {
         case .loopStutter: return [.slice, .stutterHalf, .stutterQuarter][row]
         case .turntablism: return [.brake, .scratch, .reverse][row]
@@ -60,8 +60,8 @@ enum SuperSlicerAction: Equatable {
         switch self {
         case .slice, .stutterHalf, .stutterQuarter, .scratch: return 1
         case .reverse: return -1
-        case .brake: return min(1, max(0, 1-y/0.3))
-        case .pitchUp, .pitchDown: return pow(2, (0.5-y)*2)
+        case .brake: return min(1, max(0, 1 - y / 0.3))
+        case .pitchUp, .pitchDown: return pow(2, (0.5 - y) * 2)
         }
     }
 }

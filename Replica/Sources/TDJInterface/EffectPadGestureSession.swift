@@ -14,12 +14,15 @@ struct EffectPadGestureSession {
             activeSlot = selectedSlot
         }
         guard let slot = activeSlot else { return nil }
-        let update = Update(slot:slot,updateX:axes.updatesX(event))
+        let update = Update(slot: slot, updateX: axes.updatesX(event))
         if event.phase == .cancelled || event.remaining.isEmpty { activeSlot = nil }
         return update
     }
     mutating func cancel() -> Int? {
-        defer { activeSlot = nil; axes = TouchAxisSession() }
+        defer {
+            activeSlot = nil
+            axes = TouchAxisSession()
+        }
         return activeSlot
     }
 }

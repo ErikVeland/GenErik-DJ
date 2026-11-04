@@ -1,4 +1,0 @@
-FAIL: release keeps the exact chosen size
-FAIL: accessible adjustment uses direct point travel
-FAIL: release uses the current available height
-688 deck divider checks; 3 failures

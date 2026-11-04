@@ -1,5 +1,5 @@
-import Foundation
 import CoreGraphics
+import Foundation
 
 enum BrowserColumn: CaseIterable, Hashable {
     case categories, playlists, detail
@@ -33,9 +33,10 @@ struct BrowserColumnsGeometry {
 /// Drawer widths remain separate from full-width list navigation and presentation.
 struct BrowserColumnSizingState {
     private struct Bank {
-        var panels = Dictionary(uniqueKeysWithValues: BrowserColumn.allCases.map {
-            ($0, TouchPanelState(minimumExtent: $0.minimum, initialExtent: $0.initial))
-        })
+        var panels = Dictionary(
+            uniqueKeysWithValues: BrowserColumn.allCases.map {
+                ($0, TouchPanelState(minimumExtent: $0.minimum, initialExtent: $0.initial))
+            })
     }
     private var portraitBank = Bank()
     private var landscapeBank = Bank()
@@ -59,7 +60,8 @@ struct BrowserColumnSizingState {
     func presentationID(for kind: BrowserColumn) -> UUID { commands[kind]! }
     func extent(_ kind: BrowserColumn) -> Double { isPresented(kind) ? bank.panels[kind]!.extent : 0 }
     func geometry() -> BrowserColumnsGeometry {
-        .init(width: width, leading: leading.map { extent($0) } ?? 0, detail: extent(.detail), hasLeading: leading != nil)
+        .init(
+            width: width, leading: leading.map { extent($0) } ?? 0, detail: extent(.detail), hasLeading: leading != nil)
     }
     func maximum(_ kind: BrowserColumn) -> Double { min(kind.cap, max(0, width - 44)) }
     mutating func configure(width: Double, portrait: Bool, leading: BrowserColumn?) {
@@ -67,7 +69,9 @@ struct BrowserColumnSizingState {
         guard self.width != width || self.portrait != portrait || self.leading != leading else { return }
         let changedBank = self.portrait != portrait
         for kind in BrowserColumn.allCases { cancel(kind) }
-        self.width = width; self.portrait = portrait; self.leading = leading
+        self.width = width
+        self.portrait = portrait
+        self.leading = leading
         if changedBank {
             for kind in BrowserColumn.allCases {
                 let visible = isPresented(kind)
@@ -106,9 +110,15 @@ struct BrowserColumnSizingState {
     }
     mutating func adjust(_ kind: BrowserColumn, by delta: Double) {
         guard delta.isFinite else { return }
-        if !isPresented(kind), delta > 0 { setPresented(kind, true) }
-        else if extent(kind) <= kind.minimum, delta < 0 { setPresented(kind, false) }
-        else { begin(kind); update(kind, translation: delta); end(kind, velocity: 0) }
+        if !isPresented(kind), delta > 0 {
+            setPresented(kind, true)
+        } else if extent(kind) <= kind.minimum, delta < 0 {
+            setPresented(kind, false)
+        } else {
+            begin(kind)
+            update(kind, translation: delta)
+            end(kind, velocity: 0)
+        }
     }
     private mutating func mutate(_ kind: BrowserColumn, _ body: (inout TouchPanelState) -> Void) {
         var value = bank

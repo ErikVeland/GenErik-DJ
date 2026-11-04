@@ -1,6 +1,6 @@
 # iPad performance gestures
 
-Documentation reviewed against the shared implementation on 30 October 2026. [Current readiness and verification](Status.md) is the implementation status record. Dated measurements below apply only to their recorded source and workload.
+Current build and acceptance: [project status](../docs/coordination/README.md). Historical measurements apply only to their recorded source.
 
 ## Implementation added 26 October 2026
 

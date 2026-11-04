@@ -1,6 +1,6 @@
 # Collection browsing
 
-Documentation reviewed against the shared implementation on 30 October 2026. [Current readiness and verification](Status.md) is the implementation status record. Dated measurements below apply only to their recorded source and workload.
+Current build and acceptance: [project status](../docs/coordination/README.md). Historical measurements apply only to their recorded source.
 
 The song browser supports Songs, Playlists, Artists, Albums and Genre. Search matches title, artist, album and genre across the full library, including native songs that have not finished analysis. Recommendation membership, tempo/key compatibility and the current playlist or category do not restrict search results. Search uses the selected song sort, with title order when the previous view used playlist order.
 

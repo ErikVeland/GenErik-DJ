@@ -17,7 +17,7 @@ extension ReplicaModel {
         guard percent.isFinite else { return }
         let ratio = 1 + min(50, max(-50, percent)) / 100
         do {
-            if playbackSnapshot?[deck].synced == true, let bpm = playbackSnapshot?[deck].sourceBPM, bpm>0 {
+            if playbackSnapshot?[deck].synced == true, let bpm = playbackSnapshot?[deck].sourceBPM, bpm > 0 {
                 try playback.setMasterBPM(bpm * ratio)
             } else {
                 try playback.setFreeRate(ratio, deck: deck)
@@ -28,20 +28,25 @@ extension ReplicaModel {
 
     /// Loop size stepper: one power of two per press, resizing an active loop from its start.
     public func stepLoopSize(direction: Int, deck: DeckID) {
-        setLoopSize(PerformancePreparation.steppedLoopSize(from: performance.loopBeats(for: deck), direction: direction), deck: deck)
+        setLoopSize(
+            PerformancePreparation.steppedLoopSize(from: performance.loopBeats(for: deck), direction: direction),
+            deck: deck)
     }
     public func setLoopSize(_ beats: Double, deck: DeckID) {
         performance.setLoopBeats(beats, for: deck)
         if let state = playbackSnapshot?[deck], state.loopEnabled, let grid = timing(deck) {
-            setLoop(start: state.loopStart, end: state.loopStart + grid.span(beats:beats,from:state.loopStart), deck: deck)
+            setLoop(
+                start: state.loopStart, end: state.loopStart + grid.span(beats: beats, from: state.loopStart),
+                deck: deck)
         }
         savePerformance()
     }
 
     /// Jumps by whole beats from the current position, keeping the beat phase.
     public func beatJump(beats: Double, deck: DeckID) {
-        guard beats.isFinite, beats != 0, let grid = timing(deck), let frame = playbackSnapshot?[deck].sourceFrame else { return }
-        jump(boundedFrame(frame + grid.span(beats:beats,from:frame), deck: deck), deck: deck, quantized: false)
+        guard beats.isFinite, beats != 0, let grid = timing(deck), let frame = playbackSnapshot?[deck].sourceFrame
+        else { return }
+        jump(boundedFrame(frame + grid.span(beats: beats, from: frame), deck: deck), deck: deck, quantized: false)
     }
 
     /// CUE: while paused it marks the playhead; while playing it returns to the mark and pauses.
@@ -49,7 +54,7 @@ extension ReplicaModel {
         guard track(deck) != nil, let state = playbackSnapshot?[deck] else { return }
         if state.phase.active {
             jump(cuePoints[deck] ?? 0, deck: deck, quantized: false)
-            pressPlay(deck: deck,vinylStop:false)
+            pressPlay(deck: deck, vinylStop: false)
         } else {
             cuePoints[deck] = state.sourceFrame
         }
@@ -62,7 +67,9 @@ extension ReplicaModel {
             let other: DeckID = destination == .a ? .b : .a
             return loaded[other] == nil ? nil : other
         }
-        if let playing = DeckID.allCases.first(where: { loaded[$0] != nil && controlDisplay[$0].phase.active }) { return playing }
+        if let playing = DeckID.allCases.first(where: { loaded[$0] != nil && controlDisplay[$0].phase.active }) {
+            return playing
+        }
         if let last = lastLoadedDeck, loaded[last] != nil { return last }
         return DeckID.allCases.first { loaded[$0] != nil }
     }
@@ -80,15 +87,17 @@ extension ReplicaModel {
     /// Adds to the end of the prep list once; a queued entry is not duplicated.
     public func enqueue(_ entryID: String) {
         guard !queuedIDs.contains(entryID) else { return }
-        queuedIDs.append(entryID); saveQueue()
+        queuedIDs.append(entryID)
+        saveQueue()
     }
     public func dequeue(_ entryID: String) {
-        queuedIDs.removeAll { $0 == entryID }; saveQueue()
+        queuedIDs.removeAll { $0 == entryID }
+        saveQueue()
     }
     private func saveQueue() {
         let url = store.root.appendingPathComponent("queue.json")
-        queuePersistence.enqueue(queuedIDs,
-            write: { try JSONEncoder().encode($0).write(to: url, options: .atomic) },
+        queuePersistence.enqueue(
+            queuedIDs, write: { try JSONEncoder().encode($0).write(to: url, options: .atomic) },
             reportError: { [weak self] in self?.status = $0 })
     }
 
@@ -96,10 +105,13 @@ extension ReplicaModel {
     public func resetGrid(deck: DeckID) {
         guard let track = track(deck), !gridLocked.contains(deck) else { return }
         let analysis = track.analysis
-        let original = track.traktorPreparation?.normalized.grid ?? analysis.bpm.flatMap { bpm in
-            try? BeatGrid(bpm: bpm, anchorFrame: analysis.beatAnchorFrame ?? 0, sampleRate: analysis.sampleRate,
-                          downbeatOffset: analysis.detectedDownbeatOffset ?? 0)
-        }
+        let original =
+            track.traktorPreparation?.normalized.grid
+            ?? analysis.bpm.flatMap { bpm in
+                try? BeatGrid(
+                    bpm: bpm, anchorFrame: analysis.beatAnchorFrame ?? 0, sampleRate: analysis.sampleRate,
+                    downbeatOffset: analysis.detectedDownbeatOffset ?? 0)
+            }
         guard let original else { return }
         saveGrid(original, deck: deck)
     }

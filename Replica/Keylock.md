@@ -1,6 +1,6 @@
 # Keylock development implementation
 
-Documentation reviewed against the shared implementation on 30 October 2026. [Current readiness and verification](Status.md) is the implementation status record. Dated measurements below apply only to their recorded source and workload.
+Current build and acceptance: [project status](../docs/coordination/README.md). Historical measurements apply only to their recorded source.
 
 Keylock now separates source pitch from the shared master tempo. A synced deck follows the selected BPM while its tonal content retains source pitch. Disabling Keylock restores variable-speed pitch. Sync controls musical speed and phase. Keylock controls pitch treatment.
 
@@ -30,27 +30,27 @@ EOF follows the existing logical source bound. Residual stretch output is not fl
 
 Live switching uses a five-millisecond linear transition. Initial native-speed bypass and phase retention through later native-speed crossings are development sound choices. Source-rate conversion still uses linear interpolation, so its high-frequency response and alias rejection are not matched to NI. The technical speed-ratio guard is 0.125–8, and transport output supports 8–384 kHz. Unsupported Keylock actions return an error and retain the current tempo/state. These are not recovered TDJ1 ranges or quality claims at their extremes. The library recommends more modest stretch changes for its best sound.
 
-The callback does not configure or allocate processors. Configuration and storage reservation occur when the transport is created. Local library changes reserve all spectral bins for peak storage during configuration and let guarded reset pre-roll skip bookkeeping for complete intervals whose output is discarded. The final partial interval retains the original path. The 810-case offline comparison, including sanitizer checks, produces byte-identical output; see [validation](Validation/AudioTimingDiagnosis-2026-10-29-01/full-discarded-intervals/checks.json). Processing uses existing storage. The local allocation probe counts ordinary C++ `new` and `new[]` calls during rendering, including first Play, queued Play, tempo change and live switching. It does not audit every allocation mechanism or establish device-wide real-time performance.
+The callback does not configure or allocate processors. Configuration and storage reservation occur when the transport is created. Local library changes reserve all spectral bins for peak storage during configuration and let guarded reset pre-roll skip bookkeeping for complete intervals whose output is discarded. The final partial interval retains the original path. The 810-case offline comparison, including sanitizer checks, produces byte-identical output; see [validation](../docs/history.md#local-validation). Processing uses existing storage. The local allocation probe counts ordinary C++ `new` and `new[]` calls during rendering, including first Play, queued Play, tempo change and live switching. It does not audit every allocation mechanism or establish device-wide real-time performance.
 
 ## Validation and listening examples
 
 Run the full suite with `./Scripts/check.sh`. The new signal checks cover locked and unlocked pitch, source/output sample-rate conversion, exact unity bypass, stereo polarity, callback partition independence, live toggles, tempo automation, queued silence, bounded EOF, stale generations, unsupported ratios and per-deck session state. Analysis, gridding and adaptive-suggestion checks remain in the suite.
 
-Run `.build/debug/tdj-tool keylock-probe Validation/Keylock` to generate the [pitch measurements and audio list](Validation/Keylock/keylock-signals.json). A 440 Hz source is measured at 80%, 107.5% and 125% speed, with and without Keylock. The listening examples use a generated chord, kick, snare and stereo hat. They contain no original recording or TDJ1 output:
+Run `.build/debug/tdj-tool keylock-probe Validation/Keylock` to generate the [pitch measurements and audio list](../docs/history.md#local-validation). A 440 Hz source is measured at 80%, 107.5% and 125% speed, with and without Keylock. The listening examples use a generated chord, kick, snare and stereo hat. They contain no original recording or TDJ1 output:
 
-- [120 BPM reference](Validation/Keylock/groove-120-keylock-on.wav)
-- [129 BPM with Keylock](Validation/Keylock/groove-129-keylock-on.wav)
-- [129 BPM without Keylock](Validation/Keylock/groove-129-keylock-off.wav)
-- [96 BPM with Keylock](Validation/Keylock/groove-96-keylock-on.wav)
-- [150 BPM with Keylock](Validation/Keylock/groove-150-keylock-on.wav)
+- [120 BPM reference](../docs/history.md#local-validation)
+- [129 BPM with Keylock](../docs/history.md#local-validation)
+- [129 BPM without Keylock](../docs/history.md#local-validation)
+- [96 BPM with Keylock](../docs/history.md#local-validation)
+- [150 BPM with Keylock](../docs/history.md#local-validation)
 
-Run `bash Scripts/check-keylock-render.sh` for a separate local C++ allocation and callback-duration probe. Its [result](Validation/keylock-render-check.json) reports the measured timings. It uses synthetic audio and performs no device actions. It is not a sustained-load benchmark and does not measure DAC or speaker latency.
+Run `bash Scripts/check-keylock-render.sh` for a separate local C++ allocation and callback-duration probe. Its [result](../docs/history.md#local-validation) reports the measured timings. It uses synthetic audio and performs no device actions. It is not a sustained-load benchmark and does not measure DAC or speaker latency.
 
-The initial short local probe counted zero ordinary C++ allocations over 3,000 callbacks. At 128 frames / 48 kHz, the buffer duration is 2.667 ms. Median wall time was 0.030 ms, the 99th percentile was 0.060 ms, and the maximum was 0.855 ms. Maximum thread CPU time was 0.812 ms. No wall-time deadline was exceeded in that run. A [concurrent-build run](Validation/keylock-render-check-under-build-load.json) reached 3.206 ms, exceeding one buffer duration. Both results are retained. This normal-priority command-line probe does not certify audio-thread scheduling under load.
+The initial short local probe counted zero ordinary C++ allocations over 3,000 callbacks. At 128 frames / 48 kHz, the buffer duration is 2.667 ms. Median wall time was 0.030 ms, the 99th percentile was 0.060 ms, and the maximum was 0.855 ms. Maximum thread CPU time was 0.812 ms. No wall-time deadline was exceeded in that run. A [concurrent-build run](../docs/history.md#local-validation) reached 3.206 ms, exceeding one buffer duration. Both results are retained. This normal-priority command-line probe does not certify audio-thread scheduling under load.
 
-The native Mac check used the original synthetic 120 and 128 BPM fixtures. The development menu changed A's Keylock without changing B's state. With both locked, B launched at output frame 96,000 after A started at frame 0. Rotating master tempo to 129 updated both synced rates while both Keylock indicators stayed on. The [stopped snapshot](Validation/native-keylock-playback.json) records that run. Pitch was measured separately through the same render core. Speaker output was not recorded.
+The native Mac check used the original synthetic 120 and 128 BPM fixtures. The development menu changed A's Keylock without changing B's state. With both locked, B launched at output frame 96,000 after A started at frame 0. Rotating master tempo to 129 updated both synced rates while both Keylock indicators stayed on. The [stopped snapshot](../docs/history.md#local-validation) records that run. Pitch was measured separately through the same render core. Speaker output was not recorded.
 
-See the [stress report](Stress.md) and [earlier stress validation](Validation/keylock-stress-validation.json) for subsequent fixes, sustained results and limits. The [initial Keylock validation](Validation/keylock-validation.json) remains the earlier phase record. Exact matching still requires original output at the same source positions and tempo ratios, including vocals, dense chords, sharp drums, silence, live enable/disable and rapid tempo changes. That comparison remains parked until a safe reference source is available.
+See the [stress report](Stress.md) and [earlier stress validation](../docs/history.md#local-validation) for subsequent fixes, sustained results and limits. The [initial Keylock validation](../docs/history.md#local-validation) remains the earlier phase record. Exact matching still requires original output at the same source positions and tempo ratios, including vocals, dense chords, sharp drums, silence, live enable/disable and rapid tempo changes. That comparison remains parked until a safe reference source is available.
 
 The [native 128-frame follow-up](Stress.md#native-128-frame-follow-up) moves initial mapped-page reads to background track preparation. The five-minute run passed with 79 exact starts. A shorter repeat still logged one HAL overload and timestamp gap. The DSP and Keylock interaction rules are unchanged.
 

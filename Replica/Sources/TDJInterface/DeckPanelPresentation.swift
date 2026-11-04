@@ -2,9 +2,7 @@ import Foundation
 import Observation
 
 /// The dock and retained deck surfaces share panel state and cancellation gates.
-@MainActor
-@Observable
-final class DeckPanelPresentation {
+@MainActor @Observable final class DeckPanelPresentation {
     private var sizing = DeckPanelsState(extraVisible: false, adaptiveDefaults: true, overlayControls: true)
     private var hasTrack = false
     private var handleExtent = 44.0
@@ -23,16 +21,21 @@ final class DeckPanelPresentation {
     var isDragging: Bool { sizing.isDragging }
 
     func configure(width: Double, portrait: Bool, handleExtent: Double = 44) {
-        guard width != configuredWidth || portrait != configuredPortrait || self.handleExtent != handleExtent else { return }
+        guard width != configuredWidth || portrait != configuredPortrait || self.handleExtent != handleExtent else {
+            return
+        }
         sizing.configure(width: width, portrait: portrait, handleExtent: handleExtent)
         self.handleExtent = handleExtent
         dragWasPresented.removeAll()
-        configuredWidth = width; configuredPortrait = portrait
+        configuredWidth = width
+        configuredPortrait = portrait
         for kind in PerformancePanel.allCases { commands[kind] = UUID() }
         updateGates()
     }
     func geometry(width: Double, height: Double, inlineControls: Bool = true) -> DeckPanelsGeometry {
-        .init(width: width, height: height, effects: sizing.extent(.effects), mixer: sizing.extent(.mixer), extra: sizing.extent(.extra), handleExtent: handleExtent, inlineControls: inlineControls)
+        .init(
+            width: width, height: height, effects: sizing.extent(.effects), mixer: sizing.extent(.mixer),
+            extra: sizing.extent(.extra), handleExtent: handleExtent, inlineControls: inlineControls)
     }
     func maximum(_ kind: PerformancePanel) -> Double { sizing.maximum(kind) }
     func presentationID(for kind: PerformancePanel) -> UUID { commands[kind]! }
@@ -42,7 +45,9 @@ final class DeckPanelPresentation {
         hasTrack = available
         if !available {
             for kind in PerformancePanel.allCases {
-                sizing.cancel(kind); sizing.setPresented(kind, false); commands[kind] = UUID()
+                sizing.cancel(kind)
+                sizing.setPresented(kind, false)
+                commands[kind] = UUID()
             }
             updateGates()
         }
@@ -53,33 +58,43 @@ final class DeckPanelPresentation {
         let before = Set(PerformancePanel.allCases.filter { sizing.isPresented($0) })
         sizing.setPresented(kind, opening)
         commands[kind] = UUID()
-        for other in PerformancePanel.allCases where before.contains(other) != sizing.isPresented(other) { commands[other] = UUID() }
+        for other in PerformancePanel.allCases where before.contains(other) != sizing.isPresented(other) {
+            commands[other] = UUID()
+        }
         updateGates()
         if opening && sizing.isPresented(kind) { requestSpace(kind) }
     }
     func begin(_ kind: PerformancePanel) {
         guard hasTrack else { return }
         dragWasPresented[kind] = sizing.isPresented(kind)
-        sizing.begin(kind); updateGates()
+        sizing.begin(kind)
+        updateGates()
     }
     func update(_ kind: PerformancePanel, translation: Double) { sizing.update(kind, translation: translation) }
     func end(_ kind: PerformancePanel, velocity: Double) {
         let opening = dragWasPresented.removeValue(forKey: kind) == false
-        sizing.end(kind, velocity: velocity); updateGates()
+        sizing.end(kind, velocity: velocity)
+        updateGates()
         if opening && sizing.isPresented(kind) { requestSpace(kind) }
     }
-    func cancel(_ kind: PerformancePanel) { dragWasPresented[kind] = nil; sizing.cancel(kind); updateGates() }
+    func cancel(_ kind: PerformancePanel) {
+        dragWasPresented[kind] = nil
+        sizing.cancel(kind)
+        updateGates()
+    }
     func adjust(_ kind: PerformancePanel, by delta: Double) {
         guard hasTrack else { return }
         let opening = !sizing.isPresented(kind)
-        sizing.adjust(kind, by: delta); updateGates()
+        sizing.adjust(kind, by: delta)
+        updateGates()
         if opening && sizing.isPresented(kind) { requestSpace(kind) }
     }
     func toggleControls() { toggle(.extra) }
     func toggleEffects() { toggle(.effects) }
     func toggleMixer() { toggle(.mixer) }
     private func requestSpace(_ kind: PerformancePanel) {
-        spaceRequestKind = kind; spaceRequestID = UUID()
+        spaceRequestKind = kind
+        spaceRequestID = UUID()
     }
     private func updateGates() {
         effectsInput.setEnabled(effectsVisible)

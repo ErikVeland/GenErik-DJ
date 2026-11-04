@@ -31,9 +31,13 @@ typedef struct {
     uint32_t max_output_frames, reserved;
 } tdj_stream_config;
 enum tdj_stream_status {
-    TDJ_STREAM_INVALID=-1, TDJ_STREAM_IO_ERROR=-2, TDJ_STREAM_CAPACITY=-3,
-    TDJ_STREAM_CANCELLED=-4, TDJ_STREAM_UNSUPPORTED_ATOMICS=-5,
-    TDJ_STREAM_PENDING=0, TDJ_STREAM_READY=1
+    TDJ_STREAM_INVALID = -1,
+    TDJ_STREAM_IO_ERROR = -2,
+    TDJ_STREAM_CAPACITY = -3,
+    TDJ_STREAM_CANCELLED = -4,
+    TDJ_STREAM_UNSUPPORTED_ATOMICS = -5,
+    TDJ_STREAM_PENDING = 0,
+    TDJ_STREAM_READY = 1
 };
 typedef struct {
     /* Pool allocation, not a measurement or guarantee of OS page residency. */
@@ -49,15 +53,15 @@ typedef struct {
 } tdj_stream_test_io;
 
 /* Open/service/destroy run on the preparation or disposal queue. */
-tdj_asset *tdj_asset_open_stream(const char *, uint64_t frames, double source_rate,
-    const tdj_stream_config *, int32_t *error);
+tdj_asset *tdj_asset_open_stream(const char *, uint64_t frames, double source_rate, const tdj_stream_config *,
+                                 int32_t *error);
 /* Decoder callbacks run only on the serial preparation/service/disposal queues.
    A successful open owns context until release. A failed open leaves ownership
    with the caller. The read callback fills exactly count stereo float frames. */
 typedef int32_t (*tdj_stream_read_frames)(void *context, uint64_t first, uint32_t count, float *stereo);
 typedef void (*tdj_stream_release_reader)(void *context);
 tdj_asset *tdj_asset_open_decoder(uint64_t frames, double source_rate, const tdj_stream_config *,
-    tdj_stream_read_frames, tdj_stream_release_reader, void *context, int32_t *error);
+                                  tdj_stream_read_frames, tdj_stream_release_reader, void *context, int32_t *error);
 /* One serial control producer. A ticket is single-use after command acceptance;
    one command may share it across both decks. Release after acknowledgement even
    though native live handoff retires its ranges without producer polling.
@@ -66,10 +70,10 @@ tdj_asset *tdj_asset_open_decoder(uint64_t frames, double source_rate, const tdj
 uint64_t tdj_asset_request_prepare(tdj_asset *, const tdj_stream_request *);
 int32_t tdj_asset_prepare_status(const tdj_asset *, uint64_t ticket);
 void tdj_asset_release_preparation(tdj_asset *, uint64_t ticket);
-int32_t tdj_asset_plan_target(const tdj_asset *, const tdj_stream_target *,
-    uint64_t request_id, uint64_t deck_generation, tdj_stream_request *);
-int32_t tdj_asset_plan_minimum(const tdj_asset *, const tdj_stream_target *,
-    uint64_t request_id, uint64_t deck_generation, tdj_stream_request *);
+int32_t tdj_asset_plan_target(const tdj_asset *, const tdj_stream_target *, uint64_t request_id,
+                              uint64_t deck_generation, tdj_stream_request *);
+int32_t tdj_asset_plan_minimum(const tdj_asset *, const tdj_stream_target *, uint64_t request_id,
+                               uint64_t deck_generation, tdj_stream_request *);
 /* One serial worker per asset. A pass reads at most maximum_blocks blocks. */
 int32_t tdj_asset_service(tdj_asset *, uint32_t maximum_blocks);
 void tdj_asset_cancel_service(tdj_asset *);

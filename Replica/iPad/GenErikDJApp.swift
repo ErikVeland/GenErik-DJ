@@ -1,8 +1,7 @@
 import SwiftUI
 import TDJInterface
 
-@main
-struct GenErikDJApp: App {
+@main struct GenErikDJApp: App {
     private let model: ReplicaModel?
     init() {
         let root = URL.documentsDirectory.appendingPathComponent("GenErikDJ-Development", isDirectory: true)
@@ -13,8 +12,11 @@ struct GenErikDJApp: App {
     }
     var body: some Scene {
         WindowGroup {
-            if let model { ReplicaView(model: model) }
-            else { Text("Cannot open the development workspace. Its original files were retained.").padding() }
+            if let model {
+                ReplicaView(model: model)
+            } else {
+                Text("Cannot open the development workspace. Its original files were retained.").padding()
+            }
         }
     }
 }

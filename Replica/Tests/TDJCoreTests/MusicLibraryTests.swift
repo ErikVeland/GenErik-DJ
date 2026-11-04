@@ -1,6 +1,7 @@
 import AVFoundation
 import Foundation
 import Testing
+
 @testable import TDJCore
 
 private func musicFixture(_ name: String = "clock-a-120.wav") -> URL {
@@ -9,18 +10,34 @@ private func musicFixture(_ name: String = "clock-a-120.wav") -> URL {
     return root.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures/" + name)
 }
 private func musicItem(_ id: String, url: URL? = nil, title: String = "Library title") -> MusicLibraryItem {
-    .init(source: .init(platform: .macMusic, persistentID: id), title: title, artist: "Library artist",
-          album: "Library album", genre: "House", assetURL: url ?? URL(fileURLWithPath: "/fixture/\(id).caf"), availability: .available)
+    .init(
+        source: .init(platform: .macMusic, persistentID: id), title: title, artist: "Library artist",
+        album: "Library album", genre: "House", assetURL: url ?? URL(fileURLWithPath: "/fixture/\(id).caf"),
+        availability: .available)
 }
 
 @Test func musicCatalogPreservesPlaylistOrderAndSearchesLibraryMetadata() {
-    let a = musicItem("1", title: "Alpha"), b = musicItem("2", title: "Beta")
-    let catalog = MusicLibraryCatalog(items: [a, b], playlists: [.init(id: "p", name: "Set", itemIDs: [b.id, "removed", a.id, b.id])])
+    let a = musicItem("1", title: "Alpha")
+    let b = musicItem("2", title: "Beta")
+    let catalog = MusicLibraryCatalog(
+        items: [a, b], playlists: [.init(id: "p", name: "Set", itemIDs: [b.id, "removed", a.id, b.id])])
     #expect(catalog.songs(playlistID: "p").map(\.id) == [b.id, a.id])
     #expect(catalog.songs(playlistID: "p", search: " BETA ").map(\.id) == [b.id])
     #expect(catalog.songs(search: "library ALBUM").count == 2)
     #expect(catalog.songs(playlistID: "missing").isEmpty)
     #expect(a.source.id != MusicLibrarySource(platform: .iosMusic, persistentID: "1").id)
+}
+
+@Test func musicCatalogCountsLocalRowsWithoutDeduplicatingThem() {
+    let local = musicItem("local")
+    let cloud = MusicLibraryItem(
+        source: .init(platform: .iosMusic, persistentID: "cloud"), title: "Cloud", artist: "", assetURL: nil,
+        availability: .notDownloaded)
+    let catalog = MusicLibraryCatalog(items: [local, cloud, local], playlists: [])
+    #expect(catalog.onDeviceItemCount == 2)
+    #expect(catalog.onDeviceItemCount == catalog.songs().count)
+    #expect(MusicLibraryCatalog(items: [], playlists: []).onDeviceItemCount == 0)
+    #expect(MusicLibraryCatalog(items: [cloud], playlists: []).onDeviceItemCount == 0)
 }
 
 @Test func musicLibraryImportRetainsMetadataIdentityAndManualPreparation() async throws {
@@ -96,11 +113,16 @@ private func musicItem(_ id: String, url: URL? = nil, title: String = "Library t
     #expect(original.processingFormat == decoded.processingFormat)
     let a = try #require(AVAudioPCMBuffer(pcmFormat: original.processingFormat, frameCapacity: 4096))
     let b = try #require(AVAudioPCMBuffer(pcmFormat: decoded.processingFormat, frameCapacity: 4096))
-    try original.read(into: a); try decoded.read(into: b)
-    let left = try #require(a.floatChannelData), right = try #require(b.floatChannelData)
+    try original.read(into: a)
+    try decoded.read(into: b)
+    let left = try #require(a.floatChannelData)
+    let right = try #require(b.floatChannelData)
     for channel in 0..<2 {
-        #expect(zip(UnsafeBufferPointer(start: left[channel], count: Int(a.frameLength)),
-                    UnsafeBufferPointer(start: right[channel], count: Int(b.frameLength))).allSatisfy { abs($0 - $1) < 0.000001 })
+        #expect(
+            zip(
+                UnsafeBufferPointer(start: left[channel], count: Int(a.frameLength)),
+                UnsafeBufferPointer(start: right[channel], count: Int(b.frameLength))
+            ).allSatisfy { abs($0 - $1) < 0.000001 })
     }
     #expect(try AudioAnalyzer.sha256(url: source) == hash)
     let failed = root.appendingPathComponent("failed.caf")
@@ -109,7 +131,8 @@ private func musicItem(_ id: String, url: URL? = nil, title: String = "Library t
     }
     #expect(!FileManager.default.fileExists(atPath: failed.path))
     await #expect(throws: MusicLibraryError.missingAudio) {
-        try await MusicLibraryAudio.decodeAsset(url: URL(string: "https://example.invalid/song.m4a")!, destination: failed)
+        try await MusicLibraryAudio.decodeAsset(
+            url: URL(string: "https://example.invalid/song.m4a")!, destination: failed)
     }
     await #expect(throws: (any Error).self) {
         try await MusicLibraryAudio.decodeAsset(url: source, destination: destination)
@@ -118,15 +141,18 @@ private func musicItem(_ id: String, url: URL? = nil, title: String = "Library t
 }
 
 @Test func musicLibraryBackgroundProjectionPreservesOrderAndPreparedSelection() async throws {
-    let a = musicItem("1",title:"Alpha"), b = musicItem("2",title:"Beta")
-    let catalog = MusicLibraryCatalog(items:[a,b],playlists:[.init(id:"p",name:"Set",itemIDs:[b.id,a.id])])
-    var prepared = try syntheticTrack("a",bpm:120)
+    let a = musicItem("1", title: "Alpha")
+    let b = musicItem("2", title: "Beta")
+    let catalog = MusicLibraryCatalog(items: [a, b], playlists: [.init(id: "p", name: "Set", itemIDs: [b.id, a.id])])
+    var prepared = try syntheticTrack("a", bpm: 120)
     prepared.musicLibrarySources = [a.source]
-    let result = try await MusicLibraryProjection.build(catalog:catalog,tracks:[prepared],playlistID:"p",search:"")
-    #expect(result.songs.map(\.id) == [b.id,a.id])
+    let result = try await MusicLibraryProjection.build(
+        catalog: catalog, tracks: [prepared], playlistID: "p", search: "")
+    #expect(result.songs.map(\.id) == [b.id, a.id])
     #expect(result.preparedIDs == [a.id])
     #expect(result.selectableIDs == [b.id])
-    let searched = try await MusicLibraryProjection.build(catalog:catalog,tracks:[prepared],playlistID:"p",search:"Alpha")
+    let searched = try await MusicLibraryProjection.build(
+        catalog: catalog, tracks: [prepared], playlistID: "p", search: "Alpha")
     #expect(searched.songs.map(\.id) == [a.id])
     #expect(searched.selectableIDs.isEmpty)
 }
@@ -134,10 +160,13 @@ private func musicItem(_ id: String, url: URL? = nil, title: String = "Library t
 @Test func nativeCatalogueMatchesAnalysisAndQueuesOnlyAccessibleUnanalysedSongs() throws {
     let analysed = musicItem("1", title: "Analysed")
     let fresh = musicItem("2", title: "Fresh")
-    let protected = MusicLibraryItem(source: .init(platform: .macMusic, persistentID: "3"), title: "Protected", artist: "Artist", assetURL: nil, availability: .protected)
+    let protected = MusicLibraryItem(
+        source: .init(platform: .macMusic, persistentID: "3"), title: "Protected", artist: "Artist", assetURL: nil,
+        availability: .protected)
     var track = try syntheticTrack("existing", bpm: 120)
     track.musicLibrarySources = [analysed.source]
-    let result = MusicLibraryReconciliation(catalog: .init(items: [analysed, fresh, protected], playlists: []), tracks: [track])
+    let result = MusicLibraryReconciliation(
+        catalog: .init(items: [analysed, fresh, protected], playlists: []), tracks: [track])
     #expect(result.entries.map(\.item.id) == [analysed.id, fresh.id, protected.id])
     #expect(result.entries[0].track?.id == track.id)
     #expect(result.entries[1].track == nil)
@@ -182,6 +211,7 @@ private func musicItem(_ id: String, url: URL? = nil, title: String = "Library t
     #expect(!FileManager.default.fileExists(atPath: root.path))
     let source = musicFixture("routing-left440-right880.wav")
     try await MusicLibraryAudio.decodeAsset(url: source, destination: destination)
-    let original = try AVAudioFile(forReading: source), decoded = try AVAudioFile(forReading: destination)
+    let original = try AVAudioFile(forReading: source)
+    let decoded = try AVAudioFile(forReading: destination)
     #expect(decoded.length == original.length && decoded.processingFormat == original.processingFormat)
 }

@@ -1,1 +1,0 @@
-Optional(main.BeatGridDetection(grid: main.BeatGrid(bpm: 136.0177692878311, anchorFrame: 7963.329488313436, sampleRate: 44100.0, downbeatOffset: 0), tempoConfidence: 1.0, downbeatConfidence: Optional(0.7834721734595959)))

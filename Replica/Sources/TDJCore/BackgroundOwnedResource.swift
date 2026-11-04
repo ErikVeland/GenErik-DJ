@@ -5,9 +5,7 @@ private enum ResourceRetirement {
 }
 
 final class BackgroundOwnedResource<Resource: AnyObject & Sendable>: @unchecked Sendable {
-    private struct Ownership: @unchecked Sendable {
-        let resource: Unmanaged<Resource>
-    }
+    private struct Ownership: @unchecked Sendable { let resource: Unmanaged<Resource> }
 
     private let ownership: Ownership
     private let retirementQueue: DispatchQueue
@@ -19,9 +17,7 @@ final class BackgroundOwnedResource<Resource: AnyObject & Sendable>: @unchecked 
 
     // The resource reference must not escape. Value projections can retain separate data aliases.
     func withResource<Result>(_ operation: (Resource) -> Result) -> Result {
-        withExtendedLifetime(self) {
-            operation(ownership.resource.takeUnretainedValue())
-        }
+        withExtendedLifetime(self) { operation(ownership.resource.takeUnretainedValue()) }
     }
 
     deinit {

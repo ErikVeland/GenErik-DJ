@@ -8,8 +8,9 @@ extension ReplicaModel {
         var merged = collectionHints
         for (id, hint) in analysisHints.entries {
             let existing = merged[id]
-            merged[id] = .init(bpm: existing?.bpm ?? hint.bpm, key: existing?.key ?? hint.key,
-                               isMix: existing?.isMix == true || hint.isMix)
+            merged[id] = .init(
+                bpm: existing?.bpm ?? hint.bpm, key: existing?.key ?? hint.key,
+                isMix: existing?.isMix == true || hint.isMix)
         }
         return merged
     }
@@ -23,19 +24,23 @@ extension ReplicaModel {
     func recordAnalysisHint(_ hint: NativeAnalysisHint, for item: MusicLibraryItem) async {
         analysisHints.entries[item.id] = hint
         browserHintsVersion &+= 1
-        let hints = analysisHints, url = analysisHintsURL
+        let hints = analysisHints
+        let url = analysisHintsURL
         await nativeMusic.files.run { try? hints.save(to: url) }
     }
 
     /// Appends one line to analysis.log, keeping the newest 256 KB.
     func logAnalysis(_ text: String) {
-        let url = analysisLogURL, line = Date().ISO8601Format() + " " + text + "\n"
-        Task { await nativeMusic.files.run {
-            var data = (try? Data(contentsOf: url)) ?? Data()
-            data.append(Data(line.utf8))
-            if data.count > 256 * 1024 { data = data.suffix(192 * 1024) }
-            try? data.write(to: url, options: .atomic)
-        } }
+        let url = analysisLogURL
+        let line = Date().ISO8601Format() + " " + text + "\n"
+        Task {
+            await nativeMusic.files.run {
+                var data = (try? Data(contentsOf: url)) ?? Data()
+                data.append(Data(line.utf8))
+                if data.count > 256 * 1024 { data = data.suffix(192 * 1024) }
+                try? data.write(to: url, options: .atomic)
+            }
+        }
     }
 
     /// Removes temporary exports an interrupted session left behind. Runs only with no loads active.
@@ -62,7 +67,8 @@ extension ReplicaModel {
         await files.run { try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true) }
         let excerpt = directory.appendingPathComponent("opening.caf")
         do {
-            try await MusicLibraryAudio.decodeAsset(url: url, destination: excerpt, maximumSeconds: NativeAnalysisPlan.excerptSeconds)
+            try await MusicLibraryAudio.decodeAsset(
+                url: url, destination: excerpt, maximumSeconds: NativeAnalysisPlan.excerptSeconds)
             let analysis = try await AnalysisWorker.shared.analyze(url: excerpt)
             await files.run { try? FileManager.default.removeItem(at: directory) }
             await recordAnalysisHint(.init(excerpt: analysis, isMix: true), for: item)
@@ -74,15 +80,19 @@ extension ReplicaModel {
 
     /// A loaded mix has no full analysis. Apply its first-minute grid and key once.
     func applyAnalysisHintIfNeeded(trackID: String) async {
-        guard let track = library.tracks.first(where: { $0.id == trackID }), track.grid == nil, !track.preparation.gridIsManual,
-              let hint = (track.musicLibrarySources ?? []).lazy.compactMap({ self.analysisHints.entries[$0.id] }).first,
-              let bpm = hint.bpm, let anchor = hint.beatAnchorSeconds,
-              let grid = try? BeatGrid(bpm: bpm, anchorFrame: anchor * track.analysis.sampleRate,
-                                       sampleRate: track.analysis.sampleRate, downbeatOffset: hint.downbeatOffset ?? 0) else { return }
+        guard let track = library.tracks.first(where: { $0.id == trackID }), track.grid == nil,
+            !track.preparation.gridIsManual,
+            let hint = (track.musicLibrarySources ?? []).lazy.compactMap({ self.analysisHints.entries[$0.id] }).first,
+            let bpm = hint.bpm, let anchor = hint.beatAnchorSeconds,
+            let grid = try? BeatGrid(
+                bpm: bpm, anchorFrame: anchor * track.analysis.sampleRate, sampleRate: track.analysis.sampleRate,
+                downbeatOffset: hint.downbeatOffset ?? 0)
+        else { return }
         var preparation = track.preparation
         preparation.grid = grid
         preparation.importKey(hint.key, authority: .independent)
-        do { adoptLibrary(try await service.updatePreparation(trackID: trackID, preparation: preparation)) }
-        catch { logAnalysis("Could not apply mix grid: \(error.localizedDescription)") }
+        do { adoptLibrary(try await service.updatePreparation(trackID: trackID, preparation: preparation)) } catch {
+            logAnalysis("Could not apply mix grid: \(error.localizedDescription)")
+        }
     }
 }

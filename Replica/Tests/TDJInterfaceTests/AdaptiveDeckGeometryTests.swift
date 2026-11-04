@@ -1,4 +1,5 @@
 import Testing
+
 @testable import TDJInterface
 
 @Test func deckExpansionHasNoGeometryJumpAtTheFormerLayoutThreshold() {
@@ -13,16 +14,14 @@ import Testing
     }
 }
 
-@Test(arguments: [300.0, 619, 800, 1024])
-func draggingToTheEndMatchesTheCollapsedLibraryHeight(height: Double) {
+@Test(arguments: [300.0, 619, 800, 1024]) func draggingToTheEndMatchesTheCollapsedLibraryHeight(height: Double) {
     let dragged = AdaptivePerformanceLayout.deckHeight(available: height, browserVisible: true, share: 1)
     let collapsed = AdaptivePerformanceLayout.deckHeight(available: height, browserVisible: false, share: 0.28)
     #expect(dragged == collapsed)
     #expect(height - collapsed == AdaptivePerformanceLayout.dividerHeight)
 }
 
-@Test(arguments: [300.0, 619, 800, 1024])
-func explicitLibraryOpenUsesTheMinimumDeckStripHeight(height: Double) {
+@Test(arguments: [300.0, 619, 800, 1024]) func explicitLibraryOpenUsesTheMinimumDeckStripHeight(height: Double) {
     let decks = AdaptivePerformanceLayout.deckHeight(available: height, browserVisible: true, share: 0)
     #expect(decks == AdaptivePerformanceLayout.minimumDeckHeight)
     #expect(height - decks - AdaptivePerformanceLayout.dividerHeight > 0)

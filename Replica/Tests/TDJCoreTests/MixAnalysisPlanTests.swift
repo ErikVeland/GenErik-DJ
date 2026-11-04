@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+
 @testable import TDJCore
 
 @Test func nineteenMinutesSeparatesFullAnalysisFromFirstMinuteAnalysis() {
@@ -11,16 +12,18 @@ import Testing
 }
 
 private func item(_ id: String, _ seconds: Double) -> MusicLibraryItem {
-    .init(source: .init(platform: .iosMusic, persistentID: id), title: id, artist: "", duration: seconds,
-          assetURL: URL(fileURLWithPath: "/dev/null"), availability: .available)
+    .init(
+        source: .init(platform: .iosMusic, persistentID: id), title: id, artist: "", duration: seconds,
+        assetURL: URL(fileURLWithPath: "/dev/null"), availability: .available)
 }
 
 @Test func analysisRunsLoadedSongsFirstThenShortestAndMixesLast() {
-    let catalog = MusicLibraryCatalog(items: [item("mix", 3600), item("long", 400), item("short", 120),
-                                              item("loaded", 300), item("done-mix", 2400)], playlists: [])
-    let order = MusicLibraryReconciliation(catalog: catalog, tracks: [])
-        .analysisOrder(loaded: [.init(platform: .iosMusic, persistentID: "loaded")],
-                       analysedMixes: ["ios:done-mix", MusicLibrarySource(platform: .iosMusic, persistentID: "done-mix").id])
+    let catalog = MusicLibraryCatalog(
+        items: [item("mix", 3600), item("long", 400), item("short", 120), item("loaded", 300), item("done-mix", 2400)],
+        playlists: [])
+    let order = MusicLibraryReconciliation(catalog: catalog, tracks: []).analysisOrder(
+        loaded: [.init(platform: .iosMusic, persistentID: "loaded")],
+        analysedMixes: ["ios:done-mix", MusicLibrarySource(platform: .iosMusic, persistentID: "done-mix").id])
     #expect(order.map(\.title) == ["loaded", "short", "long", "mix"])
 }
 
@@ -33,8 +36,11 @@ private func item(_ id: String, _ seconds: Double) -> MusicLibraryItem {
     // Stored results survive a save and load, so the analyser does not repeat the work.
     let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".json")
     defer { try? FileManager.default.removeItem(at: url) }
-    let hints = NativeAnalysisHints(entries: ["x": .init(bpm: 126, beatAnchorSeconds: 0.2, downbeatOffset: 1,
-        key: .init(tonic: 9, mode: .minor), isMix: true, analysedSeconds: 60, configurationID: "c")])
+    let hints = NativeAnalysisHints(entries: [
+        "x": .init(
+            bpm: 126, beatAnchorSeconds: 0.2, downbeatOffset: 1, key: .init(tonic: 9, mode: .minor), isMix: true,
+            analysedSeconds: 60, configurationID: "c")
+    ])
     try hints.save(to: url)
     #expect(try NativeAnalysisHints.load(from: url) == hints)
 }
@@ -44,8 +50,10 @@ private func item(_ id: String, _ seconds: Double) -> MusicLibraryItem {
         LibraryBrowserEntry(nativeItem: item(id, 200), hint: .init(bpm: bpm, key: key, isMix: false))
     }
     let selected = entry("sel", 128, .init(tonic: 9, mode: .minor))
-    let entries = [selected, entry("near", 126, .init(tonic: 4, mode: .minor)), entry("double", 64, .init(tonic: 9, mode: .minor)),
-                   entry("far", 100, .init(tonic: 9, mode: .minor)), entry("clash", 129, .init(tonic: 1, mode: .major))]
+    let entries = [
+        selected, entry("near", 126, .init(tonic: 4, mode: .minor)), entry("double", 64, .init(tonic: 9, mode: .minor)),
+        entry("far", 100, .init(tonic: 9, mode: .minor)), entry("clash", 129, .init(tonic: 1, mode: .major)),
+    ]
     let matches = BrowserRecommendations.matches(for: selected, in: entries)
     #expect(Set(matches.map(\.entry.title)) == ["near", "double", "clash"])
     #expect(matches.first { $0.entry.title == "near" }?.keyCompatible == true)

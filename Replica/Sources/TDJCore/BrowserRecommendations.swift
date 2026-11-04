@@ -11,7 +11,8 @@ public enum BrowserRecommendations {
     }
     /// Same Open Key number, or a neighbour number in the same mode, or the relative key.
     public static func keysCompatible(_ a: MusicalKey, _ b: MusicalKey) -> Bool {
-        let na = openKeyNumber(a), nb = openKeyNumber(b)
+        let na = openKeyNumber(a)
+        let nb = openKeyNumber(b)
         if na == nb { return true }
         guard a.mode == b.mode else { return false }
         let distance = abs(na - nb)
@@ -28,17 +29,20 @@ public enum BrowserRecommendations {
     }
     /// Tempo within ±6 % (half and double time allowed), ranked compatible key first. A seed without
     /// a tempo falls back to key matches. Loaded tracks and the seed itself are excluded.
-    public static func matches(for selected: LibraryBrowserEntry, in entries: [LibraryBrowserEntry],
-                               excluding excluded: Set<String> = [], limit: Int = 12) -> [Match] {
+    public static func matches(
+        for selected: LibraryBrowserEntry, in entries: [LibraryBrowserEntry], excluding excluded: Set<String> = [],
+        limit: Int = 12
+    ) -> [Match] {
         var results: [(Match, Double)] = []
-        let skip = excluded.union([selected.id]).union(selected.track.map { [$0.id] } ?? [])
-            .union(selected.nativeItem.map { [$0.id] } ?? [])
+        let skip = excluded.union([selected.id]).union(selected.track.map { [$0.id] } ?? []).union(
+            selected.nativeItem.map { [$0.id] } ?? [])
         for entry in entries where !skip.contains(entry.id) && !(entry.track.map { skip.contains($0.id) } ?? false) {
             let keyOK = selected.key.flatMap { a in entry.key.map { keysCompatible(a, $0) } } ?? false
             if let bpm = selected.bpm {
                 guard let other = entry.bpm, temposCompatible(bpm, other) else { continue }
                 let distance = min(abs(other - bpm), abs(other * 2 - bpm), abs(other / 2 - bpm)) / bpm
-                results.append((Match(entry: entry, tempoCompatible: true, keyCompatible: keyOK), distance + (keyOK ? 0 : 1)))
+                results.append(
+                    (Match(entry: entry, tempoCompatible: true, keyCompatible: keyOK), distance + (keyOK ? 0 : 1)))
             } else if keyOK {
                 results.append((Match(entry: entry, tempoCompatible: false, keyCompatible: true), 0))
             }

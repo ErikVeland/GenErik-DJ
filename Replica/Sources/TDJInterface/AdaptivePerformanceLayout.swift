@@ -1,5 +1,5 @@
-import Foundation
 import CoreGraphics
+import Foundation
 
 struct PanelHandleMetrics {
     let expanded: Bool
@@ -51,8 +51,8 @@ struct PerformanceWorkspaceGeometry {
     init(width: Double, height: Double, browserVisible: Bool, deckShare: Double) {
         dock = PerformanceDockGeometry(width: width, height: height)
         let available = dock.workArea.height
-        let deckHeight = AdaptivePerformanceLayout.deckHeight(available: available,
-            browserVisible: browserVisible, share: deckShare)
+        let deckHeight = AdaptivePerformanceLayout.deckHeight(
+            available: available, browserVisible: browserVisible, share: deckShare)
         deckArea = CGRect(x: 0, y: 0, width: dock.workArea.width, height: deckHeight)
         let libraryY = min(available, deckHeight + AdaptivePerformanceLayout.dividerHeight)
         libraryArea = CGRect(x: 0, y: libraryY, width: dock.workArea.width, height: max(0, available - libraryY))
@@ -84,9 +84,7 @@ struct AdaptivePerformanceLayout {
     static func crossfaderHeight(available: Double) -> Double { max(0, available) * 0.3 }
     static func railClearance(available: Double) -> Double { crossfaderHeight(available: available) / 2 }
 
-    static func panelWidth(available: Double) -> Double {
-        min(196, max(144, available * 0.22))
-    }
+    static func panelWidth(available: Double) -> Double { min(196, max(144, available * 0.22)) }
 }
 
 struct AdaptiveDeckGeometry {
@@ -100,7 +98,10 @@ struct AdaptiveDeckGeometry {
     let waveformHeight: Double
     let transportWidth: Double
 
-    init(height: Double, hotcues: Bool = false, compactControls: Bool = false, editing: Bool = false, inlineControls: Bool = false) {
+    init(
+        height: Double, hotcues: Bool = false, compactControls: Bool = false, editing: Bool = false,
+        inlineControls: Bool = false
+    ) {
         let height = max(0, height)
         expansion = min(1, max(0, (height - 56) / 144))
         footerHeight = min(editing ? 44 : 24, height * 0.35)
@@ -119,9 +120,9 @@ struct PerformanceToolsPanelState {
     var isVisible = true
 
     mutating func finishSwipe(horizontal: Double, vertical: Double, velocity: Double = 0) {
-        guard horizontal.isFinite, vertical.isFinite, velocity.isFinite,
-              abs(horizontal) > abs(vertical),
-              abs(horizontal) >= 40 || (abs(horizontal) >= 16 && abs(velocity) >= 600) else { return }
+        guard horizontal.isFinite, vertical.isFinite, velocity.isFinite, abs(horizontal) > abs(vertical),
+            abs(horizontal) >= 40 || (abs(horizontal) >= 16 && abs(velocity) >= 600)
+        else { return }
         isVisible = horizontal < 0
     }
 }

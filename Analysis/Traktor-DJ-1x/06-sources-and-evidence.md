@@ -216,7 +216,7 @@ The [frame follow-up](14-hollin-jones-count-in-frame-review.md) reviews 120 reta
 
 ### L1 Reference identity
 
-[App metadata](../traktor-dj-metadata.json) and [runtime report summary](../reference-runtime-evidence.json).
+[App metadata](https://github.com/ErikVeland/GenErik-DJ/blob/archive/pre-cleanup-2026-11-04/Analysis/traktor-dj-metadata.json) and [runtime report summary](https://github.com/ErikVeland/GenErik-DJ/blob/archive/pre-cleanup-2026-11-04/Analysis/reference-runtime-evidence.json).
 
 Observed version 1.6.8, build 1.6.8.67, iPad bundle `com.native-instruments.traktordj`, Store ID 592052832. Existing runtime evidence reports arm64. The iMazing size field is 70,647,808 bytes. That value is not an IPA size, RAM budget, or unpacked asset inventory.
 
@@ -224,7 +224,7 @@ The reference device is an iPad Pro 10.5-inch, iPad7,3, iPadOS 17.7.11. Its inst
 
 ### L2 Existing recording exports
 
-[Export observations](../export-format-observations.json) and [acquisition report](../document-acquisition.json).
+[Export observations](https://github.com/ErikVeland/GenErik-DJ/blob/archive/pre-cleanup-2026-11-04/Analysis/export-format-observations.json) and [acquisition report](https://github.com/ErikVeland/GenErik-DJ/blob/archive/pre-cleanup-2026-11-04/Analysis/document-acquisition.json).
 
 There are 27 XML files with 1,039 track entries in total. The document root identifies a Native Instruments tracklist. Track attributes are `artist`, `guid`, `name`, `restype`, and `starttime`. The observed resource type is `local`. GUID strings have 16 characters. Timestamp units and ID semantics remain unresolved.
 

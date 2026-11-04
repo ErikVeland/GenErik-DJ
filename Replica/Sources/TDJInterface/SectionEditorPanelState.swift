@@ -31,12 +31,19 @@ struct SectionEditorPanelState {
     func matches(trackID: String?, loadID: UUID?) -> Bool { session?.matches(trackID: trackID, loadID: loadID) == true }
     mutating func configure(height: Double, portrait: Bool, handleExtent: Double) {
         guard height.isFinite else { return }
-        if self.portrait != portrait { cancelDrag(); self.portrait = portrait; presentationID = UUID() }
+        if self.portrait != portrait {
+            cancelDrag()
+            self.portrait = portrait
+            presentationID = UUID()
+        }
         maximum = max(0, height - 52 - handleExtent)
         if isPresented, !isDragging, panel.extent == 0 { panel.setPresented(true, maximumExtent: maximum) }
     }
     mutating func open(trackID: String, loadID: UUID?) {
-        if !matches(trackID: trackID, loadID: loadID) { discard(); session = .init(trackID: trackID, loadID: loadID) }
+        if !matches(trackID: trackID, loadID: loadID) {
+            discard()
+            session = .init(trackID: trackID, loadID: loadID)
+        }
         setPresented(true)
     }
     mutating func setPresented(_ visible: Bool) {
@@ -46,7 +53,10 @@ struct SectionEditorPanelState {
         panel.setPresented(visible, maximumExtent: maximum)
         presentationID = UUID()
     }
-    mutating func discard() { setPresented(false); session = nil }
+    mutating func discard() {
+        setPresented(false)
+        session = nil
+    }
     mutating func validate(trackID: String?, loadID: UUID?) {
         if session != nil, !matches(trackID: trackID, loadID: loadID) { discard() }
     }
@@ -69,7 +79,12 @@ struct SectionEditorPanelState {
     }
     mutating func adjust(by delta: Double) {
         guard delta.isFinite else { return }
-        if !isPresented, delta > 0 { setPresented(true) }
-        else { beginDrag(); updateDrag(translation: delta); endDrag(velocity: 0) }
+        if !isPresented, delta > 0 {
+            setPresented(true)
+        } else {
+            beginDrag()
+            updateDrag(translation: delta)
+            endDrag(velocity: 0)
+        }
     }
 }

@@ -8,8 +8,7 @@ public final class NativeAudioRenderOwnership: NSObject, @unchecked Sendable {
     private let transport: SampleTransport
     private let metrics: AudioCallbackMetrics?
 
-    init(transport: SampleTransport, engine: OpaquePointer, recording: OpaquePointer,
-         metrics: AudioCallbackMetrics?) {
+    init(transport: SampleTransport, engine: OpaquePointer, recording: OpaquePointer, metrics: AudioCallbackMetrics?) {
         self.transport = transport
         self.metrics = metrics
         engineHandle = engine

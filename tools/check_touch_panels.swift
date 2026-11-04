@@ -1,14 +1,16 @@
-import Foundation
 import CoreGraphics
+import Foundation
 
-@main
-enum TouchPanelChecks {
+@main enum TouchPanelChecks {
     static func main() {
         var checks = 0
         var failures = 0
         func expect(_ condition: Bool, _ message: String) {
             checks += 1
-            if !condition { failures += 1; print("FAIL: \(message)") }
+            if !condition {
+                failures += 1
+                print("FAIL: \(message)")
+            }
         }
 
         var panel = TouchPanelState(minimumExtent: 132, initialExtent: 240)
@@ -41,7 +43,9 @@ enum TouchPanelChecks {
         panel.beginDrag()
         panel.updateDrag(translation: -100, maximumExtent: 500)
         panel.cancelDrag()
-        expect(panel.extent == 165 && panel.rememberedExtent == 165 && !panel.isDragging, "cancel restores size and memory")
+        expect(
+            panel.extent == 165 && panel.rememberedExtent == 165 && !panel.isDragging, "cancel restores size and memory"
+        )
         panel.beginDrag()
         panel.updateDrag(translation: .nan, maximumExtent: 500)
         expect(panel.extent == 165, "invalid translation is ignored")
@@ -120,9 +124,13 @@ enum TouchPanelChecks {
         expect(library.extent == 206, "external close preserves settled memory rather than drag preview")
 
         library.makeRoom(by: 40)
-        expect(library.extent == 166 && library.acceptsContentInput, "a deck can borrow space while the browser stays usable")
+        expect(
+            library.extent == 166 && library.acceptsContentInput,
+            "a deck can borrow space while the browser stays usable")
         library.makeRoom(by: 1000)
-        expect(library.extent == 132 && library.acceptsContentInput, "performance controls retain a usable browser minimum")
+        expect(
+            library.extent == 132 && library.acceptsContentInput, "performance controls retain a usable browser minimum"
+        )
         library.makeRoom(by: .nan)
         library.makeRoom(by: -100)
         expect(library.extent == 132, "invalid space requests cannot move the browser")
@@ -133,7 +141,9 @@ enum TouchPanelChecks {
         var shortcuts = LibraryPanelState()
         shortcuts.updateViewport(width: 834, height: 1052, presented: false)
         shortcuts.apply(.browse)
-        expect(shortcuts.extent == 484 && shortcuts.selectedShortcut == .expand, "Browse shares usable portrait space evenly")
+        expect(
+            shortcuts.extent == 484 && shortcuts.selectedShortcut == .expand,
+            "Browse shares usable portrait space evenly")
         expect(shortcuts.acceptsContentInput, "Browse exposes usable browser content")
         shortcuts.apply(.expand)
         expect(shortcuts.extent == 484 && shortcuts.selectedShortcut == .expand, "Expand fills portrait browser space")
@@ -146,7 +156,9 @@ enum TouchPanelChecks {
         shortcuts.beginDrag()
         shortcuts.updateDrag(translation: -54)
         shortcuts.endDrag(velocity: 0)
-        expect(shortcuts.extent == 430 && shortcuts.selectedShortcut == nil, "manual resize remains free between shortcuts")
+        expect(
+            shortcuts.extent == 430 && shortcuts.selectedShortcut == nil, "manual resize remains free between shortcuts"
+        )
         shortcuts.apply(.performance)
         shortcuts.setPresented(true)
         expect(shortcuts.extent == 430, "Performance retains the manually chosen size")
@@ -185,11 +197,16 @@ enum TouchPanelChecks {
             let maximum = AdaptivePerformanceLayout.maximumLibraryExtent(available: height)
             for extent in [0.0, 20, 132, maximum / 2, maximum, maximum + 100] {
                 let workspace = PerformanceWorkspaceGeometry(width: width, height: height, libraryExtent: extent)
-                expect(workspace.dock.aButtons == baseline.aButtons && workspace.dock.bButtons == baseline.bButtons && workspace.dock.crossfader == baseline.crossfader,
-                    "library motion cannot move dock")
+                expect(
+                    workspace.dock.aButtons == baseline.aButtons && workspace.dock.bButtons == baseline.bButtons
+                        && workspace.dock.crossfader == baseline.crossfader, "library motion cannot move dock")
                 expect(workspace.libraryArea.height == min(maximum, extent), "extent controls actual browser height")
-                expect(workspace.libraryArea.minY - workspace.deckArea.maxY == 44, "grab strip occupies its own 44-point lane")
-                expect(workspace.deckArea.height >= 524, "full opening retains both complete compact decks and their divider")
+                expect(
+                    workspace.libraryArea.minY - workspace.deckArea.maxY == 44,
+                    "grab strip occupies its own 44-point lane")
+                expect(
+                    workspace.deckArea.height >= 524,
+                    "full opening retains both complete compact decks and their divider")
                 expect(workspace.libraryArea.maxY == height, "browser remains attached to bottom edge")
                 expect(workspace.libraryArea.maxX <= baseline.workArea.maxX, "browser cannot cover dock")
             }

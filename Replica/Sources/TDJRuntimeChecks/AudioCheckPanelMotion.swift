@@ -47,27 +47,31 @@ public struct AudioCheckPanelMotionAccumulator: Sendable {
     private var records: [AudioCheckPanelTransition?]
     private var count = 0, dropped = 0, skipped = 0, invalid = 0
     private var previousStep: Int?
-    public init(capacity: Int = 512) {
-        records = Array(repeating:nil,count:max(0,min(4096,capacity)))
-    }
+    public init(capacity: Int = 512) { records = Array(repeating: nil, count: max(0, min(4096, capacity))) }
     public mutating func observe(elapsedSeconds: Double, arrivalMachTicks: UInt64) -> AudioCheckPanelLayout? {
         guard elapsedSeconds.isFinite, elapsedSeconds >= 0,
-              let step=Int(exactly:floor(elapsedSeconds / Self.periodSeconds)),
-              previousStep.map({ step >= $0 }) ?? true else { invalid += 1; return nil }
+            let step = Int(exactly: floor(elapsedSeconds / Self.periodSeconds)),
+            previousStep.map({ step >= $0 }) ?? true
+        else {
+            invalid += 1
+            return nil
+        }
         guard step != previousStep else { return nil }
-        skipped += previousStep.map { max(0,step-$0-1) } ?? step
-        previousStep=step
-        let layout=AudioCheckPanelLayout.at(step:step)
+        skipped += previousStep.map { max(0, step - $0 - 1) } ?? step
+        previousStep = step
+        let layout = AudioCheckPanelLayout.at(step: step)
         if count < records.count {
-            records[count]=AudioCheckPanelTransition(step:step,layout:layout,
-                arrivalMachTicks:arrivalMachTicks,elapsedSeconds:elapsedSeconds)
-        } else { dropped += 1 }
+            records[count] = AudioCheckPanelTransition(
+                step: step, layout: layout, arrivalMachTicks: arrivalMachTicks, elapsedSeconds: elapsedSeconds)
+        } else {
+            dropped += 1
+        }
         count += 1
         return layout
     }
     public var summary: AudioCheckPanelMotionMetrics {
-        .init(periodSeconds:Self.periodSeconds,transitions:records.compactMap { $0 },
-              transitionCount:count,transitionsDropped:dropped,skippedSteps:skipped,
-              invalidTimes:invalid,capacity:records.count)
+        .init(
+            periodSeconds: Self.periodSeconds, transitions: records.compactMap { $0 }, transitionCount: count,
+            transitionsDropped: dropped, skippedSteps: skipped, invalidTimes: invalid, capacity: records.count)
     }
 }

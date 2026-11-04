@@ -2,6 +2,7 @@ import AVFoundation
 import CTDJTransport
 import Foundation
 import Testing
+
 @testable import TDJCore
 
 @Test func setRecordingMatchesRenderedMasterAndTransfersAsAIFF() async throws {
@@ -17,14 +18,12 @@ import Testing
     let b = try core.load(asset, deck: .b, grid: nil, synced: false)
     try core.play(deck: .a, generation: a)
     try core.play(deck: .b, generation: b)
-    _ = core.renderOffline(frames: 512) // Excluded pre-recording audio.
+    _ = core.renderOffline(frames: 512)  // Excluded pre-recording audio.
     let recorder = try SetRecorder(directory: root, sampleRate: core.sampleRate, buffer: core.recording)
     var expected: [Float] = []
-    for count in [127, 512, 4096, 37] {
-        expected += core.renderOffline(frames: count).left
-    }
+    for count in [127, 512, 4096, 37] { expected += core.renderOffline(frames: count).left }
     let url = try await recorder.finish()
-    _ = core.renderOffline(frames: 1000) // Excluded post-recording audio.
+    _ = core.renderOffline(frames: 1000)  // Excluded post-recording audio.
     let transferred = root.appendingPathComponent("Transferred.aiff")
     try FileManager.default.copyItem(at: url, to: transferred)
     #expect(try Data(contentsOf: url) == Data(contentsOf: transferred))
@@ -52,10 +51,13 @@ import Testing
     let recorder = try SetRecorder(directory: root, sampleRate: 48000, buffer: ring)
     let samples = [Float](repeating: 0.2, count: 32)
     samples.withUnsafeBufferPointer { ring.capture(frames: 32, left: $0.baseAddress!, right: $0.baseAddress!) }
-    do { _ = try await recorder.finish(); Issue.record("Overflow must not publish a successful recording") }
-    catch RecordingError.overflow(let frames) { #expect(frames == 32) }
+    do {
+        _ = try await recorder.finish()
+        Issue.record("Overflow must not publish a successful recording")
+    } catch RecordingError.overflow(let frames) { #expect(frames == 32) }
     #expect(SetRecorder.savedRecordings(in: root).isEmpty)
-    #expect(try FileManager.default.contentsOfDirectory(atPath: root.path).contains { $0.hasSuffix(".incomplete.aiff") })
+    #expect(
+        try FileManager.default.contentsOfDirectory(atPath: root.path).contains { $0.hasSuffix(".incomplete.aiff") })
 }
 
 @Test func recordingRingWrapsAndStopsWithoutLeakingSamplesIntoNextSet() throws {
@@ -63,15 +65,22 @@ import Testing
     let format = try #require(AVAudioFormat(standardFormatWithSampleRate: 48000, channels: 2))
     let buffer = try #require(AVAudioPCMBuffer(pcmFormat: format, frameCapacity: 5))
     let samples: [Float] = [1, 2, 3, 4, 5]
-    func push() { samples.withUnsafeBufferPointer { ring.capture(frames: 5, left: $0.baseAddress!, right: $0.baseAddress!) } }
+    func push() {
+        samples.withUnsafeBufferPointer { ring.capture(frames: 5, left: $0.baseAddress!, right: $0.baseAddress!) }
+    }
     ring.start()
     for _ in 0..<10 {
-        push(); #expect(ring.read(into: buffer) == 5)
+        push()
+        #expect(ring.read(into: buffer) == 5)
         #expect(Array(UnsafeBufferPointer(start: buffer.floatChannelData![0], count: 5)) == samples)
     }
-    ring.stop(); push(); #expect(ring.read(into: buffer) == 0)
-    ring.start(); #expect(ring.read(into: buffer) == 0)
-    push(); #expect(ring.read(into: buffer) == 5)
+    ring.stop()
+    push()
+    #expect(ring.read(into: buffer) == 0)
+    ring.start()
+    #expect(ring.read(into: buffer) == 0)
+    push()
+    #expect(ring.read(into: buffer) == 5)
     ring.stop()
 }
 
@@ -84,9 +93,11 @@ import Testing
         let left = [Float](repeating: 0.125, count: 128)
         let right = [Float](repeating: -0.25, count: 128)
         for _ in 0..<1024 {
-            left.withUnsafeBufferPointer { l in right.withUnsafeBufferPointer { r in
-                ring.capture(frames: 128, left: l.baseAddress!, right: r.baseAddress!)
-            }}
+            left.withUnsafeBufferPointer { l in
+                right.withUnsafeBufferPointer { r in
+                    ring.capture(frames: 128, left: l.baseAddress!, right: r.baseAddress!)
+                }
+            }
             try await Task.sleep(for: .milliseconds(1))
         }
     }.value
@@ -100,16 +111,16 @@ import Testing
 }
 
 @Test func recordingFaultFlagResetsForTheNextSet() throws {
-    let ring = try RecordingBuffer(capacity:16)
+    let ring = try RecordingBuffer(capacity: 16)
     ring.start()
     #expect(!ring.hasFailed)
     ring.markWriteFailure()
     #expect(ring.hasFailed)
-    ring.stop(); ring.start()
+    ring.stop()
+    ring.start()
     #expect(!ring.hasFailed)
     ring.stop()
 }
-
 
 @Test func recordingStopRequestRejectsLaterBlocksAndRetainsAcceptedFrames() throws {
     let ring = try RecordingBuffer(capacity: 7)
@@ -187,7 +198,8 @@ import Testing
     try core.play(deck: .b, generation: b)
     _ = core.renderOffline(frames: 1024)
     let recording = try await recorder.finish()
-    let contents = try String(contentsOf: recording.deletingPathExtension().appendingPathExtension("txt"), encoding: .utf8)
+    let contents = try String(
+        contentsOf: recording.deletingPathExtension().appendingPathExtension("txt"), encoding: .utf8)
     #expect(contents == "00:00:00 - Artist 1 - Track Title 1 (Version)\n00:00:02 - Artist 2 - Track Title 2\n")
 }
 
@@ -200,7 +212,9 @@ import Testing
     samples.withUnsafeBufferPointer { ring.capture(frames: 64, left: $0.baseAddress!, right: $0.baseAddress!) }
     let recording = try await recorder.finish()
     #expect(recording.lastPathComponent.hasPrefix("Unknown Location - "))
-    #expect(recording.deletingPathExtension().appendingPathExtension("txt").lastPathComponent == recording.deletingPathExtension().lastPathComponent + ".txt")
+    #expect(
+        recording.deletingPathExtension().appendingPathExtension("txt").lastPathComponent
+            == recording.deletingPathExtension().lastPathComponent + ".txt")
 }
 
 @Test func recordingNameSanitisesLocationAndMatchesTracklist() async throws {
@@ -212,7 +226,8 @@ import Testing
     samples.withUnsafeBufferPointer { ring.capture(frames: 64, left: $0.baseAddress!, right: $0.baseAddress!) }
     let recording = try await recorder.finish()
     #expect(recording.lastPathComponent.hasPrefix("Brisbane   The Venue - "))
-    #expect(FileManager.default.fileExists(atPath: recording.deletingPathExtension().appendingPathExtension("txt").path))
+    #expect(
+        FileManager.default.fileExists(atPath: recording.deletingPathExtension().appendingPathExtension("txt").path))
 }
 
 @Test func tracklistExcludesMutedDeckUntilItEntersMaster() async throws {
@@ -233,7 +248,8 @@ import Testing
     try core.setMixer(.crossfader, value: 0.5)
     _ = core.renderOffline(frames: 1024)
     let recording = try await recorder.finish()
-    let contents = try String(contentsOf: recording.deletingPathExtension().appendingPathExtension("txt"), encoding: .utf8)
+    let contents = try String(
+        contentsOf: recording.deletingPathExtension().appendingPathExtension("txt"), encoding: .utf8)
     #expect(contents == "00:00:00 - First - Track\n00:00:02 - Second - Track\n")
 }
 
@@ -249,7 +265,8 @@ import Testing
         generations.withUnsafeBufferPointer { ids in
             offsets.withUnsafeBufferPointer { positions in
                 withUnsafePointer(to: &sample) { pointer in
-                    tdj_recording_push_tracks(ring.nativeAudioRenderPointer, 1, pointer, pointer, ids.baseAddress!, positions.baseAddress!)
+                    tdj_recording_push_tracks(
+                        ring.nativeAudioRenderPointer, 1, pointer, pointer, ids.baseAddress!, positions.baseAddress!)
                 }
             }
         }
@@ -259,7 +276,9 @@ import Testing
         Issue.record("An overflowing tracklist must not publish an incomplete list as successful")
     } catch RecordingError.tracklistOverflow {
         #expect(SetRecorder.savedRecordings(in: root).isEmpty)
-        #expect(try FileManager.default.contentsOfDirectory(atPath: root.path).contains { $0.hasSuffix(".incomplete.aiff") })
+        #expect(
+            try FileManager.default.contentsOfDirectory(atPath: root.path).contains { $0.hasSuffix(".incomplete.aiff") }
+        )
     }
 }
 
@@ -277,6 +296,8 @@ import Testing
         Issue.record("A failed tracklist write must not publish a successful recording")
     } catch {
         #expect(SetRecorder.savedRecordings(in: root).isEmpty)
-        #expect(try FileManager.default.contentsOfDirectory(atPath: root.path).contains { $0.hasSuffix(".incomplete.aiff") })
+        #expect(
+            try FileManager.default.contentsOfDirectory(atPath: root.path).contains { $0.hasSuffix(".incomplete.aiff") }
+        )
     }
 }

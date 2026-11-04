@@ -8,8 +8,8 @@ public struct BeatGrid: Codable, Equatable, Sendable {
     public var framesPerBeat: Double { sampleRate * 60 / bpm }
     public init(bpm: Double, anchorFrame: Double, sampleRate: Double, downbeatOffset: Int = 0) throws {
         guard bpm.isFinite, bpm > 0, anchorFrame.isFinite, sampleRate.isFinite, sampleRate > 0,
-              (sampleRate * 60 / bpm).isFinite, sampleRate * 60 / bpm > 0,
-              (0..<4).contains(downbeatOffset) else { throw CoreError.invalidGrid }
+            (sampleRate * 60 / bpm).isFinite, sampleRate * 60 / bpm > 0, (0..<4).contains(downbeatOffset)
+        else { throw CoreError.invalidGrid }
         self.bpm = bpm
         self.anchorFrame = anchorFrame
         self.sampleRate = sampleRate
@@ -18,10 +18,11 @@ public struct BeatGrid: Codable, Equatable, Sendable {
     private enum CodingKeys: String, CodingKey { case bpm, anchorFrame, sampleRate, downbeatOffset }
     public init(from decoder: any Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        try self.init(bpm: values.decode(Double.self, forKey: .bpm),
-                      anchorFrame: values.decode(Double.self, forKey: .anchorFrame),
-                      sampleRate: values.decode(Double.self, forKey: .sampleRate),
-                      downbeatOffset: values.decode(Int.self, forKey: .downbeatOffset))
+        try self.init(
+            bpm: values.decode(Double.self, forKey: .bpm),
+            anchorFrame: values.decode(Double.self, forKey: .anchorFrame),
+            sampleRate: values.decode(Double.self, forKey: .sampleRate),
+            downbeatOffset: values.decode(Int.self, forKey: .downbeatOffset))
     }
     public func frame(atBeat beat: Double) -> Double { anchorFrame + beat * framesPerBeat }
     public func beat(atFrame frame: Double) -> Double { (frame - anchorFrame) / framesPerBeat }
@@ -55,8 +56,7 @@ public struct TapTempo: Sendable {
         guard times.count >= 3 else { return nil }
         let intervals = zip(times.dropFirst(), times).map { $0 - $1 }.sorted()
         let mid = intervals.count / 2
-        let interval = intervals.count.isMultiple(of: 2)
-            ? (intervals[mid - 1] + intervals[mid]) / 2 : intervals[mid]
+        let interval = intervals.count.isMultiple(of: 2) ? (intervals[mid - 1] + intervals[mid]) / 2 : intervals[mid]
         return 60 / interval
     }
 }
@@ -78,14 +78,14 @@ public struct GridDrag: Sendable {
     }
 }
 
-public enum BarStartAnalysis {
-    public static let version=1
-}
+public enum BarStartAnalysis { public static let version = 1 }
 
 public enum AutomaticGridPolicy {
-    public static func mayRefresh(isManual:Bool,wasEditedByUser:Bool,isLocked:Bool,hasAdaptiveMap:Bool,
-        current:BeatGrid?,imported:BeatGrid?,importIsUnlocked:Bool) -> Bool {
-        guard !wasEditedByUser,!isLocked,!hasAdaptiveMap else { return false }
+    public static func mayRefresh(
+        isManual: Bool, wasEditedByUser: Bool, isLocked: Bool, hasAdaptiveMap: Bool, current: BeatGrid?,
+        imported: BeatGrid?, importIsUnlocked: Bool
+    ) -> Bool {
+        guard !wasEditedByUser, !isLocked, !hasAdaptiveMap else { return false }
         if imported != nil && !importIsUnlocked { return false }
         if isManual { return imported != nil && current == imported }
         return true

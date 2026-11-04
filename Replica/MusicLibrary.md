@@ -1,6 +1,6 @@
 # Local and synced Music library
 
-Documentation reviewed against the shared implementation on 30 October 2026. [Current readiness and verification](Status.md) is the implementation status record. Dated measurements below apply only to their recorded source and workload.
+Current build and acceptance: [project status](../docs/coordination/README.md). Historical measurements apply only to their recorded source.
 
 The performer confirmed local/synced iTunes and Apple Music library access on 23 October 2026. Subscription streaming is excluded. This implementation reads the system library and prepares selected local audio for the existing analysis, recommendation inputs and deck-loading workflow.
 
@@ -41,7 +41,7 @@ A song must expose accessible local audio. A cloud-library flag alone does not d
 
 On macOS, `iTunesLibrary.ITLibrary` supplies the current library's songs and playlists. A serial background worker owns initialization, metadata scans and local-file checks. The library handle stays on that worker. A live stack sample on 28 October 2026 confirmed that initialization can wait synchronously for a Music service reply. Keeping that wait off the main thread protects the performance controls. Moving the call does not prove the system service will finish. The captured wait is retained in `Validation/music-library-hang-sample.txt`.
 
-The [29 October live follow-up](Validation/LiveMacControls-2026-10-29-01/manifest.json) verifies native refresh completion with 115,219 songs and 401 playlists, title/album search, playlist selection, preparation of one local AAC item, directional deck loading and live playback with recording. Done, the tempo wheel and normal Quit responded during an earlier pending native read. Startup was slow; separate signed read-only main/background probes both completed, so these checks do not establish a thread-only cause or guarantee future service latency. No Music settings, source files or system playlists were changed. The full catalog was browsed, not imported.
+The [29 October live follow-up](../docs/history.md#local-validation) verifies native refresh completion with 115,219 songs and 401 playlists, title/album search, playlist selection, preparation of one local AAC item, directional deck loading and live playback with recording. Done, the tempo wheel and normal Quit responded during an earlier pending native read. Startup was slow; separate signed read-only main/background probes both completed, so these checks do not establish a thread-only cause or guarantee future service latency. No Music settings, source files or system playlists were changed. The full catalog was browsed, not imported.
 
 On iPadOS, `MediaPlayer.MPMediaLibrary` requests permission when the browser opens. `MPMediaQuery` supplies songs and playlists. Before preparing a song, the adapter checks authorization and resolves its current persistent ID again. Library artwork is retained when available.
 

@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+
 @testable import TDJCore
 
 @Test func concurrentImportsDeduplicateAndRetainGridCorrections() async throws {
@@ -17,7 +18,8 @@ import Testing
     let imported = await service.snapshot()
     #expect(imported.tracks.count == 1)
     let track = try #require(imported.tracks.first)
-    #expect(try AudioAnalyzer.sha256(url: store.mediaDirectory.appendingPathComponent(track.mediaFilename)) == originalHash)
+    #expect(
+        try AudioAnalyzer.sha256(url: store.mediaDirectory.appendingPathComponent(track.mediaFilename)) == originalHash)
     var preparation = track.preparation
     try preparation.grid?.halveBPM()
     preparation.gridIsManual = true

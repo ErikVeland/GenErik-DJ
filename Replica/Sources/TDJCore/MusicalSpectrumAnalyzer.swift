@@ -35,7 +35,7 @@ final class MusicalSpectrumAnalyzer {
     private var tuningX = 0.0
     private var tuningY = 0.0
 
-    private(set) var harmonicFrames:[MusicalHarmonicFrame] = []
+    private(set) var harmonicFrames: [MusicalHarmonicFrame] = []
 
     var activity: Double { fluxSum / max(activeFrames, 1) }
 
@@ -77,7 +77,9 @@ final class MusicalSpectrumAnalyzer {
                 vDSP_fft_zipD(setup, &split, 1, logSize, FFTDirection(FFT_FORWARD))
             }
         }
-        var sum = 0.0, weightedFrequency = 0.0, flux = 0.0
+        var sum = 0.0
+        var weightedFrequency = 0.0
+        var flux = 0.0
         var prefix = [Double](repeating: 0, count: size / 2 + 1)
         for bin in 0..<(size / 2) {
             let magnitude = hypot(real[bin], imaginary[bin])
@@ -110,16 +112,18 @@ final class MusicalSpectrumAnalyzer {
         var peaks: [Peak] = []
         for bin in 2..<(size / 2 - 1) {
             let frequency = Double(bin) * sampleRate / Double(size)
-            guard frequency >= 35, frequency <= min(5000, sampleRate * 0.45),
-                  magnitudes[bin] > strongest * 0.004,
-                  magnitudes[bin] >= magnitudes[bin - 1], magnitudes[bin] > magnitudes[bin + 1] else { continue }
+            guard frequency >= 35, frequency <= min(5000, sampleRate * 0.45), magnitudes[bin] > strongest * 0.004,
+                magnitudes[bin] >= magnitudes[bin - 1], magnitudes[bin] > magnitudes[bin + 1]
+            else { continue }
             let left = log(max(magnitudes[bin - 1], 1e-20))
             let center = log(max(magnitudes[bin], 1e-20))
             let right = log(max(magnitudes[bin + 1], 1e-20))
             let curvature = left - 2 * center + right
             let offset = abs(curvature) > 1e-12 ? min(0.5, max(-0.5, 0.5 * (left - right) / curvature)) : 0
-            peaks.append(.init(frequency: (Double(bin) + offset) * sampleRate / Double(size),
-                magnitude: magnitudes[bin], bin: bin))
+            peaks.append(
+                .init(
+                    frequency: (Double(bin) + offset) * sampleRate / Double(size), magnitude: magnitudes[bin], bin: bin)
+            )
         }
         peaks.sort { $0.magnitude > $1.magnitude }
         if peaks.count > 60 { peaks.removeLast(peaks.count - 60) }
@@ -150,9 +154,9 @@ final class MusicalSpectrumAnalyzer {
         }
         let total = frameProfile.reduce(0, +)
         guard total > 0 else { return }
-        var chroma=[Double](repeating:0,count:12)
-        for index in 0..<120 { chroma[Int((Double(index)/10).rounded())%12] += frameProfile[index]/total }
-        harmonicFrames.append(.init(seconds:Double(samples-size/2)/sampleRate,chroma:chroma))
+        var chroma = [Double](repeating: 0, count: 12)
+        for index in 0..<120 { chroma[Int((Double(index) / 10).rounded()) % 12] += frameProfile[index] / total }
+        harmonicFrames.append(.init(seconds: Double(samples - size / 2) / sampleRate, chroma: chroma))
         for index in 0..<120 {
             let value = frameProfile[index] / total
             pitchProfile[index] += value
@@ -184,7 +188,8 @@ final class MusicalSpectrumAnalyzer {
         let chroma = collapse(pitchProfile)
         let active = chroma.filter { $0 > 0.055 }.count
         guard tonalFrames >= 6, active >= 3 else {
-            return .init(key: nil, confidence: 0, chroma: chroma, timbre: timbre,
+            return .init(
+                key: nil, confidence: 0, chroma: chroma, timbre: timbre,
                 tuningCents: tonalFrames > 0 ? tuning * 100 : nil, stability: nil)
         }
         let ranking = MusicalKeyEstimator.rank(chroma)
@@ -193,11 +198,13 @@ final class MusicalSpectrumAnalyzer {
         var localProfiles = sections
         if sectionFrames >= 6 { localProfiles.append(sectionProfile) }
         let localKeys = localProfiles.map { MusicalKeyEstimator.rank(collapse($0))[0] }
-        let stability = localKeys.isEmpty ? 0 : Double(localKeys.filter { $0.key == best.key }.count) / Double(localKeys.count)
+        let stability =
+            localKeys.isEmpty ? 0 : Double(localKeys.filter { $0.key == best.key }.count) / Double(localKeys.count)
         let confidence = min(1, max(0, margin / 0.2)) * (0.5 + 0.5 * stability)
         let key = best.score > 0.45 && margin > 0.02 ? best.key : nil
-        return .init(key: key, confidence: confidence, chroma: chroma, timbre: timbre,
-            tuningCents: tuning * 100, stability: stability)
+        return .init(
+            key: key, confidence: confidence, chroma: chroma, timbre: timbre, tuningCents: tuning * 100,
+            stability: stability)
     }
 }
 
@@ -209,15 +216,21 @@ enum MusicalKeyEstimator {
 
     static func rank(_ chroma: [Double]) -> [Candidate] {
         let profiles = [
-            ([6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88],
-             [6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17]),
-            ([1.0, 0, 0.15, 0, 0.8, 0.2, 0, 0.7, 0, 0.15, 0, 0.1],
-             [1.0, 0, 0.15, 0.8, 0, 0.2, 0, 0.7, 0.15, 0, 0.1, 0.15])
+            (
+                [6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88],
+                [6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17]
+            ),
+            (
+                [1.0, 0, 0.15, 0, 0.8, 0.2, 0, 0.7, 0, 0.15, 0, 0.1],
+                [1.0, 0, 0.15, 0.8, 0, 0.2, 0, 0.7, 0.15, 0, 0.1, 0.15]
+            ),
         ]
         func correlation(_ profile: [Double], tonic: Int) -> Double {
             let meanProfile = profile.reduce(0, +) / 12
             let meanChroma = chroma.reduce(0, +) / 12
-            var covariance = 0.0, profilePower = 0.0, chromaPower = 0.0
+            var covariance = 0.0
+            var profilePower = 0.0
+            var chromaPower = 0.0
             for index in 0..<12 {
                 let a = profile[index] - meanProfile
                 let b = chroma[(index + tonic) % 12] - meanChroma

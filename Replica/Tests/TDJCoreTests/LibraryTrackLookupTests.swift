@@ -1,12 +1,13 @@
 import Foundation
 import Testing
+
 @testable import TDJCore
 
 private func indexedTrack(_ number: Int, title: String) throws -> Track {
-    let analysis = AudioAnalysis(implementation: "index-test", configurationID: "index-test",
-        contentSHA256: String(format: "%064x", number), sampleRate: 48000, frameCount: 48000,
-        channelCount: 2, waveformFramesPerBin: 512, waveform: [], bpm: 120, beatAnchorFrame: 0,
-        tempoConfidence: 1, key: nil, keyConfidence: 0, chroma: [], timbre: [])
+    let analysis = AudioAnalysis(
+        implementation: "index-test", configurationID: "index-test", contentSHA256: String(format: "%064x", number),
+        sampleRate: 48000, frameCount: 48000, channelCount: 2, waveformFramesPerBin: 512, waveform: [], bpm: 120,
+        beatAnchorFrame: 0, tempoConfidence: 1, key: nil, keyConfidence: 0, chroma: [], timbre: [])
     return try Track(title: title, mediaFilename: "index-test.wav", analysis: analysis)
 }
 

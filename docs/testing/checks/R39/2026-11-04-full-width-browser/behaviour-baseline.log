@@ -1,4 +1,0 @@
-FAIL: Songs opens without a detail column
-FAIL: Sources closes Details
-FAIL: Details closes Sources
-3 browser baseline checks; 3 failures

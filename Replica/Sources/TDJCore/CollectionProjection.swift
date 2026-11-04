@@ -10,15 +10,16 @@ public struct CollectionProjection: Sendable {
     public let groups: [CollectionGroup]
     private static let worker = AnalysisWorker()
 
-    public static func build(tracks: [Track], suggestionIDs: [String]?, search: String,
-                             sort: CollectionSort, category: CollectionCategory, group: String?,
-                             playlists: CollectionPlaylists, catalog: MusicLibraryCatalog?) async throws -> Self {
+    public static func build(
+        tracks: [Track], suggestionIDs: [String]?, search: String, sort: CollectionSort, category: CollectionCategory,
+        group: String?, playlists: CollectionPlaylists, catalog: MusicLibraryCatalog?
+    ) async throws -> Self {
         try await worker.run { check in
             try check()
             let localSources = Set((catalog?.items ?? []).lazy.filter(\.isOnDevice).map(\.source))
             let visibleTracks = tracks.filter { track in
-                track.nativeLibraryOnly != true ||
-                    (track.musicLibrarySources ?? []).contains(where: localSources.contains)
+                track.nativeLibraryOnly != true
+                    || (track.musicLibrarySources ?? []).contains(where: localSources.contains)
             }
             var byTrackID: [String: Track] = [:]
             var bySourceID: [String: Track] = [:]
@@ -30,7 +31,8 @@ public struct CollectionProjection: Sendable {
             }
             let groups: [CollectionGroup]
             if category == .playlists {
-                groups = playlists.playlists.map { .init(id: $0.id.uuidString, name: $0.name) }
+                groups =
+                    playlists.playlists.map { .init(id: $0.id.uuidString, name: $0.name) }
                     + (catalog?.playlists.map { .init(id: "music:" + $0.id, name: $0.name + " · Music") } ?? [])
             } else if category == .songs {
                 groups = []
@@ -51,16 +53,16 @@ public struct CollectionProjection: Sendable {
                         let sources = Set(catalog.songs(playlistID: String(group.dropFirst(6))).map(\.source))
                         candidates = visibleTracks.filter { !sources.isDisjoint(with: $0.musicLibrarySources ?? []) }
                     } else {
-                        candidates = (playlists.playlists.first { $0.id.uuidString == group }?.trackIDs ?? []).compactMap {
-                            byTrackID[$0] ?? bySourceID[$0]
-                        }
+                        candidates = (playlists.playlists.first { $0.id.uuidString == group }?.trackIDs ?? [])
+                            .compactMap { byTrackID[$0] ?? bySourceID[$0] }
                     }
                 } else if category != .songs {
                     candidates = visibleTracks.filter { category.value(for: $0) == group }
                 }
             }
             try check()
-            let result = CollectionBrowser.tracks(candidates, search: search, sort: suggestionIDs == nil || searching ? sort : nil)
+            let result = CollectionBrowser.tracks(
+                candidates, search: search, sort: suggestionIDs == nil || searching ? sort : nil)
             try check()
             return Self(tracks: result, groups: groups)
         }

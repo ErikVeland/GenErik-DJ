@@ -9,7 +9,8 @@ extension ReplicaModel {
                 && [.playing, .paused, .ready].contains(state.phase)
         }
         let reference = candidates.min {
-            let left = snapshot[$0], right = snapshot[$1]
+            let left = snapshot[$0]
+            let right = snapshot[$1]
             let leftPriority = left.phase == .playing ? 0 : left.phase == .paused ? 1 : 2
             let rightPriority = right.phase == .playing ? 0 : right.phase == .paused ? 1 : 2
             if leftPriority != rightPriority { return leftPriority < rightPriority }

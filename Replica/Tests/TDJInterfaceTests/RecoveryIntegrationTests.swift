@@ -1,11 +1,12 @@
 import Foundation
 import Testing
+
 @testable import TDJCore
 @testable import TDJInterface
 
-@Suite(.serialized)
-struct RecoveryIntegrationTests {
-    @Test(.timeLimit(.minutes(1)), arguments: [true, false]) @MainActor func recoveryPreparesColdStreamedDropBeforeTheFinalBeat(manualMarker: Bool) async throws {
+@Suite(.serialized) struct RecoveryIntegrationTests {
+    @Test(.timeLimit(.minutes(1)), arguments: [true, false]) @MainActor
+    func recoveryPreparesColdStreamedDropBeforeTheFinalBeat(manualMarker: Bool) async throws {
         var project = URL(fileURLWithPath: #filePath)
         for _ in 0..<4 { project.deleteLastPathComponent() }
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -13,10 +14,11 @@ struct RecoveryIntegrationTests {
         defer { try? FileManager.default.removeItem(at: root) }
         let source = project.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures/clock-a-120.wav")
         try FileManager.default.copyItem(at: source, to: store.mediaDirectory.appendingPathComponent("source.wav"))
-        let analysis = AudioAnalysis(implementation: "recovery-test", configurationID: "fixture", contentSHA256: "recovery",
-            sampleRate: 44100, frameCount: 705600, channelCount: 2, waveformFramesPerBin: 441,
-            waveform: .init(repeating: .init(minimum: -0.5, maximum: 0.5, rms: 0.5), count: 1600),
-            bpm: 120, beatAnchorFrame: 0, tempoConfidence: 1, key: nil, keyConfidence: 0, chroma: [], timbre: [])
+        let analysis = AudioAnalysis(
+            implementation: "recovery-test", configurationID: "fixture", contentSHA256: "recovery", sampleRate: 44100,
+            frameCount: 705600, channelCount: 2, waveformFramesPerBin: 441,
+            waveform: .init(repeating: .init(minimum: -0.5, maximum: 0.5, rms: 0.5), count: 1600), bpm: 120,
+            beatAnchorFrame: 0, tempoConfidence: 1, key: nil, keyConfidence: 0, chroma: [], timbre: [])
         let track = try Track(title: "Recovery", mediaFilename: "source.wav", analysis: analysis)
         let controller = try PlaybackController(offline: true, streamingPlayback: true)
         defer { controller.stopAudio() }
@@ -25,8 +27,10 @@ struct RecoveryIntegrationTests {
         try controller.perform(.jump, deck: .a, value: 700000)
         await controller.flushSourcePreparations()
         let timing = try #require(track.timing)
-        let plan = try #require(RecoveryPlan(waveform: analysis.waveform, framesPerBin: 441,
-            frameCount: 705600, timing: timing, dropOverride: manualMarker ? 176400 : nil))
+        let plan = try #require(
+            RecoveryPlan(
+                waveform: analysis.waveform, framesPerBin: 441, frameCount: 705600, timing: timing,
+                dropOverride: manualMarker ? 176400 : nil))
         #expect(plan.dropFrame == (manualMarker ? 176400 : 0))
         try await controller.prepareRecoveryReplay(plan, deck: .a)
         #expect(controller.core.snapshot()?.a.recoveryArmed == true)
@@ -55,7 +59,8 @@ struct RecoveryIntegrationTests {
         object.removeValue(forKey: "recoveryValue")
         try JSONSerialization.data(withJSONObject: object).write(to: url)
         #expect(try PerformancePreparation.load(from: url).recovery.mode == .replayLastDrop)
-        settings.recovery.mode = .autoMix; settings.recovery.leadBars = 8
+        settings.recovery.mode = .autoMix
+        settings.recovery.leadBars = 8
         settings.recovery.dropFrames["track"] = 1234
         try settings.save(to: url)
         #expect(try PerformancePreparation.load(from: url).recovery == settings.recovery)

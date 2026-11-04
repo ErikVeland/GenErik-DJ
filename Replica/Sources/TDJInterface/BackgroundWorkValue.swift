@@ -5,7 +5,8 @@ final class BackgroundWorkValue<Value: Sendable>: @unchecked Sendable {
     private var value: Value?
     private let worker: BackgroundFileWork
     init(_ value: Value, worker: BackgroundFileWork) {
-        self.value = value; self.worker = worker
+        self.value = value
+        self.worker = worker
     }
     func update<Result: Sendable>(_ work: @escaping @Sendable (inout Value) -> Result) async -> Result? {
         await worker.run {
@@ -13,7 +14,5 @@ final class BackgroundWorkValue<Value: Sendable>: @unchecked Sendable {
             return work(&self.value!)
         }
     }
-    @MainActor func clear() async {
-        await worker.run { self.value = nil }
-    }
+    @MainActor func clear() async { await worker.run { self.value = nil } }
 }

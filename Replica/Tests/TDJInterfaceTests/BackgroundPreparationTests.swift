@@ -1,7 +1,8 @@
 import AVFoundation
 import Foundation
-import Testing
 import TDJCore
+import Testing
+
 @testable import TDJInterface
 
 @MainActor private final class ClockMusicLibrary: LocalMusicLibraryProviding {
@@ -19,13 +20,16 @@ private func clockFixture() -> URL {
     return root.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures/clock-a-120.wav")
 }
 private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
-    .init(source: .init(platform: .iosMusic, persistentID: id), title: "Clock \(id)", artist: "Fixture", duration: duration,
-          assetURL: clockFixture(), availability: .available)
+    .init(
+        source: .init(platform: .iosMusic, persistentID: id), title: "Clock \(id)", artist: "Fixture",
+        duration: duration, assetURL: clockFixture(), availability: .available)
 }
-@MainActor private func preparationModel(_ items: [MusicLibraryItem], sources: [URL] = []) throws -> (ReplicaModel, URL) {
+@MainActor private func preparationModel(_ items: [MusicLibraryItem], sources: [URL] = []) throws -> (ReplicaModel, URL)
+{
     let workspace = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-    let model = try ReplicaModel(root: workspace, playback: PlaybackController(offline: true),
-                                 musicLibraryProvider: ClockMusicLibrary(items), automaticTraktorSources: sources)
+    let model = try ReplicaModel(
+        root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: ClockMusicLibrary(items),
+        automaticTraktorSources: sources)
     return (model, workspace)
 }
 
@@ -54,10 +58,13 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     // No leftover exports, and a later session skips the stored mix.
     let names = try FileManager.default.contentsOfDirectory(atPath: workspace.path)
     #expect(!names.contains { $0.hasPrefix(".native-source-") })
-    let reopened = try ReplicaModel(root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: ClockMusicLibrary([mix]))
+    let reopened = try ReplicaModel(
+        root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: ClockMusicLibrary([mix]))
     #expect(reopened.analysisHints.entries[mix.id] == hint)
     let catalog = MusicLibraryCatalog(items: [mix], playlists: [])
-    #expect(MusicLibraryReconciliation(catalog: catalog, tracks: []).analysisOrder(loaded: [], analysedMixes: [mix.id]).isEmpty)
+    #expect(
+        MusicLibraryReconciliation(catalog: catalog, tracks: []).analysisOrder(loaded: [], analysedMixes: [mix.id])
+            .isEmpty)
 }
 
 @Test @MainActor func staleTemporaryExportsAreRemovedBeforeAnalysis() async throws {
@@ -71,20 +78,22 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
 }
 
 private func collectionXML(bpm: Int, persistentHex: String) -> Data {
-    Data("""
-    <?xml version="1.0" encoding="UTF-8"?>
-    <NML VERSION="17"><HEAD PROGRAM="Traktor DJ"/><COLLECTION ENTRIES="1">
-    <ENTRY UUID="e" TITLE="Clock" ARTIST="Fixture"><ITUNES PERSISTENT_ID="\(persistentHex)" PLAYTIME="16000"/>
-    <MUSICAL_KEY VALUE="21"/><TEMPO BPM="\(bpm)"/><CUE_V2 HOTCUE="-1" START="0" TYPE="4"/></ENTRY></COLLECTION></NML>
-    """.utf8)
+    Data(
+        """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <NML VERSION="17"><HEAD PROGRAM="Traktor DJ"/><COLLECTION ENTRIES="1">
+        <ENTRY UUID="e" TITLE="Clock" ARTIST="Fixture"><ITUNES PERSISTENT_ID="\(persistentHex)" PLAYTIME="16000"/>
+        <MUSICAL_KEY VALUE="21"/><TEMPO BPM="\(bpm)"/><CUE_V2 HOTCUE="-1" START="0" TYPE="4"/></ENTRY></COLLECTION></NML>
+        """.utf8)
 }
 
 @Test @MainActor func collectionImportsAtLaunchAndGivesEverySongItsTempoAndKey() async throws {
     let inbox = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".nml")
     defer { try? FileManager.default.removeItem(at: inbox) }
     try collectionXML(bpm: 127, persistentHex: "0000000000001234").write(to: inbox)
-    let item = MusicLibraryItem(source: .init(platform: .iosMusic, persistentID: String(0x1234)), title: "Clock", artist: "Fixture",
-                                duration: 16, assetURL: nil, availability: .notDownloaded)
+    let item = MusicLibraryItem(
+        source: .init(platform: .iosMusic, persistentID: String(0x1234)), title: "Clock", artist: "Fixture",
+        duration: 16, assetURL: nil, availability: .notDownloaded)
     let (model, workspace) = try preparationModel([item], sources: [inbox])
     defer { try? FileManager.default.removeItem(at: workspace) }
     // The launch sequence: open the Music library and refresh preparation.
@@ -99,8 +108,9 @@ private func collectionXML(bpm: Int, persistentHex: String) -> Data {
     let linked = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".nml")
     defer { try? FileManager.default.removeItem(at: linked) }
     try collectionXML(bpm: 121, persistentHex: "0000000000005678").write(to: linked)
-    let item = MusicLibraryItem(source: .init(platform: .iosMusic, persistentID: String(0x5678)), title: "Clock", artist: "Fixture",
-                                duration: 16, assetURL: nil, availability: .notDownloaded)
+    let item = MusicLibraryItem(
+        source: .init(platform: .iosMusic, persistentID: String(0x5678)), title: "Clock", artist: "Fixture",
+        duration: 16, assetURL: nil, availability: .notDownloaded)
     let (model, workspace) = try preparationModel([item])
     defer { try? FileManager.default.removeItem(at: workspace) }
     await model.refreshMusicLibrary()
@@ -111,15 +121,16 @@ private func collectionXML(bpm: Int, persistentHex: String) -> Data {
     #expect(model.browserHints[item.id]?.bpm == 125)
 }
 
-@Test(arguments: DeckID.allCases, [false, true])
-@MainActor func deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck: DeckID, preprepared: Bool) async throws {
+@Test(arguments: DeckID.allCases, [false, true]) @MainActor
+func deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck: DeckID, preprepared: Bool) async throws {
     let item = clockItem("deck-priority", duration: NativeAnalysisPlan.mixThresholdSeconds + 1)
     let (model, workspace) = try preparationModel([item])
     defer { try? FileManager.default.removeItem(at: workspace) }
     await model.refreshMusicLibrary()
     if preprepared {
-        model.adoptLibrary(try await model.service.analyzeNativeMusic(url: clockFixture(),
-            musicLibrary: .init(item: item), quickLoad: true))
+        model.adoptLibrary(
+            try await model.service.analyzeNativeMusic(
+                url: clockFixture(), musicLibrary: .init(item: item), quickLoad: true))
         #expect(model.preparedTrack(for: item)?.analysis.musicalAnalysisDeferred == true)
     }
     model.loadNativeMusic(item, deck: deck)

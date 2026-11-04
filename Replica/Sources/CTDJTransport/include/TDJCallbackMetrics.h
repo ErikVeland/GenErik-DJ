@@ -14,8 +14,8 @@ typedef struct {
 tdj_callback_metrics *tdj_callback_metrics_create(double sample_rate);
 void tdj_callback_metrics_destroy(tdj_callback_metrics *metrics);
 uint64_t tdj_callback_metrics_begin(void);
-void tdj_callback_metrics_end(tdj_callback_metrics *metrics, uint64_t began,
-                             uint32_t frames, double sample_time, bool valid_time);
+void tdj_callback_metrics_end(tdj_callback_metrics *metrics, uint64_t began, uint32_t frames, double sample_time,
+                              bool valid_time);
 void tdj_callback_metrics_failure(tdj_callback_metrics *metrics);
 tdj_callback_summary tdj_callback_metrics_summary(const tdj_callback_metrics *metrics);
 
@@ -53,14 +53,12 @@ typedef struct {
     bool thread_context_valid, is_main_thread, arm_fpcr_valid;
 } tdj_callback_cpu_event;
 uint64_t tdj_callback_metrics_begin_cpu(tdj_callback_metrics *metrics);
-void tdj_callback_metrics_end_cpu(tdj_callback_metrics *metrics, uint64_t began,
-                                 uint32_t frames, double sample_time, bool valid_time);
+void tdj_callback_metrics_end_cpu(tdj_callback_metrics *metrics, uint64_t began, uint32_t frames, double sample_time,
+                                  bool valid_time);
 tdj_callback_cpu_summary tdj_callback_metrics_cpu_summary(const tdj_callback_metrics *metrics);
 uint32_t tdj_callback_metrics_cpu_event_count(const tdj_callback_metrics *metrics);
 uint64_t tdj_callback_metrics_cpu_events_dropped(const tdj_callback_metrics *metrics);
-bool tdj_callback_metrics_cpu_event(const tdj_callback_metrics *metrics, uint32_t index,
-                                    tdj_callback_cpu_event *event);
-
+bool tdj_callback_metrics_cpu_event(const tdj_callback_metrics *metrics, uint32_t index, tdj_callback_cpu_event *event);
 
 enum { TDJ_KEYLOCK_PRIME_EVENT_CAPACITY = 512 };
 typedef struct {
@@ -85,13 +83,13 @@ typedef struct {
 // Called only by the serial source consumer; published events are immutable.
 bool tdj_callback_metrics_thread_cpu_nanoseconds(uint64_t *nanoseconds);
 void tdj_callback_metrics_keylock_prime(tdj_callback_metrics *metrics,
-                                      const tdj_keylock_prime_measurement *measurement);
+                                        const tdj_keylock_prime_measurement *measurement);
 uint32_t tdj_callback_metrics_keylock_prime_count(const tdj_callback_metrics *metrics);
 uint64_t tdj_callback_metrics_keylock_prime_dropped(const tdj_callback_metrics *metrics);
 uint64_t tdj_callback_metrics_keylock_prime_invalid(const tdj_callback_metrics *metrics);
 uint64_t tdj_callback_metrics_keylock_prime_cpu_unavailable(const tdj_callback_metrics *metrics);
-bool tdj_callback_metrics_keylock_prime_event(const tdj_callback_metrics *metrics,uint32_t index,
-                                             tdj_keylock_prime_event *event);
+bool tdj_callback_metrics_keylock_prime_event(const tdj_callback_metrics *metrics, uint32_t index,
+                                              tdj_keylock_prime_event *event);
 
 #ifdef __cplusplus
 }

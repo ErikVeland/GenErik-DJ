@@ -4,20 +4,14 @@ final class LibraryTrackLookup: Sendable {
         init(tracks: [Track]) {
             var indices: [String: Int] = [:]
             indices.reserveCapacity(tracks.count)
-            for (index, track) in tracks.enumerated() where indices[track.id] == nil {
-                indices[track.id] = index
-            }
+            for (index, track) in tracks.enumerated() where indices[track.id] == nil { indices[track.id] = index }
             self.indices = indices
         }
     }
 
     private let payload: BackgroundOwnedResource<Payload>
 
-    init(tracks: [Track]) {
-        payload = BackgroundOwnedResource { Payload(tracks: tracks) }
-    }
+    init(tracks: [Track]) { payload = BackgroundOwnedResource { Payload(tracks: tracks) } }
 
-    func index(for id: String) -> Int? {
-        payload.withResource { $0.indices[id] }
-    }
+    func index(for id: String) -> Int? { payload.withResource { $0.indices[id] } }
 }

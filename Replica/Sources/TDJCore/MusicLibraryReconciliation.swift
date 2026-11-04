@@ -12,14 +12,12 @@ public struct MusicLibraryReconciliation: Sendable {
     public init(catalog: MusicLibraryCatalog, tracks: [Track]) {
         var matches: [MusicLibrarySource: Track] = [:]
         for track in tracks {
-            for source in track.musicLibrarySources ?? [] where matches[source] == nil {
-                matches[source] = track
-            }
+            for source in track.musicLibrarySources ?? [] where matches[source] == nil { matches[source] = track }
         }
         entries = catalog.items.map { Entry(item: $0, track: matches[$0.source]) }
         analysisQueue = entries.compactMap { entry in
-            guard (entry.track == nil || entry.track?.analysis.musicalAnalysisDeferred == true),
-                  entry.item.isOnDevice else { return nil }
+            guard entry.track == nil || entry.track?.analysis.musicalAnalysisDeferred == true, entry.item.isOnDevice
+            else { return nil }
             return entry.item
         }
     }
@@ -29,11 +27,15 @@ extension MusicLibraryReconciliation {
     /// Analysis order: songs on a deck first, then shorter songs, then mixes. Mixes that already have
     /// a stored first-minute result are skipped.
     public func analysisOrder(loaded: Set<MusicLibrarySource>, analysedMixes: Set<String>) -> [MusicLibraryItem] {
-        let candidates = analysisQueue.filter { !(NativeAnalysisPlan.isMix(duration: $0.duration) && analysedMixes.contains($0.id)) }
+        let candidates = analysisQueue.filter {
+            !(NativeAnalysisPlan.isMix(duration: $0.duration) && analysedMixes.contains($0.id))
+        }
         return candidates.enumerated().sorted { a, b in
-            let la = loaded.contains(a.element.source), lb = loaded.contains(b.element.source)
+            let la = loaded.contains(a.element.source)
+            let lb = loaded.contains(b.element.source)
             if la != lb { return la }
-            let ma = NativeAnalysisPlan.isMix(duration: a.element.duration), mb = NativeAnalysisPlan.isMix(duration: b.element.duration)
+            let ma = NativeAnalysisPlan.isMix(duration: a.element.duration)
+            let mb = NativeAnalysisPlan.isMix(duration: b.element.duration)
             if ma != mb { return !ma }
             if a.element.duration != b.element.duration { return a.element.duration < b.element.duration }
             return a.offset < b.offset

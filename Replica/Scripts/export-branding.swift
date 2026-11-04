@@ -9,9 +9,9 @@ let artwork = image.cgImage(forProposedRect: nil, context: nil, hints: nil)!
 let iconset = root.appendingPathComponent("Branding/GenErikDJ.iconset")
 try FileManager.default.createDirectory(at: iconset, withIntermediateDirectories: true)
 func export(size: Int, to url: URL) throws {
-    let context = CGContext(data: nil, width: size, height: size, bitsPerComponent: 8,
-        bytesPerRow: size * 4, space: CGColorSpaceCreateDeviceRGB(),
-        bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)!
+    let context = CGContext(
+        data: nil, width: size, height: size, bitsPerComponent: 8, bytesPerRow: size * 4,
+        space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)!
     context.interpolationQuality = .high
     context.draw(artwork, in: CGRect(x: 0, y: 0, width: size, height: size))
     let bitmap = NSBitmapImageRep(cgImage: context.makeImage()!)

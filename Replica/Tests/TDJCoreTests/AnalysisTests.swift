@@ -1,6 +1,7 @@
 import AVFoundation
 import Foundation
 import Testing
+
 @testable import TDJCore
 
 private var fixtures: URL {
@@ -10,7 +11,9 @@ private var fixtures: URL {
 }
 
 @Test func knownClockTemposAndPickup() throws {
-    for (name, bpm, anchor) in [("clock-a-120.wav",120.0,0.0), ("clock-b-128.wav",128.0,0.0), ("clock-b-120-pickup.wav",120.0,11025.0)] {
+    for (name, bpm, anchor) in [
+        ("clock-a-120.wav", 120.0, 0.0), ("clock-b-128.wav", 128.0, 0.0), ("clock-b-120-pickup.wav", 120.0, 11025.0),
+    ] {
         let result = try AudioAnalyzer.analyze(url: fixtures.appendingPathComponent(name))
         #expect(abs(try #require(result.bpm) - bpm) < 0.25)
         #expect(abs(try #require(result.beatAnchorFrame) - anchor) <= 441)
@@ -37,15 +40,20 @@ private var fixtures: URL {
         let channels = try #require(buffer.floatChannelData)
         for i in 0..<Int(buffer.frameLength) {
             let time = Double(i) / 44100
-            let sample = silent ? 0 : [261.6256, 329.6276, 391.9954].reduce(0.0) { $0 + sin(2 * .pi * $1 * time) * 0.1 }
+            let sample =
+                silent ? 0 : [261.6256, 329.6276, 391.9954].reduce(0.0) { $0 + sin(2 * .pi * $1 * time) * 0.1 }
             channels[0][i] = Float(sample)
             channels[1][i] = -Float(sample)
         }
-        do { let file = try AVAudioFile(forWriting: url, settings: format.settings); try file.write(from: buffer) }
+        do {
+            let file = try AVAudioFile(forWriting: url, settings: format.settings)
+            try file.write(from: buffer)
+        }
         let result = try AudioAnalyzer.analyze(url: url)
         #expect(result.bpm == nil)
-        if silent { #expect(result.key == nil) }
-        else {
+        if silent {
+            #expect(result.key == nil)
+        } else {
             #expect(result.key == MusicalKey(tonic: 0, mode: .major))
             #expect(result.waveform.contains { $0.rms > 0.01 })
         }
@@ -61,7 +69,8 @@ private var fixtures: URL {
 }
 
 @Test func aacDecodeAndEmbeddedMetadata() async throws {
-    let url = try #require(Bundle.module.url(forResource: "metadata-clock", withExtension: "m4a", subdirectory: "Fixtures"))
+    let url = try #require(
+        Bundle.module.url(forResource: "metadata-clock", withExtension: "m4a", subdirectory: "Fixtures"))
     let result = try AudioAnalyzer.analyze(url: url)
     #expect(abs(try #require(result.bpm) - 120) < 0.25)
     let metadata = try await EmbeddedMetadata.read(url: url)
@@ -71,7 +80,8 @@ private var fixtures: URL {
 }
 
 @Test func aacPlaybackCacheProducesAudioWithoutRewritingTheSource() async throws {
-    let source = try #require(Bundle.module.url(forResource: "metadata-clock", withExtension: "m4a", subdirectory: "Fixtures"))
+    let source = try #require(
+        Bundle.module.url(forResource: "metadata-clock", withExtension: "m4a", subdirectory: "Fixtures"))
     let hash = try AudioAnalyzer.sha256(url: source)
     let analysis = try AudioAnalyzer.analyze(url: source)
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)

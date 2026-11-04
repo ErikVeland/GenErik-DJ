@@ -9,10 +9,17 @@ public struct PerformanceEvent: Codable, Equatable, Sendable, Identifiable {
     public let fromTrackID: String?
     public let toTrackID: String?
     public let durationSeconds: Double?
-    public init(id: UUID = UUID(), sessionID: UUID, kind: Kind, timestamp: Date,
-                fromTrackID: String?, toTrackID: String?, durationSeconds: Double? = nil) {
-        self.id = id; self.sessionID = sessionID; self.kind = kind; self.timestamp = timestamp
-        self.fromTrackID = fromTrackID; self.toTrackID = toTrackID; self.durationSeconds = durationSeconds
+    public init(
+        id: UUID = UUID(), sessionID: UUID, kind: Kind, timestamp: Date, fromTrackID: String?, toTrackID: String?,
+        durationSeconds: Double? = nil
+    ) {
+        self.id = id
+        self.sessionID = sessionID
+        self.kind = kind
+        self.timestamp = timestamp
+        self.fromTrackID = fromTrackID
+        self.toTrackID = toTrackID
+        self.durationSeconds = durationSeconds
     }
 }
 
@@ -52,16 +59,16 @@ public struct SuggestionCalibration: Codable, Equatable, Sendable {
     public let tieOrder: TieOrder
 
     public func validate() throws {
-        let nonnegative = weights.values + Array(learningEventWeights.values) + [tempoCompatibilityDistance, keyCompatibilityScore]
-        guard !id.isEmpty, nonnegative.allSatisfy({ $0.isFinite && $0 >= 0 }),
-              weights.values.reduce(0, +).isFinite, weights.values.reduce(0, +) > 0,
-              [tempoDistanceScale, timbreDistanceScale, historySaturation].allSatisfy({ $0.isFinite && $0 > 0 }),
-              !tempoRatios.isEmpty, tempoRatios.allSatisfy({ $0.isFinite && $0 > 0 }),
-              keyCompatibilityScore <= 1,
-              keyRelations.allSatisfy({ $0.score.isFinite && (0...1).contains($0.score) }),
-              learningEventWeights.keys.allSatisfy({ PerformanceEvent.Kind(rawValue: $0) != nil }),
-              minimumTransitionDurationSeconds.map({ $0.isFinite && $0 >= 0 }) ?? true,
-              basis != .originalReference || !referenceCaseIDs.isEmpty
+        let nonnegative =
+            weights.values + Array(learningEventWeights.values) + [tempoCompatibilityDistance, keyCompatibilityScore]
+        guard !id.isEmpty, nonnegative.allSatisfy({ $0.isFinite && $0 >= 0 }), weights.values.reduce(0, +).isFinite,
+            weights.values.reduce(0, +) > 0,
+            [tempoDistanceScale, timbreDistanceScale, historySaturation].allSatisfy({ $0.isFinite && $0 > 0 }),
+            !tempoRatios.isEmpty, tempoRatios.allSatisfy({ $0.isFinite && $0 > 0 }), keyCompatibilityScore <= 1,
+            keyRelations.allSatisfy({ $0.score.isFinite && (0...1).contains($0.score) }),
+            learningEventWeights.keys.allSatisfy({ PerformanceEvent.Kind(rawValue: $0) != nil }),
+            minimumTransitionDurationSeconds.map({ $0.isFinite && $0 >= 0 }) ?? true,
+            basis != .originalReference || !referenceCaseIDs.isEmpty
         else { throw CoreError.invalidCalibration("Required values or reference provenance are missing.") }
     }
 }
@@ -83,7 +90,8 @@ public struct AdaptiveMemory: Codable, Equatable, Sendable {
         calibrationID = calibration.id
         appliedEventIDs.insert(event.id)
         guard let weight = calibration.learningEventWeights[event.kind.rawValue], weight > 0,
-              let from = event.fromTrackID, let to = event.toTrackID, from != to else { return }
+            let from = event.fromTrackID, let to = event.toTrackID, from != to
+        else { return }
         if let minimum = calibration.minimumTransitionDurationSeconds, event.kind == .transition {
             guard let duration = event.durationSeconds, duration.isFinite, duration >= minimum else { return }
         }
@@ -107,11 +115,17 @@ public struct SuggestionContext: Codable, Equatable, Sendable {
     public let loadedTrackIDs: Set<String>
     public let libraryRevision: Int
     public let historyRevision: Int
-    public init(referenceTrackID: String, destination: DeckID, performanceBPM: Double? = nil,
-                usePerformanceBPM: Bool, loadedTrackIDs: Set<String>, libraryRevision: Int, historyRevision: Int) {
-        self.referenceTrackID = referenceTrackID; self.destination = destination
-        self.performanceBPM = performanceBPM; self.usePerformanceBPM = usePerformanceBPM
-        self.loadedTrackIDs = loadedTrackIDs; self.libraryRevision = libraryRevision; self.historyRevision = historyRevision
+    public init(
+        referenceTrackID: String, destination: DeckID, performanceBPM: Double? = nil, usePerformanceBPM: Bool,
+        loadedTrackIDs: Set<String>, libraryRevision: Int, historyRevision: Int
+    ) {
+        self.referenceTrackID = referenceTrackID
+        self.destination = destination
+        self.performanceBPM = performanceBPM
+        self.usePerformanceBPM = usePerformanceBPM
+        self.loadedTrackIDs = loadedTrackIDs
+        self.libraryRevision = libraryRevision
+        self.historyRevision = historyRevision
     }
 }
 
@@ -124,27 +138,27 @@ public struct Suggestion: Codable, Equatable, Sendable, Identifiable {
 
 /// A calibratable reconstruction model. No ranking or learning policy is supplied by default.
 public enum SuggestionEngine {
-    public static func rank(library: LibrarySnapshot, context: SuggestionContext,
-                            calibration: SuggestionCalibration?) throws -> [Suggestion] {
+    public static func rank(library: LibrarySnapshot, context: SuggestionContext, calibration: SuggestionCalibration?)
+        throws -> [Suggestion]
+    {
         guard let calibration else { throw CoreError.calibrationRequired }
         try calibration.validate()
-        guard context.libraryRevision == library.revision,
-              context.historyRevision == library.adaptiveMemory.revision,
-              let reference = library.tracks.first(where: { $0.id == context.referenceTrackID }) else {
-            throw CoreError.staleContext
-        }
-        guard library.adaptiveMemory.calibrationID == nil || library.adaptiveMemory.calibrationID == calibration.id else {
-            throw CoreError.invalidCalibration("History belongs to a different calibration.")
-        }
+        guard context.libraryRevision == library.revision, context.historyRevision == library.adaptiveMemory.revision,
+            let reference = library.tracks.first(where: { $0.id == context.referenceTrackID })
+        else { throw CoreError.staleContext }
+        guard library.adaptiveMemory.calibrationID == nil || library.adaptiveMemory.calibrationID == calibration.id
+        else { throw CoreError.invalidCalibration("History belongs to a different calibration.") }
         let referenceBPM = context.usePerformanceBPM ? context.performanceBPM : reference.bpm
         var results: [(Int, Suggestion)] = []
         for (index, track) in library.tracks.enumerated() {
             if calibration.excludeReferenceTrack && track.id == reference.id { continue }
             if calibration.excludeLoadedTracks && context.loadedTrackIDs.contains(track.id) { continue }
-            var weighted = 0.0, totalWeight = 0.0
+            var weighted = 0.0
+            var totalWeight = 0.0
             func add(_ score: Double?, weight: Double) {
                 guard let score, score.isFinite, weight > 0 else { return }
-                weighted += max(0, min(1, score)) * weight; totalWeight += weight
+                weighted += max(0, min(1, score)) * weight
+                totalWeight += weight
             }
             var distance: Double?
             if let a = referenceBPM, let b = track.bpm, a > 0, b > 0 {
@@ -155,7 +169,9 @@ public enum SuggestionEngine {
             add(keyScore, weight: calibration.weights.key)
             if reference.analysis.timbre.count == track.analysis.timbre.count, !track.analysis.timbre.isEmpty {
                 let squares = zip(reference.analysis.timbre, track.analysis.timbre).map { pow($0 - $1, 2) }
-                add(1 - sqrt(squares.reduce(0, +)) / calibration.timbreDistanceScale, weight: calibration.weights.timbre)
+                add(
+                    1 - sqrt(squares.reduce(0, +)) / calibration.timbreDistanceScale, weight: calibration.weights.timbre
+                )
             }
             if let a = reference.genre, let b = track.genre, !a.isEmpty, !b.isEmpty {
                 let equal = calibration.genreCaseInsensitive ? a.caseInsensitiveCompare(b) == .orderedSame : a == b
@@ -164,9 +180,14 @@ public enum SuggestionEngine {
             let history = library.adaptiveMemory.strength(from: reference.id, to: track.id)
             add(history / (history + calibration.historySaturation), weight: calibration.weights.history)
             guard totalWeight > 0 else { continue }
-            results.append((index, Suggestion(id: track.id, score: weighted / totalWeight,
-                tempoCompatible: distance.map { $0 <= calibration.tempoCompatibilityDistance },
-                keyCompatible: keyScore.map { $0 >= calibration.keyCompatibilityScore })))
+            results.append(
+                (
+                    index,
+                    Suggestion(
+                        id: track.id, score: weighted / totalWeight,
+                        tempoCompatible: distance.map { $0 <= calibration.tempoCompatibilityDistance },
+                        keyCompatible: keyScore.map { $0 >= calibration.keyCompatibilityScore })
+                ))
         }
         return results.sorted { a, b in
             if a.1.score != b.1.score { return a.1.score > b.1.score }

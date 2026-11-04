@@ -15,23 +15,31 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
 }
 
 public enum ControllerMIDIValue: Equatable, Sendable {
-    case absolute(Double), relative(Double)
+    case absolute(Double)
+    case relative(Double)
 }
 
 public struct ControllerMIDIValueState: Sendable {
     private var msb: UInt8?
     private var lsb: UInt8 = 0
     public init() {}
-    public mutating func decode(_ message: ControllerMIDIMessage, encoding: ControllerMIDIEncoding, number: UInt8) -> ControllerMIDIValue? {
+    public mutating func decode(_ message: ControllerMIDIMessage, encoding: ControllerMIDIEncoding, number: UInt8)
+        -> ControllerMIDIValue?
+    {
         if message.kind.isRelativeController {
             guard message.number == number, encoding == .absolute else { return nil }
             return .relative(Double(max(-127, min(127, message.value))))
         }
         if encoding == .paired14Bit {
             guard message.kind == .control, message.maximum <= 127, number < 32 else { return nil }
-            if message.number == number { msb = UInt8(message.value); lsb = 0 }
-            else if message.number == number + 32 { lsb = UInt8(message.value) }
-            else { return nil }
+            if message.number == number {
+                msb = UInt8(message.value)
+                lsb = 0
+            } else if message.number == number + 32 {
+                lsb = UInt8(message.value)
+            } else {
+                return nil
+            }
             guard let msb else { return nil }
             return .absolute(Double(Int(msb) << 7 | Int(lsb)) / 16383)
         }

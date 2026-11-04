@@ -1,5 +1,5 @@
-import Foundation
 import CoreGraphics
+import Foundation
 
 enum PerformancePanel: CaseIterable, Hashable { case effects, mixer, extra }
 
@@ -16,7 +16,10 @@ struct DeckPanelsGeometry {
     let mixerHandle: CGRect
     let mixerContent: CGRect
 
-    init(width: Double, height: Double, effects: Double, mixer: Double, extra: Double, handleExtent: Double = 44, inlineControls: Bool = false) {
+    init(
+        width: Double, height: Double, effects: Double, mixer: Double, extra: Double, handleExtent: Double = 44,
+        inlineControls: Bool = false
+    ) {
         func finite(_ value: Double) -> Double { value.isFinite ? max(0, value) : 0 }
         let inner = max(0, finite(width) - 8)
         extraBudget = max(0, inner - handleExtent - 8 - 2 * handleExtent - 44)
@@ -79,7 +82,9 @@ struct DeckPanelsState {
     func isDragging(_ kind: PerformancePanel) -> Bool { bank.panels[kind]!.isDragging }
     var isDragging: Bool { PerformancePanel.allCases.contains { isDragging($0) } }
     func geometry(height: Double) -> DeckPanelsGeometry {
-        .init(width: width, height: height, effects: extent(.effects), mixer: extent(.mixer), extra: extent(.extra), handleExtent: handleExtent, inlineControls: overlayControls)
+        .init(
+            width: width, height: height, effects: extent(.effects), mixer: extent(.mixer), extra: extent(.extra),
+            handleExtent: handleExtent, inlineControls: overlayControls)
     }
     func maximum(_ kind: PerformancePanel) -> Double {
         let layout = geometry(height: 1)
@@ -91,7 +96,9 @@ struct DeckPanelsState {
     }
 
     mutating func configure(width: Double, portrait: Bool, handleExtent: Double = 44) {
-        guard width.isFinite, width >= 0, self.width != width || isPortrait != portrait || self.handleExtent != handleExtent else { return }
+        guard width.isFinite, width >= 0,
+            self.width != width || isPortrait != portrait || self.handleExtent != handleExtent
+        else { return }
         let restoreBank = self.width == 0 || isPortrait != portrait
         for kind in PerformancePanel.allCases { cancel(kind) }
         self.width = width
@@ -99,9 +106,8 @@ struct DeckPanelsState {
         isPortrait = portrait
         if !restoreBank {
             if adaptiveDefaults {
-                for kind in [PerformancePanel.effects, .mixer] where isPresented(kind) && !bank.customized.contains(kind) {
-                    setPresented(kind, true)
-                }
+                for kind in [PerformancePanel.effects, .mixer]
+                where isPresented(kind) && !bank.customized.contains(kind) { setPresented(kind, true) }
             }
             return
         }
@@ -118,7 +124,9 @@ struct DeckPanelsState {
         if visible && adaptiveDefaults && kind != .extra && !bank.customized.contains(kind) {
             let preferred = min(maximum, max(minimum, geometry(height: 1).extraBudget / 2))
             mutate(kind) { $0.expand(maximumExtent: preferred) }
-        } else { mutate(kind) { $0.setPresented(visible, maximumExtent: maximum) } }
+        } else {
+            mutate(kind) { $0.setPresented(visible, maximumExtent: maximum) }
+        }
     }
 
     private mutating func makeRoom(for kind: PerformancePanel) {
@@ -138,10 +146,16 @@ struct DeckPanelsState {
         if adaptiveDefaults, kind != .extra, !isPresented(kind), !bank.customized.contains(kind) {
             let preferred = min(maximum(kind), max(200, geometry(height: 1).extraBudget / 2))
             let limit = maximum(kind)
-            mutate(kind) { $0.expand(maximumExtent: preferred); $0.setPresented(false, maximumExtent: limit) }
+            mutate(kind) {
+                $0.expand(maximumExtent: preferred)
+                $0.setPresented(false, maximumExtent: limit)
+            }
         }
-        let visible = kind == .effects ? before.effectsContent.width : kind == .mixer ? before.mixerContent.width : before.extraWidth
-        let offset = visible - extent(kind) + (kind == .mixer ? geometry(height: 1).waveformWidth - before.waveformWidth : 0)
+        let visible =
+            kind == .effects
+            ? before.effectsContent.width : kind == .mixer ? before.mixerContent.width : before.extraWidth
+        let offset =
+            visible - extent(kind) + (kind == .mixer ? geometry(height: 1).waveformWidth - before.waveformWidth : 0)
         dragOffsets[kind] = offset
         if !isPresented(kind) { presented.insert(kind) }
         mutate(kind) { $0.beginDrag() }
@@ -154,7 +168,10 @@ struct DeckPanelsState {
         mutate(kind) { $0.updateDrag(translation: translation, maximumExtent: limit, layoutOffset: offset) }
     }
     mutating func end(_ kind: PerformancePanel, velocity: Double) {
-        defer { dragOffsets[kind] = nil; collapsedExtras.remove(kind) }
+        defer {
+            dragOffsets[kind] = nil
+            collapsedExtras.remove(kind)
+        }
         let limit = maximum(kind)
         if limit < bank.panels[kind]!.minimumExtent {
             setPresented(kind, false)
@@ -164,7 +181,9 @@ struct DeckPanelsState {
         let wasDragging = isDragging(kind)
         mutate(kind) { $0.endDrag(velocity: velocity, maximumExtent: limit) }
         if wasDragging, velocity.isFinite, abs(velocity) < 600, bank.panels[kind]!.extent > 0 {
-            var value = bank; value.customized.insert(kind); bank = value
+            var value = bank
+            value.customized.insert(kind)
+            bank = value
         }
         if bank.panels[kind]!.extent == 0 {
             presented.remove(kind)
@@ -172,7 +191,10 @@ struct DeckPanelsState {
         }
     }
     mutating func cancel(_ kind: PerformancePanel) {
-        defer { dragOffsets[kind] = nil; collapsedExtras.remove(kind) }
+        defer {
+            dragOffsets[kind] = nil
+            collapsedExtras.remove(kind)
+        }
         let dragging = isDragging(kind)
         mutate(kind) { $0.cancelDrag() }
         if dragging, bank.panels[kind]!.extent == 0 { presented.remove(kind) }
@@ -180,9 +202,15 @@ struct DeckPanelsState {
     }
     mutating func adjust(_ kind: PerformancePanel, by delta: Double) {
         guard delta.isFinite else { return }
-        if !isPresented(kind), delta > 0 { setPresented(kind, true) }
-        else if extent(kind) <= bank.panels[kind]!.minimumExtent, delta < 0 { setPresented(kind, false) }
-        else { begin(kind); update(kind, translation: delta); end(kind, velocity: 0) }
+        if !isPresented(kind), delta > 0 {
+            setPresented(kind, true)
+        } else if extent(kind) <= bank.panels[kind]!.minimumExtent, delta < 0 {
+            setPresented(kind, false)
+        } else {
+            begin(kind)
+            update(kind, translation: delta)
+            end(kind, velocity: 0)
+        }
     }
     private mutating func mutate(_ kind: PerformancePanel, _ body: (inout TouchPanelState) -> Void) {
         var value = bank

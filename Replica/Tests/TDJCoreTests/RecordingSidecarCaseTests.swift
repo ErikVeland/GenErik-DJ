@@ -1,9 +1,10 @@
 import Foundation
-import Testing
 import TDJCore
+import Testing
 
-@Test(arguments: ["CaseMix.TXT", "casemix.txt"])
-func savedRecordingTracklistsFollowFilesystemCaseRules(sidecarName: String) throws {
+@Test(arguments: ["CaseMix.TXT", "casemix.txt"]) func savedRecordingTracklistsFollowFilesystemCaseRules(
+    sidecarName: String
+) throws {
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
     defer { try? FileManager.default.removeItem(at: root) }
     try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)

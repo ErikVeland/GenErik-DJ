@@ -6,8 +6,12 @@ import Foundation
 public enum MusicLibraryAudio {
     // Metadata loading finishes before these handles reach the serial PCM worker.
     // The reader and its output are created and used only on that worker.
-    private struct DecodeInput: @unchecked Sendable { let asset: AVAsset; let track: AVAssetTrack; let maximumSeconds: Double? }
-    private static let pcmWorker=AnalysisWorker(label:"org.generikdj.music-asset-decode")
+    private struct DecodeInput: @unchecked Sendable {
+        let asset: AVAsset
+        let track: AVAssetTrack
+        let maximumSeconds: Double?
+    }
+    private static let pcmWorker = AnalysisWorker(label: "org.generikdj.music-asset-decode")
     /// `maximumSeconds` limits the decode to the opening of the item, for first-minute analysis of mixes.
     public static func decodeAsset(url: URL, destination: URL, maximumSeconds: Double? = nil) async throws {
         let worker = Task.detached(priority: .background) {
@@ -18,41 +22,41 @@ public enum MusicLibraryAudio {
 
     private static func decode(url: URL, destination: URL, maximumSeconds: Double?) async throws {
         try Task.checkCancellation()
-        guard url.isFileURL || url.scheme?.lowercased() == "ipod-library" else {
-            throw MusicLibraryError.missingAudio
-        }
+        guard url.isFileURL || url.scheme?.lowercased() == "ipod-library" else { throw MusicLibraryError.missingAudio }
         guard !FileManager.default.fileExists(atPath: destination.path) else {
             throw MusicLibraryError.decoding("The preparation file already exists.")
         }
         let asset = AVURLAsset(url: url)
         guard try await !asset.load(.hasProtectedContent) else { throw MusicLibraryError.protected }
-        guard let track = try await asset.loadTracks(withMediaType: .audio).first else { throw MusicLibraryError.missingAudio }
-        let input=DecodeInput(asset:asset,track:track,maximumSeconds:maximumSeconds)
+        guard let track = try await asset.loadTracks(withMediaType: .audio).first else {
+            throw MusicLibraryError.missingAudio
+        }
+        let input = DecodeInput(asset: asset, track: track, maximumSeconds: maximumSeconds)
         // The decoder checks cancellation before committing its file. A later
         // cancellation must not turn a committed output into an unowned failure.
-        try await pcmWorker.run(checkAfterWork:false) { check in
-            try decodePCM(input:input,destination:destination,checkCancellation:check)
+        try await pcmWorker.run(checkAfterWork: false) { check in
+            try decodePCM(input: input, destination: destination, checkCancellation: check)
         }
     }
 
-    private static func decodePCM(input: DecodeInput, destination: URL,
-        checkCancellation: @Sendable () throws -> Void) throws {
+    private static func decodePCM(input: DecodeInput, destination: URL, checkCancellation: @Sendable () throws -> Void)
+        throws
+    {
         try checkCancellation()
-        guard !FileManager.default.fileExists(atPath:destination.path) else {
+        guard !FileManager.default.fileExists(atPath: destination.path) else {
             throw MusicLibraryError.decoding("The preparation file already exists.")
         }
         let reader = try AVAssetReader(asset: input.asset)
         let settings: [String: Any] = [
-            AVFormatIDKey: kAudioFormatLinearPCM, AVLinearPCMBitDepthKey: 32,
-            AVLinearPCMIsFloatKey: true, AVLinearPCMIsBigEndianKey: false,
-            AVLinearPCMIsNonInterleaved: false
+            AVFormatIDKey: kAudioFormatLinearPCM, AVLinearPCMBitDepthKey: 32, AVLinearPCMIsFloatKey: true,
+            AVLinearPCMIsBigEndianKey: false, AVLinearPCMIsNonInterleaved: false,
         ]
         let output = AVAssetReaderTrackOutput(track: input.track, outputSettings: settings)
         output.alwaysCopiesSampleData = false
         guard reader.canAdd(output) else { throw MusicLibraryError.decoding("The audio format is unsupported.") }
         reader.add(output)
-        if let seconds=input.maximumSeconds,seconds.isFinite,seconds>0 {
-            reader.timeRange=CMTimeRange(start:.zero,duration:CMTime(seconds:seconds,preferredTimescale:600))
+        if let seconds = input.maximumSeconds, seconds.isFinite, seconds > 0 {
+            reader.timeRange = CMTimeRange(start: .zero, duration: CMTime(seconds: seconds, preferredTimescale: 600))
         }
         guard reader.startReading() else { throw reader.error ?? MusicLibraryError.missingAudio }
         var completed = false
@@ -66,22 +70,28 @@ public enum MusicLibraryAudio {
             try checkCancellation()
             try autoreleasepool {
                 let count = CMSampleBufferGetNumSamples(sample)
-                guard count > 0, count <= Int(Int32.max),
-                      let description = CMSampleBufferGetFormatDescription(sample),
-                      let stream = CMAudioFormatDescriptionGetStreamBasicDescription(description),
-                      let format = AVAudioFormat(standardFormatWithSampleRate: stream.pointee.mSampleRate,
-                                                 channels: stream.pointee.mChannelsPerFrame),
-                      let interleaved = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: format.sampleRate,
-                                                     channels: format.channelCount, interleaved: true),
-                      let buffer = AVAudioPCMBuffer(pcmFormat: interleaved, frameCapacity: AVAudioFrameCount(count))
+                guard count > 0, count <= Int(Int32.max), let description = CMSampleBufferGetFormatDescription(sample),
+                    let stream = CMAudioFormatDescriptionGetStreamBasicDescription(description),
+                    let format = AVAudioFormat(
+                        standardFormatWithSampleRate: stream.pointee.mSampleRate,
+                        channels: stream.pointee.mChannelsPerFrame),
+                    let interleaved = AVAudioFormat(
+                        commonFormat: .pcmFormatFloat32, sampleRate: format.sampleRate, channels: format.channelCount,
+                        interleaved: true),
+                    let buffer = AVAudioPCMBuffer(pcmFormat: interleaved, frameCapacity: AVAudioFrameCount(count))
                 else { throw MusicLibraryError.decoding("The decoded audio format is invalid.") }
                 buffer.frameLength = AVAudioFrameCount(count)
-                let status = CMSampleBufferCopyPCMDataIntoAudioBufferList(sample, at: 0, frameCount: Int32(count), into: buffer.mutableAudioBufferList)
-                guard status == noErr else { throw MusicLibraryError.decoding("Cannot read decoded audio (\(status)).") }
+                let status = CMSampleBufferCopyPCMDataIntoAudioBufferList(
+                    sample, at: 0, frameCount: Int32(count), into: buffer.mutableAudioBufferList)
+                guard status == noErr else {
+                    throw MusicLibraryError.decoding("Cannot read decoded audio (\(status)).")
+                }
                 if file == nil {
-                    try FileManager.default.createDirectory(at: destination.deletingLastPathComponent(), withIntermediateDirectories: true)
-                    file = try AVAudioFile(forWriting: destination, settings: interleaved.settings,
-                                           commonFormat: .pcmFormatFloat32, interleaved: true)
+                    try FileManager.default.createDirectory(
+                        at: destination.deletingLastPathComponent(), withIntermediateDirectories: true)
+                    file = try AVAudioFile(
+                        forWriting: destination, settings: interleaved.settings, commonFormat: .pcmFormatFloat32,
+                        interleaved: true)
                 }
                 guard file?.processingFormat == interleaved else {
                     throw MusicLibraryError.decoding("The audio format changed during preparation.")

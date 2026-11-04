@@ -4,7 +4,10 @@
 #include <stdbool.h>
 
 typedef struct tdj_recording tdj_recording;
-typedef struct { uint64_t generation, frame; uint32_t deck; } tdj_recorded_track;
+typedef struct {
+    uint64_t generation, frame;
+    uint32_t deck;
+} tdj_recorded_track;
 tdj_recording *tdj_recording_create(uint32_t capacity);
 void tdj_recording_destroy(tdj_recording *ring);
 // Start/reset on a worker, after stop and after the prior consumer has finished.

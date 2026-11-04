@@ -40,7 +40,6 @@ typedef struct {
 int tdj_stream_future_capacity(tdj_asset *, const tdj_stream_future *, unsigned count, uint32_t maximum_override);
 
 void tdj_stream_mark_started(tdj_asset *);
-int tdj_stream_plan(tdj_asset *, const tdj_stream_target *, uint64_t, uint64_t,
-    bool reserve, tdj_stream_request *);
+int tdj_stream_plan(tdj_asset *, const tdj_stream_target *, uint64_t, uint64_t, bool reserve, tdj_stream_request *);
 bool tdj_keylock_limits(double rate, int *input, int *output, int *seek);
 #endif

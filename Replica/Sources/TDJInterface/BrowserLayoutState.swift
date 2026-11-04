@@ -1,8 +1,10 @@
-import Foundation
 import CoreGraphics
+import Foundation
 
 enum BrowserListTab: String, CaseIterable {
-    case songs = "Songs", suggestions = "Suggestions", prep = "Prep list"
+    case songs = "Songs"
+    case suggestions = "Suggestions"
+    case prep = "Prep list"
 }
 
 /// Lists retain their full width. Sources and details appear as exclusive drawers.
@@ -23,8 +25,10 @@ struct BrowserLayoutState: Equatable {
     }
 
     mutating func hideDrawers() {
-        detailHidden = true; categoriesHidden = true
-        detailOffset = 0; categoryOffset = 0
+        detailHidden = true
+        categoriesHidden = true
+        detailOffset = 0
+        categoryOffset = 0
     }
 
     /// The list shows its own key and BPM columns and the Edit button once the detail pane is away.
@@ -34,36 +38,38 @@ struct BrowserLayoutState: Equatable {
         guard translation.isFinite else { return }
         detailOffset = detailHidden ? min(0, translation) : max(0, translation)
     }
-    @discardableResult
-    mutating func endDetail(translation: Double, velocity: Double, width: Double) -> Bool {
+    @discardableResult mutating func endDetail(translation: Double, velocity: Double, width: Double) -> Bool {
         defer { detailOffset = 0 }
         guard translation.isFinite, velocity.isFinite else { return detailHidden }
-        let distance = detailHidden ? -translation : translation, speed = detailHidden ? -velocity : velocity
+        let distance = detailHidden ? -translation : translation
+        let speed = detailHidden ? -velocity : velocity
         if distance >= max(1, width) / 3 || (distance > 12 && speed >= Self.flickVelocity) {
             if detailHidden { showDetail() } else { detailHidden = true }
         }
         return detailHidden
     }
     mutating func showDetail() {
-        hideDrawers(); detailHidden = false
+        hideDrawers()
+        detailHidden = false
     }
 
     mutating func dragCategories(translation: Double) {
         guard translation.isFinite else { return }
         categoryOffset = categoriesHidden ? max(0, translation) : min(0, translation)
     }
-    @discardableResult
-    mutating func endCategories(translation: Double, velocity: Double, width: Double) -> Bool {
+    @discardableResult mutating func endCategories(translation: Double, velocity: Double, width: Double) -> Bool {
         defer { categoryOffset = 0 }
         guard translation.isFinite, velocity.isFinite else { return categoriesHidden }
-        let distance = categoriesHidden ? translation : -translation, speed = categoriesHidden ? velocity : -velocity
+        let distance = categoriesHidden ? translation : -translation
+        let speed = categoriesHidden ? velocity : -velocity
         if distance >= max(1, width) / 3 || (distance > 12 && speed >= Self.flickVelocity) {
             if categoriesHidden { showCategories() } else { categoriesHidden = true }
         }
         return categoriesHidden
     }
     mutating func showCategories() {
-        hideDrawers(); categoriesHidden = false
+        hideDrawers()
+        categoriesHidden = false
     }
 }
 

@@ -14,7 +14,8 @@ extension SampleTransport {
             let generation = state[deck].generation
             guard let asset = asset(generation: generation) else { throw TransportError.stale }
             guard asset.isStreamed else { continue }
-            let targets = SourceControl.tempo(state.masterBPM).preparationTargets(snapshot: state, deck: deck, frames: asset.frames)
+            let targets = SourceControl.tempo(state.masterBPM).preparationTargets(
+                snapshot: state, deck: deck, frames: asset.frames)
             guard !targets.isEmpty else { throw TransportError.invalid }
             result[deck] = .init(asset: ObjectIdentifier(asset), generation: generation, targets: targets)
         }
@@ -37,9 +38,9 @@ extension SampleTransport {
             var preparations: [(PCMAsset, UInt64)] = []
             defer { for (asset, ticket) in preparations { asset.releaseSourcePreparation(ticket) } }
             for group in groups.values {
-                let ticket = try await group.asset.prepareSources(group.targets, generation: group.generation, requireReserve: false) {
-                    guard self.processControlsWhileIdle() else { throw TransportError.protectedDeck }
-                }
+                let ticket = try await group.asset.prepareSources(
+                    group.targets, generation: group.generation, requireReserve: false
+                ) { guard self.processControlsWhileIdle() else { throw TransportError.protectedDeck } }
                 preparations.append((group.asset, ticket))
             }
             while true {
@@ -52,8 +53,7 @@ extension SampleTransport {
                     try PCMStreamingError.check(tdj_asset_prepare_status(asset.pointer, ticket))
                 }
                 try await Task.sleep(for: .milliseconds(5))
-            }
-            // Reprepare changed source geometry. Mixer and FX controls do not delay startup.
+            }// Reprepare changed source geometry. Mixer and FX controls do not delay startup.
         }
     }
 }

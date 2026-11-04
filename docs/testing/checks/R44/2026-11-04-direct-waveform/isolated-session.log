@@ -1,8 +1,0 @@
-􀟈 Test run started.
-􀄵 Testing Library Version: 2401
-􀄵 Target Platform: arm64e-apple-macos14.0
-􀟈 Test waveformThrowCanBeCaughtAndCancelled() started.
-􀟈 Test slowWaveformMovementFollowsFingerAndStopsWhenHeld() started.
-􁁛 Test waveformThrowCanBeCaughtAndCancelled() passed after 36.398 seconds.
-􁁛 Test slowWaveformMovementFollowsFingerAndStopsWhenHeld() passed after 47.619 seconds.
-􁁛 Test run with 2 tests in 0 suites passed after 47.620 seconds.

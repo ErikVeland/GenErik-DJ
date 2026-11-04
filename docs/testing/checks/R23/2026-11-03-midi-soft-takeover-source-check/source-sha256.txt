@@ -1,2 +1,0 @@
-1ca47112e45d083c4264cec21b600cc2122ea9c0d1f5d3633b41dcd3fab3ad7d  Replica/Sources/TDJInterface/ControllerMIDIConnection.swift
-c24cdbe2dd8b6bed1e289746208f23c5d82e68c55c521a45e99e5438a520e483  Replica/Tests/TDJInterfaceTests/ControllerMIDIProfileTests.swift

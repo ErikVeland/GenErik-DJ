@@ -1,15 +1,21 @@
 import Dispatch
 import Foundation
 import Testing
+
 @testable import TDJCore
 
 private func automaticPreparationData(_ bpm: Int = 123) -> Data {
-    Data("<NML VERSION=\"17\"><HEAD PROGRAM=\"Traktor DJ\"/><COLLECTION ENTRIES=\"1\"><ENTRY UUID=\"seed\"><ITUNES PERSISTENT_ID=\"0000000000001234\" PLAYTIME=\"16000\"/><TEMPO BPM=\"\(bpm)\"/><MUSICAL_KEY VALUE=\"21\"/><CUE_V2 TYPE=\"4\" START=\"1000\" HOTCUE=\"-1\"/></ENTRY></COLLECTION></NML>".utf8)
+    Data(
+        "<NML VERSION=\"17\"><HEAD PROGRAM=\"Traktor DJ\"/><COLLECTION ENTRIES=\"1\"><ENTRY UUID=\"seed\"><ITUNES PERSISTENT_ID=\"0000000000001234\" PLAYTIME=\"16000\"/><TEMPO BPM=\"\(bpm)\"/><MUSICAL_KEY VALUE=\"21\"/><CUE_V2 TYPE=\"4\" START=\"1000\" HOTCUE=\"-1\"/></ENTRY></COLLECTION></NML>"
+            .utf8)
 }
 private func automaticPreparationFixture() throws -> (URL, WorkspaceStore, URL) {
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
     try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
-    return (root, try WorkspaceStore(root: root.appendingPathComponent("workspace")), root.appendingPathComponent("seed.nml"))
+    return (
+        root, try WorkspaceStore(root: root.appendingPathComponent("workspace")),
+        root.appendingPathComponent("seed.nml")
+    )
 }
 private func automaticPreparationPointer(_ store: WorkspaceStore) -> URL {
     store.root.appendingPathComponent("TraktorReferences/current.json")
@@ -18,7 +24,8 @@ private func automaticPreparationPointer(_ store: WorkspaceStore) -> URL {
 @Test func explicitAutomaticPreparationSeedBootstrapsWithoutSyncedFolderAccess() async throws {
     let (root, store, seed) = try automaticPreparationFixture()
     defer { try? FileManager.default.removeItem(at: root) }
-    let data = automaticPreparationData(); try data.write(to: seed)
+    let data = automaticPreparationData()
+    try data.write(to: seed)
     let catalog = try #require(try await TraktorPreparationStorage.discover(store: store, automaticSources: [seed]))
     #expect(catalog.summary.document.entryCount == 1)
     #expect(try Data(contentsOf: seed) == data)
@@ -35,11 +42,13 @@ private func automaticPreparationPointer(_ store: WorkspaceStore) -> URL {
     let initial = try #require(try await TraktorPreparationStorage.discover(store: store, automaticSources: [seed]))
     let inbox = root.appendingPathComponent("inbox.nml")
     try automaticPreparationData(127).write(to: inbox)
-    let changed = try #require(try await TraktorPreparationStorage.discover(store: store, automaticSources: [inbox, seed]))
+    let changed = try #require(
+        try await TraktorPreparationStorage.discover(store: store, automaticSources: [inbox, seed]))
     #expect(changed.summary.sourceSHA256 != initial.summary.sourceSHA256)
     try FileManager.default.removeItem(at: inbox)
     try FileManager.default.removeItem(at: seed)
-    let fallback = try #require(try await TraktorPreparationStorage.discover(store: store, automaticSources: [inbox, seed]))
+    let fallback = try #require(
+        try await TraktorPreparationStorage.discover(store: store, automaticSources: [inbox, seed]))
     #expect(fallback.summary.sourceSHA256 == changed.summary.sourceSHA256)
 }
 
@@ -51,7 +60,8 @@ private func automaticPreparationPointer(_ store: WorkspaceStore) -> URL {
     let pointer = try Data(contentsOf: automaticPreparationPointer(store))
     let replacement = root.appendingPathComponent("replacement.nml")
     try automaticPreparationData(127).write(to: replacement)
-    let found = try #require(try await TraktorPreparationStorage.discover(store: store, automaticSources: [replacement]))
+    let found = try #require(
+        try await TraktorPreparationStorage.discover(store: store, automaticSources: [replacement]))
     #expect(found.summary.sourceSHA256 == selected.summary.sourceSHA256)
     #expect(try Data(contentsOf: automaticPreparationPointer(store)) == pointer)
 }
@@ -114,16 +124,26 @@ private func automaticPreparationPointer(_ store: WorkspaceStore) -> URL {
     let (entered, signal) = AsyncStream<Void>.makeStream()
     let release = DispatchSemaphore(value: 0)
     let held = Task {
-        try await AnalysisWorker.shared.run { _ in signal.yield(()); release.wait(); return true }
+        try await AnalysisWorker.shared.run { _ in
+            signal.yield(())
+            release.wait()
+            return true
+        }
     }
-    defer { release.signal(); signal.finish() }
-    var events = entered.makeAsyncIterator(); _ = await events.next()
+    defer {
+        release.signal()
+        signal.finish()
+    }
+    var events = entered.makeAsyncIterator()
+    _ = await events.next()
     let refresh = Task { try await TraktorPreparationStorage.discover(store: store, automaticSources: [seed]) }
     refresh.cancel()
     release.signal()
     _ = try await held.value
-    do { _ = try await refresh.value; Issue.record("Cancelled discovery must not replace the active collection.") }
-    catch is CancellationError {}
+    do {
+        _ = try await refresh.value
+        Issue.record("Cancelled discovery must not replace the active collection.")
+    } catch is CancellationError {}
     #expect(try Data(contentsOf: automaticPreparationPointer(store)) == pointer)
 }
 

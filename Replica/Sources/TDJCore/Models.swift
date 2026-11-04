@@ -37,8 +37,7 @@ public struct MusicalKey: Codable, Equatable, Sendable, Hashable {
         self.init(tonic: tonic, mode: try values.decode(Mode.self, forKey: .mode))
     }
     public var name: String {
-        ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B"][tonic]
-        + (mode == .minor ? "m" : "")
+        ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B"][tonic] + (mode == .minor ? "m" : "")
     }
     public var openKeyName: String {
         let relativeMajor = mode == .major ? tonic : (tonic + 3) % 12
@@ -86,14 +85,17 @@ public struct AudioAnalysis: Codable, Equatable, Sendable {
 
 extension AudioAnalysis {
     public func replacingWaveform(_ bins: [WaveformBin]) -> AudioAnalysis {
-        replacingWaveform(bins, configurationID: configurationID, frameCount: frameCount, decodedFrames: waveformDecodedFrames)
+        replacingWaveform(
+            bins, configurationID: configurationID, frameCount: frameCount, decodedFrames: waveformDecodedFrames)
     }
-    public func replacingWaveform(_ bins: [WaveformBin], configurationID: String,
-                                  frameCount: Int64, decodedFrames: Int64?) -> AudioAnalysis {
-        var copy = AudioAnalysis(implementation:implementation,configurationID:configurationID,
-            contentSHA256:contentSHA256,sampleRate:sampleRate,frameCount:frameCount,channelCount:channelCount,
-            waveformFramesPerBin:waveformFramesPerBin,waveform:bins,bpm:bpm,beatAnchorFrame:beatAnchorFrame,
-            tempoConfidence:tempoConfidence,key:key,keyConfidence:keyConfidence,chroma:chroma,timbre:timbre)
+    public func replacingWaveform(
+        _ bins: [WaveformBin], configurationID: String, frameCount: Int64, decodedFrames: Int64?
+    ) -> AudioAnalysis {
+        var copy = AudioAnalysis(
+            implementation: implementation, configurationID: configurationID, contentSHA256: contentSHA256,
+            sampleRate: sampleRate, frameCount: frameCount, channelCount: channelCount,
+            waveformFramesPerBin: waveformFramesPerBin, waveform: bins, bpm: bpm, beatAnchorFrame: beatAnchorFrame,
+            tempoConfidence: tempoConfidence, key: key, keyConfidence: keyConfidence, chroma: chroma, timbre: timbre)
         copy.musicalAnalysisDeferred = musicalAnalysisDeferred
         copy.waveformReference = configurationID == self.configurationID ? waveformReference : nil
         copy.waveformDecodedFrames = decodedFrames
@@ -113,9 +115,7 @@ extension AudioAnalysis {
 
 public struct Preparation: Codable, Equatable, Sendable {
     public var grid: BeatGrid?
-    public var correctedKey: MusicalKey? {
-        didSet { correctedKeyAuthority = nil }
-    }
+    public var correctedKey: MusicalKey? { didSet { correctedKeyAuthority = nil } }
     public internal(set) var correctedKeyAuthority: KeyAuthority?
     public var gridIsManual: Bool
     public var gridWasEditedByUser: Bool? = nil
@@ -123,27 +123,34 @@ public struct Preparation: Codable, Equatable, Sendable {
     public var gridLocked = false
     public var gridMode: GridMode = .automatic
     /// Choose a detected bar grid only when the saved grid has no user edits.
-    public func detectedBarGrid(analysis:AudioAnalysis,imported:BeatGrid?,importIsUnlocked:Bool) -> BeatGrid? {
-        guard AutomaticGridPolicy.mayRefresh(isManual:gridIsManual,wasEditedByUser:gridWasEditedByUser == true,
-                  isLocked:gridLocked,hasAdaptiveMap:adaptiveMap != nil,current:grid,imported:imported,importIsUnlocked:importIsUnlocked),
-              analysis.barAnalysisVersion == BarStartAnalysis.version,analysis.tempoConfidence >= 0.72,
-              (analysis.downbeatConfidence ?? 0) >= (imported == nil ? 0.55:0.72),let bpm=analysis.bpm,let anchor=analysis.beatAnchorFrame,
-              let bar=analysis.detectedDownbeatOffset else { return nil }
+    public func detectedBarGrid(analysis: AudioAnalysis, imported: BeatGrid?, importIsUnlocked: Bool) -> BeatGrid? {
+        guard
+            AutomaticGridPolicy.mayRefresh(
+                isManual: gridIsManual, wasEditedByUser: gridWasEditedByUser == true, isLocked: gridLocked,
+                hasAdaptiveMap: adaptiveMap != nil, current: grid, imported: imported,
+                importIsUnlocked: importIsUnlocked), analysis.barAnalysisVersion == BarStartAnalysis.version,
+            analysis.tempoConfidence >= 0.72, (analysis.downbeatConfidence ?? 0) >= (imported == nil ? 0.55 : 0.72),
+            let bpm = analysis.bpm, let anchor = analysis.beatAnchorFrame, let bar = analysis.detectedDownbeatOffset
+        else { return nil }
         if let imported {
-            let ratio=bpm/imported.bpm
-            guard [0.5,1.0,2.0].contains(where:{ abs(ratio/$0-1) <= 0.01 }) else { return nil }
+            let ratio = bpm / imported.bpm
+            guard [0.5, 1.0, 2.0].contains(where: { abs(ratio / $0 - 1) <= 0.01 }) else { return nil }
         }
-        return try? BeatGrid(bpm:bpm,anchorFrame:anchor,sampleRate:analysis.sampleRate,downbeatOffset:bar)
+        return try? BeatGrid(bpm: bpm, anchorFrame: anchor, sampleRate: analysis.sampleRate, downbeatOffset: bar)
     }
-    private enum CodingKeys: String, CodingKey { case grid, correctedKey, correctedKeyAuthority, gridIsManual, gridWasEditedByUser, adaptiveMap, gridLocked, gridMode }
+    private enum CodingKeys: String, CodingKey {
+        case grid, correctedKey, correctedKeyAuthority, gridIsManual, gridWasEditedByUser, adaptiveMap, gridLocked,
+            gridMode
+    }
     public init(from decoder: any Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         grid = try c.decodeIfPresent(BeatGrid.self, forKey: .grid)
         correctedKey = try c.decodeIfPresent(MusicalKey.self, forKey: .correctedKey)
         correctedKeyAuthority = try c.decodeIfPresent(KeyAuthority.self, forKey: .correctedKeyAuthority)
-        guard correctedKeyAuthority == nil || (correctedKey != nil && [.traktor, .independent].contains(correctedKeyAuthority!)) else {
-            throw CoreError.invalidWorkspace("Invalid imported key authority.")
-        }
+        guard
+            correctedKeyAuthority == nil
+                || (correctedKey != nil && [.traktor, .independent].contains(correctedKeyAuthority!))
+        else { throw CoreError.invalidWorkspace("Invalid imported key authority.") }
         gridIsManual = try c.decodeIfPresent(Bool.self, forKey: .gridIsManual) ?? false
         gridWasEditedByUser = try c.decodeIfPresent(Bool.self, forKey: .gridWasEditedByUser)
         adaptiveMap = try? c.decodeIfPresent(BeatGridMap.self, forKey: .adaptiveMap)
@@ -151,15 +158,15 @@ public struct Preparation: Codable, Equatable, Sendable {
         gridMode = try c.decodeIfPresent(GridMode.self, forKey: .gridMode) ?? .automatic
     }
     public func encode(to encoder: any Encoder) throws {
-        var c=encoder.container(keyedBy:CodingKeys.self)
-        try c.encodeIfPresent(grid,forKey:.grid)
-        try c.encodeIfPresent(correctedKey,forKey:.correctedKey)
-        try c.encodeIfPresent(correctedKeyAuthority,forKey:.correctedKeyAuthority)
-        try c.encode(gridIsManual,forKey:.gridIsManual)
-        try c.encodeIfPresent(gridWasEditedByUser,forKey:.gridWasEditedByUser)
-        try c.encodeIfPresent(adaptiveMap,forKey:.adaptiveMap)
-        if gridLocked { try c.encode(true,forKey:.gridLocked) }
-        if gridMode != .automatic { try c.encode(gridMode,forKey:.gridMode) }
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encodeIfPresent(grid, forKey: .grid)
+        try c.encodeIfPresent(correctedKey, forKey: .correctedKey)
+        try c.encodeIfPresent(correctedKeyAuthority, forKey: .correctedKeyAuthority)
+        try c.encode(gridIsManual, forKey: .gridIsManual)
+        try c.encodeIfPresent(gridWasEditedByUser, forKey: .gridWasEditedByUser)
+        try c.encodeIfPresent(adaptiveMap, forKey: .adaptiveMap)
+        if gridLocked { try c.encode(true, forKey: .gridLocked) }
+        if gridMode != .automatic { try c.encode(gridMode, forKey: .gridMode) }
     }
     public init(grid: BeatGrid? = nil, correctedKey: MusicalKey? = nil, gridIsManual: Bool = false) {
         self.grid = grid
@@ -187,32 +194,37 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
     public var bpm: Double? { grid?.bpm ?? analysis.bpm }
     public var key: MusicalKey? { keyDecision.key }
     public var adaptiveMap: BeatGridMap? {
-        guard preparation.gridMode != .fixed, let map=preparation.adaptiveMap,
-              map.sampleRate==analysis.sampleRate,(try? map.validate(frameCount:analysis.frameCount)) != nil else { return nil }
+        guard preparation.gridMode != .fixed, let map = preparation.adaptiveMap, map.sampleRate == analysis.sampleRate,
+            (try? map.validate(frameCount: analysis.frameCount)) != nil
+        else { return nil }
         return map
     }
-    public var timing: BeatTiming? { grid.map { BeatTiming(fixed:$0,adaptive:adaptiveMap) } }
-    public var mayRefreshAutomaticGrid:Bool {
-        AutomaticGridPolicy.mayRefresh(isManual:preparation.gridIsManual,
-            wasEditedByUser:preparation.gridWasEditedByUser == true,isLocked:preparation.gridLocked,
-            hasAdaptiveMap:preparation.adaptiveMap != nil,current:preparation.grid,
-            imported:traktorPreparation?.normalized.grid,
-            importIsUnlocked:traktorPreparation?.record.rawEntry.attributes["LOCK"] == "0")
+    public var timing: BeatTiming? { grid.map { BeatTiming(fixed: $0, adaptive: adaptiveMap) } }
+    public var mayRefreshAutomaticGrid: Bool {
+        AutomaticGridPolicy.mayRefresh(
+            isManual: preparation.gridIsManual, wasEditedByUser: preparation.gridWasEditedByUser == true,
+            isLocked: preparation.gridLocked, hasAdaptiveMap: preparation.adaptiveMap != nil, current: preparation.grid,
+            imported: traktorPreparation?.normalized.grid,
+            importIsUnlocked: traktorPreparation?.record.rawEntry.attributes["LOCK"] == "0")
     }
-    public var needsAutomaticBarAnalysis:Bool {
+    public var needsAutomaticBarAnalysis: Bool {
         mayRefreshAutomaticGrid && analysis.barAnalysisVersion != BarStartAnalysis.version
     }
-    public var automaticBarGrid:BeatGrid? {
-        preparation.detectedBarGrid(analysis:analysis,imported:traktorPreparation?.normalized.grid,
-            importIsUnlocked:traktorPreparation?.record.rawEntry.attributes["LOCK"] == "0")
+    public var automaticBarGrid: BeatGrid? {
+        preparation.detectedBarGrid(
+            analysis: analysis, imported: traktorPreparation?.normalized.grid,
+            importIsUnlocked: traktorPreparation?.record.rawEntry.attributes["LOCK"] == "0")
     }
     public var grid: BeatGrid? {
         if let automaticBarGrid { return automaticBarGrid }
-        if preparation.gridIsManual || preparation.gridWasEditedByUser == true || preparation.gridLocked { return preparation.grid }
+        if preparation.gridIsManual || preparation.gridWasEditedByUser == true || preparation.gridLocked {
+            return preparation.grid
+        }
         return traktorPreparation?.normalized.grid ?? preparation.grid
     }
-    public init(title: String, artist: String = "", genre: String? = nil,
-                mediaFilename: String, analysis: AudioAnalysis) throws {
+    public init(
+        title: String, artist: String = "", genre: String? = nil, mediaFilename: String, analysis: AudioAnalysis
+    ) throws {
         id = analysis.contentSHA256
         self.title = title
         self.artist = artist
@@ -220,8 +232,9 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
         self.mediaFilename = mediaFilename
         self.analysis = analysis
         let grid = try analysis.bpm.map {
-            try BeatGrid(bpm: $0, anchorFrame: analysis.beatAnchorFrame ?? 0,
-                         sampleRate: analysis.sampleRate, downbeatOffset: analysis.detectedDownbeatOffset ?? 0)
+            try BeatGrid(
+                bpm: $0, anchorFrame: analysis.beatAnchorFrame ?? 0, sampleRate: analysis.sampleRate,
+                downbeatOffset: analysis.detectedDownbeatOffset ?? 0)
         }
         preparation = Preparation(grid: grid)
     }
@@ -272,8 +285,8 @@ public struct LibrarySnapshot: Codable, Equatable, Sendable {
     }
 
     public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.schemaVersion == rhs.schemaVersion && lhs.revision == rhs.revision &&
-            lhs.tracks == rhs.tracks && lhs.events == rhs.events &&
-            lhs.adaptiveMemory == rhs.adaptiveMemory && lhs.calibration == rhs.calibration
+        lhs.schemaVersion == rhs.schemaVersion && lhs.revision == rhs.revision && lhs.tracks == rhs.tracks
+            && lhs.events == rhs.events && lhs.adaptiveMemory == rhs.adaptiveMemory
+            && lhs.calibration == rhs.calibration
     }
 }

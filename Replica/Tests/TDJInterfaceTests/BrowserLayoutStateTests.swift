@@ -1,11 +1,15 @@
 import Testing
+
 @testable import TDJInterface
 
 @Test func detailPaneFollowsTheFingerOffAndBackAndWidensTheList() {
     var layout = BrowserLayoutState()
     layout.showDetail()
     #expect(!layout.listShowsTempoAndKey)
-    for translation in [0.0, 40, 133.5] { layout.dragDetail(translation: translation); #expect(layout.detailOffset == translation) }
+    for translation in [0.0, 40, 133.5] {
+        layout.dragDetail(translation: translation)
+        #expect(layout.detailOffset == translation)
+    }
     layout.dragDetail(translation: -30)
     #expect(layout.detailOffset == 0)
     let short = layout.endDetail(translation: 90, velocity: 50, width: 400)

@@ -1,5 +1,5 @@
-import Foundation
 import CoreGraphics
+import Foundation
 
 struct DeckSplitGeometry {
     static let handleHeight = 44.0
@@ -37,10 +37,15 @@ struct DeckSplitState {
     }
 
     func geometry(width: Double, height: Double, handleExtent: Double = 44) -> DeckSplitGeometry {
-        .init(width: width, height: height, share: share, proposedAHeight: dragOrigin.map { $0 + translation }, handleExtent: handleExtent)
+        .init(
+            width: width, height: height, share: share, proposedAHeight: dragOrigin.map { $0 + translation },
+            handleExtent: handleExtent)
     }
     mutating func updateViewport(width: Double, height: Double) {
-        guard width.isFinite, height.isFinite, width > 0, height > 0 else { cancelDrag(); return }
+        guard width.isFinite, height.isFinite, width > 0, height > 0 else {
+            cancelDrag()
+            return
+        }
         let next = CGSize(width: width, height: height)
         guard next != viewport else { return }
         cancelDrag()
@@ -48,7 +53,9 @@ struct DeckSplitState {
         viewport = next
     }
     mutating func beginDrag(height: Double, handleExtent: Double = 44) {
-        guard dragOrigin == nil, height.isFinite, height > 2 * DeckSplitGeometry.minimumDeckHeight + handleExtent else { return }
+        guard dragOrigin == nil, height.isFinite, height > 2 * DeckSplitGeometry.minimumDeckHeight + handleExtent else {
+            return
+        }
         dragOrigin = geometry(width: 0, height: height, handleExtent: handleExtent).a.height
         translation = 0
     }
@@ -58,7 +65,10 @@ struct DeckSplitState {
     }
     mutating func endDrag(height: Double, handleExtent: Double = 44) {
         guard isDragging else { return }
-        guard height.isFinite, height > 2 * DeckSplitGeometry.minimumDeckHeight + handleExtent else { cancelDrag(); return }
+        guard height.isFinite, height > 2 * DeckSplitGeometry.minimumDeckHeight + handleExtent else {
+            cancelDrag()
+            return
+        }
         let layout = geometry(width: 0, height: height, handleExtent: handleExtent)
         share = layout.a.height / (layout.a.height + layout.b.height)
         cancelDrag()
@@ -68,11 +78,19 @@ struct DeckSplitState {
         let layout = geometry(width: 0, height: height, handleExtent: handleExtent)
         let current = upper ? layout.a.height : layout.b.height
         guard current < minimum else { return }
-        let desired = min(max(DeckSplitGeometry.minimumDeckHeight, minimum), max(DeckSplitGeometry.minimumDeckHeight, height - handleExtent - DeckSplitGeometry.minimumDeckHeight))
+        let desired = min(
+            max(DeckSplitGeometry.minimumDeckHeight, minimum),
+            max(DeckSplitGeometry.minimumDeckHeight, height - handleExtent - DeckSplitGeometry.minimumDeckHeight))
         adjust(by: (desired - current) * (upper ? 1 : -1), height: height, handleExtent: handleExtent)
     }
-    mutating func cancelDrag() { dragOrigin = nil; translation = 0 }
-    mutating func balance() { cancelDrag(); share = 0.5 }
+    mutating func cancelDrag() {
+        dragOrigin = nil
+        translation = 0
+    }
+    mutating func balance() {
+        cancelDrag()
+        share = 0.5
+    }
     mutating func adjust(by delta: Double, height: Double, handleExtent: Double = 44) {
         guard delta.isFinite else { return }
         cancelDrag()

@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import TDJCore
 
 final class TrackArrangementTests: XCTestCase {
@@ -7,9 +8,12 @@ final class TrackArrangementTests: XCTestCase {
         let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: rate)
         let timing = BeatTiming(fixed: grid)
         let arrangement = TrackArrangement(sections: [], landmarks: [], musicalEnd: 100_000, rhythmicEnd: nil)
-        func display(_ frame: Double, loop: Bool = false, slip: Bool = false, underlying: Double? = nil) -> ArrangementStatus {
-            arrangement.status(frame: frame, continuingFrame: underlying, fileEnd: 105_000, sampleRate: rate,
-                timing: timing, reliableGrid: true, playing: true, rate: 1, loop: loop, slip: slip)
+        func display(_ frame: Double, loop: Bool = false, slip: Bool = false, underlying: Double? = nil)
+            -> ArrangementStatus
+        {
+            arrangement.status(
+                frame: frame, continuingFrame: underlying, fileEnd: 105_000, sampleRate: rate, timing: timing,
+                reliableGrid: true, playing: true, rate: 1, loop: loop, slip: slip)
         }
         XCTAssertEqual(display(36_000).warning, .prepare)
         XCTAssertEqual(display(68_000).warning, .amber)
@@ -23,17 +27,20 @@ final class TrackArrangementTests: XCTestCase {
     func testPulseUsesTransportAndStopsForMotionOrReverse() throws {
         let timing = BeatTiming(fixed: try BeatGrid(bpm: 240, anchorFrame: 0, sampleRate: rate))
         let arrangement = TrackArrangement(sections: [], landmarks: [], musicalEnd: 20_000, rhythmicEnd: nil)
-        let status = arrangement.status(frame: 15_125, fileEnd: 22_000, sampleRate: rate,
-            timing: timing, reliableGrid: true, playing: true, rate: 1)
+        let status = arrangement.status(
+            frame: 15_125, fileEnd: 22_000, sampleRate: rate, timing: timing, reliableGrid: true, playing: true, rate: 1
+        )
         XCTAssertGreaterThan(status.pulse, 0)
         XCTAssertEqual(status.pulseValue(reduceMotion: true, audible: true), 0)
         XCTAssertEqual(status.pulseValue(reduceMotion: false, audible: false), 0)
-        let reverse = arrangement.status(frame: 15_125, fileEnd: 22_000, sampleRate: rate,
-            timing: timing, reliableGrid: true, playing: true, rate: -1)
+        let reverse = arrangement.status(
+            frame: 15_125, fileEnd: 22_000, sampleRate: rate, timing: timing, reliableGrid: true, playing: true,
+            rate: -1)
         XCTAssertEqual(reverse.pulse, 0)
         XCTAssertEqual(reverse.endingText, "REVERSE")
-        let unreliable = arrangement.status(frame: 18_000, fileEnd: 22_000, sampleRate: rate,
-            timing: timing, reliableGrid: false, playing: true, rate: 1)
+        let unreliable = arrangement.status(
+            frame: 18_000, fileEnd: 22_000, sampleRate: rate, timing: timing, reliableGrid: false, playing: true,
+            rate: 1)
         XCTAssertNil(unreliable.barsRemaining)
         XCTAssertEqual(unreliable.pulse, 0)
         XCTAssertTrue(unreliable.endingText.contains("2 SEC"))
@@ -54,7 +61,8 @@ final class TrackArrangementTests: XCTestCase {
     }
     func testNoSilentBreakdownIsMistakenForTrackEnding() {
         let bins = (0..<100).map { i in WaveformBin(minimum: -0.5, maximum: 0.5, rms: i > 30 && i < 60 ? 0 : 0.3) }
-        let analysis = AudioAnalysis(implementation: "test", configurationID: "test", contentSHA256: "test", sampleRate: rate,
+        let analysis = AudioAnalysis(
+            implementation: "test", configurationID: "test", contentSHA256: "test", sampleRate: rate,
             frameCount: 100_000, channelCount: 1, waveformFramesPerBin: 1000, waveform: bins, bpm: 120,
             beatAnchorFrame: 0, tempoConfidence: 1, key: nil, keyConfidence: 0, chroma: [], timbre: [])
         let arrangement = TrackArrangement.prepare(analysis: analysis)

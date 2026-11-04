@@ -1,5 +1,5 @@
-# Evidence and research scope
+# Reference material
 
-Reviewed 30 October 2026. The Traktor-DJ-1x folder contains reference specifications, source provenance, retained captures and synthetic fixtures. Original-product claims and dated acquisition notes do not describe the current replica implementation.
+[Traktor DJ 1.x](Traktor-DJ-1x/README.md) contains the product requirements, gesture contracts, captured reference frames and test fixtures used to build GenErik DJ.
 
-See [current shared status](../Replica/Status.md), [analysis results](../Replica/Analysis.md) and the [documentation inventory](../DOCUMENTATION.md). Search results, manifests, copied exports and historical acquisition records remain unchanged. No device acquisition, original-file modification or jailbreak is resumed by this documentation update.
+Acquisition transcripts, device inventories and search metadata have moved to [the historical archive](../docs/history.md). They are not application source or current readiness evidence. Original recordings and third-party material retain their provenance and licences.

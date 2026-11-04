@@ -1,10 +1,10 @@
 import Foundation
 import Testing
+
 @testable import TDJCore
 @testable import TDJInterface
 
-@MainActor
-private func warmPlayModel() async throws -> (ReplicaModel, URL) {
+@MainActor private func warmPlayModel() async throws -> (ReplicaModel, URL) {
     var base = URL(fileURLWithPath: #filePath)
     for _ in 0..<4 { base.deleteLastPathComponent() }
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -19,7 +19,10 @@ private func warmPlayModel() async throws -> (ReplicaModel, URL) {
 
 @Test @MainActor func warmPlayReachesTheNextBarWithoutAnotherActorTurn() async throws {
     let (model, root) = try await warmPlayModel()
-    defer { model.stopAudio(); try? FileManager.default.removeItem(at: root) }
+    defer {
+        model.stopAudio()
+        try? FileManager.default.removeItem(at: root)
+    }
     model.setMasterBPM(120)
     model.pressPlay(deck: .a)
     #expect(model.playbackSnapshot?.a.phase == .playing)
@@ -41,7 +44,10 @@ private func warmPlayModel() async throws -> (ReplicaModel, URL) {
 
 @Test @MainActor func warmSecondPlayCancelsPendingEntryBeforeYield() async throws {
     let (model, root) = try await warmPlayModel()
-    defer { model.stopAudio(); try? FileManager.default.removeItem(at: root) }
+    defer {
+        model.stopAudio()
+        try? FileManager.default.removeItem(at: root)
+    }
     model.pressPlay(deck: .a)
     _ = model.playback.core.renderOffline(frames: 24000)
     model.refreshPlayback()
@@ -57,7 +63,10 @@ private func warmPlayModel() async throws -> (ReplicaModel, URL) {
 
 @Test @MainActor func warmPlayThenStopCannotRestartAfterYield() async throws {
     let (model, root) = try await warmPlayModel()
-    defer { model.stopAudio(); try? FileManager.default.removeItem(at: root) }
+    defer {
+        model.stopAudio()
+        try? FileManager.default.removeItem(at: root)
+    }
     model.pressPlay(deck: .a)
     #expect(model.playbackSnapshot?.a.phase == .playing)
     model.stopAudio()

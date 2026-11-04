@@ -1,4 +1,5 @@
 import Testing
+
 @testable import TDJCore
 
 @Test func cancelledLoadReservationCannotReachTheDeck() throws {
@@ -26,8 +27,10 @@ import Testing
     let core = try SampleTransport()
     var full = false
     for _ in 0..<1024 {
-        do { try core.setMixer(.master, value: 1) }
-        catch TransportError.queueFull { full = true; break }
+        do { try core.setMixer(.master, value: 1) } catch TransportError.queueFull {
+            full = true
+            break
+        }
     }
     try #require(full)
     weak var released: PCMAsset?

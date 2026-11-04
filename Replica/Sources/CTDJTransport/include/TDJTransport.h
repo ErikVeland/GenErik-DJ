@@ -144,7 +144,7 @@ void tdj_asset_destroy(tdj_asset *asset);
 
 tdj_engine *tdj_engine_create(double sample_rate, double output_gain);
 // The metrics owner must outlive the returned engine. No clocks are added to the ordinary factory.
-tdj_engine *tdj_engine_create_keylock_traced(double sample_rate,double output_gain,tdj_callback_metrics *metrics);
+tdj_engine *tdj_engine_create_keylock_traced(double sample_rate, double output_gain, tdj_callback_metrics *metrics);
 void tdj_engine_destroy(tdj_engine *engine);
 // Call only with device output stopped. This never waits for the render consumer.
 int32_t tdj_engine_configure_maximum_output_frames(tdj_engine *engine, uint32_t frames);
@@ -162,7 +162,8 @@ bool tdj_read_snapshot(tdj_engine *engine, tdj_snapshot *snapshot);
 bool tdj_render(tdj_engine *engine, uint32_t count, float *left, float *right);
 // Same render pass, with a separate stereo headphone bus. Null monitor pointers discard that bus.
 bool tdj_render_buses(tdj_engine *engine, uint32_t count, float *left, float *right, float *cue_left, float *cue_right);
-bool tdj_render_recorded_buses(tdj_engine *engine, tdj_recording *recording, uint32_t count, float *left, float *right, float *cue_left, float *cue_right);
+bool tdj_render_recorded_buses(tdj_engine *engine, tdj_recording *recording, uint32_t count, float *left, float *right,
+                               float *cue_left, float *cue_right);
 #ifdef __cplusplus
 }
 #endif

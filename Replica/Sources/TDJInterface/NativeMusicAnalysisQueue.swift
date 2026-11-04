@@ -11,14 +11,17 @@ final class NativeMusicAnalysisQueue: Sendable {
         var position = 0
     }
     private let value: BackgroundWorkValue<State>
-    init(catalog: MusicLibraryCatalog, tracks: [Track], loaded: Set<MusicLibrarySource> = [], analysedMixes: Set<String> = [],
-         worker: BackgroundFileWork) {
-        value = BackgroundWorkValue(State(catalog: catalog, tracks: tracks, loaded: loaded, analysedMixes: analysedMixes), worker: worker)
+    init(
+        catalog: MusicLibraryCatalog, tracks: [Track], loaded: Set<MusicLibrarySource> = [],
+        analysedMixes: Set<String> = [], worker: BackgroundFileWork
+    ) {
+        value = BackgroundWorkValue(
+            State(catalog: catalog, tracks: tracks, loaded: loaded, analysedMixes: analysedMixes), worker: worker)
     }
     func prepare() async -> Int {
         await value.update {
-            $0.items = MusicLibraryReconciliation(catalog: $0.catalog, tracks: $0.tracks)
-                .analysisOrder(loaded: $0.loaded, analysedMixes: $0.analysedMixes)
+            $0.items = MusicLibraryReconciliation(catalog: $0.catalog, tracks: $0.tracks).analysisOrder(
+                loaded: $0.loaded, analysedMixes: $0.analysedMixes)
             return $0.items.count
         } ?? 0
     }

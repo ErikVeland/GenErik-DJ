@@ -1,5 +1,0 @@
-PASS: Waveform starts before queued audio work
-PASS: Full analysis does not block audio loading
-PASS: Analysis starts after audio readiness
-PASS: Play retains a request during loading
-PASS: Play button accepts loading input

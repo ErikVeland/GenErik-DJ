@@ -1,8 +1,8 @@
 import Foundation
 import Testing
+
 @testable import TDJCore
 @testable import TDJInterface
-
 
 private final class PinTestBarrier: @unchecked Sendable {
     private let entered = AsyncStream<Void>.makeStream(bufferingPolicy: .bufferingNewest(1))
@@ -11,7 +11,7 @@ private final class PinTestBarrier: @unchecked Sendable {
     private var expired = false
     func hold() async {
         entered.continuation.yield(())
-        for await _ in released.stream { }
+        for await _ in released.stream {}
     }
     func waitUntilEntered() async -> Bool {
         for await _ in entered.stream { return true }
@@ -42,24 +42,32 @@ private func pinTestWAV(_ file: URL, sample: UInt8) throws {
         var value = value.littleEndian
         withUnsafeBytes(of: &value) { data.append(contentsOf: $0) }
     }
-    text("RIFF"); long(36 + 192000); text("WAVEfmt "); long(16)
-    word(1); word(2); long(48000); long(192000); word(4); word(16)
-    text("data"); long(192000)
+    text("RIFF")
+    long(36 + 192000)
+    text("WAVEfmt ")
+    long(16)
+    word(1)
+    word(2)
+    long(48000)
+    long(192000)
+    word(4)
+    word(16)
+    text("data")
+    long(192000)
     data.append(Data(repeating: sample, count: 192000))
     try data.write(to: file)
 }
 
-@MainActor
-private func pinTestFixture() throws -> (model: ReplicaModel, root: URL, a: Track, b: Track) {
+@MainActor private func pinTestFixture() throws -> (model: ReplicaModel, root: URL, a: Track, b: Track) {
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
     let store = try WorkspaceStore(root: root)
     func track(_ name: String, sample: UInt8, bpm: Double) throws -> Track {
         let file = store.mediaDirectory.appendingPathComponent(name + ".wav")
         try pinTestWAV(file, sample: sample)
-        let analysis = AudioAnalysis(implementation: "Synthetic pin test", configurationID: "pin-synthetic",
-            contentSHA256: try AudioAnalyzer.sha256(url: file), sampleRate: 48000, frameCount: 48000,
-            channelCount: 2, waveformFramesPerBin: 512,
-            waveform: (0..<94).map { _ in WaveformBin(minimum: 0, maximum: 0, rms: 0) },
+        let analysis = AudioAnalysis(
+            implementation: "Synthetic pin test", configurationID: "pin-synthetic",
+            contentSHA256: try AudioAnalyzer.sha256(url: file), sampleRate: 48000, frameCount: 48000, channelCount: 2,
+            waveformFramesPerBin: 512, waveform: (0..<94).map { _ in WaveformBin(minimum: 0, maximum: 0, rms: 0) },
             bpm: bpm, beatAnchorFrame: 0, tempoConfidence: 0, key: nil, keyConfidence: 0, chroma: [], timbre: [])
         return try Track(title: name, mediaFilename: name + ".wav", analysis: analysis)
     }
@@ -73,27 +81,23 @@ private func pinTestFixture() throws -> (model: ReplicaModel, root: URL, a: Trac
     return (model, root, a, b)
 }
 
-@MainActor
-private func pinTestCatalogue(_ model: ReplicaModel) async throws {
-    let xml = "<NML VERSION=\"17\"><HEAD PROGRAM=\"Traktor DJ\"/><COLLECTION ENTRIES=\"1\"><ENTRY><ITUNES PERSISTENT_ID=\"0000000000001234\" PLAYTIME=\"1000\"/><TEMPO BPM=\"120\"/><MUSICAL_KEY VALUE=\"0\"/><CUE_V2 TYPE=\"4\" START=\"0\" HOTCUE=\"-1\"/><CUE_V2 TYPE=\"0\" START=\"500\" HOTCUE=\"2\"/></ENTRY></COLLECTION></NML>"
+@MainActor private func pinTestCatalogue(_ model: ReplicaModel) async throws {
+    let xml =
+        "<NML VERSION=\"17\"><HEAD PROGRAM=\"Traktor DJ\"/><COLLECTION ENTRIES=\"1\"><ENTRY><ITUNES PERSISTENT_ID=\"0000000000001234\" PLAYTIME=\"1000\"/><TEMPO BPM=\"120\"/><MUSICAL_KEY VALUE=\"0\"/><CUE_V2 TYPE=\"4\" START=\"0\" HOTCUE=\"-1\"/><CUE_V2 TYPE=\"0\" START=\"500\" HOTCUE=\"2\"/></ENTRY></COLLECTION></NML>"
     let file = model.store.root.appendingPathComponent("pin-reference.nml")
     try Data(xml.utf8).write(to: file)
     _ = try await model.service.importTraktorCollection(url: file)
 }
 
-@MainActor
-private func pinTestLoad(_ model: ReplicaModel, _ track: Track, _ deck: DeckID = .a) async {
+@MainActor private func pinTestLoad(_ model: ReplicaModel, _ track: Track, _ deck: DeckID = .a) async {
     model.load(trackID: track.id, deck: deck)
     await model.playbackLoads?.value
     model.refreshPlayback()
 }
 
-private func pinTestGrid(_ bpm: Double) throws -> BeatGrid {
-    try BeatGrid(bpm: bpm, anchorFrame: 0, sampleRate: 48000)
-}
+private func pinTestGrid(_ bpm: Double) throws -> BeatGrid { try BeatGrid(bpm: bpm, anchorFrame: 0, sampleRate: 48000) }
 
-@Test @MainActor
-func preparationPinStaleProtectionCaptureCannotChangePlayingDeckAndReloadUsesReference() async throws {
+@Test @MainActor func preparationPinStaleProtectionCaptureCannotChangePlayingDeckAndReloadUsesReference() async throws {
     let f = try pinTestFixture()
     defer { try? FileManager.default.removeItem(at: f.root) }
     try await pinTestCatalogue(f.model)
@@ -119,11 +123,15 @@ func preparationPinStaleProtectionCaptureCannotChangePlayingDeckAndReloadUsesRef
     await f.model.finishForShutdown()
 }
 
-@Test @MainActor
-func preparationPinQueuedLoadKeepsGridAfterItsSaveClearsTheDraft() async throws {
-    let f = try pinTestFixture(), gate = PinTestBarrier()
+@Test @MainActor func preparationPinQueuedLoadKeepsGridAfterItsSaveClearsTheDraft() async throws {
+    let f = try pinTestFixture()
+    let gate = PinTestBarrier()
     let watchdog = gate.watchdog()
-    defer { gate.open(); watchdog.cancel(); try? FileManager.default.removeItem(at: f.root) }
+    defer {
+        gate.open()
+        watchdog.cancel()
+        try? FileManager.default.removeItem(at: f.root)
+    }
     f.model.playbackLoads = Task { await gate.hold() }
     try #require(await gate.waitUntilEntered())
     f.model.load(trackID: f.a.id, deck: .a)
@@ -140,14 +148,16 @@ func preparationPinQueuedLoadKeepsGridAfterItsSaveClearsTheDraft() async throws 
     await f.model.finishForShutdown()
 }
 
-@Test @MainActor
-func preparationPinDecodedLoadReconcilesAnEditWhosePersistenceAlreadyFinished() async throws {
-    let f = try pinTestFixture(), gate = PinTestBarrier()
+@Test @MainActor func preparationPinDecodedLoadReconcilesAnEditWhosePersistenceAlreadyFinished() async throws {
+    let f = try pinTestFixture()
+    let gate = PinTestBarrier()
     let watchdog = gate.watchdog()
-    defer { gate.open(); watchdog.cancel(); try? FileManager.default.removeItem(at: f.root) }
-    f.model.playback.loadCheckpoint = { checkpoint in
-        if case .decoded = checkpoint { await gate.hold() }
+    defer {
+        gate.open()
+        watchdog.cancel()
+        try? FileManager.default.removeItem(at: f.root)
     }
+    f.model.playback.loadCheckpoint = { checkpoint in if case .decoded = checkpoint { await gate.hold() } }
     f.model.load(trackID: f.a.id, deck: .a)
     try #require(await gate.waitUntilEntered())
     let edited = try pinTestGrid(137)
@@ -164,11 +174,15 @@ func preparationPinDecodedLoadReconcilesAnEditWhosePersistenceAlreadyFinished() 
     await f.model.finishForShutdown()
 }
 
-@Test @MainActor
-func preparationPinGridQueueRejectionAfterAcceptanceKeepsActualNewIdentity() async throws {
-    let f = try pinTestFixture(), gate = PinTestBarrier()
+@Test @MainActor func preparationPinGridQueueRejectionAfterAcceptanceKeepsActualNewIdentity() async throws {
+    let f = try pinTestFixture()
+    let gate = PinTestBarrier()
     let watchdog = gate.watchdog()
-    defer { gate.open(); watchdog.cancel(); try? FileManager.default.removeItem(at: f.root) }
+    defer {
+        gate.open()
+        watchdog.cancel()
+        try? FileManager.default.removeItem(at: f.root)
+    }
     await pinTestLoad(f.model, f.a)
     let previousGeneration = f.model.playback.generations[.a]
     var acceptedGeneration: UInt64?
@@ -180,8 +194,10 @@ func preparationPinGridQueueRejectionAfterAcceptanceKeepsActualNewIdentity() asy
         case .accepted(let generation):
             acceptedGeneration = generation
             for _ in 0..<256 {
-                do { try f.model.playback.core.setMasterBPM(120) }
-                catch TransportError.queueFull { queueWasFull = true; break }
+                do { try f.model.playback.core.setMasterBPM(120) } catch TransportError.queueFull {
+                    queueWasFull = true
+                    break
+                }
             }
         }
     }
@@ -205,11 +221,15 @@ func preparationPinGridQueueRejectionAfterAcceptanceKeepsActualNewIdentity() asy
     await f.model.finishForShutdown()
 }
 
-@Test @MainActor
-func preparationPinObsoleteAcceptedLoadIsRestoredWhenLatestReplacementFails() async throws {
-    let f = try pinTestFixture(), gate = PinTestBarrier()
+@Test @MainActor func preparationPinObsoleteAcceptedLoadIsRestoredWhenLatestReplacementFails() async throws {
+    let f = try pinTestFixture()
+    let gate = PinTestBarrier()
     let watchdog = gate.watchdog()
-    defer { gate.open(); watchdog.cancel(); try? FileManager.default.removeItem(at: f.root) }
+    defer {
+        gate.open()
+        watchdog.cancel()
+        try? FileManager.default.removeItem(at: f.root)
+    }
     var acceptedGeneration: UInt64?
     f.model.playback.loadCheckpoint = { checkpoint in
         if case .accepted(let generation) = checkpoint {
@@ -234,8 +254,7 @@ func preparationPinObsoleteAcceptedLoadIsRestoredWhenLatestReplacementFails() as
     await f.model.finishForShutdown()
 }
 
-@Test @MainActor
-func preparationPinTwoPlayingDecksKeepIndependentGridsAfterOneDeckEdit() async throws {
+@Test @MainActor func preparationPinTwoPlayingDecksKeepIndependentGridsAfterOneDeckEdit() async throws {
     let f = try pinTestFixture()
     defer { try? FileManager.default.removeItem(at: f.root) }
     await pinTestLoad(f.model, f.a, .a)
@@ -257,15 +276,17 @@ func preparationPinTwoPlayingDecksKeepIndependentGridsAfterOneDeckEdit() async t
     await f.model.finishForShutdown()
 }
 
-@Test @MainActor
-func preparationPinSameTrackPreparingDeckReceivesTheLatestManualGrid() async throws {
-    let f = try pinTestFixture(), gate = PinTestBarrier()
+@Test @MainActor func preparationPinSameTrackPreparingDeckReceivesTheLatestManualGrid() async throws {
+    let f = try pinTestFixture()
+    let gate = PinTestBarrier()
     let watchdog = gate.watchdog()
-    defer { gate.open(); watchdog.cancel(); try? FileManager.default.removeItem(at: f.root) }
-    await pinTestLoad(f.model, f.a, .a)
-    f.model.playback.loadCheckpoint = { checkpoint in
-        if case .decoded = checkpoint { await gate.hold() }
+    defer {
+        gate.open()
+        watchdog.cancel()
+        try? FileManager.default.removeItem(at: f.root)
     }
+    await pinTestLoad(f.model, f.a, .a)
+    f.model.playback.loadCheckpoint = { checkpoint in if case .decoded = checkpoint { await gate.hold() } }
     f.model.load(trackID: f.a.id, deck: .b)
     try #require(await gate.waitUntilEntered())
     f.model.saveGrid(try pinTestGrid(117), deck: .a)
@@ -281,8 +302,7 @@ func preparationPinSameTrackPreparingDeckReceivesTheLatestManualGrid() async thr
     await f.model.finishForShutdown()
 }
 
-@Test @MainActor
-func preparationPinCancellingHeldGridPreviewRevealsCommittedPreparation() async throws {
+@Test @MainActor func preparationPinCancellingHeldGridPreviewRevealsCommittedPreparation() async throws {
     let f = try pinTestFixture()
     defer { try? FileManager.default.removeItem(at: f.root) }
     await pinTestLoad(f.model, f.a)
@@ -305,16 +325,18 @@ func preparationPinCancellingHeldGridPreviewRevealsCommittedPreparation() async 
     await f.model.finishForShutdown()
 }
 
-@Test @MainActor
-func preparationPinPreparingKeyEditAndCueDeletionSurviveLoadAndReplay() async throws {
-    let f = try pinTestFixture(), gate = PinTestBarrier()
+@Test @MainActor func preparationPinPreparingKeyEditAndCueDeletionSurviveLoadAndReplay() async throws {
+    let f = try pinTestFixture()
+    let gate = PinTestBarrier()
     let watchdog = gate.watchdog()
-    defer { gate.open(); watchdog.cancel(); try? FileManager.default.removeItem(at: f.root) }
+    defer {
+        gate.open()
+        watchdog.cancel()
+        try? FileManager.default.removeItem(at: f.root)
+    }
     try await pinTestCatalogue(f.model)
     f.model.adoptLibrary(try await f.model.service.reuseTraktorPreparationForExistingTracks())
-    f.model.playback.loadCheckpoint = { checkpoint in
-        if case .decoded = checkpoint { await gate.hold() }
-    }
+    f.model.playback.loadCheckpoint = { checkpoint in if case .decoded = checkpoint { await gate.hold() } }
     f.model.load(trackID: f.a.id, deck: .a)
     try #require(await gate.waitUntilEntered())
     #expect(f.model.performance.cues[f.a.id]?[2] != nil)
@@ -340,20 +362,21 @@ func preparationPinPreparingKeyEditAndCueDeletionSurviveLoadAndReplay() async th
     await f.model.finishForShutdown()
 }
 
-
-@Test @MainActor
-func preparationPinCancelledWaitStillPublishesTheLaterNativeAcceptance() async throws {
-    let f=try pinTestFixture()
-    defer { try? FileManager.default.removeItem(at:f.root) }
-    await pinTestLoad(f.model,f.a)
-    let old=f.model.playback.core.snapshot()?.a.generation
+@Test @MainActor func preparationPinCancelledWaitStillPublishesTheLaterNativeAcceptance() async throws {
+    let f = try pinTestFixture()
+    defer { try? FileManager.default.removeItem(at: f.root) }
+    await pinTestLoad(f.model, f.a)
+    let old = f.model.playback.core.snapshot()?.a.generation
     var submitted: UInt64?
     f.model.playback.loadCheckpoint = { checkpoint in
-        if case .submitted(let generation)=checkpoint { submitted=generation;throw CancellationError() }
+        if case .submitted(let generation) = checkpoint {
+            submitted = generation
+            throw CancellationError()
+        }
     }
-    f.model.load(trackID:f.b.id,deck:.a)
+    f.model.load(trackID: f.b.id, deck: .a)
     await f.model.playbackLoads?.value
-    f.model.playback.loadCheckpoint=nil
+    f.model.playback.loadCheckpoint = nil
     f.model.refreshPlayback()
     #expect(submitted != nil && submitted != old)
     #expect(f.model.playback.core.snapshot()?.a.generation == submitted)
@@ -365,26 +388,30 @@ func preparationPinCancelledWaitStillPublishesTheLaterNativeAcceptance() async t
     await f.model.finishForShutdown()
 }
 
-@Test @MainActor
-func preparationPinLateObsoleteAcceptanceSurvivesTheLatestReplacementFailure() async throws {
-    let f=try pinTestFixture(),gate=PinTestBarrier()
-    let watchdog=gate.watchdog()
-    defer { gate.open();watchdog.cancel();try? FileManager.default.removeItem(at:f.root) }
+@Test @MainActor func preparationPinLateObsoleteAcceptanceSurvivesTheLatestReplacementFailure() async throws {
+    let f = try pinTestFixture()
+    let gate = PinTestBarrier()
+    let watchdog = gate.watchdog()
+    defer {
+        gate.open()
+        watchdog.cancel()
+        try? FileManager.default.removeItem(at: f.root)
+    }
     var submitted: UInt64?
     f.model.playback.loadCheckpoint = { checkpoint in
-        if case .submitted(let generation)=checkpoint {
-            submitted=generation
+        if case .submitted(let generation) = checkpoint {
+            submitted = generation
             await gate.hold()
             throw CancellationError()
         }
     }
-    f.model.load(trackID:f.a.id,deck:.a)
+    f.model.load(trackID: f.a.id, deck: .a)
     try #require(await gate.waitUntilEntered())
-    f.model.load(trackID:f.b.id,deck:.a)
-    try FileManager.default.removeItem(at:f.model.store.mediaDirectory.appendingPathComponent(f.b.mediaFilename))
+    f.model.load(trackID: f.b.id, deck: .a)
+    try FileManager.default.removeItem(at: f.model.store.mediaDirectory.appendingPathComponent(f.b.mediaFilename))
     gate.open()
     await f.model.playbackLoads?.value
-    f.model.playback.loadCheckpoint=nil
+    f.model.playback.loadCheckpoint = nil
     f.model.refreshPlayback()
     #expect(!gate.timedOut)
     #expect(f.model.playback.core.snapshot()?.a.generation == submitted)
@@ -394,86 +421,96 @@ func preparationPinLateObsoleteAcceptanceSurvivesTheLatestReplacementFailure() a
     await f.model.finishForShutdown()
 }
 
-
-@Test @MainActor
-func preparationPinHeldGridContactCannotWriteIntoASameTrackReload() async throws {
-    let f=try pinTestFixture()
-    defer { try? FileManager.default.removeItem(at:f.root) }
-    await pinTestLoad(f.model,f.a)
-    let old=f.model.playback.core.snapshot()?.a.generation
-    let gesture=WaveformGestureSession()
+@Test @MainActor func preparationPinHeldGridContactCannotWriteIntoASameTrackReload() async throws {
+    let f = try pinTestFixture()
+    defer { try? FileManager.default.removeItem(at: f.root) }
+    await pinTestLoad(f.model, f.a)
+    let old = f.model.playback.core.snapshot()?.a.generation
+    let gesture = WaveformGestureSession()
     f.model.editing.insert(.a)
-    let first=SurfacePoint(id:1,x:0.5,y:0.5),moved=SurfacePoint(id:1,x:0.7,y:0.5)
-    gesture.handle(.init(phase:.began,points:[first],ending:[]),model:f.model,deck:.a,span:48000)
-    gesture.handle(.init(phase:.moved,points:[moved],ending:[]),model:f.model,deck:.a,span:48000)
+    let first = SurfacePoint(id: 1, x: 0.5, y: 0.5)
+    let moved = SurfacePoint(id: 1, x: 0.7, y: 0.5)
+    gesture.handle(.init(phase: .began, points: [first], ending: []), model: f.model, deck: .a, span: 48000)
+    gesture.handle(.init(phase: .moved, points: [moved], ending: []), model: f.model, deck: .a, span: 48000)
     try #require(f.model.gridDraft[.a] != nil)
-    await pinTestLoad(f.model,f.a)
+    await pinTestLoad(f.model, f.a)
     #expect(f.model.playback.core.snapshot()?.a.generation != old)
     f.model.editing.insert(.a)
-    let fresh=try pinTestGrid(137)
-    f.model.gridDraft[.a]=fresh
-    gesture.handle(.init(phase:.ended,points:[moved],ending:[1]),model:f.model,deck:.a,span:48000)
+    let fresh = try pinTestGrid(137)
+    f.model.gridDraft[.a] = fresh
+    gesture.handle(.init(phase: .ended, points: [moved], ending: [1]), model: f.model, deck: .a, span: 48000)
     #expect(f.model.gridDraft[.a] == fresh)
     #expect(f.model.track(.a)?.grid?.bpm == 110)
     #expect(f.model.playback.core.snapshot()?.a.grid?.bpm == 110)
     await f.model.preparationWrites?.value
-    #expect(try f.model.store.load(includeWaveforms:false).tracks.first { $0.id==f.a.id }?.preparation.grid?.bpm == 110)
-    f.model.gridDraft[.a]=nil
+    #expect(
+        try f.model.store.load(includeWaveforms: false).tracks.first { $0.id == f.a.id }?.preparation.grid?.bpm == 110)
+    f.model.gridDraft[.a] = nil
     await f.model.finishForShutdown()
 }
 
 @Test(arguments: ["unchanged", "minor", "cleared"]) @MainActor
 func preparationPinLateAcceptanceRetainsManualKeyEditedBeforeCancellation(_ mode: String) async throws {
-    let f=try pinTestFixture(),gate=PinTestBarrier()
-    let watchdog=gate.watchdog()
-    defer { gate.open();watchdog.cancel();try? FileManager.default.removeItem(at:f.root) }
+    let f = try pinTestFixture()
+    let gate = PinTestBarrier()
+    let watchdog = gate.watchdog()
+    defer {
+        gate.open()
+        watchdog.cancel()
+        try? FileManager.default.removeItem(at: f.root)
+    }
     try await pinTestCatalogue(f.model)
     f.model.adoptLibrary(try await f.model.service.reuseTraktorPreparationForExistingTracks())
     var submitted: UInt64?
     f.model.playback.loadCheckpoint = { checkpoint in
-        if case .submitted(let generation)=checkpoint {
-            submitted=generation
+        if case .submitted(let generation) = checkpoint {
+            submitted = generation
             await gate.hold()
             throw CancellationError()
         }
     }
-    f.model.load(trackID:f.a.id,deck:.a)
+    f.model.load(trackID: f.a.id, deck: .a)
     try #require(await gate.waitUntilEntered())
-    var edited=try #require(f.model.track(.a)?.preparation)
-    let key = mode == "minor" ? MusicalKey(tonic:2,mode:.minor) : MusicalKey(tonic:0,mode:.major)
+    var edited = try #require(f.model.track(.a)?.preparation)
+    let key = mode == "minor" ? MusicalKey(tonic: 2, mode: .minor) : MusicalKey(tonic: 0, mode: .major)
     let correction: MusicalKey? = mode == "cleared" ? nil : key
     if mode != "unchanged" {
-        edited.correctedKey=MusicalKey(tonic:2,mode:.minor)
-        f.model.adoptLibrary(try await f.model.service.updatePreparation(trackID:f.a.id,preparation:edited))
+        edited.correctedKey = MusicalKey(tonic: 2, mode: .minor)
+        f.model.adoptLibrary(try await f.model.service.updatePreparation(trackID: f.a.id, preparation: edited))
         if mode == "cleared" {
-            edited.correctedKey=nil
-            f.model.adoptLibrary(try await f.model.service.updatePreparation(trackID:f.a.id,preparation:edited))
+            edited.correctedKey = nil
+            f.model.adoptLibrary(try await f.model.service.updatePreparation(trackID: f.a.id, preparation: edited))
         }
     }
     #expect(f.model.track(.a)?.key == key)
     #expect(f.model.track(.a)?.preparation.correctedKey == correction)
     gate.open()
     await f.model.playbackLoads?.value
-    f.model.playback.loadCheckpoint=nil
+    f.model.playback.loadCheckpoint = nil
     f.model.refreshPlayback()
     #expect(!gate.timedOut)
     #expect(f.model.playback.core.snapshot()?.a.generation == submitted)
     #expect(f.model.loaded[.a] == f.a.id)
     if mode != "unchanged" {
-        #expect(f.model.library.tracks.first { $0.id==f.a.id }?.preparation.correctedKey == correction)
+        #expect(f.model.library.tracks.first { $0.id == f.a.id }?.preparation.correctedKey == correction)
     }
     #expect(f.model.track(.a)?.key == key)
     #expect(f.model.track(.a)?.preparation.correctedKey == correction)
     await f.model.finishForShutdown()
 }
 
-@Test(arguments:["plain-submitted","imported-submitted","plain-accepted","imported-accepted"]) @MainActor
+@Test(arguments: ["plain-submitted", "imported-submitted", "plain-accepted", "imported-accepted"]) @MainActor
 func preparationPinLateAcceptanceMustReconcilePersistedManualGrid(_ cut: String) async throws {
     let imported = cut.hasPrefix("imported")
     let submittedCut = cut.hasSuffix("submitted")
-    let f=try pinTestFixture(),gate=PinTestBarrier()
-    let watchdog=gate.watchdog()
-    defer { gate.open();watchdog.cancel();try? FileManager.default.removeItem(at:f.root) }
+    let f = try pinTestFixture()
+    let gate = PinTestBarrier()
+    let watchdog = gate.watchdog()
+    defer {
+        gate.open()
+        watchdog.cancel()
+        try? FileManager.default.removeItem(at: f.root)
+    }
     if imported {
         try await pinTestCatalogue(f.model)
         f.model.adoptLibrary(try await f.model.service.reuseTraktorPreparationForExistingTracks())
@@ -482,30 +519,32 @@ func preparationPinLateAcceptanceMustReconcilePersistedManualGrid(_ cut: String)
     f.model.playback.loadCheckpoint = { checkpoint in
         switch checkpoint {
         case .submitted(let generation) where submittedCut:
-            submitted=generation
+            submitted = generation
             await gate.hold()
             throw CancellationError()
         case .accepted(let generation) where !submittedCut:
-            submitted=generation
+            submitted = generation
             await gate.hold()
             throw CancellationError()
         default: break
         }
     }
-    f.model.load(trackID:f.a.id,deck:.a)
+    f.model.load(trackID: f.a.id, deck: .a)
     try #require(await gate.waitUntilEntered())
-    let edited=try pinTestGrid(117)
-    f.model.saveGrid(edited,deck:.a)
+    let edited = try pinTestGrid(117)
+    f.model.saveGrid(edited, deck: .a)
     await f.model.preparationWrites?.value
     #expect(f.model.gridDraft[.a] == nil)
-    #expect(f.model.library.tracks.first { $0.id==f.a.id }?.preparation.grid == edited)
+    #expect(f.model.library.tracks.first { $0.id == f.a.id }?.preparation.grid == edited)
     #expect(f.model.grid(.a) == edited)
     gate.open()
     await f.model.playbackLoads?.value
-    f.model.playback.loadCheckpoint=nil
+    f.model.playback.loadCheckpoint = nil
     f.model.refreshPlayback()
-    let native=try #require(f.model.playback.core.snapshot())
-    print("LATE_GRID_REVIEW imported=\(imported) generation=\(native.a.generation) native=\(native.a.grid?.bpm ?? 0) model=\(f.model.grid(.a)?.bpm ?? 0) saved=\(f.model.library.tracks.first { $0.id==f.a.id }?.preparation.grid?.bpm ?? 0)")
+    let native = try #require(f.model.playback.core.snapshot())
+    print(
+        "LATE_GRID_REVIEW imported=\(imported) generation=\(native.a.generation) native=\(native.a.grid?.bpm ?? 0) model=\(f.model.grid(.a)?.bpm ?? 0) saved=\(f.model.library.tracks.first { $0.id==f.a.id }?.preparation.grid?.bpm ?? 0)"
+    )
     #expect(!gate.timedOut)
     #expect(native.a.generation == submitted)
     #expect(f.model.loaded[.a] == f.a.id)
@@ -515,34 +554,40 @@ func preparationPinLateAcceptanceMustReconcilePersistedManualGrid(_ cut: String)
     await f.model.finishForShutdown()
 }
 
-@Test @MainActor
-func preparationPinLateGridQueueFailureRetainsActualOwnershipAndSavedEdit() async throws {
-    let f=try pinTestFixture(),gate=PinTestBarrier()
-    let watchdog=gate.watchdog()
-    defer { gate.open();watchdog.cancel();try? FileManager.default.removeItem(at:f.root) }
+@Test @MainActor func preparationPinLateGridQueueFailureRetainsActualOwnershipAndSavedEdit() async throws {
+    let f = try pinTestFixture()
+    let gate = PinTestBarrier()
+    let watchdog = gate.watchdog()
+    defer {
+        gate.open()
+        watchdog.cancel()
+        try? FileManager.default.removeItem(at: f.root)
+    }
     var accepted: UInt64?
-    var queueWasFull=false
+    var queueWasFull = false
     f.model.playback.loadCheckpoint = { checkpoint in
         switch checkpoint {
         case .decoded: await gate.hold()
         case .accepted(let generation):
-            accepted=generation
+            accepted = generation
             for _ in 0..<256 {
-                do { try f.model.playback.core.setMasterBPM(120) }
-                catch TransportError.queueFull { queueWasFull=true;break }
+                do { try f.model.playback.core.setMasterBPM(120) } catch TransportError.queueFull {
+                    queueWasFull = true
+                    break
+                }
             }
             throw CancellationError()
         default: break
         }
     }
-    f.model.load(trackID:f.a.id,deck:.a)
+    f.model.load(trackID: f.a.id, deck: .a)
     try #require(await gate.waitUntilEntered())
-    let edited=try pinTestGrid(117)
-    f.model.saveGrid(edited,deck:.a)
+    let edited = try pinTestGrid(117)
+    f.model.saveGrid(edited, deck: .a)
     await f.model.preparationWrites?.value
     gate.open()
     await f.model.playbackLoads?.value
-    f.model.playback.loadCheckpoint=nil
+    f.model.playback.loadCheckpoint = nil
     f.model.refreshPlayback()
     #expect(!gate.timedOut && queueWasFull)
     #expect(f.model.loaded[.a] == f.a.id)
@@ -550,37 +595,41 @@ func preparationPinLateGridQueueFailureRetainsActualOwnershipAndSavedEdit() asyn
     #expect(f.model.gridDraft[.a] == nil)
     #expect(f.model.grid(.a)?.bpm == 110)
     #expect(f.model.playback.core.snapshot()?.a.grid?.bpm == 110)
-    #expect(f.model.library.tracks.first { $0.id==f.a.id }?.preparation.grid == edited)
+    #expect(f.model.library.tracks.first { $0.id == f.a.id }?.preparation.grid == edited)
     #expect(!f.model.status.isEmpty)
-    await pinTestLoad(f.model,f.a)
+    await pinTestLoad(f.model, f.a)
     #expect(f.model.grid(.a) == edited)
     #expect(f.model.playback.core.snapshot()?.a.grid == edited)
     await f.model.finishForShutdown()
 }
 
-@Test @MainActor
-func preparationPinLateGridSurvivesObsoleteAcceptanceAndReplacementFailure() async throws {
-    let f=try pinTestFixture(),gate=PinTestBarrier()
-    let watchdog=gate.watchdog()
-    defer { gate.open();watchdog.cancel();try? FileManager.default.removeItem(at:f.root) }
+@Test @MainActor func preparationPinLateGridSurvivesObsoleteAcceptanceAndReplacementFailure() async throws {
+    let f = try pinTestFixture()
+    let gate = PinTestBarrier()
+    let watchdog = gate.watchdog()
+    defer {
+        gate.open()
+        watchdog.cancel()
+        try? FileManager.default.removeItem(at: f.root)
+    }
     var submitted: UInt64?
     f.model.playback.loadCheckpoint = { checkpoint in
-        if case .submitted(let generation)=checkpoint {
-            submitted=generation
+        if case .submitted(let generation) = checkpoint {
+            submitted = generation
             await gate.hold()
             throw CancellationError()
         }
     }
-    f.model.load(trackID:f.a.id,deck:.a)
+    f.model.load(trackID: f.a.id, deck: .a)
     try #require(await gate.waitUntilEntered())
-    let edited=try pinTestGrid(117)
-    f.model.saveGrid(edited,deck:.a)
+    let edited = try pinTestGrid(117)
+    f.model.saveGrid(edited, deck: .a)
     await f.model.preparationWrites?.value
-    f.model.load(trackID:f.b.id,deck:.a)
-    try FileManager.default.removeItem(at:f.model.store.mediaDirectory.appendingPathComponent(f.b.mediaFilename))
+    f.model.load(trackID: f.b.id, deck: .a)
+    try FileManager.default.removeItem(at: f.model.store.mediaDirectory.appendingPathComponent(f.b.mediaFilename))
     gate.open()
     await f.model.playbackLoads?.value
-    f.model.playback.loadCheckpoint=nil
+    f.model.playback.loadCheckpoint = nil
     f.model.refreshPlayback()
     #expect(!gate.timedOut)
     #expect(f.model.loaded[.a] == f.a.id)
@@ -590,28 +639,32 @@ func preparationPinLateGridSurvivesObsoleteAcceptanceAndReplacementFailure() asy
     await f.model.finishForShutdown()
 }
 
-@Test @MainActor
-func preparationPinLateGridForPreparingTwinKeepsPlayingDeckRunning() async throws {
-    let f=try pinTestFixture(),gate=PinTestBarrier()
-    let watchdog=gate.watchdog()
-    defer { gate.open();watchdog.cancel();try? FileManager.default.removeItem(at:f.root) }
-    await pinTestLoad(f.model,f.a,.a)
-    f.model.pressPlay(deck:.a)
-    _=f.model.playback.core.renderOffline(frames:256)
+@Test @MainActor func preparationPinLateGridForPreparingTwinKeepsPlayingDeckRunning() async throws {
+    let f = try pinTestFixture()
+    let gate = PinTestBarrier()
+    let watchdog = gate.watchdog()
+    defer {
+        gate.open()
+        watchdog.cancel()
+        try? FileManager.default.removeItem(at: f.root)
+    }
+    await pinTestLoad(f.model, f.a, .a)
+    f.model.pressPlay(deck: .a)
+    _ = f.model.playback.core.renderOffline(frames: 256)
     f.model.playback.loadCheckpoint = { checkpoint in
-        if case .submitted=checkpoint {
+        if case .submitted = checkpoint {
             await gate.hold()
             throw CancellationError()
         }
     }
-    f.model.load(trackID:f.a.id,deck:.b)
+    f.model.load(trackID: f.a.id, deck: .b)
     try #require(await gate.waitUntilEntered())
-    let edited=try pinTestGrid(117)
-    f.model.saveGrid(edited,deck:.a)
+    let edited = try pinTestGrid(117)
+    f.model.saveGrid(edited, deck: .a)
     await f.model.preparationWrites?.value
     gate.open()
     await f.model.playbackLoads?.value
-    f.model.playback.loadCheckpoint=nil
+    f.model.playback.loadCheckpoint = nil
     f.model.refreshPlayback()
     #expect(!gate.timedOut)
     #expect(f.model.playback.core.snapshot()?.a.phase == .playing)
@@ -622,16 +675,15 @@ func preparationPinLateGridForPreparingTwinKeepsPlayingDeckRunning() async throw
     await f.model.finishForShutdown()
 }
 
-@Test @MainActor
-func preparationPinConfirmedGridRejectsAnObsoleteNativeGeneration() async throws {
-    let f=try pinTestFixture()
-    defer { try? FileManager.default.removeItem(at:f.root) }
-    await pinTestLoad(f.model,f.a)
-    let old=try #require(f.model.playback.generations[.a])
-    await pinTestLoad(f.model,f.b)
-    var committed=false
-    #expect(throws:TransportError.stale) {
-        try f.model.playback.reconcileGrid(pinTestGrid(117),deck:.a,generation:old) { committed=true }
+@Test @MainActor func preparationPinConfirmedGridRejectsAnObsoleteNativeGeneration() async throws {
+    let f = try pinTestFixture()
+    defer { try? FileManager.default.removeItem(at: f.root) }
+    await pinTestLoad(f.model, f.a)
+    let old = try #require(f.model.playback.generations[.a])
+    await pinTestLoad(f.model, f.b)
+    var committed = false
+    #expect(throws: TransportError.stale) {
+        try f.model.playback.reconcileGrid(pinTestGrid(117), deck: .a, generation: old) { committed = true }
     }
     #expect(!committed)
     #expect(f.model.loaded[.a] == f.b.id)
@@ -639,31 +691,32 @@ func preparationPinConfirmedGridRejectsAnObsoleteNativeGeneration() async throws
     await f.model.finishForShutdown()
 }
 
-@Test @MainActor
-func preparationPinConfirmedGridSurvivesColdSourcePreparation() async throws {
-    var base=URL(fileURLWithPath:#filePath)
+@Test @MainActor func preparationPinConfirmedGridSurvivesColdSourcePreparation() async throws {
+    var base = URL(fileURLWithPath: #filePath)
     for _ in 0..<4 { base.deleteLastPathComponent() }
-    let source=base.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures/clock-a-120.wav")
-    let root=FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-    defer { try? FileManager.default.removeItem(at:root) }
-    let store=try WorkspaceStore(root:root)
-    try FileManager.default.copyItem(at:source,to:store.mediaDirectory.appendingPathComponent("streamed.wav"))
-    let analysis=AudioAnalysis(implementation:"Synthetic streamed grid",configurationID:"fixture",
-        contentSHA256:try AudioAnalyzer.sha256(url:source),sampleRate:44100,frameCount:705600,channelCount:2,
-        waveformFramesPerBin:441,waveform:[],bpm:120,beatAnchorFrame:0,tempoConfidence:1,key:nil,keyConfidence:0,chroma:[],timbre:[])
-    let track=try Track(title:"Synthetic streamed grid",mediaFilename:"streamed.wav",analysis:analysis)
-    let playback=try PlaybackController(offline:true,streamingPlayback:true)
-    try await playback.load(track:track,store:store,deck:.a)
-    let generation=try #require(playback.generations[.a])
+    let source = base.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures/clock-a-120.wav")
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let store = try WorkspaceStore(root: root)
+    try FileManager.default.copyItem(at: source, to: store.mediaDirectory.appendingPathComponent("streamed.wav"))
+    let analysis = AudioAnalysis(
+        implementation: "Synthetic streamed grid", configurationID: "fixture",
+        contentSHA256: try AudioAnalyzer.sha256(url: source), sampleRate: 44100, frameCount: 705600, channelCount: 2,
+        waveformFramesPerBin: 441, waveform: [], bpm: 120, beatAnchorFrame: 0, tempoConfidence: 1, key: nil,
+        keyConfidence: 0, chroma: [], timbre: [])
+    let track = try Track(title: "Synthetic streamed grid", mediaFilename: "streamed.wav", analysis: analysis)
+    let playback = try PlaybackController(offline: true, streamingPlayback: true)
+    try await playback.load(track: track, store: store, deck: .a)
+    let generation = try #require(playback.generations[.a])
     try playback.play(.a)
     await playback.flushSourcePreparations()
-    _=playback.core.renderOffline(frames:256)
+    _ = playback.core.renderOffline(frames: 256)
     try #require(playback.core.snapshot()?.a.phase == .playing)
     try playback.core.configureMaximumOutputFrames(65536)
-    let before=playback.sourcePreparationRequests
-    let grid=try BeatGrid(bpm:15,anchorFrame:0,sampleRate:44100)
-    var commits=0
-    try playback.reconcileGrid(grid,deck:.a,generation:generation) { commits+=1 }
+    let before = playback.sourcePreparationRequests
+    let grid = try BeatGrid(bpm: 15, anchorFrame: 0, sampleRate: 44100)
+    var commits = 0
+    try playback.reconcileGrid(grid, deck: .a, generation: generation) { commits += 1 }
     await playback.flushSourcePreparations()
     #expect(playback.sourcePreparationRequests > before)
     #expect(playback.sourcePreparationFailures == 0)
@@ -673,31 +726,27 @@ func preparationPinConfirmedGridSurvivesColdSourcePreparation() async throws {
     playback.stopAudio()
 }
 
-@Test @MainActor
-func preparationPinConfirmedGridDoesNotPublishANativeRejection() async throws {
-    let f=try pinTestFixture()
-    defer { try? FileManager.default.removeItem(at:f.root) }
-    await pinTestLoad(f.model,f.a)
-    let generation=try #require(f.model.playback.generations[.a])
-    let rejected=f.model.playback.rejectedCommandCount
-    var committed=false
-    try f.model.playback.reconcileGrid(pinTestGrid(1),deck:.a,generation:generation) { committed=true }
+@Test @MainActor func preparationPinConfirmedGridDoesNotPublishANativeRejection() async throws {
+    let f = try pinTestFixture()
+    defer { try? FileManager.default.removeItem(at: f.root) }
+    await pinTestLoad(f.model, f.a)
+    let generation = try #require(f.model.playback.generations[.a])
+    let rejected = f.model.playback.rejectedCommandCount
+    var committed = false
+    try f.model.playback.reconcileGrid(pinTestGrid(1), deck: .a, generation: generation) { committed = true }
     #expect(!committed)
-    #expect(f.model.playback.rejectedCommandCount == rejected+1)
+    #expect(f.model.playback.rejectedCommandCount == rejected + 1)
     #expect(f.model.playback.core.snapshot()?.a.generation == generation)
     #expect(f.model.playback.core.snapshot()?.a.grid?.bpm == 110)
     #expect(f.model.grid(.a)?.bpm == 110)
     await f.model.finishForShutdown()
 }
 
-@Test @MainActor
-func recordingRetainsTitleForLateAcceptedCancelledLoad() async throws {
+@Test @MainActor func recordingRetainsTitleForLateAcceptedCancelledLoad() async throws {
     let f = try pinTestFixture()
     defer { try? FileManager.default.removeItem(at: f.root) }
     await f.model.toggleRecording()
-    f.model.playback.loadCheckpoint = { checkpoint in
-        if case .submitted = checkpoint { throw CancellationError() }
-    }
+    f.model.playback.loadCheckpoint = { checkpoint in if case .submitted = checkpoint { throw CancellationError() } }
     f.model.load(trackID: f.a.id, deck: .a)
     await f.model.playbackLoads?.value
     f.model.playback.loadCheckpoint = nil
@@ -711,15 +760,17 @@ func recordingRetainsTitleForLateAcceptedCancelledLoad() async throws {
     #expect(text.contains(f.a.title))
 }
 
-@Test @MainActor
-func recordingRetainsBothTitlesAcrossRecorderStartup() async throws {
+@Test @MainActor func recordingRetainsBothTitlesAcrossRecorderStartup() async throws {
     let f = try pinTestFixture()
     defer { try? FileManager.default.removeItem(at: f.root) }
     await pinTestLoad(f.model, f.a)
     f.model.pressPlay(deck: .a)
     let barrier = PinTestBarrier()
     let watchdog = barrier.watchdog()
-    defer { barrier.open(); watchdog.cancel() }
+    defer {
+        barrier.open()
+        watchdog.cancel()
+    }
     f.model.playback.recordingPreparedCheckpoint = { await barrier.hold() }
     let start = Task { await f.model.toggleRecording() }
     #expect(await barrier.waitUntilEntered())

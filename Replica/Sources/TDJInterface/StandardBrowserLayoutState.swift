@@ -20,27 +20,33 @@ struct StandardBrowserLayoutState: Equatable {
         guard translation.isFinite else { return }
         detailOffset = detailHidden ? min(0, translation) : max(0, translation)
     }
-    @discardableResult
-    mutating func endDetail(translation: Double, velocity: Double, width: Double) -> Bool {
+    @discardableResult mutating func endDetail(translation: Double, velocity: Double, width: Double) -> Bool {
         defer { detailOffset = 0 }
         guard translation.isFinite, velocity.isFinite else { return detailHidden }
-        let distance = detailHidden ? -translation : translation, speed = detailHidden ? -velocity : velocity
+        let distance = detailHidden ? -translation : translation
+        let speed = detailHidden ? -velocity : velocity
         if distance >= max(1, width) / 3 || (distance > 12 && speed >= Self.flickVelocity) { detailHidden.toggle() }
         return detailHidden
     }
-    mutating func showDetail() { detailHidden = false; detailOffset = 0 }
+    mutating func showDetail() {
+        detailHidden = false
+        detailOffset = 0
+    }
 
     mutating func dragCategories(translation: Double) {
         guard translation.isFinite else { return }
         categoryOffset = categoriesHidden ? max(0, translation) : min(0, translation)
     }
-    @discardableResult
-    mutating func endCategories(translation: Double, velocity: Double, width: Double) -> Bool {
+    @discardableResult mutating func endCategories(translation: Double, velocity: Double, width: Double) -> Bool {
         defer { categoryOffset = 0 }
         guard translation.isFinite, velocity.isFinite else { return categoriesHidden }
-        let distance = categoriesHidden ? translation : -translation, speed = categoriesHidden ? velocity : -velocity
+        let distance = categoriesHidden ? translation : -translation
+        let speed = categoriesHidden ? velocity : -velocity
         if distance >= max(1, width) / 3 || (distance > 12 && speed >= Self.flickVelocity) { categoriesHidden.toggle() }
         return categoriesHidden
     }
-    mutating func showCategories() { categoriesHidden = false; categoryOffset = 0 }
+    mutating func showCategories() {
+        categoriesHidden = false
+        categoryOffset = 0
+    }
 }

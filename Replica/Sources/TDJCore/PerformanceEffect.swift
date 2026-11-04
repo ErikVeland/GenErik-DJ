@@ -1,5 +1,5 @@
-import Foundation
 import CTDJTransport
+import Foundation
 
 public enum PerformanceEffect: Int, CaseIterable, Sendable {
     case delay, reverb, flanger, gater, beatmasher, digitalLoFi, highPass, lowPass
@@ -23,17 +23,20 @@ public enum PerformanceEffect: Int, CaseIterable, Sendable {
     /// Beat-grid length chosen by X; matches the renderer's division laws. Nil for untimed effects.
     public func gridBeats(x: Double) -> Double? {
         guard x.isFinite else { return nil }
-        let x=min(1,max(0,x))
+        let x = min(1, max(0, x))
         switch self {
-        case .delay: return 0.25*pow(2,(x*4).rounded())
-        case .flanger: return pow(2,(x*4).rounded())
-        case .gater: return pow(2,(x*4).rounded()-5)
-        case .beatmasher: return pow(2,(x*3).rounded()-3)
+        case .delay: return 0.25 * pow(2, (x * 4).rounded())
+        case .flanger: return pow(2, (x * 4).rounded())
+        case .gater: return pow(2, (x * 4).rounded() - 5)
+        case .beatmasher: return pow(2, (x * 3).rounded() - 3)
         default: return nil
         }
     }
     public static func beatLabel(_ beats: Double) -> String {
-        if beats >= 1 { let count=Int(beats.rounded()); return count == 1 ? "1 beat" : "\(count) beats" }
+        if beats >= 1 {
+            let count = Int(beats.rounded())
+            return count == 1 ? "1 beat" : "\(count) beats"
+        }
         return "1/\(Int((1/beats).rounded())) beat"
     }
 }

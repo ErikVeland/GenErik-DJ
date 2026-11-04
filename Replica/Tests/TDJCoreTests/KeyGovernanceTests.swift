@@ -1,26 +1,35 @@
 import Foundation
 import Testing
+
 @testable import TDJCore
 
 private func governedTrack() throws -> Track {
-    let analysis = AudioAnalysis(implementation: "test", configurationID: "test", contentSHA256: String(repeating: "a", count: 64),
-        sampleRate: 48000, frameCount: 480000, channelCount: 2, waveformFramesPerBin: 512, waveform: [],
-        bpm: 120, beatAnchorFrame: 0, tempoConfidence: 1, key: .init(tonic: 0, mode: .major), keyConfidence: 1, chroma: [], timbre: [])
+    let analysis = AudioAnalysis(
+        implementation: "test", configurationID: "test", contentSHA256: String(repeating: "a", count: 64),
+        sampleRate: 48000, frameCount: 480000, channelCount: 2, waveformFramesPerBin: 512, waveform: [], bpm: 120,
+        beatAnchorFrame: 0, tempoConfidence: 1, key: .init(tonic: 0, mode: .major), keyConfidence: 1, chroma: [],
+        timbre: [])
     return try Track(title: "Governance fixture", mediaFilename: "fixture.wav", analysis: analysis)
 }
 
-private func keyManifest(_ track: Track, key: String = "8A", source: KeyImportSource = .mixedInKey,
-                         attribution: KeyImportAttribution = .userConfirmed) -> KeyImportManifest {
-    .init(source: source, attribution: attribution, sourceDescription: "Reviewed test export", producerVersion: "11",
-          entries: [.init(contentSHA256: track.id, rawKey: key, notation: .camelot)])
+private func keyManifest(
+    _ track: Track, key: String = "8A", source: KeyImportSource = .mixedInKey,
+    attribution: KeyImportAttribution = .userConfirmed
+) -> KeyImportManifest {
+    .init(
+        source: source, attribution: attribution, sourceDescription: "Reviewed test export", producerVersion: "11",
+        entries: [.init(contentSHA256: track.id, rawKey: key, notation: .camelot)])
 }
 
-private func importedKeyTrack(_ track: Track, key: String = "8A", source: KeyImportSource = .mixedInKey,
-                              attribution: KeyImportAttribution = .userConfirmed) throws -> Track {
+private func importedKeyTrack(
+    _ track: Track, key: String = "8A", source: KeyImportSource = .mixedInKey,
+    attribution: KeyImportAttribution = .userConfirmed
+) throws -> Track {
     var library = LibrarySnapshot()
     library.tracks = [track]
-    return try KeyImportPlan(manifest: keyManifest(track, key: key, source: source, attribution: attribution), library: library)
-        .applying(to: library).tracks[0]
+    return try KeyImportPlan(
+        manifest: keyManifest(track, key: key, source: source, attribution: attribution), library: library
+    ).applying(to: library).tracks[0]
 }
 
 @Test func keyGovernancePrefersMixedInKeyOverMaximumIndependentConfidence() throws {
@@ -141,18 +150,20 @@ private func importedKeyTrack(_ track: Track, key: String = "8A", source: KeyImp
     library.tracks = try [importedKeyTrack(governedTrack())]
     let service = try LibraryService(store: store, initial: library)
     do {
-        _ = try await service.reviewKey(trackID: library.tracks[0].id, key: .init(tonic: 4, mode: .minor),
-            reason: " ", expectedRevision: 0)
+        _ = try await service.reviewKey(
+            trackID: library.tracks[0].id, key: .init(tonic: 4, mode: .minor), reason: " ", expectedRevision: 0)
         Issue.record("Accepted a review without a reason")
     } catch {}
-    let reviewed = try await service.reviewKey(trackID: library.tracks[0].id, key: .init(tonic: 4, mode: .minor),
-        reason: "Checked the tonal sections by ear", expectedRevision: 0)
+    let reviewed = try await service.reviewKey(
+        trackID: library.tracks[0].id, key: .init(tonic: 4, mode: .minor), reason: "Checked the tonal sections by ear",
+        expectedRevision: 0)
     #expect(reviewed.tracks[0].keyDecision.authority == .manual)
     #expect(!reviewed.tracks[0].keyDecision.needsReview)
     #expect(reviewed.tracks[0].keyGovernance?.events.last?.reason == "Checked the tonal sections by ear")
     do {
-        _ = try await service.reviewKey(trackID: library.tracks[0].id, key: .init(tonic: 1, mode: .major),
-            reason: "Old review", expectedRevision: 0)
+        _ = try await service.reviewKey(
+            trackID: library.tracks[0].id, key: .init(tonic: 1, mode: .major), reason: "Old review", expectedRevision: 0
+        )
         Issue.record("Accepted a stale manual review")
     } catch {}
     #expect(try store.load(includeWaveforms: false).tracks[0].key == MusicalKey(tonic: 4, mode: .minor))
@@ -161,13 +172,17 @@ private func importedKeyTrack(_ track: Track, key: String = "8A", source: KeyImp
 @Test func keyGovernanceKeepsIndependentAnalysisHistoryWithoutDisplacingMixedInKey() throws {
     var track = try importedKeyTrack(governedTrack())
     let previous = track.analysis
-    track.analysis = AudioAnalysis(implementation: "new-test", configurationID: "new-test", contentSHA256: track.id,
-        sampleRate: 48000, frameCount: 480000, channelCount: 2, waveformFramesPerBin: 512, waveform: [],
-        bpm: 120, beatAnchorFrame: 0, tempoConfidence: 1, key: .init(tonic: 4, mode: .minor), keyConfidence: 1, chroma: [], timbre: [])
+    track.analysis = AudioAnalysis(
+        implementation: "new-test", configurationID: "new-test", contentSHA256: track.id, sampleRate: 48000,
+        frameCount: 480000, channelCount: 2, waveformFramesPerBin: 512, waveform: [], bpm: 120, beatAnchorFrame: 0,
+        tempoConfidence: 1, key: .init(tonic: 4, mode: .minor), keyConfidence: 1, chroma: [], timbre: [])
     track.recordKeyAnalysisChange(from: previous)
     #expect(track.keyDecision.authority == .mixedInKey)
     #expect(track.key == MusicalKey(tonic: 9, mode: .minor))
-    #expect(track.keyGovernance?.events.suffix(2).map(\.analysisKey) == [MusicalKey(tonic: 0, mode: .major), MusicalKey(tonic: 4, mode: .minor)])
+    #expect(
+        track.keyGovernance?.events.suffix(2).map(\.analysisKey) == [
+            MusicalKey(tonic: 0, mode: .major), MusicalKey(tonic: 4, mode: .minor),
+        ])
     #expect(track.keyGovernance?.events.last?.analysisConfigurationID == "new-test")
 }
 

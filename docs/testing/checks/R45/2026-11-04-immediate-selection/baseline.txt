@@ -1,1 +1,0 @@
-Parent: 38ca40e31. Feedback assumes iPad build 106. Native selection becomes visible only after source lookup, opening decode and service registration. Check synchronous deck selection and owned cleanup.

@@ -1,14 +1,18 @@
 import Foundation
 import Testing
+
 @testable import TDJCore
 
-private func reverbImpulse(_ kind: PerformanceEffect, size: Double, polarity: Float = 1) throws -> (left: [Float], right: [Float]) {
+private func reverbImpulse(_ kind: PerformanceEffect, size: Double, polarity: Float = 1) throws -> (
+    left: [Float], right: [Float]
+) {
     let rate = 48000.0
     var samples = [Float](repeating: 0, count: 48000 * 4 * 2)
     samples[4800 * 2] = 0.5 * polarity
     samples[4800 * 2 + 1] = 0.5 * polarity
     let core = try SampleTransport(sampleRate: rate)
-    let generation = try core.load(PCMAsset(interleavedStereo: samples, sampleRate: rate), deck: .a, grid: nil, synced: false)
+    let generation = try core.load(
+        PCMAsset(interleavedStereo: samples, sampleRate: rate), deck: .a, grid: nil, synced: false)
     try core.setEffect(kind.rawValue, slot: 0, x: size, y: 1, enabled: true, deck: .a)
     try core.play(deck: .a, generation: generation)
     let audio = core.renderOffline(frames: 48000 * 4)
@@ -55,7 +59,8 @@ private func reverbImpulse(_ kind: PerformanceEffect, size: Double, polarity: Fl
         samples[4800 * 2] = 0.5
         samples[4800 * 2 + 1] = 0.5
         let core = try SampleTransport(sampleRate: rate)
-        let generation = try core.load(PCMAsset(interleavedStereo: samples, sampleRate: rate), deck: .a, grid: nil, synced: false)
+        let generation = try core.load(
+            PCMAsset(interleavedStereo: samples, sampleRate: rate), deck: .a, grid: nil, synced: false)
         try core.setEffect(effect.rawValue, slot: 0, x: 0.5, y: 1, enabled: true, deck: .a)
         try core.play(deck: .a, generation: generation)
         _ = core.renderOffline(frames: 24000)
@@ -86,7 +91,8 @@ private func reverbImpulse(_ kind: PerformanceEffect, size: Double, polarity: Fl
     samples[4800 * 2] = 0.5
     samples[4800 * 2 + 1] = 0.5
     let core = try SampleTransport(sampleRate: rate)
-    let generation = try core.load(PCMAsset(interleavedStereo: samples, sampleRate: rate), deck: .a, grid: nil, synced: false)
+    let generation = try core.load(
+        PCMAsset(interleavedStereo: samples, sampleRate: rate), deck: .a, grid: nil, synced: false)
     try core.setEffect(PerformanceEffect.iceverb.rawValue, slot: 0, x: 0.5, y: 1, enabled: true, deck: .a)
     try core.play(deck: .a, generation: generation)
     _ = core.renderOffline(frames: 24000)
@@ -114,8 +120,11 @@ private func reverbImpulse(_ kind: PerformanceEffect, size: Double, polarity: Fl
         samples[800 * 2] = 0.5
         samples[800 * 2 + 1] = -0.5
         let core = try SampleTransport(sampleRate: 8000)
-        let generation = try core.load(PCMAsset(interleavedStereo: samples, sampleRate: 8000), deck: .a, grid: nil, synced: false)
-        if let position { try core.setEffect(PerformanceEffect.delay.rawValue, slot: 0, x: position, y: 1, enabled: true, deck: .a) }
+        let generation = try core.load(
+            PCMAsset(interleavedStereo: samples, sampleRate: 8000), deck: .a, grid: nil, synced: false)
+        if let position {
+            try core.setEffect(PerformanceEffect.delay.rawValue, slot: 0, x: position, y: 1, enabled: true, deck: .a)
+        }
         try core.play(deck: .a, generation: generation)
         return core.renderOffline(frames: 8000).left
     }
@@ -124,7 +133,9 @@ private func reverbImpulse(_ kind: PerformanceEffect, size: Double, polarity: Fl
         let audio = try render(position)
         // Full Y leaves the dry track at 100 % until the first echo arrives.
         #expect(audio[..<(800 + delay)] == dry[..<(800 + delay)])
-        let pulse = dry[800], firstEcho = audio[800 + delay], secondEcho = audio[800 + delay * 2]
+        let pulse = dry[800]
+        let firstEcho = audio[800 + delay]
+        let secondEcho = audio[800 + delay * 2]
         #expect(abs(pulse) > 0.1)
         #expect(abs(firstEcho / pulse - 0.6) < 0.001)
         #expect(abs(secondEcho / firstEcho - 0.5) < 0.001)

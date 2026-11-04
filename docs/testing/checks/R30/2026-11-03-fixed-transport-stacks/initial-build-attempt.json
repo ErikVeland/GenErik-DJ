@@ -1,8 +1,0 @@
-{
-  "sourceCommit": "668e80a6f445e58d72e4d30479c25671b5b50666",
-  "attemptedBuild": 70,
-  "result": "xcodebuild-exit-65",
-  "sourceWorktree": "continuous-deck-layout",
-  "note": "The isolated helper returned exit 65 before an archived app existed. The shared build-70.log was then observed to belong to a separate main-checkout xcodebuild process (PID 81690, CURRENT_PROJECT_VERSION=70). It is not reliable diagnostic evidence for this isolated attempt. Preserve this failure separately and wait for the shared build cache to be free.",
-  "installation": "not attempted"
-}

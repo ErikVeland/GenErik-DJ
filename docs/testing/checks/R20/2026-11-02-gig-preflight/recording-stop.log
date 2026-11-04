@@ -1,6 +1,0 @@
-REPRODUCED: blocking stop cannot return while accepted producer is held; accepted frames retained after release.
-PASS: stop request returns with held producer; writer joins; accepted frames retained; later callbacks rejected; restart clean.
-Sources/CTDJTransport/TDJRecording.c: OK
-Sources/CTDJTransport/include/TDJRecording.h: OK
-Scripts/recording-stop-native-check.c: OK
-Scripts/check-recording-stop-native.sh: OK

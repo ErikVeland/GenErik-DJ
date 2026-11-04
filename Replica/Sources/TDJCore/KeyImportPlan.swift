@@ -19,7 +19,9 @@ public struct KeyImportPlan: Sendable {
         try manifest.validate()
         expectedRevision = library.revision
         manifestSHA256 = try KeyImportManifest.digest(manifest)
-        var expected: [Track] = [], proposed: [Track] = [], changes: [Change] = []
+        var expected: [Track] = []
+        var proposed: [Track] = []
+        var changes: [Change] = []
         for entry in manifest.entries {
             guard var track = library.track(id: entry.contentSHA256) else {
                 throw CoreError.invalidAudio("Every imported key needs an exact existing track identity.")
@@ -41,14 +43,18 @@ public struct KeyImportPlan: Sendable {
                 try state.validate(trackID: track.id)
             }
             proposed.append(track)
-            changes.append(.init(trackID: track.id, before: before, after: track.keyDecision, addsEvidence: addsEvidence))
+            changes.append(
+                .init(trackID: track.id, before: before, after: track.keyDecision, addsEvidence: addsEvidence))
         }
-        expectedTracks = expected; proposedTracks = proposed; self.changes = changes
+        expectedTracks = expected
+        proposedTracks = proposed
+        self.changes = changes
     }
 
     public func applying(to library: LibrarySnapshot) throws -> LibrarySnapshot {
-        guard library.revision == expectedRevision,
-              expectedTracks.allSatisfy({ library.track(id: $0.id) == $0 }) else { throw CoreError.staleContext }
+        guard library.revision == expectedRevision, expectedTracks.allSatisfy({ library.track(id: $0.id) == $0 }) else {
+            throw CoreError.staleContext
+        }
         guard changes.contains(where: \.addsEvidence) else { return library }
         var changed = library
         let replacements = Dictionary(uniqueKeysWithValues: proposedTracks.map { ($0.id, $0) })

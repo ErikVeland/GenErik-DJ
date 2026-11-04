@@ -27,15 +27,17 @@ struct BevelPanel: ViewModifier {
     var sunken = false
     func body(content: Content) -> some View {
         content.background {
-            RoundedRectangle(cornerRadius: cornerRadius)
-                .fill(LinearGradient(colors: sunken ? [PerformancePalette.sunken, PerformancePalette.stage]
-                                                    : [PerformancePalette.raised, PerformancePalette.frame],
-                                     startPoint: .top, endPoint: .bottom))
-                .overlay {
-                    RoundedRectangle(cornerRadius: cornerRadius)
-                        .strokeBorder(LinearGradient(colors: [Color.white.opacity(sunken ? 0.04 : 0.14), Color.black.opacity(0.6)],
-                                                     startPoint: .top, endPoint: .bottom), lineWidth: 1)
-                }
+            RoundedRectangle(cornerRadius: cornerRadius).fill(
+                LinearGradient(
+                    colors: sunken
+                        ? [PerformancePalette.sunken, PerformancePalette.stage]
+                        : [PerformancePalette.raised, PerformancePalette.frame], startPoint: .top, endPoint: .bottom)
+            ).overlay {
+                RoundedRectangle(cornerRadius: cornerRadius).strokeBorder(
+                    LinearGradient(
+                        colors: [Color.white.opacity(sunken ? 0.04 : 0.14), Color.black.opacity(0.6)], startPoint: .top,
+                        endPoint: .bottom), lineWidth: 1)
+            }
         }
     }
 }
@@ -50,10 +52,9 @@ extension View {
 struct BevelButtonStyle: ButtonStyle {
     var active = false
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label.frame(maxWidth: .infinity, maxHeight: .infinity)
-            .foregroundStyle(active ? PerformancePalette.cyan : PerformancePalette.text.opacity(0.85))
-            .bevelPanel(cornerRadius: 3, sunken: configuration.isPressed)
-            .contentShape(Rectangle())
+        configuration.label.frame(maxWidth: .infinity, maxHeight: .infinity).foregroundStyle(
+            active ? PerformancePalette.cyan : PerformancePalette.text.opacity(0.85)
+        ).bevelPanel(cornerRadius: 3, sunken: configuration.isPressed).contentShape(Rectangle())
     }
 }
 
@@ -65,8 +66,6 @@ struct MixBadge: View {
             ForEach([0.55, 1.0, 0.75], id: \.self) { width in
                 Capsule().fill(PerformancePalette.cyan).frame(width: size * width, height: size * 0.2)
             }
-        }
-        .frame(width: size, height: size)
-        .accessibilityElement().accessibilityLabel("Mix")
+        }.frame(width: size, height: size).accessibilityElement().accessibilityLabel("Mix")
     }
 }

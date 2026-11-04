@@ -1,13 +1,15 @@
 import Foundation
 import Testing
+
 @testable import TDJCore
 @testable import TDJInterface
 
 private func publicationTrack(_ number: Int, title: String) throws -> Track {
-    let analysis = AudioAnalysis(implementation: "publication-test", configurationID: "publication-test",
-        contentSHA256: String(format: "%064x", number), sampleRate: 48000, frameCount: 48000,
-        channelCount: 2, waveformFramesPerBin: 512, waveform: [], bpm: 120, beatAnchorFrame: 0,
-        tempoConfidence: 1, key: nil, keyConfidence: 0, chroma: [], timbre: [])
+    let analysis = AudioAnalysis(
+        implementation: "publication-test", configurationID: "publication-test",
+        contentSHA256: String(format: "%064x", number), sampleRate: 48000, frameCount: 48000, channelCount: 2,
+        waveformFramesPerBin: 512, waveform: [], bpm: 120, beatAnchorFrame: 0, tempoConfidence: 1, key: nil,
+        keyConfidence: 0, chroma: [], timbre: [])
     return try Track(title: title, mediaFilename: "publication-test.wav", analysis: analysis)
 }
 
@@ -72,8 +74,8 @@ private func publicationTrack(_ number: Int, title: String) throws -> Track {
     let first = try publicationTrack(1, title: "First")
     let second = try publicationTrack(2, title: "Second")
     model.library.tracks = [first, second]
-    let request = model.loadPreparedTrack(trackID: second.id, deck: .b, sourceURL: nil,
-        nativeMetadata: nil, nativeLoadOwner: nil)
+    let request = model.loadPreparedTrack(
+        trackID: second.id, deck: .b, sourceURL: nil, nativeMetadata: nil, nativeLoadOwner: nil)
     #expect(request != nil)
     #expect(model.loaded[.b] == second.id)
     #expect(model.preparingPlayback.contains(.b))

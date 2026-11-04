@@ -1,6 +1,7 @@
 import Foundation
-import Testing
 import TDJCore
+import Testing
+
 @testable import TDJInterface
 
 @Test @MainActor func tempoWheelDoubleTapResetsThePlayingReferenceAndSyncedFollower() throws {
@@ -23,9 +24,9 @@ import TDJCore
     let point = SurfacePoint(id: 1, x: 0.8, y: 0.5)
     for time in [1.0, 1.2] {
         for phase in [SurfaceEvent.Phase.began, .ended] {
-            session.handle(.init(phase: phase, points: [point], ending: phase == .ended ? [1] : []),
-                width: 168, height: 168, bpm: 140, at: time,
-                resetTempo: { model.resetMasterTempo() }, change: { model.setMasterBPM($0) })
+            session.handle(
+                .init(phase: phase, points: [point], ending: phase == .ended ? [1] : []), width: 168, height: 168,
+                bpm: 140, at: time, resetTempo: { model.resetMasterTempo() }, change: { model.setMasterBPM($0) })
         }
     }
     let reset = try #require(core.snapshot())
@@ -48,8 +49,9 @@ import TDJCore
         var bpm = 140.0
         let point = SurfacePoint(id: 1, x: 0.8, y: 0.5)
         func send(_ phase: SurfaceEvent.Phase, _ time: Double, _ points: [SurfacePoint], ending: Set<Int> = []) {
-            session.handle(.init(phase: phase, points: points, ending: ending), width: 168, height: 168,
-                bpm: bpm, at: time, resetTempo: { resets += 1 }, change: { bpm = $0 })
+            session.handle(
+                .init(phase: phase, points: points, ending: ending), width: 168, height: 168, bpm: bpm, at: time,
+                resetTempo: { resets += 1 }, change: { bpm = $0 })
         }
         send(.began, 1, [point])
         if mode == "drag" {
@@ -74,16 +76,18 @@ import TDJCore
     let point = SurfacePoint(id: 1, x: 0.5, y: 0.5)
     func tap(_ time: Double) {
         for phase in [SurfaceEvent.Phase.began, .ended] {
-            session.handle(.init(phase: phase, points: [point], ending: phase == .ended ? [1] : []),
-                width: 168, height: 168, bpm: 140, at: time, resetTempo: { resets += 1 }, change: { _ in })
+            session.handle(
+                .init(phase: phase, points: [point], ending: phase == .ended ? [1] : []), width: 168, height: 168,
+                bpm: 140, at: time, resetTempo: { resets += 1 }, change: { _ in })
         }
     }
     tap(1)
     tap(1.2)
     tap(1.3)
     #expect(resets == 1)
-    session.handle(.init(phase: .cancelled, points: [], ending: []), width: 168, height: 168,
-        bpm: 140, at: 1.4, resetTempo: { resets += 1 }, change: { _ in })
+    session.handle(
+        .init(phase: .cancelled, points: [], ending: []), width: 168, height: 168, bpm: 140, at: 1.4,
+        resetTempo: { resets += 1 }, change: { _ in })
     tap(1.5)
     #expect(resets == 1)
 }
@@ -96,8 +100,9 @@ import TDJCore
     model.resetMasterTempo()
     #expect(model.playbackSnapshot?.masterBPM == 137)
     let core = model.playback.core
-    let generation = try core.load(PCMAsset(interleavedStereo: [Float](repeating: 0, count: 32000), sampleRate: 8000),
-        deck: .b, grid: BeatGrid(bpm: 126, anchorFrame: 0, sampleRate: 8000))
+    let generation = try core.load(
+        PCMAsset(interleavedStereo: [Float](repeating: 0, count: 32000), sampleRate: 8000), deck: .b,
+        grid: BeatGrid(bpm: 126, anchorFrame: 0, sampleRate: 8000))
     core.processControlsWhileIdle()
     model.resetMasterTempo()
     #expect(core.snapshot()?.masterBPM == 126)

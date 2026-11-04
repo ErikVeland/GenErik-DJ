@@ -1,6 +1,7 @@
 import AVFoundation
 import Foundation
 import Testing
+
 @testable import TDJCore
 
 private func analyzeOffbeatRhythm(firstBeatIndex: Int, gain: Double, accented: Bool) throws -> AudioAnalysis {
@@ -10,9 +11,7 @@ private func analyzeOffbeatRhythm(firstBeatIndex: Int, gain: Double, accented: B
     let buffer = try #require(AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(frameCount)))
     buffer.frameLength = buffer.frameCapacity
     let channels = try #require(buffer.floatChannelData)
-    for channel in 0..<2 {
-        for frame in 0..<frameCount { channels[channel][frame] = 0 }
-    }
+    for channel in 0..<2 { for frame in 0..<frameCount { channels[channel][frame] = 0 } }
     func pulse(time: Double, frequency: Double, amplitude: Double, decay: Double) {
         let start = Int((time * sampleRate).rounded())
         for offset in 0..<Int((0.04 * sampleRate).rounded()) {
@@ -26,7 +25,9 @@ private func analyzeOffbeatRhythm(firstBeatIndex: Int, gain: Double, accented: B
     }
     for beat in 0..<64 {
         let time = Double(beat) * 0.5
-        pulse(time: time, frequency: accented && (beat + firstBeatIndex).isMultiple(of: 4) ? 110 : 220, amplitude: 0.12 * gain, decay: 180)
+        pulse(
+            time: time, frequency: accented && (beat + firstBeatIndex).isMultiple(of: 4) ? 110 : 220,
+            amplitude: 0.12 * gain, decay: 180)
         pulse(time: time + 0.25, frequency: 5200, amplitude: 0.35 * gain, decay: 250)
     }
     let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".wav")
@@ -40,8 +41,9 @@ private func analyzeOffbeatRhythm(firstBeatIndex: Int, gain: Double, accented: B
     return try AudioAnalyzer.analyze(url: url)
 }
 
-@Test(arguments: [0, 1, 2, 3], [1.0, 0.1])
-func strongOffbeatPercussionRetainsTheUnderlyingBeatAndBar(firstBeatIndex: Int, gain: Double) throws {
+@Test(arguments: [0, 1, 2, 3], [1.0, 0.1]) func strongOffbeatPercussionRetainsTheUnderlyingBeatAndBar(
+    firstBeatIndex: Int, gain: Double
+) throws {
     let analysis = try analyzeOffbeatRhythm(firstBeatIndex: firstBeatIndex, gain: gain, accented: true)
     let sampleRate = analysis.sampleRate
     let bpm = try #require(analysis.bpm)
@@ -64,8 +66,12 @@ func strongOffbeatPercussionRetainsTheUnderlyingBeatAndBar(firstBeatIndex: Int, 
 
 @Test func driftingAudioProducesACandidateWithoutAcceptingPreparation() throws {
     let rate = 22050.0
-    var time = 0.0, times = [Double]()
-    for beat in 0..<128 { times.append(time); time += 0.5 + Double(beat) * 0.0005 }
+    var time = 0.0
+    var times = [Double]()
+    for beat in 0..<128 {
+        times.append(time)
+        time += 0.5 + Double(beat) * 0.0005
+    }
     let count = Int((time + 1) * rate)
     let format = try #require(AVAudioFormat(standardFormatWithSampleRate: rate, channels: 1))
     let buffer = try #require(AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(count)))
@@ -81,7 +87,10 @@ func strongOffbeatPercussionRetainsTheUnderlyingBeatAndBar(firstBeatIndex: Int, 
     }
     let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".wav")
     defer { try? FileManager.default.removeItem(at: url) }
-    do { let file = try AVAudioFile(forWriting: url, settings: format.settings); try file.write(from: buffer) }
+    do {
+        let file = try AVAudioFile(forWriting: url, settings: format.settings)
+        try file.write(from: buffer)
+    }
     let analysis = try AudioAnalyzer.analyze(url: url)
     let map = try #require(analysis.adaptiveCandidate)
     #expect(abs(map.frame(atBeat: 120) / rate - times[120]) < 0.035)

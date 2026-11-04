@@ -1,6 +1,6 @@
 # AIFF set recording
 
-Documentation reviewed against the shared implementation on 30 October 2026. [Current readiness and verification](Status.md) is the implementation status record. Dated measurements below apply only to their recorded source and workload.
+Current build and acceptance: [project status](../docs/coordination/README.md). Historical measurements apply only to their recorded source.
 
 The recorder implements core performer requirement 8: capture the performed master output as AIFF and provide a transfer route to the Mac. This is a development implementation. It does not establish full TDJ1 recording fidelity or complete physical-device acceptance.
 
@@ -28,7 +28,7 @@ The default output is 48 kHz, 24-bit signed, big-endian stereo PCM in an AIFF co
 
 The audio callback copies into a preallocated 480,000-frame C buffer. It performs no file writes, allocation, locks or waits. A serial file queue drains the buffer every 20 ms. Stop closes capture, drains accepted frames, finalises the header and renames the temporary file. The temporary filename ends in `.incomplete.aiff` and is excluded from the saved-set list.
 
-The recording controller now closes the capture gate synchronously when handling Stop. This atomic request does not wait for a callback that already owns the gate. The serial recording writer joins that accepted copy before its final drain and file close; later callbacks are excluded. The recording buffer now also retains bounded track events for the accepted audio frames. [Focused handoff checks](Validation/RecordingStopHandoff-2026-10-29-01/manifest.json) retain the gate model, sanitizer checks, sample/file tests and executor scope. The earlier async finish already ran off the main actor; this is not a claim that it previously blocked the UI.
+The recording controller now closes the capture gate synchronously when handling Stop. This atomic request does not wait for a callback that already owns the gate. The serial recording writer joins that accepted copy before its final drain and file close; later callbacks are excluded. The recording buffer now also retains bounded track events for the accepted audio frames. [Focused handoff checks](../docs/history.md#local-validation) retain the gate model, sanitizer checks, sample/file tests and executor scope. The earlier async finish already ran off the main actor; this is not a claim that it previously blocked the UI.
 
 An overflow or write failure prevents publication as a successful recording. The incomplete file is retained and the error is reported when recording finishes. Classic AIFF's size limit is guarded before 4 GiB, approximately four hours at the default format. Automatic splitting is not implemented. Levels outside the integer PCM range clip during conversion. There is no added limiter.
 
@@ -46,7 +46,7 @@ Logs: `Validation/recording-tests.log`, `Validation/recording-focused-tests.log`
 
 ## Remaining acceptance
 
-The [29 October native Mac workflow](Validation/LiveMacControls-2026-10-29-01/manifest.json) records a newly prepared local Music item through the live app. Stop audio finalised a 48 kHz, 24-bit stereo AIFF containing 432,128 frames (9.0027 seconds), and the file appeared in Recordings. Container and payload lengths match; samples contain nonzero audio and no integer-rail values. This checks the current native route, not listening quality, recording under sustained load or iPad-to-Mac transfer.
+The [29 October native Mac workflow](../docs/history.md#local-validation) records a newly prepared local Music item through the live app. Stop audio finalised a 48 kHz, 24-bit stereo AIFF containing 432,128 frames (9.0027 seconds), and the file appeared in Recordings. Container and payload lengths match; samples contain nonzero audio and no integer-rail values. This checks the current native route, not listening quality, recording under sustained load or iPad-to-Mac transfer.
 
 On 26 October 2026, `RecordingEffectsTests.swift` also verifies that both AIFF channels match the rendered master, including a delay tail after the source deck pauses. The 8,500-frame recording matches within 24-bit conversion tolerance. See `Validation/recording-effects-tests.log`. This verifies the replica's capture path, not the original effect sound.
 

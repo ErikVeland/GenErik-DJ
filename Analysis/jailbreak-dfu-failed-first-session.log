@@ -1,70 +1,0 @@
-#
-# palera1n: v2.4 
-#
-# ========  Made by  =======
-# Made by: Nick Chan, Ploosh, Khcrysalis, Mineek, staturnz, kok3shidoll, HAHALOSAH 
-# ======== Thanks to =======
-# Thanks to: llsc12, Nebula, Lrdsnow, nikias (libimobiledevice),
-# checkra1n team (Siguza, axi0mx, littlelailo et al.),
-# Procursus Team (Hayden Seay, Cameron Katri, Keto et.al)
-# ==========================
-
- - [10/21/26 17:54:43] <Info>: Waiting for devices
- - [10/21/26 17:54:43] <Info>: Entering recovery mode
- - [10/21/26 17:55:07] <Info>: Press Enter when ready for DFU mode
-[KHold home + power button (4)[KHold home + power button (3)Hold home + power button (2)[K[KHold home + power button (2)[KHold home + power button (1)Hold home + power button (0)
-[KHold home button (10)[KHold home button (9)[KHold home button (8)[KHold home button (7)[KHold home button (6)[KHold home button (5)[KHold home button (4)[KHold home button (3)[KHold home button (2)[KHold home button (1)Hold home button (0)
- - [10/21/26 17:56:54] <Warning>: Whoops, device did not enter DFU mode
- - [10/21/26 17:56:54] <Info>: Waiting for device to reconnect...
- - [10/21/26 17:57:07] <Info>: Press Enter when ready for DFU mode
-[KHold home + power button (4)[KHold home + power button (3)Hold home + power button (2)[K[KHold home + power button (2)[KHold home + power button (1)Hold home + power button (0)
-[KHold home button (10)[KHold home button (9)[KHold home button (8)[KHold home button (7)[KHold home button (6)[KHold home button (5)[KHold home button (4)[KHold home button (3)[KHold home button (2)[KHold home button (1)Hold home button (0)
- - [10/21/26 17:57:27] <Warning>: Whoops, device did not enter DFU mode
- - [10/21/26 17:57:27] <Info>: Waiting for device to reconnect...
- - [10/21/26 17:57:41] <Info>: Press Enter when ready for DFU mode
-[KHold home + power button (4)[KHold home + power button (3)Hold home + power button (2)[K[KHold home + power button (2)[KHold home + power button (1)Hold home + power button (0)
-[KHold home button (10)[KHold home button (9)[KHold home button (8)[KHold home button (7)[KHold home button (6)[KHold home button (5)[KHold home button (4)[KHold home button (3)[KHold home button (2)[KHold home button (1)Hold home button (0)
- - [10/21/26 17:58:09] <Warning>: Whoops, device did not enter DFU mode
- - [10/21/26 17:58:09] <Info>: Waiting for device to reconnect...
- - [10/21/26 17:58:43] <Info>: Entering recovery mode
- - [10/21/26 17:59:03] <Info>: Press Enter when ready for DFU mode
- - [10/21/26 17:59:29] <Info>: Press Enter when ready for DFU mode
-[KHold home + power button (4)[KHold home + power button (4)[KHold home + power button (3)[KHold home + power button (3)Hold home + power button (2)Hold home + power button (2) - [10/21/26 17:59:37] <Error>: libirecovery error: -3 (Unable to connect to device)
- - [10/21/26 17:59:37] <Error>: Cannot exit recovery mode
-[K[KHold home + power button (2)[KHold home + power button (1)Hold home + power button (0)
-[KHold home button (10) - [10/21/26 18:00:03] <Info>: Press Enter when ready for DFU mode
-[KHold home + power button (4)[KHold home + power button (3)Hold home + power button (2)[K[KHold home + power button (2)[KHold home + power button (1)Hold home + power button (0)
-[KHold home button (10)[KHold home button (9)[KHold home button (8)[KHold home button (7)[KHold home button (6)[KHold home button (5)[KHold home button (4)[KHold home button (3)[KHold home button (2)[KHold home button (1)Hold home button (0)
- - [10/21/26 18:00:17] <Warning>: Whoops, device did not enter DFU mode
- - [10/21/26 18:00:17] <Info>: Waiting for device to reconnect...
- - [10/21/26 18:00:43] <Info>: Entering recovery mode
- - [10/21/26 18:01:04] <Info>: Press Enter when ready for DFU mode
-[KHold home + power button (4)[KHold home + power button (3)Hold home + power button (2)[K[KHold home + power button (2)[KHold home + power button (1)Hold home + power button (0)
-[KHold home button (10)[KHold home button (9)[KHold home button (8)[KHold home button (7)[KHold home button (6)[KHold home button (5)[KHold home button (4)[KHold home button (3)[KHold home button (2)[KHold home button (1)Hold home button (0)
- - [10/21/26 18:01:18] <Warning>: Whoops, device did not enter DFU mode
- - [10/21/26 18:01:18] <Info>: Waiting for device to reconnect...
- - [10/21/26 18:01:31] <Info>: Press Enter when ready for DFU mode
-[KHold home + power button (4)[KHold home + power button (3)Hold home + power button (2)[K[KHold home + power button (2)[KHold home + power button (1)Hold home + power button (0)
-[KHold home button (10)[KHold home button (9)[KHold home button (8)[KHold home button (7)[KHold home button (6)[KHold home button (5)[KHold home button (4)[KHold home button (3)[KHold home button (2)[KHold home button (1)Hold home button (0)
- - [10/21/26 18:01:55] <Warning>: Whoops, device did not enter DFU mode
- - [10/21/26 18:01:55] <Info>: Waiting for device to reconnect...
- - [10/21/26 18:02:08] <Info>: Press Enter when ready for DFU mode
-[KHold home + power button (4)[KHold home + power button (3)Hold home + power button (2)[K[KHold home + power button (2)[KHold home + power button (1)Hold home + power button (0)
-[KHold home button (10)[KHold home button (9)[KHold home button (8)[KHold home button (7)[KHold home button (6)[KHold home button (5)[KHold home button (4)[KHold home button (3)[KHold home button (2)[KHold home button (1)Hold home button (0)
- - [10/21/26 18:02:23] <Warning>: Whoops, device did not enter DFU mode
- - [10/21/26 18:02:23] <Info>: Waiting for device to reconnect...
- - [10/21/26 18:02:36] <Info>: Press Enter when ready for DFU mode
- - [10/21/26 18:02:48] <Info>: Press Enter when ready for DFU mode
- - [10/21/26 18:02:52] <Info>: Press Enter when ready for DFU mode
- - [10/21/26 18:02:57] <Info>: Press Enter when ready for DFU mode
-[KHold home + power button (4)[KHold home + power button (3)Hold home + power button (2)[K[KHold home + power button (2)[KHold home + power button (1)Hold home + power button (0)
-[KHold home button (10)[KHold home button (9)[KHold home button (8)[KHold home button (7)[KHold home button (6)[KHold home button (5)[KHold home button (4)[KHold home button (3)[KHold home button (2)[KHold home button (1)Hold home button (0)
- - [10/21/26 18:03:19] <Warning>: Whoops, device did not enter DFU mode
- - [10/21/26 18:03:19] <Info>: Waiting for device to reconnect...
- - [10/21/26 18:03:48] <Info>: Entering recovery mode
- - [10/21/26 18:04:14] <Info>: Press Enter when ready for DFU mode
-[KHold home + power button (4)[KHold home + power button (3)Hold home + power button (2)[K[KHold home + power button (2)[KHold home + power button (1)Hold home + power button (0)
-[KHold home button (10)[KHold home button (9)[KHold home button (8)[KHold home button (7)[KHold home button (6)[KHold home button (5)[KHold home button (4)[KHold home button (3)[KHold home button (2)[KHold home button (1)Hold home button (0)
- - [10/21/26 18:04:32] <Warning>: Whoops, device did not enter DFU mode
- - [10/21/26 18:04:32] <Info>: Waiting for device to reconnect...
- - [10/21/26 18:04:45] <Info>: Press Enter when ready for DFU mode

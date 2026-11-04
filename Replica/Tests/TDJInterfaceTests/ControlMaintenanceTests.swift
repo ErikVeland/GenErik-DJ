@@ -1,6 +1,7 @@
 import Foundation
-import Testing
 import TDJCore
+import Testing
+
 @testable import TDJInterface
 
 @Test @MainActor func controlMaintenanceProgressesWithoutVisualPollingAndStopsCleanly() async throws {
@@ -32,10 +33,12 @@ import TDJCore
         controller.maintainControlState()
     }
     try controller.core.setMasterBPM(0)
-    controller.core.processControlsWhileIdle(); controller.maintainControlState()
+    controller.core.processControlsWhileIdle()
+    controller.maintainControlState()
     for _ in 0..<8 {
         for _ in 0..<64 { try controller.core.setMixer(.master, value: 0.5) }
-        controller.core.processControlsWhileIdle(); controller.maintainControlState()
+        controller.core.processControlsWhileIdle()
+        controller.maintainControlState()
     }
     let (_, messages) = controller.snapshotAndMessages()
     #expect(messages.count == PlaybackController.maximumPendingMessages)

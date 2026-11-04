@@ -1,5 +1,0 @@
-FAIL: Waveform starts before queued audio work
-FAIL: Full analysis does not block audio loading
-FAIL: Analysis starts after audio readiness
-FAIL: Play retains a request during loading
-FAIL: Play button accepts loading input

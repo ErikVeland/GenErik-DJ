@@ -20,9 +20,10 @@ public struct ControllerMIDIMessage: Equatable, Sendable {
     public let noteNumber: UInt8?
     public let isNoteOff: Bool
     public var normalized: Double { Double(value) / Double(maximum) }
-    public init(kind: Kind, group: UInt8 = 0, channel: UInt8, number: UInt8, value: Int,
-                maximum: Int? = nil, parameter: UInt16? = nil, noteNumber: UInt8? = nil,
-                isNoteOff: Bool = false) {
+    public init(
+        kind: Kind, group: UInt8 = 0, channel: UInt8, number: UInt8, value: Int, maximum: Int? = nil,
+        parameter: UInt16? = nil, noteNumber: UInt8? = nil, isNoteOff: Bool = false
+    ) {
         self.kind = kind
         self.group = group
         self.channel = channel
@@ -55,7 +56,9 @@ public enum ControllerMIDIUMPDecoder {
             guard index <= words.count - wordCount else { return nil }
             let group = UInt8((first >> 24) & 0x0f)
             if type == 0x2, let message = midi1Message(first, group: group) { messages.append(message) }
-            if type == 0x4, let message = midi2Message(first, words[index + 1], group: group) { messages.append(message) }
+            if type == 0x4, let message = midi2Message(first, words[index + 1], group: group) {
+                messages.append(message)
+            }
             guard messages.count <= 256 else { return nil }
             index += wordCount
         }
@@ -71,14 +74,17 @@ public enum ControllerMIDIUMPDecoder {
         switch command {
         case 0x80, 0x90:
             let isNoteOff = command == 0x80 || value == 0
-            return .init(kind: .note, group: group, channel: channel, number: number,
-                         value: isNoteOff ? 0 : Int(value), isNoteOff: isNoteOff)
+            return .init(
+                kind: .note, group: group, channel: channel, number: number, value: isNoteOff ? 0 : Int(value),
+                isNoteOff: isNoteOff)
         case 0xa0: return .init(kind: .polyPressure, group: group, channel: channel, number: number, value: Int(value))
         case 0xb0: return .init(kind: .control, group: group, channel: channel, number: number, value: Int(value))
         case 0xc0: return .init(kind: .program, group: group, channel: channel, number: number, value: 127)
         case 0xd0: return .init(kind: .pressure, group: group, channel: channel, number: 0, value: Int(number))
-        case 0xe0: return .init(kind: .pitch, group: group, channel: channel, number: 0,
-                                value: Int(UInt8((word >> 8) & 0x7f)) | Int(value) << 7)
+        case 0xe0:
+            return .init(
+                kind: .pitch, group: group, channel: channel, number: 0,
+                value: Int(UInt8((word >> 8) & 0x7f)) | Int(value) << 7)
         default: return nil
         }
     }
@@ -92,9 +98,9 @@ public enum ControllerMIDIUMPDecoder {
         case 0x0, 0x1:
             let note = UInt8((first >> 8) & 0x7f)
             let number = UInt8(first & 0xff)
-            return .init(kind: status == 0 ? .perNoteRegisteredController : .perNoteAssignableController,
-                         group: group, channel: channel, number: number, value: value,
-                         maximum: Int(UInt32.max), noteNumber: note)
+            return .init(
+                kind: status == 0 ? .perNoteRegisteredController : .perNoteAssignableController, group: group,
+                channel: channel, number: number, value: value, maximum: Int(UInt32.max), noteNumber: note)
         case 0x2, 0x3, 0x4, 0x5:
             let bank = UInt16((first >> 8) & 0x7f)
             let index = UInt16(first & 0x7f)
@@ -107,26 +113,38 @@ public enum ControllerMIDIUMPDecoder {
             default: kind = .relativeAssignableController
             }
             let data = kind.isRelativeController ? Int(Int32(bitPattern: second)) : value
-            return .init(kind: kind, group: group, channel: channel, number: UInt8(index), value: data,
-                         maximum: kind.isRelativeController ? Int(Int32.max) : Int(UInt32.max), parameter: parameter)
+            return .init(
+                kind: kind, group: group, channel: channel, number: UInt8(index), value: data,
+                maximum: kind.isRelativeController ? Int(Int32.max) : Int(UInt32.max), parameter: parameter)
         case 0x6:
             let note = UInt8((first >> 8) & 0x7f)
-            return .init(kind: .perNotePitch, group: group, channel: channel, number: note,
-                         value: value, maximum: Int(UInt32.max), noteNumber: note)
-        case 0x8: return .init(kind: .note, group: group, channel: channel, number: number,
-                               value: 0, maximum: 65535, isNoteOff: true)
-        case 0x9: return .init(kind: .note, group: group, channel: channel, number: number,
-                               value: Int((second >> 16) & 0xffff), maximum: 65535)
-        case 0xa: return .init(kind: .polyPressure, group: group, channel: channel, number: number, value: value, maximum: Int(UInt32.max))
-        case 0xb: return .init(kind: .control, group: group, channel: channel, number: number, value: value, maximum: Int(UInt32.max))
+            return .init(
+                kind: .perNotePitch, group: group, channel: channel, number: note, value: value,
+                maximum: Int(UInt32.max), noteNumber: note)
+        case 0x8:
+            return .init(
+                kind: .note, group: group, channel: channel, number: number, value: 0, maximum: 65535, isNoteOff: true)
+        case 0x9:
+            return .init(
+                kind: .note, group: group, channel: channel, number: number, value: Int((second >> 16) & 0xffff),
+                maximum: 65535)
+        case 0xa:
+            return .init(
+                kind: .polyPressure, group: group, channel: channel, number: number, value: value,
+                maximum: Int(UInt32.max))
+        case 0xb:
+            return .init(
+                kind: .control, group: group, channel: channel, number: number, value: value, maximum: Int(UInt32.max))
         case 0xc:
             let program = UInt8((second >> 24) & 0x7f)
-            let bank: UInt16? = first & 0x01 == 0 ? nil
-                : UInt16((second >> 8) & 0x7f) << 7 | UInt16(second & 0x7f)
-            return .init(kind: .program, group: group, channel: channel, number: program,
-                         value: 127, parameter: bank)
-        case 0xd: return .init(kind: .pressure, group: group, channel: channel, number: 0, value: value, maximum: Int(UInt32.max))
-        case 0xe: return .init(kind: .pitch, group: group, channel: channel, number: 0, value: value, maximum: Int(UInt32.max))
+            let bank: UInt16? = first & 0x01 == 0 ? nil : UInt16((second >> 8) & 0x7f) << 7 | UInt16(second & 0x7f)
+            return .init(kind: .program, group: group, channel: channel, number: program, value: 127, parameter: bank)
+        case 0xd:
+            return .init(
+                kind: .pressure, group: group, channel: channel, number: 0, value: value, maximum: Int(UInt32.max))
+        case 0xe:
+            return .init(
+                kind: .pitch, group: group, channel: channel, number: 0, value: value, maximum: Int(UInt32.max))
         default: return nil
         }
     }
@@ -155,18 +173,18 @@ public struct ControllerMIDIDecoder: Sendable {
             switch type {
             case 0x80, 0x90:
                 let isNoteOff = type == 0x80 || data[1] == 0
-                messages.append(.init(kind: .note, channel: channel, number: data[0],
-                                      value: isNoteOff ? 0 : Int(data[1]), isNoteOff: isNoteOff))
-            case 0xb0:
-                messages.append(.init(kind: .control, channel: channel, number: data[0], value: Int(data[1])))
+                messages.append(
+                    .init(
+                        kind: .note, channel: channel, number: data[0], value: isNoteOff ? 0 : Int(data[1]),
+                        isNoteOff: isNoteOff))
+            case 0xb0: messages.append(.init(kind: .control, channel: channel, number: data[0], value: Int(data[1])))
             case 0xe0:
-                messages.append(.init(kind: .pitch, channel: channel, number: 0, value: Int(data[0]) | Int(data[1]) << 7))
+                messages.append(
+                    .init(kind: .pitch, channel: channel, number: 0, value: Int(data[0]) | Int(data[1]) << 7))
             case 0xa0:
                 messages.append(.init(kind: .polyPressure, channel: channel, number: data[0], value: Int(data[1])))
-            case 0xd0:
-                messages.append(.init(kind: .pressure, channel: channel, number: 0, value: Int(data[0])))
-            case 0xc0:
-                messages.append(.init(kind: .program, channel: channel, number: data[0], value: 127))
+            case 0xd0: messages.append(.init(kind: .pressure, channel: channel, number: 0, value: Int(data[0])))
+            case 0xc0: messages.append(.init(kind: .program, channel: channel, number: data[0], value: 127))
             default: break
             }
             data.removeAll(keepingCapacity: true)

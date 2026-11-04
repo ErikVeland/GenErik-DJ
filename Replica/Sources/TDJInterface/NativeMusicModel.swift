@@ -1,8 +1,7 @@
 import Foundation
 import TDJCore
 
-@MainActor
-final class NativeMusicSessionState {
+@MainActor final class NativeMusicSessionState {
     var wanted = false
     var closed = false
     var analysisOwner: UUID?
@@ -14,9 +13,7 @@ final class NativeMusicSessionState {
     let files = BackgroundFileWork(label: "org.generikdj.native-music-files")
 }
 
-@MainActor private final class NativeMusicLoadAttempt {
-    var failure: Error?
-}
+@MainActor private final class NativeMusicLoadAttempt { var failure: Error? }
 
 extension ReplicaModel {
     public func loadLibraryEntry(_ entry: LibraryBrowserEntry, deck: DeckID) {
@@ -30,8 +27,11 @@ extension ReplicaModel {
         }
         if let track = entry.track, track.nativeLibraryOnly != true {
             load(trackID: track.id, deck: deck, nativeMetadata: entry.nativeItem.map { .init(item: $0) })
-        } else if let item = entry.nativeItem { loadNativeMusic(item, deck: deck) }
-        else if let track = entry.track { load(trackID: track.id, deck: deck) }
+        } else if let item = entry.nativeItem {
+            loadNativeMusic(item, deck: deck)
+        } else if let track = entry.track {
+            load(trackID: track.id, deck: deck)
+        }
     }
 
     public func openNativeMusicLibrary() async {
@@ -51,26 +51,35 @@ extension ReplicaModel {
     public func startNativeMusicAnalysis() {
         let state = nativeMusic
         guard state.wanted, !state.closed, !arrangementPlaybackActive, !deckAnalysisIsRunning,
-              state.analysisOwner == nil, state.analyses.isEmpty,
-              state.loadOwners.isEmpty, preparingPlayback.isEmpty, let catalog = musicLibraryCatalog else { return }
+            state.analysisOwner == nil, state.analyses.isEmpty, state.loadOwners.isEmpty, preparingPlayback.isEmpty,
+            let catalog = musicLibraryCatalog
+        else { return }
         let token = UUID()
-        let loadedSources = Set(loaded.values.flatMap { id in library.tracks.first { $0.id == id }?.musicLibrarySources ?? [] })
+        let loadedSources = Set(
+            loaded.values.flatMap { id in library.tracks.first { $0.id == id }?.musicLibrarySources ?? [] })
         let analysedMixes = Set(analysisHints.entries.filter { $0.value.isMix }.keys)
-        let queue = NativeMusicAnalysisQueue(catalog: catalog, tracks: library.tracks, loaded: loadedSources,
-                                             analysedMixes: analysedMixes, worker: state.projection)
+        let queue = NativeMusicAnalysisQueue(
+            catalog: catalog, tracks: library.tracks, loaded: loadedSources, analysedMixes: analysedMixes,
+            worker: state.projection)
         state.analysisOwner = token
         state.analyses[token] = Task(priority: .background) { [weak self] in
-            guard let self else { await queue.finish(); state.analyses[token] = nil; return }
+            guard let self else {
+                await queue.finish()
+                state.analyses[token] = nil
+                return
+            }
             defer {
                 state.analyses[token] = nil
                 if state.analysisOwner == token {
-                    state.analysisOwner = nil; musicLibraryProgress = ""
+                    state.analysisOwner = nil
+                    musicLibraryProgress = ""
                     if analysisProgress?.message == nil { analysisProgress = nil }
                 }
                 if Task.isCancelled, state.analysisOwner == nil { startNativeMusicAnalysis() }
             }
             guard !Task.isCancelled, state.analysisOwner == token, !state.closed else {
-                await queue.finish(); return
+                await queue.finish()
+                return
             }
             await removeStaleNativeSources()
             let count = await queue.prepare()
@@ -92,13 +101,13 @@ extension ReplicaModel {
                         logAnalysis("Mix opening analysed: \(item.title)")
                     } else {
                         let snapshot = try await withNativeAudio(item) { prepared in
-                            try await self.service.analyzeNativeMusic(url: prepared.url, musicLibrary: prepared.metadata,
+                            try await self.service.analyzeNativeMusic(
+                                url: prepared.url, musicLibrary: prepared.metadata,
                                 preservePreparationFor: Set(self.loaded.values))
                         }
                         adoptLibrary(snapshot)
                     }
-                } catch is CancellationError { break }
-                catch {
+                } catch is CancellationError { break } catch {
                     musicLibraryFailures[item.id] = error.localizedDescription
                     logAnalysis("Skipped \(item.title): \(error.localizedDescription)")
                 }
@@ -109,15 +118,11 @@ extension ReplicaModel {
     }
 
     public func flushNativeMusicAnalysis() async {
-        while !nativeMusic.analyses.isEmpty {
-            for task in Array(nativeMusic.analyses.values) { await task.value }
-        }
+        while !nativeMusic.analyses.isEmpty { for task in Array(nativeMusic.analyses.values) { await task.value } }
     }
 
     public func flushNativeMusicLoads() async {
-        while !nativeMusic.loads.isEmpty {
-            for task in Array(nativeMusic.loads.values) { await task.value }
-        }
+        while !nativeMusic.loads.isEmpty { for task in Array(nativeMusic.loads.values) { await task.value } }
     }
 
     func preparedNativeTrack(_ item: MusicLibraryItem) async -> Track? {
@@ -133,12 +138,14 @@ extension ReplicaModel {
         beginNativeMusicLoad(deck: deck, selection: item) { item }
     }
 
-    private func beginNativeMusicLoad(deck: DeckID, selection: MusicLibraryItem? = nil,
-        resolve: @escaping @MainActor () async -> MusicLibraryItem?) {
+    private func beginNativeMusicLoad(
+        deck: DeckID, selection: MusicLibraryItem? = nil, resolve: @escaping @MainActor () async -> MusicLibraryItem?
+    ) {
         let state = nativeMusic
         guard !state.closed else { return }
         guard playback.core.snapshot()?[deck].phase.active != true else {
-            status = TransportError.protectedDeck.localizedDescription; return
+            status = TransportError.protectedDeck.localizedDescription
+            return
         }
         cancelNativeMusicAnalysis()
         cancelNativeMusicLoad(deck: deck)
@@ -153,7 +160,8 @@ extension ReplicaModel {
                 guard let self else { return }
                 defer { if state.loadOwners[deck] == token { nativePreviewTasks[deck] = nil } }
                 guard let hydrated = try? await store.hydrateAsync(known), !Task.isCancelled,
-                      state.loadOwners[deck] == token else { return }
+                    state.loadOwners[deck] == token
+                else { return }
                 pendingNativeWaveforms[deck] = hydrated
             }
         }
@@ -161,9 +169,13 @@ extension ReplicaModel {
         selectedTrackID = nil
         status = "Preparing track…"
         state.loads[token] = Task { [weak self] in
-            guard let self else { state.loads[token] = nil; return }
+            guard let self else {
+                state.loads[token] = nil
+                return
+            }
             defer {
-                state.loads[token] = nil; state.rootLoads[token] = nil
+                state.loads[token] = nil
+                state.rootLoads[token] = nil
                 if state.loadOwners[deck] == token {
                     state.loadOwners[deck] = nil
                     pendingNativeSelection[deck] = nil
@@ -186,60 +198,78 @@ extension ReplicaModel {
                 status = "Preparing \(item.title)…"
                 if item.isOnDevice, let source = try await musicLibraryProvider.playbackSource(item) {
                     let scoped = await state.files.run { source.url.startAccessingSecurityScopedResource() }
-                    let opening = try await NativePlaybackOpening.open(url: source.url, sourceIdentity: item.source.id, cleanup: {
-                        if scoped { source.url.stopAccessingSecurityScopedResource() }
-                        if source.temporary { try? FileManager.default.removeItem(at: source.url) }
-                    })
+                    let opening = try await NativePlaybackOpening.open(
+                        url: source.url, sourceIdentity: item.source.id,
+                        cleanup: {
+                            if scoped { source.url.stopAccessingSecurityScopedResource() }
+                            if source.temporary { try? FileManager.default.removeItem(at: source.url) }
+                        })
                     try Task.checkCancellation()
                     guard state.loadOwners[deck] == token else { throw CancellationError() }
                     if pendingNativeWaveforms[deck]?.analysis.waveform.isEmpty != false {
-                        var preview = try Track(title: item.title, artist: item.artist,
+                        var preview = try Track(
+                            title: item.title, artist: item.artist,
                             mediaFilename: opening.analysis.contentSHA256 + ".native", analysis: opening.analysis)
                         preview.nativeLibraryOnly = true
                         preview.musicLibrarySources = [item.source]
                         pendingNativeWaveforms[deck] = preview
                     }
-                    adoptLibrary(try await service.registerNativePlayback(analysis: opening.analysis, metadata: source.metadata))
+                    adoptLibrary(
+                        try await service.registerNativePlayback(analysis: opening.analysis, metadata: source.metadata))
                     try Task.checkCancellation()
-                    guard state.loadOwners[deck] == token, let track = await preparedNativeTrack(item) else { throw CancellationError() }
-                    try await loadOwnedNativeTrack(track, deck: deck, sourceURL: source.url,
-                        metadata: source.metadata, token: token, opening: opening)
+                    guard state.loadOwners[deck] == token, let track = await preparedNativeTrack(item) else {
+                        throw CancellationError()
+                    }
+                    try await loadOwnedNativeTrack(
+                        track, deck: deck, sourceURL: source.url, metadata: source.metadata, token: token,
+                        opening: opening)
                 } else if item.isOnDevice {
                     try await withNativeAudio(item) { prepared in
                         var track = await self.preparedNativeTrack(item)
                         if track == nil {
-                            self.adoptLibrary(try await self.service.analyzeNativeMusic(url: prepared.url,
-                                musicLibrary: prepared.metadata, preservePreparationFor: Set(self.loaded.values), quickLoad: true))
+                            self.adoptLibrary(
+                                try await self.service.analyzeNativeMusic(
+                                    url: prepared.url, musicLibrary: prepared.metadata,
+                                    preservePreparationFor: Set(self.loaded.values), quickLoad: true))
                             track = await self.preparedNativeTrack(item)
                         }
                         try Task.checkCancellation()
                         guard state.loadOwners[deck] == token, let track else { throw CancellationError() }
                         do {
-                            try await self.loadOwnedNativeTrack(track, deck: deck, sourceURL: prepared.url,
-                                metadata: prepared.metadata, token: token)
+                            try await self.loadOwnedNativeTrack(
+                                track, deck: deck, sourceURL: prepared.url, metadata: prepared.metadata, token: token)
                         } catch TransportError.nativeSourceChanged {
                             try Task.checkCancellation()
                             guard state.loadOwners[deck] == token else { throw CancellationError() }
                             self.preparingNativeMusic.insert(deck)
                             self.status = "Preparing \(item.title)…"
-                            self.adoptLibrary(try await self.service.analyzeNativeMusic(url: prepared.url,
-                                musicLibrary: prepared.metadata, preservePreparationFor: Set(self.loaded.values), quickLoad: true))
-                            guard let replacement = await self.preparedNativeTrack(item) else { throw TransportError.stale }
-                            try await self.loadOwnedNativeTrack(replacement, deck: deck, sourceURL: prepared.url,
-                                metadata: prepared.metadata, token: token)
+                            self.adoptLibrary(
+                                try await self.service.analyzeNativeMusic(
+                                    url: prepared.url, musicLibrary: prepared.metadata,
+                                    preservePreparationFor: Set(self.loaded.values), quickLoad: true))
+                            guard let replacement = await self.preparedNativeTrack(item) else {
+                                throw TransportError.stale
+                            }
+                            try await self.loadOwnedNativeTrack(
+                                replacement, deck: deck, sourceURL: prepared.url, metadata: prepared.metadata,
+                                token: token)
                         }
                     }
                 } else if let track = await preparedNativeTrack(item), track.nativeLibraryOnly != true {
                     try Task.checkCancellation()
                     guard state.loadOwners[deck] == token else { throw CancellationError() }
-                    try await loadOwnedNativeTrack(track, deck: deck, sourceURL: nil,
-                        metadata: .init(item: item), token: token)
-                } else { status = item.availability.message; return }
+                    try await loadOwnedNativeTrack(
+                        track, deck: deck, sourceURL: nil, metadata: .init(item: item), token: token)
+                } else {
+                    status = item.availability.message
+                    return
+                }
                 musicLibraryFailures[item.id] = nil
                 if status == "Preparing \(item.title)…" { status = "" }
-                if NativeAnalysisPlan.isMix(duration: item.duration), let id = loaded[deck] { await applyAnalysisHintIfNeeded(trackID: id) }
-            } catch is CancellationError { }
-            catch {
+                if NativeAnalysisPlan.isMix(duration: item.duration), let id = loaded[deck] {
+                    await applyAnalysisHintIfNeeded(trackID: id)
+                }
+            } catch is CancellationError {} catch {
                 guard state.loadOwners[deck] == token else { return }
                 cancelDeckLoadIntent(deck: deck)
                 if let selectedID { musicLibraryFailures[selectedID] = error.localizedDescription }
@@ -248,13 +278,16 @@ extension ReplicaModel {
         }
     }
 
-    private func loadOwnedNativeTrack(_ track: Track, deck: DeckID, sourceURL: URL?,
-        metadata: MusicLibraryImportMetadata, token: UUID, asset: PCMAsset? = nil, opening: NativePlaybackOpening? = nil) async throws {
+    private func loadOwnedNativeTrack(
+        _ track: Track, deck: DeckID, sourceURL: URL?, metadata: MusicLibraryImportMetadata, token: UUID,
+        asset: PCMAsset? = nil, opening: NativePlaybackOpening? = nil
+    ) async throws {
         try Task.checkCancellation()
         guard nativeMusic.loadOwners[deck] == token else { throw CancellationError() }
         let attempt = NativeMusicLoadAttempt()
-        let root = loadPreparedTrack(trackID: track.id, deck: deck, sourceURL: sourceURL,
-            nativeMetadata: metadata, nativeLoadOwner: token, preparedAsset: asset, opening: opening, onFailure: { attempt.failure = $0 })
+        let root = loadPreparedTrack(
+            trackID: track.id, deck: deck, sourceURL: sourceURL, nativeMetadata: metadata, nativeLoadOwner: token,
+            preparedAsset: asset, opening: opening, onFailure: { attempt.failure = $0 })
         if let failure = attempt.failure { throw failure }
         guard let root else { throw TransportError.stale }
         nativeMusic.rootLoads[token] = root
@@ -274,13 +307,12 @@ extension ReplicaModel {
         let sources = track.musicLibrarySources ?? []
         let projection = nativeMusic.projection
         let selection = sources.first.map {
-            MusicLibraryItem(source: $0, title: track.title, artist: track.artist, album: track.album ?? "",
+            MusicLibraryItem(
+                source: $0, title: track.title, artist: track.artist, album: track.album ?? "",
                 duration: track.analysis.duration, assetURL: nil, availability: .unavailable)
         }
         beginNativeMusicLoad(deck: deck, selection: selection) {
-            await projection.run {
-                catalog?.items.first { sources.contains($0.source) && $0.isOnDevice }
-            }
+            await projection.run { catalog?.items.first { sources.contains($0.source) && $0.isOnDevice } }
         }
     }
 
@@ -306,21 +338,27 @@ extension ReplicaModel {
     }
 
     func closeNativeMusic() async {
-        nativeMusic.closed = true; nativeMusic.wanted = false
-        cancelNativeMusicAnalysis(); cancelPendingNativeMusicLoads()
-        await flushNativeMusicLoads(); await flushNativeMusicAnalysis()
+        nativeMusic.closed = true
+        nativeMusic.wanted = false
+        cancelNativeMusicAnalysis()
+        cancelPendingNativeMusicLoads()
+        await flushNativeMusicLoads()
+        await flushNativeMusicAnalysis()
     }
 
-    func withNativeAudio<Value: Sendable>(_ item: MusicLibraryItem,
-        perform: @MainActor (PreparedMusicLibraryAudio) async throws -> Value) async throws -> Value {
+    func withNativeAudio<Value: Sendable>(
+        _ item: MusicLibraryItem, perform: @MainActor (PreparedMusicLibraryAudio) async throws -> Value
+    ) async throws -> Value {
         let directory = store.root.appendingPathComponent(".native-source-" + UUID().uuidString, isDirectory: true)
         let files = nativeMusic.files
         do {
             let prepared = try await musicLibraryProvider.prepare(item, in: directory)
             let scoped = await files.run { prepared.url.startAccessingSecurityScopedResource() }
             let outcome: Result<Value, Error>
-            do { try Task.checkCancellation(); outcome = .success(try await perform(prepared)) }
-            catch { outcome = .failure(error) }
+            do {
+                try Task.checkCancellation()
+                outcome = .success(try await perform(prepared))
+            } catch { outcome = .failure(error) }
             await files.run {
                 if scoped { prepared.url.stopAccessingSecurityScopedResource() }
                 if prepared.temporary { try? FileManager.default.removeItem(at: prepared.url) }

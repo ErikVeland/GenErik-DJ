@@ -1,3 +1,0 @@
-FAIL: native playback preparation awaits full decode: True
-FAIL: cold streamed playback converts every frame: True
-FAIL: quick native import awaits whole waveform: True

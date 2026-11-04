@@ -1,5 +1,6 @@
-import Testing
 import TDJCore
+import Testing
+
 @testable import TDJInterface
 
 @Test func choosingAGroupSlidesItsSongsInAndASwipeTracksTheFingerOneToOne() {
@@ -19,7 +20,8 @@ import TDJCore
 
 @Test func releasingFarEnoughOrFlickingGoesBackAndShortSwipesSpringBack() {
     var stack = BrowserPaneStack()
-    stack.select(.artists); stack.open(group: "artist")
+    stack.select(.artists)
+    stack.open(group: "artist")
     let short = stack.dragEnded(translation: 90, velocity: 100, width: 600)
     #expect(!short && stack.depth == 1 && stack.dragOffset == 0)
     let far = stack.dragEnded(translation: 220, velocity: 0, width: 600)
@@ -33,7 +35,8 @@ import TDJCore
 
 @Test func changingCategoryReturnsToItsRootPane() {
     var stack = BrowserPaneStack()
-    stack.select(.albums); stack.open(group: "album")
+    stack.select(.albums)
+    stack.open(group: "album")
     stack.select(.genre)
     #expect(stack.depth == 0 && stack.group == nil && stack.category == .genre)
 }

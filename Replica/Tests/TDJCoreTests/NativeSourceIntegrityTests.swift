@@ -1,6 +1,7 @@
 import AVFoundation
 import Foundation
 import Testing
+
 @testable import TDJCore
 
 private func nativeIntegrityAudio(_ url: URL, sample: Float, frames: AVAudioFrameCount = 512) throws {
@@ -15,8 +16,7 @@ private func nativeIntegrityAudio(_ url: URL, sample: Float, frames: AVAudioFram
     file = nil
 }
 
-@Test(arguments: [false, true])
-func nativeSourceMustMatchAnalysisBeforeCreatingOrReusingPCMCache(cached: Bool) throws {
+@Test(arguments: [false, true]) func nativeSourceMustMatchAnalysisBeforeCreatingOrReusingPCMCache(cached: Bool) throws {
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
     defer { try? FileManager.default.removeItem(at: root) }
     let store = try WorkspaceStore(root: root)
@@ -28,9 +28,7 @@ func nativeSourceMustMatchAnalysisBeforeCreatingOrReusingPCMCache(cached: Bool) 
     let track = try Track(title: "Source A", mediaFilename: "not-copied.caf", analysis: analysis)
     #expect(try AudioAnalyzer.sha256(url: b) != track.id)
     if cached { _ = try PCMCache.prepare(track: track, store: store, sourceURL: a) }
-    #expect(throws: TransportError.self) {
-        _ = try PCMCache.prepare(track: track, store: store, sourceURL: b)
-    }
+    #expect(throws: TransportError.self) { _ = try PCMCache.prepare(track: track, store: store, sourceURL: b) }
 }
 
 @Test func filesImportPromotesAnExistingNativeReferenceToManagedMedia() async throws {
@@ -40,8 +38,9 @@ func nativeSourceMustMatchAnalysisBeforeCreatingOrReusingPCMCache(cached: Bool) 
     let service = try LibraryService(store: store)
     let source = root.appendingPathComponent("original.caf")
     try nativeIntegrityAudio(source, sample: 0.1)
-    let item = MusicLibraryItem(source: .init(platform: .macMusic, persistentID: "promotion"),
-        title: "Original", artist: "Artist", assetURL: source, availability: .available)
+    let item = MusicLibraryItem(
+        source: .init(platform: .macMusic, persistentID: "promotion"), title: "Original", artist: "Artist",
+        assetURL: source, availability: .available)
     let native = try await service.analyzeNativeMusic(url: source, musicLibrary: .init(item: item), quickLoad: true)
     #expect(native.tracks.first?.nativeLibraryOnly == true)
     let imported = try await service.importAudio(url: source)
@@ -58,7 +57,13 @@ func nativeSourceMustMatchAnalysisBeforeCreatingOrReusingPCMCache(cached: Bool) 
 private final class NativeMutationOnce: @unchecked Sendable {
     private let lock = NSLock()
     private var changed = false
-    func claim() -> Bool { lock.withLock { if changed { return false }; changed = true; return true } }
+    func claim() -> Bool {
+        lock.withLock {
+            if changed { return false }
+            changed = true
+            return true
+        }
+    }
     var didChange: Bool { lock.withLock { changed } }
 }
 
@@ -76,15 +81,24 @@ private final class NativeMutationOnce: @unchecked Sendable {
     let cacheDirectory = root.appendingPathComponent("PlaybackCache")
     let mutation = NativeMutationOnce()
     #expect(throws: TransportError.self) {
-        _ = try PCMCache.prepare(track: track, store: store, sourceURL: source, checkCancellation: {
-            let partials = (try? FileManager.default.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: [.fileSizeKey])) ?? []
-            if partials.contains(where: { $0.pathExtension == "partial" && ((try? $0.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0) > 0 }), mutation.claim() {
-                try replacement.write(to: source)
-            }
-        })
+        _ = try PCMCache.prepare(
+            track: track, store: store, sourceURL: source,
+            checkCancellation: {
+                let partials =
+                    (try? FileManager.default.contentsOfDirectory(
+                        at: cacheDirectory, includingPropertiesForKeys: [.fileSizeKey])) ?? []
+                if partials.contains(where: {
+                    $0.pathExtension == "partial"
+                        && ((try? $0.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0) > 0
+                }), mutation.claim() {
+                    try replacement.write(to: source)
+                }
+            })
     }
     #expect(mutation.didChange)
-    #expect(!FileManager.default.fileExists(atPath: cacheDirectory.appendingPathComponent(track.id + "-stereo-f32-v1.pcm").path))
+    #expect(
+        !FileManager.default.fileExists(
+            atPath: cacheDirectory.appendingPathComponent(track.id + "-stereo-f32-v1.pcm").path))
 }
 
 private final class NativeAnalysisHold: @unchecked Sendable {
@@ -93,10 +107,18 @@ private final class NativeAnalysisHold: @unchecked Sendable {
     private let lock = NSLock()
     private var opened = false
     private var expired = false
-    func hold() { entered.continuation.yield(()); release.wait() }
+    func hold() {
+        entered.continuation.yield(())
+        release.wait()
+    }
     func waitUntilEntered() async { for await _ in entered.stream { return } }
     func open(expired: Bool = false) {
-        let signal = lock.withLock { self.expired = self.expired || expired; if opened { return false }; opened = true; return true }
+        let signal = lock.withLock {
+            self.expired = self.expired || expired
+            if opened { return false }
+            opened = true
+            return true
+        }
         if signal { release.signal() }
     }
     var timedOut: Bool { lock.withLock { expired } }
@@ -109,17 +131,26 @@ private final class NativeAnalysisHold: @unchecked Sendable {
     try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
     try nativeIntegrityAudio(source, sample: 0.1)
     let service = try LibraryService(store: WorkspaceStore(root: root))
-    let item = MusicLibraryItem(source: .init(platform: .macMusic, persistentID: "quick"),
-        title: "Quick", artist: "Artist", assetURL: source, availability: .available)
+    let item = MusicLibraryItem(
+        source: .init(platform: .macMusic, persistentID: "quick"), title: "Quick", artist: "Artist", assetURL: source,
+        availability: .available)
     let held = NativeAnalysisHold()
-    let full = Task { try await AnalysisWorker.shared.run { _ in held.hold(); return true } }
+    let full = Task {
+        try await AnalysisWorker.shared.run { _ in
+            held.hold()
+            return true
+        }
+    }
     await held.waitUntilEntered()
     // The watchdog releases the held worker. It is not an audio deadline.
     let watchdog = Task.detached {
         do { try await Task.sleep(for: .seconds(2)) } catch { return }
         held.open(expired: true)
     }
-    defer { held.open(); watchdog.cancel() }
+    defer {
+        held.open()
+        watchdog.cancel()
+    }
     let snapshot = try await service.analyzeNativeMusic(url: source, musicLibrary: .init(item: item), quickLoad: true)
     #expect(!held.timedOut)
     #expect(snapshot.tracks.first?.analysis.musicalAnalysisDeferred == true)
@@ -133,7 +164,8 @@ private final class NativeAnalysisHold: @unchecked Sendable {
     try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
     let source = root.appendingPathComponent("source.caf")
     try nativeIntegrityAudio(source, sample: 0.125, frames: 65536)
-    let a = root.appendingPathComponent("first.caf"), b = root.appendingPathComponent("second.caf")
+    let a = root.appendingPathComponent("first.caf")
+    let b = root.appendingPathComponent("second.caf")
     try await MusicLibraryAudio.decodeAsset(url: source, destination: a)
     try await MusicLibraryAudio.decodeAsset(url: source, destination: b)
     #expect(try AudioAnalyzer.sha256(url: a) == AudioAnalyzer.sha256(url: b))

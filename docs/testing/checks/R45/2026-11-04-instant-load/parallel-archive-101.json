@@ -1,9 +1,0 @@
-{
-  "notes": "Previous local build retained. Source identity unverified.",
-  "sourceCommit": null,
-  "build": 101,
-  "app": "TestBuilds/ipad/101/GenErikDJ.app",
-  "appSHA256": "8b7086dadf945bc83467d15ef37dd071b02e7dc980e0244f97d8c76909fe17e0",
-  "state": "ready",
-  "createdUTC": "2026-11-04T09:14:59.334955+00:00"
-}

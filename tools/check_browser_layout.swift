@@ -1,26 +1,33 @@
-import Foundation
 import CoreGraphics
+import Foundation
 
-@main
-enum BrowserLayoutChecks {
+@main enum BrowserLayoutChecks {
     static func main() {
         var checks = 0
         var failures = 0
         func expect(_ condition: Bool, _ message: String) {
             checks += 1
-            if !condition { failures += 1; print("FAIL: \(message)") }
+            if !condition {
+                failures += 1
+                print("FAIL: \(message)")
+            }
         }
         for width in [320.0, 375, 430, 599, 600, 619, 744, 834, 1112] {
-            expect(BrowserPresentation.select(isPhone: false, windowWidth: width) == .standard,
+            expect(
+                BrowserPresentation.select(isPhone: false, windowWidth: width) == .standard,
                 "iPad keeps its existing layout at every window width")
         }
-        for (width, front) in [(320.0, true), (375, true), (430, true), (599, true),
-                               (600, false), (619, false), (744, false), (834, false), (1112, false)] {
-            expect((BrowserPresentation.select(isPhone: true, windowWidth: width) == .frontPhone) == front,
+        for (width, front) in [
+            (320.0, true), (375, true), (430, true), (599, true), (600, false), (619, false), (744, false),
+            (834, false), (1112, false),
+        ] {
+            expect(
+                (BrowserPresentation.select(isPhone: true, windowWidth: width) == .frontPhone) == front,
                 "only a compact phone window receives the front-screen design")
         }
         for width in [0.0, -1, .nan, .infinity] {
-            expect(BrowserPresentation.select(isPhone: true, windowWidth: width) == .standard,
+            expect(
+                BrowserPresentation.select(isPhone: true, windowWidth: width) == .standard,
                 "unknown geometry cannot opt into the front-screen design")
         }
         var standard = StandardBrowserLayoutState(categoriesHidden: true)
@@ -63,22 +70,29 @@ enum BrowserLayoutChecks {
             let dock = PerformanceDockGeometry(width: width, height: height)
             for extent in [180.0, 320, 600, 800] {
                 let workspace = PerformanceWorkspaceGeometry(width: width, height: height, libraryExtent: extent)
-                let browser = BrowserContentGeometry(width: workspace.libraryArea.width, height: workspace.libraryArea.height)
-                expect(browser.listArea.minX == 0 && browser.listArea.width == width - 96,
+                let browser = BrowserContentGeometry(
+                    width: workspace.libraryArea.width, height: workspace.libraryArea.height)
+                expect(
+                    browser.listArea.minX == 0 && browser.listArea.width == width - 96,
                     "songs and suggestions have no reserved side columns")
                 expect(browser.drawerWidth <= browser.listArea.width, "drawer fits inside browser")
                 expect(browser.listArea.maxY <= workspace.libraryArea.height, "list fits inside library")
-                expect(workspace.dock.aButtons == dock.aButtons && workspace.dock.bButtons == dock.bButtons
-                    && workspace.dock.crossfader == dock.crossfader, "library keeps performance anchors")
-                let globalList = browser.listArea.offsetBy(dx: workspace.libraryArea.minX, dy: workspace.libraryArea.minY)
-                expect(!(dock.aButtons + dock.bButtons + [dock.crossfader]).contains { $0.intersects(globalList) },
+                expect(
+                    workspace.dock.aButtons == dock.aButtons && workspace.dock.bButtons == dock.bButtons
+                        && workspace.dock.crossfader == dock.crossfader, "library keeps performance anchors")
+                let globalList = browser.listArea.offsetBy(
+                    dx: workspace.libraryArea.minX, dy: workspace.libraryArea.minY)
+                expect(
+                    !(dock.aButtons + dock.bButtons + [dock.crossfader]).contains { $0.intersects(globalList) },
                     "browser content cannot cover a performance control")
             }
         }
         for (width, height) in [(0.0, 0.0), (-1, -2), (.nan, .infinity)] {
             let browser = BrowserContentGeometry(width: width, height: height)
-            expect([browser.listArea.width, browser.listArea.height, browser.drawerWidth].allSatisfy { $0.isFinite && $0 >= 0 },
-                "invalid dimensions remain finite and non-negative")
+            expect(
+                [browser.listArea.width, browser.listArea.height, browser.drawerWidth].allSatisfy {
+                    $0.isFinite && $0 >= 0
+                }, "invalid dimensions remain finite and non-negative")
         }
         print("\(checks) browser navigation and geometry checks; \(failures) failures")
         if failures > 0 { exit(1) }
