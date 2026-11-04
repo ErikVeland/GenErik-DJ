@@ -183,7 +183,20 @@ struct CrossfaderView: View {
             GeometryReader { geometry in
                 let inset: CGFloat = width>36 ? 10 : 8
                 ZStack {
-                    RoundedRectangle(cornerRadius:1).fill(.black.opacity(0.6)).frame(width:10)
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(Color.black.opacity(0.6))
+                        .overlay { RoundedRectangle(cornerRadius: 3).strokeBorder(PerformancePalette.secondaryText.opacity(0.3)) }
+                        .frame(width: width > 36 ? width - 16 : 10)
+                    if width > 36 {
+                        VStack {
+                            Text("A")
+                            Spacer(minLength: 0)
+                            Rectangle().fill(PerformancePalette.secondaryText.opacity(0.5)).frame(height: 1)
+                            Spacer(minLength: 0)
+                            Text("B")
+                        }.font(.system(size: 11, weight: .bold)).foregroundStyle(PerformancePalette.secondaryText)
+                            .padding(.vertical, 4).padding(.horizontal, 14).allowsHitTesting(false)
+                    }
                     RoundedRectangle(cornerRadius:2).fill(Color(white:0.35))
                         .frame(width:max(24,width-12),height:inset*2)
                         .overlay { Rectangle().fill(Color(white:0.7)).frame(height:6).padding(.horizontal,5) }

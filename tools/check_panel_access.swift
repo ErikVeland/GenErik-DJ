@@ -16,10 +16,14 @@ enum PanelAccessChecks {
         expect(!deck.controlsEnabled, "empty deck disables the Controls entry")
         deck.setTrackAvailable(true)
         expect(deck.controlsEnabled, "loaded deck enables the Controls entry")
+        expect(deck.extraVisible, "loading a deck immediately shows Flux and the other controls")
+        if deck.extraVisible { deck.toggleControls() }
+        let full = deck.geometry(width: 1004, height: 240)
+        expect(full.waveformWidth == full.mainWidth, "expanded waveforms use the space below the cover")
         deck.toggleEffects()
-        expect(deck.geometry(width: 1004, height: 240).effectsContent.width == 428, "FX opens at half the available panel budget")
+        expect(deck.geometry(width: 1004, height: 240).effectsContent.width == 454, "FX opens at half the available panel budget")
         deck.toggleMixer()
-        expect(deck.geometry(width: 1004, height: 240).mixerContent.width == 428, "EQ opens at a substantial width beside FX")
+        expect(deck.geometry(width: 1004, height: 240).mixerContent.width == 454, "EQ opens at a substantial width beside FX")
         var cancellations = 0
         let fx = deck.effectsInput.register { cancellations += 1 }
         let eq = deck.mixerInput.register { cancellations += 1 }
@@ -34,13 +38,13 @@ enum PanelAccessChecks {
         deck.cancel(.mixer)
         expect(deck.geometry(width: 1004, height: 240).mixerHandle.minX == before, "cancel restores the constrained EQ boundary")
         deck.toggleControls()
-        expect(!deck.extraVisible && deck.geometry(width: 1004, height: 240).mixerContent.width == 428, "hiding Controls restores the chosen panel space")
+        expect(!deck.extraVisible && deck.geometry(width: 1004, height: 240).mixerContent.width == 454, "hiding Controls restores the chosen panel space")
         deck.begin(.effects); deck.update(.effects, translation: -64); deck.end(.effects, velocity: 0)
         deck.toggleEffects(); deck.toggleEffects()
-        expect(deck.geometry(width: 1004, height: 240).effectsContent.width == 364, "explicitly resized FX width survives reopening")
+        expect(deck.geometry(width: 1004, height: 240).effectsContent.width == 390, "explicitly resized FX width survives reopening")
         deck.configure(width: 1204, portrait: false, handleExtent: 12)
-        expect(deck.geometry(width: 1204, height: 240).effectsContent.width == 364, "full-screen expansion retains the user's chosen FX size")
-        expect(deck.geometry(width: 1204, height: 240).mixerContent.width == 528, "untouched EQ defaults grow with the available workspace")
+        expect(deck.geometry(width: 1204, height: 240).effectsContent.width == 390, "full-screen expansion retains the user's chosen FX size")
+        expect(deck.geometry(width: 1204, height: 240).mixerContent.width == 554, "untouched EQ defaults grow with the available workspace")
         deck.effectsInput.unregister(fx); deck.mixerInput.unregister(eq)
         deck.setTrackAvailable(false)
         expect(!deck.controlsEnabled && !deck.extraVisible, "unloading still closes empty Controls")
@@ -55,6 +59,7 @@ enum PanelAccessChecks {
         for width in [1004.0, 726] {
             let panels = DeckPanelPresentation()
             panels.setTrackAvailable(true); panels.configure(width: width, portrait: width < 800, handleExtent: 12)
+            if panels.extraVisible { panels.toggleControls() }
             panels.toggleEffects(); panels.toggleMixer(); panels.toggleControls()
             let g = panels.geometry(width: width, height: 240)
             expect(panels.extraVisible && g.extraWidth >= 144, "Controls remains reachable in both iPad orientations")

@@ -24,7 +24,9 @@ final class DeckPanelPresentation {
 
     func configure(width: Double, portrait: Bool, handleExtent: Double = 44) {
         guard width != configuredWidth || portrait != configuredPortrait || self.handleExtent != handleExtent else { return }
+        let firstConfiguration = configuredWidth == nil
         sizing.configure(width: width, portrait: portrait, handleExtent: handleExtent)
+        if firstConfiguration && hasTrack { sizing.setPresented(.extra, true) }
         self.handleExtent = handleExtent
         dragWasPresented.removeAll()
         configuredWidth = width; configuredPortrait = portrait
@@ -40,7 +42,9 @@ final class DeckPanelPresentation {
     func setTrackAvailable(_ available: Bool) {
         guard available != hasTrack else { return }
         hasTrack = available
-        if !available {
+        if available {
+            sizing.setPresented(.extra, true)
+        } else {
             for kind in PerformancePanel.allCases {
                 sizing.cancel(kind); sizing.setPresented(kind, false); commands[kind] = UUID()
             }

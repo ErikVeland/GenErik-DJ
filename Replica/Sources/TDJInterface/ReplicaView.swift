@@ -287,6 +287,7 @@ struct DeckView: View {
     private var mixerInput: TouchSurfaceInputGate { panels.mixerInput }
     @AppStorage(DeckToolSettings.tempoFader) private var tempoFader = false
     @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
+    @AppStorage(DeckToolSettings.headphoneButton) private var headphoneButton = false
     @AppStorage(DeckToolSettings.hotcuePads) private var hotcuePads = false
     private var selection: MusicLibraryItem? { model.pendingNativeSelection[deck] }
     private var track: Track? { selection == nil ? model.track(deck) : nil }
@@ -296,7 +297,8 @@ struct DeckView: View {
         GeometryReader { deckSpace in
         let layout = AdaptiveDeckGeometry(height: max(0, deckSpace.size.height - 8),
             hotcues: (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil, compactControls: track != nil || selection != nil)
-        let availableWidth = max(0, deckSpace.size.width - (tempoFader && track != nil ? 68:0))
+        let artworkInset = layout.headerHeight < 44 ? 52.0 : 0
+        let availableWidth = max(0, deckSpace.size.width - artworkInset - (tempoFader && track != nil ? 68:0))
         let sizes = panels.geometry(width: availableWidth, height: layout.waveformHeight)
         HStack(spacing: 4) {
         ZStack(alignment: .topLeading) {
@@ -314,6 +316,7 @@ struct DeckView: View {
             DeckHeader(model: model, deck: deck, dense: true, showsArtwork: false,
                 controlsVisible: panels.extraVisible, controlsEnabled: panels.controlsEnabled,
                 toggleControls: { panels.toggleControls() })
+                .padding(.leading, artworkInset == 0 ? 52 : 0)
                 .frame(height: layout.headerHeight, alignment: .top).clipped()
                 .opacity(layout.expansion).allowsHitTesting(layout.headerHeight >= 44)
                 .transformEnvironment(\.frontDeckSwipeEnabled) { $0 = $0 && layout.headerHeight >= 44 }
@@ -373,19 +376,29 @@ struct DeckView: View {
             }.frame(height: layout.footerHeight).clipped().opacity(layout.expansion)
                 .allowsHitTesting(layout.footerHeight >= 44).accessibilityHidden(layout.footerHeight < 44)
                 .protectsFrontDeckSwipe()
-        }.padding(.leading, 52)
-        }.frame(width:sizes.mainWidth)
+        }.padding(.leading, artworkInset)
+        }.frame(width:sizes.mainWidth + artworkInset)
         if tempoFader && track != nil { DeckTempoFader(model:model,deck:deck) }
         panelHandle(.extra, edge:.trailing, title:"MORE")
-        ScrollView(.vertical) {
-            VStack(spacing: 8) {
-                if track != nil { PerformanceControls(model: model, deck: deck) }
-                OptionalHeadphoneButton(model: model, deck: deck)
-                if cueButton {
-                    Button("CUE") { model.pressCue(deck: deck) }.disabled(track == nil)
-                        .accessibilityLabel("Cue on deck \(deck.rawValue.uppercased())")
+        GeometryReader { controlSpace in
+            let returnControl = model.previewing.contains(deck) && !model.frozen.contains(deck) && !editing
+            ScrollView(.vertical) {
+                VStack(spacing: 8) {
+                    if track != nil {
+                        PerformanceControls(model: model, deck: deck)
+                    } else if selection != nil {
+                        Text("Preparing audio…").font(.caption).foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
+                    OptionalHeadphoneButton(model: model, deck: deck)
+                    if cueButton {
+                        Button("CUE") { model.pressCue(deck: deck) }.disabled(track == nil)
+                            .accessibilityLabel("Cue on deck \(deck.rawValue.uppercased())")
+                    }
                 }
-            }.padding(8)
+                .padding(8)
+                .frame(height: max(176 + (cueButton ? 56 : 0) + (headphoneButton ? 56 : 0) + (returnControl ? 56 : 0), controlSpace.size.height))
+            }
         }
         .font(.system(size: 17, weight: .semibold))
         .buttonStyle(PerformanceToolButtonStyle())
@@ -1012,7 +1025,7 @@ private struct DeckHeader: View {
                 }
                 }.frame(minWidth: 0, maxWidth: .infinity).clipped().contentShape(Rectangle())
                 Button(action: toggleControls) {
-                    Label("Controls", systemImage: "slider.horizontal.3")
+                    Label("Flux / Cues", systemImage: "slider.horizontal.3")
                         .font(.system(size: 12, weight: .semibold)).frame(width: 96, height: 44)
                         .foregroundStyle(controlsVisible ? PerformancePalette.cyan : PerformancePalette.text)
                         .bevelPanel(cornerRadius: 3, sunken: !controlsVisible)
@@ -1080,8 +1093,7 @@ private struct DeckWaveform: View {
 
                 } else {
                     ZStack {
-                        Color.black.opacity(0.4)
-                        Rectangle().fill(deckBlue.opacity(0.2)).frame(height: 1)
+                        Color.black
                         Text("No track loaded").font(.system(size: 12)).foregroundStyle(.secondary)
                     }.contentShape(Rectangle()).gesture(DragGesture(minimumDistance:40).onEnded { value in
                         if !mixerVisible && value.translation.height < -70 && abs(value.translation.height) > abs(value.translation.width) { model.showLibrary() }

@@ -1,0 +1,62 @@
+{
+  "requestIDs": [
+    "R02",
+    "R30"
+  ],
+  "feedbackBuild": 107,
+  "parentCommit": "6bd1a3e9f850dc5c377b8f1fceee1992e478f38e",
+  "sourceHashes": {
+    "Replica/Sources/TDJInterface/BrowserSections.swift": "871ab4d56a8dd4d5f014aed0bf1b5ed973fd8dcde2bf74953f65647354ded12a",
+    "Replica/Sources/TDJInterface/DeckPanelPresentation.swift": "3b3d02ef0daa2e06414efef8297008983491db678e88e7a378bb80ba5970258c",
+    "Replica/Sources/TDJInterface/DeckPanelSizing.swift": "6e3c6d38c2be02df921d0b0ac933423a0fb9ed9a9d112fac580bbf8ff57e4e00",
+    "Replica/Sources/TDJInterface/MixerView.swift": "469647d7b7fdc209912249d3b960093b84146f2389ab5dae32250aeb80b18304",
+    "Replica/Sources/TDJInterface/PerformanceControls.swift": "57267fd40191d2b577d8021de6ebec9318b487650946006a3adbd9a32668ea3f",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "b4b9fa787585432b2bb7bba7cbd1c0f79cd82be5484d8a2aca959d9502a889f9",
+    "Replica/Tests/TDJInterfaceTests/DeckSpaceRenderingTests.swift": "4a5fd00df48ea35c12f31e311591fdf85668c73da5a22d7155131e54032c47c2",
+    "tools/check_panel_access.swift": "2c3e6e67ce9fb969ab8d100d1f0ea98b8cfd3d5e2efb46a59518bd6e6418d325"
+  },
+  "checks": {
+    "access": {
+      "assertions": 23,
+      "failures": 0,
+      "log": "access-final.log"
+    },
+    "panels": {
+      "assertions": 1432,
+      "failures": 0,
+      "log": "panels-final.log"
+    },
+    "dock": {
+      "assertions": 1330,
+      "failures": 0,
+      "log": "dock-final.log"
+    },
+    "render": {
+      "exitCode": 0,
+      "functions": 1,
+      "seconds": 3.551,
+      "heights": [
+        180,
+        344
+      ],
+      "log": "render-final.log",
+      "assertions": "Initial controls visible, recognised Flux/Freeze/Cues labels at both heights, filled lower panel and solid black empty waveform. Mounted dock image inspected."
+    },
+    "manifest": "restored exactly",
+    "whitespace": "passed",
+    "review": "Serial self-review under the project rule against additional agents."
+  },
+  "findings": [
+    "Mounted host renders show the old panel after opening. The physical iPad blank panel is not reproduced directly.",
+    "ImageRenderer alone omits scroll content. Mounted NSHostingView is used for control visibility.",
+    "The old panel starts closed and leaves unused space below its minimum-height content.",
+    "A 52-point artwork column stays reserved below the cover. The empty waveform draws a line through its label.",
+    "The fixed crossfader occupies the gap but its old narrow dark track is hard to see."
+  ],
+  "failedAttempts": [
+    "geometry-red.log: hidden initial controls and reserved artwork column",
+    "render-red.log: seven visibility, label, fill and background failures",
+    "geometry-green.log: old explicit-open fixture toggled the newly automatic panel closed. Fixture corrected."
+  ],
+  "acceptance": "Erik checks actual iPad control visibility and access, Flux/Freeze/Cues, drawer gestures, waveform space, crossfader feel, empty background and clean audio. Physical acceptance remains open."
+}

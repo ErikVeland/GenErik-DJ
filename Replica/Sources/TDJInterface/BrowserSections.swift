@@ -162,7 +162,6 @@ struct SettingsBrowser: View {
     @State private var page = Page.playback
     @AppStorage(BrowserSettings.notificationCenterKey) private var notificationCenter = true
     @AppStorage(BrowserSettings.onlyLoadToOffAirDecksKey) private var offAir = false
-    @AppStorage(BrowserSettings.fluxModeKey) private var fluxMode = true
     @AppStorage(BrowserSettings.superSlicerKey) private var superSlicer = true
     var body: some View {
         HStack(spacing: 0) {
@@ -212,7 +211,6 @@ struct SettingsBrowser: View {
             Text("Recordings share from the Recordings section with the system share sheet, which includes any installed upload app. This build has no Mixcloud sign-in.")
                 .foregroundStyle(.secondary)
         case .features:
-            Toggle("Flux Mode", isOn: $fluxMode)
             Toggle("SuperSlicer", isOn: $superSlicer)
             Divider()
             Text("Extra Controls").font(.headline)

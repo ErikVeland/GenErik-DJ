@@ -5,7 +5,18 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 111.02,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "requestIDs": [
+        "R02",
+        "R30"
+      ],
+      "date": "2026-11-04",
+      "report": "Controls shows nothing. Flux and other controls remain hard to find. Use blank space under artwork and between right-side controls. Give No track loaded a black background without a line through it.",
+      "buildAssumption": 107,
+      "status": "Investigating rendered control layout and unused space."
+    }
+  ],
   "log": "TestBuilds/ipad/build-107.log",
   "build": 107,
   "app": "TestBuilds/ipad/107/GenErikDJ.app",

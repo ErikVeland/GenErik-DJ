@@ -1,0 +1,74 @@
+warning: 'replica': found 59 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/AdaptiveDeckGeometryTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/AdaptiveGridEditorTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/ArrangementIntegrationTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/ArtworkTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/BackgroundFileWorkTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/BackgroundPreparationTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/BackgroundWorkValueTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/BrowserLayoutStateTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/BrowserPaneStackTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/ColdPlayCancellationTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/ControlMaintenanceTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/ControllerMIDIProfileTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/DeckToolsTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/EffectControlDisplayTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/EffectDelayDisplayTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/EffectPadGestureTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/EffectSelectorGestureTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/FaderLiveInputTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/FilterPadContactTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/FirstUseNativePlaybackTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/FreeRateContinuityTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/GestureWorkflowTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/GridContactTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/InstantTrackLoadTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/LibraryBrowserFixTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/LibraryBrowserPlaylistSaveTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/LibraryBrowserRequestTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/LibraryLookupPublicationTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/LibraryLookupScalabilityTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/LoadReadinessPersistenceTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/LoadSliderGestureTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/ModelLibraryStorageTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/MouseContactLifecycleTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/MusicImportCleanupTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/MusicLibraryWorkflowTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/NativeMusicLoadOwnershipTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/NativeMusicSourceRecoveryTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/OutputRouteContinuityTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/PairHistoryWorkflowTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/PaneDismissGestureTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/PanelInputGateTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/PlaybackControlDisplayTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/PreparationLoadPinTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/RecordingWorkflowTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/RecoveryIntegrationTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/RetainedMixerPaneTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/RuntimeEffectControlAccessTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/RuntimeFilterContactSessionTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/SecurityScopedFileAccessTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/StreamedPlaybackIntegrationTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/SuperSlicerGestureTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/TempoWheelResetTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/TourScreensTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/VerticalFaderGestureTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/VinylBrakeGestureTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/WarmPlaySubmissionTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/WaveformScratchContinuityTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/WorkflowTests.swift
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/Z1EffectWorkflowTests.swift
+Building for debugging...
+[3 / 9] TDJInterfaceTests-product
+[5 / 13]
+[7 / 13] TDJInterfaceTests-product
+[10 / 14] TDJInterfaceTests-product
+[12 / 17] TDJInterfaceTests-product
+[14 / 17] TDJInterfaceTests-product
+Build complete! (3.50 sec.)
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test deckControlsRenderInsideTheirAllocatedSpace() started.
+􁁛  Test deckControlsRenderInsideTheirAllocatedSpace() passed after 3.107 seconds.
+􁁛  Test run with 1 test in 0 suites passed after 3.107 seconds.

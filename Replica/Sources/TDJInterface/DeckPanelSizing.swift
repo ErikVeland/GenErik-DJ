@@ -19,11 +19,11 @@ struct DeckPanelsGeometry {
     init(width: Double, height: Double, effects: Double, mixer: Double, extra: Double, handleExtent: Double = 44) {
         func finite(_ value: Double) -> Double { value.isFinite ? max(0, value) : 0 }
         let inner = max(0, finite(width) - 8)
-        extraBudget = max(0, inner - handleExtent - 8 - 52 - 2 * handleExtent - 44)
+        extraBudget = max(0, inner - handleExtent - 8 - 2 * handleExtent - 44)
         maximumExtraWidth = min(320, extraBudget)
         extraWidth = min(maximumExtraWidth, finite(extra))
         mainWidth = max(0, inner - extraWidth - handleExtent - 8)
-        waveformWidth = max(0, mainWidth - 52)
+        waveformWidth = mainWidth
         sideBudget = max(0, waveformWidth - 2 * handleExtent - 44)
         let fx = min(max(0, sideBudget - min(200, finite(mixer))), finite(effects))
         let eq = min(max(0, sideBudget - fx), finite(mixer))
