@@ -22,6 +22,12 @@ First-use native export, initial waveform generation and full PCM-cache decoding
 - Build 101 passes compilation, source identity, archive digest, framework resolution and signing. Its source is `df33fd13f`. A compiler-task diagnostic appears in the log, but the build exits successfully.
 - The signed iPad build, installation and acceptance state are recorded in `result.json` and the numbered build record.
 
+## iPad handover
+
+Build 101 installed on the 10.5-inch test iPad. The 20-second install attempt timed out. A 90-second retry completed installation. Automatic launch then timed out after ten seconds. Launch and continued operation are unconfirmed. Erik opens GenErik DJ manually. Device actions stopped.
+
+The saved app and these runtime results use source `df33fd13f`. R44 was merged later to preserve its separate waveform work. These results do not qualify that later combined source.
+
 ## Erik's check
 
 1. Load an unanalysed track on deck A.

@@ -10,12 +10,28 @@
   "build": 101,
   "app": "TestBuilds/ipad/101/GenErikDJ.app",
   "appSHA256": "8b7086dadf945bc83467d15ef37dd071b02e7dc980e0244f97d8c76909fe17e0",
-  "state": "ready",
+  "state": "installed",
   "createdUTC": "2026-11-04T09:14:54.585926+00:00",
   "requestIDs": [
     "R45"
   ],
   "focusedChecks": "Five source-order checks and five runtime tests covering eight cases passed. The initial focused command stopped on existing ControllerMIDIUMPDecoderTests optional-chaining errors. An isolated test manifest includes only the two selected test files. The original manifest was restored. Both outputs are retained.",
   "artifactChecks": "Compilation, source identity, saved app digest, embedded framework resolution and signing passed. Reused the existing iPad device-build cache.",
-  "acceptance": "Erik checks cold/warm A/B loads, saved waveform feedback before analysis, immediate Play, second-tap cancellation, replacement and failure recovery, manual preparation and clean other-deck audio. First-use native export and initial waveform/PCM decoding remain open latency work."
+  "acceptance": "Installed on the 10.5-inch test iPad. Erik opens the app manually. Check cold/warm A/B loads, waveform feedback before analysis, immediate Play, second-tap cancellation, replacement/failure, manual preparation and clean other-deck audio. First-use native export and waveform/PCM decoding remain open latency work. No further device actions after the launch timeout.",
+  "installedUTC": "2026-11-04T09:24:47.193171+00:00",
+  "launchVerification": "The automatic launch command timed out after 10 seconds with exit code 2. Launch and continued operation are unconfirmed. Erik opens the installed app manually. No further device actions.",
+  "deployments": [
+    {
+      "device": "GenErik iPad (10.5-inch)",
+      "deviceID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+      "state": "installed-launch-unconfirmed",
+      "installedUTC": "2026-11-04T09:24:47.193171+00:00",
+      "installTimeoutSeconds": 90,
+      "launchAttempt": {
+        "timeoutSeconds": 10,
+        "exitCode": 2,
+        "result": "Command timed out. Launch is unconfirmed."
+      }
+    }
+  ]
 }

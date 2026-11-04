@@ -15,7 +15,7 @@
   },
   "syntaxParse": "passed",
   "whitespace": "passed",
-  "deviceAcceptance": "pending",
+  "deviceAcceptance": "Pending. Erik opens the app manually. No further device actions after the automatic launch timeout.",
   "firstUseLimitation": "Native export, initial waveform generation and full PCM-cache decoding remain on the first-use load path.",
   "initialRuntimeAttempt": {
     "state": "blocked-before-execution",
@@ -38,11 +38,12 @@
   },
   "build": {
     "number": 101,
-    "state": "ready",
+    "state": "installed-launch-unconfirmed",
     "sourceCommit": "df33fd13f2d7ad53318f2bffbda54b60668447a3",
     "record": "../../../builds/101.json",
     "checks": "Compilation, source identity, saved app digest, embedded framework resolution and signing passed. The log contains a compiler-task diagnostic with exit code 0, but xcodebuild and the build helper both exited successfully.",
-    "log": "build-101.log"
+    "log": "build-101.log",
+    "installedUTC": "2026-11-04T09:24:47.193171+00:00"
   },
   "deploymentAttempts": [
     {
@@ -54,6 +55,15 @@
       "timeoutSeconds": 20,
       "exitCode": 2,
       "reason": "devicectl installation command timed out. No launch attempted."
+    },
+    {
+      "state": "installed-launch-unconfirmed",
+      "installTimeoutSeconds": 90,
+      "installedUTC": "2026-11-04T09:24:47.193171+00:00",
+      "launchTimeoutSeconds": 10,
+      "launchExitCode": 2,
+      "log": "deploy-101.log"
     }
-  ]
+  ],
+  "integration": "R44 source was merged after the build to preserve parallel work. Build 101 and the R45 runtime results remain bound to df33fd13f. This record does not claim a build or device check of the later combined source."
 }
