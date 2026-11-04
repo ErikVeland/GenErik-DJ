@@ -1,0 +1,51 @@
+{
+  "requestID": "R46",
+  "testedMergeCommit": "770a53322b55adc1be936c0edea302bb586f3901",
+  "sourceSHA256": "9906996ab9fd2f88e0b6deba2f62162b192487c5d0300829778ebe3b693f2d91",
+  "checks": {
+    "barCases": 23,
+    "lateRhythmCases": 7,
+    "loadingOrderAssertions": 5,
+    "waveformMotionAssertions": 93,
+    "nativeTransport": "passed",
+    "directWaveformSampleRates": [
+      44100,
+      48000,
+      96000
+    ],
+    "embeddedFrameworkResolution": "passed: one framework",
+    "signature": "passed: deep and strict",
+    "sourceWhitespace": "passed; historical raw logs retained"
+  },
+  "candidate": {
+    "build": 105,
+    "originalSourceCommit": "bdbd174157029a0051674225dfc58ef4cfed29d2",
+    "sourceSHA256": "9906996ab9fd2f88e0b6deba2f62162b192487c5d0300829778ebe3b693f2d91",
+    "appSHA256": "d07ad11d43f459d1f8e93a123e4ab1c63a5128362f7c1e730e3091a173a1bfbf",
+    "canonicalAppPath": "TestBuilds/ipad/105/GenErikDJ.app",
+    "compilationEvidence": "Existing signed build 105. The complete combined application fingerprint matches exactly. No redundant rebuild.",
+    "installation": "Earlier installation timed out. Installation and launch are unconfirmed. No device action during this consolidation."
+  },
+  "limitations": [
+    "Erik physical touch, listening and continued-operation acceptance remain open.",
+    "First-use native export, waveform generation and PCM decoding remain R45 work.",
+    "R43 retains two unresolved genre-review bar assignments and five lower-support candidates.",
+    "Earlier package-test attempts failed on unrelated MIDI test compilation. Their failure records are preserved. No full suite was run during consolidation."
+  ],
+  "artifactPreservation": "The first lookup found no build 105 in the main folder. The saved app and available build log were copied from the integration checkout. Source/app digests, framework resolution and signing then passed.",
+  "stashDisposition": {
+    "ref": "refs/stash",
+    "commit": "9de12b5cba54edb1c007ad9b1550d1e224ede5fd",
+    "files": [
+      "docs/testing/builds/55.json"
+    ],
+    "action": "Recovered the later historical deployment record. Stash retained. No application source changes."
+  },
+  "inventory": {
+    "file": "inventory.json",
+    "allBranchTipsIncluded": true,
+    "refCount": 34,
+    "otherExistingWorktreesClean": true,
+    "missingHistoricalWorktreeCount": 1
+  }
+}

@@ -9,20 +9,28 @@
     {
       "kind": "deployment",
       "text": "Erik confirmed the iPad was unlocked. Saved build 55 installed and launched successfully."
+    },
+    {
+      "kind": "launch-attempt",
+      "recordedUTC": "2026-11-02T22:18:13.471708+00:00",
+      "result": "blocked-locked-device",
+      "text": "Build 55 reinstalled successfully on the configured Duo. Launch returned Locked; Erik must unlock the device and open GenErik DJ Test."
     }
   ],
   "log": "TestBuilds/ipad/build-55.log",
   "build": 55,
   "app": "TestBuilds/ipad/55/GenErikDJ.app",
   "appSHA256": "0268f886ecf095cc010fdc72f67a2a1d376adca087cec9d8a6ffe00dc9907280",
-  "state": "testing",
+  "state": "installed",
   "createdUTC": "2026-11-02T22:11:27.927719+00:00",
   "requestIDs": [
     "R10"
   ],
-  "deploymentStatus": "installed-and-launched",
-  "deploymentNote": "Erik unlocked the test iPad. Saved build 55 installed and launched successfully. No further device actions.",
+  "deploymentStatus": "installed; launch blocked because Duo is locked",
+  "deploymentNote": "Build 55 installation on the configured GenErik Duo succeeded. Relaunch was denied by SpringBoard because the device was locked; unlock the Duo and open GenErik DJ Test to continue. The app was updated in place; no uninstall or data reset occurred.",
   "acceptance": "Pending Erik checking regular Stop with vinyl stop enabled, Play during and after slowdown, both deck layouts, and immediate Stop with vinyl stop off.",
-  "installedUTC": "2026-11-02T22:11:55.006233+00:00",
-  "launchedUTC": "2026-11-02T22:11:55.517408+00:00"
+  "installedUTC": "2026-11-02T22:16:38.251036+00:00",
+  "launchedUTC": "2026-11-02T22:11:55.517408+00:00",
+  "latestInstallUTC": "2026-11-02T22:18:13.471708+00:00",
+  "recoveredFromStash": "9de12b5cba54edb1c007ad9b1550d1e224ede5fd"
 }

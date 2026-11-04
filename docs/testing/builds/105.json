@@ -15,7 +15,7 @@
   "requestIDs": [
     "R43"
   ],
-  "artifactLocation": "/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/105/GenErikDJ.app",
+  "artifactLocation": "/Users/veland/GenErik DJ/TestBuilds/ipad/105/GenErikDJ.app",
   "deploymentStatus": "Installation unconfirmed after the 60-second installer timeout. Launch was not requested.",
   "focusedChecks": "30 focused cases pass; actual iPad Creep cache and saved-preparation replay pass. Nine recordings across eight genre-family hints reviewed. Two bar results remain unresolved; five lower-support candidates retain their imports.",
   "acceptance": "Consolidation handoff: no further edits, builds, pushes or device operations from this chat. Merge and verify from main. Physical handoff and audio acceptance remain pending.",
@@ -29,5 +29,13 @@
       "launchRequested": false,
       "note": "No retry was started. No device-version read occurred after the stop instruction."
     }
-  ]
+  ],
+  "originalArtifactLocation": "/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/TestBuilds/ipad/105/GenErikDJ.app",
+  "consolidation": {
+    "requestID": "R46",
+    "testedMergeCommit": "770a53322b55adc1be936c0edea302bb586f3901",
+    "applicationSourceMatchesCombinedMain": true,
+    "savedAppCopiedToMainFolder": true,
+    "freshChecks": "Combined-source rhythm/bar, late-rhythm, loading-order, motion and native transport checks pass. Exact saved app digest, bundle identity, framework resolution and strict signing pass."
+  }
 }
