@@ -1,23 +1,5 @@
 import SwiftUI
 
-struct SurfacePoint: Equatable {
-    let id: Int
-    var x: Double
-    var y: Double
-}
-struct SurfaceEvent {
-    enum Phase { case began, moved, ended, cancelled }
-    let phase: Phase
-    /// Includes ending contacts for the final event, allowing release-position inspection.
-    let points: [SurfacePoint]
-    let ending: Set<Int>
-    var remaining: [SurfacePoint] { points.filter { !ending.contains($0.id) } }
-    static func owned(phase: Phase, points: [SurfacePoint], changed: Set<Int>, ending: Set<Int> = []) -> SurfaceEvent? {
-        guard !points.isEmpty, !changed.isDisjoint(with:points.lazy.map(\.id)) else { return nil }
-        return .init(phase:phase,points:points,ending:ending.intersection(points.lazy.map(\.id)))
-    }
-}
-
 /// Keeps the last mouse contact available for cancellation without synthesising a release.
 struct MouseContactSession {
     private var point: SurfacePoint?
@@ -57,12 +39,23 @@ final class ExclusiveSurfaceGestureRecognizer: UIGestureRecognizer {
 
 struct TouchSurface: UIViewRepresentable {
     var capturesDrag = false
+    var geometryPolicy = TouchSurfaceGeometryPolicy.cancelOnResize
     var action: (SurfaceEvent) -> Void
     func makeUIView(context: Context) -> ContactView {
-        let view=ContactView(); view.setCapturesDrag(capturesDrag); view.action=action; view.bindInputGate(context.environment.touchSurfaceInputGate); return view
+        let view=ContactView()
+        view.action=action
+        configure(view, context:context)
+        return view
     }
     func updateUIView(_ view: ContactView, context: Context) {
-        view.setCapturesDrag(capturesDrag); view.bindInputGate(context.environment.touchSurfaceInputGate); view.action=action
+        view.action=action
+        configure(view, context:context)
+    }
+    private func configure(_ view: ContactView, context: Context) {
+        view.setCapturesDrag(capturesDrag)
+        view.configureGeometry(policy:geometryPolicy, acceptsNewContacts:context.environment.touchSurfaceAcceptsNewContacts,
+            interruption:context.environment.touchSurfaceInterruption)
+        view.bindInputGate(context.environment.touchSurfaceInputGate)
     }
     static func dismantleUIView(_ view: ContactView, coordinator: ()) { view.cancel(); view.bindInputGate(nil) }
 
@@ -70,10 +63,25 @@ struct TouchSurface: UIViewRepresentable {
         var action: ((SurfaceEvent) -> Void)?
         private var contacts: [UITouch: Int] = [:]
         private var nextID=0
-        private var previousSize=CGSize.zero
+        private var geometry=TouchContactGeometry(policy:.cancelOnResize)
+        private var acceptsNewContacts=true
+        private var interruption=UUID()
         private weak var inputGate: TouchSurfaceInputGate?
         private var inputRegistration: UUID?
         private var exclusiveGesture: ExclusiveSurfaceGestureRecognizer?
+        private var surfaceFrame: CGRect { convert(bounds,to:window) }
+        private var viewport: TouchSurfaceViewport {
+            .init(size:window?.bounds.size ?? .zero,orientation:window?.windowScene?.interfaceOrientation.rawValue ?? 0,
+                  interruption:interruption)
+        }
+        func configureGeometry(policy: TouchSurfaceGeometryPolicy, acceptsNewContacts: Bool, interruption: UUID) {
+            if geometry.policy != policy { cancel(); geometry=TouchContactGeometry(policy:policy) }
+            if self.interruption != interruption { cancel(); self.interruption=interruption }
+            self.acceptsNewContacts=acceptsNewContacts
+        }
+        override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+            acceptsNewContacts && inputGate?.isEnabled != false && super.point(inside:point,with:event)
+        }
         func setCapturesDrag(_ captures: Bool) {
             if captures && exclusiveGesture == nil {
                 let recognizer = ExclusiveSurfaceGestureRecognizer()
@@ -100,21 +108,31 @@ struct TouchSurface: UIViewRepresentable {
             guard inputGate?.permits(phase) != false else { return }
             let changedIDs=Set(changed.compactMap { contacts[$0] })
             guard !changedIDs.isEmpty else { return }
-            let points=contacts.map { touch,id in
-                let p=touch.location(in:self)
-                return SurfacePoint(id:id,x:p.x/max(1,bounds.width),y:p.y/max(1,bounds.height))
+            let frame=surfaceFrame
+            let points=contacts.compactMap { touch,id in
+                geometry.point(id:id,location:touch.location(in:window),frame:frame)
             }.sorted { $0.id < $1.id }
             if let event=SurfaceEvent.owned(phase:phase,points:points,changed:changedIDs,
                                              ending:Set(ending.compactMap { contacts[$0] })) { action?(event) }
         }
         override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-            guard inputGate?.isEnabled != false else { return }
-            for touch in touches { nextID+=1; contacts[touch]=nextID }
+            guard acceptsNewContacts,inputGate?.isEnabled != false else { return }
+            if geometry.requiresCancellation(frame:surfaceFrame,viewport:viewport) { cancel() }
+            for touch in touches where contacts[touch] == nil {
+                nextID+=1
+                if geometry.begin(id:nextID,frame:surfaceFrame,viewport:viewport) { contacts[touch]=nextID }
+            }
             send(.began,changed:touches)
         }
-        override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) { send(.moved,changed:touches) }
+        override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+            if geometry.requiresCancellation(frame:surfaceFrame,viewport:viewport) { cancel(); return }
+            send(.moved,changed:touches)
+        }
         override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-            send(.ended,changed:touches,ending:touches); for touch in touches { contacts[touch]=nil }
+            if geometry.requiresCancellation(frame:surfaceFrame,viewport:viewport) { cancel(); return }
+            send(.ended,changed:touches,ending:touches)
+            geometry.end(ids:Set(touches.compactMap { contacts[$0] }))
+            for touch in touches { contacts[touch]=nil }
         }
         override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
             if touches.contains(where: { contacts[$0] != nil }) { cancel() }
@@ -122,12 +140,11 @@ struct TouchSurface: UIViewRepresentable {
         func cancel() {
             guard !contacts.isEmpty else { return }
             let owned=Set(contacts.keys)
-            send(.cancelled,changed:owned,ending:owned); contacts.removeAll()
+            send(.cancelled,changed:owned,ending:owned); contacts.removeAll(); geometry.cancel()
         }
         override func layoutSubviews() {
             super.layoutSubviews()
-            if previousSize != .zero && previousSize != bounds.size { cancel() }
-            previousSize=bounds.size
+            if geometry.requiresCancellation(frame:surfaceFrame,viewport:viewport) { cancel() }
         }
         override func didMoveToWindow() { if window == nil { cancel() } }
     }
@@ -136,6 +153,7 @@ struct TouchSurface: UIViewRepresentable {
 /// Mouse fallback exercises the same one-contact path. It does not certify iPad multitouch.
 struct TouchSurface: View {
     var capturesDrag = false
+    var geometryPolicy = TouchSurfaceGeometryPolicy.cancelOnResize
     var action: (SurfaceEvent) -> Void
     @State private var contact=MouseContactSession()
     @State private var currentAction=SurfaceEventActionRelay()

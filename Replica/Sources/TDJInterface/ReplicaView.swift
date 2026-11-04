@@ -20,6 +20,7 @@ public struct ReplicaView: View {
     @State private var deckAPanels = DeckPanelPresentation()
     @State private var deckBPanels = DeckPanelPresentation()
     @State private var libraryPanel = LibraryPanelState()
+    @State private var touchInterruption = UUID()
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     private let snapshotEffectsDeck: DeckID?
     private let snapshotMixerDecks: Set<DeckID>
@@ -38,7 +39,9 @@ public struct ReplicaView: View {
                 performanceSurface.frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             .frame(width: geometry.size.width, height: geometry.size.height, alignment: .topLeading)
+            .onChange(of: geometry.size) { _, _ in touchInterruption = UUID() }
         }
+        .environment(\.touchSurfaceInterruption, touchInterruption)
         .background(PerformancePalette.frame.ignoresSafeArea())
 #if os(iOS)
         .statusBarHidden(true)
@@ -130,6 +133,7 @@ public struct ReplicaView: View {
         }
         .onDisappear { model.stopPlaybackMonitor(); ReplicaLifecycle.suspend(model) }
         .onChange(of: scenePhase) { _, phase in
+            if phase != .active { touchInterruption = UUID() }
 #if os(iOS)
             if phase == .background { ReplicaLifecycle.background(model) }
 #endif
@@ -236,14 +240,14 @@ private struct DeckView: View {
             GeometryReader { geometry in
                 DeckWaveform(model:model,deck:deck,visibleSeconds:$visibleSeconds,mixerVisible:mixerVisible)
                 .overlay(alignment:.leading) {
-                    SlidingDeckPanel(isPresented:(effectsVisible || snapshotEffects) && layout.waveformHeight >= 44,edge:.leading,
+                    SlidingDeckPanel(isPresented:effectsVisible || snapshotEffects,edge:.leading,
                                      panelWidth:geometry.size.width/2,inputGate:effectsInput) {
                         EffectsView(model:model,deck:deck).frame(width:geometry.size.width/2)
                             .environment(\.touchSurfaceInputGate,effectsInput)
                     }
                 }
                 .overlay(alignment:.trailing) {
-                    SlidingDeckPanel(isPresented:(mixerVisible || snapshotMixer) && layout.waveformHeight >= 44,edge:.trailing,
+                    SlidingDeckPanel(isPresented:mixerVisible || snapshotMixer,edge:.trailing,
                                      panelWidth:geometry.size.width/2,inputGate:mixerInput) {
                         DeckMixerView(model:model,deck:deck,panel:snapshotFilter ? .constant(.filter) : $mixerPanel,
                                       width:geometry.size.width/2)
@@ -252,7 +256,8 @@ private struct DeckView: View {
                 }
             }
             .frame(height: layout.waveformHeight)
-            .clipShape(DeckPanelHorizontalBounds()).allowsHitTesting(layout.waveformHeight >= 44)
+            .clipShape(DeckPanelHorizontalBounds())
+            .environment(\.touchSurfaceAcceptsNewContacts, layout.waveformHeight >= 44)
             .zIndex(effectsVisible || snapshotEffects ? 1 : 0)
             HStack(spacing: 6) {
                 Text(elapsedTime).frame(width: 48, alignment: .trailing)

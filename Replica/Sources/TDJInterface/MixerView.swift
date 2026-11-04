@@ -12,6 +12,7 @@ struct DeckMixerView: View {
     @State private var input=MixerPaneInputSession()
     @Environment(\.deckPanelPresented) private var panelPresented
     @Environment(\.touchSurfaceInputGate) private var parentInput
+    @Environment(\.touchSurfaceAcceptsNewContacts) private var acceptsNewContacts
     var body: some View {
         VStack(spacing:0) {
             HStack(spacing:1) {
@@ -26,7 +27,7 @@ struct DeckMixerView: View {
                             .background(panel == item ? Color.white.opacity(0.12) : Color.black.opacity(0.2))
                     }.accessibilityLabel("Deck \(deck.rawValue.uppercased()) \(item.rawValue)")
                 }
-            }
+            }.disabled(!acceptsNewContacts)
             ZStack {
                 RetainedEqualizerPane(model:model,deck:deck,active:panelPresented && panel == .equalizer)
                     .padding(6)
@@ -95,7 +96,7 @@ private struct RetainedFilterPane: View {
                     Color.black.opacity(0.4)
                     RetainedFilterGrid(size:geometry.size).equatable()
                     RetainedFilterMarker(model:model,deck:deck,active:active,size:geometry.size)
-                    TouchSurface { event in
+                    TouchSurface(geometryPolicy:.retainContactSpace) { event in
                         let updateX=contact.update(event)
                         if event.phase == .cancelled { model.releaseFilter(deck:deck,cancelled:true) }
                         else if event.phase == .ended && event.remaining.isEmpty { model.releaseFilter(deck:deck) }
@@ -173,8 +174,9 @@ struct CrossfaderView: View {
     @Bindable var model: ReplicaModel
     var width: CGFloat = 36
     var showsDeckLabels = true
+    var verticalPadding: CGFloat = 12
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             if showsDeckLabels { Text("A").font(.caption.bold()) }
             GeometryReader { geometry in
                 let inset: CGFloat = width>36 ? 10 : 8
@@ -196,7 +198,7 @@ struct CrossfaderView: View {
                 }
             }
             if showsDeckLabels { Text("B").font(.caption.bold()) }
-        }.padding(.vertical,12).frame(width:width).background(PerformancePalette.panel)
+        }.padding(.vertical,verticalPadding).frame(width:width).background(PerformancePalette.panel)
     }
 }
 

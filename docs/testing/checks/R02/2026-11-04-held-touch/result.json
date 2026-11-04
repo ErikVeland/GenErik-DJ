@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-04",
+  "requestIDs": [
+    "R01",
+    "R02",
+    "R30"
+  ],
+  "baselineCommit": "d7ec9c6b33091a3cd074035eec48677e5dadc687",
+  "baselineBuild": 81,
+  "status": "source-verified-device-build-pending",
+  "filesSHA256": {
+    "Replica/Sources/TDJInterface/TouchContactGeometry.swift": "516ba5f2931efd119fa1ee7d671c30b301d559cb86260d5d891e80fa71e0a9ef",
+    "Replica/Sources/TDJInterface/FaderGestureSession.swift": "1cb5cb05a7a332eb967b6120a5cc8331e99bfd2e99d80a19b17b357548a59660",
+    "Replica/Sources/TDJInterface/TouchSurface.swift": "1dcb482ae117b233b93fda67986d957483a400fd9600ae60b258af2a2ff69848",
+    "Replica/Sources/TDJInterface/TouchSurfaceInputGate.swift": "5e8c2eb04f1c9ecb3ebb9677976030051edc9f7e64d9db6805b9a9e644d75307",
+    "Replica/Sources/TDJInterface/WaveformTouch.swift": "3ae7a1713c73a7a4fef73113999f266648a7c29c360fb95763df9ad0f0d8c1b8",
+    "Replica/Sources/TDJInterface/TouchFader.swift": "545b6b13ce089d0c209d4afbd7e3d5c1bc68f58368c67d234c197f8618152c33",
+    "Replica/Sources/TDJInterface/MixerView.swift": "05a66c715e6bb8f386baf88e88f563a574b9cd940b310a99de388be5b17d9607",
+    "Replica/Sources/TDJInterface/EffectsView.swift": "67a7d06e9701479efd79da5fa77106d382d0e4cd48daa08e822fe069af9036d3",
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "959fffa23c584a9a543d41eaaaca3d03245d4c709c55d259b26ca63a7ac757d4",
+    "Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift": "75caaaad9fe92a0ab681578ede05ab5400fd7e8c02c1e0d396a4339f77536db1",
+    "Replica/Sources/TDJInterface/PerformanceDock.swift": "02d50d4433558a1512aaac2852f4cc2b0984791110b5af4b058c313861b8123e",
+    "tools/check_touch_layout.py": "d75298140a1de38952b77b9f5eda652868109982ddd839caa4c1c174f1b85d96",
+    "tools/check_touch_layout.swift": "e8f1524ca6dbee5d833f9654c695b98e0fd2a9f47a023b697034dd8544df5aa4",
+    "tools/check_touch_contacts.swift": "3dc19f31710b432830008c130374d0f100392a3990a0f57ae61979da8aee0a78"
+  },
+  "checks": {
+    "command": "python3 tools/check_touch_layout.py --group all",
+    "dockAssertions": 1330,
+    "libraryAssertions": 179,
+    "contactAssertions": 36,
+    "failures": 0,
+    "movingCoordinatesMutationFailures": 10,
+    "movingEQInsetMutationFailures": 1,
+    "movingWaveformSpanMutationFailures": 2,
+    "faderBaseline": "16 failing gap-fill assertions before the fixed 96-point fader was replaced",
+    "perFingerBaseline": "Three failing assertions before new fingers received their own geometry and EQ inset",
+    "analysisPreservation": "R34/R35 analysis/preparation sources and original recording fixture byte-identical to baseline",
+    "swiftSyntax": "passed for changed interface sources",
+    "review": "self-review under the project no-agent iPad loop"
+  },
+  "behaviour": [
+    "Waveform, EQ, filter and FX opt into captured window-space touch frames.",
+    "Held contacts retain their mapping through panel origin/size changes, including full collapse.",
+    "New fingers capture current geometry; ended/cancelled contacts cannot return.",
+    "EQ captures the inset for each finger. Waveform operations retain the gesture source span.",
+    "Compact decks reject new contacts without closing existing FX/EQ gates.",
+    "Actual viewport/orientation changes and app interruption still cancel explicitly.",
+    "Crossfader fills the entire gap from A Play bottom to B FX top, with no vertical track padding. A/B markers move onto the FX buttons; button anchors stay fixed."
+  ],
+  "limits": [
+    "Physical overlapping gestures, UIKit delivery and listening require Erik acceptance.",
+    "The host check exercises production geometry and gesture state, not physical iPad input or audio rendering.",
+    "Mouse fallback keeps its existing cancellation behaviour; iPad is the only active target."
+  ]
+}

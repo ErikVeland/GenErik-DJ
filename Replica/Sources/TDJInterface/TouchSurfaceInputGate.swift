@@ -51,6 +51,22 @@ extension EnvironmentValues {
         get { self[TouchSurfaceInputGateKey.self] }
         set { self[TouchSurfaceInputGateKey.self]=newValue }
     }
+    var touchSurfaceAcceptsNewContacts: Bool {
+        get { self[TouchSurfaceNewContactsKey.self] }
+        set { self[TouchSurfaceNewContactsKey.self] = newValue }
+    }
+    var touchSurfaceInterruption: UUID {
+        get { self[TouchSurfaceInterruptionKey.self] }
+        set { self[TouchSurfaceInterruptionKey.self] = newValue }
+    }
+}
+
+private struct TouchSurfaceNewContactsKey: EnvironmentKey {
+    static let defaultValue = true
+}
+
+private struct TouchSurfaceInterruptionKey: EnvironmentKey {
+    static let defaultValue = UUID()
 }
 
 /// Refresh the callback without ending a contact when SwiftUI updates the surface.

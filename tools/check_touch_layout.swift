@@ -19,7 +19,8 @@ enum TouchLayoutChecks {
             let targets = baseline.aButtons + baseline.bButtons + [baseline.crossfader]
             expect(baseline.fits, "supported viewport \(width)x\(height)")
             expect(baseline.aButtons.count == 4 && baseline.bButtons.count == 4, "both four-button stacks")
-            expect(abs(baseline.crossfader.midY - height / 2) <= 1, "crossfader remains centred")
+            expect(baseline.crossfader.minY == baseline.aButtons[3].maxY, "crossfader starts at A Play boundary")
+            expect(baseline.crossfader.maxY == baseline.bButtons[0].minY, "crossfader fills gap to B FX boundary")
             for (index, target) in targets.enumerated() {
                 expect(target.width >= 44 && target.height >= 44, "usable target \(index)")
                 expect(CGRect(x: 0, y: 0, width: width, height: height).contains(target), "target inside window")

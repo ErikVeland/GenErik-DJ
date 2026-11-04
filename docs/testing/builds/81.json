@@ -5,7 +5,17 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 63.63,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-04",
+      "requestIDs": [
+        "R02",
+        "R30"
+      ],
+      "assumedBuild": true,
+      "text": "Keep held waveform, EQ, filter and FX gestures stable during panel resizing, without jumps or unintended cancellation. The crossfader should fill the height between the button stacks rather than float in the middle. Build 81 is the latest recorded installation; this does not imply acceptance of its other behaviour."
+    }
+  ],
   "log": "TestBuilds/ipad/build-81.log",
   "build": 81,
   "app": "TestBuilds/ipad/81/GenErikDJ.app",

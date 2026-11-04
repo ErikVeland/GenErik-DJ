@@ -33,7 +33,7 @@ struct PerformanceDock: View {
         ScrollView(.vertical) {
             ZStack(alignment: .topLeading) {
                 stack(deck: .a, panels: panelsA, buttons: geometry.aButtons)
-                CrossfaderView(model: model, width: geometry.crossfader.width, showsDeckLabels: false)
+                CrossfaderView(model: model, width: geometry.crossfader.width, showsDeckLabels: false, verticalPadding: 0)
                     .frame(height: geometry.crossfader.height)
                     .position(x: localX(geometry.crossfader), y: geometry.crossfader.midY)
                 stack(deck: .b, panels: panelsB, buttons: geometry.bButtons)
@@ -48,12 +48,12 @@ struct PerformanceDock: View {
 
     private func stack(deck: DeckID, panels: DeckPanelPresentation, buttons: [CGRect]) -> some View {
         ZStack(alignment: .topLeading) {
-            Text(deck.rawValue.uppercased()).font(.system(size: 13, weight: .bold))
-                .frame(width: buttons[0].width, height: 20)
-                .position(x: localX(buttons[0]), y: buttons[0].minY - 10)
-                .accessibilityHidden(true)
             Button("FX") { panels.toggleEffects() }
                 .foregroundStyle(panels.effectsVisible ? Color.orange : PerformancePalette.secondaryText)
+                .overlay(alignment: .topLeading) {
+                    Text(deck.rawValue.uppercased()).font(.system(size: 11, weight: .bold))
+                        .padding(4).allowsHitTesting(false).accessibilityHidden(true)
+                }
                 .accessibilityLabel("Effects for deck \(deck.rawValue.uppercased())")
                 .dockTarget(buttons[0], originX: geometry.workArea.width)
             Button("EQ") { panels.toggleMixer() }

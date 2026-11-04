@@ -1,7 +1,5 @@
 import SwiftUI
 
-enum FaderAxis: Equatable { case horizontal, vertical }
-
 struct TouchFader: View {
     let value: Double
     let range: ClosedRange<Double>
@@ -33,7 +31,7 @@ struct TouchFader: View {
                         .overlay { RoundedRectangle(cornerRadius:1).stroke(PerformancePalette.cyan,lineWidth:1) }
                         .position(x:geometry.size.width/2,y:6+max(0,geometry.size.height-12)*(1-fraction))
                 }
-                TouchSurface { event in
+                TouchSurface(geometryPolicy:.retainContactSpace) { event in
                     let length=axis == .vertical ? geometry.size.height : geometry.size.width
                     handleTouch(event,length:Double(length),using:gesture)
                 }
@@ -44,27 +42,5 @@ struct TouchFader: View {
     func handleTouch(_ event:SurfaceEvent,length:Double,using session:FaderGestureSession) {
         session.handle(event,value:readValue(),range:range,reset:reset,axis:axis,
                        insetFraction:min(0.49,6/max(1,length)),change:change)
-    }
-}
-
-@MainActor
-final class FaderGestureSession {
-    private var held: Double?
-    func handle(_ event: SurfaceEvent,value: @autoclosure () -> Double,range: ClosedRange<Double>,reset: Double?,axis: FaderAxis = .horizontal,
-                insetFraction: Double = 0,change: (Double)->Void) {
-        if event.phase == .cancelled {
-            if let held { change(held) }; held=nil; return
-        }
-        if event.points.count>1 && held == nil && event.phase != .ended { held=value() }
-        if event.phase == .ended {
-            if event.remaining.count<=1,let held { change(held); self.held=nil; return }
-            if event.remaining.isEmpty { return }
-        }
-        guard let point=event.remaining.last else { return }
-        let position=axis == .vertical ? 1-point.y : point.x
-        let inset=min(0.49,max(0,insetFraction))
-        let fraction=min(1,max(0,(position-inset)/(1-2*inset)))
-        let target=range.lowerBound+fraction*(range.upperBound-range.lowerBound)
-        change(reset != nil && abs(fraction-0.5)<0.035 ? reset! : target)
     }
 }

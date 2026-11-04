@@ -19,9 +19,11 @@ struct PerformanceDockGeometry {
         fits = width >= Self.dockWidth + 44 && height >= Self.minimumHeight
         workArea = CGRect(x: 0, y: 0, width: max(0, width - Self.dockWidth), height: height)
         let x = workArea.width + 8
-        aButtons = (0..<4).map { CGRect(x: x, y: 28 + Double($0) * 52, width: 80, height: 48) }
-        bButtons = (0..<4).map { CGRect(x: x, y: contentHeight - 212 + Double($0) * 52, width: 80, height: 48) }
-        crossfader = CGRect(x: x, y: contentHeight / 2 - 48, width: 80, height: 96)
+        let aButtons = (0..<4).map { CGRect(x: x, y: 28 + Double($0) * 52, width: 80, height: 48) }
+        let bButtons = (0..<4).map { CGRect(x: x, y: contentHeight - 212 + Double($0) * 52, width: 80, height: 48) }
+        self.aButtons = aButtons
+        self.bButtons = bButtons
+        crossfader = CGRect(x: x, y: aButtons[3].maxY, width: 80, height: bButtons[0].minY - aButtons[3].maxY)
     }
 }
 

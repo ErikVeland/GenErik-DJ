@@ -10,7 +10,7 @@ struct WaveformTouch: View {
     var onZoom: (Double) -> Void = { _ in }
     @State private var session=WaveformGestureSession()
     var body: some View {
-        TouchSurface { session.handle($0,model:model,deck:deck,span:span,onZoom:onZoom) }
+        TouchSurface(geometryPolicy:.retainContactSpace) { session.handle($0,model:model,deck:deck,span:span,onZoom:onZoom) }
             .accessibilityLabel("Deck \(deck.rawValue) waveform")
     }
 }
@@ -54,8 +54,10 @@ final class WaveformGestureSession {
     private var lastScratchX: Double?
     private var lastScratchTime: TimeInterval?
     private var scratchContact: Int?
+    private var gestureSpan = TouchGestureValue()
     func handle(_ event: SurfaceEvent, model: ReplicaModel, deck: DeckID, span: Double,
                 onZoom: (Double) -> Void = { _ in }) {
+        let span = gestureSpan.value(for:event,current:span)
         func frame(_ x: Double) -> Double { model.boundedFrame(center+(x-0.5)*span,deck:deck) }
         func sliceRegion(_ point: SurfacePoint) -> (target: Double,start: Double,end: Double)? {
             guard let track=model.track(deck) else { return nil }

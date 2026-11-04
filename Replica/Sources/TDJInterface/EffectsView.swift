@@ -166,7 +166,7 @@ private struct EffectPad: View {
                     Color.black.opacity(0.5)
                     EffectPadGrid(size:geometry.size).equatable()
                     EffectPadMarker(display:model.effectDisplay[deck,slot],size:geometry.size)
-                    TouchSurface(action:touch)
+                    TouchSurface(geometryPolicy:.retainContactSpace,action:touch)
                         .accessibilityLabel("Deck \(deck.rawValue.uppercased()) effect \(slot+1) XY pad")
                 }.clipped().padding(.trailing,24)
                 .overlay(alignment:.trailing) {
