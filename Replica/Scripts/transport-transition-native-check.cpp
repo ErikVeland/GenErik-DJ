@@ -187,6 +187,34 @@ static void busy_configuration_check() {
     assert(protected_once);tdj_asset_destroy(asset);
     puts("Frame configuration and output readiness return PROTECTED while rendering, without waiting or changing state.");
 }
+static void waveform_direct_checks(double rate,tdj_asset *asset) {
+    for(bool playing:{false,true})for(bool flux:{false,true}) {
+        auto e=engine(rate,asset,false,rate);
+        if(playing)command(e,TDJ_PLAY);
+        command(e,TDJ_FLUX,0,0,0,0,flux);
+        // Flag 4 requests direct position and rate in one audio command.
+        command(e,TDJ_TOUCH,0,rate,0,0,4,nullptr,0);
+        assert(snapshot(e).a.source_frame==rate);
+        command(e,TDJ_TOUCH,0,rate*.8,0,0,4,nullptr,-.5);
+        assert(snapshot(e).a.source_frame==rate*.8);
+        auto moving=render(e,256,17);bounded(moving,.75);
+        assert(fabs(snapshot(e).a.source_frame-(rate*.8-128))<.001);
+        command(e,TDJ_TOUCH,0,rate*.7,0,0,4,nullptr,0);
+        auto held=render(e,256,17);bounded(held,.75);
+        assert(held.l[0]==moving.l.back() && held.r[0]==moving.r.back());
+        assert(snapshot(e).a.source_frame==rate*.7);
+        command(e,TDJ_TOUCH,0,rate*.9,0,0,4,nullptr,.5);
+        auto reversed=render(e,256,17);bounded(reversed,.75);
+        assert(reversed.l[0]==held.l.back() && reversed.r[0]==held.r.back());
+        assert(fabs(snapshot(e).a.source_frame-(rate*.9+128))<.001);
+        command(e,TDJ_TOUCH);
+        assert(!snapshot(e).a.touch_active);
+        assert(snapshot(e).a.state==(playing ? TDJ_PLAYING:TDJ_PAUSED));
+        if(flux)assert(snapshot(e).a.source_frame==rate+(playing ? 768:0));
+        tdj_engine_destroy(e);
+    }
+}
+
 static void waveform_scratch_checks(double rate,tdj_asset *asset,const std::vector<float> &source) {
     const int N=(int)ceil(rate*.002);
     // Scratch entry, held stops, restarts and release must not cut the output.
@@ -318,8 +346,8 @@ int main(int argc,char **argv){
         std::vector<float> source((int)rate*4*2);
         for(int i=0;i<(int)rate*4;i++){source[2*i]=.7f*sin(2*3.141592653589793*137*i/rate+.73);source[2*i+1]=.6f*cos(2*3.141592653589793*173*i/rate+.21);}
         auto asset=tdj_asset_create(source.data(),source.size()/2,rate);assert(asset);
-        waveform_scratch_checks(rate,asset,source);tdj_asset_destroy(asset);
-        std::printf("%.0f Hz scratch entry/stop/restart/release continuity passed.\n",rate);
+        waveform_direct_checks(rate,asset);waveform_scratch_checks(rate,asset,source);tdj_asset_destroy(asset);
+        std::printf("%.0f Hz direct drag position/hold/reversal/Flux and scratch continuity passed.\n",rate);
     }
     return 0;
  }

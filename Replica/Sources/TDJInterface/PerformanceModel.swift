@@ -22,9 +22,9 @@ extension ReplicaModel {
         await performancePersistence.flush(); await effectsPersistence.flush()
     }
     public func perform(_ action: PerformanceAction, deck: DeckID, value: Double = 0, end: Double = 0, enabled: Bool = true, quantum: Double = 0,
-                        touchRate: Double? = nil) {
+                        touchRate: Double? = nil, followsPosition: Bool = false) {
         guard !preparingPlayback.contains(deck) else { return }
-        do { try playback.perform(action,deck:deck,value:value,end:end,enabled:enabled,quantum:quantum,touchRate:touchRate); refreshPlayback() }
+        do { try playback.perform(action,deck:deck,value:value,end:end,enabled:enabled,quantum:quantum,touchRate:touchRate,followsPosition:followsPosition); refreshPlayback() }
         catch { status=error.localizedDescription }
     }
     public func boundedFrame(_ frame: Double, deck: DeckID) -> Double {

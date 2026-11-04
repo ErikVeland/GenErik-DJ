@@ -1,0 +1,14 @@
+<module-includes>:1:9: note: in file included from <module-includes>:1:
+1 | #import "/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/CTDJAudioSource/include/TDJNativeAudioSource.h"
+  |         `- note: in file included from <module-includes>:1:
+2 | 
+
+/Users/veland/.codex/worktrees/touch-fidelity-plan/GenErik DJ/Replica/Sources/CTDJAudioSource/include/TDJNativeAudioSource.h:6:10: error: 'TDJTransport.h' file not found
+ 4 | extern "C" {
+ 5 | #endif
+ 6 | #include "TDJTransport.h"
+   |          `- error: 'TDJTransport.h' file not found
+ 7 | #ifdef __cplusplus
+ 8 | }
+
+<unknown>:0: error: could not build Objective-C module 'CTDJAudioSource'
