@@ -1,5 +1,7 @@
 # Full-width browser implementation plan
 
+**Scope correction, 4 November 2026:** Erik confirmed that this design applies only to the closed/front phone screen. R42 restores the existing iPad and Duo inside browser. The earlier iPad-wide implementation was outside that scope. Keep the front-screen view separate and preserve the existing wide layouts.
+
 > **For agentic workers:** Use superpowers:executing-plans. Erik has authorised implementation in this chat. Project rules prohibit parallel agents and require one focused iPad release.
 
 **Goal:** Give Songs, Suggestions and Prep list the full browser width while preserving the fixed performance dock and explicit A/B loading.

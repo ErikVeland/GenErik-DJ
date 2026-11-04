@@ -1,0 +1,26 @@
+{
+  "notes": "R42: Restore the existing iPad and wide Duo browser from pre-redesign source 811d75fd3. The new browser and Performance/Browse/Expand shortcuts are front-phone-only, selected by device type and full window width below 600 points. All 130 browser and 1330 dock assertions pass. Runtime launch repair retained. iPad restoration only; do not deploy to Duo.",
+  "sourceCommit": "d66b403f331e2eaa3383465050698393934c7d6a",
+  "sourceSHA256": "bad1e35a3328c04ae0176d8f2753de4a1d4e47dbeee1ae3437d1fa8e52302a34",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 59.19,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-93.log",
+  "build": 93,
+  "app": "TestBuilds/ipad/93/GenErikDJ.app",
+  "appSHA256": "74af1fb858e2466c4618c7273c560875c296631ecf9fd472fdb4876284f85c2b",
+  "state": "testing",
+  "createdUTC": "2026-11-04T02:30:19.052039+00:00",
+  "installedUTC": "2026-11-04T02:30:42.065105+00:00",
+  "launchedUTC": "2026-11-04T02:30:42.473742+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R42",
+    "R28",
+    "R39",
+    "R40"
+  ],
+  "focusedChecks": "130 browser/presentation assertions and 1,330 dock/workspace assertions passed. Removing the phone-device guard fails four assertions. The restored wide browser and independent pane state match pre-redesign source 811d75fd3 after the state type rename. Runtime framework resolution, compilation and signing pass.",
+  "acceptance": "Restoration installed on the 10.5-inch test iPad only. iPadOS accepted the launch request. Erik checks the original column browser, absence of the new workspace shortcuts, fixed performance controls and clean audio. No Duo deployment. Front-screen usability and Duo inside routing remain untested on hardware. No further device actions after launch."
+}

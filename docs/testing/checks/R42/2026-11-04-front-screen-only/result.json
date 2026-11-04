@@ -26,7 +26,12 @@
     }
   },
   "restoration": "restoration.json",
-  "build": "pending",
+  "build": 93,
   "deviceScope": "Prepare and install the restored iPad layout only. Do not deploy to Duo.",
-  "acceptance": "Erik checks the restored iPad browser, fixed controls and clean audio. Front-screen physical usability and Duo inside routing remain untested on hardware."
+  "acceptance": "Erik checks the restored iPad browser, fixed controls and clean audio. Front-screen physical usability and Duo inside routing remain untested on hardware.",
+  "sourceCommit": "d66b403f331e2eaa3383465050698393934c7d6a",
+  "buildState": "installed-launch-request-accepted",
+  "installedUTC": "2026-11-04T02:30:42.065105+00:00",
+  "launchRequestAcceptedUTC": "2026-11-04T02:30:42.473742+00:00",
+  "buildSeconds": 59.19
 }
