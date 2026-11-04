@@ -1,0 +1,32 @@
+{
+  "notes": "R45: show the selected track title, artist and duration immediately on both decks before native source lookup or audio decoding. Hide stale waveforms during preparation. Fifteen focused loading cases pass serially, including replacement, failure recovery, queued Play and exact other-deck audio. Erik checks physical response, actual audio readiness and clean audio.",
+  "sourceCommit": "88d74ace090ec1416f94d9213d42e608cddc724d",
+  "sourceSHA256": "6476629d481acc571ae6d9b0515a9e1144d30d05d3c04084c6e883b5464c93e0",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 111.02,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-107.log",
+  "build": 107,
+  "app": "TestBuilds/ipad/107/GenErikDJ.app",
+  "appSHA256": "85229f37210e64ebecfd44c86196e00323cc0d84bb2b492ddb2c0ab10c3d1994",
+  "state": "testing",
+  "createdUTC": "2026-11-04T11:46:42.090813+00:00",
+  "installedUTC": "2026-11-04T11:47:03.367939+00:00",
+  "launchedUTC": "2026-11-04T11:47:03.825631+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R45"
+  ],
+  "fixCommit": "88d74ace090ec1416f94d9213d42e608cddc724d",
+  "feedbackBuild": 106,
+  "focusedChecks": {
+    "functions": 11,
+    "cases": 15,
+    "serial": true,
+    "otherDeckStereoFramesEqual": 4096
+  },
+  "verification": "docs/testing/checks/R45/2026-11-04-immediate-selection/result.json",
+  "deviceActionsStoppedAfterLaunch": true,
+  "acceptance": "Erik checks immediate title/artist/duration changes on both decks, actual audio and waveform readiness, queued Play, replacements, failures and clean other-deck audio. Physical acceptance remains open."
+}

@@ -11,7 +11,9 @@
       "date": "2026-11-04",
       "report": "Still takes an obnoxiously long time for any track to load in the second slot. UI needs to update INSTANTLY when a track is loaded into a deck.",
       "buildAssumption": "Last recorded installed iPad build, 106.",
-      "status": "Implemented under R45. Immediate selection, failure restoration, replacement and other-deck audio checks pass. Physical acceptance remains open."
+      "status": "Immediate-selection change installed in build 107. Physical acceptance remains open.",
+      "fixCommit": "88d74ace090ec1416f94d9213d42e608cddc724d",
+      "testBuild": 107
     }
   ],
   "log": "TestBuilds/ipad/build-106.log",

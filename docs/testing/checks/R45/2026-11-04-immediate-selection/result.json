@@ -29,5 +29,19 @@
     "focused-final.log: concurrent fixture streams exceed global capacity",
     "load-diagnostic.log: PCMStreamingError.capacity confirmed. Each stream reserves 32 MiB from a process-wide 128 MiB pool. Final checks use explicit --no-parallel."
   ],
-  "acceptance": "Physical iPad display latency, actual audio readiness, queued Play, replacements, clean audio and continued operation remain Erik checks."
+  "acceptance": "Physical iPad display latency, actual audio readiness, queued Play, replacements, clean audio and continued operation remain Erik checks.",
+  "build": {
+    "number": 107,
+    "sourceCommit": "88d74ace090ec1416f94d9213d42e608cddc724d",
+    "sourceSHA256": "6476629d481acc571ae6d9b0515a9e1144d30d05d3c04084c6e883b5464c93e0",
+    "sourceUnchanged": true,
+    "uncommittedAppChanges": "",
+    "buildSeconds": 111.02,
+    "appSHA256": "85229f37210e64ebecfd44c86196e00323cc0d84bb2b492ddb2c0ab10c3d1994",
+    "installedUTC": "2026-11-04T11:47:03.367939+00:00",
+    "launchedUTC": "2026-11-04T11:47:03.825631+00:00",
+    "buildLogSHA256": "56f4af68019f31e219a5892d82975075cc5ae0b6945614220a5abeb7a6b1ead6",
+    "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+    "deviceActionsStoppedAfterLaunch": true
+  }
 }
