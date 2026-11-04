@@ -7,7 +7,7 @@
   ],
   "baselineCommit": "158e3ec9c735de2dbcf56cf712e4e168bdaac7e3",
   "baselineBuild": 93,
-  "status": "source-verified-device-build-pending",
+  "status": "installed-awaiting-Erik-acceptance",
   "filesSHA256": {
     "Replica/Sources/TDJInterface/AdaptivePerformanceLayout.swift": "ed3327ca9e968d3ab5879769bc6b12f01be66a529e9d91f8a41c39e52537dce2",
     "Replica/Sources/TDJInterface/ArrangementViews.swift": "4f45425e4d583641b34e4e4e26880db1e7594985ee644932cc2ade5d6d8ff5da",
@@ -37,7 +37,7 @@
     "totalAssertions": 4569,
     "failedAssertions": 0,
     "staleLoadMutationFailures": 2,
-    "emptyTrayMutationFailures": 2,
+    "emptyTrayMutationFailures": 3,
     "syntaxParse": "passed",
     "integrity": "Dock rendering/full-height fader geometry, native musical contact mapping, R34/R35/R37 analysis and preparation, R41 framework paths and R42 browser layouts match the baseline.",
     "review": "Self-review under the project rule against parallel agents. Legacy geometry checks exercise expanded handles. The new workspace checks exercise both 12-point and 44-point policies."
@@ -53,6 +53,27 @@
   "limits": [
     "Touch feel, keyboard focus, draft Save/Cancel, landmark promotion and clean audio require Erik acceptance.",
     "Memory lasts for the session. Expanded handles remain available in accessibility settings.",
-    "This test release does not establish full TDJ1 equivalence or gig acceptance."
-  ]
+    "This test release does not establish full TDJ1 equivalence or gig acceptance.",
+    "Large panel handles is available in the loaded deck action-tray gear menu. The main browser Settings > Features page does not expose it in this build. VoiceOver automatically selects expanded handles."
+  ],
+  "build": 94,
+  "sourceCommit": "65378bbffb3c3cbf36e759b11d4a824216a054de",
+  "sourceSHA256": "60b80e39f7c70bbb72960fcaaf0f48e25814b933ded89a3b6bd9011b3a0719dd",
+  "buildVerification": {
+    "compiled": true,
+    "signatureVerified": true,
+    "embeddedFrameworkResolution": true,
+    "nativeTypeCheck": "Passed in signed iPad build 94.",
+    "uncommittedAppChanges": "",
+    "buildSeconds": 62.1,
+    "appSHA256": "fd7892a9102376e5a2bc67bc6782efce1059654cbe3edf8cad9ca8a868152146"
+  },
+  "deployment": {
+    "device": "GenErik iPad (10.5-inch)",
+    "state": "installed-launch-request-accepted",
+    "installedUTC": "2026-11-04T02:53:55.591782+00:00",
+    "launchAcceptedUTC": "2026-11-04T02:53:55.961823+00:00",
+    "furtherDeviceActions": false
+  },
+  "acceptance": "Pending Erik touch, keyboard/picker, audio and continued-operation checks."
 }

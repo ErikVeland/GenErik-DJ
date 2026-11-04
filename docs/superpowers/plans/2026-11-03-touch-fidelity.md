@@ -18,6 +18,8 @@ Build 87 adds Task 2’s direct A/B divider and separate session size memory per
 
 Physical touch, hide/lock semantics, audio acceptance and the original TDJ1 comparisons remain open. Build 92 adds direct Sources/Details drawer sizing and orientation-specific session widths. It retains the newer R39 full-width lists, R40 shortcuts and R41 launch repair. All 4,429 focused assertions and artifact checks passed. The build is installed with launch-request acceptance. Physical acceptance and later tasks remain open. See `../../testing/checks/R30/2026-11-04-browser-columns/`. See `../../testing/checks/R30/2026-11-04-performance-panels/`.
 
+Build 94 implements the Task 7 section editor as an in-deck panel. It also replaces chunky grips with quiet edges by default, retains expanded accessibility handles, and closes empty action trays. All 4,569 focused assertions and artifact checks passed. It is installed with launch-request acceptance. Physical editor, keyboard, touch and listening acceptance remain open. See `../../testing/checks/R30/2026-11-04-section-space/`.
+
 ## Global constraints
 
 - Prioritise TDJ1 gesture fidelity.

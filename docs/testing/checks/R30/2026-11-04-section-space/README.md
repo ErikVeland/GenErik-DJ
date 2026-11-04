@@ -6,7 +6,7 @@ The section diamond opens a bottom-attached editor inside its deck. It no longer
 
 Hiding and resizing keep the same draft and view identity. Cancel discards the draft. Save uses the existing arrangement validation and manual locks. Save and landmark promotion require the captured track ID and load token. Replacing, unloading or reloading that track closes the old session. Opening and closing send no seek, zoom or preview-return command. The form scrolls within the chosen height.
 
-Quiet handles use a 12-point lane and a faint line. Double-tap toggles the panel. The Settings option **Large panel handles** restores the labelled 44-point controls. VoiceOver also uses those expanded controls. Both policies keep their grab lanes separate from musical inputs. The compact geometry reclaims horizontal and vertical space.
+Quiet handles use a 12-point lane and a faint line. Double-tap toggles the panel. The loaded deck’s action-tray gear menu offers **Large panel handles**, which restores the labelled 44-point controls. VoiceOver also uses those expanded controls. Both policies keep their grab lanes separate from musical inputs. The compact geometry reclaims horizontal and vertical space.
 
 FX, EQ and action trays now start closed. Empty decks cannot open a blank tray. Unloading a track closes its panels and editor. A loaded deck can pull or double-tap the right edge to show its action controls. Chosen widths remain remembered.
 
@@ -14,7 +14,7 @@ FX, EQ and action trays now start closed. Empty decks cannot open a blank tray. 
 
 All 4,569 focused assertions pass. These include 114 editor/quiet-workspace assertions and the existing dock, library, contact, panel, divider and browser checks. The workspace checks cover both 12-point and 44-point geometry, draft identity, size memory, cancellation, load replacement, empty trays and retained musical mapping. The older geometry checks also retain expanded-mode coverage.
 
-A temporary compiled mutation that ignores the load token fails two assertions. Restoring the empty tray as initially visible also fails two assertions. Production source was not mutated. `red.log` retains the missing-interface baseline. `green.log` and `browser-preservation.log` retain the passing checks.
+A temporary compiled mutation that ignores the load token fails two assertions. Restoring the empty tray as initially visible fails three assertions. Production source was not mutated. `red.log` retains the missing-interface baseline. `green.log` and `browser-preservation.log` retain the passing checks.
 
 The dock rendering and full-gap fader geometry, native contact bridge, analysis/preparation code, recording fixture, framework launch paths and restored iPad/Duo browser files match the baseline. Final review was self-review under the project rule against parallel agents.
 
@@ -32,3 +32,9 @@ Ruling: use a quiet 12-point edge by default and keep 44-point grips as an optio
 6. Replace the loaded track and confirm the old edit closes.
 7. Hold a musical gesture while resizing and check clean audio.
 8. Enable Large panel handles and check the expanded controls.
+
+## iPad handover
+
+Build 94 passed compilation, framework resolution and signing. It installed on the 10.5-inch test iPad, and iPadOS accepted the launch request. Application source: `65378bbffb3c3cbf36e759b11d4a824216a054de`. The source and saved app hashes are bound in the build record. No device actions followed launch acceptance. Erik’s touch, keyboard/picker, audio and continued-operation checks remain pending.
+
+The main browser Settings → Features page does not expose the large-handle toggle in this build. It remains available in the loaded deck’s gear menu. VoiceOver selects expanded handles automatically.
