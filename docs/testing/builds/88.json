@@ -13,13 +13,22 @@
       ],
       "report": "Erik requests Performance, Browse and Expand shortcuts to change the song browser space quickly. Build 88 is the assumed baseline because no number was supplied. This request does not establish acceptance of build 88.",
       "nextBuild": 89
+    },
+    {
+      "recordedUTC": "2026-11-04T02:21:50.297774+00:00",
+      "requestIDs": [
+        "R41"
+      ],
+      "report": "Erik reports that the iPad app immediately crashes. Build 89 is the assumed reported build. Device crash reports independently confirm the same DYLD failure for builds 88 and 89.",
+      "evidence": "../checks/R41/2026-11-04-launch-crash/crash-summary.json",
+      "replacementBuild": 91
     }
   ],
   "log": "TestBuilds/ipad/build-88.log",
   "build": 88,
   "app": "TestBuilds/ipad/88/GenErikDJ.app",
   "appSHA256": "9e1c353a9d598c6114e4237470b8d871d4a21b242bf3e714044cda52cd2ac5d4",
-  "state": "testing",
+  "state": "failed-at-launch",
   "createdUTC": "2026-11-04T02:06:34.314128+00:00",
   "installedUTC": "2026-11-04T02:07:13.096653+00:00",
   "launchedUTC": "2026-11-04T02:07:13.410321+00:00",
@@ -30,7 +39,7 @@
     "R32"
   ],
   "focusedChecks": "104 production browser navigation/geometry assertions and 1,330 dock/workspace assertions passed. Initial browser state: three failures. A temporary width mutation: 16 failures. Swift syntax checks passed. Full package tests, Mac packaging and simulator builds were not run.",
-  "acceptance": "Installed and launched on the 10.5-inch test iPad. Erik checks full-width Songs/Suggestions/Prep, separate searches, scroll retention, source/playlist navigation, fixed recommendation reference, A/B tap and drag loading, drawer dismissal, rotation, larger text, accessible performance controls and clean other-deck audio. Physical acceptance remains pending. No device actions after launch.",
+  "acceptance": "The launch command was accepted, then DYLD terminated the app before the interface appeared. The crash report identifies an unresolved whisper framework. This build does not establish runtime or device acceptance. R41 corrects the runtime search path in build 91.",
   "deployments": [
     {
       "device": "GenErik iPad (10.5-inch)",

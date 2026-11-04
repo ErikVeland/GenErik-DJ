@@ -5,12 +5,22 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 32.12,
   "checks": "Signed incremental device build. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "recordedUTC": "2026-11-04T02:21:50.298442+00:00",
+      "requestIDs": [
+        "R41"
+      ],
+      "report": "Erik reports that the iPad app immediately crashes. Build 89 is the assumed reported build. Device crash reports independently confirm the same DYLD failure for builds 88 and 89.",
+      "evidence": "../checks/R41/2026-11-04-launch-crash/crash-summary.json",
+      "replacementBuild": 91
+    }
+  ],
   "log": "TestBuilds/ipad/build-89.log",
   "build": 89,
   "app": "TestBuilds/ipad/89/GenErikDJ.app",
   "appSHA256": "a236489f1fb63d8d11f4108d88c739ca39ba72e9ad4ead9cac4ad8ecac1338f0",
-  "state": "testing",
+  "state": "failed-at-launch",
   "createdUTC": "2026-11-04T02:13:04.143960+00:00",
   "installedUTC": "2026-11-04T02:13:26.301118+00:00",
   "launchedUTC": "2026-11-04T02:13:26.758308+00:00",
@@ -20,7 +30,7 @@
     "R32"
   ],
   "focusedChecks": "201 production panel/library assertions and 1,330 dock/workspace assertions passed. A temporary mutation that makes Browse expand fully fails six assertions. Swift syntax checks passed. No Mac packaging, simulator builds or broad regression sweeps.",
-  "acceptance": "Installed and launched on the 10.5-inch test iPad. Erik checks Performance/Browse/Expand from hidden and manually resized states, free resizing, list/search retention, rotation, larger text, fixed performance controls and clean audio. Physical acceptance remains pending. No device actions after launch.",
+  "acceptance": "The launch command was accepted, then DYLD terminated the app before the interface appeared. The crash report identifies an unresolved whisper framework. This build does not establish runtime or device acceptance. R41 corrects the runtime search path in build 91.",
   "deployments": [
     {
       "device": "GenErik iPad (10.5-inch)",
