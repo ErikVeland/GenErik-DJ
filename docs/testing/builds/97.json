@@ -1,0 +1,53 @@
+{
+  "notes": "R28: Closed/front phone shows one full-width deck with retained A/B views, track/playback status, direct Songs/Suggestions, selected-deck controls and horizontal crossfader. Front panel state is independent. Existing iPad and inside workspace/browser/dock sources preserved. 152 front, 130 browser, 1330 dock and 36 native contact checks pass. Duo-only deployment; do not operate iPad. Build isolated from unrelated uncommitted R43 work using the existing shared cache.",
+  "sourceCommit": "fd13c60a74e1f1e194e53070ed3c989081913830",
+  "sourceSHA256": "0367dd1ba99588f2faf3ef46784781b98ca178eda148c447ee08eb859859d2a3",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 65.3,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-97.log",
+  "build": 97,
+  "app": "TestBuilds/ipad/97/GenErikDJ.app",
+  "appSHA256": "ec77622e659e169f85b85ab12d80a46135af54b97d1bb5bfe188b3ff97bcb85a",
+  "state": "testing",
+  "createdUTC": "2026-11-04T05:26:44.420528+00:00",
+  "deploymentAttempts": [
+    {
+      "recordedUTC": "2026-11-04T05:30:13.298257+00:00",
+      "device": "GenErik Duo",
+      "deviceID": "00008160-000859C436800036",
+      "installTimeoutSeconds": 90,
+      "result": "Installation command timed out. Installation and launch are not confirmed."
+    },
+    {
+      "device": "GenErik Duo",
+      "deviceID": "00008160-000859C436800036",
+      "installTimeoutSeconds": 240,
+      "result": "Installation confirmed and launch request accepted.",
+      "installedUTC": "2026-11-04T05:30:17.503136+00:00",
+      "launchRequestAcceptedUTC": "2026-11-04T05:30:18.247087+00:00"
+    }
+  ],
+  "installedUTC": "2026-11-04T05:30:17.503136+00:00",
+  "launchedUTC": "2026-11-04T05:30:18.247087+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R28",
+    "R39",
+    "R40",
+    "R42"
+  ],
+  "focusedChecks": "1,648 focused assertions passed: 152 front selection/geometry, 130 browser/presentation, 1,330 dock/workspace and 36 held-contact assertions. Missing deck-contact cancellation fails two mutation assertions. The existing wide workspace block, browser, dock and geometry match the build 96 baseline. Compilation, runtime framework resolution and signing pass.",
+  "acceptance": "Installed on GenErik Duo only. iPadOS accepted the launch request. Erik checks one visible deck, A/B status and switching during playback, retired touches, Songs/Suggestions access, reference destination, both loading buttons, FX/EQ, horizontal crossfader, folding/inside layout, larger text and clean audio. No iPad operation. Physical acceptance remains pending. No device actions after launch.",
+  "deployments": [
+    {
+      "device": "GenErik Duo",
+      "deviceID": "00008160-000859C436800036",
+      "state": "installed-launch-request-accepted",
+      "installedUTC": "2026-11-04T05:30:17.503136+00:00",
+      "launchRequestAcceptedUTC": "2026-11-04T05:30:18.247087+00:00",
+      "scope": "Closed/front phone testing only. Existing iPad/inside layout source paths retained. No iPad operation."
+    }
+  ]
+}

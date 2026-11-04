@@ -67,6 +67,10 @@ public struct ReplicaView: View {
                 importPresented:$importPresented,traktorImportPresented:$traktorImportPresented)
             GeometryReader { space in
                 let frontBrowser = BrowserPresentation.select(isPhone: isPhone, windowWidth: windowWidth) == .frontPhone
+                if frontBrowser {
+                    FrontPerformanceView(model: model, importAudio: { importPresented = true },
+                        linkCollection: { traktorImportPresented = true })
+                } else {
                 let workspaceHandle = frontBrowser ? 44.0 : handleExtent
                 let workspace = PerformanceWorkspaceGeometry(width: space.size.width, height: space.size.height,
                     libraryExtent: libraryPanel.extent, handleExtent: workspaceHandle)
@@ -175,6 +179,7 @@ public struct ReplicaView: View {
                 }
                 .frame(width: space.size.width, height: space.size.height, alignment: .topLeading)
                 .environment(\.performancePanelPortrait, space.size.width < space.size.height)
+                }
             }
 
         }
@@ -258,7 +263,7 @@ private struct SlidingDeckPanel<Content: View>: View {
 }
 
 @MainActor
-private struct DeckView: View {
+struct DeckView: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
     @Bindable var panels: DeckPanelPresentation
