@@ -1,0 +1,68 @@
+{
+  "requestIDs": [
+    "R09",
+    "R02",
+    "R30"
+  ],
+  "feedbackBuildAssumption": 109,
+  "parentCheckpoint": "4ec3fcaa3",
+  "applicationSHA256": "b65d780e40917b2c3b842694c752ae30713ee2e8bd0c79a072c7e5236300fc17",
+  "sourceHashes": {
+    "Replica/Sources/TDJInterface/ReplicaView.swift": "98754ccf849b347caad1ff526524f67addb139bbfff36818858cdff34f9f7708",
+    "Replica/Sources/TDJInterface/ArrangementViews.swift": "eda15464d3908c44d4d88427445a41aff8848e637c2887da8c7dfaa66fb4e592",
+    "Replica/Sources/TDJInterface/PlaybackSettings.swift": "2e373d71fcee83cd09e6d973f25f4a557de3a91e1de8aa302212d91d947a6245",
+    "Replica/Tests/TDJInterfaceTests/SectionColourRenderingTests.swift": "3f50ca4e8a708afd8fdbdd3b75b9282aa8f5723a60f8485c241c640bb407d38a"
+  },
+  "checks": {
+    "render": {
+      "log": "final-verified.log",
+      "exitCode": 0,
+      "cases": 6,
+      "renders": 24,
+      "seconds": 13.597,
+      "decks": [
+        "a",
+        "b"
+      ],
+      "presentations": [
+        "normal",
+        "effects",
+        "freeze"
+      ],
+      "renderers": [
+        "stored bins",
+        "frequency bands"
+      ],
+      "viewportSeconds": [
+        6,
+        10
+      ],
+      "assertions": [
+        "Section colours are enabled by default.",
+        "Section colour follows source time in both waveform renderers.",
+        "Header timeline and waveform share their horizontal time axis.",
+        "Current-section guidance remains legible inside the header.",
+        "The detailed waveform has no section strip at its top.",
+        "The overview extends behind the current-time readout."
+      ]
+    },
+    "whitespace": "passed",
+    "writingLint": "completed with the installed .agents skill linter",
+    "packageManifest": "restored exactly"
+  },
+  "limits": [
+    "Synthetic constant-level waveform fixtures verify layout and colour, not musical analysis accuracy.",
+    "Freeze retains its intentional green performance overlay.",
+    "Opaque header controls can cover the timeline behind them.",
+    "No iPad build, installation or physical acceptance claimed by this checkpoint."
+  ],
+  "failedAttempts": [
+    "test-compile-attempt.log: missing try in a test fixture.",
+    "red.log: colour, header alignment and old waveform strip failures before the fix.",
+    "red-corrected.log: corrected fixture hydration and viewport scale still reproduce the failures.",
+    "overlay-red.log: section guidance remained in the footer.",
+    "overlay-green.log: the third header row clipped section guidance. The final layout uses two rows.",
+    "final-layout.log: initial expanded checks sampled the intentional Freeze overlay and opaque header buttons. Assertions now respect those surfaces."
+  ],
+  "handover": "The loading/compact-deck chat owns the remaining combined checks, merge to main, signed iPad build/install and handback. Physical readability, navigation, performance touches and clean audio remain Erik acceptance checks."
+}

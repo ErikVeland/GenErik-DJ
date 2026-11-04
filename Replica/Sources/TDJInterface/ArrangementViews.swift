@@ -7,24 +7,44 @@ extension Color {
     }
 }
 
+/// Section rectangles share the waveform time axis and retain exact boundaries.
+struct ArrangementColourRegion {
+    let rect: CGRect
+    let colour: Color
+    static func visible(_ sections: [ArrangementSection], left: Double, span: Double,
+                        width: Double, height: Double, origin: Double = 0) -> [Self] {
+        guard span > 0, width > 0 else { return [] }
+        return sections.compactMap { section in
+            let start = max(0, (section.start - left) / span * width)
+            let end = min(width, (section.end - left) / span * width)
+            guard end > start else { return nil }
+            return Self(rect: CGRect(x: origin + start, y: 0, width: end - start, height: height),
+                        colour: Color(arrangementHex: section.colourHex))
+        }
+    }
+}
+
 @MainActor
 struct DeckSectionHeader: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
+    let visibleSeconds: Double
+    let waveform: CGRect
     var body: some View {
         Canvas { context, size in
-            guard let track = model.track(deck), let arrangement = model.arrangements[track.id] else { return }
-            let frames = max(1, Double(track.analysis.frameCount))
-            for section in arrangement.sections {
-                let x = max(0, section.start / frames * size.width)
-                let end = min(size.width, section.end / frames * size.width)
-                let colour = Color(arrangementHex: section.colourHex)
-                context.fill(Path(CGRect(x: x, y: 0, width: max(0, end - x), height: size.height)), with: .color(colour.opacity(0.2)))
-                context.fill(Path(CGRect(x: x, y: 0, width: max(0, end - x), height: 3)), with: .color(colour))
+            guard model.pendingNativeSelection[deck] == nil,
+                  let track = model.track(deck), let arrangement = model.arrangements[track.id] else { return }
+            if let current = arrangement.section(at: model.playbackSnapshot?[deck].sourceFrame ?? 0) {
+                context.fill(Path(CGRect(origin: .zero, size: size)),
+                             with: .color(Color(arrangementHex: current.colourHex).opacity(0.2)))
             }
-            let frame = model.playbackSnapshot?[deck].sourceFrame ?? 0
-            let x = frame / frames * size.width
-            context.fill(Path(CGRect(x: x, y: 0, width: 2, height: size.height)), with: .color(PerformancePalette.red))
+            let span = max(1, visibleSeconds * track.analysis.sampleRate)
+            let left = (model.viewport[deck] ?? 0) - span / 2
+            for region in ArrangementColourRegion.visible(arrangement.sections, left: left, span: span,
+                width: waveform.width, height: size.height, origin: waveform.minX) {
+                context.fill(Path(CGRect(x: region.rect.minX, y: 0, width: region.rect.width, height: 3)),
+                             with: .color(region.colour))
+            }
         }.allowsHitTesting(false).accessibilityHidden(true)
     }
 }
@@ -36,6 +56,7 @@ struct ArrangementDeckStrip: View {
     var compact = false
     var rowHeight: Double = 44
     var showsEditorButton = true
+    var inHeader = false
     var openEditor: () -> Void = {}
     var body: some View {
         let status=model.arrangementStatus(deck:deck)
@@ -57,7 +78,8 @@ struct ArrangementDeckStrip: View {
             }
         }
         .font(.system(size:11,weight:.semibold,design:.monospaced))
-        .padding(.horizontal,8).frame(height:rowHeight).background(PerformancePalette.sunken)
+        .padding(.horizontal,inHeader ? 0 : 8).frame(height:rowHeight)
+        .background(inHeader ? Color.clear : PerformancePalette.sunken)
         .task(id:preparationKey) { await model.prepareArrangement(deck:deck) }
     }
     private var preparationKey: String {
@@ -87,12 +109,9 @@ struct ArrangementWaveformOverlay: View {
             for section in arrangement.sections where section.end > left && section.start < left+span {
                 let start=max(0,x(section.start)), end=min(size.width,x(section.end))
                 let colour=Color(arrangementHex:section.colourHex)
-                context.fill(Path(CGRect(x:start,y:0,width:max(0,end-start),height:overview ? size.height:16)),with:.color(colour.opacity(overview ? 0.28:0.2)))
-                context.fill(Path(CGRect(x:start,y:0,width:max(0,end-start),height:3)),with:.color(colour))
-                let currentSection = arrangement.section(at: model.playbackSnapshot?[deck].sourceFrame ?? 0)
-                if !overview, section.id != currentSection?.id, end-start > 60 {
-                    context.draw(Text(section.label).font(.system(size:overview ? 8:10,weight:.bold)).foregroundColor(colour),
-                        at:CGPoint(x:start+4,y:overview ? 5:4),anchor:.topLeading)
+                if overview {
+                    context.fill(Path(CGRect(x:start,y:0,width:max(0,end-start),height:size.height)),with:.color(colour.opacity(0.12)))
+                    context.fill(Path(CGRect(x:start,y:0,width:max(0,end-start),height:3)),with:.color(colour))
                 }
                 if start > 0 {
                     var line=Path(); line.move(to:.init(x:start,y:0)); line.addLine(to:.init(x:start,y:size.height))

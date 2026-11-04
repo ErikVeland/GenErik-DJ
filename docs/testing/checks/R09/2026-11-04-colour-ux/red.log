@@ -1,0 +1,204 @@
+warning: 'replica': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/DeckBrowserPresentationTests.swift
+Building for debugging...
+[1 / 1]
+[3 / 15] TDJInterfaceTests-product
+[8 / 20] TDJInterfaceTests-product
+[11 / 18] TDJInterfaceTests-product
+[13 / 18] TDJInterfaceTests-product
+[15 / 18] TDJInterfaceTests-product
+Build complete! (2.86 sec.)
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) started.
+􀟈  Test case passing 1 argument deck → .a to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) started.
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 7.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 11.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:65:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 11.13 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 5.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 7.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 11.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:65:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 11.13 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 7.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:65:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 7.13 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 11.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9283542037010193
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 7.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:65:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 7.13 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 11.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .a at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9283542037010193
+􀟈  Test case passing 1 argument deck → .b to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) started.
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 7.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 11.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:65:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 11.13 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 5.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 7.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 11.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:65:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 11.13 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 7.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:65:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 7.13 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 11.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9283542037010193
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 7.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:65:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 7.13 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9767010807991028
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:63:17: Expectation failed: matches(body)
+􀄵  The waveform uses the section colour at 11.13 seconds.
+􀄵  matches(body) → false
+􀄵    body → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) recorded an issue with 1 argument deck → .b at SectionColourRenderingTests.swift:67:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.9283542037010193
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) with 2 test cases failed after 3.375 seconds with 46 issues.
+􀢄  Test run with 1 test in 0 suites failed after 3.375 seconds with 46 issues.
+Note: Some test targets reported failures:
+  - TDJInterfaceTests (Swift Testing)

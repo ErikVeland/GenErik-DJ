@@ -15,6 +15,17 @@
       "buildAssumption": 109,
       "report": "Make every UI element in the A/B slots also fit into the minimised view with the browser.",
       "status": "Reflowing compact controls and protecting usable browser/deck space."
+    },
+    {
+      "requestIDs": [
+        "R09",
+        "R02",
+        "R30"
+      ],
+      "date": "2026-11-04",
+      "buildAssumption": 109,
+      "report": "Make section colours a consistent UX cue. Move the section strip and guidance behind the top track-information controls. Overlay time and ending information on a full-width overview. Preserve waveform space and performance controls.",
+      "status": "Colour candidate under focused rendered verification. Combined iPad build owned by the loading/compact-deck chat."
     }
   ],
   "log": "TestBuilds/ipad/build-109.log",

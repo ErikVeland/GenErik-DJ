@@ -1,0 +1,32 @@
+warning: 'replica': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/DeckBrowserPresentationTests.swift
+Building for debugging...
+[1 / 1]
+[3 / 13] TDJInterface
+[9 / 19] TDJInterface
+[19 / 29] TDJInterface
+[24 / 43] TDJInterface
+[26 / 43] TDJInterface
+[28 / 43] TDJInterface
+[29 / 43] TDJInterface
+[31 / 43] TDJInterface
+[32 / 43] TDJInterface
+[33 / 43] TDJInterface
+[38 / 48] TDJInterface
+[51 / 62] TDJInterface
+[52 / 62] TDJInterface
+[56 / 62] TDJInterface-product
+[56 / 62] TDJInterfaceTests-product
+[60 / 66] TDJInterfaceTests-product
+[62 / 66] TDJInterfaceTests-product
+[64 / 69] TDJInterfaceTests-product
+[66 / 69] TDJInterfaceTests-product
+Build complete! (10.72 sec.)
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) started.
+􀟈  Test case passing 1 argument deck → .a to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) started.
+􀟈  Test case passing 1 argument deck → .b to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) started.
+􁁛  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:) with 2 test cases passed after 5.058 seconds.
+􁁛  Test run with 1 test in 0 suites passed after 5.058 seconds.

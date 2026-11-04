@@ -6,7 +6,7 @@ struct PlaybackSettings: View {
     @Bindable var model: ReplicaModel
     var showsPlayback = true
     func extrasOnly() -> Self { var copy = self; copy.showsPlayback = false; return copy }
-    @AppStorage(DeckToolSettings.sectionWaveformColours) private var sectionWaveformColours = false
+    @AppStorage(DeckToolSettings.sectionWaveformColours) private var sectionWaveformColours = true
     @AppStorage(DeckToolSettings.beatJump) private var beatJump = false
     @AppStorage(DeckToolSettings.tempoFader) private var tempoFader = false
     @AppStorage(DeckToolSettings.cueButton) private var cueButton = false

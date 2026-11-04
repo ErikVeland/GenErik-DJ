@@ -289,6 +289,7 @@ struct DeckView: View {
     private var effectsVisible: Bool { panels.effectsVisible }
     private var effectsInput: TouchSurfaceInputGate { panels.effectsInput }
     private var mixerInput: TouchSurfaceInputGate { panels.mixerInput }
+    @AppStorage(BrowserSettings.superSlicerKey) private var superSlicer = true
     @AppStorage(DeckToolSettings.tempoFader) private var tempoFader = false
     @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
     @AppStorage(DeckToolSettings.headphoneButton) private var headphoneButton = false
@@ -303,6 +304,9 @@ struct DeckView: View {
             hotcues: (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil, compactControls: track != nil || selection != nil, editing: editing)
         let availableWidth = max(0, deckSpace.size.width - (tempoFader && track != nil ? 68:0))
         let sizes = panels.geometry(width: availableWidth, height: layout.waveformHeight, inlineControls: true)
+        let frozenControlsWidth = track != nil && model.frozen.contains(deck) && !editing && superSlicer ? 44.0 : 0
+        let waveformAxis = CGRect(x: sizes.waveform.minX + frozenControlsWidth, y: 0,
+            width: max(0, sizes.waveform.width - frozenControlsWidth), height: layout.waveformHeight)
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 Button { model.showSuggestions(destination: deck) } label: {
@@ -325,8 +329,9 @@ struct DeckView: View {
                     })
                     .buttonStyle(.plain)
             }
-            .background(DeckSectionHeader(model: model, deck: deck))
-            .frame(height: layout.headerHeight, alignment: .top).clipped()
+            .frame(height: layout.headerHeight, alignment: .top)
+            .background(DeckSectionHeader(model: model, deck: deck, visibleSeconds: visibleSeconds, waveform: waveformAxis))
+            .clipped()
             HStack(spacing: 4) {
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
@@ -365,25 +370,35 @@ struct DeckView: View {
                 }.frame(width: sizes.mainWidth)
                 if tempoFader && track != nil { DeckTempoFader(model:model,deck:deck) }
             }.frame(height: layout.waveformHeight + layout.hotcueHeight)
-            HStack(alignment: .bottom, spacing: 6) {
-                Text(elapsedTime).frame(width: 56, height: layout.footerHeight, alignment: .bottomLeading)
-                    .accessibilityLabel("Current time on deck \(deck.rawValue.uppercased()): \(elapsedTime)")
+            Group {
                 if editing {
-                    DeckFooter(model: model, deck: deck)
+                    HStack(spacing: 6) {
+                        Text(elapsedTime)
+                        DeckFooter(model: model, deck: deck)
+                        Text(remainingTime)
+                    }
                 } else {
-                    VStack(spacing: 0) {
-                        DeckOverview(model: model, deck: deck, visibleSeconds: $visibleSeconds)
-                            .frame(maxHeight: .infinity)
-                        if track != nil && layout.footerHeight >= 24 {
-                            ArrangementDeckStrip(model: model, deck: deck, compact: true,
-                                rowHeight: 12, showsEditorButton: false)
+                    DeckOverview(model: model, deck: deck, visibleSeconds: $visibleSeconds)
+                        .overlay {
+                            HStack(spacing: 6) {
+                                Text(elapsedTime)
+                                    .accessibilityLabel("Current time on deck \(deck.rawValue.uppercased()): \(elapsedTime)")
+                                    .padding(.horizontal, 3).background(.black.opacity(0.72))
+                                Spacer(minLength: 0)
+                                if let status = model.arrangementStatus(deck: deck) {
+                                    Text(status.endingText).font(.system(size: 10, weight: .semibold, design: .monospaced))
+                                        .foregroundStyle(status.warning == .red || status.warning == .urgent ? Color.red : PerformancePalette.text)
+                                        .lineLimit(1).padding(.horizontal, 3).background(.black.opacity(0.72))
+                                }
+                                Spacer(minLength: 0)
+                                Text(remainingTime)
+                                    .accessibilityLabel("Time left on deck \(deck.rawValue.uppercased()): \(remainingTime)")
+                                    .padding(.horizontal, 3).background(.black.opacity(0.72))
+                            }.allowsHitTesting(false)
                         }
-                    }.frame(maxWidth: .infinity)
                 }
-                Text(remainingTime).frame(width: 68, height: layout.footerHeight, alignment: .bottomTrailing)
-                    .accessibilityLabel("Time left on deck \(deck.rawValue.uppercased()): \(remainingTime)")
             }
-            .font(.system(size: 13).monospacedDigit())
+            .font(.system(size: 13, weight: .medium).monospacedDigit())
             .frame(height: layout.footerHeight).clipped()
         }.padding(4).background(PerformancePalette.stage).bevelPanel(cornerRadius: 6, sunken: true)
         .animation(reduceMotion || panels.isDragging ? nil:.smooth(duration:0.22),value:sizes.extraWidth)
@@ -513,6 +528,7 @@ private struct DeckActionPane: View {
                 }
                 .buttonStyle(PerformanceToolButtonStyle())
                 .padding(4)
+                .frame(maxWidth: 600)
                 .background {
                     RoundedRectangle(cornerRadius: 6).fill(PerformancePalette.sunken.opacity(0.97))
                         .onTapGesture {}
@@ -550,7 +566,7 @@ private struct StripeView: View {
     var body: some View {
         GeometryReader { geometry in
             WaveformView(track: track, grid: nil, centerFrame: Double(track.analysis.frameCount) / 2,
-                         visibleSeconds: track.analysis.duration).equatable()
+                         visibleSeconds: track.analysis.duration, sections: model.arrangements[track.id]?.sections ?? []).equatable()
                 .overlay { ArrangementWaveformOverlay(model:model,deck:deck,track:track,center:Double(track.analysis.frameCount)/2,span:Double(track.analysis.frameCount),overview:true) }
                 .overlay { OverviewCueFlags(model:model,track:track) }
                 .overlay(alignment: .leading) {
@@ -618,26 +634,39 @@ private struct WaveformView: View, Equatable {
         path.closeSubpath()
         return path
     }
-    /// Low body (translucent dark blue), mids (cyan), then transients (near white) on top.
-    static func draw(_ bands: BandWaveformColumns, in context: inout GraphicsContext, size: CGSize, scale: Double, sectionShading: GraphicsContext.Shading? = nil) {
-        let middle=size.height/2
-        var low = context, mid = context, high = context
-        if sectionShading != nil { low.opacity = 0.55; mid.opacity = 0.8 }
-        low.fill(mirrored(bands.low,scale:scale,middle:middle),with:sectionShading ?? .color(PerformancePalette.waveLow.opacity(0.92)))
-        mid.fill(mirrored(bands.mid,scale:scale,middle:middle),with:sectionShading ?? .color(PerformancePalette.waveMid.opacity(0.95)))
-        high.fill(mirrored(bands.high,scale:scale,middle:middle),with:sectionShading ?? .color(PerformancePalette.waveHigh.opacity(0.9)))
-    }
-    /// Stored-bin fallback while the band waveform is prepared: peak, RMS and core as smooth shapes.
-    static func draw(_ layers: WaveformLayers, in context: inout GraphicsContext, size: CGSize, scale: Double, sectionShading: GraphicsContext.Shading? = nil) {
-        let middle=size.height/2,count=Int(size.width*scale)
-        for keyPath in [\WaveformLayers.Column.peak,\WaveformLayers.Column.body,\WaveformLayers.Column.core] {
-            var heights=[Double](repeating:0,count:max(0,count))
-            for column in layers.columns where column.x<count { heights[column.x]=column[keyPath:keyPath] }
-            let colour=keyPath == \WaveformLayers.Column.peak ? PerformancePalette.waveLow : keyPath == \WaveformLayers.Column.body ? PerformancePalette.waveMid : PerformancePalette.waveHigh
-            var layer = context
-            if sectionShading != nil { layer.opacity = keyPath == \WaveformLayers.Column.peak ? 0.55 : keyPath == \WaveformLayers.Column.body ? 0.8 : 1 }
-            layer.fill(mirrored(heights,scale:scale,middle:middle),with:sectionShading ?? .color(colour))
+    /// Keep the three audio layers distinct within each section colour.
+    static func draw(_ paths: [Path], fallback: [Color], regions: [ArrangementColourRegion],
+                     in context: inout GraphicsContext, size: CGSize) {
+        var gaps = Path(CGRect(origin: .zero, size: size))
+        for region in regions { gaps.addRect(region.rect) }
+        var uncoloured = context
+        uncoloured.clip(to: gaps, style: FillStyle(eoFill: true))
+        for (path, colour) in zip(paths, fallback) { uncoloured.fill(path, with: .color(colour)) }
+        for region in regions {
+            var coloured = context
+            coloured.clip(to: Path(region.rect))
+            for (path, opacity) in zip(paths, [0.55, 0.82, 1.0]) {
+                coloured.fill(path, with: .color(region.colour.opacity(opacity)))
+            }
         }
+    }
+    static func draw(_ bands: BandWaveformColumns, in context: inout GraphicsContext, size: CGSize,
+                     scale: Double, regions: [ArrangementColourRegion]) {
+        let paths = [bands.low, bands.mid, bands.high].map { mirrored($0, scale: scale, middle: size.height / 2) }
+        draw(paths, fallback: [PerformancePalette.waveLow.opacity(0.92), PerformancePalette.waveMid.opacity(0.95),
+                              PerformancePalette.waveHigh.opacity(0.9)], regions: regions, in: &context, size: size)
+    }
+    /// Use the same section colours while the detailed band waveform prepares.
+    static func draw(_ layers: WaveformLayers, in context: inout GraphicsContext, size: CGSize,
+                     scale: Double, regions: [ArrangementColourRegion]) {
+        let count = max(0, Int(size.width * scale))
+        let paths = [\WaveformLayers.Column.peak, \WaveformLayers.Column.body, \WaveformLayers.Column.core].map { keyPath in
+            var heights = [Double](repeating: 0, count: count)
+            for column in layers.columns where column.x < count { heights[column.x] = column[keyPath: keyPath] }
+            return mirrored(heights, scale: scale, middle: size.height / 2)
+        }
+        draw(paths, fallback: [PerformancePalette.waveLow, PerformancePalette.waveMid, PerformancePalette.waveHigh],
+             regions: regions, in: &context, size: size)
     }
     /// Bar lines brighter than beat lines. Positions are in device pixels.
     static func drawBeats(_ beats: [(x: Double, downbeat: Bool)], in context: inout GraphicsContext, size: CGSize, scale: Double) {
@@ -673,20 +702,14 @@ private struct WaveformView: View, Equatable {
                 context.fill(Path(CGRect(x: x, y: 0, width: size.width-x, height: size.height)),
                     with: .color(Color.gray.opacity(0.10)))
             }
-            let stops = sections.flatMap { section -> [Gradient.Stop] in
-                let start = max(0, min(1, (section.start - left) / span))
-                let end = max(0, min(1, (section.end - left) / span))
-                let colour = Color(arrangementHex: section.colourHex)
-                return [.init(color: colour, location: start), .init(color: colour, location: end)]
-            }.sorted { $0.location < $1.location }
-            let shading: GraphicsContext.Shading? = stops.isEmpty ? nil : .linearGradient(
-                Gradient(stops: stops), startPoint: .zero, endPoint: CGPoint(x: size.width, y: 0))
+            let regions = ArrangementColourRegion.visible(sections, left: left, span: span,
+                width: size.width, height: size.height)
             if let band, band.frameCount == a.frameCount {
                 WaveformView.draw(BandWaveformColumns(band,left:left,span:span,pixelWidth:pixels,height:size.height),
-                                  in:&context,size:size,scale:scale,sectionShading:shading)
+                                  in:&context,size:size,scale:scale,regions:regions)
             } else if let index {
                 WaveformView.draw(WaveformLayers(index:index,framesPerBin:a.waveformFramesPerBin,left:left,span:span,
-                                                 width:pixels,height:size.height),in:&context,size:size,scale:scale,sectionShading:shading)
+                                                 width:pixels,height:size.height),in:&context,size:size,scale:scale,regions:regions)
             }
             if let grid,let index=(prepared?.0 == key ? prepared?.1 : nil) ?? snapshotIndexes[key] {
                 WaveformView.drawBeats(WaveformLayers(index:index,framesPerBin:a.waveformFramesPerBin,left:left,span:span,
@@ -1021,10 +1044,16 @@ private struct DeckHeader: View {
                     HStack(spacing: 6) {
                         Text(selection?.title ?? track?.title ?? "Deck \(deck.rawValue.uppercased())")
                             .font(.system(size: dense ? 16 : 19, weight: .semibold)).foregroundStyle(PerformancePalette.text).lineLimit(1)
+                        if dense {
+                            Text(selection?.artist ?? track?.artist ?? "").font(.system(size: 12))
+                                .foregroundStyle(PerformancePalette.secondaryText).lineLimit(1)
+                        }
                         if NativeAnalysisPlan.isMix(duration: track?.analysis.duration) { MixBadge(size: 14) }
                     }
                     HStack(spacing: 10) {
-                        Text(selection?.artist ?? track?.artist ?? "Swipe up to browse your collection").lineLimit(1)
+                        if !dense || track == nil {
+                            Text(selection?.artist ?? track?.artist ?? "Swipe up to browse your collection").lineLimit(1)
+                        }
                         if track != nil {
                             HStack(spacing: 3) {
                                 Image(systemName: playback?.keylock == true ? "lock.fill" : "music.note").font(.system(size: 11))
@@ -1034,6 +1063,8 @@ private struct DeckHeader: View {
                                 Image(systemName: "waveform.path.ecg").font(.system(size: 11))
                                 DeckTempoReadout(model:model,deck:deck)
                             }
+                            ArrangementDeckStrip(model: model, deck: deck, rowHeight: 14,
+                                showsEditorButton: false, inHeader: true)
                         }
                     }.font(.system(size: dense ? 12 : 15)).foregroundStyle(PerformancePalette.secondaryText)
                 }
@@ -1100,7 +1131,7 @@ private struct DeckWaveform: View {
                     if let preview = model.pendingNativeWaveforms[deck], !preview.analysis.waveform.isEmpty {
                         WaveformView(track: preview, grid: preview.grid,
                             centerFrame: preview.grid?.anchorFrame ?? 0, visibleSeconds: visibleSeconds,
-                            playheadFrame: preview.grid?.anchorFrame ?? 0)
+                            playheadFrame: preview.grid?.anchorFrame ?? 0, sections: model.arrangements[preview.id]?.sections ?? [])
                     } else {
                         Color.black
                     }
@@ -1155,7 +1186,7 @@ private struct DeckWaveformDrawing: View {
     let deck: DeckID
     let track: Track
     let visibleSeconds: Double
-    @AppStorage(DeckToolSettings.sectionWaveformColours) private var sectionColours = false
+    @AppStorage(DeckToolSettings.sectionWaveformColours) private var sectionColours = true
     @State private var band: (String, BandWaveform)?
     @Environment(\.snapshotBandWaveforms) private var snapshotBands
     var body: some View {
@@ -1182,7 +1213,7 @@ private struct DeckOverview: View {
     var body: some View {
             if model.pendingNativeSelection[deck] != nil, let preview = model.pendingNativeWaveforms[deck] {
                 WaveformView(track: preview, grid: nil, centerFrame: Double(preview.analysis.frameCount) / 2,
-                    visibleSeconds: preview.analysis.duration)
+                    visibleSeconds: preview.analysis.duration, sections: model.arrangements[preview.id]?.sections ?? [])
             } else if let track {
                 StripeView(model:model,deck:deck,track:track,visibleSeconds:$visibleSeconds) {
                     model.previewing.insert(deck); model.viewport[deck] = $0

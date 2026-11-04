@@ -1,0 +1,125 @@
+warning: 'replica': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/veland/GenErik DJ/Replica/Tests/TDJInterfaceTests/DeckBrowserPresentationTests.swift
+Building for debugging...
+[1 / 1]
+[3 / 14] TDJInterface
+[7 / 18] TDJInterface
+[11 / 22] TDJInterface
+[12 / 23] TDJInterface
+[16 / 22] TDJInterface-product
+[16 / 22] TDJInterfaceTests-product
+[19 / 25] TDJInterfaceTests-product
+[23 / 27] TDJInterfaceTests-product
+[25 / 30] TDJInterfaceTests-product
+[27 / 30] TDJInterfaceTests-product
+Build complete! (9.06 sec.)
+􀟈  Test run started.
+􀄵  Testing Library Version: 2401
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) started.
+􀟈  Test case passing 2 arguments deck → .a, presentation → "normal" to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) started.
+􀟈  Test case passing 2 arguments deck → .a, presentation → "effects" to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) started.
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .a, presentation → "effects" at SectionColourRenderingTests.swift:87:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 6.43 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .a, presentation → "effects" at SectionColourRenderingTests.swift:87:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 6.43 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .a, presentation → "effects" at SectionColourRenderingTests.swift:87:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 10.43 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .a, presentation → "effects" at SectionColourRenderingTests.swift:87:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 10.43 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀟈  Test case passing 2 arguments deck → .a, presentation → "freeze" to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) started.
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .a, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .a, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .a, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .a, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .a, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .a, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .a, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .a, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀟈  Test case passing 2 arguments deck → .b, presentation → "normal" to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) started.
+􀟈  Test case passing 2 arguments deck → .b, presentation → "effects" to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) started.
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .b, presentation → "effects" at SectionColourRenderingTests.swift:87:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 6.43 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .b, presentation → "effects" at SectionColourRenderingTests.swift:87:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 6.43 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .b, presentation → "effects" at SectionColourRenderingTests.swift:87:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 10.43 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .b, presentation → "effects" at SectionColourRenderingTests.swift:87:17: Expectation failed: matches(header)
+􀄵  The header colour shares the waveform time axis at 10.43 seconds.
+􀄵  matches(header) → false
+􀄵    header → ()
+􀟈  Test case passing 2 arguments deck → .b, presentation → "freeze" to sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) started.
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .b, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .b, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .b, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .b, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .b, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .b, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .b, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) recorded an issue with 2 arguments deck → .b, presentation → "freeze" at SectionColourRenderingTests.swift:89:17: Expectation failed: max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08
+􀄵  The section strip leaves the detailed waveform clear.
+􀄵  max(top.redComponent, top.greenComponent, top.blueComponent) < 0.08 → false
+􀄵    max(top.redComponent, top.greenComponent, top.blueComponent) → 0.10564620047807693
+􀢄  Test sectionColoursFollowTheWaveformAndLeaveItsTopClear(deck:presentation:) with 6 test cases failed after 15.325 seconds with 24 issues.
+􀢄  Test run with 1 test in 0 suites failed after 15.325 seconds with 24 issues.
+Note: Some test targets reported failures:
+  - TDJInterfaceTests (Swift Testing)

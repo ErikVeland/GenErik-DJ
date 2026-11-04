@@ -2,7 +2,11 @@
 
 The diamond control above each loaded waveform opens **Musical structure**. The compact deck has the same control.
 
-The overview shows section colours across the track. The detailed waveform keeps its frequency colours and adds a narrow labelled section strip. Hollow diamonds show analysis landmarks. They do not intercept waveform gestures. The analyser also fills free hot-cue slots with section starts. Generated cues carry the section name and colour. Existing cues stay in place. There are eight slots, so extra sections retain their arrangement labels without a numbered cue. Deleted generated cues stay deleted after reload. Section edits refresh the names and colours of remaining generated cues.
+The waveform uses the section colours by default. The same palette connects the detailed waveform, overview and header. The header background shows the current section colour. A narrow timeline at its top follows the detailed waveform, with matching section boundaries. Current-section and next-event guidance share the track information area.
+
+The detailed waveform has no separate section strip or section labels over its audio detail. Its three layers retain different brightness levels within each section colour. Frequency colours remain available through **Section colours in waveform** in Playback settings. Missing section preparation uses frequency colours until preparation is available.
+
+The bottom overview fills the deck width. Current time, ending guidance and time left overlay that strip on dark text backgrounds. These overlays pass touches through to the overview. Hollow diamonds show analysis landmarks. They do not intercept waveform gestures. The analyser also fills free hot-cue slots with section starts. Generated cues carry the section name and colour. Existing cues stay in place. There are eight slots, so extra sections retain their arrangement labels without a numbered cue. Deleted generated cues stay deleted after reload. Section edits refresh the names and colours of remaining generated cues.
 
 ## Preparation
 
