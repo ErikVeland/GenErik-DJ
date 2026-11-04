@@ -36,8 +36,12 @@
 - [x] Add and run focused checks for full-width geometry, drawer exclusivity and switching lists without a drawer opening. Retain the initial failure.
 - [x] Implement the layout state and UI. Retain each list while switching tabs. Pin the reference entry on opening Suggestions and expose an explicit update action. Rank against `projection.allEntries` and keep selection out of the refresh key.
 - [x] Run the browser checks and existing dock-anchor checks. Review search, playlist navigation, full-library queue resolution, hidden-view input and unchanged performance files.
-- [ ] Commit source, checks and R39 status. Build/install one signed increment with `tools/ipad_test.py`, record its source and outcome, push and hand back. Stop device actions after launch.
+- [x] Commit source, checks and R39 status. Build/install one signed increment with `tools/ipad_test.py`, record its source and outcome, push and hand back. Stop device actions after launch.
 
 ## Deferred scope
 
 Do not implement new musical gestures, recommendation algorithms, settings redesign, arbitrary pane rearrangement or automatic loading. Further refinements follow Erik's result on this build.
+
+## Handover
+
+Build 88, app source `c7316fb9e1bae49c25a5ca6a316172807e043d13`, installed and launched on the test iPad. The focused checks pass. Erik touch and listening acceptance remains pending. Stop device actions after launch.

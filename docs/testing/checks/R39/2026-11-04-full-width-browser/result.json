@@ -36,5 +36,14 @@
     "Swift package tests were not run. Focused production-source checks and the signed iPad build are the verification scope.",
     "The STE linter is absent at the configured skill path. Prose received manual review."
   ],
-  "build": "pending"
+  "build": 88,
+  "sourceCommit": "c7316fb9e1bae49c25a5ca6a316172807e043d13",
+  "buildState": "installed-and-launched",
+  "buildSeconds": 62.92,
+  "buildDiagnostics": [
+    "The build log retains a TDJCore diagnostic saying a command failed with exit code 0, plus existing Z1 and vendor conversion warnings. The build command returned success, the source identity remained stable, and the saved app passed signature verification."
+  ],
+  "acceptance": "Pending Erik touch and listening checks.",
+  "installedUTC": "2026-11-04T02:07:13.096653+00:00",
+  "launchedUTC": "2026-11-04T02:07:13.410321+00:00"
 }
