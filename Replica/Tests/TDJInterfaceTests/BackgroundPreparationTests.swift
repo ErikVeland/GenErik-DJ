@@ -124,6 +124,7 @@ private func collectionXML(bpm: Int, persistentHex: String) -> Data {
     }
     model.loadNativeMusic(item, deck: deck)
     await model.flushWrites()
+    await model.flushDeckAnalysis()
     let track = try #require(model.track(deck))
     #expect(track.analysis.musicalAnalysisDeferred != true)
     #expect(abs((track.bpm ?? 0) - 120) < 0.5)

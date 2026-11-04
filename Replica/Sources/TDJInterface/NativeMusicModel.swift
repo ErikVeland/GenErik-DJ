@@ -50,7 +50,8 @@ extension ReplicaModel {
 
     public func startNativeMusicAnalysis() {
         let state = nativeMusic
-        guard state.wanted, !state.closed, state.analysisOwner == nil, state.analyses.isEmpty,
+        guard state.wanted, !state.closed, !arrangementPlaybackActive, !deckAnalysisIsRunning,
+              state.analysisOwner == nil, state.analyses.isEmpty,
               state.loadOwners.isEmpty, preparingPlayback.isEmpty, let catalog = musicLibraryCatalog else { return }
         let token = UUID()
         let loadedSources = Set(loaded.values.flatMap { id in library.tracks.first { $0.id == id }?.musicLibrarySources ?? [] })
@@ -141,6 +142,7 @@ extension ReplicaModel {
         }
         cancelNativeMusicAnalysis()
         cancelNativeMusicLoad(deck: deck)
+        cancelDeckLoadIntent(deck: deck)
         let token = UUID()
         state.loadOwners[deck] = token
         preparingNativeMusic.insert(deck)
@@ -154,6 +156,8 @@ extension ReplicaModel {
                 if state.loadOwners[deck] == token {
                     state.loadOwners[deck] = nil
                     preparingNativeMusic.remove(deck)
+                    if Task.isCancelled { cancelDeckLoadIntent(deck: deck) }
+                    scheduleDeckAnalysis(deck: deck)
                 }
                 if state.loadOwners.isEmpty { startNativeMusicAnalysis() }
             }
@@ -202,6 +206,7 @@ extension ReplicaModel {
             } catch is CancellationError { }
             catch {
                 guard state.loadOwners[deck] == token else { return }
+                cancelDeckLoadIntent(deck: deck)
                 if let selectedID { musicLibraryFailures[selectedID] = error.localizedDescription }
                 status = error.localizedDescription
             }

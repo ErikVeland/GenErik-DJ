@@ -51,16 +51,18 @@ struct DeckPlaybackButton: View {
     let deck: DeckID
     @AppStorage(DeckToolSettings.vinylStop) private var vinylStop = false
     private var state: DeckPlaybackSnapshot? { model.playbackSnapshot?[deck] }
-    private var stopping: Bool { state?.phase.active == true && state?.braking != true }
+    private var stopping: Bool {
+        !model.preparingTrack.contains(deck) && state?.phase.active == true && state?.braking != true
+    }
     var body: some View {
         Button { model.pressPlay(deck:deck,vinylStop:vinylStop) } label: {
             ZStack {
                 Image(systemName:stopping ? "stop.fill":"play.fill")
-                    .foregroundStyle(state?.phase.active == true ? PerformancePalette.syncGreen : Color(white:0.65))
+                    .foregroundStyle(model.playWhenReady.contains(deck) || state?.phase.active == true ? PerformancePalette.syncGreen : Color(white:0.65))
                 if model.preparingTrack.contains(deck) { ProgressView().controlSize(.small) }
             }
         }
-        .disabled(model.track(deck) == nil || model.preparingPlayback.contains(deck))
-        .accessibilityLabel("\(stopping ? "Stop":"Play") deck \(deck.rawValue.uppercased())")
+        .disabled(model.track(deck) == nil && !model.preparingTrack.contains(deck))
+        .accessibilityLabel("\(model.playWhenReady.contains(deck) ? "Cancel queued play" : stopping ? "Stop":"Play") deck \(deck.rawValue.uppercased())")
     }
 }
