@@ -1,0 +1,28 @@
+{
+  "notes": "R50: actual A10X profiling of build 114 found high main-thread UI update cost. Isolate time-readout clock reads from the large deck layout. Dependency regression passes for both decks and edit modes, with existing control and rendered waveform checks passing. Baseline captured two decks, five active FX slots, recording and read-only background analysis. Candidate A10X comparison and audio deadline verification remain open.",
+  "sourceCommit": "fd72807daf0e87707d44c379a3cd96b1e1824536",
+  "sourceSHA256": "241ba7946964ac9449da031855c46006d63d9599049e79e58633a1c2981966e8",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 36.85,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-115.log",
+  "build": 115,
+  "app": "TestBuilds/ipad/115/GenErikDJ.app",
+  "appSHA256": "e627548a0ec8549f216038bcdc3f968982317ac9c980d674ace2f738d2396d0e",
+  "state": "testing",
+  "createdUTC": "2026-11-05T01:33:31.347711+00:00",
+  "installedUTC": "2026-11-05T01:34:26.878605+00:00",
+  "launchedUTC": "2026-11-05T01:34:27.297520+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "verification": {
+    "request": "R50",
+    "baselineBuild": 114,
+    "evidence": "TestBuilds/r50/build-114/verification.json",
+    "focusedTests": 4,
+    "testCases": 12,
+    "failures": 0,
+    "clockDependency": "No layout notification; time readout still updates for both decks in normal and edit modes.",
+    "physicalAcceptance": "Candidate A10X comparison and direct audio deadline/underrun checks remain open."
+  }
+}
