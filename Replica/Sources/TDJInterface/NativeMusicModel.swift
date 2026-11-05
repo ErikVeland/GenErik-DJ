@@ -77,9 +77,13 @@ extension ReplicaModel {
         }
 
         let token = UUID()
+        var priorityTracks = Set(loaded.values)
+        if let trackID = ProcessInfo.processInfo.environment["GENERIK_DJ_ANALYSIS_PRIORITY_TRACK"] {
+            priorityTracks.insert(trackID)
+        }
         let queue = NativeMusicAnalysisQueue(
             catalog: musicLibraryCatalog ?? .init(items: [], playlists: []), tracks: library.tracks,
-            loaded: Set(loaded.values), worker: state.projection)
+            loaded: priorityTracks, worker: state.projection)
         state.analysisOwner = token
         state.analysisCatalogVersion = version
         state.analyses[token] = Task(priority: .background) { [weak self] in

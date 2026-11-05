@@ -4,7 +4,7 @@ import Foundation
 
 public struct AnalysisConfiguration: Sendable {
     public var id: String {
-        "independent-dsp-0.4.0-meter-context-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-library-refresh-1-\(minimumBPM)-\(maximumBPM)"
+        "beat-this-small0-grid-1-tuned-hpcp-\(minimumBPM)-\(maximumBPM)"
     }
     public var minimumBPM: Double = 60
     public var maximumBPM: Double = 200
@@ -107,19 +107,45 @@ public enum AudioAnalyzer {
         guard let pulses = decoded.pulses, let spectrum = decoded.spectrum else {
             throw CoreError.invalidAudio("Musical analysis features are unavailable.")
         }
-        let rhythm = try MusicalRhythmAnalyzer.analyze(
+        var rhythm = try MusicalRhythmAnalyzer.analyze(
             frames: pulses.frames, sampleRate: decoded.sampleRate, framesPerBin: pulses.framesPerBin,
             spectralActivity: spectrum.activity, configuration: configuration, harmonicFrames: spectrum.harmonicFrames,
             checkCancellation: checkCancellation)
+        let duration = Double(decoded.frameCount) / decoded.sampleRate
+        let fitted: BeatThisGrid?
+        if duration >= 11 * 60 / configuration.maximumBPM {
+            fitted = try BeatThisAnalyzer.analyze(
+                url: url, sourceFrames: decoded.frameCount, configuration: configuration,
+                checkCancellation: checkCancellation)
+        } else {
+            fitted = nil
+        }
+        try checkUnchanged(url: url, before: before)
+        if let fitted {
+            if let map = rhythm.adaptiveCandidate {
+                let firstFrame = fitted.firstBar * decoded.sampleRate
+                let bar = map.beat(atFrame: firstFrame) - Double(map.downbeatOffset)
+                if abs(bar - (bar / 4).rounded() * 4) > 0.15
+                    || rhythm.bpm.map({ abs($0 / fitted.bpm - 1) > 0.01 }) != false
+                {
+                    rhythm.adaptiveCandidate = nil
+                }
+            }
+            rhythm.bpm = fitted.bpm
+            rhythm.anchorSeconds = fitted.firstBar
+            rhythm.confidence = fitted.beatAgreement
+            rhythm.downbeat = 0
+            rhythm.downbeatConfidence = fitted.barAgreement
+            rhythm.gridResidualMilliseconds = fitted.residualMilliseconds
+        }
         try checkCancellation()
         let harmonic = spectrum.finish()
-        let duration = Double(decoded.frameCount) / decoded.sampleRate
         let brightness = harmonic.timbre.count >= 6 ? harmonic.timbre[4] + harmonic.timbre[5] : 0
         let energy = MusicalRhythmAnalyzer.energy(
             frames: pulses.frames, duration: duration, rhythm: rhythm, spectralActivity: spectrum.activity,
             brightness: brightness)
         var analysis = AudioAnalysis(
-            implementation: "Independent multiband consensus DSP v0.2.1. TDJ1 equivalence unverified.",
+            implementation: fitted == nil ? "Beat This small0 with DSP grid fallback" : "Beat This small0 fitted grid",
             configurationID: configuration.id, contentSHA256: hash, sampleRate: decoded.sampleRate,
             frameCount: decoded.frameCount, channelCount: decoded.channelCount, waveformFramesPerBin: decoded.binFrames,
             waveform: decoded.waveform, bpm: rhythm.bpm,

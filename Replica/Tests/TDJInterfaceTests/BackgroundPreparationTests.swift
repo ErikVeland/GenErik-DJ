@@ -168,7 +168,8 @@ func launchReanalysesSavedTracksAndResumesWithoutRepeatingCompletedWork(native: 
     defer { try? FileManager.default.removeItem(at: workspace) }
     let store = try WorkspaceStore(root: workspace)
     var legacy = AudioAnalysis(
-        implementation: "Fixture", configurationID: "previous-release",
+        implementation: "Fixture",
+        configurationID: "independent-dsp-0.4.0-meter-context-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-library-refresh-1-60.0-200.0",
         contentSHA256: try AudioAnalyzer.sha256(url: clockFixture()), sampleRate: 44100, frameCount: 705600,
         channelCount: 2, waveformFramesPerBin: 512, waveform: [], bpm: 126, beatAnchorFrame: 0,
         tempoConfidence: 1, key: .init(tonic: 0, mode: .major), keyConfidence: 1, chroma: [], timbre: [])

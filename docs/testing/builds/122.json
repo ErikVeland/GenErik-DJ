@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 57.59,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R61",
+      "text": "Integrate the replacement analyser. Verify BPM, downbeat and grid on 3CAG. Use the iPad for verification, then install on the Duo and refresh the full library at launch."
+    }
+  ],
   "log": "TestBuilds/ipad/build-122.log",
   "build": 122,
   "app": "TestBuilds/ipad/122/GenErikDJ.app",

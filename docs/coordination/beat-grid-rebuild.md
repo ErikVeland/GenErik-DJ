@@ -28,3 +28,11 @@ The Core ML export reproduced all 260 beats and 75 downbeats from the upstream m
 4. Verify cancellation, saved-grid protection and playback on the A10X before enabling the replacement.
 
 Local evidence remains under ignored `TestBuilds/r59/`. See `static-fit-refined.log`, `current-analyser.log`, `coreml-3cag-parity.log` and `native-frontend.log`. The Core ML export and the scripts that produced the measurements are stored there.
+
+## R61 app integration
+
+Full analysis now runs the Beat This small0 model on the background analysis worker. The app reads overlapping 30-second windows and checks for cancellation between predictions. It keeps the DSP grid if the model cannot fit a supported four-beat grid. Manual grids and key corrections retain authority. The new analysis version schedules the full library and saves results per track.
+
+The bundled Core ML package uses the upstream `small0` checkpoint with SHA-256 `6074be2c4d490c5f6101fcc374a1ec72ae93456e23bb6019783b849f5dc7d47b`. The conversion uses float32 input and output with an iOS 17 deployment target. The app bundles the upstream MIT license. [Upstream model and license](https://github.com/CPJKU/beat_this/tree/v1.1.0).
+
+The native full-file analyser on the Mac measured 71.0058 BPM and placed the first grid downbeat at 2.6006 seconds. The saved 3CAG reference uses 71.0019 BPM and starts at 2.5802 seconds. All 221 reference beats and 56 bars are within 20.5 ms of the fitted grid. See `TestBuilds/r61/3cag-host-comparison.json`.
