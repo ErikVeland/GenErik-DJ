@@ -12,6 +12,20 @@ import Foundation
         init(_ model: ReplicaModel) { self.model = model }
     }
     private static var models: [ObjectIdentifier: Entry] = [:]
+    #if os(iOS)
+        private static var libraryAnalysisTasks: LibraryAnalysisBackgroundTasks?
+
+        public static func configureBackgroundLibraryAnalysis(_ model: ReplicaModel) {
+            guard libraryAnalysisTasks == nil else { return }
+            libraryAnalysisTasks = LibraryAnalysisBackgroundTasks(model: model)
+        }
+
+        @available(iOS 26, *)
+        static func continueLibraryAnalysis(_ model: ReplicaModel) -> Bool {
+            guard let libraryAnalysisTasks, libraryAnalysisTasks.model === model else { return false }
+            return libraryAnalysisTasks.continueAnalysis()
+        }
+    #endif
     public static func register(_ model: ReplicaModel) {
         models = models.filter { $0.value.model != nil }
         models[ObjectIdentifier(model)] = Entry(model)
@@ -32,12 +46,21 @@ import Foundation
     public static func background(_ model: ReplicaModel) {
         #if os(iOS)
             model.pauseVisualUpdates()
+            model.setLibraryAnalysisBackgrounded(true)
             let lease = BackgroundSaveLease()
             lease.start()
             Task {
                 await model.prepareForBackground()
+                if libraryAnalysisTasks?.model === model { libraryAnalysisTasks?.scheduleIdleAnalysis() }
                 lease.end()
             }
+        #endif
+    }
+
+    static func foreground(_ model: ReplicaModel) {
+        model.setLibraryAnalysisBackgrounded(false)
+        #if os(iOS)
+            if libraryAnalysisTasks?.model === model { libraryAnalysisTasks?.enteredForeground() }
         #endif
     }
 }

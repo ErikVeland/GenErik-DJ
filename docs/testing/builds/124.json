@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 34.27,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R62",
+      "text": "Let analysis continue in the background on newer devices. Use scheduled idle-time analysis on the 2017 iPad Pro."
+    }
+  ],
   "log": "TestBuilds/ipad/build-124.log",
   "build": 124,
   "app": "TestBuilds/ipad/124/GenErikDJ.app",

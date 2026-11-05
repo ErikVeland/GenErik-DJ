@@ -9,6 +9,7 @@ import TDJInterface
         // It is only read; the original stays where it is.
         let inbox = ["collection.nml.gz", "collection.nml"].map { URL.documentsDirectory.appendingPathComponent($0) }
         model = try? ReplicaModel(root: root, discoverSyncedTraktor: true, automaticTraktorSources: inbox)
+        if let model { ReplicaLifecycle.configureBackgroundLibraryAnalysis(model) }
     }
     var body: some Scene {
         WindowGroup {

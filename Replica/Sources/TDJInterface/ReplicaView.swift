@@ -232,6 +232,7 @@ private let surface = PerformancePalette.panel
         }.background(PerformancePalette.frame).foregroundStyle(PerformancePalette.text).buttonStyle(.plain)
             .preferredColorScheme(.dark).task {
                 ReplicaLifecycle.register(model)
+                guard scenePhase != .background else { return }
                 model.startPlaybackMonitor()
                 async let music: Void = model.openNativeMusicLibrary()
                 await model.refreshTraktorPreparation()
@@ -256,6 +257,7 @@ private let surface = PerformancePalette.panel
                     if phase == .background { ReplicaLifecycle.background(model) }
                 #endif
                 if phase == .active {
+                    ReplicaLifecycle.foreground(model)
                     model.startPlaybackMonitor()
                     Task {
                         async let music: Void = model.openNativeMusicLibrary()

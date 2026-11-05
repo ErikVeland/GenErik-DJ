@@ -607,9 +607,7 @@ extension FrontBrowserView {
                 }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .topLeading).clipped()
             }
             if let progress = model.analysisProgress {
-                PreparationImportPill(progress: progress)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 22).frame(height: 36).background(PerformancePalette.panel)
+                LibraryAnalysisFooter(model: model, progress: progress)
             }
         }
     }

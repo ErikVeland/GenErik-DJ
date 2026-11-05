@@ -9,16 +9,54 @@ import Testing
     let snapshot: MusicLibraryCatalog
     var preparations = 0
     var directPlayback = false
+    var beforePreparation: (() async throws -> Void)?
     init(_ items: [MusicLibraryItem]) { snapshot = .init(items: items, playlists: []) }
     func catalog() async throws -> MusicLibraryCatalog { snapshot }
     func prepare(_ item: MusicLibraryItem, in directory: URL) async throws -> PreparedMusicLibraryAudio {
         preparations += 1
+        try await beforePreparation?()
         return .init(url: try #require(item.assetURL), metadata: .init(item: item))
     }
     func playbackSource(_ item: MusicLibraryItem) async throws -> PreparedMusicLibraryAudio? {
         guard directPlayback else { return nil }
         return .init(url: try #require(item.assetURL), metadata: .init(item: item))
     }
+}
+
+@Test @MainActor func expiringBackgroundAnalysisDoesNotRestartUntilForeground() async throws {
+    let item = clockItem("expiry", duration: 16)
+    let provider = ClockMusicLibrary([item])
+    let workspace = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: workspace) }
+    let model = try ReplicaModel(
+        root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    let (started, signal) = AsyncStream<Void>.makeStream()
+    provider.beforePreparation = {
+        signal.yield(())
+        try await Task.sleep(for: .seconds(30))
+    }
+
+    model.setLibraryAnalysisBackgrounded(true)
+    let granted = model.beginBackgroundLibraryAnalysis { _, _ in }
+    let id = try #require(granted)
+    let work = Task {
+        defer { signal.finish() }
+        return await model.runBackgroundLibraryAnalysis(id)
+    }
+    for await _ in started { break }
+    model.endBackgroundLibraryAnalysis(id)
+    #expect(await work.value == false)
+    await model.flushNativeMusicAnalysis()
+    #expect(provider.preparations == 1)
+    #expect(model.preparedTrack(for: item) == nil)
+
+    provider.beforePreparation = nil
+    model.setLibraryAnalysisBackgrounded(false)
+    await model.openNativeMusicLibrary()
+    await model.flushNativeMusicAnalysis()
+    #expect(provider.preparations == 2)
+    #expect(model.preparedTrack(for: item) != nil)
+    await model.finishForShutdown()
 }
 
 private func clockFixture() -> URL {
@@ -223,4 +261,27 @@ func launchReanalysesSavedTracksAndResumesWithoutRepeatingCompletedWork(source: 
     #expect(reopened.library.revision == previousRevision)
     #expect(try Data(contentsOf: cacheURL) == saved)
     await reopened.finishForShutdown()
+}
+
+@Test @MainActor func backgroundTransitionRequiresSystemAnalysisTime() async throws {
+    let item = clockItem("suspended", duration: 16)
+    let (model, workspace) = try preparationModel([item])
+    defer { try? FileManager.default.removeItem(at: workspace) }
+    model.setLibraryAnalysisBackgrounded(true)
+    await model.openNativeMusicLibrary()
+    await model.flushNativeMusicAnalysis()
+    #expect(model.preparedTrack(for: item) == nil)
+    #expect(model.libraryAnalysisNeedsWork)
+
+    var checked = 0
+    let granted = model.beginBackgroundLibraryAnalysis { done, _ in checked = done }
+    let id = try #require(granted)
+    #expect(model.beginBackgroundLibraryAnalysis { _, _ in } == nil)
+    #expect(await model.runBackgroundLibraryAnalysis(id))
+    #expect(checked == 1)
+    #expect(model.preparedTrack(for: item) != nil)
+    #expect(!model.libraryAnalysisNeedsWork)
+    model.endBackgroundLibraryAnalysis(id)
+    #expect(await model.runBackgroundLibraryAnalysis(id) == false)
+    await model.finishForShutdown()
 }

@@ -7,6 +7,10 @@ import TDJCore
     var analysisOwner: UUID?
     var analysisCatalogVersion: UInt64?
     var finishedAnalysis: (catalogVersion: UInt64, libraryRevision: Int)?
+    var backgrounded = false
+    var backgroundRun: (id: UUID, report: (Int, Int) -> Void)?
+    var analysisChecked = 0
+    var analysisTotal = 0
     var analyses: [UUID: Task<Void, Never>] = [:]
     var loadOwners: [DeckID: UUID] = [:]
     var loads: [UUID: Task<Void, Never>] = [:]
@@ -43,10 +47,54 @@ extension ReplicaModel {
             analysisProgress = .init(done: 0, total: 0, title: "Checking library…", isLibraryAnalysis: true)
         }
         await refreshMusicLibrary()
+        guard !Task.isCancelled else { return }
         if let version = nativeMusic.analysisCatalogVersion, version != musicLibraryCatalogVersion {
             cancelNativeMusicAnalysis()
         }
         startNativeMusicAnalysis()
+    }
+
+    var libraryAnalysisNeedsWork: Bool {
+        let state = nativeMusic
+        return !state.closed && state.wanted
+            && (state.finishedAnalysis?.catalogVersion != musicLibraryCatalogVersion
+                || state.finishedAnalysis?.libraryRevision != library.revision)
+    }
+
+    func setLibraryAnalysisBackgrounded(_ backgrounded: Bool) {
+        nativeMusic.backgrounded = backgrounded
+        if backgrounded, nativeMusic.backgroundRun == nil { cancelNativeMusicAnalysis() }
+    }
+
+    func beginBackgroundLibraryAnalysis(report: @escaping (Int, Int) -> Void) -> UUID? {
+        let state = nativeMusic
+        guard !state.closed, state.backgroundRun == nil, !arrangementPlaybackActive, libraryAnalysisPlaybackIsIdle
+        else { return nil }
+        let id = UUID()
+        state.backgroundRun = (id, report)
+        report(state.analysisChecked, state.analysisTotal)
+        return id
+    }
+
+    func runBackgroundLibraryAnalysis(_ id: UUID) async -> Bool {
+        let state = nativeMusic
+        guard state.backgroundRun?.id == id, !Task.isCancelled else { return false }
+        if musicLibraryCatalog == nil, musicLibraryError == nil {
+            await openNativeMusicLibrary()
+        } else {
+            state.wanted = true
+            startNativeMusicAnalysis()
+        }
+        while !Task.isCancelled, state.backgroundRun?.id == id, let task = state.analyses.values.first {
+            await task.value
+        }
+        return !Task.isCancelled && !state.closed && state.backgroundRun?.id == id && !libraryAnalysisNeedsWork
+    }
+
+    func endBackgroundLibraryAnalysis(_ id: UUID) {
+        guard nativeMusic.backgroundRun?.id == id else { return }
+        nativeMusic.backgroundRun = nil
+        if nativeMusic.backgrounded { cancelNativeMusicAnalysis() }
     }
 
     func cancelNativeMusicAnalysis() {
@@ -64,6 +112,7 @@ extension ReplicaModel {
     public func startNativeMusicAnalysis() {
         let state = nativeMusic
         guard state.wanted, !state.closed, !arrangementPlaybackActive, !deckAnalysisIsRunning,
+            (!state.backgrounded || (state.backgroundRun != nil && libraryAnalysisPlaybackIsIdle)),
             !importing, !musicLibraryRefreshing, state.analysisOwner == nil, state.analyses.isEmpty,
             state.loadOwners.isEmpty, preparingPlayback.isEmpty,
             musicLibraryCatalog != nil || musicLibraryError != nil
@@ -86,6 +135,8 @@ extension ReplicaModel {
             loaded: priorityTracks, mediaDirectory: store.mediaDirectory, worker: state.projection)
         state.analysisOwner = token
         state.analysisCatalogVersion = version
+        state.analysisChecked = 0
+        state.analysisTotal = 0
         state.analyses[token] = Task(priority: .background) { [weak self] in
             guard let self else {
                 await queue.finish()
@@ -102,11 +153,21 @@ extension ReplicaModel {
             }
             await removeStaleNativeSources()
             let count = await queue.prepare()
+            guard !Task.isCancelled, state.analysisOwner == token else {
+                await queue.finish()
+                return
+            }
+            state.analysisTotal = count
+            state.backgroundRun?.report(0, count)
             if count > 0 { logAnalysis("Analysis queue: \(count) songs") }
             var done = 0
             var failed = 0
             while let job = await queue.next() {
                 guard !Task.isCancelled, state.analysisOwner == token else { break }
+                if state.backgrounded, !libraryAnalysisPlaybackIsIdle {
+                    cancelNativeMusicAnalysis()
+                    break
+                }
                 analysisProgress = .init(done: done, total: count, title: "Analysing library", isLibraryAnalysis: true)
                 musicLibraryProgress = "Analysing \(job.title)"
                 do {
@@ -139,6 +200,8 @@ extension ReplicaModel {
                     musicLibraryFailures[job.id] = error.localizedDescription
                     logAnalysis("Could not prepare \(job.title): \(error.localizedDescription)")
                 }
+                state.analysisChecked = done + failed
+                state.backgroundRun?.report(state.analysisChecked, count)
             }
             await queue.finish()
             guard !Task.isCancelled, state.analysisOwner == token else { return }
@@ -153,6 +216,13 @@ extension ReplicaModel {
                 analysisProgress = nil
             }
         }
+    }
+
+    private var libraryAnalysisPlaybackIsIdle: Bool {
+        guard !playback.isRecording, !playback.recordingFinishing, let snapshot = playback.core.snapshot() else {
+            return false
+        }
+        return !DeckID.allCases.contains { snapshot[$0].phase.active || snapshot[$0].touchActive }
     }
 
     private func prepareLibrarySong(_ job: NativeMusicAnalysisQueue.Job) async throws -> (Track, ArrangementCache) {

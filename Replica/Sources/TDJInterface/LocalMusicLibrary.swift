@@ -73,7 +73,7 @@ extension LocalMusicLibraryProviding {
             let diagnosticsURL = diagnosticsURL
             var authorization = MPMediaLibrary.authorizationStatus()
             Self.stage("Music library authorization: \(authorization.rawValue)", at: diagnosticsURL)
-            if authorization == .notDetermined {
+            if authorization == .notDetermined, UIApplication.shared.applicationState != .background {
                 authorization = await withCheckedContinuation { continuation in
                     MPMediaLibrary.requestAuthorization { continuation.resume(returning: $0) }
                 }

@@ -1,0 +1,113 @@
+#if os(iOS)
+    import BackgroundTasks
+    import UIKit
+
+    @MainActor final class LibraryAnalysisBackgroundTasks {
+        weak var model: ReplicaModel?
+        private let idleIdentifier: String
+        private let continuedIdentifier: String
+        private var idleRegistered = false
+        private var active: (id: UUID, task: BGTask, worker: Task<Void, Never>)?
+
+        init?(model: ReplicaModel) {
+            guard let bundleID = Bundle.main.bundleIdentifier else { return nil }
+            self.model = model
+            idleIdentifier = bundleID + ".library-analysis.idle"
+            continuedIdentifier = bundleID + ".library-analysis.continued"
+            let scheduler = BGTaskScheduler.shared
+            idleRegistered = scheduler.register(forTaskWithIdentifier: idleIdentifier, using: .main) { [weak self] task in
+                guard let self, UIApplication.shared.applicationState == .background else {
+                    task.setTaskCompleted(success: false)
+                    return
+                }
+                self.model?.setLibraryAnalysisBackgrounded(true)
+                self.start(task)
+            }
+        }
+
+        func scheduleIdleAnalysis() {
+            if #available(iOS 26, *) { return }
+            guard idleRegistered, let model, UIApplication.shared.applicationState == .background else { return }
+            let scheduler = BGTaskScheduler.shared
+            guard model.libraryAnalysisNeedsWork else {
+                scheduler.cancel(taskRequestWithIdentifier: idleIdentifier)
+                return
+            }
+            guard active == nil else { return }
+            let request = BGProcessingTaskRequest(identifier: idleIdentifier)
+            request.requiresExternalPower = true
+            request.earliestBeginDate = Date(timeIntervalSinceNow: 60)
+            do { try scheduler.submit(request) } catch {
+                model.logAnalysis("Could not schedule idle analysis: \(error.localizedDescription)")
+            }
+        }
+
+        @available(iOS 26, *)
+        func continueAnalysis() -> Bool {
+            guard let model, UIApplication.shared.applicationState == .active, active == nil,
+                !model.libraryAnalysisContinuesInBackground, model.libraryAnalysisNeedsWork,
+                !model.arrangementPlaybackActive, !model.playback.isRecording, !model.playback.recordingFinishing
+            else { return false }
+            let scheduler = BGTaskScheduler.shared
+            let identifier = continuedIdentifier + "." + UUID().uuidString
+            let registered = scheduler.register(forTaskWithIdentifier: identifier, using: .main) { [weak self] task in
+                guard let self, let continued = task as? BGContinuedProcessingTask else {
+                    task.setTaskCompleted(success: false)
+                    return
+                }
+                self.start(continued, progress: continued.progress)
+            }
+            guard registered else { return false }
+            let request = BGContinuedProcessingTaskRequest(
+                identifier: identifier, title: "Analysing library", subtitle: "Preparing tracks")
+            request.strategy = .fail
+            model.libraryAnalysisContinuesInBackground = true
+            do {
+                try scheduler.submit(request)
+                return true
+            } catch {
+                model.libraryAnalysisContinuesInBackground = false
+                model.logAnalysis("Could not continue analysis: \(error.localizedDescription)")
+                return false
+            }
+        }
+
+        func enteredForeground() {
+            if let active, active.task is BGProcessingTask { finish(active.id, success: false) }
+        }
+
+        private func start(_ task: BGTask, progress: Progress? = nil) {
+            guard let model, active == nil, let id = model.beginBackgroundLibraryAnalysis(report: { checked, total in
+                progress?.totalUnitCount = Int64(max(1, total))
+                progress?.completedUnitCount = Int64(checked)
+            }) else {
+                if active == nil { model?.libraryAnalysisContinuesInBackground = false }
+                task.setTaskCompleted(success: false)
+                return
+            }
+            let worker = Task(priority: .background) { [weak self, weak model] in
+                let complete = await model?.runBackgroundLibraryAnalysis(id) ?? false
+                self?.finish(id, success: complete)
+            }
+            active = (id, task, worker)
+            model.logAnalysis(progress == nil ? "Idle library analysis started." : "Continued library analysis started.")
+            if UIApplication.shared.applicationState == .background {
+                model.setLibraryAnalysisBackgrounded(true)
+            }
+            task.expirationHandler = { @Sendable [weak self] in
+                Task { @MainActor in self?.finish(id, success: false) }
+            }
+        }
+
+        private func finish(_ id: UUID, success: Bool) {
+            guard let work = active, work.id == id else { return }
+            active = nil
+            model?.endBackgroundLibraryAnalysis(id)
+            model?.libraryAnalysisContinuesInBackground = false
+            work.worker.cancel()
+            work.task.expirationHandler = nil
+            work.task.setTaskCompleted(success: success)
+            if work.task is BGProcessingTask, !success { scheduleIdleAnalysis() }
+        }
+    }
+#endif
