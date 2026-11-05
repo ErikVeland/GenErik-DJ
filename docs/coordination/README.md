@@ -10,6 +10,8 @@ Latest iPad candidate: **build 116**, application source `296d14e82`. R53 starts
 
 Latest Duo candidate: **build 119**, from `main` at `480f3cab5`. R56 aligns a synced Play start and saves each deck’s Sync choice. Fourteen focused tests passed. The Duo installed the app and accepted launch. Erik checks audible alignment and the saved choice. [Build record](../testing/builds/119.json).
 
+Duo build **120** is signed and saved from `main` at `0e2e85f10`. R57 gives both decks the same default waveform span and resets zoom on each load. Two network installation attempts timed out. The Duo still reports build 119. [Build record](../testing/builds/120.json).
+
 Build 114 was profiled on the actual A10X with two playing decks, five active FX slots, recording and the existing read-only analysis comparison. The steady run used 25.8 seconds of main-thread CPU in 30 seconds, with a mean 28.4 FPS. The combined run used 36.8 seconds in 45 seconds, with estimates from 21 to 60 FPS. The 116.2-second stereo AIFF saved successfully, and the comparison completed 120 songs. Erik reported no obvious problem during the first listening/touch run. Instruments exposed no client audio I/O events, so no deadline or underrun count is claimed.
 
 R50 remains open for the same-workload A10X comparison of the latest installed build and direct audio timing checks. Normal automatic analysis still pauses during playback. Temporary UI automation was removed, and the earlier FX settings and comparison report were restored. Evidence, symbols, recordings and failed attempts remain under ignored `TestBuilds/r50/build-114/`. R51/R52 UI changes remain included, with their checks under `TestBuilds/r51/` and `TestBuilds/r52/`.

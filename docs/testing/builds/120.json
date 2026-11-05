@@ -1,0 +1,32 @@
+{
+  "notes": "R57 uses the same default waveform zoom on both decks and resets the loaded deck even when the track is the same.",
+  "sourceCommit": "0e2e85f10774ab66d88c0d6be2c82145a19fc354",
+  "sourceSHA256": "9bde26ff2044112f88549ef0a8784837330933e998dfd998afc370be2ada1644",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 39.37,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-120.log",
+  "build": 120,
+  "app": "TestBuilds/ipad/120/GenErikDJ.app",
+  "appSHA256": "9d22814914e7cf37714a6e9289599a0c203316018cd54fc9e648e552a7d82b74",
+  "state": "ready",
+  "createdUTC": "2026-11-05T07:54:36.620595+00:00",
+  "requestIDs": [
+    "R57"
+  ],
+  "device": "GenErik Duo",
+  "previousDeviceBuild": 119,
+  "deploymentStatus": "Two network installation attempts timed out at 240 seconds. The Duo still reports build 119.",
+  "deploymentLogs": [
+    "TestBuilds/r57/duo-cycle.log",
+    "TestBuilds/r57/duo-retry.log"
+  ],
+  "focusedChecks": "Three focused tests passed. They cover different tempos, a reload of the same track, independent zoom and grid pinch.",
+  "evidence": [
+    "TestBuilds/r57/red.log",
+    "TestBuilds/r57/test-compile.log",
+    "TestBuilds/r57/focused.log"
+  ],
+  "acceptance": "After installation, load two tracks at different tempos. Pinch both decks, then reload the same track on one deck. Check that only that deck returns to the default scale."
+}
