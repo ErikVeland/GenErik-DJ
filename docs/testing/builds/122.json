@@ -1,0 +1,33 @@
+{
+  "notes": "R60 starts a full analysis pass at launch and saves the results per track. Manual preparation remains authoritative.",
+  "sourceCommit": "d2a9ba940dcf550d497377568434bc3531a76f7f",
+  "sourceSHA256": "067dedda3d42081f9f0472e06e1fa69ad73aad05a53ec53731cb4e6f464a0423",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 57.59,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-122.log",
+  "build": 122,
+  "app": "TestBuilds/ipad/122/GenErikDJ.app",
+  "appSHA256": "3e86137df6ab1cee514013210c9dd94d7c03020ab6757ccbc9b2bf657376bb6a",
+  "state": "testing",
+  "createdUTC": "2026-11-05T11:54:02.323251+00:00",
+  "installedUTC": "2026-11-05T11:55:07.018919+00:00",
+  "launchedUTC": "2026-11-05T11:55:07.721287+00:00",
+  "launchVerification": "The Duo installed build 122 and iOS accepted the launch request. Device actions stopped after launch.",
+  "requestIDs": [
+    "R60"
+  ],
+  "device": "GenErik Duo",
+  "previousDeviceBuild": 121,
+  "deploymentLog": "TestBuilds/r60/duo-cycle.log",
+  "focusedChecks": "Three focused tests passed across seven cases. They cover the launch refresh for native and imported tracks, manual corrections, saved cue candidates, cache reuse after relaunch, and deferred deck analysis.",
+  "evidence": [
+    "TestBuilds/r60/red.log",
+    "TestBuilds/r60/review-expectation.log",
+    "TestBuilds/r60/focused.log"
+  ],
+  "buildDiagnostic": "Xcode logged a SwiftCompile diagnostic with exit code zero. The build succeeded. The signed executable contains the new analysis version and review messages.",
+  "referenceTrack": "The current analyser runs this pass. The R59 beat and downbeat replacement is still a local prototype. 3CAG tempo and downbeat accuracy remain open.",
+  "acceptance": "Check library progress with both decks idle. After the pass, reopen GenErik DJ and check that it reuses saved results. Check flagged tracks, including 3CAG, against listening references."
+}
