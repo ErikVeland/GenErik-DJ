@@ -5,7 +5,14 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 55.72,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R50",
+      "date": "2026-11-05",
+      "report": "Erik reported no obvious audio or UI problem during the first playback run. Requested full combined-load profiling and the next build.",
+      "state": "measured-fix-in-progress"
+    }
+  ],
   "log": "TestBuilds/ipad/build-114.log",
   "build": 114,
   "app": "TestBuilds/ipad/114/GenErikDJ.app",
@@ -23,5 +30,30 @@
     "failures": 0,
     "evidence": "TestBuilds/r52/verification.json",
     "physicalAcceptance": "Pending Erik\u2019s corner control, zoom, deck split and browser resize checks. Combined-load profiling remains open."
+  },
+  "profile": {
+    "evidence": "TestBuilds/r50/build-114/verification.json",
+    "device": "A10X iPad7,3; iPadOS 17.7.11",
+    "sourceVerified": true,
+    "steady": {
+      "seconds": 30,
+      "mainCPUSeconds": 25.756,
+      "fpsMean": 28.4
+    },
+    "combined": {
+      "seconds": 45,
+      "activeDecks": 2,
+      "activeFXSlots": 5,
+      "recording": true,
+      "backgroundAnalysis": "Existing reference comparison mode, 120 songs completed",
+      "mainCPUSeconds": 36.812,
+      "fpsRange": [
+        21,
+        60
+      ]
+    },
+    "finding": "The large deck layout observes the advancing playback clock through its time readouts. SwiftUI graph updates and observation cancellation dominate main-thread work.",
+    "audioVerification": "Recording saved as a valid 116.234667-second, 48 kHz, 24-bit stereo AIFF. Audio I/O event tables were empty. Callback deadlines and underrun counts remain unverified.",
+    "candidateVerification": "Clock dependency regression and rendered deck checks pass. A10X comparison of the candidate remains open."
   }
 }

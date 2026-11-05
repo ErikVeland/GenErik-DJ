@@ -89,3 +89,37 @@ private final class DisplayChangeCounter: @unchecked Sendable {
     #expect(display[.a].mixer.filterY == snapshot.a.mixer.filterY)
     #expect(filter.value == 1 && controls.value == 0)
 }
+
+@Test(arguments: DeckID.allCases, [false, true]) @MainActor
+func deckLayoutDoesNotSubscribeToThePlaybackClock(deck: DeckID, editing: Bool) throws {
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let playback = try PlaybackController(offline: true)
+    let asset = try PCMAsset(interleavedStereo: Array(repeating: 0.1, count: 96000), sampleRate: 48000)
+    let generation = try playback.core.load(asset, deck: deck, grid: nil, synced: false)
+    #expect(playback.core.processControlsWhileIdle())
+    try playback.core.play(deck: deck, generation: generation)
+    _ = playback.core.renderOffline(frames: 128)
+    let initial = try #require(playback.core.snapshot())
+    let model = try ReplicaModel(root: root, playback: playback)
+    model.playbackSnapshot = initial
+    if editing { model.editing.insert(deck) }
+    let view = DeckView(model: model, deck: deck, panels: DeckPanelPresentation())
+    let layoutChanges = DisplayChangeCounter()
+    let timeChanges = DisplayChangeCounter()
+    withObservationTracking {
+        _ = view.content(size: CGSize(width: 1004, height: 360))
+    } onChange: {
+        layoutChanges.changed()
+    }
+    withObservationTracking {
+        _ = DeckTimeReadout(model: model, deck: deck, editing: editing).body
+    } onChange: {
+        timeChanges.changed()
+    }
+    _ = playback.core.renderOffline(frames: 128)
+    let advanced = try #require(playback.core.snapshot())
+    #expect(advanced[deck].sourceFrame > initial[deck].sourceFrame)
+    model.playbackSnapshot = advanced
+    #expect(layoutChanges.value == 0 && timeChanges.value == 1)
+}
