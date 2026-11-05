@@ -1,0 +1,32 @@
+{
+  "notes": "R62 lets users continue library analysis in the background on iOS 26 and requests idle time on older iPads while charging.",
+  "sourceCommit": "9431a010c78295aaeac4449c0779d369f3594c26",
+  "sourceSHA256": "f92a7921ab7ee4397006ad8b8f0d98864127f686b7e02fcd9f6b29a9dfde0b5b",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 39.32,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-125.log",
+  "build": 125,
+  "app": "TestBuilds/ipad/125/GenErikDJ.app",
+  "appSHA256": "de9af12ed5c79b535a7de45eb45352b950254beec50bf566359225ebef747a4b",
+  "state": "ready",
+  "createdUTC": "2026-11-05T23:20:10.455993+00:00",
+  "requestIDs": [
+    "R62"
+  ],
+  "deploymentStatus": "The A10X iPad Pro and GenErik Duo were unavailable. The signed app is ready to install.",
+  "focusedChecks": "Three tests passed across five cases. They cover background time, a second request, expiry, cache reuse and the launch refresh.",
+  "buildVerification": "The signed bundle contains the background task identifiers, the processing mode and the library button.",
+  "evidence": [
+    "TestBuilds/r62/red.log",
+    "TestBuilds/r62/focused.log",
+    "TestBuilds/r62/ios-typecheck.log",
+    "TestBuilds/r62/device-availability.log"
+  ],
+  "acceptance": [
+    "On the Duo, tap Analyse in Background during a library pass. Switch apps. Check system progress and cancellation.",
+    "On the A10X iPad, plug in power. Leave the app with work pending. Check for an idle analysis grant and saved results.",
+    "Start a deck during analysis. Check that analysis yields and audio stays clean."
+  ]
+}
