@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 36.85,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R53",
+      "date": "2026-11-05",
+      "report": "The default view should show only the decks, with the browser hidden.",
+      "fixBuild": 116,
+      "fixCommit": "296d14e828564dc487a1fb823a99a1928cc057dc",
+      "state": "awaiting-acceptance"
+    }
+  ],
   "log": "TestBuilds/ipad/build-115.log",
   "build": 115,
   "app": "TestBuilds/ipad/115/GenErikDJ.app",

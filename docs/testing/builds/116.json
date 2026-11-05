@@ -1,0 +1,24 @@
+{
+  "notes": "R53: start with only the decks visible and the browser hidden. The existing browser selection and loading workflow passes. Explicit music, drag and add-track controls still open the browser. Erik checks the launch view on the iPad.",
+  "sourceCommit": "296d14e828564dc487a1fb823a99a1928cc057dc",
+  "sourceSHA256": "79fad0932649125546ff52b9c9b3b112c826ad174baf75ec22fc3608fd6537a4",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 40.1,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-116.log",
+  "build": 116,
+  "app": "TestBuilds/ipad/116/GenErikDJ.app",
+  "appSHA256": "8f46d7a2e0988373899c455c26e13b0f6476448a9d7988204262cccb29c4d07e",
+  "state": "testing",
+  "createdUTC": "2026-11-05T01:38:43.040317+00:00",
+  "installedUTC": "2026-11-05T01:39:30.199692+00:00",
+  "launchedUTC": "2026-11-05T01:39:30.579311+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "verification": {
+    "request": "R53",
+    "check": "selectionAndArtworkUsePerformerPolicyWithoutLoading passed",
+    "evidence": "TestBuilds/r53/verification.json",
+    "physicalLaunchCheck": "Pending Erik\u2019s confirmation."
+  }
+}
