@@ -6,7 +6,9 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
-Latest installed candidate: **build 116**, application source `296d14e82`. R53 starts with the decks visible and the browser hidden. The music button, drag handle and add-track controls still open the browser. The focused selection/loading workflow, source identity, signing and framework checks pass. Installation succeeded, iPadOS accepted launch and device actions stopped. Erik’s launch check remains open.
+Latest iPad candidate: **build 116**, application source `296d14e82`. R53 starts with the decks visible and the browser hidden. The music button, drag handle and add-track controls still open the browser. The focused selection/loading workflow, source identity, signing and framework checks pass. Installation succeeded, iPadOS accepted launch and device actions stopped. Erik’s launch check remains open.
+
+Latest Duo candidate: **build 117**, from consolidated `main` at `1b8354598`. All local and fetched branch tips were already included. Signing and framework checks passed. The Duo installed the app and accepted launch. Erik checks the front and inside layouts, browser and audio. [Build record](../testing/builds/117.json).
 
 Build 114 was profiled on the actual A10X with two playing decks, five active FX slots, recording and the existing read-only analysis comparison. The steady run used 25.8 seconds of main-thread CPU in 30 seconds, with a mean 28.4 FPS. The combined run used 36.8 seconds in 45 seconds, with estimates from 21 to 60 FPS. The 116.2-second stereo AIFF saved successfully, and the comparison completed 120 songs. Erik reported no obvious problem during the first listening/touch run. Instruments exposed no client audio I/O events, so no deadline or underrun count is claimed.
 

@@ -1,0 +1,23 @@
+{
+  "notes": "Build from consolidated main for GenErik Duo testing.",
+  "sourceCommit": "1b835459898a893297f3742a5748576345f73daa",
+  "sourceSHA256": "79fad0932649125546ff52b9c9b3b112c826ad174baf75ec22fc3608fd6537a4",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 5.81,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-117.log",
+  "build": 117,
+  "app": "TestBuilds/ipad/117/GenErikDJ.app",
+  "appSHA256": "0e11e146ddb6c8153cbc05d812bae5583855e3b8de57d853fc1c16f81cab1c30",
+  "state": "testing",
+  "createdUTC": "2026-11-05T05:56:07.691376+00:00",
+  "installedUTC": "2026-11-05T05:59:40.000770+00:00",
+  "launchedUTC": "2026-11-05T05:59:40.666857+00:00",
+  "launchVerification": "iOS accepted the launch request on GenErik Duo.",
+  "requestIDs": ["R54"],
+  "device": "GenErik Duo",
+  "previousDeviceBuild": 100,
+  "deploymentLog": "TestBuilds/ipad/deploy-117-duo.log",
+  "acceptance": "Erik checks the front and inside layouts, browser, audio and continued operation on the Duo."
+}
