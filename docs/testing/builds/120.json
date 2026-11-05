@@ -10,17 +10,18 @@
   "build": 120,
   "app": "TestBuilds/ipad/120/GenErikDJ.app",
   "appSHA256": "9d22814914e7cf37714a6e9289599a0c203316018cd54fc9e648e552a7d82b74",
-  "state": "ready",
+  "state": "testing",
   "createdUTC": "2026-11-05T07:54:36.620595+00:00",
   "requestIDs": [
     "R57"
   ],
   "device": "GenErik Duo",
   "previousDeviceBuild": 119,
-  "deploymentStatus": "Two network installation attempts timed out at 240 seconds. The Duo still reports build 119.",
+  "deploymentStatus": "The first two network installation attempts timed out. The retry succeeded after Erik unlocked the Duo.",
   "deploymentLogs": [
     "TestBuilds/r57/duo-cycle.log",
-    "TestBuilds/r57/duo-retry.log"
+    "TestBuilds/r57/duo-retry.log",
+    "TestBuilds/r57/duo-unlocked.log"
   ],
   "focusedChecks": "Three focused tests passed. They cover different tempos, a reload of the same track, independent zoom and grid pinch.",
   "evidence": [
@@ -28,5 +29,8 @@
     "TestBuilds/r57/test-compile.log",
     "TestBuilds/r57/focused.log"
   ],
-  "acceptance": "After installation, load two tracks at different tempos. Pinch both decks, then reload the same track on one deck. Check that only that deck returns to the default scale."
+  "acceptance": "Load two tracks at different tempos. Pinch both decks, then reload the same track on one deck. Check that only that deck returns to the default scale.",
+  "installedUTC": "2026-11-05T08:12:19.831268+00:00",
+  "launchedUTC": "2026-11-05T08:12:24.148342+00:00",
+  "launchVerification": "iOS accepted the launch request on GenErik Duo."
 }
