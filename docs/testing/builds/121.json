@@ -1,0 +1,32 @@
+{
+  "notes": "R58 prepares and saves structure and automatic hot cues at launch. Playback pauses preparation. Tracks with incomplete results stay visible for review.",
+  "sourceCommit": "b4948014aefc1bf67ddaf64059346c978fe04284",
+  "sourceSHA256": "a141fe1e13b7607b4918896c953b2d4f05028222d61ae9e15df27159d77e18a1",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 57.58,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-121.log",
+  "build": 121,
+  "app": "TestBuilds/ipad/121/GenErikDJ.app",
+  "appSHA256": "3cb98c263905a1f49527126b17ebcea604bfb69f4adb9be2767781161c42266e",
+  "state": "installed",
+  "createdUTC": "2026-11-05T08:37:44.459431+00:00",
+  "installedUTC": "2026-11-05T08:38:44.602093+00:00",
+  "requestIDs": [
+    "R58"
+  ],
+  "device": "GenErik Duo",
+  "previousDeviceBuild": 120,
+  "deploymentLog": "TestBuilds/r58/duo-cycle.log",
+  "launchVerification": "The automatic launch command timed out after installation. Open GenErik DJ on the Duo.",
+  "focusedChecks": "Three focused tests passed. They cover launch preparation, persisted structure and cue candidates, cache reuse after relaunch and deck load, manual cue retention, and incomplete progress.",
+  "evidence": [
+    "TestBuilds/r58/red.log",
+    "TestBuilds/r58/focused.log",
+    "TestBuilds/r58/3cag-local-analysis.json"
+  ],
+  "buildDiagnostic": "Xcode logged a SwiftCompile diagnostic with exit code zero. The build succeeded. The signed executable contains the library structure preparation code.",
+  "referenceTrack": "The current analyser returned no reliable BPM for the local 3CAG copy. An older preparation for matching decoded audio has a grid near 71 BPM. Check tempo and cues on the Duo.",
+  "acceptance": "Open GenErik DJ. Check progress with both decks idle, then play a track to check that analysis pauses. Reload a prepared track to check its saved sections and cues."
+}

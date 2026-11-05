@@ -8,7 +8,7 @@ Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace th
 
 Latest iPad candidate: **build 116**, application source `296d14e82`. R53 starts with the decks visible and the browser hidden. The music button, drag handle and add-track controls still open the browser. The focused selection/loading workflow, source identity, signing and framework checks pass. Installation succeeded, iPadOS accepted launch and device actions stopped. Erik’s launch check remains open.
 
-Latest Duo candidate: **build 120**, from `main` at `0e2e85f10`. R57 gives both decks a 2.5-second default waveform span and resets zoom on each load. The Duo installed the app and accepted launch after Erik unlocked it. Erik checks pinch zoom and reloading the same track. [Build record](../testing/builds/120.json).
+Latest Duo candidate: **build 121**, from `main` at `b4948014a`. R58 prepares structure and automatic hot cues at launch. Three focused tests passed. The Duo installed the app. Automatic launch timed out. Open GenErik DJ to check progress and saved preparation. 3CAG tempo remains open. [Build record](../testing/builds/121.json).
 
 Build 114 was profiled on the actual A10X with two playing decks, five active FX slots, recording and the existing read-only analysis comparison. The steady run used 25.8 seconds of main-thread CPU in 30 seconds, with a mean 28.4 FPS. The combined run used 36.8 seconds in 45 seconds, with estimates from 21 to 60 FPS. The 116.2-second stereo AIFF saved successfully, and the comparison completed 120 songs. Erik reported no obvious problem during the first listening/touch run. Instruments exposed no client audio I/O events, so no deadline or underrun count is claimed.
 
