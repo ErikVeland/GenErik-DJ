@@ -261,7 +261,9 @@ public actor LibraryService {
             if current.nativePlaybackIdentity == analysis.contentSHA256 { return library }
             let refresh = current.nativePlaybackIdentity != nil
             current.nativePlaybackIdentity = analysis.contentSHA256
-            current.nativeSourceNeedsAnalysis = true
+            if refresh || current.analysis.frameCount != analysis.frameCount {
+                current.nativeSourceNeedsAnalysis = true
+            }
             if refresh {
                 current.analysis = current.analysis.replacingWaveform(
                     analysis.waveform, configurationID: "native-refresh-1-" + analysis.contentSHA256,
@@ -505,7 +507,8 @@ public actor LibraryService {
         let analysis = try await AnalysisWorker.shared.analyze(
             url: store.mediaDirectory.appendingPathComponent(source.mediaFilename))
         try Task.checkCancellation()
-        guard analysis.contentSHA256 == trackID, let index = library.tracks.firstIndex(where: { $0.id == trackID })
+        guard analysis.contentSHA256 == source.analysis.contentSHA256,
+            let index = library.tracks.firstIndex(where: { $0.id == trackID })
         else { throw CoreError.staleContext }
         try replaceAnalysis(analysis, at: index)
         return library

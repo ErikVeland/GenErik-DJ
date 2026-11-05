@@ -7,7 +7,7 @@ struct PreparationImportPill: View {
         HStack(spacing: 6) {
             Text(progress.text).font(.system(size: 10).monospacedDigit()).lineLimit(1).foregroundStyle(
                 progress.message == nil ? Color(white: 0.75) : Color.orange.opacity(0.85))
-            if progress.message == nil {
+            if progress.message == nil || progress.isLibraryAnalysis {
                 ProgressView(value: progress.fraction).progressViewStyle(.linear).frame(width: 60).tint(
                     PerformancePalette.cyan)
             }

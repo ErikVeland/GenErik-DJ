@@ -5,6 +5,8 @@ import TDJCore
     var wanted = false
     var closed = false
     var analysisOwner: UUID?
+    var analysisCatalogVersion: UInt64?
+    var finishedAnalysis: (catalogVersion: UInt64, libraryRevision: Int)?
     var analyses: [UUID: Task<Void, Never>] = [:]
     var loadOwners: [DeckID: UUID] = [:]
     var loads: [UUID: Task<Void, Never>] = [:]
@@ -37,31 +39,49 @@ extension ReplicaModel {
     public func openNativeMusicLibrary() async {
         guard !nativeMusic.closed else { return }
         nativeMusic.wanted = true
+        if analysisProgress == nil {
+            analysisProgress = .init(done: 0, total: 0, title: "Checking library…", isLibraryAnalysis: true)
+        }
         await refreshMusicLibrary()
-        cancelNativeMusicAnalysis()
+        if let version = nativeMusic.analysisCatalogVersion, version != musicLibraryCatalogVersion {
+            cancelNativeMusicAnalysis()
+        }
         startNativeMusicAnalysis()
     }
 
     func cancelNativeMusicAnalysis() {
-        if let owner = nativeMusic.analysisOwner { nativeMusic.analyses[owner]?.cancel() }
+        guard let owner = nativeMusic.analysisOwner else { return }
+        nativeMusic.analyses[owner]?.cancel()
         nativeMusic.analysisOwner = nil
         musicLibraryProgress = ""
+        if let progress = analysisProgress {
+            analysisProgress = .init(
+                done: progress.done, total: progress.total,
+                message: "\(progress.done) of \(progress.total) ready", title: "Analysis paused", isLibraryAnalysis: true)
+        }
     }
 
     public func startNativeMusicAnalysis() {
         let state = nativeMusic
         guard state.wanted, !state.closed, !arrangementPlaybackActive, !deckAnalysisIsRunning,
-            state.analysisOwner == nil, state.analyses.isEmpty, state.loadOwners.isEmpty, preparingPlayback.isEmpty,
-            let catalog = musicLibraryCatalog
+            !importing, !musicLibraryRefreshing, state.analysisOwner == nil, state.analyses.isEmpty,
+            state.loadOwners.isEmpty, preparingPlayback.isEmpty,
+            musicLibraryCatalog != nil || musicLibraryError != nil
         else { return }
+        let version = musicLibraryCatalogVersion
+        if let finished = state.finishedAnalysis, finished.catalogVersion == version,
+            finished.libraryRevision == library.revision
+        {
+            if analysisProgress?.total == 0, musicLibraryError == nil { analysisProgress = nil }
+            return
+        }
+
         let token = UUID()
-        let loadedSources = Set(
-            loaded.values.flatMap { id in library.tracks.first { $0.id == id }?.musicLibrarySources ?? [] })
-        let analysedMixes = Set(analysisHints.entries.filter { $0.value.isMix }.keys)
         let queue = NativeMusicAnalysisQueue(
-            catalog: catalog, tracks: library.tracks, loaded: loadedSources, analysedMixes: analysedMixes,
-            worker: state.projection)
+            catalog: musicLibraryCatalog ?? .init(items: [], playlists: []), tracks: library.tracks,
+            loaded: Set(loaded.values), worker: state.projection)
         state.analysisOwner = token
+        state.analysisCatalogVersion = version
         state.analyses[token] = Task(priority: .background) { [weak self] in
             guard let self else {
                 await queue.finish()
@@ -73,47 +93,93 @@ extension ReplicaModel {
                 if state.analysisOwner == token {
                     state.analysisOwner = nil
                     musicLibraryProgress = ""
-                    if analysisProgress?.message == nil { analysisProgress = nil }
                 }
                 if Task.isCancelled, state.analysisOwner == nil { startNativeMusicAnalysis() }
             }
-            guard !Task.isCancelled, state.analysisOwner == token, !state.closed else {
-                await queue.finish()
-                return
-            }
             await removeStaleNativeSources()
             let count = await queue.prepare()
-            if count > 0 { logAnalysis("Analysis queue: \(count) songs (loaded first, mixes last)") }
-            var index = 0
-            while let item = await queue.next() {
-                guard !Task.isCancelled, state.analysisOwner == token, !state.closed else { break }
-                index += 1
-                let plan = NativeAnalysisPlan.plan(duration: item.duration)
-                if plan == .full {
-                    let known = await preparedNativeTrack(item)
-                    if known != nil && known?.analysis.musicalAnalysisDeferred != true { continue }
-                }
-                musicLibraryProgress = "Analysing \(index) of \(count): \(item.title)"
-                analysisProgress = .init(done: index - 1, total: count, title: "Analysing")
+            if count > 0 { logAnalysis("Analysis queue: \(count) songs") }
+            var done = 0
+            var failed = 0
+            while let job = await queue.next() {
+                guard !Task.isCancelled, state.analysisOwner == token else { break }
+                analysisProgress = .init(done: done, total: count, title: "Analysing library", isLibraryAnalysis: true)
+                musicLibraryProgress = "Analysing \(job.title)"
                 do {
-                    if plan == .firstMinute {
-                        try await analyseMixOpening(item)
-                        logAnalysis("Mix opening analysed: \(item.title)")
+                    let (track, arrangement) = try await prepareLibrarySong(job)
+                    try Task.checkCancellation()
+                    let issue: String?
+                    if track.grid == nil {
+                        issue = "No reliable beat grid was found."
+                    } else if arrangement.automaticCues?.isEmpty != false {
+                        issue = "No reliable section starts were found for hot cues."
                     } else {
-                        let snapshot = try await withNativeAudio(item) { prepared in
-                            try await self.service.analyzeNativeMusic(
-                                url: prepared.url, musicLibrary: prepared.metadata,
-                                preservePreparationFor: Set(self.loaded.values))
-                        }
-                        adoptLibrary(snapshot)
+                        issue = nil
+                    }
+                    if let issue {
+                        failed += 1
+                        musicLibraryFailures[job.id] = issue
+                        logAnalysis("Review \(job.title): \(issue)")
+                    } else {
+                        done += 1
+                        musicLibraryFailures[job.id] = nil
                     }
                 } catch is CancellationError { break } catch {
-                    musicLibraryFailures[item.id] = error.localizedDescription
-                    logAnalysis("Skipped \(item.title): \(error.localizedDescription)")
+                    failed += 1
+                    musicLibraryFailures[job.id] = error.localizedDescription
+                    logAnalysis("Could not prepare \(job.title): \(error.localizedDescription)")
                 }
             }
-            if count > 0, !Task.isCancelled { analysisProgress = .init(done: count, total: count, title: "Analysing") }
             await queue.finish()
+            guard !Task.isCancelled, state.analysisOwner == token else { return }
+            state.finishedAnalysis = (version, library.revision)
+            if failed > 0 {
+                analysisProgress = .init(
+                    done: done, total: count, message: "\(done) of \(count) ready. \(failed) need review.",
+                    title: "Library analysis", isLibraryAnalysis: true)
+            } else if let error = musicLibraryError, musicLibraryCatalog == nil {
+                analysisProgress = .init(done: done, total: count, message: error, title: "Library analysis", isLibraryAnalysis: true)
+            } else {
+                analysisProgress = nil
+            }
+        }
+    }
+
+    private func prepareLibrarySong(_ job: NativeMusicAnalysisQueue.Job) async throws -> (Track, ArrangementCache) {
+        switch job {
+        case .managed(var track):
+            let source = store.mediaDirectory.appendingPathComponent(track.mediaFilename)
+            if track.needsFullPreparationAnalysis {
+                let snapshot = try await service.reanalyze(trackID: track.id)
+                adoptLibrary(snapshot)
+                if let updated = snapshot.track(id: track.id) { track = updated }
+            }
+            guard let arrangement = try await prepareLibraryArrangement(track: track, source: source) else {
+                throw MusicLibraryError.missingAudio
+            }
+            return (track, arrangement)
+        case .native(let item, let known):
+            var track = known
+            if track == nil { track = await preparedNativeTrack(item) }
+            if let track, !track.needsFullPreparationAnalysis,
+                let arrangement = try await prepareLibraryArrangement(track: track, source: nil)
+            {
+                return (track, arrangement)
+            }
+            let cachedTrack = track
+            return try await withNativeAudio(item) { prepared in
+                var track = cachedTrack
+                if track == nil || track?.needsFullPreparationAnalysis == true {
+                    let snapshot = try await self.service.analyzeNativeMusic(
+                        url: prepared.url, musicLibrary: prepared.metadata)
+                    self.adoptLibrary(snapshot)
+                    track = await self.preparedNativeTrack(item)
+                }
+                guard let track, let arrangement = try await self.prepareLibraryArrangement(
+                    track: track, source: prepared.url)
+                else { throw MusicLibraryError.missingAudio }
+                return (track, arrangement)
+            }
         }
     }
 

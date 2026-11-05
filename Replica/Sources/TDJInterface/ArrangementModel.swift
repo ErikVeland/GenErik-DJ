@@ -7,6 +7,17 @@ struct ArrangementCache: Codable, Sendable {
     var configuration: String
     var context: MusicalStructureContext? = nil
     var arrangement: TrackArrangement
+    var automaticCues: [Int: PerformanceCue]? = nil
+
+    func isCurrent(for analysis: AudioAnalysis, context: MusicalStructureContext) -> Bool {
+        version == MusicalStructureAnalyzer.version && content == analysis.contentSHA256
+            && configuration == analysis.configurationID && self.context == context
+    }
+
+    func write(to url: URL) throws {
+        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try JSONEncoder().encode(self).write(to: url, options: .atomic)
+    }
 }
 
 extension ReplicaModel {
@@ -15,33 +26,114 @@ extension ReplicaModel {
         return store.root.appendingPathComponent("Arrangements", isDirectory: true).appendingPathComponent(
             safeID + ".json")
     }
+    private func readArrangementCache(track: Track) async -> ArrangementCache? {
+        let url = arrangementURL(track.id)
+        let analysis = track.analysis
+        return await nativeMusic.files.run {
+            guard let data = try? Data(contentsOf: url),
+                let cache = try? JSONDecoder().decode(ArrangementCache.self, from: data),
+                cache.content == analysis.contentSHA256,
+                cache.arrangement.isValid(fileEnd: Double(analysis.frameCount))
+            else { return nil }
+            return cache
+        }
+    }
+
+    func prepareLibraryArrangement(track: Track, source: URL?) async throws -> ArrangementCache? {
+        let analysis = track.analysis
+        let context = MusicalStructureContext(title: track.title, genre: track.genre)
+        let previous = await readArrangementCache(track: track)
+        try Task.checkCancellation()
+        if let previous, previous.isCurrent(for: analysis, context: context), previous.automaticCues != nil {
+            showLibraryArrangement(previous, track: track)
+            return previous
+        }
+
+        var value: TrackArrangement
+        if let previous, previous.isCurrent(for: analysis, context: context) {
+            value = previous.arrangement
+        } else {
+            guard let source else { return nil }
+            let files = nativeMusic.files
+            let directory = store.root.appendingPathComponent(".native-source-" + UUID().uuidString, isDirectory: true)
+            let pcm = directory.appendingPathComponent("structure.pcm")
+            let result = await withStructurePCM(
+                source: source, pcm: pcm, matching: analysis, context: context, files: files)
+            switch result {
+            case .ready(let arrangement): value = arrangement
+            case .failed(let message): throw CoreError.invalidAudio(message)
+            case .cancelled: throw CancellationError()
+            }
+            if let previous { value.retainCorrections(from: previous.arrangement) }
+        }
+
+        try Task.checkCancellation()
+        guard value.isValid(fileEnd: Double(analysis.frameCount)) else {
+            throw CoreError.invalidAudio("Musical structure analysis returned invalid boundaries.")
+        }
+        let cues = SectionCueAllocator.allocate(sections: value.sections, existing: [:], alreadyPrepared: false)
+        let cache = ArrangementCache(
+            version: MusicalStructureAnalyzer.version, content: analysis.contentSHA256,
+            configuration: analysis.configurationID, context: context, arrangement: value, automaticCues: cues)
+        let url = arrangementURL(track.id)
+        try await nativeMusic.files.run { Result { try cache.write(to: url) } }.get()
+        try Task.checkCancellation()
+        showLibraryArrangement(cache, track: track)
+        return cache
+    }
+
+    private func withStructurePCM(
+        source: URL, pcm: URL, matching analysis: AudioAnalysis, context: MusicalStructureContext,
+        files: BackgroundFileWork
+    ) async -> ArrangementPreparationResult {
+        let directory = pcm.deletingLastPathComponent()
+        let result: ArrangementPreparationResult
+        do {
+            try await files.run {
+                Result { try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true) }
+            }.get()
+            try await PCMCache.writeStructurePCM(source: source, destination: pcm, matching: analysis)
+            result = await ArrangementPreparationQueue.shared.prepare(pcm: pcm, analysis: analysis, context: context)
+        } catch is CancellationError {
+            result = .cancelled
+        } catch {
+            result = .failed(error.localizedDescription)
+        }
+        await files.run { try? FileManager.default.removeItem(at: directory) }
+        return result
+    }
+
+    private func showLibraryArrangement(_ cache: ArrangementCache, track: Track) {
+        guard loaded.values.contains(track.id) else { return }
+        arrangements[track.id] = cache.arrangement
+        arrangementVersions[track.id] = cache.version
+        arrangementContexts[track.id] = cache.context
+        installSectionCues(cache.arrangement, trackID: track.id, cachedCues: cache.automaticCues)
+    }
+
     func prepareArrangement(deck: DeckID) async {
-        guard !preparingPlayback.contains(deck), let track = track(deck), !track.analysis.waveform.isEmpty else {
+        guard !preparingPlayback.contains(deck), let track = track(deck) else {
             return
         }
         let id = track.id
-        let url = arrangementURL(id)
         let analysis = track.analysis
-        let context = MusicalStructureContext(title: track.title, genre: track.genre)
+        let canonical = library.track(id: id) ?? track
+        let context = MusicalStructureContext(title: canonical.title, genre: canonical.genre)
         if let value = arrangements[id], arrangementVersions[id] == MusicalStructureAnalyzer.version,
             arrangementContexts[id] == context
         {
-            installSectionCues(value, trackID: id, deck: deck)
+            installSectionCues(value, trackID: id)
             return
         }
-        let old = await Task.detached(priority: .utility) {
-            (try? Data(contentsOf: url)).flatMap { try? JSONDecoder().decode(ArrangementCache.self, from: $0) }
-        }.value
+        let old = await readArrangementCache(track: track)
         guard !Task.isCancelled, loaded[deck] == id else { return }
         if arrangements[id] == nil {
-            if let old, old.content == analysis.contentSHA256,
-                old.arrangement.isValid(fileEnd: Double(analysis.frameCount))
-            {
+            if let old {
                 arrangements[id] = old.arrangement
                 arrangementContexts[id] = old.context
                 arrangementVersions[id] =
                     old.configuration == analysis.configurationID && old.context == context ? old.version : 1
-            } else {
+            } else if !analysis.waveform.isEmpty {
                 arrangements[id] = TrackArrangement.prepare(analysis: analysis)
                 arrangementVersions[id] = 1
             }
@@ -49,10 +141,10 @@ extension ReplicaModel {
         if arrangementVersions[id] == MusicalStructureAnalyzer.version, arrangementContexts[id] == context,
             let value = arrangements[id]
         {
-            installSectionCues(value, trackID: id, deck: deck)
+            installSectionCues(value, trackID: id, cachedCues: old?.automaticCues)
             return
         }
-        guard !arrangementPlaybackActive else { return }
+        guard !nativeMusic.wanted, !arrangementPlaybackActive, !analysis.waveform.isEmpty else { return }
         structureAnalyzing.insert(id)
         let task: Task<ArrangementPreparationResult, Never>
         if let pending = arrangementTasks[id], !pending.isCancelled, arrangementTaskContexts[id] == context {
@@ -103,7 +195,7 @@ extension ReplicaModel {
             arrangementVersions[id] = MusicalStructureAnalyzer.version
             arrangementContexts[id] = context
             persistArrangement(trackID: id)
-            installSectionCues(value, trackID: id, deck: deck)
+            installSectionCues(value, trackID: id)
         case .failed(let message): status = message
         case .cancelled: break
         }
@@ -123,7 +215,9 @@ extension ReplicaModel {
             }
         }
     }
-    private func installSectionCues(_ arrangement: TrackArrangement, trackID: String, deck: DeckID) {
+    private func installSectionCues(
+        _ arrangement: TrackArrangement, trackID: String, cachedCues: [Int: PerformanceCue]? = nil
+    ) {
         guard
             arrangement.sections.contains(where: {
                 $0.role != .unknown || $0.behaviour != .sustaining || !$0.name.isEmpty
@@ -131,14 +225,13 @@ extension ReplicaModel {
         else { return }
         let old = performance.cues[trackID] ?? [:]
         let prepared = performance.sectionCueTracks?.contains(trackID) == true
-        let cues = SectionCueAllocator.allocate(
-            sections: arrangement.sections, existing: old, alreadyPrepared: prepared)
+        let cues = (old.isEmpty && !prepared ? cachedCues : nil)
+            ?? SectionCueAllocator.allocate(sections: arrangement.sections, existing: old, alreadyPrepared: prepared)
         guard cues != old || !prepared else { return }
         performance.cues[trackID] = cues
         if performance.sectionCueTracks == nil { performance.sectionCueTracks = [] }
         performance.sectionCueTracks?.insert(trackID)
         savePerformance()
-        warmCuePositions(deck: deck)
     }
     func persistArrangement(trackID: String) {
         guard let value = arrangements[trackID],
@@ -147,16 +240,13 @@ extension ReplicaModel {
         let url = arrangementURL(trackID)
         let cache = ArrangementCache(
             version: arrangementVersions[trackID] ?? 1, content: track.analysis.contentSHA256,
-            configuration: track.analysis.configurationID, context: arrangementContexts[trackID], arrangement: value)
+            configuration: track.analysis.configurationID, context: arrangementContexts[trackID], arrangement: value,
+            automaticCues: SectionCueAllocator.allocate(sections: value.sections, existing: [:], alreadyPrepared: false))
         let writer = arrangementWriters[trackID] ?? CoalescingFileWriter<ArrangementCache>()
         arrangementWriters[trackID] = writer
         writer.enqueue(
             cache,
-            write: {
-                try FileManager.default.createDirectory(
-                    at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-                try JSONEncoder().encode($0).write(to: url, options: .atomic)
-            }, reportError: { [weak self] in self?.status = $0 })
+            write: { try $0.write(to: url) }, reportError: { [weak self] in self?.status = $0 })
     }
     @discardableResult func updateArrangement(_ value: TrackArrangement, deck: DeckID) -> Bool {
         guard let track = track(deck) else { return false }
@@ -199,7 +289,7 @@ extension ReplicaModel {
         corrected.sections = sorted
         arrangements[track.id] = corrected
         persistArrangement(trackID: track.id)
-        installSectionCues(corrected, trackID: track.id, deck: deck)
+        installSectionCues(corrected, trackID: track.id)
         return true
     }
     func promoteLandmark(_ landmark: ArrangementLandmark, deck: DeckID) {

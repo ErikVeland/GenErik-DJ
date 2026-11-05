@@ -254,6 +254,8 @@ import Testing
         !FileManager.default.fileExists(
             atPath: model.store.mediaDirectory.appendingPathComponent(track.mediaFilename).path))
     #expect(model.musicLibraryFailures[provider.snapshot.items[0].id] != nil)
+    #expect(model.analysisProgress?.total == 2)
+    #expect(model.analysisProgress?.message?.contains("need review") == true)
     await model.finishForShutdown()
 }
 

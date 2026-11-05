@@ -125,7 +125,6 @@ import TDJCore
     @ObservationIgnored var collectionHints: [String: BrowserPreparationHint] = [:]
     @ObservationIgnored var analysisHints = NativeAnalysisHints()
     @ObservationIgnored var staleSourcesCleaned = false
-    var analysisHintsURL: URL { store.root.appendingPathComponent("native-analysis.json") }
     var analysisLogURL: URL { store.root.appendingPathComponent("analysis.log") }
     public var isRecording = false
     public var recordingFinishing = false
@@ -608,7 +607,11 @@ import TDJCore
     public func importFiles(_ urls: [URL]) async {
         guard !importing, !musicLibraryPreparing else { return }
         importing = true
-        defer { importing = false }
+        cancelNativeMusicAnalysis()
+        defer {
+            importing = false
+            startNativeMusicAnalysis()
+        }
         for (index, url) in urls.enumerated() {
             status = "Analysing \(index + 1) of \(urls.count): \(url.lastPathComponent)"
             do {
@@ -767,6 +770,7 @@ import TDJCore
         let items = catalog.items.filter { ids.contains($0.id) }
         guard !items.isEmpty else { return }
         importing = true
+        cancelNativeMusicAnalysis()
         musicLibraryFailures = [:]
         let temporaryRoot = store.root.appendingPathComponent(".music-import-" + UUID().uuidString, isDirectory: true)
         var added = 0
@@ -775,6 +779,7 @@ import TDJCore
         defer {
             importing = false
             refreshSuggestions()
+            startNativeMusicAnalysis()
         }
         for (index, item) in items.enumerated() {
             if Task.isCancelled {
@@ -888,6 +893,7 @@ import TDJCore
             return nil
         }
         if nativeLoadOwner == nil { pendingLoadPlay.removeValue(forKey: deck) }
+        cancelNativeMusicAnalysis()
         deckAnalysisTasks[deck]?.cancel()
         nativeWaveformTasks[deck]?.cancel()
         let token = UUID()
@@ -1067,9 +1073,7 @@ import TDJCore
         guard !waveformShutdown, !arrangementPlaybackActive, !preparingTrack.contains(deck),
             deckAnalysisTasks[deck] == nil, let pin = loadPreparations[deck], let generation = pin.generation,
             deckAnalysisAttempts[deck] != pin.token,
-            NativeAnalysisPlan.needsDeckAnalysis(
-                deferred: pin.track.analysis.musicalAnalysisDeferred, bpm: pin.track.bpm, key: pin.track.key)
-                || pin.track.needsAutomaticBarAnalysis
+            pin.track.needsFullPreparationAnalysis
         else { return }
         let token = pin.token
         let id = pin.track.id

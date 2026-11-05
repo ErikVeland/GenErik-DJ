@@ -55,17 +55,42 @@ public enum PCMCache {
             return try PCMAsset(
                 decoder: decoder, outputSampleRate: outputSampleRate, maximumOutputFrames: maximumOutputFrames)
         }
+        let temporary = directory.appendingPathComponent(UUID().uuidString + ".partial")
+        defer { try? FileManager.default.removeItem(at: temporary) }
+        try writeStereoPCM(source: source, destination: temporary, matching: track.analysis, checkCancellation: checkCancellation)
+        if let sourceURL {
+            try verifyNativeSource(
+                sourceURL, identity: track.analysis.contentSHA256, checkCancellation: checkCancellation)
+        }
+        if FileManager.default.fileExists(atPath: cache.path) {
+            // Only a cache owned by this build is replaceable.
+            _ = try FileManager.default.replaceItemAt(cache, withItemAt: temporary)
+        } else {
+            try FileManager.default.moveItem(at: temporary, to: cache)
+        }
+        return try asset(
+            cache: cache, frames: UInt64(frames), sampleRate: track.analysis.sampleRate, streamed: streamed,
+            outputSampleRate: outputSampleRate, maximumOutputFrames: maximumOutputFrames)
+    }
+    public static func writeStructurePCM(source: URL, destination: URL, matching analysis: AudioAnalysis) async throws {
+        try await AnalysisWorker.shared.run { check in
+            try writeStereoPCM(source: source, destination: destination, matching: analysis, checkCancellation: check)
+        }
+    }
+
+    private static func writeStereoPCM(
+        source: URL, destination: URL, matching: AudioAnalysis, checkCancellation: @Sendable () throws -> Void
+    ) throws {
+        let frames = matching.frameCount
         let file = try AVAudioFile(forReading: source, commonFormat: .pcmFormatFloat32, interleaved: false)
-        guard file.processingFormat.sampleRate == track.analysis.sampleRate, file.length == frames,
+        guard file.processingFormat.sampleRate == matching.sampleRate, file.length == frames,
             file.processingFormat.channelCount > 0, file.processingFormat.channelCount <= 2,
             let buffer = AVAudioPCMBuffer(pcmFormat: file.processingFormat, frameCapacity: 32768)
         else { throw TransportError.cache("This decoder format needs a reference-compatible mapping.") }
-        let temporary = directory.appendingPathComponent(UUID().uuidString + ".partial")
-        guard FileManager.default.createFile(atPath: temporary.path, contents: nil) else {
+        guard FileManager.default.createFile(atPath: destination.path, contents: nil) else {
             throw TransportError.allocation
         }
-        defer { try? FileManager.default.removeItem(at: temporary) }
-        let handle = try FileHandle(forWritingTo: temporary)
+        let handle = try FileHandle(forWritingTo: destination)
         defer { try? handle.close() }
         var interleaved = [Float](repeating: 0, count: 32768 * 2)
         var position: Int64 = 0
@@ -91,20 +116,8 @@ public enum PCMCache {
         }
         try handle.synchronize()
         try handle.close()
-        if let sourceURL {
-            try verifyNativeSource(
-                sourceURL, identity: track.analysis.contentSHA256, checkCancellation: checkCancellation)
-        }
-        if FileManager.default.fileExists(atPath: cache.path) {
-            // Only a cache owned by this build is replaceable.
-            _ = try FileManager.default.replaceItemAt(cache, withItemAt: temporary)
-        } else {
-            try FileManager.default.moveItem(at: temporary, to: cache)
-        }
-        return try asset(
-            cache: cache, frames: UInt64(frames), sampleRate: track.analysis.sampleRate, streamed: streamed,
-            outputSampleRate: outputSampleRate, maximumOutputFrames: maximumOutputFrames)
     }
+
     private static func verifyNativeSource(
         _ source: URL, identity: String, checkCancellation: @Sendable () throws -> Void
     ) throws {

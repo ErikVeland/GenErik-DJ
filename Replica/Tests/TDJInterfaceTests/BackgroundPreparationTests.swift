@@ -7,10 +7,17 @@ import Testing
 
 @MainActor private final class ClockMusicLibrary: LocalMusicLibraryProviding {
     let snapshot: MusicLibraryCatalog
+    var preparations = 0
+    var directPlayback = false
     init(_ items: [MusicLibraryItem]) { snapshot = .init(items: items, playlists: []) }
     func catalog() async throws -> MusicLibraryCatalog { snapshot }
     func prepare(_ item: MusicLibraryItem, in directory: URL) async throws -> PreparedMusicLibraryAudio {
-        .init(url: try #require(item.assetURL), metadata: .init(item: item))
+        preparations += 1
+        return .init(url: try #require(item.assetURL), metadata: .init(item: item))
+    }
+    func playbackSource(_ item: MusicLibraryItem) async throws -> PreparedMusicLibraryAudio? {
+        guard directPlayback else { return nil }
+        return .init(url: try #require(item.assetURL), metadata: .init(item: item))
     }
 }
 
@@ -34,37 +41,45 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
 }
 
 @Test @MainActor func analyserStartsWhenTheLibraryOpensAndGivesBPMs() async throws {
-    let (model, workspace) = try preparationModel([clockItem("4660", duration: 16)])
+    let item = clockItem("4660", duration: NativeAnalysisPlan.mixThresholdSeconds + 1)
+    let (model, workspace) = try preparationModel([item])
     defer { try? FileManager.default.removeItem(at: workspace) }
     await model.openNativeMusicLibrary()
     await model.flushNativeMusicAnalysis()
-    let track = try #require(model.library.tracks.first)
+    let track = try #require(model.preparedTrack(for: item))
     #expect(abs((track.bpm ?? 0) - 120) < 0.5)
-    #expect(model.analysisProgress == nil)
+    let cacheURL = model.arrangementURL(track.id)
+    let saved = try Data(contentsOf: cacheURL)
+    let cache = try JSONDecoder().decode(ArrangementCache.self, from: saved)
+    #expect(cache.version == MusicalStructureAnalyzer.version)
+    let cues = try #require(cache.automaticCues)
+    if cues.isEmpty {
+        #expect(model.analysisProgress?.message?.contains("need review") == true)
+    } else {
+        #expect(model.analysisProgress == nil)
+    }
     let log = try String(contentsOf: workspace.appendingPathComponent("analysis.log"), encoding: .utf8)
     #expect(log.contains("Analysis queue: 1 songs"))
-}
+    await model.finishForShutdown()
 
-@Test @MainActor func mixesGetOnlyTheirOpeningAnalysedAndAreNotRepeated() async throws {
-    let mix = clockItem("4661", duration: 19 * 60 + 1)
-    let (model, workspace) = try preparationModel([mix])
-    defer { try? FileManager.default.removeItem(at: workspace) }
-    await model.openNativeMusicLibrary()
-    await model.flushNativeMusicAnalysis()
-    let hint = try #require(model.analysisHints.entries[mix.id])
-    #expect(hint.isMix && abs((hint.bpm ?? 0) - 120) < 0.5)
-    #expect(model.library.tracks.isEmpty)
-    #expect(model.browserHints[mix.id]?.isMix == true)
-    // No leftover exports, and a later session skips the stored mix.
-    let names = try FileManager.default.contentsOfDirectory(atPath: workspace.path)
-    #expect(!names.contains { $0.hasPrefix(".native-source-") })
+    let provider = ClockMusicLibrary([item])
+    provider.directPlayback = true
     let reopened = try ReplicaModel(
-        root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: ClockMusicLibrary([mix]))
-    #expect(reopened.analysisHints.entries[mix.id] == hint)
-    let catalog = MusicLibraryCatalog(items: [mix], playlists: [])
-    #expect(
-        MusicLibraryReconciliation(catalog: catalog, tracks: []).analysisOrder(loaded: [], analysedMixes: [mix.id])
-            .isEmpty)
+        root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    await reopened.openNativeMusicLibrary()
+    await reopened.flushNativeMusicAnalysis()
+    #expect(provider.preparations == 0)
+    reopened.performance.cues[track.id] = [0: .init(frame: 42)]
+    reopened.loadNativeMusic(item, deck: .a)
+    await reopened.flushWrites()
+    await reopened.flushDeckAnalysis()
+    await reopened.prepareArrangement(deck: .a)
+    #expect(reopened.track(.a)?.nativeSourceNeedsAnalysis != true)
+    #expect(reopened.arrangements[track.id] == cache.arrangement)
+    #expect(reopened.performance.cues[track.id]?[0]?.frame == 42)
+    #expect(try Data(contentsOf: cacheURL) == saved)
+    #expect(provider.preparations == 0)
+    await reopened.finishForShutdown()
 }
 
 @Test @MainActor func staleTemporaryExportsAreRemovedBeforeAnalysis() async throws {

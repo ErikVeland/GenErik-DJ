@@ -511,9 +511,9 @@ extension BrowserView {
                     }
                 }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .topLeading).clipped()
             }
-            if let progress = model.analysisProgress, progress.message == nil, progress.done < progress.total {
-                Text("Analysing: \(progress.done)/\(progress.total)").font(.system(size: 14).monospacedDigit())
-                    .foregroundStyle(PerformancePalette.secondaryText).frame(maxWidth: .infinity, alignment: .leading)
+            if let progress = model.analysisProgress {
+                PreparationImportPill(progress: progress)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 22).frame(height: 36).background(PerformancePalette.panel)
             }
         }

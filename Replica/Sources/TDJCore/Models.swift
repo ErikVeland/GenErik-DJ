@@ -210,6 +210,11 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
     public var needsAutomaticBarAnalysis: Bool {
         mayRefreshAutomaticGrid && analysis.barAnalysisVersion != BarStartAnalysis.version
     }
+    public var needsFullPreparationAnalysis: Bool {
+        nativeSourceNeedsAnalysis == true || analysis.musicalAnalysisDeferred == true || needsAutomaticBarAnalysis
+            || (analysis.configurationID != AnalysisConfiguration().id
+                && NativeAnalysisPlan.needsDeckAnalysis(deferred: nil, bpm: bpm, key: key))
+    }
     public var automaticBarGrid: BeatGrid? {
         preparation.detectedBarGrid(
             analysis: analysis, imported: traktorPreparation?.normalized.grid,

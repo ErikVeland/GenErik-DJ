@@ -21,14 +21,6 @@ extension ReplicaModel {
         browserHintsVersion &+= 1
     }
 
-    func recordAnalysisHint(_ hint: NativeAnalysisHint, for item: MusicLibraryItem) async {
-        analysisHints.entries[item.id] = hint
-        browserHintsVersion &+= 1
-        let hints = analysisHints
-        let url = analysisHintsURL
-        await nativeMusic.files.run { try? hints.save(to: url) }
-    }
-
     /// Appends one line to analysis.log, keeping the newest 256 KB.
     func logAnalysis(_ text: String) {
         let url = analysisLogURL
@@ -57,25 +49,6 @@ extension ReplicaModel {
             return count
         }
         if removed > 0 { logAnalysis("Removed \(removed) interrupted temporary exports") }
-    }
-
-    /// Mixes: analyse the opening minute for tempo, grid and key without exporting the whole file.
-    func analyseMixOpening(_ item: MusicLibraryItem) async throws {
-        guard item.isOnDevice, let url = item.assetURL else { throw MusicLibraryError.missingAudio }
-        let directory = store.root.appendingPathComponent(".native-source-" + UUID().uuidString, isDirectory: true)
-        let files = nativeMusic.files
-        await files.run { try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true) }
-        let excerpt = directory.appendingPathComponent("opening.caf")
-        do {
-            try await MusicLibraryAudio.decodeAsset(
-                url: url, destination: excerpt, maximumSeconds: NativeAnalysisPlan.excerptSeconds)
-            let analysis = try await AnalysisWorker.shared.analyze(url: excerpt)
-            await files.run { try? FileManager.default.removeItem(at: directory) }
-            await recordAnalysisHint(.init(excerpt: analysis, isMix: true), for: item)
-        } catch {
-            await files.run { try? FileManager.default.removeItem(at: directory) }
-            throw error
-        }
     }
 
     /// A loaded mix has no full analysis. Apply its first-minute grid and key once.

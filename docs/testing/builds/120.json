@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 39.37,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R58",
+      "text": "Start library analysis at launch. Show progress through structure and automatic hot cues. Save results for deck loading. 3CAG is an example with poor analysis."
+    }
+  ],
   "log": "TestBuilds/ipad/build-120.log",
   "build": 120,
   "app": "TestBuilds/ipad/120/GenErikDJ.app",
