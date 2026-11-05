@@ -83,7 +83,7 @@ extension ReplicaModel {
         }
         let queue = NativeMusicAnalysisQueue(
             catalog: musicLibraryCatalog ?? .init(items: [], playlists: []), tracks: library.tracks,
-            loaded: priorityTracks, worker: state.projection)
+            loaded: priorityTracks, mediaDirectory: store.mediaDirectory, worker: state.projection)
         state.analysisOwner = token
         state.analysisCatalogVersion = version
         state.analyses[token] = Task(priority: .background) { [weak self] in

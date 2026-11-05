@@ -160,10 +160,12 @@ func deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck: DeckID
     await model.finishForShutdown()
 }
 
-@Test(arguments: [false, true]) @MainActor
-func launchReanalysesSavedTracksAndResumesWithoutRepeatingCompletedWork(native: Bool) async throws {
+enum SavedAnalysisSource: CaseIterable, Sendable { case managed, native, musicWithMissingCopy }
+
+@Test(arguments: SavedAnalysisSource.allCases) @MainActor
+func launchReanalysesSavedTracksAndResumesWithoutRepeatingCompletedWork(source: SavedAnalysisSource) async throws {
     let item = clockItem("refresh", duration: 16)
-    let provider = ClockMusicLibrary(native ? [item] : [])
+    let provider = ClockMusicLibrary(source == .managed ? [] : [item])
     let workspace = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
     defer { try? FileManager.default.removeItem(at: workspace) }
     let store = try WorkspaceStore(root: workspace)
@@ -180,11 +182,11 @@ func launchReanalysesSavedTracksAndResumesWithoutRepeatingCompletedWork(native: 
     track.preparation.grid = manualGrid
     track.preparation.gridIsManual = true
     track.preparation.correctedKey = manualKey
-    if native {
-        track.nativeLibraryOnly = true
-        track.musicLibrarySources = [item.source]
-    } else {
+    if source == .managed {
         try FileManager.default.copyItem(at: clockFixture(), to: store.mediaDirectory.appendingPathComponent(track.mediaFilename))
+    } else {
+        track.musicLibrarySources = [item.source]
+        if source == .native { track.nativeLibraryOnly = true }
     }
     var library = LibrarySnapshot()
     library.tracks = [track]

@@ -39,18 +39,27 @@ final class NativeMusicAnalysisQueue: Sendable {
         let catalog: MusicLibraryCatalog
         let tracks: [Track]
         let loaded: Set<String>
+        let mediaDirectory: URL
         var items: [Job] = []
         var position = 0
     }
 
     private let value: BackgroundWorkValue<State>
-    init(catalog: MusicLibraryCatalog, tracks: [Track], loaded: Set<String>, worker: BackgroundFileWork) {
-        value = BackgroundWorkValue(State(catalog: catalog, tracks: tracks, loaded: loaded), worker: worker)
+    init(
+        catalog: MusicLibraryCatalog, tracks: [Track], loaded: Set<String>, mediaDirectory: URL,
+        worker: BackgroundFileWork
+    ) {
+        value = BackgroundWorkValue(
+            State(catalog: catalog, tracks: tracks, loaded: loaded, mediaDirectory: mediaDirectory), worker: worker)
     }
 
     func prepare() async -> Int {
         await value.update { state in
-            let managed = state.tracks.filter { $0.nativeLibraryOnly != true }
+            let managed = state.tracks.filter {
+                $0.nativeLibraryOnly != true
+                    && FileManager.default.isReadableFile(
+                        atPath: state.mediaDirectory.appendingPathComponent($0.mediaFilename).path)
+            }
             var seen = Set(managed.map(\.id))
             var jobs = managed.map(Job.managed)
             let entries = MusicLibraryReconciliation(catalog: state.catalog, tracks: state.tracks).entries

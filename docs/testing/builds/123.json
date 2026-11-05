@@ -1,0 +1,31 @@
+{
+  "notes": "R61 uses Beat This small0 for beat and downbeat detection. Launch starts a full library refresh.",
+  "sourceCommit": "8021bc00b4b3f56e563ba86161de9126c934f845",
+  "sourceSHA256": "dc1940ba6d6b974f5c62d7ab1ca376e5fd653bcb867cc127937b5f90344e940e",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 56.53,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-123.log",
+  "build": 123,
+  "app": "TestBuilds/ipad/123/GenErikDJ.app",
+  "appSHA256": "50a8c02e346a11c56dfd1ea3a1991f0b36a6859af369e563f285a9e80aa26b6b",
+  "state": "testing",
+  "createdUTC": "2026-11-05T12:36:02.229171+00:00",
+  "installedUTC": "2026-11-05T12:36:16.543816+00:00",
+  "launchedUTC": "2026-11-05T12:36:16.993750+00:00",
+  "launchVerification": "The A10X iPad Pro installed and launched the build. The launch queue started and saved new analyses.",
+  "requestIDs": ["R61"],
+  "device": "GenErik iPad Pro 10.5-inch",
+  "previousDeviceBuild": 116,
+  "deploymentLog": "TestBuilds/r61/ipad-cycle.log",
+  "deviceFinding": "The queue gave a missing imported copy priority over a playable Music item. It could not open the missing 3CAG CAF. The Music catalog lists the same song as available.",
+  "evidence": [
+    "TestBuilds/r61/3cag-host-comparison.json",
+    "TestBuilds/r61/focused.log",
+    "TestBuilds/r61/ipad-analysis.log",
+    "TestBuilds/r61/ipad-123-library.json",
+    "TestBuilds/r61/missing-copy-red.log"
+  ],
+  "acceptance": "Replace this candidate after the launch queue selects the playable source. Check 3CAG on the iPad before the Duo install."
+}
