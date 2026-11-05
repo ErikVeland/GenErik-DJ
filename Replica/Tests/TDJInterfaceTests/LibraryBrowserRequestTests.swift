@@ -5,11 +5,12 @@ import Testing
 @testable import TDJInterface
 
 private func browserRequest(
-    revision: Int = 1, version: UUID, query: String = "", sort: CollectionSort? = .title,
+    revision: Int = 1, version: UUID, catalogueVersion: UInt64 = 0, query: String = "", sort: CollectionSort? = .title,
     category: CollectionCategory = .songs, group: String? = nil, suggestionIDs: [String]? = nil
 ) -> LibraryBrowserRequest {
     .init(
-        revision: revision, version: version, query: query, sort: sort, category: category, group: group,
+        revision: revision, version: version, catalogueVersion: catalogueVersion, query: query, sort: sort,
+        category: category, group: group,
         suggestionIDs: suggestionIDs)
 }
 
@@ -17,7 +18,7 @@ private func browserRequest(
     let version = UUID()
     let previous = browserRequest(version: version)
     let analysis = browserRequest(revision: 2, version: version)
-    let catalogue = browserRequest(revision: 2, version: UUID())
+    let catalogue = browserRequest(version: version, catalogueVersion: 1)
     #expect(analysis != previous)
     #expect(catalogue != previous)
     #expect(!analysis.resetsScroll(comparedTo: previous))

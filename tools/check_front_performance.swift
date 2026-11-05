@@ -13,37 +13,37 @@ import Foundation
             }
         }
         expect(
-            FrontLibraryPresentation.resolve(
+            LibraryBrowserPresentation.resolve(
                 count: 0, catalogueReady: false, catalogueRefreshing: true, projecting: false, requestReady: true,
                 hasQuery: false, error: nil) == .loading,
             "an empty early projection cannot report an empty library during catalogue loading")
         expect(
-            FrontLibraryPresentation.resolve(
+            LibraryBrowserPresentation.resolve(
                 count: 0, catalogueReady: false, catalogueRefreshing: false, projecting: false, requestReady: true,
                 hasQuery: false, error: nil) == .loading, "an unread catalogue cannot report an empty library")
         expect(
-            FrontLibraryPresentation.resolve(
+            LibraryBrowserPresentation.resolve(
                 count: 0, catalogueReady: true, catalogueRefreshing: true, projecting: false, requestReady: true,
                 hasQuery: false, error: nil) == .loading,
             "refreshing an empty catalogue cannot show a completed empty state")
         expect(
-            FrontLibraryPresentation.resolve(
+            LibraryBrowserPresentation.resolve(
                 count: 0, catalogueReady: true, catalogueRefreshing: false, projecting: false, requestReady: false,
                 hasQuery: false, error: nil) == .loading, "a changed request waits for its own projection")
         expect(
-            FrontLibraryPresentation.resolve(
+            LibraryBrowserPresentation.resolve(
                 count: 0, catalogueReady: true, catalogueRefreshing: false, projecting: false, requestReady: true,
                 hasQuery: false, error: nil) == .empty, "a completed empty catalogue may report no songs")
         expect(
-            FrontLibraryPresentation.resolve(
+            LibraryBrowserPresentation.resolve(
                 count: 0, catalogueReady: true, catalogueRefreshing: false, projecting: false, requestReady: true,
                 hasQuery: true, error: nil) == .noMatches, "a completed search distinguishes no matches")
         expect(
-            FrontLibraryPresentation.resolve(
+            LibraryBrowserPresentation.resolve(
                 count: 4, catalogueReady: false, catalogueRefreshing: true, projecting: true, requestReady: false,
                 hasQuery: false, error: nil) == .content, "known songs remain visible while the catalogue refreshes")
         expect(
-            FrontLibraryPresentation.resolve(
+            LibraryBrowserPresentation.resolve(
                 count: 0, catalogueReady: false, catalogueRefreshing: false, projecting: false, requestReady: true,
                 hasQuery: false, error: "Permission denied") == .failed("Permission denied"),
             "catalogue failure is not an empty library")

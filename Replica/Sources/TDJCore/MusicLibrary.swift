@@ -11,8 +11,8 @@ public struct MusicLibrarySource: Codable, Hashable, Sendable, Identifiable {
     }
 }
 
-public struct MusicLibraryItem: Sendable, Identifiable, Equatable {
-    public enum Availability: String, Sendable {
+public struct MusicLibraryItem: Codable, Sendable, Identifiable, Equatable {
+    public enum Availability: String, Codable, Sendable {
         case available, notDownloaded, protected, unavailable
         public var message: String {
             switch self {
@@ -54,7 +54,7 @@ public struct MusicLibraryItem: Sendable, Identifiable, Equatable {
     }
 }
 
-public struct MusicLibraryPlaylist: Sendable, Identifiable, Equatable {
+public struct MusicLibraryPlaylist: Codable, Sendable, Identifiable, Equatable {
     public let id: String
     public let name: String
     public let itemIDs: [String]
@@ -65,10 +65,17 @@ public struct MusicLibraryPlaylist: Sendable, Identifiable, Equatable {
     }
 }
 
-public struct MusicLibraryCatalog: Sendable, Equatable {
+public struct MusicLibraryCatalog: Codable, Sendable, Equatable {
+    private enum CodingKeys: String, CodingKey { case items, playlists }
     public let items: [MusicLibraryItem]
     public let playlists: [MusicLibraryPlaylist]
     public let onDeviceItemCount: Int
+    public init(from decoder: any Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        try self.init(
+            items: values.decode([MusicLibraryItem].self, forKey: .items),
+            playlists: values.decode([MusicLibraryPlaylist].self, forKey: .playlists))
+    }
     public init(items: [MusicLibraryItem], playlists: [MusicLibraryPlaylist]) {
         self.items = items
         var count = 0

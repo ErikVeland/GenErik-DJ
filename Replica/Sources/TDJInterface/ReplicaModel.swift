@@ -711,19 +711,33 @@ import TDJCore
         musicLibraryRefreshing = true
         musicLibraryError = nil
         let provider = musicLibraryProvider
+        let cacheURL = store.root.appendingPathComponent(".music-library-catalog-v1.json")
+        let files = nativeMusic.files
         let work = Task { [weak self] in
             defer {
                 self?.musicLibraryRefreshing = false
                 self?.musicLibraryRefreshTask = nil
             }
             do {
+                if self?.musicLibraryCatalog == nil, provider.allowsCachedCatalog {
+                    let cached = await files.run {
+                        try? JSONDecoder().decode(MusicLibraryCatalog.self, from: Data(contentsOf: cacheURL))
+                    }
+                    try Task.checkCancellation()
+                    if let cached, provider.allowsCachedCatalog { self?.musicLibraryCatalog = cached }
+                }
                 let catalog = try await provider.catalog()
                 try Task.checkCancellation()
                 self?.musicLibraryCatalog = catalog
                 self?.musicLibraryFailures = [:]
+                if provider.allowsCachedCatalog {
+                    await files.run { try? JSONEncoder().encode(catalog).write(to: cacheURL, options: .atomic) }
+                }
                 await self?.refreshCollectionHints()
             } catch is CancellationError {} catch {
-                self?.musicLibraryCatalog = nil
+                if (error as? MusicLibraryError) != .unavailable || !provider.allowsCachedCatalog {
+                    self?.musicLibraryCatalog = nil
+                }
                 self?.musicLibraryError = error.localizedDescription
             }
         }

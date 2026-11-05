@@ -40,6 +40,12 @@ struct BrowserView: View {
     @State private var projectionToken = UUID()
     @State private var playlistSave = LibraryBrowserPlaylistSave()
     private var entryCount: Int { snapshotProjection?.tracks.count ?? projection?.entries.count ?? 0 }
+    private var libraryPresentation: LibraryBrowserPresentation {
+        .resolve(
+            count: entryCount, catalogueReady: model.musicLibraryCatalog != nil,
+            catalogueRefreshing: model.musicLibraryRefreshing, projecting: searching,
+            requestReady: displayedRequest == request, hasQuery: hasSearchQuery, error: model.musicLibraryError)
+    }
     @State private var snapshotGroups = LibraryGroupSource.empty
     private var groupSource: LibraryGroupSource {
         if snapshotProjection != nil { return snapshotGroups }
@@ -57,7 +63,8 @@ struct BrowserView: View {
     @State private var displayedRequest: LibraryBrowserRequest?
     private var request: LibraryBrowserRequest {
         .init(
-            revision: model.library.revision, version: collectionVersion, query: query, sort: displayedSort,
+            revision: model.library.revision, version: collectionVersion,
+            catalogueVersion: model.musicLibraryCatalogVersion, query: query, sort: displayedSort,
             category: category, group: group, suggestionIDs: nil)
     }
     var body: some View { content }
@@ -162,8 +169,7 @@ struct BrowserView: View {
                 model.status = error.localizedDescription
                 playlistError = error.localizedDescription
             }
-        }.onChange(of: playlists) { _, _ in collectionVersion = UUID() }.onChange(of: model.musicLibraryCatalogVersion)
-        { _, _ in collectionVersion = UUID() }.onChange(of: model.browserHintsVersion) { _, _ in
+        }.onChange(of: playlists) { _, _ in collectionVersion = UUID() }.onChange(of: model.browserHintsVersion) { _, _ in
             collectionVersion = UUID()
         }.task(id: request) {
             let current = request
@@ -575,11 +581,15 @@ extension BrowserView {
         } else if entryCount == 0 {
             VStack {
                 Spacer()
-                Text(searching ? "Searching…" : hasSearchQuery ? "No matching songs." : "No songs available.").font(
-                    .system(size: 13)
-                ).foregroundStyle(.secondary)
+                switch libraryPresentation {
+                case .loading: ProgressView("Loading library…")
+                case .failed(let error): Text("Music library unavailable: \(error)")
+                case .noMatches: Text("No matching songs.")
+                case .empty: Text("No songs available.")
+                case .content: EmptyView()
+                }
                 Spacer()
-            }.frame(maxWidth: .infinity)
+            }.font(.system(size: 13)).foregroundStyle(.secondary).frame(maxWidth: .infinity)
         } else if snapshotProjection != nil {
             // ImageRenderer does not draw scroll views or lazy rows; snapshots list their few rows directly.
             VStack(spacing: 0) {

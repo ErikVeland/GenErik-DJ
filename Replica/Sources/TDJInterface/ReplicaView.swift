@@ -243,6 +243,10 @@ private let surface = PerformancePalette.panel
                 {
                     _ = await model.runReferenceBenchmark(count: count)
                 }
+            }.task(id: model.browserVisible) {
+                if model.browserVisible, model.musicLibraryCatalog == nil, !model.musicLibraryRefreshing {
+                    await model.openNativeMusicLibrary()
+                }
             }.onDisappear {
                 model.stopPlaybackMonitor()
                 ReplicaLifecycle.suspend(model)

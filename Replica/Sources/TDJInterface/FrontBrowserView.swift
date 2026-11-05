@@ -68,7 +68,7 @@ struct FrontBrowserView: View {
     private var groupSourceLoading: Bool {
         snapshotProjection == nil && (catalogueLoading || searching || displayedRequest?.category != category)
     }
-    private var libraryPresentation: FrontLibraryPresentation {
+    private var libraryPresentation: LibraryBrowserPresentation {
         .resolve(
             count: entryCount, catalogueReady: model.musicLibraryCatalog != nil,
             catalogueRefreshing: model.musicLibraryRefreshing, projecting: searching,
@@ -84,7 +84,8 @@ struct FrontBrowserView: View {
     @State private var displayedRequest: LibraryBrowserRequest?
     private var request: LibraryBrowserRequest {
         .init(
-            revision: model.library.revision, version: collectionVersion, query: query, sort: displayedSort,
+            revision: model.library.revision, version: collectionVersion,
+            catalogueVersion: model.musicLibraryCatalogVersion, query: query, sort: displayedSort,
             category: category, group: group, suggestionIDs: nil)
     }
     var body: some View { content }
@@ -180,9 +181,7 @@ struct FrontBrowserView: View {
                     model.status = error.localizedDescription
                     playlistError = error.localizedDescription
                 }
-            }.onChange(of: playlists) { _, _ in collectionVersion = UUID() }.onChange(
-                of: model.musicLibraryCatalogVersion
-            ) { _, _ in collectionVersion = UUID() }.onChange(of: model.browserHintsVersion) { _, _ in
+            }.onChange(of: playlists) { _, _ in collectionVersion = UUID() }.onChange(of: model.browserHintsVersion) { _, _ in
                 collectionVersion = UUID()
             }.task(id: request) {
                 let current = request

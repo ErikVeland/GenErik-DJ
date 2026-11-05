@@ -4,6 +4,7 @@ import TDJCore
 struct LibraryBrowserRequest: Hashable {
     let revision: Int
     let version: UUID
+    let catalogueVersion: UInt64
     let query: String
     let sort: CollectionSort?
     let category: CollectionCategory

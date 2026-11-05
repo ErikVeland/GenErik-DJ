@@ -5,6 +5,7 @@ import Testing
 @testable import TDJInterface
 
 @MainActor private final class FixtureMusicLibrary: LocalMusicLibraryProviding {
+    var allowsCachedCatalog: Bool { error != .permissionDenied }
     var reads = 0
     var preparations: [String] = []
     var error: MusicLibraryError?
@@ -83,6 +84,42 @@ import Testing
     #expect(!model.musicLibraryRefreshing)
     #expect(model.musicLibraryCatalog?.items.count == 4)
     #expect(model.musicLibraryCatalogVersion == 1)
+}
+
+@Test @MainActor func relaunchShowsCachedSongsWhileMusicRefreshes() async throws {
+    let (first, _, root) = try musicWorkflow()
+    defer { try? FileManager.default.removeItem(at: root) }
+    await first.refreshMusicLibrary()
+
+    let refreshed = FixtureMusicLibrary([])
+    refreshed.holdCatalog = true
+    let reopened = try ReplicaModel(
+        root: root, playback: PlaybackController(offline: true), musicLibraryProvider: refreshed)
+    let refresh = Task { await reopened.refreshMusicLibrary() }
+    while refreshed.catalogGate == nil { await Task.yield() }
+    #expect(reopened.musicLibraryRefreshing)
+    #expect(reopened.musicLibraryCatalog?.songs().contains { $0.title == "Synced song" } == true)
+    refreshed.catalogGate?.resume()
+    await refresh.value
+    #expect(reopened.musicLibraryCatalog?.songs().isEmpty == true)
+}
+
+@Test @MainActor func relaunchDoesNotShowCachedSongsWithoutMusicPermission() async throws {
+    let (first, _, root) = try musicWorkflow()
+    defer { try? FileManager.default.removeItem(at: root) }
+    await first.refreshMusicLibrary()
+
+    let denied = FixtureMusicLibrary([])
+    denied.error = .permissionDenied
+    denied.holdCatalog = true
+    let reopened = try ReplicaModel(
+        root: root, playback: PlaybackController(offline: true), musicLibraryProvider: denied)
+    let refresh = Task { await reopened.refreshMusicLibrary() }
+    while denied.catalogGate == nil { await Task.yield() }
+    #expect(reopened.musicLibraryCatalog == nil)
+    denied.catalogGate?.resume()
+    await refresh.value
+    #expect(reopened.musicLibraryError == MusicLibraryError.permissionDenied.localizedDescription)
 }
 
 @Test @MainActor func musicLibraryBatchContinuesAfterFailureAndPreparedSongReachesDeck() async throws {

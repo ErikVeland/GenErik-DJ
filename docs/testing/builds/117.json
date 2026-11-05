@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 5.81,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R55",
+      "text": "The browser shows No songs available while the Music library loads. Load songs when the pane opens and keep the list between launches."
+    }
+  ],
   "log": "TestBuilds/ipad/build-117.log",
   "build": 117,
   "app": "TestBuilds/ipad/117/GenErikDJ.app",

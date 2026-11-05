@@ -20,11 +20,13 @@ public struct PreparedMusicLibraryAudio: Sendable {
 }
 
 @MainActor public protocol LocalMusicLibraryProviding {
+    var allowsCachedCatalog: Bool { get }
     func catalog() async throws -> MusicLibraryCatalog
     func prepare(_ item: MusicLibraryItem, in directory: URL) async throws -> PreparedMusicLibraryAudio
     func playbackSource(_ item: MusicLibraryItem) async throws -> PreparedMusicLibraryAudio?
 }
 extension LocalMusicLibraryProviding {
+    public var allowsCachedCatalog: Bool { false }
     public func playbackSource(_ item: MusicLibraryItem) async throws -> PreparedMusicLibraryAudio? { nil }
 }
 
@@ -51,6 +53,9 @@ extension LocalMusicLibraryProviding {
         try? Data((Date().ISO8601Format() + " " + text + "\n").utf8).write(to: url, options: .atomic)
     }
     public init(diagnosticsURL: URL? = nil) { self.diagnosticsURL = diagnosticsURL }
+    #if os(iOS)
+        public var allowsCachedCatalog: Bool { MPMediaLibrary.authorizationStatus() == .authorized }
+    #endif
     public func catalog() async throws -> MusicLibraryCatalog {
         #if os(macOS)
             let diagnosticsURL = diagnosticsURL
@@ -79,7 +84,7 @@ extension LocalMusicLibraryProviding {
             }
             return try await Self.onMediaQueue {
                 Self.stage("Reading native songs and playlists", at: diagnosticsURL)
-                let catalog = Self.iosCatalog()
+                let catalog = try Self.iosCatalog()
                 Self.stage(
                     "Finished native library read: \(catalog.items.count) songs, \(catalog.playlists.count) playlists",
                     at: diagnosticsURL)
@@ -181,8 +186,9 @@ extension LocalMusicLibraryProviding {
             return .init(items: items, playlists: playlists)
         }
     #else
-        private nonisolated static func iosCatalog() -> MusicLibraryCatalog {
-            let items: [MusicLibraryItem] = (MPMediaQuery.songs().items ?? []).map { item -> MusicLibraryItem in
+        private nonisolated static func iosCatalog() throws -> MusicLibraryCatalog {
+            guard let songs = MPMediaQuery.songs().items else { throw MusicLibraryError.unavailable }
+            let items: [MusicLibraryItem] = songs.map { item -> MusicLibraryItem in
                 let url = item.assetURL
                 let hasLocalAsset: Bool
                 let isCloudOnly: Bool
