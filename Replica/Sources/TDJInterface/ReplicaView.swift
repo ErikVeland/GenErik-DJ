@@ -320,8 +320,23 @@ private struct DeckPanelHorizontalBounds: Shape {
     @AppStorage(DeckToolSettings.largePanelHandles) private var largePanelHandles = false
     @Environment(\.accessibilityVoiceOverEnabled) private var voiceOver
     private var handleExtent: Double { PanelHandleMetrics(expanded: largePanelHandles || voiceOver).extent }
-    @State private var visibleSeconds = WaveformLayers.defaultSeconds(bpm: nil)
-    @State private var previousSpan: Double?
+    @State private var frozenSpan: (loadID: UUID, seconds: Double)?
+    private var waveformZoom: Binding<Double> {
+        let loadID = model.loadIdentity(deck)
+        return Binding {
+            if let frozenSpan, frozenSpan.loadID == model.loadIdentity(deck), model.pendingNativeSelection[deck] == nil {
+                return frozenSpan.seconds
+            }
+            return model.waveformZoomSeconds(deck: deck)
+        } set: { seconds in
+            guard let loadID, loadID == model.loadIdentity(deck), model.pendingNativeSelection[deck] == nil else { return }
+            if frozenSpan?.loadID == loadID {
+                frozenSpan = (loadID, seconds)
+            } else {
+                model.setWaveformZoomSeconds(seconds, deck: deck, loadID: loadID)
+            }
+        }
+    }
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var mixerPanel = MixerPanel.equalizer
     private var mixerVisible: Bool { panels.mixerVisible }
@@ -343,20 +358,17 @@ private struct DeckPanelHorizontalBounds: Shape {
         }.zIndex(effectsVisible || snapshotEffects ? 1 : 0).onChange(of: track?.id, initial: true) { _, _ in
             panels.setTrackAvailable(track != nil)
             sectionPanel.validate(trackID: track?.id, loadID: model.loadIdentity(deck))
-            // One bar and one beat, centred on the playhead.
-            visibleSeconds = WaveformLayers.defaultSeconds(bpm: track?.bpm)
         }.onChange(of: model.frozen.contains(deck)) { _, enabled in
-            if enabled, let track, let state = playback, state.loopEnabled {
-                previousSpan = visibleSeconds
-                visibleSeconds = (state.loopEnd - state.loopStart) / track.analysis.sampleRate
+            if enabled, let loadID = model.loadIdentity(deck), let track, let state = playback, state.loopEnabled {
+                frozenSpan = (loadID, (state.loopEnd - state.loopStart) / track.analysis.sampleRate)
                 model.viewport[deck] = (state.loopStart + state.loopEnd) / 2
-            } else if !enabled, let previousSpan {
-                visibleSeconds = previousSpan
-                self.previousSpan = nil
+            } else if !enabled {
+                frozenSpan = nil
             }
         }
     }
     @ViewBuilder func content(size: CGSize) -> some View {
+        let zoom = waveformZoom
         let layout = AdaptiveDeckGeometry(
             height: max(0, size.height - 8),
             hotcues: (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil,
@@ -394,7 +406,7 @@ private struct DeckPanelHorizontalBounds: Shape {
                     }
                 ).buttonStyle(.plain)
             }.frame(height: layout.headerHeight, alignment: .top).background(
-                DeckSectionHeader(model: model, deck: deck, visibleSeconds: visibleSeconds, waveform: waveformAxis)
+                DeckSectionHeader(model: model, deck: deck, visibleSeconds: zoom.wrappedValue, waveform: waveformAxis)
             ).clipped()
             HStack(spacing: 4) {
                 VStack(spacing: 0) {
@@ -409,7 +421,7 @@ private struct DeckPanelHorizontalBounds: Shape {
                         }
                         panelHandle(.effects, edge: .leading, title: "FX")
                         DeckWaveform(
-                            model: model, deck: deck, visibleSeconds: $visibleSeconds, mixerVisible: mixerVisible
+                            model: model, deck: deck, visibleSeconds: zoom, mixerVisible: mixerVisible
                         ).frame(width: sizes.waveform.width).environment(
                             \.touchSurfaceAcceptsNewContacts,
                             layout.waveformHeight >= 44 && sizes.waveform.width >= 44)
@@ -445,7 +457,7 @@ private struct DeckPanelHorizontalBounds: Shape {
                 if editing {
                     DeckTimeReadout(model: model, deck: deck, editing: true)
                 } else {
-                    DeckOverview(model: model, deck: deck, visibleSeconds: $visibleSeconds).overlay {
+                    DeckOverview(model: model, deck: deck, visibleSeconds: zoom).overlay {
                         DeckTimeReadout(model: model, deck: deck)
                     }
                 }
@@ -1333,7 +1345,7 @@ extension ReplicaView {
                             visibleSeconds = WaveformZoom.seconds(
                                 frameSpan: frameSpan, sampleRate: track.analysis.sampleRate,
                                 duration: track.analysis.duration)
-                        }.id(track.id)
+                        }.id(model.loadIdentity(deck))
                     }
                 }
 
@@ -1401,7 +1413,7 @@ extension ReplicaView {
             StripeView(model: model, deck: deck, track: track, visibleSeconds: $visibleSeconds) {
                 model.previewing.insert(deck)
                 model.viewport[deck] = $0
-            }
+            }.id(model.loadIdentity(deck))
         } else {
             Color.black
         }

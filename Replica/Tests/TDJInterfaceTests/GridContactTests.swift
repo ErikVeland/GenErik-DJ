@@ -144,3 +144,37 @@ import Testing
     #expect(WaveformZoom.seconds(frameSpan: 48000 * 8, sampleRate: 48000, duration: 240) == 8)
     #expect(WaveformZoom.seconds(frameSpan: 1, sampleRate: 48000, duration: 0.5) == 0.5)
 }
+
+@Test @MainActor func deckZoomResetsOnSameTrackReloadAndKeepsTheOtherDecksZoom() async throws {
+    var base = URL(fileURLWithPath: #filePath)
+    for _ in 0..<4 { base.deleteLastPathComponent() }
+    let fixtures = base.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures")
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let model = try ReplicaModel(root: root, playback: PlaybackController(offline: true))
+    await model.importFiles(["clock-a-120.wav", "clock-b-128.wav"].map { fixtures.appendingPathComponent($0) })
+    let tracks = model.library.tracks.sorted { ($0.bpm ?? 0) < ($1.bpm ?? 0) }
+    let a = try #require(tracks.first)
+    let b = try #require(tracks.last)
+    try #require(a.bpm != b.bpm)
+    model.load(trackID: a.id, deck: .a)
+    model.load(trackID: b.id, deck: .b)
+    await model.flushWrites()
+
+    #expect(model.waveformZoomSeconds(deck: .a) == 2.5)
+    #expect(model.waveformZoomSeconds(deck: .b) == 2.5)
+    let original = try #require(model.loadIdentity(.a))
+    model.setWaveformZoomSeconds(4, deck: .a, loadID: original)
+    model.setWaveformZoomSeconds(6, deck: .b, loadID: model.loadIdentity(.b))
+    #expect(model.waveformZoomSeconds(deck: .a) == 4)
+
+    model.load(trackID: a.id, deck: .a)
+    #expect(model.waveformZoomSeconds(deck: .a) == 2.5)
+    await model.flushWrites()
+    #expect(model.loaded[.a] == a.id)
+    #expect(model.loadIdentity(.a) != original)
+    model.setWaveformZoomSeconds(4, deck: .a, loadID: original)
+    #expect(model.waveformZoomSeconds(deck: .a) == 2.5)
+    #expect(model.waveformZoomSeconds(deck: .b) == 6)
+    await model.finishForShutdown()
+}

@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 57.31,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R57",
+      "text": "Use the same default zoom on both decks. Reset the loaded deck even when loading the same track again."
+    }
+  ],
   "log": "TestBuilds/ipad/build-119.log",
   "build": 119,
   "app": "TestBuilds/ipad/119/GenErikDJ.app",
