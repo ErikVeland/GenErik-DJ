@@ -1,0 +1,31 @@
+{
+  "notes": "R56 aligns the incoming deck at a synced Play start and remembers explicit Sync choices per deck.",
+  "sourceCommit": "480f3cab597ee5d646136cabc0023611b9330c0b",
+  "sourceSHA256": "e198c20fec54b7167d410514ead8c1578655ce2f45d8ec892364947feab286f4",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 57.31,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-119.log",
+  "build": 119,
+  "app": "TestBuilds/ipad/119/GenErikDJ.app",
+  "appSHA256": "07dc20da689e25769a5b01cee9965de2c280c730f92fd44c616d52de80d736c2",
+  "state": "testing",
+  "createdUTC": "2026-11-05T06:14:46.055758+00:00",
+  "installedUTC": "2026-11-05T06:15:39.197155+00:00",
+  "launchedUTC": "2026-11-05T06:15:39.976587+00:00",
+  "launchVerification": "iOS accepted the launch request on GenErik Duo.",
+  "requestIDs": [
+    "R56"
+  ],
+  "device": "GenErik Duo",
+  "previousDeviceBuild": 118,
+  "deploymentLog": "TestBuilds/r56/duo-cycle.log",
+  "focusedChecks": "Fourteen focused transport and workflow tests passed. The earlier run reproduced red Sync and the lost preference.",
+  "evidence": [
+    "TestBuilds/r56/red.log",
+    "TestBuilds/r56/final.log"
+  ],
+  "buildDiagnostic": "Xcode logged a SwiftCompile diagnostic with exit code zero. The build succeeded. The signed executable contains both new Sync preference accessors.",
+  "acceptance": "Start the second deck with Sync on and check audible beat alignment. Turn Sync off for one deck, relaunch, and load both decks to check the saved choice."
+}
