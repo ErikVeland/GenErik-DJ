@@ -79,3 +79,21 @@ import Testing
     #expect(after.a.sourceFrame == stopped.a.sourceFrame)
     #expect(after.masterBeat == stopped.masterBeat)
 }
+
+@Test @MainActor func explicitSyncChoiceSurvivesRelaunchAndDeckLoad() async throws {
+    let (model, root) = try await warmPlayModel()
+    defer { try? FileManager.default.removeItem(at: root) }
+    #expect(model.playbackSnapshot?.a.synced == true)
+    #expect(model.playbackSnapshot?.b.synced == true)
+    model.toggleSync(deck: .b)
+    #expect(model.playbackSnapshot?.b.synced == false)
+    await model.flushPreferenceWrites()
+
+    let reopened = try ReplicaModel(root: root, playback: PlaybackController(offline: true))
+    let track = try #require(reopened.library.tracks.first)
+    reopened.load(trackID: track.id, deck: .a)
+    reopened.load(trackID: track.id, deck: .b)
+    await reopened.flushWrites()
+    #expect(reopened.playbackSnapshot?.a.synced == true)
+    #expect(reopened.playbackSnapshot?.b.synced == false)
+}

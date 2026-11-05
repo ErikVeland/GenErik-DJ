@@ -3,7 +3,7 @@ import Testing
 
 @testable import TDJCore
 
-private func syncRestorationRig() throws -> (SampleTransport, UInt64, UInt64) {
+private func syncRestorationRig(startSecond: Bool = true, alignEntry: Bool = false) throws -> (SampleTransport, UInt64, UInt64) {
     let core = try SampleTransport(sampleRate: 8000)
     var left = [Float](repeating: 0, count: 128000)
     var right = left
@@ -20,11 +20,38 @@ private func syncRestorationRig() throws -> (SampleTransport, UInt64, UInt64) {
     core.processControlsWhileIdle()
     try core.play(deck: .a, generation: a)
     core.processControlsWhileIdle()
-    try core.play(deck: .b, generation: b)
-    _ = core.renderOffline(frames: 1001)
-    _ = core.acknowledgements()
-    #expect(core.snapshot()?.b.phase == .playing)
+    if startSecond {
+        if alignEntry {
+            try core.submit(.play(.b, b))
+        } else {
+            try core.play(deck: .b, generation: b)
+        }
+        _ = core.renderOffline(frames: 1001)
+        _ = core.acknowledgements()
+        #expect(core.snapshot()?.b.phase == .playing)
+    }
     return (core, a, b)
+}
+
+@Test func syncedSecondDeckStartsOnBeatWithAnOffsetGrid() throws {
+    let (core, _, _) = try syncRestorationRig(alignEntry: true)
+    let started = try #require(core.snapshot())
+    #expect(started.b.lastStartOutputFrame == 1000)
+    #expect(started.b.synced && !started.syncNeedsAlignment(.b))
+    #expect(abs(try #require(started.syncPhaseError(.b))) < 0.001)
+}
+
+@Test func cancellingAnAlignedEntryRetainsTheOriginalCuePosition() throws {
+    let (core, _, b) = try syncRestorationRig(startSecond: false)
+    try core.submit(.play(.b, b))
+    core.processControlsWhileIdle()
+    #expect(core.snapshot()?.b.phase == .queued)
+    #expect(core.snapshot()?.b.sourceFrame == 500)
+    try core.submit(.play(.b, b))
+    core.processControlsWhileIdle()
+    #expect(core.snapshot()?.b.sourceFrame == 0)
+    #expect(core.snapshot()?.b.phase == .paused)
+    #expect(core.snapshot()?.a.phase == .playing)
 }
 
 @Test func nearestSyncCoordinatesRespectFileAndLoopBounds() throws {

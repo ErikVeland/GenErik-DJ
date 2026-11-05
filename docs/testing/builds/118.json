@@ -5,7 +5,20 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 56.03,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R56",
+      "text": "Sync often turns red when the second deck starts. Enable Sync by default and remember the choice across launches."
+    },
+    {
+      "request": "R57",
+      "text": "Use the same default waveform zoom on both decks. Allow manual changes and reset the zoom for each load."
+    },
+    {
+      "request": "R58",
+      "text": "Tracks appear to require analysis again on load. Start analysis at launch and show progress until the library has completed structure analysis and automatic hot cues."
+    }
+  ],
   "log": "TestBuilds/ipad/build-118.log",
   "build": 118,
   "app": "TestBuilds/ipad/118/GenErikDJ.app",
@@ -15,11 +28,17 @@
   "installedUTC": "2026-11-05T06:06:34.571089+00:00",
   "launchedUTC": "2026-11-05T06:06:35.029474+00:00",
   "launchVerification": "iOS accepted the launch request on GenErik Duo.",
-  "requestIDs": ["R55"],
+  "requestIDs": [
+    "R55"
+  ],
   "device": "GenErik Duo",
   "previousDeviceBuild": 117,
   "deploymentLog": "TestBuilds/r55/duo-cycle.log",
   "focusedChecks": "Six Swift tests and 198 front-screen checks passed. The cache test first reproduced the missing songs on relaunch.",
-  "evidence": ["TestBuilds/r55/cache-red.log", "TestBuilds/r55/focused.log", "TestBuilds/r55/front.log"],
+  "evidence": [
+    "TestBuilds/r55/cache-red.log",
+    "TestBuilds/r55/focused.log",
+    "TestBuilds/r55/front.log"
+  ],
   "acceptance": "Open the browser during the first Music read. Wait for songs to appear, then relaunch. Check that saved songs appear while Music refreshes. Check both Duo browser layouts."
 }

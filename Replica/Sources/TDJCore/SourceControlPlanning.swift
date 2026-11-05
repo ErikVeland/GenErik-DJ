@@ -128,6 +128,18 @@ extension SourceControl {
                 target.continuingPosition = 0
                 preservePending = false
             }
+            let other = snapshot[deck == .a ? .b : .a]
+            if !state.phase.active, !state.touchActive, state.synced, other.synced, other.phase == .playing,
+                let grid = state.timing
+            {
+                let lower = state.loopEnabled ? max(0, state.loopStart) : 0
+                let upper = state.loopEnabled ? min(Double(frames), state.loopEnd) : Double(frames)
+                if lower < upper,
+                    let aligned = grid.nearestPhaseAlignedFrame(to: target.position, masterBeat: 0, within: lower..<upper)
+                {
+                    target.position = aligned
+                }
+            }
         }
         let proposedSynced: Bool
         switch self {

@@ -906,6 +906,7 @@ import TDJCore
                 try await playback.load(
                     track: preparedSourceTrack, store: store, deck: deck, sourceURL: sourceURL,
                     preparedAsset: preparedAsset, opening: opening,
+                    synced: (deck == .a ? mixerPreferences.syncA : mixerPreferences.syncB) ?? true,
                     committed: { [weak self = self] generation in
                         guard let self else { return }
                         var acceptedTrack = preparedSourceTrack
@@ -1514,11 +1515,15 @@ import TDJCore
         guard let snapshot = playbackSnapshot else { return }
         let state = snapshot[deck]
         do {
-            if state.phase == .playing && (!state.synced || snapshot.syncNeedsAlignment(deck)) {
+            let realign = state.phase == .playing && (!state.synced || snapshot.syncNeedsAlignment(deck))
+            let enabled = realign || !state.synced
+            if realign {
                 try playback.restoreSync(deck: deck)
             } else {
-                try playback.setSync(!state.synced, deck: deck)
+                try playback.setSync(enabled, deck: deck)
             }
+            if deck == .a { mixerPreferences.syncA = enabled } else { mixerPreferences.syncB = enabled }
+            persistMixerPreferences()
             refreshPlayback()
         } catch { status = error.localizedDescription }
     }

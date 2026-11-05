@@ -14,6 +14,7 @@ typedef struct tdj_engine tdj_engine;
 
 #define TDJ_LOAD 1
 #define TDJ_PLAY 2
+#define TDJ_PLAY_ALIGN_ENTRY 1
 #define TDJ_TEMPO 3
 #define TDJ_SYNC 4
 #define TDJ_GRID 5

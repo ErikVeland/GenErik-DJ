@@ -22,7 +22,7 @@ typedef struct {
     bool synced, keylock;
     tdj_beatgrid_map map;
     bool map_dirty;
-    double position, bpm, anchor, downbeat, target, free_rate;
+    double position, bpm, anchor, downbeat, target, queued_origin, free_rate;
     bool loop_enabled, flux_enabled, touch_active, jump_pending, touch_was_playing;
     double loop_start, loop_end, continuing, performance_rate, jump_frame, jump_beat;
     double touch_start, touch_end, pending_touch_end, pending_loop_end;
@@ -583,16 +583,23 @@ static void anchor_clock(tdj_engine *e, double beat) {
     e->epoch_ticks = beat * (60 * e->rate);
     e->epoch_frame = e->frame;
 }
-static int start_deck(tdj_engine *e, deck *d, deck *other, uint64_t ticket, uint64_t generation) {
+static bool nearest_sync_position(deck *d, double beat, double *position);
+static int start_deck(tdj_engine *e, deck *d, deck *other, uint64_t ticket, uint64_t generation, bool align_entry) {
     double proposed_bpm = (!e->running && !e->master_chosen && d->bpm > 0) ? deck_bpm(d) : e->bpm;
     if (d->keylock && !supported_deck_keylock(d, proposed_bpm))
         return TDJ_KEYLOCK_RANGE;
     deck starting = *d;
     starting.state = d->synced && other->synced && other->state == TDJ_PLAYING ? TDJ_QUEUED : TDJ_PLAYING;
+    if (starting.state == TDJ_QUEUED && align_entry && !d->touch_active) {
+        // Both queued targets have zero beat phase.
+        nearest_sync_position(d, 0, &starting.position);
+    }
     int stream_status = stream_validate(e, other == &e->decks[0] ? 1 : 0, &starting, proposed_bpm, ticket, generation);
     if (stream_status != TDJ_OK)
         return stream_status;
-    if (d->synced && other->synced && other->state == TDJ_PLAYING) {
+    if (starting.state == TDJ_QUEUED) {
+        d->queued_origin = d->position;
+        d->position = starting.position;
         double beat = beat_now(e);
         double bar = (floor(beat / 4) + 1) * 4;
         double remaining_beats =
@@ -905,10 +912,10 @@ bool tdj_read_message(tdj_engine *e, tdj_message *out) {
 
 // Resolve the smallest beat-phase correction against the current render clock.
 // The active loop and file are hard bounds. No command state changes on failure.
-static bool nearest_sync_position(tdj_engine *e, deck *d, double *position) {
+static bool nearest_sync_position(deck *d, double beat, double *position) {
     if (!d->asset || !isfinite(d->bpm) || d->bpm <= 0)
         return false;
-    double beat = beat_now(e), period = 60 * d->asset->rate / d->bpm;
+    double period = 60 * d->asset->rate / d->bpm;
     double low = d->loop_enabled ? fmax(0, d->loop_start) : 0;
     double high = d->loop_enabled ? fmin(d->asset->frames, d->loop_end) : d->asset->frames;
     if (!isfinite(beat) || !isfinite(period) || period <= 0 || !(low < high))
@@ -1074,6 +1081,8 @@ static int apply(tdj_engine *e, tdj_command c) {
         e->running = false;
         for (int i = 0; i < 2; ++i) {
             deck *d = &e->decks[i];
+            if (d->state == TDJ_QUEUED)
+                d->position = d->queued_origin;
             if (d->state == TDJ_PLAYING || d->state == TDJ_QUEUED)
                 d->state = TDJ_PAUSED;
             brake_clear(e, i);
@@ -1243,7 +1252,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (c.flag == 3) {
             if (!d->braking) {
                 if (d->state == TDJ_PAUSED)
-                    return start_deck(e, d, other, c.preparation_ticket, c.generation);
+                    return start_deck(e, d, other, c.preparation_ticket, c.generation, false);
                 return TDJ_OK;
             }
             deck proposed = *d;
@@ -1286,7 +1295,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         } else {
             proposed.position = c.value;
         }
-        int status = start_deck(e, &proposed, other, c.preparation_ticket, c.generation);
+        int status = start_deck(e, &proposed, other, c.preparation_ticket, c.generation, false);
         if (status != TDJ_OK)
             return status;
         *d = proposed;
@@ -1296,6 +1305,7 @@ static int apply(tdj_engine *e, tdj_command c) {
     }
     if (c.kind == TDJ_PLAY) {
         if (d->state == TDJ_QUEUED) {
+            d->position = d->queued_origin;
             d->state = TDJ_PAUSED;
             d->target = 0;
             if (other->state != TDJ_PLAYING) {
@@ -1320,7 +1330,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             restarting.continuing = 0;
             restarting.jump_pending = false;
             restarting.jump_loop = false;
-            int status = start_deck(e, &restarting, other, c.preparation_ticket, c.generation);
+            int status = start_deck(e, &restarting, other, c.preparation_ticket, c.generation, c.flag == TDJ_PLAY_ALIGN_ENTRY);
             if (status != TDJ_OK)
                 return status;
             *d = restarting;
@@ -1328,7 +1338,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             transition_request(e, c.deck, 0);
             return TDJ_OK;
         }
-        return start_deck(e, d, other, c.preparation_ticket, c.generation);
+        return start_deck(e, d, other, c.preparation_ticket, c.generation, c.flag == TDJ_PLAY_ALIGN_ENTRY);
     }
     if (d->state == TDJ_QUEUED)
         return TDJ_UNRESOLVED;
@@ -1644,7 +1654,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (d->keylock && !supported_keylock_rate(e->bpm / deck_bpm(d)))
             return TDJ_KEYLOCK_RANGE;
         double position;
-        if (!nearest_sync_position(e, d, &position))
+        if (!nearest_sync_position(d, beat_now(e), &position))
             return TDJ_ALIGNMENT_UNAVAILABLE;
         deck proposed = *d;
         proposed.synced = true;

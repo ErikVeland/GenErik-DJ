@@ -31,6 +31,7 @@ public enum SourceControl: Sendable {
             result.value = value
         case .play(let id, let generation):
             result.kind = TDJ_PLAY
+            result.flag = TDJ_PLAY_ALIGN_ENTRY
             deck(id, generation)
         case .tempo(let bpm):
             result.kind = TDJ_TEMPO

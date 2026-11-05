@@ -197,7 +197,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
 
     public func load(
         track: Track, store: WorkspaceStore, deck: DeckID, sourceURL: URL? = nil, preparedAsset: PCMAsset? = nil,
-        opening: NativePlaybackOpening? = nil, committed: @escaping (UInt64) -> Void = { _ in }
+        opening: NativePlaybackOpening? = nil, synced: Bool = true, committed: @escaping (UInt64) -> Void = { _ in }
     ) async throws {
         guard core.snapshot()?[deck].phase.active != true else { throw TransportError.protectedDeck }
         invalidateRecovery(deck: deck)
@@ -223,18 +223,18 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         // updates the asset's bound; prepare it again before retrying ownership.
         for attempt in 0..<3 {
             do {
-                try await submitLoad(asset: asset, track: track, deck: deck, committed: committed)
+                try await submitLoad(asset: asset, track: track, deck: deck, synced: synced, committed: committed)
                 return
             } catch TransportError.sourceCold where attempt < 2 { try Task.checkCancellation() }
         }
     }
-    private func submitLoad(asset: PCMAsset, track: Track, deck: DeckID, committed: @escaping (UInt64) -> Void)
-        async throws
-    {
+    private func submitLoad(
+        asset: PCMAsset, track: Track, deck: DeckID, synced: Bool, committed: @escaping (UInt64) -> Void
+    ) async throws {
         guard core.snapshot()?[deck].phase.active != true else { throw TransportError.protectedDeck }
         let keylock = keylockPreference[deck] ?? true
         let generation = try core.reserveLoad(
-            asset, deck: deck, grid: track.grid, keylock: keylock, adaptiveMap: track.adaptiveMap)
+            asset, deck: deck, grid: track.grid, synced: synced, keylock: keylock, adaptiveMap: track.adaptiveMap)
         var submitted = false
         var ownedTicket: UInt64 = 0
         defer {
@@ -242,7 +242,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             if !submitted { core.cancelReservedLoad(generation: generation) }
         }
         let ratio = track.grid.map { (core.snapshot()?.masterBPM ?? $0.bpm) / $0.bpm } ?? 1
-        let preloadSpeed = keylock ? min(8, max(1, ratio)) : max(1, ratio)
+        let preloadSpeed = synced ? (keylock ? min(8, max(1, ratio)) : max(1, ratio)) : 1
         ownedTicket = try await asset.prepareSource(
             .init(position: 0, speed: preloadSpeed, keylock: keylock), generation: generation)
         try Task.checkCancellation()
