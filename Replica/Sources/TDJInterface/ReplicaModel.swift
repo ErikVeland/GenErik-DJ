@@ -101,7 +101,7 @@ import TDJCore
     var adaptiveUndo: [String: [Preparation]] = [:]
     public var gridDraft: [DeckID: BeatGrid] = [:]
     public var editing: Set<DeckID> = []
-    public var browserVisible = true
+    public var browserVisible = false
     public private(set) var browserPresentationID = UUID()
     public private(set) var browserPresentationExpands = false
     public var helpVisible = false
