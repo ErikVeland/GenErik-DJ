@@ -6,9 +6,9 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
-Latest iPad candidate: **build 116**, application source `296d14e82`. R53 starts with the decks visible and the browser hidden. The music button, drag handle and add-track controls still open the browser. The focused selection/loading workflow, source identity, signing and framework checks pass. Installation succeeded, iPadOS accepted launch and device actions stopped. Erik’s launch check remains open.
+Latest iPad candidate is **build 124**, from `main` at `a7acf07d9`. The A10X iPad Pro launched the new analyser and saved a 71.0058 BPM grid for 3CAG. All 56 reference bars are within 20.5 ms of the fitted grid. The iPad kept the manual grid and key and saved sections and automatic cue candidates. [Build record](../testing/builds/124.json).
 
-Latest Duo candidate is **build 122**, from `main` at `d2a9ba940`. R60 starts a fresh library pass and saves the results per track. Three focused tests passed. The Duo installed the app and accepted launch. Verify progress and reuse on the Duo. Analysis quality and the R59 replacement remain open. [Build record](../testing/builds/122.json).
+Latest Duo candidate is **build 124**, the same signed app as the iPad candidate. The Duo installed it. The first launch request timed out, and the locked screen blocked the retry. Open GenErik DJ to start the one-time full pass. [Build record](../testing/builds/124.json).
 
 Build 114 was profiled on the actual A10X with two playing decks, five active FX slots, recording and the existing read-only analysis comparison. The steady run used 25.8 seconds of main-thread CPU in 30 seconds, with a mean 28.4 FPS. The combined run used 36.8 seconds in 45 seconds, with estimates from 21 to 60 FPS. The 116.2-second stereo AIFF saved successfully, and the comparison completed 120 songs. Erik reported no obvious problem during the first listening/touch run. Instruments exposed no client audio I/O events, so no deadline or underrun count is claimed.
 

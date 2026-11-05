@@ -1,0 +1,53 @@
+{
+  "notes": "R61 uses Beat This at launch and chooses available Music audio if the imported copy is missing.",
+  "sourceCommit": "a7acf07d974d2ec50ed1b76d7c0c682991ae36fa",
+  "sourceSHA256": "df8187a92c7fbff3c9adcb923e61e53977bdc834727b25c3a788b9f9c0d0f5cb",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 34.27,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-124.log",
+  "build": 124,
+  "app": "TestBuilds/ipad/124/GenErikDJ.app",
+  "appSHA256": "39cc8f7507e0c0d0f11098ef7d20df415e8f5013b6611c55c64f10f58319e9e0",
+  "state": "installed",
+  "createdUTC": "2026-11-05T12:42:41.800854+00:00",
+  "installedUTC": "2026-11-05T12:46:23.211651+00:00",
+  "launchVerification": "The Duo installed the app. The first launch request timed out. The retry returned Locked. Open GenErik DJ on the Duo.",
+  "requestIDs": [
+    "R61"
+  ],
+  "device": "GenErik Duo",
+  "previousDeviceBuild": 122,
+  "deploymentLogs": [
+    "TestBuilds/r61/duo-124-cycle.log",
+    "TestBuilds/r61/duo-124-launch-retry.log"
+  ],
+  "ipadVerification": {
+    "device": "GenErik iPad Pro 10.5-inch (A10X)",
+    "installedUTC": "2026-11-05T12:42:57.234995+00:00",
+    "launchedUTC": "2026-11-05T12:42:57.614563+00:00",
+    "launchQueueEntries": 5959,
+    "referenceTrack": "3Cag (feat. Radie Peat), Fine Art",
+    "fittedBPM": 71.00576169170185,
+    "firstDownbeatSeconds": 2.6006364477335495,
+    "savedReferenceBPM": 71.0019,
+    "savedReferenceFirstDownbeatSeconds": 2.58016,
+    "referenceBars": 56,
+    "maximumBarErrorMilliseconds": 20.47644773354973,
+    "manualGridAndKeyPreserved": true,
+    "cachedSections": 14,
+    "cachedAutomaticCueCandidates": 8
+  },
+  "focusedChecks": "Three focused tests passed across five cases. They cover the grid fit, launch analysis, cache reuse, and recovery from a missing imported copy.",
+  "evidence": [
+    "TestBuilds/r61/3cag-host-comparison.json",
+    "TestBuilds/r61/missing-copy-red.log",
+    "TestBuilds/r61/missing-copy-green.log",
+    "TestBuilds/r61/ipad-124-cycle.log",
+    "TestBuilds/r61/ipad-124-analysis-verified.log",
+    "TestBuilds/r61/3cag-ipad-comparison.json",
+    "TestBuilds/r61/3cag-ipad-arrangement.json"
+  ],
+  "acceptance": "Open GenErik DJ on the unlocked Duo. Check library progress with both decks idle. Verify saved results on relaunch. Full-library completion and playback acceptance remain open."
+}
