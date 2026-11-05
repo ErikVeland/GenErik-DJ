@@ -4,7 +4,7 @@ import Foundation
 
 public struct AnalysisConfiguration: Sendable {
     public var id: String {
-        "independent-dsp-0.4.0-meter-context-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-\(minimumBPM)-\(maximumBPM)"
+        "independent-dsp-0.4.0-meter-context-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-library-refresh-1-\(minimumBPM)-\(maximumBPM)"
     }
     public var minimumBPM: Double = 60
     public var maximumBPM: Double = 200

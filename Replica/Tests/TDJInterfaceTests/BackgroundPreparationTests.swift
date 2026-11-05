@@ -1,8 +1,8 @@
 import AVFoundation
 import Foundation
-import TDJCore
 import Testing
 
+@testable import TDJCore
 @testable import TDJInterface
 
 @MainActor private final class ClockMusicLibrary: LocalMusicLibraryProviding {
@@ -53,7 +53,7 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     let cache = try JSONDecoder().decode(ArrangementCache.self, from: saved)
     #expect(cache.version == MusicalStructureAnalyzer.version)
     let cues = try #require(cache.automaticCues)
-    if cues.isEmpty {
+    if track.automaticBarGrid == nil || track.key == nil || track.keyDecision.needsReview || cues.isEmpty {
         #expect(model.analysisProgress?.message?.contains("need review") == true)
     } else {
         #expect(model.analysisProgress == nil)
@@ -158,4 +158,66 @@ func deckSelectionCompletesDeferredAnalysisWithoutOpeningTheLibrary(deck: DeckID
     #expect(model.preparedTrack(for: item)?.analysis.musicalAnalysisDeferred != true)
     #expect(!model.preparingPlayback.contains(deck))
     await model.finishForShutdown()
+}
+
+@Test(arguments: [false, true]) @MainActor
+func launchReanalysesSavedTracksAndResumesWithoutRepeatingCompletedWork(native: Bool) async throws {
+    let item = clockItem("refresh", duration: 16)
+    let provider = ClockMusicLibrary(native ? [item] : [])
+    let workspace = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: workspace) }
+    let store = try WorkspaceStore(root: workspace)
+    var legacy = AudioAnalysis(
+        implementation: "Fixture", configurationID: "previous-release",
+        contentSHA256: try AudioAnalyzer.sha256(url: clockFixture()), sampleRate: 44100, frameCount: 705600,
+        channelCount: 2, waveformFramesPerBin: 512, waveform: [], bpm: 126, beatAnchorFrame: 0,
+        tempoConfidence: 1, key: .init(tonic: 0, mode: .major), keyConfidence: 1, chroma: [], timbre: [])
+    legacy.barAnalysisVersion = BarStartAnalysis.version
+    var track = try Track(title: item.title, artist: item.artist, mediaFilename: "clock.wav", analysis: legacy)
+    let manualGrid = try BeatGrid(bpm: 126, anchorFrame: 480, sampleRate: 44100, downbeatOffset: 2)
+    let manualKey = MusicalKey(tonic: 5, mode: .minor)
+    track.preparation.grid = manualGrid
+    track.preparation.gridIsManual = true
+    track.preparation.correctedKey = manualKey
+    if native {
+        track.nativeLibraryOnly = true
+        track.musicLibrarySources = [item.source]
+    } else {
+        try FileManager.default.copyItem(at: clockFixture(), to: store.mediaDirectory.appendingPathComponent(track.mediaFilename))
+    }
+    var library = LibrarySnapshot()
+    library.tracks = [track]
+    _ = try store.save(library)
+
+    let model = try ReplicaModel(root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    let locked = ArrangementSection(start: 0, end: 192000, role: .verse, name: "Locked verse", locked: true)
+    let old = ArrangementCache(
+        version: MusicalStructureAnalyzer.version, content: legacy.contentSHA256, configuration: legacy.configurationID,
+        context: .init(title: track.title, genre: track.genre),
+        arrangement: .init(sections: [locked], landmarks: [], musicalEnd: Double(legacy.frameCount), rhythmicEnd: nil),
+        automaticCues: [:])
+    try old.write(to: model.arrangementURL(track.id))
+    await model.openNativeMusicLibrary()
+    await model.flushNativeMusicAnalysis()
+    let refreshed = try #require(model.library.track(id: track.id))
+    #expect(refreshed.analysis.configurationID == AnalysisConfiguration().id)
+    #expect(refreshed.grid == manualGrid)
+    #expect(refreshed.key == manualKey)
+    let cacheURL = model.arrangementURL(track.id)
+    let saved = try Data(contentsOf: cacheURL)
+    let cache = try JSONDecoder().decode(ArrangementCache.self, from: saved)
+    #expect(cache.configuration == AnalysisConfiguration().id)
+    #expect(cache.arrangement.sections.contains(locked))
+    #expect(cache.automaticCues?.values.contains { $0.sectionName == locked.label } == true)
+    await model.finishForShutdown()
+
+    let reopened = try ReplicaModel(root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    let previousReads = provider.preparations
+    let previousRevision = reopened.library.revision
+    await reopened.openNativeMusicLibrary()
+    await reopened.flushNativeMusicAnalysis()
+    #expect(provider.preparations == previousReads)
+    #expect(reopened.library.revision == previousRevision)
+    #expect(try Data(contentsOf: cacheURL) == saved)
+    await reopened.finishForShutdown()
 }

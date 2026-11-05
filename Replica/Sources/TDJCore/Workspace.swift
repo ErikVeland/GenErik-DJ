@@ -468,22 +468,8 @@ public actor LibraryService {
             guard track.analysis.sampleRate == analysis.sampleRate,
                 track.analysis.frameCount == analysis.frameCount || track.nativePlaybackIdentity != nil
             else { throw CoreError.invalidAudio("Updated analysis does not match the prepared source.") }
-            let previousAnalysis = track.analysis
-            track.analysis = analysis
+            try applyAnalysis(analysis, to: &track)
             if analysis.musicalAnalysisDeferred != true { track.nativeSourceNeedsAnalysis = nil }
-            track.recordKeyAnalysisChange(from: previousAnalysis)
-            if let grid = track.automaticBarGrid {
-                track.preparation.grid = grid
-                track.preparation.gridIsManual = false
-            } else if !track.preparation.gridIsManual && track.preparation.gridWasEditedByUser != true
-                && !track.preparation.gridLocked
-            {
-                track.preparation.grid = try analysis.bpm.map {
-                    try BeatGrid(
-                        bpm: $0, anchorFrame: analysis.beatAnchorFrame ?? 0, sampleRate: analysis.sampleRate,
-                        downbeatOffset: analysis.detectedDownbeatOffset ?? 0)
-                }
-            }
         }
         if let original { track.traktorPreparation = original }
         if let metadata {
@@ -523,23 +509,29 @@ public actor LibraryService {
                 "Updated analysis does not match the prepared source. Existing preparation was retained.")
         }
         var changed = library
-        changed.tracks[index].analysis = analysis
-        changed.tracks[index].recordKeyAnalysisChange(from: previous)
-        if let grid = changed.tracks[index].automaticBarGrid {
-            changed.tracks[index].preparation.grid = grid
-            changed.tracks[index].preparation.gridIsManual = false
-        } else if !changed.tracks[index].preparation.gridIsManual
-            && changed.tracks[index].preparation.gridWasEditedByUser != true
-            && !changed.tracks[index].preparation.gridLocked
-        {
-            changed.tracks[index].preparation.grid = try analysis.bpm.map {
-                try BeatGrid(
-                    bpm: $0, anchorFrame: analysis.beatAnchorFrame ?? 0, sampleRate: analysis.sampleRate,
-                    downbeatOffset: analysis.detectedDownbeatOffset ?? 0)
-            }
-        }
+        try applyAnalysis(analysis, to: &changed.tracks[index])
         changed.revision += 1
         library = try store.save(changed)
+    }
+
+    private func applyAnalysis(_ analysis: AudioAnalysis, to track: inout Track) throws {
+        let previous = track.analysis
+        track.analysis = analysis
+        track.recordKeyAnalysisChange(from: previous)
+        if let grid = track.automaticBarGrid {
+            track.preparation.grid = grid
+            track.preparation.gridIsManual = false
+        } else if !track.preparation.gridIsManual && track.preparation.gridWasEditedByUser != true
+            && !track.preparation.gridLocked && track.preparation.adaptiveMap == nil
+        {
+            if let bpm = analysis.bpm {
+                track.preparation.grid = try BeatGrid(
+                    bpm: bpm, anchorFrame: analysis.beatAnchorFrame ?? 0, sampleRate: analysis.sampleRate,
+                    downbeatOffset: analysis.detectedDownbeatOffset ?? 0)
+            } else if previous.contentSHA256 != analysis.contentSHA256 || previous.frameCount != analysis.frameCount {
+                track.preparation.grid = nil
+            }
+        }
     }
 
     public func updatePreparation(trackID: String, preparation: Preparation) throws -> LibrarySnapshot {

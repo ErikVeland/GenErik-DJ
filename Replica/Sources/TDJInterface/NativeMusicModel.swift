@@ -108,9 +108,15 @@ extension ReplicaModel {
                 do {
                     let (track, arrangement) = try await prepareLibrarySong(job)
                     try Task.checkCancellation()
+                    let usesAutomaticGrid = track.mayRefreshAutomaticGrid
+                        && track.traktorPreparation?.normalized.grid == nil
                     let issue: String?
-                    if track.grid == nil {
+                    if track.grid == nil || (usesAutomaticGrid && track.analysis.bpm == nil) {
                         issue = "No reliable beat grid was found."
+                    } else if usesAutomaticGrid, track.automaticBarGrid == nil {
+                        issue = "Check the downbeat."
+                    } else if track.key == nil || track.keyDecision.needsReview {
+                        issue = "Check the musical key."
                     } else if arrangement.automaticCues?.isEmpty != false {
                         issue = "No reliable section starts were found for hot cues."
                     } else {
@@ -149,7 +155,7 @@ extension ReplicaModel {
         switch job {
         case .managed(var track):
             let source = store.mediaDirectory.appendingPathComponent(track.mediaFilename)
-            if track.needsFullPreparationAnalysis {
+            if track.needsCurrentLibraryAnalysis {
                 let snapshot = try await service.reanalyze(trackID: track.id)
                 adoptLibrary(snapshot)
                 if let updated = snapshot.track(id: track.id) { track = updated }
@@ -161,7 +167,7 @@ extension ReplicaModel {
         case .native(let item, let known):
             var track = known
             if track == nil { track = await preparedNativeTrack(item) }
-            if let track, !track.needsFullPreparationAnalysis,
+            if let track, !track.needsCurrentLibraryAnalysis,
                 let arrangement = try await prepareLibraryArrangement(track: track, source: nil)
             {
                 return (track, arrangement)
@@ -169,7 +175,7 @@ extension ReplicaModel {
             let cachedTrack = track
             return try await withNativeAudio(item) { prepared in
                 var track = cachedTrack
-                if track == nil || track?.needsFullPreparationAnalysis == true {
+                if track == nil || track?.needsCurrentLibraryAnalysis == true {
                     let snapshot = try await self.service.analyzeNativeMusic(
                         url: prepared.url, musicLibrary: prepared.metadata)
                     self.adoptLibrary(snapshot)

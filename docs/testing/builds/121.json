@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 57.58,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R59",
+      "text": "Rebuild static BPM and downbeat detection. Use 3CAG as a reference track."
+    },
+    {
+      "request": "R60",
+      "text": "Reanalyse every track at the next startup. Check grids, downbeats, BPM with beat drift, key and sections."
+    }
+  ],
   "log": "TestBuilds/ipad/build-121.log",
   "build": 121,
   "app": "TestBuilds/ipad/121/GenErikDJ.app",

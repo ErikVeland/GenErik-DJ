@@ -215,6 +215,9 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
             || (analysis.configurationID != AnalysisConfiguration().id
                 && NativeAnalysisPlan.needsDeckAnalysis(deferred: nil, bpm: bpm, key: key))
     }
+    public var needsCurrentLibraryAnalysis: Bool {
+        analysis.configurationID != AnalysisConfiguration().id || needsFullPreparationAnalysis
+    }
     public var automaticBarGrid: BeatGrid? {
         preparation.detectedBarGrid(
             analysis: analysis, imported: traktorPreparation?.normalized.grid,
