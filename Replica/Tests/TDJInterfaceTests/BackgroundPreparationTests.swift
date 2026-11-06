@@ -9,12 +9,12 @@ import Testing
     let snapshot: MusicLibraryCatalog
     var preparations = 0
     var directPlayback = false
-    var beforePreparation: (() async throws -> Void)?
+    var beforePreparation: ((MusicLibraryItem) async throws -> Void)?
     init(_ items: [MusicLibraryItem]) { snapshot = .init(items: items, playlists: []) }
     func catalog() async throws -> MusicLibraryCatalog { snapshot }
     func prepare(_ item: MusicLibraryItem, in directory: URL) async throws -> PreparedMusicLibraryAudio {
         preparations += 1
-        try await beforePreparation?()
+        try await beforePreparation?(item)
         return .init(url: try #require(item.assetURL), metadata: .init(item: item))
     }
     func playbackSource(_ item: MusicLibraryItem) async throws -> PreparedMusicLibraryAudio? {
@@ -31,7 +31,7 @@ import Testing
     let model = try ReplicaModel(
         root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
     let (started, signal) = AsyncStream<Void>.makeStream()
-    provider.beforePreparation = {
+    provider.beforePreparation = { _ in
         signal.yield(())
         try await Task.sleep(for: .seconds(30))
     }
@@ -54,7 +54,7 @@ import Testing
     model.setLibraryAnalysisBackgrounded(false)
     await model.openNativeMusicLibrary()
     await model.flushNativeMusicAnalysis()
-    #expect(provider.preparations == 2)
+    #expect(provider.preparations == 3)
     #expect(model.preparedTrack(for: item) != nil)
     await model.finishForShutdown()
 }
@@ -68,6 +68,42 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     .init(
         source: .init(platform: .iosMusic, persistentID: id), title: "Clock \(id)", artist: "Fixture",
         duration: duration, assetURL: clockFixture(), availability: .available)
+}
+
+@Test @MainActor func libraryChecksShortTracksFirstAndSavesMatchingBeforeStructure() async throws {
+    let short = clockItem("short", duration: 16)
+    let unknown = clockItem("unknown", duration: 0)
+    let provider = ClockMusicLibrary([unknown, short])
+    let workspace = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: workspace) }
+    let model = try ReplicaModel(
+        root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    var reads: [String] = []
+    provider.beforePreparation = { item in
+        reads.append(item.id)
+        if reads.count == 2 {
+            #expect(item.id == unknown.id)
+            #expect(model.analysisProgress?.done == 1)
+            #expect(model.analysisProgress?.total == 4)
+            let track = try #require(model.preparedTrack(for: short))
+            #expect(abs((track.bpm ?? 0) - 120) < 0.5)
+            #expect(!FileManager.default.fileExists(atPath: model.arrangementURL(track.id).path))
+        }
+        if reads.count == 3 {
+            #expect(model.analysisProgress?.done == 2)
+            #expect(model.preparedTrack(for: unknown) != nil)
+        }
+    }
+
+    await model.openNativeMusicLibrary()
+    await model.flushNativeMusicAnalysis()
+    #expect(reads == [short.id, unknown.id, short.id])
+    let track = try #require(model.preparedTrack(for: short))
+    let cache = try JSONDecoder().decode(ArrangementCache.self, from: Data(contentsOf: model.arrangementURL(track.id)))
+    #expect(cache.automaticCues != nil)
+    if let progress = model.analysisProgress { #expect(progress.done == 4) }
+    provider.beforePreparation = nil
+    await model.finishForShutdown()
 }
 @MainActor private func preparationModel(_ items: [MusicLibraryItem], sources: [URL] = []) throws -> (ReplicaModel, URL)
 {
@@ -278,7 +314,7 @@ func launchReanalysesSavedTracksAndResumesWithoutRepeatingCompletedWork(source: 
     let id = try #require(granted)
     #expect(model.beginBackgroundLibraryAnalysis { _, _ in } == nil)
     #expect(await model.runBackgroundLibraryAnalysis(id))
-    #expect(checked == 1)
+    #expect(checked == 2)
     #expect(model.preparedTrack(for: item) != nil)
     #expect(!model.libraryAnalysisNeedsWork)
     model.endBackgroundLibraryAnalysis(id)

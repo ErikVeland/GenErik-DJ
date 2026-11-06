@@ -22,8 +22,11 @@ final class NativeMusicAnalysisQueue: Sendable {
 
         var duration: Double {
             switch self {
-            case .managed(let track): track.analysis.duration
-            case .native(let item, _): item.duration
+            case .managed(let track):
+                return track.analysis.duration
+            case .native(let item, let track):
+                if let measured = track?.analysis.duration, measured.isFinite, measured > 0 { return measured }
+                return item.duration.isFinite && item.duration > 0 ? item.duration : .infinity
             }
         }
 
@@ -86,6 +89,8 @@ final class NativeMusicAnalysisQueue: Sendable {
             return item
         } ?? nil
     }
+
+    func rewind() async { await value.update { $0.position = 0 } }
 
     @MainActor func finish() async { await value.clear() }
 }

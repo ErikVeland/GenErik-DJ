@@ -9,6 +9,10 @@
     {
       "request": "R62",
       "text": "Let analysis continue in the background on newer devices. Use scheduled idle-time analysis on the 2017 iPad Pro."
+    },
+    {
+      "request": "R63",
+      "text": "The Duo stayed at 0/128. Check shorter tracks first. Save the downbeat, BPM and key before analysing structure, and verify progress on the Duo."
     }
   ],
   "log": "TestBuilds/ipad/build-124.log",
