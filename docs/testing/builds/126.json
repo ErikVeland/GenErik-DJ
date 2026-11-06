@@ -41,7 +41,11 @@
     "TestBuilds/r63/duo-126-live-library.json",
     "TestBuilds/r63/duo-126-paused-analysis.log",
     "TestBuilds/r63/duo-126-paused-library.json",
-    "TestBuilds/r63/duo-126-paused-devices.log"
+    "TestBuilds/r63/duo-126-paused-devices.log",
+    "TestBuilds/r63/duo-126-checking-music-library-access.log",
+    "TestBuilds/r63/duo-126-reconnected-analysis.log",
+    "TestBuilds/r63/duo-126-reconnected-library.json",
+    "TestBuilds/r63/duo-126-reconnected-devices.log"
   ],
   "acceptance": "Full-library completion, structure and cue results, and playback acceptance remain open.",
   "duoVerification": {
@@ -59,6 +63,16 @@
       "matchingResultsSaved": 59,
       "libraryRevisionObserved": 273,
       "observedState": "The Duo stopped saving matching results and was locked. The Mac later reported the Duo unavailable.",
+      "structurePassObserved": false,
+      "deckCacheReuseTested": false
+    },
+    "resumeCheck": {
+      "musicReadFinishedUTC": "2026-11-06T22:34:52Z",
+      "analysisResumedUTC": "2026-11-06T22:35:30Z",
+      "lastReachableCheckUTC": "2026-11-06T22:43:46Z",
+      "matchingResultsSaved": 88,
+      "libraryRevisionObserved": 304,
+      "observedState": "The queue passed Checking library and resumed. The Mac later lost the connection to the Duo.",
       "structurePassObserved": false,
       "deckCacheReuseTested": false
     }

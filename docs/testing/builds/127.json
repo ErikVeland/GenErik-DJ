@@ -1,0 +1,33 @@
+{
+  "notes": "R64 uses the deck flag to hide and show cues. R65 shows the current battery level and turns the icon red below 10%.",
+  "sourceCommit": "1a4d5a6d9a88674b84d2f2fb0b451f148290b5a6",
+  "sourceSHA256": "a5d003de7bc723af54a2a4762af746a97a3d0fc8d36f4e947a1822eebbf24cf7",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 39.37,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-127.log",
+  "build": 127,
+  "app": "TestBuilds/ipad/127/GenErikDJ.app",
+  "appSHA256": "6cd91fc1b45d6dd1668f3768043baf0e8976186283471233fd6c762f40d71aeb",
+  "state": "ready",
+  "createdUTC": "2026-11-06T22:46:44.704260+00:00",
+  "requestIDs": [
+    "R64",
+    "R65"
+  ],
+  "deploymentStatus": "The signed app is ready. The Duo became unavailable during the build 126 analysis check.",
+  "focusedChecks": "The cue visibility, cue deletion and battery display tests passed. Two older screenshot checks failed before and after the cue change.",
+  "acceptance": [
+    "Use the flag to show and hide the pads and waveform markers on each deck.",
+    "Check the battery icon at 100% and below 10%. Check that the icon follows level changes while the app is open."
+  ],
+  "evidence": [
+    "TestBuilds/r64/red.log",
+    "TestBuilds/r64/focused.log",
+    "TestBuilds/r64/layout-baseline.log",
+    "TestBuilds/r65/red.log",
+    "TestBuilds/r65/focused.log",
+    "TestBuilds/r65/build.log"
+  ]
+}
