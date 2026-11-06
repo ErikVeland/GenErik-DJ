@@ -1160,28 +1160,50 @@ extension ReplicaView {
     }
 }
 
-@MainActor private struct BatteryReadout: View {
+@MainActor struct BatteryReadout: View {
+    #if os(iOS)
+        @Environment(\.scenePhase) private var scenePhase
+        @State private var level: Float = -1
+    #endif
+
     var body: some View {
         #if os(iOS)
-            TimelineView(.periodic(from: .now, by: 60)) { _ in
-                let level = Self.level()
-                if level >= 0 {
+            HStack(spacing: 0) {
+                if let reading = Self.presentation(for: level) {
                     HStack(spacing: 5) {
-                        Image(systemName: "battery.75percent")
-                        Text("\(Int((level * 100).rounded()))%").monospacedDigit()
+                        Image(systemName: reading.symbol)
+                            .foregroundStyle(reading.isLow ? PerformancePalette.red : PerformancePalette.text)
+                            .accessibilityHidden(true)
+                        Text("\(reading.percent)%").monospacedDigit()
                     }.padding(.horizontal, 14).overlay(alignment: .leading) { Divider().frame(height: 22) }
                 }
+            }.onAppear {
+                UIDevice.current.isBatteryMonitoringEnabled = true
+                level = UIDevice.current.batteryLevel
+            }.onReceive(
+                NotificationCenter.default.publisher(for: UIDevice.batteryLevelDidChangeNotification)
+                    .receive(on: RunLoop.main)
+            ) { _ in
+                level = UIDevice.current.batteryLevel
+            }.onChange(of: scenePhase) { _, phase in
+                if phase == .active { level = UIDevice.current.batteryLevel }
             }
         #else
             EmptyView()
         #endif
     }
-    #if os(iOS)
-        static func level() -> Float {
-            UIDevice.current.isBatteryMonitoringEnabled = true
-            return UIDevice.current.batteryLevel
+    static func presentation(for level: Float) -> (percent: Int, symbol: String, isLow: Bool)? {
+        guard (0...1).contains(level) else { return nil }
+        let percent = Int((level * 100).rounded())
+        let fill = switch percent {
+        case 100: 100
+        case 63...: 75
+        case 38...: 50
+        case 1...: 25
+        default: 0
         }
-    #endif
+        return (percent, "battery.\(fill)percent", percent < 10)
+    }
 }
 
 @MainActor private struct DeckHeader: View {

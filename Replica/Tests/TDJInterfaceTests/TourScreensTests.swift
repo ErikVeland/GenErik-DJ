@@ -51,6 +51,17 @@ import Testing
         ])
 }
 
+@Test @MainActor func batteryShowsFullAndOnlyWarnsBelowTenPercent() throws {
+    let full = try #require(BatteryReadout.presentation(for: 1))
+    #expect(full.percent == 100 && full.symbol == "battery.100percent")
+    #expect(!full.isLow)
+    let low = try #require(BatteryReadout.presentation(for: 0.09))
+    #expect(low.percent == 9 && low.isLow)
+    #expect(BatteryReadout.presentation(for: 0.10)?.isLow == false)
+    #expect(BatteryReadout.presentation(for: 0.50)?.symbol == "battery.50percent")
+    #expect(BatteryReadout.presentation(for: -1) == nil)
+}
+
 @Test @MainActor func playbackSettingsSetDefaultLoopSizeAndOffAirLoadingIsEnforced() async throws {
     let (model, root, track) = try await clockModel()
     defer {

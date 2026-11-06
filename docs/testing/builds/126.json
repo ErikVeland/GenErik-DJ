@@ -9,6 +9,10 @@
     {
       "request": "R64",
       "text": "The Cues button does not hide or show cues. Keep cues hidden until the user taps the flag."
+    },
+    {
+      "request": "R65",
+      "text": "Show a full battery at 100%. Update the icon as the level changes. Use red below 10%."
     }
   ],
   "log": "TestBuilds/ipad/build-126.log",
