@@ -26,7 +26,6 @@
         model.previewing.insert(deck)
         let keys = [
             DeckToolSettings.cueButton, DeckToolSettings.headphoneButton, DeckToolSettings.tempoFader,
-            DeckToolSettings.hotcuePads,
         ]
         let previous = keys.map { UserDefaults.standard.object(forKey: $0) }
         defer {
@@ -39,6 +38,7 @@
             }
         }
         for key in keys { UserDefaults.standard.set(true, forKey: key) }
+        model.toggleHotcuePads(deck: deck)
         let panels = DeckPanelPresentation()
         panels.configure(width: width, portrait: width < 800, handleExtent: 12)
         panels.setTrackAvailable(true)

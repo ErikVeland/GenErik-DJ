@@ -28,13 +28,56 @@
         return (model, root, track)
     }
 
+    @Test @MainActor func deckFlagIsTheOnlyWayToShowSavedHotcues() async throws {
+        let (model, root, track) = try await presentationFixture()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let legacyKey = "deckTools.hotcuePads"
+        let previous = UserDefaults.standard.object(forKey: legacyKey)
+        defer { UserDefaults.standard.set(previous, forKey: legacyKey) }
+        UserDefaults.standard.set(true, forKey: legacyKey)
+        let frame = track.analysis.sampleRate
+        let cue = PerformanceCue(frame: frame, sectionName: "Cue fixture", sectionColour: 0xFF00FF)
+        model.performance.cues[track.id] = [0: cue]
+        model.viewport[.a] = frame
+        model.viewport[.b] = frame
+        let panels = DeckPanelPresentation()
+        panels.configure(width: 1004, portrait: false, handleExtent: 12)
+        panels.setTrackAvailable(true)
+
+        func cuePixels(_ deck: DeckID) throws -> Int {
+            let renderer = ImageRenderer(
+                content: DeckView(model: model, deck: deck, panels: panels).frame(width: 1004, height: 344)
+                    .environment(\.colorScheme, .dark))
+            let bitmap = NSBitmapImageRep(cgImage: try #require(renderer.cgImage))
+            var count = 0
+            for y in stride(from: 0, to: bitmap.pixelsHigh, by: 4) {
+                for x in stride(from: 0, to: bitmap.pixelsWide, by: 4) {
+                    if let colour = bitmap.colorAt(x: x, y: y)?.usingColorSpace(.deviceRGB),
+                        colour.redComponent > 0.5, colour.greenComponent < 0.15, colour.blueComponent > 0.5
+                    {
+                        count += 1
+                    }
+                }
+            }
+            return count
+        }
+
+        #expect(try cuePixels(.a) == 0)
+        model.toggleHotcuePads(deck: .a)
+        #expect(try cuePixels(.a) > 0)
+        #expect(try cuePixels(.b) == 0)
+        model.toggleHotcuePads(deck: .a)
+        #expect(try cuePixels(.a) == 0)
+        #expect(model.performance.cues[track.id]?[0] == cue)
+        await model.finishForShutdown()
+    }
+
     @Test(arguments: [CGSize(width: 1112, height: 774), CGSize(width: 834, height: 1052)]) @MainActor
     func minimisedBrowserKeepsBothDecksAndOptionalControlsVisible(size: CGSize) async throws {
         let (model, root, _) = try await presentationFixture()
         defer { try? FileManager.default.removeItem(at: root) }
         let keys = [
             DeckToolSettings.cueButton, DeckToolSettings.headphoneButton, DeckToolSettings.tempoFader,
-            DeckToolSettings.hotcuePads,
         ]
         let previous = keys.map { UserDefaults.standard.object(forKey: $0) }
         defer {
@@ -47,6 +90,8 @@
             }
         }
         for key in keys { UserDefaults.standard.set(true, forKey: key) }
+        model.toggleHotcuePads(deck: .a)
+        model.toggleHotcuePads(deck: .b)
         model.browserVisible = true
         let host = NSHostingView(rootView: ReplicaView(model: model).frame(width: size.width, height: size.height))
         let window = NSWindow(

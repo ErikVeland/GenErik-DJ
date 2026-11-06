@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 37.31,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R64",
+      "text": "The Cues button does not hide or show cues. Keep cues hidden until the user taps the flag."
+    }
+  ],
   "log": "TestBuilds/ipad/build-126.log",
   "build": 126,
   "app": "TestBuilds/ipad/126/GenErikDJ.app",

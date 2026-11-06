@@ -15,7 +15,6 @@ struct PlaybackSettings: View {
     @AppStorage(DeckToolSettings.tempoFader) private var tempoFader = false
     @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
     @AppStorage(DeckToolSettings.headphoneButton) private var headphoneButton = false
-    @AppStorage(DeckToolSettings.hotcuePads) private var hotcuePads = false
     @AppStorage(DeckToolSettings.vinylStop) private var vinylStop = false
     @AppStorage(DeckToolSettings.vinylStopDuration) private var vinylStopDuration = 1.0
     @AppStorage(DeckToolSettings.largePanelHandles) private var largePanelHandles = false
@@ -39,7 +38,6 @@ struct PlaybackSettings: View {
             Toggle("Tempo fader", isOn: $tempoFader)
             Toggle("CUE button", isOn: $cueButton)
             Toggle("Headphone button", isOn: $headphoneButton)
-            Toggle("Hotcue pads", isOn: $hotcuePads)
             Toggle("Vinyl stop", isOn: $vinylStop)
             if vinylStop {
                 HStack {
@@ -74,7 +72,6 @@ enum DeckToolSettings {
     static let tempoFader = "deckTools.tempoFader"
     static let cueButton = "deckTools.cueButton"
     static let headphoneButton = "deckTools.headphoneButton"
-    static let hotcuePads = "deckTools.hotcuePads"
     static let vinylStop = "deckTools.vinylStop"
     static let vinylStopDuration = "deckTools.vinylStopDuration"
 }

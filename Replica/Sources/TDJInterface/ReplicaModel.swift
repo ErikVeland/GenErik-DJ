@@ -86,7 +86,7 @@ import TDJCore
     public internal(set) var lastLoadedDeck: DeckID?
     /// Prep list (Queue): browser entry IDs in play order, saved in the workspace.
     public internal(set) var queuedIDs: [String] = []
-    /// Decks showing the hotcue pad row (the flag button), and decks whose pads delete instead of set.
+    /// Decks that show hotcues, and decks whose pads are in delete mode.
     public var hotcuePadsVisible: Set<DeckID> = []
     public var hotcueDeleting: Set<DeckID> = []
     /// Grid edit lock and tap mode, per deck.

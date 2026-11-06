@@ -6,6 +6,7 @@ struct PerformanceOverlay: View {
     let deck: DeckID
     let span: Double
     var body: some View {
+        let showsHotcues = model.hotcuePadsVisible.contains(deck)
         Canvas { context, size in
             let left = (model.viewport[deck] ?? 0) - span / 2
             if let state = model.playbackSnapshot?[deck], state.loopEnabled {
@@ -15,7 +16,7 @@ struct PerformanceOverlay: View {
                 context.fill(Path(region), with: .color(.green.opacity(0.13)))
                 context.stroke(Path(region), with: .color(.green.opacity(0.8)), lineWidth: 1)
             }
-            if let track = model.track(deck), let cues = model.performance.cues[track.id] {
+            if showsHotcues, let track = model.track(deck), let cues = model.performance.cues[track.id] {
                 for slot in cues.keys.sorted() {
                     guard let cue = cues[slot] else { continue }
                     let x = (cue.frame - left) / max(1, span) * size.width

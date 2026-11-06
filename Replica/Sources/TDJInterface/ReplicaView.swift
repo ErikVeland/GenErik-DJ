@@ -349,7 +349,6 @@ private struct DeckPanelHorizontalBounds: Shape {
     @AppStorage(DeckToolSettings.tempoFader) private var tempoFader = false
     @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
     @AppStorage(DeckToolSettings.headphoneButton) private var headphoneButton = false
-    @AppStorage(DeckToolSettings.hotcuePads) private var hotcuePads = false
     private var selection: MusicLibraryItem? { model.pendingNativeSelection[deck] }
     private var track: Track? { selection == nil ? model.track(deck) : nil }
     private var editing: Bool { selection == nil && model.editing.contains(deck) }
@@ -371,9 +370,10 @@ private struct DeckPanelHorizontalBounds: Shape {
     }
     @ViewBuilder func content(size: CGSize) -> some View {
         let zoom = waveformZoom
+        let showsHotcues = track != nil && model.hotcuePadsVisible.contains(deck)
         let layout = AdaptiveDeckGeometry(
             height: max(0, size.height - 8),
-            hotcues: (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil,
+            hotcues: showsHotcues,
             compactControls: track != nil || selection != nil, editing: editing)
         let availableWidth = max(0, size.width - (tempoFader && track != nil ? 68 : 0))
         let sizes = panels.geometry(width: availableWidth, height: layout.waveformHeight, inlineControls: true)
@@ -448,7 +448,7 @@ private struct DeckPanelHorizontalBounds: Shape {
                                 availableWidth: sizes.mainWidth)
                         }
                     }
-                    if (hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil {
+                    if showsHotcues {
                         HotcuePadRow(model: model, deck: deck).frame(height: layout.hotcueHeight).clipped()
                             .allowsHitTesting(layout.hotcueHeight >= 44).protectsFrontDeckSwipe()
                     }
@@ -517,8 +517,7 @@ private struct DeckPanelHorizontalBounds: Shape {
             if sectionPanel.isPresented { sectionPanel.setPresented(false) }
         }.onChange(of: panels.spaceRequestID) { _, _ in
             if panels.spaceRequestKind != .extra && layout.waveformHeight < 184 {
-                requestPerformanceSpace(
-                    260 + (((hotcuePads || model.hotcuePadsVisible.contains(deck)) && track != nil) ? 56 : 0))
+                requestPerformanceSpace(260 + (showsHotcues ? 56 : 0))
             }
         }
     }
@@ -662,7 +661,11 @@ struct DeckRailButtonStyle: ButtonStyle {
                 ArrangementWaveformOverlay(
                     model: model, deck: deck, track: track, center: Double(track.analysis.frameCount) / 2,
                     span: Double(track.analysis.frameCount), overview: true)
-            }.overlay { OverviewCueFlags(model: model, track: track) }.overlay(alignment: .leading) {
+            }.overlay {
+                if model.hotcuePadsVisible.contains(deck) {
+                    OverviewCueFlags(model: model, track: track)
+                }
+            }.overlay(alignment: .leading) {
                 StripeViewportMarker(
                     model: model, deck: deck, width: geometry.size.width, frameCount: Double(track.analysis.frameCount),
                     duration: track.analysis.duration, visibleSeconds: visibleSeconds)
