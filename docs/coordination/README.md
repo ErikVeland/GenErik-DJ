@@ -8,7 +8,7 @@ Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace th
 
 Latest iPad candidate is **build 124**, from `main` at `a7acf07d9`. The A10X iPad Pro launched the new analyser and saved a 71.0058 BPM grid for 3CAG. All 56 reference bars are within 20.5 ms of the fitted grid. The iPad kept the manual grid and key and saved sections and automatic cue candidates. [Build record](../testing/builds/124.json).
 
-Latest Duo candidate is **build 126**, from `main` at `c4202fbe8`. It saves the beat grid and key before it analyses structure and automatic hot cues. The Duo installed the app. The first launch request timed out. Open GenErik DJ on the unlocked Duo to verify progress. [Build record](../testing/builds/126.json).
+Latest Duo candidate is **build 126**, from `main` at `c4202fbe8`. It saves the beat grid and key before it analyses structure and automatic hot cues. On the Duo, the first check advanced the counter to 1 of 376 after the 13-second “Catchphrases”. The app saved six matching results during the launch check. [Build record](../testing/builds/126.json).
 
 **Build 125** is signed and ready to install. It adds background library analysis on supported systems. The test iPad and Duo were unavailable. Verify system scheduling and playback on the devices. [Build record](../testing/builds/125.json).
 

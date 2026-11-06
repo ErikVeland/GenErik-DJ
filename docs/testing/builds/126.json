@@ -10,7 +10,7 @@
   "build": 126,
   "app": "TestBuilds/ipad/126/GenErikDJ.app",
   "appSHA256": "e4ea07bcee6cece44b1d4bb3b7aa2e6a0e78a2b6a406d8c8acc674c89782d709",
-  "state": "installed",
+  "state": "testing",
   "createdUTC": "2026-11-06T09:15:40.146641+00:00",
   "installedUTC": "2026-11-06T09:16:50.399955+00:00",
   "requestIDs": [
@@ -18,7 +18,7 @@
   ],
   "device": "GenErik Duo",
   "previousDeviceBuild": 124,
-  "launchVerification": "The Duo reports build 126 installed. The first launch request timed out. The Duo was locked at the next check.",
+  "launchVerification": "The first launch request timed out. The Duo was locked at the next check. After Erik unlocked it, the launch retry succeeded and the queue advanced.",
   "focusedChecks": "Six tests passed across eleven cases. They cover short-track order, the two passes, progress, cache reuse, deck loading and background expiry.",
   "evidence": [
     "TestBuilds/r63/red.log",
@@ -26,7 +26,21 @@
     "TestBuilds/r63/duo-126-cycle.log",
     "TestBuilds/r63/duo-126-app.log",
     "TestBuilds/r63/duo-lock-installed.log",
-    "TestBuilds/r63/duo-126-analysis.log"
+    "TestBuilds/r63/duo-126-analysis.log",
+    "TestBuilds/r63/duo-126-launch-retry.log",
+    "TestBuilds/r63/duo-126-live-analysis.log",
+    "TestBuilds/r63/duo-126-live-library.json"
   ],
-  "acceptance": "Open GenErik DJ on the unlocked Duo. Verify launch progress, full-library completion and playback."
+  "acceptance": "Full-library completion, structure and cue results, and playback acceptance remain open.",
+  "duoVerification": {
+    "firstProgressUTC": "2026-11-06T09:24:16Z",
+    "playableTracksQueued": 188,
+    "firstCompletedCheck": 1,
+    "totalChecks": 376,
+    "firstTrack": "Catchphrases",
+    "firstTrackDurationSeconds": 12.907,
+    "newMatchingResultsSaved": 6,
+    "libraryRevisionBefore": 216,
+    "libraryRevisionObserved": 222
+  }
 }
