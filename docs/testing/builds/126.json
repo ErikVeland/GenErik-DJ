@@ -1,0 +1,32 @@
+{
+  "notes": "R63 saves matching data before structure and hot cues, checks shorter tracks first, and counts each completed check.",
+  "sourceCommit": "c4202fbe858e47ccc4b87d5081d284f641a19934",
+  "sourceSHA256": "c26f1622eb39230a699da096199f21ab30f6b37e77f481dfacc35ecfd71d92c9",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 37.31,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-126.log",
+  "build": 126,
+  "app": "TestBuilds/ipad/126/GenErikDJ.app",
+  "appSHA256": "e4ea07bcee6cece44b1d4bb3b7aa2e6a0e78a2b6a406d8c8acc674c89782d709",
+  "state": "installed",
+  "createdUTC": "2026-11-06T09:15:40.146641+00:00",
+  "installedUTC": "2026-11-06T09:16:50.399955+00:00",
+  "requestIDs": [
+    "R63"
+  ],
+  "device": "GenErik Duo",
+  "previousDeviceBuild": 124,
+  "launchVerification": "The Duo reports build 126 installed. The first launch request timed out. The Duo was locked at the next check.",
+  "focusedChecks": "Six tests passed across eleven cases. They cover short-track order, the two passes, progress, cache reuse, deck loading and background expiry.",
+  "evidence": [
+    "TestBuilds/r63/red.log",
+    "TestBuilds/r63/focused.log",
+    "TestBuilds/r63/duo-126-cycle.log",
+    "TestBuilds/r63/duo-126-app.log",
+    "TestBuilds/r63/duo-lock-installed.log",
+    "TestBuilds/r63/duo-126-analysis.log"
+  ],
+  "acceptance": "Open GenErik DJ on the unlocked Duo. Verify launch progress, full-library completion and playback."
+}
