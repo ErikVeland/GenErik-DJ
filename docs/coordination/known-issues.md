@@ -7,6 +7,7 @@
 | R12 | Mixed In Key native exports and Traktor Pro write-back need verified format/identity mappings and preview/backup checks. |
 | R14/R23 | Controller profiles and bridge code need physical connection, calibration, routing and feedback acceptance. Original Z1 is first. |
 | R17 | The stem model is bundled. Inference, cached stem playback and mixer controls are not implemented. A10X cost is unknown. |
+| R73/R85 | The legacy launch-reanalysis test expects valid saved grids and keys to be replaced. Nine assertions fail across three cases on both `aaab02b8c` and R85. Reconcile this test with the R73 reuse policy separately. Evidence: `TestBuilds/r85/`. |
 | R19 | Eighteen private candidates remain preserved in the external archive. Their meaningful differences still need source review. |
 | R28/R39/R40/R42 | Front/inside phone layouts and shortcuts need physical acceptance. iPad layout stays separate. |
 

@@ -122,3 +122,31 @@ Echoes saved at 18:54:33 Brisbane time, about 7 minutes 22 seconds after its sou
 The News and Echoes completed with a beat-grid review notice. Neither is an accuracy success.
 All device operations were read-only. The app continued without a restart or source change.
 The measurement log, report, file metadata and logs remain in `TestBuilds/r78/`. Preserve the gig preparation hold.
+
+## R85: finish shorter-track structure before long mixes
+
+Erik reported phase 1 still at 5737 on the last installed iPad build, assumed to be 142.
+The old queue sorted by duration but required every phase 1 job to finish before phase 2 could start.
+
+The new queue runs both passes for tracks up to 19 minutes before either pass for longer mixes.
+A Music catalog duration over 19 minutes keeps a mix in the later group, even when its saved analysis is shorter.
+Unknown durations stay at the end of the shorter-track group. The queue still gives loaded tracks priority within each group.
+Explicit deck preparation keeps its separate priority over library analysis.
+
+The badge counts the current group. The later group is labelled “Mixes over 19 min”.
+iPadOS background progress still counts all jobs in both groups. Saved results are reused after a restart.
+The change does not alter the analyser, saved preparation, or playback cancellation rules.
+
+Pre-update device logs and the catalog snapshot are preserved under `TestBuilds/r85/`.
+The log confirms the old global phase order. It does not identify the live operation behind the reported counter.
+The iPad check must confirm that shorter-track phase 2 advances before the long mixes start.
+Full-library completion, audible continuity and touch response remain Erik's checks.
+
+Eight focused host tests passed across 15 cases. They cover the 19-minute boundary, empty and all-mix queues,
+loaded managed/native mixes, saved excerpt duration, phase order, progress totals, cancellation and saved-result reuse.
+
+The older `launchReanalysesSavedTracksAndResumesWithoutRepeatingCompletedWork` test still has nine failed assertions across three cases.
+The same failures reproduce on unchanged `main` at `aaab02b8c`. The test expects legacy analysis to be replaced,
+which conflicts with the current policy that reuses complete grids and keys. The test remains unchanged.
+The first baseline attempt could not compile the new queue tests against the old API. Both baseline attempts are preserved.
+Focused logs, source hashes and failure evidence remain under `TestBuilds/r85/`.

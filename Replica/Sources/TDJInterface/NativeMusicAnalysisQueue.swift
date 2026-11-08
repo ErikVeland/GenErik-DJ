@@ -2,6 +2,28 @@ import Foundation
 import TDJCore
 
 final class NativeMusicAnalysisQueue: Sendable {
+    enum Pass: CaseIterable, Sendable {
+        case matching, structure
+
+        var title: String {
+            switch self {
+            case .matching: "Analysing beats and key"
+            case .structure: "Analysing structure and cues"
+            }
+        }
+    }
+
+    struct Batch: Sendable {
+        let pass: Pass
+        let range: Range<Int>
+        let isMix: Bool
+
+        var title: String {
+            let prefix = isMix ? "Mixes over 19 min · " : ""
+            return "\(prefix)Pass \(pass == .matching ? 1 : 2) of 2 · \(pass.title)"
+        }
+    }
+
     enum Job: Sendable {
         case managed(Track)
         case native(MusicLibraryItem, Track?)
@@ -23,10 +45,20 @@ final class NativeMusicAnalysisQueue: Sendable {
         var duration: Double {
             switch self {
             case .managed(let track):
-                return track.analysis.duration
+                let measured = track.analysis.duration
+                return measured.isFinite && measured > 0 ? measured : .infinity
             case .native(let item, let track):
                 if let measured = track?.analysis.duration, measured.isFinite, measured > 0 { return measured }
                 return item.duration.isFinite && item.duration > 0 ? item.duration : .infinity
+            }
+        }
+
+        var isMix: Bool {
+            switch self {
+            case .managed(let track): NativeAnalysisPlan.isMix(duration: track.analysis.duration)
+            case .native(let item, let track):
+                NativeAnalysisPlan.isMix(duration: item.duration)
+                    || NativeAnalysisPlan.isMix(duration: track?.analysis.duration)
             }
         }
 
@@ -45,6 +77,7 @@ final class NativeMusicAnalysisQueue: Sendable {
         let mediaDirectory: URL
         var items: [Job] = []
         var position = 0
+        var end = 0
     }
 
     private let value: BackgroundWorkValue<State>
@@ -56,7 +89,7 @@ final class NativeMusicAnalysisQueue: Sendable {
             State(catalog: catalog, tracks: tracks, loaded: loaded, mediaDirectory: mediaDirectory), worker: worker)
     }
 
-    func prepare() async -> Int {
+    func prepare() async -> [Batch] {
         await value.update { state in
             let managed = state.tracks.filter {
                 $0.nativeLibraryOnly != true
@@ -71,26 +104,35 @@ final class NativeMusicAnalysisQueue: Sendable {
                 jobs.append(.native(entry.item, entry.track))
             }
             state.items = jobs.enumerated().sorted { a, b in
+                if a.element.isMix != b.element.isMix { return !a.element.isMix }
                 let loadedA = a.element.trackID.map(state.loaded.contains) ?? false
                 let loadedB = b.element.trackID.map(state.loaded.contains) ?? false
                 if loadedA != loadedB { return loadedA }
                 if a.element.duration != b.element.duration { return a.element.duration < b.element.duration }
                 return a.offset < b.offset
             }.map(\.element)
-            return state.items.count
-        } ?? 0
+            let split = state.items.firstIndex(where: \.isMix) ?? state.items.count
+            return [0..<split, split..<state.items.count].filter { !$0.isEmpty }.flatMap { range in
+                Pass.allCases.map { Batch(pass: $0, range: range, isMix: range.lowerBound == split) }
+            }
+        } ?? []
+    }
+
+    func begin(_ batch: Batch) async {
+        await value.update {
+            $0.position = batch.range.lowerBound
+            $0.end = batch.range.upperBound
+        }
     }
 
     func next() async -> Job? {
         await value.update {
-            guard $0.position < $0.items.count else { return nil as Job? }
+            guard $0.position < $0.end else { return nil as Job? }
             let item = $0.items[$0.position]
             $0.position += 1
             return item
         } ?? nil
     }
-
-    func rewind() async { await value.update { $0.position = 0 } }
 
     @MainActor func finish() async { await value.clear() }
 }

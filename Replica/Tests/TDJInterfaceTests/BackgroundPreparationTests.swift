@@ -151,6 +151,57 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     return (model, workspace)
 }
 
+@Test @MainActor func shortTrackStructureCompletesBeforeLongMixMatching() async throws {
+    let short = clockItem("short-before-mix", duration: 16)
+    let mix = MusicLibraryItem(
+        source: .init(platform: .iosMusic, persistentID: "long-mix"), title: "Long mix", artist: "Fixture",
+        duration: 1141, assetURL: clockFixture().deletingLastPathComponent().appendingPathComponent("clock-b-128.wav"),
+        availability: .available)
+    let provider = ClockMusicLibrary([mix, short])
+    let workspace = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: workspace) }
+    let model = try ReplicaModel(
+        root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    var reads: [String] = []
+    provider.beforePreparation = { item in
+        reads.append(item.id)
+        #expect(model.analysisProgress?.total == 1)
+        if item.id == mix.id {
+            let prepared = try #require(model.preparedTrack(for: short))
+            let cache = try JSONDecoder().decode(
+                ArrangementCache.self, from: Data(contentsOf: model.arrangementURL(prepared.id)))
+            #expect(cache.automaticCues != nil)
+            #expect(model.analysisProgress?.title.hasPrefix("Mixes over 19 min · Pass ") == true)
+        }
+    }
+    var progress: [Int] = []
+    let granted = model.beginBackgroundLibraryAnalysis { done, total in
+        if total > 0 {
+            #expect(total == 4)
+            progress.append(done)
+        }
+    }
+    let id = try #require(granted)
+    #expect(await model.runBackgroundLibraryAnalysis(id))
+    #expect(reads == [short.id, short.id, mix.id, mix.id])
+    #expect(progress == [0, 1, 2, 3, 4])
+    let attempts = try measuredAttempts(workspace)
+    #expect(attempts.map(\.jobID) == [short.id, short.id, mix.id, mix.id])
+    #expect(attempts.map(\.pass) == ["matching", "structure", "matching", "structure"])
+    if let result = model.analysisProgress { #expect(result.done == 2 && result.total == 2) }
+    provider.beforePreparation = nil
+    model.endBackgroundLibraryAnalysis(id)
+    await model.finishForShutdown()
+    let previousReads = provider.preparations
+    let reopened = try ReplicaModel(
+        root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    await reopened.openNativeMusicLibrary()
+    await reopened.flushNativeMusicAnalysis()
+    #expect(provider.preparations == previousReads)
+    #expect(!reopened.libraryAnalysisNeedsWork)
+    await reopened.finishForShutdown()
+}
+
 @Test @MainActor func analyserStartsWhenTheLibraryOpensAndGivesBPMs() async throws {
     let item = clockItem("4660", duration: NativeAnalysisPlan.mixThresholdSeconds + 1)
     let (model, workspace) = try preparationModel([item])
