@@ -31,6 +31,21 @@ private enum LibraryAnalysisPass: CaseIterable {
     }
 }
 
+private enum LibraryMatchingSource {
+    case traktor, saved, fresh, failed
+
+    init(reusing track: Track) {
+        guard let original = track.traktorPreparation?.normalized, let grid = original.grid, let key = original.key,
+            track.grid == grid
+        else {
+            self = .saved
+            return
+        }
+        let decision = track.keyDecision
+        self = decision.authority == .traktor && decision.key == key ? .traktor : .saved
+    }
+}
+
 extension ReplicaModel {
     public func loadLibraryEntry(_ entry: LibraryBrowserEntry, deck: DeckID) {
         if BrowserSettings.onlyLoadToOffAirDecks, controlDisplay[deck].phase.active {
@@ -181,6 +196,16 @@ extension ReplicaModel {
                 guard !Task.isCancelled, libraryAnalysisOwner == token else { break }
                 let passStart = state.analysisChecked
                 let title = "Pass \(index + 1) of \(passes.count) · \(pass.title)"
+                var matchingCounts: [LibraryMatchingSource: Int] = [:]
+                @MainActor func logMatchingSummary() {
+                    logAnalysis(
+                        "Pass 1 summary \(state.analysisChecked - passStart) of \(count) · "
+                        + "Traktor \(matchingCounts[.traktor, default: 0]), "
+                        + "saved GenErik \(matchingCounts[.saved, default: 0]), "
+                        + "fresh analysis \(matchingCounts[.fresh, default: 0]), "
+                        + "failed \(matchingCounts[.failed, default: 0])")
+                }
+                defer { if pass == .matching { logMatchingSummary() } }
                 analysisProgress = .init(
                     done: 0, total: count, title: title, isLibraryAnalysis: true)
                 while let job = await queue.next() {
@@ -191,10 +216,12 @@ extension ReplicaModel {
                     }
                     musicLibraryProgress = "\(pass.title) for \(job.title)"
                     let issue: String?
+                    var matchingSource = LibraryMatchingSource.failed
                     do {
                         switch pass {
                         case .matching:
-                            let track = try await prepareLibraryMatching(job)
+                            let (track, source) = try await prepareLibraryMatching(job)
+                            matchingSource = source
                             matched[job.id] = track.id
                             issue = libraryMatchingIssue(track)
                         case .structure:
@@ -218,6 +245,10 @@ extension ReplicaModel {
                     musicLibraryNotices.setFailure(review[job.id], for: job.id)
                     state.analysisChecked += 1
                     let checked = state.analysisChecked - passStart
+                    if pass == .matching {
+                        matchingCounts[matchingSource, default: 0] += 1
+                        if checked.isMultiple(of: 100), checked < count { logMatchingSummary() }
+                    }
                     analysisProgress?.done = checked
                     state.backgroundRun?.report(state.analysisChecked, total)
                     if checked == 1 {
@@ -260,27 +291,28 @@ extension ReplicaModel {
         return nil
     }
 
-    private func prepareLibraryMatching(_ job: NativeMusicAnalysisQueue.Job) async throws -> Track {
+    private func prepareLibraryMatching(_ job: NativeMusicAnalysisQueue.Job) async throws
+        -> (Track, LibraryMatchingSource)
+    {
         switch job {
         case .managed(let track):
             let current = library.track(id: track.id) ?? track
-            guard current.needsCurrentLibraryAnalysis else { return current }
+            guard current.needsCurrentLibraryAnalysis else { return (current, .init(reusing: current)) }
             let snapshot = try await service.reanalyze(trackID: track.id)
             adoptLibrary(snapshot)
             guard let updated = snapshot.track(id: track.id) else { throw CoreError.staleContext }
-            return updated
+            return (updated, .fresh)
         case .native(let item, let known):
             var track = known.flatMap { library.track(id: $0.id) }
             if track == nil { track = await preparedNativeTrack(item) }
-            if let track, !track.needsCurrentLibraryAnalysis { return track }
+            if let track, !track.needsCurrentLibraryAnalysis { return (track, .init(reusing: track)) }
             let sourceChanged = track?.nativeSourceNeedsAnalysis == true
             return try await withNativeAudio(item) { prepared in
-                let snapshot = try await self.service.importAudio(
-                    url: prepared.url, musicLibrary: prepared.metadata, copyMedia: false,
-                    forceFullAnalysis: sourceChanged)
+                let (snapshot, reusedTraktor) = try await self.service.prepareNativeLibraryMatching(
+                    url: prepared.url, musicLibrary: prepared.metadata, sourceChanged: sourceChanged)
                 self.adoptLibrary(snapshot)
                 guard let updated = await self.preparedNativeTrack(item) else { throw MusicLibraryError.missingAudio }
-                return updated
+                return (updated, reusedTraktor ? .traktor : .fresh)
             }
         }
     }

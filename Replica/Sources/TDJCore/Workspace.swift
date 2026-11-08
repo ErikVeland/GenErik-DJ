@@ -335,6 +335,23 @@ public actor LibraryService {
         preservePreparationFor protectedTracks: Set<String> = [], copyMedia: Bool = true,
         forceFullAnalysis: Bool = false, quickLoad: Bool = false
     ) async throws -> LibrarySnapshot {
+        try await importAudioReportingReuse(
+            url: url, musicLibrary: musicLibrary, preservePreparationFor: protectedTracks,
+            copyMedia: copyMedia, forceFullAnalysis: forceFullAnalysis, quickLoad: quickLoad).snapshot
+    }
+
+    public func prepareNativeLibraryMatching(
+        url: URL, musicLibrary: MusicLibraryImportMetadata, sourceChanged: Bool
+    ) async throws -> (snapshot: LibrarySnapshot, reusedTraktor: Bool) {
+        try await importAudioReportingReuse(
+            url: url, musicLibrary: musicLibrary, preservePreparationFor: [], copyMedia: false,
+            forceFullAnalysis: sourceChanged, quickLoad: false)
+    }
+
+    private func importAudioReportingReuse(
+        url: URL, musicLibrary: MusicLibraryImportMetadata?, preservePreparationFor protectedTracks: Set<String>,
+        copyMedia: Bool, forceFullAnalysis: Bool, quickLoad: Bool
+    ) async throws -> (snapshot: LibrarySnapshot, reusedTraktor: Bool) {
         try Task.checkCancellation()
         if !quickLoad {
             do { _ = try await refreshTraktorReferences() } catch {
@@ -358,6 +375,8 @@ public actor LibraryService {
             }
         }
         try Task.checkCancellation()
+        let reusedTraktor = analysis.musicalAnalysisDeferred == true && original?.normalized.grid != nil
+            && original?.normalized.key != nil
         if let index = musicLibrary.flatMap({ metadata in
             library.tracks.firstIndex(where: {
                 $0.nativePlaybackIdentity != nil && $0.musicLibrarySources?.contains(metadata.source) == true
@@ -378,14 +397,16 @@ public actor LibraryService {
                 guard let current = library.tracks.firstIndex(where: { $0.id == existingID }) else {
                     throw CoreError.staleContext
                 }
-                return try commitExisting(
+                let snapshot = try commitExisting(
                     analysis: analysis, original: original, metadata: musicLibrary, index: current,
                     preservePreparation: protectedTracks.contains(analysis.contentSHA256),
                     managedMediaFilename: filename)
+                return (snapshot, reusedTraktor)
             }
-            return try commitExisting(
+            let snapshot = try commitExisting(
                 analysis: analysis, original: original, metadata: musicLibrary, index: index,
                 preservePreparation: protectedTracks.contains(analysis.contentSHA256))
+            return (snapshot, reusedTraktor)
         }
         let metadata = (try? await EmbeddedMetadata.read(url: url)) ?? EmbeddedMetadata()
         try Task.checkCancellation()
@@ -401,10 +422,11 @@ public actor LibraryService {
             $0.id == analysis.contentSHA256
                 || ($0.nativePlaybackIdentity != nil && $0.analysis.contentSHA256 == analysis.contentSHA256)
         }) {
-            return try commitExisting(
+            let snapshot = try commitExisting(
                 analysis: analysis, original: original, metadata: musicLibrary, index: index,
                 preservePreparation: protectedTracks.contains(analysis.contentSHA256),
                 managedMediaFilename: copyMedia ? filename : nil)
+            return (snapshot, reusedTraktor)
         }
         var changed = library
         var track = try Track(
@@ -429,7 +451,7 @@ public actor LibraryService {
         changed.tracks.append(track)
         changed.revision += 1
         library = try store.save(changed)
-        return library
+        return (library, reusedTraktor)
     }
 
     private func apply(_ original: ImportedTraktorPreparation, to track: inout Track, preservePreparation: Bool) {

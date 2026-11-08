@@ -100,6 +100,8 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     await model.openNativeMusicLibrary()
     await model.flushNativeMusicAnalysis()
     #expect(reads == [short.id, unknown.id, short.id])
+    let log = try String(contentsOf: workspace.appendingPathComponent("analysis.log"), encoding: .utf8)
+    #expect(log.contains("Pass 1 summary 2 of 2 · Traktor 0, saved GenErik 0, fresh analysis 2, failed 0"))
     let track = try #require(model.preparedTrack(for: short))
     let cache = try JSONDecoder().decode(ArrangementCache.self, from: Data(contentsOf: model.arrangementURL(track.id)))
     #expect(cache.automaticCues != nil)
@@ -145,6 +147,8 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     await reopened.openNativeMusicLibrary()
     await reopened.flushNativeMusicAnalysis()
     #expect(provider.preparations == 0)
+    let reuseLog = try String(contentsOf: workspace.appendingPathComponent("analysis.log"), encoding: .utf8)
+    #expect(reuseLog.contains("Pass 1 summary 1 of 1 · Traktor 0, saved GenErik 1, fresh analysis 0, failed 0"))
     reopened.performance.cues[track.id] = [0: .init(frame: 42)]
     reopened.loadNativeMusic(item, deck: .a)
     await reopened.flushWrites()
@@ -239,6 +243,8 @@ private func collectionXML(bpm: Int, persistentHex: String) -> Data {
     missing.preparation = Preparation()
     #expect(missing.needsCurrentLibraryAnalysis)
 
+    let log = try String(contentsOf: workspace.appendingPathComponent("analysis.log"), encoding: .utf8)
+    #expect(log.contains("Pass 1 summary 1 of 1 · Traktor 1, saved GenErik 0, fresh analysis 0, failed 0"))
     provider.beforePreparation = nil
     await model.finishForShutdown()
 }

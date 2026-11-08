@@ -9,6 +9,10 @@
     {
       "request": "R74",
       "text": "The keep-awake request applies specifically to GenErik Duo."
+    },
+    {
+      "request": "R75",
+      "text": "Pass 1 was still at 821. Log how many tracks used Traktor data, saved GenErik results or fresh analysis."
     }
   ],
   "log": "TestBuilds/ipad/build-134.log",
