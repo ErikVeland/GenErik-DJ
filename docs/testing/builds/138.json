@@ -1,0 +1,38 @@
+{
+  "notes": "R79 bounds Beat This on long mixes and requires a supported opening downbeat.",
+  "sourceCommit": "c1701269962a39bc46660ef81e98b42e2f9bdec2",
+  "sourceSHA256": "3e0f786cd182edb502702fb931f4a002f41245e7ee5496a09583bff48f38f237",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 56.5,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-138.log",
+  "build": 138,
+  "app": "TestBuilds/ipad/138/GenErikDJ.app",
+  "appSHA256": "7db212cd660cd28632a17d4070fd2b51605d01480bc483e2a852141383e04a04",
+  "state": "testing",
+  "createdUTC": "2026-11-08T09:02:57.725542+00:00",
+  "installedUTC": "2026-11-08T09:03:48.886159+00:00",
+  "launchedUTC": "2026-11-08T09:03:49.562172+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R79"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "previousDeviceBuild": 137,
+  "focusedChecks": "Four focused tests passed. They cover the long-mix window limit, supported opening downbeats, conflicting bar phase and the existing short-track fit. The Mac debug check stopped during full-file decode and produced no accuracy result.",
+  "evidence": [
+    "TestBuilds/r78/findings.json",
+    "TestBuilds/r78/red.log",
+    "TestBuilds/r79/focused.log",
+    "TestBuilds/r79/host-smoke.log",
+    "TestBuilds/r79/host-smoke-sample.txt",
+    "TestBuilds/r79/ipad-build.log",
+    "TestBuilds/r79/ipad-deploy.log"
+  ],
+  "acceptance": [
+    "Check the Pass 1 measurement log for Beat This window counts and inference time on a fresh long mix.",
+    "Listen to the opening downbeat and check the grid through later tempo changes.",
+    "Start playback during analysis. Check audio continuity and touch response."
+  ]
+}

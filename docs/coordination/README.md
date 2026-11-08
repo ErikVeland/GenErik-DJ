@@ -7,6 +7,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
 
+**Build 138** installed and launched on the A10X iPad Pro after Erik released the hold. Beat This uses up to 90 seconds on long mixes and requires a supported opening downbeat. Speed, accuracy and playback checks remain open. [Build record](../testing/builds/138.json).
+
 **Build 137** installed and launched on the A10X iPad Pro. Pass 1 reports Traktor grid only, key only and both separately. [Build record](../testing/builds/137.json).
 
 **Build 136** installed on the A10X iPad Pro, and iPadOS accepted launch. [Build record](../testing/builds/136.json). R76 adds the first measurement increment from Erik's analysis optimisation audit. It records stage timings, source/cache paths and interrupted attempts. Musical decisions remain unchanged. The [rollout record](analysis-optimisation.md) lists measurement limits, report commands and the remaining corpus, A10X and Traktor comparisons.
