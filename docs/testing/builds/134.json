@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 42.35,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R74",
+      "text": "The keep-awake request applies specifically to GenErik Duo."
+    }
+  ],
   "log": "TestBuilds/ipad/build-134.log",
   "build": 134,
   "app": "TestBuilds/ipad/134/GenErikDJ.app",
@@ -30,5 +35,18 @@
     "Leave GenErik DJ open on external power while analysis runs. Check that the screen stays awake past the usual Auto-Lock timeout.",
     "Unplug the iPad during analysis. Check that Auto-Lock resumes.",
     "Reconnect power and pause or finish analysis. Check that Auto-Lock resumes while the app stays open."
-  ]
+  ],
+  "duoDeployment": {
+    "device": "GenErik Duo",
+    "build": 134,
+    "state": "testing",
+    "installedUTC": "2026-11-08T07:08:54.820336+00:00",
+    "launchedUTC": "2026-11-08T07:08:55.424011+00:00",
+    "launchVerification": "iOS accepted the launch request on GenErik Duo.",
+    "evidence": "TestBuilds/r74/duo-134-cycle.log",
+    "acceptance": [
+      "Leave GenErik DJ open on external power during analysis. Check that the Duo stays awake past its Auto-Lock timeout.",
+      "Unplug the Duo or stop analysis. Check that Auto-Lock resumes."
+    ]
+  }
 }
