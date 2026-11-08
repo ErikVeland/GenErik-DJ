@@ -1,0 +1,12 @@
+{
+  "build": 141,
+  "state": "failed",
+  "requestIDs": [
+    "R82"
+  ],
+  "sourceCommit": "b8b1b409676530db5f18e3d6ab38a86ea902d63c",
+  "sourceSHA256": "0ad1a24ecf55b1bdaee4cc531c8d310359be48b6e8e76801ca6054f8fff9eaac",
+  "notes": "First native Z1 iPad compile failed. No app was installed.",
+  "log": "TestBuilds/ipad/build-141.log",
+  "failure": "Swift rejected capture of the non-Sendable Stream argument inside MainActor.assumeIsolated. The callback must pass only stream identity into the isolated handler."
+}

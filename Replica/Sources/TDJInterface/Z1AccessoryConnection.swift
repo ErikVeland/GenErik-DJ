@@ -108,11 +108,15 @@
         }
 
         nonisolated func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
-            MainActor.assumeIsolated { handle(aStream, event: eventCode) }
+            let identity = ObjectIdentifier(aStream)
+            MainActor.assumeIsolated { handle(identity, event: eventCode) }
         }
 
-        private func handle(_ stream: Stream, event: Stream.Event) {
-            guard let session, stream === session.inputStream || stream === session.outputStream else { return }
+        private func handle(_ identity: ObjectIdentifier, event: Stream.Event) {
+            guard let session,
+                identity == session.inputStream.map(ObjectIdentifier.init)
+                    || identity == session.outputStream.map(ObjectIdentifier.init)
+            else { return }
             if event.contains(.errorOccurred) || event.contains(.endEncountered) {
                 fail("The Z1 connection closed. Reconnect the Z1 to retry.")
                 return
