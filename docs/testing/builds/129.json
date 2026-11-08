@@ -1,0 +1,31 @@
+{
+  "notes": "R68 opens All Songs on the left and keeps recommendations in the right pane.",
+  "sourceCommit": "078c007ed5fabae4fec07b85c564ef12c1ec5d2d",
+  "sourceSHA256": "b101c43b2a146913f251f1c05144125327e946d78f1769d6bdf4e262fb48d2cf",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 38.03,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-129.log",
+  "build": 129,
+  "app": "TestBuilds/ipad/129/GenErikDJ.app",
+  "appSHA256": "e574a8202e4139307e6d149f3afb97b3e36d1283c14181e708743378c8619db6",
+  "state": "testing",
+  "createdUTC": "2026-11-08T04:40:26.336896+00:00",
+  "installedUTC": "2026-11-08T04:40:40.822452+00:00",
+  "launchedUTC": "2026-11-08T04:40:41.277856+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R68"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "previousDeviceBuild": 128,
+  "focusedChecks": "The browser source passed syntax checks. The signed iPad build installed and launched.",
+  "evidence": [
+    "TestBuilds/r68/ipad-cycle.log"
+  ],
+  "acceptance": [
+    "Open the library. Check that the left pane shows All Songs.",
+    "Tap the deck artwork. Check that Recommendations opens on the right and All Songs stays on the left."
+  ]
+}

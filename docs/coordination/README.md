@@ -6,6 +6,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**Build 129** installed and launched on the A10X iPad Pro. All Songs opens on the left. The deck shortcut opens Recommendations on the right. Erik checks both entry points. [Build record](../testing/builds/129.json).
+
 **Build 128** installed and launched on the A10X iPad Pro. Erik confirmed the master tempo reset. Library analysis paused at 389, then restarted at 14:37 Brisbane time after deck analysis finished. [Build record](../testing/builds/128.json).
 
 **Build 124** came from `main` at `a7acf07d9`. The A10X iPad Pro launched the new analyser and saved a 71.0058 BPM grid for 3CAG. All 56 reference bars are within 20.5 ms of the fitted grid. The iPad kept the manual grid and key and saved sections and automatic cue candidates. [Build record](../testing/builds/124.json).
