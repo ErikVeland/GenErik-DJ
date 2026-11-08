@@ -119,10 +119,10 @@ Interfaces: `LibraryAnalysisConditions(externalPower: Bool, thermalState: Proces
 
 ### Task 3: Signed test handover
 
-- [ ] Commit coherent code, tests and records on the feature branch. Merge into `main` before building.
-- [ ] Use `tools/ipad_test.py` for one incremental signed build and Duo installation.
-- [ ] Record the build number, source identity, failures and unverified device checks.
-- [ ] Commit and push the handover record. Stop device actions after launch.
+- [x] Commit coherent code, tests and records on the feature branch. Merge into `main` before building.
+- [x] Use `tools/ipad_test.py` for one incremental signed build and Duo installation.
+- [x] Record the build number, source identity, failures and unverified device checks.
+- [x] Commit and push the handover record. Stop device actions after launch.
 
 ## Decisions and remaining work
 
@@ -149,3 +149,7 @@ new tracks while waiting, source failures, saved-result reuse and foreground/bac
 They do not establish actual device power-event behaviour, analysis throughput or live audio/control performance.
 
 Final-source verification: ten focused tests passed across fifteen cases. The source digest is retained in `TestBuilds/r88/verification.json`.
+
+Build 149 installed on the Duo, and iOS accepted launch. The test and signed-build source digests match.
+No device actions followed. Erik checks physical power events, queue progress and playback. The iPad installation is unchanged.
+Automatic sharing acceptance will require compatible app versions, the same CloudKit environment and account, and exact audio matching on both devices.

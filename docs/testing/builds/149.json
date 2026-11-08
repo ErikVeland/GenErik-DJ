@@ -1,0 +1,46 @@
+{
+  "notes": "R88 first increment: check the whole library for beats and key before structure. Pause automatic structure without external power or at high thermal state. Deep ML profiles and automatic sharing remain open.",
+  "sourceCommit": "28932200abfc2314021b7acb7b47617541232ca7",
+  "sourceSHA256": "16376ad2c9e753149a3dbe3252422b16c88b5c4693626ed1df78cab2866c2bb8",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 39.48,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-149.log",
+  "build": 149,
+  "app": "TestBuilds/ipad/149/GenErikDJ.app",
+  "appSHA256": "c1c4d7168476b50ddf3c4ad1d6b2c2208f942cd0584894908e59b553e76ed71b",
+  "state": "testing",
+  "createdUTC": "2026-11-08T14:59:27.206905+00:00",
+  "installedUTC": "2026-11-08T15:00:28.739070+00:00",
+  "launchedUTC": "2026-11-08T15:00:29.406668+00:00",
+  "launchVerification": "iOS accepted the launch request on GenErik Duo. No further device actions followed.",
+  "requestIDs": [
+    "R88"
+  ],
+  "device": "GenErik Duo",
+  "deviceUDID": "00008160-000859C436800036",
+  "previousRecordedDeviceBuild": 148,
+  "focusedChecks": "Ten focused host tests passed across fifteen cases on the final source. Queue order, power/thermal gating, cancellation, charging resume, saved-result reuse, new tracks, source failures and background transitions are covered.",
+  "verificationLimit": "Physical power/thermal notifications, analysis throughput and live audio/control acceptance remain open. This is the scheduling increment, not the completed deep ML and automatic-sharing engine.",
+  "iPadDisposition": "No iPad installation, launch or process action was issued.",
+  "evidence": [
+    "TestBuilds/r88/verification.json",
+    "TestBuilds/r88/queue-red.log",
+    "TestBuilds/r88/policy-red.log",
+    "TestBuilds/r88/final-resume-tests.log",
+    "TestBuilds/r88/final-queue-and-background.log",
+    "TestBuilds/r88/build.log",
+    "TestBuilds/r88/duo-deploy.log"
+  ],
+  "acceptance": [
+    "Check that all first-pass groups finish before sections and cues start.",
+    "During structure analysis, unplug the Duo. Check the waiting message. Reconnect power and check that analysis resumes.",
+    "Start playback during analysis. Check uninterrupted audio and immediate control response."
+  ],
+  "remaining": [
+    "Durable deep-stage/profile checkpoints for every track.",
+    "Validate and integrate stronger ML profiles on the Duo.",
+    "Automatically transfer and adopt compatible accepted results on the iPad while preserving manual preparation."
+  ]
+}

@@ -7,6 +7,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
 
+**Build 149** installed on the Duo, and iOS accepted launch. R88 checks the whole library for beats and key before structure analysis. Automatic structure work waits for external power and suitable thermal state, then resumes from saved results. Ten focused tests passed across fifteen cases. Stronger deep ML profiles and automatic sharing remain open. The iPad remains on build 144. [Build record](../testing/builds/149.json) · [Approved policy and rollout](tiered-analysis.md).
+
 **TestFlight build 147 (0.1.0)** uploaded from committed main with Xcode 27.1. Apple completed processing. The build shows Ready to Submit, and its test notes are saved. R86 adds explicit private iCloud preparation sync and next-launch recovery. The CloudKit schema is deployed to Production. Thirteen focused Swift tests and four release-tool tests passed. Device sync, restoration and A10X audio/touch acceptance remain open. The installed iPad remains on build 144. [Build record](../testing/builds/147.json) · [Test steps](cloudkit-testflight.md).
 
 Erik handed R87 to the “Choose analysis data sync” chat on 8 November 2026. The implementation is merged and pushed. Continue from build 148 feedback. TestFlight build 147 does not include R87.
@@ -47,7 +49,7 @@ Erik handed R87 to the “Choose analysis data sync” chat on 8 November 2026. 
 
 **Build 124** came from `main` at `a7acf07d9`. The A10X iPad Pro launched the new analyser and saved a 71.0058 BPM grid for 3CAG. All 56 reference bars are within 20.5 ms of the fitted grid. The iPad kept the manual grid and key and saved sections and automatic cue candidates. [Build record](../testing/builds/124.json).
 
-Latest installed Duo candidate is **build 148**. Erik checks foreground Neural Engine analysis, grid placement and playback. [Build record](../testing/builds/148.json).
+Latest installed Duo candidate is **build 149**. Erik checks first-pass ordering, unplug/reconnect behaviour and playback. [Build record](../testing/builds/149.json).
 
 Duo **build 126** came from `main` at `c4202fbe8`. It saves the beat grid and key before it analyses structure and automatic hot cues. On the Duo, the first check advanced the counter to 1 of 376 after the 13-second “Catchphrases”. The queue resumed after reconnecting and had 88 saved matching results at the last reachable check. [Build record](../testing/builds/126.json).
 
