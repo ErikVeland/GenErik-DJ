@@ -8,6 +8,8 @@ Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace th
 
 **Build 131** installed and launched on the A10X iPad Pro. The analysis badge shows the current pass and its song count. [Build record](../testing/builds/131.json).
 
+**Build 132** installed and launched on the A10X iPad Pro. The information dropdown shows Music library notices and includes Mark all as read. Erik checks the unread badge. [Build record](../testing/builds/132.json).
+
 **Build 130** installed and launched on the A10X iPad Pro. The battery icon shows a bolt while charging. It turns orange below 20% and red below 10%. Erik confirmed that the bolt follows plug and unplug events. Library analysis reached 504 of 11918 checks. Erik reported slower analysis than original Traktor. [Build record](../testing/builds/130.json).
 
 **Build 129** installed and launched on the A10X iPad Pro. All Songs opens on the left. The deck shortcut opens Recommendations on the right. Erik checks both entry points. [Build record](../testing/builds/129.json).

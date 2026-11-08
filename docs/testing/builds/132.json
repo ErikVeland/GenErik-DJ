@@ -1,0 +1,34 @@
+{
+  "notes": "R72 shows unread library notices and adds Mark all as read to the information dropdown.",
+  "sourceCommit": "1820e677144788cec5631ffaf7c3466e08b452c2",
+  "sourceSHA256": "1d64abce70f9bd7094339c85321e9d3a9e10b202597f679be73929940729ebfe",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 38.22,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-132.log",
+  "build": 132,
+  "app": "TestBuilds/ipad/132/GenErikDJ.app",
+  "appSHA256": "10844199421d11e4b92dc8287048a22f56e13b47b66732cbaffed5a867df680f",
+  "state": "testing",
+  "createdUTC": "2026-11-08T06:47:41.032927+00:00",
+  "installedUTC": "2026-11-08T06:48:08.367602+00:00",
+  "launchedUTC": "2026-11-08T06:48:08.875365+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R72"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "previousDeviceBuild": 131,
+  "focusedChecks": "The read-state check passed. It covers one notice, all notices, repeated reads and new notices. The first install timed out. The saved app installed and launched on retry.",
+  "evidence": [
+    "TestBuilds/r72/focused.log",
+    "TestBuilds/r72/mutation.log",
+    "TestBuilds/r72/ipad-cycle.log",
+    "TestBuilds/r72/ipad-retry.log"
+  ],
+  "acceptance": [
+    "Open the information menu and tap an unread notice. Check that the badge decreases by one.",
+    "Tap Mark all as read. Check that the badge clears and the messages remain available."
+  ]
+}
