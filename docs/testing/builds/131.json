@@ -1,0 +1,33 @@
+{
+  "notes": "R71 shows the pass number and the song count for that pass.",
+  "sourceCommit": "ddee73b65ab6380d81f9f6f9fd8e972aa3cf4fe3",
+  "sourceSHA256": "9f6bde40d33dace610b5771ae0db8a86f257fbf38ee969bc253657d3eb59f463",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 37.92,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-131.log",
+  "build": 131,
+  "app": "TestBuilds/ipad/131/GenErikDJ.app",
+  "appSHA256": "a4b61b8831501e450c80e67cd0a44e9956b7329c6d910b7729d5412ea0a4fd3e",
+  "state": "testing",
+  "createdUTC": "2026-11-08T06:43:36.692643+00:00",
+  "installedUTC": "2026-11-08T06:44:04.869846+00:00",
+  "launchedUTC": "2026-11-08T06:44:05.277774+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R71"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "previousDeviceBuild": 130,
+  "focusedChecks": "The pass progress test passed. A separate workflow test reported three source preparations where it expected two. The first install timed out. The saved app installed and launched on retry.",
+  "evidence": [
+    "TestBuilds/r71/red.log",
+    "TestBuilds/r71/focused.log",
+    "TestBuilds/r71/ipad-cycle.log",
+    "TestBuilds/r71/ipad-retry.log"
+  ],
+  "acceptance": [
+    "Check the pass number and song count in the analysis badge. Check that Pass 2 starts at zero."
+  ]
+}
