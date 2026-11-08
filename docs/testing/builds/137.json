@@ -1,0 +1,32 @@
+{
+  "notes": "R77 counts Traktor grid only, key only and both separately in Pass 1.",
+  "sourceCommit": "5d00e2e2273ef0a0cf5052c77ee8e30800f880e0",
+  "sourceSHA256": "4356573c1c15f01a4a181bdcc15d4ba78c691d8a8640ec7e3419daf399400a59",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 36.63,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-137.log",
+  "build": 137,
+  "app": "TestBuilds/ipad/137/GenErikDJ.app",
+  "appSHA256": "a33428d677d90dd41b58897dd205c7193b231d1f03d103e37148744392fdd71a",
+  "state": "testing",
+  "createdUTC": "2026-11-08T08:23:30.067065+00:00",
+  "installedUTC": "2026-11-08T08:23:45.918910+00:00",
+  "launchedUTC": "2026-11-08T08:23:46.323692+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R77"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "previousDeviceBuild": 136,
+  "focusedChecks": "Three focused tests passed across six cases. They cover new and saved Traktor matches, grid-only and key-only reuse, saved GenErik results and fresh analysis.",
+  "evidence": [
+    "TestBuilds/r77/red.log",
+    "TestBuilds/r77/focused.log",
+    "TestBuilds/r77/ipad-cycle.log"
+  ],
+  "acceptance": [
+    "Check the Pass 1 summary for separate counts of Traktor grid only, key only and both."
+  ]
+}
