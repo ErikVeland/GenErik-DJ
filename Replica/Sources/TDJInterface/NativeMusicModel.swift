@@ -82,7 +82,8 @@ extension ReplicaModel {
 
     func setLibraryAnalysisBackgrounded(_ backgrounded: Bool) {
         nativeMusic.backgrounded = backgrounded
-        if backgrounded, nativeMusic.backgroundRun == nil { cancelNativeMusicAnalysis() }
+        // Restart with CPU-only analysis when the app enters the background.
+        if backgrounded { cancelNativeMusicAnalysis() }
     }
 
     func beginBackgroundLibraryAnalysis(report: @escaping (Int, Int) -> Void) -> UUID? {
@@ -223,32 +224,34 @@ extension ReplicaModel {
                     var matchingSource = LibraryMatchingSource.failed
                     var outcome = "success"
                     let issue = await withTaskCancellationHandler {
-                        await AnalysisMeasurement.$current.withValue(measurement) {
-                            do {
-                                switch pass {
-                                case .matching:
-                                    let (track, source) = try await prepareLibraryMatching(job)
-                                    matchingSource = source
-                                    measurement.capture(track.analysis)
-                                    measurement.update { $0.source = source.rawValue }
-                                    matched[job.id] = track.id
-                                    return libraryMatchingIssue(track)
-                                case .structure:
-                                    if let trackID = matched[job.id] {
-                                        guard let track = library.track(id: trackID) else {
-                                            throw CoreError.staleContext
-                                        }
+                        await AnalysisExecution.$foregroundLibrary.withValue(!state.backgrounded) {
+                            await AnalysisMeasurement.$current.withValue(measurement) {
+                                do {
+                                    switch pass {
+                                    case .matching:
+                                        let (track, source) = try await prepareLibraryMatching(job)
+                                        matchingSource = source
                                         measurement.capture(track.analysis)
-                                        let arrangement = try await prepareLibraryStructure(job, track: track)
-                                        return arrangement.automaticCues?.isEmpty != false
-                                            ? "No reliable section starts were found for hot cues." : nil
+                                        measurement.update { $0.source = source.rawValue }
+                                        matched[job.id] = track.id
+                                        return libraryMatchingIssue(track)
+                                    case .structure:
+                                        if let trackID = matched[job.id] {
+                                            guard let track = library.track(id: trackID) else {
+                                                throw CoreError.staleContext
+                                            }
+                                            measurement.capture(track.analysis)
+                                            let arrangement = try await prepareLibraryStructure(job, track: track)
+                                            return arrangement.automaticCues?.isEmpty != false
+                                                ? "No reliable section starts were found for hot cues." : nil
+                                        }
+                                        outcome = "skipped"
+                                        return nil
                                     }
-                                    outcome = "skipped"
-                                    return nil
+                                } catch {
+                                    outcome = error is CancellationError ? "cancelled" : "failed"
+                                    return error.localizedDescription
                                 }
-                            } catch {
-                                outcome = error is CancellationError ? "cancelled" : "failed"
-                                return error.localizedDescription
                             }
                         }
                     } onCancel: {

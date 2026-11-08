@@ -22,6 +22,8 @@ public final class AnalysisMeasurement: @unchecked Sendable {
         public var contentSHA256: String?
         public var sourceHashComputed = false
         public var modelID: String?
+        public var beatThisRequestedComputeUnits: String?
+        public var beatThisEffectiveComputeUnits: String?
         public var structureVersion: Int?
         public var durationSeconds: Double?
         public var sourceSizeBytes: Int?

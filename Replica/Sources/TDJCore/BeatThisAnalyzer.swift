@@ -5,10 +5,13 @@ enum BeatThisAnalyzer {
     private static let window = 1500
     private static let border = 6
     static let mixOpeningSeconds = 90.0
-    private static let compiledModel = Result {
+    private static let compiledCPUModel = Result { try compile("BeatThisSmall") }
+    private static let compiledNeuralModel = Result { try compile("BeatThisSmallANE") }
+
+    private static func compile(_ name: String) throws -> URL {
         guard
             let source = Bundle.module.url(
-                forResource: "BeatThisSmall", withExtension: "mlpackage", subdirectory: "BeatThisAssets")
+                forResource: name, withExtension: "mlpackage", subdirectory: "BeatThisAssets")
         else {
             throw CoreError.invalidAudio("The beat analysis model is missing.")
         }
@@ -28,14 +31,25 @@ enum BeatThisAnalyzer {
         try checkCancellation()
         let span = AnalysisMeasurement.begin("beatThisTotal")
         defer { span?.finish() }
-        AnalysisMeasurement.current?.update { $0.modelID = "BeatThisSmall/small0" }
         let audio = try AnalysisMeasurement.measure("beatThisInputSetup") {
             try BeatThisAudio(url: url, sourceFrames: sourceFrames)
         }
-        let settings = MLModelConfiguration()
-        settings.computeUnits = .cpuOnly
-        let model = try AnalysisMeasurement.measure("beatThisModelLoad") {
-            try MLModel(contentsOf: compiledModel.get(), configuration: settings)
+        let computeUnits = AnalysisExecution.computeUnits
+        AnalysisMeasurement.current?.update {
+            $0.beatThisRequestedComputeUnits = computeUnits == .cpuAndNeuralEngine ? "cpuAndNeuralEngine" : "cpuOnly"
+        }
+        let session = BeatThisModelSession(computeUnits: computeUnits) { units in
+            let settings = MLModelConfiguration()
+            settings.computeUnits = units
+            return try AnalysisMeasurement.measure("beatThisModelLoad") {
+                let neural = units == .cpuAndNeuralEngine
+                let url = try (neural ? compiledNeuralModel : compiledCPUModel).get()
+                let model = try MLModel(contentsOf: url, configuration: settings)
+                AnalysisMeasurement.current?.update {
+                    $0.modelID = neural ? "BeatThisSmall/small0-fp16-v1" : "BeatThisSmall/small0"
+                }
+                return model
+            }
         }
         let features = try MLMultiArray(
             shape: [1, NSNumber(value: window), NSNumber(value: BeatThisAudio.bands)], dataType: .float32)
@@ -57,7 +71,11 @@ enum BeatThisAnalyzer {
             }
             try checkCancellation()
             try autoreleasepool {
-                let result = try AnalysisMeasurement.measure("beatThisInference") { try model.prediction(from: input) }
+                let result = try session.prediction(checkCancellation: checkCancellation) { model in
+                    let result = try AnalysisMeasurement.measure("beatThisInference") { try model.prediction(from: input) }
+                    try validateLogits(result)
+                    return result
+                }
                 let first = max(border, beatLogits.count - start)
                 let end = min(window - border, frameCount - start)
                 try append(result, name: "beats", range: first..<end, to: &beatLogits)
@@ -81,6 +99,18 @@ enum BeatThisAnalyzer {
             try BeatThisGrid.fit(
                 beats: beats, bars: bars, configuration: configuration, requireOpeningBar: requireOpeningBar,
                 checkCancellation: checkCancellation)
+        }
+    }
+
+    private static func validateLogits(_ prediction: any MLFeatureProvider) throws {
+        for name in ["beats", "downbeats"] {
+            guard let values = prediction.featureValue(for: name)?.multiArrayValue,
+                values.dataType == .float32, values.count == window, let stride = values.strides.last?.intValue
+            else { throw CoreError.invalidAudio("The beat analysis model returned invalid predictions.") }
+            let finite = values.withUnsafeBufferPointer(ofType: Float.self) { buffer in
+                (0..<window).allSatisfy { buffer[$0 * stride].isFinite }
+            }
+            guard finite else { throw CoreError.invalidAudio("The beat analysis model returned non-finite predictions.") }
         }
     }
 

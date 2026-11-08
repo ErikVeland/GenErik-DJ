@@ -518,3 +518,28 @@ func launchReanalysesSavedTracksAndResumesWithoutRepeatingCompletedWork(source: 
     #expect(await model.runBackgroundLibraryAnalysis(id) == false)
     await model.finishForShutdown()
 }
+
+@Test @MainActor func foregroundNeuralAnalysisRestartsOnBackgroundTransition() async throws {
+    let provider = ClockMusicLibrary([clockItem("compute-transition", duration: 16)])
+    let workspace = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: workspace) }
+    let model = try ReplicaModel(
+        root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    let (started, signal) = AsyncStream<Bool>.makeStream()
+    provider.beforePreparation = { _ in
+        signal.yield(AnalysisExecution.foregroundLibrary)
+        try await Task.sleep(for: .seconds(30))
+    }
+    await model.openNativeMusicLibrary()
+    var iterator = started.makeAsyncIterator()
+    #expect(await iterator.next() == true)
+    let granted = model.beginBackgroundLibraryAnalysis { _, _ in }
+    let id = try #require(granted)
+    model.setLibraryAnalysisBackgrounded(true)
+    #expect(await iterator.next() == false)
+    model.endBackgroundLibraryAnalysis(id)
+    await model.flushNativeMusicAnalysis()
+    #expect(provider.preparations == 2)
+    #expect(model.nativeMusic.measurements.allSatisfy { $0.outcome == "cancelled" })
+    await model.finishForShutdown()
+}

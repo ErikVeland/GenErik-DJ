@@ -27,6 +27,7 @@ public final class AnalysisWorker: Sendable {
     ) async throws -> T {
         let cancellation = AnalysisCancellation()
         let measurement = AnalysisMeasurement.current
+        let foreground = AnalysisExecution.foregroundLibrary
         let wait = AnalysisMeasurement.begin("analysisQueueWait")
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
@@ -36,7 +37,9 @@ public final class AnalysisWorker: Sendable {
                     do {
                         try cancellation.check()
                         let value = try AnalysisMeasurement.$current.withValue(measurement) {
-                            try work { try cancellation.check() }
+                            try AnalysisExecution.$foregroundLibrary.withValue(foreground) {
+                                try work { try cancellation.check() }
+                            }
                         }
                         if checkAfterWork { try cancellation.check() }
                         continuation.resume(returning: value)
