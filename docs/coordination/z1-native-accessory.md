@@ -98,3 +98,6 @@ Twenty-one focused host tests passed across 24 cases. They cover both thresholds
 blue brightness, tempo changes, adaptive timing, seeks, loops, pause/end/manual transport, independent channels,
 current audio length, native framing and unchanged control actions. Evidence is under `TestBuilds/r83-r84/`.
 Physical colour, brightness, beat alignment and uninterrupted A10X playback remain Erik's checks.
+
+Signed [build 144](../testing/builds/144.json) installed on the A10X iPad. iPadOS accepted launch.
+No device actions followed. Erik performs the physical light and playback checks.

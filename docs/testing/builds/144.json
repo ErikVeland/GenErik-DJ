@@ -1,0 +1,42 @@
+{
+  "notes": "R83/R84 add BPM-locked Z1 amber warnings every four beats at 30 seconds and every beat at 10, plus a subtle blue beat pulse. Filter/FX controls remain unchanged.",
+  "sourceCommit": "585b9104398ee9869beb28c4e144b1012c646376",
+  "sourceSHA256": "d5d5e44f3b98e6c913b663475cb757d135a8c010f88827407143fa133889bbee",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 59.92,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-144.log",
+  "build": 144,
+  "app": "TestBuilds/ipad/144/GenErikDJ.app",
+  "appSHA256": "e9ab576d09363ea3538b4f445c5d8c07fd52fa617a2eb4cd6aaca7e42f323afe",
+  "state": "testing",
+  "createdUTC": "2026-11-08T09:56:01.239856+00:00",
+  "installedUTC": "2026-11-08T09:56:21.173291+00:00",
+  "launchedUTC": "2026-11-08T09:56:21.615046+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R83",
+    "R84"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "deviceUDID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+  "previousDeviceBuild": 143,
+  "focusedChecks": "Twenty-one focused host tests passed across 24 cases. They cover native framing, existing input actions, amber thresholds and pulse rates, blue pulse shape, playback speed, adaptive timing, downbeat offsets, seeks, loop/pause/end/manual transport, independent channels and current audio length. Signed iPad compilation, runtime framework paths and signing passed.",
+  "verificationLimit": "iPadOS accepted installation and launch. No later device action was taken. Physical Z1 colour, brightness, beat alignment, filter/FX controls, reconnect and uninterrupted A10X playback remain for Erik to verify. A valid beat grid is required for the pulses.",
+  "evidence": [
+    "TestBuilds/r83-r84/focused-tests.log",
+    "TestBuilds/r83-r84/focused-tests-final.log",
+    "TestBuilds/r83-r84/test-source.json",
+    "TestBuilds/r83-r84/verification.json",
+    "TestBuilds/ipad/build-144.log"
+  ],
+  "acceptance": [
+    "Play a track with a valid beat grid on each deck. Check the small blue pulse on each filter/FX ON button.",
+    "Check amber every four beats at 30 seconds remaining and every beat at 10 seconds.",
+    "Change tempo and seek. Check that each channel follows its own beat position.",
+    "Check MODE plus ON, filter and selected FX controls during a warning.",
+    "Check that a loop suppresses amber warnings and pause restores normal status lights.",
+    "Check audio continuity and touch response with both channels pulsing."
+  ]
+}
