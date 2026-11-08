@@ -23,3 +23,31 @@ import Testing
     #expect(grid.beatAgreement >= 0.72)
     #expect(grid.barAgreement >= 0.75)
 }
+
+@Test func beatThisLimitsOnlyLongMixesToTheOpening() {
+    let rate = 44100.0
+    let threshold = Int64(NativeAnalysisPlan.mixThresholdSeconds * rate)
+    #expect(BeatThisAnalyzer.sourceFrameLimit(threshold, sampleRate: rate) == threshold)
+    #expect(BeatThisAnalyzer.sourceFrameLimit(threshold + 1, sampleRate: rate) == 90 * 44100)
+}
+
+@Test func longMixGridUsesTheFirstSupportedDownbeatAfterTheIntro() throws {
+    let beats = (0..<136).map { 12.38 + Double($0) * 0.5 }
+    let bars = stride(from: 0, to: beats.count, by: 4).map { beats[$0] }
+    let fitted = try BeatThisGrid.fit(
+        beats: beats, bars: bars, configuration: .init(), requireOpeningBar: true, checkCancellation: {})
+    let grid = try #require(fitted)
+    #expect(abs(grid.bpm - 120) < 0.02)
+    #expect(abs(grid.firstBar - 12.38) < 0.02)
+}
+
+@Test func longMixGridRejectsLaterPhaseWhenAnOpeningRunDisagrees() throws {
+    let beats = (0..<160).map { 1.2 + Double($0) * 0.5 }
+    let earlyBars = [1, 5, 9, 13].map { beats[$0] }
+    let laterBars = stride(from: 16, to: beats.count, by: 4).map { beats[$0] }
+    let bars = earlyBars + laterBars
+    #expect(try BeatThisGrid.fit(beats: beats, bars: bars, configuration: .init(), checkCancellation: {}) != nil)
+    #expect(
+        try BeatThisGrid.fit(
+            beats: beats, bars: bars, configuration: .init(), requireOpeningBar: true, checkCancellation: {}) == nil)
+}

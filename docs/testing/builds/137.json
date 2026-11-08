@@ -8,9 +8,13 @@
   "feedback": [
     {
       "request": "R78",
-      "text": "Analysis is stuck on 5728. Do not interrupt the current analysis before tonight\u2019s gig.",
+      "text": "Analysis is stuck on 5728. Do not interrupt the current analysis before tonight’s gig.",
       "reportedDate": "2026-11-08",
       "buildVerification": "Device measurement records identify build 137."
+    },
+    {
+      "request": "R79",
+      "text": "Speed up Beat This on long mixes. Keep downbeats accurate and playback responsive. Erik released the gig preparation hold and authorised installation."
     }
   ],
   "log": "TestBuilds/ipad/build-137.log",

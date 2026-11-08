@@ -278,8 +278,9 @@ extension TrackArrangement {
         guard peak > 0.0001 else { return prepare(analysis: a) }
         let audible = frames.filter { $0.rms > max(0.0001, peak * 0.015) }
         let musicalEnd = audible.last?.end ?? fileEnd
+        let openingGrid = a.configurationID.hasSuffix(AnalysisConfiguration.mixOpeningSuffix)
         let grid =
-            (a.tempoConfidence >= 0.6
+            (a.tempoConfidence >= 0.6 && (!openingGrid || a.detectedDownbeatOffset != nil)
                 ? a.bpm.flatMap {
                     try? BeatGrid(
                         bpm: $0, anchorFrame: a.beatAnchorFrame ?? 0, sampleRate: rate,
@@ -291,6 +292,11 @@ extension TrackArrangement {
             let beat = timing.beat(atFrame: frame)
             let offset = Double(timing.downbeatOffset)
             let target = timing.frame(atBeat: ((beat - offset) / 4).rounded() * 4 + offset)
+            if openingGrid && a.adaptiveCandidate == nil {
+                guard min(frame, target) >= (a.beatAnchorFrame ?? 0),
+                    max(frame, target) < BeatThisAnalyzer.mixOpeningSeconds * rate
+                else { return frame }
+            }
             return abs(target - frame) <= rate * 2 ? min(fileEnd, max(0, target)) : frame
         }
         func mean(_ slice: ArraySlice<MusicalStructureFrame>) -> MusicalStructureFrame {

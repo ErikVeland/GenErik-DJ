@@ -213,13 +213,13 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
     }
     public var needsFullPreparationAnalysis: Bool {
         nativeSourceNeedsAnalysis == true || analysis.musicalAnalysisDeferred == true || needsAutomaticBarAnalysis
-            || (analysis.configurationID != AnalysisConfiguration().id
+            || (analysis.configurationID != AnalysisConfiguration().id(for: analysis.duration)
                 && NativeAnalysisPlan.needsDeckAnalysis(deferred: nil, bpm: bpm, key: key))
     }
     public var needsCurrentLibraryAnalysis: Bool {
         if nativeSourceNeedsAnalysis == true { return true }
         guard grid == nil || key == nil else { return false }
-        return analysis.configurationID != AnalysisConfiguration().id || needsFullPreparationAnalysis
+        return analysis.configurationID != AnalysisConfiguration().id(for: analysis.duration) || needsFullPreparationAnalysis
     }
     public var automaticBarGrid: BeatGrid? {
         preparation.detectedBarGrid(

@@ -3,12 +3,18 @@ import CryptoKit
 import Foundation
 
 public struct AnalysisConfiguration: Sendable {
+    static let mixOpeningSuffix = "-mix-opening-1"
+
     public var id: String {
         "beat-this-small0-grid-1-tuned-hpcp-\(minimumBPM)-\(maximumBPM)"
     }
     public var minimumBPM: Double = 60
     public var maximumBPM: Double = 200
     public init() {}
+
+    func id(for duration: Double) -> String {
+        NativeAnalysisPlan.isMix(duration: duration) ? id + Self.mixOpeningSuffix : id
+    }
 }
 
 public struct BeatGridDetection: Codable, Sendable {
@@ -116,10 +122,14 @@ public enum AudioAnalyzer {
                 checkCancellation: checkCancellation)
         }
         let duration = Double(decoded.frameCount) / decoded.sampleRate
+        let configurationID = configuration.id(for: duration)
+        AnalysisMeasurement.current?.update { $0.requestedConfigurationID = configurationID }
+        let beatFrames = BeatThisAnalyzer.sourceFrameLimit(decoded.frameCount, sampleRate: decoded.sampleRate)
+        let requiresOpeningBar = beatFrames < decoded.frameCount
         let fitted: BeatThisGrid?
         if duration >= 11 * 60 / configuration.maximumBPM {
             fitted = try BeatThisAnalyzer.analyze(
-                url: url, sourceFrames: decoded.frameCount, configuration: configuration,
+                url: url, sourceFrames: beatFrames, configuration: configuration, requireOpeningBar: requiresOpeningBar,
                 checkCancellation: checkCancellation)
         } else {
             fitted = nil
@@ -141,6 +151,9 @@ public enum AudioAnalyzer {
             rhythm.downbeat = 0
             rhythm.downbeatConfidence = fitted.barAgreement
             rhythm.gridResidualMilliseconds = fitted.residualMilliseconds
+        } else if requiresOpeningBar {
+            rhythm.downbeat = nil
+            rhythm.downbeatConfidence = nil
         }
         try checkCancellation()
         let harmonic = AnalysisMeasurement.measure("keyFinalization") { spectrum.finish() }
@@ -149,8 +162,9 @@ public enum AudioAnalyzer {
             frames: pulses.frames, duration: duration, rhythm: rhythm, spectralActivity: spectrum.activity,
             brightness: brightness)
         var analysis = AudioAnalysis(
-            implementation: fitted == nil ? "Beat This small0 with DSP grid fallback" : "Beat This small0 fitted grid",
-            configurationID: configuration.id, contentSHA256: hash, sampleRate: decoded.sampleRate,
+            implementation: fitted == nil ? "Beat This small0 with DSP grid fallback"
+                : requiresOpeningBar ? "Beat This small0 opening grid" : "Beat This small0 fitted grid",
+            configurationID: configurationID, contentSHA256: hash, sampleRate: decoded.sampleRate,
             frameCount: decoded.frameCount, channelCount: decoded.channelCount, waveformFramesPerBin: decoded.binFrames,
             waveform: decoded.waveform, bpm: rhythm.bpm,
             beatAnchorFrame: rhythm.anchorSeconds.map { $0 * decoded.sampleRate }, tempoConfidence: rhythm.confidence,

@@ -14,7 +14,7 @@ struct BeatThisGrid {
     }
 
     static func fit(
-        beats: [Double], bars: [Double], configuration: AnalysisConfiguration,
+        beats: [Double], bars: [Double], configuration: AnalysisConfiguration, requireOpeningBar: Bool = false,
         checkCancellation: @Sendable () throws -> Void
     ) throws -> Self? {
         guard beats.count >= 12, bars.count >= 4 else { return nil }
@@ -99,8 +99,23 @@ struct BeatThisGrid {
         let barAgreement = Double(bars.filter { abs(residual($0, phase, fittedBarLength)) < 0.06 }.count)
             / Double(bars.count)
         guard beatAgreement >= 0.72, barAgreement >= 0.55 else { return nil }
+        var firstBar = phase
+        if requireOpeningBar {
+            guard barAgreement >= 0.72,
+                let opening = bars.indices.dropLast(3).first(where: { index in
+                    let step = (bars[index + 3] - bars[index]) / 3
+                    return periods.contains(step / 4) && (1...2).allSatisfy {
+                        abs(bars[index + $0] - bars[index] - Double($0) * step) < 0.06
+                    }
+                }),
+                (0...3).allSatisfy({ abs(residual(bars[opening + $0], phase, fittedBarLength)) < 0.06 }),
+                abs((bars[opening + 3] - bars[opening]) - 3 * fittedBarLength) < 0.12
+            else { return nil }
+            let observed = bars[opening]
+            firstBar = max(0, observed - residual(observed, phase, fittedBarLength))
+        }
         return .init(
-            bpm: 240 / fittedBarLength, firstBar: phase, beatAgreement: beatAgreement,
+            bpm: 240 / fittedBarLength, firstBar: firstBar, beatAgreement: beatAgreement,
             barAgreement: barAgreement, residualMilliseconds: beatErrors[beatErrors.count / 2] * 1000)
     }
 

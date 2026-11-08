@@ -4,6 +4,7 @@ import Foundation
 enum BeatThisAnalyzer {
     private static let window = 1500
     private static let border = 6
+    static let mixOpeningSeconds = 90.0
     private static let compiledModel = Result {
         guard
             let source = Bundle.module.url(
@@ -14,8 +15,13 @@ enum BeatThisAnalyzer {
         return try MLModel.compileModel(at: source)
     }
 
+    static func sourceFrameLimit(_ sourceFrames: Int64, sampleRate: Double) -> Int64 {
+        guard NativeAnalysisPlan.isMix(duration: Double(sourceFrames) / sampleRate) else { return sourceFrames }
+        return Int64((mixOpeningSeconds * sampleRate).rounded(.down))
+    }
+
     static func analyze(
-        url: URL, sourceFrames: Int64, configuration: AnalysisConfiguration,
+        url: URL, sourceFrames: Int64, configuration: AnalysisConfiguration, requireOpeningBar: Bool,
         checkCancellation: @Sendable () throws -> Void
     ) throws -> BeatThisGrid? {
         guard sourceFrames >= 2 else { return nil }
@@ -67,11 +73,14 @@ enum BeatThisAnalyzer {
             while beatIndex + 1 < beats.count, abs(beats[beatIndex + 1] - bar) < abs(beats[beatIndex] - bar) {
                 beatIndex += 1
             }
-            if bars.last != beats[beatIndex] { bars.append(beats[beatIndex]) }
+            let beat = beats[beatIndex]
+            if requireOpeningBar && abs(beat - bar) > 0.06 { continue }
+            if bars.last != beat { bars.append(beat) }
         }
         return try AnalysisMeasurement.measure("beatThisGridFit") {
             try BeatThisGrid.fit(
-                beats: beats, bars: bars, configuration: configuration, checkCancellation: checkCancellation)
+                beats: beats, bars: bars, configuration: configuration, requireOpeningBar: requireOpeningBar,
+                checkCancellation: checkCancellation)
         }
     }
 
