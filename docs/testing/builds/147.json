@@ -3,7 +3,7 @@
   "notes": "R86: iCloud preparation revisions and next-launch recovery. Release Xcode 27.1 candidate. Includes Z1 light changes. Device acceptance pending.",
   "sourceCommit": "58a198ccabbb13a97eeea4f2e297ac3b35d93940",
   "sourceSHA256": "78b7197546cf897ca4b68d3852a2e2c51648a8323b67237b2a5b364441f5be5f",
-  "state": "uploaded-processing",
+  "state": "testflight-processed",
   "distribution": "TestFlight",
   "feedback": [],
   "xcode": "Xcode 27.1\nBuild version 27A9275",
@@ -38,6 +38,12 @@
   "appStoreConnectApp": "6832211854",
   "cloudContainer": "iCloud.org.generikdj.analysis",
   "deviceAcceptance": "Pending: real iCloud transfer, restoration, interrupted/offline sync, account changes and A10X audio/touch response. No installation performed. Build 144 remains installed.",
-  "testflightStatus": "Processing",
-  "testInstructions": "docs/coordination/cloudkit-testflight.md"
+  "testflightStatus": "Ready to Submit",
+  "testInstructions": "docs/coordination/cloudkit-testflight.md",
+  "testflightProcessing": "Complete",
+  "testflightNotes": "Saved in English (Australia)",
+  "testflightGroups": 0,
+  "testflightTesters": 0,
+  "testflightURL": "https://appstoreconnect.apple.com/apps/6832211854/testflight/ios/b2108c42-ca0f-49e9-a96a-10ed9bff6592",
+  "testflightEvidence": "TestBuilds/ipad/147/testflight-result.json"
 }

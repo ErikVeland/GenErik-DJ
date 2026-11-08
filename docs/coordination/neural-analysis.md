@@ -127,3 +127,7 @@ The first compute-plan script used an outdated method name. Its failed output is
 Build 148 installed on the Duo, and iOS accepted launch. No further device actions followed.
 Six focused tests passed across seven cases on the final source. They cover fallback, cancellation, worker context and background transitions.
 The build record and `verification.json` contain the same source digest. Actual Duo timing and listening checks remain open.
+
+## Handover
+
+Erik handed R87 to the “Choose analysis data sync” chat on 8 November 2026. Source and build records are merged into main and pushed. The prior implementation turn is complete. Continue from Erik’s build 148 feedback. TestFlight build 147 predates R87 and does not include the Neural Engine changes.

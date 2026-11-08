@@ -7,7 +7,9 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
 
-**TestFlight build 147 (0.1.0)** uploaded from committed main with Xcode 27.1. Apple is processing it. R86 adds explicit private iCloud preparation sync and next-launch recovery. The CloudKit schema is deployed to Production. Thirteen focused Swift tests and four release-tool tests passed. Device sync, restoration and A10X audio/touch acceptance remain open. The installed iPad remains on build 144. [Build record](../testing/builds/147.json) · [Test steps](cloudkit-testflight.md).
+**TestFlight build 147 (0.1.0)** uploaded from committed main with Xcode 27.1. Apple completed processing. The build shows Ready to Submit, and its test notes are saved. R86 adds explicit private iCloud preparation sync and next-launch recovery. The CloudKit schema is deployed to Production. Thirteen focused Swift tests and four release-tool tests passed. Device sync, restoration and A10X audio/touch acceptance remain open. The installed iPad remains on build 144. [Build record](../testing/builds/147.json) · [Test steps](cloudkit-testflight.md).
+
+Erik handed R87 to the “Choose analysis data sync” chat on 8 November 2026. The implementation is merged and pushed. Continue from build 148 feedback. TestFlight build 147 does not include R87.
 
 **Build 148** installed on the Duo, and iOS accepted launch. R87 adds a Float16 Beat This model and foreground CPU + Neural Engine execution on capable iOS devices. Six focused tests passed across seven cases. The original A10X CPU model remains. Actual Duo throughput, musical accuracy and playback checks remain open. [Build record](../testing/builds/148.json) · [ML audit and rollout](neural-analysis.md).
 
