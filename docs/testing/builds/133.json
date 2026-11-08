@@ -1,0 +1,36 @@
+{
+  "notes": "R73 reuses validated Traktor grids and keys in Pass 1. File metadata alone does not mark audio as changed.",
+  "sourceCommit": "bbf03f26741672fadd481da6b1f851e2c0b2c9c4",
+  "sourceSHA256": "3a46fc0312cb6050f718b0d8912ecc5bdfd9c3c82a93bc188e7c35f62746a3b9",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 65.77,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-133.log",
+  "build": 133,
+  "app": "TestBuilds/ipad/133/GenErikDJ.app",
+  "appSHA256": "468279bfc63e3d26a3e65bebbe5b51e28236477e12e392aa5a8c16513330bddd",
+  "state": "testing",
+  "createdUTC": "2026-11-08T07:02:10.163248+00:00",
+  "installedUTC": "2026-11-08T07:02:29.186508+00:00",
+  "launchedUTC": "2026-11-08T07:02:29.863136+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R73"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "previousDeviceBuild": 132,
+  "focusedChecks": "Three focused tests passed. They cover saved and new Traktor matches, missing data, a file move, a same-duration replacement and a large duration difference.",
+  "evidence": [
+    "TestBuilds/r70/build-131/reuse-audit.json",
+    "TestBuilds/r73/red.log",
+    "TestBuilds/r73/metadata-red.log",
+    "TestBuilds/r73/changed-audio-focused.log",
+    "TestBuilds/r73/duration-focused.log",
+    "TestBuilds/r73/ipad-cycle.log"
+  ],
+  "acceptance": [
+    "Leave both decks idle. Check how quickly Pass 1 moves through the saved Traktor matches.",
+    "Load a prepared song. Check that it keeps its saved beat grid and key."
+  ]
+}

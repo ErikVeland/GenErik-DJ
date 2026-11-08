@@ -6,6 +6,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**Build 133** installed and launched on the A10X iPad Pro. Pass 1 reuses validated Traktor grids and keys. A file path or date change alone does not mark audio as changed. Erik checks Pass 1 speed. [Build record](../testing/builds/133.json).
+
 **Build 131** installed and launched on the A10X iPad Pro. The analysis badge shows the current pass and its song count. [Build record](../testing/builds/131.json).
 
 **Build 132** installed and launched on the A10X iPad Pro. The information dropdown shows Music library notices and includes Mark all as read. Erik checks the unread badge. [Build record](../testing/builds/132.json).
