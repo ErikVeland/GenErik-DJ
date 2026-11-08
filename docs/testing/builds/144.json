@@ -5,7 +5,23 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 59.92,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-09",
+      "timezone": "Australia/Brisbane",
+      "buildAttribution": "Assumed from last recorded iPad install. Erik confirmed iPad with Z1.",
+      "summary": "Analysis was generally accurate. Original Z1 connection and custom lights worked. Live blockers: incorrect load/playhead display, intermittent crossfader mute requiring stop/start, preview-strip navigation unlike TDJ1, audio/waveform flicker on long unanalysed loads, and lost Sync.",
+      "requestIDs": [
+        "R89",
+        "R90",
+        "R91",
+        "R92",
+        "R93"
+      ],
+      "syncContract": "Only an explicit Sync-off action may disengage Sync. The grid governs starts, stops, restarts, seeks and gesture releases.",
+      "details": "docs/coordination/live-test-144.md"
+    }
+  ],
   "log": "TestBuilds/ipad/build-144.log",
   "build": 144,
   "app": "TestBuilds/ipad/144/GenErikDJ.app",

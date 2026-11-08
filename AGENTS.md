@@ -6,6 +6,8 @@ The main goal is a performance-ready app on the 2017 A10X iPad Pro, with uninter
 
 Preserve Erik's TDJ1 touch-first workflow. Audio and UI performance take priority over features, analysis quality, visual polish and repository cleanup. Background work must yield, pause or cancel before it compromises live performance. Verify improvements on the actual A10X. Keep existing deadlines and limits. Build success, host timings and a tidy repository do not establish performance readiness. Read `docs/coordination/README.md` and the request ledger before starting work.
 
+The beat grid is the transport timing authority. Keep Sync enabled until Erik explicitly disables it. Starts, restarts, seeks and gesture releases must preserve or restore grid alignment when Sync is enabled and a usable grid exists. Temporary manual control must not change the saved Sync choice. A missing grid must remain visible as unresolved. Loading shows the file start at the playhead, not the grid anchor. See `docs/coordination/live-test-144.md`.
+
 The single-screen browser redesign and Performance/Browse/Expand shortcuts apply only to the closed/front phone screen. Preserve the existing iPad and Duo inside layouts. Portrait orientation alone must never select the front-screen design.
 
 ## Current development loop

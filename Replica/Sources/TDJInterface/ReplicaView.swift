@@ -1346,8 +1346,8 @@ extension ReplicaView {
             if model.pendingNativeSelection[deck] != nil {
                 if let preview = model.pendingNativeWaveforms[deck], !preview.analysis.waveform.isEmpty {
                     WaveformView(
-                        track: preview, grid: preview.grid, centerFrame: preview.grid?.anchorFrame ?? 0,
-                        visibleSeconds: visibleSeconds, playheadFrame: preview.grid?.anchorFrame ?? 0,
+                        track: preview, grid: preview.grid, centerFrame: 0,
+                        visibleSeconds: visibleSeconds, playheadFrame: 0,
                         sections: model.arrangements[preview.id]?.sections ?? [])
                 } else {
                     Color.black
@@ -1415,11 +1415,12 @@ extension ReplicaView {
     @State private var band: (String, BandWaveform)?
     @Environment(\.snapshotBandWaveforms) private var snapshotBands
     var body: some View {
+        let playback = model.waveformPlayback(deck)
         WaveformView(
             track: track, grid: model.grid(deck), centerFrame: model.viewport[deck] ?? 0,
-            visibleSeconds: visibleSeconds, adaptiveMap: model.playbackSnapshot?[deck].adaptiveMap,
-            playheadFrame: model.playbackSnapshot?[deck].sourceFrame,
-            leadInFrame: model.playbackSnapshot?[deck].leadInSourceFrame,
+            visibleSeconds: visibleSeconds, adaptiveMap: playback?.adaptiveMap,
+            playheadFrame: playback?.sourceFrame ?? 0,
+            leadInFrame: playback?.leadInSourceFrame,
             band: band?.0 == track.id ? band?.1 : snapshotBands[track.id],
             sections: sectionColours ? model.arrangements[track.id]?.sections ?? [] : []
         ).overlay {

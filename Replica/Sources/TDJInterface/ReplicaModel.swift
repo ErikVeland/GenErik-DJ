@@ -552,6 +552,14 @@ import TDJCore
     public func grid(_ deck: DeckID) -> BeatGrid? { gridDraft[deck] ?? track(deck)?.grid }
     func loadIdentity(_ deck: DeckID) -> UUID? { loadPreparations[deck]?.token }
 
+    func waveformPlayback(_ deck: DeckID) -> DeckPlaybackSnapshot? {
+        guard !preparingPlayback.contains(deck), !preparingNativeMusic.contains(deck),
+            let generation = loadPreparations[deck]?.generation,
+            let state = playbackSnapshot?[deck], state.generation == generation
+        else { return nil }
+        return state
+    }
+
     func waveformZoomSeconds(deck: DeckID) -> Double {
         let zoom = deck == .a ? waveformZoomA : waveformZoomB
         guard pendingNativeSelection[deck] == nil, let zoom, zoom.loadID == loadIdentity(deck) else {
@@ -931,7 +939,7 @@ import TDJCore
         storedPreparationKeys[trackID] = .init(value: storedKey)
         loadPreparations[deck] = .init(token: token, track: track)
         loaded[deck] = trackID
-        viewport[deck] = track.grid?.anchorFrame ?? 0
+        viewport[deck] = 0
         gridDraft[deck] = pendingPreparations[trackID]?.value.grid
         editing.remove(deck)
         frozen.remove(deck)
@@ -1151,9 +1159,6 @@ import TDJCore
                     try self.playback.updateGrid(grid, deck: deck)
                     if updated.automaticBarGrid != nil {
                         self.synchronizeGridCue(trackID: id, grid: grid)
-                        if !self.editing.contains(deck), self.viewport[deck] == (pin.track.grid?.anchorFrame ?? 0) {
-                            self.viewport[deck] = grid.frame(atBeat: Double(grid.downbeatOffset))
-                        }
                     }
                 }
                 let accepted = LoadPreparation(token: token, track: updated, generation: generation)
@@ -1493,10 +1498,8 @@ import TDJCore
             }
             for deck in DeckID.allCases
             where !editing.contains(deck) && !previewing.contains(deck) && !frozen.contains(deck) {
-                if snapshot[deck].phase == .playing || snapshot[deck].phase == .queued
-                    || snapshot[deck].phase == .paused || snapshot[deck].phase == .ended
-                {
-                    viewport[deck] = snapshot[deck].sourceFrame
+                if let state = waveformPlayback(deck), state.phase != .empty {
+                    viewport[deck] = state.sourceFrame
                 }
             }
         }
