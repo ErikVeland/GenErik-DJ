@@ -121,6 +121,8 @@ import TDJCore
     @ObservationIgnored private var preparationImportRunning = false
     /// Background analysis status, shown beside the import pill. Nil when idle.
     public internal(set) var analysisProgress: PreparationImportProgress?
+    var libraryAnalysisOwner: UUID?
+    public var analysisIsRunning: Bool { libraryAnalysisOwner != nil || deckAnalysisIsRunning }
     var libraryAnalysisContinuesInBackground = false
     public internal(set) var browserHintsVersion: UInt64 = 0
     @ObservationIgnored var collectionHints: [String: BrowserPreparationHint] = [:]

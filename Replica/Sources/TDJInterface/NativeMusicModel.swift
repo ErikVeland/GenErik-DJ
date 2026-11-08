@@ -4,7 +4,6 @@ import TDJCore
 @MainActor final class NativeMusicSessionState {
     var wanted = false
     var closed = false
-    var analysisOwner: UUID?
     var analysisCatalogVersion: UInt64?
     var finishedAnalysis: (catalogVersion: UInt64, libraryRevision: Int)?
     var backgrounded = false
@@ -109,9 +108,9 @@ extension ReplicaModel {
     }
 
     func cancelNativeMusicAnalysis() {
-        guard let owner = nativeMusic.analysisOwner else { return }
+        guard let owner = libraryAnalysisOwner else { return }
         nativeMusic.analyses[owner]?.cancel()
-        nativeMusic.analysisOwner = nil
+        libraryAnalysisOwner = nil
         musicLibraryProgress = ""
         if let progress = analysisProgress {
             analysisProgress = .init(
@@ -126,7 +125,7 @@ extension ReplicaModel {
         let state = nativeMusic
         guard state.wanted, !state.closed, !arrangementPlaybackActive, !deckAnalysisIsRunning,
             (!state.backgrounded || (state.backgroundRun != nil && libraryAnalysisPlaybackIsIdle)),
-            !importing, !musicLibraryRefreshing, state.analysisOwner == nil, state.analyses.isEmpty,
+            !importing, !musicLibraryRefreshing, libraryAnalysisOwner == nil, state.analyses.isEmpty,
             state.loadOwners.isEmpty, preparingPlayback.isEmpty,
             musicLibraryCatalog != nil || musicLibraryError != nil
         else { return }
@@ -146,7 +145,7 @@ extension ReplicaModel {
         let queue = NativeMusicAnalysisQueue(
             catalog: musicLibraryCatalog ?? .init(items: [], playlists: []), tracks: library.tracks,
             loaded: priorityTracks, mediaDirectory: store.mediaDirectory, worker: state.projection)
-        state.analysisOwner = token
+        libraryAnalysisOwner = token
         state.analysisCatalogVersion = version
         state.analysisChecked = 0
         state.analysisTotal = 0
@@ -158,15 +157,15 @@ extension ReplicaModel {
             }
             defer {
                 state.analyses[token] = nil
-                if state.analysisOwner == token {
-                    state.analysisOwner = nil
+                if libraryAnalysisOwner == token {
+                    libraryAnalysisOwner = nil
                     musicLibraryProgress = ""
                 }
-                if Task.isCancelled, state.analysisOwner == nil { startNativeMusicAnalysis() }
+                if Task.isCancelled, libraryAnalysisOwner == nil { startNativeMusicAnalysis() }
             }
             await removeStaleNativeSources()
             let count = await queue.prepare()
-            guard !Task.isCancelled, state.analysisOwner == token else {
+            guard !Task.isCancelled, libraryAnalysisOwner == token else {
                 await queue.finish()
                 return
             }
@@ -179,13 +178,13 @@ extension ReplicaModel {
             var review: [String: String] = [:]
             for (index, pass) in passes.enumerated() where count > 0 {
                 if pass == .structure { await queue.rewind() }
-                guard !Task.isCancelled, state.analysisOwner == token else { break }
+                guard !Task.isCancelled, libraryAnalysisOwner == token else { break }
                 let passStart = state.analysisChecked
                 let title = "Pass \(index + 1) of \(passes.count) · \(pass.title)"
                 analysisProgress = .init(
                     done: 0, total: count, title: title, isLibraryAnalysis: true)
                 while let job = await queue.next() {
-                    guard !Task.isCancelled, state.analysisOwner == token else { break }
+                    guard !Task.isCancelled, libraryAnalysisOwner == token else { break }
                     if state.backgrounded, !libraryAnalysisPlaybackIsIdle {
                         cancelNativeMusicAnalysis()
                         break
@@ -211,7 +210,7 @@ extension ReplicaModel {
                     } catch {
                         issue = error.localizedDescription
                     }
-                    guard !Task.isCancelled, state.analysisOwner == token else { break }
+                    guard !Task.isCancelled, libraryAnalysisOwner == token else { break }
                     if let issue {
                         if review[job.id] == nil { review[job.id] = issue }
                         logAnalysis("Review \(job.title) (\(pass.title)): \(issue)")
@@ -227,7 +226,7 @@ extension ReplicaModel {
                 }
             }
             await queue.finish()
-            guard !Task.isCancelled, state.analysisOwner == token else { return }
+            guard !Task.isCancelled, libraryAnalysisOwner == token else { return }
             state.finishedAnalysis = (version, library.revision)
             if !review.isEmpty {
                 analysisProgress = .init(

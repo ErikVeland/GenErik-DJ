@@ -9,6 +9,10 @@
     {
       "request": "R73",
       "text": "Reuse validated Traktor beat grids and keys in Pass 1. Analyse tracks with missing data or changed audio. A file move or metadata change must not trigger reanalysis."
+    },
+    {
+      "request": "R74",
+      "text": "Keep the iPad awake during analysis while connected to power."
     }
   ],
   "log": "TestBuilds/ipad/build-132.log",
