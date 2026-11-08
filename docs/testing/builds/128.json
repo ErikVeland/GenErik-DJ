@@ -5,7 +5,28 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 58.81,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R66",
+      "text": "The master BPM stays the same after the first load, with playback active or stopped."
+    },
+    {
+      "request": "R67",
+      "text": "Library analysis pauses at 389 and does not appear to resume."
+    },
+    {
+      "request": "R66",
+      "text": "The master tempo reset now works on the iPad."
+    },
+    {
+      "request": "R68",
+      "text": "Show all songs in the library pane. Keep recommendations in the right pane."
+    },
+    {
+      "request": "R69",
+      "text": "Keep the battery icon live. Show whether the iPad is charging. Turn the icon red below 10%."
+    }
+  ],
   "log": "TestBuilds/ipad/build-128.log",
   "build": 128,
   "app": "TestBuilds/ipad/128/GenErikDJ.app",
@@ -30,5 +51,10 @@
   "acceptance": [
     "Stop both decks. Load a track with a different BPM. Check the master tempo before pressing Play.",
     "Start one deck. Load a track with a different BPM on the other deck. Check that the master tempo stays steady."
-  ]
+  ],
+  "followUp": {
+    "tempo": "Erik confirmed the reset on the iPad. The earlier load history shows saved grids from 71.8 to 144.5 BPM.",
+    "analysis": "Two early device snapshots matched. Deck analysis later finished for Balkan Boogie. The library queue restarted at 14:37 Brisbane time and logged further checks.",
+    "evidence": "TestBuilds/r66/follow-up/"
+  }
 }

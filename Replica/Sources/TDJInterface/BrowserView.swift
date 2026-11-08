@@ -22,7 +22,6 @@ struct BrowserView: View {
     @State private var layout = StandardBrowserLayoutState(categoriesHidden: true)
     @State private var section = BrowserSection.songs
     private var displayedSection: BrowserSection { hasSearchQuery ? .songs : section }
-    private var showingSuggestions: Bool { !hasSearchQuery && model.suggestionDestination != nil }
     @State private var newPlaylistPresented = false
     @State private var detailTab = DetailTab.match
     enum DetailTab { case match, queue }
@@ -171,6 +170,12 @@ struct BrowserView: View {
             }
         }.onChange(of: playlists) { _, _ in collectionVersion = UUID() }.onChange(of: model.browserHintsVersion) { _, _ in
             collectionVersion = UUID()
+        }.onChange(of: model.browserPresentationID) { _, _ in
+            open(.songs)
+            if model.suggestionDestination != nil {
+                detailTab = .match
+                layout.showDetail()
+            }
         }.task(id: request) {
             let current = request
             searching = true
@@ -321,21 +326,15 @@ extension BrowserView {
             }.padding(.horizontal, 14).frame(maxWidth: 380).frame(height: 44).background(
                 Capsule().fill(PerformancePalette.sunken)
             ).overlay(Capsule().strokeBorder(Color.black.opacity(0.7)))
-            if let destination = model.suggestionDestination {
-                Text("\(hasSearchQuery ? "All songs" : "Suggestions") → \(destination.rawValue.uppercased())")
-                    .foregroundStyle(deckBlue)
-                if !hasSearchQuery { Button("Songs") { model.showLibrary() } }
-            } else if hasSearchQuery {
+            if hasSearchQuery {
                 Text("All songs").foregroundStyle(PerformancePalette.secondaryText)
             }
             Spacer()
-            if !showingSuggestions {
-                Button(selecting ? "Done" : "Edit") {
-                    selecting.toggle()
-                    selection = []
-                }.frame(minWidth: 44, minHeight: 44)
-                if selecting { Button("Add to Playlist") { adding = true }.disabled(selection.isEmpty) }
-            }
+            Button(selecting ? "Done" : "Edit") {
+                selecting.toggle()
+                selection = []
+            }.frame(minWidth: 44, minHeight: 44)
+            if selecting { Button("Add to Playlist") { adding = true }.disabled(selection.isEmpty) }
             Button {
                 model.browserVisible = false
             } label: {
@@ -360,7 +359,6 @@ extension BrowserView {
     }
     private func open(_ target: BrowserSection) {
         query = ""
-        if model.suggestionDestination != nil { model.showLibrary() }
         section = target
         if target == .songs { select(category: .songs) }
         if target == .playlists { select(category: .playlists) }
@@ -411,7 +409,6 @@ extension BrowserView {
         }.accessibilityLabel(label)
     }
     private func select(category: CollectionCategory) {
-        if model.suggestionDestination != nil { model.showLibrary() }
         withAnimation(.smooth(duration: 0.25)) { panes.select(category) }
         if category == .playlists && sort == nil {} else if sort == nil { sort = .title }
     }
@@ -536,7 +533,7 @@ extension BrowserView {
             } else {
                 songPane
             }
-        } else if category == .songs || model.suggestionDestination != nil {
+        } else if category == .songs {
             songPane
         } else {
             LibraryGroupList(
@@ -558,25 +555,7 @@ extension BrowserView {
     }
 
     @ViewBuilder fileprivate var songPane: some View {
-        if showingSuggestions {
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    if recommendations.isEmpty {
-                        Text(
-                            recommendationSeed == nil
-                                ? "Load a track on the other deck to see matches." : "No matching tracks yet."
-                        ).font(.system(size: 13)).foregroundStyle(.secondary).padding(24)
-                    }
-                    ForEach(recommendations) { match in songRow(match.entry).padding(.bottom, 1) }
-                }
-            }
-        } else if !hasSearchQuery, let message = model.suggestionMessage {
-            VStack {
-                Spacer()
-                Text(message).font(.system(size: 13)).foregroundStyle(.secondary).padding(24)
-                Spacer()
-            }.frame(maxWidth: .infinity)
-        } else if entryCount == 0 {
+        if entryCount == 0 {
             VStack {
                 Spacer()
                 switch libraryPresentation {
