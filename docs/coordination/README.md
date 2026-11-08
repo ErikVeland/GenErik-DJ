@@ -6,6 +6,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**Build 130** installed and launched on the A10X iPad Pro. The battery icon shows a bolt while charging. It turns orange below 20% and red below 10%. Erik checks live updates on the iPad. [Build record](../testing/builds/130.json).
+
 **Build 129** installed and launched on the A10X iPad Pro. All Songs opens on the left. The deck shortcut opens Recommendations on the right. Erik checks both entry points. [Build record](../testing/builds/129.json).
 
 **Build 128** installed and launched on the A10X iPad Pro. Erik confirmed the master tempo reset. Library analysis paused at 389, then restarted at 14:37 Brisbane time after deck analysis finished. [Build record](../testing/builds/128.json).

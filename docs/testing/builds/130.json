@@ -1,0 +1,35 @@
+{
+  "notes": "R69 shows charging and live battery level. The icon turns orange below 20% and red below 10%.",
+  "sourceCommit": "8500e7b40c5947276b8f7c68ca19e0773bebd829",
+  "sourceSHA256": "755cbfe0eefc7d8b73fec35586000981f5e5ecd02f91fad612cb41cb81311e2a",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 35.08,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-130.log",
+  "build": 130,
+  "app": "TestBuilds/ipad/130/GenErikDJ.app",
+  "appSHA256": "1e5f410afde9e79d02afc52ed59e5cd2126bbcc6fc474fb36862a3d43038479d",
+  "state": "testing",
+  "createdUTC": "2026-11-08T05:15:10.739512+00:00",
+  "installedUTC": "2026-11-08T05:15:26.161620+00:00",
+  "launchedUTC": "2026-11-08T05:15:26.730782+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R69"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "previousDeviceBuild": 129,
+  "focusedChecks": "The battery presentation test passed. It covers full charge, the charging bolt, unavailable readings and both warning thresholds. The iOS compiler checked the battery view.",
+  "evidence": [
+    "TestBuilds/r69/red.log",
+    "TestBuilds/r69/warnings-focused.log",
+    "TestBuilds/r69/ios-warnings-typecheck.log",
+    "TestBuilds/r69/ipad-cycle.log"
+  ],
+  "acceptance": [
+    "Connect and disconnect power while the battery is below full. Check that the bolt follows charging.",
+    "Check that the percentage follows the reported level.",
+    "Check for orange from 10% to below 20%. Check for red below 10%."
+  ]
+}
