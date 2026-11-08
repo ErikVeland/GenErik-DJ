@@ -240,11 +240,14 @@ public enum AudioAnalyzer {
         let handle = try FileHandle(forReadingFrom: url)
         defer { try? handle.close() }
         var digest = SHA256()
-        while let data = try handle.read(upToCount: 1_048_576), !data.isEmpty {
+        // Release Foundation read buffers after each chunk, including during long-mix hashing.
+        while try autoreleasepool(invoking: {
+            guard let data = try handle.read(upToCount: 1_048_576), !data.isEmpty else { return false }
             bytes += Int64(data.count)
             try checkCancellation()
             digest.update(data: data)
-        }
+            return true
+        }) {}
         let hash = digest.finalize().map { String(format: "%02x", $0) }.joined()
         measurement?.update {
             $0.contentSHA256 = hash

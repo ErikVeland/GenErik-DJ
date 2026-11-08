@@ -7,6 +7,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
 
+**Duo-only update — 8 November 2026:** R80 fixes long-mix hash memory growth. Erik authorised installation on the Duo only. Leave the iPad analysis running.
+
 **Build 138** installed and launched on the A10X iPad Pro after Erik released the hold. Beat This uses up to 90 seconds on long mixes and requires a supported opening downbeat. Speed, accuracy and playback checks remain open. [Build record](../testing/builds/138.json).
 
 **Build 137** installed and launched on the A10X iPad Pro. Pass 1 reports Traktor grid only, key only and both separately. [Build record](../testing/builds/137.json).
