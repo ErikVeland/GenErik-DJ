@@ -1,0 +1,34 @@
+{
+  "notes": "R74 keeps the iPad awake during foreground analysis on external power.",
+  "sourceCommit": "e01135b6ae1f3da99e3e840ce64f3d44c17ee789",
+  "sourceSHA256": "3d021ae2717da99a2cc279e0936fe110d588d80ae61830674f1a517abdcfe984",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 42.35,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-134.log",
+  "build": 134,
+  "app": "TestBuilds/ipad/134/GenErikDJ.app",
+  "appSHA256": "7586975e5a7e729eaf7d1e5b8cb22eb50d040b084c617f6baaaec96937fe5c09",
+  "state": "testing",
+  "createdUTC": "2026-11-08T07:04:32.893395+00:00",
+  "installedUTC": "2026-11-08T07:04:51.377604+00:00",
+  "launchedUTC": "2026-11-08T07:04:51.943029+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R74"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "previousDeviceBuild": 133,
+  "focusedChecks": "The Auto-Lock policy passed with simulated battery states. The check covers charging, full charge, unknown state, unplugging, reconnecting and stopping analysis.",
+  "evidence": [
+    "TestBuilds/r74/red.log",
+    "TestBuilds/r74/focused.log",
+    "TestBuilds/r74/ipad-cycle.log"
+  ],
+  "acceptance": [
+    "Leave GenErik DJ open on external power while analysis runs. Check that the screen stays awake past the usual Auto-Lock timeout.",
+    "Unplug the iPad during analysis. Check that Auto-Lock resumes.",
+    "Reconnect power and pause or finish analysis. Check that Auto-Lock resumes while the app stays open."
+  ]
+}
