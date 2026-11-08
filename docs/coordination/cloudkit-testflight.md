@@ -16,7 +16,7 @@ Use CKSyncEngine with automatic scheduling disabled. Persist engine state and pe
 - [x] Add the private CloudKit transport with durable state, bounded batches and cancellation. Add explicit sync/recovery UI and playback gating. Test offline persistence and the playback gate without contacting CloudKit from host tests.
 - [x] Add entitlements and the CloudKit schema. Validate the schema in development and deploy it to production for TestFlight.
 - [x] Add an archive/export action to the existing numbered iPad build tool. Preserve source hashes, logs and failed attempts. Build only from committed main.
-- [ ] Prepare and validate an App Store distribution archive. Upload only the requested TestFlight candidate, without adding external testers or submitting an App Store release.
+- [x] Prepare and validate an App Store distribution archive. Upload only the requested TestFlight candidate, without adding external testers or submitting an App Store release.
 
 ## Verification limits
 
@@ -58,3 +58,5 @@ The archive includes a privacy manifest for existing app behaviour. It declares 
 Build 145 archived and passed runtime-path and signing checks. Export failed because Xcode's Apple rsync invoked Homebrew rsync through PATH. The export process now selects Apple command-line tools first. Build 145 and its failed logs remain retained. The next candidate adds the privacy manifest.
 
 Build 146 exported successfully. Its signature, Production CloudKit settings, push environment and privacy manifest passed inspection. Apple rejected the upload because Xcode 27.2 beta (27B5019j) is no longer supported. Rebuild the same app source with installed Xcode 27.1 (27A9275). The distribution tool now records the compiler and selects the installed release by default. This does not change the system's selected Xcode.
+
+Build 147 (0.1.0), from main at `58a198cca`, exported with Xcode 27.1 and uploaded successfully. The exported package passed signature, SDK, Production CloudKit, push and privacy-manifest checks. Apple processing is pending. Thirteen focused Swift tests and four release-tool tests passed. No device installation or tester invitation was made.

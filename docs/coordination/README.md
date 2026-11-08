@@ -7,6 +7,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
 
+**TestFlight build 147 (0.1.0)** uploaded from committed main with Xcode 27.1. Apple is processing it. R86 adds explicit private iCloud preparation sync and next-launch recovery. The CloudKit schema is deployed to Production. Thirteen focused Swift tests and four release-tool tests passed. Device sync, restoration and A10X audio/touch acceptance remain open. The installed iPad remains on build 144. [Build record](../testing/builds/147.json) · [Test steps](cloudkit-testflight.md).
+
 **Build 144** installed on the A10X iPad Pro, and iPadOS accepted launch. R83/R84 add amber warnings every four beats at 30 seconds remaining and every beat at 10, plus a subtle blue beat pulse. Filter/FX actions remain unchanged. Twenty-one focused tests passed across 24 cases. Physical light timing, brightness, control and audio checks remain open. [Build record](../testing/builds/144.json) · [Test steps](../testing/controller-test.md).
 
 **Build 143** installed on the A10X iPad Pro, and iPadOS accepted launch. R85 runs both analysis passes for shorter tracks before mixes over 19 minutes. Eight focused tests passed across 15 cases. Saved results are reused. Erik checks phase 2 progress and playback. R83/R84 lights follow in build 144. [Build record](../testing/builds/143.json).

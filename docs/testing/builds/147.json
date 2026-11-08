@@ -1,0 +1,43 @@
+{
+  "build": 147,
+  "notes": "R86: iCloud preparation revisions and next-launch recovery. Release Xcode 27.1 candidate. Includes Z1 light changes. Device acceptance pending.",
+  "sourceCommit": "58a198ccabbb13a97eeea4f2e297ac3b35d93940",
+  "sourceSHA256": "78b7197546cf897ca4b68d3852a2e2c51648a8323b67237b2a5b364441f5be5f",
+  "state": "uploaded-processing",
+  "distribution": "TestFlight",
+  "feedback": [],
+  "xcode": "Xcode 27.1\nBuild version 27A9275",
+  "developerDirectory": "/Applications/Xcode.app/Contents/Developer",
+  "createdUTC": "2026-11-08T10:30:54.886169+00:00",
+  "archive": "TestBuilds/ipad/147/GenErikDJ.xcarchive",
+  "log": "TestBuilds/ipad/147/archive.log",
+  "app": "TestBuilds/ipad/147/GenErikDJ.xcarchive/Products/Applications/GenErikDJ.app",
+  "appSHA256": "df6f22f3fb3282f7460af3394c8ecced1382812192f986837e4203ca30008567",
+  "archiveSHA256": "343d6dd571714910e30352358bfa799953b9e70210067272081beba6f395393c",
+  "buildSeconds": 75.1,
+  "distributionAttempts": [
+    {
+      "action": "export",
+      "log": "TestBuilds/ipad/147/export-1.log",
+      "state": "succeeded",
+      "finishedUTC": "2026-11-08T10:32:41.108170+00:00"
+    },
+    {
+      "action": "upload",
+      "log": "TestBuilds/ipad/147/upload-1.log",
+      "state": "succeeded",
+      "finishedUTC": "2026-11-08T10:36:07.941858+00:00"
+    }
+  ],
+  "ipa": "TestBuilds/ipad/147/export-1/GenErikDJ.ipa",
+  "ipaSHA256": "adff439b514a134dcc4f34106f8b16f776d94b8524e4ac0503b4ca30ade18ffd",
+  "checks": "13 focused Swift tests and 4 release-tool tests passed. Runtime framework paths and archive signing passed. Exported IPA signature, build identity, iOS 27.1 SDK, Production CloudKit, production push and privacy manifest verified. Apple accepted the upload.",
+  "hostTestSourceCommit": "380c53d83358b72f53c65bdb020581dd03446efc",
+  "hostTestEvidence": "TestBuilds/r86/generik-r86-focused-final.log",
+  "packageVerification": "TestBuilds/ipad/147/package-verification.json",
+  "appStoreConnectApp": "6832211854",
+  "cloudContainer": "iCloud.org.generikdj.analysis",
+  "deviceAcceptance": "Pending: real iCloud transfer, restoration, interrupted/offline sync, account changes and A10X audio/touch response. No installation performed. Build 144 remains installed.",
+  "testflightStatus": "Processing",
+  "testInstructions": "docs/coordination/cloudkit-testflight.md"
+}
