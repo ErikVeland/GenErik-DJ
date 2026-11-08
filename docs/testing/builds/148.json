@@ -1,0 +1,42 @@
+{
+  "notes": "R87: Float16 Beat This for foreground Duo Neural Engine analysis. Original A10X CPU model and background fallback retained. Device speed and accuracy checks pending.",
+  "sourceCommit": "2f39941015ecbd7ff07a17b6c3f9aaf2c531bc7a",
+  "sourceSHA256": "d5d94f3a5507221dd0eae68e5549d6b92eadd7f2dc6b0444be0f32fc7e140fb3",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 66.55,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-148.log",
+  "build": 148,
+  "app": "TestBuilds/ipad/148/GenErikDJ.app",
+  "appSHA256": "8dc8c72a6fc7d39832f0935762b595462262cabc4359440b898700d74e955a85",
+  "state": "testing",
+  "createdUTC": "2026-11-08T10:47:58.988692+00:00",
+  "installedUTC": "2026-11-08T10:48:34.840143+00:00",
+  "launchedUTC": "2026-11-08T10:48:35.466916+00:00",
+  "launchVerification": "iOS accepted the launch request on GenErik Duo. No further device actions followed.",
+  "requestIDs": [
+    "R87"
+  ],
+  "device": "GenErik Duo",
+  "deviceUDID": "00008160-000859C436800036",
+  "previousRecordedDeviceBuild": 139,
+  "focusedChecks": "Six focused tests passed across seven cases on the final source. They cover compute policy, worker context, accelerator fallback, cancellation and foreground-to-background restart. Earlier serial-worker, measurement and background checks also passed.",
+  "modelChecks": "Host Core ML plan prefers Neural Engine for all 746 reported operations. Three full-track numerical comparisons retained beat/downbeat counts. Two tracks matched exactly; 3CAG had shifts of up to one 20 ms frame.",
+  "verificationLimit": "No observed Duo execution placement, speedup, accuracy improvement or live-performance acceptance is claimed.",
+  "iPadDisposition": "No iPad installation, launch or process action was issued.",
+  "evidence": [
+    "TestBuilds/r87/verification.json",
+    "TestBuilds/r87/final-focused-tests.log",
+    "TestBuilds/r87/focused-tests.log",
+    "TestBuilds/r87/model-comparison.json",
+    "TestBuilds/r87/compute-plan.json",
+    "TestBuilds/r87/build.log",
+    "TestBuilds/r87/duo-deploy.log"
+  ],
+  "acceptance": [
+    "Keep the Duo app in the foreground while new tracks analyse. Compare fresh-track throughput, allowing for the first model compilation.",
+    "Start playback during analysis. Check uninterrupted audio and immediate control response.",
+    "Check grid and downbeat placement on familiar tracks. Check pause/resume after leaving and reopening the app."
+  ]
+}

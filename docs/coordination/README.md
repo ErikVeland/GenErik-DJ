@@ -9,6 +9,8 @@ Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace th
 
 **TestFlight build 147 (0.1.0)** uploaded from committed main with Xcode 27.1. Apple is processing it. R86 adds explicit private iCloud preparation sync and next-launch recovery. The CloudKit schema is deployed to Production. Thirteen focused Swift tests and four release-tool tests passed. Device sync, restoration and A10X audio/touch acceptance remain open. The installed iPad remains on build 144. [Build record](../testing/builds/147.json) · [Test steps](cloudkit-testflight.md).
 
+**Build 148** installed on the Duo, and iOS accepted launch. R87 adds a Float16 Beat This model and foreground CPU + Neural Engine execution on capable iOS devices. Six focused tests passed across seven cases. The original A10X CPU model remains. Actual Duo throughput, musical accuracy and playback checks remain open. [Build record](../testing/builds/148.json) · [ML audit and rollout](neural-analysis.md).
+
 **Build 144** installed on the A10X iPad Pro, and iPadOS accepted launch. R83/R84 add amber warnings every four beats at 30 seconds remaining and every beat at 10, plus a subtle blue beat pulse. Filter/FX actions remain unchanged. Twenty-one focused tests passed across 24 cases. Physical light timing, brightness, control and audio checks remain open. [Build record](../testing/builds/144.json) · [Test steps](../testing/controller-test.md).
 
 **Build 143** installed on the A10X iPad Pro, and iPadOS accepted launch. R85 runs both analysis passes for shorter tracks before mixes over 19 minutes. Eight focused tests passed across 15 cases. Saved results are reused. Erik checks phase 2 progress and playback. R83/R84 lights follow in build 144. [Build record](../testing/builds/143.json).
@@ -43,7 +45,7 @@ Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace th
 
 **Build 124** came from `main` at `a7acf07d9`. The A10X iPad Pro launched the new analyser and saved a 71.0058 BPM grid for 3CAG. All 56 reference bars are within 20.5 ms of the fitted grid. The iPad kept the manual grid and key and saved sections and automatic cue candidates. [Build record](../testing/builds/124.json).
 
-Latest installed Duo candidate is **build 139**. Erik checks long-mix analysis after the memory fix. [Build record](../testing/builds/139.json).
+Latest installed Duo candidate is **build 148**. Erik checks foreground Neural Engine analysis, grid placement and playback. [Build record](../testing/builds/148.json).
 
 Duo **build 126** came from `main` at `c4202fbe8`. It saves the beat grid and key before it analyses structure and automatic hot cues. On the Duo, the first check advanced the counter to 1 of 376 after the 13-second “Catchphrases”. The queue resumed after reconnecting and had 88 saved matching results at the last reachable check. [Build record](../testing/builds/126.json).
 

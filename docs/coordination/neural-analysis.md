@@ -123,3 +123,7 @@ The first compute-plan script used an outdated method name. Its failed output is
 - 3CAG retained 260 beats and 75 downbeats. Some times differ by one 20 ms frame.
 - These three songs compare numerical behaviour against the existing model, not musical correctness against human labels.
 - No Duo speedup, new accuracy percentage or A10X performance acceptance is claimed.
+
+Build 148 installed on the Duo, and iOS accepted launch. No further device actions followed.
+Six focused tests passed across seven cases on the final source. They cover fallback, cancellation, worker context and background transitions.
+The build record and `verification.json` contain the same source digest. Actual Duo timing and listening checks remain open.
