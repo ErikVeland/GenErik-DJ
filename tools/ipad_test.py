@@ -139,10 +139,20 @@ def release_source():
     return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 
 
+def distribution_environment():
+    environment = dict(os.environ)
+    released = "/Applications/Xcode.app/Contents/Developer"
+    if Path(released).exists():
+        environment.setdefault("DEVELOPER_DIR", released)
+    environment["PATH"] = "/usr/bin:/bin:/usr/sbin:/sbin:" + environment.get("PATH", "")
+    return environment
+
+
 def testflight(config, notes):
     from prepare_vocal_model import prepare
     from check_ipad_runtime import verify_embedded_frameworks
     commit = release_source()
+    environment = distribution_environment()
     prepare()
     numbers = [int(p.stem) for p in RECORDS.glob("*.json") if p.stem.isdigit()]
     numbers += [int(p.name) for p in LOCAL.iterdir() if p.is_dir() and p.name.isdigit()]
@@ -154,6 +164,8 @@ def testflight(config, notes):
     before = source_identity()
     record = dict(build=number, notes=notes, sourceCommit=commit, sourceSHA256=before,
                   state="archiving", distribution="TestFlight", feedback=[],
+                  xcode=subprocess.check_output(["xcodebuild", "-version"], env=environment, text=True).strip(),
+                  developerDirectory=environment.get("DEVELOPER_DIR"),
                   createdUTC=datetime.now(timezone.utc).isoformat(),
                   archive=str(archive_path.relative_to(ROOT)), log=str(log.relative_to(ROOT)))
     path = RECORDS / f"{number}.json"
@@ -169,7 +181,7 @@ def testflight(config, notes):
                  "-jobs", "2", f"PRODUCT_BUNDLE_IDENTIFIER={BUNDLE}",
                  f"CURRENT_PROJECT_VERSION={number}", f"DEVELOPMENT_TEAM={config['team']}",
                  "CODE_SIGN_STYLE=Automatic", "INFOPLIST_KEY_CFBundleDisplayName=GenErik DJ",
-                 "TARGETED_DEVICE_FAMILY=1,2", "archive"], stdout=output, stderr=subprocess.STDOUT)
+                 "TARGETED_DEVICE_FAMILY=1,2", "archive"], stdout=output, stderr=subprocess.STDOUT, env=environment)
         app = archive_path / "Products/Applications/GenErikDJ.app"
         if before != source_identity() or int(info(app)["CFBundleVersion"]) != number:
             raise ValueError("The source or archive identity changed. Export stopped.")
@@ -214,8 +226,9 @@ def export_testflight(config, number, upload=False):
     write(path, record)
     print(f"{'Uploading' if upload else 'Exporting'} TestFlight build {number}…", flush=True)
     try:
-        export_environment = dict(os.environ)
-        export_environment["PATH"] = "/usr/bin:/bin:/usr/sbin:/sbin:" + export_environment.get("PATH", "")
+        export_environment = distribution_environment()
+        if record.get("developerDirectory"):
+            export_environment["DEVELOPER_DIR"] = record["developerDirectory"]
         with log.open("w") as output:
             run(["xcodebuild", "-exportArchive", "-archivePath", str(archive_path),
                  "-exportPath", str(export_path), "-exportOptionsPlist", str(options),

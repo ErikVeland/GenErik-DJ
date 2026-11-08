@@ -1,0 +1,36 @@
+{
+  "build": 146,
+  "notes": "R86: private iCloud preparation revisions, explicit sync, next-launch recovery and distribution privacy declarations. Includes R83/R84 Z1 lights. A10X acceptance pending.",
+  "sourceCommit": "95490177bf034ddf73c155419ebb74f82df4c485",
+  "sourceSHA256": "78b7197546cf897ca4b68d3852a2e2c51648a8323b67237b2a5b364441f5be5f",
+  "state": "upload-failed",
+  "distribution": "TestFlight",
+  "feedback": [],
+  "createdUTC": "2026-11-08T10:26:27.824577+00:00",
+  "archive": "TestBuilds/ipad/146/GenErikDJ.xcarchive",
+  "log": "TestBuilds/ipad/146/archive.log",
+  "app": "TestBuilds/ipad/146/GenErikDJ.xcarchive/Products/Applications/GenErikDJ.app",
+  "appSHA256": "6ddf27e8f985bfba16722c133052d8f4599c68746917e8aa34f6fa89f1d3024d",
+  "archiveSHA256": "92ac76441eb4ce10112d001cc1cdfa22f3eac00644b945b72e2cb86553079c24",
+  "buildSeconds": 64.9,
+  "distributionAttempts": [
+    {
+      "action": "export",
+      "log": "TestBuilds/ipad/146/export-1.log",
+      "state": "succeeded",
+      "finishedUTC": "2026-11-08T10:28:02.953583+00:00"
+    },
+    {
+      "action": "upload",
+      "log": "TestBuilds/ipad/146/upload-1.log",
+      "state": "failed",
+      "failure": "Command '['xcodebuild', '-exportArchive', '-archivePath', '/Users/veland/GenErik DJ/TestBuilds/ipad/146/GenErikDJ.xcarchive', '-exportPath', '/Users/veland/GenErik DJ/TestBuilds/ipad/146/upload-1', '-exportOptionsPlist', '/Users/veland/GenErik DJ/TestBuilds/ipad/146/upload-1.plist', '-allowProvisioningUpdates']' returned non-zero exit status 70."
+    }
+  ],
+  "ipa": "TestBuilds/ipad/146/export-1/GenErikDJ.ipa",
+  "ipaSHA256": "2518035936c416c372817ca3ae0b10818d3e972984d0669099e5bea0b0e81686",
+  "xcode": "Xcode 27.2 beta (27B5019j)",
+  "developerDirectory": "/Applications/Xcode-beta.app/Contents/Developer",
+  "checks": "13 focused Swift tests and 4 release-tool tests passed. Distribution signature, Production CloudKit, production push and privacy manifest verified in the exported IPA. A10X acceptance pending.",
+  "uploadFailureCause": "Apple rejected the superseded Xcode 27.2 beta SDK. Rebuild with released Xcode 27.1 (27A9275)."
+}
