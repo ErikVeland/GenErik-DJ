@@ -1,0 +1,39 @@
+{
+  "notes": "R76 adds analysis stage timings, cache/source records and bounded measurement logs. Musical results and preparation authority remain unchanged.",
+  "sourceCommit": "133ae2e1bbfad2d1571fe781c5def73d302e1107",
+  "sourceSHA256": "f48eeae99dd90775d12837865b95b13829a305a2eab9ecabf55ed315f6c054e9",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 58.77,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-136.log",
+  "build": 136,
+  "app": "TestBuilds/ipad/136/GenErikDJ.app",
+  "appSHA256": "82a7f3b03c698276b8468578aba22aa1d9257ec5bc02b67015670ecfb844fa4e",
+  "state": "testing",
+  "createdUTC": "2026-11-08T08:13:09.898516+00:00",
+  "installedUTC": "2026-11-08T08:13:26.057055+00:00",
+  "launchedUTC": "2026-11-08T08:13:26.568278+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R76",
+    "R70"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "previousDeviceBuild": 135,
+  "focusedChecks": "Ten Swift tests passed, including both Traktor reuse cases. Five Python report tests passed. Host correctness checks only.",
+  "evidence": [
+    "TestBuilds/r76/test-source.json",
+    "TestBuilds/r76/verified-source-tests.log",
+    "TestBuilds/r76/report-tests.log",
+    "TestBuilds/r76/ipad-cycle.log"
+  ],
+  "acceptance": [
+    "Let library analysis progress and confirm that it pauses for playback.",
+    "Check uninterrupted audio and responsive controls on the A10X.",
+    "Export the measurement log during a later idle check and compare stage costs.",
+    "Measure instrumentation overhead and the same uncached labelled tracks against verified Traktor DJ 1.6.8.67."
+  ],
+  "scope": "First measurement increment. Musical decisions and preparation authority remain unchanged. No speedup, accuracy, calibration or Traktor parity claim.",
+  "buildDiagnostics": "Xcode printed a SwiftCompile diagnostic with exit code 0. The overall build, runtime framework checks and signature verification passed. The saved executable contains the new measurement-log and Beat This stage identifiers. The full log is retained."
+}

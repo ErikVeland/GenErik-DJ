@@ -106,3 +106,7 @@ Ten Swift tests passed, including both parameterised Traktor reuse cases. Five P
 They cover worker context, failed work, cancellation, buffered writes, fresh/saved matching, Pass 2 and the synthetic reference gate.
 These are host correctness checks, not device performance measurements.
 Logs and the tested source hashes are retained under `TestBuilds/r76/`. The numbered build record binds the signed app to its source.
+
+Signed [build 136](../testing/builds/136.json) installed on the A10X iPad. iPadOS accepted launch. No further device actions followed.
+Runtime framework and signature checks passed. The source hash matches the focused test evidence.
+A10X timing, logging overhead, playback/touch acceptance and paired Traktor measurements remain open.
