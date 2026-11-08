@@ -274,9 +274,11 @@ extension ReplicaModel {
             var track = known.flatMap { library.track(id: $0.id) }
             if track == nil { track = await preparedNativeTrack(item) }
             if let track, !track.needsCurrentLibraryAnalysis { return track }
+            let sourceChanged = track?.nativeSourceNeedsAnalysis == true
             return try await withNativeAudio(item) { prepared in
-                let snapshot = try await self.service.analyzeNativeMusic(
-                    url: prepared.url, musicLibrary: prepared.metadata)
+                let snapshot = try await self.service.importAudio(
+                    url: prepared.url, musicLibrary: prepared.metadata, copyMedia: false,
+                    forceFullAnalysis: sourceChanged)
                 self.adoptLibrary(snapshot)
                 guard let updated = await self.preparedNativeTrack(item) else { throw MusicLibraryError.missingAudio }
                 return updated
@@ -403,7 +405,9 @@ extension ReplicaModel {
                         pendingNativeWaveforms[deck] = preview
                     }
                     adoptLibrary(
-                        try await service.registerNativePlayback(analysis: opening.analysis, metadata: source.metadata))
+                        try await service.registerNativePlayback(
+                            analysis: opening.analysis, metadata: source.metadata,
+                            audioFingerprint: opening.audioFingerprint))
                     try Task.checkCancellation()
                     guard state.loadOwners[deck] == token, let track = await preparedNativeTrack(item) else {
                         throw CancellationError()

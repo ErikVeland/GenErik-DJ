@@ -195,6 +195,54 @@ private func collectionXML(bpm: Int, persistentHex: String) -> Data {
     #expect(model.browserHints[item.id]?.key != nil)
 }
 
+@Test(arguments: [true, false]) @MainActor func firstPassReusesValidatedTraktorPreparation(prepared: Bool) async throws {
+    let inbox = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".nml")
+    defer { try? FileManager.default.removeItem(at: inbox) }
+    try collectionXML(bpm: 127, persistentHex: "0000000000001234").write(to: inbox)
+    let item = clockItem(String(0x1234), duration: 16)
+    let provider = ClockMusicLibrary([item])
+    let workspace = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: workspace) }
+    let model = try ReplicaModel(
+        root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider,
+        automaticTraktorSources: [inbox])
+    await model.refreshTraktorPreparation()
+    if prepared {
+        model.adoptLibrary(
+            try await model.service.analyzeNativeMusic(
+                url: clockFixture(), musicLibrary: .init(item: item), quickLoad: true))
+    }
+    let initialAnalysis = model.preparedTrack(for: item)?.analysis
+    var passTitles: [String] = []
+    provider.beforePreparation = { _ in
+        let title = model.analysisProgress?.title ?? ""
+        passTitles.append(title)
+        if title.hasPrefix("Pass 2 of 2") { throw MusicLibraryError.missingAudio }
+    }
+    await model.openNativeMusicLibrary()
+    await model.flushNativeMusicAnalysis()
+    let track = try #require(model.preparedTrack(for: item))
+    #expect(track.traktorPreparation?.normalized.grid?.bpm == 127)
+    #expect(track.traktorPreparation?.normalized.key != nil)
+    #expect(track.analysis.musicalAnalysisDeferred == true)
+    #expect(!track.needsCurrentLibraryAnalysis)
+    #expect(passTitles == (prepared
+        ? ["Pass 2 of 2 · Analysing structure and cues"]
+        : ["Pass 1 of 2 · Analysing beats and key", "Pass 2 of 2 · Analysing structure and cues"]))
+    if let initialAnalysis { #expect(track.analysis == initialAnalysis) }
+
+    var changed = track
+    changed.nativeSourceNeedsAnalysis = true
+    #expect(changed.needsCurrentLibraryAnalysis)
+    var missing = track
+    missing.traktorPreparation = nil
+    missing.preparation = Preparation()
+    #expect(missing.needsCurrentLibraryAnalysis)
+
+    provider.beforePreparation = nil
+    await model.finishForShutdown()
+}
+
 @Test @MainActor func linkedCollectionIsImportedAgainWhenItChanges() async throws {
     let linked = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".nml")
     defer { try? FileManager.default.removeItem(at: linked) }

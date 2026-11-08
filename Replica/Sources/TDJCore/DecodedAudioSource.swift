@@ -187,6 +187,7 @@ final class DecodedAudioSource: @unchecked Sendable {
 public struct NativePlaybackOpening: Sendable {
     private let decoder: DecodedAudioSource
     public let analysis: AudioAnalysis
+    public let audioFingerprint: String
     public static func open(url: URL, sourceIdentity: String, cleanup: @escaping @Sendable () -> Void = {}) async throws
         -> Self
     {
@@ -200,6 +201,9 @@ public struct NativePlaybackOpening: Sendable {
             try data.withUnsafeMutableBufferPointer {
                 try decoder.read(first: 0, count: Int(count), into: $0.baseAddress!)
             }
+            var audioHash = SHA256()
+            data.withUnsafeBytes { audioHash.update(bufferPointer: $0) }
+            let audioFingerprint = audioHash.finalize().map { String(format: "%02x", $0) }.joined()
             let stamp =
                 url.isFileURL ? try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey]) : nil
             let revision =
@@ -216,7 +220,7 @@ public struct NativePlaybackOpening: Sendable {
                 chroma: [], timbre: [])
             analysis.musicalAnalysisDeferred = true
             analysis.waveformDecodedFrames = count
-            return Self(decoder: decoder, analysis: analysis)
+            return Self(decoder: decoder, analysis: analysis, audioFingerprint: audioFingerprint)
         }
         return try await withTaskCancellationHandler {
             try await worker.value

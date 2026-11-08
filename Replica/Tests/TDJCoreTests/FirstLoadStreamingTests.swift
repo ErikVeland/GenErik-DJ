@@ -204,3 +204,34 @@ private func openingFixture() -> URL {
         (try? FileManager.default.contentsOfDirectory(atPath: root.path))?.contains { $0.hasSuffix(".partial") } != true
     )
 }
+
+@Test func nativeMetadataChangesDoNotInvalidateMusicAnalysis() async throws {
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let store = try WorkspaceStore(root: root)
+    let service = try LibraryService(store: store)
+    let firstURL = openingFixture()
+    let movedURL = store.mediaDirectory.appendingPathComponent("moved.wav")
+    try FileManager.default.copyItem(at: firstURL, to: movedURL)
+    let item = MusicLibraryItem(
+        source: .init(platform: .iosMusic, persistentID: "metadata-change"), title: "Clock", artist: "Fixture",
+        assetURL: firstURL, availability: .available)
+    let metadata = MusicLibraryImportMetadata(item: item)
+    let first = try await NativePlaybackOpening.open(url: firstURL, sourceIdentity: item.id)
+    _ = try await service.registerNativePlayback(
+        analysis: first.analysis, metadata: metadata, audioFingerprint: first.audioFingerprint)
+    let moved = try await NativePlaybackOpening.open(url: movedURL, sourceIdentity: item.id)
+    #expect(first.analysis.contentSHA256 != moved.analysis.contentSHA256)
+    #expect(first.audioFingerprint == moved.audioFingerprint)
+    let snapshot = try await service.registerNativePlayback(
+        analysis: moved.analysis, metadata: metadata, audioFingerprint: moved.audioFingerprint)
+    #expect(snapshot.track(id: first.analysis.contentSHA256)?.nativeSourceNeedsAnalysis != true)
+
+    let changedURL = firstURL.deletingLastPathComponent().appendingPathComponent("clock-b-120.wav")
+    let changed = try await NativePlaybackOpening.open(url: changedURL, sourceIdentity: item.id)
+    #expect(changed.analysis.frameCount == first.analysis.frameCount)
+    #expect(changed.audioFingerprint != first.audioFingerprint)
+    let replacement = try await service.registerNativePlayback(
+        analysis: changed.analysis, metadata: metadata, audioFingerprint: changed.audioFingerprint)
+    #expect(replacement.track(id: first.analysis.contentSHA256)?.nativeSourceNeedsAnalysis == true)
+}

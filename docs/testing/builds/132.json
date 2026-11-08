@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 38.22,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R73",
+      "text": "Reuse validated Traktor beat grids and keys in Pass 1. Analyse tracks with missing data or changed audio. A file move or metadata change must not trigger reanalysis."
+    }
+  ],
   "log": "TestBuilds/ipad/build-132.log",
   "build": 132,
   "app": "TestBuilds/ipad/132/GenErikDJ.app",

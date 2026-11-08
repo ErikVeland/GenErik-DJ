@@ -190,6 +190,7 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
     public var musicLibrarySources: [MusicLibrarySource]?
     public var nativeLibraryOnly: Bool? = nil
     public var nativePlaybackIdentity: String? = nil
+    var nativeAudioFingerprint: String? = nil
     public var nativeSourceNeedsAnalysis: Bool? = nil
     public var bpm: Double? { grid?.bpm ?? analysis.bpm }
     public var key: MusicalKey? { keyDecision.key }
@@ -216,7 +217,9 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
                 && NativeAnalysisPlan.needsDeckAnalysis(deferred: nil, bpm: bpm, key: key))
     }
     public var needsCurrentLibraryAnalysis: Bool {
-        analysis.configurationID != AnalysisConfiguration().id || needsFullPreparationAnalysis
+        if nativeSourceNeedsAnalysis == true { return true }
+        guard grid == nil || key == nil else { return false }
+        return analysis.configurationID != AnalysisConfiguration().id || needsFullPreparationAnalysis
     }
     public var automaticBarGrid: BeatGrid? {
         preparation.detectedBarGrid(

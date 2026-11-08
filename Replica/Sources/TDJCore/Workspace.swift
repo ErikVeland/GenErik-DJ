@@ -250,7 +250,9 @@ public actor LibraryService {
     }
     public func snapshot() -> LibrarySnapshot { library }
 
-    public func registerNativePlayback(analysis: AudioAnalysis, metadata: MusicLibraryImportMetadata) throws
+    public func registerNativePlayback(
+        analysis: AudioAnalysis, metadata: MusicLibraryImportMetadata, audioFingerprint: String? = nil
+    ) throws
         -> LibrarySnapshot
     {
         if let index = library.tracks.firstIndex(where: { $0.musicLibrarySources?.contains(metadata.source) == true }) {
@@ -258,10 +260,16 @@ public actor LibraryService {
             guard current.analysis.sampleRate == analysis.sampleRate else {
                 throw CoreError.invalidAudio("The Music sample rate changed. Saved preparation is retained.")
             }
-            if current.nativePlaybackIdentity == analysis.contentSHA256 { return library }
-            let refresh = current.nativePlaybackIdentity != nil
+            let fingerprint = audioFingerprint ?? current.nativeAudioFingerprint
+            let audioChanged = current.nativeAudioFingerprint != nil && current.nativeAudioFingerprint != fingerprint
+            let revisionChanged = current.nativePlaybackIdentity != analysis.contentSHA256
+            if !revisionChanged, current.nativeAudioFingerprint == fingerprint { return library }
+            let refresh = current.nativePlaybackIdentity != nil && (revisionChanged || audioChanged)
             current.nativePlaybackIdentity = analysis.contentSHA256
-            if refresh || current.analysis.frameCount != analysis.frameCount {
+            current.nativeAudioFingerprint = fingerprint
+            let durationChanged = abs(Double(current.analysis.frameCount) - Double(analysis.frameCount))
+                > analysis.sampleRate / 4
+            if audioChanged || durationChanged {
                 current.nativeSourceNeedsAnalysis = true
             }
             if refresh {
@@ -283,6 +291,7 @@ public actor LibraryService {
         track.album = metadata.album
         track.nativeLibraryOnly = true
         track.nativePlaybackIdentity = track.id
+        track.nativeAudioFingerprint = audioFingerprint
         track.musicLibrarySources = [metadata.source]
         var changed = library
         for index in changed.tracks.indices {
