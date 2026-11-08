@@ -23,9 +23,18 @@ struct ControllerSettingsView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text("Controllers").font(.headline)
-            Toggle("Enable controller input", isOn: Binding(get: { input.enabled }, set: enable))
-            Text(input.status).foregroundStyle(.secondary)
+            #if os(iOS)
+                Toggle(
+                    "Connect original Z1 directly",
+                    isOn: Binding(
+                        get: { model.z1Enabled }, set: { if $0 != model.z1Enabled { model.toggleZ1() } }))
+                Text(model.z1Status).foregroundStyle(.secondary)
+            #endif
             z1ConnectionDetails
+            Divider()
+            Text("MIDI controllers").font(.headline)
+            Toggle("Enable MIDI controller input", isOn: Binding(get: { input.enabled }, set: enable))
+            Text(input.status).foregroundStyle(.secondary)
             if input.enabled {
                 Picker("Input to configure", selection: Binding(get: { input.selected }, set: input.select)) {
                     Text("Choose an input").tag(Int32?.none)
@@ -70,7 +79,12 @@ struct ControllerSettingsView: View {
                 }
                 Toggle(
                     "Original Z1 through GenErik bridge",
-                    isOn: Binding(get: { input.originalZ1Bridge }, set: input.setBridgeMode))
+                    isOn: Binding(
+                        get: { input.originalZ1Bridge },
+                        set: {
+                            if $0 && model.z1Enabled { model.toggleZ1() }
+                            input.setBridgeMode($0)
+                        }))
                 if input.originalZ1Bridge {
                     Text(input.bridgeStatus).foregroundStyle(.secondary)
                     Text(input.feedbackStatus).font(.caption).foregroundStyle(.secondary)
@@ -257,14 +271,7 @@ struct ControllerSettingsView: View {
         } message: {
             Text("This replaces mappings for the selected MIDI input only. Mappings for other inputs stay in place.")
         }.onAppear {
-            #if os(iOS)
-                EAAccessoryManager.shared().registerForLocalNotifications()
-            #endif
             refreshConnections()
-        }.onDisappear {
-            #if os(iOS)
-                EAAccessoryManager.shared().unregisterForLocalNotifications()
-            #endif
         }.onChange(of: scenePhase) { _, phase in
             if phase == .active { refreshConnections() }
         }
@@ -300,11 +307,13 @@ struct ControllerSettingsView: View {
     }
     private var z1ConnectionDetails: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("First Z1 test").font(.headline)
+            Text("Original Z1 native connection").font(.headline)
             Text("If iPadOS asks to open Traktor DJ, cancel that prompt and keep GenErik DJ open.")
-            Text("Enable controller input above. Select the Z1 if it appears, then use Learn for one fader.")
             Text(
-                "Direct Z1 accessory control is not implemented. An audio connection alone does not enable the controls."
+                "Connect original Z1 directly opens the native accessory connection. MIDI input and Learn are not required."
+            )
+            Text(
+                "After calibration, the Z1 controls the mixer, cue and filter/FX directly. MODE + cue starts or pauses a deck."
             )
             VStack(alignment: .leading, spacing: 4) {
                 ForEach(Array(connectionReport.enumerated()), id: \.offset) { _, line in
@@ -314,14 +323,17 @@ struct ControllerSettingsView: View {
             Button("Refresh connection details") { refreshConnections() }
             ShareLink("Share controller connection details", item: connectionReport.joined(separator: "\n"))
             Text(
-                "No MIDI input? MODE + both headphone cue buttons can select MIDI mode when enabled in Traktor on a computer. iPad input is unverified."
+                "Close Traktor DJ before connecting. If startup fails, reconnect the Z1 or switch its direct connection off and on."
             )
             Text("Leave Original Z1 through GenErik bridge off for a direct cable connection.")
         }.font(.caption).foregroundStyle(.secondary)
     }
     private var connectionReport: [String] {
         let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "unknown"
-        var lines = ["GenErik DJ build \(build)", input.status, "Last input: \(input.lastInput)"]
+        var lines = [
+            "GenErik DJ build \(build)", "Native Z1: \(model.z1Status)", input.status,
+            "Last MIDI input: \(input.lastInput)",
+        ]
         if !input.enabled {
             lines.append("Enable controller input to check MIDI connections.")
         } else {

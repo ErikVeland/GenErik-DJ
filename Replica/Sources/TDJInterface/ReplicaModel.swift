@@ -320,9 +320,14 @@ import TDJCore
     private var z1Mode = false
     #if os(macOS)
         private var z1Connection: Z1HIDConnection?
+    #elseif os(iOS)
+        private var z1Connection: Z1AccessoryConnection?
     #endif
     public func toggleZ1() {
-        #if os(macOS)
+        #if os(iOS)
+            UserDefaults.standard.set(!z1Enabled, forKey: "controllers.nativeZ1.enabled")
+        #endif
+        #if os(macOS) || os(iOS)
             if z1Enabled {
                 z1Connection?.stop()
                 z1Connection = nil
@@ -330,7 +335,12 @@ import TDJCore
                 z1Mapper.reset()
                 return
             }
-            let connection = Z1HIDConnection()
+            #if os(macOS)
+                let connection = Z1HIDConnection()
+            #else
+                if controllerInput.originalZ1Bridge { controllerInput.setBridgeMode(false) }
+                let connection = Z1AccessoryConnection()
+            #endif
             connection.onState = { [weak self] text, calibration in
                 self?.z1Status = text
                 self?.z1Mapper = Z1ControlMapper(calibration: calibration)
@@ -341,8 +351,6 @@ import TDJCore
                 z1Connection = connection
                 z1Enabled = true
             } catch { status = error.localizedDescription }
-        #else
-            status = "Z1 iPad accessory transport remains unimplemented."
         #endif
     }
     public func receiveZ1(_ report: Z1InputReport) {
@@ -1424,6 +1432,11 @@ import TDJCore
     }
     public func startPlaybackMonitor() {
         guard playbackMonitor == nil else { return }
+        #if os(iOS)
+            if !z1Enabled, UserDefaults.standard.object(forKey: "controllers.nativeZ1.enabled") as? Bool != false {
+                toggleZ1()
+            }
+        #endif
         playbackMonitor = Task { [weak self] in
             while !Task.isCancelled {
                 self?.refreshPlayback()
@@ -1438,7 +1451,7 @@ import TDJCore
         persistMixerPreferences()
         playbackMonitor?.cancel()
         playbackMonitor = nil
-        #if os(macOS)
+        #if os(macOS) || os(iOS)
             z1Connection?.stop()
             z1Connection = nil
             z1Enabled = false
@@ -1460,7 +1473,7 @@ import TDJCore
             playbackSnapshot = snapshot
             retainPerformedPair(snapshot)
             maintainRecovery(snapshot)
-            #if os(macOS)
+            #if os(macOS) || os(iOS)
                 z1Connection?.send(
                     Z1OutputReport.bytes(
                         snapshot: snapshot, mode: z1Mode, fxDecks: z1Mapper.fxDecks,
