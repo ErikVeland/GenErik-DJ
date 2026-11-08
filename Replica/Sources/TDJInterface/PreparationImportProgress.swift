@@ -22,6 +22,7 @@ public struct PreparationImportProgress: Equatable, Sendable {
         if isLibraryAnalysis {
             if let message { return "\(title): \(message)" }
             if total == 0 { return title }
+            return "\(title) \(done) of \(total)"
         }
         if let message { return "\(title) paused: \(message)" }
         return done >= total ? "\(title) finished" : "\(title) \(done) of \(total)"

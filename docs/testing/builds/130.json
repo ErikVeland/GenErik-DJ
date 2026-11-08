@@ -17,6 +17,10 @@
     {
       "request": "R70",
       "text": "Analysis seems significantly slower than the original Traktor algorithm."
+    },
+    {
+      "request": "R71",
+      "text": "Show Pass 1 of 2 or Pass 2 of 2. Show the song count for that pass instead of adding both passes together."
     }
   ],
   "log": "TestBuilds/ipad/build-130.log",

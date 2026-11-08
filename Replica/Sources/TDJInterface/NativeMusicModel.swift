@@ -116,7 +116,8 @@ extension ReplicaModel {
         if let progress = analysisProgress {
             analysisProgress = .init(
                 done: progress.done, total: progress.total,
-                message: "\(progress.done) of \(progress.total) checks complete", title: "Analysis paused",
+                message: progress.total > 0 ? "Paused at \(progress.done) of \(progress.total)" : nil,
+                title: progress.total > 0 ? progress.title : "Analysis paused",
                 isLibraryAnalysis: true)
         }
     }
@@ -169,17 +170,20 @@ extension ReplicaModel {
                 await queue.finish()
                 return
             }
-            let total = count * LibraryAnalysisPass.allCases.count
+            let passes = LibraryAnalysisPass.allCases
+            let total = count * passes.count
             state.analysisTotal = total
             state.backgroundRun?.report(0, total)
             if count > 0 { logAnalysis("Analysis queue: \(count) songs") }
             var matched: [String: String] = [:]
             var review: [String: String] = [:]
-            for pass in LibraryAnalysisPass.allCases where count > 0 {
+            for (index, pass) in passes.enumerated() where count > 0 {
                 if pass == .structure { await queue.rewind() }
                 guard !Task.isCancelled, state.analysisOwner == token else { break }
+                let passStart = state.analysisChecked
+                let title = "Pass \(index + 1) of \(passes.count) · \(pass.title)"
                 analysisProgress = .init(
-                    done: state.analysisChecked, total: total, title: pass.title, isLibraryAnalysis: true)
+                    done: 0, total: count, title: title, isLibraryAnalysis: true)
                 while let job = await queue.next() {
                     guard !Task.isCancelled, state.analysisOwner == token else { break }
                     if state.backgrounded, !libraryAnalysisPlaybackIsIdle {
@@ -214,10 +218,11 @@ extension ReplicaModel {
                     }
                     musicLibraryFailures[job.id] = review[job.id]
                     state.analysisChecked += 1
-                    analysisProgress?.done = state.analysisChecked
+                    let checked = state.analysisChecked - passStart
+                    analysisProgress?.done = checked
                     state.backgroundRun?.report(state.analysisChecked, total)
-                    if state.analysisChecked == (pass == .matching ? 1 : count + 1) {
-                        logAnalysis("\(pass.title) \(state.analysisChecked) of \(total) after checking \(job.title)")
+                    if checked == 1 {
+                        logAnalysis("\(title) \(checked) of \(count) after checking \(job.title)")
                     }
                 }
             }
@@ -226,12 +231,12 @@ extension ReplicaModel {
             state.finishedAnalysis = (version, library.revision)
             if !review.isEmpty {
                 analysisProgress = .init(
-                    done: state.analysisChecked, total: total,
+                    done: analysisProgress?.done ?? 0, total: count,
                     message: "\(count - review.count) of \(count) tracks ready. \(review.count) need review.",
                     title: "Library analysis", isLibraryAnalysis: true)
             } else if let error = musicLibraryError, musicLibraryCatalog == nil {
                 analysisProgress = .init(
-                    done: state.analysisChecked, total: total, message: error, title: "Library analysis",
+                    done: 0, total: 0, message: error, title: "Library analysis",
                     isLibraryAnalysis: true)
             } else {
                 analysisProgress = nil

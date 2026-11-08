@@ -84,13 +84,15 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
         if reads.count == 2 {
             #expect(item.id == unknown.id)
             #expect(model.analysisProgress?.done == 1)
-            #expect(model.analysisProgress?.total == 4)
+            #expect(model.analysisProgress?.total == 2)
+            #expect(model.analysisProgress?.text == "Pass 1 of 2 · Analysing beats and key 1 of 2")
             let track = try #require(model.preparedTrack(for: short))
             #expect(abs((track.bpm ?? 0) - 120) < 0.5)
             #expect(!FileManager.default.fileExists(atPath: model.arrangementURL(track.id).path))
         }
         if reads.count == 3 {
-            #expect(model.analysisProgress?.done == 2)
+            #expect(model.analysisProgress?.done == 0)
+            #expect(model.analysisProgress?.text == "Pass 2 of 2 · Analysing structure and cues 0 of 2")
             #expect(model.preparedTrack(for: unknown) != nil)
         }
     }
@@ -101,7 +103,7 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     let track = try #require(model.preparedTrack(for: short))
     let cache = try JSONDecoder().decode(ArrangementCache.self, from: Data(contentsOf: model.arrangementURL(track.id)))
     #expect(cache.automaticCues != nil)
-    if let progress = model.analysisProgress { #expect(progress.done == 4) }
+    if let progress = model.analysisProgress { #expect(progress.done == 2 && progress.total == 2) }
     provider.beforePreparation = nil
     await model.finishForShutdown()
 }
