@@ -5,7 +5,20 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 35.08,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R69",
+      "text": "The bolt appears when I plug in the iPad and disappears when I unplug it."
+    },
+    {
+      "request": "R67",
+      "text": "Analysis reached 504 of 11918 checks."
+    },
+    {
+      "request": "R70",
+      "text": "Analysis seems significantly slower than the original Traktor algorithm."
+    }
+  ],
   "log": "TestBuilds/ipad/build-130.log",
   "build": 130,
   "app": "TestBuilds/ipad/130/GenErikDJ.app",
@@ -25,11 +38,16 @@
     "TestBuilds/r69/red.log",
     "TestBuilds/r69/warnings-focused.log",
     "TestBuilds/r69/ios-warnings-typecheck.log",
-    "TestBuilds/r69/ipad-cycle.log"
+    "TestBuilds/r69/ipad-cycle.log",
+    "TestBuilds/r67/build-130/analysis.log"
   ],
   "acceptance": [
     "Connect and disconnect power while the battery is below full. Check that the bolt follows charging.",
     "Check that the percentage follows the reported level.",
     "Check for orange from 10% to below 20%. Check for red below 10%."
-  ]
+  ],
+  "ipadVerification": {
+    "charging": "Erik confirmed the bolt follows plug and unplug events.",
+    "analysis": "Erik observed 504 of 11918 checks. The device log shows 5959 songs and first-pass activity. There is no timed Traktor comparison."
+  }
 }
