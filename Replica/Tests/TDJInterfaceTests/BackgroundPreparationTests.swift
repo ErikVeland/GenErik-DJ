@@ -151,7 +151,7 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     return (model, workspace)
 }
 
-@Test @MainActor func shortTrackStructureCompletesBeforeLongMixMatching() async throws {
+@Test @MainActor func wholeLibraryMatchingCompletesBeforeAnyStructure() async throws {
     let short = clockItem("short-before-mix", duration: 16)
     let mix = MusicLibraryItem(
         source: .init(platform: .iosMusic, persistentID: "long-mix"), title: "Long mix", artist: "Fixture",
@@ -168,9 +168,13 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
         #expect(model.analysisProgress?.total == 1)
         if item.id == mix.id {
             let prepared = try #require(model.preparedTrack(for: short))
-            let cache = try JSONDecoder().decode(
-                ArrangementCache.self, from: Data(contentsOf: model.arrangementURL(prepared.id)))
-            #expect(cache.automaticCues != nil)
+            if reads.count == 2 {
+                #expect(!FileManager.default.fileExists(atPath: model.arrangementURL(prepared.id).path))
+            } else {
+                let cache = try JSONDecoder().decode(
+                    ArrangementCache.self, from: Data(contentsOf: model.arrangementURL(prepared.id)))
+                #expect(cache.automaticCues != nil)
+            }
             #expect(model.analysisProgress?.title.hasPrefix("Mixes over 19 min · Pass ") == true)
         }
     }
@@ -183,11 +187,11 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     }
     let id = try #require(granted)
     #expect(await model.runBackgroundLibraryAnalysis(id))
-    #expect(reads == [short.id, short.id, mix.id, mix.id])
+    #expect(reads == [short.id, mix.id, short.id, mix.id])
     #expect(progress == [0, 1, 2, 3, 4])
     let attempts = try measuredAttempts(workspace)
-    #expect(attempts.map(\.jobID) == [short.id, short.id, mix.id, mix.id])
-    #expect(attempts.map(\.pass) == ["matching", "structure", "matching", "structure"])
+    #expect(attempts.map(\.jobID) == [short.id, mix.id, short.id, mix.id])
+    #expect(attempts.map(\.pass) == ["matching", "matching", "structure", "structure"])
     if let result = model.analysisProgress { #expect(result.done == 2 && result.total == 2) }
     provider.beforePreparation = nil
     model.endBackgroundLibraryAnalysis(id)
@@ -541,5 +545,112 @@ func launchReanalysesSavedTracksAndResumesWithoutRepeatingCompletedWork(source: 
     await model.flushNativeMusicAnalysis()
     #expect(provider.preparations == 2)
     #expect(model.nativeMusic.measurements.allSatisfy { $0.outcome == "cancelled" })
+    await model.finishForShutdown()
+}
+
+@Test @MainActor func libraryMatchingFinishesOnBatteryAndStructureResumesOnPower() async throws {
+    let item = clockItem("power-policy", duration: 16)
+    let provider = ClockMusicLibrary([item])
+    let workspace = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: workspace) }
+    let model = try ReplicaModel(
+        root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    model.updateLibraryAnalysisConditions(.init(externalPower: false, thermalState: .nominal))
+    await model.openNativeMusicLibrary()
+    await model.flushNativeMusicAnalysis()
+    let track = try #require(model.preparedTrack(for: item))
+    #expect(!FileManager.default.fileExists(atPath: model.arrangementURL(track.id).path))
+    #expect(model.libraryAnalysisNeedsWork)
+    #expect(model.nativeMusic.finishedAnalysis == nil)
+    #expect(model.analysisProgress?.message == "Connect power to continue structure analysis.")
+    #expect(provider.preparations == 1)
+    model.startNativeMusicAnalysis()
+    await model.flushNativeMusicAnalysis()
+    #expect(provider.preparations == 1)
+    model.updateLibraryAnalysisConditions(.init(externalPower: true, thermalState: .nominal))
+    await model.flushNativeMusicAnalysis()
+    #expect(provider.preparations == 2)
+    #expect(FileManager.default.fileExists(atPath: model.arrangementURL(track.id).path))
+    #expect(!model.libraryAnalysisNeedsWork)
+    #expect(model.preparedTrack(for: item)?.bpm == track.bpm)
+    await model.finishForShutdown()
+}
+
+@Test(arguments: [false, true]) @MainActor
+func structureCancelsForPowerOrHeatAndResumesWithoutRepeatingMatching(heat: Bool) async throws {
+    let item = clockItem("structure-interruption", duration: 16)
+    let provider = ClockMusicLibrary([item])
+    let workspace = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: workspace) }
+    let model = try ReplicaModel(
+        root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    let (started, signal) = AsyncStream<Void>.makeStream()
+    provider.beforePreparation = { _ in
+        if provider.preparations == 2 {
+            signal.yield(())
+            try await Task.sleep(for: .seconds(30))
+        }
+    }
+    await model.openNativeMusicLibrary()
+    var iterator = started.makeAsyncIterator()
+    _ = await iterator.next()
+    model.updateLibraryAnalysisConditions(.init(externalPower: heat, thermalState: heat ? .serious : .nominal))
+    await model.flushNativeMusicAnalysis()
+    let track = try #require(model.preparedTrack(for: item))
+    #expect(provider.preparations == 2)
+    #expect(!FileManager.default.fileExists(atPath: model.arrangementURL(track.id).path))
+    #expect(model.libraryAnalysisNeedsWork)
+    #expect(model.nativeMusic.measurements.contains { $0.pass == "structure" && $0.outcome == "cancelled" })
+    provider.beforePreparation = nil
+    model.updateLibraryAnalysisConditions(.init(externalPower: true, thermalState: .fair))
+    await model.flushNativeMusicAnalysis()
+    #expect(provider.preparations == 3)
+    #expect(FileManager.default.fileExists(atPath: model.arrangementURL(track.id).path))
+    #expect(!model.libraryAnalysisNeedsWork)
+    await model.finishForShutdown()
+}
+
+@Test func detailedAnalysisRequiresPowerAndSuitableThermalState() {
+    #expect(LibraryAnalysisConditions(externalPower: false, thermalState: .nominal).pauseMessage != nil)
+    #expect(LibraryAnalysisConditions(externalPower: true, thermalState: .nominal).pauseMessage == nil)
+    #expect(LibraryAnalysisConditions(externalPower: true, thermalState: .fair).pauseMessage == nil)
+    #expect(LibraryAnalysisConditions(externalPower: true, thermalState: .serious).pauseMessage != nil)
+    #expect(LibraryAnalysisConditions(externalPower: true, thermalState: .critical).pauseMessage != nil)
+}
+
+@Test @MainActor func waitingStructureAllowsNewMatchingAndRetainsSourceFailures() async throws {
+    let first = clockItem("waiting-first", duration: 16)
+    let broken = clockItem("unavailable", duration: 8)
+    let added = MusicLibraryItem(
+        source: .init(platform: .iosMusic, persistentID: "waiting-new"), title: "New track", artist: "Fixture",
+        duration: 16, assetURL: clockFixture().deletingLastPathComponent().appendingPathComponent("clock-b-128.wav"),
+        availability: .available)
+    let provider = ClockMusicLibrary([first])
+    let workspace = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: workspace) }
+    let model = try ReplicaModel(
+        root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    model.updateLibraryAnalysisConditions(.init(externalPower: false, thermalState: .nominal))
+    await model.openNativeMusicLibrary()
+    await model.flushNativeMusicAnalysis()
+    #expect(provider.preparations == 1)
+    provider.beforePreparation = { item in
+        if item.id == broken.id { throw MusicLibraryError.missingAudio }
+    }
+    model.musicLibraryCatalog = .init(items: [first, broken, added], playlists: [])
+    model.startNativeMusicAnalysis()
+    await model.flushNativeMusicAnalysis()
+    let firstTrack = try #require(model.preparedTrack(for: first))
+    let newTrack = try #require(model.preparedTrack(for: added))
+    #expect(model.preparedTrack(for: broken) == nil)
+    #expect(provider.preparations == 3)
+    #expect(!FileManager.default.fileExists(atPath: model.arrangementURL(firstTrack.id).path))
+    #expect(!FileManager.default.fileExists(atPath: model.arrangementURL(newTrack.id).path))
+    #expect(model.libraryAnalysisNeedsWork)
+    let attempts = try measuredAttempts(workspace)
+    #expect(attempts.contains { $0.jobID == broken.id && $0.pass == "matching" && $0.outcome == "failed" })
+    model.startNativeMusicAnalysis()
+    await model.flushNativeMusicAnalysis()
+    #expect(provider.preparations == 3)
     await model.finishForShutdown()
 }

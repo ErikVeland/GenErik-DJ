@@ -14,9 +14,11 @@ import Foundation
     private static var models: [ObjectIdentifier: Entry] = [:]
     #if os(iOS)
         private static var libraryAnalysisTasks: LibraryAnalysisBackgroundTasks?
+        private static var libraryAnalysisEnvironment: LibraryAnalysisEnvironmentObserver?
 
         public static func configureBackgroundLibraryAnalysis(_ model: ReplicaModel) {
             guard libraryAnalysisTasks == nil else { return }
+            libraryAnalysisEnvironment = LibraryAnalysisEnvironmentObserver(model: model)
             libraryAnalysisTasks = LibraryAnalysisBackgroundTasks(model: model)
         }
 
@@ -60,7 +62,10 @@ import Foundation
     static func foreground(_ model: ReplicaModel) {
         model.setLibraryAnalysisBackgrounded(false)
         #if os(iOS)
-            if libraryAnalysisTasks?.model === model { libraryAnalysisTasks?.enteredForeground() }
+            if libraryAnalysisTasks?.model === model {
+                libraryAnalysisEnvironment?.refresh()
+                libraryAnalysisTasks?.enteredForeground()
+            }
         #endif
     }
 }

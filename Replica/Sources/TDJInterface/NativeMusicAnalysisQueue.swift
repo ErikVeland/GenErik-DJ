@@ -112,8 +112,9 @@ final class NativeMusicAnalysisQueue: Sendable {
                 return a.offset < b.offset
             }.map(\.element)
             let split = state.items.firstIndex(where: \.isMix) ?? state.items.count
-            return [0..<split, split..<state.items.count].filter { !$0.isEmpty }.flatMap { range in
-                Pass.allCases.map { Batch(pass: $0, range: range, isMix: range.lowerBound == split) }
+            let ranges = [0..<split, split..<state.items.count].filter { !$0.isEmpty }
+            return Pass.allCases.flatMap { pass in
+                ranges.map { Batch(pass: pass, range: $0, isMix: $0.lowerBound == split) }
             }
         } ?? []
     }

@@ -77,6 +77,7 @@
         }
 
         private func start(_ task: BGTask, progress: Progress? = nil) {
+            model?.updateLibraryAnalysisConditions(LibraryAnalysisEnvironmentObserver.current)
             guard let model, active == nil, let id = model.beginBackgroundLibraryAnalysis(report: { checked, total in
                 progress?.totalUnitCount = Int64(max(1, total))
                 progress?.completedUnitCount = Int64(checked)

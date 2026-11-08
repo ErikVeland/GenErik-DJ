@@ -7,6 +7,9 @@ import TDJCore
     var analysisCatalogVersion: UInt64?
     var finishedAnalysis: (catalogVersion: UInt64, libraryRevision: Int)?
     var backgrounded = false
+    var conditions = LibraryAnalysisConditions.initial
+    var activePass: NativeMusicAnalysisQueue.Pass?
+    var waitingForStructure: (catalogVersion: UInt64, libraryRevision: Int)?
     var backgroundRun: (id: UUID, report: (Int, Int) -> Void)?
     var analysisChecked = 0
     var analysisTotal = 0
@@ -133,7 +136,8 @@ extension ReplicaModel {
 
     public func startNativeMusicAnalysis() {
         let state = nativeMusic
-        guard state.wanted, !state.closed, !arrangementPlaybackActive, !deckAnalysisIsRunning, !cloudBusy,
+        guard state.wanted, !state.closed, !arrangementPlaybackActive, libraryAnalysisPlaybackIsIdle,
+            !deckAnalysisIsRunning, !cloudBusy,
             !state.backgrounded || (state.backgroundRun != nil && libraryAnalysisPlaybackIsIdle),
             !importing, !musicLibraryRefreshing, libraryAnalysisOwner == nil, state.analyses.isEmpty,
             state.loadOwners.isEmpty, preparingPlayback.isEmpty,
@@ -147,6 +151,13 @@ extension ReplicaModel {
             return
         }
 
+        if let waiting = state.waitingForStructure, waiting.catalogVersion == version,
+            waiting.libraryRevision == library.revision, let message = state.conditions.pauseMessage
+        {
+            analysisProgress?.message = message
+            return
+        }
+        state.waitingForStructure = nil
         let token = UUID()
         var priorityTracks = Set(loaded.values)
         if let trackID = ProcessInfo.processInfo.environment["GENERIK_DJ_ANALYSIS_PRIORITY_TRACK"] {
@@ -167,11 +178,15 @@ extension ReplicaModel {
             }
             defer {
                 state.analyses[token] = nil
+                state.activePass = nil
                 if libraryAnalysisOwner == token {
                     libraryAnalysisOwner = nil
                     musicLibraryProgress = ""
                 }
-                if Task.isCancelled, libraryAnalysisOwner == nil { startNativeMusicAnalysis() }
+                let conditionsRecovered = state.waitingForStructure != nil && state.conditions.pauseMessage == nil
+                if (Task.isCancelled || conditionsRecovered), libraryAnalysisOwner == nil {
+                    startNativeMusicAnalysis()
+                }
             }
             await removeStaleNativeSources()
             let batches = await queue.prepare()
@@ -186,14 +201,16 @@ extension ReplicaModel {
             if count > 0 { logAnalysis("Analysis queue: \(count) songs") }
             if let mixes = batches.first(where: { $0.isMix }) {
                 logAnalysis(
-                    "Deferred \(mixes.range.count) mixes over 19 minutes until shorter tracks complete both passes.")
+                    "Checking \(mixes.range.count) mixes over 19 minutes after shorter tracks, before structure analysis.")
             }
             var matched: [String: String] = [:]
             var review: [String: String] = [:]
-            for batch in batches {
+            var waitingForConditions = false
+            batches: for batch in batches {
                 await queue.begin(batch)
                 guard !Task.isCancelled, libraryAnalysisOwner == token else { break }
                 let pass = batch.pass
+                state.activePass = pass
                 let batchCount = batch.range.count
                 let passStart = state.analysisChecked
                 let title = batch.title
@@ -213,9 +230,15 @@ extension ReplicaModel {
                     done: 0, total: batchCount, title: title, isLibraryAnalysis: true)
                 while let job = await queue.next() {
                     guard !Task.isCancelled, libraryAnalysisOwner == token else { break }
-                    if state.backgrounded, !libraryAnalysisPlaybackIsIdle {
+                    if !libraryAnalysisPlaybackIsIdle {
                         cancelNativeMusicAnalysis()
                         break
+                    }
+                    if pass == .structure, !matched.isEmpty, let message = state.conditions.pauseMessage {
+                        state.waitingForStructure = (version, library.revision)
+                        analysisProgress?.message = message
+                        waitingForConditions = true
+                        break batches
                     }
                     musicLibraryProgress = "\(pass.title) for \(job.title)"
                     let measurement = AnalysisMeasurement(
@@ -286,7 +309,8 @@ extension ReplicaModel {
             }
             await queue.finish()
             await flushLibraryMeasurements(force: true)
-            guard !Task.isCancelled, libraryAnalysisOwner == token else { return }
+            guard !Task.isCancelled, libraryAnalysisOwner == token, !waitingForConditions else { return }
+            state.waitingForStructure = nil
             state.finishedAnalysis = (version, library.revision)
             if !review.isEmpty {
                 analysisProgress = .init(

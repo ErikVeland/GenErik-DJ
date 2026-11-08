@@ -11,7 +11,7 @@ private func queueItem(_ id: String, seconds: Double) -> MusicLibraryItem {
 }
 
 @Test(arguments: [[], [60.0], [1141.0], [1141.0, 1140.0, 120.0, 0.0]]) @MainActor
-func analysisQueueCompletesBothSongPassesBeforeMixes(durations: [Double]) async {
+func analysisQueueCompletesMatchingForAllTracksBeforeStructure(durations: [Double]) async {
     let items = durations.enumerated().map { queueItem(String($0.offset), seconds: $0.element) }
     let queue = NativeMusicAnalysisQueue(
         catalog: .init(items: items, playlists: []), tracks: [], loaded: [],
@@ -30,12 +30,13 @@ func analysisQueueCompletesBothSongPassesBeforeMixes(durations: [Double]) async 
         #expect(ids.count == batch.range.count)
         actual.append(ids)
     }
-    #expect(actual == [songs, songs, mixes, mixes].filter { !$0.isEmpty })
-    #expect(batches.map(\.pass) == (0..<batches.count).map { $0.isMultiple(of: 2) ? .matching : .structure })
+    #expect(actual == [songs, mixes, songs, mixes].filter { !$0.isEmpty })
+    let groupCount = [songs, mixes].filter { !$0.isEmpty }.count
+    #expect(batches.map(\.pass) == Array(repeating: .matching, count: groupCount) + Array(repeating: .structure, count: groupCount))
     #expect(
         batches.map(\.isMix)
-            == [songs, songs, mixes, mixes].enumerated().compactMap {
-                $0.element.isEmpty ? nil : $0.offset >= 2
+            == [songs, mixes, songs, mixes].enumerated().compactMap {
+                $0.element.isEmpty ? nil : $0.offset.isMultiple(of: 2) == false
             })
     await queue.finish()
 }
@@ -68,6 +69,6 @@ func analysisQueueDefersLoadedMix(native: Bool) async throws {
         while let job = await queue.next() { ids.append(job.id) }
     }
     let mixID = native ? mix.id : track.id
-    #expect(ids == [song.id, song.id, mixID, mixID])
+    #expect(ids == [song.id, mixID, song.id, mixID])
     await queue.finish()
 }
