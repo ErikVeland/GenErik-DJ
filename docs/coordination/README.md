@@ -7,7 +7,9 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
 
-**Duo-only update — 8 November 2026:** Build 139 installed on the Duo, and iOS accepted launch. R80 releases audio hash buffers after each chunk. Leave the iPad analysis running. [Build record](../testing/builds/139.json).
+**Z1 test update — 8 November 2026:** Erik released the iPad analysis hold and authorised an iPad update for R81. Direct iPad Z1 accessory control remains unimplemented. See [first connection test](../testing/controller-test.md).
+
+**Build 139** installed on the Duo, and iOS accepted launch. R80 releases audio hash buffers after each chunk. The iPad analysis was left running for that update. [Build record](../testing/builds/139.json).
 
 **Build 138** installed and launched on the A10X iPad Pro after Erik released the hold. Beat This uses up to 90 seconds on long mixes and requires a supported opening downbeat. Speed, accuracy and playback checks remain open. [Build record](../testing/builds/138.json).
 

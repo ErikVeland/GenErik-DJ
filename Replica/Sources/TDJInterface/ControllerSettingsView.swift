@@ -10,6 +10,7 @@ private enum LearnedControllerProfile: Equatable { case flx4, flx10, rev1, rev5,
 
 struct ControllerSettingsView: View {
     @Bindable var model: ReplicaModel
+    @Environment(\.scenePhase) private var scenePhase
     @State private var connections: [String] = []
     @State private var replacingControllerMappings: LearnedControllerProfile?
     @State private var replacingControllerFeedback = false
@@ -24,6 +25,7 @@ struct ControllerSettingsView: View {
             Text("Controllers").font(.headline)
             Toggle("Enable controller input", isOn: Binding(get: { input.enabled }, set: enable))
             Text(input.status).foregroundStyle(.secondary)
+            z1ConnectionDetails
             if input.enabled {
                 Picker("Input to configure", selection: Binding(get: { input.selected }, set: input.select)) {
                     Text("Choose an input").tag(Int32?.none)
@@ -234,21 +236,6 @@ struct ControllerSettingsView: View {
                         input.bindingCount == 0)
                 }
             }
-            Divider()
-            Text("Z1 connection").font(.headline)
-            Text(
-                "For the original Z1, MIDI mode uses MODE + both headphone cue buttons. A MIDI mode setting does not guarantee that iPadOS exposes an input."
-            ).font(.caption).foregroundStyle(.secondary)
-            Text(
-                "If the controller has only an accessory or audio connection, its controls need an implemented accessory protocol or the approved hardware bridge."
-            ).font(.caption).foregroundStyle(.secondary)
-            ForEach(Array(connections.enumerated()), id: \.offset) { _, text in
-                Text(text).font(.caption).foregroundStyle(.secondary)
-            }
-            Button("Refresh connection details") { refreshConnections() }
-            ShareLink(
-                "Share controller connection details",
-                item: ([input.status, input.lastInput] + connections).joined(separator: "\n"))
         }.confirmationDialog(
             "Replace mappings for this input?",
             isPresented: Binding(
@@ -269,7 +256,34 @@ struct ControllerSettingsView: View {
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("This replaces mappings for the selected MIDI input only. Mappings for other inputs stay in place.")
-        }.onAppear { refreshConnections() }
+        }.onAppear {
+            #if os(iOS)
+                EAAccessoryManager.shared().registerForLocalNotifications()
+            #endif
+            refreshConnections()
+        }.onDisappear {
+            #if os(iOS)
+                EAAccessoryManager.shared().unregisterForLocalNotifications()
+            #endif
+        }.onChange(of: scenePhase) { _, phase in
+            if phase == .active { refreshConnections() }
+        }
+        #if os(iOS)
+            .onReceive(NotificationCenter.default.publisher(for: .EAAccessoryDidConnect).receive(on: RunLoop.main)) {
+                _ in
+                refreshConnections()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .EAAccessoryDidDisconnect).receive(on: RunLoop.main)) {
+                _ in
+                refreshConnections()
+            }
+            .onReceive(
+                NotificationCenter.default.publisher(for: AVAudioSession.routeChangeNotification).receive(
+                    on: RunLoop.main)
+            ) { _ in
+                refreshConnections()
+            }
+        #endif
     }
     private func enable(_ enabled: Bool) {
         if enabled {
@@ -284,13 +298,70 @@ struct ControllerSettingsView: View {
             input.stop()
         }
     }
-    private func refreshConnections() {
-        #if os(iOS)
-            connections = EAAccessoryManager.shared().connectedAccessories.map {
-                "Accessory: \($0.name). Protocols: \($0.protocolStrings.joined(separator: ", "))"
+    private var z1ConnectionDetails: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("First Z1 test").font(.headline)
+            Text("If iPadOS asks to open Traktor DJ, cancel that prompt and keep GenErik DJ open.")
+            Text("Enable controller input above. Select the Z1 if it appears, then use Learn for one fader.")
+            Text(
+                "Direct Z1 accessory control is not implemented. An audio connection alone does not enable the controls."
+            )
+            VStack(alignment: .leading, spacing: 4) {
+                ForEach(Array(connectionReport.enumerated()), id: \.offset) { _, line in
+                    Text(line).frame(maxWidth: .infinity, alignment: .leading)
+                }
             }
-            connections += AVAudioSession.sharedInstance().currentRoute.outputs.map { "Audio output: \($0.portName)" }
-            if connections.isEmpty { connections = ["No accessory or audio connection reported."] }
+            Button("Refresh connection details") { refreshConnections() }
+            ShareLink("Share controller connection details", item: connectionReport.joined(separator: "\n"))
+            Text(
+                "No MIDI input? MODE + both headphone cue buttons can select MIDI mode when enabled in Traktor on a computer. iPad input is unverified."
+            )
+            Text("Leave Original Z1 through GenErik bridge off for a direct cable connection.")
+        }.font(.caption).foregroundStyle(.secondary)
+    }
+    private var connectionReport: [String] {
+        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "unknown"
+        var lines = ["GenErik DJ build \(build)", input.status, "Last input: \(input.lastInput)"]
+        if !input.enabled {
+            lines.append("Enable controller input to check MIDI connections.")
+        } else {
+            lines +=
+                input.sources.isEmpty
+                ? ["MIDI inputs: none."]
+                : input.sources.map {
+                    "MIDI input: \($0.name) [\($0.id)] · \(input.isInputActive($0.id) ? "enabled" : "off")"
+                }
+            lines +=
+                input.destinations.isEmpty
+                ? ["MIDI outputs: none."]
+                : input.destinations.map {
+                    "MIDI output: \($0.name) [\($0.id)]"
+                }
+        }
+        lines.append("Z1 bridge: \(input.originalZ1Bridge ? "on" : "off")")
+        lines.append(
+            "Audio routing: \(model.outputRoute == .stereoMaster ? "Stereo master" : "Master 1–2 / Headphones 3–4")")
+        return lines + connections
+    }
+    private func refreshConnections() {
+        if input.enabled { input.refreshSources() }
+        #if os(iOS)
+            let accessories = EAAccessoryManager.shared().connectedAccessories
+            connections =
+                accessories.isEmpty
+                ? ["Accessories: none reported."]
+                : accessories.map {
+                    let protocols =
+                        $0.protocolStrings.isEmpty ? "none reported" : $0.protocolStrings.joined(separator: ", ")
+                    return
+                        "Accessory: \($0.name). Manufacturer: \($0.manufacturer). Model: \($0.modelNumber). Firmware: \($0.firmwareRevision). Protocols: \(protocols)"
+                }
+            let session = AVAudioSession.sharedInstance()
+            connections += session.currentRoute.outputs.map {
+                "Audio output: \($0.portName) · \($0.portType.rawValue) · \($0.channels?.count ?? 0) channels"
+            }
+            connections.append(
+                "Audio session: \(session.outputNumberOfChannels) channels · \(Int(session.sampleRate)) Hz")
         #else
             connections = ["The current controller test target is iPad."]
         #endif

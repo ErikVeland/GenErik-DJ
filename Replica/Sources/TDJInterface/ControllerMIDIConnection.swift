@@ -361,6 +361,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         feedbackStatus =
             feedbackOutputAvailable
             ? "MIDI feedback output is available." : "MIDI feedback output could not open (\(outputResult))."
+        lastInput = "No input received."
         enabled = true
         refreshSources()
         let timer = Timer(timeInterval: 1.0 / 120, repeats: true) { [weak self] _ in
@@ -1515,7 +1516,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         let parameter = message.parameter.map { "\(parameterLabel) \($0)" } ?? ""
         let note = message.noteNumber.map { " note \($0)" } ?? ""
         lastInput =
-            "\(message.kind.rawValue) \(message.number)\(parameter)\(note) · channel \(Int(message.channel) + 1)"
+            "Input \(sourceID) · \(message.kind.rawValue) \(message.number)\(parameter)\(note) · channel \(Int(message.channel) + 1) · value \(message.value)"
         if let selected, selected == sourceID, activeInputIDs.contains(sourceID), let learning,
             message.kind != .note || !message.isNoteOff
         {
