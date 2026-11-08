@@ -7,7 +7,7 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
 
-**Z1 test update — 8 November 2026:** Erik released the iPad analysis hold and authorised an iPad update for R81. Direct iPad Z1 accessory control remains unimplemented. See [first connection test](../testing/controller-test.md).
+**Build 140** installed on the A10X iPad Pro, and iPadOS accepted launch. Erik released the analysis hold for R81. Controllers now shows the first Z1 connection test and shares MIDI, accessory and audio details. Direct iPad Z1 accessory control remains unimplemented. Physical input and routing checks remain open. [Build record](../testing/builds/140.json) · [Test steps](../testing/controller-test.md).
 
 **Build 139** installed on the Duo, and iOS accepted launch. R80 releases audio hash buffers after each chunk. The iPad analysis was left running for that update. [Build record](../testing/builds/139.json).
 

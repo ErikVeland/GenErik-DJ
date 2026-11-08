@@ -1,0 +1,34 @@
+{
+  "notes": "R81 prepares the first Z1 connection test with visible MIDI input, accessory protocols and audio channels. Direct iPad accessory control remains unimplemented.",
+  "sourceCommit": "04e1ec976cd86351df079a384f50b5a0884d57ad",
+  "sourceSHA256": "54ff41154835d2afd4ea7c9bd3e5ba0e934737ae0329e091e06edd1f2e52a2a7",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 37.12,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-140.log",
+  "build": 140,
+  "app": "TestBuilds/ipad/140/GenErikDJ.app",
+  "appSHA256": "21472100e43e6a959a96c199b72767e14f448ef57e2bcc0625a0b06d78fc1333",
+  "state": "testing",
+  "createdUTC": "2026-11-08T09:15:06.406004+00:00",
+  "installedUTC": "2026-11-08T09:15:24.249302+00:00",
+  "launchedUTC": "2026-11-08T09:15:24.765615+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R81"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "deviceUDID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+  "previousDeviceBuild": 138,
+  "focusedChecks": "Incremental signed iPad compilation, embedded framework resolution, signature verification and git diff whitespace checks passed. No simulator, Mac package or broad regression run. Physical controller checks remain for Erik.",
+  "authorization": "Erik explicitly released the iPad analysis hold and authorised installation and launch for the first Z1 test.",
+  "verificationLimit": "Ready for connection diagnosis. Direct original Z1 accessory control on iPad remains unimplemented. No physical Z1 control, audio routing or performance acceptance is claimed.",
+  "acceptance": [
+    "Cancel any prompt to open Traktor DJ. Keep GenErik DJ open.",
+    "Open Settings > Controllers and enable controller input. Check the MIDI, accessory and audio connections.",
+    "If a Z1 MIDI input appears, select it and learn A · Volume. Check changing input values and the fader response.",
+    "Share controller connection details if no MIDI input appears.",
+    "Check separate master/headphone audio routing, audio continuity and responsive touch controls."
+  ]
+}
