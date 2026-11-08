@@ -69,3 +69,32 @@ Focused checks cover both wire formats, every two-part packet split, one-byte de
 Hardware acceptance remains open: session access, the reported firmware format, real calibration, all physical controls, lights, master/headphone routing, disconnect/reconnect and uninterrupted A10X audio. No physical success follows from a host test or build. Use the [native test steps](../testing/controller-test.md).
 
 Apple's [External Accessory guide](https://developer.apple.com/library/archive/featuredarticles/ExternalAccessoryPT/Introduction/Introduction.html) documents protocol registration and session streams. The native packet facts above come from the preserved local NI package, not from that generic guide.
+
+## R83/R84: beat and end-warning lights
+
+The original Z1's filter/FX ON button has separate amber and blue brightness outputs for each channel.
+The existing report uses byte positions 17/20 for amber and 18/21 for blue, including the report ID.
+NI calls the FX colour orange in the preserved original Z1 manual. User-facing notes call it amber.
+Cue lights, meters, MODE feedback and all input actions retain their existing behaviour.
+
+During normal playback, blue peaks on each beat and fades through the first fifth of that beat.
+An active filter stays visibly lit between pulses. In FX mode, blue gives a small beat accent alongside the amber status.
+At 30 seconds remaining, amber pulses every four beats, aligned to the deck's downbeat.
+At 10 seconds remaining, amber pulses on every beat. Amber fades during the first half of each pulse cycle.
+The blue accent is limited to 24 of 127 during the warning. The active FX light keeps a dim amber floor.
+The light overlay does not select, enable or disable the filter or any effect.
+
+Each deck uses its own current playback beat position, including its adaptive grid.
+Remaining time uses the active audio instance's full length and playback speed.
+With adaptive Sync, the countdown uses the remaining beat distance at the current playback BPM.
+Seeking changes the pulse position immediately. There is no elapsed-time oscillator or extra timer.
+The existing feedback loop runs at about 30 Hz and retains only the latest pending native light state.
+
+Loops keep the blue beat pulse and suppress amber end warnings.
+Pausing, ending, scratching, braking or reverse playback restores the normal status lights.
+Tracks without a valid beat grid retain normal status lights. Unknown audio length disables only the end warning.
+
+Twenty-one focused host tests passed across 24 cases. They cover both thresholds, both pulse rates, downbeat offsets,
+blue brightness, tempo changes, adaptive timing, seeks, loops, pause/end/manual transport, independent channels,
+current audio length, native framing and unchanged control actions. Evidence is under `TestBuilds/r83-r84/`.
+Physical colour, brightness, beat alignment and uninterrupted A10X playback remain Erik's checks.

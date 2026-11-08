@@ -100,7 +100,8 @@ public struct Z1ControlMapper: Sendable {
 public enum Z1OutputReport {
     /// Meter thresholds are a development choice; report positions are protocol facts.
     public static func bytes(
-        snapshot: PlaybackSnapshot, mode: Bool, fxDecks: Set<DeckID> = [], enabledEffects: Set<DeckID> = []
+        snapshot: PlaybackSnapshot, mode: Bool, fxDecks: Set<DeckID> = [], enabledEffects: Set<DeckID> = [],
+        sourceFrames: (a: UInt64?, b: UInt64?) = (nil, nil)
     ) -> [UInt8] {
         var bytes = [UInt8](repeating: 0, count: 22)
         bytes[0] = 0x80
@@ -116,8 +117,51 @@ public enum Z1OutputReport {
             } else {
                 bytes[index == 0 ? 18 : 21] = state.filterEnabled ? 0x7f : 0x0a
             }
+            applyPlaybackLights(
+                to: &bytes, state: snapshot[deck], frameCount: index == 0 ? sourceFrames.a : sourceFrames.b,
+                amberIndex: index == 0 ? 17 : 20, blueIndex: index == 0 ? 18 : 21)
         }
         bytes[19] = mode ? 0x7f : 0x0a
         return bytes
+    }
+
+    private static func applyPlaybackLights(
+        to bytes: inout [UInt8], state: DeckPlaybackSnapshot, frameCount: UInt64?, amberIndex: Int, blueIndex: Int
+    ) {
+        guard state.phase == .playing, !state.touchActive, !state.braking, state.performanceRate == 1,
+            state.speed.isFinite, state.speed > 0, let timing = state.timing
+        else { return }
+        let beat = timing.beat(atFrame: state.sourceFrame)
+        guard beat.isFinite else { return }
+
+        let bluePulse = pulse(phase: beat, width: 0.2)
+        let blueBase = bytes[blueIndex] == 0x7f ? 0x60 : Double(bytes[blueIndex])
+        let bluePeak = bytes[blueIndex] == 0x7f ? 0x7f : blueBase + 0x18
+        bytes[blueIndex] = brightness(base: blueBase, peak: bluePeak, pulse: bluePulse)
+
+        guard !state.loopEnabled, let frameCount, frameCount > 0 else { return }
+        let remaining: Double
+        if state.synced, state.adaptiveMap != nil {
+            remaining = (timing.beat(atFrame: Double(frameCount)) - beat) * 60 / (state.sourceBPM * state.speed)
+        } else {
+            remaining = (Double(frameCount) - state.sourceFrame) / (timing.fixed.sampleRate * state.speed)
+        }
+        guard remaining.isFinite, remaining > 0, remaining <= 30 else { return }
+        let beatsPerPulse = remaining <= 10 ? 1.0 : 4.0
+        let amberPulse = pulse(phase: (beat - Double(timing.downbeatOffset)) / beatsPerPulse, width: 0.5)
+        let amberBase = bytes[amberIndex] == 0x7f ? 0x20 : Double(bytes[amberIndex])
+        bytes[amberIndex] = brightness(base: amberBase, peak: 0x7f, pulse: amberPulse)
+        // Keep the warning prominent while blue still marks each beat.
+        bytes[blueIndex] = brightness(base: 0, peak: 0x18, pulse: bluePulse)
+    }
+
+    private static func pulse(phase: Double, width: Double) -> Double {
+        let position = phase - floor(phase)
+        guard position < width else { return 0 }
+        return 0.5 * (1 + cos(.pi * position / width))
+    }
+
+    private static func brightness(base: Double, peak: Double, pulse: Double) -> UInt8 {
+        UInt8((base + (peak - base) * pulse).rounded())
     }
 }

@@ -33,3 +33,19 @@ If startup fails, close Traktor DJ and reconnect the Z1. You can also switch **C
 9. Reconnect the Z1 and confirm that calibration and control input resume.
 
 Audio detection alone does not establish working controls. Compilation, installation and launch do not establish performance readiness. See the [protocol evidence and remaining work](../coordination/z1-native-accessory.md).
+
+## Beat and warning lights
+
+1. Load a track with a valid beat grid on each deck.
+2. Play both decks and check the small blue pulse on each channel's filter/FX ON button.
+3. Change the tempo and check that the pulses follow each deck's beat.
+4. Move a track to just before 30 seconds remaining.
+5. Check that amber pulses every four beats after the 30-second boundary.
+6. Check that amber pulses every beat after the 10-second boundary.
+7. Toggle MODE plus ON, then test the filter and selected FX controls during the warning.
+8. Enable a loop near the end. Check that blue continues and amber warnings stop.
+9. Pause the deck. Check that the normal filter/FX status light returns.
+10. Check audio continuity and touch response with both channels pulsing.
+
+The countdown follows playback speed. Each deck needs a valid beat grid for these pulses.
+The warning has visual priority over the blue accent. Physical brightness and colour still need this test.

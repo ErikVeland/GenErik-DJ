@@ -1474,22 +1474,10 @@ import TDJCore
             retainPerformedPair(snapshot)
             maintainRecovery(snapshot)
             #if os(macOS) || os(iOS)
-                z1Connection?.send(
-                    Z1OutputReport.bytes(
-                        snapshot: snapshot, mode: z1Mode, fxDecks: z1Mapper.fxDecks,
-                        enabledEffects: Set(
-                            DeckID.allCases.filter {
-                                effects[$0]?[selectedEffectSlots[$0, default: 0]]?.enabled == true
-                            })))
+                z1Connection?.send(z1Feedback(snapshot))
             #endif
             if controllerInput.originalZ1Bridge {
-                controllerInput.queueZ1Feedback(
-                    Z1OutputReport.bytes(
-                        snapshot: snapshot, mode: z1Mode, fxDecks: z1Mapper.fxDecks,
-                        enabledEffects: Set(
-                            DeckID.allCases.filter {
-                                effects[$0]?[selectedEffectSlots[$0, default: 0]]?.enabled == true
-                            })))
+                controllerInput.queueZ1Feedback(z1Feedback(snapshot))
             }
             for deck in DeckID.allCases
             where !editing.contains(deck) && !previewing.contains(deck) && !frozen.contains(deck) {
@@ -1501,6 +1489,16 @@ import TDJCore
             }
         }
         if let error = messages.compactMap(\.error).last { status = error.localizedDescription }
+    }
+
+    func z1Feedback(_ snapshot: PlaybackSnapshot) -> [UInt8] {
+        Z1OutputReport.bytes(
+            snapshot: snapshot, mode: z1Mode, fxDecks: z1Mapper.fxDecks,
+            enabledEffects: Set(
+                DeckID.allCases.filter { effects[$0]?[selectedEffectSlots[$0, default: 0]]?.enabled == true }),
+            sourceFrames: (
+                playback.core.asset(generation: snapshot.a.generation)?.frames,
+                playback.core.asset(generation: snapshot.b.generation)?.frames))
     }
     public func pressPlay(deck: DeckID, vinylStop: Bool? = nil) {
         if preparingTrack.contains(deck) {

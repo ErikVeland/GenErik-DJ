@@ -5,7 +5,17 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 37.65,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "reportedUTC": "2026-11-08T09:54:59.899219+00:00",
+      "requestIDs": [
+        "R83",
+        "R84"
+      ],
+      "message": "Implement the BPM-locked amber warning and subtle blue beat pulse together. Keep filter/FX controls unchanged and install on the iPad.",
+      "state": "Implemented. Next iPad build pending."
+    }
+  ],
   "log": "TestBuilds/ipad/build-143.log",
   "build": 143,
   "app": "TestBuilds/ipad/143/GenErikDJ.app",

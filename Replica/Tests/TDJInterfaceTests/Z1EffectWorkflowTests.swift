@@ -62,3 +62,28 @@ import Testing
     #expect(model.playbackSnapshot?.b.mixer.filterX == 0.8)
     #expect(model.playbackSnapshot?.b.mixer.filterY == 0.4)
 }
+
+@Test @MainActor func z1FeedbackUsesThePlayingAudioLengthWithoutLibraryMetadata() async throws {
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let model = try ReplicaModel(root: root, playback: PlaybackController(offline: true, sampleRate: 8000))
+    let core = model.playback.core
+    let asset = try PCMAsset(interleavedStereo: [Float](repeating: 0, count: 60 * 8000 * 2), sampleRate: 8000)
+    let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 8000)
+    let generation = try core.load(asset, deck: .a, grid: grid, sourceFrame: 50 * 8000, synced: false)
+    try core.setMixer(.filterEnabled, value: 1, deck: .a)
+    try core.setMixer(.filterX, value: 0.7, deck: .a)
+    try core.play(deck: .a, generation: generation)
+    core.processControlsWhileIdle()
+    let playing = try #require(core.snapshot())
+    #expect(model.track(.a) == nil)
+    let report = model.z1Feedback(playing)
+    #expect(report[17] == 127 && report[18] == 24)
+    #expect(core.snapshot() == playing)
+    #expect(playing.a.mixer.filterEnabled && playing.a.mixer.filterX == 0.7)
+    try core.play(deck: .a, generation: generation)
+    core.processControlsWhileIdle()
+    let paused = model.z1Feedback(try #require(core.snapshot()))
+    #expect(paused[17] == 0 && paused[18] == 127)
+    await model.finishForShutdown()
+}
