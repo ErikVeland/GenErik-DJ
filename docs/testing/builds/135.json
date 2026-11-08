@@ -1,0 +1,34 @@
+{
+  "notes": "R75 logs Pass 1 counts for Traktor reuse, saved GenErik results, fresh analysis and failed preparations.",
+  "sourceCommit": "d43b2f50263e861519d7ac40a8e7ac51a5701f22",
+  "sourceSHA256": "8fad22b2453868ee35327e93839eb3310d4c60a0da909f5f19960cb2873df13f",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 63.45,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-135.log",
+  "build": 135,
+  "app": "TestBuilds/ipad/135/GenErikDJ.app",
+  "appSHA256": "a80ca1f8689cabbb9e99b0772073a8245c087e84a7ea078a38a8b0c60ba00af9",
+  "state": "testing",
+  "createdUTC": "2026-11-08T07:14:48.132124+00:00",
+  "installedUTC": "2026-11-08T07:15:03.578832+00:00",
+  "launchedUTC": "2026-11-08T07:15:04.192910+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R75"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "previousDeviceBuild": 134,
+  "focusedChecks": "Three focused tests passed. They check the Pass 1 totals for Traktor reuse, saved GenErik results and fresh analysis.",
+  "evidence": [
+    "TestBuilds/r75/pre-build-135/analysis.log",
+    "TestBuilds/r75/pre-build-135/analysis-recheck.log",
+    "TestBuilds/r75/red.log",
+    "TestBuilds/r75/focused.log",
+    "TestBuilds/r75/ipad-cycle.log"
+  ],
+  "acceptance": [
+    "Check for Pass 1 summary lines after 100 tracks and when the pass stops."
+  ]
+}
