@@ -5,7 +5,14 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 36.63,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R78",
+      "text": "Analysis is stuck on 5728. Do not interrupt the current analysis before tonight\u2019s gig.",
+      "reportedDate": "2026-11-08",
+      "buildVerification": "Device measurement records identify build 137."
+    }
+  ],
   "log": "TestBuilds/ipad/build-137.log",
   "build": 137,
   "app": "TestBuilds/ipad/137/GenErikDJ.app",
@@ -28,5 +35,21 @@
   ],
   "acceptance": [
     "Check the Pass 1 summary for separate counts of Traktor grid only, key only and both."
-  ]
+  ],
+  "followUp": {
+    "analysisAt5728": {
+      "request": "R78",
+      "finding": "Read-only checks confirmed 5728 completed matching attempts, followed by a slow full-track job. Echoes completed at 18:54:33 Brisbane time and the next source opened. The app was not restarted or changed.",
+      "timings": "The three preceding fresh analyses each contained about 23 minutes of audio and took 353.7, 466.3 and 499.1 seconds. Beat This inference accounted for 265.4 to 389.0 seconds. Echoes occupied about 442 seconds from source setup to its save.",
+      "quality": "The News and Echoes completed with a beat-grid review notice. Completion does not establish musical accuracy.",
+      "evidence": [
+        "TestBuilds/r78/check-1/analysis-measurements.jsonl",
+        "TestBuilds/r78/check-1/performance-report.json",
+        "TestBuilds/r78/check-4/analysis.log",
+        "TestBuilds/r78/check-4/files.json",
+        "TestBuilds/r78/findings.json"
+      ],
+      "hold": "Do not interrupt current analysis or install/restart the app during gig preparation. Erik must release this hold before an interrupting action."
+    }
+  }
 }

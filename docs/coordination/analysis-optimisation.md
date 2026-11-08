@@ -110,3 +110,15 @@ Logs and the tested source hashes are retained under `TestBuilds/r76/`. The numb
 Signed [build 136](../testing/builds/136.json) installed on the A10X iPad. iPadOS accepted launch. No further device actions followed.
 Runtime framework and signature checks passed. The source hash matches the focused test evidence.
 A10X timing, logging overhead, playback/touch acceptance and paired Traktor measurements remain open.
+
+## R78: first read-only A10X timing observation
+
+Build 137 reached 5728 completed Pass 1 attempts. The next full-track job made the counter appear stationary.
+The three preceding fresh attempts processed about 23 minutes of audio each. Their wall times were 466.3, 499.1 and 353.7 seconds.
+Beat This inference used 389.0, 388.5 and 265.4 seconds. Hashing used 0.6, 1.2 and 2.7 seconds.
+These samples identify model inference as their main measured cost. They do not establish whole-library speed or a paired Traktor comparison.
+
+Echoes saved at 18:54:33 Brisbane time, about 7 minutes 22 seconds after its source opened. The next source opened immediately.
+The News and Echoes completed with a beat-grid review notice. Neither is an accuracy success.
+All device operations were read-only. The app continued without a restart or source change.
+The measurement log, report, file metadata and logs remain in `TestBuilds/r78/`. Preserve the gig preparation hold.
