@@ -50,3 +50,9 @@ Host checks and signing do not establish A10X performance. Verify real account s
 Also test interrupted sync, an offline retry and playback started during sync. Check audio and control response on the A10X. Test account switching without moving one account's retained revisions into another account. A downloaded revision does not replace local preparation until recovery is selected.
 
 Cloud sync is an additional recovery copy. It does not copy audio files or replace an independent backup. Mac integration and automatic scheduling are not included in this increment.
+
+## Distribution preparation
+
+The archive includes a privacy manifest for existing app behaviour. It declares app-only settings, local/user-selected file metadata, elapsed-time measurements and storage checks before model downloads. These declarations follow [Apple's approved reasons](https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype).
+
+Build 145 archived and passed runtime-path and signing checks. Export failed because Xcode's Apple rsync invoked Homebrew rsync through PATH. The export process now selects Apple command-line tools first. Build 145 and its failed logs remain retained. The next candidate adds the privacy manifest.

@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 import fcntl
 import hashlib
 import json
+import os
 from pathlib import Path
 import plistlib
 import subprocess
@@ -213,10 +214,12 @@ def export_testflight(config, number, upload=False):
     write(path, record)
     print(f"{'Uploading' if upload else 'Exporting'} TestFlight build {number}…", flush=True)
     try:
+        export_environment = dict(os.environ)
+        export_environment["PATH"] = "/usr/bin:/bin:/usr/sbin:/sbin:" + export_environment.get("PATH", "")
         with log.open("w") as output:
             run(["xcodebuild", "-exportArchive", "-archivePath", str(archive_path),
                  "-exportPath", str(export_path), "-exportOptionsPlist", str(options),
-                 "-allowProvisioningUpdates"], stdout=output, stderr=subprocess.STDOUT)
+                 "-allowProvisioningUpdates"], stdout=output, stderr=subprocess.STDOUT, env=export_environment)
         if upload:
             record["state"] = "uploaded-processing"
         else:

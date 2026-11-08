@@ -40,6 +40,7 @@ class DistributionTests(unittest.TestCase):
 
     def test_export_keeps_build_number_and_uses_production_cloudkit(self):
         def export(args, **kwargs):
+            self.assertTrue(kwargs["env"]["PATH"].startswith("/usr/bin:/bin:/usr/sbin:/sbin:"))
             destination = Path(args[args.index("-exportPath") + 1])
             destination.mkdir()
             (destination / "GenErikDJ.ipa").write_bytes(b"test package")

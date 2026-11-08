@@ -1,0 +1,27 @@
+{
+  "build": 145,
+  "notes": "R86: private iCloud preparation revisions, explicit sync and next-launch recovery. Includes R83/R84 Z1 lights. A10X acceptance pending.",
+  "sourceCommit": "380c53d83358b72f53c65bdb020581dd03446efc",
+  "sourceSHA256": "14a21a9effc5b8a0a035ff241a0e33b52b7f72fe965c4f56dc2f6e0cebd94658",
+  "state": "export-failed",
+  "distribution": "TestFlight",
+  "feedback": [],
+  "createdUTC": "2026-11-08T10:23:15.228410+00:00",
+  "archive": "TestBuilds/ipad/145/GenErikDJ.xcarchive",
+  "log": "TestBuilds/ipad/145/archive.log",
+  "app": "TestBuilds/ipad/145/GenErikDJ.xcarchive/Products/Applications/GenErikDJ.app",
+  "appSHA256": "2325a3d62b4e8e996c84f8f25044f636c1166eb3499d4f120f6eb40af3c4e16c",
+  "archiveSHA256": "fd544dd33dc46c4127ac2b50fc17072fd3b75033c02b0af6fd8c966d8d1199b5",
+  "buildSeconds": 78.06,
+  "distributionAttempts": [
+    {
+      "action": "export",
+      "log": "TestBuilds/ipad/145/export-1.log",
+      "state": "failed",
+      "failure": "Command '['xcodebuild', '-exportArchive', '-archivePath', '/Users/veland/GenErik DJ/TestBuilds/ipad/145/GenErikDJ.xcarchive', '-exportPath', '/Users/veland/GenErik DJ/TestBuilds/ipad/145/export-1', '-exportOptionsPlist', '/Users/veland/GenErik DJ/TestBuilds/ipad/145/export-1.plist', '-allowProvisioningUpdates']' returned non-zero exit status 70."
+    }
+  ],
+  "exportFailureCause": "Xcode called Apple rsync, which launched Homebrew rsync from PATH. Homebrew rejected --extended-attributes. Use Apple tools first in the export process PATH.",
+  "checks": "Archive built. Runtime paths and code signature passed. Host checks: 13 Swift and 4 Python tests. Device acceptance pending.",
+  "supersededReason": "Add the missing required-reason privacy manifest before TestFlight upload."
+}
