@@ -216,7 +216,7 @@ extension ReplicaModel {
                         if review[job.id] == nil { review[job.id] = issue }
                         logAnalysis("Review \(job.title) (\(pass.title)): \(issue)")
                     }
-                    musicLibraryFailures[job.id] = review[job.id]
+                    musicLibraryNotices.setFailure(review[job.id], for: job.id)
                     state.analysisChecked += 1
                     let checked = state.analysisChecked - passStart
                     analysisProgress?.done = checked
@@ -452,7 +452,7 @@ extension ReplicaModel {
                     status = item.availability.message
                     return
                 }
-                musicLibraryFailures[item.id] = nil
+                musicLibraryNotices.setFailure(nil, for: item.id)
                 if status == "Preparing \(item.title)…" { status = "" }
                 if NativeAnalysisPlan.isMix(duration: item.duration), let id = loaded[deck] {
                     await applyAnalysisHintIfNeeded(trackID: id)
@@ -460,7 +460,7 @@ extension ReplicaModel {
             } catch is CancellationError {} catch {
                 guard state.loadOwners[deck] == token else { return }
                 cancelDeckLoadIntent(deck: deck)
-                if let selectedID { musicLibraryFailures[selectedID] = error.localizedDescription }
+                if let selectedID { musicLibraryNotices.setFailure(error.localizedDescription, for: selectedID) }
                 status = error.localizedDescription
             }
         }

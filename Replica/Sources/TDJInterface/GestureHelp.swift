@@ -7,7 +7,7 @@ struct GestureHelp: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
-                Text("Notification Center").font(.headline)
+                Text("Gesture guide").font(.headline)
                 Spacer()
                 Button(action: close) { Image(systemName: "xmark") }.accessibilityLabel("Close help")
             }.padding(12)

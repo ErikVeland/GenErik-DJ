@@ -5,7 +5,9 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 37.92,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    "R72: The help count should decrease as each notice is read. Add Mark all as read under the information button."
+  ],
   "log": "TestBuilds/ipad/build-131.log",
   "build": 131,
   "app": "TestBuilds/ipad/131/GenErikDJ.app",

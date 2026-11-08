@@ -209,7 +209,15 @@ import TDJCore
     }
     public func cancelMusicLibraryImport() { musicLibraryImportTask?.cancel() }
     public func flushMusicLibraryImport() async { await musicLibraryImportTask?.value }
-    public var musicLibraryError: String?
+    var musicLibraryNotices = MusicLibraryNotices()
+    var musicLibraryAccessNotice = MusicLibraryAccessNotice()
+    var unreadMusicLibraryNoticeCount: Int {
+        musicLibraryNotices.unreadCount + musicLibraryAccessNotice.unreadCount
+    }
+    public var musicLibraryError: String? {
+        get { musicLibraryAccessNotice.message }
+        set { musicLibraryAccessNotice.message = newValue }
+    }
     /// Songs the browser can list: on-device Music items and app-managed tracks.
     public var browsableSongCount: Int {
         guard let catalog = musicLibraryCatalog else { return library.tracks.count }
@@ -225,7 +233,7 @@ import TDJCore
         let count = browsableSongCount
         return count == 1 ? "1 song" : "\(count) songs"
     }
-    public var musicLibraryFailures: [String: String] = [:]
+    public var musicLibraryFailures: [String: String] { musicLibraryNotices.failures }
     public var musicLibraryProgress = ""
     let musicLibraryProvider: any LocalMusicLibraryProviding
     @ObservationIgnored let nativeMusic = NativeMusicSessionState()
@@ -748,7 +756,7 @@ import TDJCore
                 let catalog = try await provider.catalog()
                 try Task.checkCancellation()
                 self?.musicLibraryCatalog = catalog
-                self?.musicLibraryFailures = [:]
+                self?.musicLibraryNotices.clearFailures()
                 if provider.allowsCachedCatalog {
                     await files.run { try? JSONEncoder().encode(catalog).write(to: cacheURL, options: .atomic) }
                 }
@@ -772,7 +780,7 @@ import TDJCore
         guard !items.isEmpty else { return }
         importing = true
         cancelNativeMusicAnalysis()
-        musicLibraryFailures = [:]
+        musicLibraryNotices.clearFailures()
         let temporaryRoot = store.root.appendingPathComponent(".music-import-" + UUID().uuidString, isDirectory: true)
         var added = 0
         var existing = 0
@@ -793,7 +801,7 @@ import TDJCore
                 continue
             }
             guard item.isOnDevice else {
-                musicLibraryFailures[item.id] = item.availability.message
+                musicLibraryNotices.setFailure(item.availability.message, for: item.id)
                 continue
             }
             musicLibraryProgress = "Preparing \(index + 1) of \(items.count): \(item.title)"
@@ -807,7 +815,7 @@ import TDJCore
                 musicLibraryProgress = "Stopped. Prepared songs were retained."
                 stopped = true
                 break
-            } catch { musicLibraryFailures[item.id] = error.localizedDescription }
+            } catch { musicLibraryNotices.setFailure(error.localizedDescription, for: item.id) }
         }
         // Cleanup is awaited even after cancellation, so import/shutdown retains ownership.
         await removeMusicImportItem(at: temporaryRoot)

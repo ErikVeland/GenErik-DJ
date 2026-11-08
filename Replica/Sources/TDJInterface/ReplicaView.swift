@@ -1047,19 +1047,7 @@ extension ReplicaView {
                 horizontal: true, vertical: false
             ).frame(height: 44).bevelPanel(cornerRadius: 6, sunken: true)
             Spacer(minLength: 8)
-            Button {
-                model.helpVisible.toggle()
-            } label: {
-                Image(systemName: "info.circle.fill").font(.system(size: 18)).frame(width: 44, height: 44).bevelPanel(
-                    cornerRadius: 5
-                ).overlay(alignment: .topLeading) {
-                    if noticeCount > 0 {
-                        Text("\(noticeCount)").font(.system(size: 11, weight: .bold)).foregroundStyle(.white).frame(
-                            minWidth: 18, minHeight: 18
-                        ).background(Circle().fill(PerformancePalette.red)).offset(x: -4, y: -4)
-                    }
-                }
-            }.accessibilityLabel("Notification Center")
+            NotificationCenterButton(model: model)
             HStack(spacing: 0) {
                 Button {
                     if model.browserVisible { model.browserVisible = false } else { model.showLibrary() }
@@ -1078,9 +1066,6 @@ extension ReplicaView {
                 }
             }.frame(height: 44).bevelPanel(cornerRadius: 5)
         }.padding(.horizontal, horizontalInset)
-    }
-    private var noticeCount: Int {
-        min(99, model.musicLibraryFailures.count + (model.musicLibraryError == nil ? 0 : 1))
     }
 }
 
