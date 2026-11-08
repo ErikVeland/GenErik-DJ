@@ -1,0 +1,34 @@
+{
+  "notes": "R66 resets the master tempo to the incoming track when both decks are idle.",
+  "sourceCommit": "7a3e0bd07f81cb53ceedd666b44ba98dcd9b722c",
+  "sourceSHA256": "1d5df4cc107f034169d907a9d099e69cad48310c029eb605b532bf7b4327b6fb",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 58.81,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-128.log",
+  "build": 128,
+  "app": "TestBuilds/ipad/128/GenErikDJ.app",
+  "appSHA256": "87af57c0c9d83ed0aced8d79d09709ae18a8f18c6c1aeb4c1a850313e22f148c",
+  "state": "testing",
+  "createdUTC": "2026-11-08T00:51:49.946046+00:00",
+  "installedUTC": "2026-11-08T00:52:04.149997+00:00",
+  "launchedUTC": "2026-11-08T00:52:04.716368+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R66"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "previousDeviceBuild": 124,
+  "focusedChecks": "Four focused tests passed. They cover idle loads with Sync on and off, a load during playback, a track without BPM, manual tempo reset, streamed playback and queued starts.",
+  "evidence": [
+    "TestBuilds/r66/red.log",
+    "TestBuilds/r66/focused.log",
+    "TestBuilds/r66/previous-ipad-app.json",
+    "TestBuilds/r66/ipad-cycle.log"
+  ],
+  "acceptance": [
+    "Stop both decks. Load a track with a different BPM. Check the master tempo before pressing Play.",
+    "Start one deck. Load a track with a different BPM on the other deck. Check that the master tempo stays steady."
+  ]
+}

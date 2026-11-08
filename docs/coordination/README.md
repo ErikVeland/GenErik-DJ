@@ -6,7 +6,9 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
-Latest iPad candidate is **build 124**, from `main` at `a7acf07d9`. The A10X iPad Pro launched the new analyser and saved a 71.0058 BPM grid for 3CAG. All 56 reference bars are within 20.5 ms of the fitted grid. The iPad kept the manual grid and key and saved sections and automatic cue candidates. [Build record](../testing/builds/124.json).
+**Build 128** installed and launched on the A10X iPad Pro. Loading a track while both decks are idle sets the master tempo to its BPM. Erik checks the tempo during idle loads and during playback. [Build record](../testing/builds/128.json).
+
+**Build 124** came from `main` at `a7acf07d9`. The A10X iPad Pro launched the new analyser and saved a 71.0058 BPM grid for 3CAG. All 56 reference bars are within 20.5 ms of the fitted grid. The iPad kept the manual grid and key and saved sections and automatic cue candidates. [Build record](../testing/builds/124.json).
 
 Latest installed Duo candidate is **build 126**, from `main` at `c4202fbe8`. It saves the beat grid and key before it analyses structure and automatic hot cues. On the Duo, the first check advanced the counter to 1 of 376 after the 13-second “Catchphrases”. The queue resumed after reconnecting and had 88 saved matching results at the last reachable check. [Build record](../testing/builds/126.json).
 
