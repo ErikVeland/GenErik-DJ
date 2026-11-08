@@ -13,6 +13,7 @@ typedef struct tdj_asset tdj_asset;
 typedef struct tdj_engine tdj_engine;
 
 #define TDJ_LOAD 1
+#define TDJ_LOAD_RESET_IDLE_TEMPO 16
 #define TDJ_PLAY 2
 #define TDJ_PLAY_ALIGN_ENTRY 1
 #define TDJ_TEMPO 3

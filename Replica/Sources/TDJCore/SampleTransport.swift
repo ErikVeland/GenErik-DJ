@@ -322,7 +322,7 @@ public final class SampleTransport: @unchecked Sendable {
     }
     public func reserveLoad(
         _ asset: PCMAsset, deck: DeckID, grid: BeatGrid?, sourceFrame: Double = 0, synced: Bool = true,
-        keylock: Bool = false, adaptiveMap: BeatGridMap? = nil
+        keylock: Bool = false, adaptiveMap: BeatGridMap? = nil, resetMasterTempoWhenIdle: Bool = false
     ) throws -> UInt64 {
         if let adaptiveMap { try adaptiveMap.validate(frameCount: Int64(asset.frames)) }
         guard adaptiveMap.map({ $0.sampleRate == asset.sampleRate }) ?? true else { throw TransportError.invalid }
@@ -335,6 +335,7 @@ public final class SampleTransport: @unchecked Sendable {
         command.deck = index(deck)
         command.generation = generation
         command.flag = (synced ? 1 : 0) | (keylock ? 8 : 0) | Int32((grid?.downbeatOffset ?? 0) << 1)
+        if resetMasterTempoWhenIdle { command.flag |= TDJ_LOAD_RESET_IDLE_TEMPO }
         command.value = sourceFrame
         if let adaptiveMap { command.beatgrid = adaptiveMap.native }
         command.value2 = grid?.bpm ?? 0

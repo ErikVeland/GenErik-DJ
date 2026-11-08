@@ -1099,12 +1099,9 @@ static int apply(tdj_engine *e, tdj_command c) {
     if (c.kind == TDJ_LOAD) {
         if (d->state == TDJ_PLAYING || d->state == TDJ_QUEUED)
             return TDJ_PROTECTED;
-        if (!c.asset || c.flag < 0 || c.flag > 15 || !isfinite(c.value) || c.value < 0 || c.value >= c.asset->frames ||
-            !isfinite(c.value2) || c.value2 < 0 || !isfinite(c.value3))
+        if (!c.asset || c.flag < 0 || c.flag > (15 | TDJ_LOAD_RESET_IDLE_TEMPO) || !isfinite(c.value) || c.value < 0 ||
+            c.value >= c.asset->frames || !isfinite(c.value2) || c.value2 < 0 || !isfinite(c.value3))
             return TDJ_INVALID;
-        if ((e->running || e->master_chosen) && (c.flag & 8) && (c.flag & 1) && c.value2 > 0 &&
-            !supported_keylock_rate(e->bpm / c.value2))
-            return TDJ_KEYLOCK_RANGE;
         deck proposed = (deck){.asset = c.asset,
                                .generation = c.generation,
                                .state = TDJ_READY,
@@ -1125,9 +1122,16 @@ static int apply(tdj_engine *e, tdj_command c) {
                 return TDJ_INVALID;
             proposed.map = c.beatgrid;
         }
-        if (proposed.keylock &&
-            !supported_deck_keylock(&proposed, (!e->running && !e->master_chosen) ? deck_bpm(&proposed) : e->bpm))
-            return TDJ_KEYLOCK_RANGE;
+        bool choose_on_play = !e->running && !e->master_chosen;
+        bool reset_tempo = (c.flag & TDJ_LOAD_RESET_IDLE_TEMPO) && !e->running && other->state != TDJ_PLAYING &&
+                           other->state != TDJ_QUEUED && proposed.bpm > 0 && proposed.bpm <= 1000 &&
+                           (!other->keylock || !other->synced || supported_deck_keylock(other, proposed.bpm));
+        if (proposed.keylock) {
+            double master = reset_tempo ? proposed.bpm : choose_on_play ? deck_bpm(&proposed) : e->bpm;
+            if (!supported_deck_keylock(&proposed, master) ||
+                (!reset_tempo && !choose_on_play && proposed.synced && !supported_keylock_rate(master / proposed.bpm)))
+                return TDJ_KEYLOCK_RANGE;
+        }
         bool already = d->asset == c.asset || other->asset == c.asset;
         int attachment = tdj_stream_attach(c.asset, e);
         if (attachment != TDJ_OK)
@@ -1135,9 +1139,8 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (e->maximum_output_frames)
             tdj_stream_set_maximum_output_frames(c.asset, e->maximum_output_frames);
         tdj_stream_render_begin(c.asset, e->frame);
-        int status = stream_validate(e, c.deck, &proposed,
-                                     (!e->running && !e->master_chosen && c.value2 > 0) ? c.value2 : e->bpm,
-                                     c.preparation_ticket, c.generation);
+        double master = reset_tempo || (choose_on_play && proposed.bpm > 0) ? proposed.bpm : e->bpm;
+        int status = stream_validate(e, c.deck, &proposed, master, c.preparation_ticket, c.generation);
         if (status != TDJ_OK) {
             if (!already)
                 tdj_stream_detach(c.asset, e);
@@ -1151,6 +1154,10 @@ static int apply(tdj_engine *e, tdj_command c) {
         }
         e->paired_frames = 0;
         *d = proposed;
+        if (reset_tempo) {
+            e->bpm = master;
+            e->master_chosen = true;
+        }
         tdj_stream_mark_started(c.asset);
         tdj_keylock_reset(e->keylocks[c.deck]);
         mixer_clear_track(&e->mix.decks[c.deck]);

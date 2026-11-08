@@ -13,6 +13,10 @@
     {
       "request": "R63",
       "text": "The Duo stayed at 0/128. Check shorter tracks first. Save the downbeat, BPM and key before analysing structure, and verify progress on the Duo."
+    },
+    {
+      "request": "R66",
+      "text": "When no song is playing and a new track is loaded, reset the master tempo to the incoming track."
     }
   ],
   "log": "TestBuilds/ipad/build-124.log",

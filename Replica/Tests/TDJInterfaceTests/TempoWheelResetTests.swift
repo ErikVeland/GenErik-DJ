@@ -1,7 +1,7 @@
 import Foundation
-import TDJCore
 import Testing
 
+@testable import TDJCore
 @testable import TDJInterface
 
 @Test @MainActor func tempoWheelDoubleTapResetsThePlayingReferenceAndSyncedFollower() throws {
@@ -111,4 +111,38 @@ import Testing
     model.setMasterBPM(137)
     model.resetMasterTempo()
     #expect(core.snapshot()?.masterBPM == 137)
+}
+
+@Test(arguments: [true, false]) @MainActor func trackLoadResetsMasterTempoOnlyWhileIdle(synced: Bool) async throws {
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let store = try WorkspaceStore(root: root)
+    let playback = try PlaybackController(offline: true, sampleRate: 8000)
+    let asset = try PCMAsset(interleavedStereo: [Float](repeating: 0, count: 32000), sampleRate: 8000)
+
+    func track(bpm: Double?) throws -> Track {
+        let analysis = AudioAnalysis(
+            implementation: "tempo-fixture", configurationID: "fixture", contentSHA256: "fixture",
+            sampleRate: 8000, frameCount: 16000, channelCount: 2, waveformFramesPerBin: 80, waveform: [],
+            bpm: bpm, beatAnchorFrame: 0, tempoConfidence: 1, key: nil, keyConfidence: 0, chroma: [], timbre: [])
+        return try Track(title: "Tempo fixture", mediaFilename: "fixture.wav", analysis: analysis)
+    }
+
+    try await playback.load(track: track(bpm: 112), store: store, deck: .a, preparedAsset: asset, synced: synced)
+    #expect(playback.core.snapshot()?.masterBPM == 112)
+    try playback.play(.a)
+    try playback.setMasterBPM(116)
+    try await playback.load(track: track(bpm: 128), store: store, deck: .b, preparedAsset: asset, synced: synced)
+    #expect(playback.core.snapshot()?.masterBPM == 116)
+    #expect(playback.core.snapshot()?.a.phase == .playing)
+
+    try playback.play(.a)
+    try await playback.load(track: track(bpm: 126), store: store, deck: .b, preparedAsset: asset, synced: synced)
+    #expect(playback.core.snapshot()?.masterBPM == 126)
+    #expect(playback.core.snapshot()?.b.speed == 1)
+
+    try await playback.load(track: track(bpm: nil), store: store, deck: .a, preparedAsset: asset, synced: synced)
+    #expect(playback.core.snapshot()?.masterBPM == 126)
+    try playback.play(.b)
+    #expect(playback.core.snapshot()?.masterBPM == 126)
 }
