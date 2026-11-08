@@ -113,7 +113,13 @@ import TDJCore
     private var suggestionRequest = UUID()
     public func flushSuggestions() async { await suggestionWork?.value }
     public var status = ""
-    public var importing = false
+    public var importing = false { didSet { if importing { cancelCloudSyncForPlayback() } } }
+    public internal(set) var cloudBusy = false
+    public var cloudStatus = "Preparation stays on this iPad until you select Sync now."
+    var cloudVersions: [CloudRecoveryChoice] = []
+    @ObservationIgnored var cloudTask: Task<Void, Never>?
+    @ObservationIgnored let cloudSync = CloudPreparationSync()
+    @ObservationIgnored let cloudFiles = BackgroundFileWork(label: "org.generikdj.cloud-recovery")
     public var traktorPreparationRecords = 0
     /// Automatic preparation import shown as a quiet header pill. Nil when idle.
     public private(set) var preparationImport: PreparationImportProgress?
@@ -170,6 +176,7 @@ import TDJCore
     public func flushRecordingList() async { await recordingListWork?.value }
     public func recordingTracklist(for recording: URL) -> URL? { recordingTracklists[recording] }
     public func toggleRecording() async {
+        cancelCloudSyncForPlayback()
         if playback.isRecording {
             refreshPlayback()
             await playback.finishRecording()
@@ -871,6 +878,7 @@ import TDJCore
         nativeLoadOwner: UUID?, preparedAsset: PCMAsset? = nil, opening: NativePlaybackOpening? = nil,
         onFailure: (@MainActor (Error) -> Void)? = nil
     ) -> Task<Void, Never>? {
+        cancelCloudSyncForPlayback()
         refreshPlayback()
         guard var track = storedLibrary.track(id: trackID) else {
             onFailure?(TransportError.stale)
@@ -1468,6 +1476,10 @@ import TDJCore
             if let error = playback.recordingError { status = error }
         }
         let (snapshot, messages) = playback.snapshotAndMessages()
+        if cloudTask != nil, isRecording || recordingFinishing
+            || snapshot.map({ value in DeckID.allCases.contains { value[$0].phase.active || value[$0].touchActive } }) == true {
+            cancelCloudSyncForPlayback()
+        }
         preparingSourceActions = playback.preparingSourceDecks
         if let snapshot {
             playbackSnapshot = snapshot
@@ -1501,6 +1513,7 @@ import TDJCore
                 playback.core.asset(generation: snapshot.b.generation)?.frames))
     }
     public func pressPlay(deck: DeckID, vinylStop: Bool? = nil) {
+        cancelCloudSyncForPlayback()
         if preparingTrack.contains(deck) {
             guard let owner = nativeMusic.loadOwners[deck] ?? loadTokens[deck] else { return }
             pendingLoadPlay[deck] = pendingLoadPlay[deck] == owner ? nil : owner

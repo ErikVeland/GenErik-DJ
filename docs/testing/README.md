@@ -47,3 +47,27 @@ The established test-app identity stays `org.generikdj.replica.audiocheck`. The 
 Ignored `TestBuilds/ipad/config.json` holds `team` and `device`. Signed apps and logs stay under ignored `TestBuilds/ipad/`. Build records are tracked under `docs/testing/builds/`. Previous local build 44 is archived before the first new build. This does not claim build 44 is known-good. App rollback does not reverse changes to library/preparation data.
 
 Record feedback, fix commits and Erik's result in the corresponding build record. A reported issue remains open until Erik confirms the fix. Commit changes and records on the feature branch. Merge them into `main` and push before handover. `feature/project-integration` is a historical branch, not a separate test source.
+
+## Requested TestFlight builds
+
+Use this path only when Erik requests a TestFlight build. It leaves the installed iPad app in place.
+
+Prepare a numbered archive and App Store distribution package from committed main:
+
+```sh
+python3 tools/ipad_test.py testflight --notes "Describe the requested TestFlight change"
+```
+
+Retry export of the same archive after resolving a signing issue:
+
+```sh
+python3 tools/ipad_test.py export --number 145
+```
+
+Upload that archive to App Store Connect:
+
+```sh
+python3 tools/ipad_test.py upload --number 145
+```
+
+The tool preserves build numbers, archive hashes and each export/upload attempt. Failed attempts stay in the build record. Upload success means Apple received the archive. Check processing and TestFlight availability separately. This path does not invite testers or submit an App Store release.

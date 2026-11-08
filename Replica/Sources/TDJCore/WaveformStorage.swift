@@ -102,6 +102,9 @@ enum WaveformStorage {
         do { data = try Data(contentsOf: url) } catch {
             throw CoreError.invalidWorkspace("Cannot read waveform data for this track: \(error.localizedDescription)")
         }
+        return try decode(data, analysis: analysis)
+    }
+    static func decode(_ data: Data, analysis: AudioAnalysis) throws -> [WaveformBin] {
         func invalid() -> CoreError {
             .invalidWorkspace("Waveform data is damaged or does not match the track. Original audio was retained.")
         }

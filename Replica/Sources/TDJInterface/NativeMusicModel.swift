@@ -132,7 +132,7 @@ extension ReplicaModel {
 
     public func startNativeMusicAnalysis() {
         let state = nativeMusic
-        guard state.wanted, !state.closed, !arrangementPlaybackActive, !deckAnalysisIsRunning,
+        guard state.wanted, !state.closed, !arrangementPlaybackActive, !deckAnalysisIsRunning, !cloudBusy,
             !state.backgrounded || (state.backgroundRun != nil && libraryAnalysisPlaybackIsIdle),
             !importing, !musicLibraryRefreshing, libraryAnalysisOwner == nil, state.analyses.isEmpty,
             state.loadOwners.isEmpty, preparingPlayback.isEmpty,
@@ -417,6 +417,7 @@ extension ReplicaModel {
     }
 
     public func loadNativeMusic(_ item: MusicLibraryItem, deck: DeckID) {
+        cancelCloudSyncForPlayback()
         beginNativeMusicLoad(deck: deck, selection: item) { item }
     }
 

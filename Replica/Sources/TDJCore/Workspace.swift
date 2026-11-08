@@ -25,7 +25,7 @@ public struct WorkspaceStore: Sendable {
             }
         }
         if !includeWaveforms { return try metadataSnapshot(snapshot) }
-        try validate(snapshot)
+        try Self.validate(snapshot)
         var hydrated = snapshot
         for index in hydrated.tracks.indices { hydrated.tracks[index] = try hydrate(hydrated.tracks[index]) }
         return hydrated.preparingTrackLookup()
@@ -49,10 +49,10 @@ public struct WorkspaceStore: Sendable {
         return compact
     }
     func metadataSnapshot(_ snapshot: LibrarySnapshot) throws -> LibrarySnapshot {
-        try validate(snapshot)
+        try Self.validate(snapshot)
         return try WaveformStorage.metadata(snapshot, directory: waveformDirectory).preparingTrackLookup()
     }
-    private func validate(_ snapshot: LibrarySnapshot) throws {
+    static func validate(_ snapshot: LibrarySnapshot) throws {
         if let calibration = snapshot.calibration { try calibration.validate() }
         guard
             snapshot.adaptiveMemory.calibrationID == nil

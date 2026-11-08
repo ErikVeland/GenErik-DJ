@@ -130,9 +130,114 @@ def deploy(config, number):
     print(f"Build {number} installed. iPadOS accepted the launch request. Over to Erik. No further device actions.", flush=True)
 
 
+def release_source():
+    branch = subprocess.check_output(["git", "branch", "--show-current"], cwd=ROOT, text=True).strip()
+    dirty = subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True).strip()
+    if branch != "main" or dirty:
+        raise ValueError("Merge and commit the change on main before preparing TestFlight.")
+    return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+
+
+def testflight(config, notes):
+    from prepare_vocal_model import prepare
+    from check_ipad_runtime import verify_embedded_frameworks
+    commit = release_source()
+    prepare()
+    numbers = [int(p.stem) for p in RECORDS.glob("*.json") if p.stem.isdigit()]
+    numbers += [int(p.name) for p in LOCAL.iterdir() if p.is_dir() and p.name.isdigit()]
+    number = max([44, *numbers]) + 1
+    folder = LOCAL / str(number)
+    folder.mkdir()
+    archive_path = folder / "GenErikDJ.xcarchive"
+    log = folder / "archive.log"
+    before = source_identity()
+    record = dict(build=number, notes=notes, sourceCommit=commit, sourceSHA256=before,
+                  state="archiving", distribution="TestFlight", feedback=[],
+                  createdUTC=datetime.now(timezone.utc).isoformat(),
+                  archive=str(archive_path.relative_to(ROOT)), log=str(log.relative_to(ROOT)))
+    path = RECORDS / f"{number}.json"
+    write(path, record)
+    started = time.monotonic()
+    print(f"Archiving TestFlight build {number}…", flush=True)
+    try:
+        with log.open("w") as output:
+            run(["xcodebuild", "-quiet", "-project", "Replica/iPad/GenErikDJ.xcodeproj",
+                 "-scheme", "GenErikDJ", "-configuration", "Release",
+                 "-destination", "generic/platform=iOS", "-derivedDataPath", str(CACHE),
+                 "-archivePath", str(archive_path), "-allowProvisioningUpdates",
+                 "-jobs", "2", f"PRODUCT_BUNDLE_IDENTIFIER={BUNDLE}",
+                 f"CURRENT_PROJECT_VERSION={number}", f"DEVELOPMENT_TEAM={config['team']}",
+                 "CODE_SIGN_STYLE=Automatic", "INFOPLIST_KEY_CFBundleDisplayName=GenErik DJ",
+                 "TARGETED_DEVICE_FAMILY=1,2", "archive"], stdout=output, stderr=subprocess.STDOUT)
+        app = archive_path / "Products/Applications/GenErikDJ.app"
+        if before != source_identity() or int(info(app)["CFBundleVersion"]) != number:
+            raise ValueError("The source or archive identity changed. Export stopped.")
+        verify_embedded_frameworks(app)
+        run(["codesign", "--verify", "--deep", "--strict", str(app)])
+        record.update(state="archived", app=str(app.relative_to(ROOT)),
+                      appSHA256=digest(app.rglob("*"), app),
+                      archiveSHA256=digest(archive_path.rglob("*"), archive_path),
+                      buildSeconds=round(time.monotonic() - started, 2))
+        write(path, record)
+    except Exception as error:
+        record.update(state="archive-failed", failure=str(error),
+                      buildSeconds=round(time.monotonic() - started, 2))
+        write(path, record)
+        raise
+    export_testflight(config, number)
+    return number
+
+
+def export_testflight(config, number, upload=False):
+    path = RECORDS / f"{number}.json"
+    record = json.loads(path.read_text())
+    archive_path = ROOT / record["archive"]
+    if record.get("archiveSHA256") != digest(archive_path.rglob("*"), archive_path):
+        raise ValueError("The saved archive changed. Export stopped.")
+    folder = archive_path.parent
+    action = "upload" if upload else "export"
+    attempt = 1
+    while (folder / f"{action}-{attempt}.log").exists():
+        attempt += 1
+    log = folder / f"{action}-{attempt}.log"
+    options = folder / f"{action}-{attempt}.plist"
+    export_path = folder / f"{action}-{attempt}"
+    options.write_bytes(plistlib.dumps({
+        "method": "app-store-connect", "destination": "upload" if upload else "export",
+        "teamID": config["team"], "signingStyle": "automatic",
+        "manageAppVersionAndBuildNumber": False, "uploadSymbols": True,
+        "iCloudContainerEnvironment": "Production",
+    }))
+    attempt_record = dict(action=action, log=str(log.relative_to(ROOT)), state="started")
+    record.setdefault("distributionAttempts", []).append(attempt_record)
+    write(path, record)
+    print(f"{'Uploading' if upload else 'Exporting'} TestFlight build {number}…", flush=True)
+    try:
+        with log.open("w") as output:
+            run(["xcodebuild", "-exportArchive", "-archivePath", str(archive_path),
+                 "-exportPath", str(export_path), "-exportOptionsPlist", str(options),
+                 "-allowProvisioningUpdates"], stdout=output, stderr=subprocess.STDOUT)
+        if upload:
+            record["state"] = "uploaded-processing"
+        else:
+            packages = list(export_path.glob("*.ipa"))
+            if len(packages) != 1:
+                raise ValueError("Export did not produce one IPA. Check the export log.")
+            record.update(state="exported", ipa=str(packages[0].relative_to(ROOT)),
+                          ipaSHA256=hashlib.sha256(packages[0].read_bytes()).hexdigest())
+        attempt_record.update(state="succeeded", finishedUTC=datetime.now(timezone.utc).isoformat())
+    except Exception as error:
+        record["state"] = action + "-failed"
+        attempt_record.update(state="failed", failure=str(error))
+        raise
+    finally:
+        write(path, record)
+    print(f"Build {number}: {record['state']}. No device installation was performed.", flush=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=["run", "build", "deploy"])
+    parser.add_argument("action", choices=["run", "build", "deploy", "testflight", "export", "upload"])
     parser.add_argument("--notes", default="Incremental iPad test build")
     parser.add_argument("--number", type=int, help="Saved build to install, including rollback")
     parser.add_argument("--device", help="Override the saved test iPad device ID")
@@ -141,8 +246,8 @@ def main():
     args = parser.parse_args()
     if args.install_timeout < 1:
         parser.error("The installation limit must be at least one second.")
-    if args.action == "deploy" and args.number is None:
-        parser.error("deploy requires --number")
+    if args.action in {"deploy", "export", "upload"} and args.number is None:
+        parser.error(f"{args.action} requires --number")
     LOCAL.mkdir(parents=True, exist_ok=True)
     with (LOCAL / "cycle.lock").open("w") as lock:
         try:
@@ -155,11 +260,17 @@ def main():
         for key in ["device", "team"]:
             if getattr(args, key):
                 config[key] = getattr(args, key)
-        required = (["team"] if args.action != "deploy" else []) + (["device"] if args.action != "build" else [])
+        required = (["team"] if args.action != "deploy" else []) + (["device"] if args.action in {"run", "deploy"} else [])
         if any(not config.get(key) for key in required):
             parser.error("Supply the signing team/device, or save TestBuilds/ipad/config.json.")
+        if args.action == "testflight":
+            testflight(config, args.notes)
+            return
+        if args.action in {"export", "upload"}:
+            export_testflight(config, args.number, upload=args.action == "upload")
+            return
         number = build(config, args.notes) if args.action != "deploy" else args.number
-        if args.action != "build":
+        if args.action == "run" or args.action == "deploy":
             deploy(config, number)
 
 

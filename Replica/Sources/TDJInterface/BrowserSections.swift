@@ -286,6 +286,8 @@ struct SettingsBrowser: View {
                 .foregroundStyle(.secondary)
             Divider()
             KeyImportReviewView(model: model)
+            Divider()
+            CloudPreparationSettings(model: model)
         case .notifications:
             Toggle("Notification Center", isOn: $notificationCenter)
             Button("Reset Undiscovered Features") { model.helpVisible = true }
