@@ -11,7 +11,8 @@
       "requestID": "R85",
       "message": "Erik reports phase 1 still at 5737. Move mixes over 19 minutes behind shorter-track phase 2.",
       "buildAssumption": "Build 142 is the last installed iPad build. Erik did not give a build number.",
-      "state": "Open. Queue change in progress."
+      "state": "Queue fix installed in build 143. Erik must confirm phase 2 progress.",
+      "fixBuild": 143
     }
   ],
   "log": "TestBuilds/ipad/build-142.log",

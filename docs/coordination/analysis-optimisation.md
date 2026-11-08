@@ -150,3 +150,6 @@ The same failures reproduce on unchanged `main` at `aaab02b8c`. The test expects
 which conflicts with the current policy that reuses complete grids and keys. The test remains unchanged.
 The first baseline attempt could not compile the new queue tests against the old API. Both baseline attempts are preserved.
 Focused logs, source hashes and failure evidence remain under `TestBuilds/r85/`.
+
+Signed [build 143](../testing/builds/143.json) installed on the A10X iPad. iPadOS accepted launch.
+No device actions followed. Erik checks the new phase order and playback.

@@ -1,0 +1,49 @@
+{
+  "notes": "R85 runs both analysis passes for shorter tracks before mixes over 19 minutes. Saved results and playback priority remain.",
+  "sourceCommit": "68c8c0625ef6cd35ddbe7bde63be6e8f3ea447e2",
+  "sourceSHA256": "fe5e24c57ed009def6bf3cac4e6c4083eba6b6928be7d8fb4e87c8a6e800d538",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 37.65,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-143.log",
+  "build": 143,
+  "app": "TestBuilds/ipad/143/GenErikDJ.app",
+  "appSHA256": "cd1942a8324cfffff300d16de4c5c1b6c739f35a6570270f3a9a6e18cee036c7",
+  "state": "testing",
+  "createdUTC": "2026-11-08T09:44:36.972041+00:00",
+  "installedUTC": "2026-11-08T09:44:56.668891+00:00",
+  "launchedUTC": "2026-11-08T09:44:57.079032+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R85"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "deviceUDID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+  "previousDeviceBuild": 142,
+  "focusedChecks": "Eight focused host tests passed across 15 cases. They cover the 19-minute boundary, empty and all-mix queues, loaded managed/native mixes, saved excerpt duration, phase order, progress totals, cancellation and saved-result reuse. Runtime framework paths and signing passed.",
+  "existingTestFailure": "The legacy launch-reanalysis test has nine failed assertions across three cases on both R85 and unchanged main at aaab02b8c. It expects valid saved grids and keys to be replaced. The current reuse policy keeps them. The test is unchanged and recorded separately.",
+  "verificationLimit": "iPadOS accepted installation and launch. No later device action was taken. Erik must confirm that shorter-track phase 2 advances before long mixes, and check audio continuity and touch response. Full-library completion is not claimed.",
+  "evidence": [
+    "TestBuilds/r85/before-analysis.log",
+    "TestBuilds/r85/before-files.json",
+    "TestBuilds/r85/before-findings.json",
+    "TestBuilds/r85/focused-tests.log",
+    "TestBuilds/r85/focused-tests-final.log",
+    "TestBuilds/r85/final-test-source.json",
+    "TestBuilds/r85/baseline-existing-test.log",
+    "TestBuilds/r85/baseline-check.json",
+    "TestBuilds/r85/baseline-original-tests.log",
+    "TestBuilds/r85/baseline-original-check.json",
+    "TestBuilds/ipad/build-143.log"
+  ],
+  "acceptance": [
+    "Keep GenErik DJ open to resume the saved analysis.",
+    "Confirm shorter tracks reach Pass 2 before the Mixes over 19 min group starts.",
+    "Confirm playback pauses library analysis and remains responsive."
+  ],
+  "deferredRequests": [
+    "R83: BPM-locked amber Z1 warning at 30 and 10 seconds remaining.",
+    "R84: subtle blue Z1 pulse on each beat throughout the track."
+  ]
+}
