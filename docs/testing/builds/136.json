@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 58.77,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R77",
+      "text": "Split Pass 1 reuse into Traktor grid only, key only and both. Keep mixed results out of saved GenErik reuse."
+    }
+  ],
   "log": "TestBuilds/ipad/build-136.log",
   "build": 136,
   "app": "TestBuilds/ipad/136/GenErikDJ.app",

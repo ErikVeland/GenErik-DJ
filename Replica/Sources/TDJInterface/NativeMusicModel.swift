@@ -35,17 +35,19 @@ private enum LibraryAnalysisPass: CaseIterable {
 }
 
 private enum LibraryMatchingSource: String {
-    case traktor, saved, fresh, failed
+    case traktorBoth = "traktor"
+    case traktorGrid, traktorKey, saved, fresh, failed
 
     init(reusing track: Track) {
-        guard let original = track.traktorPreparation?.normalized, let grid = original.grid, let key = original.key,
-            track.grid == grid
-        else {
-            self = .saved
-            return
+        let originalGrid = track.traktorPreparation?.normalized.grid
+        let usesTraktorGrid = originalGrid != nil && originalGrid == track.grid
+        let usesTraktorKey = track.keyDecision.authority == .traktor
+        self = switch (usesTraktorGrid, usesTraktorKey) {
+        case (true, true): .traktorBoth
+        case (true, false): .traktorGrid
+        case (false, true): .traktorKey
+        case (false, false): .saved
         }
-        let decision = track.keyDecision
-        self = decision.authority == .traktor && decision.key == key ? .traktor : .saved
     }
 }
 
@@ -203,7 +205,9 @@ extension ReplicaModel {
                 @MainActor func logMatchingSummary() {
                     logAnalysis(
                         "Pass 1 summary \(state.analysisChecked - passStart) of \(count) · "
-                            + "Traktor \(matchingCounts[.traktor, default: 0]), "
+                            + "Traktor both \(matchingCounts[.traktorBoth, default: 0]), "
+                            + "grid only \(matchingCounts[.traktorGrid, default: 0]), "
+                            + "key only \(matchingCounts[.traktorKey, default: 0]), "
                             + "saved GenErik \(matchingCounts[.saved, default: 0]), "
                             + "fresh analysis \(matchingCounts[.fresh, default: 0]), "
                             + "failed \(matchingCounts[.failed, default: 0])")
@@ -371,7 +375,7 @@ extension ReplicaModel {
                     url: prepared.url, musicLibrary: prepared.metadata, sourceChanged: sourceChanged)
                 self.adoptLibrary(snapshot)
                 guard let updated = await self.preparedNativeTrack(item) else { throw MusicLibraryError.missingAudio }
-                return (updated, reusedTraktor ? .traktor : .fresh)
+                return (updated, reusedTraktor ? .init(reusing: updated) : .fresh)
             }
         }
     }

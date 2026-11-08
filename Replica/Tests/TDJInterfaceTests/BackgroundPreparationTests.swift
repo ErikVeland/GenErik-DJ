@@ -134,7 +134,7 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     await model.flushNativeMusicAnalysis()
     #expect(reads == [short.id, unknown.id, short.id])
     let log = try String(contentsOf: workspace.appendingPathComponent("analysis.log"), encoding: .utf8)
-    #expect(log.contains("Pass 1 summary 2 of 2 · Traktor 0, saved GenErik 0, fresh analysis 2, failed 0"))
+    #expect(log.contains("Pass 1 summary 2 of 2 · Traktor both 0, grid only 0, key only 0, saved GenErik 0, fresh analysis 2, failed 0"))
     let track = try #require(model.preparedTrack(for: short))
     let cache = try JSONDecoder().decode(ArrangementCache.self, from: Data(contentsOf: model.arrangementURL(track.id)))
     #expect(cache.automaticCues != nil)
@@ -194,7 +194,7 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     await reopened.flushNativeMusicAnalysis()
     #expect(provider.preparations == 0)
     let reuseLog = try String(contentsOf: workspace.appendingPathComponent("analysis.log"), encoding: .utf8)
-    #expect(reuseLog.contains("Pass 1 summary 1 of 1 · Traktor 0, saved GenErik 1, fresh analysis 0, failed 0"))
+    #expect(reuseLog.contains("Pass 1 summary 1 of 1 · Traktor both 0, grid only 0, key only 0, saved GenErik 1, fresh analysis 0, failed 0"))
     let reused = try measuredAttempts(workspace).filter { $0.attemptID != matching.attemptID && $0.pass == "matching" }
     #expect(reused.count == 1)
     #expect(reused.first?.cacheHits == ["savedMatching"])
@@ -250,8 +250,13 @@ private func collectionXML(bpm: Int, persistentHex: String) -> Data {
     #expect(model.browserHints[item.id]?.key != nil)
 }
 
-@Test(arguments: [true, false]) @MainActor func firstPassReusesValidatedTraktorPreparation(prepared: Bool) async throws
-{
+enum TraktorReuseFixture: CaseIterable, Sendable {
+    case newMatch, savedBoth, savedGridOnly, savedKeyOnly
+}
+
+@Test(arguments: TraktorReuseFixture.allCases) @MainActor
+func firstPassReusesValidatedTraktorPreparation(fixture: TraktorReuseFixture) async throws {
+    let prepared = fixture != .newMatch
     let inbox = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".nml")
     defer { try? FileManager.default.removeItem(at: inbox) }
     try collectionXML(bpm: 127, persistentHex: "0000000000001234").write(to: inbox)
@@ -267,6 +272,17 @@ private func collectionXML(bpm: Int, persistentHex: String) -> Data {
         model.adoptLibrary(
             try await model.service.analyzeNativeMusic(
                 url: clockFixture(), musicLibrary: .init(item: item), quickLoad: true))
+    }
+    if fixture == .savedGridOnly || fixture == .savedKeyOnly {
+        let track = try #require(model.preparedTrack(for: item))
+        var preparation = track.preparation
+        if fixture == .savedGridOnly {
+            preparation.correctedKey = .init(tonic: 0, mode: .major)
+        } else {
+            preparation.grid = try BeatGrid(bpm: 126, anchorFrame: 0, sampleRate: track.analysis.sampleRate)
+            preparation.gridWasEditedByUser = true
+        }
+        model.adoptLibrary(try await model.service.updatePreparation(trackID: track.id, preparation: preparation))
     }
     let initialAnalysis = model.preparedTrack(for: item)?.analysis
     var passTitles: [String] = []
@@ -298,10 +314,18 @@ private func collectionXML(bpm: Int, persistentHex: String) -> Data {
     #expect(missing.needsCurrentLibraryAnalysis)
 
     let log = try String(contentsOf: workspace.appendingPathComponent("analysis.log"), encoding: .utf8)
-    #expect(log.contains("Pass 1 summary 1 of 1 · Traktor 1, saved GenErik 0, fresh analysis 0, failed 0"))
+    let (both, gridOnly, keyOnly, source) = switch fixture {
+    case .newMatch, .savedBoth: (1, 0, 0, "traktor")
+    case .savedGridOnly: (0, 1, 0, "traktorGrid")
+    case .savedKeyOnly: (0, 0, 1, "traktorKey")
+    }
+    #expect(
+        log.contains(
+            "Pass 1 summary 1 of 1 · Traktor both \(both), grid only \(gridOnly), key only \(keyOnly), "
+                + "saved GenErik 0, fresh analysis 0, failed 0"))
     let measurements = try measuredAttempts(workspace)
     let matching = try #require(measurements.first { $0.pass == "matching" })
-    #expect(matching.source == "traktor")
+    #expect(matching.source == source)
     #expect(matching.sourceHashComputed == !prepared)
     #expect(matching.cacheHits.contains("savedMatching") == prepared)
     #expect(matching.stageCalls["decodeWaveform"] == (prepared ? nil : 1))
