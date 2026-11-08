@@ -1,0 +1,42 @@
+{
+  "notes": "R82 adds direct native Z1 Mk1 accessory control, calibration and light feedback without MIDI or a bridge.",
+  "sourceCommit": "22584d70a74e618b95a76f76108b78f41d31e1cb",
+  "sourceSHA256": "3d430248d51b7adbef370349368e84f072533cde5123d350a1d1fe3649688773",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 37.53,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-142.log",
+  "build": 142,
+  "app": "TestBuilds/ipad/142/GenErikDJ.app",
+  "appSHA256": "111c42821d6cc5de6e744e06f854513379e865886ff55f6bc218196413c6806f",
+  "state": "testing",
+  "createdUTC": "2026-11-08T09:28:12.983463+00:00",
+  "installedUTC": "2026-11-08T09:28:30.874132+00:00",
+  "launchedUTC": "2026-11-08T09:28:31.279387+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R82"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "deviceUDID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+  "previousDeviceBuild": 140,
+  "focusedChecks": "13 focused host tests passed: 5 native protocol tests, 5 existing Z1 protocol/mapper tests and 3 interface tests. Saved app plist declares the exact Z1 protocol and external-accessory background mode. Signed iPad compilation, runtime framework paths and signing passed.",
+  "verificationLimit": "The native session and control path are implemented. Physical Z1 connection, calibration, faders, buttons, light output, separate audio routing, reconnect and A10X performance remain for Erik to verify. The reference package is Traktor DJ 2, not TDJ1.",
+  "evidence": [
+    "TestBuilds/r82/reference-manifest.json",
+    "TestBuilds/r82/verification.json",
+    "TestBuilds/r82/focused-tests.log",
+    "TestBuilds/r82/focused-tests-first-compile-failure.log",
+    "TestBuilds/r82/focused-tests-second-compile-failure.log",
+    "TestBuilds/ipad/build-141.log",
+    "TestBuilds/ipad/build-142.log"
+  ],
+  "acceptance": [
+    "Close Traktor DJ. Connect the powered Z1 using the normal iPad cable and cancel any prompt to open Traktor DJ.",
+    "Confirm Connect original Z1 directly is on and the status reaches Z1 native controls connected.",
+    "Check faders, crossfader endpoints, gain, EQ, filter/FX, cue, cue blend and MODE plus cue transport.",
+    "Check lights and separate master/headphone routing. Check audio continuity and touch response under controller use.",
+    "With playback stopped, unplug and reconnect. Confirm calibration and native controls resume."
+  ]
+}

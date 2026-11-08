@@ -5,7 +5,14 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 37.12,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "requestID": "R82",
+      "report": "Erik requires direct native Z1 Mk1 control on iPad. MIDI is not exposed by the Mk1 on iPad. Diagnostics and MIDI Learn do not meet the request.",
+      "candidateBuild": 142,
+      "status": "Native session implemented. Physical acceptance remains open."
+    }
+  ],
   "log": "TestBuilds/ipad/build-140.log",
   "build": 140,
   "app": "TestBuilds/ipad/140/GenErikDJ.app",

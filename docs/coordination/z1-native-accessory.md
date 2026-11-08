@@ -64,7 +64,7 @@ The main run loop owns the streams. There is no new polling timer. Existing play
 
 ## Verification and remaining work
 
-Focused checks cover both wire formats, every two-part packet split, one-byte delivery, combined reports, startup order, crossfader calibration, held-button suppression, malformed packets and overload. Signed iPad compilation and installation follow the project test loop.
+Focused checks cover both wire formats, every two-part packet split, one-byte delivery, combined reports, startup order, crossfader calibration, held-button suppression, malformed packets and overload. All 13 focused host tests passed. Build 142 passed signed iPad compilation and installation. iPadOS accepted launch. Failed build 141 and the two earlier host compile failures remain preserved.
 
 Hardware acceptance remains open: session access, the reported firmware format, real calibration, all physical controls, lights, master/headphone routing, disconnect/reconnect and uninterrupted A10X audio. No physical success follows from a host test or build. Use the [native test steps](../testing/controller-test.md).
 

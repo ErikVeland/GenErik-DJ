@@ -7,7 +7,7 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
 
-**Native Z1 update — R82:** Implemented the native iPad session, calibration exchange, control input and light feedback. Thirteen focused host checks passed. Signed installation and physical Z1 acceptance remain open. [Protocol evidence](z1-native-accessory.md).
+**Build 142** installed on the A10X iPad Pro, and iPadOS accepted launch. R82 adds the native Z1 accessory session, calibration, direct controls and light feedback. Native discovery is on by default. Thirteen focused host checks passed. Physical Z1 and A10X performance acceptance remain open. [Build record](../testing/builds/142.json) · [Protocol evidence](z1-native-accessory.md) · [Test steps](../testing/controller-test.md).
 
 **Build 140** installed on the A10X iPad Pro, and iPadOS accepted launch. Erik released the analysis hold for R81. Controllers now shows the first Z1 connection test and shares MIDI, accessory and audio details. Direct iPad Z1 accessory control remains unimplemented. Physical input and routing checks remain open. [Build record](../testing/builds/140.json) · [Test steps](../testing/controller-test.md).
 
