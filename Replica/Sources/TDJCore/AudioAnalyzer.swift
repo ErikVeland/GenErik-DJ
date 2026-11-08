@@ -99,6 +99,7 @@ public enum AudioAnalyzer {
             configuration.maximumBPM <= 1000
         else { throw CoreError.invalidAudio("Invalid analysis tempo range.") }
         let before = try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
+        AnalysisMeasurement.current?.update { $0.sourceSizeBytes = before.fileSize }
         try checkCancellation()
         let hash = try sha256(url: url, checkCancellation: checkCancellation)
         let decoded = try decode(
@@ -107,10 +108,13 @@ public enum AudioAnalyzer {
         guard let pulses = decoded.pulses, let spectrum = decoded.spectrum else {
             throw CoreError.invalidAudio("Musical analysis features are unavailable.")
         }
-        var rhythm = try MusicalRhythmAnalyzer.analyze(
-            frames: pulses.frames, sampleRate: decoded.sampleRate, framesPerBin: pulses.framesPerBin,
-            spectralActivity: spectrum.activity, configuration: configuration, harmonicFrames: spectrum.harmonicFrames,
-            checkCancellation: checkCancellation)
+        var rhythm = try AnalysisMeasurement.measure("dspRhythm") {
+            try MusicalRhythmAnalyzer.analyze(
+                frames: pulses.frames, sampleRate: decoded.sampleRate, framesPerBin: pulses.framesPerBin,
+                spectralActivity: spectrum.activity, configuration: configuration,
+                harmonicFrames: spectrum.harmonicFrames,
+                checkCancellation: checkCancellation)
+        }
         let duration = Double(decoded.frameCount) / decoded.sampleRate
         let fitted: BeatThisGrid?
         if duration >= 11 * 60 / configuration.maximumBPM {
@@ -139,7 +143,7 @@ public enum AudioAnalyzer {
             rhythm.gridResidualMilliseconds = fitted.residualMilliseconds
         }
         try checkCancellation()
-        let harmonic = spectrum.finish()
+        let harmonic = AnalysisMeasurement.measure("keyFinalization") { spectrum.finish() }
         let brightness = harmonic.timbre.count >= 6 ? harmonic.timbre[4] + harmonic.timbre[5] : 0
         let energy = MusicalRhythmAnalyzer.energy(
             frames: pulses.frames, duration: duration, rhythm: rhythm, spectralActivity: spectrum.activity,
@@ -164,6 +168,7 @@ public enum AudioAnalyzer {
         analysis.keyStability = harmonic.stability
         analysis.gridResidualMilliseconds = rhythm.gridResidualMilliseconds
         try checkCancellation()
+        AnalysisMeasurement.current?.capture(analysis)
         return analysis
     }
 
@@ -171,6 +176,7 @@ public enum AudioAnalyzer {
         url: URL, checkCancellation: @Sendable () throws -> Void = { try Task.checkCancellation() }
     ) throws -> AudioAnalysis {
         let before = try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
+        AnalysisMeasurement.current?.update { $0.sourceSizeBytes = before.fileSize }
         let hash = try sha256(url: url, checkCancellation: checkCancellation)
         let decoded = try decode(
             url: url, waveformFramesPerBin: nil, analyzeMusic: false, checkCancellation: checkCancellation)
@@ -183,6 +189,7 @@ public enum AudioAnalyzer {
             chroma: [], timbre: [])
         result.musicalAnalysisDeferred = true
         try checkCancellation()
+        AnalysisMeasurement.current?.capture(result)
         return result
     }
 
@@ -209,14 +216,27 @@ public enum AudioAnalyzer {
     public static func sha256(
         url: URL, checkCancellation: @Sendable () throws -> Void = { try Task.checkCancellation() }
     ) throws -> String {
+        let span = AnalysisMeasurement.begin("sourceHash")
+        let measurement = AnalysisMeasurement.current
+        var bytes: Int64 = 0
+        defer {
+            span?.finish()
+            measurement?.count("hashBytesRead", bytes)
+        }
         let handle = try FileHandle(forReadingFrom: url)
         defer { try? handle.close() }
         var digest = SHA256()
         while let data = try handle.read(upToCount: 1_048_576), !data.isEmpty {
+            bytes += Int64(data.count)
             try checkCancellation()
             digest.update(data: data)
         }
-        return digest.finalize().map { String(format: "%02x", $0) }.joined()
+        let hash = digest.finalize().map { String(format: "%02x", $0) }.joined()
+        measurement?.update {
+            $0.contentSHA256 = hash
+            $0.sourceHashComputed = true
+        }
+        return hash
     }
 
     private struct DecodedAudio {
@@ -232,6 +252,8 @@ public enum AudioAnalyzer {
     private static func decode(
         url: URL, waveformFramesPerBin: Int?, analyzeMusic: Bool, checkCancellation: @Sendable () throws -> Void
     ) throws -> DecodedAudio {
+        let span = AnalysisMeasurement.begin(analyzeMusic ? "decodeAndFeatures" : "decodeWaveform")
+        defer { span?.finish() }
         let file = try AVAudioFile(forReading: url, commonFormat: .pcmFormatFloat32, interleaved: false)
         let rate = file.processingFormat.sampleRate
         let channels = Int(file.processingFormat.channelCount)
@@ -309,6 +331,8 @@ public enum AudioAnalyzer {
     }
 
     private static func checkUnchanged(url: URL, before: URLResourceValues) throws {
+        let span = AnalysisMeasurement.begin("sourceStatVerification")
+        defer { span?.finish() }
         let after = try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
         guard before.fileSize == after.fileSize, before.contentModificationDate == after.contentModificationDate else {
             throw CoreError.invalidAudio("The source changed during analysis. Analyse the unchanged file again.")

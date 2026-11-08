@@ -158,6 +158,7 @@ public struct AnalysisBenchmarkMeasurement: Codable, Sendable {
     public var detectedDownbeatOffset: Int?
     public var downbeatConfidence: Double?
     public var checks: [AnalysisBenchmarkCheck]
+    public var performance: AnalysisMeasurement.Record? = nil
 }
 
 public struct AnalysisBenchmarkReport: Codable, Sendable {
@@ -185,18 +186,24 @@ public enum AnalysisBenchmark {
     {
         try manifest.validate()
         var measurements: [AnalysisBenchmarkMeasurement] = []
+        let runID = UUID().uuidString
         for track in manifest.tracks {
             try Task.checkCancellation()
             let started = ContinuousClock.now
+            let performance = AnalysisMeasurement(runID: runID, jobID: track.id, pass: "benchmark", duration: nil)
+            performance.update { $0.source = "fresh" }
             do {
                 let url = URL(fileURLWithPath: track.path, relativeTo: directory).standardizedFileURL
-                let analysis = try await AnalysisWorker.shared.analyze(url: url)
+                let analysis = try await AnalysisMeasurement.$current.withValue(performance) {
+                    try await AnalysisWorker.shared.analyze(url: url)
+                }
                 let elapsed = started.duration(to: .now)
                 measurements.append(
                     evaluate(
                         analysis, expected: track, limits: manifest.limits,
                         elapsedSeconds: Double(elapsed.components.seconds) + Double(elapsed.components.attoseconds)
                             / 1e18))
+                measurements[measurements.count - 1].performance = performance.finish(outcome: "success")
             } catch is CancellationError { throw CancellationError() } catch {
                 let elapsed = started.duration(to: .now)
                 measurements.append(
@@ -205,6 +212,7 @@ public enum AnalysisBenchmark {
                         elapsedSeconds: Double(elapsed.components.seconds) + Double(elapsed.components.attoseconds)
                             / 1e18,
                         checks: [.init(metric: "source", outcome: .fail, detail: error.localizedDescription)]))
+                measurements[measurements.count - 1].performance = performance.finish(outcome: "failed")
             }
         }
         return report(manifest: manifest, measurements: measurements)

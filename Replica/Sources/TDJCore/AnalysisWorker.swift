@@ -26,19 +26,25 @@ public final class AnalysisWorker: Sendable {
         checkAfterWork: Bool = true, _ work: @escaping @Sendable (@Sendable () throws -> Void) throws -> T
     ) async throws -> T {
         let cancellation = AnalysisCancellation()
+        let measurement = AnalysisMeasurement.current
+        let wait = AnalysisMeasurement.begin("analysisQueueWait")
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
                 queue.async(qos: .background, flags: .enforceQoS) {
+                    wait?.finish()
                     do {
                         try cancellation.check()
-                        let value = try work { try cancellation.check() }
+                        let value = try AnalysisMeasurement.$current.withValue(measurement) {
+                            try work { try cancellation.check() }
+                        }
                         if checkAfterWork { try cancellation.check() }
                         continuation.resume(returning: value)
                     } catch { continuation.resume(throwing: error) }
                 }
             }
         } onCancel: {
+            measurement?.requestCancellation()
             cancellation.cancel()
         }
     }

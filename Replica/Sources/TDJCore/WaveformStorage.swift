@@ -95,6 +95,7 @@ enum WaveformStorage {
         words.withUnsafeBytes { data.append(contentsOf: $0) }
         data.append(contentsOf: SHA256.hash(data: data))
         try data.write(to: url, options: .atomic)
+        AnalysisMeasurement.current?.count("waveformBytesWritten", Int64(data.count))
     }
     private static func read(from url: URL, analysis: AudioAnalysis) throws -> [WaveformBin] {
         let data: Data

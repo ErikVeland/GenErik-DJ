@@ -6,6 +6,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**R76** adds the first measurement increment from Erik's analysis optimisation audit. It records stage timings, source/cache paths and interrupted attempts. Musical decisions remain unchanged. The [rollout record](analysis-optimisation.md) lists measurement limits, report commands and the remaining corpus, A10X and Traktor comparisons.
+
 **Build 135** installed and launched on the A10X iPad Pro. Pass 1 logs reuse, fresh analysis and failures every 100 checks and when the pass stops. [Build record](../testing/builds/135.json).
 
 **Build 133** installed and launched on the A10X iPad Pro. Pass 1 reuses validated Traktor grids and keys. A file path or date change alone does not mark audio as changed. Erik checks Pass 1 speed. [Build record](../testing/builds/133.json).

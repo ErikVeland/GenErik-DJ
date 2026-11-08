@@ -1,4 +1,10 @@
-# Analysis status — 30 October 2026
+# Analysis status
+
+## Current work — 8 November 2026
+
+Audio and control responsiveness on A10X remain the main priority. R76 adds stage timings and source/cache records to the current Beat This path. It does not change confidence, preparation authority or musical results. See the [measurement and optimisation rollout](../docs/coordination/analysis-optimisation.md) for scope, limits and remaining verification. Same-audio Traktor accuracy and A10X speed comparisons remain open.
+
+## Historical assessment — 30 October 2026
 
 Analysis is the current development priority. BPM, key, energy and automatic downbeat must meet the performer's TDJ1 requirement before a fidelity claim. Playback retains scheduling priority while background analysis runs.
 

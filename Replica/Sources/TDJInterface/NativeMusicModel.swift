@@ -14,6 +14,9 @@ import TDJCore
     var loadOwners: [DeckID: UUID] = [:]
     var loads: [UUID: Task<Void, Never>] = [:]
     var rootLoads: [UUID: Task<Void, Never>] = [:]
+    var measurements: [AnalysisMeasurement.Record] = []
+    var droppedMeasurements = 0
+    var measurementLogUnavailable = false
     let projection = BackgroundFileWork(label: "org.generikdj.native-music-index")
     let files = BackgroundFileWork(label: "org.generikdj.native-music-files")
 }
@@ -31,7 +34,7 @@ private enum LibraryAnalysisPass: CaseIterable {
     }
 }
 
-private enum LibraryMatchingSource {
+private enum LibraryMatchingSource: String {
     case traktor, saved, fresh, failed
 
     init(reusing track: Track) {
@@ -139,7 +142,7 @@ extension ReplicaModel {
     public func startNativeMusicAnalysis() {
         let state = nativeMusic
         guard state.wanted, !state.closed, !arrangementPlaybackActive, !deckAnalysisIsRunning,
-            (!state.backgrounded || (state.backgroundRun != nil && libraryAnalysisPlaybackIsIdle)),
+            !state.backgrounded || (state.backgroundRun != nil && libraryAnalysisPlaybackIsIdle),
             !importing, !musicLibraryRefreshing, libraryAnalysisOwner == nil, state.analyses.isEmpty,
             state.loadOwners.isEmpty, preparingPlayback.isEmpty,
             musicLibraryCatalog != nil || musicLibraryError != nil
@@ -200,10 +203,10 @@ extension ReplicaModel {
                 @MainActor func logMatchingSummary() {
                     logAnalysis(
                         "Pass 1 summary \(state.analysisChecked - passStart) of \(count) · "
-                        + "Traktor \(matchingCounts[.traktor, default: 0]), "
-                        + "saved GenErik \(matchingCounts[.saved, default: 0]), "
-                        + "fresh analysis \(matchingCounts[.fresh, default: 0]), "
-                        + "failed \(matchingCounts[.failed, default: 0])")
+                            + "Traktor \(matchingCounts[.traktor, default: 0]), "
+                            + "saved GenErik \(matchingCounts[.saved, default: 0]), "
+                            + "fresh analysis \(matchingCounts[.fresh, default: 0]), "
+                            + "failed \(matchingCounts[.failed, default: 0])")
                 }
                 defer { if pass == .matching { logMatchingSummary() } }
                 analysisProgress = .init(
@@ -215,28 +218,51 @@ extension ReplicaModel {
                         break
                     }
                     musicLibraryProgress = "\(pass.title) for \(job.title)"
-                    let issue: String?
+                    let measurement = AnalysisMeasurement(
+                        runID: token.uuidString, jobID: job.id,
+                        pass: pass == .matching ? "matching" : "structure", duration: job.duration)
                     var matchingSource = LibraryMatchingSource.failed
-                    do {
-                        switch pass {
-                        case .matching:
-                            let (track, source) = try await prepareLibraryMatching(job)
-                            matchingSource = source
-                            matched[job.id] = track.id
-                            issue = libraryMatchingIssue(track)
-                        case .structure:
-                            if let trackID = matched[job.id] {
-                                guard let track = library.track(id: trackID) else { throw CoreError.staleContext }
-                                let arrangement = try await prepareLibraryStructure(job, track: track)
-                                issue = arrangement.automaticCues?.isEmpty != false
-                                    ? "No reliable section starts were found for hot cues." : nil
-                            } else {
-                                issue = nil
+                    var outcome = "success"
+                    let issue = await withTaskCancellationHandler {
+                        await AnalysisMeasurement.$current.withValue(measurement) {
+                            do {
+                                switch pass {
+                                case .matching:
+                                    let (track, source) = try await prepareLibraryMatching(job)
+                                    matchingSource = source
+                                    measurement.capture(track.analysis)
+                                    measurement.update { $0.source = source.rawValue }
+                                    matched[job.id] = track.id
+                                    return libraryMatchingIssue(track)
+                                case .structure:
+                                    if let trackID = matched[job.id] {
+                                        guard let track = library.track(id: trackID) else {
+                                            throw CoreError.staleContext
+                                        }
+                                        measurement.capture(track.analysis)
+                                        let arrangement = try await prepareLibraryStructure(job, track: track)
+                                        return arrangement.automaticCues?.isEmpty != false
+                                            ? "No reliable section starts were found for hot cues." : nil
+                                    }
+                                    outcome = "skipped"
+                                    return nil
+                                }
+                            } catch {
+                                outcome = error is CancellationError ? "cancelled" : "failed"
+                                return error.localizedDescription
                             }
                         }
-                    } catch {
-                        issue = error.localizedDescription
+                    } onCancel: {
+                        measurement.requestCancellation()
                     }
+                    if Task.isCancelled { outcome = "cancelled" }
+                    if state.measurements.count < 128 {
+                        state.measurements.append(measurement.finish(outcome: outcome))
+                    } else {
+                        state.droppedMeasurements += 1
+                    }
+                    guard !Task.isCancelled, libraryAnalysisOwner == token else { break }
+                    await flushLibraryMeasurements()
                     guard !Task.isCancelled, libraryAnalysisOwner == token else { break }
                     if let issue {
                         if review[job.id] == nil { review[job.id] = issue }
@@ -257,6 +283,7 @@ extension ReplicaModel {
                 }
             }
             await queue.finish()
+            await flushLibraryMeasurements(force: true)
             guard !Task.isCancelled, libraryAnalysisOwner == token else { return }
             state.finishedAnalysis = (version, library.revision)
             if !review.isEmpty {
@@ -281,6 +308,29 @@ extension ReplicaModel {
         return !DeckID.allCases.contains { snapshot[$0].phase.active || snapshot[$0].touchActive }
     }
 
+    func flushLibraryMeasurements(force: Bool = false) async {
+        let state = nativeMusic
+        while !state.measurements.isEmpty, force || state.measurements.count >= 16 {
+            guard !Task.isCancelled, libraryAnalysisPlaybackIsIdle, state.loadOwners.isEmpty,
+                preparingPlayback.isEmpty, !deckAnalysisIsRunning, !importing, !state.measurementLogUnavailable
+            else { return }
+            let records = Array(state.measurements.prefix(16))
+            let url = store.root.appendingPathComponent("analysis-measurements.jsonl")
+            let result = await state.files.run { Result { try AnalysisMeasurementLog.append(records, to: url) } }
+            guard case .success(true) = result else {
+                state.measurementLogUnavailable = true
+                logAnalysis(
+                    "Analysis measurement log is full or unavailable. Export the saved log before another baseline.")
+                return
+            }
+            state.measurements.removeFirst(records.count)
+        }
+        if state.droppedMeasurements > 0, !Task.isCancelled, libraryAnalysisPlaybackIsIdle {
+            logAnalysis("Analysis measurement buffer omitted \(state.droppedMeasurements) attempts.")
+            state.droppedMeasurements = 0
+        }
+    }
+
     private func libraryMatchingIssue(_ track: Track) -> String? {
         let usesAutomaticGrid = track.mayRefreshAutomaticGrid && track.traktorPreparation?.normalized.grid == nil
         if track.grid == nil || (usesAutomaticGrid && track.analysis.bpm == nil) {
@@ -294,10 +344,15 @@ extension ReplicaModel {
     private func prepareLibraryMatching(_ job: NativeMusicAnalysisQueue.Job) async throws
         -> (Track, LibraryMatchingSource)
     {
+        let lookup = AnalysisMeasurement.begin("identityLookup")
         switch job {
         case .managed(let track):
             let current = library.track(id: track.id) ?? track
-            guard current.needsCurrentLibraryAnalysis else { return (current, .init(reusing: current)) }
+            lookup?.finish()
+            guard current.needsCurrentLibraryAnalysis else {
+                AnalysisMeasurement.current?.cacheHit("savedMatching")
+                return (current, .init(reusing: current))
+            }
             let snapshot = try await service.reanalyze(trackID: track.id)
             adoptLibrary(snapshot)
             guard let updated = snapshot.track(id: track.id) else { throw CoreError.staleContext }
@@ -305,7 +360,11 @@ extension ReplicaModel {
         case .native(let item, let known):
             var track = known.flatMap { library.track(id: $0.id) }
             if track == nil { track = await preparedNativeTrack(item) }
-            if let track, !track.needsCurrentLibraryAnalysis { return (track, .init(reusing: track)) }
+            lookup?.finish()
+            if let track, !track.needsCurrentLibraryAnalysis {
+                AnalysisMeasurement.current?.cacheHit("savedMatching")
+                return (track, .init(reusing: track))
+            }
             let sourceChanged = track?.nativeSourceNeedsAnalysis == true
             return try await withNativeAudio(item) { prepared in
                 let (snapshot, reusedTraktor) = try await self.service.prepareNativeLibraryMatching(
@@ -320,6 +379,8 @@ extension ReplicaModel {
     private func prepareLibraryStructure(_ job: NativeMusicAnalysisQueue.Job, track: Track) async throws
         -> ArrangementCache
     {
+        let span = AnalysisMeasurement.begin("pass2Total")
+        defer { span?.finish() }
         switch job {
         case .managed:
             let source = store.mediaDirectory.appendingPathComponent(track.mediaFilename)
@@ -330,8 +391,9 @@ extension ReplicaModel {
         case .native(let item, _):
             if let arrangement = try await prepareLibraryArrangement(track: track, source: nil) { return arrangement }
             return try await withNativeAudio(item) { prepared in
-                guard let arrangement = try await self.prepareLibraryArrangement(
-                    track: track, source: prepared.url)
+                guard
+                    let arrangement = try await self.prepareLibraryArrangement(
+                        track: track, source: prepared.url)
                 else { throw MusicLibraryError.missingAudio }
                 return arrangement
             }
@@ -575,7 +637,12 @@ extension ReplicaModel {
         let directory = store.root.appendingPathComponent(".native-source-" + UUID().uuidString, isDirectory: true)
         let files = nativeMusic.files
         do {
-            let prepared = try await musicLibraryProvider.prepare(item, in: directory)
+            let prepared: PreparedMusicLibraryAudio
+            do {
+                let span = AnalysisMeasurement.begin("sourcePreparation")
+                defer { span?.finish() }
+                prepared = try await musicLibraryProvider.prepare(item, in: directory)
+            }
             let scoped = await files.run { prepared.url.startAccessingSecurityScopedResource() }
             let outcome: Result<Value, Error>
             do {

@@ -5,8 +5,9 @@ enum BeatThisAnalyzer {
     private static let window = 1500
     private static let border = 6
     private static let compiledModel = Result {
-        guard let source = Bundle.module.url(
-            forResource: "BeatThisSmall", withExtension: "mlpackage", subdirectory: "BeatThisAssets")
+        guard
+            let source = Bundle.module.url(
+                forResource: "BeatThisSmall", withExtension: "mlpackage", subdirectory: "BeatThisAssets")
         else {
             throw CoreError.invalidAudio("The beat analysis model is missing.")
         }
@@ -19,10 +20,17 @@ enum BeatThisAnalyzer {
     ) throws -> BeatThisGrid? {
         guard sourceFrames >= 2 else { return nil }
         try checkCancellation()
-        let audio = try BeatThisAudio(url: url, sourceFrames: sourceFrames)
+        let span = AnalysisMeasurement.begin("beatThisTotal")
+        defer { span?.finish() }
+        AnalysisMeasurement.current?.update { $0.modelID = "BeatThisSmall/small0" }
+        let audio = try AnalysisMeasurement.measure("beatThisInputSetup") {
+            try BeatThisAudio(url: url, sourceFrames: sourceFrames)
+        }
         let settings = MLModelConfiguration()
         settings.computeUnits = .cpuOnly
-        let model = try MLModel(contentsOf: compiledModel.get(), configuration: settings)
+        let model = try AnalysisMeasurement.measure("beatThisModelLoad") {
+            try MLModel(contentsOf: compiledModel.get(), configuration: settings)
+        }
         let features = try MLMultiArray(
             shape: [1, NSNumber(value: window), NSNumber(value: BeatThisAudio.bands)], dataType: .float32)
         let input = try MLDictionaryFeatureProvider(dictionary: ["spectrogram": features])
@@ -34,13 +42,16 @@ enum BeatThisAnalyzer {
         if frameCount > strideSize { starts[starts.count - 1] = frameCount - window + border }
         for start in starts {
             try checkCancellation()
-            try features.withUnsafeMutableBufferPointer(ofType: Float.self) { values, _ in
-                values.update(repeating: 0)
-                try audio.fill(start..<(start + window), into: values.baseAddress!, checkCancellation: checkCancellation)
+            try AnalysisMeasurement.measure("beatThisDecodeAndSpectrogram") {
+                try features.withUnsafeMutableBufferPointer(ofType: Float.self) { values, _ in
+                    values.update(repeating: 0)
+                    try audio.fill(
+                        start..<(start + window), into: values.baseAddress!, checkCancellation: checkCancellation)
+                }
             }
             try checkCancellation()
             try autoreleasepool {
-                let result = try model.prediction(from: input)
+                let result = try AnalysisMeasurement.measure("beatThisInference") { try model.prediction(from: input) }
                 let first = max(border, beatLogits.count - start)
                 let end = min(window - border, frameCount - start)
                 try append(result, name: "beats", range: first..<end, to: &beatLogits)
@@ -58,8 +69,10 @@ enum BeatThisAnalyzer {
             }
             if bars.last != beats[beatIndex] { bars.append(beats[beatIndex]) }
         }
-        return try BeatThisGrid.fit(
-            beats: beats, bars: bars, configuration: configuration, checkCancellation: checkCancellation)
+        return try AnalysisMeasurement.measure("beatThisGridFit") {
+            try BeatThisGrid.fit(
+                beats: beats, bars: bars, configuration: configuration, checkCancellation: checkCancellation)
+        }
     }
 
     private static func append(

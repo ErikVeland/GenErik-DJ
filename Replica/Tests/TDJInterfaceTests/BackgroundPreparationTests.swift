@@ -49,6 +49,11 @@ import Testing
     await model.flushNativeMusicAnalysis()
     #expect(provider.preparations == 1)
     #expect(model.preparedTrack(for: item) == nil)
+    let interrupted = try #require(model.nativeMusic.measurements.first)
+    #expect(interrupted.outcome == "cancelled")
+    #expect(interrupted.cancellationResponseSeconds != nil)
+    #expect(
+        !FileManager.default.fileExists(atPath: workspace.appendingPathComponent("analysis-measurements.jsonl").path))
 
     provider.beforePreparation = nil
     model.setLibraryAnalysisBackgrounded(false)
@@ -56,6 +61,9 @@ import Testing
     await model.flushNativeMusicAnalysis()
     #expect(provider.preparations == 3)
     #expect(model.preparedTrack(for: item) != nil)
+    let measurements = try measuredAttempts(workspace)
+    #expect(measurements.first?.attemptID == interrupted.attemptID)
+    #expect(measurements.first?.outcome == "cancelled")
     await model.finishForShutdown()
 }
 
@@ -63,6 +71,31 @@ private func clockFixture() -> URL {
     var root = URL(fileURLWithPath: #filePath)
     for _ in 0..<4 { root.deleteLastPathComponent() }
     return root.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures/clock-a-120.wav")
+}
+
+private func measuredAttempts(_ workspace: URL) throws -> [AnalysisMeasurement.Record] {
+    let text = try String(contentsOf: workspace.appendingPathComponent("analysis-measurements.jsonl"), encoding: .utf8)
+    return try text.split(separator: "\n").map {
+        try JSONDecoder().decode(AnalysisMeasurement.Record.self, from: Data($0.utf8))
+    }
+}
+
+@Test @MainActor func measurementLogWaitsForDeckPreparation() async throws {
+    let (model, workspace) = try preparationModel([])
+    defer { try? FileManager.default.removeItem(at: workspace) }
+    let record = AnalysisMeasurement(runID: "run", jobID: "track", pass: "matching", duration: 60)
+        .finish(outcome: "success")
+    model.nativeMusic.measurements = [record]
+    model.preparingPlayback.insert(.a)
+    await model.flushLibraryMeasurements(force: true)
+    #expect(model.nativeMusic.measurements.count == 1)
+    #expect(
+        !FileManager.default.fileExists(atPath: workspace.appendingPathComponent("analysis-measurements.jsonl").path))
+    model.preparingPlayback.remove(.a)
+    await model.flushLibraryMeasurements(force: true)
+    #expect(model.nativeMusic.measurements.isEmpty)
+    #expect(try measuredAttempts(workspace).first?.attemptID == record.attemptID)
+    await model.finishForShutdown()
 }
 private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     .init(
@@ -138,6 +171,19 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     }
     let log = try String(contentsOf: workspace.appendingPathComponent("analysis.log"), encoding: .utf8)
     #expect(log.contains("Analysis queue: 1 songs"))
+    let measured = try measuredAttempts(workspace)
+    let matching = try #require(measured.first { $0.pass == "matching" })
+    #expect(matching.source == "fresh")
+    #expect(matching.sourceHashComputed)
+    #expect(matching.contentSHA256 == track.analysis.contentSHA256)
+    #expect(matching.stageCalls["sourceHash"] == 1)
+    #expect(matching.stageCalls["decodeAndFeatures"] == 1)
+    #expect(matching.stageCalls["dspRhythm"] == 1)
+    #expect(matching.stageCalls["keyFinalization"] == 1)
+    #expect(try #require(matching.stageCalls["beatThisInference"]) > 0)
+    #expect(try #require(matching.counters["libraryBytesWritten"]) > 0)
+    #expect(measured.last?.pass == "structure")
+    #expect(measured.last?.stageCalls["pass2Total"] == 1)
     await model.finishForShutdown()
 
     let provider = ClockMusicLibrary([item])
@@ -149,6 +195,11 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     #expect(provider.preparations == 0)
     let reuseLog = try String(contentsOf: workspace.appendingPathComponent("analysis.log"), encoding: .utf8)
     #expect(reuseLog.contains("Pass 1 summary 1 of 1 · Traktor 0, saved GenErik 1, fresh analysis 0, failed 0"))
+    let reused = try measuredAttempts(workspace).filter { $0.attemptID != matching.attemptID && $0.pass == "matching" }
+    #expect(reused.count == 1)
+    #expect(reused.first?.cacheHits == ["savedMatching"])
+    #expect(reused.first?.sourceHashComputed == false)
+    #expect(reused.first?.stageCalls["sourceHash"] == nil)
     reopened.performance.cues[track.id] = [0: .init(frame: 42)]
     reopened.loadNativeMusic(item, deck: .a)
     await reopened.flushWrites()
@@ -199,7 +250,8 @@ private func collectionXML(bpm: Int, persistentHex: String) -> Data {
     #expect(model.browserHints[item.id]?.key != nil)
 }
 
-@Test(arguments: [true, false]) @MainActor func firstPassReusesValidatedTraktorPreparation(prepared: Bool) async throws {
+@Test(arguments: [true, false]) @MainActor func firstPassReusesValidatedTraktorPreparation(prepared: Bool) async throws
+{
     let inbox = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".nml")
     defer { try? FileManager.default.removeItem(at: inbox) }
     try collectionXML(bpm: 127, persistentHex: "0000000000001234").write(to: inbox)
@@ -230,9 +282,11 @@ private func collectionXML(bpm: Int, persistentHex: String) -> Data {
     #expect(track.traktorPreparation?.normalized.key != nil)
     #expect(track.analysis.musicalAnalysisDeferred == true)
     #expect(!track.needsCurrentLibraryAnalysis)
-    #expect(passTitles == (prepared
-        ? ["Pass 2 of 2 · Analysing structure and cues"]
-        : ["Pass 1 of 2 · Analysing beats and key", "Pass 2 of 2 · Analysing structure and cues"]))
+    #expect(
+        passTitles
+            == (prepared
+                ? ["Pass 2 of 2 · Analysing structure and cues"]
+                : ["Pass 1 of 2 · Analysing beats and key", "Pass 2 of 2 · Analysing structure and cues"]))
     if let initialAnalysis { #expect(track.analysis == initialAnalysis) }
 
     var changed = track
@@ -245,6 +299,14 @@ private func collectionXML(bpm: Int, persistentHex: String) -> Data {
 
     let log = try String(contentsOf: workspace.appendingPathComponent("analysis.log"), encoding: .utf8)
     #expect(log.contains("Pass 1 summary 1 of 1 · Traktor 1, saved GenErik 0, fresh analysis 0, failed 0"))
+    let measurements = try measuredAttempts(workspace)
+    let matching = try #require(measurements.first { $0.pass == "matching" })
+    #expect(matching.source == "traktor")
+    #expect(matching.sourceHashComputed == !prepared)
+    #expect(matching.cacheHits.contains("savedMatching") == prepared)
+    #expect(matching.stageCalls["decodeWaveform"] == (prepared ? nil : 1))
+    #expect(matching.stageCalls["beatThisInference"] == nil)
+    #expect(measurements.last?.outcome == "failed")
     provider.beforePreparation = nil
     await model.finishForShutdown()
 }
@@ -301,7 +363,8 @@ func launchReanalysesSavedTracksAndResumesWithoutRepeatingCompletedWork(source: 
     let store = try WorkspaceStore(root: workspace)
     var legacy = AudioAnalysis(
         implementation: "Fixture",
-        configurationID: "independent-dsp-0.4.0-meter-context-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-library-refresh-1-60.0-200.0",
+        configurationID:
+            "independent-dsp-0.4.0-meter-context-supported-pulse-phase-adaptive-candidate-multiband-consensus-tuned-hpcp-library-refresh-1-60.0-200.0",
         contentSHA256: try AudioAnalyzer.sha256(url: clockFixture()), sampleRate: 44100, frameCount: 705600,
         channelCount: 2, waveformFramesPerBin: 512, waveform: [], bpm: 126, beatAnchorFrame: 0,
         tempoConfidence: 1, key: .init(tonic: 0, mode: .major), keyConfidence: 1, chroma: [], timbre: [])
@@ -313,7 +376,8 @@ func launchReanalysesSavedTracksAndResumesWithoutRepeatingCompletedWork(source: 
     track.preparation.gridIsManual = true
     track.preparation.correctedKey = manualKey
     if source == .managed {
-        try FileManager.default.copyItem(at: clockFixture(), to: store.mediaDirectory.appendingPathComponent(track.mediaFilename))
+        try FileManager.default.copyItem(
+            at: clockFixture(), to: store.mediaDirectory.appendingPathComponent(track.mediaFilename))
     } else {
         track.musicLibrarySources = [item.source]
         if source == .native { track.nativeLibraryOnly = true }
@@ -322,7 +386,8 @@ func launchReanalysesSavedTracksAndResumesWithoutRepeatingCompletedWork(source: 
     library.tracks = [track]
     _ = try store.save(library)
 
-    let model = try ReplicaModel(root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    let model = try ReplicaModel(
+        root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
     let locked = ArrangementSection(start: 0, end: 192000, role: .verse, name: "Locked verse", locked: true)
     let old = ArrangementCache(
         version: MusicalStructureAnalyzer.version, content: legacy.contentSHA256, configuration: legacy.configurationID,
@@ -344,7 +409,8 @@ func launchReanalysesSavedTracksAndResumesWithoutRepeatingCompletedWork(source: 
     #expect(cache.automaticCues?.values.contains { $0.sectionName == locked.label } == true)
     await model.finishForShutdown()
 
-    let reopened = try ReplicaModel(root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    let reopened = try ReplicaModel(
+        root: workspace, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
     let previousReads = provider.preparations
     let previousRevision = reopened.library.revision
     await reopened.openNativeMusicLibrary()

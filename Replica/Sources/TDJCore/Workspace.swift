@@ -31,6 +31,8 @@ public struct WorkspaceStore: Sendable {
         return hydrated.preparingTrackLookup()
     }
     @discardableResult public func save(_ snapshot: LibrarySnapshot) throws -> LibrarySnapshot {
+        let span = AnalysisMeasurement.begin("persistence")
+        defer { span?.finish() }
         var compact = try metadataSnapshot(snapshot)
         compact.schemaVersion = 2
         let encoder = JSONEncoder()
@@ -43,6 +45,7 @@ public struct WorkspaceStore: Sendable {
             try FileManager.default.copyItem(at: libraryURL, to: backup)
         }
         try data.write(to: libraryURL, options: .atomic)
+        AnalysisMeasurement.current?.count("libraryBytesWritten", Int64(data.count))
         return compact
     }
     func metadataSnapshot(_ snapshot: LibrarySnapshot) throws -> LibrarySnapshot {
@@ -267,7 +270,8 @@ public actor LibraryService {
             let refresh = current.nativePlaybackIdentity != nil && (revisionChanged || audioChanged)
             current.nativePlaybackIdentity = analysis.contentSHA256
             current.nativeAudioFingerprint = fingerprint
-            let durationChanged = abs(Double(current.analysis.frameCount) - Double(analysis.frameCount))
+            let durationChanged =
+                abs(Double(current.analysis.frameCount) - Double(analysis.frameCount))
                 > analysis.sampleRate / 4
             if audioChanged || durationChanged {
                 current.nativeSourceNeedsAnalysis = true
@@ -337,7 +341,8 @@ public actor LibraryService {
     ) async throws -> LibrarySnapshot {
         try await importAudioReportingReuse(
             url: url, musicLibrary: musicLibrary, preservePreparationFor: protectedTracks,
-            copyMedia: copyMedia, forceFullAnalysis: forceFullAnalysis, quickLoad: quickLoad).snapshot
+            copyMedia: copyMedia, forceFullAnalysis: forceFullAnalysis, quickLoad: quickLoad
+        ).snapshot
     }
 
     public func prepareNativeLibraryMatching(
@@ -353,6 +358,7 @@ public actor LibraryService {
         copyMedia: Bool, forceFullAnalysis: Bool, quickLoad: Bool
     ) async throws -> (snapshot: LibrarySnapshot, reusedTraktor: Bool) {
         try Task.checkCancellation()
+        let lookup = AnalysisMeasurement.begin("traktorReferenceLookup")
         if !quickLoad {
             do { _ = try await refreshTraktorReferences() } catch {
                 traktorDiscoveryAttempted = true
@@ -361,13 +367,19 @@ public actor LibraryService {
         }
         let catalog = traktorCatalog
         let record = musicLibrary.flatMap { catalog?.match($0.source) }
+        lookup?.finish()
+        if record != nil { AnalysisMeasurement.current?.cacheHit("traktorReference") }
         let waveformWorker = quickLoad ? Self.nativeQuickWorker : AnalysisWorker.shared
         var analysis =
             quickLoad || (!forceFullAnalysis && record?.canReuseMusicalPreparation == true)
             ? try await waveformWorker.waveformOnly(url: url) : try await AnalysisWorker.shared.analyze(url: url)
         var original: ImportedTraktorPreparation?
         if let catalog, let record, let musicLibrary {
-            do { original = try catalog.bind(record, source: musicLibrary.source, analysis: analysis) } catch {
+            do {
+                original = try AnalysisMeasurement.measure("traktorDurationValidation") {
+                    try catalog.bind(record, source: musicLibrary.source, analysis: analysis)
+                }
+            } catch {
                 traktorReferenceWarning = error.localizedDescription
                 if analysis.musicalAnalysisDeferred == true && !quickLoad {
                     analysis = try await AnalysisWorker.shared.analyze(url: url)
@@ -375,7 +387,8 @@ public actor LibraryService {
             }
         }
         try Task.checkCancellation()
-        let reusedTraktor = analysis.musicalAnalysisDeferred == true && original?.normalized.grid != nil
+        let reusedTraktor =
+            analysis.musicalAnalysisDeferred == true && original?.normalized.grid != nil
             && original?.normalized.key != nil
         if let index = musicLibrary.flatMap({ metadata in
             library.tracks.firstIndex(where: {

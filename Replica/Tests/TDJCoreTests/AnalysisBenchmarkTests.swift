@@ -173,6 +173,8 @@ private func benchmarkManifest() -> AnalysisBenchmarkManifest {
         manifest: manifest, relativeTo: URL(fileURLWithPath: "/no-such-tdj-corpus"))
     #expect(report.tracks.count == 1)
     #expect(report.tracks.first?.checks.first?.outcome == .fail)
+    #expect(report.tracks.first?.performance?.outcome == "failed")
+    #expect(report.tracks.first?.performance?.jobID == manifest.tracks.first?.id)
     #expect(!report.labelledChecksPassed)
     #expect(!report.referenceCorpusPassed)
 }
