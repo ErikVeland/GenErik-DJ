@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 38.03,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R69",
+      "text": "Show when the iPad is charging. Keep the level live and turn the battery icon red below 10%."
+    },
+    {
+      "request": "R69",
+      "text": "Use orange below 20% as well."
+    }
+  ],
   "log": "TestBuilds/ipad/build-129.log",
   "build": 129,
   "app": "TestBuilds/ipad/129/GenErikDJ.app",

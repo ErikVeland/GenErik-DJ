@@ -51,13 +51,20 @@ import Testing
         ])
 }
 
-@Test @MainActor func batteryShowsFullAndOnlyWarnsBelowTenPercent() throws {
+@Test @MainActor func batteryShowsChargingAndLevelWarnings() throws {
     let full = try #require(BatteryReadout.presentation(for: 1))
     #expect(full.percent == 100 && full.symbol == "battery.100percent")
-    #expect(!full.isLow)
+    #expect(full.tint == PerformancePalette.text)
+    #expect(full.chargingSymbol == nil)
     let low = try #require(BatteryReadout.presentation(for: 0.09))
-    #expect(low.percent == 9 && low.isLow)
-    #expect(BatteryReadout.presentation(for: 0.10)?.isLow == false)
+    #expect(low.percent == 9 && low.tint == PerformancePalette.red)
+    #expect(BatteryReadout.presentation(for: 0.10)?.tint == .orange)
+    #expect(BatteryReadout.presentation(for: 0.19)?.tint == .orange)
+    #expect(BatteryReadout.presentation(for: 0.20)?.tint == PerformancePalette.text)
+    let charging = try #require(BatteryReadout.presentation(for: 0.09, isCharging: true))
+    #expect(charging.symbol == low.symbol && charging.chargingSymbol == "bolt.fill")
+    #expect(charging.tint == PerformancePalette.red)
+    #expect(BatteryReadout.presentation(for: 0.099)?.tint == PerformancePalette.red)
     #expect(BatteryReadout.presentation(for: 0.50)?.symbol == "battery.50percent")
     #expect(BatteryReadout.presentation(for: -1) == nil)
 }

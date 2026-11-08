@@ -1164,35 +1164,52 @@ extension ReplicaView {
     #if os(iOS)
         @Environment(\.scenePhase) private var scenePhase
         @State private var level: Float = -1
+        @State private var isCharging = false
     #endif
 
     var body: some View {
         #if os(iOS)
             HStack(spacing: 0) {
-                if let reading = Self.presentation(for: level) {
+                if let reading = Self.presentation(for: level, isCharging: isCharging) {
                     HStack(spacing: 5) {
                         Image(systemName: reading.symbol)
-                            .foregroundStyle(reading.isLow ? PerformancePalette.red : PerformancePalette.text)
-                            .accessibilityHidden(true)
+                            .foregroundStyle(reading.tint)
+                        if let symbol = reading.chargingSymbol {
+                            Image(systemName: symbol).font(.system(size: 12, weight: .semibold))
+                        }
                         Text("\(reading.percent)%").monospacedDigit()
                     }.padding(.horizontal, 14).overlay(alignment: .leading) { Divider().frame(height: 22) }
+                        .accessibilityElement(children: .ignore)
+                        .accessibilityLabel("Battery")
+                        .accessibilityValue(isCharging ? "\(reading.percent)%, charging" : "\(reading.percent)%")
                 }
             }.onAppear {
                 UIDevice.current.isBatteryMonitoringEnabled = true
-                level = UIDevice.current.batteryLevel
+                refresh()
             }.onReceive(
                 NotificationCenter.default.publisher(for: UIDevice.batteryLevelDidChangeNotification)
+                    .merge(with: NotificationCenter.default.publisher(for: UIDevice.batteryStateDidChangeNotification))
                     .receive(on: RunLoop.main)
             ) { _ in
-                level = UIDevice.current.batteryLevel
+                refresh()
             }.onChange(of: scenePhase) { _, phase in
-                if phase == .active { level = UIDevice.current.batteryLevel }
+                if phase == .active { refresh() }
             }
         #else
             EmptyView()
         #endif
     }
-    static func presentation(for level: Float) -> (percent: Int, symbol: String, isLow: Bool)? {
+    #if os(iOS)
+        private func refresh() {
+            let device = UIDevice.current
+            level = device.batteryLevel
+            isCharging = device.batteryState == .charging
+        }
+    #endif
+
+    static func presentation(for level: Float, isCharging: Bool = false)
+        -> (percent: Int, symbol: String, tint: Color, chargingSymbol: String?)?
+    {
         guard (0...1).contains(level) else { return nil }
         let percent = Int((level * 100).rounded())
         let fill = switch percent {
@@ -1202,7 +1219,14 @@ extension ReplicaView {
         case 1...: 25
         default: 0
         }
-        return (percent, "battery.\(fill)percent", percent < 10)
+        let tint: Color = if level < 0.10 {
+            PerformancePalette.red
+        } else if level < 0.20 {
+            .orange
+        } else {
+            PerformancePalette.text
+        }
+        return (percent, "battery.\(fill)percent", tint, isCharging ? "bolt.fill" : nil)
     }
 }
 
