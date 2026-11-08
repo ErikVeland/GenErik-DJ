@@ -1,0 +1,42 @@
+{
+  "notes": "R80 releases hash read buffers per chunk to prevent long-mix memory growth. Duo-only update.",
+  "sourceCommit": "a0308cd83739752a18f9f8b93d38b576a9a6b2f8",
+  "sourceSHA256": "d30aa3d47dbdd3d0f215e263c33141202cd5d5492ee1c24793b0684c18478756",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 26.37,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-139.log",
+  "build": 139,
+  "app": "TestBuilds/ipad/139/GenErikDJ.app",
+  "appSHA256": "1cb59ca3bf97c57e9f97d231838f166fb49432b3bf2cb8f7a1ba44de9b2e1829",
+  "state": "testing",
+  "createdUTC": "2026-11-08T09:11:11.182754+00:00",
+  "installedUTC": "2026-11-08T09:11:27.665163+00:00",
+  "launchedUTC": "2026-11-08T09:11:28.177390+00:00",
+  "launchVerification": "iOS accepted the launch request on GenErik Duo. No further device actions followed.",
+  "requestIDs": [
+    "R80"
+  ],
+  "device": "GenErik Duo",
+  "deviceUDID": "00008160-000859C436800036",
+  "previousDeviceBuild": 134,
+  "focusedChecks": "The isolated 256 MiB hash test failed before the fix with 269975552 bytes of resident growth. It passed after the fix with 1605632 bytes of growth and the same SHA-256. Four focused checks passed for bounded hashing, cancellation, partial and empty inputs, worker cancellation and lossless audio preparation.",
+  "memoryCheckCommand": "GENERIK_DJ_CHECK_HASH_MEMORY=1 swift test --package-path Replica --filter largeSourceHashReleasesChunksBeforeTheWorkerFinishes",
+  "evidence": [
+    "TestBuilds/r80/duo-134-diagnosis.json",
+    "TestBuilds/r80/duo-134-jetsam.ips",
+    "TestBuilds/r80/hash-red.log",
+    "TestBuilds/r80/hash-green.log",
+    "TestBuilds/r80/hash-final.log",
+    "TestBuilds/r80/focused.log",
+    "TestBuilds/r80/build.log",
+    "TestBuilds/r80/duo-deploy.log"
+  ],
+  "acceptance": [
+    "Let Duo analysis retry Lord Alfred III. Confirm that it saves the result without closing the app.",
+    "Start playback during analysis. Check audio continuity and touch response."
+  ],
+  "iPadDisposition": "No iPad process, installation or application command was issued. Its analysis was left running.",
+  "verificationLimit": "Host memory measurements prove the hash-buffer fix. Full long-mix completion and live performance on Duo remain for Erik to verify."
+}

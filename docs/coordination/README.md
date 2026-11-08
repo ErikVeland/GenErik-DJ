@@ -7,7 +7,7 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
 
-**Duo-only update — 8 November 2026:** R80 fixes long-mix hash memory growth. Erik authorised installation on the Duo only. Leave the iPad analysis running.
+**Duo-only update — 8 November 2026:** Build 139 installed on the Duo, and iOS accepted launch. R80 releases audio hash buffers after each chunk. Leave the iPad analysis running. [Build record](../testing/builds/139.json).
 
 **Build 138** installed and launched on the A10X iPad Pro after Erik released the hold. Beat This uses up to 90 seconds on long mixes and requires a supported opening downbeat. Speed, accuracy and playback checks remain open. [Build record](../testing/builds/138.json).
 
@@ -33,7 +33,7 @@ Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace th
 
 **Build 124** came from `main` at `a7acf07d9`. The A10X iPad Pro launched the new analyser and saved a 71.0058 BPM grid for 3CAG. All 56 reference bars are within 20.5 ms of the fitted grid. The iPad kept the manual grid and key and saved sections and automatic cue candidates. [Build record](../testing/builds/124.json).
 
-Latest installed Duo candidate is **build 134**. Erik checks Auto-Lock during foreground analysis on external power. [Build record](../testing/builds/134.json).
+Latest installed Duo candidate is **build 139**. Erik checks long-mix analysis after the memory fix. [Build record](../testing/builds/139.json).
 
 Duo **build 126** came from `main` at `c4202fbe8`. It saves the beat grid and key before it analyses structure and automatic hot cues. On the Duo, the first check advanced the counter to 1 of 376 after the 13-second “Catchphrases”. The queue resumed after reconnecting and had 88 saved matching results at the last reachable check. [Build record](../testing/builds/126.json).
 
