@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 69.37,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R98"
+      ],
+      "report": "Replace the diamond. Put the sections editor in the utility strip before Settings and use the full iPad height. Group Sync and Grid above the waveform.",
+      "summary": "Build 167 is assumed from the last recorded install when Erik repeated the request."
+    }
+  ],
   "log": "TestBuilds/ipad/build-167.log",
   "build": 167,
   "app": "TestBuilds/ipad/167/GenErikDJ.app",

@@ -206,6 +206,7 @@ struct ArrangementColourRegion {
     let deck: DeckID
     let identity: SectionEditIdentity
     let isPresented: Bool
+    var usesColumns = false
     var close: () -> Void
     @FocusState private var focusedField: EditorField?
     private enum EditorField: Hashable {
@@ -215,7 +216,10 @@ struct ArrangementColourRegion {
         case landmarkTime(Int, Bool)
         case reason(Int)
     }
-    private var validLoad: Bool { identity.matches(trackID: model.track(deck)?.id, loadID: model.loadIdentity(deck)) }
+    private var validLoad: Bool {
+        model.pendingNativeSelection[deck] == nil
+            && identity.matches(trackID: model.track(deck)?.id, loadID: model.loadIdentity(deck))
+    }
     @State private var draft: TrackArrangement?
     @AppStorage("arrangement.prepareBars") private var prepareBars = 32
     var body: some View {
@@ -233,111 +237,153 @@ struct ArrangementColourRegion {
                     if model.updateArrangement(draft, deck: deck) { close() }
                 }.frame(minWidth: 44, minHeight: 44).disabled(!validLoad || draft == nil)
             }.padding(.horizontal, 12).background(PerformancePalette.frame)
-            Form {
-                Picker("Ending preparation cue", selection: $prepareBars) {
-                    ForEach([32, 48, 64, 96], id: \.self) { Text("\($0) bars").tag($0) }
-                }
-                Text(
-                    "Hollow diamonds are analysis landmarks. Edit them here. Waveform gestures keep their existing actions."
-                ).font(.caption).foregroundStyle(.secondary)
-                if let value = draft {
-                    Section("Sections") {
-                        ForEach(value.sections.indices, id: \.self) { index in
-                            DisclosureGroup(value.sections[index].label) {
-                                Text(value.sections[index].locked ? "Assignment: Manual" : "Assignment: Automatic")
-                                    .font(.caption).foregroundStyle(.secondary)
-                                TextField("Name", text: sectionBinding(index, \.name)).focused(
-                                    $focusedField, equals: .sectionName(index))
-                                Picker("Musical role", selection: roleBinding(index)) {
-                                    ForEach(ArrangementRole.allCases, id: \.self) { Text($0.label).tag($0) }
-                                }
-                                Picker("Arrangement behaviour", selection: sectionBinding(index, \.behaviour)) {
-                                    ForEach(ArrangementBehaviour.allCases, id: \.self) {
-                                        Text($0 == .sustaining ? "SUSTAINING" : $0.label).tag($0)
-                                    }
-                                }
-                                if index > 0 {
-                                    HStack {
-                                        Text("Start (seconds)")
-                                        TextField("Start", value: boundaryBinding(index), format: .number).frame(
-                                            width: 100
-                                        ).focused($focusedField, equals: .boundary(index))
-                                    }
-                                }
-                                Text("Edits lock this section against reanalysis.").font(.caption).foregroundStyle(
-                                    .secondary)
-                            }.foregroundStyle(Color(arrangementHex: value.sections[index].colourHex))
-                        }
-                        Button("Split section at preview position") { splitSection() }
-                    }
-                    Section("Analysis landmarks") {
-                        ForEach(value.landmarks.indices, id: \.self) { index in
-                            DisclosureGroup(
-                                "◇ " + value.landmarks[index].name
-                                    + (value.landmarks[index].state == .dismissed ? " · DISMISSED" : "")
-                            ) {
-                                TextField("Name", text: landmarkBinding(index, \.name)).focused(
-                                    $focusedField, equals: .landmarkName(index))
-                                Picker("Kind", selection: landmarkBinding(index, \.kind)) {
-                                    ForEach(ArrangementLandmarkKind.allCases, id: \.self) { Text($0.label).tag($0) }
-                                }
-                                HStack {
-                                    Text("Position (seconds)")
-                                    TextField("Position", value: landmarkTime(index), format: .number).frame(width: 100)
-                                        .focused($focusedField, equals: .landmarkTime(index, false))
-                                }
-                                TextField("Mixing reason", text: landmarkBinding(index, \.reason)).focused(
-                                    $focusedField, equals: .reason(index))
-                                Toggle(
-                                    "Region",
-                                    isOn: Binding(
-                                        get: { draft?.landmarks[index].end != nil },
-                                        set: { enabled in
-                                            draft?.landmarks[index].end =
-                                                enabled
-                                                ? min(fileEnd, (draft?.landmarks[index].frame ?? 0) + 8 * sampleRate)
-                                                : nil
-                                            draft?.landmarks[index].locked = true
-                                        }))
-                                if value.landmarks[index].end != nil {
-                                    HStack {
-                                        Text("Finish by (seconds)")
-                                        TextField("Region end", value: landmarkTime(index, end: true), format: .number)
-                                            .frame(width: 100).focused(
-                                                $focusedField, equals: .landmarkTime(index, true))
-                                    }
-                                }
-                                HStack {
-                                    Button("Accept") {
-                                        draft?.landmarks[index].state = .accepted
-                                        draft?.landmarks[index].locked = true
-                                    }
-                                    Button("Dismiss") {
-                                        draft?.landmarks[index].state = .dismissed
-                                        draft?.landmarks[index].locked = true
-                                    }
-                                    Button("Promote to hot cue") {
-                                        if validLoad, let mark = draft?.landmarks[index] {
-                                            model.promoteLandmark(mark, deck: deck)
-                                        }
-                                    }
-                                }
-                                Text(value.landmarks[index].reason).font(.caption).foregroundStyle(.secondary)
+            if usesColumns {
+                GeometryReader { space in
+                    if space.size.width >= 740 {
+                        HStack(spacing: 0) {
+                            Form {
+                                options
+                                sections
                             }
-                        }
-                        Button("Add landmark at preview position") {
-                            draft?.landmarks.append(
-                                .init(frame: position, name: "New landmark", state: .accepted, locked: true))
-                        }
+                            Divider()
+                            Form {
+                                landmarks
+                                statusText
+                            }
+                        }.formStyle(.grouped).disabled(!validLoad)
+                    } else {
+                        combinedForm
                     }
                 }
-                Text(model.status).font(.caption).foregroundStyle(.secondary)
-            }.formStyle(.grouped).disabled(!validLoad)
+            } else {
+                combinedForm
+            }
         }.onAppear { if draft == nil, validLoad { draft = model.arrangements[identity.trackID] } }.onChange(
             of: isPresented
         ) { _, visible in if !visible { focusedField = nil } }.onChange(of: model.loaded[deck]) { _, _ in
             if !validLoad { close() }
         }.onChange(of: model.loadIdentity(deck)) { _, _ in if !validLoad { close() } }
+            .onChange(of: model.pendingNativeSelection[deck]?.id) { _, _ in if !validLoad { close() } }
+    }
+    private var combinedForm: some View {
+        Form {
+            options
+            sections
+            landmarks
+            statusText
+        }.formStyle(.grouped).disabled(!validLoad)
+    }
+
+    @ViewBuilder private var options: some View {
+        Picker("Ending preparation cue", selection: $prepareBars) {
+            ForEach([32, 48, 64, 96], id: \.self) { Text("\($0) bars").tag($0) }
+        }
+        Text(
+            "Hollow diamonds are analysis landmarks. Edit them here. Waveform gestures keep their existing actions."
+        ).font(.caption).foregroundStyle(.secondary)
+    }
+
+    @ViewBuilder private var sections: some View {
+        if let value = draft {
+            Section("Sections") {
+                ForEach(value.sections.indices, id: \.self) { index in
+                    DisclosureGroup(value.sections[index].label) {
+                        Text(value.sections[index].locked ? "Assignment: Manual" : "Assignment: Automatic")
+                            .font(.caption).foregroundStyle(.secondary)
+                        TextField("Name", text: sectionBinding(index, \.name)).focused(
+                            $focusedField, equals: .sectionName(index))
+                        Picker("Musical role", selection: roleBinding(index)) {
+                            ForEach(ArrangementRole.allCases, id: \.self) { Text($0.label).tag($0) }
+                        }
+                        Picker("Arrangement behaviour", selection: sectionBinding(index, \.behaviour)) {
+                            ForEach(ArrangementBehaviour.allCases, id: \.self) {
+                                Text($0 == .sustaining ? "SUSTAINING" : $0.label).tag($0)
+                            }
+                        }
+                        if index > 0 {
+                            HStack {
+                                Text("Start (seconds)")
+                                TextField("Start", value: boundaryBinding(index), format: .number).frame(
+                                    width: 100
+                                ).focused($focusedField, equals: .boundary(index))
+                            }
+                        }
+                        Text("Edits lock this section against reanalysis.").font(.caption).foregroundStyle(
+                            .secondary)
+                    }.foregroundStyle(Color(arrangementHex: value.sections[index].colourHex))
+                }
+                Button("Split section at preview position") { splitSection() }
+            }
+        }
+    }
+
+    @ViewBuilder private var landmarks: some View {
+        if let value = draft {
+            Section("Analysis landmarks") {
+                ForEach(value.landmarks.indices, id: \.self) { index in
+                    DisclosureGroup(
+                        "◇ " + value.landmarks[index].name
+                            + (value.landmarks[index].state == .dismissed ? " · DISMISSED" : "")
+                    ) {
+                        TextField("Name", text: landmarkBinding(index, \.name)).focused(
+                            $focusedField, equals: .landmarkName(index))
+                        Picker("Kind", selection: landmarkBinding(index, \.kind)) {
+                            ForEach(ArrangementLandmarkKind.allCases, id: \.self) { Text($0.label).tag($0) }
+                        }
+                        HStack {
+                            Text("Position (seconds)")
+                            TextField("Position", value: landmarkTime(index), format: .number).frame(width: 100)
+                                .focused($focusedField, equals: .landmarkTime(index, false))
+                        }
+                        TextField("Mixing reason", text: landmarkBinding(index, \.reason)).focused(
+                            $focusedField, equals: .reason(index))
+                        Toggle(
+                            "Region",
+                            isOn: Binding(
+                                get: { draft?.landmarks[index].end != nil },
+                                set: { enabled in
+                                    draft?.landmarks[index].end =
+                                        enabled
+                                        ? min(fileEnd, (draft?.landmarks[index].frame ?? 0) + 8 * sampleRate)
+                                        : nil
+                                    draft?.landmarks[index].locked = true
+                                }))
+                        if value.landmarks[index].end != nil {
+                            HStack {
+                                Text("Finish by (seconds)")
+                                TextField("Region end", value: landmarkTime(index, end: true), format: .number)
+                                    .frame(width: 100).focused(
+                                        $focusedField, equals: .landmarkTime(index, true))
+                            }
+                        }
+                        HStack {
+                            Button("Accept") {
+                                draft?.landmarks[index].state = .accepted
+                                draft?.landmarks[index].locked = true
+                            }
+                            Button("Dismiss") {
+                                draft?.landmarks[index].state = .dismissed
+                                draft?.landmarks[index].locked = true
+                            }
+                            Button("Promote to hot cue") {
+                                if validLoad, let mark = draft?.landmarks[index] {
+                                    model.promoteLandmark(mark, deck: deck)
+                                }
+                            }
+                        }
+                        Text(value.landmarks[index].reason).font(.caption).foregroundStyle(.secondary)
+                    }
+                }
+                Button("Add landmark at preview position") {
+                    draft?.landmarks.append(
+                        .init(frame: position, name: "New landmark", state: .accepted, locked: true))
+                }
+            }
+        }
+    }
+
+    private var statusText: some View {
+        Text(model.status).font(.caption).foregroundStyle(.secondary)
     }
     private var sampleRate: Double { model.track(deck)?.analysis.sampleRate ?? 44100 }
     private var fileEnd: Double { Double(model.track(deck)?.analysis.frameCount ?? 0) }

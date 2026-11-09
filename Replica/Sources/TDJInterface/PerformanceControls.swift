@@ -7,6 +7,7 @@ struct PerformanceControls: View {
     @State private var settings = false
     @Environment(\.deckPanelPresented) private var presented
     var compact = false
+    var openSections: (() -> Void)?
     var body: some View {
         Group {
             if compact {
@@ -15,6 +16,7 @@ struct PerformanceControls: View {
                     freezeButton.frame(width: 44)
                     cuesButton.frame(width: 44)
                     loopControls.frame(width: 144)
+                    if let openSections { sectionsButton(openSections).frame(width: 44) }
                     settingsButton.frame(width: 44)
                     if canReturn { returnButton.frame(width: 44) }
                 }
@@ -63,6 +65,12 @@ struct PerformanceControls: View {
             }.padding().frame(width: 300).onDisappear { model.savePerformance() }
         }
     }
+    private func sectionsButton(_ open: @escaping () -> Void) -> some View {
+        Button(action: open) {
+            Image(systemName: "bookmark.fill")
+        }.disabled(model.track(deck).flatMap { model.arrangements[$0.id] } == nil)
+            .accessibilityLabel("Edit sections and analysis landmarks on deck \(deck.rawValue.uppercased())")
+    }
     private var freezeButton: some View {
         Button {
             model.toggleFreeze(deck: deck)
@@ -80,7 +88,7 @@ struct PerformanceControls: View {
             "Hotcues for deck \(deck.rawValue.uppercased())")
     }
     private var loopControls: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: 1) {
             Button {
                 setLoopSize(direction: -1)
             } label: {
@@ -99,7 +107,11 @@ struct PerformanceControls: View {
             } label: {
                 Image(systemName: "plus")
             }.frame(width: 44).accessibilityLabel("Double loop length on deck \(deck.rawValue.uppercased())")
-        }
+        }.background(PerformancePalette.stage, in: RoundedRectangle(cornerRadius: 4))
+            .overlay {
+                RoundedRectangle(cornerRadius: 4).strokeBorder(PerformancePalette.secondaryText.opacity(0.5))
+                    .allowsHitTesting(false)
+            }
     }
     private var returnButton: some View {
         Button {
