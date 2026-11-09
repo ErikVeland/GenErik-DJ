@@ -6,6 +6,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**Build 172** installed on the A10X iPad Pro, and iPadOS accepted launch. R98 adds a detailed waveform and overview to the full-height editor. The edit cursor sets placement. Split Section and Add Landmark stay above the edit lists. Erik checks placement and layout. [Build record](../testing/builds/172.json).
+
 **Build 171** installed on the A10X iPad Pro, and iPadOS accepted launch. R107 restores support for earlier key history. The fixed reader reopened all 5,799 tracks in the copied iPad library and preserved the file hash. Erik checks that the decks and library appear. [Build record](../testing/builds/171.json).
 
 **Build 170** installed on the A10X iPad Pro, and iPadOS accepted launch. R106 gives the Z1 a brighter blue hit and a curved fade through each beat. Thirty-one focused host tests passed. Erik checks the physical pulse, audio and touch. [Build record](../testing/builds/170.json).
