@@ -6,6 +6,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**Build 169** installed on the A10X iPad Pro, and iPadOS accepted launch. R98 moves the sections editor to a filled bookmark before Settings and opens it at full iPad height. Sync and Grid, the loop controls, and the utility strip each have a shared border. Erik checks the layout and controls. [Build record](../testing/builds/169.json).
+
 **Build 168** installed on the A10X iPad Pro, and iPadOS accepted launch. R105 holds the source cursor during starvation and returns to the live beat when samples refill. The other deck and master clock keep running. Six focused host tests passed across nine cases. Physical recovery remains open. [Build record](../testing/builds/168.json) · [Refill checks](source-starvation-recovery.md).
 
 **Build 167** installed on the A10X iPad Pro, and iPadOS accepted launch. R104 detects a stalled renderer even without a route notification. The monitor can rebuild output while preserving deck positions and Sync. Ten focused host checks passed. Physical output recovery remains open. [Build record](../testing/builds/167.json) · [Stall detection and limits](output-stall-recovery.md).
