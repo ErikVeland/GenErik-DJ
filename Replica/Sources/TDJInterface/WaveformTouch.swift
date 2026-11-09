@@ -78,7 +78,6 @@ enum WaveformZoom {
     }
     private func applyMotion(frame: Double, velocity: Double, model: ReplicaModel, deck: DeckID) {
         guard let track = model.track(deck) else { return }
-        model.disengageSyncForManualControl(deck: deck)
         model.previewing.insert(deck)
         let speed = model.playbackSnapshot?[deck].speed ?? 1
         let rate =
@@ -102,6 +101,7 @@ enum WaveformZoom {
             var stopped = false
             while !Task.isCancelled {
                 do { try await Task.sleep(for: .milliseconds(16)) } catch { return }
+                guard !Task.isCancelled else { return }
                 guard let self, let model else { return }
                 guard self.validMotion(model: model, deck: deck) else {
                     self.stopMotion(model: model, deck: deck)
@@ -120,6 +120,10 @@ enum WaveformZoom {
         }
     }
     private func releaseMotion(model: ReplicaModel, deck: DeckID) {
+        if model.playbackSnapshot?[deck].synced == true {
+            stopMotion(model: model, deck: deck)
+            return
+        }
         motionTask?.cancel()
         motionTask = nil
         guard let coast = motion?.coast(at: ProcessInfo.processInfo.systemUptime) else {
@@ -130,6 +134,7 @@ enum WaveformZoom {
         motionTask = Task { @MainActor [weak self, weak model] in
             while !Task.isCancelled {
                 do { try await Task.sleep(for: .milliseconds(16)) } catch { return }
+                guard !Task.isCancelled else { return }
                 guard let self, let model else { return }
                 guard self.validMotion(model: model, deck: deck) else {
                     self.stopMotion(model: model, deck: deck)

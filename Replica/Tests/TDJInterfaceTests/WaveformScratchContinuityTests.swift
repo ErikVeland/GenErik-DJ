@@ -56,6 +56,7 @@ import Testing
     await model.importFiles([base.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures/clock-a-120.wav")])
     model.load(trackID: try #require(model.library.tracks.first).id, deck: .a)
     await model.flushWrites()
+    model.toggleSync(deck: .a)
     model.performance.waveformScratchAudio = true
     model.viewport[.a] = 96000
     let session = WaveformGestureSession()

@@ -35,6 +35,11 @@ extension SourceControl {
             continuingPosition: state.continuingFrame, keylock: state.keylock,
             reserveContinuing: state.fluxEnabled && (state.touchActive || state.loopEnabled))
         var preservePending = state.jumpPending
+        var alignmentBeat: Double?
+        var alignmentTiming = state.timing
+        let other = snapshot[deck == .a ? .b : .a]
+        let entryBeat: Double? = other.synced && other.sourceBPM > 0 && other.phase == .playing
+            ? 0 : snapshot.clockRunning ? snapshot.masterBeat : nil
         switch self {
         case .tempo(let bpm): if state.synced, state.sourceBPM > 0 { target.speed = bpm / state.sourceBPM }
         case .freeRate(let rate, _, _): if !state.synced { target.speed = rate }
@@ -43,6 +48,9 @@ extension SourceControl {
                 enabled && state.sourceBPM > 0
                 ? snapshot.masterBPM / state.sourceBPM
                 : state.phase == .playing || state.phase == .paused ? state.speed : state.freeRate
+            if enabled, state.phase == .playing, !state.touchActive, !state.braking, state.performanceRate == 1 {
+                alignmentBeat = snapshot.masterBeat
+            }
         case .restoreSync:
             guard let grid = state.timing else { return [] }
             let lower = state.loopEnabled ? max(0, state.loopStart) : 0
@@ -54,11 +62,19 @@ extension SourceControl {
             target.position = position
             target.speed = snapshot.masterBPM / state.sourceBPM
         case .keylock(let enabled, _, _): target.keylock = enabled
-        case .grid(let grid, _, _): if state.synced { target.speed = snapshot.masterBPM / grid.bpm }
+        case .grid(let grid, _, _):
+            if state.synced { target.speed = snapshot.masterBPM / grid.bpm }
+            alignmentTiming = BeatTiming(fixed: grid)
+            if state.phase == .playing, !state.touchActive, !state.braking, state.performanceRate == 1 {
+                alignmentBeat = snapshot.masterBeat
+            }
         case .adaptiveMap: break
-        case .seek(let position, _, _): target.position = bounded(position)
+        case .seek(let position, _, _):
+            target.position = bounded(position)
+            if !state.touchActive, !state.braking, state.performanceRate == 1 { alignmentBeat = 0 }
         case .cueRecall(_, _, let position, let loopEnd, _):
             target.position = bounded(position)
+            alignmentBeat = entryBeat
             preservePending = false
             if state.phase == .ended { target.continuingPosition = target.position }
             if let loopEnd {
@@ -76,6 +92,10 @@ extension SourceControl {
             switch action {
             case .jump:
                 target.position = bounded(value)
+                if !state.touchActive, !state.braking, state.performanceRate == 1 {
+                    alignmentBeat = state.phase == .playing
+                        ? end > 0 ? (floor(snapshot.masterBeat / end) + 1) * end : snapshot.masterBeat : 0
+                }
                 preservePending = false
             case .loop:
                 preservePending = false
@@ -89,6 +109,10 @@ extension SourceControl {
                     }
                     if !state.loopEnabled && !state.touchActive { target.continuingPosition = state.sourceFrame }
                     target.reserveContinuing = state.fluxEnabled
+                    if !state.touchActive, !state.braking, state.performanceRate == 1 {
+                        alignmentBeat = state.phase == .playing
+                            ? quantum > 0 ? (floor(snapshot.masterBeat / quantum) + 1) * quantum : snapshot.masterBeat : 0
+                    }
                 } else {
                     if state.loopEnabled && state.fluxEnabled && !state.touchActive {
                         target.position = bounded(state.continuingFrame)
@@ -98,6 +122,9 @@ extension SourceControl {
                         target.loopEnd = 0
                     }
                     target.reserveContinuing = state.fluxEnabled && state.touchActive
+                    if !state.touchActive, !state.braking, state.performanceRate == 1 {
+                        alignmentBeat = state.phase == .playing ? snapshot.masterBeat : 0
+                    }
                 }
             case .touch:
                 preservePending = false
@@ -115,37 +142,44 @@ extension SourceControl {
                     target.loopEnd = state.loopEnabled ? state.loopEnd : 0
                     if state.fluxEnabled && !state.loopEnabled { target.position = bounded(state.continuingFrame) }
                     target.reserveContinuing = state.fluxEnabled && state.loopEnabled
+                    alignmentBeat = state.touchWasPlaying ? snapshot.masterBeat : 0
                 }
-            case .rate: target.performanceRate = value
+            case .rate:
+                target.performanceRate = value
+                if value == 1, !state.touchActive, !state.braking {
+                    alignmentBeat = state.phase == .playing ? snapshot.masterBeat : 0
+                }
             case .flux:
                 target.reserveContinuing = enabled && (state.touchActive || state.loopEnabled)
                 target.continuingPosition = state.sourceFrame
             }
-        case .brake: break
+        case .brake(let action, _, _, _):
+            if action == .resume {
+                alignmentBeat = state.braking ? snapshot.masterBeat : entryBeat
+                if state.synced, state.sourceBPM > 0 { target.speed = snapshot.masterBPM / state.sourceBPM }
+            }
         case .play:
             if state.phase == .ended {
                 target.position = 0
                 target.continuingPosition = 0
                 preservePending = false
             }
-            let other = snapshot[deck == .a ? .b : .a]
-            if !state.phase.active, !state.touchActive, state.synced, other.synced, other.phase == .playing,
-                let grid = state.timing
-            {
-                let lower = state.loopEnabled ? max(0, state.loopStart) : 0
-                let upper = state.loopEnabled ? min(Double(frames), state.loopEnd) : Double(frames)
-                if lower < upper,
-                    let aligned = grid.nearestPhaseAlignedFrame(to: target.position, masterBeat: 0, within: lower..<upper)
-                {
-                    target.position = aligned
-                }
-            }
+            if !state.phase.active, !state.touchActive { alignmentBeat = entryBeat }
         }
         let proposedSynced: Bool
         switch self {
         case .restoreSync: proposedSynced = true
         case .sync(let enabled, _, _): proposedSynced = enabled
         default: proposedSynced = state.synced
+        }
+        if proposedSynced, let beat = alignmentBeat, let timing = alignmentTiming {
+            let lower = target.loopEnd > target.loopStart ? max(0, target.loopStart) : 0
+            let upper = target.loopEnd > target.loopStart ? min(Double(frames), target.loopEnd) : Double(frames)
+            if lower < upper, let aligned = timing.nearestPhaseAlignedFrame(
+                to: target.position, masterBeat: beat, within: lower..<upper)
+            {
+                target.position = aligned
+            }
         }
         if proposedSynced, let map = state.adaptiveMap {
             let master: Double
@@ -155,6 +189,7 @@ extension SourceControl {
                 target.speed = max(target.speed, master / bpm)
             }
         }
+        if state.braking { target.speed = max(target.speed, state.freeRate) }
         if state.recoveryActive && !heldLoop && !state.loopEnabled {
             target.loopStart = state.recoveryStart
             target.loopEnd = state.recoveryEnd
@@ -166,6 +201,13 @@ extension SourceControl {
             if state.pendingJumpIsLoop {
                 pending.loopStart = state.pendingJumpFrame
                 pending.loopEnd = state.pendingLoopEnd
+                if proposedSynced, let timing = state.timing, pending.loopStart < pending.loopEnd,
+                    let aligned = timing.nearestPhaseAlignedFrame(
+                        to: pending.position, masterBeat: state.pendingJumpBeat,
+                        within: pending.loopStart..<pending.loopEnd)
+                {
+                    pending.position = aligned
+                }
             } else if state.touchActive {
                 if state.pendingTouchEnd > state.pendingJumpFrame {
                     pending.loopStart = state.pendingJumpFrame

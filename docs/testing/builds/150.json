@@ -5,7 +5,15 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 39.25,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-09",
+      "timezone": "Australia/Brisbane",
+      "requestID": "R93",
+      "summary": "Erik requested Sync next. Unless explicitly disabled, starts, stops, seeks and gesture releases must stay on the grid. Digital DJing and reliable Sync are central to the TDJ experience.",
+      "acceptance": "R89 physical acceptance has not yet been reported."
+    }
+  ],
   "log": "TestBuilds/ipad/build-150.log",
   "build": 150,
   "app": "TestBuilds/ipad/150/GenErikDJ.app",

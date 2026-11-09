@@ -40,7 +40,9 @@ extension PlaybackSnapshot {
     }
     public func syncNeedsAlignment(_ deck: DeckID) -> Bool {
         let state = self[deck]
-        return state.synced && state.phase == .playing
+        guard state.synced, state.phase != .empty else { return false }
+        guard state.timing != nil else { return true }
+        return state.phase == .playing
             && syncPhaseError(deck).map { abs($0) > Self.syncPhaseToleranceBeats } == true
     }
 }
