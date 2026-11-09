@@ -134,7 +134,10 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     await model.flushNativeMusicAnalysis()
     #expect(reads == [short.id, unknown.id, short.id])
     let log = try String(contentsOf: workspace.appendingPathComponent("analysis.log"), encoding: .utf8)
-    #expect(log.contains("Pass 1 summary 2 of 2 · Traktor both 0, grid only 0, key only 0, saved GenErik 0, fresh analysis 2, failed 0"))
+    #expect(
+        log.contains(
+            "Pass 1 summary 2 of 2 · Traktor both 0, grid only 0, key only 0, saved GenErik 0, fresh analysis 2, failed 0"
+        ))
     let track = try #require(model.preparedTrack(for: short))
     let cache = try JSONDecoder().decode(ArrangementCache.self, from: Data(contentsOf: model.arrangementURL(track.id)))
     #expect(cache.automaticCues != nil)
@@ -249,7 +252,10 @@ private func clockItem(_ id: String, duration: Double) -> MusicLibraryItem {
     await reopened.flushNativeMusicAnalysis()
     #expect(provider.preparations == 0)
     let reuseLog = try String(contentsOf: workspace.appendingPathComponent("analysis.log"), encoding: .utf8)
-    #expect(reuseLog.contains("Pass 1 summary 1 of 1 · Traktor both 0, grid only 0, key only 0, saved GenErik 1, fresh analysis 0, failed 0"))
+    #expect(
+        reuseLog.contains(
+            "Pass 1 summary 1 of 1 · Traktor both 0, grid only 0, key only 0, saved GenErik 1, fresh analysis 0, failed 0"
+        ))
     let reused = try measuredAttempts(workspace).filter { $0.attemptID != matching.attemptID && $0.pass == "matching" }
     #expect(reused.count == 1)
     #expect(reused.first?.cacheHits == ["savedMatching"])
@@ -369,11 +375,12 @@ func firstPassReusesValidatedTraktorPreparation(fixture: TraktorReuseFixture) as
     #expect(missing.needsCurrentLibraryAnalysis)
 
     let log = try String(contentsOf: workspace.appendingPathComponent("analysis.log"), encoding: .utf8)
-    let (both, gridOnly, keyOnly, source) = switch fixture {
-    case .newMatch, .savedBoth: (1, 0, 0, "traktor")
-    case .savedGridOnly: (0, 1, 0, "traktorGrid")
-    case .savedKeyOnly: (0, 0, 1, "traktorKey")
-    }
+    let (both, gridOnly, keyOnly, source) =
+        switch fixture {
+        case .newMatch, .savedBoth: (1, 0, 0, "traktor")
+        case .savedGridOnly: (0, 1, 0, "traktorGrid")
+        case .savedKeyOnly: (0, 0, 1, "traktorKey")
+        }
     #expect(
         log.contains(
             "Pass 1 summary 1 of 1 · Traktor both \(both), grid only \(gridOnly), key only \(keyOnly), "
@@ -562,7 +569,7 @@ func launchReanalysesSavedTracksAndResumesWithoutRepeatingCompletedWork(source: 
     #expect(!FileManager.default.fileExists(atPath: model.arrangementURL(track.id).path))
     #expect(model.libraryAnalysisNeedsWork)
     #expect(model.nativeMusic.finishedAnalysis == nil)
-    #expect(model.analysisProgress?.message == "Connect power to continue structure analysis.")
+    #expect(model.analysisProgress?.message == "Connect power to continue detailed analysis.")
     #expect(provider.preparations == 1)
     model.startNativeMusicAnalysis()
     await model.flushNativeMusicAnalysis()

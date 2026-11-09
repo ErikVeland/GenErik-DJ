@@ -153,3 +153,93 @@ Final-source verification: ten focused tests passed across fifteen cases. The so
 Build 149 installed on the Duo, and iOS accepted launch. The test and signed-build source digests match.
 No device actions followed. Erik checks physical power events, queue progress and playback. The iPad installation is unchanged.
 Automatic sharing acceptance will require compatible app versions, the same CloudKit environment and account, and exact audio matching on both devices.
+
+## Full-engine continuation
+
+Erik authorised the remaining engine together on 9 November 2026, including checkpoints, stronger models, automatic sharing and beneficial model upgrades. He explicitly authorised the isolated `tiered-analysis-r88` worktree while the playback chat works in the main folder. R88 remains the request ID.
+
+Persist model weights, conversion, preprocessing, coverage and decision-policy versions with each deep result. Reuse predictions when only the decision policy changes. Queue new inference only when a registered profile declares a benefit. Keep current accepted preparation during upgrades. Never adopt an unknown or older remote profile automatically.
+
+Implementation and device verification remain in progress. Merge into consolidated main before a signed device build. Preserve the concurrent playback work.
+
+
+## Full-engine implementation
+
+The remaining R88 change supersedes the earlier decision to stop after each engine component.
+The initial matching pass stays ahead of every deep and structure batch. Neural Engine devices add a separate deep beat pass.
+The A10X keeps the original two passes and consumes shared results. Playback, load, power and thermal guards remain in force.
+Completed caches can be read without external power. Loaded tracks wait for a later deep pass.
+
+### Profile and checkpoints
+
+The first deep beat profile uses the upstream [Beat This final0 model](https://github.com/CPJKU/beat_this#available-models).
+Its checkpoint SHA-256 is `8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331`.
+The bundled conversion uses Float16 computation and Float32 input and output. The loader checks the model metadata against this profile.
+The existing small0 models remain the first-pass models. A10X does not start the full model automatically.
+
+Each result records the audio hash, sample rate, channel count, frame count, profile generation, model weights,
+conversion version, preprocessing version, decision-policy version and completed coverage.
+Each 30-second model window has an atomic checkpoint with a checksum. Compact binary Float32 values preserve the predictions without decimal expansion. A failed or interrupted window remains pending.
+The final result is written only after every window has complete coverage. A corrupt window is recomputed without deleting other versions.
+Resuming skips saved inference. Audio decoding remains bounded in memory, including when resuming late in a track.
+Deep coverage is explicit and separate from the unchanged 90-second first-pass limit for mixes.
+The deep worker supports files up to 24 hours. Longer files retain preparation and report an unsupported deep-analysis limit.
+
+A profile upgrade must declare a higher generation and a benefit. An identifier change alone does not request an upgrade.
+A decision-policy change can reuse the same model predictions. Weight, conversion or preprocessing changes use a different checkpoint namespace.
+The latest attempt and the last accepted result are stored separately. Upgrades retain the existing usable grid until a replacement is accepted.
+A later first-pass save cannot remove deep evidence received while preparation was running.
+
+To release an upgrade:
+
+1. Pin the new weights and conversion metadata.
+2. Increase each changed component version.
+3. Record the expected benefit and comparison evidence.
+4. Increase the profile generation when the upgrade should reanalyse existing tracks.
+5. Verify checkpoint reuse and separation before the device build.
+
+### Acceptance
+
+The initial deep policy requires beat agreement of at least 0.90, bar agreement of at least 0.80 and median residual at most 20 ms.
+These are conservative engineering thresholds, not calibrated probabilities or demonstrated precision.
+An existing automatic grid must also agree within 1% tempo and 40 ms bar phase.
+Imported grids, manual edits, locks and adaptive maps retain their existing authority.
+Conflicting or weak predictions remain review candidates. Unknown or older shared profiles do not replace a current result.
+Key analysis remains the existing DSP path. Structure retains its separate algorithm version and now also records the accepted beat profile.
+This release does not add a learned key model, a new section model or automatic flexible-grid promotion.
+
+### Automatic sharing
+
+Automatic transfers use an analysis-only payload and a separate private CloudKit zone, `AutomaticAnalysis`.
+They reuse the deployed `PreparationRevision` record type and its existing fields.
+Payload version 2 prevents an older app from mistaking an automatic result for full preparation recovery.
+The original `PreparationRevisions` zone and explicit full-revision recovery remain available.
+Both devices need this compatible app version, the same iCloud account and the same CloudKit environment.
+
+The app checks for transfers while it is open and performance controls are idle. A transfer can retain and upload at most 32 new revisions per run.
+Local analysis continues while automatic network work runs. An automatic run requests cancellation after 45 seconds. Actual cancellation latency still needs device measurement.
+Successful runs wait 60 seconds before the next check. Network or account failures wait five minutes.
+Retained payloads form the durable upload queue. Account-specific markers prevent repeated exports and cross-account queue reuse.
+Audio and raw model predictions are not transferred. Manual grids, keys, cues and loops are excluded from automatic payloads.
+
+The receiver checks exact audio identity, payload integrity, coverage and profile compatibility.
+It defers tracks that are loaded or currently being analysed. It saves local recovery history before changing accepted analysis.
+Manual preparation, key authority, cues, loops, cleared cue slots and corrected section labels remain local.
+Compatible sections are saved as a cache and use the existing cue-allocation rules on load.
+The receiver logs corrupt retained payloads and continues through other available revisions. The saved files remain available for inspection.
+Upload and transport failures retain the queue for retry.
+Full-revision recovery remains an explicit action at the next launch.
+
+### Verification in progress
+
+The isolated-worktree baseline passed the queue and execution-context checks.
+Focused checks cover window resume, damaged checkpoints, model and policy namespaces, exact identity, local authority,
+durable export deduplication, account separation, loaded-track deferral and repeated adoption.
+Existing queue ordering and power/thermal cancellation checks also pass on the host.
+
+The converted full model was compared with the original PyTorch model on three complete tracks.
+Downbeat outputs were identical on all three. Beat outputs were identical on Blue Monday '88.
+The converted model added one beat on 3CAG and moved a beat by 20 ms on Groove Is In The Heart.
+This is conversion evidence, not a labelled musical-accuracy comparison or Duo performance measurement.
+The complete Swift deep path processed 3CAG and reused its saved result. Its 71.001 BPM candidate remained below the downbeat acceptance gate.
+Further final-source checks and the signed build record follow below. Actual Duo throughput, iCloud round-trip and A10X live acceptance remain open.

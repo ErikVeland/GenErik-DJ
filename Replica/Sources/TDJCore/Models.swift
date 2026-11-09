@@ -52,7 +52,7 @@ public struct WaveformBin: Codable, Equatable, Sendable {
 }
 
 public struct AudioAnalysis: Codable, Equatable, Sendable {
-    public let implementation: String
+    public internal(set) var implementation: String
     public let configurationID: String
     public let contentSHA256: String
     public let sampleRate: Double
@@ -60,13 +60,16 @@ public struct AudioAnalysis: Codable, Equatable, Sendable {
     public let channelCount: Int
     public let waveformFramesPerBin: Int
     public let waveform: [WaveformBin]
-    public let bpm: Double?
-    public let beatAnchorFrame: Double?
-    public let tempoConfidence: Double
+    public internal(set) var bpm: Double?
+    public internal(set) var beatAnchorFrame: Double?
+    public internal(set) var tempoConfidence: Double
     public let key: MusicalKey?
     public let keyConfidence: Double
     public let chroma: [Double]
     public let timbre: [Double]
+    public var beatModelVersion: String? = nil
+    public var deepBeatAnalysis: DeepBeatAnalysis? = nil
+    public var acceptedDeepBeatAnalysis: DeepBeatAnalysis? = nil
     public var musicalAnalysisDeferred: Bool? = nil
     public var waveformReference: String? = nil
     public var waveformDecodedFrames: Int64? = nil
@@ -96,6 +99,9 @@ extension AudioAnalysis {
             sampleRate: sampleRate, frameCount: frameCount, channelCount: channelCount,
             waveformFramesPerBin: waveformFramesPerBin, waveform: bins, bpm: bpm, beatAnchorFrame: beatAnchorFrame,
             tempoConfidence: tempoConfidence, key: key, keyConfidence: keyConfidence, chroma: chroma, timbre: timbre)
+        copy.beatModelVersion = beatModelVersion
+        copy.deepBeatAnalysis = frameCount == self.frameCount ? deepBeatAnalysis : nil
+        copy.acceptedDeepBeatAnalysis = frameCount == self.frameCount ? acceptedDeepBeatAnalysis : nil
         copy.musicalAnalysisDeferred = musicalAnalysisDeferred
         copy.waveformReference = configurationID == self.configurationID ? waveformReference : nil
         copy.waveformDecodedFrames = decodedFrames
@@ -219,7 +225,8 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
     public var needsCurrentLibraryAnalysis: Bool {
         if nativeSourceNeedsAnalysis == true { return true }
         guard grid == nil || key == nil else { return false }
-        return analysis.configurationID != AnalysisConfiguration().id(for: analysis.duration) || needsFullPreparationAnalysis
+        return analysis.configurationID != AnalysisConfiguration().id(for: analysis.duration)
+            || needsFullPreparationAnalysis
     }
     public var automaticBarGrid: BeatGrid? {
         preparation.detectedBarGrid(

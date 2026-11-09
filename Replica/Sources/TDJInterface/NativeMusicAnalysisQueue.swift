@@ -3,11 +3,12 @@ import TDJCore
 
 final class NativeMusicAnalysisQueue: Sendable {
     enum Pass: CaseIterable, Sendable {
-        case matching, structure
+        case matching, deep, structure
 
         var title: String {
             switch self {
             case .matching: "Analysing beats and key"
+            case .deep: "Deep beat and downbeat analysis"
             case .structure: "Analysing structure and cues"
             }
         }
@@ -17,10 +18,12 @@ final class NativeMusicAnalysisQueue: Sendable {
         let pass: Pass
         let range: Range<Int>
         let isMix: Bool
+        var includesDeep = false
 
         var title: String {
             let prefix = isMix ? "Mixes over 19 min · " : ""
-            return "\(prefix)Pass \(pass == .matching ? 1 : 2) of 2 · \(pass.title)"
+            let number = pass == .matching ? 1 : pass == .deep ? 2 : includesDeep ? 3 : 2
+            return "\(prefix)Pass \(number) of \(includesDeep ? 3 : 2) · \(pass.title)"
         }
     }
 
@@ -80,11 +83,13 @@ final class NativeMusicAnalysisQueue: Sendable {
         var end = 0
     }
 
+    private let includeDeep: Bool
     private let value: BackgroundWorkValue<State>
     init(
         catalog: MusicLibraryCatalog, tracks: [Track], loaded: Set<String>, mediaDirectory: URL,
-        worker: BackgroundFileWork
+        worker: BackgroundFileWork, includeDeep: Bool = false
     ) {
+        self.includeDeep = includeDeep
         value = BackgroundWorkValue(
             State(catalog: catalog, tracks: tracks, loaded: loaded, mediaDirectory: mediaDirectory), worker: worker)
     }
@@ -113,8 +118,10 @@ final class NativeMusicAnalysisQueue: Sendable {
             }.map(\.element)
             let split = state.items.firstIndex(where: \.isMix) ?? state.items.count
             let ranges = [0..<split, split..<state.items.count].filter { !$0.isEmpty }
-            return Pass.allCases.flatMap { pass in
-                ranges.map { Batch(pass: pass, range: $0, isMix: $0.lowerBound == split) }
+            return Pass.allCases.filter { $0 != .deep || self.includeDeep }.flatMap { pass in
+                ranges.map {
+                    Batch(pass: pass, range: $0, isMix: $0.lowerBound == split, includesDeep: self.includeDeep)
+                }
             }
         } ?? []
     }

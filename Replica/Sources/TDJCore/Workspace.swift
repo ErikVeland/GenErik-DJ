@@ -73,6 +73,8 @@ public struct WorkspaceStore: Sendable {
                 }
             }
             let a = track.analysis
+            try a.deepBeatAnalysis?.validate(matching: a)
+            try a.acceptedDeepBeatAnalysis?.validate(matching: a)
             if let reference = track.traktorPreparation {
                 guard reference.normalized.collectionSHA256 == reference.collection.sourceSHA256,
                     reference.normalized.entryIndex == reference.record.entryIndex,
@@ -558,8 +560,9 @@ public actor LibraryService {
         library = try store.save(changed)
     }
 
-    private func applyAnalysis(_ analysis: AudioAnalysis, to track: inout Track) throws {
+    private func applyAnalysis(_ incoming: AudioAnalysis, to track: inout Track) throws {
         let previous = track.analysis
+        let analysis = incoming.retainingDeepEvidence(from: previous)
         track.analysis = analysis
         track.recordKeyAnalysisChange(from: previous)
         if let grid = track.automaticBarGrid {
@@ -576,6 +579,22 @@ public actor LibraryService {
                 track.preparation.grid = nil
             }
         }
+    }
+
+    public func adoptDeepAnalysis(
+        _ result: DeepBeatAnalysis, trackID: String, protectedTracks: Set<String> = []
+    ) throws -> LibrarySnapshot {
+        try Task.checkCancellation()
+        guard !protectedTracks.contains(trackID), let index = library.tracks.firstIndex(where: { $0.id == trackID })
+        else { return library }
+        let track = try library.tracks[index].adoptingDeepAnalysis(result)
+        guard track != library.tracks[index] else { return library }
+        var changed = library
+        changed.tracks[index] = track
+        changed.revision += 1
+        try Task.checkCancellation()
+        library = try store.save(changed)
+        return library
     }
 
     public func updatePreparation(trackID: String, preparation: Preparation) throws -> LibrarySnapshot {

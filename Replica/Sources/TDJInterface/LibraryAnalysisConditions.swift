@@ -17,11 +17,11 @@ struct LibraryAnalysisConditions: Equatable, Sendable {
     }
 
     var pauseMessage: String? {
-        guard externalPower else { return "Connect power to continue structure analysis." }
+        guard externalPower else { return "Connect power to continue detailed analysis." }
         switch thermalState {
         case .nominal, .fair: return nil
-        case .serious, .critical: return "Structure analysis will resume when the device cools."
-        @unknown default: return "Structure analysis is waiting for a suitable device temperature."
+        case .serious, .critical: return "Detailed analysis will resume when the device cools."
+        @unknown default: return "Detailed analysis is waiting for a suitable device temperature."
         }
     }
 }
@@ -32,7 +32,7 @@ extension ReplicaModel {
         guard state.conditions != conditions else { return }
         state.conditions = conditions
         if let message = conditions.pauseMessage {
-            if state.activePass == .structure, libraryAnalysisOwner != nil {
+            if state.activePass != .matching, state.activePass != nil, libraryAnalysisOwner != nil {
                 state.waitingForStructure = (musicLibraryCatalogVersion, library.revision)
                 cancelNativeMusicAnalysis()
             }
@@ -52,8 +52,10 @@ extension ReplicaModel {
             super.init()
             UIDevice.current.isBatteryMonitoringEnabled = true
             let center = NotificationCenter.default
-            center.addObserver(self, selector: #selector(changed), name: UIDevice.batteryStateDidChangeNotification, object: nil)
-            center.addObserver(self, selector: #selector(changed), name: ProcessInfo.thermalStateDidChangeNotification, object: nil)
+            center.addObserver(
+                self, selector: #selector(changed), name: UIDevice.batteryStateDidChangeNotification, object: nil)
+            center.addObserver(
+                self, selector: #selector(changed), name: ProcessInfo.thermalStateDidChangeNotification, object: nil)
             refresh()
         }
 

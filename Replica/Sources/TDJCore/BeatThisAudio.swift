@@ -1,5 +1,5 @@
-import Accelerate
 import AVFoundation
+import Accelerate
 import Foundation
 
 /// Read mono audio at the model rate and retain only the samples for the current model window.
@@ -34,10 +34,12 @@ final class BeatThisAudio {
         let count = (Double(sourceFrames) * Self.rate / format.sampleRate).rounded()
         guard count >= 2, count < Double(Int.max / 2),
             let target = AVAudioFormat(
-                commonFormat: .pcmFormatFloat32, sampleRate: Self.rate, channels: format.channelCount, interleaved: false),
+                commonFormat: .pcmFormatFloat32, sampleRate: Self.rate, channels: format.channelCount,
+                interleaved: false),
             let input = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: 8192),
             let output = AVAudioPCMBuffer(pcmFormat: target, frameCapacity: 8192),
-            let filterURL = Bundle.module.url(forResource: "mel-filters", withExtension: "f32", subdirectory: "BeatThisAssets")
+            let filterURL = Bundle.module.url(
+                forResource: "mel-filters", withExtension: "f32", subdirectory: "BeatThisAssets")
         else { throw CoreError.invalidAudio("Cannot prepare audio for beat analysis.") }
         self.input = input
         self.output = output
@@ -78,6 +80,9 @@ final class BeatThisAudio {
             try checkCancellation()
             guard let buffer = try read(), let channels = buffer.floatChannelData else { break }
             let count = Int(buffer.format.channelCount)
+            let trim = min(samples.count, max(0, firstSample - sampleStart))
+            samples.removeFirst(trim)
+            sampleStart += trim
             for index in 0..<Int(buffer.frameLength) {
                 var mono: Float = 0
                 for channel in 0..<count { mono += channels[channel][index] }

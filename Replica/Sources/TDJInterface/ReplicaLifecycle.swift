@@ -20,6 +20,7 @@ import Foundation
             guard libraryAnalysisTasks == nil else { return }
             libraryAnalysisEnvironment = LibraryAnalysisEnvironmentObserver(model: model)
             libraryAnalysisTasks = LibraryAnalysisBackgroundTasks(model: model)
+            model.startAutomaticPreparationSharing()
         }
 
         @available(iOS 26, *)
@@ -46,6 +47,7 @@ import Foundation
         #endif
     }
     public static func background(_ model: ReplicaModel) {
+        model.stopAutomaticPreparationSharing()
         #if os(iOS)
             model.pauseVisualUpdates()
             model.setLibraryAnalysisBackgrounded(true)
@@ -61,6 +63,9 @@ import Foundation
 
     static func foreground(_ model: ReplicaModel) {
         model.setLibraryAnalysisBackgrounded(false)
+        #if os(iOS)
+            model.startAutomaticPreparationSharing()
+        #endif
         #if os(iOS)
             if libraryAnalysisTasks?.model === model {
                 libraryAnalysisEnvironment?.refresh()

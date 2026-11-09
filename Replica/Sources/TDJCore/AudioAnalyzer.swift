@@ -162,7 +162,8 @@ public enum AudioAnalyzer {
             frames: pulses.frames, duration: duration, rhythm: rhythm, spectralActivity: spectrum.activity,
             brightness: brightness)
         var analysis = AudioAnalysis(
-            implementation: fitted == nil ? "Beat This small0 with DSP grid fallback"
+            implementation: fitted == nil
+                ? "Beat This small0 with DSP grid fallback"
                 : requiresOpeningBar ? "Beat This small0 opening grid" : "Beat This small0 fitted grid",
             configurationID: configurationID, contentSHA256: hash, sampleRate: decoded.sampleRate,
             frameCount: decoded.frameCount, channelCount: decoded.channelCount, waveformFramesPerBin: decoded.binFrames,
@@ -173,6 +174,7 @@ public enum AudioAnalyzer {
             analysis.adaptiveCandidate = map
             analysis.adaptiveConfidence = rhythm.confidence
         }
+        analysis.beatModelVersion = "BeatThis/small0-6074be2c-mel1-fit1"
         analysis.detectedDownbeatOffset = rhythm.downbeat
         analysis.downbeatConfidence = rhythm.downbeatConfidence
         analysis.barAnalysisVersion = BarStartAnalysis.version

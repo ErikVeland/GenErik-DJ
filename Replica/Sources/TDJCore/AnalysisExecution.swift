@@ -5,7 +5,7 @@ import Foundation
 public enum AnalysisExecution {
     @TaskLocal public static var foregroundLibrary = false
 
-    static let supportsAcceleration: Bool = {
+    public static let supportsAcceleration: Bool = {
         #if os(iOS) && !targetEnvironment(simulator)
             return MLComputeDevice.allComputeDevices.contains {
                 if case .neuralEngine = $0 { return true }

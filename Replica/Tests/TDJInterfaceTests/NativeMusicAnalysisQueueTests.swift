@@ -32,7 +32,9 @@ func analysisQueueCompletesMatchingForAllTracksBeforeStructure(durations: [Doubl
     }
     #expect(actual == [songs, mixes, songs, mixes].filter { !$0.isEmpty })
     let groupCount = [songs, mixes].filter { !$0.isEmpty }.count
-    #expect(batches.map(\.pass) == Array(repeating: .matching, count: groupCount) + Array(repeating: .structure, count: groupCount))
+    #expect(
+        batches.map(\.pass) == Array(repeating: .matching, count: groupCount)
+            + Array(repeating: .structure, count: groupCount))
     #expect(
         batches.map(\.isMix)
             == [songs, mixes, songs, mixes].enumerated().compactMap {
@@ -70,5 +72,17 @@ func analysisQueueDefersLoadedMix(native: Bool) async throws {
     }
     let mixID = native ? mix.id : track.id
     #expect(ids == [song.id, mixID, song.id, mixID])
+    await queue.finish()
+}
+
+@Test @MainActor func analysisQueueIncludesDeepPassOnlyOnProducer() async {
+    let queue = NativeMusicAnalysisQueue(
+        catalog: .init(items: [queueItem("short", seconds: 180), queueItem("mix", seconds: 3600)], playlists: []),
+        tracks: [], loaded: [], mediaDirectory: FileManager.default.temporaryDirectory,
+        worker: .init(label: "test.deep-queue"), includeDeep: true)
+    let batches = await queue.prepare()
+    #expect(batches.map(\.pass) == [.matching, .matching, .deep, .deep, .structure, .structure])
+    #expect(batches[2].title.contains("Pass 2 of 3"))
+    #expect(batches[4].title.contains("Pass 3 of 3"))
     await queue.finish()
 }

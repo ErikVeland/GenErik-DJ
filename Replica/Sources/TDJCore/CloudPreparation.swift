@@ -4,6 +4,7 @@ import Foundation
 /// A complete preparation revision. Playback locations remain device-local.
 public struct CloudPreparationArchive: Codable, Equatable, Sendable {
     public var version = 1
+    public var automaticAnalysis: Bool? = nil
     public let track: Track
     public let cues: [Int: PerformanceCue]?
     public let cueHistory: TraktorPreparationImportHistory?
@@ -39,17 +40,21 @@ public struct CloudPreparationArchive: Codable, Equatable, Sendable {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys]
         let data = try encoder.encode(self)
-        guard data.count <= Self.maximumBytes else { throw Self.invalid("This preparation exceeds the cloud record size limit.") }
+        guard data.count <= Self.maximumBytes else {
+            throw Self.invalid("This preparation exceeds the cloud record size limit.")
+        }
         return data
     }
 
     private enum CodingKeys: String, CodingKey {
-        case version, track, cues, cueHistory, sectionCuesPrepared, gridCuesPrepared, arrangement, waveformData
+        case version, automaticAnalysis, track, cues, cueHistory, sectionCuesPrepared, gridCuesPrepared, arrangement,
+            waveformData
     }
     private enum HistoryKeys: String, CodingKey { case previouslyImportedSlots, protectedEmptySlots }
     public func encode(to encoder: any Encoder) throws {
         var values = encoder.container(keyedBy: CodingKeys.self)
         try values.encode(version, forKey: .version)
+        try values.encodeIfPresent(automaticAnalysis, forKey: .automaticAnalysis)
         try values.encode(track, forKey: .track)
         try values.encodeIfPresent(cues, forKey: .cues)
         if let cueHistory {
@@ -72,27 +77,38 @@ public struct CloudPreparationArchive: Codable, Equatable, Sendable {
     }
 
     private func validate() throws {
-        guard version == 1, Self.hasAudioIdentity(track) else {
+        guard (version == 1 && automaticAnalysis != true) || (version == 2 && automaticAnalysis == true),
+            Self.hasAudioIdentity(track)
+        else {
             throw Self.invalid("The cloud preparation has an unsupported version or an unverified audio identity.")
         }
         var snapshot = LibrarySnapshot()
         snapshot.tracks = [track]
         try WorkspaceStore.validate(snapshot)
         if let waveformData {
-            guard track.analysis.waveformReference != nil else { throw Self.invalid("The cloud waveform reference is missing.") }
+            guard track.analysis.waveformReference != nil else {
+                throw Self.invalid("The cloud waveform reference is missing.")
+            }
             _ = try WaveformStorage.decode(waveformData, analysis: track.analysis)
         } else if track.analysis.waveformReference != nil && track.analysis.waveform.isEmpty {
             throw Self.invalid("The cloud waveform data is missing.")
         }
         let end = Double(track.analysis.frameCount)
-        guard (cues ?? [:]).allSatisfy({ slot, cue in
-            (0..<8).contains(slot) && cue.frame.isFinite && cue.frame >= 0 && cue.frame < end
-                && (cue.loopEnd.map { $0.isFinite && $0 > cue.frame && $0 <= end } ?? true)
-                && (cue.category == .loop ? cue.loopEnd != nil : cue.loopEnd == nil)
-        }), cueHistory.map({ ($0.protectedEmptySlots.union($0.previouslyImportedSlots)).allSatisfy { (0..<8).contains($0) } }) ?? true
+        guard
+            (cues ?? [:]).allSatisfy({ slot, cue in
+                (0..<8).contains(slot) && cue.frame.isFinite && cue.frame >= 0 && cue.frame < end
+                    && (cue.loopEnd.map { $0.isFinite && $0 > cue.frame && $0 <= end } ?? true)
+                    && (cue.category == .loop ? cue.loopEnd != nil : cue.loopEnd == nil)
+            }),
+            cueHistory.map({
+                ($0.protectedEmptySlots.union($0.previouslyImportedSlots)).allSatisfy { (0..<8).contains($0) }
+            }) ?? true
         else { throw Self.invalid("The cloud preparation contains invalid cues.") }
         if let arrangement {
-            struct Structure: Decodable { let content: String; let arrangement: TrackArrangement }
+            struct Structure: Decodable {
+                let content: String
+                let arrangement: TrackArrangement
+            }
             let value = try JSONDecoder().decode(Structure.self, from: arrangement)
             guard value.content == track.analysis.contentSHA256, value.arrangement.isValid(fileEnd: end) else {
                 throw Self.invalid("The cloud sections do not match the audio.")
@@ -104,6 +120,9 @@ public struct CloudPreparationArchive: Codable, Equatable, Sendable {
 
     public func restoredTrack(matching local: Track) throws -> Track {
         try validate()
+        guard automaticAnalysis != true else {
+            throw Self.invalid("Analysis-only revisions cannot replace full preparation.")
+        }
         guard matches(local) else { throw Self.invalid("The cloud preparation does not match this audio file.") }
         var restored = local
         restored.analysis = track.analysis
@@ -126,10 +145,16 @@ public struct CloudPreparationArchive: Codable, Equatable, Sendable {
         performance.traktorCueHistory?[trackID] = cueHistory
         if performance.sectionCueTracks == nil { performance.sectionCueTracks = [] }
         if performance.gridCueTracks == nil { performance.gridCueTracks = [] }
-        if sectionCuesPrepared { performance.sectionCueTracks?.insert(trackID) }
-        else { performance.sectionCueTracks?.remove(trackID) }
-        if gridCuesPrepared { performance.gridCueTracks?.insert(trackID) }
-        else { performance.gridCueTracks?.remove(trackID) }
+        if sectionCuesPrepared {
+            performance.sectionCueTracks?.insert(trackID)
+        } else {
+            performance.sectionCueTracks?.remove(trackID)
+        }
+        if gridCuesPrepared {
+            performance.gridCueTracks?.insert(trackID)
+        } else {
+            performance.gridCueTracks?.remove(trackID)
+        }
     }
 }
 
@@ -141,6 +166,7 @@ public struct CloudPreparationVault: Sendable {
         public let title: String
         public let artist: String
         public let savedAt: Date
+        public var automaticAnalysis: Bool? = nil
     }
     public let root: URL
     public init(root: URL) throws {
@@ -149,35 +175,50 @@ public struct CloudPreparationVault: Sendable {
     }
     public func payloadURL(_ id: String) -> URL { root.appendingPathComponent(id + ".payload") }
     public func read(_ id: String) throws -> CloudPreparationArchive {
-        guard KeyImportManifest.isDigest(id) else { throw CloudPreparationArchive.invalid("The cloud revision identifier is invalid.") }
+        guard KeyImportManifest.isDigest(id) else {
+            throw CloudPreparationArchive.invalid("The cloud revision identifier is invalid.")
+        }
         let url = payloadURL(id)
         let size = try url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
-        guard size <= CloudPreparationArchive.maximumBytes else { throw CloudPreparationArchive.invalid("The cloud preparation is too large.") }
+        guard size <= CloudPreparationArchive.maximumBytes else {
+            throw CloudPreparationArchive.invalid("The cloud preparation is too large.")
+        }
         let data = try Data(contentsOf: url)
-        guard Self.digest(data) == id else { throw CloudPreparationArchive.invalid("The saved cloud revision failed its integrity check.") }
+        guard Self.digest(data) == id else {
+            throw CloudPreparationArchive.invalid("The saved cloud revision failed its integrity check.")
+        }
         return try CloudPreparationArchive.decode(data)
     }
-    @discardableResult public func retain(_ archive: CloudPreparationArchive, savedAt: Date = Date()) throws -> Revision {
+    @discardableResult public func retain(_ archive: CloudPreparationArchive, savedAt: Date = Date()) throws -> Revision
+    {
         try retain(data: archive.encoded(), savedAt: savedAt)
     }
-    @discardableResult public func retain(data: Data, expectedID: String? = nil, savedAt: Date = Date()) throws -> Revision {
+    @discardableResult public func retain(data: Data, expectedID: String? = nil, savedAt: Date = Date()) throws
+        -> Revision
+    {
         let archive = try CloudPreparationArchive.decode(data)
         let id = Self.digest(data)
-        guard expectedID == nil || expectedID == id else { throw CloudPreparationArchive.invalid("The downloaded cloud revision failed its integrity check.") }
+        guard expectedID == nil || expectedID == id else {
+            throw CloudPreparationArchive.invalid("The downloaded cloud revision failed its integrity check.")
+        }
         let meta = root.appendingPathComponent(id + ".json")
         if FileManager.default.fileExists(atPath: meta.path) {
             _ = try read(id)
             return try JSONDecoder().decode(Revision.self, from: Data(contentsOf: meta))
         }
         try data.write(to: payloadURL(id), options: .atomic)
-        let revision = Revision(id: id, audioSHA256: archive.track.analysis.contentSHA256,
+        var revision = Revision(
+            id: id, audioSHA256: archive.track.analysis.contentSHA256,
             sourceTrackID: archive.track.id, title: archive.track.title, artist: archive.track.artist, savedAt: savedAt)
+        revision.automaticAnalysis = archive.automaticAnalysis
         try JSONEncoder().encode(revision).write(to: meta, options: .atomic)
         return revision
     }
     public func list() throws -> [Revision] {
         try FileManager.default.contentsOfDirectory(at: root, includingPropertiesForKeys: nil)
-            .filter { $0.pathExtension == "json" && KeyImportManifest.isDigest($0.deletingPathExtension().lastPathComponent) }
+            .filter {
+                $0.pathExtension == "json" && KeyImportManifest.isDigest($0.deletingPathExtension().lastPathComponent)
+            }
             .map { try JSONDecoder().decode(Revision.self, from: Data(contentsOf: $0)) }
             .sorted { $0.savedAt > $1.savedAt }
     }
@@ -189,10 +230,15 @@ public struct CloudPreparationVault: Sendable {
         return root.appendingPathComponent("Arrangements").appendingPathComponent(safeID + ".json")
     }
 
-    public static func capture(store: WorkspaceStore, track: Track, performance: PerformancePreparation) throws -> CloudPreparationArchive {
+    public static func capture(store: WorkspaceStore, track: Track, performance: PerformancePreparation) throws
+        -> CloudPreparationArchive
+    {
         let arrangementURL = arrangementURL(root: store.root, trackID: track.id)
-        let arrangement = FileManager.default.fileExists(atPath: arrangementURL.path) ? try Data(contentsOf: arrangementURL) : nil
-        let waveform = try track.analysis.waveformReference.map { try Data(contentsOf: store.waveformDirectory.appendingPathComponent($0)) }
+        let arrangement =
+            FileManager.default.fileExists(atPath: arrangementURL.path) ? try Data(contentsOf: arrangementURL) : nil
+        let waveform = try track.analysis.waveformReference.map {
+            try Data(contentsOf: store.waveformDirectory.appendingPathComponent($0))
+        }
         return .init(track: track, performance: performance, arrangement: arrangement, waveformData: waveform)
     }
 }

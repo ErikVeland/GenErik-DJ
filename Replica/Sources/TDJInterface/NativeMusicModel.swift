@@ -3,6 +3,8 @@ import TDJCore
 
 @MainActor final class NativeMusicSessionState {
     var wanted = false
+    var deferredDeepTracks = Set<String>()
+    var activeTrackID: String?
     var closed = false
     var analysisCatalogVersion: UInt64?
     var finishedAnalysis: (catalogVersion: UInt64, libraryRevision: Int)?
@@ -34,12 +36,13 @@ private enum LibraryMatchingSource: String {
         let originalGrid = track.traktorPreparation?.normalized.grid
         let usesTraktorGrid = originalGrid != nil && originalGrid == track.grid
         let usesTraktorKey = track.keyDecision.authority == .traktor
-        self = switch (usesTraktorGrid, usesTraktorKey) {
-        case (true, true): .traktorBoth
-        case (true, false): .traktorGrid
-        case (false, true): .traktorKey
-        case (false, false): .saved
-        }
+        self =
+            switch (usesTraktorGrid, usesTraktorKey) {
+            case (true, true): .traktorBoth
+            case (true, false): .traktorGrid
+            case (false, true): .traktorKey
+            case (false, false): .saved
+            }
     }
 }
 
@@ -85,6 +88,7 @@ extension ReplicaModel {
 
     func setLibraryAnalysisBackgrounded(_ backgrounded: Bool) {
         nativeMusic.backgrounded = backgrounded
+        if !backgrounded && AnalysisExecution.supportsAcceleration { nativeMusic.finishedAnalysis = nil }
         // Restart with CPU-only analysis when the app enters the background.
         if backgrounded { cancelNativeMusicAnalysis() }
     }
@@ -137,7 +141,7 @@ extension ReplicaModel {
     public func startNativeMusicAnalysis() {
         let state = nativeMusic
         guard state.wanted, !state.closed, !arrangementPlaybackActive, libraryAnalysisPlaybackIsIdle,
-            !deckAnalysisIsRunning, !cloudBusy,
+            !deckAnalysisIsRunning, !cloudBusy || cloudSyncIsAutomatic,
             !state.backgrounded || (state.backgroundRun != nil && libraryAnalysisPlaybackIsIdle),
             !importing, !musicLibraryRefreshing, libraryAnalysisOwner == nil, state.analyses.isEmpty,
             state.loadOwners.isEmpty, preparingPlayback.isEmpty,
@@ -145,7 +149,8 @@ extension ReplicaModel {
         else { return }
         let version = musicLibraryCatalogVersion
         if let finished = state.finishedAnalysis, finished.catalogVersion == version,
-            finished.libraryRevision == library.revision
+            finished.libraryRevision == library.revision,
+            state.deferredDeepTracks.subtracting(Set(loaded.values)).isEmpty
         {
             if analysisProgress?.total == 0, musicLibraryError == nil { analysisProgress = nil }
             return
@@ -165,7 +170,8 @@ extension ReplicaModel {
         }
         let queue = NativeMusicAnalysisQueue(
             catalog: musicLibraryCatalog ?? .init(items: [], playlists: []), tracks: library.tracks,
-            loaded: priorityTracks, mediaDirectory: store.mediaDirectory, worker: state.projection)
+            loaded: priorityTracks, mediaDirectory: store.mediaDirectory, worker: state.projection,
+            includeDeep: AnalysisExecution.supportsAcceleration && !state.backgrounded)
         libraryAnalysisOwner = token
         state.analysisCatalogVersion = version
         state.analysisChecked = 0
@@ -179,12 +185,13 @@ extension ReplicaModel {
             defer {
                 state.analyses[token] = nil
                 state.activePass = nil
+                state.activeTrackID = nil
                 if libraryAnalysisOwner == token {
                     libraryAnalysisOwner = nil
                     musicLibraryProgress = ""
                 }
                 let conditionsRecovered = state.waitingForStructure != nil && state.conditions.pauseMessage == nil
-                if (Task.isCancelled || conditionsRecovered), libraryAnalysisOwner == nil {
+                if Task.isCancelled || conditionsRecovered, libraryAnalysisOwner == nil {
                     startNativeMusicAnalysis()
                 }
             }
@@ -201,7 +208,8 @@ extension ReplicaModel {
             if count > 0 { logAnalysis("Analysis queue: \(count) songs") }
             if let mixes = batches.first(where: { $0.isMix }) {
                 logAnalysis(
-                    "Checking \(mixes.range.count) mixes over 19 minutes after shorter tracks, before structure analysis.")
+                    "Checking \(mixes.range.count) mixes over 19 minutes after shorter tracks, before structure analysis."
+                )
             }
             var matched: [String: String] = [:]
             var review: [String: String] = [:]
@@ -229,21 +237,34 @@ extension ReplicaModel {
                 analysisProgress = .init(
                     done: 0, total: batchCount, title: title, isLibraryAnalysis: true)
                 while let job = await queue.next() {
+                    state.activeTrackID = matched[job.id] ?? job.trackID
+                    defer { state.activeTrackID = nil }
                     guard !Task.isCancelled, libraryAnalysisOwner == token else { break }
                     if !libraryAnalysisPlaybackIsIdle {
                         cancelNativeMusicAnalysis()
                         break
                     }
-                    if pass == .structure, !matched.isEmpty, let message = state.conditions.pauseMessage {
-                        state.waitingForStructure = (version, library.revision)
-                        analysisProgress?.message = message
-                        waitingForConditions = true
-                        break batches
+                    if pass != .matching, let trackID = matched[job.id], let track = library.track(id: trackID),
+                        let message = state.conditions.pauseMessage
+                    {
+                        let cached =
+                            pass == .deep
+                            ? !DeepAnalysisProfile.current.needsAnalysis(after: track.analysis.deepBeatAnalysis)
+                                || loaded.values.contains(trackID)
+                            : await hasCurrentLibraryArrangement(track)
+                        if !cached {
+                            state.waitingForStructure = (version, library.revision)
+                            analysisProgress?.message = message
+                            waitingForConditions = true
+                            break batches
+                        }
                     }
+                    analysisProgress?.message = nil
                     musicLibraryProgress = "\(pass.title) for \(job.title)"
                     let measurement = AnalysisMeasurement(
                         runID: token.uuidString, jobID: job.id,
-                        pass: pass == .matching ? "matching" : "structure", duration: job.duration)
+                        pass: pass == .matching ? "matching" : pass == .deep ? "deep" : "structure",
+                        duration: job.duration)
                     var matchingSource = LibraryMatchingSource.failed
                     var outcome = "success"
                     let issue = await withTaskCancellationHandler {
@@ -258,6 +279,23 @@ extension ReplicaModel {
                                         measurement.update { $0.source = source.rawValue }
                                         matched[job.id] = track.id
                                         return libraryMatchingIssue(track)
+                                    case .deep:
+                                        if let trackID = matched[job.id], let track = library.track(id: trackID) {
+                                            guard !loaded.values.contains(trackID) else {
+                                                state.deferredDeepTracks.insert(trackID)
+                                                return nil
+                                            }
+                                            state.deferredDeepTracks.remove(trackID)
+                                            let result = try await prepareLibraryDeepAnalysis(job, track: track)
+                                            try Task.checkCancellation()
+                                            adoptLibrary(
+                                                try await service.adoptDeepAnalysis(
+                                                    result, trackID: trackID, protectedTracks: Set(loaded.values)))
+                                            return result.needsReview(for: track)
+                                                ? "Deep beat evidence needs review." : nil
+                                        }
+                                        outcome = "skipped"
+                                        return nil
                                     case .structure:
                                         if let trackID = matched[job.id] {
                                             guard let track = library.track(id: trackID) else {
@@ -312,7 +350,13 @@ extension ReplicaModel {
             guard !Task.isCancelled, libraryAnalysisOwner == token, !waitingForConditions else { return }
             state.waitingForStructure = nil
             state.finishedAnalysis = (version, library.revision)
-            if !review.isEmpty {
+            state.deferredDeepTracks.formIntersection(Set(library.tracks.map(\.id)))
+            if !state.deferredDeepTracks.isEmpty {
+                analysisProgress = .init(
+                    done: max(0, count - state.deferredDeepTracks.count), total: count,
+                    message: "Deep analysis will continue when the remaining loaded tracks are unloaded.",
+                    title: "Deep analysis", isLibraryAnalysis: true)
+            } else if !review.isEmpty {
                 analysisProgress = .init(
                     done: count, total: count,
                     message: "\(count - review.count) of \(count) tracks ready. \(review.count) need review.",
@@ -398,6 +442,33 @@ extension ReplicaModel {
                 self.adoptLibrary(snapshot)
                 guard let updated = await self.preparedNativeTrack(item) else { throw MusicLibraryError.missingAudio }
                 return (updated, reusedTraktor ? .init(reusing: updated) : .fresh)
+            }
+        }
+    }
+
+    private func prepareLibraryDeepAnalysis(_ job: NativeMusicAnalysisQueue.Job, track: Track) async throws
+        -> DeepBeatAnalysis
+    {
+        if let saved = track.analysis.deepBeatAnalysis, !DeepAnalysisProfile.current.needsAnalysis(after: saved) {
+            return saved
+        }
+        let root = store.root
+        let token = libraryAnalysisOwner
+        let progress: @Sendable (Int, Int) -> Void = { [weak self] done, total in
+            Task { @MainActor in
+                guard let self, self.libraryAnalysisOwner == token else { return }
+                self.analysisProgress?.message = "\(track.title) · saved window \(done) of \(total)"
+            }
+        }
+        switch job {
+        case .managed:
+            return try await AnalysisWorker.shared.deepBeatAnalysis(
+                url: store.mediaDirectory.appendingPathComponent(track.mediaFilename), matching: track.analysis,
+                root: root, progress: progress)
+        case .native(let item, _):
+            return try await withNativeAudio(item) { prepared in
+                try await AnalysisWorker.shared.deepBeatAnalysis(
+                    url: prepared.url, matching: track.analysis, root: root, progress: progress)
             }
         }
     }

@@ -115,8 +115,13 @@ import TDJCore
     public var status = ""
     public var importing = false { didSet { if importing { cancelCloudSyncForPlayback() } } }
     public internal(set) var cloudBusy = false
-    public var cloudStatus = "Preparation stays on this iPad until you select Sync now."
+    @ObservationIgnored var cloudSyncIsAutomatic = false
+    public var cloudStatus = "Accepted analysis is shared through iCloud while the decks are idle."
     var cloudVersions: [CloudRecoveryChoice] = []
+    @ObservationIgnored var automaticCloudLoop: Task<Void, Never>?
+    @ObservationIgnored var automaticCloudRetryAt = Date.distantPast
+    @ObservationIgnored var automaticCloudAccount: URL?
+    @ObservationIgnored var automaticCloudRead = Set<String>()
     @ObservationIgnored var cloudTask: Task<Void, Never>?
     @ObservationIgnored let cloudSync = CloudPreparationSync()
     @ObservationIgnored let cloudFiles = BackgroundFileWork(label: "org.generikdj.cloud-recovery")
@@ -290,6 +295,8 @@ import TDJCore
         for writer in Array(arrangementWriters.values) { await writer.flush() }
     }
     public func finishForShutdown() async {
+        stopAutomaticPreparationSharing()
+        await cloudTask?.value
         waveformShutdown = true
         for task in nativeWaveformTasks.values { task.cancel() }
         for task in Array(nativeWaveformTasks.values) { await task.value }
@@ -1481,8 +1488,11 @@ import TDJCore
             if let error = playback.recordingError { status = error }
         }
         let (snapshot, messages) = playback.snapshotAndMessages()
-        if cloudTask != nil, isRecording || recordingFinishing
-            || snapshot.map({ value in DeckID.allCases.contains { value[$0].phase.active || value[$0].touchActive } }) == true {
+        if cloudTask != nil,
+            isRecording || recordingFinishing
+                || snapshot.map({ value in DeckID.allCases.contains { value[$0].phase.active || value[$0].touchActive }
+                }) == true
+        {
             cancelCloudSyncForPlayback()
         }
         preparingSourceActions = playback.preparingSourceDecks
@@ -1513,7 +1523,8 @@ import TDJCore
                 DeckID.allCases.filter { effects[$0]?[selectedEffectSlots[$0, default: 0]]?.enabled == true }),
             sourceFrames: (
                 playback.core.asset(generation: snapshot.a.generation)?.frames,
-                playback.core.asset(generation: snapshot.b.generation)?.frames))
+                playback.core.asset(generation: snapshot.b.generation)?.frames
+            ))
     }
     public func pressPlay(deck: DeckID, vinylStop: Bool? = nil) {
         cancelCloudSyncForPlayback()

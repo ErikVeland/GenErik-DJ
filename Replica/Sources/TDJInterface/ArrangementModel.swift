@@ -8,10 +8,12 @@ struct ArrangementCache: Codable, Sendable {
     var context: MusicalStructureContext? = nil
     var arrangement: TrackArrangement
     var automaticCues: [Int: PerformanceCue]? = nil
+    var rhythmProfile: String? = nil
 
     func isCurrent(for analysis: AudioAnalysis, context: MusicalStructureContext) -> Bool {
         version == MusicalStructureAnalyzer.version && content == analysis.contentSHA256
             && configuration == analysis.configurationID && self.context == context
+            && rhythmProfile == analysis.acceptedDeepBeatAnalysis?.profile.id
     }
 
     func write(to url: URL) throws {
@@ -37,6 +39,12 @@ extension ReplicaModel {
             else { return nil }
             return cache
         }
+    }
+
+    func hasCurrentLibraryArrangement(_ track: Track) async -> Bool {
+        guard let cache = await readArrangementCache(track: track) else { return false }
+        return cache.isCurrent(for: track.analysis, context: .init(title: track.title, genre: track.genre))
+            && cache.automaticCues != nil
     }
 
     func prepareLibraryArrangement(track: Track, source: URL?) async throws -> ArrangementCache? {
@@ -85,7 +93,8 @@ extension ReplicaModel {
         let cues = SectionCueAllocator.allocate(sections: value.sections, existing: [:], alreadyPrepared: false)
         let cache = ArrangementCache(
             version: MusicalStructureAnalyzer.version, content: analysis.contentSHA256,
-            configuration: analysis.configurationID, context: context, arrangement: value, automaticCues: cues)
+            configuration: analysis.configurationID, context: context, arrangement: value, automaticCues: cues,
+            rhythmProfile: analysis.acceptedDeepBeatAnalysis?.profile.id)
         let url = arrangementURL(track.id)
         do {
             let span = AnalysisMeasurement.begin("structurePersistence")
@@ -249,9 +258,11 @@ extension ReplicaModel {
         else { return }
         let old = performance.cues[trackID] ?? [:]
         let prepared = performance.sectionCueTracks?.contains(trackID) == true
-        let cues =
+        let candidates =
             (old.isEmpty && !prepared ? cachedCues : nil)
             ?? SectionCueAllocator.allocate(sections: arrangement.sections, existing: old, alreadyPrepared: prepared)
+        let deleted = performance.traktorCueHistory?[trackID]?.protectedEmptySlots ?? []
+        let cues = candidates.filter { old[$0.key] != nil || !deleted.contains($0.key) }
         guard cues != old || !prepared else { return }
         performance.cues[trackID] = cues
         if performance.sectionCueTracks == nil { performance.sectionCueTracks = [] }
@@ -266,7 +277,9 @@ extension ReplicaModel {
         let cache = ArrangementCache(
             version: arrangementVersions[trackID] ?? 1, content: track.analysis.contentSHA256,
             configuration: track.analysis.configurationID, context: arrangementContexts[trackID], arrangement: value,
-            automaticCues: SectionCueAllocator.allocate(sections: value.sections, existing: [:], alreadyPrepared: false)
+            automaticCues: SectionCueAllocator.allocate(
+                sections: value.sections, existing: [:], alreadyPrepared: false),
+            rhythmProfile: track.analysis.acceptedDeepBeatAnalysis?.profile.id
         )
         let writer = arrangementWriters[trackID] ?? CoalescingFileWriter<ArrangementCache>()
         arrangementWriters[trackID] = writer

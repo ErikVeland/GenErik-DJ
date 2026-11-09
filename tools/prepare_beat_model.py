@@ -13,9 +13,13 @@ import rotary_embedding_torch.rotary_embedding_torch as rotary
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--checkpoint", type=Path, required=True)
+parser.add_argument("--model", choices=["small0", "final0"], default="small0")
 parser.add_argument("--output", type=Path, required=True)
 args = parser.parse_args()
-expected_hash = "6074be2c4d490c5f6101fcc374a1ec72ae93456e23bb6019783b849f5dc7d47b"
+expected_hash = {
+    "small0": "6074be2c4d490c5f6101fcc374a1ec72ae93456e23bb6019783b849f5dc7d47b",
+    "final0": "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331",
+}[args.model]
 if hashlib.sha256(args.checkpoint.read_bytes()).hexdigest() != expected_hash:
     raise ValueError("The Beat This checkpoint does not match the pinned version.")
 if args.output.exists():
@@ -52,9 +56,9 @@ converted = ct.convert(
     compute_precision=ct.precision.FLOAT16,
     compute_units=ct.ComputeUnit.CPU_AND_NE,
 )
-converted.short_description = "Beat This small0, FP16 computation with FP32 input/output."
+converted.short_description = f"Beat This {args.model}, FP16 computation with FP32 input/output."
 converted.user_defined_metadata["checkpointSHA256"] = expected_hash
-converted.user_defined_metadata["variant"] = "small0-fp16-v1"
+converted.user_defined_metadata["variant"] = f"{args.model}-fp16-v1"
 converted.save(args.output)
 print(json.dumps({"output": str(args.output), "checkpointSHA256": expected_hash,
                   "coremltools": ct.__version__, "torch": torch.__version__}), flush=True)

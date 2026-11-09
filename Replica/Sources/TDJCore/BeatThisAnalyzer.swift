@@ -72,7 +72,9 @@ enum BeatThisAnalyzer {
             try checkCancellation()
             try autoreleasepool {
                 let result = try session.prediction(checkCancellation: checkCancellation) { model in
-                    let result = try AnalysisMeasurement.measure("beatThisInference") { try model.prediction(from: input) }
+                    let result = try AnalysisMeasurement.measure("beatThisInference") {
+                        try model.prediction(from: input)
+                    }
                     try validateLogits(result)
                     return result
                 }
@@ -83,6 +85,15 @@ enum BeatThisAnalyzer {
             }
         }
         try checkCancellation()
+        return try fit(
+            beats: beatLogits, downbeats: barLogits, configuration: configuration,
+            requireOpeningBar: requireOpeningBar, checkCancellation: checkCancellation)
+    }
+
+    static func fit(
+        beats beatLogits: [Float], downbeats barLogits: [Float], configuration: AnalysisConfiguration,
+        requireOpeningBar: Bool, checkCancellation: @Sendable () throws -> Void
+    ) throws -> BeatThisGrid? {
         let beats = peaks(beatLogits)
         guard !beats.isEmpty else { return nil }
         var beatIndex = 0
@@ -102,7 +113,7 @@ enum BeatThisAnalyzer {
         }
     }
 
-    private static func validateLogits(_ prediction: any MLFeatureProvider) throws {
+    static func validateLogits(_ prediction: any MLFeatureProvider) throws {
         for name in ["beats", "downbeats"] {
             guard let values = prediction.featureValue(for: name)?.multiArrayValue,
                 values.dataType == .float32, values.count == window, let stride = values.strides.last?.intValue
@@ -110,11 +121,13 @@ enum BeatThisAnalyzer {
             let finite = values.withUnsafeBufferPointer(ofType: Float.self) { buffer in
                 (0..<window).allSatisfy { buffer[$0 * stride].isFinite }
             }
-            guard finite else { throw CoreError.invalidAudio("The beat analysis model returned non-finite predictions.") }
+            guard finite else {
+                throw CoreError.invalidAudio("The beat analysis model returned non-finite predictions.")
+            }
         }
     }
 
-    private static func append(
+    static func append(
         _ prediction: any MLFeatureProvider, name: String, range: Range<Int>, to logits: inout [Float]
     ) throws {
         guard let values = prediction.featureValue(for: name)?.multiArrayValue,
