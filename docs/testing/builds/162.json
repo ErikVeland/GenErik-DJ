@@ -13,6 +13,14 @@
       ],
       "report": "Support the rest of the NI Traktor lineup with zero configuration and custom lights. Use documented configurations for hardware Erik cannot test.",
       "summary": "Build 162 assumed from install history. This is a coverage request."
+    },
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R98"
+      ],
+      "report": "Make it clear that the utility button closes the strip. Keep direct waveform interaction.",
+      "summary": "Build 162 is assumed from the last recorded iPad install."
     }
   ],
   "log": "TestBuilds/ipad/build-162.log",
