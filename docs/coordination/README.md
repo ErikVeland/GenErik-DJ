@@ -6,6 +6,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**Build 166** installed on the A10X iPad Pro, and iPadOS accepted launch. R102 starts Music playback before saving waveform data. Six focused host checks passed. Erik checks audible start time while the waveform is still loading. [Build record](../testing/builds/166.json).
+
 **Build 165** installed on the A10X iPad Pro, and iPadOS accepted launch. R101 keeps library analysis warnings read and adds a fresh unread warning when the affected track loads. Erik checks the badge and notice order. [Build record](../testing/builds/165.json).
 
 **Build 162** installed on the A10X iPad Pro, and iPadOS accepted launch. R99 requests iPadOS alert protection for call banners. A host probe also reproduced a silent hold after a short clip release. Check call banners with Silent Mode off. [Build record](../testing/builds/162.json) · [Remaining gaps](system-audio-interruptions.md).
