@@ -77,12 +77,15 @@ private func syncRestorationRig(startSecond: Bool = true, alignEntry: Bool = fal
     let aligned = try #require(
         grid.nearestPhaseAlignedFrame(to: 20000, masterBeat: initial.masterBeat, within: 0..<64000))
     let displaced = aligned + offset * grid.framesPerBeat
+    try core.setSync(false, deck: .b, generation: b)
+    try reference.setSync(false, deck: .b, generation: referenceB)
     try core.perform(.jump, deck: .b, generation: b, value: displaced)
     try reference.perform(.jump, deck: .b, generation: referenceB, value: displaced)
     core.processControlsWhileIdle()
     reference.processControlsWhileIdle()
     let before = try #require(core.snapshot())
-    #expect(before.syncNeedsAlignment(.b))
+    #expect(!before.b.synced)
+    #expect(abs(try #require(before.syncPhaseError(.b))) > 0.1)
     _ = try core.submit(.restoreSync(.b, b))
     core.processControlsWhileIdle()
     let after = try #require(core.snapshot())

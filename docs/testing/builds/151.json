@@ -1,0 +1,47 @@
+{
+  "notes": "R93: Keep Sync enabled until explicitly switched off. Park stops on the grid and align starts, seeks, cues, gesture releases and vinyl resume. Preserve streamed audio preparation and the saved Sync choice.",
+  "sourceCommit": "120e91471a73c48dcd71e6a3cd531c7a41360de0",
+  "sourceSHA256": "06f2c66c9ef5a4f7fde79a071cd859f301c24b16b81c67a59e60ba293f0421e5",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 60.29,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-151.log",
+  "build": 151,
+  "app": "TestBuilds/ipad/151/GenErikDJ.app",
+  "appSHA256": "c484fa705e05058e303fa7bb68915cc37e1c439549553b88b90341752aa0762d",
+  "state": "testing",
+  "createdUTC": "2026-11-09T00:32:17.835240+00:00",
+  "installedUTC": "2026-11-09T00:32:33.772220+00:00",
+  "launchedUTC": "2026-11-09T00:32:34.323100+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R93"
+  ],
+  "relatedOpenRequests": [
+    "R89",
+    "R90",
+    "R91",
+    "R92"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "deviceUDID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+  "previousDeviceBuild": 150,
+  "focusedChecks": "Forty-two focused host tests passed across fifty-nine cases. Coverage includes persistent Sync intent, stopped-grid position, starts and restarts, seeks, cues, scratch release and cancellation, vinyl resume, loops, adaptive timing, streamed audio, explicit Sync-off reloads and R89 playhead behaviour.",
+  "verificationLimit": "iPadOS accepted installation and launch. No later device action was taken. Erik must verify beat alignment, uninterrupted audio and touch response on A10X with the Z1. R89 and R93 await physical acceptance. R90-R92 remain open. This is not a gig-readiness claim.",
+  "evidence": [
+    "TestBuilds/r93/verification.json",
+    "TestBuilds/r93/focused-final-3.log",
+    "TestBuilds/r93/final-followup.log",
+    "TestBuilds/r93/ipad-run.log",
+    "TestBuilds/ipad/build-151.log"
+  ],
+  "acceptance": [
+    "Play two prepared tracks with Sync enabled and the Z1 connected. Listen for sustained beat alignment.",
+    "Stop and restart either deck. Check the stopped beat position and aligned restart.",
+    "Seek, recall a cue, drag the waveform and release or cancel. Check that Sync stays on and playback returns to the grid.",
+    "Enter and leave loops. Use vinyl stop and resume if enabled. Check beat alignment after release.",
+    "Disable Sync explicitly. Check that free control and the saved choice remain available after reload.",
+    "Check uninterrupted audio and responsive controls. Report any dropout, drift or delayed control."
+  ]
+}

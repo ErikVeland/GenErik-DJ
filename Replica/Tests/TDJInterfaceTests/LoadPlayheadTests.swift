@@ -61,7 +61,7 @@ func trackLoadShowsFileStartBeforeAndAfterAudioReadiness(deck: DeckID) async thr
     await model.playbackLoads?.value
     model.pressPlay(deck: .a, vinylStop: false)
     await model.flushTransportRequests()
-    _ = model.playback.core.renderOffline(frames: 4800)
+    _ = model.playback.core.renderOffline(frames: 96000)
     model.pressPlay(deck: .a, vinylStop: false)
     #expect(model.playbackSnapshot?.a.phase == .paused)
     #expect(try #require(model.playbackSnapshot?.a.sourceFrame) > 0)

@@ -5,6 +5,56 @@ import Testing
 @testable import TDJInterface
 
 @Suite(.serialized) struct StreamedPlaybackIntegrationTests {
+    @Test(.timeLimit(.minutes(1))) @MainActor
+    func persistentSyncStreamedJumpsAndReleasesMatchPreparedAudio() async throws {
+        let (streamed, reference, root, _, _) = try await fixture()
+        defer {
+            streamed.stopAudio()
+            reference.stopAudio()
+            try? FileManager.default.removeItem(at: root)
+        }
+        for controller in [streamed, reference] { try controller.play(.a) }
+        _ = streamed.core.renderOffline(frames: 512)
+        _ = reference.core.renderOffline(frames: 512)
+        try streamed.perform(.jump, deck: .a, value: 12 * 44100 + 1234)
+        _ = streamed.snapshotAndMessages()
+        #expect(streamed.preparingSourceDecks.contains(.a))
+        let ongoing = streamed.core.renderOffline(frames: 512)
+        let previous = reference.core.renderOffline(frames: 512)
+        #expect(ongoing.left == previous.left && ongoing.right == previous.right)
+        await streamed.flushSourcePreparations()
+        try reference.perform(.jump, deck: .a, value: 12 * 44100 + 1234)
+        for controller in [streamed, reference] {
+            #expect(controller.core.snapshot()?.a.synced == true)
+            #expect(abs(try #require(controller.core.snapshot()?.syncPhaseError(.a))) < 0.001)
+            try controller.perform(.touch, deck: .a, value: 5 * 44100 + 777, touchRate: 0, followsPosition: true)
+            await controller.flushSourcePreparations()
+            _ = controller.core.renderOffline(frames: 256)
+            try controller.perform(.touch, deck: .a, enabled: false)
+            await controller.flushSourcePreparations()
+            #expect(controller.core.snapshot()?.a.touchActive == false)
+            #expect(abs(try #require(controller.core.snapshot()?.syncPhaseError(.a))) < 0.001)
+        }
+        for controller in [streamed, reference] {
+            try controller.perform(.loop, deck: .a, value: 10 * 44100, end: 14 * 44100, quantum: 0.5)
+            await controller.flushSourcePreparations()
+        }
+        for _ in 0..<32 {
+            let actual = streamed.core.renderOffline(frames: 512)
+            let expected = reference.core.renderOffline(frames: 512)
+            #expect(actual.left == expected.left && actual.right == expected.right)
+            try await Task.sleep(for: .milliseconds(1))
+        }
+        let loop = try #require(streamed.core.snapshot()?.a)
+        #expect(abs(loop.loopStart - 441000.0) < 0.000001)
+        #expect(abs(loop.loopEnd - 617400.0) < 0.000001)
+        #expect(abs(try #require(streamed.core.snapshot()?.syncPhaseError(.a))) < 0.001)
+        #expect(streamed.sourcePreparationRequests > 0)
+        #expect(streamed.sourcePreparationFailures == 0)
+        #expect(streamed.rejectedCommandCount == 0)
+        #expect(!streamed.core.streamingSummary().continuityFailed)
+    }
+
     @MainActor private func fixture(bpm: Double = 120) async throws -> (
         PlaybackController, PlaybackController, URL, Track, WorkspaceStore
     ) {
@@ -73,8 +123,9 @@ import Testing
         #expect(continuing.left == expected.left)
         #expect(continuing.right == expected.right)
         await streamed.flushSourcePreparations()
-        #expect(streamed.core.snapshot()?.a.sourceFrame == 12.0 * 44100.0)
         try reference.perform(.jump, deck: .a, value: 12 * 44100)
+        #expect(streamed.core.snapshot()?.a.sourceFrame == reference.core.snapshot()?.a.sourceFrame)
+        #expect(abs(try #require(streamed.core.snapshot()?.syncPhaseError(.a))) < 0.001)
         let jumped = streamed.core.renderOffline(frames: 512)
         let expectedJump = reference.core.renderOffline(frames: 512)
         #expect(jumped.left == expectedJump.left)

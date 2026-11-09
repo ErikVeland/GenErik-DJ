@@ -76,7 +76,7 @@ import Testing
     #expect(model.playbackSnapshot?.b.phase == .paused)
 }
 
-@Test @MainActor func redSyncRestoresImmediatelyAndAGreenPressDisablesTempoMatching() async throws {
+@Test @MainActor func explicitSyncToggleRestoresAlignmentAndRetainsOffChoice() async throws {
     let (model, root) = try await makeModel(offline: true)
     defer {
         model.stopAudio()
@@ -95,11 +95,13 @@ import Testing
         grid.nearestPhaseAlignedFrame(
             to: track.analysis.sampleRate * 3, masterBeat: running.masterBeat,
             within: 0..<Double(track.analysis.frameCount)))
+    model.toggleSync(deck: .a)
     try model.playback.perform(.jump, deck: .a, value: aligned + grid.framesPerBeat * 0.25)
     await model.playback.flushSourcePreparations()
     model.refreshPlayback()
     let before = try #require(model.playbackSnapshot)
-    #expect(before.a.synced && before.syncNeedsAlignment(.a))
+    #expect(!before.a.synced)
+    #expect(abs(try #require(before.syncPhaseError(.a))) > 0.1)
     model.toggleSync(deck: .a)
     await model.playback.flushSourcePreparations()
     model.refreshPlayback()

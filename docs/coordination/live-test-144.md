@@ -48,10 +48,17 @@ Verification covers nonzero grid anchors, both decks, a ready deck seek and repl
 It also checks that explicit preview, Freeze and grid editing retain their view.
 Bind the test log and build record to the tested source. Erik verifies physical behaviour on A10X.
 
-## Remaining diagnosis
+## Second increment: R93
 
-Waveform dragging calls `disengageSyncForManualControl`. Vinyl stop clears Sync in the audio engine.
-Loading without a grid also starts unsynced. These are concrete R93 audit targets, not a complete cause for every sync failure.
+Build 151 installed on the A10X iPad, and iPadOS accepted launch.
+The fix retains Sync until explicitly disabled and keeps normal transport on the grid.
+Forty-two focused host tests passed across fifty-nine cases. Physical acceptance remains open.
+See the [Sync contract](persistent-sync.md) and [build record](../testing/builds/151.json).
+
+## Diagnosis and remaining work
+
+The R93 audit found that waveform dragging and vinyl stop disabled Sync. Loading without a grid also discarded Sync intent.
+Build 151 removes these paths and restores grid alignment at normal transport transitions.
 The preview strip currently changes the viewport without changing audio position.
 The crossfader mute and long-track flicker still need reproduction and source-level evidence.
 

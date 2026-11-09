@@ -1583,22 +1583,10 @@ import TDJCore
         guard let snapshot = playbackSnapshot else { return }
         let state = snapshot[deck]
         do {
-            let realign = state.phase == .playing && (!state.synced || snapshot.syncNeedsAlignment(deck))
-            let enabled = realign || !state.synced
-            if realign {
-                try playback.restoreSync(deck: deck)
-            } else {
-                try playback.setSync(enabled, deck: deck)
-            }
+            let enabled = !state.synced
+            try playback.setSync(enabled, deck: deck)
             if deck == .a { mixerPreferences.syncA = enabled } else { mixerPreferences.syncB = enabled }
             persistMixerPreferences()
-            refreshPlayback()
-        } catch { status = error.localizedDescription }
-    }
-    func disengageSyncForManualControl(deck: DeckID) {
-        guard playbackSnapshot?[deck].synced == true else { return }
-        do {
-            try playback.setSync(false, deck: deck)
             refreshPlayback()
         } catch { status = error.localizedDescription }
     }

@@ -32,7 +32,7 @@ private func frequency(_ samples: ArraySlice<Float>) -> Double {
         try core.brake(.begin, duration: 1, deck: .a, generation: generation)
         core.processControlsWhileIdle()
         #expect(core.snapshot()?.a.braking == true)
-        #expect(core.snapshot()?.a.synced == false)
+        #expect(core.snapshot()?.a.synced == true)
         var remaining = 48000
         while remaining > 0 {
             let n = min(remaining, block)
@@ -69,7 +69,7 @@ private func frequency(_ samples: ArraySlice<Float>) -> Double {
     #expect(core.snapshot()?.a.phase == .paused)
 }
 
-@Test func vinylBrakePauseAndResumeKeepPositionTempoAndSyncOff() throws {
+@Test func vinylBrakePauseAndResumeRetainSyncAndRestoreGridAlignment() throws {
     for resume in [false, true] {
         let (core, generation) = try brakingDeck(speed: 1.25, keylock: true)
         try core.brake(.begin, duration: 1, deck: .a, generation: generation)
@@ -82,12 +82,14 @@ private func frequency(_ samples: ArraySlice<Float>) -> Double {
         }
         core.processControlsWhileIdle()
         let state = try #require(core.snapshot()?.a)
-        #expect(!state.braking && !state.synced && state.keylock)
+        #expect(!state.braking && state.synced && state.keylock)
         #expect(state.speed == 1.25)
-        #expect(state.sourceFrame == position)
+        let expectedPosition = resume ? 50000.0 : (position / 24000).rounded() * 24000
+        #expect(abs(state.sourceFrame - expectedPosition) < 0.000001)
         #expect(state.phase == (resume ? .playing : .paused))
+        if resume { #expect(abs(try #require(core.snapshot()?.syncPhaseError(.a))) < 0.000001) }
         _ = core.renderOffline(frames: 480)
-        #expect(abs(try #require(core.snapshot()?.a.sourceFrame) - position - (resume ? 600 : 0)) < 0.01)
+        #expect(abs(try #require(core.snapshot()?.a.sourceFrame) - expectedPosition - (resume ? 600 : 0)) < 0.01)
     }
 }
 
@@ -161,6 +163,7 @@ private func frequency(_ samples: ArraySlice<Float>) -> Double {
     core.processControlsWhileIdle()
     #expect(core.snapshot()?.a.braking == false)
     #expect(core.snapshot()?.a.phase == .paused)
+    try core.setSync(false, deck: .a, generation: generation)
     try core.seek(frame: 383900, deck: .a, generation: generation)
     try core.play(deck: .a, generation: generation)
     try core.brake(.begin, deck: .a, generation: generation)
