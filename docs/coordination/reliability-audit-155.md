@@ -38,3 +38,13 @@ The manual output-routing control correctly rejects changes during playback. Tha
 5. Complete sustained listening and touch acceptance on the actual A10X and Z1.
 
 R01 and R49 remain the acceptance authority. The fixes in R89–R93 remain test candidates. No across-the-board reliability or gig-readiness claim follows from build 155.
+
+## R96 implementation
+
+Mixer and effect controls retain the latest value for each control when the queue fills. Control maintenance submits pending releases before those values. A release stays associated with its deck generation and retains priority while streamed samples prepare. A new touch waits for release acknowledgement. A second release cancels a new touch that is still waiting.
+
+Audio-device recovery suspends output and rebuilds the audio graph. Deck positions, beat clock and Sync survive the rebuild. A permitted interruption end can restart output. An interruption that requires user action, a stereo disconnect or a media services reset waits for Play. A four-channel setup waits for a compatible output.
+
+Eleven focused host tests passed across thirteen cases. They covered the original volume and release failures, waveform release with resident and streamed audio, crossfader retries, filter and effect delivery, and the recovery decisions. Recovery tests check transport state and restart decisions with a simulated output restart. Physical routing, audio continuity and response deadlines still require A10X and Z1 checks.
+
+Logs and source identity are in `TestBuilds/r96/`. Earlier failed probes remain under `TestBuilds/reliability-155/`.
