@@ -16,3 +16,17 @@ For ordinary notifications, configure a Focus that activates when GenErik DJ ope
 - **Source and CPU pressure.** The streamer fades toward silence when it runs out of audio. An in-flight analysis prediction can overlap playback until it returns. Measure both on A10X through a sustained set. These are existing open risks from R96.
 
 The short-track probe and source identity are in `TestBuilds/r99/`. The remaining paths are code findings. The signed iPad build checks the preference call. Only a device test with Silent Mode off can establish actual notification and call behaviour.
+
+## Playback follow-up
+
+A short clip clears its touch hold even if the current Sync phase lies outside the file. If a matching beat exists, the deck queues that position for the next beat. If streamed preparation fails, the controller clears the hold and parks the deck. Sync remains enabled.
+
+Play survives a full control queue. It stays tied to the loaded track and runs after pending releases. A second Play press cancels a start that still waits for space.
+
+An eligible output restart retries up to three times after a failure. The retries wait 150, 300 and 600 ms. Stop, a new interruption or a route that requires Play cancels automatic retry. A retry cannot switch the live mix from split output to stereo. If the failures persist, the app reports that Play can retry output.
+
+The first focused run on the playback source passed nine tests across fourteen cases. These cover the short-clip release, a two-deck handoff under queue pressure, handoff cancellation, retry limits and explicit Stop. The tests simulate output restart failures. Physical NI routing and sustained A10X playback still need acceptance.
+
+The consolidated [build 165](../testing/builds/165.json) installed on A10X, and iPadOS accepted launch. Fourteen focused host tests passed across nineteen cases on its exact application source. The checks include NI routing regressions. The source hash and results are in `TestBuilds/r99-stop-paths/`.
+
+The first build attempt started before the playback commit reached main. The shared folder was on the warning feature branch, and the fast-forward advanced that branch. Its local edits were preserved. The attempt was stopped. The warning branch then brought both changes into main, and the signed build used the corrected consolidated source. Failed attempt logs remain in the same evidence folder.
