@@ -57,6 +57,24 @@ func deepActualModelCompletesAndReopensSavedResult() async throws {
     defer { try? FileManager.default.removeItem(at: root) }
     let url = URL(fileURLWithPath: path)
     let analysis = try await AnalysisWorker.shared.waveformOnly(url: url)
+    if ProcessInfo.processInfo.environment["GENERIK_DEEP_TEST_RESUME"] == "1" {
+        let stop = DeepResumeStop()
+        do {
+            _ = try await AnalysisWorker.shared.run { check in
+                try DeepBeatAnalyzer.analyze(
+                    url: url, analysis: analysis, root: root,
+                    progress: { done, _ in if done == 1 { stop.cancel() } },
+                    checkCancellation: {
+                        try check()
+                        try stop.check()
+                    })
+            }
+            Issue.record("The first deep window should stop this attempt.")
+        } catch is CancellationError {}
+        let checkpoints = DeepAnalysisCheckpoints(root: root, analysis: analysis)
+        #expect(checkpoints.read(0) != nil)
+        #expect(checkpoints.result() == nil)
+    }
     let result = try await AnalysisWorker.shared.deepBeatAnalysis(url: url, matching: analysis, root: root)
     try result.validate(matching: analysis)
     #expect(result.coveredFrames == analysis.frameCount)
@@ -64,4 +82,11 @@ func deepActualModelCompletesAndReopensSavedResult() async throws {
     print("Deep model result: \(String(data: try JSONEncoder().encode(result), encoding: .utf8)!)")
     let reopened = try await AnalysisWorker.shared.deepBeatAnalysis(url: url, matching: analysis, root: root)
     #expect(reopened == result)
+}
+
+private final class DeepResumeStop: @unchecked Sendable {
+    private let lock = NSLock()
+    private var stopped = false
+    func cancel() { lock.withLock { stopped = true } }
+    func check() throws { if lock.withLock({ stopped }) { throw CancellationError() } }
 }
