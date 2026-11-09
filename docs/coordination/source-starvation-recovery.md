@@ -9,3 +9,5 @@ At a render boundary, the deck checks coverage at the held position. With Sync e
 The fault probe deliberately stopped read-ahead until a streamed deck ran out of samples. It kept the outage long enough for the previous code to reach the end. It then restored read-ahead without another Play command. The other deck remained audible throughout. Both Sync cases recovered. The Sync-on case checked phase after recovery. The tests also checked keylock, unchanged start identity and no further missing frames after refill. Six focused tests passed across nine cases on the candidate source.
 
 The fix recovers from temporary starvation once samples return. It cannot supply audio that remains unavailable. The A10X and Z1 still need a live check.
+
+[Build 168](../testing/builds/168.json) installed on A10X, and iPadOS accepted launch. The source hash and logs are under `TestBuilds/r105/`.
