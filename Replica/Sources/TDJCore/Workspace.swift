@@ -671,3 +671,35 @@ public actor LibraryService {
         return library
     }
 }
+
+extension LibraryService {
+    /// Use a fresh catalog. A failed catalog read cannot prove that Music audio was removed.
+    public func reconcileAvailableAudio(catalog: MusicLibraryCatalog, protectedTracks: Set<String> = []) throws
+        -> LibrarySnapshot
+    {
+        let available = Set(catalog.items.lazy.filter(\.isOnDevice).map(\.source))
+        var changed = library
+        var removed = [Track]()
+        changed.tracks = library.tracks.compactMap { track in
+            let hasCopy = track.nativeLibraryOnly != true
+                && FileManager.default.isReadableFile(atPath: store.mediaDirectory.appendingPathComponent(track.mediaFilename).path)
+            if hasCopy { return track }
+            if (track.musicLibrarySources ?? []).contains(where: available.contains) || protectedTracks.contains(track.id) {
+                var native = track
+                native.nativeLibraryOnly = true
+                return native
+            }
+            removed.append(track)
+            return nil
+        }
+        guard changed.tracks != library.tracks else { return library }
+        if !removed.isEmpty {
+            let archive = store.root.appendingPathComponent("UnavailableTracks", isDirectory: true)
+            try FileManager.default.createDirectory(at: archive, withIntermediateDirectories: true)
+            try JSONEncoder().encode(removed).write(to: archive.appendingPathComponent(UUID().uuidString + ".json"), options: .atomic)
+        }
+        changed.revision += 1
+        library = try store.save(changed)
+        return library
+    }
+}

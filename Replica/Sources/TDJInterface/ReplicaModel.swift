@@ -779,25 +779,22 @@ import TDJCore
                 self?.musicLibraryRefreshTask = nil
             }
             do {
-                if self?.musicLibraryCatalog == nil, provider.allowsCachedCatalog {
-                    let cached = await files.run {
-                        try? JSONDecoder().decode(MusicLibraryCatalog.self, from: Data(contentsOf: cacheURL))
-                    }
-                    try Task.checkCancellation()
-                    if let cached, provider.allowsCachedCatalog { self?.musicLibraryCatalog = cached }
-                }
                 let catalog = try await provider.catalog()
                 try Task.checkCancellation()
-                self?.musicLibraryCatalog = catalog
-                self?.musicLibraryNotices.clearFailures()
+                if let self {
+                    let reconciled = try await service.reconcileAvailableAudio(
+                        catalog: catalog, protectedTracks: Set(loaded.values))
+                    try Task.checkCancellation()
+                    adoptLibrary(reconciled)
+                    musicLibraryCatalog = catalog
+                    musicLibraryNotices.clearFailures()
+                }
                 if provider.allowsCachedCatalog {
                     await files.run { try? JSONEncoder().encode(catalog).write(to: cacheURL, options: .atomic) }
                 }
                 await self?.refreshCollectionHints()
             } catch is CancellationError {} catch {
-                if (error as? MusicLibraryError) != .unavailable || !provider.allowsCachedCatalog {
-                    self?.musicLibraryCatalog = nil
-                }
+                self?.musicLibraryCatalog = nil
                 self?.musicLibraryError = error.localizedDescription
             }
         }

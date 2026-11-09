@@ -22,6 +22,14 @@ Registration repairs a managed flag when its copy is missing. Track identity, ma
 The iOS provider verifies the persistent ID returned by its query. Titles and filenames do not select audio.
 Offline managed copies remain usable when no local Music item is available.
 
+Erik then requested removal of stale library records. Each successful fresh Music refresh now checks app copies
+and current on-device Music sources on the library worker. Records with neither source are removed from the library.
+The earlier device snapshot contains 28 such records. Missing copies with available Music audio are repaired.
+Loaded tracks remain pinned while in use. Unavailable pinned tracks stay hidden from browsing.
+Removed records are archived under `UnavailableTracks` for recovery, outside the active library.
+A failed or denied Music read does not trigger deletion. Cached Music entries stay hidden until a fresh read succeeds.
+Build 156 was stopped before installation to include this change.
+
 A failed load displays its selected title and error on the deck and writes the error to the local log.
 Play cannot restart the previous track after a failed replacement. A successful load clears this state.
 Control characters become spaces in the error label only. Stored metadata remains unchanged.
@@ -37,6 +45,9 @@ The combined test process exhausted the shared streaming limit, including in a s
 Isolated test processes retain that limit. A single-model check passed sixteen consecutive replacements.
 The larger ownership-test batch was stopped after the focused checks. Incomplete and failed logs remain retained.
 12 isolated focused tests passed. The filename test includes six cases.
+
+Six follow-up tests passed after the availability change, including six filename cases, sixteen replacements,
+purge persistence, playback pins, duplicate tags, fresh-catalog gating and denied access.
 
 Device playback and touch acceptance remain open. Host checks do not establish A10X performance readiness.
 
