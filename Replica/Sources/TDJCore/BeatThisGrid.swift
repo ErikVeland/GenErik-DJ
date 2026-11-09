@@ -101,6 +101,9 @@ struct BeatThisGrid {
         guard beatAgreement >= 0.72, barAgreement >= 0.55 else { return nil }
         var firstBar = phase
         if requireOpeningBar {
+            // Opening attacks can wobble without moving to another beat or bar.
+            // Keep the full-track agreement and residual limits unchanged.
+            let openingTolerance = min(0.15, fittedBarLength / 4 * 0.2)
             guard barAgreement >= 0.72,
                 let opening = bars.indices.dropLast(3).first(where: { index in
                     let step = (bars[index + 3] - bars[index]) / 3
@@ -108,8 +111,8 @@ struct BeatThisGrid {
                         abs(bars[index + $0] - bars[index] - Double($0) * step) < 0.06
                     }
                 }),
-                (0...3).allSatisfy({ abs(residual(bars[opening + $0], phase, fittedBarLength)) < 0.06 }),
-                abs((bars[opening + 3] - bars[opening]) - 3 * fittedBarLength) < 0.12
+                (0...3).allSatisfy({ abs(residual(bars[opening + $0], phase, fittedBarLength)) < openingTolerance }),
+                abs((bars[opening + 3] - bars[opening]) - 3 * fittedBarLength) < 2 * openingTolerance
             else { return nil }
             let observed = bars[opening]
             firstBar = max(0, observed - residual(observed, phase, fittedBarLength))

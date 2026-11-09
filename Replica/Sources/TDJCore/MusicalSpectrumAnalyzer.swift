@@ -193,18 +193,13 @@ final class MusicalSpectrumAnalyzer {
                 tuningCents: tonalFrames > 0 ? tuning * 100 : nil, stability: nil)
         }
         let ranking = MusicalKeyEstimator.rank(chroma)
-        let best = ranking[0]
-        let margin = best.score - ranking[1].score
         var localProfiles = sections
         if sectionFrames >= 6 { localProfiles.append(sectionProfile) }
-        let localKeys = localProfiles.map { MusicalKeyEstimator.rank(collapse($0))[0] }
-        let stability =
-            localKeys.isEmpty ? 0 : Double(localKeys.filter { $0.key == best.key }.count) / Double(localKeys.count)
-        let confidence = min(1, max(0, margin / 0.2)) * (0.5 + 0.5 * stability)
-        let key = best.score > 0.45 && margin > 0.02 ? best.key : nil
+        let localKeys = localProfiles.map { MusicalKeyEstimator.rank(collapse($0))[0].key }
+        let decision = MusicalKeyEstimator.select(ranking: ranking, localKeys: localKeys)
         return .init(
-            key: key, confidence: confidence, chroma: chroma, timbre: timbre, tuningCents: tuning * 100,
-            stability: stability)
+            key: decision.key, confidence: decision.confidence, chroma: chroma, timbre: timbre, tuningCents: tuning * 100,
+            stability: decision.stability)
     }
 }
 
@@ -212,6 +207,19 @@ enum MusicalKeyEstimator {
     struct Candidate {
         let key: MusicalKey
         let score: Double
+    }
+
+    static func select(ranking: [Candidate], localKeys: [MusicalKey]) -> (
+        key: MusicalKey?, confidence: Double, stability: Double
+    ) {
+        guard ranking.count >= 2 else { return (nil, 0, 0) }
+        let best = ranking[0]
+        let margin = best.score - ranking[1].score
+        let stability = localKeys.isEmpty ? 0 : Double(localKeys.filter { $0 == best.key }.count) / Double(localKeys.count)
+        let confidence = min(1, max(0, margin / 0.2)) * (0.5 + 0.5 * stability)
+        let wholeTrack = best.score > 0.45 && margin > 0.02
+        let repeatedSections = best.score > 0.4 && margin > 0.04 && localKeys.count >= 3 && stability > 0.5
+        return (wholeTrack || repeatedSections ? best.key : nil, confidence, stability)
     }
 
     static func rank(_ chroma: [Double]) -> [Candidate] {

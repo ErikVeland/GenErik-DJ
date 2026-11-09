@@ -204,7 +204,7 @@ public struct KeyDecision: Codable, Equatable, Sendable {
 }
 
 public enum KeyGovernancePolicy {
-    public static let version = "key-authority-1"
+    public static let version = "key-authority-2"
 
     public static func decide(_ track: Track) -> KeyDecision {
         let evidence = track.keyGovernance?.observations ?? []
@@ -246,7 +246,8 @@ public enum KeyGovernancePolicy {
         return .init(
             policyVersion: version, key: selected?.0, authority: selected?.1, selectedObservationID: selected?.2,
             conflictingAuthorities: conflicts,
-            needsReview: selected?.1 != .manual && (!conflicts.isEmpty || (selected == nil && !evidence.isEmpty)))
+            needsReview: selected?.1 != .manual && (!conflicts.isEmpty || (selected == nil && !evidence.isEmpty)
+                || (selected?.1 == .independent && track.analysis.keyConfidence < 0.25)))
     }
 }
 
