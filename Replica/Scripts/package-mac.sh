@@ -10,9 +10,13 @@ swift build --build-system native --disable-sandbox --cache-path .cache \
 TDJ_APP_PATH="$TDJ_REPLICA_ROOT/Build/GenErik DJ Development.app"
 mkdir -p "$TDJ_APP_PATH/Contents/MacOS"
 mkdir -p "$TDJ_APP_PATH/Contents/Resources"
+mkdir -p "$TDJ_APP_PATH/Contents/Frameworks"
 cp THIRD_PARTY_NOTICES.txt "$TDJ_APP_PATH/Contents/Resources/ThirdPartyNotices.txt"
 cp .build/release/tdj-preview "$TDJ_APP_PATH/Contents/MacOS/.tdj-preview.new"
 mv -f "$TDJ_APP_PATH/Contents/MacOS/.tdj-preview.new" "$TDJ_APP_PATH/Contents/MacOS/tdj-preview"
+ditto .build/release/whisper.framework "$TDJ_APP_PATH/Contents/Frameworks/whisper.framework"
+install_name_tool -add_rpath '@executable_path/../Frameworks' "$TDJ_APP_PATH/Contents/MacOS/tdj-preview"
+codesign --force --sign - "$TDJ_APP_PATH/Contents/Frameworks/whisper.framework"
 cat > "$TDJ_APP_PATH/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
