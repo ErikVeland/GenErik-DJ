@@ -28,11 +28,11 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public let upgradeBenefit: String
 
     public static let current = Self(
-        generation: 2, model: "BeatThis/final0",
+        generation: 3, model: "BeatThis/final0",
         weightsSHA256:
             "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331",
-        conversion: 1, preprocessing: 1, decisionPolicy: 2,
-        upgradeBenefit: "Retain supported full-track grids when opening attacks have small timing errors.")
+        conversion: 1, preprocessing: 1, decisionPolicy: 3,
+        upgradeBenefit: "Recover opening timing errors and retain tempo-octave evidence when the downbeat is unknown.")
 
     public var inferenceID: String {
         analysisDigest(Data("\(model)|\(weightsSHA256)|fp16-\(conversion)|mel-\(preprocessing)|1500-6-50".utf8))
@@ -76,6 +76,7 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
     public let coveredFrames: Int64
     public let windowCount: Int
     public let candidate: DeepBeatCandidate?
+    public var tempoCandidateBPM: Double? = nil
 
     public var needsReview: Bool { candidate == nil || !hasStrongEvidence }
     public func needsReview(for track: Track) -> Bool {
@@ -96,7 +97,8 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
             profile.generation > 0, profile.conversion > 0, profile.preprocessing > 0, profile.decisionPolicy > 0,
             profile.weightsSHA256.count == 64, profile.weightsSHA256.allSatisfy(\.isHexDigit),
             profile.model.utf8.count <= 128, profile.upgradeBenefit.utf8.count <= 1024,
-            candidate.map({ $0.isValid && $0.firstBarSeconds < analysis.duration }) ?? true
+            candidate.map({ $0.isValid && $0.firstBarSeconds < analysis.duration }) ?? true,
+            tempoCandidateBPM.map({ $0.isFinite && (60...200).contains($0) && candidate == nil }) ?? true
         else { throw CoreError.invalidAudio("The deep analysis does not match this audio or its coverage.") }
     }
 
@@ -116,6 +118,20 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
         return try? BeatGrid(
             bpm: candidate.bpm, anchorFrame: candidate.firstBarSeconds * track.analysis.sampleRate,
             sampleRate: track.analysis.sampleRate, downbeatOffset: 0)
+    }
+
+    func acceptedTempoGrid(for track: Track) -> BeatGrid? {
+        guard profile == .current, candidate == nil, let tempo = tempoCandidateBPM,
+            track.mayRefreshAutomaticGrid, track.traktorPreparation?.normalized.grid == nil,
+            track.analysis.acceptedDeepBeatAnalysis == nil, track.analysis.adaptiveCandidate == nil,
+            track.analysis.implementation == "Beat This small0 with DSP grid fallback",
+            (try? validate(matching: track.analysis)) != nil, let previous = track.grid,
+            let factor = [0.5, 2.0].first(where: { abs(tempo / (previous.bpm * $0) - 1) <= 0.01 })
+        else { return nil }
+        // Keep the measured pulse precision. This changes its octave, not its phase.
+        return try? BeatGrid(
+            bpm: previous.bpm * factor, anchorFrame: previous.anchorFrame,
+            sampleRate: previous.sampleRate, downbeatOffset: 0)
     }
 }
 
@@ -166,6 +182,19 @@ extension Track {
             copy.analysis.gridResidualMilliseconds = candidate.residualMilliseconds
             copy.analysis.barAnalysisVersion = BarStartAnalysis.version
             copy.analysis.beatModelVersion = result.profile.id
+            copy.analysis.musicalAnalysisDeferred = false
+        } else if let grid = result.acceptedTempoGrid(for: self) {
+            copy.analysis.implementation = "\(result.profile.model) tempo octave with DSP beat phase"
+            copy.analysis.acceptedDeepBeatAnalysis = result
+            copy.preparation.grid = grid
+            copy.analysis.bpm = grid.bpm
+            copy.analysis.beatAnchorFrame = grid.anchorFrame
+            copy.analysis.tempoConfidence = min(analysis.tempoConfidence, 0.69)
+            copy.analysis.detectedDownbeatOffset = nil
+            copy.analysis.downbeatConfidence = nil
+            copy.analysis.gridResidualMilliseconds = nil
+            copy.analysis.beatModelVersion = result.profile.id
+            copy.analysis.barAnalysisVersion = BarStartAnalysis.version
             copy.analysis.musicalAnalysisDeferred = false
         }
         copy.analysis.deepBeatAnalysis = result

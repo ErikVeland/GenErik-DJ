@@ -1,6 +1,38 @@
 import Foundation
 
 enum BeatThisTempo {
+    static func preferred(
+        beats: [Double], configuration: AnalysisConfiguration,
+        checkCancellation: @Sendable () throws -> Void = {}
+    ) throws -> Double? {
+        try checkCancellation()
+        guard beats.count >= 33, beats.allSatisfy({ $0.isFinite && $0 >= 0 }) else { return nil }
+        let intervals = zip(beats.dropFirst(), beats).map(-)
+        guard intervals.allSatisfy({ $0 > 0 }) else { return nil }
+        let range = (60 / configuration.maximumBPM)...(60 / configuration.minimumBPM)
+        var histogram: [Int: Int] = [:]
+        for interval in intervals where range.contains(interval) {
+            histogram[Int((interval / 0.02).rounded()), default: 0] += 1
+        }
+        guard let mode = histogram.keys.sorted(by: {
+            let left = histogram[$0, default: 0], right = histogram[$1, default: 0]
+            return left == right ? $0 < $1 : left > right
+        }).first else { return nil }
+        let center = Double(mode) * 0.02
+        let inliers = intervals.filter { abs($0 - center) <= max(0.03, center * 0.075) }
+        guard inliers.count >= 32 else { return nil }
+        let bpm = 60 * Double(inliers.count) / inliers.reduce(0, +)
+        guard (configuration.minimumBPM...configuration.maximumBPM).contains(bpm) else { return nil }
+        for competing in [bpm * 2, bpm / 2] {
+            if let preferred = try refine(
+                fallbackBPM: competing, beats: beats, configuration: configuration,
+                checkCancellation: checkCancellation), abs(preferred / bpm - 1) < 0.001 {
+                return bpm
+            }
+        }
+        return nil
+    }
+
     static func refine(
         fallbackBPM: Double, beats: [Double], configuration: AnalysisConfiguration,
         checkCancellation: @Sendable () throws -> Void = {}

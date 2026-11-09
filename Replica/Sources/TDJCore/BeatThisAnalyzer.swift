@@ -149,7 +149,7 @@ enum BeatThisAnalyzer {
         }
     }
 
-    private static func peaks(_ logits: [Float]) -> [Double] {
+    static func peaks(_ logits: [Float]) -> [Double] {
         var times: [Double] = []
         var previous = -2
         var sum = 0

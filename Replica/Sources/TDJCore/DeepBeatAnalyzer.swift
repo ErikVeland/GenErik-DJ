@@ -114,7 +114,11 @@ enum DeepBeatAnalyzer {
         let result = DeepBeatAnalysis(
             audio: .init(checkpoints.analysis), profile: checkpoints.profile,
             coveredFrames: checkpoints.analysis.frameCount, windowCount: checkpoints.starts.count,
-            candidate: grid.map(DeepBeatCandidate.init))
+            candidate: grid.map(DeepBeatCandidate.init),
+            tempoCandidateBPM: grid == nil
+                ? try BeatThisTempo.preferred(
+                    beats: BeatThisAnalyzer.peaks(beats), configuration: .init(), checkCancellation: checkCancellation)
+                : nil)
         try checkCancellation()
         try checkpoints.finish(result)
         return result

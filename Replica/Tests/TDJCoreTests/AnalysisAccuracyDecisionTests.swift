@@ -108,3 +108,43 @@ func tempoOctaveDecisionFollowsSpacingAcrossTempos(_ bpm: Double) throws {
     #expect(track.keyDecision.authority == .manual)
     #expect(!track.keyDecision.needsReview)
 }
+
+@Test func deepTempoEvidenceDoesNotDependOnThePreviousAnalysisTempo() throws {
+    var beats: [Double] = []
+    for index in 0..<240 {
+        let time = 0.2 + Double(index) * 0.75
+        beats.append((time * 50).rounded() / 50)
+        if index.isMultiple(of: 7) { beats.append(((time + 0.375) * 50).rounded() / 50) }
+    }
+    let preferred = try BeatThisTempo.preferred(beats: beats.sorted(), configuration: .init())
+    #expect(abs(try #require(preferred) - 80) < 0.1)
+}
+
+@Test func deepTempoOnlyCorrectionKeepsTheBarUnknownAndSharesSafely() throws {
+    var track = try syntheticTrack("a", bpm: 160)
+    track.analysis.implementation = "Beat This small0 with DSP grid fallback"
+    track.analysis.beatModelVersion = "BeatThis/small0-6074be2c-mel1-fit2"
+    let result = DeepBeatAnalysis(
+        audio: .init(track.analysis), profile: .current, coveredFrames: track.analysis.frameCount,
+        windowCount: BeatThisWindows.starts(frameCount: BeatThisWindows.frameCount(track.analysis)).count,
+        candidate: nil, tempoCandidateBPM: 80)
+    let updated = try track.adoptingDeepAnalysis(result)
+    #expect(updated.bpm == 80)
+    #expect(updated.analysis.detectedDownbeatOffset == nil)
+    #expect(updated.analysis.downbeatConfidence == nil)
+    #expect(updated.analysis.tempoConfidence < 0.72)
+    #expect(updated.analysis.acceptedDeepBeatAnalysis == result)
+    #expect(result.needsReview(for: updated))
+    #expect(updated.key == track.key)
+    let restored = try JSONDecoder().decode(DeepBeatAnalysis.self, from: JSONEncoder().encode(result))
+    #expect(restored == result)
+    let archive = CloudPreparationArchive.analysisOnly(track: updated, arrangement: nil)
+    #expect(try archive.automaticallyMergedTrack(matching: track).bpm == 80)
+    track.preparation.gridLocked = true
+    let protected = try archive.automaticallyMergedTrack(matching: track)
+    #expect(protected.bpm == 160)
+    #expect(protected.preparation == track.preparation)
+    track.preparation.gridLocked = false
+    track.analysis.implementation = "Beat This small0 fitted grid"
+    #expect(try track.adoptingDeepAnalysis(result).bpm == 160)
+}

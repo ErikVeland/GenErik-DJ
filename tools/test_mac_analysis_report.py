@@ -1,5 +1,5 @@
 import unittest
-from mac_analysis_report import grid_metrics, percentile
+from mac_analysis_report import grid_metrics, percentile, summarise
 
 
 class GridScoringTests(unittest.TestCase):
@@ -31,6 +31,22 @@ class GridScoringTests(unittest.TestCase):
         self.assertIsNone(grid_metrics(120, 0, 0, {'tempo': {'status': 'unlabelled'}}, 200, 44100))
         self.assertEqual(grid_metrics(None, None, None, self.reference, 200, 44100), {'resolved': False})
         self.assertEqual(percentile([1, 2, 3], 0.5), 2)
+
+    def test_final_tempo_only_decision_does_not_invent_a_downbeat(self):
+        analysis = dict(contentSHA256='audio', frameCount=44100 * 180, sampleRate=44100,
+                        bpm=160, beatAnchorFrame=8820, detectedDownbeatOffset=0)
+        final = dict(analysis, bpm=80)
+        del final['detectedDownbeatOffset']
+        labels = dict(id='a', sha256='audio',
+                      tempo=dict(status='labelled', bpm=80, beatAnchorSeconds=0.2),
+                      downbeat=dict(status='labelled', barStartSeconds=0.2), key=dict(status='unlabelled'))
+        report = dict(runID='test', manifest=dict(tracks=[labels]), rows=[
+            dict(id='a', firstPass=analysis, finalAnalysis=final, acceptedTempoOnly=True)])
+        provenance = dict(tracks=[dict(id='a', title='Synthetic octave case', audioSHA256='audio')])
+        result = summarise(report, provenance)
+        self.assertEqual(result['scores']['firstPass']['bpmWithinPointOne'], 0)
+        self.assertEqual(result['scores']['finalGrid']['bpmWithinPointOne'], 1)
+        self.assertEqual(result['scores']['finalGrid']['downbeatPhaseWithin25ms'], 0)
 
 
 if __name__ == '__main__':

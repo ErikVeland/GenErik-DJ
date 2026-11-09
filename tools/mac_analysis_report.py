@@ -60,6 +60,16 @@ def timing_summary(records):
     }
 
 
+def analysis_grid_metrics(analysis, labels):
+    rate = analysis['sampleRate']
+    bpm = analysis.get('bpm')
+    anchor = analysis.get('beatAnchorFrame')
+    anchor = anchor / rate if anchor is not None else None
+    offset = analysis.get('detectedDownbeatOffset')
+    bar = anchor + offset * 60 / bpm if bpm and anchor is not None and offset is not None else None
+    return grid_metrics(bpm, anchor, bar, labels, analysis['frameCount'] / rate, rate)
+
+
 def summarise(report, provenance):
     expected = {row['id']: row for row in report['manifest']['tracks']}
     sources = {row['id']: row for row in provenance['tracks']}
@@ -86,6 +96,11 @@ def summarise(report, provenance):
             labels, duration, analysis['sampleRate'])
         item['deepAccepted'] = row.get('acceptedOverFirstPass', False)
         item['finalGrid'] = item['deepCandidate'] if item['deepAccepted'] else item['firstPass']
+        if row.get('finalAnalysis'):
+            assert row['finalAnalysis']['contentSHA256'] == analysis['contentSHA256']
+            item['finalGrid'] = analysis_grid_metrics(row['finalAnalysis'], labels)
+        item['deepTempoAccepted'] = row.get('acceptedTempoOnly', False)
+        item['deepTempoCandidateBPM'] = row.get('deep', {}).get('tempoCandidateBPM')
         item['deepEvidence'] = candidate
         item['keyExact'] = analysis.get('key') == labels['key'].get('key') if labels['key']['status'] == 'labelled' else None
         item['ourKey'] = analysis.get('key')
@@ -114,7 +129,8 @@ def summarise(report, provenance):
         'timings': {field: timing_summary([r.get(field) for r in output]) for field in ['firstPassPerformance', 'deepPerformance', 'reusePerformance']},
         'scores': scores, 'keyExact': sum(r.get('keyExact') is True for r in output),
         'keyReferences': sum(r.get('keyExact') is not None for r in output),
-        'deepAccepted': sum(r.get('deepAccepted', False) for r in output), 'tracks': output,
+        'deepAccepted': sum(r.get('deepAccepted', False) for r in output),
+        'deepTempoAccepted': sum(r.get('deepTempoAccepted', False) for r in output), 'tracks': output,
     }
 
 

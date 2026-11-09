@@ -12,6 +12,8 @@ enum MacAnalysisAudit {
         var reusePerformance: AnalysisMeasurement.Record?
         var reuseMatches: Bool?
         var acceptedOverFirstPass: Bool?
+        var acceptedTempoOnly: Bool?
+        var finalAnalysis: AudioAnalysis?
         var error: String?
     }
 
@@ -83,6 +85,10 @@ enum MacAnalysisAudit {
                 report.rows[index].deep = result
                 let track = try Track(title: expected.id, mediaFilename: source.lastPathComponent, analysis: analysis)
                 report.rows[index].acceptedOverFirstPass = result.acceptedGrid(for: track) != nil
+                let adopted = try track.adoptingDeepAnalysis(result)
+                report.rows[index].acceptedTempoOnly =
+                    result.candidate == nil && adopted.analysis.acceptedDeepBeatAnalysis == result
+                report.rows[index].finalAnalysis = adopted.analysis.replacingWaveform([])
             } catch {
                 report.rows[index].deepPerformance = measure.finish(outcome: "failed")
                 report.rows[index].error = error.localizedDescription
