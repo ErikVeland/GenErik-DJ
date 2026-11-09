@@ -1038,7 +1038,8 @@ import TDJCore
                 enqueueHistory(event)
                 let warning = nativeMetadata.flatMap { libraryAnalysisWarnings[$0.source.id] }
                     ?? libraryAnalysisWarnings[trackID]
-                    ?? preparedSourceTrack.musicLibrarySources?.lazy.compactMap { libraryAnalysisWarnings[$0.id] }.first
+                    ?? preparedSourceTrack.musicLibrarySources?.lazy.compactMap { self.libraryAnalysisWarnings[$0.id] }
+                        .first
                 if let warning { musicLibraryNotices.addLoadedAnalysisNotice(warning) }
                 if let opening { prepareNativeWaveform(opening, track: preparedSourceTrack, deck: deck, token: token) }
                 if pendingLoadPlay[deck] == (nativeLoadOwner ?? token) {
