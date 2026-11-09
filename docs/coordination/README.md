@@ -6,6 +6,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**Build 168** installed on the A10X iPad Pro, and iPadOS accepted launch. R105 holds the source cursor during starvation and returns to the live beat when samples refill. The other deck and master clock keep running. Six focused host tests passed across nine cases. Physical recovery remains open. [Build record](../testing/builds/168.json) · [Refill checks](source-starvation-recovery.md).
+
 **Build 167** installed on the A10X iPad Pro, and iPadOS accepted launch. R104 detects a stalled renderer even without a route notification. The monitor can rebuild output while preserving deck positions and Sync. Ten focused host checks passed. Physical output recovery remains open. [Build record](../testing/builds/167.json) · [Stall detection and limits](output-stall-recovery.md).
 
 **Build 166** installed on the A10X iPad Pro, and iPadOS accepted launch. R102 starts Music playback before saving waveform data. Six focused host checks passed. Erik checks audible start time while the waveform is still loading. [Build record](../testing/builds/166.json).
