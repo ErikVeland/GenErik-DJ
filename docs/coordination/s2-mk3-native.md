@@ -70,3 +70,5 @@ The native report uses the [Mixxx S2 Mk3 mapping](https://github.com/mixxxdj/mix
 | GRID hold | Play the track, select that deck's mixer CUE and hold GRID. The tick follows its beat grid in the headphones. Release GRID to stop the tick. Pause the deck to edit its grid. |
 
 The tick enters only the headphone cue mix. It follows headphone mix and level. A missing beat grid produces no tick. A locked grid can still be auditioned. Eject clears the deck only after the audio engine accepts it. Disconnect ends a held roll and turns off the grid tick.
+
+Thirty-four focused host tests passed. [Build 177](../testing/builds/177.json) installed on the A10X iPad, and iPadOS accepted launch. Physical S2 Mk3 acceptance remains open.

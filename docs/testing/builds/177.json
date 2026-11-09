@@ -1,0 +1,24 @@
+{
+  "notes": "R112 maps S2 Mk3 eject, Move roll and cue-only GRID ticks. Includes the R111 dark launch screen.",
+  "sourceCommit": "3563ce0365758f2e0d4c99e3e00705a8057fa062",
+  "sourceSHA256": "92b0155f7880fb01d3ce78eb9e2c753d9335ac8d4acd9e052c399376700f1087",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 66.84,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-177.log",
+  "build": 177,
+  "app": "TestBuilds/ipad/177/GenErikDJ.app",
+  "appSHA256": "685953abc4097c15b4026a7a03c88c81cc46e4b834c13ef874190d9d989c680e",
+  "state": "testing",
+  "createdUTC": "2026-11-09T23:58:35.642805+00:00",
+  "installedUTC": "2026-11-09T23:58:48.429292+00:00",
+  "launchedUTC": "2026-11-09T23:58:48.837128+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requests": [
+    "R111",
+    "R112"
+  ],
+  "hostVerification": "34 focused tests passed. Log: TestBuilds/r112/final.log.",
+  "remainingVerification": "Physical S2 Mk3 eject, loop roll, headphone tick and dark cold-launch appearance."
+}
