@@ -605,11 +605,12 @@ private struct DeckPanelHorizontalBounds: Shape {
             Button {
                 panels.toggleControls()
             } label: {
-                Image(systemName: "slider.horizontal.3").frame(width: 44, height: 48).foregroundStyle(
-                    panels.extraVisible ? PerformancePalette.cyan : PerformancePalette.text
-                ).bevelPanel(cornerRadius: 5, sunken: panels.extraVisible)
+                Image(systemName: panels.extraVisible ? "xmark" : "slider.horizontal.3")
+                    .frame(width: 44, height: 48).foregroundStyle(
+                        panels.extraVisible ? PerformancePalette.cyan : PerformancePalette.text
+                    ).bevelPanel(cornerRadius: 5, sunken: panels.extraVisible)
             }.buttonStyle(.plain).accessibilityLabel(
-                "\(panels.extraVisible ? "Hide" : "Show") actions for deck \(deck.rawValue.uppercased())"
+                "\(panels.extraVisible ? "Close" : "Open") utility strip for deck \(deck.rawValue.uppercased())"
             ).simultaneousGesture(
                 DragGesture(minimumDistance: 12).onEnded { value in
                     let open = value.translation.height < -16 || value.translation.width > 24
