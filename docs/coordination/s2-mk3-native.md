@@ -29,3 +29,5 @@ Pad 8 on each deck displays the blue beat pulse in three palette levels. The amb
 Browser encoders and load buttons, alternate pad modes, hardware FX selection, grid editing and microphone controls remain open. The app applies its existing Cue action when the transport CUE button is pressed.
 
 The stream uses the existing bounded reads and latest-feedback queue. The playback monitor sends light changes at its normal interval. Analog mixer messages reuse the renderer queue without an extra UI refresh for each knob. Actual connection, jog feel, palette brightness, audible cue separation and sustained A10X performance remain unverified on S2 Mk3 hardware.
+
+Thirty-five focused host tests passed across 41 cases on the signed source. [Build 173](../testing/builds/173.json) installed on the A10X iPad, and iPadOS accepted launch.

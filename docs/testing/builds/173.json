@@ -1,0 +1,29 @@
+{
+  "notes": "R108 adds automatic S2 Mk3 native controls, blue beat pulses and amber track-end warnings on pad 8.",
+  "sourceCommit": "b7ea5c413d7d92e787650eafe8cb0e823f3a624e",
+  "sourceSHA256": "01d3894429fb6364a4405e603da82d32e3f67b66727659fddbfbe6202fd6ff7b",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 71.16,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-173.log",
+  "build": 173,
+  "app": "TestBuilds/ipad/173/GenErikDJ.app",
+  "appSHA256": "266904fa22f4bea760b72c0d2073a5d7c52a38a78657ac6f288e39d1b58372e9",
+  "state": "testing",
+  "createdUTC": "2026-11-09T09:20:30.678013+00:00",
+  "installedUTC": "2026-11-09T09:20:43.637262+00:00",
+  "launchedUTC": "2026-11-09T09:20:44.054431+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R108"
+  ],
+  "focusedChecks": "35 focused host tests passed across 41 cases on the signed app source.",
+  "evidence": [
+    "TestBuilds/r100/s2/verification.log",
+    "TestBuilds/r100/s2/source-commit.txt",
+    "TestBuilds/r100/s2/accessory.txt",
+    "TestBuilds/r100/s2/frame-fields.txt"
+  ],
+  "verificationLimit": "The S2 Mk3 is unavailable for physical checks. Native connection, lighting, cue output, jog response and A10X live performance remain unverified. No device actions followed launch."
+}
