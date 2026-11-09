@@ -243,3 +243,16 @@ The converted model added one beat on 3CAG and moved a beat by 20 ms on Groove I
 This is conversion evidence, not a labelled musical-accuracy comparison or Duo performance measurement.
 The complete Swift deep path processed 3CAG and reused its saved result. Its 71.001 BPM candidate remained below the downbeat acceptance gate.
 Further final-source checks and the signed build record follow below. Actual Duo throughput, iCloud round-trip and A10X live acceptance remain open.
+
+
+## Host verification and integration
+
+The complete Swift path processed 3CAG, Blue Monday '88 and Groove Is In The Heart, then reopened each saved result.
+Their candidate tempos were 71.001, 130.530 and 121.551 BPM. Full coverage was recorded for 7, 15 and 8 windows respectively.
+These tracks are pipeline checks, not an accuracy corpus. Debug host timings are not device performance results.
+The original and converted model comparison is retained in `TestBuilds/r88-full/model-comparison.json`.
+
+Additional checks verify compact Float32 checkpoint storage, preservation of accepted evidence after a later first pass,
+and adoption of sections after a beat upgrade without losing corrected labels.
+The R93 Sync change and build 151 records were merged into the isolated branch before final verification.
+No live-test acceptance is inferred from this integration.

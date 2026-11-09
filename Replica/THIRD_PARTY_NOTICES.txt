@@ -1,8 +1,8 @@
 GenErik DJ development build: third-party notices
 
-Beat This! small0
+Beat This! small0 and final0
 https://github.com/CPJKU/beat_this
-This product uses the Beat This! small0 weights converted to Core ML.
+This product uses the Beat This! small0 and final0 weights converted to Core ML.
 The bundled BeatThis-LICENSE.txt contains the MIT license.
 
 signalsmith-stretch
