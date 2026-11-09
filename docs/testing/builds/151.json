@@ -5,7 +5,17 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 60.29,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R90",
+        "R91",
+        "R92"
+      ],
+      "summary": "Erik requested the Z1 crossfader fix next, then the preview strip and long unanalysed-track flicker. Sync acceptance has not yet been reported."
+    }
+  ],
   "log": "TestBuilds/ipad/build-151.log",
   "build": 151,
   "app": "TestBuilds/ipad/151/GenErikDJ.app",

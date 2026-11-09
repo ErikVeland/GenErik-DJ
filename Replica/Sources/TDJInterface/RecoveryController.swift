@@ -2,10 +2,13 @@ import Foundation
 import TDJCore
 
 extension PlaybackController {
-    func invalidateRecovery(deck: DeckID? = nil) {
+    func invalidateRecovery(deck: DeckID? = nil, submitCancellation: Bool = true) {
         for id in DeckID.allCases where deck == nil || deck == id {
             recoveryRevisions[id, default: 0] &+= 1
-            if let generation = generations[id] { try? core.cancelRecovery(deck: id, generation: generation) }
+            // Accepted crossfader and volume commands cancel recovery in the audio consumer.
+            if submitCancellation, let generation = generations[id] {
+                try? core.cancelRecovery(deck: id, generation: generation)
+            }
         }
     }
 

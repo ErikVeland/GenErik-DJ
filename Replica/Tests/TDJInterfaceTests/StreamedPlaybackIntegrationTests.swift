@@ -6,6 +6,34 @@ import Testing
 
 @Suite(.serialized) struct StreamedPlaybackIntegrationTests {
     @Test(.timeLimit(.minutes(1))) @MainActor
+    func streamedCrossfaderSweepsSurviveQueuePressureWithoutRestart() async throws {
+        let (streamed, reference, root, _, _) = try await fixture()
+        defer {
+            streamed.stopAudio()
+            reference.stopAudio()
+            try? FileManager.default.removeItem(at: root)
+        }
+        for controller in [streamed, reference] { try controller.play(.a) }
+        for value in [1.0, 0, 1, 0.5, 1, 0] {
+            for _ in 0..<127 { try streamed.core.setMixer(.master, value: 0.5) }
+            try streamed.setMixer(.crossfader, value: value)
+            streamed.maintainControlState()
+            try reference.setMixer(.crossfader, value: value)
+            for _ in 0..<8 {
+                let actual = streamed.core.renderOffline(frames: 512)
+                let expected = reference.core.renderOffline(frames: 512)
+                #expect(actual.left == expected.left && actual.right == expected.right)
+                try await Task.sleep(for: .milliseconds(1))
+            }
+            #expect(streamed.core.snapshot()?.crossfader == value)
+            #expect(streamed.core.snapshot()?.a.phase == .playing)
+        }
+        #expect(streamed.sourcePreparationFailures == 0)
+        #expect(streamed.rejectedCommandCount == 0)
+        #expect(!streamed.core.streamingSummary().continuityFailed)
+    }
+
+    @Test(.timeLimit(.minutes(1))) @MainActor
     func persistentSyncStreamedJumpsAndReleasesMatchPreparedAudio() async throws {
         let (streamed, reference, root, _, _) = try await fixture()
         defer {

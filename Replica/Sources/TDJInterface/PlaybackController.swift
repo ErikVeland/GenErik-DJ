@@ -15,6 +15,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     private var keylockPreference: [DeckID: Bool] = [.a: true, .b: true]
     private var pendingKeylock: [UInt64: (DeckID, Bool)] = [:]
     private var latestKeylock: [DeckID: UInt64] = [:]
+    private var pendingCrossfader: Double?
     public private(set) var outputActive = false
     #if os(macOS)
         private var timingActivity: PlaybackTimingActivity?
@@ -335,9 +336,33 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         if !outputActive { core.processControlsWhileIdle() }
     }
     public func setMixer(_ parameter: MixerParameter, value: Double, deck: DeckID = .a) throws {
-        if parameter == .crossfader || parameter == .volume { invalidateRecovery() }
-        try core.setMixer(parameter, value: value, deck: deck)
+        if parameter == .crossfader {
+            guard value.isFinite, (0...1).contains(value) else { throw TransportError.invalid }
+        }
+        if parameter == .crossfader || parameter == .volume { invalidateRecovery(submitCancellation: false) }
+        do {
+            try core.setMixer(parameter, value: value, deck: deck)
+            if parameter == .crossfader { pendingCrossfader = nil }
+        } catch TransportError.queueFull where parameter == .crossfader {
+            // Keep the latest physical position until the audio consumer can accept it.
+            pendingCrossfader = value
+            startControlMaintenance()
+        }
         if !outputActive { core.processControlsWhileIdle() }
+    }
+
+    private func flushPendingCrossfader() {
+        guard let value = pendingCrossfader else { return }
+        do {
+            try core.setMixer(.crossfader, value: value)
+            pendingCrossfader = nil
+            if !outputActive { core.processControlsWhileIdle() }
+        } catch TransportError.queueFull {
+            return
+        } catch {
+            appendMessage(.init(commandID: 0, generation: 0, error: (error as? TransportError) ?? .invalid))
+            pendingCrossfader = nil
+        }
     }
     public func setFreeRate(_ rate: Double, deck: DeckID) throws {
         guard let generation = generations[deck] else { throw TransportError.stale }
@@ -452,6 +477,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         collectMessages()
         try? core.stopAll()
         core.processControlsWhileIdle()
+        flushPendingCrossfader()
     }
     public func snapshotAndMessages() -> (PlaybackSnapshot?, [TransportAcknowledgement]) {
         maintainControlState()
@@ -467,6 +493,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         }
         if !outputActive { core.processControlsWhileIdle() }
         collectMessages()
+        flushPendingCrossfader()
     }
     func startControlMaintenance() {
         guard controlMaintenanceTimer == nil else { return }

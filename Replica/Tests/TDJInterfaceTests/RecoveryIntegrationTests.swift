@@ -38,13 +38,20 @@ import Testing
         await controller.flushSourcePreparations()
         #expect(controller.core.snapshot()?.masterBPM == 144)
         #expect(controller.core.snapshot()?.a.recoveryArmed == true)
-        for _ in 0..<16 {
+        let beforeEnd = try #require(controller.core.snapshot()?.a)
+        let outputFramesToEnd = (plan.endFrame - beforeEnd.sourceFrame) * controller.core.sampleRate
+            / (analysis.sampleRate * beforeEnd.speed)
+        for _ in 0..<(Int(ceil(outputFramesToEnd / 512)) + 1) {
             _ = controller.core.renderOffline(frames: 512)
             try await Task.sleep(for: .milliseconds(1))
         }
         #expect(controller.core.snapshot()?.a.recoveryActive == true)
         #expect(controller.core.snapshot()?.a.phase == .playing)
         #expect(!controller.core.streamingSummary().continuityFailed)
+        try controller.setMixer(manualMarker ? .crossfader : .volume, value: 0.5)
+        #expect(controller.core.snapshot()?.a.recoveryArmed == false)
+        #expect(controller.core.snapshot()?.a.recoveryActive == false)
+        #expect(controller.core.snapshot()?.a.phase == .playing)
         try controller.play(.a)
         #expect(controller.core.snapshot()?.a.recoveryArmed == false)
     }
