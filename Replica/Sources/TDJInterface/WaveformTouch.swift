@@ -403,7 +403,7 @@ enum WaveformZoom {
                     }
                 }
             } else if event.phase == .moved || event.phase == .ended && directActive,
-                directActive || abs(dx) > abs(dy) * 0.3
+                directActive || moved && abs(dx) > abs(dy) * 0.3
             {
                 if event.phase == .moved || first.x != lastScratchX {
                     motion?.move(x: first.x, time: ProcessInfo.processInfo.systemUptime)

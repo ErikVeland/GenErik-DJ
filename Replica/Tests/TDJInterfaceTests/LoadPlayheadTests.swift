@@ -4,7 +4,7 @@ import Testing
 
 @testable import TDJInterface
 
-@MainActor private func loadPlayheadFixture() async throws -> (ReplicaModel, URL, Track) {
+@MainActor func loadPlayheadFixture() async throws -> (ReplicaModel, URL, Track) {
     var base = URL(fileURLWithPath: #filePath)
     for _ in 0..<4 { base.deleteLastPathComponent() }
     let source = base.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures/clock-a-120.wav")

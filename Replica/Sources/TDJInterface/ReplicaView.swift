@@ -648,10 +648,8 @@ struct DeckRailButtonStyle: ButtonStyle {
     let deck: DeckID
     let track: Track
     @Binding var visibleSeconds: Double
-    let navigate: (Double) -> Void
     @State private var zoomStart: Double?
-    @State private var contacts: [SurfacePoint] = []
-    @State private var zooming = false
+    @State private var session = StripeGestureSession()
     var body: some View {
         GeometryReader { geometry in
             WaveformView(
@@ -671,31 +669,9 @@ struct DeckRailButtonStyle: ButtonStyle {
                     duration: track.analysis.duration, visibleSeconds: visibleSeconds)
             }.clipped().contentShape(Rectangle()).overlay {
                 TouchSurface(geometryPolicy: .retainContactSpace) { event in
-                    if event.phase == .cancelled {
-                        contacts = []
-                        zoomStart = nil
-                        zooming = false
-                        return
-                    }
-                    if event.points.count >= 2 {
-                        if !zooming {
-                            contacts = event.points
-                            zoomStart = visibleSeconds
-                            zooming = true
-                        }
-                        let before = max(0.01, abs(contacts[1].x - contacts[0].x))
-                        let after = max(0.01, abs(event.points[1].x - event.points[0].x))
-                        visibleSeconds = max(
-                            min(1, track.analysis.duration),
-                            min(track.analysis.duration, (zoomStart ?? visibleSeconds) * before / after))
-                    } else if !zooming, let point = event.points.first, event.phase != .began {
-                        navigate(Double(track.analysis.frameCount) * max(0, min(1, point.x)))
-                    }
-                    if event.phase == .ended && event.remaining.isEmpty {
-                        contacts = []
-                        zoomStart = nil
-                        zooming = false
-                    }
+                    session.handle(
+                        event, model: model, deck: deck, visibleSeconds: visibleSeconds,
+                        width: geometry.size.width) { visibleSeconds = $0 }
                 }.id(track.id)
             }
             #if os(macOS)
@@ -721,8 +697,14 @@ struct DeckRailButtonStyle: ButtonStyle {
     var body: some View {
         let fraction = (model.viewport[deck] ?? 0) / frameCount
         let window = max(10, width * visibleSeconds / duration)
-        RoundedRectangle(cornerRadius: 2).stroke(PerformancePalette.red, lineWidth: 2).frame(width: max(6, window))
-            .offset(x: width * fraction - max(6, window) / 2)
+        ZStack(alignment: .leading) {
+            RoundedRectangle(cornerRadius: 2).stroke(PerformancePalette.red, lineWidth: 2)
+                .frame(width: window).offset(x: width * fraction - window / 2)
+            if model.previewing.contains(deck), let state = model.playbackSnapshot?[deck] {
+                Rectangle().fill(Color.white.opacity(0.8)).frame(width: 1)
+                    .offset(x: width * state.sourceFrame / frameCount)
+            }
+        }
     }
 }
 
@@ -1447,10 +1429,8 @@ extension ReplicaView {
                 track: preview, grid: nil, centerFrame: Double(preview.analysis.frameCount) / 2,
                 visibleSeconds: preview.analysis.duration, sections: model.arrangements[preview.id]?.sections ?? [])
         } else if let track {
-            StripeView(model: model, deck: deck, track: track, visibleSeconds: $visibleSeconds) {
-                model.previewing.insert(deck)
-                model.viewport[deck] = $0
-            }.id(model.loadIdentity(deck))
+            StripeView(model: model, deck: deck, track: track, visibleSeconds: $visibleSeconds)
+                .id(model.loadIdentity(deck))
         } else {
             Color.black
         }
