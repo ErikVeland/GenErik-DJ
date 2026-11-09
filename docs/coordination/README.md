@@ -6,6 +6,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**Build 175** installed on the A10X iPad Pro, and iPadOS accepted launch. R110 maps S2 Mk3 browse, load, Samples, FX, Grid and MIC. Seventeen focused tests passed across 20 cases. Physical S2 Mk3 acceptance remains open. [Build record](../testing/builds/175.json) · [Protocol and scope](s2-mk3-native.md).
+
 **Build 173** installed on the A10X iPad Pro, and iPadOS accepted launch. R108 adds native S2 Mk3 deck and mixer controls and blue beat and amber warning lights on pad 8. Thirty-five focused host tests passed across 41 cases. Physical S2 Mk3 acceptance remains open. [Build record](../testing/builds/173.json) · [Protocol and scope](s2-mk3-native.md).
 
 **Build 172** installed on the A10X iPad Pro, and iPadOS accepted launch. R98 adds a detailed waveform and overview to the full-height editor. The edit cursor sets placement. Split Section and Add Landmark stay above the edit lists. Erik checks placement and layout. [Build record](../testing/builds/172.json).

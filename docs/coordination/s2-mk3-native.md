@@ -55,3 +55,5 @@ Microphone input requires an iPadOS route that exposes the S2 microphone. The ap
 The grid edit uses a draft until release. It checks the deck generation and the saved grid before committing. Grid locks remain authoritative. The cue metronome, Shift plus Browse eject and Move press loop-roll are outside this increment. The app's Delay supplies the third FX button.
 
 Physical USB or iOS cable input availability, live audio, FX response, sample latency, jog feel and controller brightness still require hardware acceptance.
+
+Seventeen focused tests passed across 20 cases. [Build 175](../testing/builds/175.json) installed on the A10X iPad, and iPadOS accepted launch. Build 174 stopped before installation and retains its compile log.

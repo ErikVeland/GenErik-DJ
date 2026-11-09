@@ -1,0 +1,29 @@
+{
+  "notes": "R110 adds S2 Mk3 browse and load, sample pads, factory FX selection, held grid editing and MIC.",
+  "sourceCommit": "d0609683a1f8b6afa8972a493551a5a61fe38987",
+  "sourceSHA256": "1e13a0204d3da571f542b5ce12487bda8cde81fc94de7aa0208980e2d1958026",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 42.26,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-175.log",
+  "build": 175,
+  "app": "TestBuilds/ipad/175/GenErikDJ.app",
+  "appSHA256": "a8ff930c764251dd0a53014acc5f3f5c728708d015e8e594aaf8d55f7d3ef07b",
+  "state": "testing",
+  "createdUTC": "2026-11-09T23:48:53.085537+00:00",
+  "installedUTC": "2026-11-09T23:49:06.118074+00:00",
+  "launchedUTC": "2026-11-09T23:49:06.573358+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R110"
+  ],
+  "focusedChecks": "17 focused host tests passed across 20 cases. The subsequent source corrections are in iPad-only code.",
+  "evidence": [
+    "TestBuilds/r110/final.log",
+    "TestBuilds/r110/final-source-commit.txt",
+    "TestBuilds/r110/ipad-run.log",
+    "TestBuilds/r110/ipad-run-174.log"
+  ],
+  "verificationLimit": "iPad installation and launch passed. Physical S2 control behaviour, MIC route availability and live A10X audio remain unverified. No device actions followed launch."
+}
