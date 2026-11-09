@@ -262,13 +262,19 @@ public actor LibraryService {
     {
         if let index = library.tracks.firstIndex(where: { $0.musicLibrarySources?.contains(metadata.source) == true }) {
             var current = library.tracks[index]
+            // Older imports can retain a managed flag after their audio copy is removed.
+            let missingCopy =
+                current.nativeLibraryOnly != true
+                && !FileManager.default.isReadableFile(
+                    atPath: store.mediaDirectory.appendingPathComponent(current.mediaFilename).path)
+            if missingCopy { current.nativeLibraryOnly = true }
             guard current.analysis.sampleRate == analysis.sampleRate else {
                 throw CoreError.invalidAudio("The Music sample rate changed. Saved preparation is retained.")
             }
             let fingerprint = audioFingerprint ?? current.nativeAudioFingerprint
             let audioChanged = current.nativeAudioFingerprint != nil && current.nativeAudioFingerprint != fingerprint
             let revisionChanged = current.nativePlaybackIdentity != analysis.contentSHA256
-            if !revisionChanged, current.nativeAudioFingerprint == fingerprint { return library }
+            if !missingCopy, !revisionChanged, current.nativeAudioFingerprint == fingerprint { return library }
             let refresh = current.nativePlaybackIdentity != nil && (revisionChanged || audioChanged)
             current.nativePlaybackIdentity = analysis.contentSHA256
             current.nativeAudioFingerprint = fingerprint

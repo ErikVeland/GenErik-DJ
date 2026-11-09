@@ -123,7 +123,7 @@ import Testing
     await model.finishForShutdown()
 }
 
-@Test @MainActor func failedNativeSelectionRestoresThePreviousDeck() async throws {
+@Test @MainActor func failedNativeSelectionBlocksPreviousDeckPlaybackUntilSuccessfulLoad() async throws {
     let (model, provider, root) = try await directNativeModel()
     defer { try? FileManager.default.removeItem(at: root) }
     model.loadNativeMusic(provider.item, deck: .b)
@@ -139,6 +139,15 @@ import Testing
     #expect(model.pendingNativeSelection.isEmpty)
     #expect(model.loaded[.b] == previous)
     #expect(model.track(.b)?.title == "Direct first use")
+    #expect(model.trackLoadFailures[.b]?.contains("Replacement") == true)
+    model.pressPlay(deck: .b)
+    await model.flushTransportRequests()
+    #expect(model.playback.core.snapshot()?.b.phase == .ready)
+    provider.failOpening = false
+    model.loadNativeMusic(replacement, deck: .b)
+    await model.flushNativeMusicLoads()
+    #expect(model.trackLoadFailures[.b] == nil)
+    #expect(model.track(.b)?.title == "Replacement")
     await model.finishForShutdown()
 }
 
@@ -244,8 +253,9 @@ import Testing
     for _ in 0..<1200 { try file!.write(from: buffer) }
     file = nil
     let provider = DirectNativeLibrary(url: source)
-    let model = try ReplicaModel(root: root.appendingPathComponent("workspace"),
-                                playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    let model = try ReplicaModel(
+        root: root.appendingPathComponent("workspace"),
+        playback: PlaybackController(offline: true), musicLibraryProvider: provider)
     let core = model.playback.core
     let reference = try SampleTransport()
     let asset = try PCMAsset(interleavedStereo: [Float](repeating: 0.4, count: 48000 * 20), sampleRate: 48000)

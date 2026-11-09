@@ -56,7 +56,9 @@ extension ReplicaModel {
             status = entry.nativeItem?.availability.message ?? MusicLibraryError.missingAudio.localizedDescription
             return
         }
-        if let track = entry.track, track.nativeLibraryOnly != true {
+        if let item = entry.nativeItem, item.isOnDevice {
+            loadNativeMusic(item, deck: deck)
+        } else if let track = entry.track, track.nativeLibraryOnly != true {
             load(trackID: track.id, deck: deck, nativeMetadata: entry.nativeItem.map { .init(item: $0) })
         } else if let item = entry.nativeItem {
             loadNativeMusic(item, deck: deck)
@@ -574,6 +576,7 @@ extension ReplicaModel {
                 if state.loadOwners.isEmpty { startNativeMusicAnalysis() }
             }
             var selectedID: String?
+            var selectedTitle = selection?.title ?? "Music track"
             do {
                 let item = await resolve()
                 try Task.checkCancellation()
@@ -581,6 +584,7 @@ extension ReplicaModel {
                 guard let item else { throw MusicLibraryError.missingAudio }
                 pendingNativeSelection[deck] = item
                 selectedID = item.id
+                selectedTitle = item.title
                 status = "Preparing \(item.title)…"
                 if item.isOnDevice, let source = try await musicLibraryProvider.playbackSource(item) {
                     let scoped = await state.files.run { source.url.startAccessingSecurityScopedResource() }
@@ -605,9 +609,8 @@ extension ReplicaModel {
                             analysis: opening.analysis, metadata: source.metadata,
                             audioFingerprint: opening.audioFingerprint))
                     try Task.checkCancellation()
-                    guard state.loadOwners[deck] == token, let track = await preparedNativeTrack(item) else {
-                        throw CancellationError()
-                    }
+                    guard state.loadOwners[deck] == token else { throw CancellationError() }
+                    guard let track = await preparedNativeTrack(item) else { throw TransportError.stale }
                     try await loadOwnedNativeTrack(
                         track, deck: deck, sourceURL: source.url, metadata: source.metadata, token: token,
                         opening: opening)
@@ -649,8 +652,7 @@ extension ReplicaModel {
                     try await loadOwnedNativeTrack(
                         track, deck: deck, sourceURL: nil, metadata: .init(item: item), token: token)
                 } else {
-                    status = item.availability.message
-                    return
+                    throw MusicLibraryError.missingAudio
                 }
                 musicLibraryNotices.setFailure(nil, for: item.id)
                 if status == "Preparing \(item.title)…" { status = "" }
@@ -661,7 +663,7 @@ extension ReplicaModel {
                 guard state.loadOwners[deck] == token else { return }
                 cancelDeckLoadIntent(deck: deck)
                 if let selectedID { musicLibraryNotices.setFailure(error.localizedDescription, for: selectedID) }
-                status = error.localizedDescription
+                reportTrackLoadFailure(deck: deck, title: selectedTitle, error: error)
             }
         }
     }

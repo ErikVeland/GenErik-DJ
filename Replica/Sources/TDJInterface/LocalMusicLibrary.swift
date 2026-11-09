@@ -114,7 +114,9 @@ extension LocalMusicLibraryProviding {
                 query.addFilterPredicate(
                     MPMediaPropertyPredicate(
                         value: NSNumber(value: persistentID), forProperty: MPMediaItemPropertyPersistentID))
-                guard let current = query.items?.first else { throw MusicLibraryError.missingAudio }
+                guard let current = query.items?.first(where: { $0.persistentID == persistentID }) else {
+                    throw MusicLibraryError.missingAudio
+                }
                 guard !current.hasProtectedAsset else { throw MusicLibraryError.protected }
                 guard let currentURL = current.assetURL else { throw MusicLibraryError.missingAudio }
                 guard currentURL.isFileURL || currentURL.scheme?.lowercased() == "ipod-library" else {

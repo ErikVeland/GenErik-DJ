@@ -258,6 +258,7 @@ import TDJCore
     public internal(set) var pendingNativeWaveforms: [DeckID: Track] = [:]
     @ObservationIgnored var nativePreviewTasks: [DeckID: Task<Void, Never>] = [:]
     public internal(set) var pendingNativeSelection: [DeckID: MusicLibraryItem] = [:]
+    public internal(set) var trackLoadFailures: [DeckID: String] = [:]
     var preparingNativeMusic: Set<DeckID> = []
     public var preparingTrack: Set<DeckID> { preparingPlayback.union(preparingNativeMusic) }
     public var previewing: Set<DeckID> = []
@@ -899,7 +900,12 @@ import TDJCore
             onFailure?(TransportError.stale)
             return nil
         }
-        if track.nativeLibraryOnly == true && sourceURL == nil {
+        if sourceURL == nil, nativeLoadOwner == nil,
+            track.nativeLibraryOnly == true
+                || (!(track.musicLibrarySources ?? []).isEmpty
+                    && !FileManager.default.isReadableFile(
+                        atPath: store.mediaDirectory.appendingPathComponent(track.mediaFilename).path))
+        {
             loadNativeTrack(track, deck: deck)
             return nil
         }
@@ -985,6 +991,7 @@ import TDJCore
                         let actual = LoadPreparation(token: token, track: acceptedTrack, generation: generation)
                         self.committedPreparations[deck] = actual
                         self.committedTrackIDs[deck] = trackID
+                        self.trackLoadFailures[deck] = nil
                         self.playback.registerRecordingTrack(
                             deck: deck, generation: generation, artist: preparedSourceTrack.artist,
                             title: preparedSourceTrack.title)
@@ -1044,7 +1051,9 @@ import TDJCore
                     let handledNativeFailure =
                         nativeLoadOwner != nil
                         && (error is CancellationError || (error as? TransportError) == .nativeSourceChanged)
-                    if !obsoleteNativeLoad && !handledNativeFailure { status = error.localizedDescription }
+                    if !obsoleteNativeLoad && !handledNativeFailure {
+                        reportTrackLoadFailure(deck: deck, title: track.title, error: error)
+                    }
                     loaded[deck] = committedTrackIDs[deck]
                     loadPreparations[deck] = committedPreparations[deck]
                     gridDraft[deck] = committedTrackIDs[deck].flatMap { pendingPreparations[$0]?.value.grid }
@@ -1072,7 +1081,8 @@ import TDJCore
             defer { if self.nativeWaveformTokens[deck] == token { self.nativeWaveformTasks[deck] = nil } }
             do {
                 let full = try await opening.waveform(
-                    cache: cache, matching: track.analysis, waitUntilIdle: { try await WaveformWork.waitUntilIdle(core) }
+                    cache: cache, matching: track.analysis,
+                    waitUntilIdle: { try await WaveformWork.waitUntilIdle(core) }
                 ) { [weak self] value in
                     Task { @MainActor in
                         guard let self, self.loadTokens[deck] == token, !WaveformWork.isPaused(core),
@@ -1107,6 +1117,14 @@ import TDJCore
     func flushNativeWaveforms() async { for task in Array(nativeWaveformTasks.values) { await task.value } }
 
     var deckAnalysisIsRunning: Bool { !deckAnalysisTasks.isEmpty }
+
+    func reportTrackLoadFailure(deck: DeckID, title: String, error: Error) {
+        let label = title.components(separatedBy: .controlCharacters).joined(separator: " ")
+        let message = "Could not load “\(label)”. \(error.localizedDescription) Load a track to continue."
+        trackLoadFailures[deck] = message
+        status = message
+        logAnalysis("Deck \(deck.rawValue.uppercased()) load failed: \(message)")
+    }
 
     func cancelDeckLoadIntent(deck: DeckID) {
         pendingLoadPlay.removeValue(forKey: deck)
@@ -1534,6 +1552,10 @@ import TDJCore
         if preparingTrack.contains(deck) {
             guard let owner = nativeMusic.loadOwners[deck] ?? loadTokens[deck] else { return }
             pendingLoadPlay[deck] = pendingLoadPlay[deck] == owner ? nil : owner
+            return
+        }
+        if let failure = trackLoadFailures[deck], playback.core.snapshot()?[deck].phase.active != true {
+            status = failure
             return
         }
         do {
