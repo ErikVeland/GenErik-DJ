@@ -201,3 +201,39 @@ private func importedKeyTrack(
     let unchanged = await service.snapshot()
     #expect(unchanged.tracks[0].keyGovernance == nil)
 }
+
+@Test func keyGovernanceReopensWorkspaceWithEarlierPolicyHistory() throws {
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let store = try WorkspaceStore(root: root)
+    let track = try importedKeyTrack(importedKeyTrack(governedTrack()), key: "9A")
+    var library = LibrarySnapshot()
+    library.tracks = [track]
+    try store.save(library)
+
+    let data = try Data(contentsOf: store.libraryURL)
+    var document = try #require(JSONSerialization.jsonObject(with: data) as? [String: Any])
+    var tracks = try #require(document["tracks"] as? [[String: Any]])
+    var state = try #require(tracks[0]["keyGovernance"] as? [String: Any])
+    var events = try #require(state["events"] as? [[String: Any]])
+    events[0]["policyVersion"] = "key-authority-1"
+    state["events"] = events
+    tracks[0]["keyGovernance"] = state
+    document["tracks"] = tracks
+    let mixedHistory = try JSONSerialization.data(withJSONObject: document)
+    try mixedHistory.write(to: store.libraryURL, options: .atomic)
+
+    let reopened = try store.load(includeWaveforms: false)
+    #expect(reopened.tracks[0].key == track.key)
+    #expect(reopened.tracks[0].keyGovernance?.events.map(\.policyVersion) == ["key-authority-1", "key-authority-2"])
+    #expect(try Data(contentsOf: store.libraryURL) == mixedHistory)
+    try store.save(reopened)
+    #expect(try store.load(includeWaveforms: false).tracks[0].keyGovernance == reopened.tracks[0].keyGovernance)
+
+    events[0]["policyVersion"] = "key-authority-999"
+    state["events"] = events
+    tracks[0]["keyGovernance"] = state
+    document["tracks"] = tracks
+    try JSONSerialization.data(withJSONObject: document).write(to: store.libraryURL, options: .atomic)
+    #expect(throws: CoreError.self) { try store.load(includeWaveforms: false) }
+}

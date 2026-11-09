@@ -183,7 +183,8 @@ public struct KeyGovernanceState: Codable, Equatable, Sendable {
             acceptedMixedInKeyID == nil
                 || observations.contains(where: { $0.id == acceptedMixedInKeyID && $0.source == .mixedInKey }),
             events.allSatisfy({ event in
-                event.recordedAt.timeIntervalSince1970.isFinite && event.policyVersion == KeyGovernancePolicy.version
+                event.recordedAt.timeIntervalSince1970.isFinite
+                    && KeyGovernancePolicy.readableHistoryVersions.contains(event.policyVersion)
                     && ["import", "preparationEdit", "review", "analysisBefore", "analysis"].contains(event.action)
                     && (event.reason?.utf8.count ?? 0) <= 4096
                     && (event.analysisConfidence.map { $0.isFinite && (0...1).contains($0) } ?? true)
@@ -205,6 +206,7 @@ public struct KeyDecision: Codable, Equatable, Sendable {
 
 public enum KeyGovernancePolicy {
     public static let version = "key-authority-2"
+    fileprivate static let readableHistoryVersions: Set<String> = ["key-authority-1", version]
 
     public static func decide(_ track: Track) -> KeyDecision {
         let evidence = track.keyGovernance?.observations ?? []

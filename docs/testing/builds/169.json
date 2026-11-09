@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 73.4,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R107"
+      ],
+      "report": "The last three iPad builds opened to a white screen with a Cannot open the workspace error.",
+      "summary": "Assumed builds 167–169 from the last three recorded installs when Erik reported the failure."
+    }
+  ],
   "log": "TestBuilds/ipad/build-169.log",
   "build": 169,
   "app": "TestBuilds/ipad/169/GenErikDJ.app",
