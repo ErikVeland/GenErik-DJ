@@ -49,7 +49,8 @@ The larger ownership-test batch was stopped after the focused checks. Incomplete
 Six follow-up tests passed after the availability change, including six filename cases, sixteen replacements,
 purge persistence, playback pins, duplicate tags, fresh-catalog gating and denied access.
 
-Device playback and touch acceptance remain open. Host checks do not establish A10X performance readiness.
+Build 157 installed on A10X, and iPadOS accepted launch. No device action followed launch.
+Device loading, cleanup, playback and touch acceptance remain open. Host checks do not establish A10X performance readiness.
 
 ## iPad check
 
