@@ -48,3 +48,5 @@ Audio-device recovery suspends output and rebuilds the audio graph. Deck positio
 Eleven focused host tests passed across thirteen cases. They covered the original volume and release failures, waveform release with resident and streamed audio, crossfader retries, filter and effect delivery, and the recovery decisions. Recovery tests check transport state and restart decisions with a simulated output restart. Physical routing, audio continuity and response deadlines still require A10X and Z1 checks.
 
 Logs and source identity are in `TestBuilds/r96/`. Earlier failed probes remain under `TestBuilds/reliability-155/`.
+
+[Build 159](../testing/builds/159.json) installed on A10X, and iPadOS accepted launch. Physical output recovery and live acceptance remain open.
