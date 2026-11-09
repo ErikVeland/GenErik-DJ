@@ -1,0 +1,28 @@
+{
+  "notes": "R97: Automatically configure original Z1 main and headphone outputs. Remove the Z1 routing choice. Preserve Sync and deck positions through output recovery, and prevent playback from switching to the iPad speaker after Z1 removal.",
+  "sourceCommit": "eedd347ed2deb46b180cb9f753311b7a84540ad0",
+  "sourceSHA256": "bf4f8d3c109c27f5c542e8cdcf90f6fe9f1c55225922640cbd8eb1cfc9ce5705",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 69.16,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-160.log",
+  "build": 160,
+  "app": "TestBuilds/ipad/160/GenErikDJ.app",
+  "appSHA256": "71ede7cff135608ec2757fbdb50b348d9739681f7b83b8fbe3b15481176d45e3",
+  "state": "testing",
+  "createdUTC": "2026-11-09T08:35:25.647297+00:00",
+  "installedUTC": "2026-11-09T08:35:38.627263+00:00",
+  "launchedUTC": "2026-11-09T08:35:38.974537+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R97"
+  ],
+  "focusedChecks": "Nine focused host tests passed on the signed app source.",
+  "evidence": [
+    "TestBuilds/r97/verification.json",
+    "TestBuilds/r97/committed-tests.log",
+    "TestBuilds/r97/before-fix.log"
+  ],
+  "verificationLimit": "Actual Z1 port identification, headphone listening, reconnect and A10X audio/touch acceptance remain open. No device actions followed launch."
+}

@@ -35,3 +35,6 @@ They cover automatic selection, manual-choice isolation, reconnect, interruption
 sample continuity during repeated detection, and cue isolation from master and recording outputs.
 Logs remain under `TestBuilds/r97/`, including the failing regression run.
 Hardware listening, actual iPad port identification and A10X touch acceptance remain open.
+
+Signed [build 160](../testing/builds/160.json) includes this change from `eedd347ed`.
+The A10X accepted installation and launch. No device actions followed.
