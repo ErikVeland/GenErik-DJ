@@ -35,7 +35,7 @@ Erik requires automatic connection, controls, audio routing and custom lights. O
 | --- | --- | --- |
 | Z1 Mk1 | `com.native-instruments.traktordj.kontrolz1` | Native controls, automatic audio, blue beat pulse and amber track-end warning. Physical acceptance remains open. |
 | S2 Mk2 | `com.native-instruments.traktordj.kontrols2mk2` | Automatic split audio. Native session, controls and lights remain open. |
-| S2 Mk3 | `com.native-instruments.protocol.kontrols2mk3` | Automatic split audio. Native session, controls and lights remain open. |
+| S2 Mk3 | `com.native-instruments.protocol.kontrols2mk3` | Automatic split audio and native deck and mixer controls. Pad 8 shows the blue beat pulse and amber warning. See [scope and checks](s2-mk3-native.md). |
 | S3 | `com.native-instruments.protocol.kontrols3` | Automatic split audio. Native session, deck layers, controls and lights remain open. |
 | S4 Mk2 | `com.native-instruments.traktordj.kontrols4mk2` | Automatic split audio. Native session, deck layers, controls and lights remain open. |
 | MX2, Z1 Mk2, X1 Mk3 | No identifier in the preserved TDJ2 build | Verify a direct iPad connection. Implement factory mappings and feedback for a documented transport. |
@@ -47,7 +47,7 @@ NI lists the four controllers in its [TDJ2 iPad compatibility guide](https://sup
 
 [Build 164](../testing/builds/164.json) installed on the A10X iPad. iPadOS accepted launch. Ten focused tests passed across thirteen cases. The new controller audio profiles have no physical listening result.
 
-Use the S2 Mk3 as the next native adapter. Establish its iPad startup and report framing before mapping controls. Use existing deck timing for the blue beat pulse and amber track-end warning. Map those states to the device's verified LED report. Preserve the loop, pause and gesture rules. Record any hardware limits on colour, brightness, screens or motors. No controller has a full support claim from an audio profile alone.
+The [S2 Mk3 adapter](s2-mk3-native.md) uses the same beat and warning timing as the Z1. The other models need their own verified input and light reports.
 
 ## Required capabilities for each model
 

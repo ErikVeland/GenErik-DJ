@@ -5,7 +5,20 @@
     import TDJCore
 
     /// Streams run on the main run loop. Every callback has a fixed work limit.
-    @MainActor final class Z1AccessoryConnection: NSObject, StreamDelegate {
+    @MainActor final class NIControllerAccessoryConnection: NSObject, StreamDelegate {
+        enum Model {
+            case z1, s2MK3
+            var name: String { self == .z1 ? "Z1" : "S2 Mk3" }
+            var identifier: String { self == .z1 ? Z1AccessoryProtocol.identifier : S2MK3AccessoryProtocol.identifier }
+        }
+        private static var notificationUsers = 0
+        private let model: Model
+        private var name: String { model.name }
+        init(model: Model) { self.model = model }
+
+        var onFrame: ((Z1AccessoryProtocol.Frame) -> Void)?
+        var onDisconnect: (() -> Void)?
+        var isReceiving: Bool { receivedInput }
         var onReport: ((Z1InputReport) -> Void)?
         var onState: ((String, Z1CrossfaderCalibration?) -> Void)?
         private var enabled = false
@@ -13,6 +26,7 @@
         private var subscriptions: Set<AnyCancellable> = []
         private var decoder = Z1AccessoryProtocol.Decoder(framing: .lengthPrefixed)
         private var startup = Z1AccessoryProtocol.Startup()
+        private var s2Startup = S2MK3AccessoryProtocol.Startup()
         private var startupSent = false
         private var timeout: Task<Void, Never>?
         private var commands: [[UInt8]] = []
@@ -25,45 +39,48 @@
         func start() throws {
             guard !enabled else { return }
             enabled = true
-            let manager = EAAccessoryManager.shared()
-            manager.registerForLocalNotifications()
+            if Self.notificationUsers == 0 { EAAccessoryManager.shared().registerForLocalNotifications() }
+            Self.notificationUsers += 1
             NotificationCenter.default.publisher(for: .EAAccessoryDidConnect)
                 .receive(on: RunLoop.main).sink { [weak self] _ in self?.connect() }.store(in: &subscriptions)
             NotificationCenter.default.publisher(for: .EAAccessoryDidDisconnect)
                 .receive(on: RunLoop.main).sink { [weak self] _ in
                     guard let self, let session = self.session, session.accessory?.isConnected != true else { return }
                     self.closeSession()
-                    self.onState?("Z1 disconnected. Waiting for the original Z1.", nil)
+                    self.onState?("\(self.name) disconnected.", nil)
                     self.connect()
                 }.store(in: &subscriptions)
-            onState?("Waiting for the original Z1 accessory.", nil)
+            onState?("Waiting for \(name).", nil)
             connect()
         }
 
         func stop() {
+            guard enabled else { return }
             enabled = false
             subscriptions.removeAll()
-            EAAccessoryManager.shared().unregisterForLocalNotifications()
+            Self.notificationUsers -= 1
+            if Self.notificationUsers == 0 { EAAccessoryManager.shared().unregisterForLocalNotifications() }
             closeSession()
-            onState?("Z1 disabled", nil)
+            onState?("\(name) disabled", nil)
         }
 
         private func connect() {
             guard enabled, session == nil else { return }
             guard
                 let accessory = EAAccessoryManager.shared().connectedAccessories.first(where: {
-                    $0.isConnected && $0.protocolStrings.contains(Z1AccessoryProtocol.identifier)
+                    $0.isConnected && $0.protocolStrings.contains(model.identifier)
                 })
             else { return }
-            guard let opened = EASession(accessory: accessory, forProtocol: Z1AccessoryProtocol.identifier),
+            guard let opened = EASession(accessory: accessory, forProtocol: model.identifier),
                 let input = opened.inputStream, let output = opened.outputStream
             else {
-                onState?("Cannot open the Z1 accessory. Close Traktor DJ, then reconnect the Z1.", nil)
+                onState?("Cannot open \(name). Close Traktor DJ. Then reconnect the controller.", nil)
                 return
             }
             session = opened
-            decoder = .init(framing: .init(firmwareRevision: accessory.firmwareRevision))
-            onState?("Opening the Z1 native connection.", nil)
+            decoder = .init(
+                framing: model == .z1 ? .init(firmwareRevision: accessory.firmwareRevision) : .lengthPrefixed)
+            onState?("Opening the \(name) native connection.", nil)
             for stream in [input as Stream, output as Stream] {
                 stream.delegate = self
                 stream.schedule(in: .main, forMode: .common)
@@ -73,6 +90,7 @@
         }
 
         private func closeSession() {
+            let wasConnected = session != nil
             timeout?.cancel()
             timeout = nil
             if let session {
@@ -84,6 +102,7 @@
             }
             session = nil
             startup = .init()
+            s2Startup = .init()
             startupSent = false
             decoder = .init(framing: .lengthPrefixed)
             commands.removeAll()
@@ -92,6 +111,7 @@
             pendingFeedback = nil
             lastFeedback.removeAll()
             receivedInput = false
+            if wasConnected { onDisconnect?() }
         }
 
         private func fail(_ message: String) {
@@ -103,7 +123,8 @@
             timeout?.cancel()
             timeout = Task { [weak self] in
                 do { try await Task.sleep(for: .seconds(5)) } catch { return }
-                self?.fail("The Z1 did not complete startup. Reconnect the Z1 to retry.")
+                guard let self else { return }
+                fail("\(name) startup failed. Reconnect the controller.")
             }
         }
 
@@ -118,13 +139,13 @@
                     || identity == session.outputStream.map(ObjectIdentifier.init)
             else { return }
             if event.contains(.errorOccurred) || event.contains(.endEncountered) {
-                fail("The Z1 connection closed. Reconnect the Z1 to retry.")
+                fail("The \(name) connection closed. Reconnect the controller.")
                 return
             }
             if !startupSent, session.inputStream?.streamStatus == .open, session.outputStream?.streamStatus == .open {
                 startupSent = true
-                onState?("Reading Z1 calibration.", nil)
-                enqueueRequest(0xd0)
+                if model == .z1 { onState?("Reading Z1 calibration.", nil) }
+                enqueueRequest(model == .z1 ? 0xd0 : 1)
             }
             if event.contains(.hasBytesAvailable) { readInput() }
             if event.contains(.hasSpaceAvailable) { flushOutput() }
@@ -132,7 +153,7 @@
 
         private func enqueueRequest(_ id: UInt8) {
             guard commands.count < 4 else {
-                fail("Z1 output overload. Reconnect the Z1 to retry.")
+                fail("\(name) output overload. Reconnect the controller.")
                 return
             }
             commands.append(Z1AccessoryProtocol.request(id, framing: decoder.framing))
@@ -145,13 +166,30 @@
             // One bounded read per callback preserves time for audio and touch controls.
             let count = input.read(&bytes, maxLength: bytes.count)
             guard count >= 0 else {
-                fail("Cannot read the Z1. Reconnect the Z1 to retry.")
+                fail("Cannot read \(name). Reconnect the controller.")
                 return
             }
             guard count > 0 else { return }
             do {
                 let frames = try decoder.append(Array(bytes.prefix(count)))
                 for frame in frames {
+                    if model == .s2MK3 {
+                        let next = try s2Startup.consume(frame)
+                        if let next {
+                            onFrame?(frame)
+                            enqueueRequest(next)
+                            continue
+                        }
+                        guard s2Startup.ready else { continue }
+                        if !receivedInput {
+                            receivedInput = true
+                            timeout?.cancel()
+                            timeout = nil
+                            onState?("S2 Mk3 native controls connected.", nil)
+                        }
+                        if frame.reportID == 1 || frame.reportID == 2 { onFrame?(frame) }
+                        continue
+                    }
                     if let next = try startup.consume(frame) {
                         if startup.ready {
                             onState?("Z1 calibrated. Waiting for control input.", startup.calibration)
@@ -170,13 +208,16 @@
                     }
                 }
             } catch {
-                fail("The Z1 sent an invalid report or calibration. Reconnect the Z1 to retry.")
+                fail("\(name) sent an invalid report. Reconnect the controller.")
             }
         }
 
         func send(_ report: [UInt8]) {
             guard receivedInput, report != lastFeedback,
-                let bytes = try? Z1AccessoryProtocol.feedback(report, framing: decoder.framing)
+                let bytes = try?
+                    (model == .z1
+                    ? Z1AccessoryProtocol.feedback(report, framing: decoder.framing)
+                    : S2MK3AccessoryProtocol.feedback(report))
             else { return }
             lastFeedback = report
             // Keep only the latest unsent light state. Never replace a partially written packet.
@@ -203,7 +244,7 @@
                     output.write($0.baseAddress!.advanced(by: writeOffset), maxLength: writing.count - writeOffset)
                 }
                 if count < 0 {
-                    fail("Cannot write to the Z1. Reconnect the Z1 to retry.")
+                    fail("Cannot write to \(name). Reconnect the controller.")
                     return
                 }
                 if count == 0 { return }
