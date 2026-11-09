@@ -6,6 +6,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**Build 161** installed on the A10X iPad Pro, and iPadOS accepted launch. R98 puts the utility button at the waveform's left edge and opens the strip to its right in one row. Freeze, Cues and Flux use icons. The loop selector shows the beat count. Erik checks the layout and touch controls. [Build record](../testing/builds/161.json).
+
 **Build 158** installed on the A10X iPad Pro, and iPadOS accepted launch. R91 raises the preview strip from 24 to 60 points when the deck has room. Erik checks strip size and drag precision against TDJ1. [Build record](../testing/builds/158.json) · [Preview workflow](preview-strip-navigation.md).
 
 **Build 157** installed on the A10X iPad Pro, and iPadOS accepted launch. R95 restores Music loading when old app audio copies are missing. A fresh refresh removes records with no available local source and repairs records with playable Music audio. Load failures appear on the deck and block Play from restarting the previous track. Twelve initial focused host tests and six follow-up tests passed. The actual Hannah audio with saved iPad metadata passed on the final source. Build 156 was stopped before installation to include Erik's cleanup request. Physical loading, cleanup, audio and touch acceptance remain open. [Build record](../testing/builds/157.json) · [Cause and checks](track-source-recovery.md).
