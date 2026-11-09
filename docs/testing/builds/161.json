@@ -1,0 +1,22 @@
+{
+  "notes": "Fold the utility strip to the right of its left-edge button. Use icons for Freeze, Cues and Flux, and show the loop beat count (R98).",
+  "sourceCommit": "b2d3ef8e327ad9694a3f0569e1884f5d34313015",
+  "sourceSHA256": "3951a39fcf52de9f1036f93dcebf2c9da2987392d10461f8dd97584260b10703",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 38.66,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-161.log",
+  "build": 161,
+  "app": "TestBuilds/ipad/161/GenErikDJ.app",
+  "appSHA256": "63d8cbea6d122c96ffa2377aef30b7e1a5eb50a31ea9f2c3e61192d1540b6d02",
+  "state": "testing",
+  "createdUTC": "2026-11-09T08:37:59.878735+00:00",
+  "installedUTC": "2026-11-09T08:38:12.819112+00:00",
+  "launchedUTC": "2026-11-09T08:38:13.218272+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R98"
+  ],
+  "verificationLimit": "Erik checks strip placement, opening and closing, and access to the controls on the iPad."
+}
