@@ -44,6 +44,9 @@ typedef struct tdj_engine tdj_engine;
 #define TDJ_PAD_LOAD 24
 #define TDJ_PAD_PLAY 25
 #define TDJ_PAD_GAIN 26
+#define TDJ_LOOP_ROLL 27
+#define TDJ_EJECT 28
+#define TDJ_GRID_METRONOME 29
 #define TDJ_PAD_COUNT 16
 #define TDJ_EFFECT_DELAY 0
 #define TDJ_EFFECT_REVERB 1
@@ -125,7 +128,7 @@ typedef struct {
     int32_t grid_downbeat;
     double volume, gain, low, mid, high, cue, filter_x, filter_y, peak;
     int32_t filter_enabled;
-    int32_t loop_enabled, flux_enabled, touch_active, jump_pending;
+    int32_t loop_enabled, flux_enabled, touch_active, jump_pending, loop_rolling;
     double loop_start, loop_end, continuing_frame, performance_rate;
     double free_rate, touch_start, touch_end, jump_frame, jump_beat, pending_touch_end, pending_loop_end;
     int32_t touch_was_playing, jump_loop;

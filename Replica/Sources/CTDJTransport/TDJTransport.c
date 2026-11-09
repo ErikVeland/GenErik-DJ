@@ -27,7 +27,10 @@ typedef struct {
     bool loop_enabled, flux_enabled, touch_active, jump_pending, touch_was_playing;
     double loop_start, loop_end, continuing, performance_rate, jump_frame, jump_beat;
     double touch_start, touch_end, pending_touch_end, pending_loop_end, pending_loop_position;
-    bool jump_loop;
+    bool jump_loop, loop_rolling;
+    bool grid_click, grid_click_position_valid;
+    double grid_click_offset, grid_click_next, grid_click_last;
+    unsigned grid_click_age;
     double pending_touch_rate;
     bool pending_touch_rate_valid;
     double stream_fade;
@@ -56,7 +59,7 @@ typedef struct {
     _Atomic int32_t filter_enabled;
     _Atomic int32_t recovery_armed, recovery_active, recovery_mix;
     _Atomic double recovery_start, recovery_end, recovery_mix_start;
-    _Atomic int32_t loop_enabled, flux_enabled, touch_active, jump_pending;
+    _Atomic int32_t loop_enabled, flux_enabled, touch_active, jump_pending, loop_rolling;
     _Atomic double loop_start, loop_end, continuing, performance_rate;
     _Atomic double free_rate, touch_start, touch_end, jump_frame, jump_beat, pending_touch_end, pending_loop_end;
     _Atomic int32_t touch_was_playing, jump_loop;
@@ -264,6 +267,31 @@ static double deck_beat(deck *d, double frame) {
 static double deck_frame(deck *d, double beat) {
     return d->map.count ? map_lookup(&d->map, beat, false) : d->anchor + beat * 60 * d->asset->rate / d->bpm;
 }
+static double grid_click_sample(deck *d, double rate, double step) {
+    double frame = d->position - d->grid_click_offset;
+    if (!d->grid_click_position_valid || frame < d->grid_click_last ||
+        frame - d->grid_click_last > 2 * fmax(1, fabs(step))) {
+        d->grid_click_next = deck_frame(d, ceil(deck_beat(d, frame) - 1e-9));
+        d->grid_click_position_valid = true;
+        d->grid_click_age = 0;
+    }
+    d->grid_click_last = frame;
+    if (frame >= d->grid_click_next - 1e-8) {
+        d->grid_click_next = deck_frame(d, floor(deck_beat(d, frame) + 1e-9) + 1);
+        d->grid_click_age = 1;
+    }
+    if (!d->grid_click_age)
+        return 0;
+    double seconds = (d->grid_click_age++ - 1) / rate;
+    if (seconds >= 0.012) {
+        d->grid_click_age = 0;
+        return 0;
+    }
+    double envelope = fmin(seconds * 1000, 1) * (1 - seconds / 0.012);
+    double phase = seconds * 1500;
+    double triangle = 1 - 4 * fabs(phase - floor(phase) - 0.5);
+    return 0.16 * envelope * triangle;
+}
 static double deck_bpm_at(deck *d, double frame) {
     if (!d->map.count)
         return d->bpm;
@@ -393,7 +421,7 @@ static tdj_stream_target stream_target(deck *d, double master) {
                                .loop_end = end,
                                .continuing_position = d->continuing,
                                .keylock = d->keylock,
-                               .reserve_continuing = d->flux_enabled && (d->loop_enabled || d->touch_active)};
+                               .reserve_continuing = (d->flux_enabled || d->loop_rolling) && (d->loop_enabled || d->touch_active)};
 }
 static bool append_request(tdj_stream_request *r, const tdj_stream_request *extra) {
     if (r->count + extra->count > TDJ_STREAM_MAX_RANGES)
@@ -677,6 +705,7 @@ static void publish(tdj_engine *e) {
         atomic_store(&p->recovery_mix_start, d->recovery_mix_start);
         atomic_store(&p->loop_enabled, d->loop_enabled);
         atomic_store(&p->flux_enabled, d->flux_enabled);
+        atomic_store(&p->loop_rolling, d->loop_rolling);
         atomic_store(&p->touch_active, d->touch_active);
         atomic_store(&p->jump_pending, d->jump_pending);
         atomic_store(&p->loop_start, d->loop_start);
@@ -790,6 +819,7 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
         atomic_init(&p->recovery_mix_start, 0);
         atomic_init(&p->loop_enabled, 0);
         atomic_init(&p->flux_enabled, 0);
+        atomic_init(&p->loop_rolling, 0);
         atomic_init(&p->touch_active, 0);
         atomic_init(&p->jump_pending, 0);
         atomic_init(&p->loop_start, 0);
@@ -1180,6 +1210,9 @@ static int apply(tdj_engine *e, tdj_command c) {
             if (d->state == TDJ_PLAYING || d->state == TDJ_QUEUED)
                 d->state = TDJ_PAUSED;
             brake_clear(e, i);
+            if (d->loop_rolling)
+                d->loop_enabled = d->loop_rolling = false;
+            d->grid_click = false;
             d->touch_active = false;
             d->jump_pending = false;
             d->performance_rate = 1;
@@ -1260,6 +1293,32 @@ static int apply(tdj_engine *e, tdj_command c) {
     }
     if (!d->asset || c.generation != d->generation)
         return TDJ_STALE;
+    if (c.kind == TDJ_EJECT) {
+        if (d->state == TDJ_PLAYING || d->state == TDJ_QUEUED)
+            return TDJ_PROTECTED;
+        release_deck_claims(e, (unsigned)c.deck);
+        if (other->asset != d->asset)
+            tdj_stream_detach(d->asset, e);
+        message(e, 0, d->generation, TDJ_RETIRED);
+        *d = (deck){.map_dirty = true};
+        e->paired_frames = 0;
+        tdj_keylock_reset(e->keylocks[c.deck]);
+        mixer_clear_track(&e->mix.decks[c.deck]);
+        return TDJ_OK;
+    }
+    if (c.kind == TDJ_GRID_METRONOME) {
+        if ((c.flag != 0 && c.flag != 1) || (c.flag && (!isfinite(c.value) || d->bpm <= 0)))
+            return TDJ_INVALID;
+        d->grid_click = c.flag != 0;
+        d->grid_click_offset = c.value;
+        d->grid_click_position_valid = false;
+        d->grid_click_age = 0;
+        return TDJ_OK;
+    }
+    if (d->loop_rolling && (c.kind == TDJ_TOUCH || c.kind == TDJ_RATE || c.kind == TDJ_JUMP ||
+                            c.kind == TDJ_LOOP || c.kind == TDJ_SEEK || c.kind == TDJ_BRAKE ||
+                            c.kind == TDJ_CUE_RECALL || c.kind == TDJ_GRID))
+        return TDJ_ACTIVE_PERFORMANCE;
     if (c.kind == TDJ_RECOVERY_CANCEL) {
         cancel_recovery(e, c.deck);
         return TDJ_OK;
@@ -1498,6 +1557,50 @@ static int apply(tdj_engine *e, tdj_command c) {
         }
         return TDJ_OK;
     }
+    if (c.kind == TDJ_LOOP_ROLL) {
+        if (c.flag != 0 && c.flag != 1)
+            return TDJ_INVALID;
+        deck proposed = *d;
+        bool park = !c.flag && c.value == -1;
+        if (c.flag) {
+            if (d->state != TDJ_PLAYING || d->loop_enabled || d->touch_active || d->braking ||
+                d->jump_pending || d->performance_rate != 1 || d->bpm <= 0)
+                return TDJ_ACTIVE_PERFORMANCE;
+            if (!isfinite(c.value) || !isfinite(c.value2) || c.value < 0 || c.value2 > d->asset->frames ||
+                c.value2 - c.value < 1)
+                return TDJ_INVALID;
+            proposed.loop_start = c.value;
+            proposed.loop_end = c.value2;
+            proposed.continuing = d->position;
+            if (d->position < c.value || d->position >= c.value2)
+                proposed.position = c.value;
+        } else {
+            if (!d->loop_rolling)
+                return TDJ_OK;
+            if (d->continuing >= d->asset->frames) {
+                proposed.position = d->asset->frames;
+                proposed.state = TDJ_ENDED;
+            } else {
+                proposed.position = d->continuing;
+                if (park)
+                    proposed.state = TDJ_PAUSED;
+            }
+        }
+        proposed.loop_enabled = proposed.loop_rolling = c.flag != 0;
+        if (proposed.state != TDJ_ENDED) {
+            if (!align_synced_position(&proposed, proposed.state == TDJ_PLAYING ? beat_now(e) : 0) && !park)
+                return TDJ_ALIGNMENT_UNAVAILABLE;
+            if (!park) {
+                int status = stream_validate(e, c.deck, &proposed, e->bpm, c.preparation_ticket, c.generation);
+                if (status != TDJ_OK)
+                    return status;
+            }
+        }
+        *d = proposed;
+        tdj_keylock_reset(e->keylocks[c.deck]);
+        transition_request(e, c.deck, 0);
+        return TDJ_OK;
+    }
     if (c.kind == TDJ_LOOP) {
         if ((c.flag != 0 && c.flag != 1) || !isfinite(c.value3) || c.value3 < 0 || c.value3 > 32)
             return TDJ_INVALID;
@@ -1573,7 +1676,8 @@ static int apply(tdj_engine *e, tdj_command c) {
             return TDJ_INVALID;
         deck proposed = *d;
         proposed.flux_enabled = c.flag != 0;
-        proposed.continuing = d->position;
+        if (!d->loop_rolling)
+            proposed.continuing = d->position;
         if (c.flag && (d->loop_enabled || d->touch_active)) {
             int status = stream_validate(e, c.deck, &proposed, e->bpm, c.preparation_ticket, c.generation);
             if (status != TDJ_OK)
@@ -1843,6 +1947,7 @@ static int apply(tdj_engine *e, tdj_command c) {
                 if (!supported_keylock_rate(e->bpm / bpm))
                     return TDJ_KEYLOCK_RANGE;
             }
+        d->grid_click_position_valid = false;
         d->map = c.beatgrid;
         d->map_dirty = true;
         return TDJ_OK;
@@ -1867,6 +1972,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             tdj_keylock_reset(e->keylocks[c.deck]);
             transition_request(e, c.deck, 0);
         }
+        d->grid_click_position_valid = false;
         d->map.count = 0;
         d->map_dirty = true;
         d->bpm = c.value;
@@ -1923,7 +2029,8 @@ static void controls(tdj_engine *e) {
                 cancel_recovery(e, 0);
                 cancel_recovery(e, 1);
             } else if (c.deck >= 0 && c.deck < 2 &&
-                       (c.kind == TDJ_LOAD || c.kind == TDJ_SEEK || c.kind == TDJ_JUMP || c.kind == TDJ_LOOP ||
+                       (c.kind == TDJ_LOAD || c.kind == TDJ_EJECT || c.kind == TDJ_SEEK || c.kind == TDJ_JUMP ||
+                        c.kind == TDJ_LOOP || c.kind == TDJ_LOOP_ROLL ||
                         c.kind == TDJ_TOUCH || c.kind == TDJ_CUE_RECALL || c.kind == TDJ_GRID ||
                         (c.kind == TDJ_BRAKE && c.flag == 1) || c.kind == TDJ_ADAPTIVE_GRID || c.kind == TDJ_RATE ||
                         c.kind == TDJ_BRAKE || c.kind == TDJ_FREE_RATE || c.kind == TDJ_SYNC_RESTORE ||
@@ -1936,7 +2043,8 @@ static void controls(tdj_engine *e) {
                 add_claim(e, e->decks[0].asset, c.preparation_ticket, 0, false);
                 add_claim(e, e->decks[1].asset, c.preparation_ticket_b, 1, false);
             } else if (c.deck >= 0 && c.deck < 2) {
-                bool source_action = c.kind == TDJ_JUMP || c.kind == TDJ_LOOP || c.kind == TDJ_TOUCH ||
+                bool source_action = c.kind == TDJ_JUMP || c.kind == TDJ_LOOP || c.kind == TDJ_LOOP_ROLL ||
+                                     c.kind == TDJ_TOUCH ||
                                      c.kind == TDJ_SEEK || c.kind == TDJ_CUE_RECALL || c.kind == TDJ_SYNC_RESTORE;
                 if (source_action && !same_touch && !touch_noop)
                     release_deck_claims(e, (unsigned)c.deck);
@@ -2096,6 +2204,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 transition_request(e, i, 0);
             transition->playing = playing;
             if (!playing) {
+                d->grid_click_position_valid = false;
                 double zero_l = 0, zero_r = 0;
                 transition_sample(transition, &zero_l, &zero_r);
                 mixer_process_deck(&e->mix, i, &zero_l, &zero_r);
@@ -2225,8 +2334,16 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                                      : step;
             else if (!d->touch_active)
                 d->continuing = d->position;
-            if (d->stream_starved)
+            if (d->stream_starved) {
+                d->grid_click_position_valid = false;
                 continue;
+            }
+            if (cue_left && d->grid_click && cue > 0 && d->performance_rate > 0) {
+                double tick = grid_click_sample(d, e->rate, step) * cue;
+                cl += tick;
+                cr += tick;
+            } else if (d->grid_click)
+                d->grid_click_position_valid = false;
             d->position += step * d->performance_rate * (d->braking ? d->brake_rate : 1);
             if (d->braking) {
                 double smoothing = fmin(1, 1 / (e->rate * 0.01));
@@ -2370,6 +2487,7 @@ static tdj_deck_snapshot read_deck(atomic_deck *p) {
                                 .recovery_mix_start = atomic_load(&p->recovery_mix_start),
                                 .loop_enabled = atomic_load(&p->loop_enabled),
                                 .flux_enabled = atomic_load(&p->flux_enabled),
+                                .loop_rolling = atomic_load(&p->loop_rolling),
                                 .touch_active = atomic_load(&p->touch_active),
                                 .jump_pending = atomic_load(&p->jump_pending),
                                 .loop_start = atomic_load(&p->loop_start),

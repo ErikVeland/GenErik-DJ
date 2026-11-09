@@ -48,3 +48,58 @@ import Testing
     core.setMicrophoneEnabled(true)
     #expect(core.renderBusesOffline(frames: 256).left.allSatisfy { $0 == 0 })
 }
+
+@Test func s2MK3EjectRetiresOnlyTheStoppedDeck() throws {
+    let core = try SampleTransport(sampleRate: 8000, outputGain: 1)
+    let asset = try PCMAsset(interleavedStereo: Array(repeating: 0.0, count: 64_000), sampleRate: 8000)
+    let a = try core.load(asset, deck: .a, grid: nil)
+    let b = try core.load(asset, deck: .b, grid: nil)
+    try core.play(deck: .b, generation: b)
+    core.processControlsWhileIdle()
+    _ = core.acknowledgements()
+    try core.eject(deck: .a, generation: a)
+    try core.eject(deck: .b, generation: b)
+    core.processControlsWhileIdle()
+    #expect(core.acknowledgements().compactMap(\.error) == [.protectedDeck])
+    #expect(core.asset(generation: a) == nil)
+    #expect(core.snapshot()?.a.phase == .empty)
+    #expect(core.snapshot()?.b.phase == .playing)
+    #expect(core.asset(generation: b) != nil)
+}
+
+@Test func s2MK3RollReturnsToTheContinuingCursorWithFluxOff() throws {
+    let core = try SampleTransport(sampleRate: 8000, outputGain: 1)
+    let asset = try PCMAsset(interleavedStereo: Array(repeating: 0.0, count: 64_000), sampleRate: 8000)
+    let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 8000)
+    let generation = try core.load(asset, deck: .a, grid: grid, synced: false)
+    try core.play(deck: .a, generation: generation)
+    _ = core.renderBusesOffline(frames: 1000)
+    try core.perform(.loopRoll, deck: .a, generation: generation, value: 0, end: 4000)
+    _ = core.renderBusesOffline(frames: 4500)
+    #expect(core.snapshot()?.a.sourceFrame == 1500)
+    #expect(core.snapshot()?.a.fluxEnabled == false)
+    try core.perform(.loopRoll, deck: .a, generation: generation, enabled: false)
+    core.processControlsWhileIdle()
+    #expect(core.snapshot()?.a.sourceFrame == 5500)
+    #expect(core.snapshot()?.a.loopEnabled == false)
+    #expect(core.snapshot()?.a.fluxEnabled == false)
+}
+
+@Test func s2MK3GridTickFollowsTheDraftAndStaysInCue() throws {
+    let core = try SampleTransport(sampleRate: 8000, outputGain: 1)
+    let asset = try PCMAsset(interleavedStereo: Array(repeating: 0.0, count: 64_000), sampleRate: 8000)
+    let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 8000)
+    let generation = try core.load(asset, deck: .a, grid: grid, synced: false)
+    try core.setMixer(.cue, value: 1, deck: .a)
+    try core.play(deck: .a, generation: generation)
+    try core.setGridMetronome(offset: 1000, deck: .a, generation: generation)
+    let audio = core.renderBusesOffline(frames: 1200)
+    #expect(audio.left.allSatisfy { $0 == 0 })
+    #expect(audio.cueLeft.prefix(1000).allSatisfy { $0 == 0 })
+    #expect(audio.cueLeft.dropFirst(1000).contains { abs($0) > 0.01 })
+    try core.setGridMetronome(offset: nil, deck: .a, generation: generation)
+    #expect(core.renderBusesOffline(frames: 4500).cueLeft.allSatisfy { $0 == 0 })
+    try core.setMixer(.cue, value: 0, deck: .a)
+    try core.setGridMetronome(offset: 0, deck: .a, generation: generation)
+    #expect(core.renderBusesOffline(frames: 4500).cueLeft.allSatisfy { $0 == 0 })
+}

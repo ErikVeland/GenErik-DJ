@@ -144,3 +144,23 @@ import Testing
     data[11] = 9
     #expect(controls.consume(.init(reportID: 1, payload: data)) == [.gridEnd(.a)])
 }
+
+@Test(arguments: [DeckID.a, .b])
+func s2MK3EjectAndMoveRollUseTheirOwnDeckAndEdges(deck: DeckID) {
+    var controls = S2MK3Controls()
+    var data = [UInt8](repeating: 0, count: 19)
+    func report() -> [S2MK3Controls.Event] { controls.consume(.init(reportID: 1, payload: data)) }
+    _ = report()
+    let shiftOffset = deck == .a ? 0 : 3
+    data[shiftOffset] = deck == .a ? 0x20 : 0x80
+    data[6] = deck == .a ? 0x01 : 0x08
+    #expect(report() == [.eject(deck)])
+    #expect(report().isEmpty)
+    data[shiftOffset] = 0
+    data[6] = deck == .a ? 0x02 : 0x10
+    #expect(report() == [.loopRoll(deck, true)])
+    data[shiftOffset] = deck == .a ? 0x20 : 0x80
+    #expect(report().isEmpty)
+    data[6] = 0
+    #expect(report() == [.loopRoll(deck, false)])
+}

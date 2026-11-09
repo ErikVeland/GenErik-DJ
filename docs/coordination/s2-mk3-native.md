@@ -52,8 +52,21 @@ The sampler uses 16 resident slots. Each slot takes up to four seconds from a pl
 
 Microphone input requires an iPadOS route that exposes the S2 microphone. The app verifies the input and output device before accepting MIC. The render callback reads a bounded input ring and converts the input rate as needed. Audio recovery mutes the mic if the graph must be rebuilt. The app does not request mic permission at startup.
 
-The grid edit uses a draft until release. It checks the deck generation and the saved grid before committing. Grid locks remain authoritative. The cue metronome, Shift plus Browse eject and Move press loop-roll are outside this increment. The app's Delay supplies the third FX button.
+The grid edit uses a draft until release. It checks the deck generation and the saved grid before committing. Grid locks remain authoritative. R112 covers the three remaining controls. The app's Delay supplies the third FX button.
 
 Physical USB or iOS cable input availability, live audio, FX response, sample latency, jog feel and controller brightness still require hardware acceptance.
 
 Seventeen focused tests passed across 20 cases. [Build 175](../testing/builds/175.json) installed on the A10X iPad, and iPadOS accepted launch. Build 174 stopped before installation and retains its compile log.
+
+
+## R112 eject, loop roll and grid metronome
+
+The native report uses the [Mixxx S2 Mk3 mapping](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Traktor-Kontrol-S2-MK3-hid-scripts.js) for Shift plus Browse and Move. The GRID audition follows the [NI S2 Mk3 manual](https://www.bhphotovideo.com/lit_files/627706.pdf).
+
+| Control | App action |
+| --- | --- |
+| Shift + Browse press | Eject the stopped track on that deck. Playing and queued decks remain protected. |
+| Move press | Hold to roll the playing deck at the selected loop length. Release to resume where the track would be. The roll leaves Sync and Flux choices intact. Finish a regular loop before starting a roll. |
+| GRID hold | Play the track, select that deck's mixer CUE and hold GRID. The tick follows its beat grid in the headphones. Release GRID to stop the tick. Pause the deck to edit its grid. |
+
+The tick enters only the headphone cue mix. It follows headphone mix and level. A missing beat grid produces no tick. A locked grid can still be auditioned. Eject clears the deck only after the audio engine accepts it. Disconnect ends a held roll and turns off the grid tick.

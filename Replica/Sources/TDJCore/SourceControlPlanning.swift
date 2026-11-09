@@ -33,7 +33,7 @@ extension SourceControl {
             loopStart: heldLoop ? state.touchStart : state.loopEnabled ? state.loopStart : 0,
             loopEnd: heldLoop ? state.touchEnd : state.loopEnabled ? state.loopEnd : 0,
             continuingPosition: state.continuingFrame, keylock: state.keylock,
-            reserveContinuing: state.fluxEnabled && (state.touchActive || state.loopEnabled))
+            reserveContinuing: (state.fluxEnabled || state.loopRolling) && (state.touchActive || state.loopEnabled))
         var preservePending = state.jumpPending
         var alignmentBeat: Double?
         var alignmentTiming = state.timing
@@ -97,7 +97,7 @@ extension SourceControl {
                         ? end > 0 ? (floor(snapshot.masterBeat / end) + 1) * end : snapshot.masterBeat : 0
                 }
                 preservePending = false
-            case .loop:
+            case .loop, .loopRoll:
                 preservePending = false
                 if enabled {
                     if quantum > 0 || target.position < value || target.position >= end {
@@ -108,13 +108,13 @@ extension SourceControl {
                         target.loopEnd = end
                     }
                     if !state.loopEnabled && !state.touchActive { target.continuingPosition = state.sourceFrame }
-                    target.reserveContinuing = state.fluxEnabled
+                    target.reserveContinuing = state.fluxEnabled || action == .loopRoll
                     if !state.touchActive, !state.braking, state.performanceRate == 1 {
                         alignmentBeat = state.phase == .playing
                             ? quantum > 0 ? (floor(snapshot.masterBeat / quantum) + 1) * quantum : snapshot.masterBeat : 0
                     }
                 } else {
-                    if state.loopEnabled && state.fluxEnabled && !state.touchActive {
+                    if state.loopEnabled && (state.fluxEnabled || state.loopRolling) && !state.touchActive {
                         target.position = bounded(state.continuingFrame)
                     }
                     if !heldLoop {

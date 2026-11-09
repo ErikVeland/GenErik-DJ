@@ -353,6 +353,8 @@ import TDJCore
         @ObservationIgnored var s2FX: [DeckID: S2MixerFX] = [:]
         @ObservationIgnored var s2FXSlots: [DeckID: Int] = [:]
         @ObservationIgnored var s2FXAmount: [DeckID: Double] = [:]
+        @ObservationIgnored var s2MetronomeGenerations: [DeckID: UInt64] = [:]
+        @ObservationIgnored var s2RollGenerations: [DeckID: UInt64] = [:]
         @ObservationIgnored var s2Grids: [DeckID: S2GridContact] = [:]
     #endif
     public func toggleZ1() {
@@ -1490,6 +1492,43 @@ import TDJCore
             } catch { status = error.localizedDescription }
         }
     }
+    #if os(iOS)
+        func ejectS2Deck(_ deck: DeckID) {
+            guard !arrangementPlaybackActive, !preparingTrack.contains(deck),
+                let state = playbackSnapshot?[deck], state.phase != .empty
+            else { return }
+            guard !state.phase.active else {
+                status = "Pause the deck before ejecting its track."
+                return
+            }
+            let token = loadTokens[deck]
+            do {
+                try playback.eject(deck: deck) { [weak self] in
+                    guard let self, loadTokens[deck] == token else { return }
+                    endS2Grid(deck: deck, save: false)
+                    resetControllerWheelJog(deck, restoreRate: false)
+                    deckAnalysisTasks.removeValue(forKey: deck)?.cancel()
+                    nativeWaveformTasks.removeValue(forKey: deck)?.cancel()
+                    loadTokens[deck] = nil
+                    loadPreparations[deck] = nil
+                    committedPreparations[deck] = nil
+                    pendingLoadPlay.removeValue(forKey: deck)
+                    trackLoadFailures[deck] = nil
+                    loaded[deck] = nil
+                    if lastLoadedDeck == deck { lastLoadedDeck = DeckID.allCases.first { loaded[$0] != nil } }
+                    loadedTrackCache[deck] = nil
+                    viewport[deck] = 0
+                    gridDraft[deck] = nil
+                    editing.remove(deck)
+                    frozen.remove(deck)
+                    previewing.remove(deck)
+                    refreshSuggestions()
+                }
+                refreshPlayback()
+            } catch { status = error.localizedDescription }
+        }
+    #endif
+
     public func startPlaybackMonitor() {
         guard playbackMonitor == nil else { return }
         #if os(iOS)

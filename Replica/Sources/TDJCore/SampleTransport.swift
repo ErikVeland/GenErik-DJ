@@ -134,6 +134,7 @@ public struct DeckMixerSnapshot: Codable, Equatable, Sendable {
 public enum PerformanceAction: Int32, Sendable {
     case jump = 10
     case loop, flux, touch, rate
+    case loopRoll = 27
 }
 
 public struct DeckPlaybackSnapshot: Codable, Equatable, Sendable {
@@ -146,6 +147,8 @@ public struct DeckPlaybackSnapshot: Codable, Equatable, Sendable {
     public let braking: Bool
     public let brakeRate: Double
     public let loopEnabled: Bool
+    private let rolling: Bool?
+    public var loopRolling: Bool { rolling == true }
     public let fluxEnabled: Bool
     public let touchActive: Bool
     public let jumpPending: Bool
@@ -188,6 +191,7 @@ public struct DeckPlaybackSnapshot: Codable, Equatable, Sendable {
         braking = value.braking != 0
         brakeRate = value.brake_rate
         loopEnabled = value.loop_enabled != 0
+        rolling = value.loop_rolling != 0
         fluxEnabled = value.flux_enabled != 0
         touchActive = value.touch_active != 0
         jumpPending = value.jump_pending != 0
@@ -417,6 +421,22 @@ public final class SampleTransport: @unchecked Sendable {
         command.deck = index(deck)
         command.generation = generation
         return try send(command)
+    }
+    @discardableResult public func eject(deck: DeckID, generation: UInt64) throws -> UInt64 {
+        var command = tdj_command()
+        command.kind = TDJ_EJECT
+        command.deck = index(deck)
+        command.generation = generation
+        return try send(command)
+    }
+    public func setGridMetronome(offset: Double?, deck: DeckID, generation: UInt64) throws {
+        var command = tdj_command()
+        command.kind = TDJ_GRID_METRONOME
+        command.deck = index(deck)
+        command.generation = generation
+        command.flag = offset == nil ? 0 : 1
+        command.value = offset ?? 0
+        try send(command)
     }
     public func setMasterBPM(_ bpm: Double) throws {
         var command = tdj_command()

@@ -127,7 +127,36 @@
             setEffect(effect, slot: slot, deck: deck)
         }
 
+        func setS2Roll(deck: DeckID, held: Bool) {
+            if !held {
+                guard let generation = s2RollGenerations.removeValue(forKey: deck),
+                    playback.generations[deck] == generation
+                else { return }
+                perform(.loopRoll, deck: deck, enabled: false)
+                return
+            }
+            guard !arrangementPlaybackActive, !preparingTrack.contains(deck),
+                let state = playbackSnapshot?[deck], state.phase == .playing, !state.loopEnabled,
+                let timing = state.timing, let asset = playback.core.asset(generation: state.generation)
+            else { return }
+            let position = state.sourceFrame
+            let start = s2Quantize ? max(0, timing.frame(atBeat: floor(timing.beat(atFrame: position)))) : position
+            let end = min(Double(asset.frames), start + timing.span(beats: performance.loopBeats(for: deck), from: start))
+            guard end - start >= 1 else { return }
+            s2RollGenerations[deck] = state.generation
+            perform(.loopRoll, deck: deck, value: start, end: end)
+        }
+
         func beginS2Grid(deck: DeckID, anchor: Bool) {
+            if !anchor, !arrangementPlaybackActive, !preparingTrack.contains(deck),
+                let state = playbackSnapshot?[deck], state.timing != nil
+            {
+                do {
+                    try playback.setGridMetronome(offset: 0, deck: deck, generation: state.generation)
+                    s2MetronomeGenerations[deck] = state.generation
+                } catch { status = error.localizedDescription }
+            }
+            if !anchor, playbackSnapshot?[deck].phase.active == true { return }
             guard !arrangementPlaybackActive, let state = playbackSnapshot?[deck], !state.phase.active,
                 !state.touchActive,
                 !state.loopEnabled, !preparingPlayback.contains(deck), !editing.contains(deck),
@@ -158,9 +187,16 @@
             guard (try? contact.preview.shiftWaveform(bySourceFrames: -offset)) != nil else { return }
             s2Grids[deck] = contact
             gridDraft[deck] = contact.preview
+            if let generation = s2MetronomeGenerations[deck] {
+                try? playback.setGridMetronome(
+                    offset: contact.preview.anchorFrame - contact.original.anchorFrame, deck: deck, generation: generation)
+            }
         }
 
         func endS2Grid(deck: DeckID, save: Bool) {
+            if let generation = s2MetronomeGenerations.removeValue(forKey: deck) {
+                try? playback.setGridMetronome(offset: nil, deck: deck, generation: generation)
+            }
             guard let contact = s2Grids.removeValue(forKey: deck) else { return }
             editing.remove(deck)
             if gridDraft[deck] == contact.preview { gridDraft[deck] = nil }

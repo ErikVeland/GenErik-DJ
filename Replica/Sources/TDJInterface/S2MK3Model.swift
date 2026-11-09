@@ -52,6 +52,10 @@
                     perform(.rate, deck: deck, value: held ? -1 : 1)
                 case .browser(let command):
                     queueS2Browser(command)
+                case .eject(let deck):
+                    ejectS2Deck(deck)
+                case .loopRoll(let deck, let held):
+                    setS2Roll(deck: deck, held: held)
                 case .browserView:
                     if browserVisible && browserPresentationExpands {
                         browserVisible = false
@@ -92,6 +96,7 @@
             for deck in s2Controls.touched { applyController(deck == .a ? .jogTouchA : .jogTouchB, value: 0) }
             for deck in s2Controls.reversing { perform(.rate, deck: deck, value: 1) }
             for deck in DeckID.allCases { resetControllerWheelJog(deck) }
+            for deck in s2Controls.rolling { setS2Roll(deck: deck, held: false) }
             releaseS2Extras()
             s2Controls = .init()
             s2Takeover.removeAll()

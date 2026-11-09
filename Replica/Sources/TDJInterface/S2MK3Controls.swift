@@ -59,6 +59,8 @@ struct S2MK3Controls {
         case flux(DeckID)
         case reverse(DeckID, Bool)
         case browser(S2BrowserCommand)
+        case eject(DeckID)
+        case loopRoll(DeckID, Bool)
         case browserView
         case samplePad(Int, shifted: Bool)
         case sampleGain(Double)
@@ -90,6 +92,7 @@ struct S2MK3Controls {
     private var previousButtons: [UInt8]?
     private var previousPots: [UInt8]?
     private(set) var touched: Set<DeckID> = []
+    private(set) var rolling: Set<DeckID> = []
     private(set) var reversing: Set<DeckID> = []
     private(set) var samples: Set<DeckID> = []
     private(set) var gridHeld: Set<DeckID> = []
@@ -157,7 +160,17 @@ struct S2MK3Controls {
                 Int(bytes[browseOffset] >> browseShift & 15), Int(previous[browseOffset] >> browseShift & 15),
                 modulus: 16)
             if browseDelta != 0 { events.append(.browser(.move(browseDelta, groups: shifts.contains(deck)))) }
-            if pressed(7, left ? 0x01 : 0x08), !shifts.contains(deck) { events.append(.browser(.load(deck))) }
+            if pressed(7, left ? 0x01 : 0x08) {
+                events.append(shifts.contains(deck) ? .eject(deck) : .browser(.load(deck)))
+            }
+            let moveMask: UInt8 = left ? 0x02 : 0x10
+            if pressed(7, moveMask), !shifts.contains(deck) {
+                rolling.insert(deck)
+                events.append(.loopRoll(deck, true))
+            } else if rolling.contains(deck) && bytes[6] & moveMask == 0 {
+                rolling.remove(deck)
+                events.append(.loopRoll(deck, false))
+            }
             if pressed(left ? 1 : 4, left ? 0x04 : 0x10) {
                 events.append(.browser(.prepare(top: shifts.contains(deck))))
             }

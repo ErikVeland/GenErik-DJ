@@ -13,15 +13,18 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     public private(set) var generations: [DeckID: UInt64] = [:]
     // Development startup policy. Original default and persistence remain unmeasured.
     private var keylockPreference: [DeckID: Bool] = [.a: true, .b: true]
+    private var ejectCommits: [UInt64: (DeckID, () -> Void)] = [:]
     private var pendingKeylock: [UInt64: (DeckID, Bool)] = [:]
     private var latestKeylock: [DeckID: UInt64] = [:]
     private enum ControlValue {
         case mixer(MixerParameter, Double, DeckID)
         case effect(Int, Int, Double, Double, Bool, DeckID, Bool)
+        case gridMetronome(Double?, DeckID, UInt64)
 
         enum Lane: Equatable {
             case mixer(MixerParameter, DeckID?)
             case effect(Int, DeckID)
+            case gridMetronome(DeckID)
         }
 
         var lane: Lane {
@@ -32,6 +35,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                 default: return .mixer(parameter, deck)
                 }
             case .effect(_, let slot, _, _, _, let deck, _): return .effect(slot, deck)
+            case .gridMetronome(_, let deck, _): return .gridMetronome(deck)
             }
         }
 
@@ -41,6 +45,9 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                 try core.setMixer(parameter, value: value, deck: deck)
             case .effect(let kind, let slot, let x, let y, let enabled, let deck, let synced):
                 try core.setEffect(kind, slot: slot, x: x, y: y, enabled: enabled, deck: deck, synced: synced)
+            case .gridMetronome(let offset, let deck, let generation):
+                guard core.snapshot()?[deck].generation == generation else { return }
+                try core.setGridMetronome(offset: offset, deck: deck, generation: generation)
             }
         }
     }
@@ -371,11 +378,26 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         try submitSource(.cueRecall(deck, generation, frame: cue.frame, loopEnd: cue.loopEnd, quantum: quantum))
         if !outputActive { core.processControlsWhileIdle() }
     }
+    func eject(deck: DeckID, accepted: @escaping () -> Void) throws {
+        guard let generation = generations[deck], core.snapshot()?[deck].generation == generation else {
+            throw TransportError.stale
+        }
+        let identifier = try core.eject(deck: deck, generation: generation)
+        ejectCommits[identifier] = (deck, accepted)
+        if !outputActive { core.processControlsWhileIdle() }
+    }
+    func setGridMetronome(offset: Double?, deck: DeckID, generation: UInt64) throws {
+        try submitControlValue(.gridMetronome(offset, deck, generation))
+    }
     public func perform(
         _ action: PerformanceAction, deck: DeckID, value: Double = 0, end: Double = 0, enabled: Bool = true,
         quantum: Double = 0, touchRate: Double? = nil, followsPosition: Bool = false
     ) throws {
         guard let generation = generations[deck] else { throw TransportError.stale }
+        if action == .loopRoll {
+            if latestSources[.rollRelease(deck)] != nil { return }
+            if !enabled { invalidateSource(.performance(deck, action.rawValue)) }
+        }
         if action == .touch && enabled && !offline { try startOutput() }
         let control = SourceControl.performance(
             action, deck, generation, value: value, end: end, enabled: enabled, quantum: quantum,
@@ -644,6 +666,12 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             }
             if handleSourceAcknowledgement(message) { continue }
             if message.error != nil { rejectedCommandCount += 1 }
+            if let (deck, accepted) = ejectCommits.removeValue(forKey: message.commandID), message.error == nil,
+                generations[deck] == message.generation {
+                cancelSourcePreparations(deck: deck)
+                generations[deck] = nil
+                accepted()
+            }
             if let (deck, enabled) = pendingKeylock.removeValue(forKey: message.commandID),
                 latestKeylock[deck] == message.commandID
             {
@@ -1110,6 +1138,7 @@ extension PlaybackController {
         case recall(DeckID)
         case performance(DeckID, Int32)
         case touchRelease(DeckID)
+        case rollRelease(DeckID)
         init(_ control: SourceControl) {
             switch control {
             case .brake(_, _, let deck, _): self = .performance(deck, 23)
@@ -1122,16 +1151,22 @@ extension PlaybackController {
             case .seek(_, let deck, _): self = .seek(deck)
             case .cueRecall(let deck, _, _, _, _): self = .recall(deck)
             case .performance(let action, let deck, _, _, _, let enabled, _, _, _):
-                self = action == .touch && !enabled ? .touchRelease(deck) : .performance(deck, action.rawValue)
+                switch (action, enabled) {
+                case (.touch, false): self = .touchRelease(deck)
+                case (.loopRoll, false): self = .rollRelease(deck)
+                default: self = .performance(deck, action.rawValue)
+                }
             }
         }
         var isRelease: Bool {
-            if case .touchRelease = self { return true }
-            return false
+            switch self {
+            case .touchRelease, .rollRelease: true
+            default: false
+            }
         }
         var retriesWhenFull: Bool {
             switch self {
-            case .play, .touchRelease: return true
+            case .play, .touchRelease, .rollRelease: return true
             default: return false
             }
         }
@@ -1139,7 +1174,7 @@ extension PlaybackController {
             switch self {
             case .tempo: nil
             case .play(let deck), .freeRate(let deck), .sync(let deck), .keylock(let deck), .grid(let deck),
-                .seek(let deck), .recall(let deck), .performance(let deck, _), .touchRelease(let deck):
+                .seek(let deck), .recall(let deck), .performance(let deck, _), .touchRelease(let deck), .rollRelease(let deck):
                 deck
             }
         }
@@ -1258,6 +1293,11 @@ extension PlaybackController {
             return true
         }
         latestSources[tracked.lane] = nil
+        if message.error == .syncUnavailable, case .rollRelease(let deck) = tracked.lane,
+            let generation = tracked.control.generation
+        {
+            parkRollRelease(deck: deck, generation: generation)
+        }
         if case .touchRelease(let deck) = tracked.lane {
             let next = touchAfterRelease.removeValue(forKey: deck)
             if message.error == nil, let next, generations[deck] == next.generation {
@@ -1268,6 +1308,13 @@ extension PlaybackController {
             }
         }
         return false
+    }
+    private func parkRollRelease(deck: DeckID, generation: UInt64) {
+        guard generations[deck] == generation else { return }
+        _ = try? submitSource(
+            .performance(.loopRoll, deck, generation, value: -1, end: 0, enabled: false, quantum: 0),
+            canPrepare: false)
+        if !outputActive { core.processControlsWhileIdle() }
     }
     private func startSourcePreparation(_ tracked: TrackedSource) {
         guard preparationTasks[tracked.lane] == nil else { return }
@@ -1326,6 +1373,9 @@ extension PlaybackController {
                     // Clear the hold even when the streaming worker cannot provide the return audio.
                     try? self.submitSource(.parkTouchRelease(deck: deck, generation: generation), canPrepare: false)
                     if !self.outputActive { core.processControlsWhileIdle() }
+                }
+                if case .rollRelease(let deck) = tracked.lane, let generation = tracked.control.generation {
+                    self.parkRollRelease(deck: deck, generation: generation)
                 }
                 self.sourcePreparationFailures += 1
                 if case .keylock(_, let deck, _) = tracked.control {
