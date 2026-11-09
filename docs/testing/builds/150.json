@@ -1,0 +1,47 @@
+{
+  "notes": "R89: Start each loaded waveform at file position zero, follow the matching audio playhead while stopped or playing, and reject stale positions during reloads. R90-R93 remain open.",
+  "sourceCommit": "564811f431aa9088fcec277c2738bfd36f298e5b",
+  "sourceSHA256": "013f139a05156118aa893732c26746d37248e9899eafb628586412ccefa5b75e",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 39.25,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-150.log",
+  "build": 150,
+  "app": "TestBuilds/ipad/150/GenErikDJ.app",
+  "appSHA256": "953c983ad49869022feb2a3b1eb15a66f2f0538ff9f34862cbe1a1295744d5c3",
+  "state": "testing",
+  "createdUTC": "2026-11-08T23:59:36.283657+00:00",
+  "installedUTC": "2026-11-08T23:59:52.419592+00:00",
+  "launchedUTC": "2026-11-08T23:59:53.045597+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R89"
+  ],
+  "relatedOpenRequests": [
+    "R90",
+    "R91",
+    "R92",
+    "R93"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "deviceUDID": "3c4b6e12624a577712d178b63203c9d7c249bf77",
+  "previousDeviceBuild": 144,
+  "focusedChecks": "Nine focused host tests passed across twelve cases. They cover nonzero grid anchors on both decks, stopped seeking, paused-track reloads, explicit preview/Freeze/grid-edit views, immediate waveforms, queued Play, cancellation and queued launch timing.",
+  "verificationLimit": "iPadOS accepted installation and launch. No later device action was taken. Erik must verify load and reload position, playhead following and uninterrupted A10X playback. R90-R93 remain open. This is not a gig-readiness claim.",
+  "evidence": [
+    "TestBuilds/r89/verification.json",
+    "TestBuilds/r89/playhead-red.log",
+    "TestBuilds/r89/playhead-red-2.log",
+    "TestBuilds/r89/playhead-green.log",
+    "TestBuilds/r89/ipad-run.log",
+    "TestBuilds/ipad/build-150.log"
+  ],
+  "acceptance": [
+    "Load a prepared track on each deck. Check that the file starts at the playhead before Play.",
+    "Play and pause a track away from the beginning. Reload it. Check that the view stays at the file start.",
+    "Seek while stopped. Check that the waveform and playhead show the same position.",
+    "Play the loaded track. Check that the waveform follows the playhead without a visual jump to the grid anchor.",
+    "Check audio continuity and touch response on the A10X. Report any failure."
+  ]
+}

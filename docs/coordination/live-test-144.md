@@ -39,7 +39,9 @@ Automatic grid completion can move the viewport to a detected downbeat without m
 The focused fix covers these display paths. Nine focused host tests passed across twelve cases.
 The initial run reproduced nine failed expectations before the source change.
 The initial test compilation error and all subsequent logs are retained under `TestBuilds/r89/`.
-Signed iPad build and physical verification remain pending. R90–R93 remain open.
+Build 150 installed on the A10X iPad, and iPadOS accepted launch.
+Physical verification remains open. R90–R93 remain open.
+See the [build record](../testing/builds/150.json) for source identity, evidence and test steps.
 Preserve explicit preview, Freeze and grid-edit views. Keep the current iPad and Duo layouts.
 
 Verification covers nonzero grid anchors, both decks, a ready deck seek and replacement of a paused track.

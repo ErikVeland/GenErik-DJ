@@ -2,7 +2,7 @@
 
 | Request | Open work |
 | --- | --- |
-| R89–R93 | Build 144 live testing found incorrect load/playhead display, intermittent Z1 crossfader silence, preview-strip mismatch, long-track load flicker and lost Sync. These block live acceptance. See [feedback and transport contract](live-test-144.md). |
+| R89–R93 | Build 144 live testing found incorrect load/playhead display, intermittent Z1 crossfader silence, preview-strip mismatch, long-track load flicker and lost Sync. R89 has a focused fix in build 150 and awaits physical acceptance. R90–R93 remain open. These block live acceptance. See [feedback and transport contract](live-test-144.md). |
 | R01/R07/R20 | Sustained current-source audio, adaptive timing, memory/thermal behaviour and real-setup rehearsal need A10X acceptance. |
 | R09/R11/R35–R38 | Verse/chorus/drop/ending labels remain estimates. Dense remixes and unresolved vocal tracks need reference-labelled listening checks. |
 | R12 | Mixed In Key native exports and Traktor Pro write-back need verified format/identity mappings and preview/backup checks. |
