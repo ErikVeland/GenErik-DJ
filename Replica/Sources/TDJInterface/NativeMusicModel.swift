@@ -327,6 +327,11 @@ extension ReplicaModel {
                     guard !Task.isCancelled, libraryAnalysisOwner == token else { break }
                     await flushLibraryMeasurements()
                     guard !Task.isCancelled, libraryAnalysisOwner == token else { break }
+                    if pass == .deep, outcome == "success", let trackID = matched[job.id],
+                        let current = library.track(id: trackID)
+                    {
+                        review[job.id] = libraryMatchingIssue(current)
+                    }
                     if let issue {
                         if review[job.id] == nil { review[job.id] = issue }
                         logAnalysis("Review \(job.title) (\(pass.title)): \(issue)")
