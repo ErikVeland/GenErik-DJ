@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 36.3,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R101"
+      ],
+      "report": "Opening the library shows 1,924 unread analysis warnings. Keep library analysis warnings read and show an unread warning at the top when its track loads.",
+      "summary": "Build 164 is assumed from the last iPad install."
+    }
+  ],
   "log": "TestBuilds/ipad/build-164.log",
   "build": 164,
   "app": "TestBuilds/ipad/164/GenErikDJ.app",

@@ -1,3 +1,15 @@
+import Foundation
+
+struct LibraryAnalysisWarning: Equatable {
+    let title: String
+    let message: String
+}
+
+struct LoadedAnalysisNotice: Identifiable {
+    let id = UUID()
+    let warning: LibraryAnalysisWarning
+}
+
 struct MusicLibraryAccessNotice {
     var message: String? {
         didSet {
@@ -14,10 +26,26 @@ struct MusicLibraryAccessNotice {
 
 struct MusicLibraryNotices {
     private(set) var failures: [String: String] = [:]
+    private(set) var loadedAnalysisNotices: [LoadedAnalysisNotice] = []
     private var readFailureIDs: Set<String> = []
+    private var unreadLoadedAnalysisIDs: Set<UUID> = []
 
     var unreadCount: Int {
-        failures.count - readFailureIDs.count
+        failures.count - readFailureIDs.count + unreadLoadedAnalysisIDs.count
+    }
+
+    mutating func addLoadedAnalysisNotice(_ warning: LibraryAnalysisWarning) {
+        let notice = LoadedAnalysisNotice(warning: warning)
+        loadedAnalysisNotices.append(notice)
+        unreadLoadedAnalysisIDs.insert(notice.id)
+    }
+
+    func isLoadedAnalysisNoticeRead(_ id: UUID) -> Bool {
+        !unreadLoadedAnalysisIDs.contains(id)
+    }
+
+    mutating func markLoadedAnalysisNoticeRead(_ id: UUID) {
+        unreadLoadedAnalysisIDs.remove(id)
     }
 
     mutating func setFailure(_ message: String?, for id: String) {
@@ -42,5 +70,6 @@ struct MusicLibraryNotices {
 
     mutating func markAllRead() {
         readFailureIDs = Set(failures.keys)
+        unreadLoadedAnalysisIDs.removeAll()
     }
 }

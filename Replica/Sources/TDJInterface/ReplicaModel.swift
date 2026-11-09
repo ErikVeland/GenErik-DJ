@@ -224,6 +224,7 @@ import TDJCore
     public func cancelMusicLibraryImport() { musicLibraryImportTask?.cancel() }
     public func flushMusicLibraryImport() async { await musicLibraryImportTask?.value }
     var musicLibraryNotices = MusicLibraryNotices()
+    var libraryAnalysisWarnings: [String: LibraryAnalysisWarning] = [:]
     var musicLibraryAccessNotice = MusicLibraryAccessNotice()
     var unreadMusicLibraryNoticeCount: Int {
         musicLibraryNotices.unreadCount + musicLibraryAccessNotice.unreadCount
@@ -1035,6 +1036,10 @@ import TDJCore
                 warmCuePositions(deck: deck)
                 prepareWaveform(preparedSourceTrack)
                 enqueueHistory(event)
+                let warning = nativeMetadata.flatMap { libraryAnalysisWarnings[$0.source.id] }
+                    ?? libraryAnalysisWarnings[trackID]
+                    ?? preparedSourceTrack.musicLibrarySources?.lazy.compactMap { libraryAnalysisWarnings[$0.id] }.first
+                if let warning { musicLibraryNotices.addLoadedAnalysisNotice(warning) }
                 if let opening { prepareNativeWaveform(opening, track: preparedSourceTrack, deck: deck, token: token) }
                 if pendingLoadPlay[deck] == (nativeLoadOwner ?? token) {
                     pendingLoadPlay[deck] = nil
