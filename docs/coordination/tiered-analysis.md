@@ -230,7 +230,7 @@ The receiver logs corrupt retained payloads and continues through other availabl
 Upload and transport failures retain the queue for retry.
 Full-revision recovery remains an explicit action at the next launch.
 
-### Verification in progress
+### Verification scope
 
 The isolated-worktree baseline passed the queue and execution-context checks.
 Focused checks cover window resume, damaged checkpoints, model and policy namespaces, exact identity, local authority,
@@ -242,7 +242,7 @@ Downbeat outputs were identical on all three. Beat outputs were identical on Blu
 The converted model added one beat on 3CAG and moved a beat by 20 ms on Groove Is In The Heart.
 This is conversion evidence, not a labelled musical-accuracy comparison or Duo performance measurement.
 The complete Swift deep path processed 3CAG and reused its saved result. Its 71.001 BPM candidate remained below the downbeat acceptance gate.
-Further final-source checks and the signed build record follow below. Actual Duo throughput, iCloud round-trip and A10X live acceptance remain open.
+The final checks and signed build record follow below. Actual Duo throughput, iCloud round-trip and A10X live acceptance remain open.
 
 
 ## Host verification and integration
@@ -256,3 +256,25 @@ Additional checks verify compact Float32 checkpoint storage, preservation of acc
 and adoption of sections after a beat upgrade without losing corrected labels.
 The R93 Sync change and build 151 records were merged into the isolated branch before final verification.
 No live-test acceptance is inferred from this integration.
+
+Forty-one focused host tests passed with the same application assets as signed build 152.
+An earlier worktree run lacked the ignored vocal model. The unchanged asset was copied from the primary checkout before these checks.
+Build 153 adds a five-line change that refreshes first-pass review notices after successful deep analysis.
+Five focused follow-up tests passed on that final source.
+The real-model interruption check stopped after its first saved window, resumed, and produced exactly the uninterrupted result.
+Failed, incomplete and intermediate evidence remains under `TestBuilds/r88-full/`.
+The verification manifest binds each conclusive test run to its application source hash.
+
+## Build 153 handoff
+
+Build 153 was signed from committed `main` at `2bd95ea288ab13394d20f4c02ff440b954d6c9cb`.
+Its application source hash is `e2e4f4acb763ead3e68280f250930bf901e766a09c02412b941280155eb34beb`.
+Runtime framework and signing checks passed. Build 152 remains preserved as the earlier, uninstalled candidate.
+
+The Duo installation failed before launch. CoreDevice reported that the required trusted connection and device services were unavailable.
+Build 149 remains the last recorded Duo install. The failed attempt is retained in the [build record](../testing/builds/153.json).
+No iPad installation or process action followed its build 151 handoff. Its update timing awaits Erik's reply.
+Both devices need a compatible build before the automatic sharing round-trip can be tested.
+
+Remaining device checks cover saved progress after power changes, analysis speed, memory, thermal behaviour and cross-device adoption.
+A10X audio continuity and immediate touch response remain acceptance requirements. Model conversion checks do not establish musical accuracy.

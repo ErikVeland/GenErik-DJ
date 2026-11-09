@@ -1,0 +1,55 @@
+{
+  "notes": "R88: Complete tiered engine with versioned full-track ML checkpoints, beneficial profile upgrades, automatic private iCloud sharing and current review notes. Includes the R93 Sync fix.",
+  "sourceCommit": "2bd95ea288ab13394d20f4c02ff440b954d6c9cb",
+  "sourceSHA256": "e2e4f4acb763ead3e68280f250930bf901e766a09c02412b941280155eb34beb",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 37.1,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-153.log",
+  "build": 153,
+  "app": "TestBuilds/ipad/153/GenErikDJ.app",
+  "appSHA256": "6dfb05e6aeb97ea9bfaf21786642227da473f9d8ede191f9d579be9fcef5d517",
+  "state": "ready",
+  "createdUTC": "2026-11-09T01:06:32.831774+00:00",
+  "requestIDs": [
+    "R88"
+  ],
+  "focusedChecks": "41 focused host tests passed with the same application assets as build 152. Five follow-up tests passed on the final build 153 source after the review-notice refresh.",
+  "modelChecks": "The full Swift path completed three real tracks and reopened each saved result. Interrupted 3CAG analysis resumed to exactly the same result. Core ML conversion was compared with the upstream model on those tracks.",
+  "verificationLimit": "Host and conversion checks do not prove musical accuracy, actual Neural Engine placement or speed, CloudKit round-trip, or live audio and touch performance.",
+  "installationAttempts": [
+    {
+      "device": "GenErik Duo",
+      "deviceUDID": "00008160-000859C436800036",
+      "attemptUTC": "2026-11-09T01:11:46.198471+00:00",
+      "outcome": "failed",
+      "error": "CoreDeviceError 4016: trusted connectivity and device service requirements unavailable.",
+      "log": "TestBuilds/r88-full/duo-deploy-153.log"
+    }
+  ],
+  "iPadDisposition": "No installation, launch or process action. Build 151 remains the last recorded iPad install. Await Erik's timing choice after its Sync-test handoff.",
+  "previousRecordedDeviceBuilds": {
+    "GenErik Duo": 149,
+    "A10X iPad Pro": 151
+  },
+  "evidence": [
+    "TestBuilds/r88-full/verification.json",
+    "TestBuilds/r88-full/signed-assets-focused-tests.log",
+    "TestBuilds/r88-full/review-refresh-tests.log",
+    "TestBuilds/r88-full/actual-model-resume.log",
+    "TestBuilds/r88-full/model-comparison.json",
+    "TestBuilds/r88-full/duo-deploy-153.log"
+  ],
+  "acceptance": [
+    "Check that every first-pass group finishes before deep analysis starts.",
+    "During deep analysis, unplug the Duo. Reconnect power and check that saved progress resumes.",
+    "Start playback during analysis. Check uninterrupted audio and immediate controls.",
+    "With compatible builds and the same iCloud account, check that the iPad receives deep results and preserves manual preparation."
+  ],
+  "remaining": [
+    "Install the saved build when the Duo connection is available.",
+    "Confirm iPad update timing after build 151 Sync testing.",
+    "Measure Duo performance and verify cross-device sharing and A10X live playback."
+  ]
+}

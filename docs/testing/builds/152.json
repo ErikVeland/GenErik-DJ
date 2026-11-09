@@ -1,0 +1,23 @@
+{
+  "notes": "R88: Versioned full-track deep beat analysis on powered idle Neural Engine devices, resumable prediction checkpoints, and automatic private iCloud analysis sharing. Preserve manual preparation and the R93 Sync fix.",
+  "sourceCommit": "c9a2d6c66359a19ee5b928c9150a6aaedb1a262e",
+  "sourceSHA256": "efb389a57cffa238852c5510fd000b9a11680ca3b001e31e17075ed241fc864d",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 62.28,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-152.log",
+  "build": 152,
+  "app": "TestBuilds/ipad/152/GenErikDJ.app",
+  "appSHA256": "5d94c3ce2c2f90b7fab7c2e6d0e6522f9b800417e1890e648d76591cbed15c84",
+  "state": "ready",
+  "createdUTC": "2026-11-09T00:56:56.855893+00:00",
+  "requestIDs": [
+    "R88"
+  ],
+  "supersededBy": 153,
+  "disposition": "Prepared and preserved. No installation was attempted. Build 153 adds the final review-notice refresh.",
+  "evidence": [
+    "TestBuilds/r88-full/verification.json"
+  ]
+}
