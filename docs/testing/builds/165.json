@@ -1,0 +1,31 @@
+{
+  "notes": "R101 keeps library analysis warnings read and adds a new unread warning when the affected track loads. Includes the R99 playback recovery changes on main.",
+  "sourceCommit": "eda0be0df6798c21c4c273b7d7e6f62bc3b58658",
+  "sourceSHA256": "e31881e3dc8be3930e4b97710c7358c0c78fe31b9ca84f9bf2c06e077ff8660a",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 45.91,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-165.log",
+  "build": 165,
+  "app": "TestBuilds/ipad/165/GenErikDJ.app",
+  "appSHA256": "0c058d7e7ce2b10d686d3744382867ee9a1fb9ef37131479f061f59d1cfa0d65",
+  "state": "testing",
+  "createdUTC": "2026-11-09T08:48:10.661827+00:00",
+  "installedUTC": "2026-11-09T08:48:23.562470+00:00",
+  "launchedUTC": "2026-11-09T08:48:23.960935+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R101"
+  ],
+  "includesRequests": [
+    "R99"
+  ],
+  "focusedChecks": "The notice check passed for repeated loads, individual reads and Mark all as read.",
+  "evidence": [
+    "TestBuilds/r101/focused.log",
+    "TestBuilds/r101/ipad-run.log",
+    "TestBuilds/r101/build-165-first-attempt.log"
+  ],
+  "verificationLimit": "Erik checks the unread count on library open and the first notice after loading a track with a warning."
+}
