@@ -77,11 +77,12 @@ The existing report uses byte positions 17/20 for amber and 18/21 for blue, incl
 NI calls the FX colour orange in the preserved original Z1 manual. User-facing notes call it amber.
 Cue lights, meters, MODE feedback and all input actions retain their existing behaviour.
 
-During normal playback, blue peaks on each beat and fades through the first fifth of that beat.
+During normal playback, blue hits on each beat and fades more slowly as it approaches the next beat.
 An active filter stays visibly lit between pulses. In FX mode, blue gives a small beat accent alongside the amber status.
 At 30 seconds remaining, amber pulses every four beats, aligned to the deck's downbeat.
 At 10 seconds remaining, amber pulses on every beat. Amber fades during the first half of each pulse cycle.
-The blue accent is limited to 24 of 127 during the warning. The active FX light keeps a dim amber floor.
+During the warning, the blue accent peaks at 24 of 127 and fades in the first fifth of the beat.
+The active FX light keeps a dim amber floor.
 The light overlay does not select, enable or disable the filter or any effect.
 
 Each deck uses its own current playback beat position, including its adaptive grid.

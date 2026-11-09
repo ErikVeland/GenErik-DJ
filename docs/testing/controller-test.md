@@ -42,7 +42,7 @@ Audio detection alone does not establish working controls. Compilation, installa
 ## Beat and warning lights
 
 1. Load a track with a valid beat grid on each deck.
-2. Play both decks and check the small blue pulse on each channel's filter/FX ON button.
+2. Play both decks. Check for a clear blue hit and a smooth fade on each filter/FX ON button.
 3. Change the tempo and check that the pulses follow each deck's beat.
 4. Move a track to just before 30 seconds remaining.
 5. Check that amber pulses every four beats after the 30-second boundary.

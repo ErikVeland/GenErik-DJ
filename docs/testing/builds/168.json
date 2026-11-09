@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 7.87,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R106"
+      ],
+      "report": "The controller beat pulse is too subtle. Give it a clearer hit on the beat and a slow, musical fade until the next beat.",
+      "summary": "Build 168 is assumed from the last recorded iPad install."
+    }
+  ],
   "log": "TestBuilds/ipad/build-168.log",
   "build": 168,
   "app": "TestBuilds/ipad/168/GenErikDJ.app",

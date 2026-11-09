@@ -134,9 +134,11 @@ public enum Z1OutputReport {
         let beat = timing.beat(atFrame: state.sourceFrame)
         guard beat.isFinite else { return }
 
-        let bluePulse = pulse(phase: beat, width: 0.2)
-        let blueBase = bytes[blueIndex] == 0x7f ? 0x60 : Double(bytes[blueIndex])
-        let bluePeak = bytes[blueIndex] == 0x7f ? 0x7f : blueBase + 0x18
+        let beatRemaining = 1 - (beat - floor(beat))
+        // Blend a steep initial drop with a tail that lasts through the beat.
+        let bluePulse = beatRemaining * (0.25 + 0.75 * beatRemaining)
+        let blueBase = bytes[blueIndex] == 0x7f ? 0x50 : Double(bytes[blueIndex])
+        let bluePeak = bytes[blueIndex] == 0x7f ? 0x7f : blueBase + 0x30
         bytes[blueIndex] = brightness(base: blueBase, peak: bluePeak, pulse: bluePulse)
 
         guard !state.loopEnabled, let frameCount, frameCount > 0 else { return }
@@ -152,7 +154,7 @@ public enum Z1OutputReport {
         let amberBase = bytes[amberIndex] == 0x7f ? 0x20 : Double(bytes[amberIndex])
         bytes[amberIndex] = brightness(base: amberBase, peak: 0x7f, pulse: amberPulse)
         // Keep the warning prominent while blue still marks each beat.
-        bytes[blueIndex] = brightness(base: 0, peak: 0x18, pulse: bluePulse)
+        bytes[blueIndex] = brightness(base: 0, peak: 0x18, pulse: pulse(phase: beat, width: 0.2))
     }
 
     private static func pulse(phase: Double, width: Double) -> Double {
