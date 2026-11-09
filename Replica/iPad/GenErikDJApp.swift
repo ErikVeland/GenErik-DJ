@@ -31,21 +31,27 @@ import UIKit
     }
     var body: some Scene {
         WindowGroup {
-            if let model {
-                ReplicaView(model: model)
-                    .onChange(of: scenePhase == .active && model.analysisIsRunning, initial: true) { _, analyzing in
-                        updateIdleTimer(whileAnalyzing: analyzing)
-                    }
-                    .onReceive(
-                        NotificationCenter.default.publisher(for: UIDevice.batteryStateDidChangeNotification)
-                            .receive(on: RunLoop.main)
-                    ) { _ in
-                        updateIdleTimer(whileAnalyzing: scenePhase == .active && model.analysisIsRunning)
-                    }
-                    .onDisappear { updateIdleTimer(whileAnalyzing: false) }
-            } else {
-                Text(startupError ?? "Cannot open the workspace. Saved preparation is retained.").padding()
+            ZStack {
+                Color("LaunchBackground").ignoresSafeArea()
+                if let model {
+                    ReplicaView(model: model)
+                        .onChange(of: scenePhase == .active && model.analysisIsRunning, initial: true) { _, analyzing in
+                            updateIdleTimer(whileAnalyzing: analyzing)
+                        }
+                        .onReceive(
+                            NotificationCenter.default.publisher(for: UIDevice.batteryStateDidChangeNotification)
+                                .receive(on: RunLoop.main)
+                        ) { _ in
+                            updateIdleTimer(whileAnalyzing: scenePhase == .active && model.analysisIsRunning)
+                        }
+                        .onDisappear { updateIdleTimer(whileAnalyzing: false) }
+                } else {
+                    Text(startupError ?? "Cannot open the workspace. Saved preparation is retained.")
+                        .padding()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
             }
+            .preferredColorScheme(.dark)
         }
     }
 
