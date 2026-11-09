@@ -94,6 +94,31 @@ func tempoOctaveDecisionFollowsSpacingAcrossTempos(_ bpm: Double) throws {
     #expect(!track.needsCurrentLibraryAnalysis)
 }
 
+@Test(arguments: ["automatic", "manual", "edited", "locked", "adaptive", "deep", "current", "noCandidate"])
+func adaptiveCandidateUpgradeIsSelectiveAndProtectsPreparation(_ state: String) throws {
+    var track = try syntheticTrack("a", bpm: 120)
+    let map = BeatGridMap(anchors: [.init(beat: 0, frame: 0), .init(beat: 16, frame: 360000)], sampleRate: 44100)
+    track.analysis.adaptiveCandidate = map
+    track.preparation.gridIsManual = state == "manual"
+    track.preparation.gridWasEditedByUser = state == "edited"
+    track.preparation.gridLocked = state == "locked"
+    if state == "adaptive" { track.preparation.adaptiveMap = map }
+    if state == "noCandidate" { track.analysis.adaptiveCandidate = nil }
+    if state == "deep" {
+        track.analysis.acceptedDeepBeatAnalysis = .init(
+            audio: .init(track.analysis), profile: .current, coveredFrames: track.analysis.frameCount,
+            windowCount: 1, candidate: nil)
+    }
+    if state == "current" {
+        var encoded = try #require(JSONSerialization.jsonObject(with: JSONEncoder().encode(track.analysis)) as? [String: Any])
+        encoded["configurationID"] = AnalysisConfiguration().id(for: track.analysis.duration)
+        track.analysis = try JSONDecoder().decode(AudioAnalysis.self, from: JSONSerialization.data(withJSONObject: encoded))
+    }
+    #expect(track.needsAdaptiveCandidateUpgrade == (state == "automatic"))
+    #expect(track.needsCurrentLibraryAnalysis == (state == "automatic"))
+    if state == "automatic" { #expect(track.needsFullPreparationAnalysis) }
+}
+
 @Test func uncertainIndependentKeyRequestsReviewWithoutOverridingAuthority() throws {
     let key = MusicalKey(tonic: 2, mode: .major)
     let analysis = AudioAnalysis(

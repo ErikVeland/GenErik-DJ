@@ -135,10 +135,16 @@ enum MusicalRhythmAnalyzer {
                     harmonicFrames: harmonicFrames, checkCancellation: checkCancellation)
                 result.downbeat = bar.offset
                 result.downbeatConfidence = bar.confidence
-                if let map = result.adaptiveCandidate {
-                    result.adaptiveCandidate = BeatGridMap(
-                        anchors: map.anchors, sampleRate: map.sampleRate, downbeatOffset: bar.offset ?? 0)
-                }
+            }
+            if let map = result.adaptiveCandidate {
+                let beats = try barFrames(
+                    frames: frames, binsPerSecond: sampleRate / Double(framesPerBin), period: 1, anchor: 0,
+                    harmonicFrames: harmonicFrames, adaptiveMap: map, checkCancellation: checkCancellation)
+                let bar = try barStart(beats: beats, checkCancellation: checkCancellation)
+                let firstBeat = Int(ceil(map.anchors.first?.beat ?? 0))
+                let offset = bar.offset.map { (($0 + firstBeat) % 4 + 4) % 4 } ?? 0
+                result.adaptiveCandidate = BeatGridMap(
+                    anchors: map.anchors, sampleRate: map.sampleRate, downbeatOffset: offset)
             }
             return result
         }
@@ -182,14 +188,9 @@ enum MusicalRhythmAnalyzer {
             candidate.anchorSeconds = extensionResult.anchor
             if let downbeat = candidate.downbeat { candidate.downbeat = (downbeat + extensionResult.beats) % 4 }
             candidate.onsetsPerSecond *= Double(end - start) / Double(frames.count)
-            if let map = candidate.adaptiveCandidate {
-                let shifted = BeatGridMap(
-                    anchors: map.anchors.map {
-                        .init(beat: $0.beat + Double(extensionResult.beats), frame: $0.frame + offset)
-                    }, sampleRate: map.sampleRate, downbeatOffset: candidate.downbeat ?? map.downbeatOffset)
-                candidate.adaptiveCandidate =
-                    (try? shifted.validate(frameCount: Int64(frames.count * framesPerBin))) != nil ? shifted : nil
-            }
+            // A local tempo estimate cannot describe tempo changes outside its window.
+            // The whole-track map already uses absolute frames and its own beat origin.
+            candidate.adaptiveCandidate = whole.adaptiveCandidate
             return try finishBar(candidate)
         }
         return try finishBar(whole)
@@ -679,21 +680,37 @@ enum MusicalRhythmAnalyzer {
 
     static func barFrames(
         frames: [MusicalPulseFrame], binsPerSecond: Double, period: Double, anchor: Double,
-        harmonicFrames: [MusicalHarmonicFrame] = [], checkCancellation: @Sendable () throws -> Void
+        harmonicFrames: [MusicalHarmonicFrame] = [], adaptiveMap: BeatGridMap? = nil,
+        checkCancellation: @Sendable () throws -> Void
     ) throws -> [MusicalBarFrame] {
-        let count = Int(floor((Double(frames.count) / binsPerSecond - anchor) / period))
+        let firstBeat = ceil(adaptiveMap?.anchors.first?.beat ?? 0)
+        let count: Int
+        if let map = adaptiveMap, let last = map.anchors.last {
+            let end = min(last.frame, Double(frames.count) / binsPerSecond * map.sampleRate)
+            count = Int(floor(map.beat(atFrame: end)) - firstBeat)
+        } else {
+            count = Int(floor((Double(frames.count) / binsPerSecond - anchor) / period))
+        }
         guard count >= 16 else { return [] }
         var levels = [Double]()
         var bands = [[Double]]()
         for beat in 0..<count {
             if beat.isMultiple(of: 256) { try checkCancellation() }
-            let time = anchor + Double(beat) * period
+            let time: Double
+            let beatPeriod: Double
+            if let map = adaptiveMap {
+                time = map.frame(atBeat: firstBeat + Double(beat)) / map.sampleRate
+                beatPeriod = map.frame(atBeat: firstBeat + Double(beat) + 1) / map.sampleRate - time
+            } else {
+                time = anchor + Double(beat) * period
+                beatPeriod = period
+            }
             let lower = max(0, Int((time * binsPerSecond).rounded(.down)))
-            let upper = min(frames.count, Int(((time + period * 0.7) * binsPerSecond).rounded(.up)))
+            let upper = min(frames.count, Int(((time + beatPeriod * 0.7) * binsPerSecond).rounded(.up)))
             guard upper > lower else { return [] }
             var powers = [Double](repeating: 0, count: 4)
             var attacks = powers
-            let attackEnd = min(upper, Int(((time + min(0.12, period * 0.3)) * binsPerSecond).rounded(.up)))
+            let attackEnd = min(upper, Int(((time + min(0.12, beatPeriod * 0.3)) * binsPerSecond).rounded(.up)))
             for i in lower..<upper {
                 for band in 0..<4 {
                     let value = pow(frames[i].value(band), 2)
@@ -709,7 +726,9 @@ enum MusicalRhythmAnalyzer {
         var tonalCount = [Int](repeating: 0, count: count)
         for (index, frame) in harmonicFrames.enumerated() {
             if index.isMultiple(of: 256) { try checkCancellation() }
-            let beat = Int(floor((frame.seconds - anchor) / period))
+            let position = adaptiveMap.map { $0.beat(atFrame: frame.seconds * $0.sampleRate) - firstBeat }
+                ?? ((frame.seconds - anchor) / period)
+            let beat = Int(floor(position))
             guard beat >= 0, beat < count, frame.chroma.count == 12 else { continue }
             for pitch in 0..<12 { chroma[beat][pitch] += frame.chroma[pitch] }
             tonalCount[beat] += 1

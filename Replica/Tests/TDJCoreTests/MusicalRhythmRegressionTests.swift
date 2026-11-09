@@ -64,9 +64,10 @@ private func analyzeOffbeatRhythm(firstBeatIndex: Int, gain: Double, accented: B
     #expect(analysis.downbeatConfidence == nil)
 }
 
-@Test func driftingAudioProducesACandidateWithoutAcceptingPreparation() throws {
+@Test(arguments: [0.0, 3.25], [-1, 0, 1, 2, 3])
+func driftingAudioProducesACandidateWithoutAcceptingPreparation(leadIn: Double, barOffset: Int) throws {
     let rate = 22050.0
-    var time = 0.0
+    var time = leadIn
     var times = [Double]()
     for beat in 0..<128 {
         times.append(time)
@@ -78,11 +79,12 @@ private func analyzeOffbeatRhythm(firstBeatIndex: Int, gain: Double, accented: B
     buffer.frameLength = buffer.frameCapacity
     let samples = try #require(buffer.floatChannelData)[0]
     for i in 0..<count { samples[i] = 0 }
-    for t in times {
+    for (beat, t) in times.enumerated() {
         let start = Int(t * rate)
         for offset in 0..<700 {
             let seconds = Double(offset) / rate
-            samples[start + offset] += Float(0.5 * exp(-seconds * 180) * cos(2 * .pi * 110 * seconds))
+            let frequency = barOffset < 0 || beat % 4 == barOffset ? 110.0 : 220.0
+            samples[start + offset] += Float(0.5 * exp(-seconds * 180) * cos(2 * .pi * frequency * seconds))
         }
     }
     let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".wav")
@@ -93,7 +95,11 @@ private func analyzeOffbeatRhythm(firstBeatIndex: Int, gain: Double, accented: B
     }
     let analysis = try AudioAnalyzer.analyze(url: url)
     let map = try #require(analysis.adaptiveCandidate)
-    #expect(abs(map.frame(atBeat: 120) / rate - times[120]) < 0.035)
+    for beat in [0, 32, 64, 96, 120, 127] {
+        #expect(abs(map.frame(atBeat: Double(beat)) / rate - times[beat]) < 0.035)
+    }
+    #expect(try #require(map.anchors.last).frame / rate >= times[127] - 0.035)
+    if barOffset >= 0 { #expect(map.downbeatOffset == barOffset) }
     let track = try Track(title: "Drifting clock", mediaFilename: url.lastPathComponent, analysis: analysis)
     #expect(track.preparation.adaptiveMap == nil)
     #expect(track.adaptiveMap == nil)

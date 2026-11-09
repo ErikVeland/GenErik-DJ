@@ -6,7 +6,7 @@ public struct AnalysisConfiguration: Sendable {
     static let mixOpeningSuffix = "-mix-opening-1"
 
     public var id: String {
-        "beat-this-small0-grid-2-tuned-hpcp-2-\(minimumBPM)-\(maximumBPM)"
+        "beat-this-small0-grid-3-tuned-hpcp-2-\(minimumBPM)-\(maximumBPM)"
     }
     public var minimumBPM: Double = 60
     public var maximumBPM: Double = 200

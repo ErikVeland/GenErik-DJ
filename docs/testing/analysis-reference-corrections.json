@@ -1,0 +1,19 @@
+{
+  "format": "generik.analysis-reference-corrections/v1",
+  "corrections": [
+    {
+      "requestID": "R109",
+      "reportedDate": "2026-11-10",
+      "title": "99 Problems (Produced By Rick Rubin)",
+      "audioSHA256": "02965db03be249f94b75db385b0999bfbf7f46bc64dd08e1f23c739333196706",
+      "source": "Erik's listening review in the analysis chat",
+      "statement": "The downbeat is wrong in Traktor for 99 problems. Starts one beat early.",
+      "field": "downbeat",
+      "referenceShiftBeats": 1,
+      "scope": "Bar choice only. Exact onset timing, BPM and key remain unverified.",
+      "originalReferenceBPM": 93.2857,
+      "originalBarStartSeconds": 2.4460300000000004,
+      "preserveOriginalComparison": true
+    }
+  ]
+}
