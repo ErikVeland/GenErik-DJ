@@ -6,8 +6,9 @@ import Testing
 
 @MainActor private final class DeviceProbeLibrary: LocalMusicLibraryProviding {
     let item: MusicLibraryItem
+    var additionalItems: [MusicLibraryItem] = []
     init(_ item: MusicLibraryItem) { self.item = item }
-    func catalog() async throws -> MusicLibraryCatalog { .init(items: [item], playlists: []) }
+    func catalog() async throws -> MusicLibraryCatalog { .init(items: [item] + additionalItems, playlists: []) }
     func playbackSource(_ item: MusicLibraryItem) async throws -> PreparedMusicLibraryAudio? {
         .init(url: try #require(item.assetURL), metadata: .init(item: item))
     }
@@ -71,6 +72,8 @@ import Testing
     saved.tracks = [other, track]
     try store.save(saved)
     let provider = DeviceProbeLibrary(item)
+    provider.additionalItems = [.init(source: other.musicLibrarySources![0], title: title, artist: name,
+        assetURL: fixtures.appendingPathComponent("clock-b-128.wav"), availability: .available)]
     let model = try ReplicaModel(
         root: root, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
     await model.refreshMusicLibrary()
