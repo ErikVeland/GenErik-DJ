@@ -774,6 +774,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             observeAudioSession()
             let session = AVAudioSession.sharedInstance()
             try session.setCategory(.playback, mode: .default)
+            try? session.setPrefersNoInterruptionsFromSystemAlerts(true)
             // Routes may refuse preferences. The renderer also supports converted buffers.
             try? session.setPreferredSampleRate(core.sampleRate)
             try? session.setPreferredIOBufferDuration(512 / core.sampleRate)
