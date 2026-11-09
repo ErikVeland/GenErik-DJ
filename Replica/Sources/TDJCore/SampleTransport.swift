@@ -607,6 +607,8 @@ public final class SampleTransport: @unchecked Sendable {
         }
         return result
     }
+    public var renderedOutputFrame: UInt64 { tdj_rendered_output_frame(pointer) }
+
     public func snapshot() -> PlaybackSnapshot? {
         var value = tdj_snapshot()
         return tdj_read_snapshot(pointer, &value) ? .init(value) : nil

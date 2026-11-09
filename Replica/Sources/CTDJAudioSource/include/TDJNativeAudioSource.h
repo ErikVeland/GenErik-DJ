@@ -24,6 +24,7 @@ API_AVAILABLE(macos(14.0), ios(17.0))
     NS_SWIFT_NAME(init(channels:core:recording:metrics:traceThreadCPU:validationSilence:keepAlive:));
 - (instancetype)init NS_UNAVAILABLE;
 - (nullable AVAudioSourceNode *)makeNodeWithFormat:(AVAudioFormat *)format NS_SWIFT_NAME(makeNode(format:));
+- (BOOL)suspendIfIdle;
 - (void)suspendAndWait;
 - (BOOL)resume;
 @end

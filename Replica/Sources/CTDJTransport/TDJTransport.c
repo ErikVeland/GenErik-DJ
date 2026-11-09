@@ -2312,6 +2312,10 @@ static tdj_deck_snapshot read_deck(atomic_deck *p) {
     }
     return result;
 }
+uint64_t tdj_rendered_output_frame(const tdj_engine *e) {
+    return atomic_load_explicit(&e->published_frame, memory_order_relaxed);
+}
+
 bool tdj_read_snapshot(tdj_engine *e, tdj_snapshot *out) {
     for (int attempt = 0; attempt < 8; ++attempt) {
         uint64_t before = atomic_load(&e->snapshot_sequence);

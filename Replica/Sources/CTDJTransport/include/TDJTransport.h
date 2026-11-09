@@ -159,6 +159,7 @@ int32_t tdj_engine_output_sources_ready(tdj_engine *engine);
 // One serial producer. The audio callback is the sole consumer during output.
 bool tdj_submit(tdj_engine *engine, tdj_command command);
 bool tdj_read_message(tdj_engine *engine, tdj_message *message);
+uint64_t tdj_rendered_output_frame(const tdj_engine *engine);
 bool tdj_read_snapshot(tdj_engine *engine, tdj_snapshot *snapshot);
 // No allocation, file API calls, logging or explicit waiting occurs here.
 // Clean mapped pages remain subject to host-managed reclamation and paging.

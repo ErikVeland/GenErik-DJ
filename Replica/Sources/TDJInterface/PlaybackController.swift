@@ -175,6 +175,8 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     private var outputStartIdentity: UInt64 = 0
     private var outputRetryAt: ContinuousClock.Instant?
     private var outputRetries = 0
+    private var outputWatchdog = OutputProgressWatchdog()
+    private var reportedBusyRenderer = false
     private var engine: AVAudioEngine?
     private var source: AVAudioSourceNode?
     private var nativeSource: TDJNativeAudioSource?
@@ -546,6 +548,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     public func stopAudio() {
         invalidateRecovery()
         controlMaintenanceTimer = nil
+        outputWatchdog.resetRecoveryBudget()
         outputRecoveryPending = false
         resumeRequiresPlay = false
         cancelSourcePreparations()
@@ -577,12 +580,38 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         collectMessages()
         flushPendingControls()
         if !offline {
+            checkOutputProgress()
             retryOutputIfDue {
                 discardOutputGraph()
                 try startOutput()
             }
         }
     }
+    private func checkOutputProgress() {
+        guard outputActive, !interrupted, !mediaServicesUnavailable,
+            outputWatchdog.isStalled(frame: core.renderedOutputFrame)
+        else { return }
+        let activeDeck = core.snapshot().map { $0.a.phase.active || $0.b.phase.active } ?? true
+        let pendingStart = sentSources.values.contains { action in
+            switch action.lane {
+            case .play, .recall: return true
+            case .performance(_, let kind): return kind == PerformanceAction.touch.rawValue
+            default: return false
+            }
+        }
+        guard activeDeck || pendingStart || isRecording, let nativeSource else { return }
+        guard nativeSource.suspendIfIdle() else {
+            if !reportedBusyRenderer {
+                reportedBusyRenderer = true
+                appendMessage(.init(commandID: 0, generation: 0,
+                                    error: .cache("Audio rendering stalled. Waiting for the callback to finish.")))
+            }
+            return
+        }
+        let allowRestart = outputWatchdog.takeRestart()
+        receiveOutputEvent(.renderStalled(allowRestart: allowRestart))
+    }
+
     func startControlMaintenance() {
         guard controlMaintenanceTimer == nil else { return }
         controlMaintenanceTimer = ControlMaintenanceTimer { [weak self] in
@@ -629,6 +658,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     }
     enum OutputEvent: Sendable {
         case configurationChanged
+        case renderStalled(allowRestart: Bool)
         case routeChanged(disconnected: Bool)
         case interruptionBegan
         case interruptionEnded(shouldResume: Bool)
@@ -637,6 +667,8 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     }
 
     private func suspendOutput() {
+        outputWatchdog.disarm()
+        reportedBusyRenderer = false
         outputRetryAt = nil
         outputStartIdentity &+= 1
         outputStartTask?.cancel()
@@ -667,7 +699,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         let previousRoute = outputRoute
         let previousAutomaticDevice = automaticOutputDevice
         switch event {
-        case .configurationChanged, .routeChanged, .mediaServicesReset:
+        case .configurationChanged, .renderStalled, .routeChanged, .mediaServicesReset:
             if let outputs { updateOutputDevice(outputs) }
         default:
             break
@@ -688,6 +720,12 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             if hadOutput { resumeRequiresPlay = true }
         case .routeChanged(let disconnected):
             if disconnected && hadOutput && outputRoute == .stereoMaster { resumeRequiresPlay = true }
+        case .renderStalled(let allowRestart):
+            if !allowRestart { resumeRequiresPlay = true }
+            #if os(iOS)
+                let ports = Set(AVAudioSession.sharedInstance().currentRoute.outputs.map(\.uid))
+                if !outputPortIDs.isEmpty, ports != outputPortIDs { resumeRequiresPlay = true }
+            #endif
         case .configurationChanged:
             break
         }
@@ -754,6 +792,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
 
     func resumeOutputIfNeeded(deck: DeckID) throws -> Bool {
         guard !offline else { return false }
+        outputWatchdog.resetRecoveryBudget()
         resumeRequiresPlay = false
         guard outputRecoveryPending, core.snapshot()?[deck].phase.active == true else { return false }
         outputRetryAt = nil
@@ -938,6 +977,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         outputActive = true
         do {
             try engine.start()
+            outputWatchdog.arm(frame: core.renderedOutputFrame)
             outputRecoveryPending = false
             outputRetryAt = nil
             #if os(iOS)
