@@ -1,0 +1,11 @@
+{
+  "build": 174,
+  "requestIDs": [
+    "R110"
+  ],
+  "state": "rejected",
+  "notes": "The signed iPad compile stopped on an invalid optional chain in the S2 grid handler. No app installed.",
+  "sourceCommit": "a496d9afdfea0e9abbba7c5bdba98158ae8193b4",
+  "log": "TestBuilds/ipad/build-174.log",
+  "disposition": "The replacement corrects the deck snapshot access."
+}

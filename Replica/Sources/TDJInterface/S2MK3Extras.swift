@@ -152,7 +152,7 @@
 
         func moveS2Grid(deck: DeckID, ticks: Int) {
             guard var contact = s2Grids[deck], !contact.anchor,
-                playbackSnapshot?[deck]?.generation == contact.generation
+                playbackSnapshot?[deck].generation == contact.generation
             else { return }
             let offset = Double(ticks) * contact.preview.framesPerBeat / 600
             guard (try? contact.preview.shiftWaveform(bySourceFrames: -offset)) != nil else { return }
