@@ -1,0 +1,16 @@
+{
+  "notes": "Compilation finished, but the source changed during the build. Installation was blocked. The signed output is retained as evidence.",
+  "sourceCommit": null,
+  "build": 154,
+  "app": "TestBuilds/ipad/154/GenErikDJ.app",
+  "appSHA256": "a8a23836bdef5dc59a46b9e4e2888a84d0a0a8eee806099fa0fa90446d77b069",
+  "state": "rejected",
+  "createdUTC": "2026-11-09T08:02:55.659252+00:00",
+  "requestIDs": [
+    "R90"
+  ],
+  "checks": "Source identity failed. This app is not an approved test candidate.",
+  "disposition": "Do not deploy. Use the replacement build 155.",
+  "log": "TestBuilds/r90/build-154-source-changed.log",
+  "failureEvidence": "TestBuilds/r90/build-154-failure.json"
+}

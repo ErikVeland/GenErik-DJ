@@ -1,0 +1,33 @@
+{
+  "notes": "R90/R91/R92: retain Z1 crossfader input under queue pressure, restore TDJ1 preview navigation, and pause optional long-track waveform work during playback. Includes load-playhead and persistent Sync fixes.",
+  "sourceCommit": "cc736d0a10ce46e3c929b56c3c25580ca5b7f31b",
+  "sourceSHA256": "d3e325c73b8a2b5f6af9e67a760cb895b3ec41b367d114fed7187991a6e3c615",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 71.11,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-155.log",
+  "build": 155,
+  "app": "TestBuilds/ipad/155/GenErikDJ.app",
+  "appSHA256": "9e837b8ac022170ef0f03c9de4044127a4534a02ffd8de179200132724f91487",
+  "state": "ready",
+  "createdUTC": "2026-11-09T08:04:07.335949+00:00",
+  "requestIDs": [
+    "R90",
+    "R91",
+    "R92"
+  ],
+  "includesRequests": [
+    "R89",
+    "R93",
+    "R88"
+  ],
+  "focusedChecks": "18 combined host tests passed across 19 cases on the signed app source. Earlier focused checks cover preview navigation and persistent Sync.",
+  "evidence": [
+    "TestBuilds/r90/verification.json",
+    "TestBuilds/r91/verification.json",
+    "TestBuilds/r92/verification.json"
+  ],
+  "verificationLimit": "A10X listening, Z1 hardware and touch acceptance remain open. Signing and host checks do not establish gig readiness.",
+  "buildIsolation": "Built from a fixed checkout of committed main in the user-authorised separate working folder. The existing iPad build cache was reused."
+}
