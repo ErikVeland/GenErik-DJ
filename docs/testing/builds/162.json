@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 77.15,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R100"
+      ],
+      "report": "Support the rest of the NI Traktor lineup with zero configuration and custom lights. Use documented configurations for hardware Erik cannot test.",
+      "summary": "Build 162 assumed from install history. This is a coverage request."
+    }
+  ],
   "log": "TestBuilds/ipad/build-162.log",
   "build": 162,
   "app": "TestBuilds/ipad/162/GenErikDJ.app",

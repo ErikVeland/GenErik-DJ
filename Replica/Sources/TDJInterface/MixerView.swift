@@ -230,8 +230,8 @@ private struct RetainedFilterGrid: View, Equatable {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text("Audio output").font(.headline)
-            if model.automaticZ1Routing {
-                Text("Z1 main and headphones · Automatic")
+            if let device = model.automaticOutputDevice {
+                Text("\(device) main and headphones · Automatic")
                     .font(.caption).foregroundStyle(.secondary)
             } else {
                 Picker("Routing", selection: Binding(get: { model.outputRoute }, set: { model.setOutputRoute($0) })) {

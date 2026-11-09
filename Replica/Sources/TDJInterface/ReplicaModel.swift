@@ -329,7 +329,7 @@ import TDJCore
         await flushHistoryWrites()
     }
     public var outputRoute: AudioOutputRoute = .stereoMaster
-    public var automaticZ1Routing = false
+    public private(set) var automaticOutputDevice: String?
     public var z1Enabled = false
     public var z1Status = "Z1 disabled"
     private var z1Mapper = Z1ControlMapper()
@@ -1500,7 +1500,7 @@ import TDJCore
     }
     public func refreshPlayback() {
         if outputRoute != playback.outputRoute { outputRoute = playback.outputRoute }
-        if automaticZ1Routing != playback.automaticZ1Routing { automaticZ1Routing = playback.automaticZ1Routing }
+        if automaticOutputDevice != playback.automaticOutputDevice { automaticOutputDevice = playback.automaticOutputDevice }
         let wasRecording = isRecording || recordingFinishing
         isRecording = playback.isRecording
         recordingFinishing = playback.recordingFinishing

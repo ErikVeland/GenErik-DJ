@@ -353,7 +353,7 @@ struct ControllerSettingsView: View {
         lines.append("Z1 bridge: \(input.originalZ1Bridge ? "on" : "off")")
         lines.append(
             "Audio routing: \(model.outputRoute == .stereoMaster ? "Stereo master" : "Master 1–2 / Headphones 3–4")")
-        if model.automaticZ1Routing { lines.append("Original Z1 audio routing: automatic") }
+        if let device = model.automaticOutputDevice { lines.append("\(device) audio routing: automatic") }
         return lines + connections
     }
     private func refreshConnections() {

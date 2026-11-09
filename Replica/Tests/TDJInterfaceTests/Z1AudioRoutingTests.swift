@@ -9,15 +9,15 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
 @Test @MainActor func z1AudioRoutingNeedsNoUserSelection() throws {
     let controller = try PlaybackController(offline: true)
     controller.updateOutputDevice([originalZ1])
-    #expect(controller.automaticZ1Routing)
+    #expect(controller.automaticOutputDevice == "Z1")
     #expect(controller.outputRoute == .masterAndHeadphones)
     try controller.setOutputRoute(.stereoMaster)
     #expect(controller.outputRoute == .masterAndHeadphones)
     controller.updateOutputDevice([speaker])
-    #expect(!controller.automaticZ1Routing)
+    #expect(controller.automaticOutputDevice == nil)
     #expect(controller.outputRoute == .stereoMaster)
     controller.updateOutputDevice([originalZ1])
-    #expect(controller.automaticZ1Routing)
+    #expect(controller.automaticOutputDevice == "Z1")
     #expect(controller.outputRoute == .masterAndHeadphones)
 }
 
@@ -25,16 +25,17 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     let controller = try PlaybackController(offline: true)
     for outputs in [
         [speaker], [], [AudioOutputDevice(name: "Traktor Kontrol Z1 MK2", wired: true)],
-        [AudioOutputDevice(name: "Traktor Kontrol S2", wired: true)],
+        [AudioOutputDevice(name: "Traktor Kontrol S2", wired: true),
+        AudioOutputDevice(name: "Traktor Kontrol S4 MK3", wired: true)],
         [AudioOutputDevice(name: "Traktor Kontrol Z1", wired: false)],
         [originalZ1, speaker],
     ] {
         controller.updateOutputDevice(outputs)
-        #expect(!controller.automaticZ1Routing)
+        #expect(controller.automaticOutputDevice == nil)
         #expect(controller.outputRoute == .stereoMaster)
     }
     controller.updateOutputDevice([AudioOutputDevice(name: "TRAKTOR KONTROL Z1", wired: true)])
-    #expect(controller.automaticZ1Routing)
+    #expect(controller.automaticOutputDevice == "Z1")
     try controller.setOutputRoute(.stereoMaster)
     #expect(controller.outputRoute == .masterAndHeadphones)
 }
@@ -44,7 +45,7 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     try controller.setOutputRoute(.masterAndHeadphones)
     controller.updateOutputDevice([originalZ1])
     controller.updateOutputDevice([AudioOutputDevice(name: "Other interface", wired: true)])
-    #expect(!controller.automaticZ1Routing)
+    #expect(controller.automaticOutputDevice == nil)
     #expect(controller.outputRoute == .masterAndHeadphones)
 }
 
@@ -63,7 +64,7 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     }
     #expect(routes == [.masterAndHeadphones])
     controller.handleOutputEvent(.interruptionBegan, outputs: []) { routes.append(controller.outputRoute) }
-    #expect(controller.automaticZ1Routing)
+    #expect(controller.automaticOutputDevice == "Z1")
     controller.handleOutputEvent(.interruptionEnded(shouldResume: true), outputs: [originalZ1]) {
         routes.append(controller.outputRoute)
     }
@@ -73,13 +74,13 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     controller.handleOutputEvent(.routeChanged(disconnected: true), outputs: [speaker]) {
         routes.append(controller.outputRoute)
     }
-    #expect(!controller.automaticZ1Routing)
+    #expect(controller.automaticOutputDevice == nil)
     #expect(controller.outputRoute == .stereoMaster)
     #expect(routes.count == 2)
     controller.handleOutputEvent(.routeChanged(disconnected: false), outputs: [originalZ1]) {
         routes.append(controller.outputRoute)
     }
-    #expect(controller.automaticZ1Routing)
+    #expect(controller.automaticOutputDevice == "Z1")
     #expect(controller.outputRoute == .masterAndHeadphones)
     #expect(routes.count == 2)
     let after = try #require(core.snapshot())
@@ -113,4 +114,22 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     #expect(actual.cueRight == expected.cueRight)
     #expect(actual.cueLeft.contains { $0 != 0 })
     controller.stopAudio()
+}
+
+@Test(arguments: ["S2 Mk2", "S2 Mk3", "S3", "S4 Mk2"])
+@MainActor func documentedNIControllerUsesAutomaticSplitOutput(model: String) throws {
+    let controller = try PlaybackController(offline: true)
+    let port = AudioOutputDevice(name: "Traktor Kontrol \(model)", wired: true)
+    controller.handleOutputEvent(.routeChanged(disconnected: false), outputs: [port]) {
+        Issue.record("An idle route change must not start playback.")
+    }
+    #expect(controller.automaticOutputDevice == model)
+    #expect(controller.outputRoute == .masterAndHeadphones)
+    try controller.setOutputRoute(.stereoMaster)
+    #expect(controller.outputRoute == .masterAndHeadphones)
+    controller.handleOutputEvent(.routeChanged(disconnected: true), outputs: [speaker]) {
+        Issue.record("An idle disconnect must not start playback.")
+    }
+    #expect(controller.automaticOutputDevice == nil)
+    #expect(controller.outputRoute == .stereoMaster)
 }

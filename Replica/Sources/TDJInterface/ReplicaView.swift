@@ -1071,8 +1071,8 @@ extension ReplicaView {
                 }.disabled(model.recordingFinishing).accessibilityLabel(model.isRecording ? "Stop recording" : "Record")
             }
             Divider()
-            row(model.automaticZ1Routing ? "Z1 OUTPUT" : "SPLIT OUTPUT") {
-                if model.automaticZ1Routing {
+            row(model.automaticOutputDevice.map { "\($0.uppercased()) OUTPUT" } ?? "SPLIT OUTPUT") {
+                if model.automaticOutputDevice != nil {
                     Text("Automatic").foregroundStyle(.secondary)
                 } else {
                     Toggle(

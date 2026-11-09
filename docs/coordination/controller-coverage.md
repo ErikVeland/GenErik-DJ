@@ -27,6 +27,26 @@ Sources: [NI controller setup guide](https://support.native-instruments.com/supp
 
 MIDI mode on a computer does not establish a class-compliant iPad MIDI endpoint. NI's original TDJ support list is evidence about its app, not proof that our app has its accessory protocol.
 
+## R100 automatic Traktor setup on iPad
+
+Erik requires automatic connection, controls, audio routing and custom lights. Only the original Z1 is available for physical checks. Record protocol evidence and software checks separately from hardware acceptance.
+
+| Model | Native iPad accessory identifier in TDJ2 | GenErik DJ status |
+| --- | --- | --- |
+| Z1 Mk1 | `com.native-instruments.traktordj.kontrolz1` | Native controls, automatic audio, blue beat pulse and amber track-end warning. Physical acceptance remains open. |
+| S2 Mk2 | `com.native-instruments.traktordj.kontrols2mk2` | Automatic split audio. Native session, controls and lights remain open. |
+| S2 Mk3 | `com.native-instruments.protocol.kontrols2mk3` | Automatic split audio. Native session, controls and lights remain open. |
+| S3 | `com.native-instruments.protocol.kontrols3` | Automatic split audio. Native session, deck layers, controls and lights remain open. |
+| S4 Mk2 | `com.native-instruments.traktordj.kontrols4mk2` | Automatic split audio. Native session, deck layers, controls and lights remain open. |
+| MX2, Z1 Mk2, X1 Mk3 | No identifier in the preserved TDJ2 build | Verify a direct iPad connection. Implement factory mappings and feedback for a documented transport. |
+| Other Traktor variants | No identifier in the preserved TDJ2 build | Verify transport, per-model control and feedback reports, and audio where fitted. See the variant list above. |
+
+The first increment recognises the four named NI audio devices when iPadOS selects them as the sole wired output. It assigns main to channels 1–2 and headphones to 3–4. The audio session checks for four channels before playback. The controller session is separate.
+
+NI lists the four controllers in its [TDJ2 iPad compatibility guide](https://support.native-instruments.com/support/solutions/articles/69000879425-traktor-dj-2-ios-audio-interface-compatibility). The preserved TDJ2 2.4.1 package declares their accessory identifiers. Its audio table initialisation at `0x1003c6738` pairs each exact device name with zero-based output pairs `[0, 1]` and `[2, 3]`, in the same order as the original Z1. The output constants start at `0x1021b9128`, `0x1021b9158`, `0x1021b9188` and `0x1021b91b8` respectively. See [reference provenance](z1-native-accessory.md).
+
+Use the S2 Mk3 as the next native adapter. Establish its iPad startup and report framing before mapping controls. Use existing deck timing for the blue beat pulse and amber track-end warning. Map those states to the device's verified LED report. Preserve the loop, pause and gesture rules. Record any hardware limits on colour, brightness, screens or motors. No controller has a full support claim from an audio profile alone.
+
 ## Required capabilities for each model
 
 Track these separately. None is implied by a name appearing in this table:

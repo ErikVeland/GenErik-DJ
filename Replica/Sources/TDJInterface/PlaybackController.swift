@@ -64,14 +64,14 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     public var callbackSummary: AudioCallbackSummary? { callbackMetrics?.summary() }
     public var sourceThreadCPUTracing: Bool { callbackMetrics?.tracesThreadCPU == true }
     public private(set) var outputRoute: AudioOutputRoute = .stereoMaster
-    public private(set) var automaticZ1Routing = false
+    public private(set) var automaticOutputDevice: String?
     private var requestedOutputRoute: AudioOutputRoute = .stereoMaster
     func updateOutputDevice(_ outputs: [AudioOutputDevice]) {
-        automaticZ1Routing = outputs.count == 1 && outputs[0].isOriginalZ1
-        outputRoute = automaticZ1Routing ? .masterAndHeadphones : requestedOutputRoute
+        automaticOutputDevice = outputs.count == 1 ? outputs[0].automaticSplitOutputName : nil
+        outputRoute = automaticOutputDevice != nil ? .masterAndHeadphones : requestedOutputRoute
     }
     public func setOutputRoute(_ route: AudioOutputRoute) throws {
-        guard !automaticZ1Routing else { return }
+        guard automaticOutputDevice == nil else { return }
         guard route != outputRoute else { return }
         guard recorder == nil, recordingStartTask == nil else {
             throw TransportError.cache("Stop recording before changing audio routing.")
@@ -647,15 +647,15 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         let hadOutput = outputActive || outputStartTask != nil || outputRecoveryPending
             || (offline && core.snapshot().map { $0.a.phase.active || $0.b.phase.active } == true)
         let previousRoute = outputRoute
-        let wasZ1 = automaticZ1Routing
+        let previousAutomaticDevice = automaticOutputDevice
         switch event {
         case .configurationChanged, .routeChanged, .mediaServicesReset:
             if let outputs { updateOutputDevice(outputs) }
         default:
             break
         }
-        // Do not send a live Z1 mix to the iPad speaker after removal.
-        if wasZ1 && !automaticZ1Routing && hadOutput { resumeRequiresPlay = true }
+        // Hold playback when an automatic split output disappears.
+        if previousAutomaticDevice != nil && automaticOutputDevice == nil && hadOutput { resumeRequiresPlay = true }
         switch event {
         case .interruptionBegan:
             interrupted = true
@@ -678,7 +678,8 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         case .interruptionEnded:
             break
         case .routeChanged(disconnected: false)
-            where previousRoute == outputRoute && outputActive && engine?.isRunning == true:
+            where previousRoute == outputRoute && previousAutomaticDevice == automaticOutputDevice
+                && outputActive && engine?.isRunning == true:
             return
         default:
             if hadOutput {
@@ -786,9 +787,8 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             if outputRoute == .masterAndHeadphones {
                 guard session.maximumOutputNumberOfChannels >= 4 else {
                     throw TransportError.cache(
-                        automaticZ1Routing
-                            ? "The Z1 audio connection does not expose four channels. Reconnect the Z1."
-                            : "Separate headphone monitoring requires a four-channel output device.")
+                        automaticOutputDevice.map { "The \($0) audio connection does not expose four channels. Reconnect the device." }
+                            ?? "Separate headphone monitoring requires a four-channel output device.")
                 }
                 if session.outputNumberOfChannels != 4 { try session.setPreferredOutputNumberOfChannels(4) }
             }
