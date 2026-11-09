@@ -5,6 +5,17 @@ import TDJInterface
 
 @main struct PreviewMain {
     @MainActor static func main() async {
+        if CommandLine.arguments.count == 4, CommandLine.arguments[1] == "--analysis-audit" {
+            do {
+                try await MacAnalysisAudit.run(
+                    manifestURL: URL(fileURLWithPath: CommandLine.arguments[2]),
+                    output: URL(fileURLWithPath: CommandLine.arguments[3], isDirectory: true))
+            } catch {
+                FileHandle.standardError.write(Data((error.localizedDescription + "\n").utf8))
+                exit(1)
+            }
+            return
+        }
         if CommandLine.arguments.count == 3,
             [
                 "--snapshot", "--snapshot-browser", "--snapshot-help", "--snapshot-fx", "--snapshot-panels",
