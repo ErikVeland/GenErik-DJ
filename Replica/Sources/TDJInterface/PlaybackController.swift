@@ -64,7 +64,14 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     public var callbackSummary: AudioCallbackSummary? { callbackMetrics?.summary() }
     public var sourceThreadCPUTracing: Bool { callbackMetrics?.tracesThreadCPU == true }
     public private(set) var outputRoute: AudioOutputRoute = .stereoMaster
+    public private(set) var automaticZ1Routing = false
+    private var requestedOutputRoute: AudioOutputRoute = .stereoMaster
+    func updateOutputDevice(_ outputs: [AudioOutputDevice]) {
+        automaticZ1Routing = outputs.count == 1 && outputs[0].isOriginalZ1
+        outputRoute = automaticZ1Routing ? .masterAndHeadphones : requestedOutputRoute
+    }
     public func setOutputRoute(_ route: AudioOutputRoute) throws {
+        guard !automaticZ1Routing else { return }
         guard route != outputRoute else { return }
         guard recorder == nil, recordingStartTask == nil else {
             throw TransportError.cache("Stop recording before changing audio routing.")
@@ -75,6 +82,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         }
         stopAudio()
         discardOutputGraph()
+        requestedOutputRoute = route
         outputRoute = route
     }
     private var recorder: SetRecorder?
@@ -219,6 +227,12 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         self.offline = offline
         self.streamingPlayback = streamingPlayback ?? !offline
         self.validationMode = validationMode
+        #if os(iOS)
+            if !offline {
+                updateOutputDevice(Self.currentAudioOutputs)
+                observeAudioSession()
+            }
+        #endif
     }
     deinit {
         outputStartTask?.cancel()
@@ -627,9 +641,21 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         nativeSource = nil
     }
 
-    func handleOutputEvent(_ event: OutputEvent, restart: () throws -> Void) {
+    func handleOutputEvent(
+        _ event: OutputEvent, outputs: [AudioOutputDevice]? = nil, restart: () throws -> Void
+    ) {
         let hadOutput = outputActive || outputStartTask != nil || outputRecoveryPending
             || (offline && core.snapshot().map { $0.a.phase.active || $0.b.phase.active } == true)
+        let previousRoute = outputRoute
+        let wasZ1 = automaticZ1Routing
+        switch event {
+        case .configurationChanged, .routeChanged, .mediaServicesReset:
+            if let outputs { updateOutputDevice(outputs) }
+        default:
+            break
+        }
+        // Do not send a live Z1 mix to the iPad speaker after removal.
+        if wasZ1 && !automaticZ1Routing && hadOutput { resumeRequiresPlay = true }
         switch event {
         case .interruptionBegan:
             interrupted = true
@@ -651,7 +677,8 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         switch event {
         case .interruptionEnded:
             break
-        case .routeChanged(disconnected: false) where outputActive && engine?.isRunning == true:
+        case .routeChanged(disconnected: false)
+            where previousRoute == outputRoute && outputActive && engine?.isRunning == true:
             return
         default:
             if hadOutput {
@@ -692,10 +719,20 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     }
 
     private func receiveOutputEvent(_ event: OutputEvent) {
-        handleOutputEvent(event) { try startOutput() }
+        #if os(iOS)
+            handleOutputEvent(event, outputs: Self.currentAudioOutputs) { try startOutput() }
+        #else
+            handleOutputEvent(event) { try startOutput() }
+        #endif
     }
 
     #if os(iOS)
+        private static var currentAudioOutputs: [AudioOutputDevice] {
+            AVAudioSession.sharedInstance().currentRoute.outputs.map {
+                .init(name: $0.portName, wired: $0.portType == .usbAudio || $0.portType == .lineOut)
+            }
+        }
+
         private func observeAudioSession() {
             guard sessionObservers.isEmpty else { return }
             func observe(_ name: Notification.Name, decode: @escaping @Sendable (Notification) -> OutputEvent?) {
@@ -742,11 +779,17 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             try? session.setPreferredIOBufferDuration(512 / core.sampleRate)
             try session.setActive(true)
             if userInitiated { interrupted = false }
+            let previousRoute = outputRoute
+            updateOutputDevice(Self.currentAudioOutputs)
+            if previousRoute != outputRoute { discardOutputGraph() }
             if outputRoute == .masterAndHeadphones {
                 guard session.maximumOutputNumberOfChannels >= 4 else {
-                    throw TransportError.cache("Separate headphone monitoring requires a four-channel output device.")
+                    throw TransportError.cache(
+                        automaticZ1Routing
+                            ? "The Z1 audio connection does not expose four channels. Reconnect the Z1."
+                            : "Separate headphone monitoring requires a four-channel output device.")
                 }
-                try session.setPreferredOutputNumberOfChannels(4)
+                if session.outputNumberOfChannels != 4 { try session.setPreferredOutputNumberOfChannels(4) }
             }
         #endif
         if engine == nil {

@@ -1071,14 +1071,18 @@ extension ReplicaView {
                 }.disabled(model.recordingFinishing).accessibilityLabel(model.isRecording ? "Stop recording" : "Record")
             }
             Divider()
-            row("SPLIT OUTPUT") {
-                Toggle(
-                    "",
-                    isOn: Binding(
-                        get: { model.outputRoute == .masterAndHeadphones },
-                        set: { model.setOutputRoute($0 ? .masterAndHeadphones : .stereoMaster) })
-                ).labelsHidden().disabled(model.isRecording || model.recordingFinishing).accessibilityLabel(
-                    "Split output")
+            row(model.automaticZ1Routing ? "Z1 OUTPUT" : "SPLIT OUTPUT") {
+                if model.automaticZ1Routing {
+                    Text("Automatic").foregroundStyle(.secondary)
+                } else {
+                    Toggle(
+                        "",
+                        isOn: Binding(
+                            get: { model.outputRoute == .masterAndHeadphones },
+                            set: { model.setOutputRoute($0 ? .masterAndHeadphones : .stereoMaster) })
+                    ).labelsHidden().disabled(model.isRecording || model.recordingFinishing).accessibilityLabel(
+                        "Split output")
+                }
             }
             Divider()
             row("MASTER") {

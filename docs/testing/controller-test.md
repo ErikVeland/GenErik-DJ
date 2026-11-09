@@ -23,14 +23,19 @@ If startup fails, close Traktor DJ and reconnect the Z1. You can also switch **C
 ## Audio and reconnect
 
 1. Reduce the speaker and headphone levels.
-2. Stop both decks before changing audio routing.
-3. Open the speaker button and expand **Routing and headphones**.
-4. If the Z1 exposes four channels, select **Master 1–2 / Headphones 3–4**.
+2. Connect the Z1 before starting playback.
+3. Open the speaker button and check **Z1 OUTPUT → Automatic**.
+4. Expand **Routing and headphones** and check **Z1 main and headphones · Automatic**.
 5. Play a track and check the main output.
 6. Check headphone cue separately.
 7. Check audio continuity and touch response while moving multiple controls.
 8. Stop playback before the first unplug/reconnect check.
-9. Reconnect the Z1 and confirm that calibration and control input resume.
+9. Reconnect the Z1 and confirm that calibration, control input and automatic headphone routing return.
+
+R97 selects main 1–2 and headphones 3–4 automatically for the original Z1.
+No routing switch or picker is required. Repeat the headphone check after closing and reopening the app.
+During an active disconnect, the app holds audio to prevent an unexpected switch to the iPad speaker.
+Press Play to resume.
 
 Audio detection alone does not establish working controls. Compilation, installation and launch do not establish performance readiness. See the [protocol evidence and remaining work](../coordination/z1-native-accessory.md).
 

@@ -8,9 +8,19 @@
   "feedback": [
     {
       "date": "2026-11-09",
-      "requestIDs": ["R91"],
+      "requestIDs": [
+        "R91"
+      ],
       "report": "The preview strip is too squat for precise finger movement. Align it with TDJ1 size.",
       "summary": "Build 155 is assumed from the last recorded iPad install."
+    },
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R97"
+      ],
+      "report": "Z1 headphone output does not work. Use automatic TDJ-style Z1 audio configuration without user routing settings.",
+      "summary": "Build 155 assumed from install history. Native control connection did not select the four-channel audio path."
     }
   ],
   "log": "TestBuilds/ipad/build-155.log",
