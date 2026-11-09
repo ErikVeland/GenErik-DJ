@@ -45,6 +45,8 @@ The first increment recognises the four named NI audio devices when iPadOS selec
 
 NI lists the four controllers in its [TDJ2 iPad compatibility guide](https://support.native-instruments.com/support/solutions/articles/69000879425-traktor-dj-2-ios-audio-interface-compatibility). The preserved TDJ2 2.4.1 package declares their accessory identifiers. Its audio table initialisation at `0x1003c6738` pairs each exact device name with zero-based output pairs `[0, 1]` and `[2, 3]`, in the same order as the original Z1. The output constants start at `0x1021b9128`, `0x1021b9158`, `0x1021b9188` and `0x1021b91b8` respectively. See [reference provenance](z1-native-accessory.md).
 
+[Build 164](../testing/builds/164.json) installed on the A10X iPad. iPadOS accepted launch. Ten focused tests passed across thirteen cases. The new controller audio profiles have no physical listening result.
+
 Use the S2 Mk3 as the next native adapter. Establish its iPad startup and report framing before mapping controls. Use existing deck timing for the blue beat pulse and amber track-end warning. Map those states to the device's verified LED report. Preserve the loop, pause and gesture rules. Record any hardware limits on colour, brightness, screens or motors. No controller has a full support claim from an audio profile alone.
 
 ## Required capabilities for each model
