@@ -15,7 +15,38 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     private var keylockPreference: [DeckID: Bool] = [.a: true, .b: true]
     private var pendingKeylock: [UInt64: (DeckID, Bool)] = [:]
     private var latestKeylock: [DeckID: UInt64] = [:]
-    private var pendingCrossfader: Double?
+    private enum ControlValue {
+        case mixer(MixerParameter, Double, DeckID)
+        case effect(Int, Int, Double, Double, Bool, DeckID, Bool)
+
+        enum Lane: Equatable {
+            case mixer(MixerParameter, DeckID?)
+            case effect(Int, DeckID)
+        }
+
+        var lane: Lane {
+            switch self {
+            case .mixer(let parameter, _, let deck):
+                switch parameter {
+                case .crossfader, .master, .monitor, .cueBlend: return .mixer(parameter, nil)
+                default: return .mixer(parameter, deck)
+                }
+            case .effect(_, let slot, _, _, _, let deck, _): return .effect(slot, deck)
+            }
+        }
+
+        func submit(to core: SampleTransport) throws {
+            switch self {
+            case .mixer(let parameter, let value, let deck):
+                try core.setMixer(parameter, value: value, deck: deck)
+            case .effect(let kind, let slot, let x, let y, let enabled, let deck, let synced):
+                try core.setEffect(kind, slot: slot, x: x, y: y, enabled: enabled, deck: deck, synced: synced)
+            }
+        }
+    }
+    private var pendingControlValues: [ControlValue] = []
+    private var pendingReleases: [DeckID: TrackedSource] = [:]
+    private var touchAfterRelease: [DeckID: SourceControl] = [:]
     public private(set) var outputActive = false
     #if os(macOS)
         private var timingActivity: PlaybackTimingActivity?
@@ -43,12 +74,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             throw TransportError.cache("Stop playback before changing audio routing.")
         }
         stopAudio()
-        engine?.stop()
-        observers.forEach { NotificationCenter.default.removeObserver($0) }
-        observers.removeAll()
-        engine = nil
-        source = nil
-        nativeSource = nil
+        discardOutputGraph()
         outputRoute = route
     }
     private var recorder: SetRecorder?
@@ -142,7 +168,16 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     private var engine: AVAudioEngine?
     private var source: AVAudioSourceNode?
     private var nativeSource: TDJNativeAudioSource?
-    private var observers: [NSObjectProtocol] = []
+    private var engineObserver: NSObjectProtocol?
+    private var sessionObservers: [NSObjectProtocol] = []
+    private var outputGraphIdentity: UInt64 = 0
+    private var interrupted = false
+    private var mediaServicesUnavailable = false
+    private var resumeRequiresPlay = false
+    private(set) var outputRecoveryPending = false
+    #if os(iOS)
+        private var outputPortIDs: Set<String> = []
+    #endif
     private enum LoadResult {
         case waiting, accepted
         case rejected(TransportError)
@@ -295,6 +330,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     }
     public func play(_ deck: DeckID) throws {
         guard let generation = generations[deck] else { throw TransportError.stale }
+        if try resumeOutputIfNeeded(deck: deck) { return }
         let lane = SourceLane.play(deck)
         let pending = latestSources[lane] != nil || latestSources[.recall(deck)] != nil
         let warming = preparationTasks[lane] != nil || preparationTasks[.recall(deck)] != nil
@@ -303,7 +339,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             invalidateSource(lane)
             if warming { return }
         }
-        if !offline { try startOutput() }
+        if !offline { try startOutput(userInitiated: true) }
         try submitSource(.play(deck, generation), canPrepare: !pending)
         if !outputActive { core.processControlsWhileIdle() }
     }
@@ -319,50 +355,77 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     ) throws {
         guard let generation = generations[deck] else { throw TransportError.stale }
         if action == .touch && enabled && !offline { try startOutput() }
+        let control = SourceControl.performance(
+            action, deck, generation, value: value, end: end, enabled: enabled, quantum: quantum,
+            touchRate: touchRate, followsPosition: followsPosition)
         if action == .touch, !enabled {
+            touchAfterRelease[deck] = nil
             invalidateSource(.performance(deck, PerformanceAction.touch.rawValue))
             invalidateSource(.performance(deck, PerformanceAction.rate.rawValue))
+            if latestSources[.touchRelease(deck)] != nil { return }
+        } else if action == .touch || action == .rate, latestSources[.touchRelease(deck)] != nil {
+            touchAfterRelease[deck] = control
+            return
         }
-        try submitSource(
-            .performance(
-                action, deck, generation, value: value, end: end, enabled: enabled, quantum: quantum,
-                touchRate: touchRate, followsPosition: followsPosition))
+        try submitSource(control)
         if !outputActive { core.processControlsWhileIdle() }
     }
     public func setEffect(
         _ kind: Int, slot: Int, x: Double, y: Double, enabled: Bool, deck: DeckID, synced: Bool = true
     ) throws {
-        try core.setEffect(kind, slot: slot, x: x, y: y, enabled: enabled, deck: deck, synced: synced)
-        if !outputActive { core.processControlsWhileIdle() }
+        guard (0..<3).contains(slot), (0..<PerformanceEffect.supportedCount).contains(kind),
+            (0...1).contains(x), (0...1).contains(y)
+        else { throw TransportError.invalid }
+        try submitControlValue(.effect(kind, slot, x, y, enabled, deck, synced))
     }
     public func setMixer(_ parameter: MixerParameter, value: Double, deck: DeckID = .a) throws {
-        if parameter == .crossfader {
-            guard value.isFinite, (0...1).contains(value) else { throw TransportError.invalid }
+        let valid = switch parameter {
+        case .gain: (0...4).contains(value)
+        case .low, .mid, .high: (0...2).contains(value)
+        case .filterX: (-1...1).contains(value)
+        case .cue, .filterEnabled: value == 0 || value == 1
+        default: (0...1).contains(value)
         }
+        guard valid else { throw TransportError.invalid }
         if parameter == .crossfader || parameter == .volume { invalidateRecovery(submitCancellation: false) }
-        do {
-            try core.setMixer(parameter, value: value, deck: deck)
-            if parameter == .crossfader { pendingCrossfader = nil }
-        } catch TransportError.queueFull where parameter == .crossfader {
-            // Keep the latest physical position until the audio consumer can accept it.
-            pendingCrossfader = value
-            startControlMaintenance()
+        try submitControlValue(.mixer(parameter, value, deck))
+    }
+    private func submitControlValue(_ value: ControlValue) throws {
+        if pendingControlValues.isEmpty && pendingReleases.isEmpty {
+            do {
+                try value.submit(to: core)
+                if !outputActive { core.processControlsWhileIdle() }
+                return
+            } catch TransportError.queueFull {}
+        }
+        pendingControlValues.removeAll { $0.lane == value.lane }
+        pendingControlValues.append(value)
+        startControlMaintenance()
+    }
+    private func flushPendingControls() {
+        guard !pendingReleases.isEmpty || !pendingControlValues.isEmpty else { return }
+        for deck in DeckID.allCases {
+            guard let release = pendingReleases[deck] else { continue }
+            do {
+                try submitTrackedSource(release)
+                pendingReleases[deck] = nil
+            } catch TransportError.queueFull {
+                return
+            } catch {
+                failRelease(release, error: error)
+            }
+        }
+        while let value = pendingControlValues.first {
+            do {
+                try value.submit(to: core)
+            } catch TransportError.queueFull {
+                break
+            } catch {
+                appendMessage(.init(commandID: 0, generation: 0, error: (error as? TransportError) ?? .invalid))
+            }
+            pendingControlValues.removeFirst()
         }
         if !outputActive { core.processControlsWhileIdle() }
-    }
-
-    private func flushPendingCrossfader() {
-        guard let value = pendingCrossfader else { return }
-        do {
-            try core.setMixer(.crossfader, value: value)
-            pendingCrossfader = nil
-            if !outputActive { core.processControlsWhileIdle() }
-        } catch TransportError.queueFull {
-            return
-        } catch {
-            appendMessage(.init(commandID: 0, generation: 0, error: (error as? TransportError) ?? .invalid))
-            pendingCrossfader = nil
-        }
     }
     public func setFreeRate(_ rate: Double, deck: DeckID) throws {
         guard let generation = generations[deck] else { throw TransportError.stale }
@@ -458,17 +521,11 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     public func stopAudio() {
         invalidateRecovery()
         controlMaintenanceTimer = nil
-        outputStartIdentity &+= 1
-        outputStartTask?.cancel()
-        outputStartTask = nil
+        outputRecoveryPending = false
+        resumeRequiresPlay = false
         cancelSourcePreparations()
         if recordingStartTask != nil { recordingStartShouldStop = true }
-        nativeSource?.suspendAndWait()
-        engine?.pause()
-        #if os(macOS)
-            timingActivity = nil
-        #endif
-        outputActive = false
+        suspendOutput()
         if recorder != nil || recordingStartTask != nil { Task { await finishRecording() } }
         // Make room for Stop even after a burst fills the command/message rings.
         // Device output is paused before the control thread becomes the consumer.
@@ -477,7 +534,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         collectMessages()
         try? core.stopAll()
         core.processControlsWhileIdle()
-        flushPendingCrossfader()
+        flushPendingControls()
     }
     public func snapshotAndMessages() -> (PlaybackSnapshot?, [TransportAcknowledgement]) {
         maintainControlState()
@@ -493,7 +550,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         }
         if !outputActive { core.processControlsWhileIdle() }
         collectMessages()
-        flushPendingCrossfader()
+        flushPendingControls()
     }
     func startControlMaintenance() {
         guard controlMaintenanceTimer == nil else { return }
@@ -539,15 +596,152 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             appendMessage(message)
         }
     }
-    private func startOutput() throws {
-        guard !outputActive, outputStartTask == nil else { return }
+    enum OutputEvent: Sendable {
+        case configurationChanged
+        case routeChanged(disconnected: Bool)
+        case interruptionBegan
+        case interruptionEnded(shouldResume: Bool)
+        case mediaServicesLost
+        case mediaServicesReset
+    }
+
+    private func suspendOutput() {
+        outputStartIdentity &+= 1
+        outputStartTask?.cancel()
+        outputStartTask = nil
+        nativeSource?.suspendAndWait()
+        engine?.pause()
+        outputActive = false
+        #if os(macOS)
+            timingActivity = nil
+        #endif
+    }
+
+    private func discardOutputGraph() {
+        outputGraphIdentity &+= 1
+        if let engineObserver { NotificationCenter.default.removeObserver(engineObserver) }
+        engineObserver = nil
+        engine?.stop()
+        engine = nil
+        source = nil
+        nativeSource = nil
+    }
+
+    func handleOutputEvent(_ event: OutputEvent, restart: () throws -> Void) {
+        let hadOutput = outputActive || outputStartTask != nil || outputRecoveryPending
+            || (offline && core.snapshot().map { $0.a.phase.active || $0.b.phase.active } == true)
+        switch event {
+        case .interruptionBegan:
+            interrupted = true
+        case .interruptionEnded(let shouldResume):
+            interrupted = false
+            if !shouldResume && outputRecoveryPending { resumeRequiresPlay = true }
+        case .mediaServicesLost:
+            mediaServicesUnavailable = true
+        case .mediaServicesReset:
+            mediaServicesUnavailable = false
+            interrupted = false
+            if hadOutput { resumeRequiresPlay = true }
+        case .routeChanged(let disconnected):
+            if disconnected && hadOutput && outputRoute == .stereoMaster { resumeRequiresPlay = true }
+        case .configurationChanged:
+            break
+        }
+
+        switch event {
+        case .interruptionEnded:
+            break
+        case .routeChanged(disconnected: false) where outputActive && engine?.isRunning == true:
+            return
+        default:
+            if hadOutput {
+                outputRecoveryPending = true
+                suspendOutput()
+                collectMessages()
+                core.processControlsWhileIdle()
+                collectMessages()
+            }
+            if hadOutput || engine != nil { discardOutputGraph() }
+        }
+
+        guard outputRecoveryPending else { return }
         #if os(iOS)
+            if outputRoute == .stereoMaster, !outputPortIDs.isEmpty,
+                outputPortIDs.isDisjoint(with: AVAudioSession.sharedInstance().currentRoute.outputs.map(\.uid))
+            {
+                resumeRequiresPlay = true
+            }
+        #endif
+        guard !interrupted, !mediaServicesUnavailable else { return }
+        guard !resumeRequiresPlay else {
+            appendMessage(.init(commandID: 0, generation: 0, error: .cache("Press Play to restore audio output.")))
+            return
+        }
+        do { try restart() } catch {
+            appendMessage(.init(commandID: 0, generation: 0,
+                                error: (error as? TransportError) ?? .cache(error.localizedDescription)))
+        }
+    }
+
+    func resumeOutputIfNeeded(deck: DeckID) throws -> Bool {
+        guard !offline else { return false }
+        resumeRequiresPlay = false
+        guard outputRecoveryPending, core.snapshot()?[deck].phase.active == true else { return false }
+        try startOutput(userInitiated: true)
+        return true
+    }
+
+    private func receiveOutputEvent(_ event: OutputEvent) {
+        handleOutputEvent(event) { try startOutput() }
+    }
+
+    #if os(iOS)
+        private func observeAudioSession() {
+            guard sessionObservers.isEmpty else { return }
+            func observe(_ name: Notification.Name, decode: @escaping @Sendable (Notification) -> OutputEvent?) {
+                sessionObservers.append(NotificationCenter.default.addObserver(
+                    forName: name, object: nil, queue: nil
+                ) { [weak self] notification in
+                    guard let event = decode(notification) else { return }
+                    Task { @MainActor [weak self] in self?.receiveOutputEvent(event) }
+                })
+            }
+            observe(AVAudioSession.interruptionNotification) { notification in
+                guard let value = notification.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt,
+                    let type = AVAudioSession.InterruptionType(rawValue: value) else { return nil }
+                switch type {
+                case .began: return .interruptionBegan
+                case .ended:
+                    let value = notification.userInfo?[AVAudioSessionInterruptionOptionKey] as? UInt ?? 0
+                    return .interruptionEnded(shouldResume: AVAudioSession.InterruptionOptions(rawValue: value).contains(.shouldResume))
+                @unknown default: return nil
+                }
+            }
+            observe(AVAudioSession.routeChangeNotification) { notification in
+                let value = notification.userInfo?[AVAudioSessionRouteChangeReasonKey] as? UInt
+                guard value != AVAudioSession.RouteChangeReason.categoryChange.rawValue,
+                    value != AVAudioSession.RouteChangeReason.override.rawValue else { return nil }
+                return .routeChanged(disconnected: value == AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue)
+            }
+            observe(AVAudioSession.mediaServicesWereLostNotification) { _ in .mediaServicesLost }
+            observe(AVAudioSession.mediaServicesWereResetNotification) { _ in .mediaServicesReset }
+        }
+    #endif
+
+    private func startOutput(userInitiated: Bool = false) throws {
+        guard !outputActive, outputStartTask == nil else { return }
+        guard (!interrupted || userInitiated), !mediaServicesUnavailable, !resumeRequiresPlay else {
+            throw TransportError.cache("Audio output is paused.")
+        }
+        #if os(iOS)
+            observeAudioSession()
             let session = AVAudioSession.sharedInstance()
             try session.setCategory(.playback, mode: .default)
             // Routes may refuse preferences. The renderer also supports converted buffers.
             try? session.setPreferredSampleRate(core.sampleRate)
             try? session.setPreferredIOBufferDuration(512 / core.sampleRate)
             try session.setActive(true)
+            if userInitiated { interrupted = false }
             if outputRoute == .masterAndHeadphones {
                 guard session.maximumOutputNumberOfChannels >= 4 else {
                     throw TransportError.cache("Separate headphone monitoring requires a four-channel output device.")
@@ -585,20 +779,21 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             self.engine = engine
             self.source = source
             self.nativeSource = native
-            let token = NotificationCenter.default.addObserver(
-                forName: .AVAudioEngineConfigurationChange, object: engine, queue: .main
-            ) { [weak self] _ in Task { @MainActor [weak self] in self?.stopAudio() } }
-            observers.append(token)
-            #if os(iOS)
-                observers.append(
-                    NotificationCenter.default.addObserver(
-                        forName: AVAudioSession.interruptionNotification, object: nil, queue: .main
-                    ) { [weak self] _ in Task { @MainActor [weak self] in self?.stopAudio() } })
-            #endif
+            outputGraphIdentity &+= 1
+            let identity = outputGraphIdentity
+            engineObserver = NotificationCenter.default.addObserver(
+                forName: .AVAudioEngineConfigurationChange, object: engine, queue: nil
+            ) { [weak self] _ in
+                Task { @MainActor [weak self] in
+                    guard let self, self.outputGraphIdentity == identity else { return }
+                    self.receiveOutputEvent(.configurationChanged)
+                }
+            }
         }
         guard let engine, let source else { throw TransportError.allocation }
         let hardware = engine.outputNode.outputFormat(forBus: 0)
-        guard hardware.sampleRate.isFinite, hardware.sampleRate > 0, hardware.channelCount > 0 else {
+        let requiredChannels: AVAudioChannelCount = outputRoute == .masterAndHeadphones ? 4 : 2
+        guard hardware.sampleRate.isFinite, hardware.sampleRate > 0, hardware.channelCount >= requiredChannels else {
             throw TransportError.cache("No audio output is available.")
         }
         guard nativeSource?.resume() ?? true else { throw TransportError.protectedDeck }
@@ -647,6 +842,10 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         outputActive = true
         do {
             try engine.start()
+            outputRecoveryPending = false
+            #if os(iOS)
+                outputPortIDs = Set(AVAudioSession.sharedInstance().currentRoute.outputs.map(\.uid))
+            #endif
             #if os(macOS)
                 timingActivity = activity
             #endif
@@ -670,6 +869,7 @@ extension PlaybackController {
         case seek(DeckID)
         case recall(DeckID)
         case performance(DeckID, Int32)
+        case touchRelease(DeckID)
         init(_ control: SourceControl) {
             switch control {
             case .brake(_, _, let deck, _): self = .performance(deck, 23)
@@ -681,14 +881,15 @@ extension PlaybackController {
             case .grid(_, let deck, _), .adaptiveMap(_, let deck, _): self = .grid(deck)
             case .seek(_, let deck, _): self = .seek(deck)
             case .cueRecall(let deck, _, _, _, _): self = .recall(deck)
-            case .performance(let action, let deck, _, _, _, _, _, _, _): self = .performance(deck, action.rawValue)
+            case .performance(let action, let deck, _, _, _, let enabled, _, _, _):
+                self = action == .touch && !enabled ? .touchRelease(deck) : .performance(deck, action.rawValue)
             }
         }
         var deck: DeckID? {
             switch self {
             case .tempo: nil
             case .play(let deck), .freeRate(let deck), .sync(let deck), .keylock(let deck), .grid(let deck),
-                .seek(let deck), .recall(let deck), .performance(let deck, _):
+                .seek(let deck), .recall(let deck), .performance(let deck, _), .touchRelease(let deck):
                 deck
             }
         }
@@ -703,14 +904,19 @@ extension PlaybackController {
         Set(preparationTasks.keys.flatMap { lane in lane.deck.map { [$0] } ?? Array(generations.keys) })
     }
     public func flushSourcePreparations() async {
-        while !preparationTasks.isEmpty || !sentSources.isEmpty || outputStartTask != nil {
+        while !preparationTasks.isEmpty || !sentSources.isEmpty || !pendingReleases.isEmpty || outputStartTask != nil {
             if Task.isCancelled { return }
             if !outputActive { core.processControlsWhileIdle() }
             collectMessages()
+            flushPendingControls()
             do { try await Task.sleep(for: .milliseconds(5)) } catch { return }
         }
     }
     private func invalidateSource(_ lane: SourceLane) {
+        if case .touchRelease(let deck) = lane {
+            pendingReleases[deck] = nil
+            touchAfterRelease[deck] = nil
+        }
         if let identity = latestSources[lane] { preparedGridCommits[identity] = nil }
         latestSources[lane] = nil
         preparationTasks.removeValue(forKey: lane)?.cancel()
@@ -731,6 +937,8 @@ extension PlaybackController {
     @discardableResult private func submitSource(_ control: SourceControl, canPrepare: Bool = true) throws -> UInt64 {
         switch control {
         case .tempo, .keylock: break
+        case .performance(.touch, let deck, _, _, _, _, _, _, _):
+            invalidateRecovery(deck: deck, submitCancellation: false)
         case .play: invalidateRecovery()
         default: invalidateRecovery(deck: control.deck)
         }
@@ -739,7 +947,15 @@ extension PlaybackController {
         nextSourceIdentity &+= 1
         let tracked = TrackedSource(identity: nextSourceIdentity, control: control, canPrepare: canPrepare)
         latestSources[lane] = tracked.identity
-        do { return try submitTrackedSource(tracked) } catch {
+        do { return try submitTrackedSource(tracked) } catch TransportError.queueFull {
+            if case .touchRelease(let deck) = lane {
+                pendingReleases[deck] = tracked
+                startControlMaintenance()
+                return 0
+            }
+            latestSources[lane] = nil
+            throw TransportError.queueFull
+        } catch {
             if latestSources[lane] == tracked.identity { latestSources[lane] = nil }
             throw error
         }
@@ -787,7 +1003,21 @@ extension PlaybackController {
             return true
         }
         latestSources[tracked.lane] = nil
+        if case .touchRelease(let deck) = tracked.lane {
+            let next = touchAfterRelease.removeValue(forKey: deck)
+            if message.error == nil, let next, generations[deck] == next.generation {
+                do { try submitSource(next) } catch {
+                    appendMessage(.init(commandID: 0, generation: next.generation ?? 0,
+                                        error: (error as? TransportError) ?? .invalid))
+                }
+            }
+        }
         return false
+    }
+    private func failRelease(_ tracked: TrackedSource, error: Error) {
+        invalidateSource(tracked.lane)
+        appendMessage(.init(commandID: 0, generation: tracked.control.generation ?? 0,
+                            error: (error as? TransportError) ?? .invalid))
     }
     private func startSourcePreparation(_ tracked: TrackedSource) {
         guard preparationTasks[tracked.lane] == nil else { return }
@@ -823,7 +1053,13 @@ extension PlaybackController {
                 guard !preparations.isEmpty || tracked.control.deck == nil else { throw TransportError.sourceCold }
                 let transferred = preparations
                 preparations.removeAll()
-                try self.submitTrackedSource(tracked, preparations: transferred)
+                do {
+                    try self.submitTrackedSource(tracked, preparations: transferred)
+                } catch TransportError.queueFull {
+                    guard case .touchRelease(let deck) = tracked.lane else { throw TransportError.queueFull }
+                    self.pendingReleases[deck] = tracked
+                    self.startControlMaintenance()
+                }
                 if !self.outputActive {
                     core.processControlsWhileIdle()
                     let state = core.snapshot()
@@ -833,7 +1069,7 @@ extension PlaybackController {
                 }
             } catch is CancellationError {} catch {
                 guard let self, self.latestSources[tracked.lane] == tracked.identity else { return }
-                self.latestSources[tracked.lane] = nil
+                self.invalidateSource(tracked.lane)
                 self.sourcePreparationFailures += 1
                 if case .keylock(_, let deck, _) = tracked.control {
                     self.latestKeylock[deck] = nil

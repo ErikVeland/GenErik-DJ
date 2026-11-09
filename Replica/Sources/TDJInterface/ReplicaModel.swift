@@ -1559,6 +1559,10 @@ import TDJCore
             return
         }
         do {
+            if try playback.resumeOutputIfNeeded(deck: deck) {
+                refreshPlayback()
+                return
+            }
             let vinylStop = vinylStop ?? UserDefaults.standard.bool(forKey: DeckToolSettings.vinylStop)
             let state = playback.core.snapshot()?[deck]
             let wasActive = state?.phase.active == true
