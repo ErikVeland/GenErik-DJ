@@ -354,6 +354,9 @@ struct ControllerSettingsView: View {
         lines.append(
             "Audio routing: \(model.outputRoute == .stereoMaster ? "Stereo master" : "Master 1–2 / Headphones 3–4")")
         if let device = model.automaticOutputDevice { lines.append("\(device) audio routing: automatic") }
+        #if os(iOS)
+            lines.append(model.s2Status)
+        #endif
         return lines + connections
     }
     private func refreshConnections() {
@@ -451,28 +454,31 @@ extension ReplicaModel {
         default: return nil
         }
     }
-    func applyController(_ action: ControllerAction, value: Double) {
+    func applyController(_ action: ControllerAction, value: Double, refreshMixer: Bool = true) {
         guard value.isFinite, (0...1).contains(value) else { return }
         let deck = action.deck
+        func mix(_ parameter: MixerParameter, value: Double, deck: DeckID = .a) {
+            if submitMixer(parameter, value: value, deck: deck), refreshMixer { refreshPlayback() }
+        }
         switch action {
         case .playA, .playB: pressPlay(deck: deck)
         case .syncA, .syncB: toggleSync(deck: deck)
         case .keylockA, .keylockB: toggleKeylock(deck: deck)
-        case .cueA, .cueB: setMixer(.cue, value: playbackSnapshot?[deck].mixer.cue == true ? 0 : 1, deck: deck)
-        case .levelA, .levelB: setMixer(.volume, value: value, deck: deck)
-        case .gainA, .gainB: setMixer(.gain, value: pow(4, 2 * value - 1), deck: deck)
-        case .lowA, .lowB: setMixer(.low, value: 2 * value, deck: deck)
-        case .midA, .midB: setMixer(.mid, value: 2 * value, deck: deck)
-        case .highA, .highB: setMixer(.high, value: 2 * value, deck: deck)
-        case .filterA, .filterB: setMixer(.filterX, value: 2 * value - 1, deck: deck)
+        case .cueA, .cueB: mix(.cue, value: playbackSnapshot?[deck].mixer.cue == true ? 0 : 1, deck: deck)
+        case .levelA, .levelB: mix(.volume, value: value, deck: deck)
+        case .gainA, .gainB: mix(.gain, value: pow(4, 2 * value - 1), deck: deck)
+        case .lowA, .lowB: mix(.low, value: 2 * value, deck: deck)
+        case .midA, .midB: mix(.mid, value: 2 * value, deck: deck)
+        case .highA, .highB: mix(.high, value: 2 * value, deck: deck)
+        case .filterA, .filterB: mix(.filterX, value: 2 * value - 1, deck: deck)
         case .filterToggleA, .filterToggleB:
-            setMixer(.filterEnabled, value: playbackSnapshot?[deck].mixer.filterEnabled == true ? 0 : 1, deck: deck)
+            mix(.filterEnabled, value: playbackSnapshot?[deck].mixer.filterEnabled == true ? 0 : 1, deck: deck)
         case .fxA, .fxB: setHardwareEffectX(value, deck: deck)
         case .fxToggleA, .fxToggleB: toggleHardwareEffect(deck: deck)
-        case .crossfader: setMixer(.crossfader, value: value)
-        case .cueMix: setMixer(.cueBlend, value: value)
-        case .master: setMixer(.master, value: value)
-        case .monitor: setMixer(.monitor, value: value)
+        case .crossfader: mix(.crossfader, value: value)
+        case .cueMix: mix(.cueBlend, value: value)
+        case .master: mix(.master, value: value)
+        case .monitor: mix(.monitor, value: value)
         case .tempoA, .tempoB: setDeckTempo(percent: value * 16 - 8, deck: deck)
         case .loopA, .loopB: toggleLoop(deck: deck)
         case .loopUpA, .loopUpB: stepLoopSize(direction: 1, deck: deck)

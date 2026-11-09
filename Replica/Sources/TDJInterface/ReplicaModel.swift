@@ -338,7 +338,12 @@ import TDJCore
     #if os(macOS)
         private var z1Connection: Z1HIDConnection?
     #elseif os(iOS)
-        private var z1Connection: Z1AccessoryConnection?
+        private var z1Connection: NIControllerAccessoryConnection?
+        var s2Connection: NIControllerAccessoryConnection?
+        var s2Controls = S2MK3Controls()
+        var s2Takeover: [ControllerAction: ControllerMIDITakeoverState] = [:]
+        var s2LastScratch: [DeckID: TimeInterval] = [:]
+        var s2Status = "Waiting for S2 Mk3."
     #endif
     public func toggleZ1() {
         #if os(iOS)
@@ -356,7 +361,7 @@ import TDJCore
                 let connection = Z1HIDConnection()
             #else
                 if controllerInput.originalZ1Bridge { controllerInput.setBridgeMode(false) }
-                let connection = Z1AccessoryConnection()
+                let connection = NIControllerAccessoryConnection(model: .z1)
             #endif
             connection.onState = { [weak self] text, calibration in
                 self?.z1Status = text
@@ -1481,10 +1486,17 @@ import TDJCore
             if !z1Enabled, UserDefaults.standard.object(forKey: "controllers.nativeZ1.enabled") as? Bool != false {
                 toggleZ1()
             }
+            if !playback.offline { startS2MK3() }
         #endif
         playbackMonitor = Task { [weak self] in
             while !Task.isCancelled {
+                #if os(iOS)
+                    self?.settleS2Scratch()
+                #endif
                 self?.refreshPlayback()
+                #if os(iOS)
+                    self?.refreshS2Lights()
+                #endif
                 do { try await Task.sleep(for: .milliseconds(33)) } catch { return }
             }
         }
@@ -1500,6 +1512,10 @@ import TDJCore
             z1Connection?.stop()
             z1Connection = nil
             z1Enabled = false
+        #endif
+        #if os(iOS)
+            s2Connection?.stop()
+            s2Connection = nil
         #endif
         playback.stopAudio()
         refreshPlayback()

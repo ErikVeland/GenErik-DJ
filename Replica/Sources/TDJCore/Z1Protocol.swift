@@ -128,42 +128,53 @@ public enum Z1OutputReport {
     private static func applyPlaybackLights(
         to bytes: inout [UInt8], state: DeckPlaybackSnapshot, frameCount: UInt64?, amberIndex: Int, blueIndex: Int
     ) {
-        guard state.phase == .playing, !state.touchActive, !state.braking, state.performanceRate == 1,
-            state.speed.isFinite, state.speed > 0, let timing = state.timing
-        else { return }
-        let beat = timing.beat(atFrame: state.sourceFrame)
-        guard beat.isFinite else { return }
-
-        let beatRemaining = 1 - (beat - floor(beat))
-        // Blend a steep initial drop with a tail that lasts through the beat.
-        let bluePulse = beatRemaining * (0.25 + 0.75 * beatRemaining)
+        guard let lights = ControllerPlaybackLights.levels(state: state, frameCount: frameCount) else { return }
         let blueBase = bytes[blueIndex] == 0x7f ? 0x50 : Double(bytes[blueIndex])
         let bluePeak = bytes[blueIndex] == 0x7f ? 0x7f : blueBase + 0x30
-        bytes[blueIndex] = brightness(base: blueBase, peak: bluePeak, pulse: bluePulse)
+        if let amber = lights.amber {
+            let amberBase = bytes[amberIndex] == 0x7f ? 0x20 : Double(bytes[amberIndex])
+            bytes[amberIndex] = brightness(base: amberBase, peak: 0x7f, pulse: amber)
+            bytes[blueIndex] = brightness(base: 0, peak: 0x18, pulse: lights.blue)
+        } else {
+            bytes[blueIndex] = brightness(base: blueBase, peak: bluePeak, pulse: lights.blue)
+        }
+    }
 
-        guard !state.loopEnabled, let frameCount, frameCount > 0 else { return }
+    private static func brightness(base: Double, peak: Double, pulse: Double) -> UInt8 {
+        UInt8((base + (peak - base) * pulse).rounded())
+    }
+}
+
+
+// The transport supplies phase and remaining time to each controller's light encoder.
+public enum ControllerPlaybackLights {
+    public static func levels(
+        state: DeckPlaybackSnapshot, frameCount: UInt64?
+    ) -> (blue: Double, amber: Double?)? {
+        guard state.phase == .playing, !state.touchActive, !state.braking, state.performanceRate == 1,
+            state.speed.isFinite, state.speed > 0, let timing = state.timing
+        else { return nil }
+        let beat = timing.beat(atFrame: state.sourceFrame)
+        guard beat.isFinite else { return nil }
+
+        let beatRemaining = 1 - (beat - floor(beat))
+        let blue = beatRemaining * (0.25 + 0.75 * beatRemaining)
+        guard !state.loopEnabled, let frameCount, frameCount > 0 else { return (blue, nil) }
         let remaining: Double
         if state.synced, state.adaptiveMap != nil {
             remaining = (timing.beat(atFrame: Double(frameCount)) - beat) * 60 / (state.sourceBPM * state.speed)
         } else {
             remaining = (Double(frameCount) - state.sourceFrame) / (timing.fixed.sampleRate * state.speed)
         }
-        guard remaining.isFinite, remaining > 0, remaining <= 30 else { return }
+        guard remaining.isFinite, remaining > 0, remaining <= 30 else { return (blue, nil) }
         let beatsPerPulse = remaining <= 10 ? 1.0 : 4.0
-        let amberPulse = pulse(phase: (beat - Double(timing.downbeatOffset)) / beatsPerPulse, width: 0.5)
-        let amberBase = bytes[amberIndex] == 0x7f ? 0x20 : Double(bytes[amberIndex])
-        bytes[amberIndex] = brightness(base: amberBase, peak: 0x7f, pulse: amberPulse)
-        // Keep the warning prominent while blue still marks each beat.
-        bytes[blueIndex] = brightness(base: 0, peak: 0x18, pulse: pulse(phase: beat, width: 0.2))
+        let amber = pulse(phase: (beat - Double(timing.downbeatOffset)) / beatsPerPulse, width: 0.5)
+        return (pulse(phase: beat, width: 0.2), amber)
     }
 
     private static func pulse(phase: Double, width: Double) -> Double {
         let position = phase - floor(phase)
         guard position < width else { return 0 }
         return 0.5 * (1 + cos(.pi * position / width))
-    }
-
-    private static func brightness(base: Double, peak: Double, pulse: Double) -> UInt8 {
-        UInt8((base + (peak - base) * pulse).rounded())
     }
 }
