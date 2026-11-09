@@ -1,0 +1,27 @@
+{
+  "notes": "R104 detects a stalled audio renderer even without a route notification. Rebuild output once while preserving deck state and respect the existing output routing safeguards.",
+  "sourceCommit": "5778972f2ff6faab56342004d3f4f6f7c7e7f501",
+  "sourceSHA256": "781ef69bc66cb9c3ddca4c9161d6934145088d697137a9e66dd6c383718b5b13",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 69.37,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-167.log",
+  "build": 167,
+  "app": "TestBuilds/ipad/167/GenErikDJ.app",
+  "appSHA256": "98f1b42d845354bb615cc828c974a1d4deb80454b215b9e547373f2c8a6ce364",
+  "state": "testing",
+  "createdUTC": "2026-11-09T08:59:26.787904+00:00",
+  "installedUTC": "2026-11-09T08:59:45.509742+00:00",
+  "launchedUTC": "2026-11-09T08:59:45.858456+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R104"
+  ],
+  "focusedChecks": "Ten focused host checks passed on this application source.",
+  "verificationLimit": "Host checks simulate the stall and restart decision. Physical A10X and Z1 recovery remain open.",
+  "evidence": [
+    "TestBuilds/r104/verification.json",
+    "TestBuilds/r104/ipad-install.log"
+  ]
+}

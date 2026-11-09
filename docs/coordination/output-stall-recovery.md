@@ -11,3 +11,5 @@ The monitor uses the existing output recovery flow and keeps deck positions, the
 Ten focused host checks passed. They cover loss of frame progress, continued progress with silent output, repeat stall limits, preservation of transport and NI routing safeguards. The host checks simulate the recovery decision. The A10X and Z1 still need a physical check.
 
 The monitor cannot infer audible output from successful renders. Source starvation, device silence after the render path, a callback that never returns and operating-system suspension remain separate limits.
+
+[Build 167](../testing/builds/167.json) installed on A10X, and iPadOS accepted launch. The source hash and logs are under `TestBuilds/r104/`.
