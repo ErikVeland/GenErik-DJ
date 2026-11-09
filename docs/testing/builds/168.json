@@ -1,0 +1,37 @@
+{
+  "notes": "R105 holds the starved source position, refills it and returns to the live beat without another Play command. The master clock and other deck continue.",
+  "sourceCommit": "b64f650ee874ccafe18cd30c53df00786f7180a7",
+  "sourceSHA256": "da2bcd4e415e590e4453a1e591dabff23bbd6b2404ba721504699125ba943b2a",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 7.87,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R106"
+      ],
+      "report": "The controller beat pulse is too subtle. Give it a clearer hit on the beat and a slow, musical fade until the next beat.",
+      "summary": "Build 168 is assumed from the last recorded iPad install."
+    }
+  ],
+  "log": "TestBuilds/ipad/build-168.log",
+  "build": 168,
+  "app": "TestBuilds/ipad/168/GenErikDJ.app",
+  "appSHA256": "97afe534ca5ed5cb34261993c1c785c78c76fa29c476f5130f8a07634a8c9cc9",
+  "state": "testing",
+  "createdUTC": "2026-11-09T09:05:32.341114+00:00",
+  "installedUTC": "2026-11-09T09:05:51.969631+00:00",
+  "launchedUTC": "2026-11-09T09:05:52.320164+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R105"
+  ],
+  "focusedChecks": "Six focused host tests passed across nine cases on the signed application source.",
+  "verificationLimit": "A deliberate host starvation probe recovered after refill. A10X and Z1 listening, sustained deadlines and physical continuity remain open.",
+  "evidence": [
+    "TestBuilds/r105/verification.json",
+    "TestBuilds/r105/before.log",
+    "TestBuilds/r105/ipad-install.log"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "notes": "Show the waveform and a separate edit cursor in the full-height editor. Keep placement actions visible (R98).",
+  "sourceCommit": "dc5b89743fa261b722c86167a4465c9840019b99",
+  "sourceSHA256": "22bd7f47bdb180e3bf6b2529b81790b88295701067eac51e5cd3b226f2c1bc28",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 39.68,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-172.log",
+  "build": 172,
+  "app": "TestBuilds/ipad/172/GenErikDJ.app",
+  "appSHA256": "ae9eebf670383c87baf88396ffd1910cd8159586adea855d4f0ec654c81f87e1",
+  "state": "testing",
+  "createdUTC": "2026-11-09T09:15:02.392126+00:00",
+  "installedUTC": "2026-11-09T09:15:17.414625+00:00",
+  "launchedUTC": "2026-11-09T09:15:17.768466+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R98"
+  ],
+  "verificationLimit": "Erik checks waveform placement, visible edit actions and touch on the A10X iPad."
+}

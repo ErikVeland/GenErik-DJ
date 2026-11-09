@@ -31,7 +31,7 @@ typedef struct {
     bool pending_touch_rate_valid;
     double stream_fade;
     float stream_last_l, stream_last_r;
-    bool stream_failed;
+    bool stream_failed, stream_starved;
     bool recovery_armed, recovery_active, recovery_mix, recovery_mixing;
     double recovery_start, recovery_end, recovery_mix_start, recovery_incoming;
     uint64_t recovery_incoming_generation;
@@ -963,6 +963,37 @@ static bool align_synced_position(deck *d, double beat) {
         return true;
     // A short active loop can span less than one beat. Align when that effect ends.
     return d->loop_enabled;
+}
+
+static bool can_park_starved_stream(const deck *d) {
+    return d->state == TDJ_PLAYING && !d->touch_active && !d->braking && d->performance_rate == 1;
+}
+
+static void resume_starved_stream(tdj_engine *e, int index) {
+    deck *d = &e->decks[index];
+    if (!d->stream_starved)
+        return;
+    if (!can_park_starved_stream(d)) {
+        d->stream_starved = false;
+        return;
+    }
+    // Refill the missing position before considering a phase-aligned return.
+    // This prevents replaying a cached fragment that ends at the same gap.
+    tdj_stream_request required;
+    if (deck_request(e, d, e->bpm, false, &required) <= 0 || !tdj_stream_covers(d->asset, &required))
+        return;
+    deck aligned = *d;
+    if (!align_synced_position(&aligned, beat_now(e)))
+        return;
+    if (aligned.position != d->position &&
+        (deck_request(e, &aligned, e->bpm, false, &required) <= 0 || !tdj_stream_covers(d->asset, &required)))
+        return;
+    d->position = aligned.position;
+    if (!d->loop_enabled)
+        d->continuing = d->position;
+    d->stream_starved = false;
+    // The stretcher may have consumed missing input before the hold.
+    tdj_keylock_reset(e->keylocks[index]);
 }
 
 static void cancel_recovery(tdj_engine *e, int index) {
@@ -1932,6 +1963,9 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
         atomic_flag_clear_explicit(&e->render_busy, memory_order_release);
         return false;
     }
+    if (count)
+        for (int i = 0; i < 2; i++)
+            resume_starved_stream(e, i);
     uint64_t missing[2] = {0, 0};
     uint64_t recorded_generations[2] = {0, 0};
     uint32_t recorded_offsets[2] = {UINT32_MAX, UINT32_MAX};
@@ -1958,7 +1992,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
         bool audible[2] = {false, false};
         for (int i = 0; i < 2; i++) {
             deck *d = &e->decks[i], *other = &e->decks[1 - i];
-            if (!d->recovery_mix || d->state != TDJ_PLAYING)
+            if (!d->recovery_mix || d->state != TDJ_PLAYING || d->stream_starved)
                 continue;
             if (other->generation != d->recovery_incoming_generation) {
                 d->recovery_mix = false;
@@ -2051,7 +2085,9 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 wrap_end = d->recovery_end;
             }
             float source_l, source_r;
-            if (d->braking)
+            if (d->stream_starved)
+                source_l = source_r = 0;
+            else if (d->braking)
                 brake_sample(e, i, wrap_start, wrap_end, &source_l, &source_r);
             else if (d->performance_rate != 1) {
                 uint64_t at = (uint64_t)fmax(0, fmin(d->asset->frames - 1, floor(d->position)));
@@ -2082,10 +2118,12 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                                         d->position, source_rate(e, d), d->keylock, wrap_start, wrap_end, &source_l,
                                         &source_r);
             if (d->asset->stream) {
-                bool failed = tdj_stream_read_failed(d->asset);
+                bool failed = d->stream_starved || tdj_stream_read_failed(d->asset);
                 if (failed) {
-                    tdj_stream_missing_frame(d->asset, e->frame);
+                    if (!missing[i])
+                        tdj_stream_missing_frame(d->asset, e->frame);
                     missing[i]++;
+                    d->stream_starved = can_park_starved_stream(d);
                     d->stream_failed = true;
                     d->stream_fade = fmax(0, d->stream_fade - 1 / (e->rate * 0.005));
                     source_l = d->stream_last_l * d->stream_fade;
@@ -2126,6 +2164,8 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                                      : step;
             else if (!d->touch_active)
                 d->continuing = d->position;
+            if (d->stream_starved)
+                continue;
             d->position += step * d->performance_rate * (d->braking ? d->brake_rate : 1);
             if (d->braking) {
                 double smoothing = fmin(1, 1 / (e->rate * 0.01));
@@ -2312,6 +2352,10 @@ static tdj_deck_snapshot read_deck(atomic_deck *p) {
     }
     return result;
 }
+uint64_t tdj_rendered_output_frame(const tdj_engine *e) {
+    return atomic_load_explicit(&e->published_frame, memory_order_relaxed);
+}
+
 bool tdj_read_snapshot(tdj_engine *e, tdj_snapshot *out) {
     for (int attempt = 0; attempt < 8; ++attempt) {
         uint64_t before = atomic_load(&e->snapshot_sequence);

@@ -1,0 +1,39 @@
+{
+  "notes": "Move the sections editor into the utility strip. Use full iPad height and group the deck controls (R98).",
+  "sourceCommit": "d30d2bbec236283aef0803fc6c3c137190f10605",
+  "sourceSHA256": "295659175c434fc72e85f98192f1426e737e1584200b4dbb85b69a6c1795c93f",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 73.4,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R107"
+      ],
+      "report": "The last three iPad builds opened to a white screen with a Cannot open the workspace error.",
+      "summary": "Assumed builds 167–169 from the last three recorded installs when Erik reported the failure."
+    },
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R98"
+      ],
+      "report": "Keep the waveform visible in the full-height editor. Show where sections and landmarks will go. Keep edit actions visible without scrolling.",
+      "summary": "Build 169 is assumed from the last recorded iPad install when Erik reported this."
+    }
+  ],
+  "log": "TestBuilds/ipad/build-169.log",
+  "build": 169,
+  "app": "TestBuilds/ipad/169/GenErikDJ.app",
+  "appSHA256": "ac03d4e7bebc0b1ac223e63c89b23a12765ffaa7ebce2d7f9874f059c3130ac1",
+  "state": "testing",
+  "createdUTC": "2026-11-09T09:08:05.985519+00:00",
+  "installedUTC": "2026-11-09T09:08:18.767477+00:00",
+  "launchedUTC": "2026-11-09T09:08:19.167450+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R98"
+  ],
+  "verificationLimit": "Erik checks the full-height editor, control grouping, layout and touch on the iPad."
+}

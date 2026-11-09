@@ -57,22 +57,40 @@ private struct Z1LightFixture {
     #expect(try shifted.report()[17] == 127)
 }
 
-@Test func z1BlueGivesAShortBeatPulseAndKeepsFilterAndFXStatusVisible() throws {
+@Test func z1BlueHitsOnTheBeatAndTapersUntilTheNextBeat() throws {
     let fixture = try Z1LightFixture()
-    for (seconds, brightness): (Double, UInt8) in [(0, 34), (0.05, 22), (0.1, 10), (0.5, 34)] {
+    try fixture.move(to: 0)
+    let peak = Int(try fixture.report()[18])
+    #expect(peak >= 50)
+    var previous = peak
+    for seconds in [0.125, 0.25, 0.375, 0.45] {
         try fixture.move(to: seconds)
-        #expect(try fixture.report()[18] == brightness)
-        #expect(try fixture.report()[17] == 0)
+        let report = try fixture.report()
+        let brightness = Int(report[18])
+        #expect(brightness < previous && brightness > 10)
+        #expect(report[17] == 0)
+        previous = brightness
     }
+    try fixture.move(to: 0.25)
+    let midpoint = Int(try fixture.report()[18])
+    #expect(peak - midpoint > midpoint - 10)
+    try fixture.move(to: 0.5)
+    #expect(Int(try fixture.report()[18]) == peak)
+}
+
+@Test func z1BluePulseKeepsFilterAndFXStatusVisible() throws {
+    let fixture = try Z1LightFixture()
     try fixture.core.setMixer(.filterEnabled, value: 1, deck: .a)
     try fixture.move(to: 0)
     #expect(try fixture.report()[18] == 127)
-    try fixture.move(to: 0.1)
-    #expect(try fixture.report()[18] == 96)
-    #expect(try fixture.report(fx: true, enabled: true)[17] == 127)
-    #expect(try fixture.report(fx: true, enabled: true)[18] == 0)
+    try fixture.move(to: 0.375)
+    let filter = try fixture.report()[18]
+    #expect(filter >= 80 && filter < 127)
+    let fxTail = try fixture.report(fx: true, enabled: true)
+    #expect(fxTail[17] == 127 && fxTail[18] > 0)
     try fixture.move(to: 0.5)
-    #expect(try fixture.report(fx: true, enabled: true)[18] == 24)
+    let fxPeak = try fixture.report(fx: true, enabled: true)
+    #expect(fxPeak[17] == 127 && fxPeak[18] > fxTail[18])
 }
 
 @Test func z1WarningUsesPlaybackSpeedAndAdaptiveBeatDistance() throws {
@@ -91,8 +109,9 @@ private struct Z1LightFixture {
     let adaptive = try Z1LightFixture(adaptive: true)
     try adaptive.move(to: 0)
     #expect(try adaptive.report()[17] == 0)
-    try adaptive.move(to: 0.5)
-    #expect(try adaptive.report()[18] == 10)
+    _ = adaptive.core.renderOffline(frames: 2000)
+    let adaptiveTail = try adaptive.report()[18]
+    #expect(adaptiveTail > 10 && adaptiveTail < 40)
     try adaptive.move(to: 50)
     #expect(try adaptive.report()[17] == 127)
     try adaptive.move(to: 55.5)
@@ -103,6 +122,7 @@ private struct Z1LightFixture {
     let fixture = try Z1LightFixture()
     try fixture.move(to: 50.25)
     #expect(try fixture.report(fx: true, enabled: true)[17] == 32)
+    #expect(try fixture.report()[18] == 0)
     try fixture.move(to: 50)
     #expect(try fixture.report()[17] == 127)
     #expect(try fixture.report()[18] == 24)
@@ -111,7 +131,7 @@ private struct Z1LightFixture {
     fixture.core.processControlsWhileIdle()
     #expect(fixture.core.snapshot()?.a.loopEnabled == true)
     #expect(try fixture.report()[17] == 0)
-    #expect(try fixture.report()[18] == 34)
+    #expect(try fixture.report()[18] >= 50)
     try fixture.core.play(deck: .a, generation: fixture.generation)
     fixture.core.processControlsWhileIdle()
     #expect(try fixture.report()[18] == 10)
@@ -135,7 +155,7 @@ private struct Z1LightFixture {
     let before = try #require(fixture.core.snapshot())
     let bytes = try fixture.report()
     #expect(bytes[17] == 127 && bytes[20] == 0)
-    #expect(bytes[18] == 24 && bytes[21] == 34)
+    #expect(bytes[18] == 24 && bytes[21] >= 50)
     #expect(bytes[15] == 10 && bytes[16] == 127 && bytes[19] == 127)
     #expect(bytes[1..<15].allSatisfy { $0 == 0 })
     #expect(bytes.count == 22 && bytes[0] == 0x80)
@@ -151,13 +171,15 @@ private struct Z1LightFixture {
     let fixture = try Z1LightFixture()
     try fixture.core.setFreeRate(0.5, deck: .a, generation: fixture.generation)
     try fixture.move(to: 0)
-    #expect(try fixture.report()[18] == 34)
+    let peak = try fixture.report()[18]
+    _ = fixture.core.renderOffline(frames: 4000)
+    let midpoint = try fixture.report()[18]
+    #expect(midpoint > 10 && midpoint < peak)
+    _ = fixture.core.renderOffline(frames: 3200)
+    let tail = try fixture.report()[18]
+    #expect(tail > 10 && tail < midpoint)
     _ = fixture.core.renderOffline(frames: 800)
-    #expect(try fixture.report()[18] == 22)
-    _ = fixture.core.renderOffline(frames: 800)
-    #expect(try fixture.report()[18] == 10)
-    _ = fixture.core.renderOffline(frames: 6400)
-    #expect(try fixture.report()[18] == 34)
+    #expect(try fixture.report()[18] == peak)
 }
 
 @Test(arguments: ["touch", "brake", "reverse", "ended"])

@@ -1,0 +1,30 @@
+{
+  "notes": "Open the iPad workspace with saved key history from both known policy versions (R107).",
+  "sourceCommit": "724a671ed1e2574586d7ccb28382111bbbfb005f",
+  "sourceSHA256": "f31e2ac933d1a8994f3795009d118bfd9867c0a90b0490fea7ab84701f9db360",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 62.88,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-171.log",
+  "build": 171,
+  "app": "TestBuilds/ipad/171/GenErikDJ.app",
+  "appSHA256": "68295c1fa1bdba2de7ef7db09c6e12b9c49a08c6a24635880f2ebd47a4ff0696",
+  "state": "testing",
+  "createdUTC": "2026-11-09T09:13:27.336131+00:00",
+  "installedUTC": "2026-11-09T09:13:39.955525+00:00",
+  "launchedUTC": "2026-11-09T09:13:40.352719+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R107"
+  ],
+  "focusedChecks": "Fourteen key governance tests passed. The regression test reproduced the startup error before the fix. The fixed reader reopened a copy of the iPad library with 5,799 tracks and 1,244 earlier key history entries. The library file hash stayed the same.",
+  "evidence": [
+    "TestBuilds/r107/before.log",
+    "TestBuilds/r107/regression-before.log",
+    "TestBuilds/r107/regression-after.log",
+    "TestBuilds/r107/after.log",
+    "TestBuilds/r107/ipad-cycle.log"
+  ],
+  "verificationLimit": "Erik checks that the decks and existing library appear on the A10X iPad."
+}

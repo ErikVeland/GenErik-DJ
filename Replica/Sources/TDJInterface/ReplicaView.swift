@@ -22,6 +22,7 @@ private let surface = PerformancePalette.panel
     @State private var libraryPanel = LibraryPanelState()
     @State private var deckSplit = DeckSplitState()
     @State private var touchInterruption = UUID()
+    @State private var sectionEdit: (deck: DeckID, identity: SectionEditIdentity)?
     @AppStorage(DeckToolSettings.largePanelHandles) private var largePanelHandles = false
     @Environment(\.accessibilityVoiceOverEnabled) private var voiceOver
     private var handleExtent: Double { PanelHandleMetrics(expanded: largePanelHandles || voiceOver).extent }
@@ -48,6 +49,17 @@ private let surface = PerformancePalette.panel
             }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .topLeading).onChange(
                 of: geometry.size
             ) { _, _ in touchInterruption = UUID() }
+                .allowsHitTesting(sectionEdit == nil).accessibilityHidden(sectionEdit != nil)
+                .overlay {
+                    if let sectionEdit {
+                        ArrangementEditor(
+                            model: model, deck: sectionEdit.deck, identity: sectionEdit.identity,
+                            isPresented: true, usesColumns: true, close: { self.sectionEdit = nil }
+                        ).id(sectionEdit.identity.id).frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .background(PerformancePalette.panel).padding(6)
+                            .background(PerformancePalette.frame)
+                    }
+                }.onChange(of: sectionEdit?.identity.id) { _, _ in touchInterruption = UUID() }
         }.environment(\.touchSurfaceInterruption, touchInterruption).background(
             PerformancePalette.frame.ignoresSafeArea()
         )
@@ -61,6 +73,15 @@ private let surface = PerformancePalette.panel
         #else
             false
         #endif
+    }
+
+    private var openFullHeightSections: ((DeckID, SectionEditIdentity) -> Void)? {
+        #if os(iOS)
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                return { deck, identity in sectionEdit = (deck, identity) }
+            }
+        #endif
+        return nil
     }
 
     private func performanceSurface(windowWidth: Double) -> some View {
@@ -90,6 +111,7 @@ private let surface = PerformancePalette.panel
                                     snapshotEffects: snapshotEffectsDeck == .a,
                                     snapshotMixer: snapshotMixerDecks.contains(.a),
                                     snapshotFilter: snapshotFilterDecks.contains(.a),
+                                    openFullHeightSections: openFullHeightSections,
                                     requestPerformanceSpace: { minimum in
                                         if model.browserVisible {
                                             libraryPanel.makeRoom(
@@ -126,6 +148,7 @@ private let surface = PerformancePalette.panel
                                     snapshotEffects: snapshotEffectsDeck == .b,
                                     snapshotMixer: snapshotMixerDecks.contains(.b),
                                     snapshotFilter: snapshotFilterDecks.contains(.b),
+                                    openFullHeightSections: openFullHeightSections,
                                     requestPerformanceSpace: { minimum in
                                         if model.browserVisible {
                                             libraryPanel.makeRoom(
@@ -315,6 +338,7 @@ private struct DeckPanelHorizontalBounds: Shape {
     var snapshotEffects = false
     var snapshotMixer = false
     var snapshotFilter = false
+    var openFullHeightSections: ((DeckID, SectionEditIdentity) -> Void)?
     var requestPerformanceSpace: (Double) -> Void = { _ in }
     @Environment(\.performancePanelPortrait) private var portrait
     @State private var sectionPanel = SectionEditorPanelState()
@@ -404,16 +428,7 @@ private struct DeckPanelHorizontalBounds: Shape {
                             .background(PerformancePalette.frame).allowsHitTesting(false)
                     }
                 }.buttonStyle(.plain).accessibilityLabel("Load track for deck \(deck.rawValue.uppercased())")
-                DeckHeader(
-                    model: model, deck: deck, dense: true, showsArtwork: false,
-                    controlsVisible: panels.extraVisible, controlsEnabled: panels.controlsEnabled,
-                    toggleControls: { panels.toggleControls() },
-                    openSections: {
-                        guard let track else { return }
-                        sectionPanel.open(trackID: track.id, loadID: model.loadIdentity(deck))
-                        requestPerformanceSpace(52 + handleExtent + 260)
-                    }
-                ).buttonStyle(.plain)
+                DeckHeader(model: model, deck: deck, dense: true, showsArtwork: false).buttonStyle(.plain)
             }.frame(height: layout.headerHeight, alignment: .top).background(
                 DeckSectionHeader(model: model, deck: deck, visibleSeconds: zoom.wrappedValue, waveform: waveformAxis)
             ).clipped()
@@ -450,7 +465,7 @@ private struct DeckPanelHorizontalBounds: Shape {
                         DeckPanelHorizontalBounds()
                     ).zIndex(effectsVisible || snapshotEffects ? 1 : 0).overlay(alignment: .bottomLeading) {
                         if track != nil {
-                            DeckActionPane(model: model, deck: deck, panels: panels)
+                            DeckActionPane(model: model, deck: deck, panels: panels, openSections: openSections)
                         }
                     }
                     if showsHotcues {
@@ -527,6 +542,18 @@ private struct DeckPanelHorizontalBounds: Shape {
         }
     }
 
+    private func openSections() {
+        guard let track, model.arrangements[track.id] != nil else { return }
+        let loadID = model.loadIdentity(deck)
+        if let openFullHeightSections {
+            panels.toggleControls()
+            openFullHeightSections(deck, .init(trackID: track.id, loadID: loadID))
+        } else {
+            sectionPanel.open(trackID: track.id, loadID: loadID)
+            requestPerformanceSpace(52 + handleExtent + 260)
+        }
+    }
+
     private func panelHandle(_ kind: PerformancePanel, edge: TouchPanelEdge, title: String) -> some View {
         TouchPanelHandle(
             presented: panels.isPresented(kind), maximumExtent: panels.maximum(kind),
@@ -598,6 +625,7 @@ private struct DeckPanelHorizontalBounds: Shape {
     @Bindable var model: ReplicaModel
     let deck: DeckID
     @Bindable var panels: DeckPanelPresentation
+    let openSections: () -> Void
     @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     var body: some View {
@@ -626,6 +654,13 @@ private struct DeckPanelHorizontalBounds: Shape {
                     }.transition(.move(edge: .leading).combined(with: .opacity))
                 }
             }.clipped()
+        }.background {
+            if panels.extraVisible { RoundedRectangle(cornerRadius: 5).fill(PerformancePalette.sunken) }
+        }.overlay {
+            if panels.extraVisible {
+                RoundedRectangle(cornerRadius: 5).strokeBorder(PerformancePalette.secondaryText.opacity(0.5))
+                    .allowsHitTesting(false)
+            }
         }.frame(maxWidth: .infinity, alignment: .leading).environment(\.deckPanelPresented, panels.extraVisible)
             .protectsFrontDeckSwipe().animation(
             reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.9), value: panels.extraVisible)
@@ -633,12 +668,11 @@ private struct DeckPanelHorizontalBounds: Shape {
 
     private var controls: some View {
         HStack(spacing: 6) {
-            PerformanceControls(model: model, deck: deck, compact: true)
+            PerformanceControls(model: model, deck: deck, compact: true, openSections: openSections)
             OptionalHeadphoneButton(model: model, deck: deck)
             if cueButton { Button("CUE") { model.pressCue(deck: deck) }.frame(width: 48) }
         }.buttonStyle(PerformanceToolButtonStyle()).padding(.horizontal, 4)
             .fixedSize(horizontal: true, vertical: false)
-            .background(PerformancePalette.sunken.opacity(0.97), in: RoundedRectangle(cornerRadius: 5))
     }
 }
 
@@ -715,7 +749,7 @@ struct DeckRailButtonStyle: ButtonStyle {
     }
 }
 
-private struct WaveformView: View, Equatable {
+struct WaveformView: View, Equatable {
     nonisolated static func == (lhs: Self, rhs: Self) -> Bool {
         WaveformIndexKey(lhs.track.analysis) == WaveformIndexKey(rhs.track.analysis)
             && lhs.track.analysis.frameCount == rhs.track.analysis.frameCount
@@ -1210,10 +1244,6 @@ extension ReplicaView {
     let deck: DeckID
     var dense = false
     var showsArtwork = true
-    var controlsVisible = false
-    var controlsEnabled = false
-    var toggleControls: () -> Void = {}
-    var openSections: (() -> Void)?
     @AppStorage(DeckToolSettings.beatJump) private var beatJump = false
 
     var body: some View {
@@ -1280,33 +1310,32 @@ extension ReplicaView {
                                 "Beat jump \(direction < 0 ? "back" : "forward") on deck \(deck.rawValue.uppercased())")
                         }
                     }
-                    if let openSections {
-                        Button(action: openSections) {
-                            Image(systemName: "diamond").frame(width: 44, height: 44).bevelPanel(cornerRadius: 3)
-                        }.disabled(track.flatMap { model.arrangements[$0.id] } == nil).accessibilityLabel(
-                            "Edit sections and analysis landmarks"
-                        ).protectsFrontDeckSwipe()
-                    }
-                    Button {
-                        model.toggleSync(deck: deck)
-                    } label: {
-                        Text("SYNC").font(.system(size: 17, weight: .medium)).foregroundStyle(syncColour).padding(
-                            .horizontal, 12
-                        ).frame(height: 44).background(
-                            RoundedRectangle(cornerRadius: 3).fill(
-                                playback?.synced == true
-                                    ? PerformancePalette.syncGreenBackground : PerformancePalette.sunken)
-                        ).overlay(RoundedRectangle(cornerRadius: 3).strokeBorder(Color.white.opacity(0.08)))
-                    }.disabled(track == nil || preparing).protectsFrontDeckSwipe().accessibilityLabel(
-                        "Sync deck \(deck.rawValue.uppercased())")
-                    Button {
-                        model.toggleGridEditing(deck: deck)
-                    } label: {
-                        FourBeatGridIcon().foregroundStyle(editing ? Color.orange : PerformancePalette.text).frame(
-                            width: 44, height: 44
-                        ).bevelPanel(cornerRadius: 3)
-                    }.disabled(track == nil || preparing || playback?.phase == .queued).protectsFrontDeckSwipe()
-                        .accessibilityLabel("Edit grid on deck \(deck.rawValue.uppercased())")
+                    HStack(spacing: 1) {
+                        Button {
+                            model.toggleSync(deck: deck)
+                        } label: {
+                            Text("SYNC").font(.system(size: 17, weight: .medium)).foregroundStyle(syncColour).padding(
+                                .horizontal, 12
+                            ).frame(height: 44).background(
+                                RoundedRectangle(cornerRadius: 3).fill(
+                                    playback?.synced == true
+                                        ? PerformancePalette.syncGreenBackground : PerformancePalette.sunken)
+                            ).overlay(RoundedRectangle(cornerRadius: 3).strokeBorder(Color.white.opacity(0.08)))
+                        }.disabled(track == nil || preparing).protectsFrontDeckSwipe().accessibilityLabel(
+                            "Sync deck \(deck.rawValue.uppercased())")
+                        Button {
+                            model.toggleGridEditing(deck: deck)
+                        } label: {
+                            FourBeatGridIcon().foregroundStyle(editing ? Color.orange : PerformancePalette.text).frame(
+                                width: 44, height: 44
+                            ).bevelPanel(cornerRadius: 3)
+                        }.disabled(track == nil || preparing || playback?.phase == .queued).protectsFrontDeckSwipe()
+                            .accessibilityLabel("Edit grid on deck \(deck.rawValue.uppercased())")
+                    }.background(PerformancePalette.sunken, in: RoundedRectangle(cornerRadius: 5))
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 5).strokeBorder(PerformancePalette.secondaryText.opacity(0.5))
+                                .allowsHitTesting(false)
+                        }.layoutPriority(1)
                 }
             }.frame(minWidth: 0, maxWidth: .infinity).clipped().contentShape(Rectangle())
         }.padding(.horizontal, 8).padding(.vertical, dense ? 0 : 8)

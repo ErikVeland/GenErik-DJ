@@ -1,0 +1,29 @@
+{
+  "notes": "R106 gives each Z1 channel a brighter blue hit and a curved fade through the beat. Amber keeps priority near the end.",
+  "sourceCommit": "f2a97368cd8a9ea67a9be57e9643c0e0ecd52731",
+  "sourceSHA256": "04935a64b5952ca63b632acc3b1efb6940d4d48ffd93895d291382ac350bb744",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 28.75,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-170.log",
+  "build": 170,
+  "app": "TestBuilds/ipad/170/GenErikDJ.app",
+  "appSHA256": "945eb00473b5f12b2a4b087c0de59720558fbbdc379e4dbd8752d2226f778cb5",
+  "state": "testing",
+  "createdUTC": "2026-11-09T09:11:02.252584+00:00",
+  "installedUTC": "2026-11-09T09:11:14.825278+00:00",
+  "launchedUTC": "2026-11-09T09:11:15.171551+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R106"
+  ],
+  "focusedChecks": "Thirty-one focused host tests passed across 37 cases on this application source.",
+  "verificationLimit": "Erik checks the pulse on the physical Z1, including brightness, beat alignment, audio continuity and touch response.",
+  "evidence": [
+    "TestBuilds/r106/verification.json",
+    "TestBuilds/r106/before.log",
+    "TestBuilds/r106/first-curve-check.log",
+    "TestBuilds/r106/ipad-cycle.log"
+  ]
+}

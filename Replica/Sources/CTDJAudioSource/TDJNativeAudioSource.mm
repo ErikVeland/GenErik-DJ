@@ -194,6 +194,12 @@ static void reap_source(NativeSourceRetirement *retirement, uint32_t delay_ms) {
 - (uint32_t)activeCallbacks {
     return _context->gate.load(std::memory_order_acquire) & active_mask;
 }
+- (BOOL)suspendIfIdle {
+    uint32_t expected = 0;
+    return _context->gate.compare_exchange_strong(expected, closed_bit, std::memory_order_acq_rel,
+                                                   std::memory_order_acquire) ||
+           expected == closed_bit;
+}
 - (void)suspendAndWait {
     _context->gate.fetch_or(closed_bit, std::memory_order_acq_rel);
     while (_context->gate.load(std::memory_order_acquire) & active_mask)
