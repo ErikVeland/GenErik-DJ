@@ -1,0 +1,27 @@
+{
+  "notes": "R99 requests iPadOS system alert protection before audio activation. Includes R97 Z1 routing and R98 utility strip changes.",
+  "sourceCommit": "82249dfa69f9eb89126e68a891fb377ce82d0ded",
+  "sourceSHA256": "a268536d0051cb64092533fa2d3d50279b183b38f1be2312c3163d0aec445048",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 77.15,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-162.log",
+  "build": 162,
+  "app": "TestBuilds/ipad/162/GenErikDJ.app",
+  "appSHA256": "512718b88aa44e9827753ed721981440ba767ab931ee0bacd40033c04a27d5e8",
+  "state": "testing",
+  "createdUTC": "2026-11-09T08:40:17.368079+00:00",
+  "installedUTC": "2026-11-09T08:40:35.690083+00:00",
+  "launchedUTC": "2026-11-09T08:40:36.036585+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R99"
+  ],
+  "focusedChecks": "One host probe reproduced a silent hold after rejected short-clip release.",
+  "verificationLimit": "The signed build includes the alert preference. Incoming calls and notifications with Silent Mode off still need a physical A10X test.",
+  "evidence": [
+    "TestBuilds/r99/verification.json",
+    "TestBuilds/r99/ipad-install.log"
+  ]
+}
