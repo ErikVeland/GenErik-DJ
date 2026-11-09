@@ -18,6 +18,10 @@ The candidate uses Beat This small0 to find beat and downbeat times. It fits a f
 
 The error compares the first supporting downbeat with the nearest bar in the saved grid. The five saved grids are references for this comparison. Check the large phase differences by listening to those versions. Both analysers place the Blue Monday ’88 bar near 0.20 seconds. Its saved grid starts at 0.38 seconds.
 
+R94 later found that the local Blue Monday ’88 file lasts 427.47 seconds, while this saved reference describes 245.19 seconds.
+The earlier Blue Monday comparison does not establish accuracy for the same version. Its historical evidence remains preserved.
+The [Mac audit](mac-analysis-audit.md) excludes that reference from scoring.
+
 The Core ML export reproduced all 260 beats and 75 downbeats from the upstream model on 3CAG. The test ran on the Mac CPU and used the upstream audio preprocessing. A Swift and Accelerate prototype matched the upstream spectrogram on 30 seconds of already resampled 3CAG audio. The largest absolute difference was 0.000079 across 1,501 frames. Native decode and resampling, full-track integration, A10X cost and the effect on playback remain open.
 
 ## Next verification

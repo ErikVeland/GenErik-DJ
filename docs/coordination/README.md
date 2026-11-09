@@ -6,6 +6,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**R94 Mac check:** The release Mac app analysed 12 tracks with 78.23 minutes of audio. Fresh first-pass work took 310.24 seconds. The additional deep pass took 108.00 seconds. All 164 deep windows completed, and all 12 saved results reopened unchanged. Against nine compatible saved references, final agreement was 8/9 for tempo, 7/9 for beat phase, 4/9 for downbeat and 5/9 for key. Deep analysis improved some timings but did not change those aggregate counts. These references are not human ground truth. No iPad or Duo action was part of this check. [Results, source and limits](mac-analysis-audit.md).
+
 **Build 153** is signed and ready from committed `main`. R88 adds full-track Beat This final0 analysis, versioned window checkpoints and automatic private iCloud result sharing. All matching groups finish before deep work. Deep analysis waits for external power and idle performance controls. Model upgrades declare their benefit and preserve usable preparation until replacement evidence passes. Forty-one focused host tests passed before the final review-notice change. Five follow-up tests passed on the final source. Three real tracks completed the full path, and interrupted analysis resumed to the same result. The Duo install failed because its trusted device connection was unavailable. The iPad remains on 151 pending Erik's timing choice. Actual Duo throughput, cross-device transfer and A10X live acceptance remain open. [Build record](../testing/builds/153.json) · [Engine contract and verification](tiered-analysis.md).
 
 
