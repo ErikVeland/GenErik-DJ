@@ -2,6 +2,10 @@ import CoreML
 import Foundation
 
 enum BeatThisAnalyzer {
+    struct Evidence {
+        let grid: BeatThisGrid?
+        let refinedTempo: Double?
+    }
     private static let window = 1500
     private static let border = 6
     static let mixOpeningSeconds = 90.0
@@ -25,9 +29,9 @@ enum BeatThisAnalyzer {
 
     static func analyze(
         url: URL, sourceFrames: Int64, configuration: AnalysisConfiguration, requireOpeningBar: Bool,
-        checkCancellation: @Sendable () throws -> Void
-    ) throws -> BeatThisGrid? {
-        guard sourceFrames >= 2 else { return nil }
+        fallbackBPM: Double? = nil, checkCancellation: @Sendable () throws -> Void
+    ) throws -> Evidence {
+        guard sourceFrames >= 2 else { return .init(grid: nil, refinedTempo: nil) }
         try checkCancellation()
         let span = AnalysisMeasurement.begin("beatThisTotal")
         defer { span?.finish() }
@@ -85,9 +89,16 @@ enum BeatThisAnalyzer {
             }
         }
         try checkCancellation()
-        return try fit(
+        let grid = try fit(
             beats: beatLogits, downbeats: barLogits, configuration: configuration,
             requireOpeningBar: requireOpeningBar, checkCancellation: checkCancellation)
+        let tempo: Double?
+        if grid == nil, !requireOpeningBar, let fallbackBPM {
+            tempo = try BeatThisTempo.refine(
+                fallbackBPM: fallbackBPM, beats: peaks(beatLogits), configuration: configuration,
+                checkCancellation: checkCancellation)
+        } else { tempo = nil }
+        return .init(grid: grid, refinedTempo: tempo)
     }
 
     static func fit(

@@ -28,11 +28,11 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public let upgradeBenefit: String
 
     public static let current = Self(
-        generation: 1, model: "BeatThis/final0",
+        generation: 2, model: "BeatThis/final0",
         weightsSHA256:
             "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331",
-        conversion: 1, preprocessing: 1, decisionPolicy: 1,
-        upgradeBenefit: "Full-track beat and downbeat evidence from the larger model.")
+        conversion: 1, preprocessing: 1, decisionPolicy: 2,
+        upgradeBenefit: "Retain supported full-track grids when opening attacks have small timing errors.")
 
     public var inferenceID: String {
         analysisDigest(Data("\(model)|\(weightsSHA256)|fp16-\(conversion)|mel-\(preprocessing)|1500-6-50".utf8))

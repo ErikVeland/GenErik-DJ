@@ -6,7 +6,7 @@ public struct AnalysisConfiguration: Sendable {
     static let mixOpeningSuffix = "-mix-opening-1"
 
     public var id: String {
-        "beat-this-small0-grid-1-tuned-hpcp-\(minimumBPM)-\(maximumBPM)"
+        "beat-this-small0-grid-2-tuned-hpcp-2-\(minimumBPM)-\(maximumBPM)"
     }
     public var minimumBPM: Double = 60
     public var maximumBPM: Double = 200
@@ -126,14 +126,16 @@ public enum AudioAnalyzer {
         AnalysisMeasurement.current?.update { $0.requestedConfigurationID = configurationID }
         let beatFrames = BeatThisAnalyzer.sourceFrameLimit(decoded.frameCount, sampleRate: decoded.sampleRate)
         let requiresOpeningBar = beatFrames < decoded.frameCount
-        let fitted: BeatThisGrid?
+        let evidence: BeatThisAnalyzer.Evidence
         if duration >= 11 * 60 / configuration.maximumBPM {
-            fitted = try BeatThisAnalyzer.analyze(
+            evidence = try BeatThisAnalyzer.analyze(
                 url: url, sourceFrames: beatFrames, configuration: configuration, requireOpeningBar: requiresOpeningBar,
+                fallbackBPM: rhythm.adaptiveCandidate == nil ? rhythm.bpm : nil,
                 checkCancellation: checkCancellation)
         } else {
-            fitted = nil
+            evidence = .init(grid: nil, refinedTempo: nil)
         }
+        let fitted = evidence.grid
         try checkUnchanged(url: url, before: before)
         if let fitted {
             if let map = rhythm.adaptiveCandidate {
@@ -151,6 +153,11 @@ public enum AudioAnalyzer {
             rhythm.downbeat = 0
             rhythm.downbeatConfidence = fitted.barAgreement
             rhythm.gridResidualMilliseconds = fitted.residualMilliseconds
+        } else if let tempo = evidence.refinedTempo {
+            rhythm.bpm = tempo
+            rhythm.confidence = min(rhythm.confidence, 0.69)
+            rhythm.downbeat = nil
+            rhythm.downbeatConfidence = nil
         } else if requiresOpeningBar {
             rhythm.downbeat = nil
             rhythm.downbeatConfidence = nil
@@ -163,7 +170,8 @@ public enum AudioAnalyzer {
             brightness: brightness)
         var analysis = AudioAnalysis(
             implementation: fitted == nil
-                ? "Beat This small0 with DSP grid fallback"
+                ? evidence.refinedTempo == nil ? "Beat This small0 with DSP grid fallback"
+                    : "Beat This small0 tempo octave with DSP beat phase"
                 : requiresOpeningBar ? "Beat This small0 opening grid" : "Beat This small0 fitted grid",
             configurationID: configurationID, contentSHA256: hash, sampleRate: decoded.sampleRate,
             frameCount: decoded.frameCount, channelCount: decoded.channelCount, waveformFramesPerBin: decoded.binFrames,
@@ -174,7 +182,7 @@ public enum AudioAnalyzer {
             analysis.adaptiveCandidate = map
             analysis.adaptiveConfidence = rhythm.confidence
         }
-        analysis.beatModelVersion = "BeatThis/small0-6074be2c-mel1-fit1"
+        analysis.beatModelVersion = "BeatThis/small0-6074be2c-mel1-fit2"
         analysis.detectedDownbeatOffset = rhythm.downbeat
         analysis.downbeatConfidence = rhythm.downbeatConfidence
         analysis.barAnalysisVersion = BarStartAnalysis.version

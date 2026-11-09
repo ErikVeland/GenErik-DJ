@@ -217,13 +217,20 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
     public var needsAutomaticBarAnalysis: Bool {
         mayRefreshAutomaticGrid && analysis.barAnalysisVersion != BarStartAnalysis.version
     }
+    var needsTempoOctaveUpgrade: Bool {
+        mayRefreshAutomaticGrid && traktorPreparation?.normalized.grid == nil
+            && !NativeAnalysisPlan.isMix(duration: analysis.duration)
+            && analysis.beatModelVersion == "BeatThis/small0-6074be2c-mel1-fit1"
+            && analysis.implementation == "Beat This small0 with DSP grid fallback"
+    }
     public var needsFullPreparationAnalysis: Bool {
         nativeSourceNeedsAnalysis == true || analysis.musicalAnalysisDeferred == true || needsAutomaticBarAnalysis
+            || needsTempoOctaveUpgrade
             || (analysis.configurationID != AnalysisConfiguration().id(for: analysis.duration)
                 && NativeAnalysisPlan.needsDeckAnalysis(deferred: nil, bpm: bpm, key: key))
     }
     public var needsCurrentLibraryAnalysis: Bool {
-        if nativeSourceNeedsAnalysis == true { return true }
+        if nativeSourceNeedsAnalysis == true || needsTempoOctaveUpgrade { return true }
         guard grid == nil || key == nil else { return false }
         return analysis.configurationID != AnalysisConfiguration().id(for: analysis.duration)
             || needsFullPreparationAnalysis
