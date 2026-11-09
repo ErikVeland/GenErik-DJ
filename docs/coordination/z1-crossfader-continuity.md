@@ -13,6 +13,7 @@ An unchanged subsequent report therefore did not retry the position.
 A focused test faded a playing deck out, filled the command queue, then moved the decoded Z1 crossfader back.
 The deck kept advancing, but the crossfader remained at one and the rendered audio remained silent.
 Two expectations failed before the change. This confirms one source-level cause of persistent silence.
+Erik confirmed that the waveform kept moving during the physical failure. This matches the reproduced symptom.
 The precise hardware sequence from the live test remains unconfirmed.
 
 ## Change
@@ -46,3 +47,7 @@ Pre-existing compiler warnings and all failed and successful attempts remain und
 5. Check both decks, headphone cue, Sync and uninterrupted audible output.
 
 A signed build and host checks do not establish A10X or gig acceptance.
+
+## Build isolation
+
+Build 154 stopped after signing because another chat changed the shared source during compilation. Nothing was installed. The failed log and source-change record remain under `TestBuilds/r90/`. Erik then authorised a separate working folder. R91 and R92 were implemented there serially and are merged into main before the replacement build. The build uses a fixed checkout of that main commit and the existing iPad build cache.

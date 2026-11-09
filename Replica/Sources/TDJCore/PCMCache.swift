@@ -8,14 +8,19 @@ public enum PCMCache {
     /// Deck loading has its own serial background queue; it never waits for analysis.
     public static func prepareAsync(
         track: Track, store: WorkspaceStore, streamed: Bool = false, outputSampleRate: Double = 48000,
-        maximumOutputFrames: UInt32 = 4096, sourceURL: URL? = nil
+        maximumOutputFrames: UInt32 = 4096, sourceURL: URL? = nil,
+        checkWorkAllowed: @escaping @Sendable () throws -> Void = {}
     ) async throws -> PCMAsset {
         for attempt in 0..<40 {
             do {
                 return try await worker.run { check in
                     try prepare(
                         track: track, store: store, streamed: streamed, outputSampleRate: outputSampleRate,
-                        maximumOutputFrames: maximumOutputFrames, sourceURL: sourceURL, checkCancellation: check)
+                        maximumOutputFrames: maximumOutputFrames, sourceURL: sourceURL,
+                        checkCancellation: {
+                            try check()
+                            try checkWorkAllowed()
+                        })
                 }
             } catch PCMStreamingError.capacity where streamed && attempt < 39 {
                 try Task.checkCancellation()

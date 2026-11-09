@@ -1145,7 +1145,8 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (proposed.keylock) {
             double master = reset_tempo ? proposed.bpm : choose_on_play ? deck_bpm(&proposed) : e->bpm;
             if (!supported_deck_keylock(&proposed, master) ||
-                (!reset_tempo && !choose_on_play && proposed.synced && !supported_keylock_rate(master / proposed.bpm)))
+                (!reset_tempo && !choose_on_play && proposed.synced && proposed.bpm > 0 &&
+                 !supported_keylock_rate(master / proposed.bpm)))
                 return TDJ_KEYLOCK_RANGE;
         }
         bool already = d->asset == c.asset || other->asset == c.asset;

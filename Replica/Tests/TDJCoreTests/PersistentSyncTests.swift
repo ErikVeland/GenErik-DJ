@@ -198,3 +198,22 @@ func persistentSyncSnapsStoppedSeeksAndCueStarts(explicitlyOff: Bool) throws {
     #expect(core.snapshot()?.a.synced == false)
     #expect(core.acknowledgements().allSatisfy { $0.error == nil })
 }
+
+@Test func persistentSyncAndKeylockAcceptAnUnanalysedSecondDeck() throws {
+    let core = try SampleTransport(sampleRate: 48000)
+    let audio = try PCMAsset(interleavedStereo: [Float](repeating: 0.1, count: 480000), sampleRate: 48000)
+    let a = try core.load(audio, deck: .a, grid: BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000))
+    try core.play(deck: .a, generation: a)
+    _ = core.renderOffline(frames: 512)
+    let b = try core.load(audio, deck: .b, grid: nil, synced: true, keylock: true)
+    core.processControlsWhileIdle()
+    #expect(core.snapshot()?.b.phase == .ready)
+    #expect(core.snapshot()?.b.synced == true && core.snapshot()?.b.keylock == true)
+    try core.play(deck: .b, generation: b)
+    _ = core.renderOffline(frames: 512)
+    #expect(core.snapshot()?.b.phase == .playing)
+    try core.updateGrid(BeatGrid(bpm: 120, anchorFrame: 500, sampleRate: 48000), deck: .b, generation: b)
+    core.processControlsWhileIdle()
+    #expect(abs(try #require(core.snapshot()?.syncPhaseError(.b))) < 0.000001)
+    #expect(core.acknowledgements().allSatisfy { $0.error == nil })
+}

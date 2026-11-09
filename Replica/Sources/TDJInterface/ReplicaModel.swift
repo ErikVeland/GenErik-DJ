@@ -1066,13 +1066,16 @@ import TDJCore
         nativeWaveformTasks[deck]?.cancel()
         nativeWaveformTokens[deck] = token
         let cache = BandWaveforms.cacheURL(track: track, store: store)
+        let core = playback.core
         nativeWaveformTasks[deck] = Task { [weak self] in
             guard let self else { return }
             defer { if self.nativeWaveformTokens[deck] == token { self.nativeWaveformTasks[deck] = nil } }
             do {
-                let full = try await opening.waveform(cache: cache, matching: track.analysis) { [weak self] value in
+                let full = try await opening.waveform(
+                    cache: cache, matching: track.analysis, waitUntilIdle: { try await WaveformWork.waitUntilIdle(core) }
+                ) { [weak self] value in
                     Task { @MainActor in
-                        guard let self, self.loadTokens[deck] == token,
+                        guard let self, self.loadTokens[deck] == token, !WaveformWork.isPaused(core),
                             self.loadPreparations[deck]?.track.analysis.configurationID == value.configurationID
                         else { return }
                         var value = value
@@ -1080,7 +1083,7 @@ import TDJCore
                         self.loadedWaveforms[track.id] = value
                     }
                 }
-                try Task.checkCancellation()
+                try await WaveformWork.waitUntilIdle(core)
                 guard self.loadTokens[deck] == token else { return }
                 let snapshot = try await self.service.updateNativeWaveform(trackID: track.id, analysis: full)
                 self.adoptLibrary(snapshot)

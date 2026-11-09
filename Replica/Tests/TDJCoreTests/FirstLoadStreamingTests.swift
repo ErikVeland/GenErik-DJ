@@ -235,3 +235,56 @@ private func openingFixture() -> URL {
         analysis: changed.analysis, metadata: metadata, audioFingerprint: changed.audioFingerprint)
     #expect(replacement.track(id: first.analysis.contentSHA256)?.nativeSourceNeedsAnalysis == true)
 }
+
+private final class NativeWaveformPauseProbe: @unchecked Sendable {
+    private let lock = NSLock()
+    private var paused = false
+    private var reports: [Int64] = []
+    var count: Int { lock.withLock { reports.count } }
+    var first: Int64? { lock.withLock { reports.first } }
+    func report(_ value: AudioAnalysis) {
+        lock.withLock {
+            reports.append(value.waveformDecodedFrames ?? value.frameCount)
+            if reports.count == 1 { paused = true }
+        }
+    }
+    func resume() { lock.withLock { paused = false } }
+    func wait() async throws {
+        while lock.withLock({ paused }) { try await Task.sleep(for: .milliseconds(10)) }
+        try Task.checkCancellation()
+    }
+}
+
+@Test(arguments: [false, true])
+func nativeWaveformPausesBetweenChunksAndCanResumeOrCancel(cancel: Bool) async throws {
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let opening = try await NativePlaybackOpening.open(url: openingFixture(), sourceIdentity: "pause")
+    let cache = root.appendingPathComponent("pause.pcm")
+    let probe = NativeWaveformPauseProbe()
+    let task = Task {
+        try await opening.waveform(cache: cache, matching: opening.analysis,
+                                   waitUntilIdle: { try await probe.wait() }, progress: { probe.report($0) })
+    }
+    let deadline = ContinuousClock.now + .seconds(3)
+    while probe.count == 0, ContinuousClock.now < deadline { try await Task.sleep(for: .milliseconds(10)) }
+    #expect(probe.count == 1)
+    #expect(try #require(probe.first) >= opening.analysis.waveformDecodedFrames!)
+    try await Task.sleep(for: .milliseconds(150))
+    #expect(probe.count == 1)
+    #expect(!FileManager.default.fileExists(atPath: cache.path))
+    if cancel {
+        task.cancel()
+        do {
+            _ = try await task.value
+            Issue.record("Cancelled waveform completed")
+        } catch is CancellationError {}
+        #expect(!FileManager.default.fileExists(atPath: cache.path))
+    } else {
+        probe.resume()
+        let result = try await task.value
+        #expect(result.waveformDecodedFrames == nil)
+        #expect((try cache.resourceValues(forKeys: [.fileSizeKey]).fileSize) == Int(result.frameCount) * 8)
+    }
+    #expect((try FileManager.default.contentsOfDirectory(atPath: root.path)).allSatisfy { !$0.hasSuffix(".partial") })
+}

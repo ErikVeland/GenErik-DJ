@@ -29,6 +29,7 @@ public struct BandWaveform: Sendable {
         interleavedStereo samples: UnsafeBufferPointer<Float>, sampleRate: Double,
         checkCancellation: () throws -> Void = {}
     ) rethrows {
+        try checkCancellation()
         let frames = samples.count / 2
         let size = Self.baseFramesPerBin
         let lowCoefficient = Float(1 - exp(-2 * Double.pi * 150 / sampleRate))
@@ -38,7 +39,7 @@ public struct BandWaveform: Sendable {
         var base = [Bin](repeating: .init(), count: (frames + size - 1) / size)
         var top = Bin()
         for start in stride(from: 0, to: frames, by: size) {
-            if start % (size * 4096) == 0 { try checkCancellation() }
+            if start % (size * 256) == 0 { try checkCancellation() }
             var bin = Bin()
             for frame in start..<min(frames, start + size) {
                 let x = 0.5 * (samples[2 * frame] + samples[2 * frame + 1])
@@ -54,7 +55,8 @@ public struct BandWaveform: Sendable {
         var levels = [base]
         while levels.count < 4, let last = levels.last, last.count > 1 {
             levels.append(
-                stride(from: 0, to: last.count, by: 4).map { index in
+                try stride(from: 0, to: last.count, by: 4).map { index in
+                    if index % 1024 == 0 { try checkCancellation() }
                     var merged = Bin()
                     for other in last[index..<min(last.count, index + 4)] { merged.include(other) }
                     return merged
@@ -70,6 +72,7 @@ public struct BandWaveform: Sendable {
     public static func load(pcm url: URL, sampleRate: Double, checkCancellation: () throws -> Void = {}) throws
         -> BandWaveform
     {
+        try checkCancellation()
         let data = try Data(contentsOf: url, options: .alwaysMapped)
         return try data.withUnsafeBytes { raw in
             try BandWaveform(

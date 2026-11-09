@@ -1,3 +1,4 @@
+import AVFoundation
 import Foundation
 import TDJCore
 import Testing
@@ -74,11 +75,12 @@ import Testing
     model.savePerformance()
     let manual = try BeatGrid(bpm: 123, anchorFrame: 441, sampleRate: initial.analysis.sampleRate)
     model.saveGrid(manual, deck: .a)
+    #expect(model.track(.a)?.analysis.waveformDecodedFrames != nil)
+    model.pressPlay(deck: .a, vinylStop: false)
     await model.flushNativeWaveforms()
     #expect(model.track(.a)?.analysis.waveformDecodedFrames == nil)
     #expect(model.track(.a)?.analysis.waveform.count ?? 0 > 50)
     #expect(model.playback.generations[.a] == generation)
-    model.pressPlay(deck: .a, vinylStop: false)
     await model.flushWrites()
     await model.flushDeckAnalysis()
     #expect(provider.exports == 1)
@@ -226,5 +228,49 @@ import Testing
     model.stopAudio()
     #expect(model.pendingNativeWaveforms.isEmpty)
     gate.continuation.finish()
+    await model.finishForShutdown()
+}
+
+@Test @MainActor func longNativeLoadDefersFullWaveformWhileOtherDeckKeepsPlaying() async throws {
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: root) }
+    try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+    let source = root.appendingPathComponent("long.caf")
+    let format = try #require(AVAudioFormat(standardFormatWithSampleRate: 48000, channels: 2))
+    let buffer = try #require(AVAudioPCMBuffer(pcmFormat: format, frameCapacity: 48000))
+    buffer.frameLength = 48000
+    for channel in 0..<2 { buffer.floatChannelData![channel].initialize(repeating: 0.2, count: 48000) }
+    var file: AVAudioFile? = try AVAudioFile(forWriting: source, settings: format.settings)
+    for _ in 0..<1200 { try file!.write(from: buffer) }
+    file = nil
+    let provider = DirectNativeLibrary(url: source)
+    let model = try ReplicaModel(root: root.appendingPathComponent("workspace"),
+                                playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    let core = model.playback.core
+    let reference = try SampleTransport()
+    let asset = try PCMAsset(interleavedStereo: [Float](repeating: 0.4, count: 48000 * 20), sampleRate: 48000)
+    let generation = try core.load(asset, deck: .a, grid: nil, synced: false)
+    let referenceGeneration = try reference.load(asset, deck: .a, grid: nil, synced: false)
+    try core.play(deck: .a, generation: generation)
+    try reference.play(deck: .a, generation: referenceGeneration)
+    _ = core.renderOffline(frames: 512)
+    _ = reference.renderOffline(frames: 512)
+    model.refreshPlayback()
+    model.loadNativeMusic(provider.item, deck: .b)
+    await model.flushWrites()
+    let track = try #require(model.track(.b), "Status: \(model.status)")
+    #expect(track.analysis.duration == 1200)
+    let initial = track.analysis.waveform.count
+    for _ in 0..<32 {
+        let actual = core.renderOffline(frames: 512)
+        let expected = reference.renderOffline(frames: 512)
+        #expect(actual.left == expected.left && actual.right == expected.right)
+        try await Task.sleep(for: .milliseconds(5))
+    }
+    #expect(model.track(.b)?.analysis.waveform.count == initial)
+    #expect(model.track(.b)?.analysis.waveformDecodedFrames == 24000)
+    #expect(!FileManager.default.fileExists(atPath: BandWaveforms.cacheURL(track: track, store: model.store).path))
+    #expect(core.snapshot()?.a.phase == .playing)
+    model.stopAudio()
     await model.finishForShutdown()
 }

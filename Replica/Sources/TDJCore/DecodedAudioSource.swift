@@ -232,9 +232,13 @@ public struct NativePlaybackOpening: Sendable {
         try PCMAsset(decoder: decoder, outputSampleRate: outputSampleRate, maximumOutputFrames: maximumOutputFrames)
     }
     public func waveform(
-        cache: URL, matching initial: AudioAnalysis, progress: @escaping @Sendable (AudioAnalysis) -> Void
+        cache: URL, matching initial: AudioAnalysis,
+        waitUntilIdle: @escaping @Sendable () async throws -> Void = {},
+        progress: @escaping @Sendable (AudioAnalysis) -> Void
     ) async throws -> AudioAnalysis {
         let worker = Task.detached(priority: .background) {
+            try Task.checkCancellation()
+            try await waitUntilIdle()
             let source = try decoder.duplicate()
             try FileManager.default.createDirectory(
                 at: cache.deletingLastPathComponent(), withIntermediateDirectories: true)
@@ -250,6 +254,7 @@ public struct NativePlaybackOpening: Sendable {
             var lastReport = Date.distantPast
             while position < source.frames {
                 try Task.checkCancellation()
+                try await waitUntilIdle()
                 let count = Int(min(Int64(chunk), source.frames - position))
                 var data = [Float](repeating: 0, count: count * 2)
                 try data.withUnsafeMutableBufferPointer {
@@ -258,14 +263,17 @@ public struct NativePlaybackOpening: Sendable {
                 bins.append(contentsOf: waveformBins(data, binFrames: bin))
                 try data.withUnsafeBytes { try handle.write(contentsOf: $0) }
                 position += Int64(count)
-                if Date().timeIntervalSince(lastReport) >= 0.1 {
+                if position >= (initial.waveformDecodedFrames ?? 0), Date().timeIntervalSince(lastReport) >= 0.1 {
                     var value = initial.replacingWaveform(bins)
                     value.waveformDecodedFrames = position
+                    try await waitUntilIdle()
+                    try Task.checkCancellation()
                     progress(value)
                     lastReport = Date()
                 }
                 try await Task.sleep(for: .milliseconds(1))
             }
+            try await waitUntilIdle()
             try Task.checkCancellation()
             try handle.close()
             if FileManager.default.fileExists(atPath: cache.path) {

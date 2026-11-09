@@ -17,18 +17,36 @@ struct WaveformIndexKey: Hashable, Sendable {
     let implementation: String
     let configuration: String
     let binFrames: Int
+    let frameCount: Int64
+    let sampleRate: Double
     let count: Int
     init(_ analysis: AudioAnalysis) {
         content = analysis.contentSHA256
         implementation = analysis.implementation
         configuration = analysis.configurationID
         binFrames = analysis.waveformFramesPerBin
+        frameCount = analysis.frameCount
+        sampleRate = analysis.sampleRate
         count = analysis.waveform.count
+    }
+    func hasSameSource(as other: Self) -> Bool {
+        content == other.content && binFrames == other.binFrames
+            && frameCount == other.frameCount && sampleRate == other.sampleRate
     }
 }
 
 actor WaveformIndexes {
     static let shared = WaveformIndexes()
+    nonisolated static func visible(
+        _ analysis: AudioAnalysis, prepared: (WaveformIndexKey, WaveformRangeIndex)?,
+        snapshots: [WaveformIndexKey: WaveformRangeIndex] = [:]
+    ) -> WaveformRangeIndex {
+        let key = WaveformIndexKey(analysis)
+        if let index = snapshots[key] { return index }
+        if let prepared, prepared.0.hasSameSource(as: key) { return prepared.1 }
+        // Keep an opening visible while the full index prepares off the UI thread.
+        return WaveformRangeIndex(Array(analysis.waveform.prefix(128)))
+    }
     private static let worker = DispatchQueue(label: "dj.waveform-index", qos: .background)
     private var cache: [WaveformIndexKey: WaveformRangeIndex] = [:]
     private var order: [WaveformIndexKey] = []

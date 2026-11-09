@@ -806,12 +806,9 @@ private struct WaveformView: View, Equatable {
             let a = track.analysis
             let span = max(1, visibleSeconds * a.sampleRate)
             let left = centerFrame - span / 2
-            let key = WaveformIndexKey(a)
             let scale = max(1, Double(displayScale))
             let pixels = max(1, Int(size.width * scale))
-            let index =
-                (prepared?.0 == key ? prepared?.1 : nil) ?? snapshotIndexes[key]
-                ?? (a.waveform.count <= 128 ? WaveformRangeIndex(a.waveform) : nil)
+            let index = WaveformIndexes.visible(a, prepared: prepared, snapshots: snapshotIndexes)
             if let decoded = a.waveformDecodedFrames {
                 let x = max(0, min(size.width, (Double(decoded) - left) / span * size.width))
                 context.fill(
@@ -824,7 +821,7 @@ private struct WaveformView: View, Equatable {
                 WaveformView.draw(
                     BandWaveformColumns(band, left: left, span: span, pixelWidth: pixels, height: size.height),
                     in: &context, size: size, scale: scale, regions: regions)
-            } else if let index {
+            } else {
                 WaveformView.draw(
                     WaveformLayers(
                         index: index, framesPerBin: a.waveformFramesPerBin, left: left, span: span, width: pixels,
@@ -965,7 +962,7 @@ extension ReplicaView {
         for deck in DeckID.allCases {
             if let track = model.track(deck) {
                 _ = try? PCMCache.prepare(track: track, store: model.store)
-                bands[track.id] = await BandWaveforms.shared.load(track: track, store: model.store, patience: 5)
+                bands[track.id] = await BandWaveforms.shared.load(track: track, store: model.store, core: model.playback.core, patience: 5)
             }
         }
         return environment(\.snapshotWaveformIndexes, indexes).environment(\.snapshotCollectionProjection, collection)
@@ -1411,7 +1408,7 @@ extension ReplicaView {
                 span: visibleSeconds * track.analysis.sampleRate)
         }.task(id: track.id) {
             let id = track.id
-            guard let loaded = await BandWaveforms.shared.load(track: track, store: model.store), !Task.isCancelled
+            guard let loaded = await BandWaveforms.shared.load(track: track, store: model.store, core: model.playback.core), !Task.isCancelled
             else { return }
             band = (id, loaded)
         }
