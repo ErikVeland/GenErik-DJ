@@ -1,7 +1,7 @@
 # R90: crossfader continuity
 
 Erik requested the Z1 crossfader fix next, followed by R91 preview navigation and R92 long-track loading.
-The last recorded A10X installation is build 151. Physical acceptance of R89 and R93 remains open.
+Before this fix, the last recorded A10X installation was build 151. Physical acceptance of R89 and R93 remains open.
 The remaining fixes proceed serially, with separate commits and build records before the final device handover.
 
 ## Reproduced failure
@@ -51,3 +51,5 @@ A signed build and host checks do not establish A10X or gig acceptance.
 ## Build isolation
 
 Build 154 stopped after signing because another chat changed the shared source during compilation. Nothing was installed. The failed log and source-change record remain under `TestBuilds/r90/`. Erik then authorised a separate working folder. R91 and R92 were implemented there serially and are merged into main before the replacement build. The build uses a fixed checkout of that main commit and the existing iPad build cache.
+
+Build 155 installed on the A10X, and iPadOS accepted launch. No further device actions followed. Erik performs the physical acceptance checks.

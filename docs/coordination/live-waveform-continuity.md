@@ -27,3 +27,5 @@ Play a prepared track with the Z1 connected. Load a long unanalysed track on the
 Whole-track waveform and colour details remain incomplete during performance if they were not already prepared. They resume when both decks are idle. Existing drawing remains visible. This trade-off gives live audio priority.
 
 Build and host success do not establish physical acceptance or gig readiness. R89–R93 remain open until Erik confirms their behaviour on the A10X and Z1.
+
+[Build 155](../testing/builds/155.json) installed on A10X, and iPadOS accepted launch. No further device actions followed.

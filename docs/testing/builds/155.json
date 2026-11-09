@@ -10,7 +10,7 @@
   "build": 155,
   "app": "TestBuilds/ipad/155/GenErikDJ.app",
   "appSHA256": "9e837b8ac022170ef0f03c9de4044127a4534a02ffd8de179200132724f91487",
-  "state": "ready",
+  "state": "testing",
   "createdUTC": "2026-11-09T08:04:07.335949+00:00",
   "requestIDs": [
     "R90",
@@ -29,5 +29,8 @@
     "TestBuilds/r92/verification.json"
   ],
   "verificationLimit": "A10X listening, Z1 hardware and touch acceptance remain open. Signing and host checks do not establish gig readiness.",
-  "buildIsolation": "Built from a fixed checkout of committed main in the user-authorised separate working folder. The existing iPad build cache was reused."
+  "buildIsolation": "Built from a fixed checkout of committed main in the user-authorised separate working folder. The existing iPad build cache was reused.",
+  "installedUTC": "2026-11-09T08:05:30.107710+00:00",
+  "launchedUTC": "2026-11-09T08:05:30.508402+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
 }
