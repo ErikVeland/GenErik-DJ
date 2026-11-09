@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 69.16,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R98"
+      ],
+      "report": "Remove the Freeze, Cues and Loop labels. Use an icon for Flux. Put the utility button at the left edge and unfold the strip to its right.",
+      "summary": "Build 160 is assumed from the last recorded iPad install."
+    }
+  ],
   "log": "TestBuilds/ipad/build-160.log",
   "build": 160,
   "app": "TestBuilds/ipad/160/GenErikDJ.app",

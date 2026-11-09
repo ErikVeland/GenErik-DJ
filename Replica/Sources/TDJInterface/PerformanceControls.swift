@@ -11,12 +11,12 @@ struct PerformanceControls: View {
         Group {
             if compact {
                 HStack(spacing: 6) {
-                    fluxButton.frame(minWidth: 50)
-                    freezeButton.frame(minWidth: 54)
-                    cuesButton.frame(minWidth: 44)
+                    fluxButton.frame(width: 44)
+                    freezeButton.frame(width: 44)
+                    cuesButton.frame(width: 44)
                     loopControls.frame(width: 144)
-                    settingsButton.frame(minWidth: 44)
-                    if canReturn { returnButton.frame(minWidth: 44) }
+                    settingsButton.frame(width: 44)
+                    if canReturn { returnButton.frame(width: 44) }
                 }
             } else {
                 VStack(spacing: 8) {
@@ -41,8 +41,11 @@ struct PerformanceControls: View {
         model.previewing.contains(deck) && !model.frozen.contains(deck) && !model.editing.contains(deck)
     }
     private var fluxButton: some View {
-        Button("FLUX") { model.perform(.flux, deck: deck, enabled: model.controlDisplay[deck].fluxEnabled != true) }
-            .foregroundStyle(model.controlDisplay[deck].fluxEnabled == true ? Color.orange : Color.gray)
+        Button {
+            model.perform(.flux, deck: deck, enabled: model.controlDisplay[deck].fluxEnabled != true)
+        } label: {
+            Image(systemName: "arrow.right.to.line")
+        }.foregroundStyle(model.controlDisplay[deck].fluxEnabled == true ? Color.orange : Color.gray)
             .accessibilityLabel("Flux on deck \(deck.rawValue.uppercased())")
     }
     private var settingsButton: some View {
@@ -64,20 +67,15 @@ struct PerformanceControls: View {
         Button {
             model.toggleFreeze(deck: deck)
         } label: {
-            VStack(spacing: 3) {
-                Image(systemName: "snowflake")
-                Text("FREEZE").font(.system(size: 11, weight: .semibold))
-            }
+            Image(systemName: "snowflake")
         }.foregroundStyle(model.frozen.contains(deck) ? Color.cyan : Color.gray)
+            .accessibilityLabel("Freeze on deck \(deck.rawValue.uppercased())")
     }
     private var cuesButton: some View {
         Button {
             model.toggleHotcuePads(deck: deck)
         } label: {
-            VStack(spacing: 3) {
-                Image(systemName: "flag.fill")
-                Text("CUES").font(.system(size: 11, weight: .semibold))
-            }
+            Image(systemName: "flag.fill")
         }.foregroundStyle(model.hotcuePadsVisible.contains(deck) ? Color.cyan : Color.gray).accessibilityLabel(
             "Hotcues for deck \(deck.rawValue.uppercased())")
     }
@@ -93,11 +91,8 @@ struct PerformanceControls: View {
                     Button("\(PerformancePreparation.loopSizeLabel(beats)) beats") { setLoopSize(beats) }
                 }
             } label: {
-                VStack(spacing: 2) {
-                    Text("LOOP").font(.system(size: 12, weight: .semibold))
-                    Text(PerformancePreparation.loopSizeLabel(model.performance.loopBeats(for: deck))).monospacedDigit()
-                        .lineLimit(1).minimumScaleFactor(0.7)
-                }.frame(maxWidth: .infinity)
+                Text(PerformancePreparation.loopSizeLabel(model.performance.loopBeats(for: deck))).monospacedDigit()
+                    .lineLimit(1).minimumScaleFactor(0.7).frame(maxWidth: .infinity)
             }.accessibilityLabel("Loop length on deck \(deck.rawValue.uppercased())")
             Button {
                 setLoopSize(direction: 1)
@@ -158,7 +153,7 @@ struct SuperSlicerControls: View {
             } label: {
                 Image(systemName: "headphones").foregroundStyle(
                     model.controlDisplay[deck].mixer.cue ? PerformancePalette.cyan : PerformancePalette.secondaryText)
-            }.accessibilityLabel("Headphone cue for deck \(deck.rawValue.uppercased())")
+            }.frame(width: 48).accessibilityLabel("Headphone cue for deck \(deck.rawValue.uppercased())")
         }
     }
 }
