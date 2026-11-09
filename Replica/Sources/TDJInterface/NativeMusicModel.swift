@@ -338,7 +338,8 @@ extension ReplicaModel {
                         if review[job.id] == nil { review[job.id] = issue }
                         logAnalysis("Review \(job.title) (\(pass.title)): \(issue)")
                     }
-                    musicLibraryNotices.setFailure(review[job.id], for: job.id)
+                    let warning = review[job.id].map { LibraryAnalysisWarning(title: job.title, message: $0) }
+                    if libraryAnalysisWarnings[job.id] != warning { libraryAnalysisWarnings[job.id] = warning }
                     state.analysisChecked += 1
                     let checked = state.analysisChecked - passStart
                     if pass == .matching {
@@ -607,7 +608,7 @@ extension ReplicaModel {
                     adoptLibrary(
                         try await service.registerNativePlayback(
                             analysis: opening.analysis, metadata: source.metadata,
-                            audioFingerprint: opening.audioFingerprint))
+                            audioFingerprint: opening.audioFingerprint, saveWithLoadHistory: true))
                     try Task.checkCancellation()
                     guard state.loadOwners[deck] == token else { throw CancellationError() }
                     guard let track = await preparedNativeTrack(item) else { throw TransportError.stale }

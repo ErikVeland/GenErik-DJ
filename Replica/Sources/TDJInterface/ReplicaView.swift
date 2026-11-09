@@ -368,13 +368,20 @@ private struct DeckPanelHorizontalBounds: Shape {
             }
         }
     }
+    private var previewStripHeight: Double {
+        #if os(iOS)
+            if UIDevice.current.userInterfaceIdiom == .pad { return 60 }
+        #endif
+        return 24
+    }
+
     @ViewBuilder func content(size: CGSize) -> some View {
         let zoom = waveformZoom
         let showsHotcues = track != nil && model.hotcuePadsVisible.contains(deck)
         let layout = AdaptiveDeckGeometry(
             height: max(0, size.height - 8),
             hotcues: showsHotcues,
-            compactControls: track != nil || selection != nil, editing: editing)
+            compactControls: track != nil || selection != nil, editing: editing, previewStripHeight: previewStripHeight)
         let availableWidth = max(0, size.width - (tempoFader && track != nil ? 68 : 0))
         let sizes = panels.geometry(width: availableWidth, height: layout.waveformHeight, inlineControls: true)
         let frozenControlsWidth = track != nil && model.frozen.contains(deck) && !editing && superSlicer ? 44.0 : 0
@@ -443,9 +450,7 @@ private struct DeckPanelHorizontalBounds: Shape {
                         DeckPanelHorizontalBounds()
                     ).zIndex(effectsVisible || snapshotEffects ? 1 : 0).overlay(alignment: .bottomLeading) {
                         if track != nil {
-                            DeckActionPane(
-                                model: model, deck: deck, panels: panels, anchorX: waveformAxis.minX,
-                                availableWidth: sizes.mainWidth)
+                            DeckActionPane(model: model, deck: deck, panels: panels)
                         }
                     }
                     if showsHotcues {
@@ -517,7 +522,7 @@ private struct DeckPanelHorizontalBounds: Shape {
             if sectionPanel.isPresented { sectionPanel.setPresented(false) }
         }.onChange(of: panels.spaceRequestID) { _, _ in
             if panels.spaceRequestKind != .extra && layout.waveformHeight < 184 {
-                requestPerformanceSpace(260 + (showsHotcues ? 56 : 0))
+                requestPerformanceSpace(236 + (editing ? 44 : previewStripHeight) + (showsHotcues ? 56 : 0))
             }
         }
     }
@@ -593,45 +598,47 @@ private struct DeckPanelHorizontalBounds: Shape {
     @Bindable var model: ReplicaModel
     let deck: DeckID
     @Bindable var panels: DeckPanelPresentation
-    let anchorX: Double
-    let availableWidth: Double
     @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     var body: some View {
-        let paneWidth = min(600, max(0, availableWidth))
-        let paneX = min(anchorX, max(0, availableWidth - paneWidth))
-        ZStack(alignment: .bottomLeading) {
-            if panels.extraVisible {
-                HStack(spacing: 6) {
-                    PerformanceControls(model: model, deck: deck, compact: true)
-                    OptionalHeadphoneButton(model: model, deck: deck).frame(maxWidth: 48)
-                    if cueButton { Button("CUE") { model.pressCue(deck: deck) }.frame(width: 48) }
-                }.buttonStyle(PerformanceToolButtonStyle()).padding(4).frame(width: paneWidth, height: 56).background {
-                    RoundedRectangle(cornerRadius: 6).fill(PerformancePalette.sunken.opacity(0.97)).onTapGesture {}
-                }.overlay {
-                    RoundedRectangle(cornerRadius: 6).strokeBorder(PerformancePalette.secondaryText.opacity(0.3))
-                        .allowsHitTesting(false)
-                }.offset(x: paneX, y: -44).transition(.offset(x: -16, y: 40).combined(with: .opacity))
-            }
+        HStack(spacing: 4) {
             Button {
                 panels.toggleControls()
             } label: {
-                Image(systemName: "slider.horizontal.3").frame(width: 44, height: 44).foregroundStyle(
-                    panels.extraVisible ? PerformancePalette.cyan : PerformancePalette.text
-                ).bevelPanel(cornerRadius: 5, sunken: panels.extraVisible)
+                Image(systemName: panels.extraVisible ? "xmark" : "slider.horizontal.3")
+                    .frame(width: 44, height: 48).foregroundStyle(
+                        panels.extraVisible ? PerformancePalette.cyan : PerformancePalette.text
+                    ).bevelPanel(cornerRadius: 5, sunken: panels.extraVisible)
             }.buttonStyle(.plain).accessibilityLabel(
-                "\(panels.extraVisible ? "Hide" : "Show") actions for deck \(deck.rawValue.uppercased())"
+                "\(panels.extraVisible ? "Close" : "Open") utility strip for deck \(deck.rawValue.uppercased())"
             ).simultaneousGesture(
                 DragGesture(minimumDistance: 12).onEnded { value in
                     let open = value.translation.height < -16 || value.translation.width > 24
                     let close = value.translation.height > 16 || value.translation.width < -24
                     if (open && !panels.extraVisible) || (close && panels.extraVisible) { panels.toggleControls() }
                 }
-            ).offset(x: anchorX)
-        }.frame(height: panels.extraVisible ? 100 : 44, alignment: .bottomLeading).frame(
-            maxWidth: .infinity, alignment: .leading
-        ).environment(\.deckPanelPresented, panels.extraVisible).protectsFrontDeckSwipe().animation(
+            ).layoutPriority(1)
+            ZStack(alignment: .leading) {
+                if panels.extraVisible {
+                    ViewThatFits(in: .horizontal) {
+                        controls
+                        ScrollView(.horizontal, showsIndicators: false) { controls }
+                    }.transition(.move(edge: .leading).combined(with: .opacity))
+                }
+            }.clipped()
+        }.frame(maxWidth: .infinity, alignment: .leading).environment(\.deckPanelPresented, panels.extraVisible)
+            .protectsFrontDeckSwipe().animation(
             reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.9), value: panels.extraVisible)
+    }
+
+    private var controls: some View {
+        HStack(spacing: 6) {
+            PerformanceControls(model: model, deck: deck, compact: true)
+            OptionalHeadphoneButton(model: model, deck: deck)
+            if cueButton { Button("CUE") { model.pressCue(deck: deck) }.frame(width: 48) }
+        }.buttonStyle(PerformanceToolButtonStyle()).padding(.horizontal, 4)
+            .fixedSize(horizontal: true, vertical: false)
+            .background(PerformancePalette.sunken.opacity(0.97), in: RoundedRectangle(cornerRadius: 5))
     }
 }
 
@@ -1064,14 +1071,18 @@ extension ReplicaView {
                 }.disabled(model.recordingFinishing).accessibilityLabel(model.isRecording ? "Stop recording" : "Record")
             }
             Divider()
-            row("SPLIT OUTPUT") {
-                Toggle(
-                    "",
-                    isOn: Binding(
-                        get: { model.outputRoute == .masterAndHeadphones },
-                        set: { model.setOutputRoute($0 ? .masterAndHeadphones : .stereoMaster) })
-                ).labelsHidden().disabled(model.isRecording || model.recordingFinishing).accessibilityLabel(
-                    "Split output")
+            row(model.automaticOutputDevice.map { "\($0.uppercased()) OUTPUT" } ?? "SPLIT OUTPUT") {
+                if model.automaticOutputDevice != nil {
+                    Text("Automatic").foregroundStyle(.secondary)
+                } else {
+                    Toggle(
+                        "",
+                        isOn: Binding(
+                            get: { model.outputRoute == .masterAndHeadphones },
+                            set: { model.setOutputRoute($0 ? .masterAndHeadphones : .stereoMaster) })
+                    ).labelsHidden().disabled(model.isRecording || model.recordingFinishing).accessibilityLabel(
+                        "Split output")
+                }
             }
             Divider()
             row("MASTER") {

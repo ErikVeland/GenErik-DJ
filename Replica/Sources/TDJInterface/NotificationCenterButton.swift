@@ -35,6 +35,7 @@ import SwiftUI
 
     var body: some View {
         let notices = model.musicLibraryNotices
+        let warnings = model.libraryAnalysisWarnings
         VStack(spacing: 0) {
             HStack {
                 Text("Notification Center").font(.headline)
@@ -46,6 +47,12 @@ import SwiftUI
             }.padding(12)
             Divider()
             List {
+                ForEach(notices.loadedAnalysisNotices.reversed()) { notice in
+                    LibraryNoticeRow(
+                        title: notice.warning.title, message: notice.warning.message,
+                        isRead: notices.isLoadedAnalysisNoticeRead(notice.id)
+                    ) { model.musicLibraryNotices.markLoadedAnalysisNoticeRead(notice.id) }
+                }
                 if let error = model.musicLibraryError {
                     LibraryNoticeRow(title: "Music library access", message: error, isRead: model.musicLibraryAccessNotice.isRead) {
                         model.musicLibraryAccessNotice.markRead()
@@ -58,7 +65,14 @@ import SwiftUI
                         ) { model.musicLibraryNotices.markFailureRead(id) }
                     }
                 }
-                if model.musicLibraryError == nil && notices.failures.isEmpty {
+                ForEach(warnings.keys.sorted(), id: \.self) { id in
+                    if let warning = warnings[id] {
+                        LibraryNoticeRow(title: warning.title, message: warning.message, isRead: true) {}
+                    }
+                }
+                if model.musicLibraryError == nil && notices.failures.isEmpty
+                    && notices.loadedAnalysisNotices.isEmpty && warnings.isEmpty
+                {
                     Text("No notifications").foregroundStyle(.secondary)
                 }
             }.listStyle(.plain)

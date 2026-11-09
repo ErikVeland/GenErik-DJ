@@ -1,6 +1,6 @@
-# Analysis accuracy: R97
+# Analysis accuracy: R103
 
-R97 follows the [R94 Mac measurement](mac-analysis-audit.md). Use the same 12 files and nine compatible saved references. The manifest and audio hashes remain unchanged.
+R103 follows the [R94 Mac measurement](mac-analysis-audit.md). Use the same 12 files and nine compatible saved references. The manifest and audio hashes remain unchanged.
 
 Erik clarified the reference status on 9 November 2026. The Traktor grids combine automatic results and his manual corrections. The keys are Traktor's automatic results. Individual grid provenance is unknown. Report agreement with these references, not independently verified musical accuracy.
 

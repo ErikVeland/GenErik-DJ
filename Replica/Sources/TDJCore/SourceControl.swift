@@ -17,6 +17,11 @@ public enum SourceControl: Sendable {
         PerformanceAction, DeckID, UInt64, value: Double, end: Double, enabled: Bool, quantum: Double,
         touchRate: Double? = nil, followsPosition: Bool = false)
 
+    public static func parkTouchRelease(deck: DeckID, generation: UInt64) -> Self {
+        .performance(.touch, deck, generation, value: Double(TDJ_TOUCH_PARK_RELEASE),
+                     end: 0, enabled: false, quantum: 0)
+    }
+
     var command: tdj_command {
         var result = tdj_command()
         func deck(_ deck: DeckID, _ generation: UInt64) {

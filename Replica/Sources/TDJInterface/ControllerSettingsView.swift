@@ -353,6 +353,7 @@ struct ControllerSettingsView: View {
         lines.append("Z1 bridge: \(input.originalZ1Bridge ? "on" : "off")")
         lines.append(
             "Audio routing: \(model.outputRoute == .stereoMaster ? "Stereo master" : "Master 1–2 / Headphones 3–4")")
+        if let device = model.automaticOutputDevice { lines.append("\(device) audio routing: automatic") }
         return lines + connections
     }
     private func refreshConnections() {
@@ -373,7 +374,7 @@ struct ControllerSettingsView: View {
                 "Audio output: \($0.portName) · \($0.portType.rawValue) · \($0.channels?.count ?? 0) channels"
             }
             connections.append(
-                "Audio session: \(session.outputNumberOfChannels) channels · \(Int(session.sampleRate)) Hz")
+                "Audio session: \(session.outputNumberOfChannels) channels · \(Int(session.sampleRate)) Hz · maximum \(session.maximumOutputNumberOfChannels) channels")
         #else
             connections = ["The current controller test target is iPad."]
         #endif

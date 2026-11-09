@@ -230,14 +230,19 @@ private struct RetainedFilterGrid: View, Equatable {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text("Audio output").font(.headline)
-            Picker("Routing", selection: Binding(get: { model.outputRoute }, set: { model.setOutputRoute($0) })) {
-                Text("Stereo master").tag(AudioOutputRoute.stereoMaster)
-                Text("Master 1–2 / Headphones 3–4").tag(AudioOutputRoute.masterAndHeadphones)
-            }.disabled(model.isRecording || model.recordingFinishing)
-            Text(
-                model.outputRoute == .stereoMaster
-                    ? "Headphone cue is not routed in stereo mode." : "Requires an output device with four channels."
-            ).font(.caption).foregroundStyle(.secondary)
+            if let device = model.automaticOutputDevice {
+                Text("\(device) main and headphones · Automatic")
+                    .font(.caption).foregroundStyle(.secondary)
+            } else {
+                Picker("Routing", selection: Binding(get: { model.outputRoute }, set: { model.setOutputRoute($0) })) {
+                    Text("Stereo master").tag(AudioOutputRoute.stereoMaster)
+                    Text("Master 1–2 / Headphones 3–4").tag(AudioOutputRoute.masterAndHeadphones)
+                }.disabled(model.isRecording || model.recordingFinishing)
+                Text(
+                    model.outputRoute == .stereoMaster
+                        ? "Headphone cue is not routed in stereo mode." : "Requires an output device with four channels."
+                ).font(.caption).foregroundStyle(.secondary)
+            }
             level("Master level", .master, model.playbackSnapshot?.masterGain ?? 0.5)
             level("Headphone level", .monitor, model.playbackSnapshot?.monitorGain ?? 0.5)
             level("Headphones: cue → master", .cueBlend, model.playbackSnapshot?.cueBlend ?? 0)

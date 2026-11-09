@@ -224,6 +224,7 @@ import TDJCore
     public func cancelMusicLibraryImport() { musicLibraryImportTask?.cancel() }
     public func flushMusicLibraryImport() async { await musicLibraryImportTask?.value }
     var musicLibraryNotices = MusicLibraryNotices()
+    var libraryAnalysisWarnings: [String: LibraryAnalysisWarning] = [:]
     var musicLibraryAccessNotice = MusicLibraryAccessNotice()
     var unreadMusicLibraryNoticeCount: Int {
         musicLibraryNotices.unreadCount + musicLibraryAccessNotice.unreadCount
@@ -329,6 +330,7 @@ import TDJCore
         await flushHistoryWrites()
     }
     public var outputRoute: AudioOutputRoute = .stereoMaster
+    public private(set) var automaticOutputDevice: String?
     public var z1Enabled = false
     public var z1Status = "Z1 disabled"
     private var z1Mapper = Z1ControlMapper()
@@ -779,25 +781,22 @@ import TDJCore
                 self?.musicLibraryRefreshTask = nil
             }
             do {
-                if self?.musicLibraryCatalog == nil, provider.allowsCachedCatalog {
-                    let cached = await files.run {
-                        try? JSONDecoder().decode(MusicLibraryCatalog.self, from: Data(contentsOf: cacheURL))
-                    }
-                    try Task.checkCancellation()
-                    if let cached, provider.allowsCachedCatalog { self?.musicLibraryCatalog = cached }
-                }
                 let catalog = try await provider.catalog()
                 try Task.checkCancellation()
-                self?.musicLibraryCatalog = catalog
-                self?.musicLibraryNotices.clearFailures()
+                if let self {
+                    let reconciled = try await service.reconcileAvailableAudio(
+                        catalog: catalog, protectedTracks: Set(loaded.values))
+                    try Task.checkCancellation()
+                    adoptLibrary(reconciled)
+                    musicLibraryCatalog = catalog
+                    musicLibraryNotices.clearFailures()
+                }
                 if provider.allowsCachedCatalog {
                     await files.run { try? JSONEncoder().encode(catalog).write(to: cacheURL, options: .atomic) }
                 }
                 await self?.refreshCollectionHints()
             } catch is CancellationError {} catch {
-                if (error as? MusicLibraryError) != .unavailable || !provider.allowsCachedCatalog {
-                    self?.musicLibraryCatalog = nil
-                }
+                self?.musicLibraryCatalog = nil
                 self?.musicLibraryError = error.localizedDescription
             }
         }
@@ -1034,14 +1033,19 @@ import TDJCore
                     previewing.insert(deck)
                 }
                 preparingPlayback.remove(deck)
-                warmCuePositions(deck: deck)
-                prepareWaveform(preparedSourceTrack)
-                enqueueHistory(event)
-                if let opening { prepareNativeWaveform(opening, track: preparedSourceTrack, deck: deck, token: token) }
                 if pendingLoadPlay[deck] == (nativeLoadOwner ?? token) {
                     pendingLoadPlay[deck] = nil
                     pressPlay(deck: deck, vinylStop: false)
                 }
+                warmCuePositions(deck: deck)
+                prepareWaveform(preparedSourceTrack)
+                enqueueHistory(event)
+                let warning = nativeMetadata.flatMap { libraryAnalysisWarnings[$0.source.id] }
+                    ?? libraryAnalysisWarnings[trackID]
+                    ?? preparedSourceTrack.musicLibrarySources?.lazy.compactMap { self.libraryAnalysisWarnings[$0.id] }
+                        .first
+                if let warning { musicLibraryNotices.addLoadedAnalysisNotice(warning) }
+                if let opening { prepareNativeWaveform(opening, track: preparedSourceTrack, deck: deck, token: token) }
                 scheduleDeckAnalysis(deck: deck)
             } catch {
                 onFailure?(error)
@@ -1501,6 +1505,8 @@ import TDJCore
         refreshPlayback()
     }
     public func refreshPlayback() {
+        if outputRoute != playback.outputRoute { outputRoute = playback.outputRoute }
+        if automaticOutputDevice != playback.automaticOutputDevice { automaticOutputDevice = playback.automaticOutputDevice }
         let wasRecording = isRecording || recordingFinishing
         isRecording = playback.isRecording
         recordingFinishing = playback.recordingFinishing
@@ -1559,6 +1565,10 @@ import TDJCore
             return
         }
         do {
+            if try playback.resumeOutputIfNeeded(deck: deck) {
+                refreshPlayback()
+                return
+            }
             let vinylStop = vinylStop ?? UserDefaults.standard.bool(forKey: DeckToolSettings.vinylStop)
             let state = playback.core.snapshot()?[deck]
             let wasActive = state?.phase.active == true

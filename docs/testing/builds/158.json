@@ -1,0 +1,23 @@
+{
+  "notes": "Match the iPad preview strip to the TDJ1 reference. Use 60 points when the deck has room (R91).",
+  "sourceCommit": "a33163ba094fecf1da4bc47bac443393e95b3d26",
+  "sourceSHA256": "1df43a32d083f371a4aeec92d9483bf1c25bde9ecd3ea3273cfd67bd90d96b7e",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 38.31,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-158.log",
+  "build": 158,
+  "app": "TestBuilds/ipad/158/GenErikDJ.app",
+  "appSHA256": "9ea88dc55a5244e295f1e1713b934d0e39c3e909276b49d894e9b39e777deb84",
+  "state": "testing",
+  "createdUTC": "2026-11-09T08:26:43.279712+00:00",
+  "installedUTC": "2026-11-09T08:26:55.940714+00:00",
+  "launchedUTC": "2026-11-09T08:26:56.286812+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R91"
+  ],
+  "focusedChecks": "Checked deck heights from 0 to 700 points with and without cue pads. The layout reserves the detailed waveform touch height when space permits.",
+  "verificationLimit": "The 60-point target comes from a saved TDJ1 screenshot. Erik checks physical size and touch precision on the A10X iPad."
+}

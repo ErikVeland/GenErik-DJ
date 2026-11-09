@@ -1,0 +1,11 @@
+{
+  "build": 156,
+  "state": "cancelled",
+  "sourceCommit": "4342d7fb11c12e91e328c63f163b99aaa6f5ec72",
+  "notes": "R95 build stopped before installation when Erik requested purging unavailable library entries.",
+  "log": "TestBuilds/ipad/build-156.log",
+  "evidence": [
+    "TestBuilds/r95/ipad-run.log"
+  ],
+  "checks": "Incomplete build. No install or launch attempted."
+}

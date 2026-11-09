@@ -1,0 +1,50 @@
+{
+  "notes": "R100 adds automatic main and headphone routing for S2 Mk2, S2 Mk3, S3 and S4 Mk2 using TDJ2 channel pairs. Includes the R98 utility-strip close icon.",
+  "sourceCommit": "82fa05454986a2cf02db9b9c8aa3c990dee608c3",
+  "sourceSHA256": "c01fa892cf337358c845d341caf7ab046add2659ab6e2bfe5d1489f3aab84516",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 36.3,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R101"
+      ],
+      "report": "Opening the library shows 1,924 unread analysis warnings. Keep library analysis warnings read and show an unread warning at the top when its track loads.",
+      "summary": "Build 164 is assumed from the last iPad install."
+    },
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R98",
+        "R102"
+      ],
+      "report": "Play could not start until the waveform loaded. Give audio priority. Group the loop controls, border the utility strip with its close button, and group the three top deck buttons. Replace the thin diamond.",
+      "summary": "Build 164 is assumed from the last recorded install when the playback issue was reported."
+    }
+  ],
+  "log": "TestBuilds/ipad/build-164.log",
+  "build": 164,
+  "app": "TestBuilds/ipad/164/GenErikDJ.app",
+  "appSHA256": "9d310081f9fe014ea6d24ae2052ab86b8a6cad7e3463c3b920291e14441bb62a",
+  "state": "testing",
+  "createdUTC": "2026-11-09T08:43:56.379578+00:00",
+  "installedUTC": "2026-11-09T08:44:09.572395+00:00",
+  "launchedUTC": "2026-11-09T08:44:10.191312+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R100"
+  ],
+  "includesRequests": [
+    "R98"
+  ],
+  "focusedChecks": "Ten focused host tests passed across thirteen cases on the application source used in build 164.",
+  "evidence": [
+    "TestBuilds/r100/focused.log",
+    "TestBuilds/r100/source-commit.txt",
+    "TestBuilds/r100/ipad-run.log",
+    "TestBuilds/r100/ipad-run-lock.log"
+  ],
+  "verificationLimit": "Only the original Z1 is available for hardware checks. New NI audio profiles use documented routing. Native controls and lights for the four new models remain open. No device actions followed launch."
+}

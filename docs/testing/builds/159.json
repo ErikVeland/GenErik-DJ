@@ -1,0 +1,31 @@
+{
+  "notes": "R96 retains mixer and effect values under queue pressure, prioritises gesture release and grid return, and recovers output while preserving deck transport.",
+  "sourceCommit": "56063d3f5c9247960f2ca94aaf8b90694334940c",
+  "sourceSHA256": "0c44eaf5d06cfe436e66715b2ba092c17f9fa90a84102fcf11adaaa740c2ba65",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 67.37,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-159.log",
+  "build": 159,
+  "app": "TestBuilds/ipad/159/GenErikDJ.app",
+  "appSHA256": "34fab943a81e21cf8bf6bfc3cc945588e333685a08566348ac305e685a836608",
+  "state": "testing",
+  "createdUTC": "2026-11-09T08:28:33.501053+00:00",
+  "installedUTC": "2026-11-09T08:28:56.462466+00:00",
+  "launchedUTC": "2026-11-09T08:28:56.811776+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R96"
+  ],
+  "includesRequests": [
+    "R91",
+    "R95"
+  ],
+  "focusedChecks": "Eleven focused host tests passed across thirteen cases on this application source.",
+  "verificationLimit": "Recovery decisions and deck state were checked on the host. Physical Z1 routing, audible continuity and A10X deadlines remain open.",
+  "evidence": [
+    "TestBuilds/r96/verification.json",
+    "TestBuilds/r96/ipad-install-159.log"
+  ]
+}

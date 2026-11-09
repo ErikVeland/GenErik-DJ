@@ -92,6 +92,21 @@ import Testing
     await model.finishForShutdown()
 }
 
+@Test @MainActor func queuedNativePlayDoesNotWaitForLibraryPersistence() async throws {
+    let (model, provider, root) = try await directNativeModel()
+    defer { try? FileManager.default.removeItem(at: root) }
+    try FileManager.default.createDirectory(at: model.store.libraryURL, withIntermediateDirectories: false)
+
+    model.loadNativeMusic(provider.item, deck: .a)
+    model.pressPlay(deck: .a)
+    await model.flushWrites()
+
+    #expect(model.playback.core.snapshot()?.a.phase == .playing, "Status: \(model.status)")
+    #expect(model.track(.a)?.analysis.waveformDecodedFrames != nil)
+    #expect(model.trackLoadFailures[.a] == nil)
+    await model.finishForShutdown()
+}
+
 @Test @MainActor func directNativeReplacementCannotConsumeEarlierQueuedPlay() async throws {
     let (model, provider, root) = try await directNativeModel()
     defer { try? FileManager.default.removeItem(at: root) }

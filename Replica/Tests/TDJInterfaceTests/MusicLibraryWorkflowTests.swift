@@ -86,7 +86,7 @@ import Testing
     #expect(model.musicLibraryCatalogVersion == 1)
 }
 
-@Test @MainActor func relaunchShowsCachedSongsWhileMusicRefreshes() async throws {
+@Test @MainActor func relaunchWaitsForFreshAvailabilityBeforeShowingMusicSongs() async throws {
     let (first, _, root) = try musicWorkflow()
     defer { try? FileManager.default.removeItem(at: root) }
     await first.refreshMusicLibrary()
@@ -98,7 +98,7 @@ import Testing
     let refresh = Task { await reopened.refreshMusicLibrary() }
     while refreshed.catalogGate == nil { await Task.yield() }
     #expect(reopened.musicLibraryRefreshing)
-    #expect(reopened.musicLibraryCatalog?.songs().contains { $0.title == "Synced song" } == true)
+    #expect(reopened.musicLibraryCatalog == nil)
     refreshed.catalogGate?.resume()
     await refresh.value
     #expect(reopened.musicLibraryCatalog?.songs().isEmpty == true)

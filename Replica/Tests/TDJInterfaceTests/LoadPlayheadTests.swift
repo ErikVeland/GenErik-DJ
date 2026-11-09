@@ -4,7 +4,7 @@ import Testing
 
 @testable import TDJInterface
 
-@MainActor func loadPlayheadFixture() async throws -> (ReplicaModel, URL, Track) {
+@MainActor func loadPlayheadFixture(streaming: Bool = false) async throws -> (ReplicaModel, URL, Track) {
     var base = URL(fileURLWithPath: #filePath)
     for _ in 0..<4 { base.deleteLastPathComponent() }
     let source = base.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures/clock-a-120.wav")
@@ -21,7 +21,7 @@ import Testing
     var library = LibrarySnapshot()
     library.tracks = [track]
     try store.save(library)
-    return (try ReplicaModel(root: root, playback: PlaybackController(offline: true)), root, track)
+    return (try ReplicaModel(root: root, playback: PlaybackController(offline: true, streamingPlayback: streaming)), root, track)
 }
 
 @Test(arguments: DeckID.allCases) @MainActor

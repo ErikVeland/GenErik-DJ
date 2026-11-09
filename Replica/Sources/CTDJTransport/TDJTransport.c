@@ -1636,11 +1636,18 @@ static int apply(tdj_engine *e, tdj_command c) {
             proposed.pending_touch_rate_valid = false;
             if (d->flux_enabled && !d->loop_enabled)
                 proposed.position = fmin(d->asset->frames - 1, d->continuing);
-            if (!d->touch_was_playing)
+            if (!d->touch_was_playing || c.value == TDJ_TOUCH_PARK_RELEASE)
                 proposed.state = TDJ_PAUSED;
-            if (!align_synced_position(&proposed, proposed.state == TDJ_PLAYING ? beat_now(e) : 0))
-                return TDJ_ALIGNMENT_UNAVAILABLE;
-            if (proposed.state == TDJ_PLAYING) {
+            if (!align_synced_position(&proposed, proposed.state == TDJ_PLAYING ? beat_now(e) : 0)) {
+                if (proposed.state == TDJ_PLAYING && align_synced_position(&proposed, 0)) {
+                    proposed.state = TDJ_QUEUED;
+                    proposed.queued_origin = proposed.position;
+                    proposed.target = floor(beat_now(e)) + 1;
+                } else {
+                    proposed.state = TDJ_PAUSED;
+                }
+            }
+            if (proposed.state == TDJ_PLAYING || proposed.state == TDJ_QUEUED) {
                 int status = stream_validate(e, c.deck, &proposed, e->bpm, c.preparation_ticket, c.generation);
                 if (status != TDJ_OK)
                     return status;

@@ -6,7 +6,23 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
-**R96 reliability audit:** Build 155 still has blocking control-delivery gaps. Three focused cases reproduced silence after channel/master volume return and a waveform release that remained held. Output-change recovery and current-source A10X performance qualification also remain open. No app or device change was made in this audit. [Findings and evidence](reliability-audit-155.md).
+**Build 166** installed on the A10X iPad Pro, and iPadOS accepted launch. R102 starts Music playback before saving waveform data. Six focused host checks passed. Erik checks audible start time while the waveform is still loading. [Build record](../testing/builds/166.json).
+
+**Build 165** installed on the A10X iPad Pro, and iPadOS accepted launch. R101 keeps library analysis warnings read and adds a fresh unread warning when the affected track loads. Erik checks the badge and notice order. [Build record](../testing/builds/165.json).
+
+**Build 162** installed on the A10X iPad Pro, and iPadOS accepted launch. R99 requests iPadOS alert protection for call banners. A host probe also reproduced a silent hold after a short clip release. Check call banners with Silent Mode off. [Build record](../testing/builds/162.json) · [Remaining gaps](system-audio-interruptions.md).
+
+**Build 161** installed on the A10X iPad Pro, and iPadOS accepted launch. R98 puts the utility button at the waveform's left edge and opens the strip to its right in one row. Freeze, Cues and Flux use icons. The loop selector shows the beat count. Erik checks the layout and touch controls. [Build record](../testing/builds/161.json).
+
+**Build 158** installed on the A10X iPad Pro, and iPadOS accepted launch. R91 raises the preview strip from 24 to 60 points when the deck has room. Erik checks strip size and drag precision against TDJ1. [Build record](../testing/builds/158.json) · [Preview workflow](preview-strip-navigation.md).
+
+**Build 157** installed on the A10X iPad Pro, and iPadOS accepted launch. R95 restores Music loading when old app audio copies are missing. A fresh refresh removes records with no available local source and repairs records with playable Music audio. Load failures appear on the deck and block Play from restarting the previous track. Twelve initial focused host tests and six follow-up tests passed. The actual Hannah audio with saved iPad metadata passed on the final source. Build 156 was stopped before installation to include Erik's cleanup request. Physical loading, cleanup, audio and touch acceptance remain open. [Build record](../testing/builds/157.json) · [Cause and checks](track-source-recovery.md).
+
+**Build 160** installed on the A10X iPad Pro, and iPadOS accepted launch. R97 selects original Z1 main and headphone outputs automatically. The Z1 routing controls show Automatic. Nine focused host checks passed on the signed source. Headphone listening, real port detection, reconnect and A10X acceptance remain open. [Build record](../testing/builds/160.json) · [Routing contract and checks](z1-audio-routing.md).
+
+**Build 159** installed on the A10X iPad Pro, and iPadOS accepted launch. R96 retains mixer and effect values under queue pressure, retries gesture release and preserves Sync during output recovery. Eleven focused host tests passed across thirteen cases. Physical Z1 routing, listening and touch acceptance remain open. [Build record](../testing/builds/159.json) · [Audit and verification](reliability-audit-155.md).
+
+**R96 reliability audit:** Build 155 had blocking control-delivery gaps. Three focused cases reproduced silence after channel/master volume return and a waveform release that remained held. Output-change recovery and current-source A10X performance qualification also remain open. No app or device change was made in this audit. [Findings and evidence](reliability-audit-155.md).
 
 **Build 155** installed on the A10X iPad Pro, and iPadOS accepted launch. It came from committed `main`. R90 retains the latest Z1 crossfader position under queue pressure. R91 preserves preview-window contact and grid-aligned beat taps. R92 retains waveform drawings and pauses optional whole-track work during performance. Eighteen combined host tests passed across nineteen cases. Earlier R89 playhead and R93 Sync fixes remain included. Physical acceptance of all five live-test issues remains open. Build 154 was rejected after concurrent source changes and was not installed. [Build record](../testing/builds/155.json) · [Long-track changes](live-waveform-continuity.md) · [Preview workflow](preview-strip-navigation.md) · [Crossfader checks](z1-crossfader-continuity.md).
 

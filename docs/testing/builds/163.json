@@ -1,0 +1,11 @@
+{
+  "build": 163,
+  "requestIDs": [
+    "R98"
+  ],
+  "state": "rejected",
+  "notes": "The iPad build stopped before installation because the source identity changed during compilation.",
+  "initialSourceCommit": "fade76532ad076c0b75daf9c7ba5f9919321ddcb",
+  "log": "TestBuilds/ipad/build-163-source-changed.log",
+  "feedback": []
+}

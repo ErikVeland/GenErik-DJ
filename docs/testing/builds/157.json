@@ -1,0 +1,37 @@
+{
+  "notes": "R95: Restore exact Music-source loading for missing app copies. Purge entries with no available local audio during fresh library refresh. Preserve playable songs and their preparation. Show failed loads on the deck and block accidental playback of the previous track.",
+  "sourceCommit": "cefb9b279a13885d65a607ea07e49bbfd157c764",
+  "sourceSHA256": "f5affce2e3d48bde12c1281ef056ea60f0aa6a951ae4059a5287fffb7ebb0b45",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 69.76,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-157.log",
+  "build": 157,
+  "app": "TestBuilds/ipad/157/GenErikDJ.app",
+  "appSHA256": "d3e1195f9f6ab61fab215f02e173298e929b083a03fea156dc99251bcac32a75",
+  "state": "testing",
+  "createdUTC": "2026-11-09T08:24:38.988772+00:00",
+  "installedUTC": "2026-11-09T08:24:52.011800+00:00",
+  "launchedUTC": "2026-11-09T08:24:52.355116+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R95"
+  ],
+  "device": "GenErik iPad Pro 10.5-inch (A10X)",
+  "previousDeviceBuild": 155,
+  "focusedChecks": "Twelve isolated focused host tests passed before the purge extension. Six follow-up tests passed after it, including six filename/tag cases and sixteen repeated replacements. The actual Hannah audio with saved iPad metadata passed again on the final source.",
+  "verificationLimit": "Installation and launch were accepted. Erik must verify loading, fresh-refresh cleanup, saved grids, uninterrupted audio and touch response on A10X. No device action followed launch.",
+  "evidence": [
+    "TestBuilds/r95/verification.json",
+    "TestBuilds/r95/isolated-results.json",
+    "TestBuilds/r95/availability-final.log",
+    "TestBuilds/r95/hannah-final.log",
+    "TestBuilds/r95/ipad-final-run.log"
+  ],
+  "acceptance": [
+    "Load Hannah from the Music browser and check its title, audio and saved grid.",
+    "Refresh the library and check that unavailable songs disappear while local songs remain.",
+    "Load another previously failing track into each deck. Keep the other deck playing and check audio and touch response."
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "notes": "Start Music playback before saving waveform data. Submit queued Play as soon as the renderer accepts the track (R102).",
+  "sourceCommit": "8d384c2ed52072ee2441a0214a23f4d242f97c50",
+  "sourceSHA256": "12c362b1e3f8b80895264edec88c608c81c24a4ea8af822c70f76ecdb4bdb1bb",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 66.41,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-166.log",
+  "build": 166,
+  "app": "TestBuilds/ipad/166/GenErikDJ.app",
+  "appSHA256": "62b33f07fb5e8bf8e661ef050f5cf95ac481a8934ee430cd13839c179e0aeb69",
+  "state": "testing",
+  "createdUTC": "2026-11-09T08:52:36.112091+00:00",
+  "installedUTC": "2026-11-09T08:52:48.965194+00:00",
+  "launchedUTC": "2026-11-09T08:52:49.317929+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R102"
+  ],
+  "focusedChecks": "Six host checks passed. The new test first reproduced an empty deck when the library write failed. After the fix, queued Play started with the full waveform pending.",
+  "evidence": [
+    "TestBuilds/r102/persistence-before.log",
+    "TestBuilds/r102/playback-first-after.log"
+  ],
+  "verificationLimit": "Erik checks the time to audible playback on the A10X iPad."
+}
