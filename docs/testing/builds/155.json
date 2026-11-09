@@ -32,5 +32,14 @@
   "buildIsolation": "Built from a fixed checkout of committed main in the user-authorised separate working folder. The existing iPad build cache was reused.",
   "installedUTC": "2026-11-09T08:05:30.107710+00:00",
   "launchedUTC": "2026-11-09T08:05:30.508402+00:00",
-  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "reliabilityAudit": {
+    "requestID": "R96",
+    "result": "Known blocking reliability faults remain. Not accepted for live performance.",
+    "cases": 3,
+    "failedExpectations": 6,
+    "report": "docs/coordination/reliability-audit-155.md",
+    "evidence": "TestBuilds/reliability-155/",
+    "deviceChanged": false
+  }
 }
