@@ -13,6 +13,15 @@
       ],
       "report": "Opening the library shows 1,924 unread analysis warnings. Keep library analysis warnings read and show an unread warning at the top when its track loads.",
       "summary": "Build 164 is assumed from the last iPad install."
+    },
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R98",
+        "R102"
+      ],
+      "report": "Play could not start until the waveform loaded. Give audio priority. Group the loop controls, border the utility strip with its close button, and group the three top deck buttons. Replace the thin diamond.",
+      "summary": "Build 164 is assumed from the last recorded install when the playback issue was reported."
     }
   ],
   "log": "TestBuilds/ipad/build-164.log",

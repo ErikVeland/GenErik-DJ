@@ -608,7 +608,7 @@ extension ReplicaModel {
                     adoptLibrary(
                         try await service.registerNativePlayback(
                             analysis: opening.analysis, metadata: source.metadata,
-                            audioFingerprint: opening.audioFingerprint))
+                            audioFingerprint: opening.audioFingerprint, saveWithLoadHistory: true))
                     try Task.checkCancellation()
                     guard state.loadOwners[deck] == token else { throw CancellationError() }
                     guard let track = await preparedNativeTrack(item) else { throw TransportError.stale }

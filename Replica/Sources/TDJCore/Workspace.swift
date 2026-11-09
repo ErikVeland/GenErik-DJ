@@ -256,7 +256,8 @@ public actor LibraryService {
     public func snapshot() -> LibrarySnapshot { library }
 
     public func registerNativePlayback(
-        analysis: AudioAnalysis, metadata: MusicLibraryImportMetadata, audioFingerprint: String? = nil
+        analysis: AudioAnalysis, metadata: MusicLibraryImportMetadata, audioFingerprint: String? = nil,
+        saveWithLoadHistory: Bool = false
     ) throws
         -> LibrarySnapshot
     {
@@ -294,7 +295,7 @@ public actor LibraryService {
             var changed = library
             changed.tracks[index] = current
             changed.revision += 1
-            library = try store.save(changed)
+            library = try saveWithLoadHistory ? changed.preparingTrackLookup() : store.save(changed)
             return library
         }
         var track = try Track(
@@ -316,7 +317,7 @@ public actor LibraryService {
             changed.tracks.append(track)
         }
         changed.revision += 1
-        library = try store.save(changed)
+        library = try saveWithLoadHistory ? changed.preparingTrackLookup() : store.save(changed)
         return library
     }
 

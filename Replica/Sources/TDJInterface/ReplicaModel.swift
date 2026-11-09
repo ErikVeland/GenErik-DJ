@@ -1033,6 +1033,10 @@ import TDJCore
                     previewing.insert(deck)
                 }
                 preparingPlayback.remove(deck)
+                if pendingLoadPlay[deck] == (nativeLoadOwner ?? token) {
+                    pendingLoadPlay[deck] = nil
+                    pressPlay(deck: deck, vinylStop: false)
+                }
                 warmCuePositions(deck: deck)
                 prepareWaveform(preparedSourceTrack)
                 enqueueHistory(event)
@@ -1042,10 +1046,6 @@ import TDJCore
                         .first
                 if let warning { musicLibraryNotices.addLoadedAnalysisNotice(warning) }
                 if let opening { prepareNativeWaveform(opening, track: preparedSourceTrack, deck: deck, token: token) }
-                if pendingLoadPlay[deck] == (nativeLoadOwner ?? token) {
-                    pendingLoadPlay[deck] = nil
-                    pressPlay(deck: deck, vinylStop: false)
-                }
                 scheduleDeckAnalysis(deck: deck)
             } catch {
                 onFailure?(error)
