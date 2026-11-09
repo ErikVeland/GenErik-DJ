@@ -368,13 +368,20 @@ private struct DeckPanelHorizontalBounds: Shape {
             }
         }
     }
+    private var previewStripHeight: Double {
+        #if os(iOS)
+            if UIDevice.current.userInterfaceIdiom == .pad { return 60 }
+        #endif
+        return 24
+    }
+
     @ViewBuilder func content(size: CGSize) -> some View {
         let zoom = waveformZoom
         let showsHotcues = track != nil && model.hotcuePadsVisible.contains(deck)
         let layout = AdaptiveDeckGeometry(
             height: max(0, size.height - 8),
             hotcues: showsHotcues,
-            compactControls: track != nil || selection != nil, editing: editing)
+            compactControls: track != nil || selection != nil, editing: editing, previewStripHeight: previewStripHeight)
         let availableWidth = max(0, size.width - (tempoFader && track != nil ? 68 : 0))
         let sizes = panels.geometry(width: availableWidth, height: layout.waveformHeight, inlineControls: true)
         let frozenControlsWidth = track != nil && model.frozen.contains(deck) && !editing && superSlicer ? 44.0 : 0
@@ -517,7 +524,7 @@ private struct DeckPanelHorizontalBounds: Shape {
             if sectionPanel.isPresented { sectionPanel.setPresented(false) }
         }.onChange(of: panels.spaceRequestID) { _, _ in
             if panels.spaceRequestKind != .extra && layout.waveformHeight < 184 {
-                requestPerformanceSpace(260 + (showsHotcues ? 56 : 0))
+                requestPerformanceSpace(236 + (editing ? 44 : previewStripHeight) + (showsHotcues ? 56 : 0))
             }
         }
     }

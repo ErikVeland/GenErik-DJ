@@ -114,17 +114,21 @@ struct AdaptiveDeckGeometry {
 
     init(
         height: Double, hotcues: Bool = false, compactControls: Bool = false, editing: Bool = false,
-        inlineControls: Bool = false
+        inlineControls: Bool = false, previewStripHeight: Double = 24
     ) {
         let height = max(0, height)
         expansion = min(1, max(0, (height - 56) / 144))
-        footerHeight = min(editing ? 44 : 24, height * 0.35)
+        let preferredHotcueHeight = hotcues ? 56 * expansion : 0
+        let minimumWaveformHeight = 44.0
+        let reservedControlsHeight = inlineControls ? 48.0 : 0
+        let footerLimit = max(24, height - 44 - minimumWaveformHeight - preferredHotcueHeight - reservedControlsHeight)
+        footerHeight = min(editing ? 44 : min(previewStripHeight, footerLimit), height * 0.35)
         headerHeight = min(44, max(0, height - footerHeight))
         sectionHeight = 0
         overviewHeight = 0
         let available = max(0, height - headerHeight - footerHeight)
-        controlsHeight = inlineControls ? min(48, available) : 0
-        hotcueHeight = hotcues ? min(max(0, available - controlsHeight), 56 * expansion) : 0
+        controlsHeight = min(reservedControlsHeight, available)
+        hotcueHeight = min(max(0, available - controlsHeight), preferredHotcueHeight)
         waveformHeight = max(0, available - hotcueHeight - controlsHeight)
         transportWidth = 128 - 64 * expansion
     }
