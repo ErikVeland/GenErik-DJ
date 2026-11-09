@@ -27,6 +27,8 @@ typedef struct tdj_engine tdj_engine;
 #define TDJ_LOOP 11
 #define TDJ_FLUX 12
 #define TDJ_TOUCH 13
+// Disabled touch commands can park the deck if release audio is unavailable.
+#define TDJ_TOUCH_PARK_RELEASE -1
 #define TDJ_TOUCH_WITH_RATE 3
 #define TDJ_TOUCH_FOLLOWS_POSITION 4
 #define TDJ_RATE 14

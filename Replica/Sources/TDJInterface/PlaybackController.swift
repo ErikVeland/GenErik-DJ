@@ -45,7 +45,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         }
     }
     private var pendingControlValues: [ControlValue] = []
-    private var pendingReleases: [DeckID: TrackedSource] = [:]
+    private var pendingTransport: [SourceLane: TrackedSource] = [:]
     private var touchAfterRelease: [DeckID: SourceControl] = [:]
     public private(set) var outputActive = false
     #if os(macOS)
@@ -173,6 +173,8 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     }
     private var outputStartTask: Task<Void, Never>?
     private var outputStartIdentity: UInt64 = 0
+    private var outputRetryAt: ContinuousClock.Instant?
+    private var outputRetries = 0
     private var engine: AVAudioEngine?
     private var source: AVAudioSourceNode?
     private var nativeSource: TDJNativeAudioSource?
@@ -346,6 +348,10 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         guard let generation = generations[deck] else { throw TransportError.stale }
         if try resumeOutputIfNeeded(deck: deck) { return }
         let lane = SourceLane.play(deck)
+        if pendingTransport[lane] != nil {
+            invalidateSource(lane)
+            return
+        }
         let pending = latestSources[lane] != nil || latestSources[.recall(deck)] != nil
         let warming = preparationTasks[lane] != nil || preparationTasks[.recall(deck)] != nil
         cancelPerformancePreparations(deck: deck)
@@ -405,7 +411,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         try submitControlValue(.mixer(parameter, value, deck))
     }
     private func submitControlValue(_ value: ControlValue) throws {
-        if pendingControlValues.isEmpty && pendingReleases.isEmpty {
+        if pendingControlValues.isEmpty && pendingTransport.isEmpty {
             do {
                 try value.submit(to: core)
                 if !outputActive { core.processControlsWhileIdle() }
@@ -417,16 +423,21 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         startControlMaintenance()
     }
     private func flushPendingControls() {
-        guard !pendingReleases.isEmpty || !pendingControlValues.isEmpty else { return }
-        for deck in DeckID.allCases {
-            guard let release = pendingReleases[deck] else { continue }
+        guard !pendingTransport.isEmpty || !pendingControlValues.isEmpty else { return }
+        let ordered = pendingTransport.values.sorted {
+            if $0.lane.isRelease != $1.lane.isRelease { return $0.lane.isRelease }
+            return $0.identity < $1.identity
+        }
+        for action in ordered {
             do {
-                try submitTrackedSource(release)
-                pendingReleases[deck] = nil
+                try submitTrackedSource(action)
+                pendingTransport[action.lane] = nil
             } catch TransportError.queueFull {
                 return
             } catch {
-                failRelease(release, error: error)
+                invalidateSource(action.lane)
+                appendMessage(.init(commandID: 0, generation: action.control.generation ?? 0,
+                                    error: (error as? TransportError) ?? .invalid))
             }
         }
         while let value = pendingControlValues.first {
@@ -565,6 +576,12 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         if !outputActive { core.processControlsWhileIdle() }
         collectMessages()
         flushPendingControls()
+        if !offline {
+            retryOutputIfDue {
+                discardOutputGraph()
+                try startOutput()
+            }
+        }
     }
     func startControlMaintenance() {
         guard controlMaintenanceTimer == nil else { return }
@@ -620,6 +637,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     }
 
     private func suspendOutput() {
+        outputRetryAt = nil
         outputStartIdentity &+= 1
         outputStartTask?.cancel()
         outputStartTask = nil
@@ -705,17 +723,45 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             appendMessage(.init(commandID: 0, generation: 0, error: .cache("Press Play to restore audio output.")))
             return
         }
-        do { try restart() } catch {
-            appendMessage(.init(commandID: 0, generation: 0,
-                                error: (error as? TransportError) ?? .cache(error.localizedDescription)))
+        outputRetries = 0
+        do { try restart() } catch { recordOutputFailure(error) }
+    }
+
+    private func recordOutputFailure(_ error: Error, now: ContinuousClock.Instant = .now) {
+        if outputRecoveryPending, !interrupted, !mediaServicesUnavailable, !resumeRequiresPlay,
+            outputRetries < 3
+        {
+            outputRetryAt = now + .milliseconds(150 * (1 << outputRetries))
+            startControlMaintenance()
+            return
         }
+        outputRetryAt = nil
+        let failure = (error as? TransportError) ?? .cache(error.localizedDescription)
+        let message: TransportError = outputRecoveryPending
+            ? .cache("\(failure.localizedDescription) Press Play to retry audio output.") : failure
+        appendMessage(.init(commandID: 0, generation: 0, error: message))
+    }
+
+    func retryOutputIfDue(now: ContinuousClock.Instant = .now, restart: () throws -> Void) {
+        guard let retryAt = outputRetryAt, now >= retryAt, outputStartTask == nil else { return }
+        outputRetryAt = nil
+        guard outputRecoveryPending, !outputActive, !interrupted, !mediaServicesUnavailable, !resumeRequiresPlay else {
+            return
+        }
+        outputRetries += 1
+        do { try restart() } catch { recordOutputFailure(error, now: now) }
     }
 
     func resumeOutputIfNeeded(deck: DeckID) throws -> Bool {
         guard !offline else { return false }
         resumeRequiresPlay = false
         guard outputRecoveryPending, core.snapshot()?[deck].phase.active == true else { return false }
-        try startOutput(userInitiated: true)
+        outputRetryAt = nil
+        outputRetries = 0
+        do { try startOutput(userInitiated: true) } catch {
+            recordOutputFailure(error)
+            throw error
+        }
         return true
     }
 
@@ -783,6 +829,14 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             if userInitiated { interrupted = false }
             let previousRoute = outputRoute
             updateOutputDevice(Self.currentAudioOutputs)
+            if outputRecoveryPending, !userInitiated,
+                (previousRoute == .masterAndHeadphones && outputRoute != previousRoute ||
+                    outputRoute == .stereoMaster && !outputPortIDs.isEmpty &&
+                    outputPortIDs.isDisjoint(with: session.currentRoute.outputs.map(\.uid)))
+            {
+                resumeRequiresPlay = true
+                throw TransportError.cache("Press Play to restore audio output.")
+            }
             if previousRoute != outputRoute { discardOutputGraph() }
             if outputRoute == .masterAndHeadphones {
                 guard session.maximumOutputNumberOfChannels >= 4 else {
@@ -869,10 +923,8 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                         return
                     }
                 } catch is CancellationError {} catch {
-                    self?.appendMessage(
-                        .init(
-                            commandID: 0, generation: 0,
-                            error: (error as? TransportError) ?? .cache(error.localizedDescription)))
+                    guard let self, self.outputStartIdentity == identity else { return }
+                    self.recordOutputFailure(error)
                 }
             }
         } else {
@@ -887,6 +939,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         do {
             try engine.start()
             outputRecoveryPending = false
+            outputRetryAt = nil
             #if os(iOS)
                 outputPortIDs = Set(AVAudioSession.sharedInstance().currentRoute.outputs.map(\.uid))
             #endif
@@ -929,6 +982,16 @@ extension PlaybackController {
                 self = action == .touch && !enabled ? .touchRelease(deck) : .performance(deck, action.rawValue)
             }
         }
+        var isRelease: Bool {
+            if case .touchRelease = self { return true }
+            return false
+        }
+        var retriesWhenFull: Bool {
+            switch self {
+            case .play, .touchRelease: return true
+            default: return false
+            }
+        }
         var deck: DeckID? {
             switch self {
             case .tempo: nil
@@ -948,7 +1011,7 @@ extension PlaybackController {
         Set(preparationTasks.keys.flatMap { lane in lane.deck.map { [$0] } ?? Array(generations.keys) })
     }
     public func flushSourcePreparations() async {
-        while !preparationTasks.isEmpty || !sentSources.isEmpty || !pendingReleases.isEmpty || outputStartTask != nil {
+        while !preparationTasks.isEmpty || !sentSources.isEmpty || !pendingTransport.isEmpty || outputStartTask != nil {
             if Task.isCancelled { return }
             if !outputActive { core.processControlsWhileIdle() }
             collectMessages()
@@ -957,8 +1020,8 @@ extension PlaybackController {
         }
     }
     private func invalidateSource(_ lane: SourceLane) {
+        pendingTransport[lane] = nil
         if case .touchRelease(let deck) = lane {
-            pendingReleases[deck] = nil
             touchAfterRelease[deck] = nil
         }
         if let identity = latestSources[lane] { preparedGridCommits[identity] = nil }
@@ -983,7 +1046,7 @@ extension PlaybackController {
         case .tempo, .keylock: break
         case .performance(.touch, let deck, _, _, _, _, _, _, _):
             invalidateRecovery(deck: deck, submitCancellation: false)
-        case .play: invalidateRecovery()
+        case .play: invalidateRecovery(submitCancellation: false)
         default: invalidateRecovery(deck: control.deck)
         }
         let lane = SourceLane(control)
@@ -991,9 +1054,14 @@ extension PlaybackController {
         nextSourceIdentity &+= 1
         let tracked = TrackedSource(identity: nextSourceIdentity, control: control, canPrepare: canPrepare)
         latestSources[lane] = tracked.identity
+        if lane.retriesWhenFull, !pendingTransport.isEmpty {
+            pendingTransport[lane] = tracked
+            startControlMaintenance()
+            return 0
+        }
         do { return try submitTrackedSource(tracked) } catch TransportError.queueFull {
-            if case .touchRelease(let deck) = lane {
-                pendingReleases[deck] = tracked
+            if lane.retriesWhenFull {
+                pendingTransport[lane] = tracked
                 startControlMaintenance()
                 return 0
             }
@@ -1058,11 +1126,6 @@ extension PlaybackController {
         }
         return false
     }
-    private func failRelease(_ tracked: TrackedSource, error: Error) {
-        invalidateSource(tracked.lane)
-        appendMessage(.init(commandID: 0, generation: tracked.control.generation ?? 0,
-                            error: (error as? TransportError) ?? .invalid))
-    }
     private func startSourcePreparation(_ tracked: TrackedSource) {
         guard preparationTasks[tracked.lane] == nil else { return }
         sourcePreparationRequests += 1
@@ -1100,8 +1163,8 @@ extension PlaybackController {
                 do {
                     try self.submitTrackedSource(tracked, preparations: transferred)
                 } catch TransportError.queueFull {
-                    guard case .touchRelease(let deck) = tracked.lane else { throw TransportError.queueFull }
-                    self.pendingReleases[deck] = tracked
+                    guard tracked.lane.retriesWhenFull else { throw TransportError.queueFull }
+                    self.pendingTransport[tracked.lane] = tracked
                     self.startControlMaintenance()
                 }
                 if !self.outputActive {
@@ -1114,6 +1177,13 @@ extension PlaybackController {
             } catch is CancellationError {} catch {
                 guard let self, self.latestSources[tracked.lane] == tracked.identity else { return }
                 self.invalidateSource(tracked.lane)
+                if case .touchRelease(let deck) = tracked.lane,
+                    let generation = tracked.control.generation, self.generations[deck] == generation
+                {
+                    // Clear the hold even when the streaming worker cannot provide the return audio.
+                    try? self.submitSource(.parkTouchRelease(deck: deck, generation: generation), canPrepare: false)
+                    if !self.outputActive { core.processControlsWhileIdle() }
+                }
                 self.sourcePreparationFailures += 1
                 if case .keylock(_, let deck, _) = tracked.control {
                     self.latestKeylock[deck] = nil

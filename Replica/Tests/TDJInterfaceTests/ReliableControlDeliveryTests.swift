@@ -95,3 +95,33 @@ func reliableControlWaveformReleaseSurvivesQueuePressure(streaming: Bool) async 
     #expect(controller.core.snapshot()?.a.mixer.filterEnabled == false)
     #expect(controller.core.snapshot()?.a.mixer.volume == 0.8)
 }
+
+@Test(arguments: [false, true]) @MainActor
+func queuedHandoffSurvivesPressureAndCanBeCancelled(cancel: Bool) async throws {
+    let (model, root, track) = try await loadPlayheadFixture()
+    defer { try? FileManager.default.removeItem(at: root) }
+    model.load(trackID: track.id, deck: .a)
+    await model.playbackLoads?.value
+    model.load(trackID: track.id, deck: .b)
+    await model.playbackLoads?.value
+    let controller = model.playback
+    let core = controller.core
+    try controller.play(.a)
+    _ = core.renderOffline(frames: 512)
+    controller.maintainControlState()
+    for _ in 0..<127 { try core.setMixer(.high, value: 1) }
+    try controller.play(.b)
+    if cancel { try controller.play(.b) }
+    await controller.flushSourcePreparations()
+    let state = try #require(core.snapshot())
+    #expect(state.a.phase == .playing)
+    #expect(state.b.phase == (cancel ? .ready : .queued))
+    #expect(state.b.synced)
+    if !cancel {
+        let beat = try #require(state.b.targetBeat)
+        let frames = Int(ceil((beat - state.masterBeat) * 60 * state.sampleRate / state.masterBPM))
+        _ = core.renderOffline(frames: frames + 512)
+        #expect(core.snapshot()?.b.phase == .playing)
+    }
+    await model.finishForShutdown()
+}

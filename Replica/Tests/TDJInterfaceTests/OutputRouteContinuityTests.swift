@@ -90,3 +90,41 @@ import Testing
     #expect(core.snapshot()?.masterBeat == before.masterBeat)
     controller.stopAudio()
 }
+
+@Test(arguments: [false, true]) @MainActor
+func outputRecoveryRetriesAndStopsAfterSuccessOrBudget(persistent: Bool) throws {
+    let controller = try PlaybackController(offline: true)
+    defer { controller.stopAudio() }
+    let core = controller.core
+    let asset = try PCMAsset(interleavedStereo: Array(repeating: 0.25, count: 192000), sampleRate: 48000)
+    let generation = try core.load(asset, deck: .a, grid: nil, synced: true)
+    try core.play(deck: .a, generation: generation)
+    _ = core.renderOffline(frames: 512)
+    let before = try #require(core.snapshot())
+    var attempts = 0
+    let fault = TransportError.cache("Test output startup failure.")
+    controller.handleOutputEvent(.configurationChanged) {
+        attempts += 1
+        throw fault
+    }
+    controller.retryOutputIfDue(now: .now) { attempts += 1 }
+    #expect(attempts == 1)
+    let start = ContinuousClock.now
+    for second in 1...5 {
+        controller.retryOutputIfDue(now: start + .seconds(second)) {
+            attempts += 1
+            if persistent { throw fault }
+        }
+    }
+    #expect(attempts == (persistent ? 4 : 2))
+    #expect(core.snapshot()?.a.sourceFrame == before.a.sourceFrame)
+    #expect(core.snapshot()?.a.synced == true)
+    if persistent {
+        #expect(controller.snapshotAndMessages().1.contains {
+            $0.error?.localizedDescription.contains("Press Play") == true
+        })
+    }
+    controller.handleOutputEvent(.configurationChanged) { throw fault }
+    controller.stopAudio()
+    controller.retryOutputIfDue(now: start + .seconds(60)) { Issue.record("Restarted after Stop") }
+}

@@ -175,10 +175,15 @@ extension SourceControl {
         if proposedSynced, let beat = alignmentBeat, let timing = alignmentTiming {
             let lower = target.loopEnd > target.loopStart ? max(0, target.loopStart) : 0
             let upper = target.loopEnd > target.loopStart ? min(Double(frames), target.loopEnd) : Double(frames)
-            if lower < upper, let aligned = timing.nearestPhaseAlignedFrame(
-                to: target.position, masterBeat: beat, within: lower..<upper)
-            {
-                target.position = aligned
+            if lower < upper {
+                let range = lower..<upper
+                if let aligned = timing.nearestPhaseAlignedFrame(to: target.position, masterBeat: beat, within: range) {
+                    target.position = aligned
+                } else if case .performance(.touch, _, _, _, _, false, _, _, _) = self,
+                    let entry = timing.nearestPhaseAlignedFrame(to: target.position, masterBeat: 0, within: range)
+                {
+                    target.position = entry
+                }
             }
         }
         if proposedSynced, let map = state.adaptiveMap {
