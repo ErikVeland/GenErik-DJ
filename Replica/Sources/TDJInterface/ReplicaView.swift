@@ -749,7 +749,7 @@ struct DeckRailButtonStyle: ButtonStyle {
     }
 }
 
-private struct WaveformView: View, Equatable {
+struct WaveformView: View, Equatable {
     nonisolated static func == (lhs: Self, rhs: Self) -> Bool {
         WaveformIndexKey(lhs.track.analysis) == WaveformIndexKey(rhs.track.analysis)
             && lhs.track.analysis.frameCount == rhs.track.analysis.frameCount

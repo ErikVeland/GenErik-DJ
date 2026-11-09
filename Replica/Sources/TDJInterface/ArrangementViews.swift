@@ -111,10 +111,11 @@ struct ArrangementColourRegion {
     let center: Double
     let span: Double
     var overview = false
+    var editorDraft: TrackArrangement? = nil
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     var body: some View {
         Canvas { context, size in
-            guard let arrangement = model.arrangements[track.id] else { return }
+            guard let arrangement = editorDraft ?? model.arrangements[track.id] else { return }
             let left = center - span / 2
             func x(_ frame: Double) -> Double { (frame - left) / max(1, span) * size.width }
             for section in arrangement.sections where section.end > left && section.start < left + span {
@@ -155,7 +156,9 @@ struct ArrangementColourRegion {
                 diamond.closeSubpath()
                 context.stroke(diamond, with: .color(.white.opacity(0.85)), lineWidth: 1)
             }
-            if let status = model.arrangementStatus(deck: deck), status.warning == .red || status.warning == .urgent {
+            if editorDraft == nil, let status = model.arrangementStatus(deck: deck),
+                status.warning == .red || status.warning == .urgent
+            {
                 let pulse = status.pulseValue(reduceMotion: reduceMotion, audible: model.arrangementAudible(deck: deck))
                 let opacity = (status.warning == .urgent ? 0.20 : 0.12) + pulse * 0.08
                 context.fill(
@@ -221,6 +224,7 @@ struct ArrangementColourRegion {
             && identity.matches(trackID: model.track(deck)?.id, loadID: model.loadIdentity(deck))
     }
     @State private var draft: TrackArrangement?
+    @State private var editCursor: Double?
     @AppStorage("arrangement.prepareBars") private var prepareBars = 32
     var body: some View {
         VStack(spacing: 0) {
@@ -238,6 +242,12 @@ struct ArrangementColourRegion {
                 }.frame(minWidth: 44, minHeight: 44).disabled(!validLoad || draft == nil)
             }.padding(.horizontal, 12).background(PerformancePalette.frame)
             if usesColumns {
+                if validLoad, let track = model.track(deck), let draft {
+                    ArrangementEditorWaveform(
+                        model: model, deck: deck, track: track, draft: draft,
+                        cursor: Binding(get: { position }, set: { editCursor = $0 }))
+                    placementControls
+                }
                 GeometryReader { space in
                     if space.size.width >= 740 {
                         HStack(spacing: 0) {
@@ -258,7 +268,10 @@ struct ArrangementColourRegion {
             } else {
                 combinedForm
             }
-        }.onAppear { if draft == nil, validLoad { draft = model.arrangements[identity.trackID] } }.onChange(
+        }.onAppear {
+            if draft == nil, validLoad { draft = model.arrangements[identity.trackID] }
+            if usesColumns, editCursor == nil { editCursor = position }
+        }.onChange(
             of: isPresented
         ) { _, visible in if !visible { focusedField = nil } }.onChange(of: model.loaded[deck]) { _, _ in
             if !validLoad { close() }
@@ -278,9 +291,6 @@ struct ArrangementColourRegion {
         Picker("Ending preparation cue", selection: $prepareBars) {
             ForEach([32, 48, 64, 96], id: \.self) { Text("\($0) bars").tag($0) }
         }
-        Text(
-            "Hollow diamonds are analysis landmarks. Edit them here. Waveform gestures keep their existing actions."
-        ).font(.caption).foregroundStyle(.secondary)
     }
 
     @ViewBuilder private var sections: some View {
@@ -312,7 +322,7 @@ struct ArrangementColourRegion {
                             .secondary)
                     }.foregroundStyle(Color(arrangementHex: value.sections[index].colourHex))
                 }
-                Button("Split section at preview position") { splitSection() }
+                if !usesColumns { Button("Split section at preview position", action: splitSection) }
             }
         }
     }
@@ -374,12 +384,19 @@ struct ArrangementColourRegion {
                         Text(value.landmarks[index].reason).font(.caption).foregroundStyle(.secondary)
                     }
                 }
-                Button("Add landmark at preview position") {
-                    draft?.landmarks.append(
-                        .init(frame: position, name: "New landmark", state: .accepted, locked: true))
-                }
+                if !usesColumns { Button("Add landmark at preview position", action: addLandmark) }
             }
         }
+    }
+
+    private var placementControls: some View {
+        HStack(spacing: 12) {
+            Text("Cursor \(position / sampleRate, format: .number.precision(.fractionLength(2))) s").monospacedDigit()
+            Spacer(minLength: 0)
+            Button("Split Section", action: splitSection)
+                .disabled(draft?.sections.contains { $0.start < position && position < $0.end } != true)
+            Button("Add Landmark", action: addLandmark)
+        }.buttonStyle(.bordered).padding(.horizontal, 12).frame(minHeight: 44)
     }
 
     private var statusText: some View {
@@ -388,7 +405,7 @@ struct ArrangementColourRegion {
     private var sampleRate: Double { model.track(deck)?.analysis.sampleRate ?? 44100 }
     private var fileEnd: Double { Double(model.track(deck)?.analysis.frameCount ?? 0) }
     private var position: Double {
-        min(fileEnd, max(0, model.viewport[deck] ?? model.playbackSnapshot?[deck].sourceFrame ?? 0))
+        min(fileEnd, max(0, editCursor ?? model.viewport[deck] ?? model.playbackSnapshot?[deck].sourceFrame ?? 0))
     }
     private func sectionBinding<T>(_ index: Int, _ key: WritableKeyPath<ArrangementSection, T>) -> Binding<T> {
         Binding(
@@ -443,6 +460,10 @@ struct ArrangementColourRegion {
                 draft?.landmarks[index].locked = true
             })
     }
+    private func addLandmark() {
+        draft?.landmarks.append(.init(frame: position, name: "New landmark", state: .accepted, locked: true))
+    }
+
     private func splitSection() {
         guard let value = draft, let i = value.sections.firstIndex(where: { position > $0.start && position < $0.end })
         else { return }
@@ -454,5 +475,73 @@ struct ArrangementColourRegion {
         draft?.sections[i].end = position
         draft?.sections[i].locked = true
         draft?.sections.insert(next, at: i + 1)
+    }
+}
+
+
+@MainActor private struct ArrangementEditorWaveform: View {
+    @Bindable var model: ReplicaModel
+    let deck: DeckID
+    let track: Track
+    let draft: TrackArrangement
+    @Binding var cursor: Double
+    @State private var detailCenter: Double?
+
+    var body: some View {
+        let end = Double(track.analysis.frameCount)
+        let duration = track.analysis.duration
+        let seconds = min(duration, model.waveformZoomSeconds(deck: deck))
+        let center = detailCenter ?? cursor
+        VStack(spacing: 2) {
+            waveform(center: center, seconds: seconds, overview: false) { frame in
+                if detailCenter == nil { detailCenter = center }
+                cursor = frame
+            }.frame(height: 84)
+            waveform(center: end / 2, seconds: duration, overview: true) { frame in
+                detailCenter = frame
+                cursor = frame
+            }.frame(height: 44)
+        }.padding(.horizontal, 8).padding(.top, 4)
+    }
+
+    private func waveform(
+        center: Double, seconds: Double, overview: Bool, select: @escaping (Double) -> Void
+    ) -> some View {
+        let span = max(1, seconds * track.analysis.sampleRate)
+        let left = center - span / 2
+        return GeometryReader { space in
+            let width = max(1, space.size.width)
+            let markerX = (cursor - left) / span * width
+            WaveformView(
+                track: track, grid: overview ? nil : model.grid(deck), centerFrame: center,
+                visibleSeconds: seconds, adaptiveMap: overview ? nil : track.adaptiveMap, sections: draft.sections
+            ).equatable().overlay {
+                ArrangementWaveformOverlay(
+                    model: model, deck: deck, track: track, center: center, span: span, overview: overview,
+                    editorDraft: draft)
+            }.overlay(alignment: .leading) {
+                Rectangle().fill(PerformancePalette.cyan).frame(width: 2)
+                    .offset(x: max(0, min(width - 2, markerX)))
+                    .allowsHitTesting(false)
+            }.background(PerformancePalette.stage).clipped().contentShape(Rectangle()).gesture(
+                DragGesture(minimumDistance: 0).onChanged { value in
+                    let fraction = min(1, max(0, value.location.x / width))
+                    select(boundedFrame(left + fraction * span))
+                }
+            ).accessibilityLabel(overview ? "Track overview" : "Waveform detail")
+                .accessibilityValue(Text("\(cursor / track.analysis.sampleRate, format: .number.precision(.fractionLength(2))) s"))
+                .accessibilityAdjustableAction { direction in
+                    let step = span / (overview ? 20 : 32)
+                    switch direction {
+                    case .increment: select(boundedFrame(min(left + span, cursor + step)))
+                    case .decrement: select(boundedFrame(max(left, cursor - step)))
+                    @unknown default: break
+                    }
+                }
+        }
+    }
+
+    private func boundedFrame(_ frame: Double) -> Double {
+        min(max(0, Double(track.analysis.frameCount) - 1), max(0, frame))
     }
 }

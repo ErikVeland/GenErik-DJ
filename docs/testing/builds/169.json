@@ -13,6 +13,14 @@
       ],
       "report": "The last three iPad builds opened to a white screen with a Cannot open the workspace error.",
       "summary": "Assumed builds 167–169 from the last three recorded installs when Erik reported the failure."
+    },
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R98"
+      ],
+      "report": "Keep the waveform visible in the full-height editor. Show where sections and landmarks will go. Keep edit actions visible without scrolling.",
+      "summary": "Build 169 is assumed from the last recorded iPad install when Erik reported this."
     }
   ],
   "log": "TestBuilds/ipad/build-169.log",
