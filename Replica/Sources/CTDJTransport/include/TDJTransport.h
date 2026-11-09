@@ -41,6 +41,10 @@ typedef struct tdj_engine tdj_engine;
 #define TDJ_RECOVERY_MIX 21
 #define TDJ_RECOVERY_CANCEL 22
 #define TDJ_BRAKE 23
+#define TDJ_PAD_LOAD 24
+#define TDJ_PAD_PLAY 25
+#define TDJ_PAD_GAIN 26
+#define TDJ_PAD_COUNT 16
 #define TDJ_EFFECT_DELAY 0
 #define TDJ_EFFECT_REVERB 1
 #define TDJ_EFFECT_FLANGER 2
@@ -158,6 +162,9 @@ int32_t tdj_engine_configure_maximum_output_frames(tdj_engine *engine, uint32_t 
 int32_t tdj_engine_output_sources_ready(tdj_engine *engine);
 // One serial producer. The audio callback is the sole consumer during output.
 bool tdj_submit(tdj_engine *engine, tdj_command command);
+uint32_t tdj_playing_pads(tdj_engine *engine);
+void tdj_microphone_set_enabled(tdj_engine *engine, bool enabled);
+void tdj_microphone_push(tdj_engine *engine, const float *samples, uint32_t count, uint32_t stride, double rate);
 bool tdj_read_message(tdj_engine *engine, tdj_message *message);
 uint64_t tdj_rendered_output_frame(const tdj_engine *engine);
 bool tdj_read_snapshot(tdj_engine *engine, tdj_snapshot *snapshot);

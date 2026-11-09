@@ -547,6 +547,10 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     }
     public func stopAudio() {
         invalidateRecovery()
+        #if os(iOS)
+            s2MicEnabled = false
+            core.setMicrophoneEnabled(false)
+        #endif
         controlMaintenanceTimer = nil
         outputWatchdog.resetRecoveryBudget()
         outputRecoveryPending = false
@@ -689,6 +693,12 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         engine = nil
         source = nil
         nativeSource = nil
+        #if os(iOS)
+            wantsS2Capture = false
+            s2CaptureAttached = false
+            s2MicEnabled = false
+            core.setMicrophoneEnabled(false)
+        #endif
     }
 
     func handleOutputEvent(
@@ -806,6 +816,10 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
 
     private func receiveOutputEvent(_ event: OutputEvent) {
         #if os(iOS)
+            if s2MicEnabled && !AVAudioSession.sharedInstance().currentRoute.inputs.contains(where: Self.isS2Microphone) {
+                core.setMicrophoneEnabled(false)
+                s2MicEnabled = false
+            }
             handleOutputEvent(event, outputs: Self.currentAudioOutputs) { try startOutput() }
         #else
             handleOutputEvent(event) { try startOutput() }
@@ -851,6 +865,70 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         }
     #endif
 
+    func installPad(_ asset: PCMAsset?, slot: Int) throws -> UInt64 {
+        let generation = try core.setPadAsset(asset, slot: slot)
+        if !outputActive { core.processControlsWhileIdle() }
+        return generation
+    }
+
+    func triggerPad(_ slot: Int, generation: UInt64, enabled: Bool) throws {
+        if enabled && !offline { try startOutput() }
+        try core.playPad(slot, generation: generation, enabled: enabled)
+        if !outputActive { core.processControlsWhileIdle() }
+    }
+
+    func setPadGain(_ value: Double) throws {
+        try core.setPadGain(value)
+        if !outputActive { core.processControlsWhileIdle() }
+    }
+
+    #if os(iOS)
+        private var wantsS2Capture = false
+        private var s2CaptureAttached = false
+        private(set) var s2MicEnabled = false
+
+        var canOpenS2Mic: Bool {
+            s2CaptureAttached || (outputStartTask == nil && recorder == nil && recordingStartTask == nil && core.playingPads == 0
+                && core.snapshot().map { !$0.a.phase.active && !$0.b.phase.active } == true)
+        }
+
+        func setS2MicEnabled(_ enabled: Bool) throws {
+            if !enabled {
+                core.setMicrophoneEnabled(false)
+                s2MicEnabled = false
+                return
+            }
+            guard !offline, automaticOutputDevice == "S2 Mk3", canOpenS2Mic,
+                AVAudioApplication.shared.recordPermission == .granted
+            else {
+                throw TransportError.cache("Pause both decks before opening the S2 Mk3 microphone.")
+            }
+            if !s2CaptureAttached {
+                suspendOutput()
+                discardOutputGraph()
+                wantsS2Capture = true
+            }
+            do {
+                try startOutput()
+                guard s2CaptureAttached,
+                    AVAudioSession.sharedInstance().currentRoute.inputs.contains(where: Self.isS2Microphone)
+                else {
+                    throw TransportError.cache("The S2 Mk3 microphone is unavailable on this connection.")
+                }
+                core.setMicrophoneEnabled(true)
+                s2MicEnabled = true
+            } catch {
+                if !outputActive { discardOutputGraph() }
+                throw error
+            }
+        }
+
+        private static func isS2Microphone(_ port: AVAudioSessionPortDescription) -> Bool {
+            AudioOutputDevice(name: port.portName, wired: port.portType == .usbAudio || port.portType == .lineIn)
+                .automaticSplitOutputName == "S2 Mk3"
+        }
+    #endif
+
     private func startOutput(userInitiated: Bool = false) throws {
         guard !outputActive, outputStartTask == nil else { return }
         guard (!interrupted || userInitiated), !mediaServicesUnavailable, !resumeRequiresPlay else {
@@ -859,7 +937,8 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         #if os(iOS)
             observeAudioSession()
             let session = AVAudioSession.sharedInstance()
-            try session.setCategory(.playback, mode: .default)
+            let useS2Capture = wantsS2Capture && automaticOutputDevice == "S2 Mk3"
+            try session.setCategory(useS2Capture ? .playAndRecord : .playback, mode: .default)
             try? session.setPrefersNoInterruptionsFromSystemAlerts(true)
             // Routes may refuse preferences. The renderer also supports converted buffers.
             try? session.setPreferredSampleRate(core.sampleRate)
@@ -877,6 +956,18 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                 throw TransportError.cache("Press Play to restore audio output.")
             }
             if previousRoute != outputRoute { discardOutputGraph() }
+            if useS2Capture {
+                guard automaticOutputDevice == "S2 Mk3",
+                    let port = session.availableInputs?.first(where: Self.isS2Microphone)
+                else { throw TransportError.cache("The S2 Mk3 does not expose a microphone input.") }
+                if session.preferredInput?.uid != port.uid { try session.setPreferredInput(port) }
+                guard session.currentRoute.inputs.contains(where: { $0.uid == port.uid }),
+                    Self.currentAudioOutputs.count == 1,
+                    Self.currentAudioOutputs.first?.automaticSplitOutputName == "S2 Mk3"
+                else {
+                    throw TransportError.cache("The S2 Mk3 microphone is unavailable on this connection.")
+                }
+            }
             if outputRoute == .masterAndHeadphones {
                 guard session.maximumOutputNumberOfChannels >= 4 else {
                     throw TransportError.cache(
@@ -913,6 +1004,18 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                 else { throw TransportError.invalid }
                 engine.connect(engine.mainMixerNode, to: engine.outputNode, format: outputFormat)
             }
+            #if os(iOS)
+                if useS2Capture {
+                    let input = engine.inputNode
+                    let format = input.outputFormat(forBus: 0)
+                    guard let sink = native.makeMicrophoneSink(format: format) else {
+                        throw TransportError.cache("The S2 Mk3 microphone format is unavailable.")
+                    }
+                    engine.attach(sink)
+                    engine.connect(input, to: sink, format: format)
+                    s2CaptureAttached = true
+                }
+            #endif
             self.engine = engine
             self.source = source
             self.nativeSource = native

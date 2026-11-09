@@ -11,6 +11,7 @@
 #include "TDJMixer.h"
 #include "TDJEffects.h"
 #include "TDJAsset.h"
+#include "TDJAuxiliary.h"
 
 #define COMMAND_CAPACITY 128u
 #define MESSAGE_CAPACITY 512u
@@ -101,6 +102,7 @@ struct tdj_engine {
     _Atomic int32_t published_running;
     atomic_deck published[2];
     stream_claim claims[TDJ_STREAM_MAX_TICKETS * 2];
+    auxiliary_mix auxiliary;
 };
 
 // Two milliseconds suppresses measured transport edges without delaying controls.
@@ -736,6 +738,7 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
     e->gain = gain;
     e->bpm = 120;
     mixer_init(&e->mix, rate, gain);
+    auxiliary_init(&e->auxiliary, rate);
     atomic_init(&e->published_paired_frames, 0);
     atomic_init(&e->published_crossfader, 0.5);
     atomic_init(&e->published_master, gain);
@@ -1010,6 +1013,41 @@ static void cancel_recovery(tdj_engine *e, int index) {
 }
 
 static int apply(tdj_engine *e, tdj_command c) {
+    if (c.kind == TDJ_PAD_GAIN) {
+        if (!isfinite(c.value) || c.value < 0 || c.value > 1)
+            return TDJ_INVALID;
+        ramp_set(&e->auxiliary.pad_gain, c.value, e->mix.smoothing);
+        return TDJ_OK;
+    }
+    if (c.kind == TDJ_PAD_LOAD || c.kind == TDJ_PAD_PLAY) {
+        if (c.deck < 0 || c.deck >= TDJ_PAD_COUNT)
+            return TDJ_INVALID;
+        pad_voice *pad = &e->auxiliary.pads[c.deck];
+        uint32_t bit = UINT32_C(1) << c.deck;
+        if (c.kind == TDJ_PAD_LOAD) {
+            if (c.asset && (c.asset->stream || !c.asset->samples || !c.generation))
+                return TDJ_INVALID;
+            if (pad->asset)
+                message(e, 0, pad->generation, TDJ_RETIRED);
+            pad_transition(pad, e->rate);
+            pad->asset = c.asset;
+            pad->generation = c.generation;
+            pad->reading = false;
+            if (!pad->tail_remaining)
+                e->auxiliary.playing &= ~bit;
+        } else {
+            if (!pad->asset || pad->generation != c.generation)
+                return TDJ_STALE;
+            pad_transition(pad, e->rate);
+            pad->position = 0;
+            pad->reading = c.flag != 0;
+            if (pad->reading || pad->tail_remaining)
+                e->auxiliary.playing |= bit;
+            else
+                e->auxiliary.playing &= ~bit;
+        }
+        return TDJ_OK;
+    }
     if (c.kind == TDJ_FX) {
         int slot = c.flag >> 8, kind = c.flag & 127;
         if (c.deck < 0 || c.deck > 1 || slot < 0 || slot > 2 || kind < 0 || kind >= TDJ_EFFECT_COUNT ||
@@ -1124,6 +1162,15 @@ static int apply(tdj_engine *e, tdj_command c) {
         return TDJ_OK;
     }
     if (c.kind == TDJ_PANIC) {
+        e->auxiliary.playing = 0;
+        for (int i = 0; i < TDJ_PAD_COUNT; ++i) {
+            pad_voice *pad = &e->auxiliary.pads[i];
+            pad->reading = false;
+            pad->tail_remaining = 0;
+            pad->last_l = pad->last_r = 0;
+        }
+        e->auxiliary.mic_gain = 0;
+        tdj_microphone_set_enabled(e, false);
         advance_clock_epoch(e);
         e->running = false;
         for (int i = 0; i < 2; ++i) {
@@ -1898,11 +1945,23 @@ static void controls(tdj_engine *e) {
             }
         }
         message(e, c.id, c.generation, status);
-        if (c.kind == TDJ_LOAD && status != TDJ_OK)
+        if ((c.kind == TDJ_LOAD || (c.kind == TDJ_PAD_LOAD && c.asset)) && status != TDJ_OK)
             message(e, 0, c.generation, TDJ_RETIRED);
         read = (read + 1) % COMMAND_CAPACITY;
         atomic_store_explicit(&e->command_read, read, memory_order_release);
     }
+}
+
+uint32_t tdj_playing_pads(tdj_engine *e) {
+    return atomic_load_explicit(&e->auxiliary.published_playing, memory_order_acquire);
+}
+
+void tdj_microphone_set_enabled(tdj_engine *e, bool enabled) {
+    atomic_store_explicit(&e->auxiliary.mic_enabled, enabled, memory_order_release);
+}
+
+void tdj_microphone_push(tdj_engine *e, const float *samples, uint32_t count, uint32_t stride, double rate) {
+    microphone_push(&e->auxiliary, samples, count, stride, rate);
 }
 
 bool tdj_render(tdj_engine *e, uint32_t count, float *left, float *right) {
@@ -1950,6 +2009,8 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
         if (e->decks[i].asset && (i == 0 || e->decks[i].asset != e->decks[0].asset))
             tdj_stream_render_begin(e->decks[i].asset, e->frame);
     controls(e);
+    auxiliary_mix *aux = &e->auxiliary;
+    mic_block mic = microphone_begin(aux, e->rate);
     if ((e->maximum_output_frames && count > e->maximum_output_frames) ||
         !tdj_stream_can_render(e->decks[0].asset, count) || !tdj_stream_can_render(e->decks[1].asset, count)) {
         if (count) {
@@ -2220,6 +2281,13 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
         }
         if (audible[0] && audible[1] && master > 1e-7)
             e->paired_frames++;
+        if (aux->playing || aux->pad_gain.remaining)
+            mix_pads(aux, e->rate, &l, &r);
+        if (mic.enabled || aux->mic_gain > 0) {
+            float input = microphone_next(aux, &mic);
+            l += input;
+            r += input;
+        }
         left[f] = (float)(l * master);
         right[f] = (float)(r * master);
         if (cue_left) {
@@ -2233,6 +2301,8 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             e->running = false;
         }
     }
+    atomic_store_explicit(&aux->mic_read, mic.read, memory_order_release);
+    atomic_store_explicit(&aux->published_playing, aux->playing, memory_order_release);
     for (int i = 0; i < 2; i++) {
         deck *d = &e->decks[i];
         if (!d->asset || !d->asset->stream || (i == 1 && d->asset == e->decks[0].asset))

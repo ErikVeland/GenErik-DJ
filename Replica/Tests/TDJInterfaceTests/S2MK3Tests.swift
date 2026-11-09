@@ -101,3 +101,46 @@ import Testing
     bytes.replaceSubrange(11..<15, with: wheel(1, 344))
     #expect(controls.consume(.init(reportID: 1, payload: bytes)) == [.action(.jogTouchA, 0)])
 }
+
+@Test func s2MK3RemainingButtonsUseIndependentDeckModesAndEncoders() {
+    var controls = S2MK3Controls()
+    var data = [UInt8](repeating: 0, count: 19)
+    func frame(_ data: [UInt8]) -> Z1AccessoryProtocol.Frame { .init(reportID: 1, payload: data) }
+    data[5] = 0x80
+    #expect(controls.consume(frame(data)).isEmpty)
+    data[5] = 0
+    _ = controls.consume(frame(data))
+    data[0] = 0x80
+    data[1] = 0x10
+    data[4] = 0x40
+    data[8] = 0x0f
+    data[9] = 0x30
+    data[6] = 0x09
+    let events = controls.consume(frame(data))
+    #expect(events.contains(.samplePad(0, shifted: false)))
+    #expect(events.contains(.action(.hotcue1B, 1)))
+    #expect(events.contains(.browser(.move(-1, groups: false))))
+    #expect(events.contains(.browser(.move(3, groups: false))))
+    #expect(events.contains(.browser(.load(.a))))
+    #expect(events.contains(.browser(.load(.b))))
+    data[3] = 0x80
+    data[2] = 0x40
+    data[5] = 0x80
+    let shifted = controls.consume(frame(data))
+    #expect(shifted.contains(.fx(.delay, [.b])))
+    #expect(shifted.contains(.mic))
+    #expect(controls.consume(frame(data)).isEmpty)
+}
+
+@Test func s2MK3GridJogDoesNotScratchAndCommitsOnlyOnRelease() {
+    var controls = S2MK3Controls()
+    var data = [UInt8](repeating: 0, count: 19)
+    _ = controls.consume(.init(reportID: 1, payload: data))
+    data[0] = 0x10
+    data[7] = 0x40
+    data[11] = 8
+    #expect(controls.consume(.init(reportID: 1, payload: data)) == [.gridBegin(.a, anchor: false), .gridMove(.a, 8)])
+    data[0] = 0
+    data[11] = 9
+    #expect(controls.consume(.init(reportID: 1, payload: data)) == [.gridEnd(.a)])
+}

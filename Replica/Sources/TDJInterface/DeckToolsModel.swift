@@ -85,9 +85,9 @@ extension ReplicaModel {
     }
 
     /// Adds to the end of the prep list once; a queued entry is not duplicated.
-    public func enqueue(_ entryID: String) {
+    public func enqueue(_ entryID: String, atStart: Bool = false) {
         guard !queuedIDs.contains(entryID) else { return }
-        queuedIDs.append(entryID)
+        if atStart { queuedIDs.insert(entryID, at: 0) } else { queuedIDs.append(entryID) }
         saveQueue()
     }
     public func dequeue(_ entryID: String) {

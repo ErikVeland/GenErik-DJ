@@ -24,10 +24,24 @@
                     } else if action.isMomentary && value == 0 {
                         s2LastScratch[action.deck] = nil
                     }
-                    applyController(action, value: value)
+                    if let slot = action.hotcueSlot {
+                        cue(slot: slot, deck: action.deck, quantized: s2Quantize)
+                    } else if action == .loopA || action == .loopB {
+                        toggleLoop(deck: action.deck, quantized: s2Quantize)
+                    } else {
+                        applyController(action, value: value)
+                    }
                 case .pot(let action, let value):
-                    if s2Takeover[action, default: .init()].shouldApply(input: value, target: controllerValue(action)) {
-                        applyController(action, value: value, refreshMixer: false)
+                    let target =
+                        action == .filterA || action == .filterB
+                        ? (s2FXAmount[action.deck] ?? controllerValue(action))
+                        : controllerValue(action)
+                    if s2Takeover[action, default: .init()].shouldApply(input: value, target: target) {
+                        if action == .filterA || action == .filterB {
+                            applyS2FXAmount(value, deck: action.deck)
+                        } else {
+                            applyController(action, value: value, refreshMixer: false)
+                        }
                     }
                 case .deleteCue(let deck, let slot):
                     cue(slot: slot, deck: deck, delete: true)
@@ -36,6 +50,30 @@
                 case .reverse(let deck, let held):
                     resetControllerWheelJog(deck, restoreRate: false)
                     perform(.rate, deck: deck, value: held ? -1 : 1)
+                case .browser(let command):
+                    queueS2Browser(command)
+                case .browserView:
+                    if browserVisible && browserPresentationExpands {
+                        browserVisible = false
+                    } else {
+                        showLibrary(fullyExpanded: true)
+                    }
+                case .samplePad(let slot, let shifted):
+                    pressS2Sample(slot: slot, shifted: shifted)
+                case .sampleGain(let value):
+                    do { try playback.setPadGain(value) } catch { status = error.localizedDescription }
+                case .fx(let choice, let decks):
+                    for deck in DeckID.allCases where decks.contains(deck) { selectS2FX(choice, deck: deck) }
+                case .gridBegin(let deck, let anchor):
+                    beginS2Grid(deck: deck, anchor: anchor)
+                case .gridMove(let deck, let ticks):
+                    moveS2Grid(deck: deck, ticks: ticks)
+                case .gridEnd(let deck):
+                    endS2Grid(deck: deck, save: true)
+                case .mic:
+                    toggleS2Mic()
+                case .quantize:
+                    s2Quantize.toggle()
                 }
             }
         }
@@ -54,6 +92,7 @@
             for deck in s2Controls.touched { applyController(deck == .a ? .jogTouchA : .jogTouchB, value: 0) }
             for deck in s2Controls.reversing { perform(.rate, deck: deck, value: 1) }
             for deck in DeckID.allCases { resetControllerWheelJog(deck) }
+            releaseS2Extras()
             s2Controls = .init()
             s2Takeover.removeAll()
             s2LastScratch.removeAll()
@@ -69,7 +108,15 @@
                 guard let track = loaded[deck], let cues = performance.cues[track] else { return [] }
                 return Set(cues.keys)
             }
-            connection.send(S2MK3Lights.report(snapshot: snapshot, sourceFrames: frames, cues: (slots(.a), slots(.b))))
+            let feedback = S2MK3Feedback(
+                sampleDecks: s2Controls.samples, sampleSlots: Set(s2SampleSlots.keys),
+                playingSamples: playback.core.playingPads,
+                shifts: s2Controls.shifts, gridDecks: Set(s2Grids.keys),
+                fx: Set(DeckID.allCases.map { s2FX[$0] ?? .filter }), browser: browserVisible,
+                mic: playback.s2MicEnabled, quantize: s2Quantize)
+            connection.send(
+                S2MK3Lights.report(
+                    snapshot: snapshot, sourceFrames: frames, cues: (slots(.a), slots(.b)), feedback: feedback))
         }
     }
 #endif

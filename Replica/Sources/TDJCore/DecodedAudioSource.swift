@@ -341,3 +341,27 @@ extension PCMAsset {
         self.init(streamPointer: pointer, frames: UInt64(decoder.frames), sampleRate: decoder.rate)
     }
 }
+
+// Prepare a short resident clip away from the audio callback.
+extension PCMAsset {
+    public static func preparePadClip(url: URL) async throws -> PCMAsset {
+        let source = try await DecodedAudioSource.open(url: url, cleanup: {})
+        guard (8000...96000).contains(source.rate), (1...2).contains(source.channels) else {
+            throw PCMStreamingError.unsupported
+        }
+        let count = Int(min(source.frames, Int64(source.rate * 4)))
+        guard count > 0 else { throw PCMStreamingError.invalid }
+        var samples = [Float](repeating: 0, count: count * 2)
+        var first = 0
+        while first < count {
+            try Task.checkCancellation()
+            let chunk = min(count - first, 8192)
+            try samples.withUnsafeMutableBufferPointer {
+                try source.read(first: Int64(first), count: chunk, into: $0.baseAddress!.advanced(by: first * 2))
+            }
+            first += chunk
+            await Task.yield()
+        }
+        return try PCMAsset(interleavedStereo: samples, sampleRate: source.rate)
+    }
+}

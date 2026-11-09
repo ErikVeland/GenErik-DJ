@@ -607,6 +607,49 @@ public final class SampleTransport: @unchecked Sendable {
         }
         return result
     }
+    public var playingPads: UInt32 { tdj_playing_pads(pointer) }
+
+    public func setPadAsset(_ asset: PCMAsset?, slot: Int) throws -> UInt64 {
+        guard (0..<Int(TDJ_PAD_COUNT)).contains(slot),
+            asset.map({ $0.streamingWorker == nil && $0.frames > 0 }) ?? true
+        else { throw TransportError.invalid }
+        nextGeneration += 1
+        let generation = nextGeneration
+        var command = tdj_command()
+        command.kind = TDJ_PAD_LOAD
+        command.deck = Int32(slot)
+        command.generation = generation
+        command.asset = asset?.pointer
+        assets[generation] = asset
+        do { try send(command) } catch {
+            assets[generation] = nil
+            throw error
+        }
+        return generation
+    }
+
+    public func playPad(_ slot: Int, generation: UInt64, enabled: Bool) throws {
+        guard (0..<Int(TDJ_PAD_COUNT)).contains(slot) else { throw TransportError.invalid }
+        var command = tdj_command()
+        command.kind = TDJ_PAD_PLAY
+        command.deck = Int32(slot)
+        command.generation = generation
+        command.flag = enabled ? 1 : 0
+        try send(command)
+    }
+
+    public func setPadGain(_ value: Double) throws {
+        guard value.isFinite, (0...1).contains(value) else { throw TransportError.invalid }
+        var command = tdj_command()
+        command.kind = TDJ_PAD_GAIN
+        command.value = value
+        try send(command)
+    }
+
+    public func setMicrophoneEnabled(_ enabled: Bool) {
+        tdj_microphone_set_enabled(pointer, enabled)
+    }
+
     public var renderedOutputFrame: UInt64 { tdj_rendered_output_frame(pointer) }
 
     public func snapshot() -> PlaybackSnapshot? {

@@ -344,6 +344,16 @@ import TDJCore
         var s2Takeover: [ControllerAction: ControllerMIDITakeoverState] = [:]
         var s2LastScratch: [DeckID: TimeInterval] = [:]
         var s2Status = "Waiting for S2 Mk3."
+        @ObservationIgnored var s2Quantize = true
+        @ObservationIgnored var s2BrowserCommands: [S2BrowserCommand] = []
+        var s2BrowserRevision: UInt64 = 0
+        @ObservationIgnored var s2SampleSlots: [Int: UInt64] = [:]
+        @ObservationIgnored var s2SampleLoad: Task<Void, Never>?
+        @ObservationIgnored var s2MicRequest: Task<Void, Never>?
+        @ObservationIgnored var s2FX: [DeckID: S2MixerFX] = [:]
+        @ObservationIgnored var s2FXSlots: [DeckID: Int] = [:]
+        @ObservationIgnored var s2FXAmount: [DeckID: Double] = [:]
+        @ObservationIgnored var s2Grids: [DeckID: S2GridContact] = [:]
     #endif
     public func toggleZ1() {
         #if os(iOS)
@@ -1495,6 +1505,7 @@ import TDJCore
                 #endif
                 self?.refreshPlayback()
                 #if os(iOS)
+                    self?.maintainS2Extras()
                     self?.refreshS2Lights()
                 #endif
                 do { try await Task.sleep(for: .milliseconds(33)) } catch { return }

@@ -31,6 +31,26 @@ enum S2MK3AccessoryProtocol {
     }
 }
 
+enum S2BrowserCommand: Equatable {
+    case move(Int, groups: Bool)
+    case load(DeckID)
+    case prepare(top: Bool)
+    case sample(Int)
+}
+
+enum S2MixerFX: Int, CaseIterable {
+    case filter, reverb, delay, flanger
+
+    var effect: PerformanceEffect? {
+        switch self {
+        case .filter: nil
+        case .reverb: .reverb
+        case .delay: .delay
+        case .flanger: .flanger
+        }
+    }
+}
+
 struct S2MK3Controls {
     enum Event: Equatable {
         case action(ControllerAction, Double)
@@ -38,6 +58,16 @@ struct S2MK3Controls {
         case deleteCue(DeckID, Int)
         case flux(DeckID)
         case reverse(DeckID, Bool)
+        case browser(S2BrowserCommand)
+        case browserView
+        case samplePad(Int, shifted: Bool)
+        case sampleGain(Double)
+        case fx(S2MixerFX, Set<DeckID>)
+        case gridBegin(DeckID, anchor: Bool)
+        case gridMove(DeckID, Int)
+        case gridEnd(DeckID)
+        case mic
+        case quantize
     }
 
     private static let buttons: [(ControllerAction, Int, UInt8)] = [
@@ -61,19 +91,31 @@ struct S2MK3Controls {
     private var previousPots: [UInt8]?
     private(set) var touched: Set<DeckID> = []
     private(set) var reversing: Set<DeckID> = []
+    private(set) var samples: Set<DeckID> = []
+    private(set) var gridHeld: Set<DeckID> = []
+    private(set) var shifts: Set<DeckID> = []
+
+    static func sampleSlot(deck: DeckID, pad: Int) -> Int {
+        (deck == .a ? 0 : 4) + (pad / 4) * 8 + pad % 4
+    }
 
     mutating func consume(_ frame: Z1AccessoryProtocol.Frame) -> [Event] {
         let bytes = frame.payload
         if frame.reportID == 2, bytes.count == 38 {
             let previous = previousPots
             previousPots = bytes
-            return Self.pots.compactMap { action, offset in
+            var events: [Event] = Self.pots.compactMap { action, offset in
                 let word = Self.word(bytes, offset: offset)
                 guard word <= 4095, previous.map({ Self.word($0, offset: offset) != word }) ?? true else {
                     return nil
                 }
                 return .pot(action, Double(word) / 4095)
             }
+            let gain = Self.word(bytes, offset: 0x17)
+            if gain <= 4095, previous.map({ Self.word($0, offset: 0x17) != gain }) ?? true {
+                events.append(.sampleGain(Double(gain) / 4095))
+            }
+            return events
         }
         guard frame.reportID == 1, bytes.count == 19 else { return [] }
         let previous = previousButtons
@@ -83,18 +125,57 @@ struct S2MK3Controls {
         func pressed(_ offset: Int, _ mask: UInt8) -> Bool {
             bytes[offset - 1] & mask != 0 && previous[offset - 1] & mask == 0
         }
+        shifts = []
+        if bytes[0] & 0x20 != 0 { shifts.insert(.a) }
+        if bytes[3] & 0x80 != 0 { shifts.insert(.b) }
+        if pressed(1, 0x40) { samples.remove(.a) }
+        if pressed(5, 0x01) { samples.remove(.b) }
+        if pressed(1, 0x80) { samples.insert(.a) }
+        if pressed(5, 0x02) { samples.insert(.b) }
         var events: [Event] = Self.buttons.compactMap { action, offset, mask in
             guard pressed(offset, mask) else { return nil }
-            let shifted = action.deck == .a ? bytes[0] & 0x20 != 0 : bytes[3] & 0x80 != 0
-            if shifted, let slot = action.hotcueSlot { return .deleteCue(action.deck, slot) }
+            let shifted = shifts.contains(action.deck)
+            if let pad = action.hotcueSlot {
+                if samples.contains(action.deck) {
+                    return .samplePad(Self.sampleSlot(deck: action.deck, pad: pad), shifted: shifted)
+                }
+                if shifted { return .deleteCue(action.deck, pad) }
+            }
             return .action(action, 1)
         }
+        for fx in S2MixerFX.allCases where pressed(3, UInt8(0x10 << fx.rawValue)) {
+            events.append(.fx(fx, shifts.isEmpty ? [.a, .b] : shifts))
+        }
+        if pressed(6, 0x80) { events.append(.mic) }
+        if pressed(6, 0x40) { events.append(.quantize) }
+        if pressed(1, 0x08) || pressed(4, 0x20) { events.append(.browserView) }
         for (index, deck) in [DeckID.a, .b].enumerated() {
             let left = index == 0
+            let browseOffset = left ? 8 : 9
+            let browseShift = left ? 0 : 4
+            let browseDelta = Self.delta(
+                Int(bytes[browseOffset] >> browseShift & 15), Int(previous[browseOffset] >> browseShift & 15),
+                modulus: 16)
+            if browseDelta != 0 { events.append(.browser(.move(browseDelta, groups: shifts.contains(deck)))) }
+            if pressed(7, left ? 0x01 : 0x08), !shifts.contains(deck) { events.append(.browser(.load(deck))) }
+            if pressed(left ? 1 : 4, left ? 0x04 : 0x10) {
+                events.append(.browser(.prepare(top: shifts.contains(deck))))
+            }
+            let gridMask: UInt8 = left ? 0x10 : 0x40
+            let gridOffset = left ? 1 : 4
+            if pressed(gridOffset, gridMask), !touched.contains(deck) {
+                gridHeld.insert(deck)
+                events.append(.gridBegin(deck, anchor: shifts.contains(deck)))
+            }
+            let wasEditingGrid = gridHeld.contains(deck)
+            if wasEditingGrid && bytes[gridOffset - 1] & gridMask == 0 {
+                gridHeld.remove(deck)
+                events.append(.gridEnd(deck))
+            }
             let touchMask: UInt8 = left ? 0x40 : 0x80
             let touch: ControllerAction = left ? .jogTouchA : .jogTouchB
             let wasTouched = touched.contains(deck)
-            if pressed(8, touchMask) {
+            if pressed(8, touchMask), !wasEditingGrid {
                 touched.insert(deck)
                 events.append(.action(touch, 1))
             } else if wasTouched && bytes[7] & touchMask == 0 {
@@ -138,6 +219,10 @@ struct S2MK3Controls {
             let last = Self.word(previous, offset: offset) | Self.word(previous, offset: offset + 2) << 16
             let ticks = Self.delta(wheel & 1023, last & 1023, modulus: 1024)
             guard ticks != 0 else { continue }
+            if wasEditingGrid {
+                if gridHeld.contains(deck) { events.append(.gridMove(deck, ticks)) }
+                continue
+            }
             if touched.contains(deck) {
                 let elapsed = ((wheel >> 10) - (last >> 10)) & 0x3fffff
                 guard elapsed > 0, elapsed <= 25_000 else { continue }
@@ -159,18 +244,42 @@ struct S2MK3Controls {
     }
 }
 
+struct S2MK3Feedback {
+    var sampleDecks: Set<DeckID> = []
+    var sampleSlots: Set<Int> = []
+    var playingSamples: UInt32 = 0
+    var shifts: Set<DeckID> = []
+    var gridDecks: Set<DeckID> = []
+    var fx: Set<S2MixerFX> = [.filter]
+    var browser = false
+    var mic = false
+    var quantize = true
+}
+
 enum S2MK3Lights {
     static func report(
         snapshot: PlaybackSnapshot, sourceFrames: (a: UInt64?, b: UInt64?),
-        cues: (a: Set<Int>, b: Set<Int>)
+        cues: (a: Set<Int>, b: Set<Int>), feedback: S2MK3Feedback = .init()
     ) -> [UInt8] {
         var bytes = [UInt8](repeating: 0, count: 62)
         bytes[0] = 0x80
+        bytes[0x3c] = feedback.quantize ? 0x7e : 0x7c
+        bytes[0x3d] = feedback.mic ? 0x7e : 0x7c
+        bytes[0x15] = feedback.playingSamples == 0 ? 0 : 0x7e
+        let fxColours: [UInt8] = [0x06, 0x1e, 0x2e, 0x06]
+        for fx in S2MixerFX.allCases {
+            bytes[0x16 + fx.rawValue] = feedback.fx.contains(fx) ? fxColours[fx.rawValue] : 0x7c
+        }
         for (index, deck) in [DeckID.a, .b].enumerated() {
             let state = snapshot[deck]
             let base = index == 0 ? 0 : 0x27
             bytes[base + 0x02] = state.fluxEnabled ? 0x7e : 0x7c
-            bytes[base + 0x07] = 0x7e
+            let sampleMode = feedback.sampleDecks.contains(deck)
+            bytes[base + 0x04] = feedback.browser ? 0x7e : 0x7c
+            bytes[base + 0x05] = feedback.gridDecks.contains(deck) ? 0x7e : 0x7c
+            bytes[base + 0x06] = feedback.shifts.contains(deck) ? 0x7e : 0x7c
+            bytes[base + 0x07] = sampleMode ? 0x7c : 0x7e
+            bytes[base + 0x08] = sampleMode ? 0x7e : 0x7c
             bytes[base + 0x09] = state.synced ? 0x7e : 0x7c
             bytes[base + 0x0a] = state.keylock ? 0x7e : 0x7c
             bytes[base + 0x0c] = state.phase == .playing ? 0x7e : 0x7c
@@ -181,7 +290,14 @@ enum S2MK3Lights {
             }
             let slots = index == 0 ? cues.a : cues.b
             for slot in 0..<8 {
-                bytes[base + 0x0d + slot] = slots.contains(slot) ? 0x2e : 0x7c
+                let pad = S2MK3Controls.sampleSlot(deck: deck, pad: slot)
+                if sampleMode {
+                    bytes[base + 0x0d + slot] =
+                        feedback.playingSamples & (1 << pad) != 0
+                        ? 0x1e : (feedback.sampleSlots.contains(pad) ? 0x26 : 0x7c)
+                } else {
+                    bytes[base + 0x0d + slot] = slots.contains(slot) ? 0x2e : 0x7c
+                }
             }
             if let levels = ControllerPlaybackLights.levels(
                 state: state, frameCount: index == 0 ? sourceFrames.a : sourceFrames.b

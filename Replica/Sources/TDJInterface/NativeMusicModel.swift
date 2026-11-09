@@ -380,6 +380,10 @@ extension ReplicaModel {
     }
 
     private var libraryAnalysisPlaybackIsIdle: Bool {
+        if playback.core.playingPads != 0 { return false }
+        #if os(iOS)
+            if playback.s2MicEnabled || s2SampleLoad != nil { return false }
+        #endif
         guard !playback.isRecording, !playback.recordingFinishing, let snapshot = playback.core.snapshot() else {
             return false
         }

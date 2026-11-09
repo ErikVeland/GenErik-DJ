@@ -188,6 +188,23 @@ static void reap_source(NativeSourceRetirement *retirement, uint32_t delay_ms) {
     _node = [[AVAudioSourceNode alloc] initWithFormat:format renderBlock:_renderBlock];
     return _node;
 }
+- (nullable AVAudioSinkNode *)makeMicrophoneSinkWithFormat:(AVAudioFormat *)format {
+    if (format.commonFormat != AVAudioPCMFormatFloat32 || !format.channelCount || format.sampleRate <= 0)
+        return nil;
+    auto core = _context->core;
+    id owner = _keepAlive;
+    double rate = format.sampleRate;
+    return [[AVAudioSinkNode alloc] initWithReceiverBlock:^OSStatus(
+        const AudioTimeStamp *timestamp, AVAudioFrameCount frames, const AudioBufferList *buffers) {
+        if (!owner || !buffers || !buffers->mNumberBuffers)
+            return noErr;
+        const AudioBuffer &first = buffers->mBuffers[0];
+        if (first.mData && first.mNumberChannels &&
+            frames <= first.mDataByteSize / sizeof(float) / first.mNumberChannels)
+            tdj_microphone_push(core, (const float *)first.mData, frames, first.mNumberChannels, rate);
+        return noErr;
+    }];
+}
 - (AVAudioSourceNodeRenderBlock)renderBlock {
     return _renderBlock;
 }

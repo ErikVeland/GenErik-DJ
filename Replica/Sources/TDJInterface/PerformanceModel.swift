@@ -68,11 +68,12 @@ extension ReplicaModel {
         }
         perform(.loop, deck: deck, value: lower, end: upper, quantum: quantized ? performance.quantize : 0)
     }
-    public func toggleLoop(deck: DeckID) {
+    public func toggleLoop(deck: DeckID, quantized: Bool = true) {
         if playbackSnapshot?[deck].loopEnabled == true {
             perform(.loop, deck: deck, enabled: false)
         } else if let grid = timing(deck) {
-            let start = snappedFrame(playbackSnapshot?[deck].sourceFrame ?? 0, deck: deck)
+            let frame = playbackSnapshot?[deck].sourceFrame ?? 0
+            let start = quantized ? snappedFrame(frame, deck: deck) : boundedFrame(frame, deck: deck)
             setLoop(
                 start: start, end: start + grid.span(beats: performance.loopBeats(for: deck), from: start), deck: deck)
         }
@@ -99,7 +100,7 @@ extension ReplicaModel {
         perform(.touch, deck: deck, enabled: false)
         if editing.contains(deck) { editing.remove(deck) } else { editing.insert(deck) }
     }
-    public func cue(slot: Int, deck: DeckID, delete: Bool = false) {
+    public func cue(slot: Int, deck: DeckID, delete: Bool = false, quantized: Bool = true) {
         guard (0..<8).contains(slot), let track = track(deck), let state = playbackSnapshot?[deck] else { return }
         if delete {
             performance.cues[track.id]?[slot] = nil
@@ -109,17 +110,18 @@ extension ReplicaModel {
         if let cue = performance.cues[track.id]?[slot] {
             if state.phase != .playing && state.phase != .queued {
                 do {
-                    try playback.recallCue(cue, deck: deck, quantum: performance.quantize)
+                    try playback.recallCue(cue, deck: deck, quantum: quantized ? performance.quantize : 0)
                     if cue.loopEnd == nil && !frozen.contains(deck) { previewing.remove(deck) }
                     refreshPlayback()
                 } catch { status = error.localizedDescription }
             } else if let end = cue.loopEnd {
-                setLoop(start: cue.frame, end: end, deck: deck, quantized: true)
+                setLoop(start: cue.frame, end: end, deck: deck, quantized: quantized)
             } else {
-                jump(cue.frame, deck: deck)
+                jump(cue.frame, deck: deck, quantized: quantized)
             }
         } else {
-            let frame = state.loopEnabled ? state.loopStart : snappedFrame(state.sourceFrame, deck: deck)
+            let position = quantized ? snappedFrame(state.sourceFrame, deck: deck) : boundedFrame(state.sourceFrame, deck: deck)
+            let frame = state.loopEnabled ? state.loopStart : position
             performance.cues[track.id, default: [:]][slot] = .init(
                 frame: frame, loopEnd: state.loopEnabled ? state.loopEnd : nil)
             savePerformance()

@@ -66,7 +66,18 @@ struct BrowserView: View {
             catalogueVersion: model.musicLibraryCatalogVersion, query: query, sort: displayedSort,
             category: category, group: group, suggestionIDs: nil)
     }
-    var body: some View { content }
+    #if os(iOS)
+        @State private var s2ScrollID: String?
+        @State private var s2RowIndex: Int?
+    #endif
+    var body: some View {
+        #if os(iOS)
+            content.onChange(of: model.s2BrowserRevision, initial: true) { _, _ in receiveS2Browser() }
+                .onChange(of: displayedRequest) { _, _ in receiveS2Browser() }
+        #else
+            content
+        #endif
+    }
     private var content: some View {
         VStack(spacing: 0) {
             searchBar
@@ -217,6 +228,56 @@ struct BrowserView: View {
             }.padding(24).frame(minWidth: 320)
         }
     }
+    #if os(iOS)
+        private func receiveS2Browser() {
+            guard !model.s2BrowserCommands.isEmpty else { return }
+            if displayedSection != .songs && displayedSection != .playlists { open(.songs) }
+            guard snapshotProjection != nil || displayedRequest == request else { return }
+            func entry(at index: Int) -> LibraryBrowserEntry? {
+                guard (0..<entryCount).contains(index) else { return nil }
+                return visibleEntries(in: index..<(index + 1)).first
+            }
+            func selectedIndex() -> Int? {
+                guard let id = model.selectedTrackID else { return nil }
+                if let s2RowIndex, entry(at: s2RowIndex)?.id == id { return s2RowIndex }
+                return snapshotProjection?.tracks.firstIndex { $0.id == id }
+                    ?? projection?.entries.firstIndex { $0.id == id }
+            }
+            while !model.s2BrowserCommands.isEmpty {
+                let command = model.s2BrowserCommands.removeFirst()
+                switch command {
+                case .move(let delta, groups: true):
+                    let categories = CollectionCategory.allCases
+                    let index = categories.firstIndex(of: category) ?? 0
+                    let next = min(categories.count - 1, max(0, index + delta))
+                    if next != index {
+                        section = categories[next] == .playlists ? .playlists : .songs
+                        select(category: categories[next])
+                        s2RowIndex = nil
+                        if snapshotProjection == nil { return }
+                    }
+                case .move(let delta, groups: false):
+                    guard entryCount > 0 else { continue }
+                    let index = min(entryCount - 1, max(0, (selectedIndex() ?? (delta < 0 ? entryCount : -1)) + delta))
+                    guard let selected = entry(at: index) else { continue }
+                    s2RowIndex = index
+                    selectedEntry = selected
+                    model.selectedTrackID = selected.id
+                    s2ScrollID = selected.id
+                case .load(let deck):
+                    guard let selected = entry(at: selectedIndex() ?? 0) else { continue }
+                    model.loadLibraryEntry(selected, deck: deck)
+                case .prepare(let top):
+                    guard let selected = entry(at: selectedIndex() ?? 0) else { continue }
+                    model.enqueue(selected.id, atStart: top)
+                case .sample(let slot):
+                    guard let selected = entry(at: selectedIndex() ?? 0) else { continue }
+                    model.loadS2Sample(selected, slot: slot)
+                }
+            }
+        }
+    #endif
+
     private func songRow(_ entry: LibraryBrowserEntry) -> some View {
         HStack(spacing: 12) {
             if selecting {
@@ -589,6 +650,11 @@ extension BrowserView {
                         }
                     }
                 }.onChange(of: projectionToken) { _, _ in reader.scrollTo("librarySongsTop", anchor: .top) }
+                #if os(iOS)
+                    .onChange(of: s2ScrollID) { _, id in
+                        if let id { reader.scrollTo(id) }
+                    }
+                #endif
             }
         }
     }
