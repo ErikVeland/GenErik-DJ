@@ -54,7 +54,8 @@ A separate failing check exposed insufficient preparation speed during a brake t
 Stop-grid checks reproduced three failures before the final stop change. The R89 reload fixture now plays beyond the first beat before pausing.
 Forty-two focused host tests passed across fifty-nine cases on the final app source.
 The final follow-up passed the revised reload check and the isolated streamed-brake check.
-All attempts remain under `TestBuilds/r93/`. Source identity belongs in the numbered build record.
+All attempts remain under `TestBuilds/r93/`. [Build 151](../testing/builds/151.json) records the exact source and evidence.
+Build 151 installed on the A10X iPad, and iPadOS accepted launch. No later device actions were taken.
 
 ## A10X handover checks
 
