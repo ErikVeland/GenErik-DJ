@@ -1,0 +1,8 @@
+{
+  "build": 176,
+  "notes": "R111 dark launch screen. Interface Builder stopped before signing.",
+  "sourceCommit": "f21b216cbb4a4d234e32a96f8728f1a47f9522ff",
+  "state": "rejected",
+  "log": "TestBuilds/ipad/build-176-first-attempt.log",
+  "feedback": []
+}
