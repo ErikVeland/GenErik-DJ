@@ -1322,7 +1322,10 @@ extension ReplicaView {
 
     var body: some View {
         Group {
-            if model.pendingNativeSelection[deck] != nil {
+            if let failure = model.trackLoadFailures[deck], !model.preparingTrack.contains(deck) {
+                Text(failure).font(.callout).foregroundStyle(.orange).padding()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity).background(Color.black)
+            } else if model.pendingNativeSelection[deck] != nil {
                 if let preview = model.pendingNativeWaveforms[deck], !preview.analysis.waveform.isEmpty {
                     WaveformView(
                         track: preview, grid: preview.grid, centerFrame: 0,

@@ -14,6 +14,13 @@
         "R92"
       ],
       "summary": "Erik requested the Z1 crossfader fix next, then the preview strip and long unanalysed-track flicker. Sync acceptance has not yet been reported."
+    },
+    {
+      "date": "2026-11-09",
+      "requestIDs": [
+        "R95"
+      ],
+      "summary": "Erik reported Fred again.. tracks failing, particularly Hannah, then reported that no tracks would load. Failed selections returned to No track loaded or the previous track. The connected iPad confirms build 151."
     }
   ],
   "log": "TestBuilds/ipad/build-151.log",
