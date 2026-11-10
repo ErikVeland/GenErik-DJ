@@ -254,7 +254,7 @@ private let surface = PerformancePalette.panel
                             model: model, panelsA: deckAPanels, panelsB: deckBPanels,
                             geometry: PerformanceDockGeometry(
                                 width: space.size.width, height: workspace.deckArea.height,
-                                deckBoundary: split.handle.midY))
+                                deckBoundary: split.handle.midY, verticalInset: innerPortrait ? 8 : 0))
                     }.frame(width: space.size.width, height: space.size.height, alignment: .topLeading).environment(
                         \.performancePanelPortrait, space.size.width < space.size.height)
                 }
@@ -692,10 +692,17 @@ private struct DeckPanelHorizontalBounds: Shape {
 }
 
 struct DeckRailButtonStyle: ButtonStyle {
+    var grouped = false
+
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label.frame(maxWidth: .infinity, maxHeight: .infinity).bevelPanel(
-            cornerRadius: 3, sunken: configuration.isPressed
-        ).contentShape(Rectangle())
+        let label = configuration.label.frame(maxWidth: .infinity, maxHeight: .infinity)
+        Group {
+            if grouped {
+                label.background(configuration.isPressed ? PerformancePalette.sunken : PerformancePalette.panel)
+            } else {
+                label.bevelPanel(cornerRadius: 3, sunken: configuration.isPressed)
+            }
+        }.contentShape(Rectangle())
     }
 }
 

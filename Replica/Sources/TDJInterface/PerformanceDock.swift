@@ -6,6 +6,8 @@ import TDJCore
     let panelsA: DeckPanelPresentation
     let panelsB: DeckPanelPresentation
     let geometry: PerformanceDockGeometry
+    @Environment(\.displayScale) private var displayScale
+    private var grouped: Bool { geometry.verticalInset > 0 }
 
     var body: some View {
         ScrollView(.vertical) {
@@ -16,7 +18,9 @@ import TDJCore
                 ).frame(height: geometry.crossfader.height).position(
                     x: localX(geometry.crossfader), y: geometry.crossfader.midY)
                 stack(deck: .b, panels: panelsB, buttons: geometry.bButtons)
-            }.frame(width: PerformanceDockGeometry.dockWidth, height: geometry.contentHeight)
+            }.frame(width: PerformanceDockGeometry.dockWidth, height: geometry.contentHeight).overlay {
+                if grouped { panelBorders.allowsHitTesting(false).accessibilityHidden(true) }
+            }
         }.scrollDisabled(geometry.fits).scrollIndicators(.hidden).frame(
             width: PerformanceDockGeometry.dockWidth, height: geometry.workArea.height
         ).background(PerformancePalette.frame)
@@ -46,7 +50,27 @@ import TDJCore
             ).disabled(model.track(deck) == nil).accessibilityLabel("Loop on deck \(deck.rawValue.uppercased())")
                 .dockTarget(buttons[2], originX: geometry.workArea.width)
             DeckPlaybackButton(model: model, deck: deck).dockTarget(buttons[3], originX: geometry.workArea.width)
-        }.font(.system(size: 22, weight: .heavy)).buttonStyle(DeckRailButtonStyle())
+        }.font(.system(size: 22, weight: .heavy)).buttonStyle(DeckRailButtonStyle(grouped: grouped))
+    }
+
+    private var panelBorders: some View {
+        let rowWidth = geometry.crossfader.width
+        let left = localX(geometry.crossfader) - rowWidth / 2
+        let pixel = 1 / displayScale
+        let ink = PerformancePalette.secondaryText.opacity(0.45)
+        let seams = geometry.aButtons.dropFirst().map(\.minY)
+            + [geometry.crossfader.minY] + geometry.bButtons.map(\.minY)
+
+        return ZStack(alignment: .topLeading) {
+            Rectangle().strokeBorder(ink, lineWidth: pixel).frame(
+                width: rowWidth, height: geometry.contentHeight - 2 * geometry.verticalInset
+            ).offset(x: left, y: geometry.verticalInset)
+            Path { path in
+                for y in seams {
+                    path.addRect(CGRect(x: left, y: floor(y * displayScale) / displayScale, width: rowWidth, height: pixel))
+                }
+            }.fill(ink)
+        }
     }
 
     private func localX(_ rectangle: CGRect) -> CGFloat { rectangle.midX - geometry.workArea.width }
