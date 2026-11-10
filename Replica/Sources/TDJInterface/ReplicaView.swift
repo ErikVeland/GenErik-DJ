@@ -100,12 +100,13 @@ private let surface = PerformancePalette.panel
         VStack(spacing: 0) {
             PerformanceToolbar(
                 model: model, tempoWheelVisible: $tempoWheelVisible, audioSettingsPresented: $audioSettingsPresented,
-                importPresented: $importPresented, traktorImportPresented: $traktorImportPresented)
+                importPresented: $importPresented, traktorImportPresented: $traktorImportPresented,
+                showsOutputButton: presentation != .frontPhone)
             GeometryReader { space in
                 if presentation == .frontPhone {
                     FrontPerformanceView(
                         model: model, importAudio: { importPresented = true },
-                        linkCollection: { traktorImportPresented = true })
+                        linkCollection: { traktorImportPresented = true }, outputPresented: $audioSettingsPresented)
                 } else {
                     let deckInset = isPhone ? 0.0 : 6.0
                     let workspaceHandle = handleExtent
@@ -1041,6 +1042,7 @@ extension ReplicaView {
     @Binding var audioSettingsPresented: Bool
     @Binding var importPresented: Bool
     @Binding var traktorImportPresented: Bool
+    var showsOutputButton: Bool
 
     private var horizontalInset: CGFloat {
         #if os(iOS)
@@ -1098,20 +1100,30 @@ extension ReplicaView {
                         model.browserVisible ? PerformancePalette.cyan : PerformancePalette.text
                     ).frame(width: 44, height: 44)
                 }.accessibilityLabel("Music library")
-                Divider().frame(height: 22)
-                Button {
-                    audioSettingsPresented.toggle()
-                } label: {
-                    Image(systemName: "speaker.wave.2.fill").font(.system(size: 18)).frame(width: 44, height: 44)
-                }.accessibilityLabel("Audio routing").popover(isPresented: $audioSettingsPresented) {
-                    AudioQuickPanel(model: model)
+                if showsOutputButton {
+                    Divider().frame(height: 22)
+                    AudioQuickButton(model: model, isPresented: $audioSettingsPresented)
                 }
             }.frame(height: 44).bevelPanel(cornerRadius: 5)
         }.padding(.horizontal, horizontalInset)
     }
 }
 
-/// RECORD, SPLIT OUTPUT and MASTER, as in the original speaker popover, with routing details below.
+@MainActor struct AudioQuickButton: View {
+    @Bindable var model: ReplicaModel
+    @Binding var isPresented: Bool
+
+    var body: some View {
+        Button {
+            isPresented.toggle()
+        } label: {
+            Image(systemName: "speaker.wave.2.fill").font(.system(size: 18)).frame(width: 44, height: 44)
+        }.accessibilityLabel("Output").popover(isPresented: $isPresented) {
+            AudioQuickPanel(model: model)
+        }
+    }
+}
+
 @MainActor struct AudioQuickPanel: View {
     @Bindable var model: ReplicaModel
     @State private var details = false
@@ -1127,20 +1139,6 @@ extension ReplicaView {
                 }.disabled(model.recordingFinishing).accessibilityLabel(model.isRecording ? "Stop recording" : "Record")
             }
             Divider()
-            row(model.automaticOutputDevice.map { "\($0.uppercased()) OUTPUT" } ?? "SPLIT OUTPUT") {
-                if model.automaticOutputDevice != nil {
-                    Text("Automatic").foregroundStyle(.secondary)
-                } else {
-                    Toggle(
-                        "",
-                        isOn: Binding(
-                            get: { model.outputRoute == .masterAndHeadphones },
-                            set: { model.setOutputRoute($0 ? .masterAndHeadphones : .stereoMaster) })
-                    ).labelsHidden().disabled(model.isRecording || model.recordingFinishing).accessibilityLabel(
-                        "Split output")
-                }
-            }
-            Divider()
             row("MASTER") {
                 Slider(
                     value: Binding(
@@ -1149,29 +1147,38 @@ extension ReplicaView {
                 ).frame(width: 170).tint(PerformancePalette.cyan).accessibilityLabel("Master level")
             }
             Divider()
-            DisclosureGroup("Routing and headphones", isExpanded: $details) {
-                AudioSettingsView(model: model)
-                HStack {
-                    ForEach([DeckID.a, .b], id: \.self) { deck in
+            DisclosureGroup(isExpanded: $details) {
+                VStack(alignment: .leading, spacing: 8) {
+                    OutputSettingsView(model: model)
+                    Divider()
+                    HStack {
+                        ForEach([DeckID.a, .b], id: \.self) { deck in
+                            Button {
+                                model.toggleKeylock(deck: deck)
+                            } label: {
+                                Label(
+                                    "Keylock \(deck.rawValue.uppercased())",
+                                    systemImage: model.controlDisplay[deck].keylock == true
+                                        ? "checkmark.circle.fill" : "circle")
+                            }.disabled(
+                                model.track(deck) == nil || model.preparingPlayback.contains(deck)
+                                    || model.controlDisplay[deck].phase == .queued)
+                        }
+                        Spacer()
                         Button {
-                            model.toggleKeylock(deck: deck)
+                            model.stopAudio()
                         } label: {
-                            Label(
-                                "Keylock \(deck.rawValue.uppercased())",
-                                systemImage: model.controlDisplay[deck].keylock == true
-                                    ? "checkmark.circle.fill" : "circle")
-                        }.disabled(
-                            model.track(deck) == nil || model.preparingPlayback.contains(deck)
-                                || model.controlDisplay[deck].phase == .queued)
+                            Label("Stop audio", systemImage: "stop.fill")
+                        }
                     }
-                    Spacer()
-                    Button {
-                        model.stopAudio()
-                    } label: {
-                        Label("Stop audio", systemImage: "stop.fill")
-                    }
-                }
-            }.padding(14).font(.system(size: 13))
+                }.padding(.bottom, 14)
+            } label: {
+                HStack {
+                    rowTitle("OUTPUT")
+                    Spacer(minLength: 8)
+                    Text(outputSummary).foregroundStyle(PerformancePalette.secondaryText).lineLimit(1)
+                }.frame(minHeight: 54, alignment: .leading)
+            }.padding(.horizontal, 14).font(.system(size: 13))
         }.frame(width: 360).foregroundStyle(PerformancePalette.text).background(PerformancePalette.panel).alert(
             "Recording location", isPresented: $locationPrompt
         ) {
@@ -1182,9 +1189,18 @@ extension ReplicaView {
             Text("Add a venue or location for the recording filename.")
         }
     }
+    private var outputSummary: String {
+        if let device = model.automaticOutputDevice { return "\(device) · Auto" }
+        return model.outputRoute == .masterAndHeadphones ? "Split" : "Stereo"
+    }
+
+    private func rowTitle(_ title: String) -> some View {
+        Text(title).font(.system(size: 14, weight: .bold)).foregroundStyle(PerformancePalette.secondaryText)
+    }
+
     private func row<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
         HStack {
-            Text(title).font(.system(size: 14, weight: .bold)).foregroundStyle(PerformancePalette.secondaryText)
+            rowTitle(title)
             Spacer()
             content()
         }.padding(.horizontal, 14).frame(height: 54)

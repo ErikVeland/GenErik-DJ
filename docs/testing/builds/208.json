@@ -5,7 +5,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 84.6,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R145",
+      "date": "2026-11-10",
+      "summary": "The front speaker button needs to clear the Duo camera. Rename the routing and headphones row OUTPUT and match the other labels."
+    }
+  ],
   "log": "TestBuilds/ipad/build-208.log",
   "build": 208,
   "app": "TestBuilds/ipad/208/GenErikDJ.app",

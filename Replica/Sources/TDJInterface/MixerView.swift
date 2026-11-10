@@ -225,39 +225,64 @@ private struct RetainedFilterGrid: View, Equatable {
     }
 }
 
-@MainActor struct AudioSettingsView: View {
+@MainActor struct OutputSettingsView: View {
     @Bindable var model: ReplicaModel
+
+    private var splitOutput: Bool { model.outputRoute == .masterAndHeadphones }
+    private var recording: Bool { model.isRecording || model.recordingFinishing }
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            Text("Audio output").font(.headline)
+        VStack(alignment: .leading, spacing: 12) {
             if let device = model.automaticOutputDevice {
-                Text("\(device) main and headphones · Automatic")
-                    .font(.caption).foregroundStyle(.secondary)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(device).fontWeight(.semibold)
+                    detail("This device routes master and headphones automatically.")
+                }
             } else {
-                Picker("Routing", selection: Binding(get: { model.outputRoute }, set: { model.setOutputRoute($0) })) {
-                    Text("Stereo master").tag(AudioOutputRoute.stereoMaster)
-                    Text("Master 1–2 / Headphones 3–4").tag(AudioOutputRoute.masterAndHeadphones)
-                }.disabled(model.isRecording || model.recordingFinishing)
-                Text(
-                    model.outputRoute == .stereoMaster
-                        ? "Headphone cue is not routed in stereo mode." : "Requires an output device with four channels."
-                ).font(.caption).foregroundStyle(.secondary)
+                VStack(alignment: .leading, spacing: 4) {
+                    Toggle(
+                        "Split Output",
+                        isOn: Binding(
+                            get: { splitOutput },
+                            set: { model.setOutputRoute($0 ? .masterAndHeadphones : .stereoMaster) })
+                    ).tint(PerformancePalette.cyan).disabled(recording)
+                    if splitOutput {
+                        detail("Master 1–2 · Headphones 3–4")
+                        detail("Requires a four-channel audio device.")
+                    } else {
+                        detail("Stereo master only. Headphone cue is off.")
+                    }
+                    if recording { detail("Finish recording to change the output.") }
+                }
             }
-            level("Master level", .master, model.playbackSnapshot?.masterGain ?? 0.5)
-            level("Headphone level", .monitor, model.playbackSnapshot?.monitorGain ?? 0.5)
-            level("Headphones: cue → master", .cueBlend, model.playbackSnapshot?.cueBlend ?? 0)
+
+            Divider()
+            level("Headphone Level", .monitor, model.playbackSnapshot?.monitorGain ?? 0.5)
+            VStack(spacing: 2) {
+                level("Headphone Mix", .cueBlend, model.playbackSnapshot?.cueBlend ?? 0)
+                HStack {
+                    detail("Cue")
+                    Spacer()
+                    detail("Master")
+                }.accessibilityHidden(true)
+            }
             #if os(macOS)
                 Divider()
                 Button(model.z1Enabled ? "Disconnect Z1" : "Connect original Z1") { model.toggleZ1() }
-                Text(model.z1Status).font(.caption).foregroundStyle(.secondary)
+                detail(model.z1Status)
             #endif
-        }.padding(20).frame(width: 340)
+        }
     }
+
+    private func detail(_ title: String) -> some View {
+        Text(title).font(.caption).foregroundStyle(PerformancePalette.secondaryText)
+    }
+
     private func level(_ title: String, _ parameter: MixerParameter, _ value: Double) -> some View {
-        VStack(alignment: .leading) {
-            Text(title).font(.caption)
+        VStack(alignment: .leading, spacing: 2) {
+            Text(title).fontWeight(.semibold)
             Slider(value: Binding(get: { value }, set: { model.setMixer(parameter, value: $0) }), in: 0...1)
-                .accessibilityLabel(title)
+                .tint(PerformancePalette.cyan).accessibilityLabel(title)
         }
     }
 }
