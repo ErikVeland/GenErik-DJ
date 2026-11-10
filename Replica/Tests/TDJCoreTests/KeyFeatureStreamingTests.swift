@@ -45,5 +45,18 @@ import Testing
         #expect(decoded <= Int64(total))
         let peak = try #require(record.counters["keySourcePeakBufferedFrames"])
         #expect(peak <= 131072)
+        let cancelled = AnalysisMeasurement(runID: "test", jobID: "cancel", pass: "key", duration: 60)
+        try AnalysisMeasurement.$current.withValue(cancelled) {
+            let audio = try KeyCQTAudio(url: url, filtersURL: filters,
+                checkCancellation: { throw CancellationError() })
+            var values = [Float](repeating: -1, count: 105)
+            #expect(throws: CancellationError.self) {
+                try values.withUnsafeMutableBufferPointer {
+                    try audio.fill((audio.frameCount - 1)..<audio.frameCount, into: $0.baseAddress!)
+                }
+            }
+            #expect(values == [Float](repeating: -1, count: 105))
+        }
+        #expect(cancelled.finish(outcome: "cancelled").counters["keySourceDecodedFrames"] == nil)
     }
 }
