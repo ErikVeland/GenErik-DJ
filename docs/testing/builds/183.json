@@ -1,0 +1,18 @@
+{
+  "notes": "R120 maps the S4 Mk2 MIC VOL knob to the microphone level in master and recording. Fourteen focused host tests passed. Physical S4 Mk2 verification remains open.",
+  "sourceCommit": "8db9ee6f43b4299e700ac71315c203d7dcad0f39",
+  "sourceSHA256": "0f1c2802d6060ff92f2156bc4dcc682bc63b7b7171de2ff3459482147469e5bf",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 78.79,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-183.log",
+  "build": 183,
+  "app": "TestBuilds/ipad/183/GenErikDJ.app",
+  "appSHA256": "644e3b98bda7d6238369550fc1ba511f9c5749074c51c8944d8b297974f6e733",
+  "state": "testing",
+  "createdUTC": "2026-11-10T05:25:22.832553+00:00",
+  "installedUTC": "2026-11-10T05:25:35.673518+00:00",
+  "launchedUTC": "2026-11-10T05:25:36.079166+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}

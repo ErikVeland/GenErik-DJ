@@ -48,3 +48,5 @@ In Traktor DJ 2.4.1 on iPad, the S4 decoder starts the analogue block at payload
 Physical knob response and Lightning mic input exposure remain open.
 
 Fourteen focused host tests passed. They cover the report byte positions, adjacent fields, first valid report, mute, gain ramps, recorded level and line isolation. Existing S2 and S3 capture checks also passed.
+
+[Build 183](../testing/builds/183.json) installed on the A10X iPad. iPadOS accepted the launch request.
