@@ -29,6 +29,7 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
 
     func synchronize(
         store: WorkspaceStore, tracks: [Track], performance: PerformancePreparation, automatic: Bool = false,
+        incomingDirectories: [URL] = [], expectedAccount: String? = nil,
         progress: @escaping @MainActor @Sendable (String) -> Void
     ) async throws -> Result {
         stopped = false
@@ -44,6 +45,9 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
         try check()
         account = user
         let accountID = CloudPreparationVault.digest(Data(user.recordName.utf8))
+        guard expectedAccount == nil || expectedAccount == accountID else {
+            throw CoreError.invalidWorkspace("The iCloud account does not match the library run. Uploads are paused.")
+        }
         let root = store.root.appendingPathComponent("CloudPreparation").appendingPathComponent(accountID)
         let storage = try CloudPreparationVault(root: root)
         vault = storage
@@ -75,6 +79,33 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
         engine = syncEngine
         defer { engine = nil }
         syncEngine.state.add(pendingDatabaseChanges: [.saveZone(CKRecordZone(zoneID: zoneID))])
+
+        if automatic, !incomingDirectories.isEmpty {
+            try await files.run {
+                Swift.Result {
+                    var retained = 0
+                    for directory in incomingDirectories {
+                        guard FileManager.default.fileExists(atPath: directory.path) else { continue }
+                        let sources = try FileManager.default.contentsOfDirectory(
+                            at: directory, includingPropertiesForKeys: nil).filter { $0.pathExtension == "json" }
+                        for source in sources {
+                            let id = source.deletingPathExtension().lastPathComponent
+                            guard id.count == 64, id.allSatisfy(\.isHexDigit),
+                                !FileManager.default.fileExists(atPath: storage.root.appendingPathComponent(id + ".json").path)
+                            else { continue }
+                            let sourceVault = try CloudPreparationVault(root: directory)
+                            let archive = try sourceVault.read(id)
+                            guard archive.automaticAnalysis == true else {
+                                throw CoreError.invalidWorkspace("Only automatic analysis can enter the library upload queue.")
+                            }
+                            try storage.retain(data: Data(contentsOf: sourceVault.payloadURL(id)), expectedID: id)
+                            retained += 1
+                            if retained >= 32 { return }
+                        }
+                    }
+                }
+            }.get()
+        }
 
         var captured = 0
         let exports = AutomaticAnalysisExports(root: root)

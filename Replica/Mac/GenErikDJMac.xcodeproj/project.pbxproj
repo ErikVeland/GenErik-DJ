@@ -1,0 +1,361 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		41C26E2A73649878BC320D29 /* PreviewMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495C80687D6DDFEC2782EF4 /* PreviewMain.swift */; };
+		4F1D410FBB683DA5970BB914 /* MacKeyCandidateAudit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1039C0636F18EB4D031CD07E /* MacKeyCandidateAudit.swift */; };
+		724CE0AEF7AC08E7BC3138A4 /* MacLibraryAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153428DDC767749EE4929864 /* MacLibraryAnalysis.swift */; };
+		B737004C9EBCE1D1AEA71F5A /* TDJInterface in Frameworks */ = {isa = PBXBuildFile; productRef = AB6D8DA99367FE561C2F2067 /* TDJInterface */; };
+		C0C6A50694A7EFC373C95432 /* MacAnalysisAudit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87C65E8A25DFF2C3C7F8F6C /* MacAnalysisAudit.swift */; };
+		DE8FD16FDE604F11B682C41E /* TDJCore in Frameworks */ = {isa = PBXBuildFile; productRef = 725D8503B5BB893D5BCC5E62 /* TDJCore */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1039C0636F18EB4D031CD07E /* MacKeyCandidateAudit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacKeyCandidateAudit.swift; sourceTree = "<group>"; };
+		153428DDC767749EE4929864 /* MacLibraryAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacLibraryAnalysis.swift; sourceTree = "<group>"; };
+		BF11D5BA023C6D53C1511AF9 /* Replica */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Replica; path = ..; sourceTree = SOURCE_ROOT; };
+		C495C80687D6DDFEC2782EF4 /* PreviewMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewMain.swift; sourceTree = "<group>"; };
+		D87C65E8A25DFF2C3C7F8F6C /* MacAnalysisAudit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAnalysisAudit.swift; sourceTree = "<group>"; };
+		E7DC8ED5B1396F7190B10EFF /* GenErikDJMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GenErikDJMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FD99AF01881661534233C876 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B737004C9EBCE1D1AEA71F5A /* TDJInterface in Frameworks */,
+				DE8FD16FDE604F11B682C41E /* TDJCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		632DDCF2BE72F1438CA9E507 /* TDJPreview */ = {
+			isa = PBXGroup;
+			children = (
+				D87C65E8A25DFF2C3C7F8F6C /* MacAnalysisAudit.swift */,
+				1039C0636F18EB4D031CD07E /* MacKeyCandidateAudit.swift */,
+				153428DDC767749EE4929864 /* MacLibraryAnalysis.swift */,
+				C495C80687D6DDFEC2782EF4 /* PreviewMain.swift */,
+			);
+			name = TDJPreview;
+			path = ../Sources/TDJPreview;
+			sourceTree = "<group>";
+		};
+		804915C7A4F79A3DF8AFF00D /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				BF11D5BA023C6D53C1511AF9 /* Replica */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		D390DD1636F791E8F1ACA144 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E7DC8ED5B1396F7190B10EFF /* GenErikDJMac.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F482DA0E7B069C6E1FA0933F = {
+			isa = PBXGroup;
+			children = (
+				804915C7A4F79A3DF8AFF00D /* Packages */,
+				632DDCF2BE72F1438CA9E507 /* TDJPreview */,
+				D390DD1636F791E8F1ACA144 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3578F9FA1D2060467A665F64 /* GenErikDJMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 236CB100AE704E01578938EE /* Build configuration list for PBXNativeTarget "GenErikDJMac" */;
+			buildPhases = (
+				C683F1776696DE6CBAD2A5F4 /* Sources */,
+				FD99AF01881661534233C876 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GenErikDJMac;
+			packageProductDependencies = (
+				AB6D8DA99367FE561C2F2067 /* TDJInterface */,
+				725D8503B5BB893D5BCC5E62 /* TDJCore */,
+			);
+			productName = GenErikDJMac;
+			productReference = E7DC8ED5B1396F7190B10EFF /* GenErikDJMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		44661C426C9C3C59FC47FC39 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					3578F9FA1D2060467A665F64 = {
+						DevelopmentTeam = 54WU29TRTY;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = F4418C3E1FE3FE100D5E290D /* Build configuration list for PBXProject "GenErikDJMac" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = F482DA0E7B069C6E1FA0933F;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A8A6C7EC82986DA5E4A6FF60 /* XCLocalSwiftPackageReference ".." */,
+			);
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3578F9FA1D2060467A665F64 /* GenErikDJMac */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C683F1776696DE6CBAD2A5F4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0C6A50694A7EFC373C95432 /* MacAnalysisAudit.swift in Sources */,
+				4F1D410FBB683DA5970BB914 /* MacKeyCandidateAudit.swift in Sources */,
+				724CE0AEF7AC08E7BC3138A4 /* MacLibraryAnalysis.swift in Sources */,
+				41C26E2A73649878BC320D29 /* PreviewMain.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1007062BDC664C6DD9020977 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GenErikDJMac.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 54WU29TRTY;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Analyse local Music tracks and share preparation through your private iCloud storage.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.generikdj.replica.audiocheck;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		2FFA7200D34ED08562C12400 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GenErikDJMac.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 54WU29TRTY;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Analyse local Music tracks and share preparation through your private iCloud storage.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.generikdj.replica.audiocheck;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		C91889C1BA3156427B161F54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		E9B1B25259B8E75B67AEA19B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		236CB100AE704E01578938EE /* Build configuration list for PBXNativeTarget "GenErikDJMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FFA7200D34ED08562C12400 /* Debug */,
+				1007062BDC664C6DD9020977 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F4418C3E1FE3FE100D5E290D /* Build configuration list for PBXProject "GenErikDJMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C91889C1BA3156427B161F54 /* Debug */,
+				E9B1B25259B8E75B67AEA19B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		A8A6C7EC82986DA5E4A6FF60 /* XCLocalSwiftPackageReference ".." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ..;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		725D8503B5BB893D5BCC5E62 /* TDJCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TDJCore;
+		};
+		AB6D8DA99367FE561C2F2067 /* TDJInterface */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TDJInterface;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 44661C426C9C3C59FC47FC39 /* Project object */;
+}

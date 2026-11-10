@@ -1,0 +1,39 @@
+name: GenErikDJMac
+options:
+  deploymentTarget:
+    macOS: '14.0'
+packages:
+  GenErikDJ:
+    path: ..
+targets:
+  GenErikDJMac:
+    type: application
+    platform: macOS
+    sources:
+      - ../Sources/TDJPreview
+    dependencies:
+      - package: GenErikDJ
+        product: TDJInterface
+      - package: GenErikDJ
+        product: TDJCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: org.generikdj.replica.audiocheck
+        DEVELOPMENT_TEAM: 54WU29TRTY
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: Apple Development
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_NSAppleMusicUsageDescription: Analyse local Music tracks and share preparation through your private iCloud storage.
+        SWIFT_VERSION: '6.0'
+        MARKETING_VERSION: '0.1.0'
+        CURRENT_PROJECT_VERSION: 1
+        ENABLE_HARDENED_RUNTIME: YES
+    entitlements:
+      path: GenErikDJMac.entitlements
+      properties:
+        com.apple.developer.icloud-container-identifiers:
+          - iCloud.org.generikdj.analysis
+        com.apple.developer.icloud-services:
+          - CloudKit
+        com.apple.developer.icloud-container-environment: Development
+        com.apple.security.device.audio-input: true

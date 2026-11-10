@@ -5,6 +5,25 @@ import TDJInterface
 
 @main struct PreviewMain {
     @MainActor static func main() async {
+        if CommandLine.arguments.count == 4, CommandLine.arguments[1] == "--library-cloud" {
+            struct Configuration: Decodable {
+                let outboxes: [String]
+                let root: String
+                let expectedAccount: String?
+            }
+            do {
+                let config = try JSONDecoder().decode(Configuration.self, from: Data(contentsOf:
+                    URL(fileURLWithPath: CommandLine.arguments[2])))
+                let report = try await LibraryCloudTransfer.synchronize(
+                    outboxes: config.outboxes.map { URL(fileURLWithPath: $0, isDirectory: true) },
+                    root: URL(fileURLWithPath: config.root, isDirectory: true), expectedAccount: config.expectedAccount)
+                try JSONEncoder().encode(report).write(to: URL(fileURLWithPath: CommandLine.arguments[3]), options: .atomic)
+            } catch {
+                FileHandle.standardError.write(Data((error.localizedDescription + "\n").utf8))
+                exit(1)
+            }
+            return
+        }
         if CommandLine.arguments.count == 3, CommandLine.arguments[1] == "--library-catalog" {
             do {
                 let catalog = try await LocalMusicLibrary().catalog()
