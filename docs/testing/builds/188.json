@@ -1,0 +1,15 @@
+{
+  "notes": "R126. Add native S2 Mk1 controls, split audio and custom lighting through the Linux bridge. Local verification only.",
+  "sourceCommit": "c8c4355ec724b8ba763bad112abc360640c08970",
+  "sourceSHA256": "6849225182d89c1968f17612cf82adc029fbae7fa279a8a73c796039a9ec4762",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 77.21,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-188.log",
+  "build": 188,
+  "app": "TestBuilds/ipad/188/GenErikDJ.app",
+  "appSHA256": "2d8c8fabdcd2b3883cc2cc487b6f58c1bd72398554567a470025251c3eb2d51b",
+  "state": "ready",
+  "createdUTC": "2026-11-10T07:00:32.522044+00:00"
+}
