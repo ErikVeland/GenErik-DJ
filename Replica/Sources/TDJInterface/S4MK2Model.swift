@@ -151,9 +151,9 @@
                 }
             case .filter(let deck, let detents):
                 let action: ControllerAction = deck.leftSide ? .filterA : .filterB
-                let value = detents.map { min(1, max(0, controllerValue(action, targetDeck: deck) + Double($0) / 32)) }
-                if let value {
-                    setS4Pot(action, deck: deck, value: value)
+                if let detents {
+                    guard let current = controllerValue(action, targetDeck: deck) else { return }
+                    setS4Pot(action, deck: deck, value: min(1, max(0, current + Double(detents) / 32)))
                 } else {
                     _ = submitMixer(.filterEnabled, value: 0, deck: deck)
                     applyController(action, value: 0.5, refreshMixer: false, targetDeck: deck)
