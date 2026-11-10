@@ -1,0 +1,8 @@
+{
+  "build": 209,
+  "state": "failed",
+  "notes": "R147 build stopped because the source changed during compilation.",
+  "sourceCommit": null,
+  "log": "TestBuilds/r147/build-209-first-attempt.log",
+  "feedback": []
+}
