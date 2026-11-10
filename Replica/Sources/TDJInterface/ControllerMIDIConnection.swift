@@ -241,6 +241,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         return feedbackBindings.filter { $0.destination == feedbackSelected }
     }
     var originalZ1Bridge = false
+    var isZ1BridgeConnected: Bool { originalZ1Bridge && bridgeConnected }
     var activeInputIDs: Set<Int32> = []
     var bridgeStatus = "No Z1 bridge report received."
     var feedbackStatus = "Feedback output is off."

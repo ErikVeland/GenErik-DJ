@@ -7,6 +7,7 @@
     final class Z1HIDConnection: @unchecked Sendable {
         private var manager: IOHIDManager?
         private var device: IOHIDDevice?
+        @MainActor var isReceiving: Bool { device != nil }
         private let input = UnsafeMutablePointer<UInt8>.allocate(capacity: 128)
         @MainActor var onReport: ((Z1InputReport) -> Void)?
         @MainActor var onState: ((String, Z1CrossfaderCalibration?) -> Void)?

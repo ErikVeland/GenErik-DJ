@@ -119,7 +119,8 @@
             }
             let feedback = S2MK3Feedback(
                 sampleSlots: Set(s2SampleSlots.keys), playingSamples: playback.core.playingPads,
-                fx: Set(DeckID.allCases.map { s3PendingFX[$0] ?? s2FX[$0] ?? .filter }), browser: browserVisible)
+                fx: Set(DeckID.allCases.map { s3PendingFX[$0] ?? s2FX[$0] ?? .filter }), browser: browserVisible,
+                lighting: lightOptions(for: "S3"))
             let reports = S3Lights.reports(
                 snapshot: snapshot, sourceFrames: frames, cues: (slots(.a), slots(.b)),
                 controls: s3Controls, feedback: feedback, enabledFX: s3FXEnabled,

@@ -15,6 +15,7 @@
 #include "TDJLoopRecorder.h"
 #include "TDJPattern.h"
 #include "TDJTimecode.h"
+#include "TDJMk2Position.h"
 
 #define COMMAND_CAPACITY 128u
 #define MESSAGE_CAPACITY 512u
@@ -119,6 +120,8 @@ struct tdj_engine {
     pattern_voice patterns[TDJ_PATTERN_UNITS];
     _Atomic uint64_t stem_settings[TDJ_DECK_COUNT];
     _Atomic uint64_t timecode[2];
+    mk2_decoder mk2[2];
+    uint64_t mk2_capture_configuration;
     _Atomic uint32_t factory_live_inputs;
     _Atomic bool factory_s8_input;
     _Atomic(loop_recorder *) loop_recorder_buffer;
@@ -886,6 +889,8 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
     auxiliary_init(&e->auxiliary, rate);
     atomic_init(&e->timecode[0], 0);
     atomic_init(&e->timecode[1], 0);
+    mk2_reset(&e->mk2[0]);
+    mk2_reset(&e->mk2[1]);
     atomic_init(&e->factory_live_inputs, 0);
     atomic_init(&e->factory_s8_input, false);
     for (unsigned i = 0; i < TDJ_DECK_COUNT; ++i)
@@ -2477,15 +2482,31 @@ void tdj_s4_input_push(tdj_engine *e, const float *const *input, const uint32_t 
         return;
     uint64_t layout = atomic_load_explicit(&e->auxiliary.mic_configuration, memory_order_acquire);
     if (channels == 6 && (layout & 15) == 14) {
+        if (e->mk2_capture_configuration != layout) {
+            e->mk2_capture_configuration = layout;
+            mk2_reset(&e->mk2[0]);
+            mk2_reset(&e->mk2[1]);
+        }
+        const bool positioned = atomic_load_explicit(&mk2_index_ready, memory_order_acquire);
         for (unsigned side = 0; side < 2; ++side) {
-            double speed;
+            double speed = 0;
             unsigned pair = side * 2;
             bool valid = input[pair] && input[pair + 1] &&
                          timecode_speed(input[pair], input[pair + 1], strides[pair], strides[pair + 1], count, rate, &speed);
+            mk2_decoder *decoder = &e->mk2[side];
+            if (valid && positioned)
+                mk2_scan(decoder, input[pair], strides[pair], count);
+            else
+                mk2_reset(decoder);
+            uint64_t position = 0;
+            if (decoder->position >= 0) {
+                position = (uint64_t)decoder->position + 1;
+                speed = copysign(speed, decoder->forward ? 1 : -1);
+            }
             uint64_t previous = atomic_load_explicit(&e->timecode[side], memory_order_relaxed);
-            uint64_t stamp = (previous >> 17) + 1;
+            uint64_t stamp = (previous >> 39) + 1;
             uint64_t sample = valid ? UINT64_C(65536) | (uint16_t)(int16_t)lrint(speed * 4096) : 0;
-            atomic_store_explicit(&e->timecode[side], (stamp << 17) | sample, memory_order_release);
+            atomic_store_explicit(&e->timecode[side], (stamp << 39) | (position << 17) | sample, memory_order_release);
         }
     }
     microphone_push(&e->auxiliary, input, strides, count, channels, rate);
@@ -3147,6 +3168,11 @@ void tdj_factory_input_set(tdj_engine *e, unsigned layout, uint32_t input_mask) 
         microphone_configure(&e->auxiliary, 0);
         atomic_store_explicit(&e->factory_s8_input, false, memory_order_relaxed);
     }
+}
+
+bool tdj_mk2_prepare(void) {
+    pthread_once(&mk2_index_once, mk2_build_index);
+    return atomic_load_explicit(&mk2_index_ready, memory_order_acquire);
 }
 
 uint64_t tdj_timecode_read(tdj_engine *e, unsigned side) {

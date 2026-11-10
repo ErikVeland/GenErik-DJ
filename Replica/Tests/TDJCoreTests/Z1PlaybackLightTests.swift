@@ -35,10 +35,13 @@ private struct Z1LightFixture {
         #expect(core.snapshot()?.a.phase == .playing)
     }
 
-    func report(fx: Bool = false, enabled: Bool = false, knownLength: Bool = true) throws -> [UInt8] {
+    func report(
+        fx: Bool = false, enabled: Bool = false, knownLength: Bool = true,
+        lighting: ControllerPlaybackLights.Options = .init()
+    ) throws -> [UInt8] {
         Z1OutputReport.bytes(
             snapshot: try #require(core.snapshot()), mode: true, fxDecks: fx ? [.a] : [],
-            enabledEffects: enabled ? [.a] : [], sourceFrames: (knownLength ? frames : nil, nil))
+            enabledEffects: enabled ? [.a] : [], sourceFrames: (knownLength ? frames : nil, nil), lighting: lighting)
     }
 }
 
@@ -196,4 +199,21 @@ func z1PlaybackLightsStopDuringManualTransportOrAtTheEnd(action: String) throws 
     fixture.core.processControlsWhileIdle()
     #expect(fixture.core.acknowledgements().allSatisfy { $0.error == nil })
     #expect(try fixture.report()[17] == 0 && fixture.report()[18] == 10)
+}
+
+
+@Test func z1PulseAndWarningCanBeDisabledIndependently() throws {
+    let fixture = try Z1LightFixture()
+    try fixture.core.setMixer(.filterEnabled, value: 1, deck: .a)
+    try fixture.move(to: 50)
+    let warningOnly = try fixture.report(lighting: .init(pulse: false))
+    #expect(warningOnly[17] == 127 && warningOnly[18] == 127)
+
+    try fixture.move(to: 50.375)
+    let pulseOnly = try fixture.report(lighting: .init(warning: false))
+    #expect(pulseOnly[17] == 0 && pulseOnly[18] > 80 && pulseOnly[18] < 127)
+
+    let off = try fixture.report(lighting: .init(pulse: false, warning: false))
+    #expect(off[17] == 0 && off[18] == 127)
+    #expect(off[1...16] == pulseOnly[1...16])
 }

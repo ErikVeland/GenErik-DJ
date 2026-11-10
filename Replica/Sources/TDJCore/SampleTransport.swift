@@ -745,10 +745,13 @@ public final class SampleTransport: @unchecked Sendable {
         tdj_factory_input_set(pointer, layout, mask)
     }
 
-    public func factoryTimecode(side: UInt32) -> (stamp: UInt64, rate: Double?) {
+    public static func prepareMk2Position() -> Bool { tdj_mk2_prepare() }
+
+    public func factoryTimecode(side: UInt32) -> (stamp: UInt64, rate: Double?, seconds: Double?) {
         let value = tdj_timecode_read(pointer, side)
         let rate = value & 0x10000 != 0 ? Double(Int16(bitPattern: UInt16(truncatingIfNeeded: value))) / 4096 : nil
-        return (value >> 17, rate)
+        let position = (value >> 17) & 0x3fffff
+        return (value >> 39, rate, position == 0 ? nil : Double(position - 1) / 2500)
     }
 
     public func setStemMix(_ deck: DeckID, settings: UInt64) {

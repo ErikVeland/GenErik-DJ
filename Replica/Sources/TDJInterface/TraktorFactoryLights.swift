@@ -217,11 +217,13 @@ struct TraktorFactoryLights {
                                    count: 3, width: 7, fraction: beats < 1)
                 }
             }
+            let lighting = lightOptions(for: session.model.rawValue)
             for (side, pulse) in profile.pulses.enumerated() {
                 let state = snapshot[session.decks[side]]
                 let frames = playback.core.asset(generation: state.generation)?.frames
                 if session.model == .x1MK1 && session.hotcueMode { continue }
-                if let levels = ControllerPlaybackLights.levels(state: state, frameCount: frames) {
+                if let levels = ControllerPlaybackLights.levels(
+                    state: state, frameCount: frames, options: lighting) {
                     reports.pulse(pulse, blue: levels.blue, amber: levels.amber)
                 }
             }

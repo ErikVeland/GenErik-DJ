@@ -98,6 +98,7 @@
             if s2MK1Receiving != connected { s2MK1Receiving = connected }
             guard connected, let snapshot = playbackSnapshot else { return }
             var feedback = S4MK2Lights.Feedback()
+            feedback.lighting = lightOptions(for: "S2 Mk1")
             feedback.fxDecks = s2MK1Performance.fx.map(\.decks)
             feedback.fxActive = s2MK1Performance.fx.map(\.enabled)
             feedback.fxSlots = s2MK1Performance.fx.map(\.slots)

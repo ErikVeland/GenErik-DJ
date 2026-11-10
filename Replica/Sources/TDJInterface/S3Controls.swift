@@ -353,7 +353,8 @@ enum S3Lights {
                     : (slots.contains(slot) ? 0x2f : 0)
             }
             let levels = ControllerPlaybackLights.levels(
-                state: state, frameCount: primary ? (deck == .a ? sourceFrames.a : sourceFrames.b) : extraFrames[deck])
+                state: state, frameCount: primary ? (deck == .a ? sourceFrames.a : sourceFrames.b) : extraFrames[deck],
+                options: feedback.lighting)
             let amber = palette(levels?.amber ?? 0, base: 0x10)
             let blue = palette((levels?.blue ?? 0) * (levels?.amber == nil ? 1 : 0.35), base: 0x2c)
             let ring = amber ?? blue ?? (playing ? 0x45 : 0)

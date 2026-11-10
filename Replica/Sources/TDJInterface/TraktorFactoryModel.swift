@@ -9,6 +9,8 @@
         var updated: ContinuousClock.Instant?
         var speed = 0.0
         var applied = 0.0
+        var position: (seconds: Double, time: ContinuousClock.Instant)?
+        var pendingPosition: Double?
     }
 
     @MainActor final class TraktorFactorySession {
@@ -267,6 +269,11 @@
                         try await Task.detached(priority: .utility) { try core.prepareExtraDecks() }.value
                         guard !Task.isCancelled, session.bridge.isReceiving, session.needsCapture else { return }
                     }
+                    if session.model == .z2, !session.timecode.isEmpty {
+                        let ready = await Task.detached(priority: .utility) { SampleTransport.prepareMk2Position() }.value
+                        guard !Task.isCancelled, session.bridge.isReceiving, session.needsCapture else { return }
+                        guard ready else { throw TransportError.cache("The timecode decoder could not start.") }
+                    }
                     let mask = session.liveInputs.reduce(UInt32(0)) { $0 | (1 << $1.transportIndex) }
                     try playback.setFactoryCapture(true, device: session.audioDevice, mask: mask, mic: session.microphone)
                     if session.model == .s8 {
@@ -291,7 +298,7 @@
         private func maintainFactoryTimecode(_ session: TraktorFactorySession, now: ContinuousClock.Instant) {
             for deck in session.timecode {
                 guard playback.factoryCaptureActive(session.audioDevice), let state = playbackSnapshot?[deck],
-                    state.generation != 0, state.phase != .ended, !preparingPlayback.contains(deck),
+                    state.generation != 0, !preparingPlayback.contains(deck),
                     !state.loopRolling, !state.braking, let asset = playback.core.asset(generation: state.generation)
                 else {
                     releaseFactoryVinyl(deck, session: session)
@@ -304,19 +311,54 @@
                     contact.stamp = reading.stamp
                     contact.updated = now
                     contact.speed = reading.rate ?? 0
+                    if let seconds = reading.seconds {
+                        let offset = seconds - state.sourceFrame / asset.sampleRate
+                        let cursorNeedsPosition = !state.loopEnabled && abs(offset) > 0.25
+                        if let last = contact.position {
+                            let interval = (now - last.time).components
+                            let elapsed = Double(interval.seconds) + Double(interval.attoseconds) * 1e-18
+                            if contact.pendingPosition != nil || cursorNeedsPosition || elapsed > 0.1
+                                || abs(seconds - last.seconds - elapsed * contact.speed) > 0.1
+                            {
+                                contact.pendingPosition = seconds
+                            }
+                        } else {
+                            contact.pendingPosition = seconds
+                        }
+                        contact.position = (seconds, now)
+                    } else if reading.rate == nil {
+                        contact.position = nil
+                        contact.pendingPosition = nil
+                    }
                 } else if let updated = contact.updated, now - updated >= .milliseconds(100) {
                     contact.speed = 0
+                    contact.position = nil
+                    contact.pendingPosition = nil
                 }
-                if contact.generation == 0 && (contact.speed == 0 || state.touchActive) {
-                    session.vinylContacts[deck] = contact
-                    continue
+                let target = contact.pendingPosition.map { $0 * asset.sampleRate }
+                let inTrack = target.map { $0 < Double(asset.frames) } ?? false
+                let hasPosition = contact.position.map { now - $0.time < .milliseconds(100) } ?? false
+                var rate = hasPosition && (target == nil || inTrack) ? contact.speed : 0
+                if rate != 0, target == nil, !state.loopEnabled, let seconds = reading.seconds {
+                    let offset = seconds - state.sourceFrame / asset.sampleRate
+                    let trim = min(0.08, max(-0.08, 0.5 * offset))
+                    if abs(offset) > 0.04, (rate + trim) * rate > 0 {
+                        rate = min(4, max(-4, rate + trim))
+                    }
                 }
-                if contact.generation == 0 || abs(contact.applied - contact.speed) >= 0.008 {
-                    let position = min(Double(asset.frames - 1), max(0, state.sourceFrame))
+                let canStart = contact.generation != 0 || (inTrack && !state.touchActive)
+                if canStart && (state.phase != .ended || inTrack)
+                    && (rate == 0 || !playback.hasPendingTouch(deck))
+                    && (inTrack || contact.generation == 0 || abs(contact.applied - rate) >= 0.008)
+                {
+                    let position = inTrack ? target ?? state.sourceFrame : state.sourceFrame
                     do {
-                        try playback.perform(.touch, deck: deck, value: position, touchRate: contact.speed)
+                        try playback.perform(
+                            .touch, deck: deck, value: min(Double(asset.frames - 1), max(0, position)),
+                            touchRate: rate, followsPosition: inTrack)
                         contact.generation = state.generation
-                        contact.applied = contact.speed
+                        contact.applied = rate
+                        if inTrack { contact.pendingPosition = nil }
                     } catch {}
                 }
                 session.vinylContacts[deck] = contact

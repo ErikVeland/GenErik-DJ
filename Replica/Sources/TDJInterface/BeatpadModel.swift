@@ -29,6 +29,7 @@
             if beatpadStatus != currentStatus { beatpadStatus = currentStatus }
             guard connection.hasFeedback, let snapshot = playbackSnapshot else { return }
             var feedback = BeatpadLights.Feedback()
+            feedback.lighting = lightOptions(for: "Beatpad")
             feedback.sampleSlots = Set(s2SampleSlots.keys)
             feedback.playingSamples = playback.core.playingPads
             feedback.recording = isRecording

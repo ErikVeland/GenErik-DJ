@@ -258,6 +258,7 @@
             }
 
             var feedback = S4MK2Lights.Feedback()
+            feedback.lighting = lightOptions(for: "S4 Mk1")
             feedback.preview = s4MK1Performance.ownsPreview && s3PreviewHeld && playback.core.previewGeneration != 0
             feedback.quantize = s4MK1Performance.quantize
             feedback.samples = playback.core.playingPads

@@ -101,7 +101,7 @@ public enum Z1OutputReport {
     /// Meter thresholds are a development choice; report positions are protocol facts.
     public static func bytes(
         snapshot: PlaybackSnapshot, mode: Bool, fxDecks: Set<DeckID> = [], enabledEffects: Set<DeckID> = [],
-        sourceFrames: (a: UInt64?, b: UInt64?) = (nil, nil)
+        sourceFrames: (a: UInt64?, b: UInt64?) = (nil, nil), lighting: ControllerPlaybackLights.Options = .init()
     ) -> [UInt8] {
         var bytes = [UInt8](repeating: 0, count: 22)
         bytes[0] = 0x80
@@ -119,22 +119,23 @@ public enum Z1OutputReport {
             }
             applyPlaybackLights(
                 to: &bytes, state: snapshot[deck], frameCount: index == 0 ? sourceFrames.a : sourceFrames.b,
-                amberIndex: index == 0 ? 17 : 20, blueIndex: index == 0 ? 18 : 21)
+                amberIndex: index == 0 ? 17 : 20, blueIndex: index == 0 ? 18 : 21, lighting: lighting)
         }
         bytes[19] = mode ? 0x7f : 0x0a
         return bytes
     }
 
     private static func applyPlaybackLights(
-        to bytes: inout [UInt8], state: DeckPlaybackSnapshot, frameCount: UInt64?, amberIndex: Int, blueIndex: Int
+        to bytes: inout [UInt8], state: DeckPlaybackSnapshot, frameCount: UInt64?, amberIndex: Int, blueIndex: Int,
+        lighting: ControllerPlaybackLights.Options
     ) {
-        guard let lights = ControllerPlaybackLights.levels(state: state, frameCount: frameCount) else { return }
+        guard let lights = ControllerPlaybackLights.levels(state: state, frameCount: frameCount, options: lighting) else { return }
         let blueBase = bytes[blueIndex] == 0x7f ? 0x50 : Double(bytes[blueIndex])
         let bluePeak = bytes[blueIndex] == 0x7f ? 0x7f : blueBase + 0x30
         if let amber = lights.amber {
             let amberBase = bytes[amberIndex] == 0x7f ? 0x20 : Double(bytes[amberIndex])
             bytes[amberIndex] = brightness(base: amberBase, peak: 0x7f, pulse: amber)
-            bytes[blueIndex] = brightness(base: 0, peak: 0x18, pulse: lights.blue)
+            if lighting.pulse { bytes[blueIndex] = brightness(base: 0, peak: 0x18, pulse: lights.blue) }
         } else {
             bytes[blueIndex] = brightness(base: blueBase, peak: bluePeak, pulse: lights.blue)
         }
@@ -148,10 +149,20 @@ public enum Z1OutputReport {
 
 // The transport supplies phase and remaining time to each controller's light encoder.
 public enum ControllerPlaybackLights {
+    public struct Options: Codable, Equatable, Sendable {
+        public var pulse: Bool
+        public var warning: Bool
+
+        public init(pulse: Bool = true, warning: Bool = true) {
+            self.pulse = pulse
+            self.warning = warning
+        }
+    }
+
     public static func levels(
-        state: DeckPlaybackSnapshot, frameCount: UInt64?
+        state: DeckPlaybackSnapshot, frameCount: UInt64?, options: Options = .init()
     ) -> (blue: Double, amber: Double?)? {
-        guard state.phase == .playing, !state.touchActive, !state.braking, state.performanceRate == 1,
+        guard options.pulse || options.warning, state.phase == .playing, !state.touchActive, !state.braking, state.performanceRate == 1,
             state.speed.isFinite, state.speed > 0, let timing = state.timing
         else { return nil }
         let beat = timing.beat(atFrame: state.sourceFrame)
@@ -159,16 +170,18 @@ public enum ControllerPlaybackLights {
 
         let beatRemaining = 1 - (beat - floor(beat))
         let blue = beatRemaining * (0.25 + 0.75 * beatRemaining)
-        guard !state.loopEnabled, let frameCount, frameCount > 0 else { return (blue, nil) }
+        let normal: (blue: Double, amber: Double?)? = options.pulse ? (blue, nil) : nil
+        guard options.warning, !state.loopEnabled, let frameCount, frameCount > 0 else { return normal }
         let remaining: Double
         if state.synced, state.adaptiveMap != nil {
             remaining = (timing.beat(atFrame: Double(frameCount)) - beat) * 60 / (state.sourceBPM * state.speed)
         } else {
             remaining = (Double(frameCount) - state.sourceFrame) / (timing.fixed.sampleRate * state.speed)
         }
-        guard remaining.isFinite, remaining > 0, remaining <= 30 else { return (blue, nil) }
+        guard remaining.isFinite, remaining > 0, remaining <= 30 else { return normal }
         let beatsPerPulse = remaining <= 10 ? 1.0 : 4.0
         let amber = pulse(phase: (beat - Double(timing.downbeatOffset)) / beatsPerPulse, width: 0.5)
+        if !options.pulse { return amber > 0.03 ? (0, amber) : nil }
         return (pulse(phase: beat, width: 0.2), amber)
     }
 

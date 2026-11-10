@@ -19,6 +19,7 @@ enum S4MK2Lights {
         var preview = false
         var recording = false
         var quantize = true
+        var lighting = ControllerPlaybackLights.Options()
     }
 
     private static let digits: [UInt8] = [0xfc, 0x0c, 0xda, 0x9e, 0x2e, 0xb6, 0xf6, 0x1c, 0xfe, 0xbe]
@@ -83,7 +84,9 @@ enum S4MK2Lights {
                     ? lamp(feedback.heldSlices[deck] == slot + 4, dim: 0x30)
                     : lamp(feedback.samples & (1 << sample) != 0, dim: feedback.sampleSlots.contains(sample) ? 0x20 : 4)
             }
-            if let pulse = ControllerPlaybackLights.levels(state: state, frameCount: feedback.frames[deck]) {
+            if let pulse = ControllerPlaybackLights.levels(
+                state: state, frameCount: feedback.frames[deck], options: feedback.lighting
+            ) {
                 let offset = deckBase + 10 + side * 12
                 let amber = pulse.amber ?? 0
                 if amber > 0.03 {
