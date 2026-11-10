@@ -65,3 +65,16 @@ Build 222 also installed on the Duo. iOS refused both launch attempts because th
 The Mac has an M4 Pro, 14 CPU cores and 24 GB memory. The initial worker used background priority. A dedicated offline context now requests higher CPU priority only on macOS. Normal app work and iOS remain at background priority. Four focused checks verify that boundary and cancellation.
 
 The optional worker pool assigns disjoint track inventories to at most four processes. Each process retains its own model compilation and checkpoints. Validated payloads reach the shared outbox before their result files. A late failed attempt cannot replace a successful device-source recovery. Restart reuses the frozen plan and rejects a changed analyser. Thirteen campaign and pool checks passed. Real-track throughput and result comparisons remain pending.
+
+
+## Full-library capacity checks
+
+The dedicated Mac cloud job can import and upload 512 saved revisions per cycle, in groups of 32. Device sync retains its existing limits. The focused transfer-limit and conflict checks passed. Fourteen Python checks passed, including a compact progress cache that excludes audio features from memory.
+
+A 15-item trial covered 14 audio identities. Four workers took 54.41 seconds, compared with 51.00 seconds for one. A larger 60-file trial took 126.55 seconds with four workers and 168.59 seconds with one. These runs shared the Mac with the existing analysis job. Part of the parallel trial also overlapped host compilation. These measurements are operational comparisons, not isolated throughput guarantees.
+
+The larger trial completed 59 parallel and 58 serial analyses. Every completed result retained the earlier musical decisions. Comparisons exclude completion dates and allow absolute numerical differences below 0.0000001 or relative differences below 0.000000000001. Untouched and Dune retained their corrected results. Raw outputs and comparisons remain under `pool-proof` and `pool-proof-60` in the external run folder.
+
+The incomplete trials exposed variable MP3 tail padding in Apple's asset decoder. Eight repeated decodes of each affected file produced identical shared audio prefixes, with a 529-frame difference at the end. This occurred in serial decoding too. The Mac now allows three MP3 decode attempts when a saved device identity exists. Each attempt must match the complete saved hash. Other mismatches still require the exact device copy. Evidence remains under `decode-proof`. The new retry path requires a signed Mac check.
+
+Build 224 installed on the iPad and Duo. The Duo remains locked, so launch and receipt are unverified. The iPad continued automatic downloads. Of the 382 pending uploads captured before the conflict fix, 32 had cleared at the later snapshot. Other uploads and automatic-cycle deadlines remain visible. The full run and all-device delivery remain incomplete.

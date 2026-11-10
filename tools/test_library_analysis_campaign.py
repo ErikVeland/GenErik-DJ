@@ -7,11 +7,21 @@ from unittest.mock import patch
 
 from library_analysis_delivery import read_revision, stage
 from prepare_library_analysis import prepare
-from run_library_analysis_campaign import make_remaining, summary, reviewed_failures
+from run_library_analysis_campaign import make_remaining, summary, reviewed_failures, _result_cache
 from recover_library_analysis_sources import verify_source, publish
 
 
 class CampaignTests(unittest.TestCase):
+    def test_progress_does_not_retain_audio_features_in_memory(self):
+        directory = self.root / 'results'
+        directory.mkdir()
+        path = directory / '7.json'
+        path.write_text(json.dumps(dict(id='7', revisionID='a' * 64, firstPass=dict(waveform=[0] * 10000))))
+        self.assertEqual(summary(self.root)['complete'], 1)
+        self.assertNotIn('firstPass', _result_cache[path][1])
+        path.write_text(json.dumps(dict(id='7', error='unavailable')))
+        self.assertEqual(summary(self.root)['errors'], [dict(id='7', error='unavailable')])
+
     def setUp(self):
         self.directory = tempfile.TemporaryDirectory()
         self.root = pathlib.Path(self.directory.name)

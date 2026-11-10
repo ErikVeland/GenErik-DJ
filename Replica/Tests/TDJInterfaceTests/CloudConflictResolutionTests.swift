@@ -1,6 +1,24 @@
 import CloudKit
 import Foundation
 import Testing
+
+@Test func offlineLibraryTransferKeepsDeviceLimitsSeparate() {
+    let normal = CloudPreparationTransferLimits(automatic: true, offlineLibrary: false)
+    #expect(normal.imports == 32)
+    #expect(normal.uploads == 32)
+    #expect(normal.batch == 1)
+    let offline = CloudPreparationTransferLimits(automatic: true, offlineLibrary: true)
+    #if os(macOS)
+    #expect(offline.imports == 512)
+    #expect(offline.uploads == 512)
+    #expect(offline.batch == 32)
+    #else
+    #expect(offline.imports == normal.imports)
+    #expect(offline.uploads == normal.uploads)
+    #expect(offline.batch == normal.batch)
+    #endif
+    #expect(CloudPreparationTransferLimits(automatic: false, offlineLibrary: false).uploads == nil)
+}
 @testable import TDJInterface
 
 @Test func cloudUploadConflictRequiresEveryServerRevisionToBeVerified() {

@@ -1,0 +1,29 @@
+{
+  "notes": "R156: Fetch and verify existing cloud revisions before clearing upload conflicts. Continue only for verified conflicts; preserve cancellation and other errors.",
+  "sourceCommit": "96ae614f3c72b98488c89ef8063c6c29560547ac",
+  "sourceSHA256": "60d737084cf72086989dae1cbf0fd11b013cfb629c06ce335565f07a6515bc8f",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 61.72,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-224.log",
+  "build": 224,
+  "app": "TestBuilds/ipad/224/GenErikDJ.app",
+  "appSHA256": "e71832ec146adbf9bfff9e0399c02181f119d01c18715e66787d6dcd1b1d050a",
+  "state": "testing",
+  "createdUTC": "2026-11-10T15:20:24.848201+00:00",
+  "installedUTC": "2026-11-10T15:20:38.770205+00:00",
+  "launchedUTC": "2026-11-10T15:20:39.148984+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "deviceInstalls": [
+    {
+      "device": "00008160-000859C436800036",
+      "name": "Duo",
+      "installedUTC": "2026-11-10T15:45:26.206766+00:00",
+      "state": "installed-launch-blocked",
+      "launchResult": "iOS refused launch because the device was locked.",
+      "log": "/Volumes/iTunes/GenErik DJ Analysis/r156/duo-deploy-224.log",
+      "retryLog": "/Volumes/iTunes/GenErik DJ Analysis/r156/duo-launch-224-retry.log"
+    }
+  ]
+}
