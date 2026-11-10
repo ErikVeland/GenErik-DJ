@@ -1,0 +1,18 @@
+{
+  "notes": "R121 adds native S2 Mk2 controls, automatic split audio and blue beat and amber track-end feedback on pad 4. Twenty-two focused host tests passed. Physical S2 Mk2 acceptance and the microphone path remain open.",
+  "sourceCommit": "2cbbc5d2392b9971a212ae8f1a3aecf1189e5d60",
+  "sourceSHA256": "a5da72a3ccc6d1f3ac66251ab949bb25381e69876b4311b7f728742a2eda4310",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 50.31,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-184.log",
+  "build": 184,
+  "app": "TestBuilds/ipad/184/GenErikDJ.app",
+  "appSHA256": "fcd6c57faa16885b90a79a42f7ac6f6c10c9aef99e00b7f8196b9861062ca783",
+  "state": "testing",
+  "createdUTC": "2026-11-10T05:38:33.452580+00:00",
+  "installedUTC": "2026-11-10T05:38:46.166467+00:00",
+  "launchedUTC": "2026-11-10T05:38:46.567303+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}

@@ -18,6 +18,10 @@ The preserved Traktor DJ 2.4.1 iPad app declares `com.native-instruments.traktor
 
 The NI manual describes the iPad controls in chapter 5. The Mixxx mapping supplies the USB field assignments. On iPad, one native input report combines the jog, button, encoder and analogue fields. The RGB section begins at payload byte 37 in the native feedback report. [NI S2 Mk2 manual](https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/traktor_kontrol_s2_mk2_manual_english.pdf) · [Mixxx USB mapping](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Traktor-Kontrol-S2-MK2-hid-scripts.js)
 
-## Verification limits
+## Verification
+
+Twenty-two focused host tests passed at `2cbbc5d23`. They covered report startup, control fields, four-pad slicing, RGB feedback and the automatic route. They also checked the shared S4 Mk2 and Z1 paths.
+
+The first build 184 attempt stopped at an iPad-only filter encoder compilation error. The corrected build passed signature and runtime checks. The app installed on the A10X iPad, and iPadOS accepted launch. [Build record](../testing/builds/184.json)
 
 Physical S2 Mk2 connection, audio, platter feel and LED brightness remain open. The S2 Mk2 microphone path remains outside this increment. Browse uses the app's library categories and track list. It does not duplicate the Traktor DJ recommendation tree.
