@@ -348,6 +348,10 @@ import TDJCore
         var s2Connection: NIControllerAccessoryConnection?
         var s3Connection: NIControllerAccessoryConnection?
         var s4Connection: NIControllerAccessoryConnection?
+        var s4MK3Bridge: S4MK3BridgeConnection?
+        var s4MK3BridgeStatus = "Waiting for S4 Mk3 bridge."
+        @ObservationIgnored var s4MK3Controls = S4MK3Controls()
+        @ObservationIgnored var s4MK3Performance = S4MK2Performance()
         var s4Status = "Waiting for S4 Mk2."
         @ObservationIgnored var s4Controls = S4MK2Controls()
         @ObservationIgnored var s4Performance = S4MK2Performance()
@@ -1040,7 +1044,9 @@ import TDJCore
                         self.trackLoadFailures[deck] = nil
                         #if os(iOS)
                             if deck.transportIndex >= 2 {
-                                if self.s4Connection?.isReceiving == true {
+                                if self.s4MK3Bridge?.isReceiving == true {
+                                    self.primeS4Mixer(deck, stateKey: \.s4MK3Performance)
+                                } else if self.s4Connection?.isReceiving == true {
                                     self.primeS4Mixer(deck)
                                 } else {
                                     self.primeS3Mixer(deck)
@@ -1580,6 +1586,7 @@ import TDJCore
                 startS2MK3()
                 startS3()
                 startS4MK2()
+                startS4MK3Bridge()
             }
         #endif
         playbackMonitor = Task { [weak self] in
@@ -1596,6 +1603,7 @@ import TDJCore
                     self?.refreshS3Lights()
                     self?.maintainS4Input()
                     self?.refreshS4Lights()
+                    self?.maintainS4MK3Bridge()
                 #endif
                 do { try await Task.sleep(for: .milliseconds(33)) } catch { return }
             }
@@ -1622,6 +1630,8 @@ import TDJCore
             s3Connection = nil
             s4Connection?.stop()
             s4Connection = nil
+            s4MK3Bridge?.stop()
+            s4MK3Bridge = nil
         #endif
         playback.stopAudio()
         refreshPlayback()

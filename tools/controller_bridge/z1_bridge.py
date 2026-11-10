@@ -14,8 +14,8 @@ LENGTHS = {1: 30, 2: 22, 3: 32, 4: 1}
 PREFIX = bytes([0x7d, 0x47, 0x44, 0x4a, 1])
 
 
-def encode(kind, payload):
-    if kind not in LENGTHS or len(payload) != LENGTHS[kind]:
+def encode(kind, payload, lengths=LENGTHS):
+    if kind not in lengths or len(payload) != lengths[kind]:
         raise ValueError("Invalid bridge report type or length.")
     result = bytearray(b'\xf0' + PREFIX + bytes([kind, len(payload)]))
     for start in range(0, len(payload), 7):
@@ -27,7 +27,8 @@ def encode(kind, payload):
 
 
 class Decoder:
-    def __init__(self):
+    def __init__(self, lengths=LENGTHS):
+        self.lengths = lengths
         self.buffer = bytearray()
         self.collecting = False
 
@@ -53,12 +54,11 @@ class Decoder:
                     self.buffer.append(value)
         return frames
 
-    @staticmethod
-    def decode(data):
+    def decode(self, data):
         if len(data) < 8 or data[:5] != PREFIX:
             return None
         kind, count = data[5:7]
-        if LENGTHS.get(kind) != count or len(data) != 8 + count + (count + 6) // 7:
+        if self.lengths.get(kind) != count or len(data) != 8 + count + (count + 6) // 7:
             return None
         raw = bytearray()
         index = 7

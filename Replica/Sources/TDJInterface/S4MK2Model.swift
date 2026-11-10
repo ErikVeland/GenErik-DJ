@@ -260,14 +260,18 @@
             applyController(action, value: value, refreshMixer: false, targetDeck: deck)
         }
 
-        func primeS4Mixer(_ deck: DeckID) {
+        func primeS4Mixer(
+            _ deck: DeckID, stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
+        ) {
             if nativePrimedMixer.insert(deck).inserted {
-                for (action, value) in s4Performance.extraPots[deck, default: [:]]
+                for (action, value) in self[keyPath: stateKey].extraPots[deck, default: [:]]
                 where action != .tempoA && action != .tempoB {
                     setS4Pot(action, deck: deck, value: value)
                 }
             }
-            if s4Performance.fx.contains(where: { $0.decks.contains(deck) }) { applyS4FX(deck) }
+            if self[keyPath: stateKey].fx.contains(where: { $0.decks.contains(deck) }) {
+                applyS4FX(deck, stateKey: stateKey)
+            }
         }
 
         private func markS4Loop(

@@ -5,6 +5,7 @@
 
     extension ReplicaModel {
         private var nativePreviewDevice: String? {
+            if automaticOutputDevice == "S4 Mk3 Bridge", s4MK3Bridge?.isReceiving == true { return "S4 Mk3 Bridge" }
             if automaticOutputDevice == "S4 Mk2", s4Connection?.isReceiving == true { return "S4 Mk2" }
             if automaticOutputDevice == "S3", s3Connection?.isReceiving == true { return "S3" }
             return nil

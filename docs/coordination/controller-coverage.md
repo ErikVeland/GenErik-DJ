@@ -11,7 +11,7 @@ Cover all NI controllers and class-compliant MIDI controllers, including hardwar
 | S2 | Mk1, Mk2, Mk3 | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Model mappings and iPad endpoint access unverified. |
 | S3 | S3 | MIDI mode documented | Same. |
 | S4 | Mk1, Mk2 | MIDI mode documented | Same. |
-| S4 | Mk3 | No MIDI mode in NI's supported-mode table | Direct A10X support is blocked by the connection. See [R123](#r123-s4-mk3-connection). |
+| S4 | Mk3 | No MIDI mode in NI's supported-mode table | A Linux bridge implementation is available for A10X. See [R123](#r123-s4-mk3-connection). |
 | S5, S8 | Both | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Screens/native features remain unfinished. |
 | X1 | Mk1, Mk2, Mk3 | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Model mappings remain unverified. |
 | Z1 | Original, Mk2 | MIDI mode documented | Original Z1 has native HID groundwork and a development bridge path. Direct iPad transport, Mk2 mapping and hardware acceptance remain unverified. |
@@ -38,7 +38,7 @@ Erik requires automatic connection, controls, audio routing and custom lights. O
 | S2 Mk3 | `com.native-instruments.protocol.kontrols2mk3` | Automatic split audio and native deck and mixer controls. Pad 8 shows the blue beat pulse and amber warning. See [scope and checks](s2-mk3-native.md). |
 | S3 | `com.native-instruments.protocol.kontrols3` | Automatic split audio, native four-deck controls and blue and amber jog rings. See [scope and checks](s3-native.md). |
 | S4 Mk2 | `com.native-instruments.traktordj.kontrols4mk2` | Automatic split audio, native four-deck controls and blue and amber Hot Cue lighting. See [scope and checks](s4-mk2-native.md). |
-| S4 Mk3 | No identifier in the preserved TDJ2 build | Desktop USB HID mapping available. Direct iPad controls, audio routing and lighting are blocked. See [R123](#r123-s4-mk3-connection). |
+| S4 Mk3 | No identifier in the preserved TDJ2 build | Linux bridge carries four-deck controls, lighting and four-channel audio. Hardware verification remains open. See [R123](#r123-s4-mk3-connection). |
 | MX2, Z1 Mk2, X1 Mk3 | No identifier in the preserved TDJ2 build | Verify a direct iPad connection. Implement factory mappings and feedback for a documented transport. |
 | Other Traktor variants | No identifier in the preserved TDJ2 build | Verify transport, per-model control and feedback reports, and audio where fitted. See the variant list above. |
 
@@ -56,7 +56,7 @@ NI's iOS connectivity table gives the S4 Mk3 no supported iPad connection. The p
 
 Mixxx uses the vendor HID interface `17cc:1720`, interface `03`, for input and LED output. Its desktop audio mapping assigns master to channels 1–2 and headphones to 3–4. These mappings require a connection that exposes the controls and audio to the app. [Mixxx HID preset](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Traktor%20Kontrol%20S4%20MK3.hid.xml) · [Mixxx audio mapping](https://manual.mixxx.org/2.5/en/hardware/controllers/native_instruments_traktor_kontrol_s4_mk3)
 
-An external host bridge would need two-way control and LED reports. It would also need a four-channel audio path to the S4 Mk3 to use its master and headphone jacks. The current Z1 relay carries controls and lights only. [Z1 relay](../../tools/controller_bridge/README.md)
+The S4 Mk3 bridge keeps the controller in HID mode. It presents USB MIDI and four-channel USB Audio to the iPad. GenErik DJ detects the bridge automatically. The mapping covers four-deck playback, mixer controls, browse and load, Preview, jog touch, loops, Hot Cues, samples, Grid and two FX units. The jog rings use the shared blue beat pulse and amber warning. Motors, displays and capture remain open. [Bridge setup and verification limits](../../tools/controller_bridge/README.md#s4-mk3-audio-and-control-bridge)
 
 ## Required capabilities for each model
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create an opt-in USB MIDI gadget for the original Z1 development bridge."""
+"""Create a USB MIDI gadget, with four-channel audio for the S4 Mk3 bridge."""
 import argparse
 import os
 from pathlib import Path
@@ -8,6 +8,7 @@ import sys
 
 
 LANGUAGE = "0x409"
+S4_MK3_PRODUCT = "GenErik S4 Mk3 Bridge"
 GADGETS = Path("/sys/kernel/config/usb_gadget")
 UDC_ROOT = Path("/sys/class/udc")
 
@@ -42,7 +43,8 @@ def setup(args):
     if not re.fullmatch(r"[A-Za-z0-9_.-]{1,32}", args.name):
         raise ValueError("The gadget name can use letters, numbers, dots, underscores and hyphens.")
     manufacturer = safe_text(args.manufacturer, "Manufacturer")
-    product = safe_text(args.product, "Product")
+    s4_mk3 = getattr(args, "s4_mk3", False)
+    product = safe_text(S4_MK3_PRODUCT if s4_mk3 else args.product, "Product")
     serial = safe_text(args.serial, "Serial number")
     config_root = args.configfs_root
     gadget = config_root / args.name
@@ -59,6 +61,7 @@ def setup(args):
 
     function = gadget / "functions/midi.usb0"
     configuration = gadget / "configs/c.1"
+    audio = gadget / "functions/uac2.usb0"
     directories = [
         gadget,
         gadget / f"strings/{LANGUAGE}",
@@ -66,6 +69,8 @@ def setup(args):
         configuration / f"strings/{LANGUAGE}",
         function,
     ]
+    if s4_mk3:
+        directories.append(audio)
     links = []
     bound = False
     try:
@@ -79,16 +84,30 @@ def setup(args):
         write_attribute(gadget / f"strings/{LANGUAGE}/manufacturer", manufacturer)
         write_attribute(gadget / f"strings/{LANGUAGE}/product", product)
         write_attribute(configuration / "MaxPower", "100")
-        write_attribute(configuration / f"strings/{LANGUAGE}/configuration", "USB MIDI")
+        write_attribute(configuration / f"strings/{LANGUAGE}/configuration", "USB MIDI and Audio" if s4_mk3 else "USB MIDI")
         write_attribute(function / "in_ports", "1")
         write_attribute(function / "out_ports", "1")
         function_link = configuration / "midi.usb0"
         function_link.symlink_to(Path("../../functions/midi.usb0"))
         links.append(function_link)
+        if s4_mk3:
+            # Capture is from the Linux gadget's perspective. The iPad sends four channels.
+            write_attribute(audio / "c_chmask", "0x33")
+            write_attribute(audio / "c_srate", "48000")
+            write_attribute(audio / "c_ssize", "4")
+            write_attribute(audio / "p_chmask", "0")
+            if (audio / "function_name").exists():
+                write_attribute(audio / "function_name", S4_MK3_PRODUCT)
+            audio_link = configuration / "uac2.usb0"
+            audio_link.symlink_to(Path("../../functions/uac2.usb0"))
+            links.append(audio_link)
         write_attribute(gadget / "UDC", args.udc)
         bound = True
         print(f"USB MIDI gadget {args.name!r} is bound to {args.udc}.")
-        print("The gadget carries MIDI only. It does not forward Z1 audio.")
+        if s4_mk3:
+            print("The gadget exposes four audio channels and two-way MIDI.")
+        else:
+            print("The gadget carries MIDI only. It does not forward Z1 audio.")
         print(f"Run the relay with the ALSA raw MIDI node created for {args.name!r}.")
     except BaseException:
         if bound:
@@ -111,7 +130,8 @@ def setup(args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--name", default="generik_z1", help="New configfs gadget name")
+    parser.add_argument("--name", help="New configfs gadget name")
+    parser.add_argument("--s4-mk3", action="store_true", help="Expose the S4 Mk3 composite audio and MIDI bridge")
     parser.add_argument("--vendor-id", required=True, type=parse_id, help="USB vendor ID assigned to this bridge")
     parser.add_argument("--product-id", required=True, type=parse_id, help="USB product ID assigned to this bridge")
     parser.add_argument("--manufacturer", required=True, help="USB manufacturer string")
@@ -122,6 +142,7 @@ def main():
     parser.add_argument("--configfs-root", type=Path, default=GADGETS, help=argparse.SUPPRESS)
     parser.add_argument("--udc-root", type=Path, default=UDC_ROOT, help=argparse.SUPPRESS)
     args = parser.parse_args()
+    args.name = args.name or ("generik_s4mk3" if args.s4_mk3 else "generik_z1")
     setup(args)
 
 

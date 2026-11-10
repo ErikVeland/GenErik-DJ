@@ -77,3 +77,32 @@ python3 -m unittest discover -s tools/controller_bridge -p 'test_*.py'
 ```
 
 The companion Swift checks are `Replica/Scripts/check-controller-bridge.swift`, `check-controller-midi.swift` and `check-controller-values.swift`. These checks do not establish hardware compatibility, latency, sound or gig acceptance.
+
+## S4 Mk3 audio and control bridge
+
+The S4 Mk3 stays in native HID mode. A Linux host reads its control reports and sends its LED reports. The bridge presents USB MIDI and four-channel USB Audio to the iPad. GenErik DJ detects the bridge automatically, with no MIDI Learn or app settings.
+
+Use a Linux board that can run a USB host and a high-speed USB device controller at the same time. The board needs the configfs MIDI and UAC2 gadget functions, ALSA USB audio support and `alsaloop` with libsamplerate support. Power the S4 Mk3 from its own supply.
+
+1. Connect the S4 Mk3 to the bridge's host port.
+2. Create the S4 Mk3 gadget with the bridge's assigned USB vendor and product IDs.
+3. Connect the gadget port to the iPad through its USB host adapter.
+4. Identify the S4 Mk3 HID interface 03, the gadget's raw MIDI node and its ALSA capture PCM.
+5. Run the relay with those nodes. The relay finds the playback PCM on the same USB device as the S4 Mk3 HID interface.
+
+```sh
+sudo python3 tools/controller_bridge/configure_midi_gadget.py \
+  --s4-mk3 --vendor-id 0x1234 --product-id 0x0001 \
+  --manufacturer 'Assigned bridge manufacturer' --serial 'Unique bridge serial' \
+  --udc '<device-controller-name>' --apply
+
+python3 tools/controller_bridge/s4_mk3_bridge.py \
+  --hidraw /dev/hidrawN --midi /dev/snd/midiCND0 \
+  --audio-in hw:CARD=UAC2Gadget,DEV=0
+```
+
+Replace the example IDs, serial, device controller and node names. Use `arecord -l` to find the gadget's capture card. Use a user with access to the HID and ALSA character devices. On kernels with the UAC2 function-name attribute, the gadget uses the same name for both USB functions. The app expects the product name `GenErik S4 Mk3 Bridge`.
+
+The audio relay forwards channels 1–2 to master and 3–4 to headphones. It resamples for clock drift at 48 kHz with a 20 ms requested latency. The app drives the jog rings from its beat and track-end state. The bridge accepts panel and ring lighting reports. Motors, displays and external capture are outside this implementation.
+
+If the relay exits, restart it with the current device nodes. Check that the Controllers page shows the bridge as connected. Keep the master and headphones separate during the first listening test. Physical enumeration, channel order, latency, drift and recovery still need hardware verification. [Linux UAC2 gadget](https://docs.kernel.org/usb/gadget-testing.html#uac2-function) · [ALSA loopback options](https://github.com/alsa-project/alsa-utils/blob/master/alsaloop/alsaloop.1) · [Mixxx S4 Mk3 reports](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Traktor-Kontrol-S4-MK3.js)

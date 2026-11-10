@@ -358,6 +358,7 @@ struct ControllerSettingsView: View {
             lines.append(model.s2Status)
             lines.append(model.s3Status)
             lines.append(model.s4Status)
+            lines.append(model.s4MK3BridgeStatus)
             lines.append(model.s2MK2Status)
         #endif
         return lines + connections

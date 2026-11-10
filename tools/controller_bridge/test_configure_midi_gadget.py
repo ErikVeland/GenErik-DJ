@@ -9,6 +9,12 @@ from configure_midi_gadget import setup
 
 class GadgetSetupChecks(unittest.TestCase):
     def test_creates_a_gadget_with_its_own_functions_and_configs(self):
+        self.check_gadget(s4_mk3=False)
+
+    def test_creates_a_four_channel_audio_and_midi_gadget_for_s4_mk3(self):
+        self.check_gadget(s4_mk3=True)
+
+    def check_gadget(self, s4_mk3):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             configfs_root = root / "usb_gadget"
@@ -16,7 +22,8 @@ class GadgetSetupChecks(unittest.TestCase):
             configfs_root.mkdir()
             udc_root.mkdir()
             (udc_root / "dummy-udc").mkdir()
-            gadget = configfs_root / "generik_z1"
+            name = "generik_s4mk3" if s4_mk3 else "generik_z1"
+            gadget = configfs_root / name
             configuration = gadget / "configs/c.1"
             original_mkdir = Path.mkdir
 
@@ -30,7 +37,8 @@ class GadgetSetupChecks(unittest.TestCase):
                 return result
 
             args = SimpleNamespace(
-                name="generik_z1",
+                name=name,
+                s4_mk3=s4_mk3,
                 manufacturer="GenErik",
                 product="Z1 MIDI Bridge",
                 serial="bridge-001",
@@ -52,6 +60,16 @@ class GadgetSetupChecks(unittest.TestCase):
             self.assertEqual((gadget / "UDC").read_text(encoding="ascii"), "dummy-udc\n")
             self.assertFalse((configfs_root / "functions").exists())
             self.assertFalse((configfs_root / "configs").exists())
+
+            audio = gadget / "functions/uac2.usb0"
+            if s4_mk3:
+                self.assertTrue((configuration / "uac2.usb0").is_symlink())
+                self.assertEqual((audio / "c_chmask").read_text().strip(), "0x33")
+                self.assertEqual((audio / "p_chmask").read_text().strip(), "0")
+                self.assertEqual((audio / "c_srate").read_text().strip(), "48000")
+                self.assertEqual((gadget / "strings/0x409/product").read_text().strip(), "GenErik S4 Mk3 Bridge")
+            else:
+                self.assertFalse(audio.exists())
 
     def test_without_apply_does_not_create_a_gadget(self):
         with tempfile.TemporaryDirectory() as temporary:
