@@ -9,7 +9,11 @@ import sys
 
 LANGUAGE = "0x409"
 S4_MK3_PRODUCT = "GenErik S4 Mk3 Bridge"
-MODULAR_PRODUCTS = {"z1-mk2": "GenErik Z1 Mk2 Bridge", "x1-mk3": "GenErik X1 Mk3 Bridge"}
+MODULAR_PRODUCTS = {
+    "z1-mk2": "GenErik Z1 Mk2 Bridge",
+    "x1-mk3": "GenErik X1 Mk3 Bridge",
+    "s2-mk1": "GenErik S2 Mk1 Bridge",
+}
 GADGETS = Path("/sys/kernel/config/usb_gadget")
 UDC_ROOT = Path("/sys/class/udc")
 
@@ -47,7 +51,7 @@ def setup(args):
     s4_mk3 = getattr(args, "s4_mk3", False)
     modular = getattr(args, "traktor", None)
     product = safe_text(S4_MK3_PRODUCT if s4_mk3 else MODULAR_PRODUCTS.get(modular, args.product), "Product")
-    has_audio = s4_mk3 or modular == "z1-mk2"
+    has_audio = s4_mk3 or modular in {"z1-mk2", "s2-mk1"}
     serial = safe_text(args.serial, "Serial number")
     config_root = args.configfs_root
     gadget = config_root / args.name
@@ -136,7 +140,7 @@ def main():
     parser.add_argument("--name", help="New configfs gadget name")
     model = parser.add_mutually_exclusive_group()
     model.add_argument("--s4-mk3", action="store_true", help="Expose the S4 Mk3 composite audio and MIDI bridge")
-    model.add_argument("--traktor", choices=MODULAR_PRODUCTS, help="Expose a Z1 Mk2 or X1 Mk3 bridge")
+    model.add_argument("--traktor", choices=MODULAR_PRODUCTS, help="Expose a named Traktor bridge")
     parser.add_argument("--vendor-id", required=True, type=parse_id, help="USB vendor ID assigned to this bridge")
     parser.add_argument("--product-id", required=True, type=parse_id, help="USB product ID assigned to this bridge")
     parser.add_argument("--manufacturer", required=True, help="USB manufacturer string")

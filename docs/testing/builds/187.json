@@ -1,0 +1,15 @@
+{
+  "notes": "R125. Add Z1 Mk2 and X1 Mk3 bridge controls, audio routing and custom lighting. Local verification only.",
+  "sourceCommit": "0f480f9bf852b08fe9e087b4b47908496db9bc0a",
+  "sourceSHA256": "c37668d79bea5a9039ed01114203846d3a73320abcb14117a15f182a35feffbb",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 78.86,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-187.log",
+  "build": 187,
+  "app": "TestBuilds/ipad/187/GenErikDJ.app",
+  "appSHA256": "82e27f8e07f23267ce22c5406660880f92db365ce2d751d318a807dcb54c6d32",
+  "state": "ready",
+  "createdUTC": "2026-11-10T06:47:13.901974+00:00"
+}
