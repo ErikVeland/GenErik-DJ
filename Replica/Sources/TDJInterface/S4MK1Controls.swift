@@ -1,5 +1,11 @@
 import TDJCore
 
+enum S4MK1CopyTarget: Equatable {
+    case deck(DeckID)
+    case sample(Int)
+    case recordedLoop
+}
+
 struct S4MK1Controls {
     private struct Side {
         let shift, select, play, cue, sync, load, loopIn, loopOut, move, size, faster, slower: Int
@@ -38,21 +44,29 @@ struct S4MK1Controls {
     private var previousPanel: [UInt8]?
     private var previousPots: [UInt8]?
     private var cueContacts: Set<DeckID> = []
+    private var browseStart: ContinuousClock.Instant?
+    private var copyUsed = false
+    private var browseJog = [0, 0]
+    private(set) var browsing = false
+    var copying: Bool { browseStart != nil }
+
+    mutating func leaveBrowse() { browsing = false }
+
     private(set) var layers: [DeckID] = [.a, .b]
     private(set) var shifts: Set<DeckID> = []
     private(set) var touched: Set<DeckID> = []
     private(set) var bent: Set<DeckID> = []
     private(set) var tempoLocked: Set<DeckID> = []
 
-    mutating func consume(_ report: [UInt8]) -> [S4MK2Event] {
+    mutating func consume(_ report: [UInt8], activeLoop: (DeckID) -> Bool = { _ in false }) -> [S4MK2Event] {
         switch report.first {
-        case 1 where report.count == 32: return panel(report)
+        case 1 where report.count == 32: return panel(report, activeLoop: activeLoop)
         case 2 where report.count == 73: return pots(report)
         default: return []
         }
     }
 
-    private mutating func panel(_ bytes: [UInt8]) -> [S4MK2Event] {
+    private mutating func panel(_ bytes: [UInt8], activeLoop: (DeckID) -> Bool) -> [S4MK2Event] {
         let previous = previousPanel
         previousPanel = bytes
         let pressureEdges = (0..<2).map { pressure[$0].update(Self.word(bytes, 26 + 2 * $0)) }
@@ -65,6 +79,19 @@ struct S4MK1Controls {
         func turn(_ axis: Int) -> Int { Self.delta(Int(bytes[17 + axis]), Int(previous[17 + axis]), wrap: 16) }
 
         var events: [S4MK2Event] = []
+        if pressed(28) {
+            browseStart = .now
+            copyUsed = false
+        } else if !down(28), let start = browseStart {
+            if !copyUsed, start.duration(to: .now) < .milliseconds(350) {
+                browsing.toggle()
+                browseJog = [0, 0]
+                events.append(.browseMode(browsing))
+            }
+            if copyUsed { events.append(.copyEnd) }
+            browseStart = nil
+        }
+
         shifts.removeAll(keepingCapacity: true)
         for (side, config) in Self.sides.enumerated() {
             var deck = layers[side]
@@ -83,10 +110,40 @@ struct S4MK1Controls {
             if shifted { shifts.insert(deck) }
             guard !changedLayer else { continue }
 
+            if copying || browsing {
+                if touched.remove(deck) != nil { events.append(.action(touch, deck, 0)) }
+                if bent.remove(deck) != nil { events.append(.bendEnd(deck)) }
+                if cueContacts.remove(deck) != nil { events.append(.cue(deck, held: false)) }
+                for (slot, bit) in config.samples.enumerated() where pressed(bit) {
+                    let sample = Self.sampleSlot(deck: deck, pad: slot)
+                    if copying {
+                        copyUsed = true
+                        events.append(.copyTarget(.sample(sample)))
+                    } else {
+                        events.append(.native(.browser(.sample(sample))))
+                    }
+                }
+                if browsing && !copying {
+                    let wheel = 13 + side * 2
+                    let ticks = Self.delta(Self.word(bytes, wheel), Self.word(previous, wheel), wrap: 1024)
+                    browseJog[side] += ticks
+                    let rows = browseJog[side] / 8
+                    browseJog[side] %= 8
+                    if rows != 0 { events.append(.native(.browser(.move(rows, groups: false)))) }
+                    let groups = turn(1 + side * 2) + turn(2 + side * 2)
+                    if groups != 0 { events.append(.native(.browser(.move(groups, groups: true)))) }
+                    if pressed(config.move) { events.append(.native(.browser(.openGroup))) }
+                    if pressed(config.load) { events.append(.native(.browser(.load(deck)))) }
+                }
+                continue
+            }
+
             if pressed(config.load) {
                 events.append(.native(shifted ? .cloneDeck(deck) : .browser(.load(deck))))
             }
-            if pressed(config.sync) { events.append(.action(left ? .syncA : .syncB, deck, 1)) }
+            if pressed(config.sync) {
+                events.append(shifted ? .clockMaster(deck) : .action(left ? .syncA : .syncB, deck, 1))
+            }
             if pressed(config.cue) {
                 if shifted {
                     events.append(.native(.park(deck, atCue: false)))
@@ -105,8 +162,9 @@ struct S4MK1Controls {
             }
             if !down(config.cue), cueContacts.remove(deck) != nil { events.append(.cue(deck, held: false)) }
 
-            if pressed(config.loopIn) { events.append(.loopMark(deck, end: false)) }
-            if pressed(config.loopOut) { events.append(.loopMark(deck, end: true)) }
+            let looping = activeLoop(deck)
+            if !looping, pressed(config.loopIn) { events.append(.loopMark(deck, end: false)) }
+            if !looping, pressed(config.loopOut) { events.append(.loopMark(deck, end: true)) }
             if pressed(config.size) { events.append(.loopSet(deck)) }
             if pressed(config.move) { events.append(.loopRecall(deck, stop: false)) }
             if pressed(config.faster) || pressed(config.slower) {
@@ -131,6 +189,16 @@ struct S4MK1Controls {
                 events.append(.native(.samplePad(Self.sampleSlot(deck: deck, pad: slot), shifted: shifted)))
             }
 
+            let wheel = 13 + side * 2
+            let ticks = Self.delta(Self.word(bytes, wheel) & 1023, Self.word(previous, wheel) & 1023, wrap: 1024)
+            if looping && (down(config.loopIn) || down(config.loopOut)) {
+                if touched.remove(deck) != nil { events.append(.action(touch, deck, 0)) }
+                if bent.remove(deck) != nil { events.append(.bendEnd(deck)) }
+                if ticks != 0 {
+                    events.append(.native(.loopTrim(deck, end: down(config.loopOut), ticks: ticks)))
+                }
+                continue
+            }
             if let pressed = pressureEdges[side] {
                 if pressed {
                     if bent.remove(deck) != nil { events.append(.bendEnd(deck)) }
@@ -140,8 +208,6 @@ struct S4MK1Controls {
                     events.append(.action(touch, deck, 0))
                 }
             }
-            let wheel = 13 + side * 2
-            let ticks = Self.delta(Self.word(bytes, wheel) & 1023, Self.word(previous, wheel) & 1023, wrap: 1024)
             if ticks != 0 && pressureEdges[side] != false {
                 if touched.contains(deck) {
                     let elapsed = (Self.word(bytes, 30) - Self.word(previous, 30)) & 0xffff
@@ -155,7 +221,18 @@ struct S4MK1Controls {
             }
         }
 
-        if pressed(28) { events.append(.native(.browserView)) }
+        if pressed(24) { events.append(.loopRecorder(.size)) }
+        if pressed(25) || pressed(80) { events.append(.loopRecorder(.record)) }
+        if pressed(26) { events.append(.loopRecorder(.undo)) }
+        if pressed(27) {
+            if copying {
+                copyUsed = true
+                events.append(.copyTarget(.recordedLoop))
+            } else {
+                events.append(.loopRecorder(.play))
+            }
+        }
+        if pressed(30) { events.append(.clockMaster(nil)) }
         if pressed(29) { events.append(.snap) }
         if pressed(31) { events.append(.quantize) }
         if pressed(36) { events.append(.preview) }
@@ -163,7 +240,16 @@ struct S4MK1Controls {
         if browse != 0 { events.append(.native(.browser(.move(browse, groups: !shifts.isEmpty)))) }
         for (index, deck) in DeckID.allCases.enumerated() {
             let channel = Self.channels[index]
-            if pressed(channel.cue) { events.append(.action(deck.leftSide ? .cueA : .cueB, deck, 1)) }
+            if pressed(channel.cue) {
+                if copying {
+                    copyUsed = true
+                    events.append(.copyTarget(.deck(deck)))
+                } else if browsing {
+                    events.append(.native(.browser(.load(deck))))
+                } else {
+                    events.append(.action(deck.leftSide ? .cueA : .cueB, deck, 1))
+                }
+            }
             for unit in 0..<2 where pressed(channel.fx + unit) {
                 events.append(
                     shifts.isEmpty
@@ -173,8 +259,12 @@ struct S4MK1Controls {
             if gain != 0 { events.append(.gain(deck, gain)) }
         }
         for (unit, base) in [65, 89].enumerated() {
-            if pressed(base) { events.append(.fxEnable(unit, nil)) }
-            for slot in 0..<3 where pressed(base + 1 + slot) { events.append(.fxEnable(unit, slot)) }
+            let shifted = shifts.contains(layers[unit])
+            if pressed(base + 4) { events.append(.fxMode(unit, snapshot: shifted)) }
+            if pressed(base) { events.append(shifted ? .fxSelect(unit, nil) : .fxEnable(unit, nil)) }
+            for slot in 0..<3 where pressed(base + 1 + slot) {
+                events.append(shifted ? .fxSelect(unit, slot) : .fxEnable(unit, slot))
+            }
         }
         return events
     }
@@ -204,6 +294,8 @@ struct S4MK1Controls {
         for (side, deck) in layers.enumerated() where !shifts.contains(deck) && !tempoLocked.contains(deck) {
             if let value = position(5 + side) { events.append(.pot(side == 0 ? .tempoA : .tempoB, deck, value)) }
         }
+        if let value = position(4) { events.append(.loopRecorder(.wet(value))) }
+        if let value = position(8) { events.append(.micLevel(value)) }
         if let value = position(7) { events.append(.pot(.crossfader, .a, value)) }
         if let value = position(9) { events.append(.pot(.cueMix, .a, value)) }
         for (unit, base) in [32, 16].enumerated() {
@@ -216,9 +308,13 @@ struct S4MK1Controls {
 
     static func sampleSlot(deck: DeckID, pad: Int) -> Int { Int(deck.transportIndex) * 4 + pad }
 
-    func tempoPosition(side: Int) -> Double? {
+    var recorderWet: Double? { potPosition(axis: 4) }
+    var microphoneLevel: Double? { potPosition(axis: 8) }
+    func tempoPosition(side: Int) -> Double? { potPosition(axis: 5 + side) }
+
+    private func potPosition(axis: Int) -> Double? {
         guard let previousPots else { return nil }
-        let value = Self.word(previousPots, 1 + 2 * (5 + side))
+        let value = Self.word(previousPots, 1 + 2 * axis)
         guard value <= 4095 else { return nil }
         return min(1, max(0, Double(value - 16) / 4064))
     }

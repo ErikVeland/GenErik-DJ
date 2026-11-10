@@ -4,7 +4,7 @@ import Foundation
 public enum SourceControl: Sendable {
     case play(DeckID, UInt64)
     case brake(VinylBrakeAction, Double, DeckID, UInt64)
-    case tempo(Double)
+    case tempo(Double, reference: DeckID? = nil, generation: UInt64 = 0)
     case freeRate(Double, DeckID, UInt64)
     case sync(Bool, DeckID, UInt64)
     case restoreSync(DeckID, UInt64)
@@ -53,9 +53,14 @@ public enum SourceControl: Sendable {
             result.kind = TDJ_PLAY
             result.flag = TDJ_PLAY_ALIGN_ENTRY
             deck(id, generation)
-        case .tempo(let bpm):
+        case .tempo(let bpm, let reference, let generation):
             result.kind = TDJ_TEMPO
             result.value = bpm
+            if let reference {
+                result.flag = 1
+                result.deck = reference.transportIndex
+                result.reference_generation = generation
+            }
         case .freeRate(let rate, let id, let generation):
             result.kind = TDJ_FREE_RATE
             deck(id, generation)

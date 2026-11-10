@@ -37,12 +37,15 @@
             }
         }
 
-        func queueS2MK1LoopTrim(deck: DeckID, end: Bool, ticks: Int) {
+        func queueS2MK1LoopTrim(
+            deck: DeckID, end: Bool, ticks: Int,
+            stateKey: ReferenceWritableKeyPath<ReplicaModel, [DeckID: S2MK1LoopTrim]> = \.s2MK1LoopTrims
+        ) {
             guard let state = playbackSnapshot?[deck], state.loopEnabled, !state.loopRolling,
                 !preparingTrack.contains(deck), let asset = playback.core.asset(generation: state.generation)
             else { return }
             let current = S2MK1LoopBounds(start: state.loopStart, end: state.loopEnd)
-            let previous = s2MK1LoopTrims[deck]
+            let previous = self[keyPath: stateKey][deck]
             let base: S2MK1LoopBounds
             if let previous, previous.generation == state.generation,
                 previous.dirty || (previous.original == current && playback.preparingSourceDecks.contains(deck))
@@ -54,19 +57,21 @@
             let target = base.trimming(
                 end: end, by: Double(ticks) * asset.sampleRate / 1024, frameCount: Double(asset.frames))
             guard target != base else { return }
-            s2MK1LoopTrims[deck] = .init(generation: state.generation, original: current, target: target)
+            self[keyPath: stateKey][deck] = .init(generation: state.generation, original: current, target: target)
         }
 
-        private func flushS2MK1LoopTrims() {
-            for deck in DeckID.primary {
-                guard let trim = s2MK1LoopTrims[deck], trim.dirty else { continue }
+        func flushS2MK1LoopTrims(
+            stateKey: ReferenceWritableKeyPath<ReplicaModel, [DeckID: S2MK1LoopTrim]> = \.s2MK1LoopTrims
+        ) {
+            for deck in DeckID.allCases where self[keyPath: stateKey][deck]?.dirty == true {
+                guard let trim = self[keyPath: stateKey][deck], trim.dirty else { continue }
                 guard let state = playbackSnapshot?[deck], state.generation == trim.generation,
                     state.loopEnabled, !state.loopRolling
                 else {
-                    s2MK1LoopTrims[deck] = nil
+                    self[keyPath: stateKey][deck] = nil
                     continue
                 }
-                s2MK1LoopTrims[deck]?.dirty = false
+                self[keyPath: stateKey][deck]?.dirty = false
                 setLoop(start: trim.target.start, end: trim.target.end, deck: deck)
             }
         }

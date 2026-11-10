@@ -1,0 +1,92 @@
+import CTDJTransport
+import TDJCore
+import Testing
+
+@Test func s4Mk1RecorderCapturesOnBeatAndSupportsOverdubUndoAndDelete() throws {
+    let rate = 8_000.0
+    let core = try SampleTransport(sampleRate: rate)
+    let asset = try PCMAsset(interleavedStereo: .init(repeating: 0.2, count: 320_000), sampleRate: rate)
+    let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: rate)
+    let generation = try core.load(asset, deck: .a, grid: grid)
+    try core.play(deck: .a, generation: generation)
+    try core.prepareLoopRecorder()
+    core.enableLoopRecorder(true)
+    try core.controlLoopRecorder(.wet(1))
+    try core.controlLoopRecorder(.record)
+    _ = core.renderOffline(frames: 3999)
+    #expect(core.loopRecorderState.contains(.armed))
+    _ = core.renderOffline(frames: 16002)
+    #expect(core.loopRecorderState.contains(.playing))
+    let first = try #require(core.renderOffline(frames: 128).left.last)
+    #expect(first > 0.05)
+    try core.controlLoopRecorder(.record)
+    _ = core.renderOffline(frames: 16_000)
+    try core.controlLoopRecorder(.record)
+    let doubled = try #require(core.renderOffline(frames: 128).left.last)
+    #expect(doubled > first * 1.8)
+    try core.controlLoopRecorder(.undo)
+    let undone = try #require(core.renderOffline(frames: 128).left.last)
+    #expect(abs(undone - first) < 0.005)
+    try core.controlLoopRecorder(.undo)
+    let redone = try #require(core.renderOffline(frames: 128).left.last)
+    #expect(abs(redone - doubled) < 0.005)
+    try core.requestLoopRecorderExport()
+    _ = core.renderOffline(frames: 0)
+    let clip = try core.makeLoopRecorderAsset()
+    #expect(clip.frames >= 16_000 && clip.frames <= 16_001)
+    let duringCopy = try #require(core.renderOffline(frames: 128).left.last)
+    #expect(abs(duringCopy - doubled) < 0.005)
+    core.finishLoopRecorderExport()
+    try core.controlLoopRecorder(.play)
+    try core.controlLoopRecorder(.undo)
+    _ = core.renderOffline(frames: 128)
+    #expect(!core.loopRecorderState.contains(.stored))
+}
+
+@Test func s4Mk1ReturnUsesLineCAndStereoAuxWithoutRoutingAuxThroughDeckD() throws {
+    let core = try SampleTransport(sampleRate: 8_000, outputGain: 1)
+    try core.prepareExtraDecks()
+    try core.setMixer(.volume, value: 1, deck: .c)
+    try core.setMixer(.volume, value: 0, deck: .d)
+    try core.setMixer(.cue, value: 1, deck: .d)
+    try core.setMixer(.monitor, value: 1)
+    core.enableS4MK1Input(true)
+    let owner = core.nativeAudioRenderOwnership(metrics: nil)
+    let block: [Float] = (0..<1_024).flatMap { _ in [0.125, 0.25, 0.375, 0.5] }
+    block.withUnsafeBufferPointer { buffer in
+        let pointers = (0..<4).map { buffer.baseAddress?.advanced(by: $0) }
+        let strides = [UInt32](repeating: 4, count: 4)
+        tdj_s4_input_push(owner.engineHandle, pointers, strides, 1_024, 4, 8_000)
+    }
+    let dry = core.renderBusesOffline(frames: 256)
+    #expect(dry.left.last == 0.125 && dry.right.last == 0.25)
+    core.setS4MicLevel(0.5)
+    let mixed = core.renderBusesOffline(frames: 256)
+    #expect(mixed.left.last == 0.3125 && mixed.right.last == 0.5)
+    #expect(mixed.cueLeft.last == 0 && mixed.cueRight.last == 0)
+    core.enableS4MK1Input(false)
+    let muted = core.renderBusesOffline(frames: 256)
+    #expect(muted.left.last == 0 && muted.right.last == 0)
+}
+
+@Test func s4Mk1ClockSelectsADeckGridWithoutChangingItsSavedSyncChoice() throws {
+    let core = try SampleTransport(sampleRate: 8_000)
+    let asset = try PCMAsset(interleavedStereo: .init(repeating: 0.2, count: 64_000), sampleRate: 8_000)
+    let grid = try BeatGrid(bpm: 100, anchorFrame: 0, sampleRate: 8_000)
+    let generation = try core.load(asset, deck: .b, grid: grid, synced: false)
+    _ = core.renderOffline(frames: 0)
+    _ = try core.submit(.seek(6_000, .b, generation))
+    _ = try core.submit(.tempo(100, reference: .b, generation: generation))
+    _ = core.renderOffline(frames: 0)
+    let selected = try #require(core.snapshot())
+    #expect(selected.masterBPM == 100)
+    #expect(abs(selected.masterBeat - 1.25) < 0.0001)
+    #expect(!selected.b.synced)
+    _ = try core.submit(.tempo(125, reference: .b, generation: generation + 1))
+    _ = core.renderOffline(frames: 0)
+    #expect(core.snapshot()?.masterBPM == 100)
+    _ = try core.submit(.tempo(120))
+    _ = core.renderOffline(frames: 0)
+    #expect(core.snapshot()?.masterBPM == 120)
+    #expect(core.snapshot()?.masterBeat == selected.masterBeat)
+}

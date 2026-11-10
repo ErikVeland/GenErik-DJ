@@ -105,6 +105,7 @@ typedef struct {
     _Atomic uint64_t mic_configuration;
     uint64_t rendering_mic_configuration;
     unsigned rendering_mic_channels;
+    bool rendering_shared_aux;
     _Atomic double mic_rate;
     atomic_flag mic_producer;
     _Atomic double input_level;
@@ -120,6 +121,7 @@ typedef struct {
     uint32_t read, write;
     double step;
     unsigned channels;
+    bool shared_aux;
 } mic_block;
 
 static void auxiliary_init(auxiliary_mix *aux, double rate) {
@@ -147,12 +149,12 @@ static unsigned microphone_channels(const auxiliary_mix *aux) {
     return atomic_load_explicit(&aux->mic_configuration, memory_order_acquire) & 7;
 }
 
-static void microphone_configure(auxiliary_mix *aux, unsigned channels) {
+static void microphone_configure(auxiliary_mix *aux, unsigned layout) {
     uint64_t configuration = atomic_load_explicit(&aux->mic_configuration, memory_order_acquire);
-    while ((configuration & 7) != channels) {
+    while ((configuration & 15) != layout) {
         uint64_t write = atomic_load_explicit(&aux->mic_write, memory_order_acquire);
-        uint32_t revision = ((uint32_t)configuration & ~UINT32_C(7)) + 8;
-        uint64_t next = (write << 32) | revision | channels;
+        uint32_t revision = ((uint32_t)configuration & ~UINT32_C(15)) + 16;
+        uint64_t next = (write << 32) | revision | layout;
         if (atomic_compare_exchange_weak_explicit(&aux->mic_configuration, &configuration, next,
                                                   memory_order_acq_rel, memory_order_acquire))
             return;
@@ -203,12 +205,14 @@ static mic_block microphone_begin(auxiliary_mix *aux, double rate) {
         if (active_channels) {
             aux->rendering_mic_channels = active_channels;
             aux->mic_gain = 0;
-            if (active_channels == 6)
+            aux->rendering_shared_aux = (configuration & 8) != 0;
+            if (active_channels == 6 || aux->rendering_shared_aux)
                 ramp_set(&aux->s4_mic_ramp, atomic_load_explicit(&aux->s4_mic_level, memory_order_relaxed), 0);
         }
     }
     if (!active_channels)
         block.read = block.write;
+    block.shared_aux = block.channels == 4 && aux->rendering_shared_aux;
     return block;
 }
 

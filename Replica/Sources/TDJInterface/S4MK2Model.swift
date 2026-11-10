@@ -9,6 +9,7 @@
             var enabled = true
             var slots: Set<Int> = []
             var knobs = [0.5, 0.5, 0.5, 0.5]
+            var mk1: S4MK1FX?
         }
 
         var sliceCount = 8
@@ -218,19 +219,47 @@
                 }
                 applyS4FX(deck, stateKey: stateKey)
             case .fxEnable(let unit, let slot):
-                if let slot {
+                let fx = self[keyPath: stateKey].fx[unit]
+                if var mk1 = fx.mk1, !mk1.group, let slot {
+                    if slot == 0 {
+                        mk1.resetSingle()
+                    } else if mk1.parameterButtons.remove(slot) == nil {
+                        mk1.parameterButtons.insert(slot)
+                    }
+                    self[keyPath: stateKey].fx[unit].mk1 = mk1
+                } else if let slot {
                     if self[keyPath: stateKey].fx[unit].slots.remove(slot) == nil {
                         self[keyPath: stateKey].fx[unit].slots.insert(slot)
                     }
-                } else {
+                } else if fx.mk1?.group != true {
                     self[keyPath: stateKey].fx[unit].enabled.toggle()
                 }
-                for deck in self[keyPath: stateKey].fx[unit].decks { applyS4FX(deck, stateKey: stateKey) }
+                for deck in fx.decks { applyS4FX(deck, stateKey: stateKey) }
             case .fxPot(let unit, let knob, let value):
-                self[keyPath: stateKey].fx[unit].knobs[knob] = value
-                for deck in self[keyPath: stateKey].fx[unit].decks {
-                    applyS4FX(deck, slot: knob == 0 ? nil : knob - 1, stateKey: stateKey)
+                let single = self[keyPath: stateKey].fx[unit].mk1?.group == false
+                if single, knob > 0 {
+                    self[keyPath: stateKey].fx[unit].mk1?.singleParameters[knob - 1] = value
+                } else {
+                    self[keyPath: stateKey].fx[unit].knobs[knob] = value
                 }
+                for deck in self[keyPath: stateKey].fx[unit].decks {
+                    applyS4FX(deck, slot: knob == 0 || single ? nil : knob - 1, stateKey: stateKey)
+                }
+            case .fxMode(let unit, let snapshot):
+                guard var mk1 = self[keyPath: stateKey].fx[unit].mk1 else { return }
+                if snapshot {
+                    if !mk1.group { mk1.defaults[mk1.single] = mk1.singleParameters }
+                } else {
+                    mk1.group.toggle()
+                }
+                self[keyPath: stateKey].fx[unit].mk1 = mk1
+                for deck in self[keyPath: stateKey].fx[unit].decks { applyS4FX(deck, stateKey: stateKey) }
+            case .fxSelect(let unit, let slot):
+                guard self[keyPath: stateKey].fx[unit].mk1 != nil else { return }
+                self[keyPath: stateKey].fx[unit].mk1?.select(slot: slot)
+                for deck in self[keyPath: stateKey].fx[unit].decks { applyS4FX(deck, stateKey: stateKey) }
+            case .loopRecorder, .clockMaster, .browseMode, .copyTarget, .copyEnd:
+                break
             }
         }
 
@@ -307,7 +336,7 @@
             stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
         ) {
             guard deck.transportIndex < 2 || playback.generations[deck] != nil else { return }
-            let assigned = self[keyPath: stateKey].fx.filter { $0.decks.contains(deck) }
+            let assigned = self[keyPath: stateKey].fx.enumerated().filter { $0.element.decks.contains(deck) }
             if assigned.isEmpty {
                 if let previous = self[keyPath: stateKey].previousFX.removeValue(forKey: deck) {
                     for (slot, effect) in previous.enumerated() { setEffect(effect, slot: slot, deck: deck) }
@@ -322,12 +351,22 @@
             self[keyPath: stateKey].previousFX[deck] = previous
             for slot in 0..<3 where changed == nil || changed == slot {
                 var effect = previous[slot]
-                if let unit = assigned.first(where: { $0.enabled && $0.slots.contains(slot) }) {
-                    effect.x = unit.knobs[slot + 1]
-                    effect.y = unit.knobs[0]
-                    effect.enabled = true
-                } else {
-                    effect.enabled = false
+                effect.enabled = false
+                for (index, unit) in assigned {
+                    if let mk1 = unit.mk1 {
+                        if let selected = mk1.effect(
+                            slot: slot, unit: index, enabled: mk1.group || unit.enabled, slots: unit.slots,
+                            knobs: unit.knobs)
+                        {
+                            effect = selected
+                            break
+                        }
+                    } else if unit.enabled && unit.slots.contains(slot) {
+                        effect.x = unit.knobs[slot + 1]
+                        effect.y = unit.knobs[0]
+                        effect.enabled = true
+                        break
+                    }
                 }
                 let current = effects[deck]?[slot]
                 if current?.enabled != effect.enabled || current?.x != effect.x || current?.y != effect.y
@@ -340,21 +379,26 @@
 
         func maintainS4Input() {
             guard s4Connection?.isReceiving == true else { return }
-            guard playback.automaticOutputDevice == "S4 Mk2" else {
-                s4Performance.inputTask?.cancel()
-                s4Performance.inputTask = nil
-                s4Performance.inputAttempted = false
+            maintainS4Input(device: "S4 Mk2", stateKey: \.s4Performance)
+        }
+
+        func maintainS4Input(device: String, stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance>) {
+            guard playback.automaticOutputDevice == device else {
+                self[keyPath: stateKey].inputTask?.cancel()
+                self[keyPath: stateKey].inputTask = nil
+                self[keyPath: stateKey].inputAttempted = false
+                if device == "S4 Mk1 Bridge" { s4MK1InputStatus = nil }
                 return
             }
-            guard !s4Performance.inputAttempted, s4Performance.inputTask == nil,
+            guard !self[keyPath: stateKey].inputAttempted, self[keyPath: stateKey].inputTask == nil,
                 playbackSnapshot?.anyDeckActive != true, preparingTrack.isEmpty,
-                playback.canOpenCapture(device: "S4 Mk2")
+                playback.canOpenCapture(device: device)
             else { return }
-            s4Performance.inputAttempted = true
-            s4Performance.inputTask = Task { [weak self] in
+            self[keyPath: stateKey].inputAttempted = true
+            self[keyPath: stateKey].inputTask = Task { [weak self] in
                 guard let self else { return }
                 defer {
-                    if !Task.isCancelled { s4Performance.inputTask = nil }
+                    if !Task.isCancelled { self[keyPath: stateKey].inputTask = nil }
                 }
                 let permission = AVAudioApplication.shared.recordPermission
                 let granted: Bool
@@ -365,34 +409,40 @@
                 }
                 guard !Task.isCancelled else { return }
                 guard granted else {
-                    s4Status = "S4 Mk2 controls connected. Microphone permission is off."
+                    if device == "S4 Mk2" { s4Status = "S4 Mk2 controls connected. Microphone permission is off." }
+                    else { s4MK1InputStatus = "S4 Mk1 audio input needs microphone permission." }
                     return
                 }
                 let core = playback.core
                 do {
                     try await Task.detached(priority: .utility) { try core.prepareExtraDecks() }.value
-                    guard !Task.isCancelled, s4Connection?.isReceiving == true,
-                        playback.automaticOutputDevice == "S4 Mk2"
+                    guard !Task.isCancelled, (device == "S4 Mk2" ? s4Connection?.isReceiving : s4MK1Bridge?.isReceiving) == true,
+                        playback.automaticOutputDevice == device
                     else { return }
-                    guard preparingTrack.isEmpty, playback.canOpenCapture(device: "S4 Mk2") else {
-                        s4Performance.inputAttempted = false
+                    guard preparingTrack.isEmpty, playback.canOpenCapture(device: device) else {
+                        self[keyPath: stateKey].inputAttempted = false
                         return
                     }
                     cancelNativeMusicAnalysis()
-                    try playback.setCaptureEnabled(true, device: "S4 Mk2")
+                    if device == "S4 Mk1 Bridge" { playback.core.setS4MicLevel(s4MK1Controls.microphoneLevel ?? 0) }
+                    try playback.setCaptureEnabled(true, device: device)
                     for deck in [DeckID.c, .d] where playback.generations[deck] == nil {
-                        for (action, value) in s4Performance.extraPots[deck, default: [:]]
+                        for (action, value) in self[keyPath: stateKey].extraPots[deck, default: [:]]
                         where action != .tempoA && action != .tempoB {
                             setS4Pot(action, deck: deck, value: value)
                         }
                     }
-                    s4Status =
-                        playback.s4InputChannels == 6
-                        ? "S4 Mk2 controls, line inputs and microphone connected."
-                        : "S4 Mk2 controls and line inputs connected."
+                    if device == "S4 Mk2" {
+                        s4Status = playback.s4InputChannels == 6
+                            ? "S4 Mk2 controls, line inputs and microphone connected."
+                            : "S4 Mk2 controls and line inputs connected."
+                    } else {
+                        s4MK1InputStatus = "S4 Mk1 audio inputs connected."
+                    }
                 } catch {
                     guard !Task.isCancelled else { return }
-                    s4Status = error.localizedDescription
+                    if device == "S4 Mk2" { s4Status = error.localizedDescription }
+                    else { s4MK1InputStatus = error.localizedDescription }
                 }
             }
         }

@@ -109,7 +109,20 @@ Pad 4 on each selected deck shows the blue beat pulse. The shared amber Alert la
 
 Thirty-six focused Swift tests and nineteen bridge tests passed. [Build 191](../testing/builds/191.json) passed local signing and framework checks. The first compile of build 190 caught a missing tempo feedback value. Its log is in `TestBuilds/r128/build-190-first-attempt.log`. The corrected [build 190](../testing/builds/190.json) passed before the Browse preview change. All checks stayed off the iPad.
 
-Remaining controls include the Loop Recorder, footswitch, FX Mode, clock-master buttons, jog loop trimming, full Browse and Copy modes, and external mic and line capture. Physical verification must check enumeration, channel order, latency, drift, jog feel, lamp colours and reconnect behaviour.
+R134 adds the Loop Recorder, footswitch, FX Mode, clock master, jog loop trimming, Browse and Copy controls, and audio capture. See [R134](#r134-s4-mk1-remaining-controls).
+
+## R134 S4 Mk1 remaining controls
+
+- **Loop Recorder.** SIZE cycles through 4, 8, 16 and 32 beats. REC and the footswitch use the same record or overdub action. Initial capture starts at the next master beat. PLAY starts or stops playback. UNDO deletes a stopped loop or toggles the most recent overdub. DRY/WET blends the recorded loop with the live master mix.
+- **FX.** MODE switches each unit between Single and Group. Shift+MODE saves the Single effect's parameter defaults for the current connection. Shift+FX buttons select effects. The app uses its own effect parameters in both modes.
+- **Clock.** MASTER selects the internal clock. Shift+SYNC selects a deck with a beat grid as the tempo reference. The app preserves each deck's saved Sync choice and preserves clock phase while another synced deck is active.
+- **Loop trim.** Hold LOOP IN or LOOP OUT and turn the jog wheel during an active loop. The app adjusts only the selected edge. It keeps the loop within the track.
+- **Browse and Copy.** Tap BROWSE to toggle Browse mode. Mixer CUE loads tracks. Sample Play loads samples. Hold BROWSE and select a source and target to copy a track between decks or a sample between pads. Loop Recorder PLAY selects the recorded loop as a copy source. The pad plays the copy as a one-shot sample.
+- **Audio.** The bridge returns four input channels. Inputs 1–2 feed the empty C mixer channel. Inputs 3–4 feed stereo AUX, and MIC VOL controls that pair. The controller switches inputs 3–4 to the microphone when it is plugged in. The system may ask for microphone permission.
+
+Fifty-one focused Swift tests and twenty bridge tests passed on the source for [build 195](../testing/builds/195.json). The build passed local signing and framework checks. [Build 194](../testing/builds/194.json) passed those checks before Loop Recorder copy was added. All checks stayed off the iPad. Logs are in `TestBuilds/r134/`.
+
+The Loop Recorder uses Main as its fixed source. Alternate Loop Recorder sources remain open. Physical checks remain open for both playback and capture channel order, latency, drift, control feel and reconnect behavior. [NI S4 Mk1 manual](https://manualzz.com/doc/22304763/native-instruments-traktor-kontrol-s4-manual) · [Linux CAIAQ audio driver](https://github.com/torvalds/linux/blob/master/sound/usb/caiaq/audio.c)
 
 ## Required capabilities for each model
 

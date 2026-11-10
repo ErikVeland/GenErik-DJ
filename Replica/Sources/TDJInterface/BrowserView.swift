@@ -264,6 +264,12 @@ struct BrowserView: View {
                     selectedEntry = selected
                     model.selectedTrackID = selected.id
                     s2ScrollID = selected.id
+                case .openGroup:
+                    if section == .playlists {
+                        open(.songs)
+                    } else {
+                        open(.playlists)
+                    }
                 case .load(let deck):
                     guard let selected = entry(at: selectedIndex() ?? 0) else { continue }
                     model.loadLibraryEntry(selected, deck: deck)

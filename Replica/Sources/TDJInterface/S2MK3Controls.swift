@@ -42,6 +42,7 @@ enum S2MK3AccessoryProtocol {
 
 enum S2BrowserCommand: Equatable {
     case move(Int, groups: Bool)
+    case openGroup
     case load(DeckID)
     case prepare(top: Bool)
     case sample(Int)

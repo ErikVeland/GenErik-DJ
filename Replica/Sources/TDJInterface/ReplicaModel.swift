@@ -134,7 +134,10 @@ import TDJCore
     public internal(set) var analysisProgress: PreparationImportProgress?
     var libraryAnalysisOwner: UUID?
     public var analysisIsRunning: Bool { libraryAnalysisOwner != nil || deckAnalysisIsRunning }
-    var libraryAnalysisContinuesInBackground = false
+    enum BackgroundAnalysisStatus {
+        case idle, queued, running
+    }
+    var backgroundAnalysisStatus: BackgroundAnalysisStatus = .idle
     public internal(set) var browserHintsVersion: UInt64 = 0
     @ObservationIgnored var collectionHints: [String: BrowserPreparationHint] = [:]
     @ObservationIgnored var analysisHints = NativeAnalysisHints()
@@ -356,7 +359,16 @@ import TDJCore
         @ObservationIgnored var s4MK1Bridge: TraktorHIDBridgeConnection?
         @ObservationIgnored var s4MK1Controls = S4MK1Controls()
         @ObservationIgnored var s4MK1Performance = S4MK2Performance()
+        @ObservationIgnored var s4MK1LoopTrims: [DeckID: S2MK1LoopTrim] = [:]
+        @ObservationIgnored var s4MK1CopySource: S4MK1CopyTarget?
+        @ObservationIgnored var s4MK1ReferenceBPM = 0.0
+        @ObservationIgnored var s4MK1ClockDeck: (deck: DeckID, generation: UInt64)?
+        @ObservationIgnored var s4MK1ExportTask: Task<Void, Never>?
+        @ObservationIgnored var s4MK1RecorderTask: Task<Void, Never>?
+        @ObservationIgnored var s4MK1RecorderReady = false
+        @ObservationIgnored var s4MK1PendingRecorder: [PerformanceLoopRecorderAction] = []
         var s4MK1Receiving = false
+        var s4MK1InputStatus: String?
         var s4MK3Bridge: (any S4MK3ReportConnection)?
         @ObservationIgnored var z1MK2Bridge: TraktorHIDBridgeConnection?
         @ObservationIgnored var x1MK3Bridge: TraktorHIDBridgeConnection?
@@ -962,8 +974,11 @@ import TDJCore
     }
 
     func cloneTrackDeck(to deck: DeckID) {
-        let source = deck.opposite
-        guard let snapshot = playback.core.snapshot(),
+        cloneTrackDeck(from: deck.opposite, to: deck)
+    }
+
+    func cloneTrackDeck(from source: DeckID, to deck: DeckID) {
+        guard source != deck, let snapshot = playback.core.snapshot(),
             let trackID = loaded[source], committedTrackIDs[source] == trackID,
             let generation = playback.generations[source], generation == snapshot[source].generation,
             let asset = playback.core.asset(generation: generation), snapshot[source].sourceFrame.isFinite,

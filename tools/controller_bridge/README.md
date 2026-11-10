@@ -157,20 +157,27 @@ The relay finds the controller's ALSA playback device. It reads the controller's
 
 ## S4 Mk1 bridge
 
-The S4 Mk1 uses the Linux `snd-usb-caiaq` driver for native controls, lights and four-channel audio. GenErik DJ detects `GenErik S4 Mk1 Bridge` and selects master 1–2 and headphones 3–4. [Linux CAIAQ input](https://github.com/torvalds/linux/blob/master/sound/usb/caiaq/input.c) · [Linux CAIAQ audio](https://github.com/torvalds/linux/blob/master/sound/usb/caiaq/audio.c)
+The S4 Mk1 uses the Linux `snd-usb-caiaq` driver for native controls, lights and four-channel audio in each direction. GenErik DJ detects `GenErik S4 Mk1 Bridge` and selects master 1–2 and headphones 3–4. [Linux CAIAQ input](https://github.com/torvalds/linux/blob/master/sound/usb/caiaq/input.c) · [Linux CAIAQ audio](https://github.com/torvalds/linux/blob/master/sound/usb/caiaq/audio.c)
 
 1. Prepare the [recommended board](#recommended-board). Use a Linux kernel with `CONFIG_SND_USB_CAIAQ` and `CONFIG_SND_USB_CAIAQ_INPUT`. Install `python3-evdev` and `alsa-utils`. [Raspberry Pi 4 kernel configuration](https://github.com/raspberrypi/linux/blob/rpi-6.12.y/arch/arm64/configs/bcm2711_defconfig#L1143-L1146)
 2. Power the S4 Mk1 from its own supply. Connect USB device `17cc:baff` to the board's host port.
 3. Follow the [gadget setup](#configure-the-bridge). Use `--traktor s4-mk1` in place of `--s4-mk3`.
-4. Start the relay. Substitute the gadget's raw MIDI device and capture PCM. Use a user with access to the controller's input event and ALSA devices.
+4. Replace the raw MIDI and ALSA device names in the example. Start the relay with access to the input event and ALSA devices.
 
 ```sh
 python3 tools/controller_bridge/s4_mk1_bridge.py \
-  --midi /dev/snd/midiCND0 --audio-in hw:CARD=UAC2Gadget,DEV=0
+  --midi /dev/snd/midiCND0 \
+  --audio-in hw:CARD=UAC2Gadget,DEV=0 --audio-out hw:CARD=UAC2Gadget,DEV=0
 ```
 
 5. Check the Controllers connection report in GenErik DJ.
-6. Check the master and headphones for separate signals. Check pad 4 for the blue beat pulse and the Alert lamp for the amber track-end warning.
+6. If iPadOS asks for microphone permission, allow access to use the external inputs.
+7. Set the controller's rear switch to USB for inputs 3–4. Set LINE or PHONO for the connected source.
+8. Check the master and headphones for separate signals. Check both input pairs. Check the blue beat pulse on pad 4 and the amber Alert lamp.
+
+If you already have a playback-only S4 Mk1 gadget, unbind it and remove its own links and directories. Create it again with the updated helper.
+
+The relay joins both CAIAQ stereo substreams in each direction. It uses a temporary ALSA configuration. Inputs 1–2 feed mixer C when deck C is empty. MIC VOL controls the stereo AUX pair on inputs 3–4. The microphone jack replaces the line source on this pair. [ALSA multi-stream documentation](https://www.alsa-project.org/alsa-doc/alsa-lib/pcm_plugins.html) · [NI S4 Mk1 manual](https://manualzz.com/doc/22304763/native-instruments-traktor-kontrol-s4-manual)
 
 The relay finds the input and playback devices for the S4 Mk1. The first jog pressure reading sets the rest level. Leave the platters untouched when you start the relay. Restart the relay after you reconnect the controller.
 

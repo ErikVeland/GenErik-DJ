@@ -8,6 +8,7 @@ import select
 import subprocess
 import sys
 import time
+import tempfile
 from contextlib import contextmanager
 from struct import pack
 
@@ -107,7 +108,7 @@ def current_state(device):
     return InputState(device.active_keys(), [device.absinfo(AXIS_BASE + axis).value for axis in range(AXIS_COUNT)])
 
 
-def relay(device, midi, audio, write_light):
+def relay(device, midi, audio, write_light, capture=None):
     state = current_state(device)
     decoder = Decoder(LENGTHS)
     announced = False
@@ -125,6 +126,9 @@ def relay(device, midi, audio, write_light):
         sent = frames
 
     while audio.poll() is None:
+        if capture is not None and capture.poll() is not None:
+            print(f'The S4 Mk1 input relay stopped with exit status {capture.returncode}.', file=sys.stderr)
+            capture = None
         for fd in select.select([device.fd, midi], [], [], 0.05)[0]:
             try:
                 if fd == device.fd:
@@ -168,10 +172,46 @@ def relay(device, midi, audio, write_light):
     raise RuntimeError(f'The S4 Mk1 playback relay stopped with exit status {audio.returncode}.')
 
 
+def four_channel_pcm(pcm):
+    address = pcm.removeprefix('plughw:')
+    return f'''</usr/share/alsa/alsa.conf>
+pcm.generik_s4_pairs {{
+    type multi
+    slaves.first.pcm "hw:{address},0"
+    slaves.first.channels 2
+    slaves.second.pcm "hw:{address},1"
+    slaves.second.channels 2
+    bindings.0 {{ slave first channel 0 }}
+    bindings.1 {{ slave first channel 1 }}
+    bindings.2 {{ slave second channel 0 }}
+    bindings.3 {{ slave second channel 1 }}
+}}
+pcm.generik_s4 {{
+    type plug
+    slave.pcm "generik_s4_pairs"
+}}
+'''
+
+
+@contextmanager
+def audio_relay(source, target, env):
+    with subprocess.Popen(audio_command(source, target), env=env) as process:
+        try:
+            yield process
+        finally:
+            if process.poll() is None:
+                process.terminate()
+                try:
+                    process.wait(timeout=2)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--midi', required=True, type=Path, help='USB gadget raw MIDI node')
     parser.add_argument('--audio-in', default='hw:CARD=UAC2Gadget,DEV=0', help='USB audio gadget capture PCM')
+    parser.add_argument('--audio-out', default='hw:CARD=UAC2Gadget,DEV=0', help='USB audio gadget playback PCM')
     args = parser.parse_args()
     if not sys.platform.startswith('linux'):
         parser.error('Run the relay on Linux bridge hardware.')
@@ -183,16 +223,14 @@ def main():
     try:
         midi = os.open(args.midi, os.O_RDWR | os.O_NONBLOCK)
         try:
-            with alsa_lights(pcm) as write_light, subprocess.Popen(audio_command(args.audio_in, pcm)) as audio:
-                try:
-                    relay(device, midi, audio, write_light)
-                finally:
-                    if audio.poll() is None:
-                        audio.terminate()
-                        try:
-                            audio.wait(timeout=2)
-                        except subprocess.TimeoutExpired:
-                            audio.kill()
+            with tempfile.TemporaryDirectory(prefix='generik-s4-') as directory:
+                config = Path(directory) / 'alsa.conf'
+                config.write_text(four_channel_pcm(pcm), encoding='ascii')
+                env = dict(os.environ, ALSA_CONFIG_PATH=str(config))
+                with alsa_lights(pcm) as write_light, \
+                        audio_relay(args.audio_in, 'generik_s4', env) as audio, \
+                        audio_relay('generik_s4', args.audio_out, env) as capture:
+                    relay(device, midi, audio, write_light, capture)
         finally:
             try:
                 write_all(midi, encode(STATUS, b'\x00', LENGTHS))

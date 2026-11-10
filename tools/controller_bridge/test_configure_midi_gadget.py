@@ -75,7 +75,10 @@ class GadgetSetupChecks(unittest.TestCase):
             if s4_mk3 or traktor in {"z1-mk2", "s2-mk1", "s4-mk1"}:
                 self.assertTrue((configuration / "uac2.usb0").is_symlink())
                 self.assertEqual((audio / "c_chmask").read_text().strip(), "0x33")
-                self.assertEqual((audio / "p_chmask").read_text().strip(), "0")
+                self.assertEqual((audio / "p_chmask").read_text().strip(), "0x33" if traktor == "s4-mk1" else "0")
+                if traktor == "s4-mk1":
+                    self.assertEqual((audio / "p_srate").read_text().strip(), "48000")
+                    self.assertEqual((audio / "p_ssize").read_text().strip(), "4")
                 self.assertEqual((audio / "c_srate").read_text().strip(), "48000")
                 if s4_mk3:
                     self.assertEqual(product.read_text().strip(), "GenErik S4 Mk3 Bridge")

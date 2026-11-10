@@ -40,6 +40,7 @@
         private var s2MayPrepareSample: Bool {
             !isRecording && !recordingFinishing && !arrangementPlaybackActive && !playback.s2MicrophoneActive
                 && !playback.s3ExtEnabled && playback.core.previewGeneration == 0 && playback.core.playingPads == 0
+                && !playback.core.loopRecorderState.isActive
                 && DeckID.allCases.allSatisfy { !controlDisplay[$0].phase.active && !preparingPlayback.contains($0) }
         }
 
@@ -73,7 +74,7 @@
                     }
                     try Task.checkCancellation()
                     guard s2MayPrepareSample, s2Connection?.isReceiving == true || s3Connection?.isReceiving == true
-                        || s4MK3Bridge?.isReceiving == true
+                        || s4MK3Bridge?.isReceiving == true || s4MK1Bridge?.isReceiving == true
                     else { return }
                     s2SampleSlots[slot] = try playback.installPad(asset, slot: slot)
                 } catch is CancellationError {
