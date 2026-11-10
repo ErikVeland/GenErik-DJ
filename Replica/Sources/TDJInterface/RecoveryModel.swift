@@ -28,9 +28,17 @@ extension ReplicaModel {
         for deck in snapshot.deckIDs {
             let state = snapshot[deck]
             let other: DeckID = deck.opposite
+            let side: CrossfaderAssignment = deck.leftSide ? .left : .right
+            let otherSide: CrossfaderAssignment = deck.leftSide ? .right : .left
+            let assignment = state.mixer.crossfaderAssignment ?? side
+            let crossfaderAudible = switch assignment {
+            case .left: snapshot.crossfader < 1
+            case .right: snapshot.crossfader > 0
+            case .through: true
+            }
             guard state.phase == .playing, !state.loopEnabled, !state.touchActive,
                 !state.jumpPending, !state.braking, state.performanceRate == 1, state.mixer.volume > 0,
-                deck.leftSide ? snapshot.crossfader < 1 : snapshot.crossfader > 0,
+                crossfaderAudible,
                 recoveryState.attempted[deck] != state.generation, !preparingPlayback.contains(deck),
                 let track = track(deck), let timing = track.timing, !track.analysis.waveform.isEmpty
             else { continue }
@@ -68,6 +76,8 @@ extension ReplicaModel {
                         self.recoveryState.feedback[deck] = "Set the last drop in Playback settings"
                     }
                     guard settings.mode == .autoMix, let latest = self.playback.core.snapshot(),
+                        (latest[deck].mixer.crossfaderAssignment ?? side) == side,
+                        (latest[other].mixer.crossfaderAssignment ?? otherSide) == otherSide,
                         !latest.deckIDs.contains(where: { $0 != deck && latest[$0].phase.active })
                     else { return }
                     let context = SuggestionContext(
@@ -79,6 +89,8 @@ extension ReplicaModel {
                     try Task.checkCancellation()
                     guard self.playback.recoveryRevisions[deck, default: 0] == revision,
                         self.loadIdentity(other) == destinationIdentity, let latest = self.playback.core.snapshot(),
+                        (latest[deck].mixer.crossfaderAssignment ?? side) == side,
+                        (latest[other].mixer.crossfaderAssignment ?? otherSide) == otherSide,
                         !latest[other].phase.active, let start = plan.mixStartFrame(leadBars: settings.leadBars),
                         latest[deck].sourceFrame < start, let candidate = ranked.first,
                         let next = self.library.track(id: candidate.id)?.resolvingTraktorPreparation(),

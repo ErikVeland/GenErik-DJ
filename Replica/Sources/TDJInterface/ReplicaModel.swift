@@ -342,6 +342,7 @@ import TDJCore
         @ObservationIgnored var s2MK1Bridge: TraktorHIDBridgeConnection?
         var s2MK1Receiving = false
         @ObservationIgnored var s2MK1Controls = S2MK1Controls()
+        @ObservationIgnored var s2MK1LoopTrims: [DeckID: S2MK1LoopTrim] = [:]
         @ObservationIgnored var s2MK1Performance = S4MK2Performance(sliceCount: 4)
         var s2MK2Connection: NIControllerAccessoryConnection?
         var s2MK2Status = "Waiting for S2 Mk2."
@@ -956,10 +957,24 @@ import TDJCore
             trackID: trackID, deck: deck, sourceURL: sourceURL, nativeMetadata: nativeMetadata, nativeLoadOwner: nil)
     }
 
+    func cloneTrackDeck(to deck: DeckID) {
+        let source = deck.opposite
+        guard let snapshot = playback.core.snapshot(),
+            let trackID = loaded[source], committedTrackIDs[source] == trackID,
+            let generation = playback.generations[source], generation == snapshot[source].generation,
+            let asset = playback.core.asset(generation: generation), snapshot[source].sourceFrame.isFinite,
+            !preparingTrack.contains(source)
+        else { return }
+        let position = max(0, min(Double(asset.frames) - 1, snapshot[source].sourceFrame))
+        loadPreparedTrack(
+            trackID: trackID, deck: deck, sourceURL: nil, nativeMetadata: nil, nativeLoadOwner: nil,
+            cloneSource: asset, sourceFrame: position)
+    }
+
     @discardableResult func loadPreparedTrack(
         trackID: String, deck: DeckID, sourceURL: URL?, nativeMetadata: MusicLibraryImportMetadata?,
         nativeLoadOwner: UUID?, preparedAsset: PCMAsset? = nil, opening: NativePlaybackOpening? = nil,
-        onFailure: (@MainActor (Error) -> Void)? = nil
+        cloneSource: PCMAsset? = nil, sourceFrame: Double = 0, onFailure: (@MainActor (Error) -> Void)? = nil
     ) -> Task<Void, Never>? {
         cancelCloudSyncForPlayback()
         refreshPlayback()
@@ -967,7 +982,7 @@ import TDJCore
             onFailure?(TransportError.stale)
             return nil
         }
-        if sourceURL == nil, nativeLoadOwner == nil,
+        if sourceURL == nil, nativeLoadOwner == nil, cloneSource == nil,
             track.nativeLibraryOnly == true
                 || (!(track.musicLibrarySources ?? []).isEmpty
                     && !FileManager.default.isReadableFile(
@@ -1019,7 +1034,7 @@ import TDJCore
         storedPreparationKeys[trackID] = .init(value: storedKey)
         loadPreparations[deck] = .init(token: token, track: track)
         loaded[deck] = trackID
-        viewport[deck] = 0
+        viewport[deck] = sourceFrame
         gridDraft[deck] = pendingPreparations[trackID]?.value.grid
         editing.remove(deck)
         frozen.remove(deck)
@@ -1042,7 +1057,7 @@ import TDJCore
                 try await playback.load(
                     track: preparedSourceTrack, store: store, deck: deck, sourceURL: sourceURL,
                     preparedAsset: preparedAsset, opening: opening,
-                    synced: syncPreference(deck),
+                    synced: syncPreference(deck), cloneSource: cloneSource, sourceFrame: sourceFrame,
                     committed: { [weak self = self] generation in
                         guard let self else { return }
                         var acceptedTrack = preparedSourceTrack

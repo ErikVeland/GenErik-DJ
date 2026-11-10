@@ -1,3 +1,4 @@
+import Foundation
 import TDJCore
 import Testing
 
@@ -105,4 +106,83 @@ import Testing
     _ = controls.consume(pots)
     pots.replaceSubrange(0x2f...0x30, with: [0xd0, 0x07])
     #expect(controls.consume(pots) == [.pot(.crossfader, .a, 0.5)])
+}
+
+@Test func s2Mk1DecodesCloneAndShiftFXWithoutOrdinaryLoadOrFX() {
+    var controls = S2MK1Controls()
+    var report: [UInt8] = [1] + .init(repeating: 0, count: 15)
+    _ = controls.consume(report)
+    report[13] = 0x80
+    report[12] = 0x80
+    report[11] = 0x0c
+    report[10] = 0x06
+    #expect(
+        controls.consume(report) == [
+            .native(.cloneDeck(.a)), .native(.crossfaderAssign(.a, .left)),
+            .native(.cloneDeck(.b)), .native(.crossfaderAssign(.b, .right)),
+        ])
+    #expect(controls.consume(report).isEmpty)
+}
+
+@Test func s2Mk1HeldLoopEdgesConsumeJogTicksOnlyDuringAnActiveLoop() {
+    var controls = S2MK1Controls()
+    var report: [UInt8] = [1] + .init(repeating: 0, count: 15)
+    report[1] = 255
+    _ = controls.consume(report)
+    report[9] = 0x40
+    report[1] = 1
+    #expect(controls.consume(report, activeLoop: { $0 == .a }) == [.native(.loopTrim(.a, end: false, ticks: 2))])
+    report[9] = 0
+    report[11] = 0x20
+    report[5] = 1
+    #expect(controls.consume(report, activeLoop: { $0 == .b }) == [.native(.loopTrim(.b, end: true, ticks: 1))])
+    report[11] = 0
+    report[9] = 0x40
+    #expect(controls.consume(report) == [.loopMark(.a, end: false)])
+}
+
+@Test func s2Mk1TrimClampsWithoutMovingTheOtherEdge() {
+    let bounds = S2MK1LoopBounds(start: 100, end: 400)
+    #expect(bounds.trimming(end: false, by: 1000, frameCount: 800) == .init(start: 399, end: 400))
+    #expect(bounds.trimming(end: true, by: 1000, frameCount: 800) == .init(start: 100, end: 800))
+}
+
+@Test @MainActor func s2Mk1CloneCopiesThePlayheadIntoAnIndependentStream() async throws {
+    let (model, root, track) = try await loadPlayheadFixture(streaming: true)
+    defer { try? FileManager.default.removeItem(at: root) }
+    model.load(trackID: track.id, deck: .a)
+    await model.playbackLoads?.value
+    let position = track.analysis.sampleRate * 4
+    model.jump(position, deck: .a, quantized: false)
+    await model.playback.flushSourcePreparations()
+    model.refreshPlayback()
+    model.cloneTrackDeck(to: .b)
+    await model.playbackLoads?.value
+    model.refreshPlayback()
+
+    let snapshot = try #require(model.playbackSnapshot)
+    #expect(model.loaded[.b] == track.id)
+    #expect(snapshot.a.sourceFrame == position && snapshot.b.sourceFrame == position)
+    #expect(snapshot.b.phase == .ready && snapshot.b.synced)
+    let source = try #require(model.playback.core.asset(generation: snapshot.a.generation))
+    let clone = try #require(model.playback.core.asset(generation: snapshot.b.generation))
+    #expect(source.isStreamed && clone.isStreamed && source !== clone)
+    model.pressPlay(deck: .b, vinylStop: false)
+    await model.flushTransportRequests()
+    model.refreshPlayback()
+    model.cloneTrackDeck(to: .b)
+    await model.playbackLoads?.value
+    #expect(model.playback.generations[.b] == snapshot.b.generation)
+    await model.finishForShutdown()
+}
+
+@Test @MainActor func s2Mk1ShiftFXTogglesTheSelectedSideThroughAndBack() throws {
+    let playback = try PlaybackController(offline: true)
+    try playback.toggleCrossfaderAssignment(.left, deck: .a)
+    #expect(playback.core.snapshot()?.a.mixer.crossfaderAssignment == .through)
+    try playback.toggleCrossfaderAssignment(.right, deck: .a)
+    #expect(playback.core.snapshot()?.a.mixer.crossfaderAssignment == .right)
+    try playback.toggleCrossfaderAssignment(.right, deck: .a)
+    #expect(playback.core.snapshot()?.a.mixer.crossfaderAssignment == .through)
+    #expect(playback.core.snapshot()?.b.mixer.crossfaderAssignment == .right)
 }

@@ -359,3 +359,23 @@ private func expectStartSettlesWithoutOvershoot(_ core: SampleTransport) {
     #expect(core.snapshot()?.b.phase == .playing)
     #expect(core.snapshot()?.b.lastStartOutputFrame == 96000)
 }
+
+@Test func crossfaderAssignmentRoutesAndUnlinksWithoutChangingCue() throws {
+    let core = try SampleTransport(sampleRate: 48_000)
+    let asset = try PCMAsset(interleavedStereo: .init(repeating: 0.1, count: 96_000), sampleRate: 48_000)
+    let generation = try core.load(asset, deck: .a, grid: nil, synced: false)
+    try core.setMixer(.cue, value: 1, deck: .a)
+    try core.setMixer(.crossfader, value: 1, deck: .a)
+    try core.play(deck: .a, generation: generation)
+    _ = core.renderOffline(frames: 1024)
+    #expect(abs(core.renderOffline(frames: 256).left.last ?? 1) < 0.0001)
+    try core.setMixer(.crossfaderAssignment, value: Double(CrossfaderAssignment.right.rawValue), deck: .a)
+    _ = core.renderOffline(frames: 1024)
+    #expect(abs(core.renderOffline(frames: 256).left.last ?? 0) > 0.001)
+    #expect(core.snapshot()?.a.mixer.crossfaderAssignment == .right)
+    try core.setMixer(.crossfaderAssignment, value: Double(CrossfaderAssignment.through.rawValue), deck: .a)
+    try core.setMixer(.crossfader, value: 0, deck: .a)
+    _ = core.renderOffline(frames: 1024)
+    #expect(abs(core.renderOffline(frames: 256).left.last ?? 0) > 0.001)
+    #expect(core.snapshot()?.a.mixer.cue == true)
+}

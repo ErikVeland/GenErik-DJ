@@ -76,6 +76,7 @@ typedef struct tdj_engine tdj_engine;
 #define TDJ_MIX_FILTER_X 10
 #define TDJ_MIX_FILTER_Y 11
 #define TDJ_MIX_FILTER_ENABLED 12
+#define TDJ_MIX_CROSSFADE_ASSIGNMENT 13
 
 #define TDJ_EMPTY 0
 #define TDJ_READY 1
@@ -131,7 +132,7 @@ typedef struct {
     tdj_beatgrid_map beatgrid;
     int32_t grid_downbeat;
     double volume, gain, low, mid, high, cue, filter_x, filter_y, peak;
-    int32_t filter_enabled;
+    int32_t filter_enabled, crossfader_assignment;
     int32_t loop_enabled, flux_enabled, touch_active, jump_pending, loop_rolling;
     double loop_start, loop_end, continuing_frame, performance_rate;
     double free_rate, touch_start, touch_end, jump_frame, jump_beat, pending_touch_end, pending_loop_end;

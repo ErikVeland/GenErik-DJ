@@ -29,11 +29,11 @@ struct S2MK1Controls {
     private(set) var touched: Set<DeckID> = []
     private(set) var bent: Set<DeckID> = []
 
-    mutating func consume(_ bytes: [UInt8]) -> [S4MK2Event] {
+    mutating func consume(_ bytes: [UInt8], activeLoop: (DeckID) -> Bool = { _ in false }) -> [S4MK2Event] {
         guard let report = bytes.first else { return [] }
         switch report {
-        case 1 where bytes.count == 16: return buttons(bytes)
-        case 2 where bytes.count == 52: return pots(bytes)
+        case 1 where bytes.count == 16: return buttons(bytes, activeLoop: activeLoop)
+        case 2 where bytes.count == 52: return pots(bytes, activeLoop: activeLoop)
         case 0xd0...0xd4 where bytes.count == 33:
             addCalibration(bytes)
             return []
@@ -41,7 +41,7 @@ struct S2MK1Controls {
         }
     }
 
-    private mutating func buttons(_ bytes: [UInt8]) -> [S4MK2Event] {
+    private mutating func buttons(_ bytes: [UInt8], activeLoop: (DeckID) -> Bool) -> [S4MK2Event] {
         let previous = lastButtons
         lastButtons = bytes
         func down(_ offset: Int, _ mask: UInt8) -> Bool { bytes[offset] & mask != 0 }
@@ -58,7 +58,9 @@ struct S2MK1Controls {
             let loop = left ? 0x09 : 0x0b
             let encoderShift = left ? 0 : 4
             let shifted = shifts.contains(deck)
-            if !shifted, pressed(0x0b, left ? 8 : 4) { events.append(.native(.browser(.load(deck)))) }
+            if pressed(0x0b, left ? 8 : 4) {
+                events.append(.native(shifted ? .cloneDeck(deck) : .browser(.load(deck))))
+            }
             if pressed(0x0b, left ? 2 : 1), samples.remove(deck) == nil { samples.insert(deck) }
             if pressed(transport, 0x40) { events.append(.action(left ? .syncA : .syncB, deck, 1)) }
             if pressed(transport, 0x20) {
@@ -79,8 +81,9 @@ struct S2MK1Controls {
             if !down(transport, 0x20), cueHeld.remove(deck) != nil { events.append(.cue(deck, held: false)) }
 
             if pressed(loop, 0x80) { events.append(shifted ? .quantize : .action(left ? .cueA : .cueB, deck, 1)) }
-            if pressed(loop, 0x40) { events.append(.loopMark(deck, end: false)) }
-            if pressed(loop, 0x20) { events.append(.loopMark(deck, end: true)) }
+            let loopActive = activeLoop(deck)
+            if !loopActive, pressed(loop, 0x40) { events.append(.loopMark(deck, end: false)) }
+            if !loopActive, pressed(loop, 0x20) { events.append(.loopMark(deck, end: true)) }
             if pressed(loop, 0x10), tempoLocked.remove(deck) == nil {
                 tempoLocked.insert(deck)
                 events.append(.tempoReset(deck))
@@ -96,13 +99,23 @@ struct S2MK1Controls {
                     events.append(.pad(deck, slot, held: down(transport, mask), shifted: shifted))
                 }
             }
-            for unit in 0..<2 where !shifted && pressed(0x0a, UInt8(2 >> unit) << (side * 2)) {
-                events.append(.fxAssign(unit, deck))
+            for unit in 0..<2 where pressed(0x0a, UInt8(2 >> unit) << (side * 2)) {
+                events.append(
+                    shifted ? .native(.crossfaderAssign(deck, unit == 0 ? .left : .right)) : .fxAssign(unit, deck))
             }
 
             let wheel = 1 + side * 4
             let ticks = Self.delta(Int(bytes[wheel]), Int(previous[wheel]), modulus: 256)
-            if ticks != 0 {
+            let loopEdges = bytes[loop] & 0x60
+            if loopActive && loopEdges != 0 {
+                if touched.remove(deck) != nil {
+                    events.append(.action(left ? .jogTouchA : .jogTouchB, deck, 0))
+                }
+                if bent.remove(deck) != nil { events.append(.bendEnd(deck)) }
+                if ticks != 0 && loopEdges != 0x60 {
+                    events.append(.native(.loopTrim(deck, end: loopEdges == 0x20, ticks: ticks)))
+                }
+            } else if ticks != 0 {
                 if touched.contains(deck) {
                     let elapsed = (Self.word(bytes, wheel + 2) - Self.word(previous, wheel + 2)) & 0xffff
                     let rate = min(4, max(-4, Double(ticks) * (shifted ? 17.58 : 1.758) / Double(max(1, elapsed))))
@@ -127,7 +140,7 @@ struct S2MK1Controls {
         return events
     }
 
-    private mutating func pots(_ bytes: [UInt8]) -> [S4MK2Event] {
+    private mutating func pots(_ bytes: [UInt8], activeLoop: (DeckID) -> Bool) -> [S4MK2Event] {
         let previous = lastPots
         lastPots = bytes
         func pot(_ offset: Int) -> Double? {
@@ -152,7 +165,8 @@ struct S2MK1Controls {
                     let touch: ControllerAction = left ? .jogTouchA : .jogTouchB
                     if pressed {
                         pressedWheels.insert(deck)
-                        if previous != nil {
+                        let trimming = activeLoop(deck) && (lastButtons.map { $0[left ? 9 : 11] & 0x60 != 0 } ?? false)
+                        if previous != nil && !trimming {
                             touched.insert(deck)
                             events.append(.action(touch, deck, 1))
                         }
@@ -229,4 +243,21 @@ struct S2MK1Controls {
     private static func delta(_ current: Int, _ previous: Int, modulus: Int) -> Int {
         ((current - previous + modulus / 2) & (modulus - 1)) - modulus / 2
     }
+}
+
+struct S2MK1LoopBounds: Equatable {
+    var start: Double
+    var end: Double
+
+    func trimming(end trimEnd: Bool, by frames: Double, frameCount: Double) -> Self {
+        if trimEnd { return .init(start: start, end: min(frameCount, max(start + 1, end + frames))) }
+        return .init(start: max(0, min(end - 1, start + frames)), end: end)
+    }
+}
+
+struct S2MK1LoopTrim {
+    let generation: UInt64
+    let original: S2MK1LoopBounds
+    var target: S2MK1LoopBounds
+    var dirty = true
 }

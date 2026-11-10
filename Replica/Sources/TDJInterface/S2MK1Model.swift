@@ -7,7 +7,11 @@
             let bridge = TraktorHIDBridgeConnection(.s2MK1)
             bridge.onReport = { [weak self] report in
                 guard let self else { return }
-                for event in s2MK1Controls.consume(report) { applyS2MK1Event(event) }
+                let snapshot = playbackSnapshot
+                let events = s2MK1Controls.consume(report) {
+                    snapshot?[$0].loopEnabled == true && snapshot?[$0].loopRolling != true
+                }
+                for event in events { applyS2MK1Event(event) }
             }
             bridge.onDisconnect = { [weak self] in self?.releaseS2MK1Controls() }
             s2MK1Bridge = bridge
@@ -38,6 +42,40 @@
             }
         }
 
+        func queueS2MK1LoopTrim(deck: DeckID, end: Bool, ticks: Int) {
+            guard let state = playbackSnapshot?[deck], state.loopEnabled, !state.loopRolling,
+                !preparingTrack.contains(deck), let asset = playback.core.asset(generation: state.generation)
+            else { return }
+            let current = S2MK1LoopBounds(start: state.loopStart, end: state.loopEnd)
+            let previous = s2MK1LoopTrims[deck]
+            let base: S2MK1LoopBounds
+            if let previous, previous.generation == state.generation,
+                previous.dirty || (previous.original == current && playback.preparingSourceDecks.contains(deck))
+            {
+                base = previous.target
+            } else {
+                base = current
+            }
+            let target = base.trimming(
+                end: end, by: Double(ticks) * asset.sampleRate / 1024, frameCount: Double(asset.frames))
+            guard target != base else { return }
+            s2MK1LoopTrims[deck] = .init(generation: state.generation, original: current, target: target)
+        }
+
+        private func flushS2MK1LoopTrims() {
+            for deck in DeckID.primary {
+                guard let trim = s2MK1LoopTrims[deck], trim.dirty else { continue }
+                guard let state = playbackSnapshot?[deck], state.generation == trim.generation,
+                    state.loopEnabled, !state.loopRolling
+                else {
+                    s2MK1LoopTrims[deck] = nil
+                    continue
+                }
+                s2MK1LoopTrims[deck]?.dirty = false
+                setLoop(start: trim.target.start, end: trim.target.end, deck: deck)
+            }
+        }
+
         private func releaseS2MK1Controls() {
             for deck in s2MK1Controls.touched {
                 applyTraktorDeckAction(deck.leftSide ? .jogTouchA : .jogTouchB, deck: deck, value: 0, quantized: false)
@@ -47,6 +85,7 @@
             for (deck, previous) in s2MK1Performance.previousFX where playback.generations[deck] != nil {
                 for (slot, effect) in previous.enumerated() { setEffect(effect, slot: slot, deck: deck) }
             }
+            s2MK1LoopTrims.removeAll()
             s2MK1Controls = .init()
             s2MK1Performance = .init(sliceCount: 4)
         }
@@ -54,6 +93,7 @@
         func maintainS2MK1Bridge() {
             guard let bridge = s2MK1Bridge else { return }
             bridge.poll()
+            flushS2MK1LoopTrims()
             let connected = bridge.isReceiving
             if s2MK1Receiving != connected { s2MK1Receiving = connected }
             guard connected, let snapshot = playbackSnapshot else { return }

@@ -96,6 +96,9 @@ enum NativeTraktorEvent: Equatable {
     case s3EXT(shifted: Bool)
     case s3EXTCue
     case s3EXTLevel(Double, trim: Bool)
+    case cloneDeck(DeckID)
+    case crossfaderAssign(DeckID, CrossfaderAssignment)
+    case loopTrim(DeckID, end: Bool, ticks: Int)
 }
 
 struct S2MK3Controls {

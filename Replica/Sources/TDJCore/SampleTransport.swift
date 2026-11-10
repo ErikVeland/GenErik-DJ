@@ -30,6 +30,8 @@ public enum TransportError: Error, LocalizedError, Equatable {
 public final class PCMAsset: @unchecked Sendable {
     let pointer: OpaquePointer
     var streamingWorker: PCMStreamWorker?
+    typealias StreamCopy = @Sendable (Double, UInt32, Bool) throws -> PCMAsset
+    private let streamCopy: StreamCopy?
     var nextSourceRequest: UInt64 = 0
     var accountedStreamingTelemetry = tdj_stream_telemetry()
     public let frames: UInt64
@@ -42,6 +44,7 @@ public final class PCMAsset: @unchecked Sendable {
             })
         else { throw TransportError.allocation }
         self.pointer = pointer
+        streamCopy = nil
         frames = UInt64(interleavedStereo.count / 2)
         self.sampleRate = sampleRate
     }
@@ -52,6 +55,7 @@ public final class PCMAsset: @unchecked Sendable {
         self.pointer = pointer
         self.frames = frames
         self.sampleRate = sampleRate
+        streamCopy = nil
     }
     public init(
         streamedFile: URL, frames: UInt64, sampleRate: Double, outputSampleRate: Double = 48000,
@@ -76,12 +80,21 @@ public final class PCMAsset: @unchecked Sendable {
         self.frames = frames
         self.sampleRate = sampleRate
         streamingWorker = PCMStreamWorker(pointer: pointer)
+        streamCopy = { rate, maximum, compact in
+            try PCMAsset(
+                streamedFile: streamedFile, frames: frames, sampleRate: sampleRate,
+                outputSampleRate: rate, maximumOutputFrames: maximum, compactPool: compact)
+        }
     }
-    init(streamPointer: OpaquePointer, frames: UInt64, sampleRate: Double) {
+    init(streamPointer: OpaquePointer, frames: UInt64, sampleRate: Double, streamCopy: @escaping StreamCopy) {
         pointer = streamPointer
+        self.streamCopy = streamCopy
         self.frames = frames
         self.sampleRate = sampleRate
         streamingWorker = PCMStreamWorker(pointer: streamPointer)
+    }
+    package func copyForDeck(outputSampleRate: Double, maximumOutputFrames: UInt32, compactPool: Bool) throws -> PCMAsset {
+        try streamCopy?(outputSampleRate, maximumOutputFrames, compactPool) ?? self
     }
     deinit { if let streamingWorker { streamingWorker.dispose() } else { PCMAssetDisposal.enqueue(pointer) } }
 }
@@ -105,6 +118,15 @@ public enum PlaybackPhase: Int32, Codable, Sendable {
 public enum MixerParameter: Int32, Sendable {
     case crossfader = 0
     case master, monitor, cueBlend, volume, gain, low, mid, high, cue, filterX, filterY, filterEnabled
+    case crossfaderAssignment
+}
+
+public enum CrossfaderAssignment: Int32, Codable, Sendable {
+    case left = -1
+    case through = 0
+    case right = 1
+
+    public func toggling(_ side: Self) -> Self { self == side ? .through : side }
 }
 
 public struct DeckMixerSnapshot: Codable, Equatable, Sendable {
@@ -117,6 +139,7 @@ public struct DeckMixerSnapshot: Codable, Equatable, Sendable {
     public let filterX: Double
     public let filterY: Double
     public let filterEnabled: Bool
+    public let crossfaderAssignment: CrossfaderAssignment?
     public let peak: Double
     fileprivate init(_ value: tdj_deck_snapshot) {
         volume = value.volume
@@ -128,6 +151,7 @@ public struct DeckMixerSnapshot: Codable, Equatable, Sendable {
         filterX = value.filter_x
         filterY = value.filter_y
         filterEnabled = value.filter_enabled != 0
+        crossfaderAssignment = CrossfaderAssignment(rawValue: value.crossfader_assignment)
         peak = value.peak
     }
 }
