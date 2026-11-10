@@ -16,7 +16,7 @@
         }
 
         private func receiveS2Frame(_ frame: Z1AccessoryProtocol.Frame) {
-            for event in s2Controls.consume(frame) { applyNativeTraktorEvent(event, isS3: false) }
+            for event in s2Controls.consume(frame, hasStems: isStemDeck) { applyNativeTraktorEvent(event, isS3: false) }
         }
 
         func applyNativeTraktorEvent(_ event: NativeTraktorEvent, isS3: Bool) {
@@ -64,6 +64,10 @@
                 } else {
                     showLibrary(fullyExpanded: true)
                 }
+            case .stemMute(let deck, let part):
+                changeStem(deck) { $0.toggleMute(part) }
+            case .stemAdjust(let deck, let part, let detents, let filter):
+                changeStem(deck) { $0.adjust(part, detents: detents, filter: filter) }
             case .samplePad(let slot, let shifted):
                 pressS2Sample(slot: slot, shifted: shifted)
             case .sampleGain(let value):
@@ -197,7 +201,7 @@
                 return Set(cues.keys)
             }
             let feedback = S2MK3Feedback(
-                sampleDecks: s2Controls.samples, sampleSlots: Set(s2SampleSlots.keys),
+                sampleDecks: s2Controls.samples, stemMuted: stemPadMutes(s2Controls.samples), sampleSlots: Set(s2SampleSlots.keys),
                 playingSamples: playback.core.playingPads,
                 shifts: s2Controls.shifts, gridDecks: Set(s2Grids.keys),
                 fx: Set(DeckID.primary.map { s2FX[$0] ?? .filter }), browser: browserVisible,

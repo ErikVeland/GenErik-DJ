@@ -35,11 +35,7 @@
             case .native(.s3PreviewSeek(let detents)):
                 if s4MK3Performance.ownsPreview { seekS3Preview(detents: detents) }
             case .pad(let deck, let slot, let held, _) where s4MK3Controls.stems.contains(deck) && isStemDeck(deck):
-                if held, slot < 4, s4MK3Controls.stemMuteHeld.contains(deck) {
-                    changeStem(deck) {
-                        if $0.muted.remove(slot) == nil { $0.muted.insert(slot) }
-                    }
-                }
+                if held, slot < 4 { changeStem(deck) { $0.toggleMute(slot) } }
             case .native(.move(let deck, let count, _)) where s4MK3Controls.stemContacts[deck] != nil && isStemDeck(deck):
                 if let part = s4MK3Controls.stemContacts[deck] {
                     changeStem(deck) { $0.gain[part] = min(1, max(0, $0.gain[part] + Double(count) / 32)) }

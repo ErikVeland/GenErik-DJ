@@ -76,7 +76,7 @@ struct TraktorFactoryLights {
         }
     }
 
-    private mutating func rgb(_ at: Int, red: UInt8, green: UInt8, blue: UInt8) {
+    mutating func rgb(_ at: Int, red: UInt8, green: UInt8, blue: UInt8) {
         switch model {
         case .f1:
             set(at, blue)
@@ -166,7 +166,12 @@ struct TraktorFactoryLights {
                     reports.patternLamp(light.lamp, color: session.stemDecks.contains(deck) && isStemDeck(deck) ? 46 : 44)
                     continue
                 case .stemFilterToggle(let part):
-                    active = stemMix(deck).map { !$0.bypassed.contains(part) && abs($0.filters[part]) > 0.01 } ?? false
+                    active = stemMix(deck).map {
+                        if session.stemSendPages.contains(deck) { return !$0.unsent.contains(part) }
+                        return !$0.bypassed.contains(part) && abs($0.filters[part]) > 0.01
+                    } ?? false
+                case .stemSendPage(let send):
+                    active = isStemDeck(deck) && send == session.stemSendPages.contains(deck)
                 case .stopSampleColumn(let part):
                     active = stemMix(deck)?.muted.contains(part) == true
                 case .patternPads:
@@ -178,7 +183,24 @@ struct TraktorFactoryLights {
                 case .mixerButton(.filterToggleA): active = state.mixer.filterEnabled
                 case .pad(let slot):
                     if session.stemDecks.contains(deck), let mix = stemMix(deck) {
-                        reports.lamp(light.lamp, level: mix.muted.contains(slot % 4) ? 12 : 127)
+                        if session.model == .s5, case .rgb(let at) = light.lamp {
+                            if session.shifted(light.target) {
+                                if slot < 4 {
+                                    reports.rgb(at, red: mix.unsent.contains(slot) ? 12 : 127, green: 0, blue: 0)
+                                } else {
+                                    let part = slot - 4
+                                    let level: UInt8 = mix.gain[part] == 1 && mix.filters[part] == 0 ? 127 : 30
+                                    reports.rgb(at, red: level, green: level, blue: level)
+                                }
+                            } else if slot >= 4 {
+                                let selected = session.s5StemSelection[deck]?.contains(slot - 4) == true
+                                reports.lamp(light.lamp, level: selected ? 127 : 30)
+                            } else {
+                                reports.lamp(light.lamp, level: mix.muted.contains(slot) ? 12 : 127)
+                            }
+                        } else {
+                            reports.lamp(light.lamp, level: mix.muted.contains(slot % 4) ? 12 : 127)
+                        }
                     } else if session.model == .mx2, let page = session.patterns[unit].page {
                         let step = page * 8 + slot
                         let on = session.patterns[unit].steps & (1 << step) != 0
@@ -198,7 +220,11 @@ struct TraktorFactoryLights {
                 case .sample(let slot):
                     if let mix = stemMix(deck) {
                         let part = slot % 4
-                        reports.lamp(light.lamp, level: mix.muted.contains(part) ? 0 : UInt8(mix.gain[part] * 127))
+                        if session.shifted(light.target), (4..<8).contains(slot) {
+                            reports.lamp(light.lamp, level: mix.unsent.contains(part) ? 0 : 127)
+                        } else {
+                            reports.lamp(light.lamp, level: mix.muted.contains(part) ? 0 : UInt8(mix.gain[part] * 127))
+                        }
                     } else {
                         reports.lamp(light.lamp, level: sampleLevel(slot))
                     }
@@ -208,7 +234,7 @@ struct TraktorFactoryLights {
                 reports.lamp(light.lamp, level: active ? 127 : 5)
             }
             if session.model == .f1 {
-                reports.digits(1, first: 0, count: 2, width: 8, reversed: true)
+                reports.digits(Int(session.decks[0].transportIndex) + 1, first: 0, count: 2, width: 8, reversed: true)
             }
             if session.model == .z2 {
                 for (side, deck) in session.decks.enumerated() {

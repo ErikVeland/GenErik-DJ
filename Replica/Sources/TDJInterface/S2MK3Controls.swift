@@ -76,6 +76,8 @@ enum NativeTraktorEvent: Equatable {
     case loopRoll(DeckID, Bool)
     case browserView
     case samplePad(Int, shifted: Bool)
+    case stemMute(DeckID, Int)
+    case stemAdjust(DeckID, Int, detents: Int, filter: Bool)
     case sampleGain(Double)
     case fx(S2MixerFX, Set<DeckID>)
     case fxToggle(DeckID)
@@ -135,7 +137,7 @@ struct S2MK3Controls {
         (deck == .a ? 0 : 4) + (pad / 4) * 8 + pad % 4
     }
 
-    mutating func consume(_ frame: Z1AccessoryProtocol.Frame) -> [Event] {
+    mutating func consume(_ frame: Z1AccessoryProtocol.Frame, hasStems: (DeckID) -> Bool = { _ in false }) -> [Event] {
         let bytes = frame.payload
         if frame.reportID == 2, bytes.count == 38 {
             let previous = previousPots
@@ -168,10 +170,12 @@ struct S2MK3Controls {
         if pressed(5, 0x01) { samples.remove(.b) }
         if pressed(1, 0x80) { samples.insert(.a) }
         if pressed(5, 0x02) { samples.insert(.b) }
+        let stemDecks = samples.filter(hasStems)
         var events: [Event] = Self.buttons.compactMap { action, offset, mask in
             guard pressed(offset, mask) else { return nil }
             let shifted = shifts.contains(action.deck)
             if let pad = action.hotcueSlot {
+                if stemDecks.contains(action.deck) { return pad < 4 ? .stemMute(action.deck, pad) : nil }
                 if samples.contains(action.deck) {
                     return .samplePad(Self.sampleSlot(deck: action.deck, pad: pad), shifted: shifted)
                 }
@@ -187,6 +191,10 @@ struct S2MK3Controls {
         if pressed(1, 0x08) || pressed(4, 0x20) { events.append(.browserView) }
         for (index, deck) in [DeckID.a, .b].enumerated() {
             let left = index == 0
+            let stem = stemDecks.contains(deck) ? Self.buttons.first {
+                let (action, offset, mask) = $0
+                return action.deck == deck && (action.hotcueSlot ?? 0) >= 4 && bytes[offset - 1] & mask != 0
+            }?.0.hotcueSlot.map { $0 - 4 } : nil
             let browseOffset = left ? 8 : 9
             let browseShift = left ? 0 : 4
             let browseDelta = Self.delta(
@@ -197,7 +205,7 @@ struct S2MK3Controls {
                 events.append(shifts.contains(deck) ? .eject(deck) : .browser(.load(deck)))
             }
             let moveMask: UInt8 = left ? 0x02 : 0x10
-            if pressed(7, moveMask), !shifts.contains(deck) {
+            if pressed(7, moveMask), !shifts.contains(deck), stem == nil {
                 rolling.insert(deck)
                 events.append(.loopRoll(deck, true))
             } else if rolling.contains(deck) && bytes[6] & moveMask == 0 {
@@ -241,7 +249,9 @@ struct S2MK3Controls {
             let shift = left ? 0 : 4
             let loopDelta = Self.delta(
                 Int(bytes[loopOffset] >> shift & 15), Int(previous[loopOffset] >> shift & 15), modulus: 16)
-            if loopDelta != 0 {
+            if let stem, loopDelta != 0 {
+                events.append(.stemAdjust(deck, stem, detents: loopDelta, filter: true))
+            } else if loopDelta != 0 {
                 let action: ControllerAction =
                     left
                     ? (loopDelta > 0 ? .loopUpA : .loopDownA)
@@ -252,7 +262,9 @@ struct S2MK3Controls {
             let moveShift = left ? 4 : 0
             let moveDelta = Self.delta(
                 Int(bytes[moveOffset] >> moveShift & 15), Int(previous[moveOffset] >> moveShift & 15), modulus: 16)
-            if moveDelta != 0 {
+            if let stem, moveDelta != 0 {
+                events.append(.stemAdjust(deck, stem, detents: moveDelta, filter: false))
+            } else if moveDelta != 0 {
                 let action: ControllerAction =
                     left
                     ? (moveDelta > 0 ? .jumpForwardA : .jumpBackA)
@@ -292,6 +304,7 @@ struct S2MK3Controls {
 
 struct S2MK3Feedback {
     var sampleDecks: Set<DeckID> = []
+    var stemMuted: [DeckID: Set<Int>] = [:]
     var sampleSlots: Set<Int> = []
     var playingSamples: UInt32 = 0
     var shifts: Set<DeckID> = []
@@ -338,7 +351,9 @@ enum S2MK3Lights {
             let slots = index == 0 ? cues.a : cues.b
             for slot in 0..<8 {
                 let pad = S2MK3Controls.sampleSlot(deck: deck, pad: slot)
-                if sampleMode {
+                if let muted = feedback.stemMuted[deck] {
+                    bytes[base + 0x0d + slot] = slot < 4 && muted.contains(slot) ? 0x7c : 0x2e
+                } else if sampleMode {
                     bytes[base + 0x0d + slot] =
                         feedback.playingSamples & (1 << pad) != 0
                         ? 0x1e : (feedback.sampleSlots.contains(pad) ? 0x26 : 0x7c)

@@ -212,3 +212,20 @@ import Testing
     pots[3] = 0x07
     #expect(controls.consume(.init(reportID: 2, payload: pots)) == [.s3Pot(.tempoA, .c, 0), .s3Pot(.levelA, .c, 0.5)])
 }
+
+@Test func s3SamplesLayerOnlyRedirectsTheDeckWithStems() {
+    var controls = S3Controls()
+    var data = [UInt8](repeating: 0, count: 21)
+    func report() -> [NativeTraktorEvent] {
+        controls.consume(.init(reportID: 1, payload: data), hasStems: { $0 == .b })
+    }
+    #expect(report().isEmpty)
+    data[1] = 0x40
+    data[2] = 0x02
+    data[4] = 0x80
+    data[5] = 0x04
+    #expect(report() == [.samplePad(0, shifted: false), .stemMute(.b, 0)])
+    data[5] = 0x40
+    data[12] = 0x11
+    #expect(report() == [.stemAdjust(.b, 0, detents: 1, filter: true), .stemAdjust(.b, 0, detents: 1, filter: false)])
+}

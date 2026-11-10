@@ -33,13 +33,15 @@ private struct TraktorModularReport {
 struct Z1MK2Controls {
     enum Event: Equatable {
         case layer
+        case mode(DeckID)
+        case stemGain(DeckID, Int, Double)
         case cue(DeckID)
         case pot(ControllerAction, DeckID, Double)
         case fxToggle(DeckID)
         case fxSelect(S2MixerFX)
     }
 
-    private static let knobs: [[ControllerAction]] = [
+    static let knobs: [[ControllerAction]] = [
         [.gainA, .highA, .midA, .lowA, .filterA],
         [.gainB, .highB, .midB, .lowB, .filterB],
     ]
@@ -50,10 +52,12 @@ struct Z1MK2Controls {
     private var previous: [UInt8]?
     private(set) var decks: [DeckID] = [.a, .b]
     private(set) var choice: S2MixerFX = .filter
+    private(set) var stemMode: Set<DeckID> = []
 
     mutating func disconnect() {
         previous = nil
         decks = [.a, .b]
+        stemMode.removeAll()
     }
 
     mutating func consume(_ bytes: [UInt8]) -> [Event] {
@@ -71,11 +75,18 @@ struct Z1MK2Controls {
             events.append(.fxSelect(preset))
         }
         for (side, deck) in decks.enumerated() {
+            let eq = report.pressed(1, 0x01 << (side * 3))
+            let stems = report.pressed(1, 0x02 << (side * 3))
+            let modeChanged = eq ? stemMode.remove(deck) != nil : stems && stemMode.insert(deck).inserted
+            if modeChanged { events.append(.mode(deck)) }
             guard !layerChanged else { continue }
             if report.pressed(2, 0x10 << side) { events.append(.cue(deck)) }
             if report.pressed(1, 0x20 << side) { events.append(.fxToggle(deck)) }
             for (index, action) in Self.knobs[side].enumerated() {
-                if let value = report.pot(3 + side * 10 + index * 2) { events.append(.pot(action, deck, value)) }
+                if index < 4 && modeChanged { continue }
+                if let value = report.pot(3 + side * 10 + index * 2) {
+                    events.append(index < 4 && stemMode.contains(deck) ? .stemGain(deck, index, value) : .pot(action, deck, value))
+                }
             }
             if let value = report.pot(29 + side * 2) { events.append(.pot(side == 0 ? .levelA : .levelB, deck, value)) }
         }
@@ -190,7 +201,7 @@ enum TraktorModularLights {
 
     static func z1(
         _ snapshot: PlaybackSnapshot, controls: Z1MK2Controls, frames: (DeckID) -> UInt64?, enabled: Set<DeckID>,
-        lighting: ControllerPlaybackLights.Options = .init()
+        lighting: ControllerPlaybackLights.Options = .init(), hasStems: (DeckID) -> Bool = { _ in false }
     ) -> [UInt8] {
         let thresholds: [Double] = [0.012, 0.025, 0.05, 0.1, 0.16, 0.25, 0.4, 0.63, 0.8, 1]
         var bytes: [UInt8] = [0x80] + .init(repeating: 0, count: 46)
@@ -201,7 +212,9 @@ enum TraktorModularLights {
             for (segment, threshold) in thresholds.enumerated() {
                 bytes[1 + side * 10 + segment] = state.mixer.peak >= threshold ? 0x7e : 0
             }
-            bytes[21 + side * 3] = 0x2e
+            let stems = hasStems(deck) && controls.stemMode.contains(deck)
+            bytes[21 + side * 3] = stems ? 0x2c : 0x2e
+            bytes[22 + side * 3] = hasStems(deck) ? (stems ? 0x2e : 0x2c) : 0
             bytes[26 + side] = enabled.contains(deck) ? 0x2e : 0x2c
             bytes[33 + side] = state.mixer.cue ? 0x0e : 0x0c
             let start = 35 + side * 6
@@ -214,6 +227,7 @@ enum TraktorModularLights {
     struct X1Feedback {
         var cues: [DeckID: Set<Int>] = [:]
         var cueHeld: Set<DeckID> = []
+        var stemMuted: [DeckID: Set<Int>] = [:]
         var fxDecks: [Set<DeckID>] = [[], []]
         var fxEnabled: [Bool] = [true, true]
         var fxSlots: [Set<Int>] = [[], []]
@@ -234,7 +248,11 @@ enum TraktorModularLights {
             bytes[8 + side * 2] = feedback.cueHeld.contains(deck) ? 0x0e : 0x0c
             bytes[9 + side * 2] = controls.reversing.contains(deck) ? 0x12 : 0x10
             for (slot, index) in hotcues[side].enumerated() {
-                bytes[index] = feedback.cues[deck]?.contains(slot) == true ? 0x2e : 0
+                if controls.shifted, let muted = feedback.stemMuted[deck] {
+                    bytes[index] = muted.contains(slot) ? 0x2c : 0x2e
+                } else {
+                    bytes[index] = feedback.cues[deck]?.contains(slot) == true ? 0x2e : 0
+                }
             }
             for slot in 0..<3 {
                 bytes[28 + side - slot * 2] = feedback.fxSlots[side].contains(slot) ? 0x32 : 0x30

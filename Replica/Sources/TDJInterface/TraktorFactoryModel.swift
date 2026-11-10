@@ -23,6 +23,9 @@
         var loopDecks: Set<DeckID> = []
         var stemDecks: Set<DeckID> = []
         var heldStem: [DeckID: Int] = [:]
+        var stemSendPages = Set<DeckID>()
+        var s5StemSelection: [DeckID: Set<Int>] = [:]
+        var s5StemGeneration: [DeckID: UInt64] = [:]
         var rollPads: [DeckID: Int] = [:]
         var cuePlay: Set<DeckID> = []
         var gridDecks: Set<DeckID> = []
@@ -75,6 +78,9 @@
             loopDecks = []
             stemDecks = []
             heldStem = [:]
+            stemSendPages = []
+            s5StemSelection = [:]
+            s5StemGeneration = [:]
             rollPads = [:]
             cuePlay = []
             gridDecks = []
@@ -127,6 +133,16 @@
                 guard session.bridge.isReceiving else { continue }
                 receiving.append(model)
                 if model == .z2, !session.timecode.isEmpty { maintainFactoryTimecode(session, now: now) }
+                if model == .s5 {
+                    for deck in session.decks {
+                        let generation = playback.generations[deck]
+                        guard generation != session.s5StemGeneration[deck] else { continue }
+                        session.s5StemGeneration[deck] = generation
+                        session.s5StemSelection[deck] = nil
+                        if isStemDeck(deck) { session.stemDecks.insert(deck) }
+                        else { session.stemDecks.remove(deck) }
+                    }
+                }
                 if let snapshot = playbackSnapshot {
                     for report in factoryLights(session, snapshot: snapshot) { session.bridge.feedback(report) }
                     if [.d2, .s5, .s8].contains(model), session.nextScreenUpdate.map({ now >= $0 }) ?? true {
@@ -230,6 +246,7 @@
             session.heldCues.remove(deck)
             session.cuePlay.remove(deck)
             session.heldStem[deck] = nil
+            session.s5StemSelection[deck] = nil
             if session.rollPads.removeValue(forKey: deck) != nil {
                 setNativeTraktorRoll(deck: deck, held: false, quantized: true)
             }
@@ -389,6 +406,7 @@
             let down = event.value > 0
             let shifted = session.shifted(event.target)
             let detents = Int(event.value)
+            let s5Stems = session.stemDecks.contains(deck) ? session.s5StemSelection[deck] ?? [] : []
             func apply(_ event: S4MK2Event) { applyNativeMK2Event(event, stateKey: stateKey) }
             func updatePattern(_ unit: Int) { playback.core.setPatternUnit(UInt32(unit), settings: session.patterns[unit].settings) }
 
@@ -462,13 +480,21 @@
                 self[keyPath: stateKey].takeover[next] = nil
             case .browser where down: apply(.native(.browserView))
             case .browse:
-                if session.model == .s5, let part = session.heldStem[deck] {
-                    changeStem(deck) { $0.gain[part] = min(1, max(0, $0.gain[part] + event.value / 32)) }
+                if session.model == .f1, shifted {
+                    let decks = DeckID.allCases
+                    let selection = (Int(deck.transportIndex) + detents % decks.count + decks.count) % decks.count
+                    session.decks[0] = decks[selection]
+                } else if !s5Stems.isEmpty {
+                    changeStem(deck) { mix in
+                        for part in s5Stems { mix.adjust(part, detents: detents, filter: false) }
+                    }
                 } else if self[keyPath: stateKey].ownsPreview { seekS3Preview(detents: detents) }
                 else { queueS2Browser(.move(detents, groups: shifted)) }
             case .load where down:
-                if session.model == .s5, let part = session.heldStem[deck] {
-                    toggleStemMute(deck, part: part)
+                if !s5Stems.isEmpty {
+                    changeStem(deck) { mix in
+                        for part in s5Stems { mix.gain[part] = 1 }
+                    }
                 } else if session.model == .f1 {
                     if shifted { queueS2Browser(.openGroup) }
                     else if s2SampleSlots[session.nextSample] == nil { queueS2Browser(.sample(session.nextSample)) }
@@ -491,11 +517,19 @@
                     stopS3Preview()
                 }
             case .loop where down:
-                if session.model == .s5, let part = session.heldStem[deck] {
-                    changeStem(deck) { if $0.bypassed.remove(part) == nil { $0.bypassed.insert(part) } }
+                if !s5Stems.isEmpty {
+                    changeStem(deck) { mix in
+                        for part in s5Stems where mix.bypassed.remove(part) == nil && mix.filters[part] != 0 {
+                            mix.bypassed.insert(part)
+                        }
+                    }
                 } else { apply(.loopSet(deck)) }
             case .loopSize:
-                if let part = session.heldStem[deck] {
+                if !s5Stems.isEmpty {
+                    changeStem(deck) { mix in
+                        for part in s5Stems { mix.adjust(part, detents: detents, filter: true) }
+                    }
+                } else if let part = session.heldStem[deck] {
                     applyStemFilterTurn(deck, part: part, detents: detents)
                 } else if s2Grids[deck] != nil { apply(.native(.gridMove(deck, detents))) }
                 else { apply(.native(.loopSize(deck, detents, shifted: shifted))) }
@@ -510,10 +544,26 @@
                 moveS4LoopOrJump(deck, detents: direction, shifted: shifted)
             case .pad(let slot):
                 if session.stemDecks.contains(deck), isStemDeck(deck) {
-                    if slot < 4, down { toggleStemMute(deck, part: slot) }
+                    if session.model == .s5, shifted, down {
+                        changeStem(deck) {
+                            if slot < 4 { $0.toggleSend(slot) }
+                            else {
+                                $0.gain[slot - 4] = 1
+                                $0.filters[slot - 4] = 0
+                                $0.bypassed.remove(slot - 4)
+                            }
+                        }
+                    } else if slot < 4, down {
+                        toggleStemMute(deck, part: slot)
+                    }
                     if slot >= 4 {
-                        if down { session.heldStem[deck] = slot - 4 }
-                        else if session.heldStem[deck] == slot - 4 { session.heldStem[deck] = nil }
+                        let part = slot - 4
+                        if session.model == .s5 {
+                            if down && !shifted && session.s5StemSelection[deck, default: []].remove(part) == nil {
+                                session.s5StemSelection[deck, default: []].insert(part)
+                            }
+                        } else if down { session.heldStem[deck] = part }
+                        else if session.heldStem[deck] == part { session.heldStem[deck] = nil }
                     }
                 } else if down, session.model == .mx2, session.patterns[unit].page != nil {
                     session.patterns[unit].toggleStep(slot)
@@ -551,19 +601,29 @@
             case .stemFilter(let part):
                 changeStem(deck) { $0.filters[part] = 2 * event.value - 1 }
             case .stemFilterTurn(let part):
-                applyStemFilterTurn(deck, part: part, detents: detents)
+                if session.stemSendPages.contains(deck) {
+                    changeStem(deck) { $0.sends[part] = min(1, max(0, $0.sends[part] + Double(detents) / 24)) }
+                } else {
+                    applyStemFilterTurn(deck, part: part, detents: detents)
+                }
             case .stemFilterToggle(let part) where down:
                 changeStem(deck) {
-                    if $0.bypassed.remove(part) == nil { $0.bypassed.insert(part) }
+                    if session.stemSendPages.contains(deck) { $0.toggleSend(part) }
+                    else if $0.bypassed.remove(part) == nil { $0.bypassed.insert(part) }
                 }
+            case .stemSendPage(let send) where down && isStemDeck(deck):
+                if send { session.stemSendPages.insert(deck) }
+                else { session.stemSendPages.remove(deck) }
             case .patternPads where down:
                 session.stemDecks.remove(deck)
                 session.heldStem[deck] = nil
+                session.s5StemSelection[deck] = nil
                 session.patterns[unit].selectPage(shifted: shifted)
                 updatePattern(unit)
             case .hotcues where down:
                 session.stemDecks.remove(deck)
                 session.heldStem[deck] = nil
+                session.s5StemSelection[deck] = nil
                 session.patterns[unit].page = nil
                 if session.model == .x1MK1 { session.hotcueMode.toggle() }
                 session.sampleDecks.remove(deck)
@@ -581,6 +641,7 @@
             case .loopPads where down:
                 session.stemDecks.remove(deck)
                 session.heldStem[deck] = nil
+                session.s5StemSelection[deck] = nil
                 session.patterns[unit].page = nil
                 if self[keyPath: stateKey].slices[deck] != nil { apply(.sliceMode(deck)) }
                 session.sampleDecks.remove(deck)
@@ -600,6 +661,10 @@
                 }
             case .quantize where down: apply(.quantize)
             case .sample(let slot) where down:
+                if session.model == .f1, isStemDeck(deck) {
+                    if shifted, (4..<8).contains(slot) { changeStem(deck) { $0.toggleSend(slot - 4) } }
+                    return
+                }
                 session.nextSample = slot
                 pressS2Sample(slot: slot, shifted: shifted)
             case .stopSampleColumn(let column) where down:

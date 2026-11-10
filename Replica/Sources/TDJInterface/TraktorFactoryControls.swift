@@ -35,6 +35,7 @@ enum TraktorFactoryControl: Equatable {
     case pad(Int), hotcues, samples, patternPads, loopPads, freeze, grid, quantize
     case sample(Int), stopSampleColumn(Int)
     case stemPads, stemGain(Int), stemFilter(Int), stemFilterTurn(Int), stemFilterToggle(Int)
+    case stemSendPage(Bool)
     case fxButton(Int), fxKnob(Int), fxAssign(Int), mixerFX(Int)
     case pot(ControllerAction), mixerButton(ControllerAction), mixerSwitch(ControllerAction), crossfaderAssign
     case jog, jogTouch, strip

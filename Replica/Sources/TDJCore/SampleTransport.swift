@@ -399,6 +399,7 @@ public final class SampleTransport: @unchecked Sendable {
         keylock: Bool = false, adaptiveMap: BeatGridMap? = nil, resetMasterTempoWhenIdle: Bool = false
     ) throws -> UInt64 {
         if deck.transportIndex >= 2 { try prepareExtraDecks() }
+        if asset.hasStems { try prepareStemSends(deck) }
         if let adaptiveMap { try adaptiveMap.validate(frameCount: Int64(asset.frames)) }
         guard adaptiveMap.map({ $0.sampleRate == asset.sampleRate }) ?? true else { throw TransportError.invalid }
         guard grid.map({ $0.sampleRate == asset.sampleRate }) ?? true else { throw TransportError.invalid }
@@ -752,6 +753,16 @@ public final class SampleTransport: @unchecked Sendable {
         let rate = value & 0x10000 != 0 ? Double(Int16(bitPattern: UInt16(truncatingIfNeeded: value))) / 4096 : nil
         let position = (value >> 17) & 0x3fffff
         return (value >> 39, rate, position == 0 ? nil : Double(position - 1) / 2500)
+    }
+
+    public func prepareStemSends(_ deck: DeckID) throws {
+        guard tdj_engine_prepare_stem_sends(pointer, UInt32(deck.transportIndex)) else {
+            throw TransportError.cache("Cannot prepare stem effects.")
+        }
+    }
+
+    public func setStemSends(_ deck: DeckID, generation: UInt64, levels: UInt32) {
+        tdj_stem_sends_set(pointer, UInt32(deck.transportIndex), generation, levels)
     }
 
     public func setStemMix(_ deck: DeckID, settings: UInt64) {

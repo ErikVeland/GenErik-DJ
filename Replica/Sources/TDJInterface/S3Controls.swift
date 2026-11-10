@@ -59,7 +59,9 @@ struct S3Controls {
     private(set) var rolling: Set<DeckID> = []
     private(set) var gridHeld: Set<DeckID> = []
 
-    mutating func consume(_ frame: Z1AccessoryProtocol.Frame) -> [NativeTraktorEvent] {
+    mutating func consume(
+        _ frame: Z1AccessoryProtocol.Frame, hasStems: (DeckID) -> Bool = { _ in false }
+    ) -> [NativeTraktorEvent] {
         let bytes = frame.payload
         if frame.reportID == 2, bytes.count == S3AccessoryProtocol.potBytes {
             let previous = previousPots
@@ -178,10 +180,16 @@ struct S3Controls {
             if pressed(mode, left ? 0x10 : 0x20) { events.append(mapped(left ? .keylockA : .keylockB, 1)) }
             if pressed(9, left ? 0x04 : 0x20) { events.append(mapped(left ? .loopA : .loopB, 1)) }
 
+            let stemMode = samples.contains(deck) && hasStems(deck)
+            var stem: Int?
             for (slot, action) in Self.pads[index].enumerated() {
                 let bit = slot + (left ? 1 : 2)
-                guard pressed(transport + bit / 8, UInt8(1 << (bit % 8))) else { continue }
-                if samples.contains(deck) {
+                let mask = UInt8(1 << (bit % 8))
+                if stemMode, slot >= 4, stem == nil, held(transport + bit / 8, mask) { stem = slot - 4 }
+                guard pressed(transport + bit / 8, mask) else { continue }
+                if stemMode {
+                    if slot < 4 { events.append(.stemMute(deck, slot)) }
+                } else if samples.contains(deck) {
                     events.append(.samplePad(S2MK3Controls.sampleSlot(deck: left ? .a : .b, pad: slot), shifted: shifted))
                 } else {
                     events.append(shifted ? .deleteCue(deck, slot) : mapped(action, 1))
@@ -214,11 +222,15 @@ struct S3Controls {
                 events.append(shifted ? .eject(deck) : .browser(.load(deck)))
             }
             let loop = encoder(left ? 0x0c : 0x0d, left ? 0 : 4)
-            if loop != 0 { events.append(.loopSize(deck, loop, shifted: shifted)) }
+            if let stem, loop != 0 {
+                events.append(.stemAdjust(deck, stem, detents: loop, filter: true))
+            } else if loop != 0 { events.append(.loopSize(deck, loop, shifted: shifted)) }
             let move = encoder(left ? 0x0b : 0x0d, left ? 4 : 0)
-            if move != 0 { events.append(.move(deck, move, shifted: shifted)) }
+            if let stem, move != 0 {
+                events.append(.stemAdjust(deck, stem, detents: move, filter: false))
+            } else if move != 0 { events.append(.move(deck, move, shifted: shifted)) }
             let rollMask: UInt8 = left ? 0x02 : 0x10
-            if pressed(9, rollMask), !shifted {
+            if pressed(9, rollMask), !shifted, stem == nil {
                 rolling.insert(deck)
                 events.append(.loopRoll(deck, true))
             } else if rolling.contains(deck), !held(9, rollMask) {
@@ -346,11 +358,15 @@ enum S3Lights {
             let slots = primary ? (deck == .a ? cues.a : cues.b) : extraCues[deck, default: []]
             for slot in 0..<8 {
                 let pad = S2MK3Controls.sampleSlot(deck: index == 0 ? .a : .b, pad: slot)
-                buttons[base + 0x12 + slot] =
-                    samples
-                    ? (feedback.playingSamples & (1 << pad) != 0
-                        ? 0x1f : (feedback.sampleSlots.contains(pad) ? 0x25 : 0))
-                    : (slots.contains(slot) ? 0x2f : 0)
+                if let muted = feedback.stemMuted[deck] {
+                    buttons[base + 0x12 + slot] = slot < 4 && muted.contains(slot) ? 0x2c : 0x2e
+                } else {
+                    buttons[base + 0x12 + slot] =
+                        samples
+                        ? (feedback.playingSamples & (1 << pad) != 0
+                            ? 0x1f : (feedback.sampleSlots.contains(pad) ? 0x25 : 0))
+                        : (slots.contains(slot) ? 0x2f : 0)
+                }
             }
             let levels = ControllerPlaybackLights.levels(
                 state: state, frameCount: primary ? (deck == .a ? sourceFrames.a : sourceFrames.b) : extraFrames[deck],
