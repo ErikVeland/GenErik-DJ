@@ -120,7 +120,8 @@ public struct LibraryGroupRequest: Hashable, Sendable {
 }
 public struct LibraryGroupProjection: Sendable {
     private let source: LibraryGroupSource
-    public var count: Int { source.groups.count }
+    public var groups: [CollectionGroup] { source.groups }
+    public var count: Int { groups.count }
     public let selectedGroup: CollectionGroup?
     private static let worker = AnalysisWorker()
     public func visibleGroups(in range: Range<Int>) -> [CollectionGroup] {
