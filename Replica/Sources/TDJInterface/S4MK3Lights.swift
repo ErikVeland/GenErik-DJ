@@ -24,16 +24,20 @@ enum S4MK3Lights {
             bytes[1 + (left ? 22 : 45)] = lamp(feedback.preview)
             bytes[1 + (left ? 12 : 35)] = lamp(deck.transportIndex < 2, 44)
             bytes[1 + (left ? 13 : 36)] = lamp(deck.transportIndex >= 2, 12)
-            bytes[1 + (left ? 9 : 32)] = lamp(!controls.samples.contains(deck))
+            let stemMode = controls.stems.contains(deck) && stems[deck] != nil
+            bytes[1 + (left ? 9 : 32)] = lamp(!controls.samples.contains(deck) && !stemMode)
+            bytes[1 + (left ? 10 : 33)] = lamp(stemMode, 44)
+            bytes[1 + (left ? 58 : 69)] = lamp(stemMode && controls.stemMuteHeld.contains(deck), 44)
             bytes[1 + (left ? 57 : 68)] = lamp(controls.samples.contains(deck))
             for slot in 0..<8 {
                 let sample = Int(deck.transportIndex) * 8 + slot
                 if let looping = feedback.sliceModes[deck] {
                     bytes[1 + first + slot] = lamp(feedback.heldSlices[deck] == slot, looping ? 28 : 44)
+                } else if stemMode, let muted = stems[deck] {
+                    let on = slot < 4 ? !muted.contains(slot) : controls.stemContacts[deck] == slot - 4
+                    bytes[1 + first + slot] = lamp(on, [44, 28, 12, 60][slot % 4])
                 } else if controls.samples.contains(deck) {
-                    if let muted = stems[deck] {
-                        bytes[1 + first + slot] = lamp(!muted.contains(slot % 4), [44, 28, 12, 60][slot % 4])
-                    } else if feedback.sampleSlots.contains(sample) {
+                    if feedback.sampleSlots.contains(sample) {
                         bytes[1 + first + slot] = lamp(feedback.samples & (1 << sample) != 0, 28)
                     }
                 } else if feedback.cues[deck]?.contains(slot) == true {

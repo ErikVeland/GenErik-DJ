@@ -14,6 +14,9 @@ struct S4MK3Controls {
     private(set) var reversing: Set<DeckID> = []
     private(set) var gridHeld: Set<DeckID> = []
     private(set) var samples: Set<DeckID> = []
+    private(set) var stems: Set<DeckID> = []
+    private(set) var stemContacts: [DeckID: Int] = [:]
+    private(set) var stemMuteHeld: Set<DeckID> = []
 
     private static let padBits = [5, 4, 7, 6, 3, 2, 1, 0]
 
@@ -41,6 +44,8 @@ struct S4MK3Controls {
         }
         var events: [S4MK2Event] = []
         shifts.removeAll(keepingCapacity: true)
+        stemContacts.removeAll(keepingCapacity: true)
+        stemMuteHeld.removeAll(keepingCapacity: true)
         for side in 0..<2 {
             let left = side == 0
             let layerAddress = left ? 5 : 14
@@ -92,8 +97,24 @@ struct S4MK3Controls {
             if !held(left ? 1 : 10, 4), reversing.remove(deck) != nil {
                 events.append(.native(.reverse(deck, false)))
             }
-            if press(transport, 2) { samples.remove(deck) }
-            if press(transport, 4) { samples.insert(deck) }
+            if press(transport, 2) {
+                samples.remove(deck)
+                stems.remove(deck)
+            }
+            if press(transport, 4) {
+                samples.insert(deck)
+                stems.remove(deck)
+            }
+            if press(left ? 5 : 12, left ? 0 : 1) {
+                samples.remove(deck)
+                stems.insert(deck)
+            }
+            if stems.contains(deck) {
+                if held(transport, 5) { stemMuteHeld.insert(deck) }
+                if let part = (0..<4).first(where: { held(pads, Self.padBits[$0 + 4]) }) {
+                    stemContacts[deck] = part
+                }
+            }
 
             let gridBit = left ? 6 : 7
             if press(layerAddress, gridBit), !touched.contains(deck) {

@@ -178,13 +178,13 @@ GenErik selects these mappings automatically on a matching bridge. The new captu
 
 | Feature | Implemented scope |
 | --- | --- |
-| Stems | Load a five-track `.stem.mp4` with an authored master and four aligned parts. D2 and S8 use their performance faders and filter controls. F1 uses its faders, filter knobs and Stop row. S5 and MX2 use held pads and encoders. S4 Mk3 Samples pads mute the parts. |
+| Stems | Load a five-track `.stem.mp4` with an authored master and four aligned parts. D2 and S8 use their performance faders and filter controls. F1 uses its faders, filter knobs and Stop row. S5 and MX2 use held pads and encoders. S4 Mk3 uses its dedicated STEMS and MUTE buttons, pads, and MOVE and LOOP encoders. |
 | Pattern Player | MX2 and X1 Mk3 use the FX buttons, knobs and deck assignments. MX2 edits 16 steps over two pad pages. Two built-in kits use synthesized drum sounds. The engine triggers notes on its beat clock. |
 | Z2 timecode | REL/INT toggles relative control on A or B. It uses the Mk2 stereo carrier for speed and direction. It holds the playhead on signal loss and keeps the deck’s saved Sync choice. |
 | Audio inputs | Z2 routes mic/AUX to master and line inputs to empty A/B mixer channels. S8 maps the C/D pairs, including the hardware mic assignments. MX2 MIC routes its microphone to master. |
 | Screens | D2, S5, S8 and the Linux S4 Mk3 bridge show the track overview waveform and playhead. Browse shows four rows and the current selection from the app. |
 
-Stem preparation stops if a deck becomes active. It accepts one master and four mono or stereo tracks with matching sample rates and aligned starts. It limits the decoded files to 480 MiB per track. The app plays the authored master at the default settings and mixes the four parts when a control changes.
+Stem preparation stops if a deck becomes active. It accepts one master and four mono or stereo tracks with matching sample rates and aligned starts. It limits the five decoded streams to a total of 480 MiB per Stem file. The app plays the authored master at the default settings and mixes the four parts when a control changes.
 
 Absolute Z2 needle-drop position, real-vinyl calibration, source separation, stem FX sends, Z1 Mk2 stem controls, NI kit import, the X1 Mk3 pattern display, additional S8 inputs, S4 Mk3 audio capture and direct DriverKit displays remain open. S5 AUX stays on the hardware mix path. Physical routing, control response, screen behavior and A10X performance remain unverified.
 

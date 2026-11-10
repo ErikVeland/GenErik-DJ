@@ -85,3 +85,23 @@ import Testing
     #expect(controller.automaticOutputDevice == nil)
     #expect(controller.outputRoute == .stereoMaster)
 }
+
+@Test func s4MK3DedicatedStemButtonKeepsSamplesSeparateAndTracksHeldPart() {
+    var controller = S4MK3Controls()
+    var report: [UInt8] = [1] + .init(repeating: 0, count: 22)
+    _ = controller.consume(report)
+    report[6] = 1
+    report[4] = 8
+    _ = controller.consume(report)
+    #expect(controller.stems == [.a])
+    #expect(controller.stemContacts[.a] == 0)
+    report[4] = 0
+    report[5] = 0x20
+    _ = controller.consume(report)
+    #expect(controller.stemContacts[.a] == nil)
+    #expect(controller.stemMuteHeld == [.a])
+    report[5] = 0x10
+    _ = controller.consume(report)
+    #expect(controller.stems.isEmpty)
+    #expect(controller.samples == [.a])
+}
