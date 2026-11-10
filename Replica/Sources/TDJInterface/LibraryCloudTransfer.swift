@@ -15,7 +15,7 @@ public enum LibraryCloudTransfer {
         let sync = CloudPreparationSync()
         let result = try await sync.synchronize(
             store: store, tracks: [], performance: .init(), automatic: true,
-            incomingDirectories: outboxes, expectedAccount: expectedAccount
+            incomingDirectories: outboxes, expectedAccount: expectedAccount, retainedResults: { _ in }
         ) { message in
             FileHandle.standardError.write(Data((message + "\n").utf8))
         }

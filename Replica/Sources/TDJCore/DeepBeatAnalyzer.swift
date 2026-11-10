@@ -148,7 +148,7 @@ enum DeepBeatAnalyzer {
         let tempo = grid == nil ? try BeatThisTempo.preferred(
             beats: beatTimes, configuration: .init(), checkCancellation: checkCancellation) : nil
         let phase = try tempo.flatMap { try guidedPhase($0, beatTimes) }
-        let result = DeepBeatAnalysis(
+        var result = DeepBeatAnalysis(
             audio: .init(checkpoints.analysis), profile: checkpoints.profile,
             coveredFrames: checkpoints.analysis.frameCount, windowCount: checkpoints.starts.count,
             candidate: constantCandidate,
@@ -159,6 +159,7 @@ enum DeepBeatAnalyzer {
                 adaptive: grid?.openingPhaseCorrected == true ? nil : originalAdaptive,
                 checkCancellation: checkCancellation))
         try checkCancellation()
+        result.completedAt = Date()
         try checkpoints.finish(result)
         return result
     }

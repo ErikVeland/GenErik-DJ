@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 61.35,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R159",
+      "report": "Analysis stuck at 4899 on iPad. Prevent stalled sync on all devices and prioritise the latest synced result. Build 218 assumed from the last recorded install."
+    }
+  ],
   "log": "TestBuilds/ipad/build-218.log",
   "build": 218,
   "app": "TestBuilds/ipad/218/GenErikDJ.app",

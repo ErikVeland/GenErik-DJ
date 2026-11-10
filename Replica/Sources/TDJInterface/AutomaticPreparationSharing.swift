@@ -38,10 +38,16 @@ extension ReplicaModel {
             let read = await cloudFiles.run {
                 Result { try CloudPreparationVault(root: result.root).read(revision.id) }
             }
-            guard case .success(let archive) = read else {
+            guard case .success(var archive) = read else {
                 automaticCloudRead.insert(revision.id)
                 logAnalysis("A shared analysis failed its integrity check. Its saved file was retained.")
                 continue
+            }
+            // Legacy exports use their cloud revision date until they carry a completion date.
+            if archive.track.analysis.deepBeatAnalysis?.completedAt == nil {
+                var source = archive.track
+                source.analysis.deepBeatAnalysis?.completedAt = revision.savedAt
+                archive = .analysisOnly(track: source, arrangement: archive.arrangement)
             }
             var deferred = false
             for match in matches {

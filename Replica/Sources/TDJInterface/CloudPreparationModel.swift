@@ -29,18 +29,16 @@ extension ReplicaModel {
         cloudStatus = "Preparing local revisions…"
         if !automatic { cancelNativeMusicAnalysis() }
         cloudTask = Task {
-            let timeout =
-                automatic
-                ? Task { [weak self, cloudSync] in
-                    do {
-                        try await Task.sleep(for: .seconds(45))
-                        try Task.checkCancellation()
-                        self?.cloudTask?.cancel()
-                        await cloudSync.stop()
-                    } catch {}
-                } : nil
+            let timeout = Task { [weak self, cloudSync] in
+                do {
+                    try await Task.sleep(for: .seconds(automatic ? 45 : 120))
+                    try Task.checkCancellation()
+                    self?.cloudTask?.cancel()
+                    await cloudSync.stop()
+                } catch {}
+            }
             defer {
-                timeout?.cancel()
+                timeout.cancel()
                 cloudBusy = false
                 cloudSyncIsAutomatic = false
                 cloudTask = nil
@@ -54,12 +52,14 @@ extension ReplicaModel {
                 guard cloudPlaybackIsIdle else { throw CancellationError() }
                 var result = try await cloudSync.synchronize(
                     store: store, tracks: library.tracks,
-                    performance: performance, automatic: automatic
+                    performance: performance, automatic: automatic,
+                    retainedResults: { [self] in try await adoptAutomaticCloudResults($0) }
                 ) { [self] message in self.cloudStatus = message }
                 if !automatic {
                     let shared = try await cloudSync.synchronize(
                         store: store, tracks: library.tracks,
-                        performance: performance, automatic: true
+                        performance: performance, automatic: true,
+                        retainedResults: { [self] in try await adoptAutomaticCloudResults($0) }
                     ) { [self] message in self.cloudStatus = message }
                     result = .init(
                         root: shared.root, revisions: shared.revisions,

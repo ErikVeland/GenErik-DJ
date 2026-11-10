@@ -30,6 +30,7 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
     func synchronize(
         store: WorkspaceStore, tracks: [Track], performance: PerformancePreparation, automatic: Bool = false,
         incomingDirectories: [URL] = [], expectedAccount: String? = nil,
+        retainedResults: @escaping @MainActor @Sendable (Result) async throws -> Void,
         progress: @escaping @MainActor @Sendable (String) -> Void
     ) async throws -> Result {
         stopped = false
@@ -79,6 +80,26 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
         engine = syncEngine
         defer { engine = nil }
         syncEngine.state.add(pendingDatabaseChanges: [.saveZone(CKRecordZone(zoneID: zoneID))])
+
+        // Adopt durable downloads before a network request can delay them.
+        try await retainedResults(Result(
+            root: root, revisions: try await files.run { Swift.Result { try storage.list() } }.get(),
+            message: "Applying saved cloud analysis…"))
+        try check()
+        let group = CKOperationGroup()
+        group.defaultConfiguration.qualityOfService = .background
+        group.defaultConfiguration.timeoutIntervalForRequest = 20
+        group.defaultConfiguration.timeoutIntervalForResource = 40
+        await progress("Downloading cloud preparation revisions…")
+        do {
+            try await syncEngine.fetchChanges(.init(scope: .zoneIDs([zoneID]), operationGroup: group))
+        } catch let error as CKError where error.code == .zoneNotFound {
+            // The first upload creates the zone for a new account.
+        }
+        try check()
+        try await retainedResults(Result(
+            root: root, revisions: try await files.run { Swift.Result { try storage.list() } }.get(),
+            message: "Applying downloaded analysis…"))
 
         if automatic, !incomingDirectories.isEmpty {
             try await files.run {
@@ -153,12 +174,7 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
             })
         try check()
         await progress("Uploading saved preparation revisions…")
-        let group = CKOperationGroup()
-        group.defaultConfiguration.qualityOfService = .background
         try await syncEngine.sendChanges(.init(operationGroup: group))
-        try check()
-        await progress("Downloading cloud preparation revisions…")
-        try await syncEngine.fetchChanges(.init(scope: .zoneIDs([zoneID]), operationGroup: group))
         try check()
         let all = try await files.run { Swift.Result { try storage.list() } }.get()
         let pending = all.filter { !confirmed.contains($0.id) }.count

@@ -120,6 +120,7 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
     public var adaptiveCandidate: DeepAdaptiveBeatCandidate? = nil
     public var learnedKey: LearnedKeyAnalysis? = nil
     public var rhythmEvidence: DeepRhythmEvidence? = nil
+    public var completedAt: Date? = nil
 
     public var needsReview: Bool { adaptiveCandidate != nil || candidate == nil || !hasStrongEvidence }
     public func needsReview(for track: Track) -> Bool {
@@ -261,7 +262,10 @@ extension Track {
     public func adoptingDeepAnalysis(_ result: DeepBeatAnalysis) throws -> Track {
         try result.validate(matching: analysis)
         guard CloudPreparationArchive.hasAudioIdentity(self), result.profile == .current,
-            DeepAnalysisProfile.current.needsAnalysis(after: analysis.deepBeatAnalysis)
+            (DeepAnalysisProfile.current.needsAnalysis(after: analysis.deepBeatAnalysis)
+                || (result.profile == analysis.deepBeatAnalysis?.profile
+                    && result.completedAt != nil
+                    && result.completedAt! > (analysis.deepBeatAnalysis?.completedAt ?? .distantPast)))
         else { return self }
         var copy = self
         if let grid = result.acceptedOpeningGrid(for: self) {

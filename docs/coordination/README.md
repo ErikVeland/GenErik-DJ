@@ -6,6 +6,8 @@ The [project north star](../product-direction.md) guides every feature. Clean, c
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**Build 219 (R159)** installed on the A10X, and iPadOS accepted launch. Sync applies retained downloads before network transfer and fetches before uploading. Both sync modes have deadlines. Newer same-version analysis takes priority while manual preparation stays protected. Fourteen focused host checks passed. Check progress beyond 4899, cross-device receipt, audio and touch. The reported stall remains open until Erik confirms recovery. [Build record](../testing/builds/219.json).
+
 **Build 218 (R157/R158)** installed on the A10X, and iPadOS accepted launch. MIDI and preparation setup now have dedicated pages. The Library icon opens the full browser height from hidden or partly open states. All 261 focused panel checks passed. Check page navigation, imports, controller mapping, audio and touch. [Scope and evidence](settings-r154.md#r157-and-r158--detail-pages-and-library-opening).
 
 **Build 217 (R154)** installed on the A10X, and iPadOS accepted launch. Settings now has six task groups. The deck utility panel separates live controls from lasting preferences and labels their scope. Check navigation, live adjustments, saved choices, audio and touch. [Scope and remaining refinements](settings-r154.md).
