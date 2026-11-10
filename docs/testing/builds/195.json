@@ -1,0 +1,15 @@
+{
+  "notes": "R134. Verify S4 Mk1 native controls, duplex audio and Loop Recorder copy. Local checks only.",
+  "sourceCommit": "5f3ecf2ee72131c97cbe08885c6d45ac090796bc",
+  "sourceSHA256": "965f4536e9ac2d7834444cd9e5de1cfd2092c0e54c24660eddb04d092146ce14",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 95.64,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-195.log",
+  "build": 195,
+  "app": "TestBuilds/ipad/195/GenErikDJ.app",
+  "appSHA256": "245c1b94bd2c07998b511c15686f591f00c5b687a59f95ea53386de035c717a8",
+  "state": "ready",
+  "createdUTC": "2026-11-10T07:55:05.615119+00:00"
+}
