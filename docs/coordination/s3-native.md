@@ -28,3 +28,5 @@ The transport uses the same five-byte length header as the S2 Mk3. The TDJ2 iPad
 The [NI S3 manual](https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/TRAKTOR_KONTROL_S3_MK1_Manual_English_0120.pdf) documents the two physical deck sections, mixer and ring. The app uses the jog rings for the blue beat pulse and amber track-end warning. Amber pulses every four beats from 30 seconds, then every beat from 10 seconds. The pads retain Hot Cue or Sample feedback. A/B channel meters have their own output report. The app keeps one unsent packet per report ID and completes partial writes in order.
 
 C/D playback layers and outer mixer strips, the separate Preview Player, EXT input and the hardware master meter remain outside this increment. Physical S3 connection, audio, jog response and ring brightness remain unverified.
+
+Twenty-eight focused controller and audio tests passed. [Build 178](../testing/builds/178.json) installed on the A10X iPad. iPadOS accepted launch.

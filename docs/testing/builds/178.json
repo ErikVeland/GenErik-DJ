@@ -1,0 +1,24 @@
+{
+  "notes": "R113 adds native Traktor Kontrol S3 controls, blue beat pulses and amber track-end warnings.",
+  "sourceCommit": "097e96d753dc6b64110ab025e4edefddce4f9bd1",
+  "sourceSHA256": "4d94d4e0fae5340abd5e4bdab97d5a981f80fe47aca3d49ac4b156c1ed33ae1b",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 65.54,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-178.log",
+  "build": 178,
+  "app": "TestBuilds/ipad/178/GenErikDJ.app",
+  "appSHA256": "7c347564e381c784b40aeafe721b770092c24e867f7afe909541c0b7c5b8d209",
+  "state": "testing",
+  "createdUTC": "2026-11-10T00:09:57.889021+00:00",
+  "installedUTC": "2026-11-10T00:10:10.714478+00:00",
+  "launchedUTC": "2026-11-10T00:10:11.173746+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requests": [
+    "R109",
+    "R113"
+  ],
+  "hostVerification": "28 focused controller and audio tests passed. Log: TestBuilds/r113/signed-source.log.",
+  "remainingVerification": "Physical S3 native connection, controls, audio routing, ring brightness and A10X live performance."
+}
