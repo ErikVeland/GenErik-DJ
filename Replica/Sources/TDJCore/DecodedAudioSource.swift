@@ -372,6 +372,7 @@ extension PCMAsset {
             try PCMAsset(
                 decoder: decoder.duplicate(), outputSampleRate: rate, maximumOutputFrames: maximum, compactPool: compact)
         }
+        liveVocalDecoder = { try decoder.duplicate() }
     }
 }
 

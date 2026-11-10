@@ -50,6 +50,8 @@ public final class PCMAsset: @unchecked Sendable {
     typealias StreamCopy = @Sendable (Double, UInt32, Bool) throws -> PCMAsset
     private let streamCopy: StreamCopy?
     private var stemParts: [PCMAsset] = []
+    var liveVocalDecoder: (@Sendable () throws -> DecodedAudioSource)?
+    private var liveVocalFile: URL?
     public var hasStems: Bool { !stemParts.isEmpty }
 
     public init(master: PCMAsset, stems: [PCMAsset]) throws {
@@ -111,6 +113,7 @@ public final class PCMAsset: @unchecked Sendable {
         self.frames = frames
         self.sampleRate = sampleRate
         streamingWorker = PCMStreamWorker(pointer: pointer)
+        liveVocalFile = streamedFile
         streamCopy = { rate, maximum, compact in
             try PCMAsset(
                 streamedFile: streamedFile, frames: frames, sampleRate: sampleRate,
@@ -126,6 +129,28 @@ public final class PCMAsset: @unchecked Sendable {
     }
     package func copyForDeck(outputSampleRate: Double, maximumOutputFrames: UInt32, compactPool: Bool) throws -> PCMAsset {
         try streamCopy?(outputSampleRate, maximumOutputFrames, compactPool) ?? self
+    }
+    package func liveVocalReader() throws -> (UInt64, Int, UnsafeMutablePointer<Float>) throws -> Void {
+        if let liveVocalDecoder {
+            let decoder = try liveVocalDecoder()
+            return { try decoder.read(first: Int64($0), count: $1, into: $2) }
+        }
+        if let liveVocalFile {
+            let file = try FileHandle(forReadingFrom: liveVocalFile)
+            return { first, count, stereo in
+                try file.seek(toOffset: first * 8)
+                let destination = UnsafeMutableRawBufferPointer(start: stereo, count: count * 8)
+                guard let data = try file.read(upToCount: destination.count), data.count == destination.count else {
+                    throw PCMStreamingError.readFailed
+                }
+                data.copyBytes(to: destination)
+            }
+        }
+        return { first, count, stereo in
+            guard tdj_asset_read_resident(self.pointer, first, UInt32(count), stereo) else {
+                throw PCMStreamingError.readFailed
+            }
+        }
     }
     deinit { if let streamingWorker { streamingWorker.dispose() } else { PCMAssetDisposal.enqueue(pointer) } }
 }
@@ -441,6 +466,16 @@ public final class SampleTransport: @unchecked Sendable {
             throw error
         }
     }
+    package func beginLiveVocal(deck: DeckID, generation: UInt64, first: UInt64, capacity: UInt64) -> Bool {
+        tdj_live_vocal_begin(pointer, UInt32(deck.transportIndex), generation, first, capacity)
+    }
+
+    package func appendLiveVocal(_ samples: UnsafeBufferPointer<Float>) -> Bool {
+        tdj_live_vocal_append(pointer, samples.baseAddress, UInt64(samples.count / 2))
+    }
+
+    package func setLiveVocalMode(_ mode: Int32) { tdj_live_vocal_mode(pointer, mode) }
+
     public func asset(generation: UInt64) -> PCMAsset? { assets[generation] }
     public func setOptionalWarming(generation: UInt64, preparation: SourcePreparation?) {
         if let previous = optionalWarmings.removeValue(forKey: generation) {

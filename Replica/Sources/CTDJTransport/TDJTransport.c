@@ -23,7 +23,18 @@
 enum { LOOP_EXPORT_IDLE, LOOP_EXPORT_WAITING, LOOP_EXPORT_READY, LOOP_EXPORT_UNAVAILABLE };
 
 typedef struct {
+    uint64_t generation, first, capacity;
+    unsigned deck;
+    _Atomic uint64_t published;
+    _Atomic int mode;
+    float samples[];
+} live_vocal;
+
+typedef struct {
     tdj_asset *asset;
+    const live_vocal *vocal;
+    uint64_t vocal_end;
+    int vocal_mode;
     uint64_t stem_mix;
     uint32_t stem_sends;
     bool stem_split;
@@ -134,6 +145,7 @@ struct tdj_engine {
     _Atomic bool master_meter_enabled;
     _Atomic double master_peak[2];
     _Atomic uint32_t master_clip[2];
+    _Atomic(live_vocal *) vocal;
 };
 
 static bool deck_active(const deck *d) { return d->state == TDJ_PLAYING || d->state == TDJ_QUEUED; }
@@ -419,6 +431,33 @@ static void brake_clear(tdj_engine *e, int index) {
     reset_deck_keylock(e, index);
     transition_request(e, index, 0);
 }
+static bool vocal_read(void *context, uint64_t frame, float *l, float *r) {
+    deck *d = context;
+    if (frame >= d->asset->frames)
+        return false;
+    if (d->asset->stream) {
+        if (!tdj_stream_render_read_stereo(d->asset, frame, l, r))
+            return false;
+    } else {
+        *l = d->asset->samples[2 * frame];
+        *r = d->asset->samples[2 * frame + 1];
+    }
+    const live_vocal *vocal = d->vocal;
+    if (frame >= vocal->first && frame < d->vocal_end) {
+        uint64_t offset = frame - vocal->first;
+        float fade = fminf(1, fminf(offset, d->vocal_end - frame - 1) / 256);
+        float vl = vocal->samples[2 * offset], vr = vocal->samples[2 * offset + 1];
+        if (d->vocal_mode == 1) {
+            *l += fade * (vl - *l);
+            *r += fade * (vr - *r);
+        } else {
+            *l -= fade * vl;
+            *r -= fade * vr;
+        }
+    }
+    return true;
+}
+
 static bool stem_active(const deck *d) {
     return d->asset->stems[0] && (d->stem_split || d->stem_mix != TDJ_STEM_DEFAULT);
 }
@@ -475,7 +514,10 @@ static void brake_input(tdj_engine *e, int index, double position, double start,
     if (d->stem_split)
         stem_bypass_sample(atomic_load_explicit(&e->stem_keylocks[index], memory_order_relaxed),
                            d, position, d->free_rate, start, end, bl, br);
-    if (stem_active(d))
+    if (d->vocal_mode)
+        tdj_keylock_sample_stream(e->keylocks[index], d, vocal_read, d->asset->frames, d->asset->rate,
+                                 position, d->free_rate, d->keylock, start, end, l, r);
+    else if (stem_active(d))
         tdj_keylock_sample_stream(e->keylocks[index], d, stem_read, d->asset->frames, d->asset->rate,
                                  position, d->free_rate, d->keylock, start, end, l, r);
     else if (d->asset->stream)
@@ -951,6 +993,7 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
     }
     atomic_init(&e->published_paired_frames, 0);
     atomic_init(&e->master_meter_enabled, false);
+    atomic_init(&e->vocal, NULL);
     for (unsigned i = 0; i < 2; ++i) {
         atomic_init(&e->master_peak[i], 0);
         atomic_init(&e->master_clip[i], 0);
@@ -1110,6 +1153,7 @@ void tdj_engine_destroy(tdj_engine *e) {
     for (unsigned i = 0; i < PATTERN_KITS; ++i)
         free(atomic_load_explicit(&e->pattern_kits[i], memory_order_relaxed));
     free(atomic_load_explicit(&e->loop_recorder_buffer, memory_order_acquire));
+    free(atomic_load_explicit(&e->vocal, memory_order_relaxed));
     free(e);
 }
 
@@ -2680,8 +2724,24 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
     uint64_t missing[TDJ_DECK_COUNT] = {0};
     uint64_t recorded_generations[TDJ_DECK_COUNT] = {0};
     uint32_t recorded_offsets[TDJ_DECK_COUNT] = {UINT32_MAX, UINT32_MAX, UINT32_MAX, UINT32_MAX};
+    const live_vocal *vocal = atomic_load_explicit(&e->vocal, memory_order_acquire);
     for (int index = 0; index < e->deck_count; index++) {
         deck *d = &e->decks[index];
+        if (vocal && vocal->deck == (unsigned)index) {
+            int mode = 0;
+            if (d->asset && d->generation == vocal->generation) {
+                d->vocal_end = vocal->first + atomic_load_explicit(&vocal->published, memory_order_acquire);
+                if (d->position >= vocal->first && d->position + 4096 < d->vocal_end)
+                    mode = atomic_load_explicit(&vocal->mode, memory_order_relaxed);
+            }
+            if (mode != d->vocal_mode) {
+                d->vocal = vocal;
+                d->vocal_mode = mode;
+                d->brake_primed = false;
+                reset_deck_keylock(e, index);
+                transition_request(e, index, 0);
+            }
+        }
         if (d->asset && d->asset->stems[0]) {
             uint64_t mix = atomic_load_explicit(&e->stem_settings[index], memory_order_relaxed);
             uint64_t packet = atomic_load_explicit(&e->stem_send_settings[index], memory_order_relaxed);
@@ -2885,9 +2945,12 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 double fraction = d->position - floor(d->position);
                 if (wrap_end > wrap_start && next >= wrap_end)
                     next = (uint64_t)wrap_start;
-                if (d->asset->stream || stem_active(d)) {
-                    float al, ar, bl, br;
-                    if (d->asset->stream) {
+                if (d->vocal_mode || d->asset->stream || stem_active(d)) {
+                    float al = 0, ar = 0, bl = 0, br = 0;
+                    if (d->vocal_mode) {
+                        vocal_read(d, at, &al, &ar);
+                        vocal_read(d, next, &bl, &br);
+                    } else if (d->asset->stream) {
                         tdj_stream_render_read_stereo(d->asset, at, &al, &ar);
                         tdj_stream_render_read_stereo(d->asset, next, &bl, &br);
                     } else {
@@ -2910,7 +2973,11 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                     bypass_l = al * (1 - fraction) + bl * fraction;
                     bypass_r = ar * (1 - fraction) + br * fraction;
                 }
-            } else if (stem_active(d)) {
+            } else if (d->vocal_mode)
+                tdj_keylock_sample_stream(e->keylocks[i], d, vocal_read, d->asset->frames, d->asset->rate,
+                                         d->position, source_rate(e, d), d->keylock, wrap_start, wrap_end,
+                                         &source_l, &source_r);
+            else if (stem_active(d)) {
                 tdj_keylock_sample_stream(e->keylocks[i], d, stem_read, d->asset->frames, d->asset->rate,
                                          d->position, source_rate(e, d), d->keylock, wrap_start, wrap_end,
                                          &source_l, &source_r);
@@ -3358,4 +3425,49 @@ uint64_t tdj_timecode_read(tdj_engine *e, unsigned side) {
 
 bool tdj_timecode_speed(const float *left, const float *right, unsigned count, double sample_rate, double *speed) {
     return left && right && speed && timecode_speed(left, right, 1, 1, count, sample_rate, speed);
+}
+
+bool tdj_live_vocal_begin(tdj_engine *e, unsigned deck, uint64_t generation, uint64_t first, uint64_t capacity) {
+    if (!e || deck > 1 || !generation || !capacity || capacity > 90 * 44100 || first > UINT64_MAX - capacity ||
+        atomic_load_explicit(&e->vocal, memory_order_acquire))
+        return false;
+    live_vocal *vocal = malloc(sizeof(*vocal) + capacity * 2 * sizeof(float));
+    if (!vocal)
+        return false;
+    vocal->generation = generation;
+    vocal->deck = deck;
+    vocal->first = first;
+    vocal->capacity = capacity;
+    atomic_init(&vocal->published, 0);
+    atomic_init(&vocal->mode, 1);
+    live_vocal *empty = NULL;
+    if (atomic_compare_exchange_strong_explicit(&e->vocal, &empty, vocal, memory_order_release, memory_order_relaxed))
+        return true;
+    free(vocal);
+    return false;
+}
+
+bool tdj_live_vocal_append(tdj_engine *e, const float *samples, uint64_t frames) {
+    live_vocal *vocal = atomic_load_explicit(&e->vocal, memory_order_acquire);
+    if (!vocal || !samples)
+        return false;
+    uint64_t published = atomic_load_explicit(&vocal->published, memory_order_relaxed);
+    if (frames > vocal->capacity - published)
+        return false;
+    memcpy(vocal->samples + 2 * published, samples, frames * 2 * sizeof(float));
+    atomic_store_explicit(&vocal->published, published + frames, memory_order_release);
+    return true;
+}
+
+void tdj_live_vocal_mode(tdj_engine *e, int mode) {
+    live_vocal *vocal = atomic_load_explicit(&e->vocal, memory_order_acquire);
+    if (vocal)
+        atomic_store_explicit(&vocal->mode, mode >= 0 && mode <= 2 ? mode : 0, memory_order_relaxed);
+}
+
+bool tdj_asset_read_resident(const tdj_asset *asset, uint64_t first, uint32_t frames, float *stereo) {
+    if (!asset || !asset->samples || !stereo || first > asset->frames || frames > asset->frames - first)
+        return false;
+    memcpy(stereo, asset->samples + 2 * first, (size_t)frames * 2 * sizeof(float));
+    return true;
 }

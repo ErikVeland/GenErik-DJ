@@ -1254,6 +1254,45 @@ extension ReplicaView {
     }
 }
 
+@MainActor private struct LiveStemButtons: View {
+    let experiment: LiveStemExperiment
+    let deck: DeckID
+    let playback: PlaybackController
+
+    var body: some View {
+        let activeDeck = experiment.deck == deck
+        HStack(spacing: 2) {
+            ForEach(LiveStemExperiment.Mode.allCases, id: \.rawValue) { mode in
+                let selected = activeDeck ? experiment.mode == mode : mode == .mix
+                Button {
+                    experiment.select(mode, deck: deck, playback: playback)
+                } label: {
+                    VStack(spacing: 1) {
+                        Text(mode.title).font(.system(size: 13, weight: .semibold))
+                        if activeDeck && selected {
+                            if mode == .mix {
+                                Text(experiment.status.hasPrefix("Stopped") ? "Stopped" : "Dry")
+                            } else {
+                                TimelineView(.periodic(from: .now, by: 0.5)) { _ in
+                                    Text(experiment.isCovered(in: playback.core.snapshot()) ? "Live" : "Waiting")
+                                }
+                            }
+                        }
+                    }.font(.system(size: 9))
+                        .frame(width: 48, height: 44)
+                        .foregroundStyle(selected ? PerformancePalette.cyan : PerformancePalette.text)
+                        .bevelPanel(cornerRadius: 3, sunken: selected)
+                        .contentShape(Rectangle())
+                }.buttonStyle(.plain)
+                    .accessibilityLabel(mode == .instrumental ? "Instrumental" : mode.title)
+                    .accessibilityValue(selected ? experiment.status : "")
+                    .accessibilityAddTraits(selected ? .isSelected : [])
+            }
+        }.disabled(experiment.deck != nil && !activeDeck)
+            .fixedSize().layoutPriority(1).protectsFrontDeckSwipe()
+    }
+}
+
 @MainActor private struct DeckHeader: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
@@ -1291,6 +1330,13 @@ extension ReplicaView {
                 if editing {
                     GridEditBar(model: model, deck: deck).protectsFrontDeckSwipe()
                 } else {
+                    #if os(iOS)
+                        if UIDevice.current.userInterfaceIdiom == .pad, track != nil,
+                            DeckID.primary.contains(deck)
+                        {
+                            LiveStemButtons(experiment: model.liveStems, deck: deck, playback: model.playback)
+                        }
+                    #endif
                     if beatJump && track != nil {
                         ForEach([-1.0, 1.0], id: \.self) { direction in
                             Button {
