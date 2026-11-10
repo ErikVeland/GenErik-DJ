@@ -140,7 +140,8 @@
             }
             if z1Receiving {
                 z1MK2Bridge?.feedback(
-                    TraktorModularLights.z1(snapshot, controls: z1MK2Controls, frames: frames, enabled: z1MK2FXEnabled))
+                    TraktorModularLights.z1(snapshot, controls: z1MK2Controls, frames: frames, enabled: z1MK2FXEnabled,
+                        lighting: lightOptions(for: "Z1 Mk2")))
             }
             if x1Receiving {
                 var feedback = TraktorModularLights.X1Feedback()
@@ -161,7 +162,8 @@
                     }
                 }
                 x1MK3Bridge?.feedback(
-                    TraktorModularLights.x1(snapshot, controls: x1MK3Controls, frames: frames, feedback: feedback))
+                    TraktorModularLights.x1(snapshot, controls: x1MK3Controls, frames: frames, feedback: feedback,
+                        lighting: lightOptions(for: "X1 Mk3")))
             }
         }
     }

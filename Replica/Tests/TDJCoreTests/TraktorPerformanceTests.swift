@@ -110,3 +110,69 @@ func traktorPerformanceDecodesARealFiveTrackContainer() async throws {
     #expect(buses.left.last == 0.375)
     #expect(buses.right.last == 0.5)
 }
+
+@Test func traktorPerformanceMk2DecodesBothVinylSidesAndReacquiresAfterNeedleDrop() throws {
+    let core = try SampleTransport(sampleRate: 48_000, outputGain: 1)
+    let owner = core.nativeAudioRenderOwnership(metrics: nil)
+    try #require(SampleTransport.prepareMk2Position())
+    core.setFactoryInput(layout: 6, mask: 0)
+
+    func push(_ block: [Float]) {
+        block.withUnsafeBufferPointer { buffer in
+            let pointers = (0..<6).map { buffer.baseAddress?.advanced(by: $0) }
+            tdj_s4_input_push(owner.engineHandle, pointers, [6, 6, 6, 6, 6, 6], 512, 6, 48_000)
+        }
+    }
+
+    func symbols(low: UInt64, high: UInt64, count: Int) -> [Double] {
+        var low = low
+        var high = high
+        return (0..<count).map { _ in
+            let symbol = Double((high >> 45) & 1)
+            let bit = (low ^ (low >> 35) ^ (low >> 40) ^ (high >> 6) ^ (high >> 46)) & 1
+            low = (low >> 1) | (high << 63)
+            high = (high >> 1) | (bit << 45)
+            return symbol
+        }
+    }
+
+    let sideA = symbols(low: 0x03fc00c60f8c1f00, high: 0xc6007c63e, count: 31_000)
+    let sideB = symbols(low: 0xe73ff00f9fe0c7c1, high: 0x1ff9f00003, count: 101_000)
+    func feed(_ symbols: [Double], at start: Int, direction: Int, input: Int) {
+        for blockIndex in 0..<16 {
+            var block = [Float](repeating: 0, count: 512 * 6)
+            for i in 0..<512 {
+                let cycles = Double(blockIndex * 512 + i) * 2500 / 48_000
+                let cycle = Int(cycles)
+                let phase = cycles - Double(cycle)
+                let position = start + direction * cycle - (direction < 0 ? 109 : 0)
+                let transition = min(1, max(0, (phase - 0.05) / 0.4))
+                let mix = 0.5 - 0.5 * cos(transition * .pi)
+                let symbol = symbols[position] * (1 - mix) + symbols[position + direction] * mix
+                block[i * 6 + input] = Float(0.25 * cos(phase * 2 * .pi) + 0.09 * (2 * symbol - 1))
+                block[i * 6 + input + 1] = Float(Double(direction) * 0.25 * sin(phase * 2 * .pi))
+            }
+            push(block)
+        }
+    }
+
+    feed(sideA, at: 30_000, direction: 1, input: 0)
+    let first = core.factoryTimecode(side: 0)
+    #expect(abs(try #require(first.seconds) - 30_426.0 / 2500) < 0.002)
+    #expect(abs(try #require(first.rate) - 1) < 0.025)
+    #expect(core.factoryTimecode(side: 1).seconds == nil)
+
+    push(.init(repeating: 0, count: 512 * 6))
+    #expect(core.factoryTimecode(side: 0).seconds == nil)
+    #expect(core.factoryTimecode(side: 0).rate == nil)
+
+    feed(sideB, at: 100_000, direction: -1, input: 0)
+    let drop = core.factoryTimecode(side: 0)
+    #expect(abs(try #require(drop.seconds) - 99_574.0 / 2500) < 0.002)
+    #expect(abs(try #require(drop.rate) + 1) < 0.025)
+    #expect(drop.stamp > first.stamp)
+
+    feed(sideB, at: 60_000, direction: 1, input: 2)
+    #expect(abs(try #require(core.factoryTimecode(side: 1).seconds) - 60_426.0 / 2500) < 0.002)
+    #expect(core.factoryTimecode(side: 0).seconds == nil)
+}

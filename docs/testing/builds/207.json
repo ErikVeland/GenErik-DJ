@@ -1,0 +1,29 @@
+{
+  "notes": "R141 absolute Z2 Mk2 vinyl positioning and per-controller Pulse and Warning settings. Local verification only.",
+  "sourceCommit": "a8bbbc90f59a475d02918ed4ce64a3f654d97b44",
+  "sourceSHA256": "62ab2842f05cafdf9a364020e5bde03f087481d65b08deed88f9d8a40cb85f47",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 61.16,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "request": "R144",
+      "date": "2026-11-10",
+      "summary": "Erik prefers the new inner portrait layout. He wants the dock buttons grouped with thin borders and a vertical margin around the group."
+    }
+  ],
+  "log": "TestBuilds/ipad/build-207.log",
+  "build": 207,
+  "app": "TestBuilds/ipad/207/GenErikDJ.app",
+  "appSHA256": "f6ba1d90b3c514f7a981315cc25cabe680889d004b75bdeda95d9bec5539f0fc",
+  "state": "testing",
+  "createdUTC": "2026-11-10T12:19:14.736628+00:00",
+  "installedUTC": "2026-11-10T12:19:34.217434+00:00",
+  "launchedUTC": "2026-11-10T12:19:34.936662+00:00",
+  "launchVerification": "iOS accepted the launch request on the Duo. Erik checks the inner portrait layout and playback controls.",
+  "deploymentTarget": "GenErik Duo",
+  "testScope": [
+    "R143. Open the Duo in portrait and check the focused deck height.",
+    "Tap each track header. Drag the divider and check both Play controls."
+  ]
+}

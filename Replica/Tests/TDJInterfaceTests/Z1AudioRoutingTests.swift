@@ -24,7 +24,7 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
 @Test @MainActor func z1AudioRoutingDoesNotClaimOtherOutputs() throws {
     let controller = try PlaybackController(offline: true)
     for outputs in [
-        [speaker], [], [AudioOutputDevice(name: "Traktor Kontrol Z1 MK2", wired: true)],
+        [speaker], [],
         [AudioOutputDevice(name: "Traktor Kontrol S2", wired: true),
         AudioOutputDevice(name: "Traktor Kontrol S4 MK3", wired: true)],
         [AudioOutputDevice(name: "Traktor Kontrol Z1", wired: false)],
@@ -116,7 +116,7 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     controller.stopAudio()
 }
 
-@Test(arguments: ["S2 Mk2", "S2 Mk3", "S3", "S4 Mk2"])
+@Test(arguments: ["Z1 Mk2", "S2 Mk2", "S2 Mk3", "S3", "S4 Mk2"])
 @MainActor func documentedNIControllerUsesAutomaticSplitOutput(model: String) throws {
     let controller = try PlaybackController(offline: true)
     let port = AudioOutputDevice(name: "Traktor Kontrol \(model)", wired: true)

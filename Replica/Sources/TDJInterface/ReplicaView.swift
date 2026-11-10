@@ -46,8 +46,9 @@ private let surface = PerformancePalette.panel
             let width = window.size.width + window.safeAreaInsets.leading + window.safeAreaInsets.trailing
             let height = window.size.height + window.safeAreaInsets.top + window.safeAreaInsets.bottom
             let presentation = BrowserPresentation.select(isPhone: isPhone, windowWidth: width, windowHeight: height)
-            workspaceRoot(presentation: presentation)
-                .ignoresSafeArea(.container, edges: isPhone && width < height ? .horizontal : [])
+            let phonePortrait = isPhone && width < height
+            workspaceRoot(presentation: presentation, innerPortrait: phonePortrait && presentation == .standard)
+                .ignoresSafeArea(.container, edges: phonePortrait ? .horizontal : [])
         }.environment(\.touchSurfaceInterruption, touchInterruption).background(
             PerformancePalette.frame.ignoresSafeArea()
         )
@@ -56,11 +57,12 @@ private let surface = PerformancePalette.panel
         #endif
     }
 
-    private func workspaceRoot(presentation: BrowserPresentation) -> some View {
+    private func workspaceRoot(presentation: BrowserPresentation, innerPortrait: Bool) -> some View {
         GeometryReader { geometry in
             HStack(spacing: 0) {
                 if model.helpVisible { GestureHelp { model.helpVisible = false }.frame(width: 280) }
-                performanceSurface(presentation: presentation).frame(maxWidth: .infinity, maxHeight: .infinity)
+                performanceSurface(presentation: presentation, innerPortrait: innerPortrait).frame(
+                    maxWidth: .infinity, maxHeight: .infinity)
             }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .topLeading).onChange(
                 of: geometry.size
             ) { _, _ in touchInterruption = UUID() }
@@ -94,7 +96,7 @@ private let surface = PerformancePalette.panel
         return nil
     }
 
-    private func performanceSurface(presentation: BrowserPresentation) -> some View {
+    private func performanceSurface(presentation: BrowserPresentation, innerPortrait: Bool) -> some View {
         VStack(spacing: 0) {
             PerformanceToolbar(
                 model: model, tempoWheelVisible: $tempoWheelVisible, audioSettingsPresented: $audioSettingsPresented,
@@ -121,6 +123,8 @@ private let surface = PerformancePalette.panel
                                     snapshotEffects: snapshotEffectsDeck == .a,
                                     snapshotMixer: snapshotMixerDecks.contains(.a),
                                     snapshotFilter: snapshotFilterDecks.contains(.a),
+                                    isFocused: innerPortrait && deckSplit.focusedUpper,
+                                    focus: innerPortrait ? { deckSplit.focus(upper: true) } : nil,
                                     openFullHeightSections: openFullHeightSections,
                                     requestPerformanceSpace: { minimum in
                                         if model.browserVisible {
@@ -158,6 +162,8 @@ private let surface = PerformancePalette.panel
                                     snapshotEffects: snapshotEffectsDeck == .b,
                                     snapshotMixer: snapshotMixerDecks.contains(.b),
                                     snapshotFilter: snapshotFilterDecks.contains(.b),
+                                    isFocused: innerPortrait && !deckSplit.focusedUpper,
+                                    focus: innerPortrait ? { deckSplit.focus(upper: false) } : nil,
                                     openFullHeightSections: openFullHeightSections,
                                     requestPerformanceSpace: { minimum in
                                         if model.browserVisible {
@@ -218,13 +224,17 @@ private let surface = PerformancePalette.panel
                                 libraryPanel.updateViewport(
                                     width: space.size.width, height: space.size.height, presented: model.browserVisible,
                                     handleExtent: workspaceHandle)
-                                deckSplit.updateViewport(width: space.size.width, height: space.size.height)
+                                deckSplit.updateViewport(
+                                    width: space.size.width, height: space.size.height, innerPortrait: innerPortrait)
                             }.onChange(of: space.size) { _, size in
                                 libraryPanel.updateViewport(
                                     width: size.width, height: size.height, presented: model.browserVisible,
                                     handleExtent: workspaceHandle)
-                                deckSplit.updateViewport(width: size.width, height: size.height)
+                                deckSplit.updateViewport(width: size.width, height: size.height, innerPortrait: innerPortrait)
                                 model.browserVisible = libraryPanel.extent > 0
+                            }.onChange(of: innerPortrait) { _, value in
+                                deckSplit.updateViewport(
+                                    width: space.size.width, height: space.size.height, innerPortrait: value)
                             }.onChange(of: workspaceHandle) { _, value in
                                 libraryPanel.updateViewport(
                                     width: space.size.width, height: space.size.height, presented: model.browserVisible,
@@ -244,7 +254,7 @@ private let surface = PerformancePalette.panel
                             model: model, panelsA: deckAPanels, panelsB: deckBPanels,
                             geometry: PerformanceDockGeometry(
                                 width: space.size.width, height: workspace.deckArea.height,
-                                deckBoundary: split.handle.midY))
+                                deckBoundary: split.handle.midY, verticalInset: innerPortrait ? 8 : 0))
                     }.frame(width: space.size.width, height: space.size.height, alignment: .topLeading).environment(
                         \.performancePanelPortrait, space.size.width < space.size.height)
                 }
@@ -337,6 +347,8 @@ private struct DeckPanelHorizontalBounds: Shape {
     var snapshotMixer = false
     var snapshotFilter = false
     var showsSideHandles = true
+    var isFocused = false
+    var focus: (() -> Void)?
     var openFullHeightSections: ((DeckID, SectionEditIdentity) -> Void)?
     var requestPerformanceSpace: (Double) -> Void = { _ in }
     @Environment(\.performancePanelPortrait) private var portrait
@@ -424,11 +436,14 @@ private struct DeckPanelHorizontalBounds: Shape {
                     ).clipped().overlay { TrackHeadphoneIndicator(model: model, trackID: track?.id) }.overlay(
                         alignment: .bottomLeading
                     ) {
-                        Text(deck.rawValue.uppercased()).font(.system(size: 10, weight: .bold)).padding(2)
+                        Text(deck.rawValue.uppercased()).font(.system(size: 10, weight: .bold))
+                            .foregroundStyle(isFocused ? PerformancePalette.cyan : PerformancePalette.text).padding(2)
                             .background(PerformancePalette.frame).allowsHitTesting(false)
                     }
                 }.buttonStyle(.plain).accessibilityLabel("Load track for deck \(deck.rawValue.uppercased())")
-                DeckHeader(model: model, deck: deck, dense: true, showsArtwork: false).buttonStyle(.plain)
+                DeckHeader(
+                    model: model, deck: deck, dense: true, showsArtwork: false, isFocused: isFocused, focus: focus
+                ).buttonStyle(.plain)
             }.frame(height: layout.headerHeight, alignment: .top).background(
                 DeckSectionHeader(model: model, deck: deck, visibleSeconds: zoom.wrappedValue, waveform: waveformAxis)
             ).clipped()
@@ -677,10 +692,17 @@ private struct DeckPanelHorizontalBounds: Shape {
 }
 
 struct DeckRailButtonStyle: ButtonStyle {
+    var grouped = false
+
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label.frame(maxWidth: .infinity, maxHeight: .infinity).bevelPanel(
-            cornerRadius: 3, sunken: configuration.isPressed
-        ).contentShape(Rectangle())
+        let label = configuration.label.frame(maxWidth: .infinity, maxHeight: .infinity)
+        Group {
+            if grouped {
+                label.background(configuration.isPressed ? PerformancePalette.sunken : PerformancePalette.panel)
+            } else {
+                label.bevelPanel(cornerRadius: 3, sunken: configuration.isPressed)
+            }
+        }.contentShape(Rectangle())
     }
 }
 
@@ -1244,6 +1266,8 @@ extension ReplicaView {
     let deck: DeckID
     var dense = false
     var showsArtwork = true
+    var isFocused = false
+    var focus: (() -> Void)?
     @AppStorage(DeckToolSettings.beatJump) private var beatJump = false
 
     var body: some View {
@@ -1261,39 +1285,16 @@ extension ReplicaView {
                             RoundedRectangle(cornerRadius: 3).strokeBorder(Color.black.opacity(0.7)))
                     }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
                 }
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack(spacing: 6) {
-                        Text(selection?.title ?? track?.title ?? "Deck \(deck.rawValue.uppercased())").font(
-                            .system(size: dense ? 16 : 19, weight: .semibold)
-                        ).foregroundStyle(PerformancePalette.text).lineLimit(1)
-                        if dense {
-                            Text(selection?.artist ?? track?.artist ?? "").font(.system(size: 12)).foregroundStyle(
-                                PerformancePalette.secondaryText
-                            ).lineLimit(1)
-                        }
-                        if NativeAnalysisPlan.isMix(duration: track?.analysis.duration) { MixBadge(size: 14) }
-                    }
-                    HStack(spacing: 10) {
-                        if !dense || track == nil {
-                            Text(selection?.artist ?? track?.artist ?? "Swipe up to browse your collection").lineLimit(
-                                1)
-                        }
-                        if track != nil {
-                            HStack(spacing: 3) {
-                                Image(systemName: playback?.keylock == true ? "lock.fill" : "music.note").font(
-                                    .system(size: 11))
-                                Text(track?.key?.openKeyName ?? "—")
-                            }.accessibilityLabel("Key. Keylock \(playback?.keylock == true ? "on" : "off")")
-                            HStack(spacing: 3) {
-                                Image(systemName: "waveform.path.ecg").font(.system(size: 11))
-                                DeckTempoReadout(model: model, deck: deck)
-                            }
-                            ArrangementDeckStrip(
-                                model: model, deck: deck, rowHeight: 14, showsEditorButton: false, inHeader: true)
-                        }
-                    }.font(.system(size: dense ? 12 : 15)).foregroundStyle(PerformancePalette.secondaryText)
+                if let focus {
+                    Button(action: focus) {
+                        trackDetails.frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+                            .contentShape(Rectangle())
+                    }.accessibilityHint("Give this deck more waveform space")
+                        .accessibilityAddTraits(isFocused ? .isSelected : [])
+                } else {
+                    trackDetails
+                    Spacer()
                 }
-                Spacer()
                 if editing {
                     GridEditBar(model: model, deck: deck).protectsFrontDeckSwipe()
                 } else {
@@ -1340,6 +1341,40 @@ extension ReplicaView {
             }.frame(minWidth: 0, maxWidth: .infinity).clipped().contentShape(Rectangle())
         }.padding(.horizontal, 8).padding(.vertical, dense ? 0 : 8)
 
+    }
+    private var trackDetails: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 6) {
+                Text(selection?.title ?? track?.title ?? "Deck \(deck.rawValue.uppercased())").font(
+                    .system(size: dense ? 16 : 19, weight: .semibold)
+                ).foregroundStyle(PerformancePalette.text).lineLimit(1)
+                if dense {
+                    Text(selection?.artist ?? track?.artist ?? "").font(.system(size: 12)).foregroundStyle(
+                        PerformancePalette.secondaryText
+                    ).lineLimit(1)
+                }
+                if NativeAnalysisPlan.isMix(duration: track?.analysis.duration) { MixBadge(size: 14) }
+            }
+            HStack(spacing: 10) {
+                if !dense || track == nil {
+                    Text(selection?.artist ?? track?.artist ?? "Swipe up to browse your collection").lineLimit(
+                        1)
+                }
+                if track != nil {
+                    HStack(spacing: 3) {
+                        Image(systemName: playback?.keylock == true ? "lock.fill" : "music.note").font(
+                            .system(size: 11))
+                        Text(track?.key?.openKeyName ?? "—")
+                    }.accessibilityLabel("Key. Keylock \(playback?.keylock == true ? "on" : "off")")
+                    HStack(spacing: 3) {
+                        Image(systemName: "waveform.path.ecg").font(.system(size: 11))
+                        DeckTempoReadout(model: model, deck: deck)
+                    }
+                    ArrangementDeckStrip(
+                        model: model, deck: deck, rowHeight: 14, showsEditorButton: false, inHeader: true)
+                }
+            }.font(.system(size: dense ? 12 : 15)).foregroundStyle(PerformancePalette.secondaryText)
+        }
     }
     private var selection: MusicLibraryItem? { model.pendingNativeSelection[deck] }
     private var track: Track? { selection == nil ? model.track(deck) : nil }

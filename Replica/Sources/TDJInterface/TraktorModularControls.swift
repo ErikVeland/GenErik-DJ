@@ -177,15 +177,20 @@ struct X1MK3Controls {
 }
 
 enum TraktorModularLights {
-    static func color(_ state: DeckPlaybackSnapshot, frames: UInt64?) -> UInt8 {
-        guard let pulse = ControllerPlaybackLights.levels(state: state, frameCount: frames) else { return 0 }
+    static func color(
+        _ state: DeckPlaybackSnapshot, frames: UInt64?, lighting: ControllerPlaybackLights.Options = .init()
+    ) -> UInt8 {
+        guard let pulse = ControllerPlaybackLights.levels(
+            state: state, frameCount: frames, options: lighting
+        ) else { return 0 }
         if let amber = pulse.amber, amber > 0.08 { return amber > 0.45 ? 0x0e : 0x0c }
         let blue = pulse.blue * (pulse.amber == nil ? 1 : 0.35)
         return blue > 0.45 ? 0x2e : (blue > 0.08 ? 0x2c : 0)
     }
 
     static func z1(
-        _ snapshot: PlaybackSnapshot, controls: Z1MK2Controls, frames: (DeckID) -> UInt64?, enabled: Set<DeckID>
+        _ snapshot: PlaybackSnapshot, controls: Z1MK2Controls, frames: (DeckID) -> UInt64?, enabled: Set<DeckID>,
+        lighting: ControllerPlaybackLights.Options = .init()
     ) -> [UInt8] {
         let thresholds: [Double] = [0.012, 0.025, 0.05, 0.1, 0.16, 0.25, 0.4, 0.63, 0.8, 1]
         var bytes: [UInt8] = [0x80] + .init(repeating: 0, count: 46)
@@ -201,7 +206,7 @@ enum TraktorModularLights {
             bytes[33 + side] = state.mixer.cue ? 0x0e : 0x0c
             let start = 35 + side * 6
             bytes.replaceSubrange(
-                start..<(start + 6), with: repeatElement(color(state, frames: frames(deck)), count: 6))
+                start..<(start + 6), with: repeatElement(color(state, frames: frames(deck), lighting: lighting), count: 6))
         }
         return bytes
     }
@@ -215,7 +220,8 @@ enum TraktorModularLights {
     }
 
     static func x1(
-        _ snapshot: PlaybackSnapshot, controls: X1MK3Controls, frames: (DeckID) -> UInt64?, feedback: X1Feedback
+        _ snapshot: PlaybackSnapshot, controls: X1MK3Controls, frames: (DeckID) -> UInt64?, feedback: X1Feedback,
+        lighting: ControllerPlaybackLights.Options = .init()
     ) -> [UInt8] {
         let hotcues = [[20, 21, 16, 17], [22, 23, 18, 19]]
         var bytes: [UInt8] = [0x80] + .init(repeating: 0, count: 49)
@@ -239,7 +245,7 @@ enum TraktorModularLights {
             }
             let start = 37 + side * 7
             bytes.replaceSubrange(
-                start..<(start + 6), with: repeatElement(color(state, frames: frames(deck)), count: 6))
+                start..<(start + 6), with: repeatElement(color(state, frames: frames(deck), lighting: lighting), count: 6))
         }
         return bytes
     }

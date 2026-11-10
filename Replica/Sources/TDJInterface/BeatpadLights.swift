@@ -14,6 +14,7 @@ enum BeatpadLights {
         var sampleSlots: Set<Int> = []
         var playingSamples: UInt32 = 0
         var recording = false
+        var lighting = ControllerPlaybackLights.Options()
     }
 
     static func report(snapshot: PlaybackSnapshot, controls: BeatpadControls, feedback: Feedback) -> [BeatpadLight] {
@@ -35,7 +36,9 @@ enum BeatpadLights {
             button(0x22, input.faderStart)
             set(0x66, UInt8(min(8, max(0, (state.mixer.peak * 8).rounded(.up)))))
             set(0x67, 0)
-            let pulse = ControllerPlaybackLights.levels(state: state, frameCount: feedback.frames[deck])
+            let pulse = ControllerPlaybackLights.levels(
+                state: state, frameCount: feedback.frames[deck], options: feedback.lighting
+            )
             let amber = (pulse?.amber ?? 0) >= 0.18
             button(0x68, !amber && (pulse?.blue ?? 0) >= 0.12)
             for slot in 0..<4 {

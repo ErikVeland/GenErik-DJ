@@ -15,6 +15,7 @@ typedef struct tdj_engine tdj_engine;
 void tdj_stem_mix_set(tdj_engine *engine, unsigned deck, uint64_t mix);
 void tdj_pattern_set(tdj_engine *engine, unsigned unit, uint64_t settings);
 void tdj_factory_input_set(tdj_engine *engine, unsigned layout, uint32_t input_mask);
+bool tdj_mk2_prepare(void);
 uint64_t tdj_timecode_read(tdj_engine *engine, unsigned side);
 bool tdj_timecode_speed(const float *left, const float *right, unsigned count, double sample_rate, double *speed);
 

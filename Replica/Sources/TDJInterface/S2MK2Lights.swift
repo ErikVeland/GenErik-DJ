@@ -61,7 +61,9 @@ enum S2MK2Lights {
                     }
                 }
             }
-            if let pulse = ControllerPlaybackLights.levels(state: state, frameCount: feedback.frames[deck]) {
+            if let pulse = ControllerPlaybackLights.levels(
+                state: state, frameCount: feedback.frames[deck], options: feedback.lighting
+            ) {
                 let offset = pads + 9
                 let amber = pulse.amber ?? 0
                 if amber > 0.03 {

@@ -334,6 +334,21 @@ import TDJCore
     }
     public var outputRoute: AudioOutputRoute = .stereoMaster
     public private(set) var automaticOutputDevice: String?
+    private static let controllerLightingKey = "controllers.lighting"
+    private var controllerLightOptions = UserDefaults.standard.data(forKey: controllerLightingKey)
+        .flatMap { try? JSONDecoder().decode([String: ControllerPlaybackLights.Options].self, from: $0) } ?? [:]
+
+    func lightOptions(for name: String) -> ControllerPlaybackLights.Options {
+        controllerLightOptions[name] ?? .init()
+    }
+
+    func setLightOptions(_ options: ControllerPlaybackLights.Options, for name: String) {
+        controllerLightOptions[name] = options
+        if let encoded = try? JSONEncoder().encode(controllerLightOptions) {
+            UserDefaults.standard.set(encoded, forKey: Self.controllerLightingKey)
+        }
+    }
+
     public var z1Enabled = false
     public var z1Status = "Z1 disabled"
     private var z1Mapper = Z1ControlMapper()
@@ -1709,6 +1724,27 @@ import TDJCore
             }
         }
     }
+    func connectedControllerLights() -> [String] {
+        var names: [String] = []
+        #if os(macOS) || os(iOS)
+            if z1Connection?.isReceiving == true || controllerInput.isZ1BridgeConnected { names.append("Z1") }
+        #endif
+        #if os(iOS)
+            if beatpadConnection?.isConnected == true { names.append("Beatpad") }
+            if s2MK1Bridge?.isReceiving == true { names.append("S2 Mk1") }
+            if s2MK2Connection?.isReceiving == true { names.append("S2 Mk2") }
+            if s2Connection?.isReceiving == true { names.append("S2 Mk3") }
+            if s3Connection?.isReceiving == true { names.append("S3") }
+            if s4MK1Bridge?.isReceiving == true { names.append("S4 Mk1") }
+            if s4Connection?.isReceiving == true { names.append("S4 Mk2") }
+            if s4MK3Bridge?.isReceiving == true { names.append("S4 Mk3") }
+            if z1MK2Bridge?.isReceiving == true { names.append("Z1 Mk2") }
+            if x1MK3Bridge?.isReceiving == true { names.append("X1 Mk3") }
+            names.append(contentsOf: receivingFactoryControllers.map(\.rawValue))
+        #endif
+        return names
+    }
+
     public func stopPlaybackMonitor() {
         controllerInput.stop()
         recoveryState.cancel()
@@ -1798,7 +1834,7 @@ import TDJCore
             sourceFrames: (
                 playback.core.asset(generation: snapshot.a.generation)?.frames,
                 playback.core.asset(generation: snapshot.b.generation)?.frames
-            ))
+            ), lighting: lightOptions(for: "Z1"))
     }
     public func pressPlay(deck: DeckID, vinylStop: Bool? = nil) {
         cancelCloudSyncForPlayback()

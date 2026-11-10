@@ -11,15 +11,15 @@ struct PerformanceDockGeometry {
     // Eight 44-point buttons and an 88-point crossfader.
     static let minimumHeight = 440.0
     var aButtons: [CGRect] {
-        let row = crossfader.minY / 4
+        let row = (crossfader.minY - verticalInset) / 4
         return (0..<4).map {
-            let top = Double($0) * row
-            let bottom = Double($0 + 1) * row
+            let top = verticalInset + Double($0) * row
+            let bottom = verticalInset + Double($0 + 1) * row
             return CGRect(x: workArea.width + 8, y: top, width: 80, height: bottom - top)
         }
     }
     var bButtons: [CGRect] {
-        let row = (contentHeight - crossfader.maxY) / 4
+        let row = (contentHeight - verticalInset - crossfader.maxY) / 4
         return (0..<4).map {
             let top = crossfader.maxY + Double($0) * row
             let bottom = crossfader.maxY + Double($0 + 1) * row
@@ -30,18 +30,23 @@ struct PerformanceDockGeometry {
     let workArea: CGRect
     let contentHeight: Double
     let fits: Bool
+    let verticalInset: Double
 
-    init(width: Double, height: Double, deckBoundary: Double? = nil) {
+    init(width: Double, height: Double, deckBoundary: Double? = nil, verticalInset: Double = 0) {
         let width = width.isFinite ? max(0, width) : 0
         let height = height.isFinite ? max(0, height) : 0
-        let contentHeight = max(Self.minimumHeight, height)
+        let verticalInset = verticalInset.isFinite ? max(0, verticalInset) : 0
+        self.verticalInset = verticalInset
+        let minimumHeight = Self.minimumHeight + 2 * verticalInset
+        let contentHeight = max(minimumHeight, height)
         self.contentHeight = contentHeight
-        fits = width >= Self.dockWidth + 44 && height >= Self.minimumHeight
+        fits = width >= Self.dockWidth + 44 && height >= minimumHeight
         workArea = CGRect(x: 0, y: 0, width: max(0, width - Self.dockWidth), height: height)
         let proposed = deckBoundary.flatMap { $0.isFinite ? $0 : nil } ?? contentHeight / 2
-        let minimumSide = Self.minimumHeight / 2
+        let minimumSide = minimumHeight / 2
         let center = min(contentHeight - minimumSide, max(minimumSide, proposed))
-        let half = min(contentHeight * 0.1, min(center, contentHeight - center) - 4 * 44)
+        let half = min(
+            (contentHeight - 2 * verticalInset) * 0.1, min(center, contentHeight - center) - verticalInset - 4 * 44)
         crossfader = CGRect(x: workArea.width + 8, y: center - half, width: 80, height: 2 * half)
     }
 }
