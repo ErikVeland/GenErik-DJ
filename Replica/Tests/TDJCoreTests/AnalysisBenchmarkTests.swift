@@ -38,6 +38,40 @@ private func benchmarkManifest() -> AnalysisBenchmarkManifest {
         ])
 }
 
+@Test func auditTimelineUsesTheActualPlaybackGrid() throws {
+    var analysis = measuredAnalysis(bpm: 120, anchorSeconds: 1, downbeat: 2)
+    analysis.adaptiveCandidate = BeatGridMap(
+        anchors: [.init(beat: 0, frame: 0), .init(beat: 4, frame: 120_000)], sampleRate: 48_000)
+    var track = try Track(title: "Timeline", mediaFilename: "timeline.wav", analysis: analysis)
+    let fixed = try AnalysisBenchmarkTimeline(track: track)
+    #expect(Array(fixed.beats.prefix(5)) == [0, 0.5, 1, 1.5, 2])
+    #expect(Array(fixed.downbeats.prefix(2)) == [0, 2])
+    track.preparation.adaptiveMap = analysis.adaptiveCandidate
+    let accepted = try AnalysisBenchmarkTimeline(track: track)
+    #expect(Array(accepted.beats.prefix(5)) == [0, 0.625, 1.25, 1.875, 2.5])
+    #expect(Array(accepted.downbeats.prefix(2)) == [0, 2.5])
+}
+
+@Test func auditTimelineDoesNotInventAnUnresolvedDownbeat() throws {
+    let track = try Track(title: "Unknown bar", mediaFilename: "unknown.wav", analysis: measuredAnalysis(downbeat: nil))
+    let timeline = try AnalysisBenchmarkTimeline(track: track)
+    #expect(!timeline.beats.isEmpty)
+    #expect(timeline.downbeats.isEmpty)
+}
+
+@Test func humanBenchmarkManifestCanWithholdItsAnswers() throws {
+    var manifest = benchmarkManifest()
+    manifest.corpus = .humanReference
+    manifest.tracks = manifest.tracks.map { original in
+        var track = original
+        track.tempo = .init(status: .unlabelled)
+        track.key = .init(status: .unlabelled)
+        track.downbeat = .init(status: .unlabelled)
+        return track
+    }
+    try manifest.validate()
+}
+
 @Test func exactTempoAndLongTrackDriftAreIndependentAcceptanceChecks() throws {
     let result = AnalysisBenchmark.evaluate(
         measuredAnalysis(bpm: 120.01), expected: annotatedTrack(), limits: benchmarkLimits)

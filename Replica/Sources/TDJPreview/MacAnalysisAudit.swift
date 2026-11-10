@@ -6,6 +6,7 @@ enum MacAnalysisAudit {
     struct Row: Codable {
         var id: String
         var firstPass: AudioAnalysis?
+        var firstPassTimeline: AnalysisBenchmarkTimeline?
         var firstPassPerformance: AnalysisMeasurement.Record?
         var deep: DeepBeatAnalysis?
         var deepPerformance: AnalysisMeasurement.Record?
@@ -14,6 +15,7 @@ enum MacAnalysisAudit {
         var acceptedOverFirstPass: Bool?
         var acceptedTempoOnly: Bool?
         var finalAnalysis: AudioAnalysis?
+        var finalTimeline: AnalysisBenchmarkTimeline?
         var error: String?
     }
 
@@ -56,6 +58,8 @@ enum MacAnalysisAudit {
                     throw CoreError.invalidAudio("The source hash changed. This track cannot be scored.")
                 }
                 row.firstPass = analysis
+                row.firstPassTimeline = try AnalysisBenchmarkTimeline(
+                    track: Track(title: expected.id, mediaFilename: source.lastPathComponent, analysis: analysis))
                 measure.capture(analysis)
                 row.firstPassPerformance = measure.finish(outcome: "success")
             } catch {
@@ -89,6 +93,7 @@ enum MacAnalysisAudit {
                 report.rows[index].acceptedTempoOnly =
                     result.candidate == nil && adopted.analysis.acceptedDeepBeatAnalysis == result
                 report.rows[index].finalAnalysis = adopted.analysis.replacingWaveform([])
+                report.rows[index].finalTimeline = try AnalysisBenchmarkTimeline(track: adopted)
             } catch {
                 report.rows[index].deepPerformance = measure.finish(outcome: "failed")
                 report.rows[index].error = error.localizedDescription

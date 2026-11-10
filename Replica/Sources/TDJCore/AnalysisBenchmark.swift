@@ -49,7 +49,7 @@ public struct AnalysisBenchmarkLimits: Codable, Sendable {
 }
 
 public struct AnalysisBenchmarkManifest: Codable, Sendable {
-    public enum Corpus: String, Codable, Sendable { case synthetic, tdj1Reference }
+    public enum Corpus: String, Codable, Sendable { case synthetic, tdj1Reference, humanReference }
     public var format: String
     public var corpus: Corpus
     public var referenceBuild: String?
@@ -129,6 +129,33 @@ public struct AnalysisBenchmarkManifest: Codable, Sendable {
                 identities.contains(pair.secondTrackID), pairs.insert(identity).inserted,
                 !pair.annotation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             else { throw invalid("energy comparisons need distinct known tracks, unique pairs and an annotation.") }
+        }
+    }
+}
+
+/// Audit the accepted playback timeline. Unaccepted adaptive candidates remain separate evidence.
+public struct AnalysisBenchmarkTimeline: Codable, Sendable {
+    public var beats: [Double] = []
+    public var downbeats: [Double] = []
+
+    public init(track: Track) throws {
+        guard let timing = track.timing else { return }
+        let rate = track.analysis.sampleRate
+        let endFrame = Double(track.analysis.frameCount)
+        let first = ceil(timing.beat(atFrame: 0))
+        let last = ceil(timing.beat(atFrame: endFrame)) - 1
+        guard rate.isFinite, rate > 0, first.isFinite, last.isFinite,
+            abs(first) < 1e9, abs(last) < 1e9, last - first <= 600_000
+        else { throw CoreError.invalidAudio("The audit timeline exceeds its supported range.") }
+        guard last >= first else { return }
+        let hasBar = track.analysis.detectedDownbeatOffset != nil || track.adaptiveMap != nil
+            || track.preparation.gridIsManual || track.preparation.gridWasEditedByUser == true
+            || track.analysis.acceptedDeepBeatAnalysis?.candidate != nil
+        for beat in Int(first)...Int(last) {
+            let frame = timing.frame(atBeat: Double(beat))
+            guard frame.isFinite, frame >= 0, frame < endFrame else { continue }
+            beats.append(frame / rate)
+            if hasBar && timing.isDownbeat(beat) { downbeats.append(frame / rate) }
         }
     }
 }
