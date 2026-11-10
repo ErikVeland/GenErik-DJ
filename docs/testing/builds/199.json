@@ -1,0 +1,15 @@
+{
+  "notes": "R137 final controller candidate adds MX2 loop rolls, the eight-cue X1 layer, and the Z2 display. Local verification only.",
+  "sourceCommit": "96365b70efefbd7ff2d3935371dff86397daa336",
+  "sourceSHA256": "cd6ea07df9546761a251436dab33b94f52001f13704b29b9ed05fd79b0cf8843",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 58.76,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-199.log",
+  "build": 199,
+  "app": "TestBuilds/ipad/199/GenErikDJ.app",
+  "appSHA256": "40cab2b0bc2bbdb9cdd94497e8b61a41bb10127da2e6a74bc85911c444504511",
+  "state": "ready",
+  "createdUTC": "2026-11-10T08:33:12.309267+00:00"
+}

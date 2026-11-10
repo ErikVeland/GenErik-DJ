@@ -302,9 +302,10 @@
         }
 
         func primeS4Mixer(
-            _ deck: DeckID, stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
+            _ deck: DeckID, stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance,
+            primePots: Bool = true
         ) {
-            if nativePrimedMixer.insert(deck).inserted {
+            if primePots, nativePrimedMixer.insert(deck).inserted {
                 for (action, value) in self[keyPath: stateKey].extraPots[deck, default: [:]]
                 where action != .tempoA && action != .tempoB {
                     setS4Pot(action, deck: deck, value: value)

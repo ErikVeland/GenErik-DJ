@@ -12,6 +12,7 @@
         var loopDecks: Set<DeckID> = []
         var rollPads: [DeckID: Int] = [:]
         var cuePlay: Set<DeckID> = []
+        var gridDecks: Set<DeckID> = []
         var hotcueMode = false
         var touched: Set<DeckID> = []
         var reversing: Set<DeckID> = []
@@ -52,6 +53,7 @@
             loopDecks = []
             rollPads = [:]
             cuePlay = []
+            gridDecks = []
             hotcueMode = false
             touched = []
             reversing = []
@@ -138,6 +140,20 @@
             session.bridge.start()
         }
 
+        func primeTraktorFactoryMixer(_ deck: DeckID) -> Bool {
+            let mixers: [TraktorFactoryModel] = [.s5, .s8, .z2]
+            let available = mixers.filter { factorySessions[$0]?.bridge.isReceiving == true }
+            let active = available.first { automaticOutputDevice == "\($0.rawValue) Bridge" } ?? available.first
+            if let active { primeS4Mixer(deck, stateKey: \ReplicaModel.[factory: active]) }
+            for (model, session) in factorySessions where model != active && session.bridge.isReceiving {
+                let stateKey = \ReplicaModel.[factory: model]
+                if self[keyPath: stateKey].fx.contains(where: { $0.decks.contains(deck) }) {
+                    primeS4Mixer(deck, stateKey: stateKey, primePots: false)
+                }
+            }
+            return active != nil
+        }
+
         func stopTraktorFactoryBridges() {
             for session in factorySessions.values { session.bridge.stop() }
             factorySessions.removeAll()
@@ -171,6 +187,7 @@
                 setNativeTraktorRoll(deck: deck, held: false, quantized: true)
             }
             session.heldPads[deck] = nil
+            if session.gridDecks.remove(deck) != nil { endS2Grid(deck: deck, save: false) }
             releaseS4PerformanceContacts(deck, stateKey: \ReplicaModel.[factory: session.model])
         }
 
@@ -311,8 +328,14 @@
                 session.loopDecks.remove(deck)
                 apply(.sliceMode(deck))
             case .grid where down:
-                if s2Grids[deck] == nil { apply(.gridToggle(deck)) }
-                else { apply(.native(.gridEnd(deck))) }
+                if session.gridDecks.remove(deck) != nil {
+                    endS2Grid(deck: deck, save: true)
+                } else if s2Grids[deck] == nil, s2MetronomeGenerations[deck] == nil {
+                    apply(.gridToggle(deck))
+                    if s2Grids[deck] != nil || s2MetronomeGenerations[deck] != nil {
+                        session.gridDecks.insert(deck)
+                    }
+                }
             case .quantize where down: apply(.quantize)
             case .sample(let slot) where down:
                 session.nextSample = slot

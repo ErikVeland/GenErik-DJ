@@ -1131,7 +1131,7 @@ import TDJCore
                                     self.primeS4Mixer(deck, stateKey: \.s4MK3Performance)
                                 } else if self.s4Connection?.isReceiving == true {
                                     self.primeS4Mixer(deck)
-                                } else {
+                                } else if !self.primeTraktorFactoryMixer(deck) {
                                     self.primeS3Mixer(deck)
                                 }
                                 if self.x1MK3Bridge?.isReceiving == true {
