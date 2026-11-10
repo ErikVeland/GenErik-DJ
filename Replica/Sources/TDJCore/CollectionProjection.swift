@@ -3,6 +3,13 @@ import Foundation
 public struct CollectionGroup: Identifiable, Sendable {
     public let id: String
     public let name: String
+    public let isAppPlaylist: Bool
+
+    init(id: String, name: String, isAppPlaylist: Bool = false) {
+        self.id = id
+        self.name = name
+        self.isAppPlaylist = isAppPlaylist
+    }
 }
 
 public struct CollectionProjection: Sendable {
@@ -32,7 +39,7 @@ public struct CollectionProjection: Sendable {
             let groups: [CollectionGroup]
             if category == .playlists {
                 groups =
-                    playlists.playlists.map { .init(id: $0.id.uuidString, name: $0.name + " · GenErik DJ") }
+                    playlists.playlists.map { .init(id: $0.id.uuidString, name: $0.name, isAppPlaylist: true) }
                     + (catalog?.playlists.map { .init(id: "music:" + $0.id, name: $0.name) } ?? [])
             } else if category == .songs {
                 groups = []

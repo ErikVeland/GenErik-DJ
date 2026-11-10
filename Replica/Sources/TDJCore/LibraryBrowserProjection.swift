@@ -116,7 +116,7 @@ public struct LibraryBrowserProjection: Sendable {
         var playlistTargets: [CollectionGroup] = []
         for playlist in playlists.playlists {
             try tick()
-            playlistTargets.append(.init(id: playlist.id.uuidString, name: playlist.name + " · GenErik DJ"))
+            playlistTargets.append(.init(id: playlist.id.uuidString, name: playlist.name, isAppPlaylist: true))
         }
         let groups: [CollectionGroup]
         if category == .playlists {

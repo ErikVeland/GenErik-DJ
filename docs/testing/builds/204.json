@@ -1,0 +1,22 @@
+{
+  "notes": "R140. Show library playlist names as saved. Mark playlists created in GenErik DJ. Check that Playlists bounces normally at the top after scrolling past the first page.",
+  "sourceCommit": "e1bb19be6e5e1fc149063580d61631e14cddf586",
+  "sourceSHA256": "2f75e4479183247755061b992a1b3c02ca54a93da55e4721cbfe22955332f720",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 83.77,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-204.log",
+  "build": 204,
+  "app": "TestBuilds/ipad/204/GenErikDJ.app",
+  "appSHA256": "bd51c34fcb7c6654720afbbd4025cd77e8b41df6c430a39c80a1f39a4cd279a7",
+  "state": "ready",
+  "createdUTC": "2026-11-10T12:02:55.919066+00:00",
+  "requestIDs": [
+    "R140"
+  ],
+  "installAttempts": [
+    "Installation timed out with both Xcode versions. The iPad still reported build 196."
+  ],
+  "superseded": "Replace the text suffix with a storage icon."
+}
