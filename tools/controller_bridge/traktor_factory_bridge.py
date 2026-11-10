@@ -40,7 +40,7 @@ MODELS = {
     'x1-mk2': Model('X1 Mk2', 0x1220, 0, {1: (31, 32)}, (52, 91)),
     'f1': Model('F1', 0x1120, 0, {1: (22,)}, (81,)),
     'd2': Model('D2', 0x1400, 0, {1: (17, 64), 2: (25, 64)}, (123,)),
-    'z2': Model('Z2', 0x1130, None, {1: (9, 64), 2: (53, 64)}, (95, 41), True, b'\xf1\x93\x40'),
+    'z2': Model('Z2', 0x1130, 4, {1: (9, 64), 2: (53, 64)}, (95, 41), True, b'\xf1\x93\x40'),
     's5': Model('S5', 0x1420, 3, {1: (30, 64), 2: (79, 128)}, (105, 105, 74), True),
     's8': Model('S8', 0x1370, 5, {1: (41, 64), 2: (109, 128)}, (119, 119, 74), True),
     'mx2': Model('MX2', 0x2420, 3, {1: (15, 79, 80), 2: (53, 117, 118), 3: (20, 84, 85)}, (106,), True),
@@ -107,6 +107,15 @@ class HID:
         except OSError:
             return None
         return bytes(report[:count]) if count and report[0] == report_id else None
+
+    def feature(self, report):
+        request = (3 << 30) | (len(report) << 16) | (ord('H') << 8) | 0x06
+        try:
+            if fcntl.ioctl(self.fd, request, bytearray(report), True) == len(report):
+                return
+        except OSError:
+            pass
+        self.write(report)
 
     def read(self):
         try:
@@ -204,7 +213,7 @@ def relay(model, device, midi, audio, screens=None):
                 write_all(midi, frame)
 
     if model.startup:
-        device.write(model.startup)
+        device.feature(model.startup)
     for report_id, sizes in model.inputs.items():
         accept(device.initial(report_id, max(sizes)))
 

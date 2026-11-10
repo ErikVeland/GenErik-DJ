@@ -1,0 +1,15 @@
+{
+  "notes": "R137 adds native bridge profiles for the remaining eight Traktor models. Local verification only.",
+  "sourceCommit": "2b6af77a033ddd41e6c5f1cc3cab609a9c10fbca",
+  "sourceSHA256": "4c2a3d08764bd4d51d9198cf0b412f8827ee3d051b5ee64bce76bb7b65eda9e5",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 79.93,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-198.log",
+  "build": 198,
+  "app": "TestBuilds/ipad/198/GenErikDJ.app",
+  "appSHA256": "6ef6e87f624dafef859a47cabb567c6f55c44b0134d051437a507fc317fc980a",
+  "state": "ready",
+  "createdUTC": "2026-11-10T08:28:32.646760+00:00"
+}

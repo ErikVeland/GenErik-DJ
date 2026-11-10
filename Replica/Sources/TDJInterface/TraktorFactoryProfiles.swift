@@ -27,7 +27,7 @@ extension TraktorFactoryProfile {
             }
             p.bit(1, 24 + side, target, .load)
             p.bit(1, 26 + side, target, .loop)
-            p.bit(1, side == 0 ? 22 : 14, target, .clockMaster)
+            p.bit(1, side == 0 ? 22 : 14, target, .cuePlay, .mono(side == 0 ? 21 : 11))
             p.turn(6, high: side == 1, target, .browse)
             p.turn(7, high: side == 1, target, .loopSize)
             for i in 0..<4 {
@@ -80,7 +80,6 @@ extension TraktorFactoryProfile {
         p.button(3, 0x80, target, .shift, .mono(20))
         p.button(3, 0x08, target, .browser, .mono(16))
         p.button(3, 0x04, target, .load)
-        p.button(3, 0x40, target, .reverse, .mono(19))
         p.button(4, 0x04, target, .quantize, .mono(22))
         p.button(4, 0x08, target, .sync, .mono(23))
         p.turn(5, target, .browse)
@@ -154,12 +153,15 @@ extension TraktorFactoryProfile {
             p.pulses.append(.paired(blue: spec.pulse.blue, amber: spec.pulse.amber, count: 25, stride: 1))
         }
         if model == .d2 {
+            p.bit(first, 50, .surface(0), .loopPads, .mono(46))
             for unit in 0..<2 { p.bit(first, 24 + unit, .surface(0), .fxAssign(unit), .mono(118 + unit)) }
             p.bit(first, 16, .surface(0), .grid, .mono(39))
         } else {
             p.addScreenMixer(model)
         }
         if model == .s8 {
+            p.bit(first, 42, .surface(0), .loopPads, .mono(46))
+            p.bit(first, 106, .surface(1), .loopPads, .mono(164))
             p.bit(first, 16, .surface(0), .grid, .mono(39))
             p.bit(first, 80, .surface(1), .grid, .mono(157))
         }
@@ -246,7 +248,7 @@ extension TraktorFactoryProfile {
 
     private static func mx2() -> Self {
         var p = Self()
-        let transport: [TraktorFactoryControl] = [.shift, .play, .cue, .sync, .flux, .reverse, .keylock, .clockMaster, .hotcues, .samples, .browser, .preview, .load, .loop]
+        let transport: [TraktorFactoryControl] = [.shift, .play, .cue, .sync, .flux, .reverse, .keylock, .clockMaster, .hotcues, .loopPads, .browser, .preview, .load, .loop]
         let buttons: [[(Int, UInt8, Int?)]] = [
             [(2,0x10,12), (4,0x20,29), (4,0x10,28), (2,0x20,13), (2,1,8), (2,2,9), (2,0x80,15),
              (2,0x40,14), (3,1,16), (3,8,19), (1,0x80,7), (1,0x40,6), (10,4,nil), (10,16,nil)],
@@ -260,6 +262,8 @@ extension TraktorFactoryProfile {
             for ((byte, mask, lamp), control) in zip(buttons[side], transport) {
                 p.button(byte, mask, target, control, lamp.map(Lamp.mono))
             }
+            p.button(side == 0 ? 1 : 5, side == 0 ? 0x20 : 0x08, target, .prepare,
+                     .mono(side == 0 ? 5 : 35))
             for i in 0..<8 { p.bit(0, padBits[side][i], target, .pad(i), .palette(20 + 30 * side + i)) }
             for i in 0..<4 {
                 p.bit(0, (side == 0 ? 8 : 38) + i, target, .fxButton(i), .mono(30 * side + i))

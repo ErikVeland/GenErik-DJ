@@ -29,14 +29,28 @@ enum TraktorFactoryModel: String, CaseIterable {
 }
 
 enum TraktorFactoryControl: Equatable {
-    case shift, play, cue, sync, keylock, flux, reverse, clockMaster
-    case layer(DeckID?), browser, browse, load, preview
+    case shift, play, cue, cuePlay, sync, keylock, flux, reverse, clockMaster
+    case layer(DeckID?), browser, browse, load, preview, prepare
     case loop, loopSize, loopMark(Bool), move, tempo, masterTempo, jump(Int)
-    case pad(Int), hotcues, samples, freeze, grid, quantize
+    case pad(Int), hotcues, samples, loopPads, freeze, grid, quantize
     case sample(Int), stopSampleColumn(Int)
     case fxButton(Int), fxKnob(Int), fxAssign(Int), mixerFX(Int)
     case pot(ControllerAction), mixerButton(ControllerAction), mixerSwitch(ControllerAction), crossfaderAssign
     case jog, jogTouch, strip
+
+    var x1HotcueSlot: Int? {
+        switch self {
+        case .loopMark(false): 0
+        case .jump(-1): 1
+        case .cue: 2
+        case .play: 3
+        case .loopMark(true): 4
+        case .jump(1): 5
+        case .cuePlay: 6
+        case .sync: 7
+        default: nil
+        }
+    }
 }
 
 struct TraktorFactoryProfile {
