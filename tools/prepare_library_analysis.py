@@ -48,8 +48,12 @@ def prepare(device, library, mac):
                  normalise(m['artist']) == normalise(item['artist']) and
                  normalise(m['album']) == normalise(item['album'])]
         paths = sorted({p for _, p in exact or candidates})
+        expected = tracks[0] if tracks else None
+        if expected and (expected['analysis']['configurationID'].startswith('native-')
+                         or expected.get('nativeSourceNeedsAnalysis') is True):
+            expected = None
         items.append(dict(id=identifier, title=item['title'], artist=item['artist'],
-                          paths=paths, expected=tracks[0] if tracks else None))
+                          paths=paths, expected=expected))
     items.sort(key=lambda x: (x['expected']['analysis']['frameCount'] / x['expected']['analysis']['sampleRate']
                              if x['expected'] else 0, x['id']))
     if len({x['id'] for x in items}) != len(items):
