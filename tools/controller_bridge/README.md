@@ -114,3 +114,23 @@ Replace the example IDs, serial, device controller and node names. Use `arecord 
 The audio relay forwards channels 1–2 to master and 3–4 to headphones. It resamples for clock drift at 48 kHz with a 20 ms requested latency. The app drives the jog rings from its beat and track-end state. The bridge accepts panel and ring lighting reports. Motors, displays and external capture are outside this implementation.
 
 If the relay exits, restart it with the current device nodes. Check that the Controllers page shows the bridge as connected. Keep the master and headphones separate during the first listening test. Physical enumeration, channel order, latency, drift and recovery still need hardware verification. [Linux UAC2 gadget](https://docs.kernel.org/usb/gadget-testing.html#uac2-function) · [ALSA loopback options](https://github.com/alsa-project/alsa-utils/blob/master/alsaloop/alsaloop.1) · [Mixxx S4 Mk3 reports](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Traktor-Kontrol-S4-MK3.js)
+
+## Z1 Mk2 and X1 Mk3 bridges
+
+GenErik DJ detects each named bridge automatically. Keep the controller in its native mode. The Z1 Mk2 bridge carries four-channel audio and HID controls. The X1 Mk3 bridge carries HID controls and uses the iPad's current audio device.
+
+1. Prepare the Linux board as described in [Recommended board](#recommended-board).
+2. Connect the controller to the board's USB host port.
+3. Find the controller's hidraw node and the gadget's ALSA raw MIDI node.
+4. Run the gadget setup with `--traktor z1-mk2` or `--traktor x1-mk3` in place of `--s4-mk3`.
+5. Start the matching relay. Substitute the actual Linux device paths.
+
+```sh
+sudo python3 tools/controller_bridge/traktor_modular_bridge.py z1-mk2 --hidraw /dev/hidraw2 --midi /dev/snd/midiC1D0
+sudo python3 tools/controller_bridge/traktor_modular_bridge.py x1-mk3 --hidraw /dev/hidraw2 --midi /dev/snd/midiC1D0
+```
+
+6. Check the Controllers connection report in GenErik DJ.
+7. For the Z1 Mk2, check master on outputs 1–2 and headphones on outputs 3–4.
+
+Run one relay per gadget. The Z1 Mk2 uses the same `alsaloop` requirements as the S4 Mk3. The X1 Mk3 requires MIDI only. Physical enumeration, audio latency and lighting remain unverified. [Z1 Mk2 HID reports](https://github.com/infifox/mixxx-traktor-controllers/blob/a9e8f8ea8adbed29c4d86d224049990ec8ba21ca/doc/TraktorZ1MK2.spec.md) · [X1 Mk3 HID reports](https://github.com/infifox/mixxx-traktor-controllers/blob/36dc56869f3ad681e9b12f10f3dd15d0c4d540e6/doc/TraktorX1MK3.spec.md)

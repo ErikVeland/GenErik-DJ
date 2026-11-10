@@ -1,0 +1,76 @@
+import TDJCore
+import Testing
+
+@testable import TDJInterface
+
+@Test func z1Mk2LayerSwitchSeedsPotsAndDoesNotReplayHeldButtons() {
+    var controls = Z1MK2Controls()
+    var report: [UInt8] = [1, 0, 0x10] + .init(repeating: 0, count: 32)
+    #expect(controls.consume(report).isEmpty)
+    report[1] = 0x04
+    report[29] = 0xff
+    report[30] = 0x0f
+    #expect(controls.consume(report) == [.layer])
+    report[29] = 0x00
+    #expect(controls.consume(report) == [.pot(.levelA, .c, Double(0xf00) / 4095)])
+    report[2] = 0
+    _ = controls.consume(report)
+    report[2] = 0x10
+    #expect(controls.consume(report) == [.cue(.c)])
+}
+
+@Test func x1Mk3EncodersWrapAndShiftDoesNotLeaveReverseHeld() {
+    var controls = X1MK3Controls()
+    var report: [UInt8] = [1] + .init(repeating: 0, count: 24)
+    report[7] = 0x0f
+    #expect(controls.consume(report).isEmpty)
+    report[7] = 0
+    report[1] = 0x40
+    #expect(controls.consume(report) == [.reverse(.a, true), .loopSize(.a, 1, shifted: false)])
+    report[1] = 1
+    report[8] = 0xf0
+    #expect(controls.consume(report) == [.reverse(.a, false), .browse(-1, groups: true)])
+}
+
+@Test func modularControllerReportsKeepBlueAndAmberOnTheCorrectSide() throws {
+    let core = try SampleTransport(sampleRate: 48_000)
+    let asset = try PCMAsset(interleavedStereo: .init(repeating: 0.25, count: 96_000), sampleRate: 48_000)
+    let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48_000)
+    let generation = try core.load(asset, deck: .a, grid: grid)
+    try core.play(deck: .a, generation: generation)
+    _ = core.renderOffline(frames: 256)
+    let snapshot = try #require(core.snapshot())
+    let z1 = TraktorModularLights.z1(snapshot, controls: .init(), frames: { _ in 48_000 * 60 }, enabled: [])
+    #expect(z1.count == 47 && z1[0] == 0x80)
+    #expect(z1[35..<41].allSatisfy { $0 == 0x2e })
+    #expect(z1[41..<47].allSatisfy { $0 == 0 })
+    let x1 = TraktorModularLights.x1(snapshot, controls: .init(), frames: { _ in 48_000 }, feedback: .init())
+    #expect(x1.count == 50 && x1[0] == 0x80)
+    #expect(x1[37..<43].allSatisfy { $0 == 0x0e })
+    #expect(x1[43..<50].allSatisfy { $0 == 0 })
+}
+
+@Test @MainActor func z1Mk2RecognisesOnlyWiredFourChannelOutputNames() throws {
+    let controller = try PlaybackController(offline: true)
+    controller.updateOutputDevice([.init(name: "Traktor Z1 MK2", wired: true)])
+    #expect(controller.automaticOutputDevice == "Z1 Mk2")
+    #expect(controller.outputRoute == .masterAndHeadphones)
+    controller.updateOutputDevice([.init(name: "GenErik Z1 Mk2 Bridge", wired: true)])
+    #expect(controller.automaticOutputDevice == "Z1 Mk2 Bridge")
+    controller.updateOutputDevice([.init(name: "GenErik Z1 Mk2 Bridge", wired: false)])
+    #expect(controller.automaticOutputDevice == nil)
+}
+
+@Test func x1Mk3LayerSwitchReleasesCueBeforeSwitchingTheTargetDeck() {
+    var controls = X1MK3Controls()
+    var report: [UInt8] = [1] + .init(repeating: 0, count: 24)
+    _ = controls.consume(report)
+    report[1] = 0x20
+    #expect(controls.consume(report) == [.cue(.a, true)])
+    report[4] = 0x80
+    #expect(controls.consume(report) == [.cue(.a, false)])
+    report[1] = 0
+    #expect(controls.consume(report).isEmpty)
+    report[1] = 0x22
+    #expect(controls.consume(report) == [.action(.playA, .c), .cue(.c, true)])
+}

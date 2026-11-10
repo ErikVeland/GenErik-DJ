@@ -11,7 +11,7 @@
 
         func startS4MK3Bridge() {
             guard s4MK3Bridge == nil else { return }
-            let bridge = s4MK3DirectTransport ?? S4MK3BridgeConnection()
+            let bridge = s4MK3DirectTransport ?? TraktorHIDBridgeConnection(.s4MK3)
             bridge.onReport = { [weak self] report in
                 guard let self else { return }
                 for event in s4MK3Controls.consume(report) { applyS4MK3Event(event) }

@@ -941,7 +941,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 bridgeStatus = "Z1 controls connected. Crossfader waits for calibration."
             default: break
             }
-        case .z1Output, .s4MK3Input, .s4MK3Lights, .s4MK3Ring, .s4MK3Status: break
+        case .z1Output, .s4MK3Input, .s4MK3Lights, .s4MK3Ring, .s4MK3Status,
+            .modularInput, .modularLights, .modularStatus: break
         }
     }
     private func sendFeedback() {

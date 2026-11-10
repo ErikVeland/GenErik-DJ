@@ -349,6 +349,15 @@ import TDJCore
         var s3Connection: NIControllerAccessoryConnection?
         var s4Connection: NIControllerAccessoryConnection?
         var s4MK3Bridge: (any S4MK3ReportConnection)?
+        @ObservationIgnored var z1MK2Bridge: TraktorHIDBridgeConnection?
+        @ObservationIgnored var x1MK3Bridge: TraktorHIDBridgeConnection?
+        var z1MK2Receiving = false
+        var x1MK3Receiving = false
+        @ObservationIgnored var z1MK2Controls = Z1MK2Controls()
+        @ObservationIgnored var z1MK2Takeover: [DeckID: [ControllerAction: ControllerMIDITakeoverState]] = [:]
+        @ObservationIgnored var z1MK2FXEnabled: Set<DeckID> = []
+        @ObservationIgnored var x1MK3Controls = X1MK3Controls()
+        @ObservationIgnored var x1MK3Performance = S4MK2Performance()
         @ObservationIgnored var s4MK3DirectTransport: (any S4MK3ReportConnection)?
         var s4MK3AudioDevice: String { s4MK3DirectTransport == nil ? "S4 Mk3 Bridge" : "S4 Mk3" }
         var s4MK3ConnectedStatus: String { "\(s4MK3AudioDevice) controls connected." }
@@ -1055,6 +1064,9 @@ import TDJCore
                                 } else {
                                     self.primeS3Mixer(deck)
                                 }
+                                if self.x1MK3Bridge?.isReceiving == true {
+                                    self.primeS4Mixer(deck, stateKey: \.x1MK3Performance)
+                                }
                             }
                         #endif
                         self.playback.registerRecordingTrack(
@@ -1591,6 +1603,7 @@ import TDJCore
                 startS3()
                 startS4MK2()
                 startS4MK3Bridge()
+                startTraktorModularBridges()
             }
         #endif
         playbackMonitor = Task { [weak self] in
@@ -1608,6 +1621,7 @@ import TDJCore
                     self?.maintainS4Input()
                     self?.refreshS4Lights()
                     self?.maintainS4MK3Bridge()
+                    self?.maintainTraktorModularBridges()
                 #endif
                 do { try await Task.sleep(for: .milliseconds(33)) } catch { return }
             }
@@ -1636,6 +1650,12 @@ import TDJCore
             s4Connection = nil
             s4MK3Bridge?.stop()
             s4MK3Bridge = nil
+            z1MK2Bridge?.stop()
+            z1MK2Bridge = nil
+            x1MK3Bridge?.stop()
+            x1MK3Bridge = nil
+            z1MK2Receiving = false
+            x1MK3Receiving = false
         #endif
         playback.stopAudio()
         refreshPlayback()

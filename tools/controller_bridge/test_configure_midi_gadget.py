@@ -14,7 +14,11 @@ class GadgetSetupChecks(unittest.TestCase):
     def test_creates_a_four_channel_audio_and_midi_gadget_for_s4_mk3(self):
         self.check_gadget(s4_mk3=True)
 
-    def check_gadget(self, s4_mk3):
+    def test_creates_named_modular_gadgets_with_audio_only_for_the_z1(self):
+        self.check_gadget(s4_mk3=False, traktor="z1-mk2", expected_product="GenErik Z1 Mk2 Bridge")
+        self.check_gadget(s4_mk3=False, traktor="x1-mk3", expected_product="GenErik X1 Mk3 Bridge")
+
+    def check_gadget(self, s4_mk3, traktor=None, expected_product=None):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             configfs_root = root / "usb_gadget"
@@ -39,6 +43,7 @@ class GadgetSetupChecks(unittest.TestCase):
             args = SimpleNamespace(
                 name=name,
                 s4_mk3=s4_mk3,
+                traktor=traktor,
                 manufacturer="GenErik",
                 product="Z1 MIDI Bridge",
                 serial="bridge-001",
@@ -62,12 +67,16 @@ class GadgetSetupChecks(unittest.TestCase):
             self.assertFalse((configfs_root / "configs").exists())
 
             audio = gadget / "functions/uac2.usb0"
-            if s4_mk3:
+            product = gadget / "strings/0x409/product"
+            if expected_product:
+                self.assertEqual(product.read_text().strip(), expected_product)
+            if s4_mk3 or traktor == "z1-mk2":
                 self.assertTrue((configuration / "uac2.usb0").is_symlink())
                 self.assertEqual((audio / "c_chmask").read_text().strip(), "0x33")
                 self.assertEqual((audio / "p_chmask").read_text().strip(), "0")
                 self.assertEqual((audio / "c_srate").read_text().strip(), "48000")
-                self.assertEqual((gadget / "strings/0x409/product").read_text().strip(), "GenErik S4 Mk3 Bridge")
+                if s4_mk3:
+                    self.assertEqual(product.read_text().strip(), "GenErik S4 Mk3 Bridge")
             else:
                 self.assertFalse(audio.exists())
 

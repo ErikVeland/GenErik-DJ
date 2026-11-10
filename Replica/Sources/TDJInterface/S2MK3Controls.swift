@@ -48,8 +48,10 @@ enum S2BrowserCommand: Equatable {
     case previewS3
 }
 
-enum S2MixerFX: Int, CaseIterable {
-    case filter, reverb, delay, flanger
+enum S2MixerFX: Int {
+    case filter, reverb, delay, flanger, gater
+
+    static let s2Presets: [Self] = [.filter, .reverb, .delay, .flanger]
 
     var effect: PerformanceEffect? {
         switch self {
@@ -57,6 +59,7 @@ enum S2MixerFX: Int, CaseIterable {
         case .reverb: .reverb
         case .delay: .delay
         case .flanger: .flanger
+        case .gater: .gater
         }
     }
 }
@@ -172,7 +175,7 @@ struct S2MK3Controls {
             }
             return .action(action, 1)
         }
-        for fx in S2MixerFX.allCases where pressed(3, UInt8(0x10 << fx.rawValue)) {
+        for fx in S2MixerFX.s2Presets where pressed(3, UInt8(0x10 << fx.rawValue)) {
             events.append(.fx(fx, shifts.isEmpty ? [.a, .b] : shifts))
         }
         if pressed(6, 0x80) { events.append(.mic) }
@@ -306,7 +309,7 @@ enum S2MK3Lights {
         bytes[0x3d] = feedback.mic ? 0x7e : 0x7c
         bytes[0x15] = feedback.playingSamples == 0 ? 0 : 0x7e
         let fxColours: [UInt8] = [0x06, 0x1e, 0x2e, 0x06]
-        for fx in S2MixerFX.allCases {
+        for fx in S2MixerFX.s2Presets {
             bytes[0x16 + fx.rawValue] = feedback.fx.contains(fx) ? fxColours[fx.rawValue] : 0x7c
         }
         for (index, deck) in [DeckID.a, .b].enumerated() {
