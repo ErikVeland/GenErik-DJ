@@ -36,6 +36,14 @@ import TDJInterface
             }
             return
         }
+        if CommandLine.arguments.count == 2, CommandLine.arguments[1] == "--library-analysis-service" {
+            do { try await MacLibraryAnalysis.serve() }
+            catch {
+                FileHandle.standardError.write(Data((error.localizedDescription + "\n").utf8))
+                exit(1)
+            }
+            return
+        }
         if CommandLine.arguments.count == 4, CommandLine.arguments[1] == "--library-analysis" {
             do {
                 try await MacLibraryAnalysis.run(
