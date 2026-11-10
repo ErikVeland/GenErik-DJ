@@ -43,8 +43,8 @@ R150 adds a separate test with Deezer's two-stem Spleeter model. The bundled con
 
 1. Load two local songs. Choose a 44.1 kHz song with a clear vocal for the test deck.
 2. Play both decks. Check audio and touch in **Mix**.
-3. Tap **Vocal** on one deck. Wait for the first separated chunk.
-4. Switch between **Mix**, **Vocal** and **Inst** while moving the waveform or crossfader.
+3. Open the stem strip under the cover. Tap the microphone icon and wait for **Live**.
+4. Switch between the waveform, microphone and music-note icons while moving the waveform or crossfader.
 5. Listen for dropouts, vocal bleed, hollow backing and changes in stereo position.
 6. Check touch response as the iPad warms up. Note the build number and any faults.
 
