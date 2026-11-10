@@ -29,10 +29,10 @@ Physical S2 Mk2 connection, audio, platter feel and LED brightness remain open. 
 
 ## R122 MIC ENGAGE
 
-MIC ENGAGE toggles the rear microphone input. The mapping uses report `01`, payload byte `9` (zero-based), mask `0x08`. The Mixxx HID mapping calls this report offset `0x0A` and toggles on a press. The NI manual documents the front button and rear gain knob. The published USB descriptor lists the mono mic as input channel 1. [NI manual, section 11.3](https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/traktor_kontrol_s2_mk2_manual_english.pdf) · [Mixxx HID mapping](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Traktor-Kontrol-S2-MK2-hid-scripts.js) · [Published USB descriptor](https://github.com/mixxxdj/mixxx/wiki/Native-Instruments-Traktor-Kontrol-S2-Mk2#usb-descriptors)
+MIC ENGAGE toggles the rear microphone input. The mapping uses report `01`, payload byte `9` (zero-based), mask `0x08`. The Mixxx HID mapping calls this report offset `0x0A` and toggles on a press. The NI manual documents the front button and rear gain knob. The published USB descriptor lists the mono mic as input channel 1. [NI manual, section 11.2](https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/traktor_kontrol_s2_mk2_manual_english.pdf) · [Mixxx HID mapping](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Traktor-Kontrol-S2-MK2-hid-scripts.js) · [Published USB descriptor](https://github.com/mixxxdj/mixxx/wiki/Native-Instruments-Traktor-Kontrol-S2-Mk2#usb-descriptors)
 
 The app opens only the matching wired input. It sends the mono signal to both master channels and leaves it out of the headphone cue. iPadOS can ask for microphone permission the first time. The rear gain knob sets the input level.
 
 The first press waits for idle audio if the app needs to open the input. Press again to cancel a pending activation. Once the input is open, the switch can mute and unmute the microphone during playback. If the input route disappears, the app mutes the mic.
 
-Physical S2 Mk2 input availability over the iPad connection remains unverified.
+Thirteen focused host tests passed. Build 185 passed the local iOS signature and runtime checks. It was prepared for verification only. Physical S2 Mk2 input availability over the iPad connection remains unverified. [Build record](../testing/builds/185.json)

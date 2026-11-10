@@ -1,0 +1,15 @@
+{
+  "notes": "R122 maps S2 Mk2 MIC ENGAGE and sends the controller microphone to the master. Thirteen focused host tests passed. Build only. Physical controller verification remains open.",
+  "sourceCommit": "607ffaab5f62fae671e5d83f6fc503d3ec71d9eb",
+  "sourceSHA256": "b9613e00a200c5a7576ddd743a7d9108a6a87dd873ccd247051124a3ee106515",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 49.56,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-185.log",
+  "build": 185,
+  "app": "TestBuilds/ipad/185/GenErikDJ.app",
+  "appSHA256": "b5d74037687afcce4a7515b8ce054e6f64b2e6d3f31b88bcbb932d0519fc2643",
+  "state": "ready",
+  "createdUTC": "2026-11-10T05:48:33.174201+00:00"
+}
