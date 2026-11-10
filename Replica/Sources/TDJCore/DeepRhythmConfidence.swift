@@ -11,7 +11,7 @@ public struct DeepRhythmConfidence: Codable, Equatable, Sendable {
 
 extension DeepBeatAnalysis {
     public var rhythmConfidence: DeepRhythmConfidence? {
-        guard profile == .current, profile.decisionPolicy == 12, adaptiveCandidate != nil,
+        guard profile == .current, profile.decisionPolicy == 13, adaptiveCandidate != nil,
             audio.sampleRate > 0, (20...35).contains(Double(audio.frameCount) / audio.sampleRate),
             let evidence = rhythmEvidence, evidence.version == 1,
             (try? evidence.validate()) != nil else { return nil }

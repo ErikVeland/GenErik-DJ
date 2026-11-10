@@ -163,7 +163,7 @@ final class BarStartDetectionTests: XCTestCase {
         prep.gridLocked = false
         analysis.barAnalysisVersion = nil
         XCTAssertNil(prep.detectedBarGrid(analysis: analysis, imported: original, importIsUnlocked: true))
-        analysis.barAnalysisVersion = 1
+        analysis.barAnalysisVersion = BarStartAnalysis.version
         analysis.downbeatConfidence = 0.6
         XCTAssertNil(prep.detectedBarGrid(analysis: analysis, imported: original, importIsUnlocked: true))
         analysis.downbeatConfidence = 0.783

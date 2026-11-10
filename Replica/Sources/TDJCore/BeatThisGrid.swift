@@ -6,6 +6,7 @@ struct BeatThisGrid {
     let beatAgreement: Double
     let barAgreement: Double
     let residualMilliseconds: Double
+    var openingPhaseCorrected = false
 
     private struct Candidate {
         let period: Double

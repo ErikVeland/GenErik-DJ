@@ -37,7 +37,9 @@ enum DeepBeatAnalyzer {
         var model: MLModel?
         let features = try MLMultiArray(shape: [1, 1500, 128], dataType: .float32)
         let input = try MLDictionaryFeatureProvider(dictionary: ["spectrogram": features])
-        return try run(checkpoints: checkpoints, progress: progress, checkCancellation: checkCancellation, analyzeKey: {
+        return try run(checkpoints: checkpoints, progress: progress, checkCancellation: checkCancellation, guidedPhase: { bpm in
+            try AudioAnalyzer.guidedBeatPhase(url: url, matching: analysis, bpm: bpm, checkCancellation: checkCancellation)
+        }, analyzeKey: {
             let current = try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
             guard current.fileSize == before.fileSize, current.contentModificationDate == before.contentModificationDate else {
                 throw CoreError.invalidAudio("The audio changed before key analysis.")
@@ -94,6 +96,7 @@ enum DeepBeatAnalyzer {
     static func run(
         checkpoints: DeepAnalysisCheckpoints, progress: (Int, Int) -> Void,
         checkCancellation: @Sendable () throws -> Void,
+        guidedPhase: (Double) throws -> GuidedBeatPhase? = { _ in nil },
         analyzeKey: () throws -> LearnedKeyAnalysis? = { nil }, predict: (Int, Int) throws -> DeepPredictionWindow
     ) throws -> DeepBeatAnalysis {
         if let result = checkpoints.result() { return result }
@@ -133,25 +136,35 @@ enum DeepBeatAnalyzer {
             beats: refinedBeats, bars: refinedBars,
             sampleRate: checkpoints.analysis.sampleRate, frameCount: checkpoints.analysis.frameCount,
             checkCancellation: checkCancellation)
-        let adaptive = try originalAdaptive ?? DeepRhythmRecovery.fit(
+        let fittedAdaptive = try originalAdaptive ?? DeepRhythmRecovery.fit(
             beats: refinedBeats, bars: refinedBars, barLogits: downbeats,
             sampleRate: checkpoints.analysis.sampleRate, frameCount: checkpoints.analysis.frameCount,
             checkCancellation: checkCancellation)
+        let adaptive = grid?.openingPhaseCorrected == true ? nil : fittedAdaptive
         if originalAdaptive == nil, adaptive != nil {
             AnalysisMeasurement.current?.count("deepRhythmRecoveredCandidates", 1)
         }
+        let tempo = grid == nil ? try BeatThisTempo.preferred(
+            beats: beatTimes, configuration: .init(), checkCancellation: checkCancellation) : nil
+        let analysis = checkpoints.analysis
+        let factors: [Double] = analysis.acceptedDeepBeatAnalysis == nil ? [0.5, 2] : [1]
+        let phase: GuidedBeatPhase?
+        if let tempo, let previousBPM = analysis.bpm, analysis.adaptiveCandidate == nil,
+            ["Beat This small0 with DSP grid fallback", "BeatThis/final0 tempo octave with DSP beat phase"]
+                .contains(analysis.implementation),
+            let factor = factors.first(where: { abs(tempo / (previousBPM * $0) - 1) <= 0.01 }) {
+            phase = try guidedPhase(previousBPM * factor)
+        } else { phase = nil }
         let result = DeepBeatAnalysis(
             audio: .init(checkpoints.analysis), profile: checkpoints.profile,
             coveredFrames: checkpoints.analysis.frameCount, windowCount: checkpoints.starts.count,
             candidate: constantCandidate,
-            tempoCandidateBPM: grid == nil
-                ? try BeatThisTempo.preferred(
-                    beats: beatTimes, configuration: .init(), checkCancellation: checkCancellation)
-                : nil,
+            tempoCandidateBPM: tempo, guidedPhase: phase,
             adaptiveCandidate: adaptive, learnedKey: try analyzeKey(),
             rhythmEvidence: try DeepRhythmEvidence.measure(
                 beats: beats, bars: downbeats, times: beatTimes, constant: constantCandidate,
-                adaptive: originalAdaptive, checkCancellation: checkCancellation))
+                adaptive: grid?.openingPhaseCorrected == true ? nil : originalAdaptive,
+                checkCancellation: checkCancellation))
         try checkCancellation()
         try checkpoints.finish(result)
         return result

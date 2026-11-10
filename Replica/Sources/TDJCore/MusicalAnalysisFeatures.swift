@@ -118,6 +118,40 @@ enum MusicalRhythmAnalyzer {
         var residual: Double
         var matched: Int
         var first: Double
+        var occupancy: Double
+        var coverage: Double
+    }
+
+    static func guidedPhase(
+        frames: [MusicalPulseFrame], sampleRate: Double, framesPerBin: Double, bpm: Double,
+        checkCancellation: @Sendable () throws -> Void
+    ) throws -> GuidedBeatPhase? {
+        try checkCancellation()
+        guard bpm.isFinite, (60...200).contains(bpm), sampleRate.isFinite, sampleRate > 0,
+            framesPerBin.isFinite, framesPerBin > 0, !frames.isEmpty else { return nil }
+        let duration = Double(frames.count) * framesPerBin / sampleRate
+        var fits: [Fit] = []
+        for band in 0..<4 {
+            let events = try extractOnsets(frames: frames, band: band, sampleRate: sampleRate,
+                                          binsPerSecond: sampleRate / framesPerBin, checkCancellation: checkCancellation)
+            if let fit = try fit(period: 60 / bpm, onsets: events, duration: duration,
+                                 checkCancellation: checkCancellation), abs(60 / fit.period / bpm - 1) <= 0.005 {
+                fits.append(fit)
+            }
+        }
+        for fit in fits.sorted(by: { $0.residual < $1.residual }) {
+            guard fit.matched >= 16, fit.residual <= 0.008, fit.occupancy >= 0.70, fit.coverage >= 0.90 else { continue }
+            let support = fits.filter {
+                abs(($0.phase - fit.phase).remainder(dividingBy: fit.period)) <= 0.045
+                    && $0.occupancy >= 0.45 && $0.coverage >= 0.85
+            }.count
+            guard support >= 3 else { continue }
+            let anchor = fit.phase + ceil(-fit.phase / fit.period) * fit.period
+            return .init(bpm: 60 / fit.period, anchorSeconds: max(0, anchor),
+                         residualMilliseconds: fit.residual * 1000, occupancy: fit.occupancy,
+                         coverage: fit.coverage, supportingBands: support)
+        }
+        return nil
     }
 
     static func analyze(
@@ -664,7 +698,8 @@ enum MusicalRhythmAnalyzer {
         let score =
             (0.65 * matchedWeight / max(totalWeight, 1e-12) + 0.35 * occupancy) * precision * (0.7 + 0.3 * coverage)
         return .init(
-            period: period, phase: phase, score: score, residual: residual, matched: selected.count, first: first)
+            period: period, phase: phase, score: score, residual: residual, matched: selected.count, first: first,
+            occupancy: occupancy, coverage: coverage)
     }
 
     private static func detectDownbeat(

@@ -30,11 +30,11 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public var rhythmCalibrationVersion: String? = nil
 
     public static let current = Self(
-        generation: 12, model: "BeatThis/final0",
+        generation: 13, model: "BeatThis/final0",
         weightsSHA256:
             "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331",
-        conversion: 1, preprocessing: 1, decisionPolicy: 12,
-        upgradeBenefit: "Recover consistent review grids from sparse missed beats and weaker extra bar peaks.",
+        conversion: 1, preprocessing: 1, decisionPolicy: 13,
+        upgradeBenefit: "Preserve supported opening bars and refine tempo-octave beat phase with sustained audio evidence.",
         keyModelVersion: LearnedKeyProfile.current.id, rhythmCalibrationVersion: DeepRhythmCalibration.id)
 
     public var inferenceID: String {
@@ -67,6 +67,7 @@ public struct DeepBeatCandidate: Codable, Equatable, Sendable {
     public let beatAgreement: Double
     public let barAgreement: Double
     public let residualMilliseconds: Double
+    public var openingPhaseCorrected: Bool? = nil
 
     init(_ grid: BeatThisGrid) {
         bpm = grid.bpm
@@ -74,6 +75,7 @@ public struct DeepBeatCandidate: Codable, Equatable, Sendable {
         beatAgreement = grid.beatAgreement
         barAgreement = grid.barAgreement
         residualMilliseconds = grid.residualMilliseconds
+        openingPhaseCorrected = grid.openingPhaseCorrected ? true : nil
     }
 
     var isValid: Bool {
@@ -88,6 +90,22 @@ public struct DeepBeatCandidate: Codable, Equatable, Sendable {
     }
 }
 
+public struct GuidedBeatPhase: Codable, Equatable, Sendable {
+    public let bpm: Double
+    public let anchorSeconds: Double
+    public let residualMilliseconds: Double
+    public let occupancy: Double
+    public let coverage: Double
+    public let supportingBands: Int
+
+    var isValid: Bool {
+        bpm.isFinite && (60...200).contains(bpm) && anchorSeconds.isFinite && anchorSeconds >= 0
+            && residualMilliseconds.isFinite && (0...8).contains(residualMilliseconds)
+            && occupancy.isFinite && (0.70...1).contains(occupancy)
+            && coverage.isFinite && (0.90...1).contains(coverage) && (3...4).contains(supportingBands)
+    }
+}
+
 public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
     public let audio: AnalysisAudioIdentity
     public let profile: DeepAnalysisProfile
@@ -95,6 +113,7 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
     public let windowCount: Int
     public let candidate: DeepBeatCandidate?
     public var tempoCandidateBPM: Double? = nil
+    public var guidedPhase: GuidedBeatPhase? = nil
     public var adaptiveCandidate: DeepAdaptiveBeatCandidate? = nil
     public var learnedKey: LearnedKeyAnalysis? = nil
     public var rhythmEvidence: DeepRhythmEvidence? = nil
@@ -116,7 +135,11 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
             profile.weightsSHA256.count == 64, profile.weightsSHA256.allSatisfy(\.isHexDigit),
             profile.model.utf8.count <= 128, profile.upgradeBenefit.utf8.count <= 1024,
             candidate.map({ $0.isValid && $0.firstBarSeconds < analysis.duration }) ?? true,
-            tempoCandidateBPM.map({ $0.isFinite && (60...200).contains($0) && candidate == nil }) ?? true
+            tempoCandidateBPM.map({ $0.isFinite && (60...200).contains($0) && candidate == nil }) ?? true,
+            guidedPhase.map({ phase in
+                phase.isValid && phase.anchorSeconds < analysis.duration
+                    && tempoCandidateBPM.map { abs(phase.bpm / $0 - 1) <= 0.01 } == true
+            }) ?? true
         else { throw CoreError.invalidAudio("The deep analysis does not match this audio or its coverage.") }
         if let learnedKey {
             try learnedKey.validate()
@@ -162,14 +185,23 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
     func acceptedTempoGrid(for track: Track) -> BeatGrid? {
         guard profile == .current, candidate == nil, let tempo = tempoCandidateBPM,
             track.mayRefreshAutomaticGrid, track.traktorPreparation?.normalized.grid == nil,
-            track.analysis.acceptedDeepBeatAnalysis == nil, track.analysis.adaptiveCandidate == nil,
-            track.analysis.implementation == "Beat This small0 with DSP grid fallback",
-            (try? validate(matching: track.analysis)) != nil, let previous = track.grid,
-            let factor = [0.5, 2.0].first(where: { abs(tempo / (previous.bpm * $0) - 1) <= 0.01 })
+            track.analysis.adaptiveCandidate == nil,
+            (try? validate(matching: track.analysis)) != nil, let previous = track.grid
         else { return nil }
-        // Keep the measured pulse precision. This changes its octave, not its phase.
+        let factors: [Double]
+        if track.analysis.acceptedDeepBeatAnalysis == nil,
+            track.analysis.implementation == "Beat This small0 with DSP grid fallback" {
+            factors = [0.5, 2]
+        } else if let older = track.analysis.acceptedDeepBeatAnalysis,
+            guidedPhase != nil, older.guidedPhase == nil, older.candidate == nil, older.tempoCandidateBPM != nil,
+            older.profile.generation < profile.generation, older.profile.inferenceID == profile.inferenceID,
+            track.analysis.implementation == "BeatThis/final0 tempo octave with DSP beat phase" {
+            factors = [1]
+        } else { return nil }
+        guard let factor = factors.first(where: { abs(tempo / (previous.bpm * $0) - 1) <= 0.01 }) else { return nil }
         return try? BeatGrid(
-            bpm: previous.bpm * factor, anchorFrame: previous.anchorFrame,
+            bpm: guidedPhase?.bpm ?? previous.bpm * factor,
+            anchorFrame: guidedPhase.map { $0.anchorSeconds * previous.sampleRate } ?? previous.anchorFrame,
             sampleRate: previous.sampleRate, downbeatOffset: 0)
     }
 }
@@ -210,7 +242,9 @@ extension Track {
         else { return self }
         var copy = self
         if let grid = result.acceptedTempoGrid(for: self) {
-            copy.analysis.implementation = "\(result.profile.model) tempo octave with DSP beat phase"
+            copy.analysis.implementation = result.guidedPhase == nil
+                ? "\(result.profile.model) tempo octave with DSP beat phase"
+                : "\(result.profile.model) tempo octave with guided audio phase"
             copy.analysis.acceptedDeepBeatAnalysis = result
             copy.preparation.grid = grid
             copy.analysis.bpm = grid.bpm
@@ -218,7 +252,7 @@ extension Track {
             copy.analysis.tempoConfidence = min(analysis.tempoConfidence, 0.69)
             copy.analysis.detectedDownbeatOffset = nil
             copy.analysis.downbeatConfidence = nil
-            copy.analysis.gridResidualMilliseconds = nil
+            copy.analysis.gridResidualMilliseconds = result.guidedPhase?.residualMilliseconds
             copy.analysis.beatModelVersion = result.profile.id
             copy.analysis.barAnalysisVersion = BarStartAnalysis.version
             copy.analysis.musicalAnalysisDeferred = false
@@ -227,6 +261,11 @@ extension Track {
         let previousReview = analysis.deepBeatAnalysis?.adaptiveCandidate?.map ?? analysis.deepBeatAnalysis?.fixedReviewCandidate
         let mayReplaceReview = analysis.adaptiveCandidate == nil
             || (previousReview != nil && analysis.adaptiveCandidate == previousReview)
+        if result.candidate?.openingPhaseCorrected == true, mayReplaceReview, mayRefreshAutomaticGrid,
+            traktorPreparation?.normalized.grid == nil {
+            copy.analysis.adaptiveCandidate = nil
+            copy.analysis.adaptiveConfidence = nil
+        }
         if let reviewMap, mayRefreshAutomaticGrid,
             traktorPreparation?.normalized.grid == nil, mayReplaceReview
         {

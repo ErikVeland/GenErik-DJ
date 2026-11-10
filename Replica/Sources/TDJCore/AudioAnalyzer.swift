@@ -6,7 +6,7 @@ public struct AnalysisConfiguration: Sendable {
     static let mixOpeningSuffix = "-mix-opening-1"
 
     public var id: String {
-        "beat-this-small0-grid-3-tuned-hpcp-2-\(minimumBPM)-\(maximumBPM)"
+        "beat-this-small0-grid-4-tuned-hpcp-2-\(minimumBPM)-\(maximumBPM)"
     }
     public var minimumBPM: Double = 60
     public var maximumBPM: Double = 200
@@ -184,7 +184,7 @@ public enum AudioAnalyzer {
             analysis.adaptiveCandidate = map
             analysis.adaptiveConfidence = rhythm.confidence
         }
-        analysis.beatModelVersion = "BeatThis/small0-6074be2c-mel1-fit2"
+        analysis.beatModelVersion = "BeatThis/small0-6074be2c-mel1-fit3"
         analysis.detectedDownbeatOffset = rhythm.downbeat
         analysis.downbeatConfidence = rhythm.downbeatConfidence
         analysis.barAnalysisVersion = BarStartAnalysis.version
@@ -281,8 +281,25 @@ public enum AudioAnalyzer {
         let spectrum: MusicalSpectrumAnalyzer?
     }
 
+    static func guidedBeatPhase(
+        url: URL, matching analysis: AudioAnalysis, bpm: Double, checkCancellation: @Sendable () throws -> Void
+    ) throws -> GuidedBeatPhase? {
+        let before = try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
+        let decoded = try decode(url: url, waveformFramesPerBin: nil, analyzeMusic: true,
+                                 analyzeSpectrum: false, checkCancellation: checkCancellation)
+        try checkUnchanged(url: url, before: before)
+        guard decoded.sampleRate == analysis.sampleRate, decoded.frameCount == analysis.frameCount,
+            decoded.channelCount == analysis.channelCount, let pulses = decoded.pulses else {
+            throw CoreError.invalidAudio("The beat-phase source does not match the analysed audio.")
+        }
+        return try MusicalRhythmAnalyzer.guidedPhase(
+            frames: pulses.frames, sampleRate: decoded.sampleRate, framesPerBin: Double(pulses.framesPerBin),
+            bpm: bpm, checkCancellation: checkCancellation)
+    }
+
     private static func decode(
-        url: URL, waveformFramesPerBin: Int?, analyzeMusic: Bool, checkCancellation: @Sendable () throws -> Void
+        url: URL, waveformFramesPerBin: Int?, analyzeMusic: Bool, analyzeSpectrum: Bool = true,
+        checkCancellation: @Sendable () throws -> Void
     ) throws -> DecodedAudio {
         let span = AnalysisMeasurement.begin(analyzeMusic ? "decodeAndFeatures" : "decodeWaveform")
         defer { span?.finish() }
@@ -301,7 +318,7 @@ public enum AudioAnalyzer {
         var power = 0.0
         var framesRead: Int64 = 0
         var pulses = analyzeMusic ? MusicalPulseAccumulator(sampleRate: rate) : nil
-        let spectrum = analyzeMusic ? try MusicalSpectrumAnalyzer(sampleRate: rate) : nil
+        let spectrum = analyzeMusic && analyzeSpectrum ? try MusicalSpectrumAnalyzer(sampleRate: rate) : nil
         var previousInput = 0.0
         var previousFiltered = 0.0
         let highPass = exp(-2 * .pi * 20 / rate)

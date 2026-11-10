@@ -78,7 +78,7 @@ public struct GridDrag: Sendable {
     }
 }
 
-public enum BarStartAnalysis { public static let version = 1 }
+public enum BarStartAnalysis { public static let version = 2 }
 
 public enum AutomaticGridPolicy {
     public static func mayRefresh(

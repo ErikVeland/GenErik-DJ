@@ -120,9 +120,14 @@ enum BeatThisAnalyzer {
             if bars.last != beat { bars.append(beat) }
         }
         return try AnalysisMeasurement.measure("beatThisGridFit") {
-            try BeatThisGrid.fit(
+            guard let grid = try BeatThisGrid.fit(
                 beats: beats, bars: bars, configuration: configuration, requireOpeningBar: requireOpeningBar,
-                checkCancellation: checkCancellation)
+                checkCancellation: checkCancellation) else { return nil }
+            if let corrected = BeatThisOpeningBar.correct(grid, beats: beats, barLogits: barLogits) {
+                AnalysisMeasurement.current?.count("openingBarCorrections", 1)
+                return corrected
+            }
+            return grid
         }
     }
 
