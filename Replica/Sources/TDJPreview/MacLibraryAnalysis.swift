@@ -61,6 +61,12 @@ enum MacLibraryAnalysis {
     }
 
     static func run(manifestURL: URL, output: URL) async throws {
+        try await AnalysisExecution.$offlineBatch.withValue(true) {
+            try await analyzeManifest(manifestURL: manifestURL, output: output)
+        }
+    }
+
+    private static func analyzeManifest(manifestURL: URL, output: URL) async throws {
         let input = try Data(contentsOf: manifestURL)
         let manifest = try JSONDecoder().decode(Manifest.self, from: input)
         guard !manifest.items.isEmpty, Set(manifest.items.map(\.id)).count == manifest.items.count,

@@ -5,6 +5,18 @@ import Testing
 
 @testable import TDJCore
 
+#if os(macOS)
+@Test func offlineMacAnalysisRaisesOnlyTheExplicitBatchPriority() async throws {
+    let worker = AnalysisWorker()
+    let normal = try await worker.run { _ in qos_class_self().rawValue }
+    let offline = try await AnalysisExecution.$offlineBatch.withValue(true) {
+        try await worker.run { _ in qos_class_self().rawValue }
+    }
+    #expect(normal == QOS_CLASS_BACKGROUND.rawValue)
+    #expect(offline == QOS_CLASS_USER_INITIATED.rawValue)
+}
+#endif
+
 @Test func concurrentMusicDecodesCannotReplaceAnotherCompletedPreparation() async throws {
     var workspace = URL(fileURLWithPath: #filePath)
     for _ in 0..<4 { workspace.deleteLastPathComponent() }

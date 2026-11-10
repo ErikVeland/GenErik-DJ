@@ -4,6 +4,7 @@ import Foundation
 /// Foreground library preparation can use accelerators without increasing job concurrency.
 public enum AnalysisExecution {
     @TaskLocal public static var foregroundLibrary = false
+    @TaskLocal public static var offlineBatch = false
 
     public static let supportsAcceleration: Bool = {
         #if (os(iOS) && !targetEnvironment(simulator)) || os(macOS)

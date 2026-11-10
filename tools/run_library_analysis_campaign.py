@@ -172,8 +172,14 @@ def run(config):
                 process = None
                 attached = analysis_is_running(root / phase)
                 if not attached:
-                    process = subprocess.Popen([config['app'], '--library-analysis', str(manifest), str(root / phase)],
-                                               stdout=log, stderr=subprocess.STDOUT)
+                    if config.get('workers', 1) > 1:
+                        import sys
+                        command = [sys.executable, str(pathlib.Path(__file__).with_name('run_library_analysis_pool.py')),
+                                   '--app', config['app'], '--manifest', str(manifest), '--output', str(root / phase),
+                                   '--workers', str(config['workers'])]
+                    else:
+                        command = [config['app'], '--library-analysis', str(manifest), str(root / phase)]
+                    process = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT)
                 while (process is not None and process.poll() is None) or (attached and analysis_is_running(root / phase)):
                     status = summary(root / phase)
                     save(root / 'campaign-status.json', dict(phase=phase, processID=process.pid if process else None,
