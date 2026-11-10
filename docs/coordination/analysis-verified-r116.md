@@ -1,86 +1,114 @@
-# R116: Verified analysis benchmark
+# R116: Verified analysis benchmark and measured candidates
 
-Erik requested a verified benchmark before rhythm and learned key changes. Mac app testing is authorised in the existing analysis worktree.
+The benchmark contains 378 source-matched excerpts with published human annotations. The Mac app measured the production baseline and a native learned-key candidate. Rhythm testing exposed an automatic deep-grid regression. Final policy 7 preserves existing grids and keeps full-grid proposals for explicit review.
 
-## Implementation order
+The learned-key model remains an external evaluation candidate. It is not part of normal library analysis. Physical Duo, iPad sharing and A10X performance acceptance remain open.
 
-1. Pin published human annotations and match each audio file to the source checksum. Record label scope for each field.
-2. Freeze artist and recording groups before model evaluation. Keep development, holdout and the original 12-track regression set separate.
-3. Test the scorer with missed beats, extra beats, half tempo, failures, hash changes and split overlap.
-4. Record the actual first-pass and final playback timelines in the production Mac audit. Keep reference answers outside the analysis input.
-5. Run the unchanged production engine on the development cohort. Preserve source, model, input and application hashes.
-6. Evaluate rhythm and learned key candidates on development data. Change production decisions only when measured results support them.
-7. Run the selected candidate on frozen holdout data and the same 12 regression tracks. Preserve failed runs and report coverage.
+## Measured results
 
-## Evidence rules
+Exact key results count both tonic and major/minor mode. Related keys receive no exact credit. Missing keys stay in the denominator.
 
-Published human annotations are reference labels with a named source. They are not personal listening checks by Erik. Key changes, modal labels and uncertain labels must remain visible. They must not become ordinary major/minor labels by truncation.
+| Key cohort | Current detector | Learned candidate | Corrected / worsened |
+|---|---:|---:|---:|
+| Development, 100 excerpts | 49/100 | 91/100 | 45 / 3 |
+| Held out, 78 excerpts | 41/78 (52.56%) | 63/78 (80.77%) | 29 / 7 |
 
-The original Traktor values remain automatic comparisons. Erik verified only that its 99 Problems bar starts one beat early. This does not verify its exact beat time, tempo or key.
+The model and confidence bands were fixed before the held-out comparison. At confidence 0.8 or higher, the candidate matched 50 of 55 held-out keys (90.91%). Its output score is not calibrated certainty. Commercial model rights and production acceptance rules remain unresolved.
 
-The benchmark counts missing outputs as failures. Beat and downbeat scores use one-to-one event matching at 25 ms, including annotated opening beats. Half-tempo predictions lose recall. Double-tempo predictions lose precision. Exact key scores remain separate from related-key credit. Confidence and coverage must be reported together.
+Rhythm scores below are beat / downbeat micro-F1 percentages at 25 ms. They count matched, missing and extra events. They are not percentages of fully correct tracks.
 
-GTZAN has known duplicates and repeated artists. Use its published fault-filtered groups and exclude unknown identities from the initial cohort. Beat This final and small models declare GTZAN excluded from training. Other dataset and model overlap must be recorded explicitly.
+| Rhythm cohort | First pass | Earlier automatic deep rule | Final automatic policy 7 | If all offered review candidates were accepted |
+|---|---:|---:|---:|---:|
+| Development, 100 excerpts | 63.39 / 53.16 | 63.99 / 53.95 | 63.39 / 53.16 | 66.20 / 55.69 |
+| Held out, 100 excerpts | 57.56 / 53.70 | 54.43 / 50.50 | 57.56 / 53.70 | 59.10 / 54.96 |
 
-The initial benchmark uses short excerpts. It cannot establish whole-track drift, long-mix performance or live A10X readiness. The existing full-length regression tracks and adaptive fixtures remain required.
+The earlier automatic rule failed the held-out no-regression check. Small constant-grid timing changes caused substantial losses on some tracks. The final policy contains that failure without tuning model thresholds. Its results on this same corpus are regression checks, not new independent accuracy evidence.
 
-## Status
+Development offered nine adaptive candidates. Eight improved both event scores and one worsened both. The held-out set offered seven adaptive candidates, all of which improved both scores. It also offered one constant-grid candidate for a missing grid. That candidate matched no reference events and remains unaccepted. This is why model confidence alone cannot authorise a new grid.
 
-The frozen corpus contains 200 GTZAN rhythm excerpts and 178 GiantSteps+ key excerpts. Development uses 100 excerpts from each dataset. Holdout contains 100 rhythm and 78 key excerpts. The source files match the published checksums. Artist components remain separate across splits.
+All 200 final rhythm results reopened. The Mac policy replay reused all 400 prediction windows without neural inference. Each window matched its saved source bytes. The actual playback timeline equalled the first-pass timeline on every benchmark excerpt.
 
-GTZAN selection uses 913 eligible files after fault and identity exclusions. One downloaded file also failed its audio checksum. GiantSteps+ selection uses 264 eligible files. Missing metadata, uncertain keys, non-standard modes and annotated key changes exclude the other 336 files. These exclusions limit the scope of the single-key score.
+## Final engine behaviour
 
-The first production Mac baseline completed all 100 rhythm development excerpts. All saved deep results reopened correctly. Source commit: `fee71c1e62488aeaa847fd5d4d11163cf8138e3b`. Source hash: `7c44804f6d18efe8705875727b871c5c27226613f0ba822763bf5dc4ceff51d0`.
+- Preserve existing first-pass timing when a full deep-grid proposal arrives.
+- Keep a missing grid visibly unresolved until the user accepts a proposed grid.
+- Retain the separate tempo-octave correction and its existing evidence rules.
+- Offer bounded adaptive alternatives when a constant fit is missing or weak.
+- Carry review candidates through automatic analysis sharing without accepting them on the receiver.
+- Preserve manual, locked, imported and accepted adaptive preparation.
+- Retain pending deep candidates across a later first pass for the same audio identity.
 
-At 25 ms, accepted playback events scored 63.99% beat micro-F1 and 53.95% downbeat micro-F1. The raw deep-model events scored 74.51% and 64.01%. These scores count matched, missing and extra events. They are not percentages of fully correct tracks. First-pass analysis took 290.16 seconds and deep analysis took 92.33 seconds for 50.04 minutes of audio. These are host diagnostics, not queue or live-performance timings.
+Adaptive candidates require consecutive beat intervals and consistent four-beat bars. The complete sequence must fit within 256 anchors and 8 ms compression error. The fitter rejects unsupported bar lengths, missing-beat sequences and maps that exceed those bounds. It never truncates the track to fit the anchor limit. Candidates have no calibrated confidence value.
 
-The model-to-grid gap is largest on variable-tempo music and unsupported bar lengths. In `gtzan:rock.00059`, the model matched every annotated beat, but the four-beat grid fitter produced no tempo. A constant-pulse recovery probe failed the timing limits because this excerpt also drifts. No recovery policy has been adopted from that probe.
+Explicit acceptance can create a base grid when none exists. A constant deep proposal uses the same acceptance controls through a two-anchor map. Previously accepted legacy grids remain intact. This change does not reconstruct their lost first-pass timing.
 
-The 2018 madmom key CNN is an external evaluation candidate. Its weights use CC-BY-NC-SA-4.0 and are not bundled with the application. Its original and Torch outputs differed by at most 0.000000656 in the conversion check. The FP16 Core ML output differed by at most 0.023923 and retained the predicted key. On decoded PCM, Mac frontend features differed by at most 0.0000036. Candidate weights, conversion, preprocessing and decision policy have separate version fields.
+Deep results now use generation 7 and decision policy 7. Model weights, conversion and preprocessing versions remain unchanged. Policy changes can reuse predictions. Model or preprocessing changes use a separate inference identity. Older results are reconsidered only where the policy can add useful evidence. Completed policy 5 and 6 evidence needs no repeated inference for this containment change.
 
-On the same 100 key development files, the production detector matched 49 exact keys. The native learned candidate matched 91. It corrected 45 results and worsened three. Its confidence above 0.8 selected 68 tracks, with 67 exact matches. The candidate took 11.93 seconds in total, excluding model load. This is an extra key pass, not a whole-engine speed comparison. Core ML's compute plan preferred the Neural Engine for all 40 reported operations. Runtime hardware counters were not captured.
+## Same-track and regression checks
 
-The fixed candidate matched 63 of 78 held-out keys (80.77%). The production detector matched 41 (52.56%). The candidate corrected 29 results and worsened seven. Its confidence band from 0.8 selected 55 excerpts, with 50 exact matches (90.91%). It took 9.19 seconds, excluding model load. These lower held-out results limit the development claim. No threshold was adjusted after this comparison. The 100-file rhythm holdout remains untested.
+The final fresh Mac run completed all 12 original tracks and reopened every saved result without error. First-pass musical results matched R109 within numerical rounding. The separate tempo-octave rule retained the 80.009 BPM correction. No full constant-grid proposal replaced playback timing automatically.
 
-Deep policy 4 added a review candidate when the constant-grid fit failed. In the development run, it offered two candidates. Hypothetical acceptance increased beat F1 from 63.99% to 64.43% and downbeat F1 from 53.95% to 54.36%. All saved results reopened. The actual playback timelines remained unchanged.
+Against nine saved references, final agreement remained 9/9 for tempo, 6/9 for key, 7/9 for beat phase and 4/9 for downbeat phase. Seven full-track grids stayed within 25 ms of those references. These are regression comparisons, not verified musical-accuracy scores. First-pass analysis took 270.85 seconds. Deep analysis took another 90.26 seconds for the same 78.23 minutes of audio.
 
-Policy 5 also offers alternatives to weak constant fits. The candidate requires consistent four-beat bars and consecutive beat intervals. It compresses the complete model sequence to at most 256 anchors, with at most 8 ms deviation. Unsupported bar lengths and sequences that exceed the anchor limit remain unresolved. The candidate does not replace playback preparation or an existing adaptive candidate. It has no calibrated confidence value. The sharing path carries it as analysis evidence.
+Both 128-beat drift fixtures retained the R109 fix. Maximum beat error was 2.493 ms. Error at beat 120 stayed below 1.497 ms, and the delayed fixture retained bar position 2. Both saved results reopened and kept their original adaptive candidates.
 
-The final development run offered nine review candidates. Hypothetical acceptance raised beat F1 to 66.79% and downbeat F1 to 56.46%. Eight candidates improved both scores and one worsened both. All 200 prediction windows matched the baseline bytes. All 100 saved results reopened. The automatic playback timelines stayed equivalent within floating-point rounding. These results support review access, not automatic replacement.
+Final prediction bytes matched 111 of 164 R109 windows. Differences occurred in M4A files, and some raw peak events changed. The maximum logit difference was 0.1484375. No cause or exact numerical reproducibility is claimed.
 
-Policy 5 failed the held-out no-regression check. The existing automatic constant-grid rule reduced beat F1 from 57.56% to 54.43%. Downbeat F1 fell from 53.70% to 50.50%. Thirty-one tracks changed event scores after automatic constant-grid updates. The new adaptive candidates were separate: all seven improved both scores when evaluated for acceptance. Their combined review scores were 56.37% and 52.15%. All 100 results reopened without errors. This failed result remains preserved.
+The fixed learned-key candidate also analysed the same 12 audio identities. Agreement with nine automatic Traktor keys fell from six to four. This is not verified accuracy loss. Blue Monday, 99 Problems and Big Ole Freak changed key predictions and need listening review.
 
-Policy 6 contains that failure without tuning model thresholds. Strong deep evidence can fill a missing grid, but it cannot automatically replace an existing usable grid. The separate tempo-octave correction remains unchanged. Compatible evidence does not generate a new review warning merely because replacement is disabled. Previously accepted grids remain intact. This change does not reconstruct their lost first-pass timing.
+Erik verified only that the Traktor bar for 99 Problems starts one beat early. That verifies bar choice, not exact beat time, tempo or key. The final downbeat phase differs from that shifted reference by 26.428 ms. It remains outside the strict 25 ms comparison. Other original Traktor comparisons remain unverified.
 
-The Mac policy audit reuses a completed first-pass report and its prediction checkpoints. It verifies audio hashes, inference identity and source coverage. Its output records the source report hash and run ID. Replay timings are not fresh-analysis timings. Policy 6 checks on the same corpus are regression checks after the failed holdout, not new independent accuracy evidence.
+Twenty-four focused Swift tests passed. Twenty benchmark and key-comparison Python tests passed. One optional real-model unit test stayed skipped. The packaged Mac audits provide separate real-model evidence. Negative Mac replay checks rejected incomplete reports, different inference identities and changed audio. Failed evidence remains saved.
 
-The policy 6 replay exposed one false grid fill: `gtzan:metal.00001`. Its high-confidence deep grid matched no annotated beats or downbeats. Policy 7 therefore keeps full constant-grid proposals for explicit review. For a missing grid, a bounded constant candidate uses the existing grid acceptance controls. The first-pass grid remains unchanged. The separate tempo-octave correction still uses its existing evidence rules. Existing accepted grids are not silently reset.
+## Benchmark scope and provenance
 
-Explicit acceptance can create a missing base grid. Policy 5 preserves strong policy 3 and 4 fits with the same inference profile. It also skips policy 4 results whose missing constant fit was already reviewed. Weak older constant fits can upgrade. The model weights remain unchanged, so these policy upgrades can reuse saved predictions. Changed weights and later policies remain eligible under the existing version rules.
+The frozen corpus contains 200 GTZAN rhythm excerpts and 178 GiantSteps+ key excerpts. Development uses 100 from each dataset. Holdout uses 100 rhythm and 78 key excerpts. Artist, recording and audio-identity groups were split before selection. Duplicate audio is rejected both within and across splits. Reference answers are absent from the app input manifests.
 
-A later first pass retains an offered deep candidate only for the same audio identity. The existing manual, locked, imported and accepted adaptive preparation protections remain in place. Twenty-one focused Swift tests passed. Twenty Python tests passed for the benchmark and key comparison. One optional real-model unit test remains skipped. The packaged Mac audit supplies the real-model evidence separately.
+GTZAN selection used 913 eligible files after published fault and identity exclusions. One downloaded file also failed its source checksum and was excluded. GiantSteps+ selection used 264 eligible files. Missing metadata, uncertain keys, non-standard modes and annotated key changes excluded the other 336 files. Every selected audio file matched its published checksum and has a recorded SHA-256.
 
-## Model and hardware scope
+Published human references are not personal listening checks by Erik. GTZAN labels and group metadata have pinned repository revisions. GiantSteps+ uses revised human key labels with high confidence. The annotation files, source indexes and per-field labels have recorded hashes.
 
-Tests ran on an Apple M4 Pro Mac with 24 GiB of memory. Core ML preferred the Neural Engine for all 746 operations in the small beat model's inspected plan. The learned key plan preferred it for all 40 operations. Both probes requested CPU and Neural Engine compute units. These are placement plans, not runtime utilisation measurements or Duo timings.
+Beat This authors declare GTZAN excluded from training. The key-model authors report distinct GiantSteps MTG training and GiantSteps Key test recordings. Artist overlap with model training data is not established.
 
-The production Mac first pass requests CPU only. The deep rhythm pass and the external learned-key pass request CPU and Neural Engine units. The small-model plan probe does not change the production first-pass policy. A Mac first-pass acceleration comparison remains separate work.
+Event matching is one-to-one within 25 ms over annotated spans, including annotated opening beats. Half tempo loses recall. Double tempo loses precision. Unresolved outputs stay in the denominator. Exact key and related-key scores remain separate. The excerpts cannot establish whole-track drift, key modulation, long-mix accuracy or gig readiness.
 
-The learned key weights remain external research assets. No automatic learned-key replacement is enabled. The current licence restricts commercial use. Commercial model selection or training rights remain open. The new model's output scores also need calibration before automatic acceptance.
+## Models, conversion and speed
 
-The native key conversion preserves separate weights, preprocessing, conversion and decision versions. Its audio frontend uses bounded windows. The original 12 files were evaluated with the same fixed candidate. Agreement with nine automatic Traktor keys fell from six to four. This is not a verified accuracy loss. Blue Monday, 99 Problems and Big Ole Freak changed key predictions and need listening review.
+Tests ran on an Apple M4 Pro with 24 GiB of memory. The production Mac first pass requests CPU only. The deep rhythm and learned-key passes request CPU and Neural Engine units. Core ML preferred the Neural Engine for all 40 learned-key operations and all 746 operations in a separate small-beat-model plan probe. These are placement plans, not runtime utilisation counters. The probe did not change the Mac first-pass policy.
 
-This comparison does not establish the strongest available key model. [InceptionKeyNet](https://github.com/stefan-baumann/inceptionkeynet) provides a newer reference architecture and training code. [S-KEY](https://github.com/deezer/skey) provides a 2025 model, but restricts its published weights to non-commercial research. Neither was measured in this increment. Future selection needs a fresh independent test cohort and suitable model rights.
+The first rhythm baseline processed 50.04 minutes of audio in 290.16 seconds for the first pass and 92.33 seconds for deep analysis. Later fresh runs were similar. Audit report writes and compilation are separate overhead. These host measurements do not establish Duo queue speed or live A10X performance.
 
-## Reproduce the scores
+The learned key pass took 11.93 seconds on development and 9.19 seconds on holdout, excluding model load. Held-out inference took 0.21 seconds. Audio feature preparation took 8.82 seconds. This is an additional key pass, not a whole-engine speed comparison.
 
-1. Validate each frozen benchmark with `tools/verified_analysis_benchmark.py validate` and `--verify-audio`.
-2. Create an unlabelled run manifest with the tool's `manifest` operation and the required split.
-3. Run the packaged Mac app with `--analysis-audit <manifest> <new-output-folder>`.
+The candidate is `madmom-key-cnn-2018-eval1`, with separate weights, preprocessing, conversion and decision versions. Its weights use CC-BY-NC-SA-4.0 and remain outside the application bundle. Original-to-Torch conversion differed by at most 0.000000656 in the parity check. FP16 Core ML differed by at most 0.023923 and retained the predicted key. On decoded PCM, native frontend features differed by at most 0.0000036. MP3 decoder differences are recorded separately.
+
+This comparison does not establish the strongest available key model. [InceptionKeyNet](https://github.com/stefan-baumann/inceptionkeynet) provides a newer architecture and training code. [S-KEY](https://github.com/deezer/skey) provides a 2025 model but restricts published weights to non-commercial research. Neither was measured here. Further selection needs suitable model rights and fresh independent test data.
+
+## Source and evidence
+
+Final tested application source: `6114fcf63f3a033eff879cc48a754f8d0365a957`. Source SHA-256: `33ce5aa8cafc9e71f4fdc936104f10397d0424676087d48eae00b3c7ac5dc5fa`. The feature source was merged into consolidated `main` before packaging.
+
+Frozen references are in `docs/testing/analysis-benchmark-r116-gtzan.json` and `docs/testing/analysis-benchmark-r116-key.json`. The [compact results record](../testing/analysis-results-r116.json) binds each comparison to its source, model and report hashes.
+
+Raw reports, source records, model artifacts, failed attempts, app archives and logs remain under ignored `TestBuilds/r116` in the authorised worktree. The consolidated folder also holds compact evidence and compressed report copies. The archived Mac app still requires the worktree's built resource bundles. It is not a standalone distribution package. No iPad or Duo installation was performed.
+
+## Remaining work
+
+- Obtain suitable model rights and test calibrated rules before replacing normal key analysis.
+- Evaluate rhythm candidates on fresh independent material before permitting automatic grid replacement.
+- Add full-track listening references, tempo changes and meters beyond the supported four-beat candidate fit.
+- Investigate the M4A prediction differences and review previously accepted deep grids where needed.
+- Measure throughput on the Duo and verify automatic transfer to the iPad.
+- Confirm that background analysis yields before it affects audio or controls on the actual A10X.
+
+## Reproduce the checks
+
+1. Validate a frozen corpus with `tools/verified_analysis_benchmark.py validate` and `--verify-audio`.
+2. Create an unlabelled input with the tool's `manifest` operation and the required split.
+3. Run the Mac app with `--analysis-audit <manifest> <new-output-folder>`.
 4. Score the report with the tool's `score` operation, `--report` and `--output`.
-5. For the external key candidate, run `--key-candidate-audit <manifest> <model-folder> <new-output-folder>`.
-6. Compare its report with `tools/compare_key_candidate.py <benchmark> <baseline-report> <candidate-report> <new-output-file>`.
+5. Replay a policy with `--analysis-policy-audit <completed-report> <new-output-folder>`.
+6. Evaluate external keys with `--key-candidate-audit <manifest> <model-folder> <new-output-folder>`.
+7. Compare keys with `tools/compare_key_candidate.py <benchmark> <baseline-report> <candidate-report> <new-output-file>`.
 
-Keep each run's source, binary, model, manifest and report hashes. Keep failed runs. Do not reuse a scored holdout for tuning. New tuning requires a new independent test cohort.
-
-Evidence is under `TestBuilds/r116`. Rhythm candidate measurements and physical device acceptance remain open. No automatic learned-key adoption is enabled.
+Keep source, binary, model, manifest and report hashes for every run. Keep failed runs. Mark replay timings as reused work. Do not use a scored holdout as fresh validation after further tuning.

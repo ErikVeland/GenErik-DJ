@@ -1,0 +1,1014 @@
+{
+  "format": "generik.analysis-results/v1",
+  "request": "R116",
+  "status": "measured",
+  "date": "2026-11-10",
+  "scope": "Source-bound Mac benchmark and regression evidence. Published human excerpt labels are separate from unverified Traktor comparisons and synthetic fixtures.",
+  "finalApplication": {
+    "sourceCommit": "6114fcf63f3a033eff879cc48a754f8d0365a957",
+    "sourceSHA256": "33ce5aa8cafc9e71f4fdc936104f10397d0424676087d48eae00b3c7ac5dc5fa",
+    "appSHA256": "aa0fead51ffc93500f55b32c0601c4008ff06296e5fc3b56fa9fed2fbc44f45a",
+    "binarySHA256": "46d13849aaea0cdda3686fc947c94867740feebc7e79ca2427016724d5bfd073",
+    "hardware": "Apple M4 Pro",
+    "memoryBytes": 25769803776,
+    "buildLog": "mac-policy7-build.log"
+  },
+  "corpora": [
+    {
+      "path": "docs/testing/analysis-benchmark-r116-gtzan.json",
+      "sha256": "92c173d838414d2d698e580150a5803e57a9c9931fcd159bae829a8e6f3ff144",
+      "version": "r116-gtzan-1",
+      "excerpts": 200,
+      "splits": {
+        "development": 100,
+        "holdout": 100
+      },
+      "eligibleTracks": 913
+    },
+    {
+      "path": "docs/testing/analysis-benchmark-r116-key.json",
+      "sha256": "0b591553864dc19372eaa4f1a5824c92e35892ac856d011017f97cff1b27671c",
+      "version": "r116-giantsteps-1",
+      "excerpts": 178,
+      "splits": {
+        "development": 100,
+        "holdout": 78
+      },
+      "eligibleTracks": 264
+    }
+  ],
+  "key": {
+    "status": "external-evaluation-only",
+    "normalLibraryAnalysisChanged": false,
+    "licence": "CC-BY-NC-SA-4.0",
+    "model": {
+      "bands": 105,
+      "classOrder": [
+        {
+          "mode": "major",
+          "tonic": 9
+        },
+        {
+          "mode": "major",
+          "tonic": 10
+        },
+        {
+          "mode": "major",
+          "tonic": 11
+        },
+        {
+          "mode": "major",
+          "tonic": 0
+        },
+        {
+          "mode": "major",
+          "tonic": 1
+        },
+        {
+          "mode": "major",
+          "tonic": 2
+        },
+        {
+          "mode": "major",
+          "tonic": 3
+        },
+        {
+          "mode": "major",
+          "tonic": 4
+        },
+        {
+          "mode": "major",
+          "tonic": 5
+        },
+        {
+          "mode": "major",
+          "tonic": 6
+        },
+        {
+          "mode": "major",
+          "tonic": 7
+        },
+        {
+          "mode": "major",
+          "tonic": 8
+        },
+        {
+          "mode": "minor",
+          "tonic": 9
+        },
+        {
+          "mode": "minor",
+          "tonic": 10
+        },
+        {
+          "mode": "minor",
+          "tonic": 11
+        },
+        {
+          "mode": "minor",
+          "tonic": 0
+        },
+        {
+          "mode": "minor",
+          "tonic": 1
+        },
+        {
+          "mode": "minor",
+          "tonic": 2
+        },
+        {
+          "mode": "minor",
+          "tonic": 3
+        },
+        {
+          "mode": "minor",
+          "tonic": 4
+        },
+        {
+          "mode": "minor",
+          "tonic": 5
+        },
+        {
+          "mode": "minor",
+          "tonic": 6
+        },
+        {
+          "mode": "minor",
+          "tonic": 7
+        },
+        {
+          "mode": "minor",
+          "tonic": 8
+        }
+      ],
+      "conversionVersion": 1,
+      "decisionPolicyVersion": 1,
+      "fftSize": 8192,
+      "filtersSHA256": "6e733f517caea7937587a6f09490220fe5d19877e14bd8865ceb1a1e177349ea",
+      "hop": 8820,
+      "modelID": "madmom-key-cnn-2018-eval1",
+      "preprocessingVersion": 1,
+      "sampleRate": 44100,
+      "weightsSHA256": "c58ba553be1048877662a663a2670c0051b3c2c66d109b6042ba722ed0bfc7a6",
+      "windowFrames": 600
+    },
+    "baselineSource": {
+      "source": "7c44804f6d18efe8705875727b871c5c27226613f0ba822763bf5dc4ceff51d0",
+      "commit": "fee71c1e62488aeaa847fd5d4d11163cf8138e3b",
+      "manifestSHA256": "ae18958218065bc6866615d2a32b07f4d0dfd2d5121e1d18bce2265a40d82c15",
+      "binarySHA256": "86d1a1949c58d0f6ef8ad1dcef8d5ae92c0f413b253d87476a85743d6ed0d5a4"
+    },
+    "candidateSource": {
+      "sourceCommit": "4574b627ced6d2be38c110bab86217b521519aa6",
+      "sourceSHA256": "9b5c19cf6836c988748f10cd6768296bd6261bf92d573c012fb5192c55dd106f",
+      "appSHA256": "d49df00b44868c481cf7b6a8ce31cf0a0e447a3f948115c70ac4fbe9c080af04",
+      "binarySHA256": "8deac0e4d813e1fa6ad181417d93e9ef5ac9071fd2428b9ef6de346d6a440bba",
+      "manifestSHA256": "ae18958218065bc6866615d2a32b07f4d0dfd2d5121e1d18bce2265a40d82c15"
+    },
+    "holdoutSourceBinding": {
+      "scope": "Retrospective binding of completed frozen-app key holdout runs. No model or thresholds changed after development.",
+      "manifestSHA256": "ea66df130075d7f6138552f9c944cb7d361942447cabbd99df98b86aab6e4312",
+      "baseline": {
+        "source": "7c44804f6d18efe8705875727b871c5c27226613f0ba822763bf5dc4ceff51d0",
+        "commit": "fee71c1e62488aeaa847fd5d4d11163cf8138e3b",
+        "binarySHA256": "86d1a1949c58d0f6ef8ad1dcef8d5ae92c0f413b253d87476a85743d6ed0d5a4"
+      },
+      "candidate": {
+        "sourceCommit": "4574b627ced6d2be38c110bab86217b521519aa6",
+        "sourceSHA256": "9b5c19cf6836c988748f10cd6768296bd6261bf92d573c012fb5192c55dd106f",
+        "appSHA256": "d49df00b44868c481cf7b6a8ce31cf0a0e447a3f948115c70ac4fbe9c080af04",
+        "binarySHA256": "8deac0e4d813e1fa6ad181417d93e9ef5ac9071fd2428b9ef6de346d6a440bba"
+      },
+      "runIDs": {
+        "key-baseline-holdout": "D6B247AB-3146-4F15-AD1F-D512DEBCB5BF",
+        "key-candidate-holdout-01": "702845E2-2729-47D8-AE5D-3B294BC68A2E"
+      },
+      "reportSHA256": {
+        "key-baseline-holdout": "e6d1e663cab7dbfe573926ac366b74c7c5e6258ba156e93e272249b03b0ff03d",
+        "key-candidate-holdout-01": "356ce16eaaf9c6c61e4fa66c239b5523617bdbc06021ddb18353b25839328387"
+      }
+    },
+    "development": {
+      "split": "development",
+      "baselineRunID": "A0540FC2-BC2E-4795-A4D1-97030A15E616",
+      "candidateRunID": "A56A05A8-81BF-485A-A386-EF43D7C9EE71",
+      "modelArtifactSHA256": "7cb47edb8dc7cd9676d35e603e124889e143b7459df6f6a00489dd90763b0d56",
+      "baseline": {
+        "referenceTracks": 100,
+        "exact": 49,
+        "resolved": 86,
+        "exactAccuracy": 0.49,
+        "weightedAccuracy": 0.579,
+        "confidenceBins": [
+          {
+            "low": 0,
+            "high": 0.5,
+            "tracks": 52,
+            "meanScore": 0.2692307692307692
+          },
+          {
+            "low": 0.5,
+            "high": 0.8,
+            "tracks": 21,
+            "meanScore": 0.8095238095238095
+          },
+          {
+            "low": 0.8,
+            "high": 1,
+            "tracks": 27,
+            "meanScore": 0.6666666666666666
+          }
+        ]
+      },
+      "candidate": {
+        "referenceTracks": 100,
+        "exact": 91,
+        "resolved": 100,
+        "exactAccuracy": 0.91,
+        "weightedAccuracy": 0.929,
+        "confidenceBins": [
+          {
+            "low": 0,
+            "high": 0.5,
+            "tracks": 10,
+            "meanScore": 0.5
+          },
+          {
+            "low": 0.5,
+            "high": 0.8,
+            "tracks": 22,
+            "meanScore": 0.8636363636363636
+          },
+          {
+            "low": 0.8,
+            "high": 1,
+            "tracks": 68,
+            "meanScore": 0.9852941176470589
+          }
+        ]
+      },
+      "pairedWins": 45,
+      "pairedLosses": 3,
+      "candidateSeconds": 11.925344583229162,
+      "inputSHA256": {
+        "benchmark": "0b591553864dc19372eaa4f1a5824c92e35892ac856d011017f97cff1b27671c",
+        "baseline": "a1a9b73c13de1c45b220023a679d73a598746c9a72963fde76d9fbf2ccaade75",
+        "candidate": "5b7be6f1ab3dab4988bd81f9e18bf1b595b6e806cd239413810026f49d5385ed"
+      },
+      "evidence": {
+        "path": "TestBuilds/r116/key-comparison-development-01.json",
+        "sha256": "73326792527a526638f70ab1bbe3ae882ba37b684e530d59391685c4859f736f"
+      }
+    },
+    "holdout": {
+      "split": "holdout",
+      "baselineRunID": "D6B247AB-3146-4F15-AD1F-D512DEBCB5BF",
+      "candidateRunID": "702845E2-2729-47D8-AE5D-3B294BC68A2E",
+      "modelArtifactSHA256": "7cb47edb8dc7cd9676d35e603e124889e143b7459df6f6a00489dd90763b0d56",
+      "baseline": {
+        "referenceTracks": 78,
+        "exact": 41,
+        "resolved": 68,
+        "exactAccuracy": 0.5256410256410257,
+        "weightedAccuracy": 0.591025641025641,
+        "confidenceBins": [
+          {
+            "low": 0,
+            "high": 0.5,
+            "tracks": 45,
+            "meanScore": 0.5111111111111111
+          },
+          {
+            "low": 0.5,
+            "high": 0.8,
+            "tracks": 17,
+            "meanScore": 0.7058823529411765
+          },
+          {
+            "low": 0.8,
+            "high": 1,
+            "tracks": 16,
+            "meanScore": 0.375
+          }
+        ]
+      },
+      "candidate": {
+        "referenceTracks": 78,
+        "exact": 63,
+        "resolved": 78,
+        "exactAccuracy": 0.8076923076923077,
+        "weightedAccuracy": 0.8205128205128205,
+        "confidenceBins": [
+          {
+            "low": 0,
+            "high": 0.5,
+            "tracks": 7,
+            "meanScore": 0.2857142857142857
+          },
+          {
+            "low": 0.5,
+            "high": 0.8,
+            "tracks": 16,
+            "meanScore": 0.6875
+          },
+          {
+            "low": 0.8,
+            "high": 1,
+            "tracks": 55,
+            "meanScore": 0.9090909090909091
+          }
+        ]
+      },
+      "pairedWins": 29,
+      "pairedLosses": 7,
+      "candidateSeconds": 9.187185666756704,
+      "inputSHA256": {
+        "benchmark": "0b591553864dc19372eaa4f1a5824c92e35892ac856d011017f97cff1b27671c",
+        "baseline": "e6d1e663cab7dbfe573926ac366b74c7c5e6258ba156e93e272249b03b0ff03d",
+        "candidate": "356ce16eaaf9c6c61e4fa66c239b5523617bdbc06021ddb18353b25839328387"
+      },
+      "evidence": {
+        "path": "TestBuilds/r116/key-comparison-holdout-01.json",
+        "sha256": "a5451bd649921961ecfb5d94101d5398b81ef0846a33a6458ae1392b1454d11c"
+      }
+    },
+    "confidenceScope": "Scores are not calibrated probabilities. Thresholds were not tuned on the held-out comparison.",
+    "speedScope": "Additional native key pass. Excludes model load and is not a whole-engine speed comparison."
+  },
+  "rhythm": {
+    "metric": "One-to-one beat and downbeat micro-F1 at 25 ms over annotated spans. Not a percentage of fully correct tracks.",
+    "finalPolicy": 7,
+    "deepGeneration": 7,
+    "automaticConstantGridReplacement": false,
+    "tempoOctaveCorrectionRetained": true,
+    "newFullGridProposalsRequireExplicitReview": true,
+    "developmentBaseline": {
+      "runID": "DB91F411-9A6C-4690-AFFC-48F40C9DC3A0",
+      "split": "development",
+      "reportSHA256": "fb55a63aa92aba5dc740201a3c6d9645b8f2e0817701ad2fbb2f6d3de86131e0",
+      "scores": {
+        "first": {
+          "beats": {
+            "referenceTracks": 100,
+            "referenceEvents": 6236,
+            "predictedEvents": 4999,
+            "matched": 3561,
+            "precision": 0.7123424684936988,
+            "recall": 0.5710391276459269,
+            "microF1": 0.6339118825100134
+          },
+          "downbeats": {
+            "referenceTracks": 100,
+            "referenceEvents": 1591,
+            "predictedEvents": 1193,
+            "matched": 740,
+            "precision": 0.6202849958088852,
+            "recall": 0.46511627906976744,
+            "microF1": 0.5316091954022989
+          }
+        },
+        "final": {
+          "beats": {
+            "referenceTracks": 100,
+            "referenceEvents": 6236,
+            "predictedEvents": 5000,
+            "matched": 3595,
+            "precision": 0.719,
+            "recall": 0.5764913406029506,
+            "microF1": 0.6399074403702385
+          },
+          "downbeats": {
+            "referenceTracks": 100,
+            "referenceEvents": 1591,
+            "predictedEvents": 1197,
+            "matched": 752,
+            "precision": 0.6282372598162071,
+            "recall": 0.4726587052168448,
+            "microF1": 0.539454806312769
+          }
+        }
+      },
+      "failures": 0,
+      "reviewCandidates": 0,
+      "evidence": {
+        "path": "TestBuilds/r116/gtzan-baseline-score.json",
+        "sha256": "d942b6aea4da220e64a63b6a73de0f21c9bd2bdf526e09451de7412ee769c035"
+      }
+    },
+    "policy5Development": {
+      "runID": "63611EAF-0EB0-4F91-9589-BC3DDF05E47B",
+      "split": "development",
+      "reportSHA256": "f6a65d6af0b87fd1374c5889eed3a052fab2b5feb0306bbd8d6ca42287ff73aa",
+      "scores": {
+        "first": {
+          "beats": {
+            "referenceTracks": 100,
+            "referenceEvents": 6236,
+            "predictedEvents": 4999,
+            "matched": 3561,
+            "precision": 0.7123424684936988,
+            "recall": 0.5710391276459269,
+            "microF1": 0.6339118825100134
+          },
+          "downbeats": {
+            "referenceTracks": 100,
+            "referenceEvents": 1591,
+            "predictedEvents": 1193,
+            "matched": 740,
+            "precision": 0.6202849958088852,
+            "recall": 0.46511627906976744,
+            "microF1": 0.5316091954022989
+          }
+        },
+        "final": {
+          "beats": {
+            "referenceTracks": 100,
+            "referenceEvents": 6236,
+            "predictedEvents": 5000,
+            "matched": 3595,
+            "precision": 0.719,
+            "recall": 0.5764913406029506,
+            "microF1": 0.6399074403702385
+          },
+          "downbeats": {
+            "referenceTracks": 100,
+            "referenceEvents": 1591,
+            "predictedEvents": 1197,
+            "matched": 752,
+            "precision": 0.6282372598162071,
+            "recall": 0.4726587052168448,
+            "microF1": 0.539454806312769
+          }
+        },
+        "review": {
+          "beats": {
+            "referenceTracks": 100,
+            "referenceEvents": 6236,
+            "predictedEvents": 5083,
+            "matched": 3780,
+            "precision": 0.7436553216604368,
+            "recall": 0.6061577934573444,
+            "microF1": 0.6679035250463822
+          },
+          "downbeats": {
+            "referenceTracks": 100,
+            "referenceEvents": 1591,
+            "predictedEvents": 1218,
+            "matched": 793,
+            "precision": 0.6510673234811166,
+            "recall": 0.4984286612193589,
+            "microF1": 0.5646137415450339
+          }
+        }
+      },
+      "failures": 0,
+      "reviewCandidates": 9,
+      "evidence": {
+        "path": "TestBuilds/r116/gtzan-candidate-development-score-02.json",
+        "sha256": "77b009824719444e9eb8230d5d17e3565f3f7a61ed8d96956252882d2d82996f"
+      }
+    },
+    "policy5HoldoutFailed": {
+      "runID": "7A34FE56-CB0D-4B72-A44B-B5DDDCFC1124",
+      "split": "holdout",
+      "reportSHA256": "9865c0b2ff94a3f511c613c7cf4c8b98501a5794823d10c187753c9aaefb4103",
+      "scores": {
+        "first": {
+          "beats": {
+            "referenceTracks": 100,
+            "referenceEvents": 6112,
+            "predictedEvents": 4952,
+            "matched": 3184,
+            "precision": 0.6429725363489499,
+            "recall": 0.5209424083769634,
+            "microF1": 0.5755603759942155
+          },
+          "downbeats": {
+            "referenceTracks": 100,
+            "referenceEvents": 1583,
+            "predictedEvents": 1076,
+            "matched": 714,
+            "precision": 0.6635687732342007,
+            "recall": 0.4510423246999368,
+            "microF1": 0.537044001504325
+          }
+        },
+        "final": {
+          "beats": {
+            "referenceTracks": 100,
+            "referenceEvents": 6112,
+            "predictedEvents": 5032,
+            "matched": 3033,
+            "precision": 0.6027424483306836,
+            "recall": 0.4962369109947644,
+            "microF1": 0.5443287867910983
+          },
+          "downbeats": {
+            "referenceTracks": 100,
+            "referenceEvents": 1583,
+            "predictedEvents": 1094,
+            "matched": 676,
+            "precision": 0.6179159049360147,
+            "recall": 0.42703727100442196,
+            "microF1": 0.5050429585356743
+          }
+        },
+        "review": {
+          "beats": {
+            "referenceTracks": 100,
+            "referenceEvents": 6112,
+            "predictedEvents": 5035,
+            "matched": 3142,
+            "precision": 0.6240317775571003,
+            "recall": 0.5140706806282722,
+            "microF1": 0.5637391226338925
+          },
+          "downbeats": {
+            "referenceTracks": 100,
+            "referenceEvents": 1583,
+            "predictedEvents": 1098,
+            "matched": 699,
+            "precision": 0.6366120218579235,
+            "recall": 0.441566645609602,
+            "microF1": 0.5214472211861246
+          }
+        }
+      },
+      "failures": 0,
+      "reviewCandidates": 7,
+      "evidence": {
+        "path": "TestBuilds/r116/gtzan-candidate-holdout-score-01.json",
+        "sha256": "af2c45c2490f678454e3c21007b4a8f59dc39394b65d6f726dbacd45ae018dac"
+      }
+    },
+    "policy7Development": {
+      "runID": "5B657F1D-A701-4CA4-A040-FB735496061F",
+      "split": "development",
+      "reportSHA256": "0a3885e272d39cf4f188ce2cb6e16b42e2bffc88f569978d64d45d756bbdde3c",
+      "scores": {
+        "first": {
+          "beats": {
+            "referenceTracks": 100,
+            "referenceEvents": 6236,
+            "predictedEvents": 4999,
+            "matched": 3561,
+            "precision": 0.7123424684936988,
+            "recall": 0.5710391276459269,
+            "microF1": 0.6339118825100134
+          },
+          "downbeats": {
+            "referenceTracks": 100,
+            "referenceEvents": 1591,
+            "predictedEvents": 1193,
+            "matched": 740,
+            "precision": 0.6202849958088852,
+            "recall": 0.46511627906976744,
+            "microF1": 0.5316091954022989
+          }
+        },
+        "final": {
+          "beats": {
+            "referenceTracks": 100,
+            "referenceEvents": 6236,
+            "predictedEvents": 4999,
+            "matched": 3561,
+            "precision": 0.7123424684936988,
+            "recall": 0.5710391276459269,
+            "microF1": 0.6339118825100134
+          },
+          "downbeats": {
+            "referenceTracks": 100,
+            "referenceEvents": 1591,
+            "predictedEvents": 1193,
+            "matched": 740,
+            "precision": 0.6202849958088852,
+            "recall": 0.46511627906976744,
+            "microF1": 0.5316091954022989
+          }
+        },
+        "review": {
+          "beats": {
+            "referenceTracks": 100,
+            "referenceEvents": 6236,
+            "predictedEvents": 5082,
+            "matched": 3746,
+            "precision": 0.7371113734750099,
+            "recall": 0.6007055805003207,
+            "microF1": 0.6619544089061672
+          },
+          "downbeats": {
+            "referenceTracks": 100,
+            "referenceEvents": 1591,
+            "predictedEvents": 1214,
+            "matched": 781,
+            "precision": 0.64332784184514,
+            "recall": 0.4908862350722816,
+            "microF1": 0.5568627450980392
+          }
+        }
+      },
+      "failures": 0,
+      "reviewCandidates": 9,
+      "evidence": {
+        "path": "TestBuilds/r116/policy7-development-score.json",
+        "sha256": "8c5c7f8c8707cb246bc71ce5933dbf15c698874a53210f64cfa514cb043b5a44"
+      }
+    },
+    "policy7HoldoutRegression": {
+      "runID": "81DA2BC4-4E3A-4930-981E-BD2D08AA534D",
+      "split": "holdout",
+      "reportSHA256": "b1ab3c63fa88e7ad69f37a6d6d2cbbccb3989aee32ae20e6b095af2596ed5162",
+      "scores": {
+        "first": {
+          "beats": {
+            "referenceTracks": 100,
+            "referenceEvents": 6112,
+            "predictedEvents": 4952,
+            "matched": 3184,
+            "precision": 0.6429725363489499,
+            "recall": 0.5209424083769634,
+            "microF1": 0.5755603759942155
+          },
+          "downbeats": {
+            "referenceTracks": 100,
+            "referenceEvents": 1583,
+            "predictedEvents": 1076,
+            "matched": 714,
+            "precision": 0.6635687732342007,
+            "recall": 0.4510423246999368,
+            "microF1": 0.537044001504325
+          }
+        },
+        "final": {
+          "beats": {
+            "referenceTracks": 100,
+            "referenceEvents": 6112,
+            "predictedEvents": 4952,
+            "matched": 3184,
+            "precision": 0.6429725363489499,
+            "recall": 0.5209424083769634,
+            "microF1": 0.5755603759942155
+          },
+          "downbeats": {
+            "referenceTracks": 100,
+            "referenceEvents": 1583,
+            "predictedEvents": 1076,
+            "matched": 714,
+            "precision": 0.6635687732342007,
+            "recall": 0.4510423246999368,
+            "microF1": 0.537044001504325
+          }
+        },
+        "review": {
+          "beats": {
+            "referenceTracks": 100,
+            "referenceEvents": 6112,
+            "predictedEvents": 5032,
+            "matched": 3293,
+            "precision": 0.6544117647058824,
+            "recall": 0.5387761780104712,
+            "microF1": 0.5909906676238335
+          },
+          "downbeats": {
+            "referenceTracks": 100,
+            "referenceEvents": 1583,
+            "predictedEvents": 1099,
+            "matched": 737,
+            "precision": 0.6706096451319381,
+            "recall": 0.4655716993051169,
+            "microF1": 0.5495898583146905
+          }
+        }
+      },
+      "failures": 0,
+      "reviewCandidates": 8,
+      "evidence": {
+        "path": "TestBuilds/r116/policy7-holdout-replay-score.json",
+        "sha256": "cf53b61eeeeb402aa496004c68e514d7e6bbc2ba9effa3b6012a8fe1262d77d9"
+      }
+    },
+    "policy7Scope": "Containment after observing the failed holdout. Replaying the same corpus is regression evidence, not independent accuracy validation.",
+    "reviewScope": "Hypothetical acceptance of all offered maps, including the one poor constant map. Actual playback retains first-pass timing.",
+    "reviewCandidates": {
+      "development": {
+        "adaptive": 9,
+        "improvedBothEventScores": 8,
+        "worsenedBothEventScores": 1
+      },
+      "holdout": {
+        "adaptive": 7,
+        "adaptiveImprovedBothEventScores": 7,
+        "constant": 1,
+        "constantMatchedReferenceBeats": 0
+      }
+    },
+    "checkpointReplay": [
+      {
+        "run": "policy7-development",
+        "runID": "5B657F1D-A701-4CA4-A040-FB735496061F",
+        "sourceRunID": "63611EAF-0EB0-4F91-9589-BC3DDF05E47B",
+        "sourceReportSHA256": "f6a65d6af0b87fd1374c5889eed3a052fab2b5feb0306bbd8d6ca42287ff73aa",
+        "rows": 100,
+        "savedResultsMatch": 100,
+        "inferenceCalls": 0,
+        "rowsWithPredictionCacheHits": 100,
+        "windows": 200,
+        "unchangedWindows": 200,
+        "automaticConstantReplacements": 0,
+        "playbackEqualsFirstPass": true,
+        "reportSHA256": "0a3885e272d39cf4f188ce2cb6e16b42e2bffc88f569978d64d45d756bbdde3c"
+      },
+      {
+        "run": "policy7-holdout-replay",
+        "runID": "81DA2BC4-4E3A-4930-981E-BD2D08AA534D",
+        "sourceRunID": "7A34FE56-CB0D-4B72-A44B-B5DDDCFC1124",
+        "sourceReportSHA256": "9865c0b2ff94a3f511c613c7cf4c8b98501a5794823d10c187753c9aaefb4103",
+        "rows": 100,
+        "savedResultsMatch": 100,
+        "inferenceCalls": 0,
+        "rowsWithPredictionCacheHits": 100,
+        "windows": 200,
+        "unchangedWindows": 200,
+        "automaticConstantReplacements": 0,
+        "playbackEqualsFirstPass": true,
+        "reportSHA256": "b1ab3c63fa88e7ad69f37a6d6d2cbbccb3989aee32ae20e6b095af2596ed5162"
+      }
+    ],
+    "speedScope": "Policy replay reuses first-pass results and neural predictions. Its timings are not fresh analysis speed."
+  },
+  "sameTwelveTracks": {
+    "source": {
+      "sourceCommit": "6114fcf63f3a033eff879cc48a754f8d0365a957",
+      "sourceSHA256": "33ce5aa8cafc9e71f4fdc936104f10397d0424676087d48eae00b3c7ac5dc5fa",
+      "appSHA256": "aa0fead51ffc93500f55b32c0601c4008ff06296e5fc3b56fa9fed2fbc44f45a",
+      "binarySHA256": "46d13849aaea0cdda3686fc947c94867740feebc7e79ca2427016724d5bfd073",
+      "hardware": "Apple M4 Pro",
+      "memoryBytes": 25769803776,
+      "buildLog": "mac-policy7-build.log"
+    },
+    "scope": "Fresh production Mac run. Saved Traktor agreement is not verified musical accuracy.",
+    "runID": "23A27931-6ACF-41D9-9029-A1023FC5FDBC",
+    "manifestUnchanged": true,
+    "tracks": 12,
+    "reopened": 12,
+    "errors": 0,
+    "firstPassChanges": [],
+    "tempoOnlyIDs": [
+      "11"
+    ],
+    "automaticConstantReplacements": 0,
+    "referenceScores": {
+      "referenceTracks": 9,
+      "resolved": 9,
+      "bpmWithinPointOne": 9,
+      "bpmWithinTwoPercent": 9,
+      "beatPhaseWithin25ms": 7,
+      "downbeatPhaseWithin25ms": 4,
+      "fullTrackGridWithin25ms": 7
+    },
+    "keyAgreement": {
+      "matches": 6,
+      "references": 9
+    },
+    "corrected99Problems": {
+      "resolved": true,
+      "bpm": 93.28006882845926,
+      "bpmError": 0.005631171540741775,
+      "bpmErrorPercent": 0.006036478839455128,
+      "beatPhaseMs": 26.389242430502335,
+      "maxFullTrackGridErrorMs": 40.36735635879918,
+      "p95FullTrackGridErrorMs": 39.66845066238434,
+      "downbeatPhaseMs": 26.428070524747493
+    },
+    "predictionWindows": 164,
+    "byteIdenticalToR109": 111,
+    "predictionComparisons": [
+      {
+        "id": "01",
+        "extension": ".m4a",
+        "beatsIdentical": false,
+        "downbeatsIdentical": true,
+        "maxLogitDifference": 0.09375
+      },
+      {
+        "id": "02",
+        "extension": ".mp3",
+        "beatsIdentical": true,
+        "downbeatsIdentical": true,
+        "maxLogitDifference": 0.0
+      },
+      {
+        "id": "03",
+        "extension": ".mp3",
+        "beatsIdentical": true,
+        "downbeatsIdentical": true,
+        "maxLogitDifference": 0.0
+      },
+      {
+        "id": "04",
+        "extension": ".m4a",
+        "beatsIdentical": false,
+        "downbeatsIdentical": true,
+        "maxLogitDifference": 0.109375
+      },
+      {
+        "id": "05",
+        "extension": ".mp3",
+        "beatsIdentical": true,
+        "downbeatsIdentical": true,
+        "maxLogitDifference": 0.0
+      },
+      {
+        "id": "06",
+        "extension": ".m4a",
+        "beatsIdentical": true,
+        "downbeatsIdentical": true,
+        "maxLogitDifference": 0.08203125
+      },
+      {
+        "id": "07",
+        "extension": ".mp3",
+        "beatsIdentical": true,
+        "downbeatsIdentical": true,
+        "maxLogitDifference": 0.0
+      },
+      {
+        "id": "08",
+        "extension": ".mp3",
+        "beatsIdentical": true,
+        "downbeatsIdentical": true,
+        "maxLogitDifference": 0.0
+      },
+      {
+        "id": "09",
+        "extension": ".mp3",
+        "beatsIdentical": true,
+        "downbeatsIdentical": true,
+        "maxLogitDifference": 0.0
+      },
+      {
+        "id": "10",
+        "extension": ".m4a",
+        "beatsIdentical": false,
+        "downbeatsIdentical": true,
+        "maxLogitDifference": 0.1484375
+      },
+      {
+        "id": "11",
+        "extension": ".m4a",
+        "beatsIdentical": false,
+        "downbeatsIdentical": false,
+        "maxLogitDifference": 0.09375
+      },
+      {
+        "id": "12",
+        "extension": ".m4a",
+        "beatsIdentical": true,
+        "downbeatsIdentical": true,
+        "maxLogitDifference": 0.0
+      }
+    ],
+    "reportSHA256": "b2c1c23940b6157b7be1daf866ff0562e14af1af327a51e0553f14d4e05c9957",
+    "timings": {
+      "firstPassPerformance": {
+        "tracks": 12,
+        "wallSeconds": 270.853849502,
+        "audioSeconds": 4693.636173752834,
+        "timesRealtime": 17.329036239960015,
+        "secondsPerAudioMinute": 3.4623968216791288,
+        "p50Seconds": 17.48432575,
+        "p90Seconds": 35.0933363914,
+        "p95Seconds": 37.88915868345,
+        "processCPUSeconds": 289.19359499999996,
+        "processLifetimePeakRSSBytes": 603734016,
+        "thermalStates": [
+          "nominal"
+        ]
+      },
+      "deepPerformance": {
+        "tracks": 12,
+        "wallSeconds": 90.255695958,
+        "audioSeconds": 4693.636173752834,
+        "timesRealtime": 52.00376689729357,
+        "secondsPerAudioMinute": 1.1537625749015226,
+        "p50Seconds": 4.453465875,
+        "p90Seconds": 19.058693137200002,
+        "p95Seconds": 21.811226414399997,
+        "processCPUSeconds": 26.527260999999896,
+        "processLifetimePeakRSSBytes": 919830528,
+        "thermalStates": [
+          "nominal"
+        ]
+      },
+      "reusePerformance": {
+        "tracks": 12,
+        "wallSeconds": 0.022069542,
+        "audioSeconds": 4693.636173752834,
+        "timesRealtime": 212674.83365775482,
+        "secondsPerAudioMinute": 0.00028212082721811125,
+        "p50Seconds": 0.0011857500000000002,
+        "p90Seconds": 0.004437979500000001,
+        "p95Seconds": 0.0051004983999999995,
+        "processCPUSeconds": 0.012506000000144013,
+        "processLifetimePeakRSSBytes": 919830528,
+        "thermalStates": [
+          "nominal"
+        ]
+      }
+    },
+    "evidence": {
+      "path": "TestBuilds/r116/regression-final-verification.json",
+      "sha256": "f703b4248a6b8be6c68e691f9079773665e983a7859c8767a9ab322b6c8c8ac7"
+    }
+  },
+  "driftFixtures": {
+    "source": {
+      "sourceCommit": "6114fcf63f3a033eff879cc48a754f8d0365a957",
+      "sourceSHA256": "33ce5aa8cafc9e71f4fdc936104f10397d0424676087d48eae00b3c7ac5dc5fa",
+      "appSHA256": "aa0fead51ffc93500f55b32c0601c4008ff06296e5fc3b56fa9fed2fbc44f45a",
+      "binarySHA256": "46d13849aaea0cdda3686fc947c94867740feebc7e79ca2427016724d5bfd073",
+      "hardware": "Apple M4 Pro",
+      "memoryBytes": 25769803776,
+      "buildLog": "mac-policy7-build.log"
+    },
+    "runID": "42AECC7F-89C2-4ADF-802C-D133AD237562",
+    "rows": [
+      {
+        "id": "synthetic-drift",
+        "maximumErrorMs": 2.493197278909065,
+        "beat120ErrorMs": 1.4739229024911538,
+        "downbeatOffset": 0,
+        "anchors": 33,
+        "savedResultMatches": true,
+        "originalCandidateRetained": true
+      },
+      {
+        "id": "synthetic-delayed-bar-2",
+        "maximumErrorMs": 2.4931972789126178,
+        "beat120ErrorMs": 1.4965986394628317,
+        "downbeatOffset": 2,
+        "anchors": 33,
+        "savedResultMatches": true,
+        "originalCandidateRetained": true
+      }
+    ],
+    "reportSHA256": "bb7e7e816c44bb2e0778b6ae6e6bdecf146f9c45d502fcadb661c50d4fb5f3ef"
+  },
+  "validation": {
+    "focusedSwiftTests": 24,
+    "pythonBenchmarkTests": 20,
+    "optionalRealModelUnitTest": "skipped; real models exercised separately by Mac app audits",
+    "logs": [
+      {
+        "path": "TestBuilds/r116/deep-review-policy7-green.log",
+        "sha256": "f4152e5d9d6c24378bb0f38fa56bb8e4bc72eead175d1ab82128cc34feb7741e"
+      },
+      {
+        "path": "TestBuilds/r116/scorer-duplicate-green.log",
+        "sha256": "244d5a0653221273c834694f46b92cd90f3b359bced7158e649fb89aef49f477"
+      }
+    ],
+    "negativeMacReplayChecks": [
+      {
+        "case": "incomplete",
+        "exitCode": 1,
+        "inputSHA256": "60180b1f6f44db58986482e4c18f031d98f8452858258aba7efb072f3a3810dd",
+        "logSHA256": "84c87ebb730abadaf773d40ebc6a302f76428dc64119408ff6fae1d6087bc4c9",
+        "reportRetained": false
+      },
+      {
+        "case": "model-mismatch",
+        "exitCode": 1,
+        "inputSHA256": "57fe41374f82d33dc17f6517ef086d2f8281df4c3fa3f8fb86643aa7ce58c38a",
+        "logSHA256": "84c87ebb730abadaf773d40ebc6a302f76428dc64119408ff6fae1d6087bc4c9",
+        "reportRetained": false
+      },
+      {
+        "case": "audio-mismatch",
+        "exitCode": 1,
+        "inputSHA256": "2d40b8dedb9fb02213fc10d50a4cfb10c3336907901b975095147f3d40acf051",
+        "logSHA256": "13b330aba349c6148e4e5e69eaa8a174da04db9651b6462c8a5d3688b35f3526",
+        "reportRetained": true
+      }
+    ]
+  },
+  "limitations": [
+    "Published human labels have not all been personally checked by Erik.",
+    "Model-training artist overlap is not established.",
+    "Short excerpts do not establish whole-track drift, modulation or long-mix accuracy.",
+    "Key candidate needs suitable model rights, confidence calibration and production acceptance rules.",
+    "Adaptive rhythm candidate supports consistent four-beat bars only.",
+    "Final rhythm containment needs fresh independent evaluation before automatic replacement can resume.",
+    "Previously accepted deep grids are preserved; lost first-pass timing is not reconstructed.",
+    "M4A prediction changes between runs remain unexplained.",
+    "Core ML compute plans do not prove runtime Neural Engine utilisation.",
+    "No physical Duo throughput, end-to-end iPad sharing or A10X live-performance acceptance was performed."
+  ],
+  "evidenceLocation": {
+    "primary": "/Users/veland/.codex/worktrees/tiered-analysis-r88/GenErik DJ/TestBuilds/r116",
+    "compactCopy": "/Users/veland/GenErik DJ/TestBuilds/r116",
+    "archiveManifest": "TestBuilds/r116/evidence-archive.json",
+    "appArchive": "TestBuilds/r116/TestedPolicy7.app",
+    "appArchiveRequires": "Built resource bundles in the original worktree."
+  }
+}

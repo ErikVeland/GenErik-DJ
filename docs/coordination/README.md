@@ -6,6 +6,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**R116 analysis benchmark:** The Mac app measured 378 excerpts with published human references. The external learned-key candidate improved held-out exact matches from 41/78 to 63/78. It is not enabled in normal library analysis. Rhythm testing found an automatic deep-grid regression. Policy 7 preserves first-pass timing and requires review for full-grid proposals. The separate 80/160 correction remains active. All 200 replay results and the original 12 fresh Mac results reopened. Both drift fixtures stayed below 2.5 ms. Device acceptance and production key-model selection remain open. [Measured results and remaining work](analysis-verified-r116.md).
+
 **Build 180** installed on the A10X iPad Pro, and iPadOS accepted launch. R115 adds independent S3 C/D playback, shared Sync, four-channel mixing, recording attribution and recovery. Forty-three focused host tests passed. Physical S3 and sustained four-deck A10X acceptance remain open. [Build record](../testing/builds/180.json) · [Scope and checks](s3-native.md#r115-independent-c-and-d-decks).
 
 **Build 179** installed on the A10X iPad Pro, and iPadOS accepted launch. R114 adds S3 headphone Preview, EXT and the stereo master meter. Twenty-five focused host tests passed. C/D playback and physical S3 acceptance remain open. [Build record](../testing/builds/179.json) · [Scope and evidence](s3-native.md#r114-preview-ext-and-master-meter).
