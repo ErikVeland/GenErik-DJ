@@ -93,7 +93,7 @@ struct DeepAnalysisCheckpoints {
     }
 
     func result() -> DeepBeatAnalysis? {
-        guard let data = try? Data(contentsOf: resultFile), data.count < 16384,
+        guard let data = try? Data(contentsOf: resultFile), data.count < 65536,
             let saved = try? JSONDecoder().decode(DeepBeatAnalysis.self, from: data), saved.profile == profile,
             (try? saved.validate(matching: analysis)) != nil
         else { return nil }

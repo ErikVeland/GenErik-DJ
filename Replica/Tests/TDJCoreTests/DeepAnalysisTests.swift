@@ -57,7 +57,7 @@ private func emptyWindow(_ index: Int, _ start: Int) -> DeepPredictionWindow {
     let newPolicy = DeepAnalysisCheckpoints(root: root, analysis: analysis, profile: policyUpgrade)
     #expect(newPolicy.read(0) != nil)
     let modelUpgrade = DeepAnalysisProfile(
-        generation: 3, model: "BeatThis/future", weightsSHA256: String(repeating: "b", count: 64),
+        generation: current.generation + 1, model: "BeatThis/future", weightsSHA256: String(repeating: "b", count: 64),
         conversion: 1, preprocessing: 1, decisionPolicy: 2, upgradeBenefit: "Improved beat evidence.")
     #expect(DeepAnalysisCheckpoints(root: root, analysis: analysis, profile: modelUpgrade).read(0) == nil)
     let changedAudio = try syntheticTrack("b", bpm: 120).analysis

@@ -16,6 +16,7 @@ enum MacAnalysisAudit {
         var acceptedTempoOnly: Bool?
         var finalAnalysis: AudioAnalysis?
         var finalTimeline: AnalysisBenchmarkTimeline?
+        var reviewTimeline: AnalysisBenchmarkTimeline?
         var error: String?
     }
 
@@ -94,6 +95,16 @@ enum MacAnalysisAudit {
                     result.candidate == nil && adopted.analysis.acceptedDeepBeatAnalysis == result
                 report.rows[index].finalAnalysis = adopted.analysis.replacingWaveform([])
                 report.rows[index].finalTimeline = try AnalysisBenchmarkTimeline(track: adopted)
+                if let candidate = result.adaptiveCandidate, adopted.analysis.adaptiveCandidate == candidate.map {
+                    let map = candidate.map
+                    var preview = adopted
+                    preview.preparation.grid = try BeatGrid(
+                        bpm: map.bpm(atFrame: map.anchors[0].frame), anchorFrame: map.frame(atBeat: 0),
+                        sampleRate: map.sampleRate, downbeatOffset: map.downbeatOffset)
+                    preview.preparation.adaptiveMap = map
+                    preview.preparation.gridMode = .adaptive
+                    report.rows[index].reviewTimeline = try AnalysisBenchmarkTimeline(track: preview)
+                }
             } catch {
                 report.rows[index].deepPerformance = measure.finish(outcome: "failed")
                 report.rows[index].error = error.localizedDescription

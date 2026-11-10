@@ -36,6 +36,12 @@ At 25 ms, accepted playback events scored 63.99% beat micro-F1 and 53.95% downbe
 
 The model-to-grid gap is largest on variable-tempo music and unsupported bar lengths. In `gtzan:rock.00059`, the model matched every annotated beat, but the four-beat grid fitter produced no tempo. A constant-pulse recovery probe failed the timing limits because this excerpt also drifts. No recovery policy has been adopted from that probe.
 
-The 2018 madmom key CNN is an external evaluation candidate. Its weights use CC-BY-NC-SA-4.0 and are not bundled with the application. Its original and Torch outputs differed by at most 0.000000656 in the conversion check. The FP16 Core ML output differed by at most 0.023923 and retained the predicted key. Mac frontend parity and corpus accuracy remain to be measured. Candidate weights, conversion, preprocessing and decision policy have separate version fields.
+The 2018 madmom key CNN is an external evaluation candidate. Its weights use CC-BY-NC-SA-4.0 and are not bundled with the application. Its original and Torch outputs differed by at most 0.000000656 in the conversion check. The FP16 Core ML output differed by at most 0.023923 and retained the predicted key. On decoded PCM, Mac frontend features differed by at most 0.0000036. Candidate weights, conversion, preprocessing and decision policy have separate version fields.
 
-Evidence is under `TestBuilds/r116`. The holdout sets remain untested. No new production accuracy improvement or device acceptance is claimed yet.
+On the same 100 key development files, the production detector matched 49 exact keys. The native learned candidate matched 91. It corrected 45 results and worsened three. Its confidence above 0.8 selected 68 tracks, with 67 exact matches. The candidate took 11.93 seconds in total, excluding model load. This is an extra key pass, not a whole-engine speed comparison. Core ML's compute plan preferred the Neural Engine for all 40 reported operations. Runtime hardware counters were not captured.
+
+The key candidate and its 0.8 confidence band are fixed for the 78-file holdout comparison. That comparison is in progress. The 100-file rhythm holdout remains untested.
+
+Deep policy 4 adds a review candidate when the constant-grid fit fails. It requires consistent four-beat bars and consecutive beat intervals. It compresses the complete model sequence to at most 256 anchors, with at most 8 ms deviation. Unsupported bar lengths and sequences that exceed the anchor limit remain unresolved. The candidate does not replace playback preparation or an existing adaptive candidate. It has no calibrated confidence value. The sharing path carries it as analysis evidence.
+
+Evidence is under `TestBuilds/r116`. Rhythm candidate measurements and physical device acceptance remain open. No automatic learned-key adoption is enabled.

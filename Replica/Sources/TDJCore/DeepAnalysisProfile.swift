@@ -28,11 +28,11 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public let upgradeBenefit: String
 
     public static let current = Self(
-        generation: 3, model: "BeatThis/final0",
+        generation: 4, model: "BeatThis/final0",
         weightsSHA256:
             "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331",
-        conversion: 1, preprocessing: 1, decisionPolicy: 3,
-        upgradeBenefit: "Recover opening timing errors and retain tempo-octave evidence when the downbeat is unknown.")
+        conversion: 1, preprocessing: 1, decisionPolicy: 4,
+        upgradeBenefit: "Retain full-track adaptive rhythm candidates for review.")
 
     public var inferenceID: String {
         analysisDigest(Data("\(model)|\(weightsSHA256)|fp16-\(conversion)|mel-\(preprocessing)|1500-6-50".utf8))
@@ -77,6 +77,7 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
     public let windowCount: Int
     public let candidate: DeepBeatCandidate?
     public var tempoCandidateBPM: Double? = nil
+    public var adaptiveCandidate: DeepAdaptiveBeatCandidate? = nil
 
     public var needsReview: Bool { candidate == nil || !hasStrongEvidence }
     public func needsReview(for track: Track) -> Bool {
@@ -100,6 +101,10 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
             candidate.map({ $0.isValid && $0.firstBarSeconds < analysis.duration }) ?? true,
             tempoCandidateBPM.map({ $0.isFinite && (60...200).contains($0) && candidate == nil }) ?? true
         else { throw CoreError.invalidAudio("The deep analysis does not match this audio or its coverage.") }
+        if let adaptiveCandidate {
+            guard candidate == nil else { throw CoreError.invalidAudio("The deep analysis contains conflicting grid candidates.") }
+            try adaptiveCandidate.validate(frameCount: audio.frameCount, sampleRate: audio.sampleRate)
+        }
     }
 
     /// Full-track agreement can refine an automatic grid. Conflicting evidence remains a candidate.
@@ -196,6 +201,12 @@ extension Track {
             copy.analysis.beatModelVersion = result.profile.id
             copy.analysis.barAnalysisVersion = BarStartAnalysis.version
             copy.analysis.musicalAnalysisDeferred = false
+        }
+        if let candidate = result.adaptiveCandidate, mayRefreshAutomaticGrid,
+            traktorPreparation?.normalized.grid == nil, copy.analysis.adaptiveCandidate == nil
+        {
+            copy.analysis.adaptiveCandidate = candidate.map
+            copy.analysis.adaptiveConfidence = nil
         }
         copy.analysis.deepBeatAnalysis = result
         return copy

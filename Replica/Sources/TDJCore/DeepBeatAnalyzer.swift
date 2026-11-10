@@ -111,14 +111,22 @@ enum DeepBeatAnalyzer {
         let grid = try BeatThisAnalyzer.fit(
             beats: beats, downbeats: downbeats, configuration: .init(),
             requireOpeningBar: true, checkCancellation: checkCancellation)
+        let beatTimes = BeatThisAnalyzer.peaks(beats)
+        let adaptive = grid == nil
+            ? try DeepAdaptiveBeatCandidate.fit(
+                beats: beatTimes, bars: BeatThisAnalyzer.peaks(downbeats),
+                sampleRate: checkpoints.analysis.sampleRate, frameCount: checkpoints.analysis.frameCount,
+                checkCancellation: checkCancellation)
+            : nil
         let result = DeepBeatAnalysis(
             audio: .init(checkpoints.analysis), profile: checkpoints.profile,
             coveredFrames: checkpoints.analysis.frameCount, windowCount: checkpoints.starts.count,
             candidate: grid.map(DeepBeatCandidate.init),
             tempoCandidateBPM: grid == nil
                 ? try BeatThisTempo.preferred(
-                    beats: BeatThisAnalyzer.peaks(beats), configuration: .init(), checkCancellation: checkCancellation)
-                : nil)
+                    beats: beatTimes, configuration: .init(), checkCancellation: checkCancellation)
+                : nil,
+            adaptiveCandidate: adaptive)
         try checkCancellation()
         try checkpoints.finish(result)
         return result

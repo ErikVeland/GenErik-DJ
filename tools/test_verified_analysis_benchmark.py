@@ -4,6 +4,7 @@ import unittest
 import verified_analysis_benchmark as benchmark
 from build_verified_analysis_corpus import balanced_cohort, split_groups, standard_key
 from probe_rhythm_checkpoints import peaks
+from compare_key_candidate import as_scoring_report
 
 
 def corpus():
@@ -19,6 +20,14 @@ def corpus():
 
 
 class VerifiedBenchmarkTests(unittest.TestCase):
+    def test_learned_key_reports_require_separate_versions(self):
+        candidate = {'format': 'generik.learned-key-audit/v1', 'rows': [], 'modelArtifactSHA256': 'a' * 64,
+                     'profile': {'modelID': 'test', 'weightsSHA256': 'b' * 64}}
+        with self.assertRaisesRegex(ValueError, 'versions'):
+            as_scoring_report(candidate)
+        candidate['profile'].update(preprocessingVersion=1, conversionVersion=1, decisionPolicyVersion=1)
+        self.assertEqual(as_scoring_report(candidate)['rows'], [])
+
     def test_neural_plateaus_remain_single_beats(self):
         self.assertEqual(peaks([-1, 2, 2, -1, -1, -1, -1, 3, -1]), [.03, .14])
         self.assertEqual(peaks([-1, 2, 2, -1], interpolate=True), [.03])

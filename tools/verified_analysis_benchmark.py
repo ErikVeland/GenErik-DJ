@@ -157,9 +157,12 @@ def score_report(data, report):
         require(inputs[identity]['sha256'] == track['sha256'], 'Manifest hash differs from benchmark.')
         item = {'id': identity, 'dataset': track['dataset'], 'error': row.get('error'), 'tiers': {}}
         for tier, analysis_field, timeline_field in (
-                ('first', 'firstPass', 'firstPassTimeline'), ('final', 'finalAnalysis', 'finalTimeline')):
-            analysis = row.get(analysis_field) or (row.get('firstPass') if tier == 'final' else None)
-            timeline = row.get(timeline_field) or (row.get('firstPassTimeline') if tier == 'final' else None)
+                ('first', 'firstPass', 'firstPassTimeline'), ('final', 'finalAnalysis', 'finalTimeline'),
+                ('review', 'finalAnalysis', 'reviewTimeline')):
+            analysis = row.get(analysis_field) or (row.get('firstPass') if tier != 'first' else None)
+            timeline = row.get(timeline_field)
+            if tier != 'first':
+                timeline = timeline or row.get('finalTimeline') or row.get('firstPassTimeline')
             if analysis:
                 require(analysis['contentSHA256'] == track['sha256'], 'Analysis hash differs from benchmark.')
             scored = {}
@@ -171,11 +174,13 @@ def score_report(data, report):
                     require(not analysis or timeline is not None, 'Audit lacks the actual playback timeline.')
                     scored[field] = event_score(label['times'], (timeline or {}).get(field, []))
                     confidence = 'tempoConfidence' if field == 'beats' else 'downbeatConfidence'
-                    scored[field]['confidence'] = analysis.get(confidence) if analysis else None
+                    scored[field]['confidence'] = (analysis.get(confidence) if analysis else None)
+                    if tier == 'review' and row.get('reviewTimeline') is not None:
+                        scored[field]['confidence'] = None
             item['tiers'][tier] = scored
         output.append(item)
     tiers = {}
-    for tier in ('first', 'final'):
+    for tier in ('first', 'final', 'review'):
         scores = {}
         for field in ('beats', 'downbeats', 'key'):
             values = [t['tiers'][tier][field] for t in output if field in t['tiers'][tier]]
@@ -211,6 +216,8 @@ def score_report(data, report):
         'timings': {f: timing_summary([r.get(f) for r in rows.values()])
                     for f in ('firstPassPerformance', 'deepPerformance', 'reusePerformance')},
         'failures': sum(bool(r.get('error')) for r in rows.values()),
+        'reviewCandidates': sum(r.get('reviewTimeline') is not None for r in rows.values()),
+        'reviewScope': 'Hypothetical acceptance of offered adaptive candidates. Final scores remain the actual playback timeline.',
     }
 
 
