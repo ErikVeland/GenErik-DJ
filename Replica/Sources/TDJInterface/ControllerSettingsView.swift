@@ -8,7 +8,11 @@ import UniformTypeIdentifiers
 #endif
 
 private enum LearnedControllerProfile: String, CaseIterable {
-    case flx4 = "DDJ-FLX4", flx10 = "DDJ-FLX10", rev1 = "DDJ-REV1", rev5 = "DDJ-REV5", ddj1000 = "DDJ-1000"
+    case flx4 = "DDJ-FLX4"
+    case flx10 = "DDJ-FLX10"
+    case rev1 = "DDJ-REV1"
+    case rev5 = "DDJ-REV5"
+    case ddj1000 = "DDJ-1000"
 
     static func matching(_ name: String) -> Self? {
         let value = name.uppercased().filter { $0.isLetter || $0.isNumber }
@@ -19,6 +23,8 @@ private enum LearnedControllerProfile: String, CaseIterable {
 struct ControllerSettingsView: View {
     @Bindable var model: ReplicaModel
     @State private var confirmation: ProfileChange?
+    @State private var learnSearch = ""
+    @State private var confirmClear = false
     @State private var originalZ1Attached = false
     @State private var connectedLights: [String] = []
     #if os(iOS)
@@ -44,7 +50,7 @@ struct ControllerSettingsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Controllers").font(.headline)
+            Text("During a set").font(.headline)
             if hasOriginalZ1 && !connectedLights.contains("Z1") {
                 controllerLights("Z1")
             }
@@ -54,13 +60,36 @@ struct ControllerSettingsView: View {
             if !hasOriginalZ1 && connectedLights.isEmpty && input.sources.isEmpty {
                 Text("Connect a controller to see its settings.").foregroundStyle(.secondary)
             }
-            #if os(iOS)
-                if connectedLights.contains("X1 Mk3") || connectedLights.contains("MX2") {
-                    Button("Import Pattern Kits…") { importingPatternKits = true }
+            ForEach(input.sources) { source in
+                HStack {
+                    Text(source.name)
+                    Spacer()
+                    Text(input.enabled && input.isInputActive(source.id) ? "Active" : "Inactive")
+                        .font(.caption).foregroundStyle(.secondary)
+                }.frame(minHeight: 44)
+            }
+            SettingsGroup("Configure before a set") {
+                SettingsPageLink("Connections & MIDI", detail: "Choose inputs, outputs and controller profiles") {
+                    SettingsDetailPage("Connections & MIDI") {
+                        if hasOriginalZ1, !input.isZ1BridgeConnected {
+                            Toggle(
+                                "Z1 direct connection",
+                                isOn: Binding(
+                                    get: { model.z1Enabled }, set: { if $0 != model.z1Enabled { model.toggleZ1() } }))
+                        }
+                        midiSettings
+                    }
                 }
-            #endif
-            DisclosureGroup("MIDI setup") {
-                midiSettings.padding(.top, 8)
+                #if os(iOS)
+                    if connectedLights.contains("X1 Mk3") || connectedLights.contains("MX2") {
+                        SettingsPageLink("Pattern kits", detail: "Import sounds and patterns for your controller") {
+                            SettingsDetailPage("Pattern kits") {
+                                Text("Import kits before a set. Select and play patterns from the controller.")
+                                Button("Import Pattern Kits…") { importingPatternKits = true }
+                            }
+                        }
+                    }
+                #endif
             }
         }
         .confirmationDialog(
@@ -88,8 +117,10 @@ struct ControllerSettingsView: View {
                     } catch { patternKitMessage = error.localizedDescription }
                 }
             }
-            .alert("Pattern Kits", isPresented: Binding(
-                get: { patternKitMessage != nil }, set: { if !$0 { patternKitMessage = nil } })
+            .alert(
+                "Pattern Kits",
+                isPresented: Binding(
+                    get: { patternKitMessage != nil }, set: { if !$0 { patternKitMessage = nil } })
             ) {
                 Button("OK") { patternKitMessage = nil }
             } message: {
@@ -107,12 +138,9 @@ struct ControllerSettingsView: View {
     private func controllerLights(_ name: String) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(name).font(.subheadline.weight(.semibold))
-            Toggle("Pulse", isOn: lightBinding(name, \.pulse))
-            Toggle("Warning", isOn: lightBinding(name, \.warning))
-            if name == "Z1", !input.isZ1BridgeConnected {
-                Toggle("Direct connection", isOn: Binding(
-                    get: { model.z1Enabled }, set: { if $0 != model.z1Enabled { model.toggleZ1() } }))
-            }
+            Toggle("Beat pulse", isOn: lightBinding(name, \.pulse))
+            Toggle("Track-end warning", isOn: lightBinding(name, \.warning))
+
         }
     }
 
@@ -131,32 +159,47 @@ struct ControllerSettingsView: View {
     private var midiSettings: some View {
         VStack(alignment: .leading, spacing: 12) {
             Toggle("MIDI input", isOn: Binding(get: { input.enabled }, set: enable))
+            if input.enabled && input.sources.isEmpty {
+                Text("No MIDI inputs connected.").font(.caption).foregroundStyle(.secondary)
+            }
             if input.enabled, !input.sources.isEmpty {
                 Picker("Input", selection: Binding(get: { input.selected }, set: input.select)) {
                     Text("Choose an input").tag(Int32?.none)
                     ForEach(input.sources) { source in Text(source.name).tag(Optional(source.id)) }
                 }
                 if let source = selectedSource {
-                    Toggle("Use this input", isOn: Binding(
-                        get: { input.isInputActive(source.id) },
-                        set: { input.setInputActive(source.id, active: $0) }))
+                    Toggle(
+                        "Use this input",
+                        isOn: Binding(
+                            get: { input.isInputActive(source.id) },
+                            set: { input.setInputActive(source.id, active: $0) }))
                     if source.name.localizedCaseInsensitiveContains("Z1") || input.originalZ1Bridge {
-                        Toggle("Original Z1 bridge", isOn: Binding(
-                            get: { input.originalZ1Bridge },
-                            set: {
-                                if $0 && model.z1Enabled { model.toggleZ1() }
-                                input.setBridgeMode($0)
-                            }))
+                        Toggle(
+                            "Original Z1 bridge",
+                            isOn: Binding(
+                                get: { input.originalZ1Bridge },
+                                set: {
+                                    if $0 && model.z1Enabled { model.toggleZ1() }
+                                    input.setBridgeMode($0)
+                                }))
                     }
                     if input.isInputActive(source.id), !input.originalZ1Bridge {
                         if let profile = LearnedControllerProfile.matching(source.name) {
                             Button("Load \(profile.rawValue) controls") { confirmation = .controls(profile) }
                         }
-                        DisclosureGroup("MIDI Learn") { midiLearn.padding(.top, 8) }
+                        SettingsPageLink("Learn controls", detail: "Assign buttons, faders and shifted controls") {
+                            SettingsDetailPage("Learn controls") {
+                                Text(selectedSource?.name ?? "Selected input").font(.headline)
+                                midiLearn
+                            }.onDisappear { input.learning = nil }
+                        }
                     }
                 }
                 if !input.destinations.isEmpty {
-                    Picker("Feedback output", selection: Binding(get: { input.feedbackSelected }, set: input.setFeedbackDestination)) {
+                    Picker(
+                        "Feedback output",
+                        selection: Binding(get: { input.feedbackSelected }, set: input.setFeedbackDestination)
+                    ) {
                         Text("None").tag(Int32?.none)
                         ForEach(input.destinations) { output in Text(output.name).tag(Optional(output.id)) }
                     }
@@ -164,11 +207,17 @@ struct ControllerSettingsView: View {
                         if let profile = LearnedControllerProfile.matching(output.name) {
                             Button("Load \(profile.rawValue) lights") { confirmation = .feedback(profile) }
                         }
-                        Toggle("MIDI feedback", isOn: Binding(
-                            get: { input.midiFeedbackEnabled }, set: input.setMIDIFeedbackEnabled
-                        )).disabled(!input.feedbackOutputAvailable || input.selectedFeedbackBindings.isEmpty)
-                        DisclosureGroup("Feedback mappings") {
-                            ControllerFeedbackSettingsView(input: input).padding(.top, 8)
+                        Toggle(
+                            "MIDI feedback",
+                            isOn: Binding(
+                                get: { input.midiFeedbackEnabled }, set: input.setMIDIFeedbackEnabled
+                            )
+                        ).disabled(!input.feedbackOutputAvailable || input.selectedFeedbackBindings.isEmpty)
+                        SettingsPageLink("Map controller lights", detail: "Set MIDI messages for LEDs and feedback") {
+                            SettingsDetailPage("Controller lights") {
+                                Text(selectedOutput?.name ?? "Selected output").font(.headline)
+                                ControllerFeedbackSettingsView(input: input)
+                            }
                         }
                     }
                 }
@@ -179,19 +228,30 @@ struct ControllerSettingsView: View {
     private var midiLearn: some View {
         VStack(alignment: .leading, spacing: 8) {
             if input.learning != .shift {
-                Picker("Control encoding", selection: Binding(
-                    get: { input.learningEncoding }, set: { input.learningEncoding = $0 })
+                Picker(
+                    "Control encoding",
+                    selection: Binding(
+                        get: { input.learningEncoding }, set: { input.learningEncoding = $0 })
                 ) {
                     ForEach(ControllerMIDIEncoding.allCases, id: \.self) { mode in Text(mode.title).tag(mode) }
                 }
-                Toggle("Reverse direction", isOn: Binding(get: { input.learningInverted }, set: { input.learningInverted = $0 }))
-                Toggle("Shift layer", isOn: Binding(get: { input.learningShifted }, set: { input.learningShifted = $0 }))
+                Toggle(
+                    "Reverse direction",
+                    isOn: Binding(get: { input.learningInverted }, set: { input.learningInverted = $0 }))
+                Toggle(
+                    "Shift layer", isOn: Binding(get: { input.learningShifted }, set: { input.learningShifted = $0 }))
             }
             if let action = input.learning {
                 Text("Move the control for \(action.title).").font(.caption)
                 Button("Cancel learning") { input.learning = nil }
             }
-            ForEach(ControllerAction.allCases) { action in
+            TextField("Find a control", text: $learnSearch).textFieldStyle(.roundedBorder)
+                .accessibilityLabel("Find a MIDI control")
+            ForEach(
+                ControllerAction.allCases.filter {
+                    learnSearch.isEmpty || $0.title.localizedCaseInsensitiveContains(learnSearch)
+                }
+            ) { action in
                 HStack {
                     VStack(alignment: .leading) {
                         Text(action.title)
@@ -208,8 +268,17 @@ struct ControllerSettingsView: View {
                     }
                 }
             }
-            Button("Clear learned controls", role: .destructive) { input.clearBindings() }
+            Button("Clear learned controls…", role: .destructive) { confirmClear = true }
                 .disabled(input.bindingCount == 0)
+                .confirmationDialog(
+                    "Clear learned controls for this input?", isPresented: $confirmClear, titleVisibility: .visible
+                ) {
+                    Button("Clear controls", role: .destructive) {
+                        input.learning = nil
+                        input.clearBindings()
+                    }
+                    Button("Cancel", role: .cancel) {}
+                }
         }
     }
 

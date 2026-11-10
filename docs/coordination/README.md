@@ -6,6 +6,12 @@ The [project north star](../product-direction.md) guides every feature. Clean, c
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**Build 218 (R157/R158)** installed on the A10X, and iPadOS accepted launch. MIDI and preparation setup now have dedicated pages. The Library icon opens the full browser height from hidden or partly open states. All 261 focused panel checks passed. Check page navigation, imports, controller mapping, audio and touch. [Scope and evidence](settings-r154.md#r157-and-r158--detail-pages-and-library-opening).
+
+**Build 217 (R154)** installed on the A10X, and iPadOS accepted launch. Settings now has six task groups. The deck utility panel separates live controls from lasting preferences and labels their scope. Check navigation, live adjustments, saved choices, audio and touch. [Scope and remaining refinements](settings-r154.md).
+
+**First on A10X (R155).** Test two decks in Mix mode with the original Z1. Start with crossfader return, then load a long unanalysed track while the other deck plays. Defer four decks and live stems until the two-deck baseline holds. [Test order and acceptance](completion-programme.md#first-test-on-the-a10x).
+
 **R139 analysis check:** The Mac app now corrects Untouched’s downbeat and Dune’s beat phase. Reference differences fell to 9 ms and 19 ms. All 180 fresh excerpts retained their scores, and all 574 earlier policy results retained playback timelines. Dune’s bar and physical device checks remain open. [Results and evidence](analysis-phase-r139.md).
 
 **R129 analysis check:** The final Mac first pass took 129 seconds, down from 308, on the same 12 tracks. Review downbeat F1 rose from 56.22% to 57.40% on 99 new labelled recordings. The gain remains uncertain, and recovered grids require review. Erik’s reference corrections give 6/9 downbeat agreement in both baseline and final results. At that stage, Untouched and Dune remained unresolved. All 574 policy results reopened. [Results and evidence](analysis-first-pass-r129.md).

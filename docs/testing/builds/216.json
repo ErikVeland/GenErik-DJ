@@ -1,0 +1,10 @@
+{
+  "build": 216,
+  "state": "cancelled",
+  "request": "R154",
+  "notes": "Stopped before installation because the settings merge required resolution of a concurrent documentation update. The next build uses committed consolidated main.",
+  "sourceCommit": "b8df4f476",
+  "uncommittedAppChanges": true,
+  "log": "TestBuilds/ipad/build-216.log",
+  "checks": "Incomplete. Not installed."
+}

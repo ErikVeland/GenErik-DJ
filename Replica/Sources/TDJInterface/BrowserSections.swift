@@ -200,142 +200,168 @@ struct HistoryBrowser: View {
     }
 }
 
-/// Settings in two columns: a category list and its options.
+/// Settings adapt to the available pane width.
 struct SettingsBrowser: View {
     enum Page: String, CaseIterable {
-        case playback = "Playback"
-        case library = "Library"
-        case notifications = "Notifications"
-        case browser = "Browser"
+        case sound = "Sound & Headphones"
+        case playback = "Decks & Playback"
+        case layout = "Layout & Touch"
+        case library = "Library & Preparation"
         case controllers = "Controllers"
-        case mixcloud = "Mixcloud"
-        case features = "Features"
-        case about = "About"
+        case about = "Help & About"
+        var symbol: String {
+            switch self {
+            case .sound: "headphones"
+            case .playback: "play.circle"
+            case .layout: "rectangle.3.group"
+            case .library: "music.note.list"
+            case .controllers: "slider.horizontal.3"
+            case .about: "questionmark.circle"
+            }
+        }
+        var summary: String {
+            switch self {
+            case .sound: "Output, routing and cue mix"
+            case .playback: "Loading, loops and track endings"
+            case .layout: "Visible controls, waveforms and touch"
+            case .library: "Music sources, keys and iCloud"
+            case .controllers: "Connected devices, lights and MIDI"
+            case .about: "Gestures, test features and version"
+            }
+        }
     }
     @Bindable var model: ReplicaModel
     var importAudio: () -> Void = {}
     var linkCollection: () -> Void = {}
     @State private var page = Page.playback
-    @AppStorage(BrowserSettings.notificationCenterKey) private var notificationCenter = true
-    @AppStorage(BrowserSettings.onlyLoadToOffAirDecksKey) private var offAir = false
-    @AppStorage(BrowserSettings.superSlicerKey) private var superSlicer = true
+    @State private var showingDetail = false
+    @AppStorage(FourDeckTrial.preferenceKey) private var fourDecks = false
+
     var body: some View {
-        HStack(spacing: 0) {
-            VStack(spacing: 0) {
+        GeometryReader { geometry in
+            let narrow = geometry.size.width < 680
+            HStack(spacing: 0) {
+                if !narrow || !showingDetail {
+                    categories.frame(width: narrow ? nil : 250)
+                }
+                if !narrow || showingDetail {
+                    VStack(alignment: .leading, spacing: 0) {
+                        HStack {
+                            if narrow {
+                                Button {
+                                    showingDetail = false
+                                } label: {
+                                    Label("Settings", systemImage: "chevron.left")
+                                }
+                            }
+                            Text(page.rawValue).font(.title3.bold())
+                            Spacer(minLength: 0)
+                        }.frame(minHeight: 52).padding(.horizontal, 20)
+                        Divider()
+                        NavigationStack {
+                            ScrollView {
+                                VStack(alignment: .leading, spacing: 18) { content }
+                                    .frame(maxWidth: 700, alignment: .leading).padding(20)
+                                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                            }.background(PerformancePalette.panel)
+                        }.id(page)
+                    }.frame(maxWidth: .infinity).background(PerformancePalette.panel)
+                }
+            }
+        }.foregroundStyle(PerformancePalette.text).tint(PerformancePalette.cyan)
+    }
+
+    private var categories: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Settings").font(.title2.bold()).padding(16)
                 ForEach(Page.allCases, id: \.self) { item in
                     Button {
                         page = item
+                        showingDetail = true
                     } label: {
-                        Text(item.rawValue).font(.system(size: 16, weight: .semibold)).foregroundStyle(
-                            PerformancePalette.text
-                        ).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 18).frame(height: 46)
-                            .background(page == item ? rowTeal : Color.clear)
-                    }
+                        HStack(spacing: 12) {
+                            Image(systemName: item.symbol).frame(width: 24)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(item.rawValue).font(.system(size: 16, weight: .semibold))
+                                Text(item.summary).font(.caption).foregroundStyle(PerformancePalette.secondaryText)
+                            }
+                            Spacer(minLength: 0)
+                        }.padding(14).frame(maxWidth: .infinity, minHeight: 64, alignment: .leading)
+                            .background(page == item ? rowTeal : Color.clear, in: RoundedRectangle(cornerRadius: 8))
+                            .contentShape(Rectangle())
+                    }.buttonStyle(.plain).accessibilityAddTraits(page == item ? .isSelected : [])
                 }
-                Spacer()
-            }.frame(width: 300).background(PerformancePalette.frame.opacity(0.6))
-            ScrollView {
-                VStack(alignment: .leading, spacing: 18) { content }.padding(30).frame(
-                    maxWidth: 520, alignment: .leading)
-            }.frame(maxWidth: .infinity).background(PerformancePalette.panel)
-        }.foregroundStyle(PerformancePalette.text)
+            }.padding(8)
+        }.background(PerformancePalette.frame.opacity(0.6))
     }
+
     @ViewBuilder private var content: some View {
         switch page {
+        case .sound:
+            SettingsGroup("Output & headphone cue") { OutputSettingsView(model: model) }
+            Text("Use the speaker button during a set for master level, headphone mix and recording.")
+                .font(.caption).foregroundStyle(.secondary)
         case .playback:
-            RecoverySettingsView(model: model)
-            choiceGroup(
-                "Default Loop Size", [4.0, 8, 16, 32].map { ("\(Int($0)) Beats", $0) },
-                selected: model.performance.defaultLoopBeats
-            ) {
-                model.performance.defaultLoopBeats = $0
-                model.savePerformance()
-            }
-            choiceGroup(
-                "Quantize Size", [("1/4 Beat", 0.25), ("1/2 Beat", 0.5), ("1 Beat", 1.0), ("1 Bar", 4.0)],
-                selected: model.performance.quantize
-            ) {
-                model.performance.quantize = $0
-                model.savePerformance()
-            }
-            Toggle(
-                "Slicer Quantize",
-                isOn: Binding(
-                    get: { model.performance.slicerQuantize },
-                    set: {
-                        model.performance.slicerQuantize = $0
-                        model.savePerformance()
-                    }))
-            Toggle(
-                "Freeze on Load",
-                isOn: Binding(
-                    get: { model.performance.freezeOnLoad },
-                    set: {
-                        model.performance.freezeOnLoad = $0
-                        model.savePerformance()
-                    }))
+            PlaybackSettings(model: model)
+        case .layout:
+            LayoutSettings()
         case .library:
-            Button {
-                Task { await model.openNativeMusicLibrary() }
-            } label: {
-                Label("Refresh Music library", systemImage: "arrow.clockwise")
+            SettingsGroup("During a set") {
+                Text(
+                    "Set cues, loops and replay markers in the deck utility drawer. Edit grids and sections beside the waveform."
+                )
+                .font(.subheadline)
+                Text(model.cloudStatus).font(.caption).foregroundStyle(.secondary)
+                    .accessibilityIdentifier("cloudPreparationStatus")
             }
-            Button(action: importAudio) { Label("Import audio files", systemImage: "folder") }
-            Button(action: linkCollection) { Label("Link DJ collection file", systemImage: "link") }
-            Text("A linked collection is read at every launch and imported again when it changes.").font(.caption)
-                .foregroundStyle(.secondary)
-            Divider()
-            KeyImportReviewView(model: model)
-            Divider()
-            CloudPreparationSettings(model: model)
-        case .notifications:
-            Toggle("Notification Center", isOn: $notificationCenter)
-            Button("Reset Undiscovered Features") { model.helpVisible = true }
-        case .browser:
-            Toggle("Only load to off-air Decks", isOn: $offAir)
-            Text("A playing deck refuses new tracks while this is on.").font(.caption).foregroundStyle(.secondary)
-        case .controllers: ControllerSettingsView(model: model)
-        case .mixcloud:
-            Text("Mixcloud upload").font(.headline)
-            Text(
-                "Recordings share from the Recordings section with the system share sheet, which includes any installed upload app. This build has no Mixcloud sign-in."
-            ).foregroundStyle(.secondary)
-        case .features:
-            Toggle("SuperSlicer", isOn: $superSlicer)
-            Divider()
-            Text("Extra Controls").font(.headline)
-            Text("Controls from the later app. Each is off by default.").foregroundStyle(.secondary)
-            PlaybackSettings(model: model).extrasOnly()
-        case .about:
-            GenErikBrandLockup()
-            Text(
-                "Version \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—") (\(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "—"))"
-            ).foregroundStyle(.secondary)
-            Text("An independent performance app. Third-party notices ship with the app.").foregroundStyle(.secondary)
-        }
-    }
-    private func choiceGroup<Value: Equatable>(
-        _ title: String, _ options: [(String, Value)], selected: Value, choose: @escaping (Value) -> Void
-    ) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(title).font(.system(size: 15, weight: .semibold)).foregroundStyle(PerformancePalette.secondaryText)
-            VStack(spacing: 0) {
-                ForEach(Array(options.enumerated()), id: \.offset) { _, option in
-                    Button {
-                        choose(option.1)
-                    } label: {
-                        HStack {
-                            Text(option.0).foregroundStyle(
-                                option.1 == selected ? PerformancePalette.cyan : PerformancePalette.text)
-                            Spacer()
-                            if option.1 == selected {
-                                Image(systemName: "checkmark").foregroundStyle(PerformancePalette.cyan)
-                            }
-                        }.padding(.horizontal, 14).frame(height: 44).contentShape(Rectangle())
-                    }.accessibilityAddTraits(option.1 == selected ? .isSelected : [])
-                    Divider()
+            SettingsGroup("Prepare your library") {
+                SettingsPageLink("Music sources", detail: "Refresh, import audio or link a collection") {
+                    SettingsDetailPage("Music sources") {
+                        SettingsGroup("Music sources") {
+                            Button {
+                                Task { await model.openNativeMusicLibrary() }
+                            } label: {
+                                Label("Refresh Music library", systemImage: "arrow.clockwise")
+                            }.disabled(model.musicLibraryRefreshing || model.importing)
+                            Button(action: importAudio) { Label("Import audio files", systemImage: "folder") }
+                            Button(action: linkCollection) { Label("Link DJ collection", systemImage: "link") }
+                            Text("A linked collection is read at launch and imported again when it changes.")
+                                .font(.caption).foregroundStyle(.secondary)
+                        }
+                    }
                 }
-            }.bevelPanel(cornerRadius: 6, sunken: true)
+                SettingsPageLink("Import keys", detail: "Review keys before applying them to your tracks") {
+                    SettingsDetailPage("Import keys") { KeyImportReviewView(model: model) }
+                }
+                SettingsPageLink("iCloud preparation", detail: "Sharing status, backup and saved versions") {
+                    SettingsDetailPage("iCloud preparation") { CloudPreparationSettings(model: model) }
+                }
+            }
+        case .controllers:
+            SettingsGroup("Devices & controls") { ControllerSettingsView(model: model) }
+        case .about:
+            SettingsGroup("Learn the controls") {
+                Button("Open gesture guide") { model.helpVisible = true }
+                Text("Share saved sets from Recordings using the share button.").font(.caption).foregroundStyle(
+                    .secondary)
+            }
+            if FourDeckTrial.isAvailable {
+                SettingsGroup("Test features") {
+                    Toggle("Four decks", isOn: $fourDecks)
+                        .disabled(fourDecks && [.c, .d].contains { model.playbackSnapshot?[$0].phase.active == true })
+                    Text("A10X trial. Stop decks C and D before switching back to two decks.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+            }
+            SettingsGroup("GenErik DJ") {
+                GenErikBrandLockup()
+                Text(
+                    "Version \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—") (\(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "—"))"
+                )
+                Text("An independent performance app. Third-party notices ship with the app.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
         }
     }
 }

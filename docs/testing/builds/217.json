@@ -1,0 +1,27 @@
+{
+  "notes": "R154 Settings organised by DJ task. Deck utility separates live controls from lasting preferences. Check loop sizing, scope, navigation, saved choices, audio and touch.",
+  "sourceCommit": "edb79975a96c3f6a71e3507e661630c94b786ee5",
+  "sourceSHA256": "ce499f41ba122ae48d7e4f281577c59db8cae38f75ecaafe918f2599f1beba84",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 58.39,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "requests": [
+        "R157",
+        "R158"
+      ],
+      "buildAssumed": true,
+      "report": "Finish MIDI and preparation detail pages by live use versus setup. Library icon must open full screen instead of a tiny sliver."
+    }
+  ],
+  "log": "TestBuilds/ipad/build-217.log",
+  "build": 217,
+  "app": "TestBuilds/ipad/217/GenErikDJ.app",
+  "appSHA256": "7980d48eae77040f5093e8658c1379fd3bcaf2d36d39645d2df44860ec04366d",
+  "state": "testing",
+  "createdUTC": "2026-11-10T13:19:29.121883+00:00",
+  "installedUTC": "2026-11-10T13:19:43.715884+00:00",
+  "launchedUTC": "2026-11-10T13:19:44.115463+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}

@@ -5,8 +5,10 @@ struct RecoverySettingsView: View {
     @Bindable var model: ReplicaModel
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Picker("Recovery", selection: Binding(get: { model.performance.recovery.mode }, set: model.setRecoveryMode))
-            { ForEach(RecoveryMode.allCases, id: \.self) { mode in Text(mode.title).tag(mode) } }
+            Picker(
+                "When a track ends",
+                selection: Binding(get: { model.performance.recovery.mode }, set: model.setRecoveryMode)
+            ) { ForEach(RecoveryMode.allCases, id: \.self) { mode in Text(mode.title).tag(mode) } }
             if model.performance.recovery.mode == .autoMix {
                 Picker(
                     "Start auto-mix",
@@ -23,18 +25,7 @@ struct RecoverySettingsView: View {
                 Text(
                     "Replay waits until the final beat. It uses your marker, a detected drop, or a recent audible section."
                 ).font(.caption).foregroundStyle(.secondary)
-                ForEach(DeckID.primary, id: \.self) { deck in
-                    if let track = model.track(deck) {
-                        HStack {
-                            Button("Deck \(deck.rawValue.uppercased()): use playhead as last drop") {
-                                model.setRecoveryDropFromPlayhead(deck: deck)
-                            }
-                            if model.performance.recovery.dropFrames[track.id] != nil {
-                                Button("Use estimate") { model.clearRecoveryDrop(deck: deck) }
-                            }
-                        }
-                    }
-                }
+
             }
         }
     }

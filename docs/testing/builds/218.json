@@ -1,0 +1,18 @@
+{
+  "notes": "R157 Dedicated MIDI and preparation setup pages, live controller status, searchable learning and saved versions. R158 Library icon expands fully. 261 focused panel checks passed. Check detail navigation, imports, mapping cancellation, full library opening, audio and touch.",
+  "sourceCommit": "58897dff4228aaf7fca4c53d13175a127a8a4757",
+  "sourceSHA256": "a565d57e29697cf5bde0a621d98ea5c0976903fc587f03c9822ba49ba9f853be",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 61.35,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-218.log",
+  "build": 218,
+  "app": "TestBuilds/ipad/218/GenErikDJ.app",
+  "appSHA256": "ef1d8e897348ff91afdf54a9e9c5e2fed82862211323c1ef75ba7c4b636b9cc5",
+  "state": "testing",
+  "createdUTC": "2026-11-10T13:26:59.751516+00:00",
+  "installedUTC": "2026-11-10T13:27:13.800198+00:00",
+  "launchedUTC": "2026-11-10T13:27:14.256231+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
