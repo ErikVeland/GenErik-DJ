@@ -1,0 +1,15 @@
+{
+  "notes": "R128. Verify S4 Mk1 controls, split audio, lighting and Browse preview. Local verification only.",
+  "sourceCommit": "589d617ad2b8576416bcb563839eca620c75a7e6",
+  "sourceSHA256": "c1eab10006a91202f3339fe21370206bd43a4f95a8149d53e3707f96f209115e",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 235.75,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-191.log",
+  "build": 191,
+  "app": "TestBuilds/ipad/191/GenErikDJ.app",
+  "appSHA256": "e905738a2a3d42d3f450da06de878fa109d16fb7c2090bc336d588f375c947df",
+  "state": "ready",
+  "createdUTC": "2026-11-10T07:34:01.204686+00:00"
+}

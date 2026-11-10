@@ -159,7 +159,7 @@ The relay finds the controller's ALSA playback device. It reads the controller's
 
 The S4 Mk1 uses the Linux `snd-usb-caiaq` driver for native controls, lights and four-channel audio. GenErik DJ detects `GenErik S4 Mk1 Bridge` and selects master 1–2 and headphones 3–4. [Linux CAIAQ input](https://github.com/torvalds/linux/blob/master/sound/usb/caiaq/input.c) · [Linux CAIAQ audio](https://github.com/torvalds/linux/blob/master/sound/usb/caiaq/audio.c)
 
-1. Prepare the [recommended board](#recommended-board). Use a Linux kernel with `CONFIG_SND_USB_CAIAQ` and `CONFIG_SND_USB_CAIAQ_INPUT`. Install `python3-evdev` and `alsa-utils`.
+1. Prepare the [recommended board](#recommended-board). Use a Linux kernel with `CONFIG_SND_USB_CAIAQ` and `CONFIG_SND_USB_CAIAQ_INPUT`. Install `python3-evdev` and `alsa-utils`. [Raspberry Pi 4 kernel configuration](https://github.com/raspberrypi/linux/blob/rpi-6.12.y/arch/arm64/configs/bcm2711_defconfig#L1143-L1146)
 2. Power the S4 Mk1 from its own supply. Connect USB device `17cc:baff` to the board's host port.
 3. Follow the [gadget setup](#configure-the-bridge). Use `--traktor s4-mk1` in place of `--s4-mk3`.
 4. Start the relay. Substitute the gadget's raw MIDI device and capture PCM. Use a user with access to the controller's input event and ALSA devices.

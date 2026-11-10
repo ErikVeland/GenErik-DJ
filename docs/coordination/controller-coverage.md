@@ -107,7 +107,9 @@ The mapping includes A/C and B/D deck layers, fixed A–D mixer channels, transp
 
 Pad 4 on each selected deck shows the blue beat pulse. The shared amber Alert lamp follows the track-end warning for all four playing decks. The pad returns to its stored Hot Cue or loop colour between pulses.
 
-Remaining controls include the Loop Recorder, footswitch, FX Mode, clock-master buttons, jog loop trimming and external mic and line capture. Physical verification must check enumeration, channel order, latency, drift, jog feel, lamp colours and reconnect behaviour. Verification stays off the iPad.
+Thirty-six focused Swift tests and nineteen bridge tests passed. [Build 191](../testing/builds/191.json) passed local signing and framework checks. The first compile of build 190 caught a missing tempo feedback value. Its log is in `TestBuilds/r128/build-190-first-attempt.log`. The corrected [build 190](../testing/builds/190.json) passed before the Browse preview change. All checks stayed off the iPad.
+
+Remaining controls include the Loop Recorder, footswitch, FX Mode, clock-master buttons, jog loop trimming, full Browse and Copy modes, and external mic and line capture. Physical verification must check enumeration, channel order, latency, drift, jog feel, lamp colours and reconnect behaviour.
 
 ## Required capabilities for each model
 
