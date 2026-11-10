@@ -83,6 +83,7 @@ struct S2MK2Controls {
 
         shifts = []
         var events: [S4MK2Event] = []
+        if pressed(0x0a, 0x08) { events.append(.native(.mic)) }
         for (side, deck) in DeckID.primary.enumerated() {
             let left = side == 0
             let transport = left ? 0x0b : 0x09

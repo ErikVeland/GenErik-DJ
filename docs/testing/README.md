@@ -20,7 +20,7 @@ Feedback is ordinary conversation. No form is required. The build number is in *
 - Use the compiler/signature checks required for the installable app. Add a focused check only when the specific change needs it.
 - Keep broad release qualification separate and user-directed.
 - The reverb qualification workflow is manual-only. Routine pushes must not start the old Mac/simulator validation pipeline.
-- Install when Erik hands over for the next test. After launch, stop device actions immediately.
+- Install when Erik hands over for the next test. After launch, stop device actions immediately. For work specific to a controller Erik cannot test, keep verification off the iPad.
 
 ## Operator commands
 

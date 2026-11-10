@@ -343,6 +343,8 @@ import TDJCore
         var s2MK2Status = "Waiting for S2 Mk2."
         @ObservationIgnored var s2MK2Controls = S2MK2Controls()
         @ObservationIgnored var s2MK2Performance = S4MK2Performance(sliceCount: 4)
+        @ObservationIgnored var s2MK2MicPending = false
+        @ObservationIgnored var s2MK2MicRequest: Task<Void, Never>?
         var s2Connection: NIControllerAccessoryConnection?
         var s3Connection: NIControllerAccessoryConnection?
         var s4Connection: NIControllerAccessoryConnection?
@@ -1588,6 +1590,7 @@ import TDJCore
                 self?.refreshPlayback()
                 #if os(iOS)
                     self?.maintainS2Extras()
+                    self?.maintainS2MK2Mic()
                     self?.refreshS2MK2Lights()
                     self?.refreshS2Lights()
                     self?.refreshS3Lights()

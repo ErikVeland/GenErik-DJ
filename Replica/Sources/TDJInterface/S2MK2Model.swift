@@ -1,4 +1,5 @@
 #if os(iOS)
+    import AVFoundation
     import Foundation
     import TDJCore
 
@@ -22,6 +23,8 @@
 
         private func applyS2MK2Event(_ event: S4MK2Event) {
             switch event {
+            case .native(.mic):
+                toggleS2MK2Mic()
             case .pad(let deck, let slot, let held, let shifted)
             where s2MK2Controls.samples.contains(deck) && s2MK2Performance.slices[deck] == nil:
                 if held { pressS2Sample(slot: S2MK3Controls.sampleSlot(deck: deck, pad: slot), shifted: shifted) }
@@ -41,7 +44,65 @@
             }
         }
 
+        private func toggleS2MK2Mic() {
+            if s2MK2MicPending || playback.s2MK2MicEnabled {
+                stopS2MK2Mic()
+                s2MK2Status = "S2 Mk2 microphone off."
+                return
+            }
+            s2MK2MicPending = true
+            if playback.automaticOutputDevice != "S2 Mk2" {
+                s2MK2Status = "Waiting for S2 Mk2 audio."
+            } else if !playback.canOpenCapture(device: "S2 Mk2") {
+                s2MK2Status = "S2 Mk2 microphone will turn on when playback pauses."
+            }
+            maintainS2MK2Mic()
+        }
+
+        func maintainS2MK2Mic() {
+            guard s2MK2MicPending, s2MK2MicRequest == nil, s2MK2Connection?.isReceiving == true,
+                playback.automaticOutputDevice == "S2 Mk2", playback.canOpenCapture(device: "S2 Mk2")
+            else { return }
+            s2MK2MicRequest = Task { [weak self] in
+                guard let self else { return }
+                defer {
+                    if !Task.isCancelled { s2MK2MicRequest = nil }
+                }
+                let granted: Bool
+                switch AVAudioApplication.shared.recordPermission {
+                case .granted: granted = true
+                case .undetermined: granted = await AVAudioApplication.requestRecordPermission()
+                default: granted = false
+                }
+                guard !Task.isCancelled, s2MK2Connection?.isReceiving == true else { return }
+                guard granted else {
+                    s2MK2MicPending = false
+                    s2MK2Status = "Allow microphone access to use S2 Mk2 MIC ENGAGE."
+                    return
+                }
+                guard playback.automaticOutputDevice == "S2 Mk2", playback.canOpenCapture(device: "S2 Mk2") else {
+                    return
+                }
+                s2MK2MicPending = false
+                cancelNativeMusicAnalysis()
+                do {
+                    try playback.setCaptureEnabled(true, device: "S2 Mk2")
+                    s2MK2Status = "S2 Mk2 microphone on."
+                } catch {
+                    s2MK2Status = error.localizedDescription
+                }
+            }
+        }
+
+        private func stopS2MK2Mic() {
+            s2MK2MicPending = false
+            s2MK2MicRequest?.cancel()
+            s2MK2MicRequest = nil
+            try? playback.setCaptureEnabled(false, device: "S2 Mk2")
+        }
+
         private func releaseS2MK2Controls() {
+            stopS2MK2Mic()
             for deck in s2MK2Controls.touched {
                 applyTraktorDeckAction(deck.leftSide ? .jogTouchA : .jogTouchB, deck: deck, value: 0, quantized: false)
             }

@@ -127,3 +127,23 @@ import Testing
     #expect(bank.range(slot: 4) == nil)
     #expect(bank.moved(groups: 1)?.range(slot: 0) == 96_000..<120_000)
 }
+
+@Test func s2MK2MicEngageTogglesOnlyOnTheDocumentedPressEdge() {
+    var controls = S2MK2Controls()
+    var bytes: [UInt8] = .init(repeating: 0, count: 66)
+    func micEvents() -> [S4MK2Event] { controls.consume(bytes).filter { $0 == .native(.mic) } }
+
+    bytes[9] = 0x08
+    #expect(micEvents().isEmpty)
+    bytes[9] = 0
+    #expect(micEvents().isEmpty)
+    bytes[9] = 0x04
+    #expect(micEvents().isEmpty)
+    bytes[9] = 0x08
+    #expect(micEvents() == [.native(.mic)])
+    #expect(micEvents().isEmpty)
+    bytes[9] = 0
+    #expect(micEvents().isEmpty)
+    bytes[9] = 0x08
+    #expect(micEvents() == [.native(.mic)])
+}
