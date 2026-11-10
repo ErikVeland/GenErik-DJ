@@ -8,7 +8,7 @@ struct CloudRecoveryChoice: Identifiable, Sendable {
 }
 
 extension ReplicaModel {
-    public var canSyncCloud: Bool { !cloudBusy && cloudPlaybackIsIdle }
+    public var canSyncCloud: Bool { !cloudBusy && !macSourceTransferActive && cloudPlaybackIsIdle }
 
     var cloudPlaybackIsIdle: Bool {
         guard !playback.isRecording, !playback.recordingFinishing, !importing,
@@ -82,6 +82,7 @@ extension ReplicaModel {
     }
 
     func cancelCloudSyncForPlayback() {
+        macSourceTransferWork?.cancel()
         guard let cloudTask, !cloudTask.isCancelled else { return }
         cloudTask.cancel()
         Task { await cloudSync.stop() }

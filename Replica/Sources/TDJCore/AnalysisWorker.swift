@@ -1,3 +1,4 @@
+import AVFoundation
 import Foundation
 
 /// One low-priority analysis job at a time across library services.
@@ -11,6 +12,14 @@ public final class AnalysisWorker: Sendable {
     }
     public func waveformOnly(url: URL) async throws -> AudioAnalysis {
         try await run { check in try AudioAnalyzer.waveformOnly(url: url, checkCancellation: check) }
+    }
+    public func audioIdentity(url: URL) async throws -> AnalysisAudioIdentity {
+        try await run { check in
+            let hash = try AudioAnalyzer.sha256(url: url, checkCancellation: check)
+            let audio = try AVAudioFile(forReading: url)
+            return AnalysisAudioIdentity(sha256: hash, sampleRate: audio.processingFormat.sampleRate,
+                frameCount: audio.length, channels: Int(audio.processingFormat.channelCount))
+        }
     }
     public func detectBeatGrid(pcm: URL, matching analysis: AudioAnalysis) async throws -> BeatGridDetection? {
         try await run { check in

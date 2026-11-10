@@ -3,6 +3,7 @@ import TDJCore
 
 extension ReplicaModel {
     func startAutomaticPreparationSharing() {
+        startMacAnalysisSourceTransfer()
         guard automaticCloudLoop == nil, !nativeMusic.closed else { return }
         automaticCloudLoop = Task { [weak self] in
             while !Task.isCancelled {
@@ -17,6 +18,7 @@ extension ReplicaModel {
     }
 
     func stopAutomaticPreparationSharing() {
+        stopMacAnalysisSourceTransfer()
         automaticCloudLoop?.cancel()
         automaticCloudLoop = nil
         cancelCloudSyncForPlayback()

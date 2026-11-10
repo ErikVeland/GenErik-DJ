@@ -17,6 +17,18 @@ from prepare_library_analysis import mac_items
 _result_cache = {}
 
 
+def analysis_is_running(output):
+    path = output / 'run.lock'
+    if not path.exists():
+        return False
+    with path.open('a') as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            return True
+    return False
+
+
 def save(path, value):
     temporary = path.with_suffix('.new')
     temporary.write_text(json.dumps(value, indent=2, sort_keys=True))
@@ -108,9 +120,12 @@ def run(config):
     try:
         for phase in ['ipad', 'full']:
             if phase == 'full':
-                previous = summary(root / 'ipad')
-                if previous['errors'] or previous['complete'] != config['ipadCount']:
-                    raise RuntimeError('The iPad run has unresolved tracks. The full-library phase is waiting.')
+                while True:
+                    previous = summary(root / 'ipad')
+                    if not previous['errors'] and previous['complete'] == config['ipadCount']:
+                        break
+                    save(root / 'campaign-status.json', dict(phase='waiting-for-source-recovery', **previous))
+                    time.sleep(30)
                 expected = set(previous['revisions'])
                 while True:
                     with state_lock:
@@ -127,15 +142,20 @@ def run(config):
             if shutil.disk_usage(root).free < 5 * 1024**3:
                 raise RuntimeError('Less than 5 GB is free on the analysis volume. The run is paused.')
             with (root / (phase + '.log')).open('a') as log:
-                process = subprocess.Popen([config['app'], '--library-analysis', str(manifest), str(root / phase)],
-                                           stdout=log, stderr=subprocess.STDOUT)
-                save(root / 'campaign-status.json', dict(phase=phase, processID=process.pid, state='running'))
-                while process.poll() is None:
+                process = None
+                attached = analysis_is_running(root / phase)
+                if not attached:
+                    process = subprocess.Popen([config['app'], '--library-analysis', str(manifest), str(root / phase)],
+                                               stdout=log, stderr=subprocess.STDOUT)
+                while (process is not None and process.poll() is None) or (attached and analysis_is_running(root / phase)):
                     status = summary(root / phase)
-                    save(root / 'campaign-status.json', dict(phase=phase, processID=process.pid, state='running', **status))
+                    save(root / 'campaign-status.json', dict(phase=phase, processID=process.pid if process else None,
+                         state='running', attached=attached, **status))
                     time.sleep(30)
-                if process.returncode:
+                if process is not None and process.returncode:
                     raise RuntimeError(f'The {phase} analyser stopped with status {process.returncode}. Results are retained.')
+                if not (root / phase / 'finished.txt').exists():
+                    raise RuntimeError(f'The {phase} analyser stopped before its completion marker. Results are retained.')
         # Keep delivery active until every configured device acknowledges every result.
         expected = set(summary(root / 'ipad')['revisions']) | set(summary(root / 'full')['revisions'])
         while True:

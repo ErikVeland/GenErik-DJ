@@ -11,6 +11,7 @@ enum MacLibraryAnalysis {
         let artist: String
         let paths: [String]
         let expected: Track?
+        var usePreparedAudio: Bool? = nil
     }
     struct Manifest: Codable {
         let items: [Item]
@@ -84,7 +85,11 @@ enum MacLibraryAnalysis {
                     if FileManager.default.fileExists(atPath: audio.path) {
                         try FileManager.default.removeItem(at: audio)
                     }
-                    try await MusicLibraryAudio.decodeAsset(url: URL(fileURLWithPath: path), destination: audio)
+                    if item.usePreparedAudio == true {
+                        try FileManager.default.copyItem(at: URL(fileURLWithPath: path), to: audio)
+                    } else {
+                        try await MusicLibraryAudio.decodeAsset(url: URL(fileURLWithPath: path), destination: audio)
+                    }
                     let hash = try MacAnalysisAudit.digest(audio)
                     result.audioSHA256 = hash
                     if let expected = item.expected, hash != expected.analysis.contentSHA256 { continue }

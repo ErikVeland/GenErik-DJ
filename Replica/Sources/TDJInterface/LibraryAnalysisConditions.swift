@@ -32,6 +32,7 @@ extension ReplicaModel {
         guard state.conditions != conditions else { return }
         state.conditions = conditions
         if let message = conditions.pauseMessage {
+            macSourceTransferWork?.cancel()
             if state.activePass != .matching, state.activePass != nil, libraryAnalysisOwner != nil {
                 state.waitingForStructure = (musicLibraryCatalogVersion, library.revision)
                 cancelNativeMusicAnalysis()

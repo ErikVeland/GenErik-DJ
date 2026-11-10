@@ -93,7 +93,10 @@ extension ReplicaModel {
         nativeMusic.backgrounded = backgrounded
         if !backgrounded && AnalysisExecution.supportsAcceleration { nativeMusic.finishedAnalysis = nil }
         // Restart with CPU-only analysis when the app enters the background.
-        if backgrounded { cancelNativeMusicAnalysis() }
+        if backgrounded {
+            cancelNativeMusicAnalysis()
+            macSourceTransferWork?.cancel()
+        }
     }
 
     func beginBackgroundLibraryAnalysis(
@@ -166,7 +169,7 @@ extension ReplicaModel {
 
     public func startNativeMusicAnalysis() {
         let state = nativeMusic
-        guard state.wanted, !state.closed, !arrangementPlaybackActive, libraryAnalysisPlaybackIsIdle,
+        guard state.wanted, !state.closed, !macSourceTransferActive, !arrangementPlaybackActive, libraryAnalysisPlaybackIsIdle,
             !deckAnalysisIsRunning, !cloudBusy || cloudSyncIsAutomatic,
             !state.backgrounded || (state.backgroundRun != nil && libraryAnalysisPlaybackIsIdle),
             !importing, !musicLibraryRefreshing, libraryAnalysisOwner == nil, state.analyses.isEmpty,

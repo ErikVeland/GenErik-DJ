@@ -7,6 +7,13 @@ public struct AnalysisAudioIdentity: Codable, Equatable, Sendable {
     public let frameCount: Int64
     public let channels: Int
 
+    init(sha256: String, sampleRate: Double, frameCount: Int64, channels: Int) {
+        self.sha256 = sha256
+        self.sampleRate = sampleRate
+        self.frameCount = frameCount
+        self.channels = channels
+    }
+
     public init(_ analysis: AudioAnalysis) {
         sha256 = analysis.contentSHA256
         sampleRate = analysis.sampleRate
