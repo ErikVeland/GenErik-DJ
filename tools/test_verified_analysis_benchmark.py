@@ -90,6 +90,14 @@ class VerifiedBenchmarkTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 benchmark.validate(data)
 
+    def test_rejects_duplicate_audio_within_a_split(self):
+        data = corpus()
+        other = copy.deepcopy(data['tracks'][0])
+        other.update(id='duplicate', groups=['artist:alternate-name'])
+        data['tracks'].append(other)
+        with self.assertRaisesRegex(ValueError, 'Duplicate audio'):
+            benchmark.validate(data)
+
     def test_one_prediction_cannot_match_two_references(self):
         score = benchmark.event_score([0.1, 0.12], [0.11], tolerance=0.025)
         self.assertEqual(score['matched'], 1)

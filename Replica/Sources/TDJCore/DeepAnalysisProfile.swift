@@ -225,6 +225,12 @@ extension AudioAnalysis {
         var copy = self
         copy.deepBeatAnalysis = previous.deepBeatAnalysis
         copy.acceptedDeepBeatAnalysis = previous.acceptedDeepBeatAnalysis
+        if let candidate = previous.deepBeatAnalysis?.adaptiveCandidate,
+            previous.adaptiveCandidate == candidate.map
+        {
+            copy.adaptiveCandidate = candidate.map
+            copy.adaptiveConfidence = nil
+        }
         if previous.acceptedDeepBeatAnalysis != nil {
             copy.implementation = previous.implementation
             copy.bpm = previous.bpm

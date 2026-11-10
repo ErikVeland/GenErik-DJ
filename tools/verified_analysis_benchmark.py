@@ -35,7 +35,7 @@ def validate(data, verify_audio=False):
     require(data.get('format') == 'generik.verified-analysis/v1', 'Unsupported benchmark format.')
     require(bool(data.get('version')) and bool(data.get('tracks')), 'Version and tracks are required.')
     sources = data.get('sources', {})
-    ids, groups = set(), {}
+    ids, groups, audio_hashes = set(), {}, set()
     for track in data['tracks']:
         identity = track['id']
         require(identity and identity not in ids, 'Track IDs must be unique.')
@@ -46,6 +46,8 @@ def validate(data, verify_audio=False):
         for group in track['groups'] + ['audio:' + track['sha256']]:
             require(group not in groups or groups[group] == track['split'], 'A group crosses a split: ' + group)
             groups[group] = track['split']
+        require(track['sha256'] not in audio_hashes, 'Duplicate audio within the benchmark: ' + identity)
+        audio_hashes.add(track['sha256'])
         require(bool(track['labels']), 'A track needs at least one scoped label.')
         for field, label in track['labels'].items():
             require(field in ('beats', 'downbeats', 'key'), 'Unsupported label field.')

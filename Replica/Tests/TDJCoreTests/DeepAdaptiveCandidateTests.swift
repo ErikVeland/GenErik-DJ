@@ -73,6 +73,11 @@ import Testing
         #expect(updated.analysis.adaptiveCandidate == candidate.map)
         #expect(updated.analysis.adaptiveConfidence == nil)
         #expect(updated.analysis.acceptedDeepBeatAnalysis == nil)
+        let refreshed = analysis.retainingDeepEvidence(from: updated.analysis)
+        #expect(refreshed.adaptiveCandidate == candidate.map)
+        #expect(refreshed.adaptiveConfidence == nil)
+        let differentAudio = try syntheticTrack("different", bpm: 100).analysis
+        #expect(differentAudio.retainingDeepEvidence(from: updated.analysis) == differentAudio)
         #expect(try updated.adoptingDeepAnalysis(result) == updated)
         let archive = CloudPreparationArchive.analysisOnly(track: updated, arrangement: nil)
         #expect(try archive.automaticallyMergedTrack(matching: track).analysis.adaptiveCandidate == candidate.map)
