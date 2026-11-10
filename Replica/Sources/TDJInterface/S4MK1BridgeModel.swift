@@ -85,6 +85,7 @@
                     cueKinds[deck] = cues.mapValues(\.category)
                 }
             }
+            let tempo = s4MK1Controls.layers.map { (deckTempoPercent(deck: $0) + 8) / 16 }
             bridge.feedback(
                 S4MK1Lights.report(
                     snapshot: snapshot, controls: s4MK1Controls, feedback: feedback, cueKinds: cueKinds,
