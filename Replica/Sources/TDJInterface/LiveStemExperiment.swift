@@ -28,14 +28,18 @@ import TDJCore
         if self.deck == deck {
             self.mode = mode
             core.setLiveVocalMode(mode.rawValue)
+            if mode == .mix { status = "Original mix" }
             return
         }
-        guard self.deck == nil, mode != .mix,
-            let snapshot = core.snapshot(), snapshot.a.phase == .playing, snapshot.b.phase == .playing,
-            let asset = core.asset(generation: snapshot[deck].generation), !asset.hasStems,
+        guard self.deck == nil, mode != .mix else { return }
+        guard let snapshot = core.snapshot(), snapshot.a.phase == .playing, snapshot.b.phase == .playing else {
+            status = "Play decks A and B"
+            return
+        }
+        guard let asset = core.asset(generation: snapshot[deck].generation), !asset.hasStems,
             asset.sampleRate == Double(SpleeterVocalMask.sampleRate)
         else {
-            status = "Play two decks with a 44.1 kHz track here"
+            status = "Use a 44.1 kHz track"
             return
         }
 
