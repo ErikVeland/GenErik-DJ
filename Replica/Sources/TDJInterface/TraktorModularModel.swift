@@ -68,7 +68,7 @@
                     action == .playA || action == .playB ? .cueLatch(deck) : .action(action, deck, 1)
                 applyNativeMK2Event(event, stateKey: \.x1MK3Performance)
             case .cue(let deck, let held):
-                applyNativeMK2Event(.cue(deck, held), stateKey: \.x1MK3Performance)
+                applyNativeMK2Event(.cue(deck, held: held), stateKey: \.x1MK3Performance)
             case .reverse(let deck, let held):
                 applyNativeTraktorEvent(.reverse(deck, held), isS3: false)
             case .nudge(let deck, let direction, let shifted):
