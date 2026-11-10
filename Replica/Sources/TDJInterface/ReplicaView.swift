@@ -1148,30 +1148,7 @@ extension ReplicaView {
             }
             Divider()
             DisclosureGroup(isExpanded: $details) {
-                VStack(alignment: .leading, spacing: 8) {
-                    OutputSettingsView(model: model)
-                    Divider()
-                    HStack {
-                        ForEach([DeckID.a, .b], id: \.self) { deck in
-                            Button {
-                                model.toggleKeylock(deck: deck)
-                            } label: {
-                                Label(
-                                    "Keylock \(deck.rawValue.uppercased())",
-                                    systemImage: model.controlDisplay[deck].keylock == true
-                                        ? "checkmark.circle.fill" : "circle")
-                            }.disabled(
-                                model.track(deck) == nil || model.preparingPlayback.contains(deck)
-                                    || model.controlDisplay[deck].phase == .queued)
-                        }
-                        Spacer()
-                        Button {
-                            model.stopAudio()
-                        } label: {
-                            Label("Stop audio", systemImage: "stop.fill")
-                        }
-                    }
-                }.padding(.bottom, 14)
+                OutputSettingsView(model: model).padding(.bottom, 14)
             } label: {
                 HStack {
                     rowTitle("OUTPUT")
