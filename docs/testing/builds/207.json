@@ -1,0 +1,15 @@
+{
+  "notes": "R141 absolute Z2 Mk2 vinyl positioning and per-controller Pulse and Warning settings. Local verification only.",
+  "sourceCommit": "a8bbbc90f59a475d02918ed4ce64a3f654d97b44",
+  "sourceSHA256": "62ab2842f05cafdf9a364020e5bde03f087481d65b08deed88f9d8a40cb85f47",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 61.16,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-207.log",
+  "build": 207,
+  "app": "TestBuilds/ipad/207/GenErikDJ.app",
+  "appSHA256": "f6ba1d90b3c514f7a981315cc25cabe680889d004b75bdeda95d9bec5539f0fc",
+  "state": "ready",
+  "createdUTC": "2026-11-10T12:19:14.736628+00:00"
+}
