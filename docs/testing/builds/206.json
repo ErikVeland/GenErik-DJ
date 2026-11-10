@@ -1,0 +1,8 @@
+{
+  "build": 206,
+  "state": "failed",
+  "notes": "R141 build stopped because the source changed during compilation.",
+  "sourceCommit": null,
+  "log": "TestBuilds/r141/build-206-first-attempt.log",
+  "feedback": []
+}

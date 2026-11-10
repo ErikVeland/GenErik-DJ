@@ -198,4 +198,4 @@ REL/INT selects absolute vinyl control on Z2 decks A and B. Both sides of Trakto
 
 Controller settings show Pulse and Warning for each connected controller with native feedback. Both settings are on by default. The app saves them separately for each model. MIDI setup stays in a collapsed section. The pane omits connection diagnostics.
 
-Off-device verification covers synthetic Mk2 vinyl, capture routing and lighting reports. Real-vinyl calibration, physical controllers and A10X performance remain open.
+The focused Mac checks passed with synthetic Mk2 vinyl, capture routing and lighting reports. [Build 207](../testing/builds/207.json) passed signing and runtime checks. The tool rejected [build 206](../testing/builds/206.json) after the source changed during compilation. Real-vinyl calibration, physical controllers and A10X performance remain open.
