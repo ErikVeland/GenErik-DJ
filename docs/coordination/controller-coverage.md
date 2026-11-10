@@ -11,7 +11,7 @@ Cover all NI controllers and class-compliant MIDI controllers, including hardwar
 | S2 | Mk1, Mk2, Mk3 | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Model mappings and iPad endpoint access unverified. |
 | S3 | S3 | MIDI mode documented | Same. |
 | S4 | Mk1, Mk2 | MIDI mode documented | Same. |
-| S4 | Mk3 | No MIDI mode in NI's supported-mode table | Native-protocol/bridge work required. No working route claimed. |
+| S4 | Mk3 | No MIDI mode in NI's supported-mode table | Direct A10X support is blocked by the connection. See [R123](#r123-s4-mk3-connection). |
 | S5, S8 | Both | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Screens/native features remain unfinished. |
 | X1 | Mk1, Mk2, Mk3 | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Model mappings remain unverified. |
 | Z1 | Original, Mk2 | MIDI mode documented | Original Z1 has native HID groundwork and a development bridge path. Direct iPad transport, Mk2 mapping and hardware acceptance remain unverified. |
@@ -38,6 +38,7 @@ Erik requires automatic connection, controls, audio routing and custom lights. O
 | S2 Mk3 | `com.native-instruments.protocol.kontrols2mk3` | Automatic split audio and native deck and mixer controls. Pad 8 shows the blue beat pulse and amber warning. See [scope and checks](s2-mk3-native.md). |
 | S3 | `com.native-instruments.protocol.kontrols3` | Automatic split audio, native four-deck controls and blue and amber jog rings. See [scope and checks](s3-native.md). |
 | S4 Mk2 | `com.native-instruments.traktordj.kontrols4mk2` | Automatic split audio, native four-deck controls and blue and amber Hot Cue lighting. See [scope and checks](s4-mk2-native.md). |
+| S4 Mk3 | No identifier in the preserved TDJ2 build | Desktop USB HID mapping available. Direct iPad controls, audio routing and lighting are blocked. See [R123](#r123-s4-mk3-connection). |
 | MX2, Z1 Mk2, X1 Mk3 | No identifier in the preserved TDJ2 build | Verify a direct iPad connection. Implement factory mappings and feedback for a documented transport. |
 | Other Traktor variants | No identifier in the preserved TDJ2 build | Verify transport, per-model control and feedback reports, and audio where fitted. See the variant list above. |
 
@@ -48,6 +49,14 @@ NI lists the four controllers in its [TDJ2 iPad compatibility guide](https://sup
 [Build 164](../testing/builds/164.json) installed on the A10X iPad. iPadOS accepted launch. Ten focused tests passed across thirteen cases. The new controller audio profiles have no physical listening result.
 
 The [S2 Mk3](s2-mk3-native.md) and [S3](s3-native.md) adapters use the same beat and warning timing as the Z1.
+
+## R123 S4 Mk3 connection
+
+NI's iOS connectivity table gives the S4 Mk3 no supported iPad connection. The preserved Traktor DJ 2.4.1 app lists the S4 Mk2 accessory protocol and has no Mk3 entry. NI's MIDI-mode table also has no S4 Mk3 entry. USBDriverKit requires an M-series iPad, so it cannot provide raw USB access on the A10X. [NI iOS connectivity](https://support.native-instruments.com/support/solutions/articles/69000879456-how-to-connect-your-ni-controller-audio-interface-to-an-ios-device) · [NI MIDI-mode table](https://support.native-instruments.com/support/solutions/articles/69000880031-native-instruments-switching-your-controller-to-midi-mode) · [Apple USBDriverKit](https://developer.apple.com/documentation/usbdriverkit)
+
+Mixxx uses the vendor HID interface `17cc:1720`, interface `03`, for input and LED output. Its desktop audio mapping assigns master to channels 1–2 and headphones to 3–4. These mappings require a connection that exposes the controls and audio to the app. [Mixxx HID preset](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Traktor%20Kontrol%20S4%20MK3.hid.xml) · [Mixxx audio mapping](https://manual.mixxx.org/2.5/en/hardware/controllers/native_instruments_traktor_kontrol_s4_mk3)
+
+An external host bridge would need two-way control and LED reports. It would also need a four-channel audio path to the S4 Mk3 to use its master and headphone jacks. The current Z1 relay carries controls and lights only. [Z1 relay](../../tools/controller_bridge/README.md)
 
 ## Required capabilities for each model
 
