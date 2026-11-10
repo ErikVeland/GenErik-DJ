@@ -10,6 +10,19 @@
   "build": 195,
   "app": "TestBuilds/ipad/195/GenErikDJ.app",
   "appSHA256": "245c1b94bd2c07998b511c15686f591f00c5b687a59f95ea53386de035c717a8",
-  "state": "ready",
-  "createdUTC": "2026-11-10T07:55:05.615119+00:00"
+  "state": "installed",
+  "createdUTC": "2026-11-10T07:55:05.615119+00:00",
+  "installedUTC": "2026-11-10T07:57:30.962010+00:00",
+  "deploymentTarget": "GenErik Duo",
+  "deploymentAttempts": [
+    {
+      "target": "GenErik Duo",
+      "checkedUTC": "2026-11-10T07:57:30.962010+00:00",
+      "result": "The install command timed out. A device query confirmed build 195 was installed. iOS rejected remote launch because the Duo was locked."
+    }
+  ],
+  "requestIDs": [
+    "R134",
+    "R132"
+  ]
 }
