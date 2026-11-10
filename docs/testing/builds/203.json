@@ -1,0 +1,15 @@
+{
+  "notes": "R138 NI performance features with input isolation and dedicated S4 Mk3 Stem controls. Local verification only.",
+  "sourceCommit": "349e841c96980e0a4377d10fe471e0b09192aeb6",
+  "sourceSHA256": "c3fde7996b26fd52cf927966c45269e1db1e77621aaecf3745083df92d499312",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 59.45,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-203.log",
+  "build": 203,
+  "app": "TestBuilds/ipad/203/GenErikDJ.app",
+  "appSHA256": "96a587e56be4d958e6e06f657cfe8805783884c14673d7f14d58bbb62a1a3d46",
+  "state": "ready",
+  "createdUTC": "2026-11-10T11:59:27.552668+00:00"
+}
