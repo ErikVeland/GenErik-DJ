@@ -94,7 +94,9 @@ Twenty-four focused Swift tests and seventeen bridge tests passed. [Build 188](.
 - **Loop In or Out + jog** moves only the held edge of an active loop. The app combines jog ticks in each poll and keeps the edges inside the track. The transport still applies Sync. Stored cues and loops retain their saved positions.
 - **Shift+FX 1/2** assigns the channel to the left or right crossfader side. Press the same side again to unlink the channel. The FX buttons show that assignment while Shift is held. The audio engine smooths the change and keeps headphone cue independent. Recovery auto-mix requires the default left and right assignments.
 
-The bridge uses the same reports. GenErik DJ requires no settings for these controls. Physical verification remains open. [NI S2 Mk1 manual](https://images-eu.ssl-images-amazon.com/images/I/C1z6RGpnVTS.pdf) · [NI deck duplication reference](https://docs.native-instruments.com/ni-tech-manuals/traktor-pro-manual/en/preferences)
+The bridge uses the same reports. GenErik DJ requires no settings for these controls. [NI S2 Mk1 manual](https://images-eu.ssl-images-amazon.com/images/I/C1z6RGpnVTS.pdf) · [NI deck duplication reference](https://docs.native-instruments.com/ni-tech-manuals/traktor-pro-manual/en/preferences)
+
+Twenty-six focused Swift tests and seventeen bridge tests passed. [Build 189](../testing/builds/189.json) passed local signing and runtime framework checks. Verification stayed off the iPad. Physical operation remains unverified.
 
 ## Required capabilities for each model
 
