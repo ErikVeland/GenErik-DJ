@@ -1,0 +1,18 @@
+{
+  "notes": "R150 Spleeter live vocal test on one local deck while A and B play. Check isolation, audio continuity and touch on A10X.",
+  "sourceCommit": "06dbaade8e246f35d6f3d17224d61438f8bc27c1",
+  "sourceSHA256": "7bf095e9d4b574cfc62f4c5a42a4aa500f3e149fea640ec838242bc025a37a2f",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 86.69,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-213.log",
+  "build": 213,
+  "app": "TestBuilds/ipad/213/GenErikDJ.app",
+  "appSHA256": "a6de629677c4c5196371092a4f8a00eeb631210dd3556dedbf0514753791eb59",
+  "state": "testing",
+  "createdUTC": "2026-11-10T13:01:43.924729+00:00",
+  "installedUTC": "2026-11-10T13:01:58.266512+00:00",
+  "launchedUTC": "2026-11-10T13:01:58.666972+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}

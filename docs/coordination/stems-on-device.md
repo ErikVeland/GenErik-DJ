@@ -49,3 +49,5 @@ R150 adds a separate test with Deezer's two-stem Spleeter model. The bundled con
 6. Check touch response as the iPad warms up. Note the build number and any faults.
 
 The worker separates up to 90 seconds on one deck per launch. It reads a separate copy of the audio source. The renderer reads completed frames at the existing deck position. Outside that range, it plays the original mix. The worker stops if a deck stops or the iPad reaches a serious thermal state. The test logs chunk times and changes in audio callback counts. Relaunch to test another deck or track.
+
+[Build 213](../testing/builds/213.json) installed on the 10.5-inch A10X iPad Pro. iPadOS accepted launch. Two focused Mac checks passed. One ran the bundled model. The other checked two-deck playback, source alignment and original-mix fallback. Physical listening, touch and sustained performance checks remain open.
