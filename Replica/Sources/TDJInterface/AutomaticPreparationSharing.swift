@@ -36,12 +36,16 @@ extension ReplicaModel {
         }
         let tracks = library.tracks
         let byHash = await cloudFiles.run { Dictionary(grouping: tracks, by: { $0.analysis.contentSHA256 }) }
+        var pending: [String: DeepBeatAnalysis] = [:]
+        var pendingTracks: [String: Track] = [:]
+        var batch: [(id: String, archive: CloudPreparationArchive, tracks: [String], deferred: Bool)] = []
         for revision in result.revisions
         where revision.automaticAnalysis == true && !automaticCloudRead.contains(revision.id) {
             try Task.checkCancellation()
             guard cloudPlaybackIsIdle, !nativeMusic.backgrounded, !nativeMusic.closed else { throw CancellationError() }
             let matches = byHash[revision.audioSHA256] ?? []
             guard !matches.isEmpty else { continue }
+            guard batch.count < 32 else { break }
             let read = await cloudFiles.run {
                 Result { try CloudPreparationVault(root: result.root).read(revision.id) }
             }
@@ -66,18 +70,21 @@ extension ReplicaModel {
                     deferred = true
                     continue
                 }
-                let merged = try archive.automaticallyMergedTrack(matching: local)
+                let baseline = pendingTracks[local.id] ?? local
+                let merged = try archive.automaticallyMergedTrack(matching: baseline)
                 let store = store
                 let performance = performance
-                if merged != local {
-                    try await cloudFiles.run {
-                        Result {
-                            let history = try CloudPreparationVault(
-                                root: store.root.appendingPathComponent("RecoveryVersions"))
-                            try history.retain(
-                                CloudPreparationVault.capture(store: store, track: local, performance: performance))
-                        }
-                    }.get()
+                if merged != baseline {
+                    if pendingTracks[local.id] == nil {
+                        try await cloudFiles.run {
+                            Result {
+                                let history = try CloudPreparationVault(
+                                    root: store.root.appendingPathComponent("RecoveryVersions"))
+                                try history.retain(
+                                    CloudPreparationVault.capture(store: store, track: local, performance: performance))
+                            }
+                        }.get()
+                    }
                     try Task.checkCancellation()
                     guard cloudPlaybackIsIdle, !sharedAnalysisTrackIsProtected(local.id), nativeMusic.loadOwners.isEmpty
                     else {
@@ -85,22 +92,35 @@ extension ReplicaModel {
                         continue
                     }
                     if let deep = archive.track.analysis.deepBeatAnalysis {
-                        adoptLibrary(
-                            try await service.adoptDeepAnalysis(
-                                deep, trackID: local.id,
-                                protectedTracks: Set(loaded.values)))
-                        applied += 1
+                        pending[local.id] = deep
+                        pendingTracks[local.id] = merged
                     }
                 }
+            }
+            batch.append((revision.id, archive, matches.map(\.id), deferred))
+        }
+        try Task.checkCancellation()
+        guard cloudPlaybackIsIdle, nativeMusic.loadOwners.isEmpty, preparingPlayback.isEmpty else { throw CancellationError() }
+        var protected = Set(loaded.values)
+        if let active = nativeMusic.activeTrackID { protected.insert(active) }
+        if !pending.isEmpty {
+            adoptLibrary(try await service.adoptDeepAnalyses(pending, protectedTracks: protected))
+            applied = pending.keys.filter { !protected.contains($0) }.count
+        }
+        for entry in batch {
+            var deferred = entry.deferred
+            for id in entry.tracks {
                 try Task.checkCancellation()
-                guard cloudPlaybackIsIdle, !sharedAnalysisTrackIsProtected(local.id), nativeMusic.loadOwners.isEmpty
+                guard cloudPlaybackIsIdle, !protected.contains(id), !sharedAnalysisTrackIsProtected(id),
+                    nativeMusic.loadOwners.isEmpty, preparingPlayback.isEmpty,
+                    let local = library.track(id: id)
                 else {
                     deferred = true
                     continue
                 }
-                try await adoptSharedArrangement(archive, track: library.track(id: local.id) ?? local)
+                try await adoptSharedArrangement(entry.archive, track: local)
             }
-            if !deferred { automaticCloudRead.insert(revision.id) }
+            if !deferred { automaticCloudRead.insert(entry.id) }
         }
     }
 

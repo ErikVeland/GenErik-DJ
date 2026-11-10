@@ -41,7 +41,9 @@ import Testing
     #expect(model.library.track(id: track.id)?.analysis.deepBeatAnalysis == nil)
     model.nativeMusic.activeTrackID = nil
     try await model.adoptAutomaticCloudResults(transfer)
-    #expect(model.library.track(id: track.id)?.analysis.deepBeatAnalysis == remote.analysis.deepBeatAnalysis)
+    var expected = remote.analysis.deepBeatAnalysis
+    expected?.completedAt = revision.savedAt
+    #expect(model.library.track(id: track.id)?.analysis.deepBeatAnalysis == expected)
     #expect(model.library.track(id: track.id)?.preparation == track.preparation)
     #expect(model.performance.cues == performance.cues)
     #expect(model.performance.traktorCueHistory == performance.traktorCueHistory)
@@ -53,7 +55,7 @@ import Testing
     await model.finishForShutdown()
 }
 
-@Test @MainActor func automaticSharingAdoptsSectionsAfterBeatUpgradeAndKeepsCorrections() async throws {
+@Test @MainActor func automaticSharingAdoptsSectionsForThePlaybackGridAndKeepsCorrections() async throws {
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
     defer { try? FileManager.default.removeItem(at: root) }
     let store = try WorkspaceStore(root: root)
@@ -75,11 +77,12 @@ import Testing
             sections: [.init(start: 0, end: 441000, name: "User intro", locked: true)],
             landmarks: [], musicalEnd: 441000, rhythmicEnd: nil))
     try previous.write(to: model.arrangementURL(track.id))
-    let deep = DeepBeatAnalysis(
+    var deep = DeepBeatAnalysis(
         audio: .init(analysis), profile: .current,
         coveredFrames: analysis.frameCount, windowCount: 1,
         candidate: .init(.init(bpm: 120, firstBar: 0, beatAgreement: 0.99, barAgreement: 0.99, residualMilliseconds: 5))
     )
+    deep.completedAt = Date(timeIntervalSinceReferenceDate: 1000)
     let remote = try track.adoptingDeepAnalysis(deep)
     let incoming = ArrangementCache(
         version: MusicalStructureAnalyzer.version,
@@ -88,16 +91,17 @@ import Testing
         arrangement: .init(
             sections: [.init(start: 0, end: 441000, name: "Detected section")],
             landmarks: [], musicalEnd: 441000, rhythmicEnd: nil),
-        automaticCues: [:], rhythmProfile: deep.profile.id)
+        automaticCues: [:], rhythmProfile: nil)
     let vault = try CloudPreparationVault(root: root.appendingPathComponent("account"))
     let revision = try vault.retain(.analysisOnly(track: remote, arrangement: JSONEncoder().encode(incoming)))
     try await model.adoptAutomaticCloudResults(.init(root: vault.root, revisions: [revision], message: "Downloaded"))
     let saved = try JSONDecoder().decode(ArrangementCache.self, from: Data(contentsOf: model.arrangementURL(track.id)))
-    #expect(saved.rhythmProfile == deep.profile.id)
+    #expect(saved.rhythmProfile == nil)
     #expect(saved.version == MusicalStructureAnalyzer.version)
     #expect(saved.arrangement.sections[0].name == "User intro")
     #expect(saved.arrangement.sections[0].locked)
-    #expect(model.library.track(id: track.id)?.analysis.acceptedDeepBeatAnalysis == deep)
+    #expect(model.library.track(id: track.id)?.analysis.deepBeatAnalysis == deep)
+    #expect(model.library.track(id: track.id)?.analysis.acceptedDeepBeatAnalysis == nil)
     #expect(model.performance.cues[track.id] == nil)
     await model.finishForShutdown()
 }
