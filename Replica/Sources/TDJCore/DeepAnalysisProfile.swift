@@ -28,11 +28,11 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public let upgradeBenefit: String
 
     public static let current = Self(
-        generation: 5, model: "BeatThis/final0",
+        generation: 6, model: "BeatThis/final0",
         weightsSHA256:
             "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331",
-        conversion: 1, preprocessing: 1, decisionPolicy: 5,
-        upgradeBenefit: "Retain adaptive alternatives to missing or weak constant-grid fits.")
+        conversion: 1, preprocessing: 1, decisionPolicy: 6,
+        upgradeBenefit: "Preserve existing grid timing and retain deep review evidence.")
 
     public var inferenceID: String {
         analysisDigest(Data("\(model)|\(weightsSHA256)|fp16-\(conversion)|mel-\(preprocessing)|1500-6-50".utf8))
@@ -43,11 +43,13 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public func needsAnalysis(after result: DeepBeatAnalysis?) -> Bool {
         guard let result else { return true }
         if result.profile.id == id { return false }
-        if generation == 5, decisionPolicy == 5,
+        if generation == 6, decisionPolicy == 6,
             (result.profile.generation == 3 && result.profile.decisionPolicy == 3
-                || result.profile.generation == 4 && result.profile.decisionPolicy == 4),
+                || result.profile.generation == 4 && result.profile.decisionPolicy == 4
+                || result.profile.generation == 5 && result.profile.decisionPolicy == 5),
             inferenceID == result.profile.inferenceID
         {
+            if result.profile.decisionPolicy == 5 { return false }
             if result.hasStrongEvidence { return false }
             if result.profile.decisionPolicy == 4, result.candidate == nil { return false }
         }
@@ -94,7 +96,7 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
     public var needsReview: Bool { candidate == nil || !hasStrongEvidence }
     public func needsReview(for track: Track) -> Bool {
         guard track.mayRefreshAutomaticGrid, track.traktorPreparation?.normalized.grid == nil else { return false }
-        return needsReview || acceptedGrid(for: track) == nil
+        return needsReview || compatibleGrid(for: track) == nil
     }
     var hasStrongEvidence: Bool { candidate?.hasStrongEvidence == true }
 
@@ -115,8 +117,13 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
         }
     }
 
-    /// Full-track agreement can refine an automatic grid. Conflicting evidence remains a candidate.
+    /// Strong deep evidence can fill a missing grid. Existing timing remains the transport authority.
     public func acceptedGrid(for track: Track) -> BeatGrid? {
+        guard track.grid == nil else { return nil }
+        return compatibleGrid(for: track)
+    }
+
+    private func compatibleGrid(for track: Track) -> BeatGrid? {
         guard profile == .current, hasStrongEvidence, let candidate, track.mayRefreshAutomaticGrid,
             track.traktorPreparation?.normalized.grid == nil, (try? validate(matching: track.analysis)) != nil
         else { return nil }

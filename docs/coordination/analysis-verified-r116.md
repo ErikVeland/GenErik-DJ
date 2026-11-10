@@ -18,7 +18,7 @@ Published human annotations are reference labels with a named source. They are n
 
 The original Traktor values remain automatic comparisons. Erik verified only that its 99 Problems bar starts one beat early. This does not verify its exact beat time, tempo or key.
 
-The benchmark counts missing outputs as failures. Beat and downbeat scores use one-to-one event matching at 25 ms, including annotated opening beats. Exact tempo octave and exact key scores remain separate from lenient scores. Confidence and coverage must be reported together.
+The benchmark counts missing outputs as failures. Beat and downbeat scores use one-to-one event matching at 25 ms, including annotated opening beats. Half-tempo predictions lose recall. Double-tempo predictions lose precision. Exact key scores remain separate from related-key credit. Confidence and coverage must be reported together.
 
 GTZAN has known duplicates and repeated artists. Use its published fault-filtered groups and exclude unknown identities from the initial cohort. Beat This final and small models declare GTZAN excluded from training. Other dataset and model overlap must be recorded explicitly.
 
@@ -46,6 +46,14 @@ Deep policy 4 added a review candidate when the constant-grid fit failed. In the
 
 Policy 5 also offers alternatives to weak constant fits. The candidate requires consistent four-beat bars and consecutive beat intervals. It compresses the complete model sequence to at most 256 anchors, with at most 8 ms deviation. Unsupported bar lengths and sequences that exceed the anchor limit remain unresolved. The candidate does not replace playback preparation or an existing adaptive candidate. It has no calibrated confidence value. The sharing path carries it as analysis evidence.
 
+The final development run offered nine review candidates. Hypothetical acceptance raised beat F1 to 66.79% and downbeat F1 to 56.46%. Eight candidates improved both scores and one worsened both. All 200 prediction windows matched the baseline bytes. All 100 saved results reopened. The automatic playback timelines stayed equivalent within floating-point rounding. These results support review access, not automatic replacement.
+
+Policy 5 failed the held-out no-regression check. The existing automatic constant-grid rule reduced beat F1 from 57.56% to 54.43%. Downbeat F1 fell from 53.70% to 50.50%. Thirty-one tracks changed event scores after automatic constant-grid updates. The new adaptive candidates were separate: all seven improved both scores when evaluated for acceptance. Their combined review scores were 56.37% and 52.15%. All 100 results reopened without errors. This failed result remains preserved.
+
+Policy 6 contains that failure without tuning model thresholds. Strong deep evidence can fill a missing grid, but it cannot automatically replace an existing usable grid. The separate tempo-octave correction remains unchanged. Compatible evidence does not generate a new review warning merely because replacement is disabled. Previously accepted grids remain intact. This change does not reconstruct their lost first-pass timing.
+
+The Mac policy audit reuses a completed first-pass report and its prediction checkpoints. It verifies audio hashes, inference identity and source coverage. Its output records the source report hash and run ID. Replay timings are not fresh-analysis timings. Policy 6 checks on the same corpus are regression checks after the failed holdout, not new independent accuracy evidence.
+
 Explicit acceptance can create a missing base grid. Policy 5 preserves strong policy 3 and 4 fits with the same inference profile. It also skips policy 4 results whose missing constant fit was already reviewed. Weak older constant fits can upgrade. The model weights remain unchanged, so these policy upgrades can reuse saved predictions. Changed weights and later policies remain eligible under the existing version rules.
 
 A later first pass retains an offered deep candidate only for the same audio identity. The existing manual, locked, imported and accepted adaptive preparation protections remain in place. Twenty-one focused Swift tests passed. Twenty Python tests passed for the benchmark and key comparison. One optional real-model unit test remains skipped. The packaged Mac audit supplies the real-model evidence separately.
@@ -59,6 +67,8 @@ The production Mac first pass requests CPU only. The deep rhythm pass and the ex
 The learned key weights remain external research assets. No automatic learned-key replacement is enabled. The current licence restricts commercial use. Commercial model selection or training rights remain open. The new model's output scores also need calibration before automatic acceptance.
 
 The native key conversion preserves separate weights, preprocessing, conversion and decision versions. Its audio frontend uses bounded windows. The original 12 files were evaluated with the same fixed candidate. Agreement with nine automatic Traktor keys fell from six to four. This is not a verified accuracy loss. Blue Monday, 99 Problems and Big Ole Freak changed key predictions and need listening review.
+
+This comparison does not establish the strongest available key model. [InceptionKeyNet](https://github.com/stefan-baumann/inceptionkeynet) provides a newer reference architecture and training code. [S-KEY](https://github.com/deezer/skey) provides a 2025 model, but restricts its published weights to non-commercial research. Neither was measured in this increment. Future selection needs a fresh independent test cohort and suitable model rights.
 
 ## Reproduce the scores
 

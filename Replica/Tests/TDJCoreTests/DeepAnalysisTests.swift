@@ -143,7 +143,9 @@ private func emptyWindow(_ index: Int, _ start: Int) -> DeepPredictionWindow {
 }
 
 @Test func deepAcceptedEvidenceSurvivesLaterFirstPass() throws {
-    let base = try syntheticTrack("a", bpm: 120)
+    var base = try syntheticTrack("a", bpm: 120)
+    base.preparation.grid = nil
+    base.analysis.bpm = nil
     let accepted = DeepBeatAnalysis(
         audio: .init(base.analysis), profile: .current,
         coveredFrames: base.analysis.frameCount, windowCount: 1,
@@ -163,6 +165,29 @@ private func emptyWindow(_ index: Int, _ start: Int) -> DeepPredictionWindow {
             .deepBeatAnalysis == nil)
     let other = try syntheticTrack("b", bpm: 90).analysis.retainingDeepEvidence(from: prepared.analysis)
     #expect(other.deepBeatAnalysis == nil)
+}
+
+@Test func deepEvidenceKeepsAnExistingGridButCanFillAMissingGrid() throws {
+    let track = try syntheticTrack("a", bpm: 120)
+    let result = DeepBeatAnalysis(
+        audio: .init(track.analysis), profile: .current, coveredFrames: track.analysis.frameCount,
+        windowCount: BeatThisWindows.starts(frameCount: BeatThisWindows.frameCount(track.analysis)).count,
+        candidate: .init(.init(bpm: 120.01, firstBar: 0.015,
+                              beatAgreement: 1, barAgreement: 1, residualMilliseconds: 5)))
+    let retained = try track.adoptingDeepAnalysis(result)
+    #expect(result.acceptedGrid(for: track) == nil)
+    #expect(retained.preparation == track.preparation)
+    #expect(retained.analysis.bpm == track.analysis.bpm)
+    #expect(retained.analysis.beatAnchorFrame == track.analysis.beatAnchorFrame)
+    #expect(retained.analysis.acceptedDeepBeatAnalysis == nil)
+    #expect(retained.analysis.deepBeatAnalysis == result)
+    #expect(!result.needsReview(for: track))
+    var unresolved = track
+    unresolved.preparation.grid = nil
+    unresolved.analysis.bpm = nil
+    let filled = try unresolved.adoptingDeepAnalysis(result)
+    #expect(filled.grid?.bpm == 120.01)
+    #expect(filled.analysis.acceptedDeepBeatAnalysis == result)
 }
 
 @Test func deepWindowStoragePreservesFloatBitsWithinBoundedSize() throws {

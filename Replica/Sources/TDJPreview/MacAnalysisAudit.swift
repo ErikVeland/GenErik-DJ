@@ -1,3 +1,4 @@
+import CryptoKit
 import Foundation
 import TDJCore
 
@@ -25,6 +26,8 @@ enum MacAnalysisAudit {
         var runID = UUID().uuidString
         var startedUTC = Date().ISO8601Format()
         var completedUTC: String?
+        var replayedRunID: String?
+        var sourceReportSHA256: String?
         var operatingSystem = ProcessInfo.processInfo.operatingSystemVersionString
         var automaticMacAccelerationEligible = AnalysisExecution.supportsAcceleration
         var deepProfile = DeepAnalysisProfile.current
@@ -32,10 +35,21 @@ enum MacAnalysisAudit {
         var rows: [Row] = []
     }
 
-    static func run(manifestURL: URL, output: URL) async throws {
-        let manifest = try JSONDecoder().decode(
-            AnalysisBenchmarkManifest.self, from: Data(contentsOf: manifestURL))
+    static func run(manifestURL: URL, output: URL, replayReport: Bool = false) async throws {
+        let input = try Data(contentsOf: manifestURL)
+        let previous = replayReport ? try JSONDecoder().decode(Report.self, from: input) : nil
+        let manifest = try previous?.manifest ?? JSONDecoder().decode(AnalysisBenchmarkManifest.self, from: input)
         try manifest.validate()
+        if let previous {
+            guard previous.completedUTC != nil,
+                previous.deepProfile.inferenceID == DeepAnalysisProfile.current.inferenceID,
+                previous.rows.count == manifest.tracks.count,
+                zip(previous.rows, manifest.tracks).allSatisfy({ row, expected in
+                    row.id == expected.id && row.error == nil && row.reuseMatches == true
+                        && row.firstPass?.contentSHA256 == expected.sha256 && expected.path.hasPrefix("/")
+                })
+            else { throw CoreError.invalidAudio("Replay requires a complete, matching audit with absolute audio paths.") }
+        }
         guard !manifest.tracks.isEmpty else { throw CoreError.invalidAudio("The audit needs at least one track.") }
         guard !FileManager.default.fileExists(atPath: output.path) else {
             throw CoreError.invalidAudio("Choose a new audit output folder. Existing results were retained.")
@@ -43,17 +57,32 @@ enum MacAnalysisAudit {
         try FileManager.default.createDirectory(at: output, withIntermediateDirectories: true)
         var report = Report(manifest: manifest)
         let checkpointRoot = output.appendingPathComponent("checkpoints", isDirectory: true)
+        if let previous {
+            report.replayedRunID = previous.runID
+            report.sourceReportSHA256 = SHA256.hash(data: input).map { String(format: "%02x", $0) }.joined()
+            try FileManager.default.copyItem(
+                at: manifestURL.deletingLastPathComponent().appendingPathComponent("checkpoints"),
+                to: checkpointRoot)
+        }
 
         // Finish every first pass before running the deep tier, as the library queue does.
-        for expected in manifest.tracks {
+        for (index, expected) in manifest.tracks.enumerated() {
             try Task.checkCancellation()
             let source = URL(fileURLWithPath: expected.path, relativeTo: manifestURL.deletingLastPathComponent())
             var row = Row(id: expected.id)
             let measure = AnalysisMeasurement(runID: report.runID, jobID: expected.id, pass: "first-pass", duration: nil)
-            measure.update { $0.source = "fresh-local-file" }
+            measure.update { $0.source = previous == nil ? "fresh-local-file" : "saved-first-pass" }
             do {
-                let analysis = try await AnalysisMeasurement.$current.withValue(measure) {
-                    try await AnalysisWorker.shared.analyze(url: source)
+                let analysis: AudioAnalysis
+                if let saved = previous?.rows[index].firstPass {
+                    guard try digest(source) == expected.sha256 else {
+                        throw CoreError.invalidAudio("The replay audio changed. Existing results were retained.")
+                    }
+                    analysis = saved.replacingWaveform([])
+                } else {
+                    analysis = try await AnalysisMeasurement.$current.withValue(measure) {
+                        try await AnalysisWorker.shared.analyze(url: source)
+                    }
                 }
                 guard analysis.contentSHA256 == expected.sha256 else {
                     throw CoreError.invalidAudio("The source hash changed. This track cannot be scored.")
@@ -79,7 +108,7 @@ enum MacAnalysisAudit {
             let source = URL(fileURLWithPath: expected.path, relativeTo: manifestURL.deletingLastPathComponent())
             let measure = AnalysisMeasurement(
                 runID: report.runID, jobID: expected.id, pass: "deep-fresh", duration: analysis.duration)
-            measure.update { $0.source = "fresh-local-file" }
+            measure.update { $0.source = previous == nil ? "fresh-local-file" : "saved-prediction-windows" }
             measure.capture(analysis)
             do {
                 let result = try await AnalysisMeasurement.$current.withValue(measure) {
@@ -137,6 +166,17 @@ enum MacAnalysisAudit {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         try encoder.encode(report).write(to: output.appendingPathComponent("report.json"), options: .atomic)
+    }
+
+    private static func digest(_ url: URL) throws -> String {
+        let file = try FileHandle(forReadingFrom: url)
+        defer { try? file.close() }
+        var hash = SHA256()
+        while let data = try file.read(upToCount: 1024 * 1024), !data.isEmpty {
+            try Task.checkCancellation()
+            hash.update(data: data)
+        }
+        return hash.finalize().map { String(format: "%02x", $0) }.joined()
     }
 
     private static func log(_ message: String) {
