@@ -1,0 +1,18 @@
+{
+  "notes": "R152 four-deck A10X trial. Two decks by default. Check A/C and B/D selection, load swipes, Sync, touch and sustained audio.",
+  "sourceCommit": "2ceb9d1a2c9a72f167642f81d47b1af2a1db65fc",
+  "sourceSHA256": "598c8d274c8e0367d7ec15f04c7473e39d800b8a67b4ca43d6a2ba522e22a180",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 61.58,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-214.log",
+  "build": 214,
+  "app": "TestBuilds/ipad/214/GenErikDJ.app",
+  "appSHA256": "8c125da33cc9e2deb5cd7cc108367beff091b7bb6a74722d5834123a895f5274",
+  "state": "testing",
+  "createdUTC": "2026-11-10T13:07:05.646635+00:00",
+  "installedUTC": "2026-11-10T13:07:36.974289+00:00",
+  "launchedUTC": "2026-11-10T13:07:37.435950+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
