@@ -1,6 +1,8 @@
 # R154 — Settings designed around DJ tasks
 
-Status: first implementation, 10 November 2026. Device acceptance is pending.
+Status: build 217 installed, 10 November 2026. iPadOS accepted launch. Device acceptance is pending.
+
+The incremental iPad compile, embedded-framework checks and signature checks passed. Build 216 was cancelled before installation while resolving a documentation merge. Its log and record are retained. Build 217 ran from committed consolidated main at `edb79975a`. No simulator, Mac packaging or broad test sweep ran.
 
 Erik requested implementation for real use instead of mockups. His rule applies in both directions: live adjustments belong in the utility drawer, while lasting choices belong in Settings. Loop sizing is the reference example.
 Feedback baseline: build 215, assumed from the latest recorded iPad install.

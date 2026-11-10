@@ -6,6 +6,8 @@ The [project north star](../product-direction.md) guides every feature. Clean, c
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**Build 217 (R154)** installed on the A10X, and iPadOS accepted launch. Settings now has six task groups. The deck utility panel separates live controls from lasting preferences and labels their scope. Check navigation, live adjustments, saved choices, audio and touch. [Scope and remaining refinements](settings-r154.md).
+
 **First on A10X (R155).** Test two decks in Mix mode with the original Z1. Start with crossfader return, then load a long unanalysed track while the other deck plays. Defer four decks and live stems until the two-deck baseline holds. [Test order and acceptance](completion-programme.md#first-test-on-the-a10x).
 
 **R139 analysis check:** The Mac app now corrects Untouched’s downbeat and Dune’s beat phase. Reference differences fell to 9 ms and 19 ms. All 180 fresh excerpts retained their scores, and all 574 earlier policy results retained playback timelines. Dune’s bar and physical device checks remain open. [Results and evidence](analysis-phase-r139.md).
