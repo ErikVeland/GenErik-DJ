@@ -36,4 +36,8 @@ The recovery worker requests one iPad Music item by its persistent identifier. T
 
 Each successful recovery retains the original failed attempt. The result and cloud payload become visible only after validation. The campaign can reconnect to an active analyser and wait for recovery before the full-library phase. Changed device identities and unavailable audio remain explicit review items.
 
-Fifteen focused Swift checks and eight campaign checks passed before device installation. These cover exact identity reads, cancellation, cloud admission, archive integrity and recovery publication. Device export and receipt still require verification.
+Fifteen focused Swift checks and eight campaign checks passed before device installation. These cover exact identity reads, cancellation, cloud admission, archive integrity and recovery publication.
+
+Build 220 installed on the A10X from `bdc57d76be61363d395c6c8d294a7e5421c87df0`. The signed Mac recovery app uses the same source. The original Mac batch remains on `eda78ac03` with the same analysis profile. The first recovery, “Blockbuster”, matched the saved iPad hash and all audio dimensions. The Mac completed its analysis and queued its revision. Evidence is under `source-proof/4268600258740691148` in the external run folder. Receipt of this revision still requires verification.
+
+The controller starts the recovery worker automatically. Both workers retain independent locks and checkpoints. Restart can reconnect to the original Mac batch without stopping it. The full-library phase remains queued behind iPad completion and receipt. The iPhone was unavailable at the latest check. No completion claim applies to the full inventory or every device.
