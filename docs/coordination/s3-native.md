@@ -45,3 +45,5 @@ The [Mixxx S3 mapping](https://github.com/mixxxdj/mixxx/blob/main/res/controller
 Preview reads ahead into a bounded stereo buffer. It feeds the headphones and stays out of the master mix and recording. The first EXT activation requires iPadOS microphone permission, an S3 input and output route, and paused decks. EXT feeds the master and recording mix, and D CUE feeds the headphones. Disconnect clears Preview and EXT.
 
 The playback engine has two source slots. Independent C/D need two more transport and mixer channels with their own streamed-source ownership, Sync alignment, recording attribution and route recovery. The outer D controls in this increment operate EXT. C/D playback and four-deck A10X performance verification remain open.
+
+Twenty-five focused controller and audio tests passed. [Build 179](../testing/builds/179.json) installed on the A10X iPad. iPadOS accepted launch. The S3 hardware remains unavailable for physical checks.

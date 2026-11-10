@@ -6,6 +6,8 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**Build 179** installed on the A10X iPad Pro, and iPadOS accepted launch. R114 adds S3 headphone Preview, EXT and the stereo master meter. Twenty-five focused host tests passed. C/D playback and physical S3 acceptance remain open. [Build record](../testing/builds/179.json) · [Scope and evidence](s3-native.md#r114-preview-ext-and-master-meter).
+
 **Build 178** installed on the A10X iPad Pro, and iPadOS accepted launch. R113 adds automatic S3 A/B controls and blue beat and amber track-end lights on the jog rings. Twenty-eight focused host tests passed. Physical S3 acceptance remains open. [Build record](../testing/builds/178.json) · [Mappings](s3-native.md).
 
 **Build 177** installed on the A10X iPad Pro, and iPadOS accepted launch. R112 adds S2 Mk3 Shift+Browse eject, Move loop roll and headphone GRID ticks. Thirty-four focused tests passed. This build also includes the R111 dark launch screen. Physical S2 Mk3 acceptance and cold-launch appearance remain open. [Build record](../testing/builds/177.json) · [Mappings](s2-mk3-native.md#r112-eject-loop-roll-and-grid-metronome).

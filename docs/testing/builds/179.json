@@ -1,0 +1,23 @@
+{
+  "notes": "R114 adds the S3 Preview Player, EXT input and stereo master meter.",
+  "sourceCommit": "0aeb3dc47d5feb1250520a0f1d4e9f6b242023cb",
+  "sourceSHA256": "a864b3487ccfb520d823743e509e1574351c1126efa6b22605a9c5d9e4e15acb",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 66.97,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-179.log",
+  "build": 179,
+  "app": "TestBuilds/ipad/179/GenErikDJ.app",
+  "appSHA256": "352596ad237a07e12591dc37ea542dd5c01b4506b4884a074699412cd5353806",
+  "state": "testing",
+  "createdUTC": "2026-11-10T00:23:11.049344+00:00",
+  "installedUTC": "2026-11-10T00:23:24.161241+00:00",
+  "launchedUTC": "2026-11-10T00:23:24.570194+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requests": [
+    "R114"
+  ],
+  "hostVerification": "25 focused controller and audio tests passed. Log: TestBuilds/r114/verified.log.",
+  "remainingVerification": "Physical S3 Preview, EXT mic and line routing, master meter response and A10X audio continuity. C/D playback remains open."
+}
