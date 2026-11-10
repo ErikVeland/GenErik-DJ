@@ -573,7 +573,7 @@ extension BrowserView {
                 }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .topLeading).clipped()
             }
             if let progress = model.analysisProgress {
-                LibraryAnalysisFooter(model: model, progress: progress)
+                LibraryAnalysisFooter(model: model, progress: progress, showsProgress: false)
             }
         }
     }
