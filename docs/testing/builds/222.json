@@ -1,0 +1,18 @@
+{
+  "notes": "R156: Apply up to 32 shared analysis revisions in one library save. Preserve manual preparation, loaded tracks and newer results. Verify automatic downloads resume beyond 412 receipts.",
+  "sourceCommit": "21543c1ee446b4e29f9d5e593c9d04e1294225d4",
+  "sourceSHA256": "7742f5ff542e710c312daeff19fe1b13c5b65c93e77cb4a37ad29ae514fb5060",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 97.02,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-222.log",
+  "build": 222,
+  "app": "TestBuilds/ipad/222/GenErikDJ.app",
+  "appSHA256": "6d8e657e55855c33f16e8a8674a4066661911480db505075ba472b8969a4251f",
+  "state": "testing",
+  "createdUTC": "2026-11-10T14:50:07.208282+00:00",
+  "installedUTC": "2026-11-10T14:50:21.418965+00:00",
+  "launchedUTC": "2026-11-10T14:50:21.989111+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}

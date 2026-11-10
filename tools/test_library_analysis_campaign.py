@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 from library_analysis_delivery import read_revision, stage
 from prepare_library_analysis import prepare
-from run_library_analysis_campaign import make_remaining, summary
+from run_library_analysis_campaign import make_remaining, summary, reviewed_failures
 from recover_library_analysis_sources import verify_source, publish
 
 
@@ -31,6 +31,18 @@ class CampaignTests(unittest.TestCase):
         path.with_suffix('.payload').write_bytes(b'changed')
         with self.assertRaises(ValueError):
             read_revision(path)
+
+    def test_full_phase_retains_exceptions_only_after_repeated_source_failures(self):
+        errors = [dict(id='7', error='decode failed')]
+        self.assertIsNone(reviewed_failures(self.root, errors))
+        work = self.root / 'source-recovery' / '7'
+        work.mkdir(parents=True)
+        record = dict(id='7', title='Unavailable track', error='decode failed', attempts=2)
+        (work / 'needs-review.json').write_text(json.dumps(record))
+        self.assertIsNone(reviewed_failures(self.root, errors))
+        record['attempts'] = 3
+        (work / 'needs-review.json').write_text(json.dumps(record))
+        self.assertEqual(reviewed_failures(self.root, errors), [record])
 
     def test_device_source_requires_matching_bytes_and_audio_dimensions(self):
         audio = self.root / 'source.caf'

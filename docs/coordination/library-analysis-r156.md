@@ -14,7 +14,7 @@ Results use the existing automatic CloudPreparation archive. They contain analys
 
 The signed Mac app uploads directly through the existing private CloudKit transport. It uses the same app identity and container as the iOS test app. It checks the signed-in account before each batch and validates every incoming archive. The worker never creates cloud confirmation markers. It reads actual confirmation markers on the receiving devices.
 
-The full-library phase waits until every iPad item has a successful result and the iPad has confirmed every generated revision. It then skips source files completed in the iPad run and processes the remaining local files. Offline devices retain pending delivery. Receiving a revision and adopting it into a currently loaded track are separate checks.
+The full-library phase waits until every iPad item has a successful result or three failed recovery attempts. The iPad must confirm every successful revision. Repeated failures remain in `ipad-unresolved.json` and do not count as successful analysis. The full phase skips source files completed in the iPad run and processes the remaining local files. Offline devices retain pending delivery. Receiving a revision and adopting it into a currently loaded track are separate checks.
 
 ## Evidence and limits
 
@@ -51,3 +51,5 @@ The receiver now groups up to 32 revisions and saves their deep results in one l
 Two older sharing tests failed on the unchanged baseline. One expected a missing completion date after the R159 legacy-date fallback. The other expected automatic full-grid adoption, which policy 14 requires users to review. Their fixtures now follow those established contracts. Both baseline failures remain in `TestBuilds/r156/cloud-sharing-baseline.log`.
 
 Mac recovery now keeps one analyser process open. A fresh “Blockbuster” run took 108.61 seconds under the active workload. The next run in the same process took 1.40 seconds. First-pass and deep results were identical except for completion time. This measures model setup reuse on one short track, not general library throughput. Evidence is under `service-proof` in the external run folder.
+
+Source recovery retries failed exports with a new request after five minutes. Three failed attempts produce an explicit exception for review. Prior requests and responses remain retained. The worker exits after the campaign starts the full-library phase. Nine campaign checks passed, including the repeated-failure gate.
