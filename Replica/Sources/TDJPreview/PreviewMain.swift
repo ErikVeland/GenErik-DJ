@@ -5,6 +5,29 @@ import TDJInterface
 
 @main struct PreviewMain {
     @MainActor static func main() async {
+        if CommandLine.arguments.count == 3, CommandLine.arguments[1] == "--library-catalog" {
+            do {
+                let catalog = try await LocalMusicLibrary().catalog()
+                let encoder = JSONEncoder()
+                encoder.outputFormatting = [.sortedKeys]
+                try encoder.encode(catalog).write(to: URL(fileURLWithPath: CommandLine.arguments[2]), options: .atomic)
+            } catch {
+                FileHandle.standardError.write(Data((error.localizedDescription + "\n").utf8))
+                exit(1)
+            }
+            return
+        }
+        if CommandLine.arguments.count == 4, CommandLine.arguments[1] == "--library-analysis" {
+            do {
+                try await MacLibraryAnalysis.run(
+                    manifestURL: URL(fileURLWithPath: CommandLine.arguments[2]),
+                    output: URL(fileURLWithPath: CommandLine.arguments[3], isDirectory: true))
+            } catch {
+                FileHandle.standardError.write(Data((error.localizedDescription + "\n").utf8))
+                exit(1)
+            }
+            return
+        }
         if CommandLine.arguments.count == 5, CommandLine.arguments[1] == "--key-candidate-audit" {
             do {
                 try await MacKeyCandidateAudit.run(

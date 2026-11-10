@@ -178,7 +178,7 @@ enum MacAnalysisAudit {
         try encoder.encode(report).write(to: output.appendingPathComponent("report.json"), options: .atomic)
     }
 
-    private static func digest(_ url: URL) throws -> String {
+    static func digest(_ url: URL) throws -> String {
         let file = try FileHandle(forReadingFrom: url)
         defer { try? file.close() }
         var hash = SHA256()
