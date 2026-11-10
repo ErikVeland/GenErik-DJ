@@ -127,11 +127,19 @@ enum DeepBeatAnalyzer {
         let beatTimes = BeatThisAnalyzer.peaks(beats)
         let constantCandidate = grid.map(DeepBeatCandidate.init)
         // Development references measured an 8 ms early bias. Keep this correction in review evidence only.
-        let adaptive = try DeepAdaptiveBeatCandidate.fit(
-            beats: DeepRhythmTiming.refinedPeaks(beats).map { $0 + 0.008 },
-            bars: DeepRhythmTiming.refinedPeaks(downbeats).map { $0 + 0.008 },
+        let refinedBeats = DeepRhythmTiming.refinedPeaks(beats).map { $0 + 0.008 }
+        let refinedBars = DeepRhythmTiming.refinedPeaks(downbeats).map { $0 + 0.008 }
+        let originalAdaptive = try DeepAdaptiveBeatCandidate.fit(
+            beats: refinedBeats, bars: refinedBars,
             sampleRate: checkpoints.analysis.sampleRate, frameCount: checkpoints.analysis.frameCount,
             checkCancellation: checkCancellation)
+        let adaptive = try originalAdaptive ?? DeepRhythmRecovery.fit(
+            beats: refinedBeats, bars: refinedBars, barLogits: downbeats,
+            sampleRate: checkpoints.analysis.sampleRate, frameCount: checkpoints.analysis.frameCount,
+            checkCancellation: checkCancellation)
+        if originalAdaptive == nil, adaptive != nil {
+            AnalysisMeasurement.current?.count("deepRhythmRecoveredCandidates", 1)
+        }
         let result = DeepBeatAnalysis(
             audio: .init(checkpoints.analysis), profile: checkpoints.profile,
             coveredFrames: checkpoints.analysis.frameCount, windowCount: checkpoints.starts.count,
@@ -143,7 +151,7 @@ enum DeepBeatAnalyzer {
             adaptiveCandidate: adaptive, learnedKey: try analyzeKey(),
             rhythmEvidence: try DeepRhythmEvidence.measure(
                 beats: beats, bars: downbeats, times: beatTimes, constant: constantCandidate,
-                adaptive: adaptive, checkCancellation: checkCancellation))
+                adaptive: originalAdaptive, checkCancellation: checkCancellation))
         try checkCancellation()
         try checkpoints.finish(result)
         return result

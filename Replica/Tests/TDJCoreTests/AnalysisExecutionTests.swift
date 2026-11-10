@@ -69,3 +69,13 @@ private enum ModelFailure: Error { case unsupported }
     #expect(throws: ModelFailure.self) { try session.prediction(checkCancellation: {}) { $0 } }
     #expect(loads == 2)
 }
+
+#if os(macOS)
+@Test func macForegroundCanUseAnAvailableNeuralEngine() {
+    let available = MLComputeDevice.allComputeDevices.contains {
+        if case .neuralEngine = $0 { return true }
+        return false
+    }
+    #expect(AnalysisExecution.supportsAcceleration == available)
+}
+#endif

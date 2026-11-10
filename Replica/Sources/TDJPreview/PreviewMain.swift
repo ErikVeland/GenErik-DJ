@@ -18,13 +18,14 @@ import TDJInterface
             return
         }
         if CommandLine.arguments.count == 4,
-            ["--analysis-audit", "--analysis-policy-audit"].contains(CommandLine.arguments[1])
+            ["--analysis-audit", "--analysis-policy-audit", "--analysis-cpu-audit"].contains(CommandLine.arguments[1])
         {
             do {
                 try await MacAnalysisAudit.run(
                     manifestURL: URL(fileURLWithPath: CommandLine.arguments[2]),
                     output: URL(fileURLWithPath: CommandLine.arguments[3], isDirectory: true),
-                    replayReport: CommandLine.arguments[1] == "--analysis-policy-audit")
+                    replayReport: CommandLine.arguments[1] == "--analysis-policy-audit",
+                    foregroundLibrary: CommandLine.arguments[1] != "--analysis-cpu-audit")
             } catch {
                 FileHandle.standardError.write(Data((error.localizedDescription + "\n").utf8))
                 exit(1)

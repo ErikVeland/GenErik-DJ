@@ -20,6 +20,7 @@ final class MusicalSpectrumAnalyzer {
     private var imaginary: [Double]
     private var magnitudes: [Double]
     private var previous: [Double]
+    private var prefix: [Double]
     private var window: [Double]
     private var samples = 0
     private var previousSum = 0.0
@@ -54,6 +55,7 @@ final class MusicalSpectrumAnalyzer {
         imaginary = ring
         magnitudes = .init(repeating: 0, count: size / 2)
         previous = magnitudes
+        prefix = .init(repeating: 0, count: size / 2 + 1)
         let windowSize = size
         window = (0..<windowSize).map { 0.5 - 0.5 * cos(2 * .pi * Double($0) / Double(windowSize - 1)) }
     }
@@ -67,32 +69,52 @@ final class MusicalSpectrumAnalyzer {
     }
 
     private func transform() {
-        for index in 0..<size {
-            real[index] = ring[(samples + index) % size] * window[index]
-            imaginary[index] = 0
-        }
-        real.withUnsafeMutableBufferPointer { reals in
-            imaginary.withUnsafeMutableBufferPointer { imaginaries in
-                var split = DSPDoubleSplitComplex(realp: reals.baseAddress!, imagp: imaginaries.baseAddress!)
-                vDSP_fft_zipD(setup, &split, 1, logSize, FFTDirection(FFT_FORWARD))
+        let sampleCount = samples
+        let transformSize = size
+        let rate = sampleRate
+        ring.withUnsafeBufferPointer { ring in
+            window.withUnsafeBufferPointer { window in
+                real.withUnsafeMutableBufferPointer { reals in
+                    imaginary.withUnsafeMutableBufferPointer { imaginaries in
+                        for index in 0..<transformSize {
+                            reals[index] = ring[(sampleCount + index) % transformSize] * window[index]
+                            imaginaries[index] = 0
+                        }
+                        var split = DSPDoubleSplitComplex(realp: reals.baseAddress!, imagp: imaginaries.baseAddress!)
+                        vDSP_fft_zipD(setup, &split, 1, logSize, FFTDirection(FFT_FORWARD))
+                    }
+                }
             }
         }
         var sum = 0.0
         var weightedFrequency = 0.0
         var flux = 0.0
-        var prefix = [Double](repeating: 0, count: size / 2 + 1)
-        for bin in 0..<(size / 2) {
-            let magnitude = hypot(real[bin], imaginary[bin])
-            magnitudes[bin] = magnitude
-            prefix[bin + 1] = prefix[bin] + magnitude
-            if bin == 0 { continue }
-            let frequency = Double(bin) * sampleRate / Double(size)
-            flux += max(0, magnitude - previous[bin])
-            previous[bin] = magnitude
-            sum += magnitude
-            weightedFrequency += frequency * magnitude
-            let band = [150.0, 400, 1000, 2500, 6000].firstIndex { frequency < $0 } ?? 5
-            bands[band] += magnitude
+        let thresholds = [150.0, 400, 1000, 2500, 6000]
+        real.withUnsafeBufferPointer { reals in
+            imaginary.withUnsafeBufferPointer { imaginaries in
+                magnitudes.withUnsafeMutableBufferPointer { magnitudes in
+                    previous.withUnsafeMutableBufferPointer { previous in
+                        prefix.withUnsafeMutableBufferPointer { prefix in
+                            bands.withUnsafeMutableBufferPointer { bands in
+                                prefix[0] = 0
+                                for bin in 0..<(transformSize / 2) {
+                                    let magnitude = hypot(reals[bin], imaginaries[bin])
+                                    magnitudes[bin] = magnitude
+                                    prefix[bin + 1] = prefix[bin] + magnitude
+                                    if bin == 0 { continue }
+                                    let frequency = Double(bin) * rate / Double(transformSize)
+                                    flux += max(0, magnitude - previous[bin])
+                                    previous[bin] = magnitude
+                                    sum += magnitude
+                                    weightedFrequency += frequency * magnitude
+                                    let band = thresholds.firstIndex { frequency < $0 } ?? 5
+                                    bands[band] += magnitude
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         guard sum > 1e-8 else {
             previousSum = 0
@@ -103,7 +125,9 @@ final class MusicalSpectrumAnalyzer {
         centroid += weightedFrequency / sum / (sampleRate / 2)
         activeFrames += 1
 
-        let strongest = magnitudes.max() ?? 0
+        let magnitudeValues = magnitudes
+        let cumulative = prefix
+        let strongest = magnitudeValues.max() ?? 0
         struct Peak {
             var frequency: Double
             var magnitude: Double
@@ -112,29 +136,29 @@ final class MusicalSpectrumAnalyzer {
         var peaks: [Peak] = []
         for bin in 2..<(size / 2 - 1) {
             let frequency = Double(bin) * sampleRate / Double(size)
-            guard frequency >= 35, frequency <= min(5000, sampleRate * 0.45), magnitudes[bin] > strongest * 0.004,
-                magnitudes[bin] >= magnitudes[bin - 1], magnitudes[bin] > magnitudes[bin + 1]
+            guard frequency >= 35, frequency <= min(5000, sampleRate * 0.45), magnitudeValues[bin] > strongest * 0.004,
+                magnitudeValues[bin] >= magnitudeValues[bin - 1], magnitudeValues[bin] > magnitudeValues[bin + 1]
             else { continue }
-            let left = log(max(magnitudes[bin - 1], 1e-20))
-            let center = log(max(magnitudes[bin], 1e-20))
-            let right = log(max(magnitudes[bin + 1], 1e-20))
+            let left = log(max(magnitudeValues[bin - 1], 1e-20))
+            let center = log(max(magnitudeValues[bin], 1e-20))
+            let right = log(max(magnitudeValues[bin + 1], 1e-20))
             let curvature = left - 2 * center + right
             let offset = abs(curvature) > 1e-12 ? min(0.5, max(-0.5, 0.5 * (left - right) / curvature)) : 0
             peaks.append(
                 .init(
-                    frequency: (Double(bin) + offset) * sampleRate / Double(size), magnitude: magnitudes[bin], bin: bin)
+                    frequency: (Double(bin) + offset) * sampleRate / Double(size), magnitude: magnitudeValues[bin], bin: bin)
             )
         }
         peaks.sort { $0.magnitude > $1.magnitude }
         if peaks.count > 60 { peaks.removeLast(peaks.count - 60) }
-        let captured = peaks.reduce(0.0) { $0 + magnitudes[$1.bin - 1] + magnitudes[$1.bin] + magnitudes[$1.bin + 1] }
+        let captured = peaks.reduce(0.0) { $0 + magnitudeValues[$1.bin - 1] + magnitudeValues[$1.bin] + magnitudeValues[$1.bin + 1] }
         guard captured / sum > 0.45 else { return }
         peaks.sort { $0.frequency < $1.frequency }
         var frameProfile = [Double](repeating: 0, count: 120)
         for (index, peak) in peaks.enumerated() {
             let low = max(1, Int(Double(peak.bin) / 1.3))
             let high = min(size / 2, Int(Double(peak.bin) * 1.3) + 1)
-            let envelope = (prefix[high] - prefix[low]) / Double(high - low)
+            let envelope = (cumulative[high] - cumulative[low]) / Double(high - low)
             var weight = sqrt(peak.magnitude / max(envelope, strongest * 0.001))
             for lower in peaks[..<index] where lower.magnitude > peak.magnitude * 0.4 {
                 let ratio = peak.frequency / lower.frequency

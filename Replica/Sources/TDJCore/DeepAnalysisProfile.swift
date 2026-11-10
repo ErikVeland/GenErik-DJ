@@ -30,11 +30,11 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public var rhythmCalibrationVersion: String? = nil
 
     public static let current = Self(
-        generation: 11, model: "BeatThis/final0",
+        generation: 12, model: "BeatThis/final0",
         weightsSHA256:
             "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331",
-        conversion: 1, preprocessing: 1, decisionPolicy: 11,
-        upgradeBenefit: "Refine review timing and estimate rhythm reliability from validated evidence.",
+        conversion: 1, preprocessing: 1, decisionPolicy: 12,
+        upgradeBenefit: "Recover consistent review grids from sparse missed beats and weaker extra bar peaks.",
         keyModelVersion: LearnedKeyProfile.current.id, rhythmCalibrationVersion: DeepRhythmCalibration.id)
 
     public var inferenceID: String {

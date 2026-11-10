@@ -30,12 +30,13 @@ enum MacAnalysisAudit {
         var sourceReportSHA256: String?
         var operatingSystem = ProcessInfo.processInfo.operatingSystemVersionString
         var automaticMacAccelerationEligible = AnalysisExecution.supportsAcceleration
+        var firstPassExecution: String?
         var deepProfile = DeepAnalysisProfile.current
         var manifest: AnalysisBenchmarkManifest
         var rows: [Row] = []
     }
 
-    static func run(manifestURL: URL, output: URL, replayReport: Bool = false) async throws {
+    static func run(manifestURL: URL, output: URL, replayReport: Bool = false, foregroundLibrary: Bool = true) async throws {
         let input = try Data(contentsOf: manifestURL)
         let previous = replayReport ? try JSONDecoder().decode(Report.self, from: input) : nil
         let manifest = try previous?.manifest ?? JSONDecoder().decode(AnalysisBenchmarkManifest.self, from: input)
@@ -56,6 +57,7 @@ enum MacAnalysisAudit {
         }
         try FileManager.default.createDirectory(at: output, withIntermediateDirectories: true)
         var report = Report(manifest: manifest)
+        report.firstPassExecution = replayReport ? "saved-first-pass" : (foregroundLibrary ? "foreground-library" : "cpu-comparison")
         let checkpointRoot = output.appendingPathComponent("checkpoints", isDirectory: true)
         if let previous {
             report.replayedRunID = previous.runID
@@ -81,7 +83,9 @@ enum MacAnalysisAudit {
                     analysis = saved.replacingWaveform([])
                 } else {
                     analysis = try await AnalysisMeasurement.$current.withValue(measure) {
-                        try await AnalysisWorker.shared.analyze(url: source)
+                        try await AnalysisExecution.$foregroundLibrary.withValue(foregroundLibrary) {
+                            try await AnalysisWorker.shared.analyze(url: source)
+                        }
                     }
                 }
                 guard analysis.contentSHA256 == expected.sha256 else {
