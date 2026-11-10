@@ -71,3 +71,17 @@ import Testing
     buttons[17] = 0
     #expect(controls.consume(buttons) == [.action(.jogTouchA, .a, 0)])
 }
+
+@Test @MainActor func s4MK3DriverKitOptInEnablesOnlyThePhysicalWiredDevice() throws {
+    let controller = try PlaybackController(offline: true)
+    let hardware = AudioOutputDevice(name: "Traktor Kontrol S4 MK3", wired: true)
+    controller.updateOutputDevice([hardware])
+    #expect(controller.automaticOutputDevice == nil)
+    controller.s4MK3DirectAudioEnabled = true
+    controller.updateOutputDevice([hardware])
+    #expect(controller.automaticOutputDevice == "S4 Mk3")
+    #expect(controller.outputRoute == .masterAndHeadphones)
+    controller.updateOutputDevice([.init(name: hardware.name, wired: false)])
+    #expect(controller.automaticOutputDevice == nil)
+    #expect(controller.outputRoute == .stereoMaster)
+}

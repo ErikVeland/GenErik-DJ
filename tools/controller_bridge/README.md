@@ -82,6 +82,14 @@ The companion Swift checks are `Replica/Scripts/check-controller-bridge.swift`, 
 
 The S4 Mk3 stays in native HID mode. A Linux host reads its control reports and sends its LED reports. The bridge presents USB MIDI and four-channel USB Audio to the iPad. GenErik DJ detects the bridge automatically, with no MIDI Learn or app settings.
 
+### Recommended board
+
+Choose a **Raspberry Pi 4 Model B, 2 GB**. Its USB-A ports use a separate host controller for the S4 Mk3. Its USB-C port can act as the gadget port to the iPad. This is the board to start with for hardware verification. The full S4 Mk3 setup remains untested. [Raspberry Pi 4 specifications](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/) · [Raspberry Pi USB hardware](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#usb) · [Buy in Australia](https://core-electronics.com.au/raspberry-pi-4-model-b-2gb.html)
+
+Use Raspberry Pi OS Lite on a microSD card. Follow Raspberry Pi's peripheral-mode instructions for the USB-C port. Use `dtoverlay=dwc2,dr_mode=peripheral` and let the GenErik script create the gadget. Use a powered USB hub between the iPad host adapter and the Pi to supply the Pi with power. Raspberry Pi documents its USB 3 Hub for this arrangement. Connect the separately powered S4 Mk3 to a Pi USB-A port. [Raspberry Pi OTG guide](https://pip-assets.raspberrypi.com/categories/685-app-notes-guides-whitepapers/documents/RP-009276-WP-1-Using%20OTG%20mode%20on%20Raspberry%20Pi%20SBCs) · [Raspberry Pi powered hub guidance](https://www.raspberrypi.com/news/usb-gadget-mode-in-raspberry-pi-os-ssh-over-usb/)
+
+### Configure the bridge
+
 Use a Linux board that can run a USB host and a high-speed USB device controller at the same time. The board needs the configfs MIDI and UAC2 gadget functions, ALSA USB audio support and `alsaloop` with libsamplerate support. Power the S4 Mk3 from its own supply.
 
 1. Connect the S4 Mk3 to the bridge's host port.

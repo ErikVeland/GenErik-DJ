@@ -2,9 +2,16 @@
     import TDJCore
 
     extension ReplicaModel {
+        public func useS4MK3DriverKit(_ connection: any S4MK3ReportConnection) {
+            guard s4MK3Bridge == nil else { return }
+            s4MK3DirectTransport = connection
+            s4MK3BridgeStatus = s4MK3WaitingStatus
+            playback.s4MK3DirectAudioEnabled = true
+        }
+
         func startS4MK3Bridge() {
             guard s4MK3Bridge == nil else { return }
-            let bridge = S4MK3BridgeConnection()
+            let bridge = s4MK3DirectTransport ?? S4MK3BridgeConnection()
             bridge.onReport = { [weak self] report in
                 guard let self else { return }
                 for event in s4MK3Controls.consume(report) { applyS4MK3Event(event) }
@@ -18,7 +25,7 @@
             switch event {
             case .native(.s3Preview(let held)):
                 if held {
-                    guard automaticOutputDevice == "S4 Mk3 Bridge" else { return }
+                    guard automaticOutputDevice == s4MK3AudioDevice else { return }
                     s4MK3Performance.ownsPreview = true
                 } else {
                     guard s4MK3Performance.ownsPreview else { return }
@@ -42,7 +49,7 @@
         }
 
         private func releaseS4MK3Bridge() {
-            s4MK3BridgeStatus = "Waiting for S4 Mk3 bridge."
+            s4MK3BridgeStatus = s4MK3WaitingStatus
             if s4MK3Performance.ownsPreview { stopS3Preview() }
             for deck in s4MK3Controls.touched {
                 applyTraktorDeckAction(deck.leftSide ? .jogTouchA : .jogTouchB, deck: deck, value: 0, quantized: false)
@@ -71,8 +78,8 @@
             guard let bridge = s4MK3Bridge else { return }
             bridge.poll()
             guard bridge.isReceiving, let snapshot = playbackSnapshot else { return }
-            if s4MK3BridgeStatus != "S4 Mk3 bridge controls connected." {
-                s4MK3BridgeStatus = "S4 Mk3 bridge controls connected."
+            if s4MK3BridgeStatus != s4MK3ConnectedStatus {
+                s4MK3BridgeStatus = s4MK3ConnectedStatus
             }
             var feedback = S4MK2Lights.Feedback()
             feedback.quantize = s4MK3Performance.quantize

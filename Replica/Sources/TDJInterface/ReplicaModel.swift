@@ -348,7 +348,11 @@ import TDJCore
         var s2Connection: NIControllerAccessoryConnection?
         var s3Connection: NIControllerAccessoryConnection?
         var s4Connection: NIControllerAccessoryConnection?
-        var s4MK3Bridge: S4MK3BridgeConnection?
+        var s4MK3Bridge: (any S4MK3ReportConnection)?
+        @ObservationIgnored var s4MK3DirectTransport: (any S4MK3ReportConnection)?
+        var s4MK3AudioDevice: String { s4MK3DirectTransport == nil ? "S4 Mk3 Bridge" : "S4 Mk3" }
+        var s4MK3ConnectedStatus: String { "\(s4MK3AudioDevice) controls connected." }
+        var s4MK3WaitingStatus: String { "Waiting for \(s4MK3AudioDevice)." }
         var s4MK3BridgeStatus = "Waiting for S4 Mk3 bridge."
         @ObservationIgnored var s4MK3Controls = S4MK3Controls()
         @ObservationIgnored var s4MK3Performance = S4MK2Performance()

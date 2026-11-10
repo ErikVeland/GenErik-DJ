@@ -4,9 +4,13 @@ struct AudioOutputDevice: Equatable, Sendable {
     let name: String
     let wired: Bool
 
+    private var normalizedName: String { name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() }
+
+    var isS4MK3Direct: Bool { wired && normalizedName == "traktor kontrol s4 mk3" }
+
     var automaticSplitOutputName: String? {
         guard wired else { return nil }
-        switch name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+        switch normalizedName {
         case "traktor kontrol z1": return "Z1"
         case "traktor kontrol s2 mk2": return "S2 Mk2"
         case "traktor kontrol s2 mk3": return "S2 Mk3"

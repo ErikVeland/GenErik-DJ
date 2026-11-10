@@ -27,6 +27,9 @@ import UIKit
             model = nil
             startupError = "Cannot open the workspace. Saved preparation is retained. \(error.localizedDescription)"
         }
+        #if S4_MK3_DRIVERKIT
+            model?.useS4MK3DriverKit(DirectS4MK3Client())
+        #endif
         if let model { ReplicaLifecycle.configureBackgroundLibraryAnalysis(model) }
     }
     var body: some Scene {

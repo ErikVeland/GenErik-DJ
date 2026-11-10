@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleExecutable</key><string>$(EXECUTABLE_NAME)</string>
+    <key>CFBundleIdentifier</key><string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleName</key><string>GenErik S4 Mk3</string>
+    <key>CFBundlePackageType</key><string>DEXT</string>
+    <key>CFBundleShortVersionString</key><string>1.0</string>
+    <key>CFBundleVersion</key><string>1</string>
+    <key>OSBundleUsageDescription</key><string>Connect the S4 Mk3 controls and lights to GenErik DJ.</string>
+    <key>IOKitPersonalities</key>
+    <dict>
+        <key>GenErikS4MK3</key>
+        <dict>
+            <key>CFBundleIdentifier</key><string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+            <key>CFBundleIdentifierKernel</key><string>com.apple.kpi.iokit</string>
+            <key>IOClass</key><string>IOUserService</string>
+            <key>IOUserClass</key><string>GenErikS4MK3</string>
+            <key>IOUserServerName</key><string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+            <key>IOProviderClass</key><string>IOUSBHostInterface</string>
+            <key>idVendor</key><integer>6092</integer>
+            <key>idProduct</key><integer>5920</integer>
+            <key>IOProbeScore</key><integer>9999</integer>
+            <key>bConfigurationValue</key><integer>1</integer>
+            <key>bInterfaceClass</key><integer>3</integer>
+            <key>bInterfaceNumber</key><integer>3</integer>
+            <key>UserClientProperties</key>
+            <dict>
+                <key>IOClass</key><string>IOUserUserClient</string>
+                <key>IOUserClass</key><string>GenErikS4MK3UserClient</string>
+            </dict>
+        </dict>
+    </dict>
+</dict>
+</plist>

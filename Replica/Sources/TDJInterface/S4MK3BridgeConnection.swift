@@ -2,7 +2,17 @@ import CoreMIDI
 import Foundation
 import TDJCore
 
-@MainActor final class S4MK3BridgeConnection {
+@MainActor public protocol S4MK3ReportConnection: AnyObject {
+    var isReceiving: Bool { get }
+    var onReport: (([UInt8]) -> Void)? { get set }
+    var onDisconnect: (() -> Void)? { get set }
+    func start()
+    func stop()
+    func poll()
+    func feedback(_ report: [UInt8])
+}
+
+@MainActor final class S4MK3BridgeConnection: S4MK3ReportConnection {
     static let deviceName = "GenErik S4 Mk3 Bridge"
 
     private let inbox = ControllerMIDIInbox()
@@ -114,7 +124,8 @@ import TDJCore
         destination = feedback
     }
 
-    func poll(now: ContinuousClock.Instant = .now) {
+    func poll() {
+        let now = ContinuousClock.now
         guard client != 0 else { return }
         let (frames, overflow, changed) = inbox.take()
         if changed { refresh() }
