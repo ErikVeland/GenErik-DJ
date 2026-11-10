@@ -211,3 +211,28 @@ func traktorPerformanceDecodesARealFiveTrackContainer() async throws {
     let current = core.renderOffline(frames: 4096)
     #expect(current.right[gated].allSatisfy { abs($0 - 0.3) < 0.01 })
 }
+
+@Test func traktorPerformanceStemSendsKeepTheDryPathAtNonUnityTempo() throws {
+    let core = try SampleTransport(sampleRate: 48_000, outputGain: 1)
+    func tone(_ left: Float, _ right: Float) throws -> PCMAsset {
+        let samples = (0..<48_000).flatMap { frame -> [Float] in
+            let wave = Float(sin(Double(frame) * 2 * .pi * 440 / 48_000))
+            return [wave * left, wave * right]
+        }
+        return try PCMAsset(interleavedStereo: samples, sampleRate: 48_000)
+    }
+    let silence = try tone(0, 0)
+    let stems = try PCMAsset(master: tone(0.2, 0.2), stems: [tone(0.2, 0), tone(0, 0.2), silence, silence])
+    let generation = try core.load(stems, deck: .a, grid: nil, synced: false, keylock: true)
+    try core.setFreeRate(0.85, deck: .a, generation: generation)
+    try core.play(deck: .a, generation: generation)
+    try core.setEffect(PerformanceEffect.gater.rawValue, slot: 0, x: 0, y: 1, enabled: true, deck: .a)
+    core.setStemSends(.a, generation: generation, levels: 0xffff00ff)
+    let audio = core.renderOffline(frames: 12_288)
+    let body = 4096..<12_288
+    let leftEnergy = audio.left[body].reduce(0.0) { $0 + Double($1 * $1) }
+    let rightEnergy = audio.right[body].reduce(0.0) { $0 + Double($1 * $1) }
+    #expect(rightEnergy / Double(body.count) > 0.012)
+    #expect(leftEnergy < rightEnergy * 0.75)
+    #expect(try #require(core.snapshot()).a.sourceFrame > 10_000)
+}
