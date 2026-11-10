@@ -6,6 +6,8 @@ from pathlib import Path
 import re
 import sys
 
+from traktor_factory_bridge import MODELS as FACTORY_MODELS
+
 
 LANGUAGE = "0x409"
 S4_MK3_PRODUCT = "GenErik S4 Mk3 Bridge"
@@ -14,6 +16,7 @@ MODULAR_PRODUCTS = {
     "x1-mk3": "GenErik X1 Mk3 Bridge",
     "s2-mk1": "GenErik S2 Mk1 Bridge",
     "s4-mk1": "GenErik S4 Mk1 Bridge",
+    **{key: model.gadget for key, model in FACTORY_MODELS.items()},
 }
 GADGETS = Path("/sys/kernel/config/usb_gadget")
 UDC_ROOT = Path("/sys/class/udc")
@@ -52,7 +55,9 @@ def setup(args):
     s4_mk3 = getattr(args, "s4_mk3", False)
     modular = getattr(args, "traktor", None)
     product = safe_text(S4_MK3_PRODUCT if s4_mk3 else MODULAR_PRODUCTS.get(modular, args.product), "Product")
-    has_audio = s4_mk3 or modular in {"z1-mk2", "s2-mk1", "s4-mk1"}
+    has_audio = s4_mk3 or modular in {"z1-mk2", "s2-mk1", "s4-mk1"} or (
+        modular in FACTORY_MODELS and FACTORY_MODELS[modular].audio
+    )
     serial = safe_text(args.serial, "Serial number")
     config_root = args.configfs_root
     gadget = config_root / args.name

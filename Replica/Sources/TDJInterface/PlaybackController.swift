@@ -918,7 +918,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             }
             let outputs = Self.currentAudioOutputs
             let device = automaticAudioDevice(outputs)
-            if device != "S3", device != "S4 Mk2", device != "S4 Mk3 Bridge", device != "S4 Mk3", device != "S4 Mk1 Bridge" { core.setPreviewGeneration(0) }
+            if device != "S3", device != "S4 Mk2", device != "S4 Mk3 Bridge", device != "S4 Mk3", device != "S4 Mk1 Bridge", device != "MX2 Bridge" { core.setPreviewGeneration(0) }
             handleOutputEvent(event, outputs: outputs) {
                 do { try startOutput() } catch {
                     guard Self.isS4Capture(requestedCaptureDevice) else { throw error }

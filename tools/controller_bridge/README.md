@@ -186,3 +186,23 @@ The relay finds the input and playback devices for the S4 Mk1. The first jog pre
 | 11 | 1 | Both | 0 disconnected, 1 connected, 3 app state request. |
 | 14 | 74 | Bridge to app | Control snapshot with its length and zero padding. |
 | 15 | 103 | App to bridge | 163 five-bit LED values after byte 0x80. |
+
+## X1 Mk1, X1 Mk2, F1, D2, Z2, S5, S8 and MX2
+
+Use the [Raspberry Pi 4 setup](#recommended-board) for these models. Use one controller per gadget. The app selects the factory profile when it finds the matching name. The Z2, S5, S8 and MX2 gadgets add four-channel audio. The other four gadgets carry MIDI only.
+
+1. Install `alsa-utils`. For X1 Mk1, install `python3-usb`. For D2, S5 or S8, also install `python3-usb` and `python3-pil` for the screens.
+2. Connect the controller to a USB-A host port on the Pi. Keep the controller in its native mode.
+3. Create the gadget with `configure_midi_gadget.py`. Pass the model key to `--traktor` along with the [gadget setup arguments](#configure-the-usb-midi-gadget).
+4. Run the relay with the same model key and the gadget's ALSA raw MIDI node.
+5. Connect the gadget port to the iPad. Check the model name in **Settings → Controllers**.
+
+Model keys are `x1-mk1`, `x1-mk2`, `f1`, `d2`, `z2`, `s5`, `s8` and `mx2`. This example uses the S8.
+
+```sh
+python3 tools/controller_bridge/traktor_factory_bridge.py s8 --midi /dev/snd/midiC1D0
+```
+
+The relay finds one matching control device. If more than one HID device matches, pass its control node with `--hidraw`. The original X1 uses USB directly and needs permission to claim its control interface. The relay returns the interface to the kernel when it exits.
+
+The four audio models use the controller's ALSA playback device. The D2, S5 and S8 screen worker draws track and deck status. A screen error does not stop control or audio. Physical tests of USB connection, sound, controls, lights and screens remain open. [Controller scope and references](../../docs/coordination/controller-coverage.md#r137-remaining-traktor-variants)
