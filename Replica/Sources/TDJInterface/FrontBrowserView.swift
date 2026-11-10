@@ -818,7 +818,7 @@ extension FrontBrowserView {
                         Text(entry.artist).font(.caption2).foregroundStyle(PerformancePalette.secondaryText).lineLimit(
                             1)
                     }.frame(maxWidth: .infinity, alignment: .leading)
-                    ForEach(DeckID.allCases, id: \.self) { deck in
+                    ForEach(DeckID.primary, id: \.self) { deck in
                         Button {
                             model.loadLibraryEntry(entry, deck: deck)
                         } label: {
@@ -884,7 +884,7 @@ extension FrontBrowserView {
     }
     /// Selection does not change the reference. Loading or explicit updates refresh the result list.
     fileprivate var recommendationKey: String {
-        let decks = DeckID.allCases.map { model.loaded[$0] ?? "-" }.joined(separator: ",")
+        let decks = DeckID.primary.map { model.loaded[$0] ?? "-" }.joined(separator: ",")
         return
             "\(recommendationSeed?.id ?? "-")|\(recommendationRefresh)|\(decks)|\(projectionToken)|\(collectionVersion)|\(model.browserHintsVersion)"
     }

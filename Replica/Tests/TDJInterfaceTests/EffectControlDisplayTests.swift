@@ -159,7 +159,7 @@ private final class EffectDisplayChanges: @unchecked Sendable {
     defer { try? FileManager.default.removeItem(at: root) }
     let model = try ReplicaModel(root: root, playback: PlaybackController(offline: true))
     let original = model.effectDisplay[.a, 1]
-    for deck in DeckID.allCases {
+    for deck in DeckID.primary {
         for slot in 0..<3 {
             model.effects[deck, default: [:]][slot] = .init(
                 kind: slot + 2, x: 0.2, y: 0.7, enabled: true, locked: true, delaySync: false)
@@ -175,7 +175,7 @@ private final class EffectDisplayChanges: @unchecked Sendable {
     #expect(EffectPadDisplayValue(original) == EffectPadDisplayValue())
     #expect(original.kind == 0 && !original.locked && original.delaySync == nil)
     model.effects = [:]
-    for deck in DeckID.allCases {
+    for deck in DeckID.primary {
         for slot in 0..<3 {
             #expect(EffectPadDisplayValue(model.effectDisplay[deck, slot]) == EffectPadDisplayValue())
             #expect(model.effectDisplay[deck, slot].kind == 0 && !model.effectDisplay[deck, slot].locked)

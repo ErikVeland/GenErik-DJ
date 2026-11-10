@@ -251,7 +251,7 @@
             for (slot, generation) in s2SampleSlots {
                 try? playback.triggerPad(slot, generation: generation, enabled: false)
             }
-            for deck in DeckID.allCases { endS2Grid(deck: deck, save: false) }
+            for deck in DeckID.primary { endS2Grid(deck: deck, save: false) }
             s2BrowserCommands.removeAll()
         }
     }

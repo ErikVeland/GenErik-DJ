@@ -22,32 +22,19 @@
         func applyNativeTraktorEvent(_ event: NativeTraktorEvent, isS3: Bool) {
             switch event {
             case .action(let action, let value):
-                if action == .jogA || action == .jogB {
-                    s2LastScratch[action.deck] = ProcessInfo.processInfo.systemUptime
-                } else if action.isMomentary && value == 0 {
-                    s2LastScratch[action.deck] = nil
-                }
-                if let slot = action.hotcueSlot {
-                    cue(slot: slot, deck: action.deck, quantized: isS3 || s2Quantize)
-                } else if action == .loopA || action == .loopB {
-                    toggleLoop(deck: action.deck, quantized: isS3 || s2Quantize)
-                } else {
-                    applyController(action, value: value)
-                }
+                applyTraktorDeckAction(action, deck: action.deck, value: value, quantized: isS3 || s2Quantize)
             case .pot(let action, let value):
-                let target =
-                    action == .filterA || action == .filterB
-                    ? (s2FXAmount[action.deck] ?? controllerValue(action))
-                    : controllerValue(action)
-                let pickedUp =
-                    isS3
-                    ? s3Takeover[action, default: .init()].shouldApply(input: value, target: target)
-                    : s2Takeover[action, default: .init()].shouldApply(input: value, target: target)
-                if pickedUp {
-                    if action == .filterA || action == .filterB {
-                        applyS2FXAmount(value, deck: action.deck, enabled: !isS3 || s3FXEnabled.contains(action.deck))
-                    } else {
-                        applyController(action, value: value, refreshMixer: false)
+                if isS3 {
+                    applyS3Pot(action, deck: action.deck, value: value)
+                } else {
+                    let filter = action == .filterA || action == .filterB
+                    let target = filter ? s2FXAmount[action.deck] ?? controllerValue(action) : controllerValue(action)
+                    if s2Takeover[action, default: .init()].shouldApply(input: value, target: target) {
+                        if filter {
+                            applyS2FXAmount(value, deck: action.deck, enabled: true)
+                        } else {
+                            applyController(action, value: value, refreshMixer: false)
+                        }
                     }
                 }
             case .deleteCue(let deck, let slot):
@@ -83,11 +70,18 @@
                 do { try playback.setPadGain(value) } catch { status = error.localizedDescription }
             case .fx(let choice, let decks):
                 for deck in DeckID.allCases where decks.contains(deck) {
+                    if isS3 && deck.transportIndex >= 2 {
+                        s3PendingFX[deck] = choice
+                        if playback.generations[deck] == nil || (deck == .d && playback.s3ExtEnabled) { continue }
+                    }
                     selectS2FX(choice, deck: deck, enabled: !isS3 || s3FXEnabled.contains(deck))
                 }
             case .fxToggle(let deck):
+                if deck == .d && playback.s3ExtEnabled { return }
                 if s3FXEnabled.remove(deck) == nil { s3FXEnabled.insert(deck) }
-                applyS2FXAmount(s2FXAmount[deck] ?? 0.5, deck: deck, enabled: s3FXEnabled.contains(deck))
+                if deck.transportIndex < 2 || playback.generations[deck] != nil {
+                    applyS2FXAmount(s2FXAmount[deck] ?? 0.5, deck: deck, enabled: s3FXEnabled.contains(deck))
+                }
             case .move(let deck, let detents, let shifted):
                 moveS3(deck: deck, detents: detents, shifted: shifted)
             case .loopSize(let deck, let detents, let shifted):
@@ -109,6 +103,16 @@
                 toggleS2Mic()
             case .quantize:
                 s2Quantize.toggle()
+            case .s3Layer(let deck):
+                s3Takeover[deck]?[deck.leftSide ? .tempoA : .tempoB] = nil
+            case .s3BendEnd(let deck):
+                resetControllerWheelJog(deck)
+            case .s3Action(let action, let deck, let value):
+                if deck != .d || !playback.s3ExtEnabled || value == 0 {
+                    applyTraktorDeckAction(action, deck: deck, value: value, quantized: true)
+                }
+            case .s3Pot(let action, let deck, let value):
+                applyS3Pot(action, deck: deck, value: value)
             case .s3Preview(let held):
                 if held {
                     stopS3Preview()
@@ -125,10 +129,30 @@
                 if playback.s3ExtEnabled {
                     s3EXTCue.toggle()
                     updateS3EXTMix()
+                } else if playback.generations[.d] != nil {
+                    applyController(.cueB, value: 1, targetDeck: .d)
                 }
             case .s3EXTLevel(let value, let trim):
                 if trim { s3EXTTrim = pow(4, 2 * value - 1) } else { s3EXTLevel = value }
                 if playback.s3ExtEnabled { updateS3EXTMix() }
+                else { applyS3Pot(trim ? .gainB : .levelB, deck: .d, value: value) }
+            }
+        }
+
+        private func applyTraktorDeckAction(
+            _ action: ControllerAction, deck: DeckID, value: Double, quantized: Bool
+        ) {
+            if action == .jogA || action == .jogB {
+                s2LastScratch[deck] = ProcessInfo.processInfo.systemUptime
+            } else if action.isMomentary && value == 0 {
+                s2LastScratch[deck] = nil
+            }
+            if let slot = action.hotcueSlot {
+                cue(slot: slot, deck: deck, quantized: quantized)
+            } else if action == .loopA || action == .loopB {
+                toggleLoop(deck: deck, quantized: quantized)
+            } else {
+                applyController(action, value: value, targetDeck: deck)
             }
         }
 
@@ -138,21 +162,21 @@
             for deck in DeckID.allCases {
                 guard let last = s2LastScratch[deck], now - last >= 0.06 else { continue }
                 s2LastScratch[deck] = nil
-                applyController(deck == .a ? .jogA : .jogB, value: 0.5)
+                applyController(deck.leftSide ? .jogA : .jogB, value: 0.5, targetDeck: deck)
             }
         }
 
         private func releaseS2Controls() {
             for deck in s2Controls.touched { applyController(deck == .a ? .jogTouchA : .jogTouchB, value: 0) }
             for deck in s2Controls.reversing { perform(.rate, deck: deck, value: 1) }
-            for deck in DeckID.allCases { resetControllerWheelJog(deck) }
+            for deck in DeckID.primary { resetControllerWheelJog(deck) }
             for deck in s2Controls.rolling {
                 setNativeTraktorRoll(deck: deck, held: false, quantized: s2Quantize)
             }
             releaseS2Extras()
             s2Controls = .init()
             s2Takeover.removeAll()
-            s2LastScratch.removeAll()
+            for deck in DeckID.primary { s2LastScratch[deck] = nil }
         }
 
         func refreshS2Lights() {
@@ -169,7 +193,7 @@
                 sampleDecks: s2Controls.samples, sampleSlots: Set(s2SampleSlots.keys),
                 playingSamples: playback.core.playingPads,
                 shifts: s2Controls.shifts, gridDecks: Set(s2Grids.keys),
-                fx: Set(DeckID.allCases.map { s2FX[$0] ?? .filter }), browser: browserVisible,
+                fx: Set(DeckID.primary.map { s2FX[$0] ?? .filter }), browser: browserVisible,
                 mic: playback.s2MicEnabled, quantize: s2Quantize)
             connection.send(
                 S2MK3Lights.report(

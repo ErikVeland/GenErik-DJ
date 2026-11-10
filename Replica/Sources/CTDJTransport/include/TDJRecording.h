@@ -21,6 +21,8 @@ void tdj_recording_stop(tdj_recording *ring);
 void tdj_recording_push(tdj_recording *ring, uint32_t frames, const float *left, const float *right);
 void tdj_recording_push_tracks(tdj_recording *ring, uint32_t frames, const float *left, const float *right,
                                const uint64_t generations[2], const uint32_t offsets[2]);
+void tdj_recording_push_decks(tdj_recording *ring, uint32_t frames, const float *left, const float *right,
+                              const uint64_t *generations, const uint32_t *offsets, unsigned decks);
 // Read the track events only after tdj_recording_stop has joined the producer.
 uint32_t tdj_recording_track_count(const tdj_recording *ring);
 bool tdj_recording_track(const tdj_recording *ring, uint32_t index, tdj_recorded_track *out);

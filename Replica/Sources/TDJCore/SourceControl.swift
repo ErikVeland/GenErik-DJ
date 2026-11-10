@@ -25,7 +25,7 @@ public enum SourceControl: Sendable {
     var command: tdj_command {
         var result = tdj_command()
         func deck(_ deck: DeckID, _ generation: UInt64) {
-            result.deck = deck == .a ? 0 : 1
+            result.deck = deck.transportIndex
             result.generation = generation
         }
         switch self {

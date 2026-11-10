@@ -10,7 +10,7 @@
 #include <time.h>
 #include <limits.h>
 
-#define POOL_BYTES ((uint64_t)TDJ_STREAM_BLOCK_COUNT * TDJ_STREAM_BLOCK_FRAMES * 8)
+#define POOL_BYTES(blocks) ((uint64_t)(blocks) * TDJ_STREAM_BLOCK_FRAMES * 8)
 #define TABLE_BLOCKS 240u
 #define HASH_SIZE 512u
 #define WORKER_OWNER UINTPTR_MAX
@@ -34,6 +34,7 @@ typedef struct {
 } request_mailbox;
 struct tdj_stream {
     int fd, input_latency, output_latency, seek_length;
+    unsigned pool_blocks, table_blocks;
     tdj_stream_read_frames decode;
     tdj_stream_release_reader release_decoder;
     void *decoder_context;
@@ -123,6 +124,9 @@ static tdj_asset *open_stream(const char *path, uint64_t frames, double rate, co
     tdj_asset *a = NULL;
     tdj_stream *s = NULL;
     bool reserved = false;
+    unsigned pool_blocks = config && config->reserved == TDJ_STREAM_COMPACT_POOL
+                               ? TDJ_STREAM_BLOCK_COUNT / 2 : TDJ_STREAM_BLOCK_COUNT;
+    uint64_t pool_bytes = POOL_BYTES(pool_blocks);
     if ((!path && !decode) || (decode && !release_decoder) || !frames || frames > INT64_MAX / 8 || !isfinite(rate) ||
         rate < 8000 || rate > 384000 || !config || !isfinite(config->output_rate) || config->output_rate < 8000 ||
         config->output_rate > 384000 || !isfinite(config->forward_seconds) || config->forward_seconds < 0 ||
@@ -143,11 +147,11 @@ static tdj_asset *open_stream(const char *path, uint64_t frames, double rate, co
     }
     uint64_t used = atomic_load(&global_bytes);
     do {
-        if (used > TDJ_STREAM_GLOBAL_PCM_BYTES - POOL_BYTES) {
+        if (used > TDJ_STREAM_GLOBAL_PCM_BYTES - pool_bytes) {
             status = TDJ_STREAM_CAPACITY;
             goto fail;
         }
-    } while (!atomic_compare_exchange_weak(&global_bytes, &used, used + POOL_BYTES));
+    } while (!atomic_compare_exchange_weak(&global_bytes, &used, used + pool_bytes));
     reserved = true;
     a = calloc(1, sizeof(*a));
     s = calloc(1, sizeof(*s));
@@ -156,6 +160,8 @@ static tdj_asset *open_stream(const char *path, uint64_t frames, double rate, co
         goto fail;
     }
     s->fd = fd;
+    s->pool_blocks = pool_blocks;
+    s->table_blocks = pool_blocks == TDJ_STREAM_BLOCK_COUNT ? TABLE_BLOCKS : TABLE_BLOCKS / 2;
     s->decode = decode;
     s->release_decoder = release_decoder;
     s->decoder_context = context;
@@ -177,12 +183,12 @@ static tdj_asset *open_stream(const char *path, uint64_t frames, double rate, co
     }
     if (!tdj_keylock_limits(config->output_rate, &s->input_latency, &s->output_latency, &s->seek_length))
         goto fail;
-    s->pool = malloc((size_t)POOL_BYTES);
+    s->pool = malloc((size_t)pool_bytes);
     if (!s->pool) {
         status = TDJ_STREAM_CAPACITY;
         goto fail;
     }
-    memset(s->pool, 0, (size_t)POOL_BYTES);
+    memset(s->pool, 0, (size_t)pool_bytes);
     s->test_io.fail_after_bytes = UINT64_MAX;
     a->stream = s;
     a->frames = frames;
@@ -200,7 +206,7 @@ fail:
     }
     free(a);
     if (reserved)
-        atomic_fetch_sub(&global_bytes, POOL_BYTES);
+        atomic_fetch_sub(&global_bytes, pool_bytes);
     if (error)
         *error = status;
     return NULL;
@@ -222,10 +228,11 @@ void tdj_stream_destroy(tdj_asset *a) {
         close(s->fd);
     if (s->release_decoder)
         s->release_decoder(s->decoder_context);
+    uint64_t pool_bytes = POOL_BYTES(s->pool_blocks);
     free(s->pool);
     free(s);
     a->stream = NULL;
-    atomic_fetch_sub(&global_bytes, POOL_BYTES);
+    atomic_fetch_sub(&global_bytes, pool_bytes);
 }
 uint64_t tdj_asset_request_prepare(tdj_asset *a, const tdj_stream_request *r) {
     if (!a || !a->stream || !valid_request(a, r))
@@ -489,11 +496,11 @@ static future_region make_future_region(tdj_asset *a, const tdj_stream_target *t
 int tdj_stream_future_capacity(tdj_asset *a, const tdj_stream_future *targets, unsigned count, uint32_t override) {
     if (!a || !a->stream)
         return TDJ_OK;
-    if (count > 4)
+    if (count > 8)
         return TDJ_SOURCE_CAPACITY;
     uint32_t frames =
         override ? override : atomic_load_explicit(&a->stream->maximum_output_frames, memory_order_acquire);
-    future_region regions[8];
+    future_region regions[16];
     unsigned n = 0;
     for (unsigned i = 0; i < count; i++) {
         const tdj_stream_future *future = &targets[i];
@@ -510,7 +517,7 @@ int tdj_stream_future_capacity(tdj_asset *a, const tdj_stream_future *targets, u
                                               future->continuing_timeline, frames);
         }
     }
-    block_interval envelopes[24];
+    block_interval envelopes[48];
     unsigned envelope_count = 0;
     for (unsigned i = 0; i < n; i++) {
         if (regions[i].fixed_count)
@@ -520,7 +527,7 @@ int tdj_stream_future_capacity(tdj_asset *a, const tdj_stream_future *targets, u
             envelopes[envelope_count++] = (block_interval){regions[i].envelope_first, regions[i].envelope_end};
     }
     uint64_t envelope_blocks = block_union(envelopes, envelope_count), sum = 0;
-    bool consumed[8] = {0};
+    bool consumed[16] = {0};
     for (unsigned i = 0; i < n; i++) {
         if (consumed[i])
             continue;
@@ -531,7 +538,7 @@ int tdj_stream_future_capacity(tdj_asset *a, const tdj_stream_future *targets, u
         }
         // Equal unbounded velocities preserve source offsets. Merge their
         // windows rather than assuming identical normal-rate paths diverge.
-        double first[8], end[8];
+        double first[16], end[16];
         unsigned members = 0;
         first[members] = regions[i].first;
         end[members++] = regions[i].end;
@@ -568,7 +575,7 @@ int tdj_stream_future_capacity(tdj_asset *a, const tdj_stream_future *targets, u
         merged += span_blocks(a, hi - lo + 2, 1);
         sum += fmin(merged, independent);
     }
-    return fmin(sum, envelope_blocks) <= TABLE_BLOCKS ? TDJ_OK : TDJ_SOURCE_CAPACITY;
+    return fmin(sum, envelope_blocks) <= a->stream->table_blocks ? TDJ_OK : TDJ_SOURCE_CAPACITY;
 }
 
 int32_t tdj_asset_plan_target(const tdj_asset *a, const tdj_stream_target *t, uint64_t request, uint64_t gen,
@@ -794,13 +801,13 @@ uint64_t tdj_stream_next_request(tdj_asset *a) {
 uint64_t tdj_stream_latest_request(tdj_asset *a) {
     return a && a->stream ? a->stream->consumer_request_serial : UINT64_MAX;
 }
-static bool add_blocks(uint64_t *ids, unsigned *count, const tdj_stream_request *r, bool optional) {
+static bool add_blocks(uint64_t *ids, unsigned *count, const tdj_stream_request *r, bool optional, unsigned limit) {
     for (unsigned i = 0; i < r->count; i++) {
         if ((r->ranges[i].priority != 0) != optional)
             continue;
         uint64_t first = r->ranges[i].first / TDJ_STREAM_BLOCK_FRAMES,
                  last = (r->ranges[i].end - 1) / TDJ_STREAM_BLOCK_FRAMES;
-        if (last - first >= TABLE_BLOCKS)
+        if (last - first >= limit)
             return false;
         for (uint64_t id = first; id <= last; id++) {
             bool found = false;
@@ -811,7 +818,7 @@ static bool add_blocks(uint64_t *ids, unsigned *count, const tdj_stream_request 
                 }
             if (found)
                 continue;
-            if (*count >= TABLE_BLOCKS)
+            if (*count >= limit)
                 return false;
             ids[(*count)++] = id;
         }
@@ -943,7 +950,7 @@ static int service_impl(tdj_asset *a, unsigned budget) {
     }
     uint64_t ids[TABLE_BLOCKS];
     unsigned count = 0;
-    if (!add_blocks(ids, &count, &s->live, false)) {
+    if (!add_blocks(ids, &count, &s->live, false, s->table_blocks)) {
         atomic_fetch_add(&s->capacity_failures, 1);
         return TDJ_STREAM_CAPACITY;
     }
@@ -957,7 +964,7 @@ static int service_impl(tdj_asset *a, unsigned budget) {
             if ((status == TDJ_STREAM_READY) != ready || status < 0)
                 continue;
             unsigned before = count;
-            if (!add_blocks(ids, &count, &t->request, false)) {
+            if (!add_blocks(ids, &count, &t->request, false, s->table_blocks)) {
                 count = before;
                 /* A producer-only preparation may lose admission as playback moves.
                    Report the revoked reservation instead of blocking live audio. */
@@ -970,10 +977,10 @@ static int service_impl(tdj_asset *a, unsigned budget) {
             }
         }
     unsigned mandatory = count;
-    (void)add_blocks(ids, &count, &s->live, true);
+    (void)add_blocks(ids, &count, &s->live, true, s->table_blocks);
     for (unsigned i = 0; i < TDJ_STREAM_MAX_TICKETS; i++)
         if (ticket_needs_ranges(s, &s->tickets[i]) && atomic_load(&s->tickets[i].status) >= 0)
-            (void)add_blocks(ids, &count, &s->tickets[i].request, true);
+            (void)add_blocks(ids, &count, &s->tickets[i].request, true, s->table_blocks);
     int table = s->bootstrap;
     if (table < 0)
         for (int i = 0; i < 3; i++)
@@ -995,7 +1002,7 @@ static int service_impl(tdj_asset *a, unsigned budget) {
             for (unsigned h = 0; h < HASH_SIZE; h++)
                 if (s->tables[i].keys[h])
                     used[s->tables[i].slots[h]] = true;
-    for (unsigned b = 0; b < TDJ_STREAM_BLOCK_COUNT; b++)
+    for (unsigned b = 0; b < s->pool_blocks; b++)
         if (s->block_valid[b])
             for (unsigned n = 0; n < count; n++)
                 if (s->block_ids[b] == ids[n]) {
@@ -1006,13 +1013,13 @@ static int service_impl(tdj_asset *a, unsigned budget) {
     unsigned ticket_mask = referenced_tickets(s);
     for (unsigned n = 0; n < count; n++) {
         int slot = -1;
-        for (unsigned b = 0; b < TDJ_STREAM_BLOCK_COUNT; b++)
+        for (unsigned b = 0; b < s->pool_blocks; b++)
             if (s->block_valid[b] && s->block_ids[b] == ids[n]) {
                 slot = (int)b;
                 break;
             }
         if (slot < 0 && reads < budget) {
-            for (unsigned b = 0; b < TDJ_STREAM_BLOCK_COUNT; b++)
+            for (unsigned b = 0; b < s->pool_blocks; b++)
                 if (!used[b]) {
                     slot = (int)b;
                     break;
@@ -1124,7 +1131,7 @@ void tdj_asset_stream_telemetry(const tdj_asset *a, tdj_stream_telemetry *out) {
     if (!a || !a->stream)
         return;
     const tdj_stream *s = a->stream;
-    out->resident_pcm_bytes = POOL_BYTES;
+    out->resident_pcm_bytes = POOL_BYTES(s->pool_blocks);
 #define COPY_COUNTER(name) out->name = atomic_load_explicit(&s->name, memory_order_relaxed)
     COPY_COUNTER(ready_table_serial);
     COPY_COUNTER(source_read_misses);

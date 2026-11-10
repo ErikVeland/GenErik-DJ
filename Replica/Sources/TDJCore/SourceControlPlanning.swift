@@ -37,9 +37,10 @@ extension SourceControl {
         var preservePending = state.jumpPending
         var alignmentBeat: Double?
         var alignmentTiming = state.timing
-        let other = snapshot[deck == .a ? .b : .a]
-        let entryBeat: Double? = other.synced && other.sourceBPM > 0 && other.phase == .playing
-            ? 0 : snapshot.clockRunning ? snapshot.masterBeat : nil
+        let hasReference = snapshot.deckIDs.contains {
+            $0 != deck && snapshot[$0].synced && snapshot[$0].sourceBPM > 0 && snapshot[$0].phase == .playing
+        }
+        let entryBeat: Double? = hasReference ? 0 : snapshot.clockRunning ? snapshot.masterBeat : nil
         switch self {
         case .tempo(let bpm): if state.synced, state.sourceBPM > 0 { target.speed = bpm / state.sourceBPM }
         case .freeRate(let rate, _, _): if !state.synced { target.speed = rate }

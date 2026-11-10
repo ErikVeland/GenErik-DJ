@@ -118,7 +118,7 @@ private func fixturePCM(_ url: URL) throws -> [Float] {
     await model.importFiles([source])
     let original = try #require(model.library.tracks.first)
     #expect(original.analysis.sampleRate == 44100 && original.analysis.frameCount == 705600)
-    for deck in DeckID.allCases { model.load(trackID: original.id, deck: deck) }
+    for deck in DeckID.primary { model.load(trackID: original.id, deck: deck) }
     await model.flushWrites()
     try await model.prepareLoadedWaveforms()
     let configured = try AudioRuntimeKeylockStress.manual60BPM.configuredFixture(original)
@@ -142,7 +142,7 @@ private func fixturePCM(_ url: URL) throws -> [Float] {
         await model.playback.flushSourcePreparations()
         model.refreshPlayback()
         observation.observe(model.playbackSnapshot)
-        for deck in DeckID.allCases {
+        for deck in DeckID.primary {
             #expect(model.playbackSnapshot?[deck].grid?.sampleRate == 44100)
             #expect(abs((model.playbackSnapshot?[deck].speed ?? 0) - bpm / 60) < 1e-9)
         }

@@ -14,10 +14,10 @@ public enum AudioRuntimeKeylockStress: String, Encodable, Sendable {
         guard self == .manual60BPM, let grid = configured.grid else { throw TransportError.invalid }
         // Both decks load the library entry before this manual stress preparation.
         await model.flushHistoryWrites()
-        for deck in DeckID.allCases { model.saveGrid(grid, deck: deck) }
+        for deck in DeckID.primary { model.saveGrid(grid, deck: deck) }
         await model.flushWrites()
         await model.flushHistoryWrites()
-        for deck in DeckID.allCases {
+        for deck in DeckID.primary {
             try model.playback.setSync(true, deck: deck)
             try model.playback.setKeylock(true, deck: deck)
         }

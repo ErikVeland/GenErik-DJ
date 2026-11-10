@@ -12,7 +12,7 @@ struct tdj_recording {
     _Atomic bool failed;
     tdj_recorded_track tracks[4096];
     uint32_t track_count;
-    uint64_t last_generation[2];
+    uint64_t last_generation[4];
     bool tracks_overflowed;
 };
 static void prepare_storage_pages(tdj_recording *r) {
@@ -57,7 +57,8 @@ void tdj_recording_start(tdj_recording *r) {
     atomic_store(&r->dropped, 0);
     atomic_store(&r->failed, false);
     r->track_count = 0;
-    r->last_generation[0] = r->last_generation[1] = 0;
+    for (unsigned i = 0; i < 4; ++i)
+        r->last_generation[i] = 0;
     r->tracks_overflowed = false;
     atomic_store_explicit(&r->gate, 1, memory_order_release);
 }
@@ -74,6 +75,10 @@ void tdj_recording_push(tdj_recording *r, uint32_t frames, const float *left, co
 }
 void tdj_recording_push_tracks(tdj_recording *r, uint32_t frames, const float *left, const float *right,
                                const uint64_t generations[2], const uint32_t offsets[2]) {
+    tdj_recording_push_decks(r, frames, left, right, generations, offsets, 2);
+}
+void tdj_recording_push_decks(tdj_recording *r, uint32_t frames, const float *left, const float *right,
+                              const uint64_t *generations, const uint32_t *offsets, unsigned decks) {
     unsigned expected = 1;
     if (!frames ||
         !atomic_compare_exchange_strong_explicit(&r->gate, &expected, 3, memory_order_acquire, memory_order_relaxed))
@@ -94,7 +99,7 @@ void tdj_recording_push_tracks(tdj_recording *r, uint32_t frames, const float *l
                 index = 0;
         }
         if (generations && offsets) {
-            for (unsigned i = 0; i < 2; ++i) {
+            for (unsigned i = 0; i < decks && i < 4; ++i) {
                 if (!generations[i] || offsets[i] >= frames || r->last_generation[i] == generations[i])
                     continue;
                 r->last_generation[i] = generations[i];

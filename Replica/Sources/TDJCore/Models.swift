@@ -271,7 +271,31 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
     }
 }
 
-public enum DeckID: String, Codable, CaseIterable, Sendable { case a, b }
+public enum DeckID: String, Codable, CaseIterable, Sendable {
+    case a, b, c, d
+
+    public static let primary: [Self] = [.a, .b]
+
+    public var transportIndex: Int32 {
+        switch self {
+        case .a: 0
+        case .b: 1
+        case .c: 2
+        case .d: 3
+        }
+    }
+
+    public var opposite: Self {
+        switch self {
+        case .a: .b
+        case .b: .a
+        case .c: .d
+        case .d: .c
+        }
+    }
+
+    public var leftSide: Bool { self == .a || self == .c }
+}
 
 public struct LibrarySnapshot: Codable, Equatable, Sendable {
     public var schemaVersion = 1

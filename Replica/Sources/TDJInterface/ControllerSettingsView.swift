@@ -423,13 +423,13 @@ extension ReplicaModel {
         if wasActive, restoreRate, playbackSnapshot?[deck].touchActive != true { perform(.rate, deck: deck, value: 1) }
     }
 
-    func controllerValue(_ action: ControllerAction) -> Double? {
+    func controllerValue(_ action: ControllerAction, targetDeck: DeckID? = nil) -> Double? {
+        let deck = targetDeck ?? action.deck
         if let slot = action.hotcueSlot {
-            guard let trackID = loaded[action.deck] else { return 0 }
+            guard let trackID = loaded[deck] else { return 0 }
             return performance.cues[trackID]?[slot] == nil ? 0 : 1
         }
         guard let snapshot = playbackSnapshot else { return nil }
-        let deck = action.deck
         let mixer = snapshot[deck].mixer
         switch action {
         case .playA, .playB: return snapshot[deck].phase == .playing ? 1 : 0
@@ -455,9 +455,11 @@ extension ReplicaModel {
         default: return nil
         }
     }
-    func applyController(_ action: ControllerAction, value: Double, refreshMixer: Bool = true) {
+    func applyController(
+        _ action: ControllerAction, value: Double, refreshMixer: Bool = true, targetDeck: DeckID? = nil
+    ) {
         guard value.isFinite, (0...1).contains(value) else { return }
-        let deck = action.deck
+        let deck = targetDeck ?? action.deck
         func mix(_ parameter: MixerParameter, value: Double, deck: DeckID = .a) {
             if submitMixer(parameter, value: value, deck: deck), refreshMixer { refreshPlayback() }
         }

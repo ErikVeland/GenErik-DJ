@@ -354,8 +354,11 @@ import TDJCore
         @ObservationIgnored var s3PreviewGeneration: UInt64 = 0
         @ObservationIgnored var s3PreviewPosition = 0.0
         @ObservationIgnored var s3PreviewFrames: Int64 = 0
-        @ObservationIgnored var s3Takeover: [ControllerAction: ControllerMIDITakeoverState] = [:]
-        @ObservationIgnored var s3FXEnabled: Set<DeckID> = [.a, .b]
+        @ObservationIgnored var s3Takeover: [DeckID: [ControllerAction: ControllerMIDITakeoverState]] = [:]
+        @ObservationIgnored var s3ExtraPots: [DeckID: [ControllerAction: Double]] = [:]
+        @ObservationIgnored var s3PrimedMixer: Set<DeckID> = []
+        @ObservationIgnored var s3PendingFX: [DeckID: S2MixerFX] = [:]
+        @ObservationIgnored var s3FXEnabled = Set(DeckID.allCases)
         @ObservationIgnored var s3JumpBeats: [DeckID: Double] = [:]
         var s2Controls = S2MK3Controls()
         var s2Takeover: [ControllerAction: ControllerMIDITakeoverState] = [:]
@@ -994,7 +997,7 @@ import TDJCore
         browserVisible = false
         selectedTrackID = nil
         let event = PerformanceEvent(
-            sessionID: sessionID, kind: .load, timestamp: Date(), fromTrackID: loaded[deck == .a ? .b : .a],
+            sessionID: sessionID, kind: .load, timestamp: Date(), fromTrackID: loaded[deck.opposite],
             toTrackID: trackID)
         prepareWaveform(track)
         let previous = playbackLoads
@@ -1008,7 +1011,7 @@ import TDJCore
                 try await playback.load(
                     track: preparedSourceTrack, store: store, deck: deck, sourceURL: sourceURL,
                     preparedAsset: preparedAsset, opening: opening,
-                    synced: (deck == .a ? mixerPreferences.syncA : mixerPreferences.syncB) ?? true,
+                    synced: syncPreference(deck),
                     committed: { [weak self = self] generation in
                         guard let self else { return }
                         var acceptedTrack = preparedSourceTrack
@@ -1025,6 +1028,9 @@ import TDJCore
                         self.committedPreparations[deck] = actual
                         self.committedTrackIDs[deck] = trackID
                         self.trackLoadFailures[deck] = nil
+                        #if os(iOS)
+                            if deck.transportIndex >= 2 { self.primeS3Mixer(deck) }
+                        #endif
                         self.playback.registerRecordingTrack(
                             deck: deck, generation: generation, artist: preparedSourceTrack.artist,
                             title: preparedSourceTrack.title)
@@ -1529,6 +1535,7 @@ import TDJCore
                     loadTokens[deck] = nil
                     loadPreparations[deck] = nil
                     committedPreparations[deck] = nil
+                    committedTrackIDs[deck] = nil
                     pendingLoadPlay.removeValue(forKey: deck)
                     trackLoadFailures[deck] = nil
                     loaded[deck] = nil
@@ -1683,7 +1690,7 @@ import TDJCore
             if parameter == .filterY, value.isFinite, (0...1).contains(value) {
                 if deck == .a {
                     mixerPreferences.filterResonanceA = value
-                } else {
+                } else if deck == .b {
                     mixerPreferences.filterResonanceB = value
                 }
             }
@@ -1703,13 +1710,26 @@ import TDJCore
             refreshSuggestions()
         } catch { status = error.localizedDescription }
     }
+    private func syncPreference(_ deck: DeckID) -> Bool {
+        switch deck {
+        case .a: mixerPreferences.syncA ?? true
+        case .b: mixerPreferences.syncB ?? true
+        case .c: mixerPreferences.syncC ?? true
+        case .d: mixerPreferences.syncD ?? true
+        }
+    }
     public func toggleSync(deck: DeckID) {
         guard let snapshot = playbackSnapshot else { return }
         let state = snapshot[deck]
         do {
             let enabled = !state.synced
             try playback.setSync(enabled, deck: deck)
-            if deck == .a { mixerPreferences.syncA = enabled } else { mixerPreferences.syncB = enabled }
+            switch deck {
+            case .a: mixerPreferences.syncA = enabled
+            case .b: mixerPreferences.syncB = enabled
+            case .c: mixerPreferences.syncC = enabled
+            case .d: mixerPreferences.syncD = enabled
+            }
             persistMixerPreferences()
             refreshPlayback()
         } catch { status = error.localizedDescription }

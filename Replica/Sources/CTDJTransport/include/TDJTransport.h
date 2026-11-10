@@ -12,6 +12,7 @@ extern "C" {
 typedef struct tdj_asset tdj_asset;
 typedef struct tdj_engine tdj_engine;
 
+#define TDJ_DECK_COUNT 4
 #define TDJ_LOAD 1
 #define TDJ_LOAD_RESET_IDLE_TEMPO 16
 #define TDJ_PLAY 2
@@ -112,6 +113,7 @@ typedef struct {
     tdj_asset *asset;
     tdj_beatgrid_map beatgrid;
     uint64_t preparation_ticket, preparation_ticket_b, preparation_generation_b;
+    uint64_t preparation_ticket_c, preparation_generation_c, preparation_ticket_d, preparation_generation_d;
 } tdj_command;
 
 typedef struct {
@@ -145,7 +147,8 @@ typedef struct {
     double sample_rate, master_bpm, master_beat;
     double crossfader, master_gain, monitor_gain, cue_blend;
     int32_t clock_running;
-    tdj_deck_snapshot a, b;
+    bool extra_decks;
+    tdj_deck_snapshot a, b, c, d;
 } tdj_snapshot;
 
 tdj_asset *tdj_asset_create(const float *interleaved_stereo, uint64_t frames, double sample_rate);
@@ -157,6 +160,7 @@ tdj_engine *tdj_engine_create(double sample_rate, double output_gain);
 // The metrics owner must outlive the returned engine. No clocks are added to the ordinary factory.
 tdj_engine *tdj_engine_create_keylock_traced(double sample_rate, double output_gain, tdj_callback_metrics *metrics);
 void tdj_engine_destroy(tdj_engine *engine);
+bool tdj_engine_prepare_extra_decks(tdj_engine *engine);
 // Call only with device output stopped. This never waits for the render consumer.
 int32_t tdj_engine_configure_maximum_output_frames(tdj_engine *engine, uint32_t frames);
 // With device output stopped, check CURRENT minimum coverage for playing/queued

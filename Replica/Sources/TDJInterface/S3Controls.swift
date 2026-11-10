@@ -30,6 +30,11 @@ struct S3Controls {
         (.highA, 0x25), (.midA, 0x27), (.lowA, 0x29), (.highB, 0x2b), (.midB, 0x2d), (.lowB, 0x2f),
         (.filterA, 0x39), (.filterB, 0x3b),
     ]
+    private static let outerPots: [(ControllerAction, DeckID, Int)] = [
+        (.levelA, .c, 0x03), (.gainA, .c, 0x0f), (.highA, .c, 0x1f), (.midA, .c, 0x21),
+        (.lowA, .c, 0x23), (.filterA, .c, 0x37),
+        (.highB, .d, 0x31), (.midB, .d, 0x33), (.lowB, .d, 0x35), (.filterB, .d, 0x3d),
+    ]
     private static let pads: [[ControllerAction]] = [
         [.hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A],
         [.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B],
@@ -46,7 +51,8 @@ struct S3Controls {
     private(set) var previewing: DeckID?
     private(set) var shifts: Set<DeckID> = []
     private(set) var samples: Set<DeckID> = []
-    private(set) var jogMode: Set<DeckID> = [.a, .b]
+    private(set) var jogMode = Set(DeckID.allCases)
+    private(set) var layers = DeckID.primary
     private(set) var touched: Set<DeckID> = []
     private(set) var bent: Set<DeckID> = []
     private(set) var reversing: Set<DeckID> = []
@@ -63,7 +69,15 @@ struct S3Controls {
                 guard value <= 4095, action != .master || !shifts.isEmpty,
                     previous.map({ Self.word($0, offset) != value }) ?? true
                 else { return nil }
-                return .pot(action, value == 2047 ? 0.5 : Double(value) / 4095)
+                let deck = action == .tempoA ? layers[0] : action == .tempoB ? layers[1] : action.deck
+                let position = value == 2047 ? 0.5 : Double(value) / 4095
+                return deck == action.deck ? .pot(action, position) : .s3Pot(action, deck, position)
+            }
+            for (action, deck, offset) in Self.outerPots {
+                let value = Self.word(bytes, offset)
+                if value <= 4095, previous.map({ Self.word($0, offset) != value }) ?? true {
+                    events.append(.s3Pot(action, deck, value == 2047 ? 0.5 : Double(value) / 4095))
+                }
             }
             for (offset, trim) in [(0x09, false), (0x15, true)] {
                 let value = Self.word(bytes, offset)
@@ -86,17 +100,44 @@ struct S3Controls {
             Self.delta(Int(bytes[offset - 1] >> shift & 15), Int(previous[offset - 1] >> shift & 15), modulus: 16)
         }
 
-        shifts = []
-        if held(1, 0x01) { shifts.insert(.a) }
-        if held(4, 0x02) { shifts.insert(.b) }
         var events: [NativeTraktorEvent] = []
+        for index in layers.indices {
+            let left = index == 0
+            let mode = left ? 2 : 5
+            let next: DeckID
+            if pressed(mode, left ? 0x02 : 0x04) {
+                next = left ? .a : .b
+            } else if pressed(mode, left ? 0x04 : 0x08) {
+                next = left ? .c : .d
+            } else { continue }
+            let old = layers[index]
+            guard old != next else { continue }
+            if touched.remove(old) != nil {
+                let action: ControllerAction = left ? .jogTouchA : .jogTouchB
+                events.append(old == action.deck ? .action(action, 0) : .s3Action(action, old, 0))
+            }
+            if bent.remove(old) != nil { events.append(.s3BendEnd(old)) }
+            if reversing.remove(old) != nil { events.append(.reverse(old, false)) }
+            if rolling.remove(old) != nil { events.append(.loopRoll(old, false)) }
+            if gridHeld.remove(old) != nil { events.append(.gridEnd(old)) }
+            if previewing == old {
+                previewing = nil
+                events.append(.s3Preview(false))
+            }
+            layers[index] = next
+            events.append(.s3Layer(next))
+        }
+        shifts = []
+        if held(1, 0x01) { shifts.insert(layers[0]) }
+        if held(4, 0x02) { shifts.insert(layers[1]) }
         if pressed(7, 0x04) { events.append(.s3EXT(shifted: !shifts.isEmpty)) }
         if pressed(8, 0x04) { events.append(.s3EXTCue) }
         for (mask, choice) in Self.fxButtons where pressed(8, mask) {
             if fxHeld.isEmpty { fxAssigned = false }
             fxHeld.append((mask, choice))
         }
-        for (deck, mask) in [(DeckID.a, UInt8(0x10)), (.b, 0x20)] where pressed(7, mask) {
+        for (deck, mask) in [(DeckID.a, UInt8(0x10)), (.b, 0x20), (.c, 0x08), (.d, 0x40)]
+        where pressed(7, mask) {
             if let choice = fxHeld.last?.1 {
                 events.append(.fx(choice, [deck]))
                 fxAssigned = true
@@ -107,11 +148,20 @@ struct S3Controls {
         let released = fxHeld.last(where: { !held(8, $0.0) })?.1
         fxHeld.removeAll { !held(8, $0.0) }
         if let released, fxHeld.isEmpty, !fxAssigned {
-            events.append(.fx(released, [.a, .b]))
+            events.append(.fx(released, Set(DeckID.allCases)))
         }
 
-        for (index, deck) in [DeckID.a, .b].enumerated() {
+        for (deck, action, offset, mask) in [
+            (DeckID.a, ControllerAction.cueA, 8, UInt8(0x01)), (.b, .cueB, 8, 0x02), (.c, .cueA, 7, 0x80),
+        ] where pressed(offset, mask) {
+            events.append(deck == action.deck ? .action(action, 1) : .s3Action(action, deck, 1))
+        }
+
+        for (index, deck) in layers.enumerated() {
             let left = index == 0
+            func mapped(_ action: ControllerAction, _ value: Double) -> NativeTraktorEvent {
+                deck == action.deck ? .action(action, value) : .s3Action(action, deck, value)
+            }
             let shifted = shifts.contains(deck)
             let top = left ? 1 : 4
             let mode = left ? 2 : 5
@@ -119,23 +169,22 @@ struct S3Controls {
             if pressed(mode, left ? 0x20 : 0x40) { samples.remove(deck) }
             if pressed(mode, left ? 0x40 : 0x80) { samples.insert(deck) }
             if pressed(transport, left ? 0x01 : 0x02) {
-                events.append(shifted ? .park(deck, atCue: false) : .action(left ? .playA : .playB, 1))
+                events.append(shifted ? .park(deck, atCue: false) : mapped(left ? .playA : .playB, 1))
             }
             if pressed(left ? 2 : 6, left ? 0x80 : 0x01) {
-                events.append(shifted ? .park(deck, atCue: true) : .action(left ? .cueReturnA : .cueReturnB, 1))
+                events.append(shifted ? .park(deck, atCue: true) : mapped(left ? .cueReturnA : .cueReturnB, 1))
             }
-            if pressed(mode, left ? 0x08 : 0x10) { events.append(.action(left ? .syncA : .syncB, 1)) }
-            if pressed(mode, left ? 0x10 : 0x20) { events.append(.action(left ? .keylockA : .keylockB, 1)) }
-            if pressed(8, left ? 0x01 : 0x02) { events.append(.action(left ? .cueA : .cueB, 1)) }
-            if pressed(9, left ? 0x04 : 0x20) { events.append(.action(left ? .loopA : .loopB, 1)) }
+            if pressed(mode, left ? 0x08 : 0x10) { events.append(mapped(left ? .syncA : .syncB, 1)) }
+            if pressed(mode, left ? 0x10 : 0x20) { events.append(mapped(left ? .keylockA : .keylockB, 1)) }
+            if pressed(9, left ? 0x04 : 0x20) { events.append(mapped(left ? .loopA : .loopB, 1)) }
 
             for (slot, action) in Self.pads[index].enumerated() {
                 let bit = slot + (left ? 1 : 2)
                 guard pressed(transport + bit / 8, UInt8(1 << (bit % 8))) else { continue }
                 if samples.contains(deck) {
-                    events.append(.samplePad(S2MK3Controls.sampleSlot(deck: deck, pad: slot), shifted: shifted))
+                    events.append(.samplePad(S2MK3Controls.sampleSlot(deck: left ? .a : .b, pad: slot), shifted: shifted))
                 } else {
-                    events.append(shifted ? .deleteCue(deck, slot) : .action(action, 1))
+                    events.append(shifted ? .deleteCue(deck, slot) : mapped(action, 1))
                 }
             }
 
@@ -200,7 +249,7 @@ struct S3Controls {
                 touched.contains(deck) && (!held(10, touchMask) || !jogMode.contains(deck) || gridPressed)
             if releaseTouch {
                 touched.remove(deck)
-                events.append(.action(touch, 0))
+                events.append(mapped(touch, 0))
             }
             if gridPressed {
                 gridHeld.insert(deck)
@@ -212,7 +261,7 @@ struct S3Controls {
             let inGrid = gridHeld.contains(deck)
             if !inGrid, !gridWasHeld, jogMode.contains(deck), pressed(10, touchMask) {
                 touched.insert(deck)
-                events.append(.action(touch, 1))
+                events.append(mapped(touch, 1))
             }
             guard !releaseTouch || inGrid else { continue }
             let offset = left ? 0x0e : 0x12
@@ -227,10 +276,10 @@ struct S3Controls {
                     let elapsed = ((wheel >> 10) - (last >> 10)) & 0x3fffff
                     guard elapsed > 0, elapsed <= 25_000 else { continue }
                     let rate = min(4, max(-4, Double(ticks) * 300 / Double(elapsed)))
-                    events.append(.action(left ? .jogA : .jogB, 0.5 + rate / 8))
+                    events.append(mapped(left ? .jogA : .jogB, 0.5 + rate / 8))
                 } else if !held(10, touchMask) || !jogMode.contains(deck) {
                     bent.insert(deck)
-                    events.append(.action(left ? .wheelJogA : .wheelJogB, min(1, max(0, 0.5 + Double(ticks) / 32))))
+                    events.append(mapped(left ? .wheelJogA : .wheelJogB, min(1, max(0, 0.5 + Double(ticks) / 32))))
                 }
             }
         }
@@ -251,7 +300,8 @@ enum S3Lights {
         snapshot: PlaybackSnapshot, sourceFrames: (a: UInt64?, b: UInt64?), cues: (a: Set<Int>, b: Set<Int>),
         controls: S3Controls = .init(), feedback: S2MK3Feedback = .init(), enabledFX: Set<DeckID> = [.a, .b],
         external: (enabled: Bool, cue: Bool) = (false, false),
-        master: (left: Double, right: Double, clipLeft: Bool, clipRight: Bool) = (0, 0, false, false)
+        master: (left: Double, right: Double, clipLeft: Bool, clipRight: Bool) = (0, 0, false, false),
+        extraFrames: [DeckID: UInt64] = [:], extraCues: [DeckID: Set<Int>] = [:]
     ) -> [[UInt8]] {
         var buttons = [UInt8](repeating: 0, count: 83)
         var meters = [UInt8](repeating: 0, count: 79)
@@ -271,7 +321,7 @@ enum S3Lights {
             buttons[0x3c + fx.rawValue] = fxPalette[fx.rawValue] + (feedback.fx.contains(fx) ? 3 : 1)
         }
         buttons[0x40] = 0x0c + (feedback.fx.contains(.filter) ? 3 : 1)
-        for (index, deck) in [DeckID.a, .b].enumerated() {
+        for (index, deck) in controls.layers.enumerated() {
             let state = snapshot[deck]
             let base = index * 0x19
             let playing = state.phase == .playing
@@ -284,18 +334,18 @@ enum S3Lights {
             buttons[base + 7] = white(feedback.browser)
             buttons[base + 8] = white(controls.gridHeld.contains(deck))
             buttons[base + 9] = white(controls.jogMode.contains(deck))
-            buttons[base + 0x0a] = white(true)
+            let primary = deck.transportIndex < 2
+            buttons[base + 0x0a] = white(primary)
+            buttons[base + 0x0b] = primary ? 0x0d : 0x0f
             buttons[base + 0x0c] = white(state.synced)
             buttons[base + 0x0d] = white(state.keylock)
-            buttons[base + 0x0e] = white(!samples)
-            buttons[base + 0x0f] = white(samples)
+            buttons[base + 0x0e] = primary ? white(!samples) : samples ? 0x0d : 0x0f
+            buttons[base + 0x0f] = primary ? white(samples) : samples ? 0x0f : 0x0d
             buttons[base + 0x10] = white(!playing && state.phase != .empty)
             buttons[base + 0x11] = playing ? 0x77 : 0x20
-            buttons[0x35 + index] = white(enabledFX.contains(deck))
-            buttons[0x39 + index] = state.mixer.cue ? 0xff : 0x04
-            let slots = index == 0 ? cues.a : cues.b
+            let slots = primary ? (deck == .a ? cues.a : cues.b) : extraCues[deck, default: []]
             for slot in 0..<8 {
-                let pad = S2MK3Controls.sampleSlot(deck: deck, pad: slot)
+                let pad = S2MK3Controls.sampleSlot(deck: index == 0 ? .a : .b, pad: slot)
                 buttons[base + 0x12 + slot] =
                     samples
                     ? (feedback.playingSamples & (1 << pad) != 0
@@ -303,14 +353,20 @@ enum S3Lights {
                     : (slots.contains(slot) ? 0x2f : 0)
             }
             let levels = ControllerPlaybackLights.levels(
-                state: state, frameCount: index == 0 ? sourceFrames.a : sourceFrames.b)
+                state: state, frameCount: primary ? (deck == .a ? sourceFrames.a : sourceFrames.b) : extraFrames[deck])
             let amber = palette(levels?.amber ?? 0, base: 0x10)
             let blue = palette((levels?.blue ?? 0) * (levels?.amber == nil ? 1 : 0.35), base: 0x2c)
             let ring = amber ?? blue ?? (playing ? 0x45 : 0)
             for segment in 0..<8 { buttons[0x43 + index * 8 + segment] = ring }
+        }
+        for (index, deck) in [DeckID.c, .a, .b, .d].enumerated() {
+            if deck == .d && external.enabled { continue }
+            let state = snapshot[deck]
+            buttons[0x34 + index] = white(enabledFX.contains(deck))
+            buttons[0x38 + index] = state.mixer.cue ? 0xff : 0x04
             let db = 20 * log10(max(1e-12, state.mixer.peak))
             for (segment, threshold) in [-40.0, -32, -26, -22, -18, -15, -12, -9, -6, -3, 0, 2, 4, 6, 9].enumerated() {
-                meters[0x10 + index * 0x0f + segment] = db >= threshold ? 0x7e : 0
+                meters[0x01 + index * 0x0f + segment] = db >= threshold ? 0x7e : 0
             }
         }
         return [buttons, meters]

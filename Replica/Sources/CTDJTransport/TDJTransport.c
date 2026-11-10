@@ -86,15 +86,18 @@ typedef struct {
 struct tdj_engine {
     double rate, gain, bpm, epoch_ticks;
     mixer mix;
-    performance_fx effects[2][3];
+    performance_fx effects[TDJ_DECK_COUNT][3];
     _Atomic double published_crossfader, published_master, published_monitor, published_cue_blend;
     uint64_t frame, epoch_frame, paired_frames;
     _Atomic uint64_t published_paired_frames;
     bool running, master_chosen;
     uint32_t maximum_output_frames;
-    deck decks[2];
-    tdj_keylock *keylocks[2];
-    dry_transition transitions[2];
+    int deck_count;
+    _Atomic bool extra_prepared, published_extra;
+    atomic_flag extra_allocating;
+    deck decks[TDJ_DECK_COUNT];
+    tdj_keylock *keylocks[TDJ_DECK_COUNT];
+    dry_transition transitions[TDJ_DECK_COUNT];
     tdj_command commands[COMMAND_CAPACITY];
     _Atomic unsigned command_write, command_read;
     tdj_message messages[MESSAGE_CAPACITY];
@@ -103,13 +106,29 @@ struct tdj_engine {
     _Atomic uint64_t snapshot_sequence, published_frame;
     _Atomic double published_bpm, published_beat;
     _Atomic int32_t published_running;
-    atomic_deck published[2];
-    stream_claim claims[TDJ_STREAM_MAX_TICKETS * 2];
+    atomic_deck published[TDJ_DECK_COUNT];
+    stream_claim claims[TDJ_STREAM_MAX_TICKETS * TDJ_DECK_COUNT];
     auxiliary_mix auxiliary;
     _Atomic bool master_meter_enabled;
     _Atomic double master_peak[2];
     _Atomic uint32_t master_clip[2];
 };
+
+static bool deck_active(const deck *d) { return d->state == TDJ_PLAYING || d->state == TDJ_QUEUED; }
+static bool any_deck_active(const tdj_engine *e) {
+    return deck_active(&e->decks[0]) || deck_active(&e->decks[1]) ||
+           (e->deck_count > 2 && (deck_active(&e->decks[2]) || deck_active(&e->decks[3])));
+}
+static bool asset_is_used(const tdj_engine *e, const tdj_asset *asset, int first, int end, int excluding) {
+    for (int i = first; i < end; ++i)
+        if (i != excluding && e->decks[i].asset == asset)
+            return true;
+    return false;
+}
+static bool valid_deck_command(const tdj_engine *e, int index) {
+    return index >= 0 && index < TDJ_DECK_COUNT &&
+           (index < 2 || atomic_load_explicit(&e->extra_prepared, memory_order_acquire));
+}
 
 // Two milliseconds suppresses measured transport edges without delaying controls.
 // Smoothstep is convex and has zero slope at both ends. It cannot add overshoot.
@@ -525,20 +544,27 @@ static unsigned future_targets(deck *d, double master, unsigned timeline, unsign
     return 2;
 }
 static int future_capacity(tdj_engine *e, int replacement, deck *proposed, double master, uint32_t maximum) {
-    tdj_asset *checked = NULL;
-    for (int i = 0; i < 2; i++) {
+    int decks = replacement >= e->deck_count ? TDJ_DECK_COUNT : e->deck_count;
+    tdj_asset *checked[TDJ_DECK_COUNT] = {0};
+    unsigned unique = 0;
+    for (int i = 0; i < decks; i++) {
         deck *candidate = i == replacement ? proposed : &e->decks[i];
         tdj_asset *asset = candidate->asset;
-        if (!asset || !asset->stream || asset == checked)
+        if (!asset || !asset->stream)
             continue;
-        checked = asset;
-        tdj_stream_future targets[4];
+        unsigned match = 0;
+        while (match < unique && checked[match] != asset)
+            ++match;
+        if (match < unique)
+            continue;
+        checked[unique++] = asset;
+        tdj_stream_future targets[2 * TDJ_DECK_COUNT];
         unsigned count = 0;
-        for (int j = 0; j < 2; j++) {
+        for (int j = 0; j < decks; j++) {
             deck *d = j == replacement ? proposed : &e->decks[j];
             if (d->asset == asset)
-                count += future_targets(d, master, d->state == TDJ_QUEUED ? (unsigned)j + 1 : 0, (unsigned)j + 4,
-                                        targets + count);
+                count += future_targets(d, master, d->state == TDJ_QUEUED ? (unsigned)j + 1 : 0,
+                                        (unsigned)j + TDJ_DECK_COUNT + 1, targets + count);
         }
         int status = tdj_stream_future_capacity(asset, targets, count, maximum);
         if (status != TDJ_OK)
@@ -567,7 +593,7 @@ static int stream_validate(tdj_engine *e, int index, deck *d, double master, uin
     return TDJ_OK;
 }
 static void release_deck_claims(tdj_engine *e, unsigned deck_index) {
-    for (unsigned n = 0; n < TDJ_STREAM_MAX_TICKETS * 2; n++) {
+    for (unsigned n = 0; n < TDJ_STREAM_MAX_TICKETS * (unsigned)e->deck_count; n++) {
         stream_claim *c = &e->claims[n];
         if (!c->asset)
             continue;
@@ -582,7 +608,7 @@ static void add_claim(tdj_engine *e, tdj_asset *asset, uint64_t ticket, unsigned
     if (!ticket || !asset || !asset->stream)
         return;
     stream_claim *slot = NULL;
-    for (unsigned n = 0; n < TDJ_STREAM_MAX_TICKETS * 2; n++) {
+    for (unsigned n = 0; n < TDJ_STREAM_MAX_TICKETS * (unsigned)e->deck_count; n++) {
         stream_claim *c = &e->claims[n];
         if (c->asset == asset && c->ticket == ticket) {
             slot = c;
@@ -622,17 +648,30 @@ static void anchor_clock(tdj_engine *e, double beat) {
 }
 static bool nearest_sync_position(deck *d, double beat, double *position);
 static bool align_synced_position(deck *d, double beat);
-static int start_deck(tdj_engine *e, deck *d, deck *other, uint64_t ticket, uint64_t generation) {
+static double reference_beats(deck *d, tdj_engine *e) {
+    if (d->loop_enabled || (d->touch_active && d->touch_end > d->touch_start))
+        return INFINITY;
+    if (d->map.count)
+        return deck_beat(d, d->asset->frames) - deck_beat(d, d->position);
+    return (d->asset->frames - d->position) * e->bpm / (60 * d->asset->rate * source_rate(e, d));
+}
+static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64_t generation) {
+    double reference = -1;
+    if (d->synced && d->bpm > 0)
+        for (int i = 0; i < e->deck_count; ++i) {
+            deck *candidate = &e->decks[i];
+            if (i != index && candidate->state == TDJ_PLAYING && candidate->synced && candidate->bpm > 0)
+                reference = fmax(reference, reference_beats(candidate, e));
+        }
     double proposed_bpm = (!e->running && !e->master_chosen && d->bpm > 0) ? deck_bpm(d) : e->bpm;
     if (d->keylock && !supported_deck_keylock(d, proposed_bpm))
         return TDJ_KEYLOCK_RANGE;
     deck starting = *d;
-    starting.state = d->synced && d->bpm > 0 && other->synced && other->bpm > 0 && other->state == TDJ_PLAYING
-                         ? TDJ_QUEUED : TDJ_PLAYING;
+    starting.state = reference >= 0 ? TDJ_QUEUED : TDJ_PLAYING;
     if ((starting.state == TDJ_QUEUED || e->running) &&
         !align_synced_position(&starting, starting.state == TDJ_QUEUED ? 0 : beat_now(e)))
         return TDJ_ALIGNMENT_UNAVAILABLE;
-    int stream_status = stream_validate(e, other == &e->decks[0] ? 1 : 0, &starting, proposed_bpm, ticket, generation);
+    int stream_status = stream_validate(e, index, &starting, proposed_bpm, ticket, generation);
     if (stream_status != TDJ_OK)
         return stream_status;
     if (starting.state == TDJ_QUEUED) {
@@ -640,16 +679,8 @@ static int start_deck(tdj_engine *e, deck *d, deck *other, uint64_t ticket, uint
         d->position = starting.position;
         double beat = beat_now(e);
         double bar = (floor(beat / 4) + 1) * 4;
-        double remaining_beats =
-            (other->asset->frames - other->position) * e->bpm / (60 * other->asset->rate * source_rate(e, other));
-        if (other->map.count && other->synced)
-            remaining_beats = deck_beat(other, other->asset->frames) - deck_beat(other, other->position);
-        // Performer preference: wait for a bar the reference can reach.
-        // If it ends earlier, use the next beat instead of waiting through the bar gap.
-        d->target = other->loop_enabled || (other->touch_active && other->touch_end > other->touch_start) ||
-                            bar - beat <= remaining_beats + 1e-9
-                        ? bar
-                        : floor(beat) + 1;
+        // Join on a bar if a reference can reach it. Otherwise use the next beat.
+        d->target = bar - beat <= reference + 1e-9 ? bar : floor(beat) + 1;
         d->state = TDJ_QUEUED;
     } else {
         if (!e->running) {
@@ -682,11 +713,12 @@ static void publish(tdj_engine *e) {
     atomic_store(&e->published_bpm, e->bpm);
     atomic_store(&e->published_beat, beat);
     atomic_store(&e->published_running, e->running);
+    atomic_store(&e->published_extra, e->deck_count > 2);
     atomic_store(&e->published_crossfader, e->mix.crossfader.target);
     atomic_store(&e->published_master, e->mix.master.target);
     atomic_store(&e->published_monitor, e->mix.monitor.target);
     atomic_store(&e->published_cue_blend, e->mix.cue_mix.target);
-    for (int i = 0; i < 2; ++i) {
+    for (int i = 0; i < e->deck_count; ++i) {
         deck *d = &e->decks[i];
         atomic_deck *p = &e->published[i];
         mixer_deck *m = &e->mix.decks[i];
@@ -767,6 +799,10 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
     if (!e)
         return NULL;
     e->rate = rate;
+    e->deck_count = 2;
+    atomic_init(&e->extra_prepared, false);
+    atomic_flag_clear(&e->extra_allocating);
+    atomic_init(&e->published_extra, false);
     e->gain = gain;
     e->bpm = 120;
     mixer_init(&e->mix, rate, gain);
@@ -790,14 +826,9 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
     atomic_init(&e->published_bpm, 120);
     atomic_init(&e->published_beat, 0);
     atomic_init(&e->published_running, 0);
-    for (int i = 0; i < 2; ++i) {
-        e->keylocks[i] = tdj_keylock_create(rate);
-        if (!e->keylocks[i]) {
-            for (int j = 0; j < i; ++j)
-                tdj_keylock_destroy(e->keylocks[j]);
-            free(e);
-            return NULL;
-        }
+    for (int i = 0; i < TDJ_DECK_COUNT; ++i) {
+        e->decks[i].free_rate = 1;
+        e->decks[i].performance_rate = 1;
         atomic_deck *p = &e->published[i];
         atomic_init(&p->generation, 0);
         atomic_init(&p->last_start, 0);
@@ -834,7 +865,7 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
         atomic_init(&p->loop_end, 0);
         atomic_init(&p->continuing, 0);
         atomic_init(&p->performance_rate, 1);
-        atomic_init(&p->volume, 1);
+        atomic_init(&p->volume, i < 2 ? 1 : 0);
         atomic_init(&p->gain, 1);
         atomic_init(&p->low, 1);
         atomic_init(&p->mid, 1);
@@ -848,23 +879,55 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
         atomic_init(&p->rate, 1);
         atomic_init(&p->lead, 0);
     }
-    for (int i = 0; i < 2; i++)
-        for (int slot = 0; slot < 3; slot++) {
+    atomic_flag_clear(&e->render_busy);
+    for (int i = 0; i < 2; ++i) {
+        e->keylocks[i] = tdj_keylock_create(rate);
+        if (!e->keylocks[i]) {
+            tdj_engine_destroy(e);
+            return NULL;
+        }
+        for (int slot = 0; slot < 3; ++slot)
             if (!fx_init(&e->effects[i][slot], rate)) {
-                for (int d = 0; d < 2; d++) {
-                    tdj_keylock_destroy(e->keylocks[d]);
-                    for (int k = 0; k < 3; k++)
-                        fx_destroy(&e->effects[d][k]);
-                }
-                free(e);
+                tdj_engine_destroy(e);
                 return NULL;
             }
-        }
-    atomic_flag_clear(&e->render_busy);
-    e->decks[0].free_rate = e->decks[1].free_rate = 1;
-    e->decks[0].performance_rate = e->decks[1].performance_rate = 1;
+    }
     publish(e);
     return e;
+}
+
+// The serial control producer prepares C/D before submitting any commands for them.
+bool tdj_engine_prepare_extra_decks(tdj_engine *e) {
+    if (atomic_load_explicit(&e->extra_prepared, memory_order_acquire))
+        return true;
+    if (atomic_flag_test_and_set_explicit(&e->extra_allocating, memory_order_acquire))
+        return atomic_load_explicit(&e->extra_prepared, memory_order_acquire);
+    if (atomic_load_explicit(&e->extra_prepared, memory_order_acquire)) {
+        atomic_flag_clear_explicit(&e->extra_allocating, memory_order_release);
+        return true;
+    }
+    for (int i = 2; i < TDJ_DECK_COUNT; ++i) {
+        e->keylocks[i] = tdj_keylock_create(e->rate);
+        if (!e->keylocks[i])
+            goto failed;
+        for (int slot = 0; slot < 3; ++slot)
+            if (!fx_init(&e->effects[i][slot], e->rate))
+                goto failed;
+    }
+    atomic_store_explicit(&e->extra_prepared, true, memory_order_release);
+    atomic_flag_clear_explicit(&e->extra_allocating, memory_order_release);
+    return true;
+failed:
+    for (int i = 2; i < TDJ_DECK_COUNT; ++i) {
+        tdj_keylock_destroy(e->keylocks[i]);
+        e->keylocks[i] = NULL;
+        for (int slot = 0; slot < 3; ++slot) {
+            fx_destroy(&e->effects[i][slot]);
+            memset(&e->effects[i][slot], 0, sizeof(e->effects[i][slot]));
+        }
+    }
+    atomic_flag_clear_explicit(&e->extra_allocating, memory_order_release);
+    return false;
 }
 // Used only by the diagnostic factory before the engine is returned to its owner.
 void tdj_engine_attach_keylock_trace(tdj_engine *e, const tdj_keylock_trace *trace) {
@@ -877,12 +940,12 @@ void tdj_engine_attach_keylock_trace(tdj_engine *e, const tdj_keylock_trace *tra
 void tdj_engine_destroy(tdj_engine *e) {
     if (!e)
         return;
-    for (unsigned i = 0; i < TDJ_STREAM_MAX_TICKETS * 2; i++)
+    for (unsigned i = 0; i < TDJ_STREAM_MAX_TICKETS * TDJ_DECK_COUNT; i++)
         if (e->claims[i].asset)
             tdj_stream_release_claim(e->claims[i].asset, e->claims[i].ticket);
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < e->deck_count; i++)
         tdj_stream_detach(e->decks[i].asset, e);
-    for (int i = 0; i < 2; ++i) {
+    for (int i = 0; i < TDJ_DECK_COUNT; ++i) {
         tdj_keylock_destroy(e->keylocks[i]);
         for (int k = 0; k < 3; k++)
             fx_destroy(&e->effects[i][k]);
@@ -901,7 +964,7 @@ int32_t tdj_engine_configure_maximum_output_frames(tdj_engine *e, uint32_t frame
         return capacity;
     }
     e->maximum_output_frames = frames;
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < e->deck_count; i++)
         tdj_stream_set_maximum_output_frames(e->decks[i].asset, frames);
     atomic_flag_clear_explicit(&e->render_busy, memory_order_release);
     return TDJ_OK;
@@ -913,7 +976,7 @@ int32_t tdj_engine_output_sources_ready(tdj_engine *e) {
     if (atomic_flag_test_and_set_explicit(&e->render_busy, memory_order_acquire))
         return TDJ_PROTECTED;
     int result = TDJ_OK;
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < e->deck_count; i++) {
         deck *d = &e->decks[i];
         if (!d->asset || !d->asset->stream || (d->state != TDJ_PLAYING && d->state != TDJ_QUEUED))
             continue;
@@ -1043,13 +1106,29 @@ static void cancel_recovery(tdj_engine *e, int index) {
     d->recovery_active = false;
     d->recovery_mix = false;
     d->recovery_mixing = false;
-    deck *other = &e->decks[1 - index];
+    deck *other = &e->decks[(index ^ 1)];
     if (other->recovery_mix) {
         other->recovery_mix = false;
         other->recovery_mixing = false;
     }
 }
 
+static uint64_t tempo_ticket(tdj_command c, int i) {
+    switch (i) {
+    case 0: return c.preparation_ticket;
+    case 1: return c.preparation_ticket_b;
+    case 2: return c.preparation_ticket_c;
+    default: return c.preparation_ticket_d;
+    }
+}
+static uint64_t tempo_generation(tdj_command c, int i) {
+    switch (i) {
+    case 0: return c.generation;
+    case 1: return c.preparation_generation_b;
+    case 2: return c.preparation_generation_c;
+    default: return c.preparation_generation_d;
+    }
+}
 static int apply(tdj_engine *e, tdj_command c) {
     if (c.kind == TDJ_PAD_GAIN) {
         if (!isfinite(c.value) || c.value < 0 || c.value > 1)
@@ -1088,7 +1167,7 @@ static int apply(tdj_engine *e, tdj_command c) {
     }
     if (c.kind == TDJ_FX) {
         int slot = c.flag >> 8, kind = c.flag & 127;
-        if (c.deck < 0 || c.deck > 1 || slot < 0 || slot > 2 || kind < 0 || kind >= TDJ_EFFECT_COUNT ||
+        if (!valid_deck_command(e, c.deck) || slot < 0 || slot > 2 || kind < 0 || kind >= TDJ_EFFECT_COUNT ||
             !isfinite(c.value) || c.value < 0 || c.value > 1 || !isfinite(c.value2) || c.value2 < 0 || c.value2 > 1 ||
             (c.value3 != 0 && c.value3 != 1))
             return TDJ_INVALID;
@@ -1107,7 +1186,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         return TDJ_OK;
     }
     if (c.kind == TDJ_MIXER) {
-        if (!isfinite(c.value) || c.deck < 0 || c.deck > 1)
+        if (!isfinite(c.value) || !valid_deck_command(e, c.deck))
             return TDJ_INVALID;
         mixer *m = &e->mix;
         mixer_deck *d = &m->decks[c.deck];
@@ -1179,15 +1258,15 @@ static int apply(tdj_engine *e, tdj_command c) {
     if (c.kind == TDJ_TEMPO) {
         if (!isfinite(c.value) || c.value <= 0 || c.value > 1000)
             return TDJ_INVALID;
-        for (int i = 0; i < 2; ++i) {
+        for (int i = 0; i < e->deck_count; ++i) {
             deck *d = &e->decks[i];
             if (d->asset && d->keylock && d->synced && d->bpm > 0 && !supported_deck_keylock(d, c.value))
                 return TDJ_KEYLOCK_RANGE;
         }
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < e->deck_count; i++)
             if (e->decks[i].asset) {
-                uint64_t ticket = i == 0 ? c.preparation_ticket : c.preparation_ticket_b;
-                uint64_t generation = i == 0 ? c.generation : c.preparation_generation_b;
+                uint64_t ticket = tempo_ticket(c, i);
+                uint64_t generation = tempo_generation(c, i);
                 if (ticket && generation != e->decks[i].generation)
                     return TDJ_STALE;
                 int status = stream_validate(e, i, &e->decks[i], c.value, ticket, e->decks[i].generation);
@@ -1212,7 +1291,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         tdj_microphone_set_enabled(e, false);
         advance_clock_epoch(e);
         e->running = false;
-        for (int i = 0; i < 2; ++i) {
+        for (int i = 0; i < e->deck_count; ++i) {
             deck *d = &e->decks[i];
             if (d->state == TDJ_QUEUED)
                 d->position = d->queued_origin;
@@ -1229,9 +1308,9 @@ static int apply(tdj_engine *e, tdj_command c) {
         }
         return TDJ_OK;
     }
-    if (c.deck < 0 || c.deck > 1)
+    if (!valid_deck_command(e, c.deck))
         return TDJ_INVALID;
-    deck *d = &e->decks[c.deck], *other = &e->decks[1 - c.deck];
+    deck *d = &e->decks[c.deck], *other = &e->decks[(c.deck ^ 1)];
     if (c.kind == TDJ_LOAD) {
         if (d->state == TDJ_PLAYING || d->state == TDJ_QUEUED)
             return TDJ_PROTECTED;
@@ -1259,9 +1338,13 @@ static int apply(tdj_engine *e, tdj_command c) {
             proposed.map = c.beatgrid;
         }
         bool choose_on_play = !e->running && !e->master_chosen;
-        bool reset_tempo = (c.flag & TDJ_LOAD_RESET_IDLE_TEMPO) && !e->running && other->state != TDJ_PLAYING &&
-                           other->state != TDJ_QUEUED && proposed.bpm > 0 && proposed.bpm <= 1000 &&
-                           (!other->keylock || !other->synced || supported_deck_keylock(other, proposed.bpm));
+        bool reset_tempo = (c.flag & TDJ_LOAD_RESET_IDLE_TEMPO) && !e->running && !any_deck_active(e) &&
+                           proposed.bpm > 0 && proposed.bpm <= 1000;
+        for (int i = 0; reset_tempo && i < e->deck_count; ++i) {
+            deck *existing = &e->decks[i];
+            if (i != c.deck && existing->keylock && existing->synced && !supported_deck_keylock(existing, proposed.bpm))
+                reset_tempo = false;
+        }
         if (proposed.keylock) {
             double master = reset_tempo ? proposed.bpm : choose_on_play ? deck_bpm(&proposed) : e->bpm;
             if (!supported_deck_keylock(&proposed, master) ||
@@ -1269,7 +1352,7 @@ static int apply(tdj_engine *e, tdj_command c) {
                  !supported_keylock_rate(master / proposed.bpm)))
                 return TDJ_KEYLOCK_RANGE;
         }
-        bool already = d->asset == c.asset || other->asset == c.asset;
+        bool already = asset_is_used(e, c.asset, 0, e->deck_count, -1);
         int attachment = tdj_stream_attach(c.asset, e);
         if (attachment != TDJ_OK)
             return attachment;
@@ -1285,12 +1368,15 @@ static int apply(tdj_engine *e, tdj_command c) {
         }
         release_deck_claims(e, (unsigned)c.deck);
         if (d->asset) {
-            if (other->asset != d->asset && c.asset != d->asset)
+            if (c.asset != d->asset && !asset_is_used(e, d->asset, 0, e->deck_count, c.deck))
                 tdj_stream_detach(d->asset, e);
             message(e, 0, d->generation, TDJ_RETIRED);
         }
-        e->paired_frames = 0;
+        if (c.deck < 2)
+            e->paired_frames = 0;
         *d = proposed;
+        if (c.deck >= e->deck_count)
+            e->deck_count = TDJ_DECK_COUNT;
         if (reset_tempo) {
             e->bpm = master;
             e->master_chosen = true;
@@ -1306,11 +1392,12 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (d->state == TDJ_PLAYING || d->state == TDJ_QUEUED)
             return TDJ_PROTECTED;
         release_deck_claims(e, (unsigned)c.deck);
-        if (other->asset != d->asset)
+        if (!asset_is_used(e, d->asset, 0, e->deck_count, c.deck))
             tdj_stream_detach(d->asset, e);
         message(e, 0, d->generation, TDJ_RETIRED);
         *d = (deck){.map_dirty = true};
-        e->paired_frames = 0;
+        if (c.deck < 2)
+            e->paired_frames = 0;
         tdj_keylock_reset(e->keylocks[c.deck]);
         mixer_clear_track(&e->mix.decks[c.deck]);
         return TDJ_OK;
@@ -1351,6 +1438,9 @@ static int apply(tdj_engine *e, tdj_command c) {
         return TDJ_OK;
     }
     if (c.kind == TDJ_RECOVERY_MIX) {
+        for (int i = 0; i < e->deck_count; ++i)
+            if (i != c.deck && deck_active(&e->decks[i]))
+                return TDJ_PROTECTED;
         if (!d->synced || d->bpm <= 0 || d->state != TDJ_PLAYING || d->braking || d->loop_enabled || d->touch_active ||
             d->jump_pending || d->performance_rate != 1)
             return TDJ_PROTECTED;
@@ -1358,7 +1448,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             return TDJ_STALE;
         if (!other->synced)
             return TDJ_PROTECTED;
-        mixer_deck *channel = &e->mix.decks[1 - c.deck];
+        mixer_deck *channel = &e->mix.decks[(c.deck ^ 1)];
         if (channel->volume.target <= 0.001 || channel->gain.target <= 0.001 ||
             (channel->filter_enabled && fabs(channel->filter_x) > 0.99))
             return TDJ_PROTECTED;
@@ -1379,11 +1469,11 @@ static int apply(tdj_engine *e, tdj_command c) {
             return TDJ_INVALID;
         if (proposed.keylock && !supported_deck_keylock(&proposed, e->bpm))
             return TDJ_KEYLOCK_RANGE;
-        int status = stream_validate(e, 1 - c.deck, &proposed, e->bpm, c.preparation_ticket_b, other->generation);
+        int status = stream_validate(e, (c.deck ^ 1), &proposed, e->bpm, c.preparation_ticket_b, other->generation);
         if (status != TDJ_OK)
             return status;
         *other = proposed;
-        tdj_keylock_reset(e->keylocks[1 - c.deck]);
+        tdj_keylock_reset(e->keylocks[(c.deck ^ 1)]);
         if (!d->recovery_armed)
             d->recovery_start = -1;
         d->recovery_armed = true;
@@ -1423,7 +1513,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (c.flag == 3) {
             if (!d->braking) {
                 if (d->state == TDJ_PAUSED)
-                    return start_deck(e, d, other, c.preparation_ticket, c.generation);
+                    return start_deck(e, d, c.deck, c.preparation_ticket, c.generation);
                 return TDJ_OK;
             }
             deck proposed = *d;
@@ -1469,7 +1559,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         } else {
             proposed.position = c.value;
         }
-        int status = start_deck(e, &proposed, other, c.preparation_ticket, c.generation);
+        int status = start_deck(e, &proposed, c.deck, c.preparation_ticket, c.generation);
         if (status != TDJ_OK)
             return status;
         *d = proposed;
@@ -1482,7 +1572,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             d->position = d->queued_origin;
             d->state = TDJ_PAUSED;
             d->target = 0;
-            if (other->state != TDJ_PLAYING) {
+            if (!any_deck_active(e)) {
                 advance_clock_epoch(e);
                 e->running = false;
             }
@@ -1502,7 +1592,7 @@ static int apply(tdj_engine *e, tdj_command c) {
                 tdj_keylock_reset(e->keylocks[c.deck]);
                 transition_request(e, c.deck, 0);
             }
-            if (other->state != TDJ_PLAYING && other->state != TDJ_QUEUED) {
+            if (!any_deck_active(e)) {
                 advance_clock_epoch(e);
                 e->running = false;
             }
@@ -1515,7 +1605,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             restarting.continuing = 0;
             restarting.jump_pending = false;
             restarting.jump_loop = false;
-            int status = start_deck(e, &restarting, other, c.preparation_ticket, c.generation);
+            int status = start_deck(e, &restarting, c.deck, c.preparation_ticket, c.generation);
             if (status != TDJ_OK)
                 return status;
             *d = restarting;
@@ -1523,7 +1613,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             transition_request(e, c.deck, 0);
             return TDJ_OK;
         }
-        return start_deck(e, d, other, c.preparation_ticket, c.generation);
+        return start_deck(e, d, c.deck, c.preparation_ticket, c.generation);
     }
     if (d->state == TDJ_QUEUED)
         return TDJ_UNRESOLVED;
@@ -1866,7 +1956,7 @@ static int apply(tdj_engine *e, tdj_command c) {
     }
     if (c.kind == TDJ_FREE_RATE) {
         // Unsynced tempo fader: value is the speed ratio, limited to ±50 %.
-        if (c.deck < 0 || c.deck > 1 || !isfinite(c.value) || c.value < 0.5 || c.value > 1.5)
+        if (!valid_deck_command(e, c.deck) || !isfinite(c.value) || c.value < 0.5 || c.value > 1.5)
             return TDJ_INVALID;
         deck *d = &e->decks[c.deck];
         if (d->keylock && !supported_keylock_rate(c.value))
@@ -2022,9 +2112,9 @@ static void controls(tdj_engine *e) {
             break;
         tdj_command c = e->commands[read];
         bool same_touch = false, touch_noop = false;
-        if (c.kind == TDJ_TOUCH && c.flag == 0 && c.deck >= 0 && c.deck < 2)
+        if (c.kind == TDJ_TOUCH && c.flag == 0 && valid_deck_command(e, c.deck))
             touch_noop = !e->decks[c.deck].touch_active;
-        if (c.kind == TDJ_TOUCH && c.flag == TDJ_TOUCH_WITH_RATE && c.deck >= 0 && c.deck < 2) {
+        if (c.kind == TDJ_TOUCH && c.flag == TDJ_TOUCH_WITH_RATE && valid_deck_command(e, c.deck)) {
             deck *d = &e->decks[c.deck];
             same_touch =
                 d->touch_active &&
@@ -2035,9 +2125,9 @@ static void controls(tdj_engine *e) {
         if (status == TDJ_OK) {
             if (c.kind == TDJ_PANIC || c.kind == TDJ_PLAY ||
                 (c.kind == TDJ_MIXER && (c.flag == TDJ_MIX_CROSSFADE || c.flag == TDJ_MIX_VOLUME))) {
-                cancel_recovery(e, 0);
-                cancel_recovery(e, 1);
-            } else if (c.deck >= 0 && c.deck < 2 &&
+                for (int i = 0; i < e->deck_count; ++i)
+                    cancel_recovery(e, i);
+            } else if (valid_deck_command(e, c.deck) &&
                        (c.kind == TDJ_LOAD || c.kind == TDJ_EJECT || c.kind == TDJ_SEEK || c.kind == TDJ_JUMP ||
                         c.kind == TDJ_LOOP || c.kind == TDJ_LOOP_ROLL ||
                         c.kind == TDJ_TOUCH || c.kind == TDJ_CUE_RECALL || c.kind == TDJ_GRID ||
@@ -2047,11 +2137,11 @@ static void controls(tdj_engine *e) {
                 cancel_recovery(e, c.deck);
             }
             if (c.kind == TDJ_RECOVERY_MIX)
-                add_claim(e, e->decks[1 - c.deck].asset, c.preparation_ticket_b, (unsigned)(1 - c.deck), false);
+                add_claim(e, e->decks[(c.deck ^ 1)].asset, c.preparation_ticket_b, (unsigned)((c.deck ^ 1)), false);
             if (c.kind == TDJ_TEMPO) {
-                add_claim(e, e->decks[0].asset, c.preparation_ticket, 0, false);
-                add_claim(e, e->decks[1].asset, c.preparation_ticket_b, 1, false);
-            } else if (c.deck >= 0 && c.deck < 2) {
+                for (int i = 0; i < e->deck_count; ++i)
+                    add_claim(e, e->decks[i].asset, tempo_ticket(c, i), (unsigned)i, false);
+            } else if (valid_deck_command(e, c.deck)) {
                 bool source_action = c.kind == TDJ_JUMP || c.kind == TDJ_LOOP || c.kind == TDJ_LOOP_ROLL ||
                                      c.kind == TDJ_TOUCH ||
                                      c.kind == TDJ_SEEK || c.kind == TDJ_CUE_RECALL || c.kind == TDJ_SYNC_RESTORE;
@@ -2176,8 +2266,8 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
         }
         return false;
     }
-    for (int i = 0; i < 2; i++)
-        if (e->decks[i].asset && (i == 0 || e->decks[i].asset != e->decks[0].asset))
+    for (int i = 0; i < e->deck_count; i++)
+        if (e->decks[i].asset && !asset_is_used(e, e->decks[i].asset, 0, i, -1))
             tdj_stream_render_begin(e->decks[i].asset, e->frame);
     controls(e);
     auxiliary_mix *aux = &e->auxiliary;
@@ -2192,8 +2282,10 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
     }
     preview_block preview = preview_begin(&aux->preview, e->rate);
     uint32_t preview_read = preview.read;
-    if ((e->maximum_output_frames && count > e->maximum_output_frames) ||
-        !tdj_stream_can_render(e->decks[0].asset, count) || !tdj_stream_can_render(e->decks[1].asset, count)) {
+    bool capacity = !e->maximum_output_frames || count <= e->maximum_output_frames;
+    for (int i = 0; capacity && i < e->deck_count; ++i)
+        capacity = tdj_stream_can_render(e->decks[i].asset, count);
+    if (!capacity) {
         if (count) {
             memset(left, 0, count * sizeof(float));
             memset(right, 0, count * sizeof(float));
@@ -2206,19 +2298,19 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
         return false;
     }
     if (count)
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < e->deck_count; i++)
             resume_starved_stream(e, i);
-    uint64_t missing[2] = {0, 0};
-    uint64_t recorded_generations[2] = {0, 0};
-    uint32_t recorded_offsets[2] = {UINT32_MAX, UINT32_MAX};
-    for (int deck = 0; deck < 2; deck++) {
+    uint64_t missing[TDJ_DECK_COUNT] = {0};
+    uint64_t recorded_generations[TDJ_DECK_COUNT] = {0};
+    uint32_t recorded_offsets[TDJ_DECK_COUNT] = {UINT32_MAX, UINT32_MAX, UINT32_MAX, UINT32_MAX};
+    for (int deck = 0; deck < e->deck_count; deck++) {
         double bpm, beat;
         effect_clock(e, deck, &bpm, &beat);
         for (int slot = 0; slot < 3; slot++)
             fx_prepare(&e->effects[deck][slot], e->rate, bpm);
     }
-    uint64_t target_frames[2] = {UINT64_MAX, UINT64_MAX};
-    for (int i = 0; i < 2; ++i) {
+    uint64_t target_frames[TDJ_DECK_COUNT] = {UINT64_MAX, UINT64_MAX, UINT64_MAX, UINT64_MAX};
+    for (int i = 0; i < e->deck_count; ++i) {
         if (e->decks[i].state == TDJ_QUEUED) {
             double offset = (e->decks[i].target * (60 * e->rate) - e->epoch_ticks) / e->bpm;
             if (offset <= 0)
@@ -2227,13 +2319,13 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 target_frames[i] = e->epoch_frame + (uint64_t)ceil(offset);
         }
     }
-    for (int i = 0; i < 2; ++i)
+    for (int i = 0; i < e->deck_count; ++i)
         e->mix.decks[i].peak = 0;
     for (uint32_t f = 0; f < count; ++f) {
         double l = 0, r = 0, cl = 0, cr = 0;
-        bool audible[2] = {false, false};
-        for (int i = 0; i < 2; i++) {
-            deck *d = &e->decks[i], *other = &e->decks[1 - i];
+        bool audible[TDJ_DECK_COUNT] = {false};
+        for (int i = 0; i < e->deck_count; i++) {
+            deck *d = &e->decks[i], *other = &e->decks[(i ^ 1)];
             if (!d->recovery_mix || d->state != TDJ_PLAYING || d->stream_starved)
                 continue;
             if (other->generation != d->recovery_incoming_generation) {
@@ -2242,7 +2334,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             }
             if (d->position >= d->recovery_mix_start) {
                 if (!d->recovery_mixing) {
-                    mixer_deck *channel = &e->mix.decks[1 - i];
+                    mixer_deck *channel = &e->mix.decks[(i ^ 1)];
                     if (other->state == TDJ_PLAYING || other->state == TDJ_QUEUED || channel->volume.target <= 0.001 ||
                         channel->gain.target <= 0.001 || (channel->filter_enabled && fabs(channel->filter_x) > 0.99)) {
                         d->recovery_mix = false;
@@ -2254,14 +2346,16 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 }
                 double first = deck_beat(d, d->recovery_mix_start), last = deck_beat(d, d->recovery_end);
                 double progress = fmax(0, fmin(1, (deck_beat(d, d->position) - first) / (last - first)));
-                ramp_set(&e->mix.crossfader, i == 0 ? progress : 1 - progress, 0);
+                ramp_set(&e->mix.crossfader, (i & 1) == 0 ? progress : 1 - progress, 0);
             }
         }
         double cross = ramp_next(&e->mix.crossfader);
         double master = ramp_next(&e->mix.master), monitor = ramp_next(&e->mix.monitor),
                blend = ramp_next(&e->mix.cue_mix);
-        for (int i = 0; i < 2; ++i) {
+        for (int i = 0; i < e->deck_count; ++i) {
             deck *d = &e->decks[i];
+            if (i >= 2 && !d->asset && !e->transitions[i].playing && !e->transitions[i].remaining)
+                continue;
             if (d->state == TDJ_QUEUED && e->frame >= target_frames[i]) {
                 d->state = TDJ_PLAYING;
                 d->last_start = e->frame;
@@ -2285,7 +2379,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 effect_clock(e, i, &fx_bpm, &fx_beat);
                 for (int k = 0; k < 3; k++)
                     fx_process(&e->effects[i][k], e->rate, fx_bpm, fx_beat, &zero_l, &zero_r);
-                double level = volume * fmin(1, i == 0 ? 2 * (1 - cross) : 2 * cross);
+                double level = volume * fmin(1, (i & 1) == 0 ? 2 * (1 - cross) : 2 * cross);
                 l += zero_l * level;
                 r += zero_r * level;
                 cl += zero_l * cue;
@@ -2390,7 +2484,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             effect_clock(e, i, &fx_bpm, &fx_beat);
             for (int k = 0; k < 3; k++)
                 fx_process(&e->effects[i][k], e->rate, fx_bpm, fx_beat, &dl, &dr);
-            double level = volume * fmin(1, i == 0 ? 2 * (1 - cross) : 2 * cross);
+            double level = volume * fmin(1, (i & 1) == 0 ? 2 * (1 - cross) : 2 * cross);
             l += dl * level;
             r += dr * level;
             cl += dl * cue;
@@ -2450,7 +2544,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             if (d->recovery_armed && d->position >= d->recovery_end) {
                 if (d->recovery_mixing || d->recovery_start < 0) {
                     if (d->recovery_mixing)
-                        ramp_set(&e->mix.crossfader, i == 0 ? 1 : 0, 0);
+                        ramp_set(&e->mix.crossfader, (i & 1) == 0 ? 1 : 0, 0);
                     d->position = d->recovery_end;
                     d->state = TDJ_ENDED;
                     d->recovery_armed = false;
@@ -2493,8 +2587,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             cue_right[f] = (float)(hr * monitor);
         }
         e->frame++;
-        if (e->running && e->decks[0].state != TDJ_PLAYING && e->decks[1].state != TDJ_PLAYING &&
-            e->decks[0].state != TDJ_QUEUED && e->decks[1].state != TDJ_QUEUED) {
+        if (e->running && !any_deck_active(e)) {
             advance_clock_epoch(e);
             e->running = false;
         }
@@ -2505,12 +2598,12 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
     atomic_store_explicit(&aux->preview.read, preview.read, memory_order_release);
     atomic_store_explicit(&aux->mic_read, mic.read, memory_order_release);
     atomic_store_explicit(&aux->published_playing, aux->playing, memory_order_release);
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < e->deck_count; i++) {
         deck *d = &e->decks[i];
-        if (!d->asset || !d->asset->stream || (i == 1 && d->asset == e->decks[0].asset))
+        if (!d->asset || !d->asset->stream || asset_is_used(e, d->asset, 0, i, -1))
             continue;
         tdj_stream_request desired = {0}, required = {0};
-        for (int j = i; j < 2; j++)
+        for (int j = i; j < e->deck_count; j++)
             if (e->decks[j].asset == d->asset) {
                 tdj_stream_request part;
                 if (deck_request(e, &e->decks[j], e->bpm, true, &part) > 0) {
@@ -2533,17 +2626,21 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
         tdj_stream_render_request(d->asset, &desired);
         bool low = !tdj_stream_covers(d->asset, &required);
         tdj_stream_observe_reserve(d->asset, d->position, low);
-        if (i == 0 && d->asset == e->decks[1].asset)
-            tdj_stream_observe_reserve(d->asset, e->decks[1].position, false);
-        tdj_stream_render_end(d->asset, missing[i] + (i == 0 && d->asset == e->decks[1].asset ? missing[1] : 0));
+        uint64_t missed = missing[i];
+        for (int j = i + 1; j < e->deck_count; ++j)
+            if (e->decks[j].asset == d->asset) {
+                tdj_stream_observe_reserve(d->asset, e->decks[j].position, false);
+                missed += missing[j];
+            }
+        tdj_stream_render_end(d->asset, missed);
     }
-    for (unsigned n = 0; n < TDJ_STREAM_MAX_TICKETS * 2; n++) {
+    for (unsigned n = 0; n < TDJ_STREAM_MAX_TICKETS * (unsigned)e->deck_count; n++) {
         stream_claim *c = &e->claims[n];
         if (!c->asset)
             continue;
         if (c->pending) {
             bool pending = false;
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < e->deck_count; i++)
                 if ((c->decks & (1u << i)) && e->decks[i].jump_pending)
                     pending = true;
             if (!pending) {
@@ -2557,7 +2654,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
         }
     }
     if (recording && count)
-        tdj_recording_push_tracks(recording, count, left, right, recorded_generations, recorded_offsets);
+        tdj_recording_push_decks(recording, count, left, right, recorded_generations, recorded_offsets, (unsigned)e->deck_count);
     publish(e);
     atomic_flag_clear_explicit(&e->render_busy, memory_order_release);
     return true;
@@ -2646,6 +2743,11 @@ bool tdj_read_snapshot(tdj_engine *e, tdj_snapshot *out) {
                               .clock_running = atomic_load(&e->published_running),
                               .a = read_deck(&e->published[0]),
                               .b = read_deck(&e->published[1])};
+        value.extra_decks = atomic_load(&e->published_extra);
+        if (value.extra_decks) {
+            value.c = read_deck(&e->published[2]);
+            value.d = read_deck(&e->published[3]);
+        }
         if (before == atomic_load(&e->snapshot_sequence)) {
             *out = value;
             return true;

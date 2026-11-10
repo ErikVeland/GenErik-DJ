@@ -10,7 +10,7 @@ private struct OutputSourceGeometry: Equatable {
 extension SampleTransport {
     @MainActor private func outputSourceGeometry(_ state: PlaybackSnapshot) throws -> [DeckID: OutputSourceGeometry] {
         var result: [DeckID: OutputSourceGeometry] = [:]
-        for deck in DeckID.allCases where state[deck].phase.active {
+        for deck in state.deckIDs where state[deck].phase.active {
             let generation = state[deck].generation
             guard let asset = asset(generation: generation) else { throw TransportError.stale }
             guard asset.isStreamed else { continue }
@@ -30,7 +30,7 @@ extension SampleTransport {
             let bound = configuredMaximumOutputFrames
             let geometry = try outputSourceGeometry(before)
             var groups: [ObjectIdentifier: (asset: PCMAsset, generation: UInt64, targets: [PCMSourceTarget])] = [:]
-            for deck in DeckID.allCases {
+            for deck in before.deckIDs {
                 guard let source = geometry[deck], let asset = asset(generation: source.generation) else { continue }
                 if groups[source.asset] == nil { groups[source.asset] = (asset, source.generation, []) }
                 groups[source.asset]?.targets.append(contentsOf: source.targets)

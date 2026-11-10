@@ -32,9 +32,24 @@ import TDJCore
         default: return
         }
         guard value.isFinite, (0...upper).contains(value) else { return }
-        if deck == .a { a.accept(parameter, value: value) } else { b.accept(parameter, value: value) }
+        switch deck {
+        case .a: a.accept(parameter, value: value)
+        case .b: b.accept(parameter, value: value)
+        case .c: c.accept(parameter, value: value)
+        case .d: d.accept(parameter, value: value)
+        }
     }
-    func value(_ parameter: MixerParameter, deck: DeckID) -> Double? { (deck == .a ? a : b).value(parameter) }
+    private var c = Values()
+    private var d = Values()
+
+    func value(_ parameter: MixerParameter, deck: DeckID) -> Double? {
+        switch deck {
+        case .a: a.value(parameter)
+        case .b: b.value(parameter)
+        case .c: c.value(parameter)
+        case .d: d.value(parameter)
+        }
+    }
 }
 
 extension ReplicaModel {

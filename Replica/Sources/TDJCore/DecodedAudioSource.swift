@@ -228,8 +228,12 @@ public struct NativePlaybackOpening: Sendable {
             worker.cancel()
         }
     }
-    public func asset(outputSampleRate: Double = 48000, maximumOutputFrames: UInt32 = 4096) throws -> PCMAsset {
-        try PCMAsset(decoder: decoder, outputSampleRate: outputSampleRate, maximumOutputFrames: maximumOutputFrames)
+    public func asset(
+        outputSampleRate: Double = 48000, maximumOutputFrames: UInt32 = 4096, compactPool: Bool = false
+    ) throws -> PCMAsset {
+        try PCMAsset(
+            decoder: decoder, outputSampleRate: outputSampleRate, maximumOutputFrames: maximumOutputFrames,
+            compactPool: compactPool)
     }
     public func waveform(
         cache: URL, matching initial: AudioAnalysis,
@@ -314,12 +318,15 @@ private func waveformBins(_ data: [Float], binFrames: Int) -> [WaveformBin] {
 }
 
 extension PCMAsset {
-    convenience init(decoder: DecodedAudioSource, outputSampleRate: Double, maximumOutputFrames: UInt32) throws {
+    convenience init(
+        decoder: DecodedAudioSource, outputSampleRate: Double, maximumOutputFrames: UInt32, compactPool: Bool = false
+    ) throws {
         var config = tdj_stream_config()
         config.output_rate = outputSampleRate
         config.forward_seconds = 2
         config.backward_seconds = 1
         config.max_output_frames = maximumOutputFrames
+        config.reserved = compactPool ? TDJ_STREAM_COMPACT_POOL : 0
         let ownership = Unmanaged.passRetained(decoder)
         var status = Int32(TDJ_STREAM_INVALID.rawValue)
         let pointer = tdj_asset_open_decoder(

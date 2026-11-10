@@ -5,6 +5,8 @@ public struct MixerPreferences: Codable, Equatable, Sendable {
     public var filterResonanceB = 0.0
     public var syncA: Bool?
     public var syncB: Bool?
+    public var syncC: Bool?
+    public var syncD: Bool?
     public init() {}
     private func validate() throws {
         guard [filterResonanceA, filterResonanceB].allSatisfy({ $0.isFinite && (0...1).contains($0) }) else {

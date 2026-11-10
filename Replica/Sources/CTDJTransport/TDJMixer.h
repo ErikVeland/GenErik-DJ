@@ -63,7 +63,7 @@ typedef struct {
     double peak;
 } mixer_deck;
 typedef struct {
-    mixer_deck decks[2];
+    mixer_deck decks[TDJ_DECK_COUNT];
     ramp crossfader, master, monitor, cue_mix;
     double low_coefficient, high_coefficient;
     unsigned smoothing;
@@ -76,9 +76,9 @@ static void mixer_init(mixer *m, double rate, double gain) {
     ramp_set(&m->master, gain, 0);
     ramp_set(&m->monitor, 0.5, 0);
     ramp_set(&m->cue_mix, 0, 0);
-    for (int i = 0; i < 2; ++i) {
+    for (int i = 0; i < TDJ_DECK_COUNT; ++i) {
         mixer_deck *d = &m->decks[i];
-        ramp_set(&d->volume, 1, 0);
+        ramp_set(&d->volume, i < 2 ? 1 : 0, 0);
         ramp_set(&d->gain, 1, 0);
         ramp_set(&d->low, 1, 0);
         ramp_set(&d->mid, 1, 0);
