@@ -1,0 +1,18 @@
+{
+  "notes": "R153 Stem slideout under the cover. Check icon taps and simultaneous waveform and mixer touch.",
+  "sourceCommit": "1223d1f4961a719f3a245d41f312a20df134115a",
+  "sourceSHA256": "9a3f67a26a208eaf96127ebbfc318918c0ceb29dff7eb68738b08994c44c5eb1",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 59.88,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-215.log",
+  "build": 215,
+  "app": "TestBuilds/ipad/215/GenErikDJ.app",
+  "appSHA256": "b0ee0c013c886db2a41bbb90f96f281287cb40722b710607cd60687d69939d85",
+  "state": "testing",
+  "createdUTC": "2026-11-10T13:09:01.977079+00:00",
+  "installedUTC": "2026-11-10T13:09:15.663971+00:00",
+  "launchedUTC": "2026-11-10T13:09:16.063134+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
