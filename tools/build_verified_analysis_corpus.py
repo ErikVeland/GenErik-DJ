@@ -6,6 +6,8 @@ import hashlib
 import json
 import re
 import subprocess
+import xml.etree.ElementTree as ET
+import zipfile
 from pathlib import Path
 
 from verified_analysis_benchmark import require, sha256, validate
@@ -129,20 +131,103 @@ def gtzan(research, audio_root):
     return tracks, excluded, {'gtzan-beats': source}
 
 
+def standard_key(text):
+    match = re.fullmatch(r'([A-G])([b#]?) (major|minor)(?: (ionian|aeolian|harmonic|melodic))?', text.strip())
+    if not match:
+        return None
+    note, accidental, mode, variant = match.groups()
+    if variant and ((mode == 'major' and variant != 'ionian') or (mode == 'minor' and variant == 'ionian')):
+        return None
+    tonic = ({'C': 0, 'D': 2, 'E': 4, 'F': 5, 'G': 7, 'A': 9, 'B': 11}[note]
+             + {'': 0, 'b': -1, '#': 1}[accidental]) % 12
+    return {'tonic': tonic, 'mode': mode}
+
+
+def key_annotation_rows(path):
+    ns = {'s': 'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
+    with zipfile.ZipFile(path) as archive:
+        strings = [''.join(x.itertext()) for x in ET.fromstring(archive.read('xl/sharedStrings.xml')).findall('s:si', ns)]
+        rows = []
+        for row in ET.fromstring(archive.read('xl/worksheets/sheet1.xml')).findall('s:sheetData/s:row', ns):
+            values = {}
+            for cell in row.findall('s:c', ns):
+                value = cell.find('s:v', ns)
+                if value is not None:
+                    column = re.sub('[0-9]', '', cell.attrib['r'])
+                    values[column] = strings[int(value.text)] if cell.attrib.get('t') == 's' else value.text
+            rows.append(values)
+    return {row['A']: row for row in rows[1:]}
+
+
+def giantsteps(research, audio_root):
+    expected = {'giantsteps-index.json': 'abce33ea617809a0d534299b00412024',
+                'keys.zip': '775b7d17e009f5818544cf505b6a96fd',
+                'metadata.zip': '54181e0f34c35d9720439750d0b08091',
+                'GiantSteps-plus.xlsx': '79ac74fe9d192514da1ffd686226c77b'}
+    for name, checksum in expected.items():
+        require(check_md5(research / name, checksum), 'GiantSteps source changed: ' + name)
+    index = json.loads((research / 'giantsteps-index.json').read_text())['tracks']
+    detailed = key_annotation_rows(research / 'GiantSteps-plus.xlsx')
+    tracks, excluded = [], []
+    with zipfile.ZipFile(research / 'keys.zip') as labels, zipfile.ZipFile(research / 'metadata.zip') as metadata:
+        for record in index.values():
+            if not all(record[field][0] for field in ('audio', 'key', 'meta')):
+                excluded.append({'id': str(record['audio'][0]), 'reason': 'Published audio, key or artist metadata is absent.'})
+                continue
+            raw_label = labels.read(record['key'][0])
+            raw_metadata = metadata.read(record['meta'][0])
+            require(hashlib.md5(raw_label).hexdigest() == record['key'][1], 'Key annotation checksum differs.')
+            require(hashlib.md5(raw_metadata).hexdigest() == record['meta'][1], 'Key metadata checksum differs.')
+            meta = json.loads(raw_metadata)
+            identity = str(meta['id'])
+            detail = detailed[identity]
+            label = standard_key(raw_label.decode())
+            reason = None
+            if label is None:
+                reason = 'Modal, ambiguous or multiple-key annotation.'
+            elif detail.get('I') != '2':
+                reason = 'No revised high-confidence annotation.'
+            elif detail.get('N') or detail.get('M'):
+                reason = 'An annotated key change occurs in the excerpt.'
+            elif not meta.get('artists'):
+                reason = 'Artist identity is unknown.'
+            if reason:
+                excluded.append({'id': identity, 'rawLabel': raw_label.decode().strip(), 'reason': reason})
+                continue
+            audio = audio_root / record['audio'][0]
+            require(audio.exists() and check_md5(audio, record['audio'][1]), 'Verified key audio is required: ' + identity)
+            groups = ['giantsteps:artist:' + str(a['id']) for a in meta['artists'] + meta.get('remixers', [])]
+            groups.append('giantsteps:recording:' + normalise(detail.get('C', '') + ' ' + detail.get('D', '')))
+            label.update(source='giantsteps-key', annotationSHA256=hashlib.sha256(raw_label).hexdigest(),
+                         rawLabel=raw_label.decode().strip(), confidence=2)
+            tracks.append({'id': 'giantsteps:' + identity, 'path': str(audio.resolve()), 'sha256': sha256(audio),
+                           'sourceMD5': record['audio'][1], 'dataset': 'giantsteps-plus',
+                           'artist': detail.get('C', ''), 'title': detail.get('D', ''),
+                           'genre': detail.get('G', 'unknown'), 'groups': groups, 'labels': {'key': label}})
+    source = {'url': 'https://zenodo.org/records/1095691', 'revision': 'GiantSteps+ / 1095691',
+              'sha256': sha256(research / 'keys.zip'), 'origin': 'published-human',
+              'detailSHA256': sha256(research / 'GiantSteps-plus.xlsx'),
+              'audioIndexSHA256': sha256(research / 'giantsteps-index.json'),
+              'trainingOverlap': {'madmom-key-cnn-2018': 'Authors report GiantSteps Key as test data, distinct from GiantSteps MTG training data. Artist overlap is not established.'}}
+    return tracks, excluded, {'giantsteps-key': source}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('root', type=Path, help='Local acquisition folder with research and corpus directories.')
     parser.add_argument('output', type=Path)
     parser.add_argument('--per-split', type=int, default=100)
+    parser.add_argument('--dataset', choices=['gtzan', 'giantsteps'], default='gtzan')
     args = parser.parse_args()
     require(not args.output.exists(), 'Choose a new output file. Existing evidence was retained.')
-    tracks, excluded, sources = gtzan(args.root / 'research', args.root / 'corpus/gtzan')
+    builder = gtzan if args.dataset == 'gtzan' else giantsteps
+    tracks, excluded, sources = builder(args.root / 'research', args.root / 'corpus' / args.dataset)
     split_groups(tracks)
     selected = []
     for split in ('development', 'holdout'):
         selected.extend(balanced_cohort([t for t in tracks if t['split'] == split], args.per_split))
-    data = {'format': 'generik.verified-analysis/v1', 'version': 'r116-gtzan-1', 'selectionSeed': SEED,
-            'selection': 'Fault-filtered sources. Artist components split before genre-balanced hash selection.',
+    data = {'format': 'generik.verified-analysis/v1', 'version': 'r116-' + args.dataset + '-1', 'selectionSeed': SEED,
+            'selection': 'Eligible sources. Artist components split before genre-balanced hash selection.',
             'eligibleTracks': len(tracks), 'sources': sources, 'tracks': selected, 'exclusions': excluded}
     validate(data, verify_audio=True)
     args.output.write_text(json.dumps(data, indent=2, allow_nan=False) + '\n')

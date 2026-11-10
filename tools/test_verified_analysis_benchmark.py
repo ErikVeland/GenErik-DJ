@@ -2,7 +2,8 @@ import copy
 import unittest
 
 import verified_analysis_benchmark as benchmark
-from build_verified_analysis_corpus import balanced_cohort, split_groups
+from build_verified_analysis_corpus import balanced_cohort, split_groups, standard_key
+from probe_rhythm_checkpoints import peaks
 
 
 def corpus():
@@ -18,6 +19,20 @@ def corpus():
 
 
 class VerifiedBenchmarkTests(unittest.TestCase):
+    def test_neural_plateaus_remain_single_beats(self):
+        self.assertEqual(peaks([-1, 2, 2, -1, -1, -1, -1, 3, -1]), [.03, .14])
+        self.assertEqual(peaks([-1, 2, 2, -1], interpolate=True), [.03])
+
+    def test_interpolation_recovers_subframe_peak(self):
+        logits = [4 - (i - 4.25) ** 2 for i in range(9)]
+        self.assertAlmostEqual(peaks(logits, interpolate=True)[0], 4.25 / 50)
+
+    def test_ambiguous_and_modal_keys_do_not_become_single_keys(self):
+        for text in ('C major | A minor', 'D minor dorian', 'Eb other', 'X', 'E_ major ionian'):
+            self.assertIsNone(standard_key(text))
+        self.assertEqual(standard_key('Gb minor harmonic'), {'tonic': 6, 'mode': 'minor'})
+        self.assertEqual(standard_key('C major ionian'), {'tonic': 0, 'mode': 'major'})
+
     def test_collaborating_artists_and_audio_duplicates_stay_together(self):
         tracks = [
             {'id': 'a', 'groups': ['artist:a'], 'sha256': 'a' * 64},

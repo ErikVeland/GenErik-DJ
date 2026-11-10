@@ -26,4 +26,16 @@ The initial benchmark uses short excerpts. It cannot establish whole-track drift
 
 ## Status
 
-Implementation and acquisition are in progress. No new accuracy result or model improvement is claimed yet.
+The frozen corpus contains 200 GTZAN rhythm excerpts and 178 GiantSteps+ key excerpts. Development uses 100 excerpts from each dataset. Holdout contains 100 rhythm and 78 key excerpts. The source files match the published checksums. Artist components remain separate across splits.
+
+GTZAN selection uses 913 eligible files after fault and identity exclusions. One downloaded file also failed its audio checksum. GiantSteps+ selection uses 264 eligible files. Missing metadata, uncertain keys, non-standard modes and annotated key changes exclude the other 336 files. These exclusions limit the scope of the single-key score.
+
+The first production Mac baseline completed all 100 rhythm development excerpts. All saved deep results reopened correctly. Source commit: `fee71c1e62488aeaa847fd5d4d11163cf8138e3b`. Source hash: `7c44804f6d18efe8705875727b871c5c27226613f0ba822763bf5dc4ceff51d0`.
+
+At 25 ms, accepted playback events scored 63.99% beat micro-F1 and 53.95% downbeat micro-F1. The raw deep-model events scored 74.51% and 64.01%. These scores count matched, missing and extra events. They are not percentages of fully correct tracks. First-pass analysis took 290.16 seconds and deep analysis took 92.33 seconds for 50.04 minutes of audio. These are host diagnostics, not queue or live-performance timings.
+
+The model-to-grid gap is largest on variable-tempo music and unsupported bar lengths. In `gtzan:rock.00059`, the model matched every annotated beat, but the four-beat grid fitter produced no tempo. A constant-pulse recovery probe failed the timing limits because this excerpt also drifts. No recovery policy has been adopted from that probe.
+
+The 2018 madmom key CNN is an external evaluation candidate. Its weights use CC-BY-NC-SA-4.0 and are not bundled with the application. Its original and Torch outputs differed by at most 0.000000656 in the conversion check. The FP16 Core ML output differed by at most 0.023923 and retained the predicted key. Mac frontend parity and corpus accuracy remain to be measured. Candidate weights, conversion, preprocessing and decision policy have separate version fields.
+
+Evidence is under `TestBuilds/r116`. The holdout sets remain untested. No new production accuracy improvement or device acceptance is claimed yet.

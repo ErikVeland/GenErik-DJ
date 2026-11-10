@@ -5,6 +5,18 @@ import TDJInterface
 
 @main struct PreviewMain {
     @MainActor static func main() async {
+        if CommandLine.arguments.count == 5, CommandLine.arguments[1] == "--key-candidate-audit" {
+            do {
+                try await MacKeyCandidateAudit.run(
+                    manifestURL: URL(fileURLWithPath: CommandLine.arguments[2]),
+                    modelDirectory: URL(fileURLWithPath: CommandLine.arguments[3], isDirectory: true),
+                    output: URL(fileURLWithPath: CommandLine.arguments[4], isDirectory: true))
+            } catch {
+                FileHandle.standardError.write(Data((error.localizedDescription + "\n").utf8))
+                exit(1)
+            }
+            return
+        }
         if CommandLine.arguments.count == 4, CommandLine.arguments[1] == "--analysis-audit" {
             do {
                 try await MacAnalysisAudit.run(
