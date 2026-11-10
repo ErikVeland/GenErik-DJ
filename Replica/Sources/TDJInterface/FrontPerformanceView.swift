@@ -14,8 +14,8 @@ import TDJCore
     @State private var browserRequest = UUID()
     @State private var previousBrowserVisible = false
     @AppStorage("front.activeDeck") private var savedDeck = "a"
-    @ScaledMetric(relativeTo: .body) private var selectorHeight = 64.0
-    @ScaledMetric(relativeTo: .subheadline) private var controlsHeight = 52.0
+    @ScaledMetric(relativeTo: .body) private var selectorHeight = 44.0
+    @ScaledMetric(relativeTo: .subheadline) private var controlsHeight = 44.0
     @Environment(\.touchSurfaceInterruption) private var interruption
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
@@ -46,7 +46,6 @@ import TDJCore
                 ).clipped().allowsHitTesting(browser.acceptsContentInput).disabled(!browser.acceptsContentInput)
                     .accessibilityHidden(!browser.acceptsContentInput)
                 performanceControls.id(activeDeck).frame(height: layout.controls.height).protectsFrontDeckSwipe()
-                crossfader.frame(height: layout.crossfader.height).protectsFrontDeckSwipe()
             }.frame(width: space.size.width, height: space.size.height, alignment: .top).clipped().background(
                 PerformancePalette.stage
             ).overlayPreferenceValue(FrontDeckSwipeProtectionKey.self) { anchors in
@@ -107,26 +106,34 @@ import TDJCore
     }
 
     private var deckSelector: some View {
-        HStack(spacing: 4) {
-            ForEach(DeckID.primary, id: \.self) { deck in
-                Button {
-                    settleDeck(on: deck)
-                } label: {
-                    VStack(alignment: .leading, spacing: 3) {
-                        HStack {
-                            Text(deck.rawValue.uppercased()).font(.headline)
-                            Spacer(minLength: 4)
-                            Text(status(deck)).font(.caption.weight(.semibold))
-                        }
-                        Text(model.track(deck)?.title ?? "No track").font(.caption).lineLimit(1)
-                    }.padding(.horizontal, 10).frame(maxWidth: .infinity, minHeight: 60).background(
-                        activeDeck == deck ? PerformancePalette.cyan.opacity(0.2) : PerformancePalette.panel,
-                        in: RoundedRectangle(cornerRadius: 5))
-                }.accessibilityLabel(
-                    "Deck \(deck.rawValue.uppercased()), \(status(deck)), \(model.track(deck)?.title ?? "no track")"
-                ).accessibilityAddTraits(activeDeck == deck ? .isSelected : [])
+        let otherDeck: DeckID = activeDeck == .a ? .b : .a
+        let title = model.pendingNativeSelection[otherDeck]?.title ?? model.track(otherDeck)?.title ?? "No track"
+        return Button {
+            settleDeck(on: otherDeck)
+        } label: {
+            otherDeckWaveform(otherDeck).opacity(0.5).allowsHitTesting(false).accessibilityHidden(true).overlay {
+                HStack(spacing: 8) {
+                    Text(otherDeck.rawValue.uppercased()).font(.headline)
+                    Text(title).lineLimit(1)
+                    Spacer(minLength: 4)
+                    Text(status(otherDeck))
+                    Image(systemName: "arrow.left.arrow.right")
+                }.font(.caption.weight(.semibold)).padding(.horizontal, 10).allowsHitTesting(false)
+            }.background(PerformancePalette.panel).contentShape(Rectangle())
+        }.accessibilityLabel(
+            "Switch to deck \(otherDeck.rawValue.uppercased()), \(status(otherDeck)), \(title)")
+    }
+
+    private func otherDeckWaveform(_ deck: DeckID) -> some View {
+        ZStack {
+            PerformancePalette.sunken
+            if let track = model.track(deck), model.pendingNativeSelection[deck] == nil {
+                WaveformView(
+                    track: track, grid: nil, centerFrame: Double(track.analysis.frameCount) / 2,
+                    visibleSeconds: track.analysis.duration, sections: model.arrangements[track.id]?.sections ?? []
+                ).equatable()
             }
-        }.padding(.horizontal, 4).foregroundStyle(PerformancePalette.text)
+        }
     }
 
     private func status(_ deck: DeckID) -> String {
@@ -143,7 +150,7 @@ import TDJCore
 
     private func retainedDeck(_ deck: DeckID, panels: DeckPanelPresentation) -> some View {
         DeckView(
-            model: model, deck: deck, panels: panels,
+            model: model, deck: deck, panels: panels, showsSideHandles: false,
             requestPerformanceSpace: { _ in
                 guard activeDeck == deck else { return }
                 apply(.performance)
@@ -209,46 +216,19 @@ import TDJCore
                     model.browserVisible = browser.extent > 0
                 }
             ).protectsFrontDeckSwipe()
-            ViewThatFits(in: .horizontal) {
-                browserButtons(compact: false)
-                browserButtons(compact: true)
-            }
+            crossfader.protectsFrontDeckSwipe()
             Menu {
+                Button("Songs", systemImage: "music.note") { open(.songs) }
+                Button("Suggestions", systemImage: "sparkles") { open(.suggestions) }
+                Divider()
                 ForEach(LibraryWorkspaceShortcut.allCases, id: \.self) { shortcut in
                     Button(shortcut.rawValue) { apply(shortcut) }
                 }
             } label: {
-                Image(systemName: "rectangle.split.1x2").frame(width: 44, height: 44)
-            }.accessibilityLabel("Performance, Browse and Expand")
+                Image(systemName: "music.note.list").frame(width: 44, height: 44)
+            }.accessibilityLabel("Library and workspace").protectsFrontDeckSwipe()
         }.font(.subheadline.weight(.semibold)).foregroundStyle(PerformancePalette.text).background(
             PerformancePalette.frame)
-    }
-
-    private func browserButtons(compact: Bool) -> some View {
-        HStack(spacing: 4) {
-            Button {
-                open(.songs)
-            } label: {
-                Group {
-                    if compact {
-                        Image(systemName: "music.note").font(.system(size: 18))
-                    } else {
-                        Text("Songs").fixedSize(horizontal: true, vertical: false)
-                    }
-                }.frame(maxWidth: .infinity, minHeight: 44)
-            }.accessibilityLabel("Songs")
-            Button {
-                open(.suggestions)
-            } label: {
-                Group {
-                    if compact {
-                        Image(systemName: "sparkles").font(.system(size: 18))
-                    } else {
-                        Text("Suggestions").fixedSize(horizontal: true, vertical: false)
-                    }
-                }.frame(maxWidth: .infinity, minHeight: 44)
-            }.accessibilityLabel("Suggestions for deck \(activeDeck.rawValue.uppercased())")
-        }
     }
 
     private func open(_ tab: BrowserListTab) {

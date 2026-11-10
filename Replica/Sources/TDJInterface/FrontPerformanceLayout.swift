@@ -23,20 +23,18 @@ struct FrontWorkspaceGeometry {
     let handle: CGRect
     let library: CGRect
     let controls: CGRect
-    let crossfader: CGRect
     let maximumBrowserExtent: Double
     let bodyHeight: Double
 
-    init(width: Double, height: Double, browserExtent: Double, selectorHeight: Double = 64, controlsHeight: Double = 52)
+    init(width: Double, height: Double, browserExtent: Double, selectorHeight: Double = 44, controlsHeight: Double = 44)
     {
         let width = width.isFinite ? max(0, width) : 0
         let height = height.isFinite ? max(0, height) : 0
-        let selectorHeight = min(selectorHeight.isFinite ? max(64, selectorHeight) : 64, height)
+        let selectorHeight = min(selectorHeight.isFinite ? max(44, selectorHeight) : 44, height)
         let controlsHeight = min(
-            controlsHeight.isFinite ? max(52, controlsHeight) : 52, max(0, height - selectorHeight))
-        let crossfaderHeight = min(44, max(0, height - selectorHeight - controlsHeight))
-        let handleHeight = min(44, max(0, height - selectorHeight - controlsHeight - crossfaderHeight))
-        let body = max(0, height - selectorHeight - controlsHeight - crossfaderHeight - handleHeight)
+            controlsHeight.isFinite ? max(44, controlsHeight) : 44, max(0, height - selectorHeight))
+        let handleHeight = min(44, max(0, height - selectorHeight - controlsHeight))
+        let body = max(0, height - selectorHeight - controlsHeight - handleHeight)
         bodyHeight = body
         maximumBrowserExtent = max(0, body - (body >= 284 ? 64 : 0))
         let extent = browserExtent.isFinite ? min(maximumBrowserExtent, max(0, browserExtent)) : 0
@@ -45,7 +43,6 @@ struct FrontWorkspaceGeometry {
         handle = CGRect(x: 0, y: deck.maxY, width: width, height: handleHeight)
         library = CGRect(x: 0, y: handle.maxY, width: width, height: extent)
         controls = CGRect(x: 0, y: library.maxY, width: width, height: controlsHeight)
-        crossfader = CGRect(x: 0, y: controls.maxY, width: width, height: crossfaderHeight)
     }
 }
 
@@ -58,7 +55,7 @@ struct FrontBrowserPanelState {
     var isDragging: Bool { panel.isDragging }
     var acceptsContentInput: Bool { extent > 0 && extent >= min(panel.minimumExtent, maximumExtent) }
 
-    mutating func configure(width: Double, height: Double, selectorHeight: Double = 64, controlsHeight: Double = 52) {
+    mutating func configure(width: Double, height: Double, selectorHeight: Double = 44, controlsHeight: Double = 44) {
         panel.cancelDrag()
         contactID = UUID()
         let geometry = FrontWorkspaceGeometry(

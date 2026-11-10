@@ -42,10 +42,25 @@ private let surface = PerformancePalette.panel
     }
 
     public var body: some View {
+        GeometryReader { window in
+            let width = window.size.width + window.safeAreaInsets.leading + window.safeAreaInsets.trailing
+            let height = window.size.height + window.safeAreaInsets.top + window.safeAreaInsets.bottom
+            let presentation = BrowserPresentation.select(isPhone: isPhone, windowWidth: width, windowHeight: height)
+            workspaceRoot(presentation: presentation)
+                .ignoresSafeArea(.container, edges: isPhone && width < height ? .horizontal : [])
+        }.environment(\.touchSurfaceInterruption, touchInterruption).background(
+            PerformancePalette.frame.ignoresSafeArea()
+        )
+        #if os(iOS)
+            .statusBarHidden(true).persistentSystemOverlays(.hidden)
+        #endif
+    }
+
+    private func workspaceRoot(presentation: BrowserPresentation) -> some View {
         GeometryReader { geometry in
             HStack(spacing: 0) {
                 if model.helpVisible { GestureHelp { model.helpVisible = false }.frame(width: 280) }
-                performanceSurface(windowWidth: geometry.size.width).frame(maxWidth: .infinity, maxHeight: .infinity)
+                performanceSurface(presentation: presentation).frame(maxWidth: .infinity, maxHeight: .infinity)
             }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .topLeading).onChange(
                 of: geometry.size
             ) { _, _ in touchInterruption = UUID() }
@@ -60,12 +75,7 @@ private let surface = PerformancePalette.panel
                             .background(PerformancePalette.frame)
                     }
                 }.onChange(of: sectionEdit?.identity.id) { _, _ in touchInterruption = UUID() }
-        }.environment(\.touchSurfaceInterruption, touchInterruption).background(
-            PerformancePalette.frame.ignoresSafeArea()
-        )
-        #if os(iOS)
-            .statusBarHidden(true).persistentSystemOverlays(.hidden)
-        #endif
+        }
     }
     private var isPhone: Bool {
         #if os(iOS)
@@ -84,24 +94,24 @@ private let surface = PerformancePalette.panel
         return nil
     }
 
-    private func performanceSurface(windowWidth: Double) -> some View {
+    private func performanceSurface(presentation: BrowserPresentation) -> some View {
         VStack(spacing: 0) {
             PerformanceToolbar(
                 model: model, tempoWheelVisible: $tempoWheelVisible, audioSettingsPresented: $audioSettingsPresented,
                 importPresented: $importPresented, traktorImportPresented: $traktorImportPresented)
             GeometryReader { space in
-                let frontBrowser = BrowserPresentation.select(isPhone: isPhone, windowWidth: windowWidth) == .frontPhone
-                if frontBrowser {
+                if presentation == .frontPhone {
                     FrontPerformanceView(
                         model: model, importAudio: { importPresented = true },
                         linkCollection: { traktorImportPresented = true })
                 } else {
-                    let workspaceHandle = frontBrowser ? 44.0 : handleExtent
+                    let deckInset = isPhone ? 0.0 : 6.0
+                    let workspaceHandle = handleExtent
                     let workspace = PerformanceWorkspaceGeometry(
                         width: space.size.width, height: space.size.height, libraryExtent: libraryPanel.extent,
                         handleExtent: workspaceHandle)
                     let split = deckSplit.geometry(
-                        width: workspace.deckArea.width - 12, height: workspace.deckArea.height,
+                        width: workspace.deckArea.width - 2 * deckInset, height: workspace.deckArea.height,
                         handleExtent: handleExtent)
                     ZStack(alignment: .topTrailing) {
                         VStack(alignment: .leading, spacing: 0) {
@@ -165,7 +175,8 @@ private let surface = PerformancePalette.panel
                                             handleExtent: handleExtent)
                                     }
                                 ).frame(height: split.b.height).contentShape(Rectangle()).clipped()
-                            }.padding(.horizontal, 6).frame(width: workspace.deckArea.width, height: workspace.deckArea.height)
+                            }.padding(.horizontal, deckInset).frame(
+                                width: workspace.deckArea.width, height: workspace.deckArea.height)
                             HStack(spacing: 0) {
                                 TouchPanelHandle(
                                     presented: libraryPanel.extent > 0, maximumExtent: libraryPanel.maximumExtent,
@@ -187,26 +198,13 @@ private let surface = PerformancePalette.panel
                                         libraryPanel.adjust(by: delta)
                                         model.browserVisible = libraryPanel.extent > 0
                                     }
-                                ).frame(minWidth: frontBrowser ? 180 : 0, maxWidth: .infinity)
-                                if frontBrowser {
-                                    LibraryWorkspaceShortcuts(selected: libraryPanel.selectedShortcut) { shortcut in
-                                        libraryPanel.apply(shortcut)
-                                        model.browserVisible = libraryPanel.extent > 0
-                                    }.layoutPriority(1)
-                                }
-                            }.frame(height: frontBrowser ? AdaptivePerformanceLayout.libraryHandleHeight : handleExtent)
+                                ).frame(maxWidth: .infinity)
+                            }.frame(height: handleExtent)
                                 .background(largePanelHandles ? PerformancePalette.frame : Color.clear)
-                            Group {
-                                if frontBrowser {
-                                    FrontBrowserView(
-                                        model: model, importAudio: { importPresented = true },
-                                        linkCollection: { traktorImportPresented = true })
-                                } else {
-                                    BrowserView(
-                                        model: model, importAudio: { importPresented = true },
-                                        linkCollection: { traktorImportPresented = true })
-                                }
-                            }.frame(
+                            BrowserView(
+                                model: model, importAudio: { importPresented = true },
+                                linkCollection: { traktorImportPresented = true }
+                            ).frame(
                                 width: workspace.libraryArea.width, height: workspace.libraryArea.height,
                                 alignment: .top
                             ).clipped().allowsHitTesting(libraryPanel.acceptsContentInput).disabled(
@@ -338,6 +336,7 @@ private struct DeckPanelHorizontalBounds: Shape {
     var snapshotEffects = false
     var snapshotMixer = false
     var snapshotFilter = false
+    var showsSideHandles = true
     var openFullHeightSections: ((DeckID, SectionEditIdentity) -> Void)?
     var requestPerformanceSpace: (Double) -> Void = { _ in }
     @Environment(\.performancePanelPortrait) private var portrait
@@ -400,6 +399,7 @@ private struct DeckPanelHorizontalBounds: Shape {
     }
 
     @ViewBuilder func content(size: CGSize) -> some View {
+        let sideHandleExtent = showsSideHandles ? handleExtent : 0
         let zoom = waveformZoom
         let showsHotcues = track != nil && model.hotcuePadsVisible.contains(deck)
         let layout = AdaptiveDeckGeometry(
@@ -443,13 +443,13 @@ private struct DeckPanelHorizontalBounds: Shape {
                         ) {
                             EffectsView(model: model, deck: deck).environment(\.touchSurfaceInputGate, effectsInput)
                         }
-                        panelHandle(.effects, edge: .leading, title: "FX")
+                        if showsSideHandles { panelHandle(.effects, edge: .leading, title: "FX") }
                         DeckWaveform(
                             model: model, deck: deck, visibleSeconds: zoom, mixerVisible: mixerVisible
                         ).frame(width: sizes.waveform.width).environment(
                             \.touchSurfaceAcceptsNewContacts,
                             layout.waveformHeight >= 44 && sizes.waveform.width >= 44)
-                        panelHandle(.mixer, edge: .trailing, title: "EQ")
+                        if showsSideHandles { panelHandle(.mixer, edge: .trailing, title: "EQ") }
                         SlidingDeckPanel(
                             isPresented: mixerVisible || snapshotMixer, edge: .trailing,
                             panelWidth: sizes.mixerContent.width,
@@ -492,18 +492,18 @@ private struct DeckPanelHorizontalBounds: Shape {
         ).animation(
             reduceMotion || panels.isDragging ? nil : .smooth(duration: 0.22), value: sizes.mixerContent.width
         ).onAppear {
-            panels.configure(width: availableWidth, portrait: portrait, handleExtent: handleExtent)
+            panels.configure(width: availableWidth, portrait: portrait, handleExtent: sideHandleExtent)
             panels.setTrackAvailable(track != nil)
             sectionPanel.configure(height: size.height, portrait: portrait, handleExtent: handleExtent)
             if snapshotEffects && !effectsVisible { panels.toggleEffects() }
             if snapshotMixer && !mixerVisible { panels.toggleMixer() }
         }.onChange(of: availableWidth) { _, width in
-            panels.configure(width: width, portrait: portrait, handleExtent: handleExtent)
+            panels.configure(width: width, portrait: portrait, handleExtent: sideHandleExtent)
         }.onChange(of: portrait) { _, value in
-            panels.configure(width: availableWidth, portrait: value, handleExtent: handleExtent)
+            panels.configure(width: availableWidth, portrait: value, handleExtent: sideHandleExtent)
             sectionPanel.configure(height: size.height, portrait: value, handleExtent: handleExtent)
         }.onChange(of: handleExtent) { _, value in
-            panels.configure(width: availableWidth, portrait: portrait, handleExtent: value)
+            panels.configure(width: availableWidth, portrait: portrait, handleExtent: sideHandleExtent)
             sectionPanel.configure(height: size.height, portrait: portrait, handleExtent: value)
         }.onChange(of: size.height) { _, height in
             sectionPanel.configure(height: height, portrait: portrait, handleExtent: handleExtent)
