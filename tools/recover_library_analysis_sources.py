@@ -118,6 +118,8 @@ def run(config, once=False):
     app = config['recoveryApp']
     device = config['devices']['ipad']
     status = recovery / 'status.json'
+    service = None
+    service_log = (recovery / 'analyser.log').open('a')
     while True:
         recovered = 0
         for item in items:
@@ -141,9 +143,19 @@ def run(config, once=False):
                 elif json.loads(manifest.read_text()) != dict(items=[replacement]):
                     raise RuntimeError('The recovered source inventory changed.')
                 output = work / 'analysis'
-                with (work / 'analysis.log').open('a') as log:
-                    subprocess.run([app, '--library-analysis', str(manifest), str(output)],
-                                   stdout=log, stderr=subprocess.STDOUT, check=True)
+                if service is None or service.poll() is not None:
+                    service = subprocess.Popen([app, '--library-analysis-service'], stdin=subprocess.PIPE,
+                                               stdout=service_log, stderr=subprocess.STDOUT, text=True)
+                receipt = work / ('analysis-receipt-' + str(uuid.uuid4()) + '.json')
+                service.stdin.write(json.dumps(dict(manifest=str(manifest), output=str(output), receipt=str(receipt))) + '\n')
+                service.stdin.flush()
+                while not receipt.exists():
+                    if service.poll() is not None:
+                        raise TimeoutError('The Mac analyser stopped. Saved windows will resume.')
+                    time.sleep(1)
+                acknowledgement = json.loads(receipt.read_text())
+                if not acknowledgement['complete']:
+                    raise RuntimeError(acknowledgement['error'])
                 publish(output, root / 'ipad', item['id'])
                 release_audio(device, work)
                 audio.unlink(missing_ok=True)
@@ -161,6 +173,9 @@ def run(config, once=False):
                     break
                 save(work / 'needs-review.json', dict(id=item['id'], title=item['title'], error=str(error)))
         if once:
+            if service is not None:
+                service.stdin.close()
+                service.wait()
             break
         save(status, dict(state='watching-for-failed-sources', recoveredThisPass=recovered,
                           updatedUTC=datetime.datetime.now(datetime.timezone.utc).isoformat()))

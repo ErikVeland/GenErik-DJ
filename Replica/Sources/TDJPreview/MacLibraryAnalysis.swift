@@ -5,6 +5,33 @@ import TDJCore
 
 /// Analyse a frozen device inventory and retain each result before cloud delivery.
 enum MacLibraryAnalysis {
+    struct ServiceRequest: Decodable {
+        let manifest: String
+        let output: String
+        let receipt: String
+    }
+    struct ServiceReceipt: Encodable {
+        let complete: Bool
+        let error: String?
+    }
+
+    /// Keep compiled models available while the device supplies the next source.
+    static func serve() async throws {
+        while let line = readLine() {
+            try Task.checkCancellation()
+            let request = try JSONDecoder().decode(ServiceRequest.self, from: Data(line.utf8))
+            let receipt: ServiceReceipt
+            do {
+                try await run(manifestURL: URL(fileURLWithPath: request.manifest),
+                              output: URL(fileURLWithPath: request.output))
+                receipt = .init(complete: true, error: nil)
+            } catch {
+                receipt = .init(complete: false, error: error.localizedDescription)
+            }
+            try JSONEncoder().encode(receipt).write(to: URL(fileURLWithPath: request.receipt), options: .atomic)
+        }
+    }
+
     struct Item: Codable {
         let id: String
         let title: String
