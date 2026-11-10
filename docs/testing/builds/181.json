@@ -1,0 +1,18 @@
+{
+  "notes": "R117 adds native Traktor Kontrol S4 Mk2 controls and lighting. The S4 Mk2 uses the existing four-deck engine and automatic split audio. Eleven focused host tests passed. Physical S4 Mk2 acceptance remains open.",
+  "sourceCommit": "25614def62126dc4bb88aab9a52980c31581932a",
+  "sourceSHA256": "f90e6dffb39a4722c374e3acc1cbf0f068c2ef2b0fff3f3dfa8da89f9086deb7",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 74.51,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-181.log",
+  "build": 181,
+  "app": "TestBuilds/ipad/181/GenErikDJ.app",
+  "appSHA256": "2f92b3694671c3020afff5fa5d7a319d7c2c9f1e082827cf76344a9661b18469",
+  "state": "testing",
+  "createdUTC": "2026-11-10T04:53:12.313945+00:00",
+  "installedUTC": "2026-11-10T04:53:25.205870+00:00",
+  "launchedUTC": "2026-11-10T04:53:25.559542+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}

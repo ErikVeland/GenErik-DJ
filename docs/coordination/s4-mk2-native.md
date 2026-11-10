@@ -20,3 +20,5 @@ The archived Traktor DJ 2.4.1 app identifies the S4 Mk2 as `com.native-instrumen
 Physical connection, calibration, audio, jog response and LED output remain open. TDJ Freeze and Loop Slicer pad modes, momentary transport Cue preview, and external mic and line input also remain open.
 
 Eleven focused host tests passed. Five S4 Mk2 tests cover startup, calibration, layer switching, blue and amber feedback, and route selection. Existing S3 framing and Z1 routing tests also passed.
+
+[Build 181](../testing/builds/181.json) installed on the A10X iPad. iPadOS accepted the launch request.
