@@ -100,6 +100,8 @@ def summarise(report, provenance):
             assert row['finalAnalysis']['contentSHA256'] == analysis['contentSHA256']
             item['finalGrid'] = analysis_grid_metrics(row['finalAnalysis'], labels)
         item['deepTempoAccepted'] = row.get('acceptedTempoOnly', False)
+        item['deepOpeningBarAccepted'] = row.get('acceptedOpeningBar', False)
+        item['deepGuidedPhaseAccepted'] = row.get('acceptedGuidedPhase', False)
         item['deepTempoCandidateBPM'] = row.get('deep', {}).get('tempoCandidateBPM')
         item['deepEvidence'] = candidate
         final_key = (row.get('finalAnalysis') or analysis).get('key')

@@ -15,6 +15,8 @@ enum MacAnalysisAudit {
         var reuseMatches: Bool?
         var acceptedOverFirstPass: Bool?
         var acceptedTempoOnly: Bool?
+        var acceptedOpeningBar: Bool?
+        var acceptedGuidedPhase: Bool?
         var finalAnalysis: AudioAnalysis?
         var finalTimeline: AnalysisBenchmarkTimeline?
         var reviewTimeline: AnalysisBenchmarkTimeline?
@@ -122,10 +124,13 @@ enum MacAnalysisAudit {
                 report.rows[index].deepPerformance = measure.finish(outcome: "success")
                 report.rows[index].deep = result
                 let track = try Track(title: expected.id, mediaFilename: source.lastPathComponent, analysis: analysis)
-                report.rows[index].acceptedOverFirstPass = false
                 let adopted = try track.adoptingDeepAnalysis(result)
+                let accepted = adopted.analysis.acceptedDeepBeatAnalysis == result
+                report.rows[index].acceptedOverFirstPass = result.candidate != nil && accepted
+                report.rows[index].acceptedOpeningBar = result.candidate?.openingPhaseCorrected == true && accepted
+                report.rows[index].acceptedGuidedPhase = result.guidedPhase != nil && accepted
                 report.rows[index].acceptedTempoOnly =
-                    result.candidate == nil && adopted.analysis.acceptedDeepBeatAnalysis == result
+                    result.candidate == nil && result.guidedPhase == nil && accepted
                 report.rows[index].finalAnalysis = adopted.analysis.replacingWaveform([])
                 report.rows[index].finalTimeline = try AnalysisBenchmarkTimeline(track: adopted)
                 if let map = adopted.analysis.adaptiveCandidate,
