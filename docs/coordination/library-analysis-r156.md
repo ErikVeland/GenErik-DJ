@@ -41,3 +41,13 @@ Fifteen focused Swift checks and eight campaign checks passed before device inst
 Build 220 installed on the A10X from `bdc57d76be61363d395c6c8d294a7e5421c87df0`. The signed Mac recovery app uses the same source. The original Mac batch remains on `eda78ac03` with the same analysis profile. The first recovery, “Blockbuster”, matched the saved iPad hash and all audio dimensions. The Mac completed its analysis and queued its revision. Evidence is under `source-proof/4268600258740691148` in the external run folder. Receipt of this revision still requires verification.
 
 The controller starts the recovery worker automatically. Both workers retain independent locks and checkpoints. Restart can reconnect to the original Mac batch without stopping it. The full-library phase remains queued behind iPad completion and receipt. The iPhone was unavailable at the latest check. No completion claim applies to the full inventory or every device.
+
+## Receive throughput
+
+Build 221 added diagnostics. On the A10X, four retained results took 44.05 seconds to apply. The 45-second automatic sync deadline then cancelled the operation before download. Each result saved the whole library. The retained results were safe, but this delayed receipt of later Mac results.
+
+The receiver now groups up to 32 revisions and saves their deep results in one library transaction. It rechecks loaded and active tracks before the save. It retains prior preparation and applies section changes only to the current playback grid. A new test reproduced three saves before the change and verifies one save after it. It also covers a protected track and an older revision arriving after a newer result.
+
+Two older sharing tests failed on the unchanged baseline. One expected a missing completion date after the R159 legacy-date fallback. The other expected automatic full-grid adoption, which policy 14 requires users to review. Their fixtures now follow those established contracts. Both baseline failures remain in `TestBuilds/r156/cloud-sharing-baseline.log`.
+
+Mac recovery now keeps one analyser process open. A fresh “Blockbuster” run took 108.61 seconds under the active workload. The next run in the same process took 1.40 seconds. First-pass and deep results were identical except for completion time. This measures model setup reuse on one short track, not general library throughput. Evidence is under `service-proof` in the external run folder.

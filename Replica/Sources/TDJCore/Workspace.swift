@@ -593,13 +593,26 @@ public actor LibraryService {
     public func adoptDeepAnalysis(
         _ result: DeepBeatAnalysis, trackID: String, protectedTracks: Set<String> = []
     ) throws -> LibrarySnapshot {
+        try adoptDeepAnalyses([trackID: result], protectedTracks: protectedTracks)
+    }
+
+    public func adoptDeepAnalyses(
+        _ results: [String: DeepBeatAnalysis], protectedTracks: Set<String> = []
+    ) throws -> LibrarySnapshot {
         try Task.checkCancellation()
-        guard !protectedTracks.contains(trackID), let index = library.tracks.firstIndex(where: { $0.id == trackID })
-        else { return library }
-        let track = try library.tracks[index].adoptingDeepAnalysis(result)
-        guard track != library.tracks[index] else { return library }
         var changed = library
-        changed.tracks[index] = track
+        var adopted = false
+        for index in changed.tracks.indices {
+            try Task.checkCancellation()
+            let original = changed.tracks[index]
+            guard !protectedTracks.contains(original.id), let result = results[original.id] else { continue }
+            let track = try original.adoptingDeepAnalysis(result)
+            if track != original {
+                changed.tracks[index] = track
+                adopted = true
+            }
+        }
+        guard adopted else { return library }
         changed.revision += 1
         try Task.checkCancellation()
         library = try store.save(changed)

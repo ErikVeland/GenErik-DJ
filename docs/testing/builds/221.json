@@ -1,0 +1,18 @@
+{
+  "notes": "R156: Record automatic sync progress, errors and result-application timings to diagnose stalled device receipts.",
+  "sourceCommit": "cbb19de719362227e030416f03bbf64230624d59",
+  "sourceSHA256": "f89a54427b1bfa5ed7dda15d8d3569679cdaa8988d32df753b43949533b8632a",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 62.23,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-221.log",
+  "build": 221,
+  "app": "TestBuilds/ipad/221/GenErikDJ.app",
+  "appSHA256": "1ebe06bc1710b331f1b3096573040aef8e0939817cae13a78f48b9950cde0835",
+  "state": "testing",
+  "createdUTC": "2026-11-10T14:35:45.460091+00:00",
+  "installedUTC": "2026-11-10T14:35:59.423393+00:00",
+  "launchedUTC": "2026-11-10T14:35:59.780341+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
