@@ -29,6 +29,9 @@ struct ControllerSettingsView: View {
                     isOn: Binding(
                         get: { model.z1Enabled }, set: { if $0 != model.z1Enabled { model.toggleZ1() } }))
                 Text(model.z1Status).foregroundStyle(.secondary)
+                ForEach(model.receivingFactoryControllers, id: \.self) { controller in
+                    Text("\(controller.rawValue) connected through GenErik bridge").foregroundStyle(.secondary)
+                }
             #endif
             z1ConnectionDetails
             Divider()

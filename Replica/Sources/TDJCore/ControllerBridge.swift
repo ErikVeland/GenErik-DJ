@@ -18,6 +18,9 @@ public struct ControllerBridgeFrame: Equatable, Sendable {
         case s2MK1Lights = 13
         case s4MK1Report = 14
         case s4MK1Lights = 15
+        case factoryInput = 16
+        case factoryLights = 17
+        case factoryScreen = 18
         var payloadCount: Int {
             switch self {
             case .z1Input: 30
@@ -32,7 +35,8 @@ public struct ControllerBridgeFrame: Equatable, Sendable {
             case .s2MK1Report: 53
             case .s2MK1Lights: 62
             case .s4MK1Report: 74
-            case .s4MK1Lights: 103
+            case .s4MK1Lights, .factoryInput, .factoryLights: 103
+            case .factoryScreen: 64
             }
         }
     }

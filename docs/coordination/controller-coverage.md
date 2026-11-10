@@ -1,6 +1,6 @@
 # Controller coverage
 
-Request R23. Updated 3 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
+Request R23. Updated 10 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
 ## Scope
 
@@ -10,13 +10,13 @@ Cover all NI controllers and class-compliant MIDI controllers, including hardwar
 | --- | --- | --- | --- |
 | S2 | Mk1, Mk2, Mk3 | MIDI mode documented | Mk2 and Mk3 have native iPad mappings. Mk1 has a native HID and audio bridge. |
 | S3 | S3 | MIDI mode documented | Native four-deck iPad mapping. |
-| S4 | Mk1, Mk2 | MIDI mode documented | Mk2 has a native four-deck iPad mapping. Mk1 has no factory adapter. |
+| S4 | Mk1, Mk2 | MIDI mode documented | Mk2 has a native four-deck iPad mapping. Mk1 uses a native control and audio bridge. |
 | S4 | Mk3 | No MIDI mode in NI's supported-mode table | A Linux bridge implementation is available for A10X. See [R123](#r123-s4-mk3-connection). |
-| S5, S8 | Both | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Screens/native features remain unfinished. |
-| X1 | Mk1, Mk2, Mk3 | MIDI mode documented | Mk3 has a native HID bridge. Mk1 and Mk2 have no factory adapters. |
+| S5, S8 | Both | MIDI mode documented | Native controls, lighting, screen status and split audio through the Linux bridge. |
+| X1 | Mk1, Mk2, Mk3 | MIDI mode documented | All three have native bridge adapters. |
 | Z1 | Original, Mk2 | MIDI mode documented | The original Z1 has a native iPad mapping. Mk2 has a native HID and audio bridge. |
-| F1, D2, Z2 | All three | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Remix/stem/display/audio features need separate implementation. |
-| MX2 | MX2 | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Model mapping, feedback behaviour and audio remain unverified. |
+| F1, D2, Z2 | All three | MIDI mode documented | Native bridge adapters. D2 shows deck status. Z2 uses split audio. |
+| MX2 | MX2 | MIDI mode documented | Native control, split audio and lighting through the Linux bridge. |
 | DDJ-FLX4 | DDJ-FLX4 | Published MIDI message list | Opt-in profile maps transport, mixer, Hot Cue pads in Hot Cue pad mode, platter jog and touch, and wheel-side temporary rate bend. A separate output profile maps play, sync, headphone-cue and Hot Cue lights. Touch-rate calibration, endpoint access and hardware acceptance remain unverified. |
 | DDJ-REV1 | DDJ-REV1 | Published MIDI message list | Opt-in profile maps dual-deck transport, mixer, tempo, loop controls, one momentary Shift layer, Hot Cue pads in Hot Cue mode, platter jog/touch and wheel-side jog. A separate output profile maps play, sync, headphone-cue and Hot Cue lights. Endpoint access and hardware acceptance remain unverified. |
 | DDJ-REV5 | DDJ-REV5 | Published MIDI message list | Opt-in two-deck profile maps transport, mixer, tempo, loop controls, one momentary Shift layer, Hot Cue pads in Hot Cue mode, platter jog/touch and wheel-side jog. A separate output profile maps play, sync, headphone-cue and Hot Cue lights. Deck 3/4 controls and other pad modes are not mapped. Endpoint access, calibration and hardware acceptance remain unverified. |
@@ -43,8 +43,7 @@ Erik requires automatic connection, controls, audio routing and custom lights. O
 | S4 Mk3 | No identifier in the preserved TDJ2 build | Linux bridge carries four-deck controls, lighting and four-channel audio. Hardware verification remains open. See [R123](#r123-s4-mk3-connection). |
 | Z1 Mk2 | No identifier in the preserved TDJ2 build | Linux bridge carries four-deck mixer controls, audio and custom lights. See [R125](#r125-z1-mk2-and-x1-mk3). |
 | X1 Mk3 | No identifier in the preserved TDJ2 build | Linux bridge carries four-deck transport, browse, FX and custom lights. See [R125](#r125-z1-mk2-and-x1-mk3). |
-| MX2 | No identifier in the preserved TDJ2 build | Native mapping and automatic connection remain open. |
-| Other Traktor variants | No identifier in the preserved TDJ2 build | Verify transport, per-model control and feedback reports, and audio where fitted. See the variant list above. |
+| X1 Mk1, X1 Mk2, F1, D2, Z2, S5, S8, MX2 | No identifiers in the preserved TDJ2 build | The app detects each named bridge and loads its factory mapping. See [R137](#r137-remaining-traktor-variants) for scope and open checks. |
 
 The first increment recognises the four named NI audio devices when iPadOS selects them as the sole wired output. It assigns main to channels 1–2 and headphones to 3–4. The audio session checks for four channels before playback. The controller session is separate.
 
@@ -150,3 +149,22 @@ Apple restricts iPadOS DriverKit to M-series devices. The A10X cannot use that r
 Prepared build 49 introduced **Settings → Controllers**. The expanded candidate adds the bridge and value modes described above. Connect the Z1 with its required power/cable. Enable controller input and inspect the source list. The page separately shows accessory and audio connections and can share those details. Use generic Learn for a real MIDI endpoint. Use the explicit GenErik bridge mode only with the matching relay, input and feedback output. Direct native accessory communication remains unimplemented. Do not invent a MIDI source or protocol identifier.
 
 The original Z1's native report decoder and Mac HID implementation remain preserved. They establish useful protocol groundwork, not A10X transport support. No Mac app development or testing is resumed by this controller work.
+
+## R137 remaining Traktor variants
+
+These factory adapters cover the eight remaining Traktor models in the 18-model inventory. The app detects the Linux bridge by its MIDI device name. It needs no MIDI Learn or app setting. The bridge requires its own setup. [Setup](../../tools/controller_bridge/README.md#x1-mk1-x1-mk2-f1-d2-z2-s5-s8-and-mx2)
+
+| Models | Mapped functions | Lighting and output |
+| --- | --- | --- |
+| X1 Mk1 and X1 Mk2 | A/B transport, held Cue, Sync, browse and load, loops, Hot Cues and two FX units. Mk2 also maps the touch strip. | Mk1 uses fixed-colour lamps for the beat and warning. Mk2 uses the two-colour strip. |
+| F1 | Sixteen sample cells, column stop, browse, Sync, Quantize and reverse. | Sample pads show state. Pad 16 shows the blue beat and amber warning for deck C. |
+| D2 | Selectable deck, transport, browse and load, loops, pads, touch strip, Grid and FX. | Touch-strip lights show blue and amber. The screen shows deck and track status. |
+| Z2 | Four-deck mixer, deck selection, Hot Cues, Sync, browse and load, loops, FX and cue mix. | RGB pad lighting, channel meters and split audio. |
+| S5 and S8 | Four-deck mixing, two deck surfaces, browse and load, loops, pads, FX and touch strips. S8 also maps mixer switches and Grid. | Channel meters, blue and amber strips, split audio and deck status on both screens. |
+| MX2 | Two-deck transport, jog and touch, browse and load, headphone Preview, loops, Hot Cues, mixer and FX. | Blue and amber light strips, channel meters and split audio. |
+
+For Z2, S5, S8 and MX2, the gadget presents master on 1–2 and headphones on 3–4. The relay sends these four channels to the controller's ALSA playback device. Check the physical output order, latency and reconnect behavior before live use. No physical controller or bridge was available for R137.
+
+Open functions include full Remix Deck editing and F1 per-slot faders and filters, stems and Pattern Player, Z2 timecode and analogue capture, and MX2/S8 microphone capture. The colour panels show title, time, BPM and playback state. Waveforms and the controller's on-screen browser remain open. The existing S4 Mk3 motor, display and capture limits still apply.
+
+Sources. [NI older manuals](https://support.native-instruments.com/support/solutions/articles/69000879398-traktor-manuals-for-older-devices) · [X1 Mk1 USB mapping](https://github.com/Opa-/x1-mk1-usb2midi/blob/main/board.yml) · [Backspn report layouts](https://github.com/suitux/Backspn/tree/e0244b9c3ef16409d8c26fa2d27af3b7156204c5/crates/control/src/kontrol) · [Backspn screen protocol](https://github.com/suitux/Backspn/blob/e0244b9c3ef16409d8c26fa2d27af3b7156204c5/crates/control/src/s4mk3/screen.rs) · [Encdr endpoint descriptors](https://github.com/RufusIbiza/Encdr/tree/a5414658a69c4330d10b95f2359371dfc8550326/encdr/descriptors) · [Mixxx MX2 mapping](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Traktor-MX2-hid-scripts.js).

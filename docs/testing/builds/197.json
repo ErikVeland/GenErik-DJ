@@ -1,0 +1,25 @@
+{
+  "notes": "R136. Report completed catalogue, queue and audio work to iOS during background analysis.",
+  "sourceCommit": "2b1f23f9fe2de4bcaef0a0f1b07162815f014b14",
+  "sourceSHA256": "7304e84b9974d789448e550d34c64950d1575841156815de4b6f07904ce7b17d",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 83.95,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-197.log",
+  "build": 197,
+  "app": "TestBuilds/ipad/197/GenErikDJ.app",
+  "appSHA256": "d8654fb6d3c2eb9b3bf753519190a3bfbbe9028b2bd8cb0203d219b51845a4e0",
+  "state": "ready",
+  "createdUTC": "2026-11-10T08:14:37.105921+00:00",
+  "requestIDs": [
+    "R136"
+  ],
+  "deploymentAttempts": [
+    {
+      "target": "GenErik Duo",
+      "checkedUTC": "2026-11-10T08:17:36.215724+00:00",
+      "result": "CoreDevice reported error 4016. The Duo was unavailable. Installation and launch were not confirmed."
+    }
+  ]
+}
