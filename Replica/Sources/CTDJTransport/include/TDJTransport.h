@@ -10,7 +10,13 @@ extern "C" {
 #endif
 
 typedef struct tdj_asset tdj_asset;
+tdj_asset *tdj_asset_create_stems(const tdj_asset *master, const tdj_asset *const *stems);
 typedef struct tdj_engine tdj_engine;
+void tdj_stem_mix_set(tdj_engine *engine, unsigned deck, uint64_t mix);
+void tdj_pattern_set(tdj_engine *engine, unsigned unit, uint64_t settings);
+void tdj_factory_input_set(tdj_engine *engine, unsigned layout, uint32_t input_mask);
+uint64_t tdj_timecode_read(tdj_engine *engine, unsigned side);
+bool tdj_timecode_speed(const float *left, const float *right, unsigned count, double sample_rate, double *speed);
 
 #define TDJ_DECK_COUNT 4
 #define TDJ_LOAD 1

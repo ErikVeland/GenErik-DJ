@@ -48,3 +48,20 @@ class FactoryBridgeTests(unittest.TestCase):
         self.assertEqual(struct.unpack('>IH', report[16:22]), (WIDTH // 2, 0xfc00))
         self.assertEqual(report[-8:], b'\x03\0\0\0\x40\0\x01\0')
         self.assertEqual(list(encode_screen(1, current, current)), [])
+
+
+class PerformanceBridgeTests(unittest.TestCase):
+    def test_z2_capture_keeps_timecode_and_mic_pairs_separate(self):
+        from traktor_factory_bridge import capture_configuration
+        model = MODELS['z2']
+        alsa = capture_configuration('plughw:2,0', model.capture_source_channels, model.capture)
+        self.assertIn('slave.channels 8', alsa)
+        self.assertEqual([row.strip() for row in alsa.splitlines() if 'ttable' in row], [
+            'ttable.0.2 1', 'ttable.1.3 1', 'ttable.2.4 1', 'ttable.3.5 1', 'ttable.4.0 1', 'ttable.5.1 1',
+        ])
+
+    def test_s4_panel_uses_blue_in_the_high_bits(self):
+        report, = encode_screen(0, b'\xff\x00\x00' * 2, width=2, height=1, runs=False)
+        self.assertEqual(report[:4], b'\x84\0\0\x21')
+        self.assertEqual(report[16:20], b'\0\x1f\0\x1f')
+        self.assertEqual(report[20:], b'\x40\0\0\0')

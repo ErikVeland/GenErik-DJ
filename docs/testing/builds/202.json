@@ -1,0 +1,15 @@
+{
+  "notes": "R138 adds NI performance features and verifies S8 and Z2 input isolation. Local verification only.",
+  "sourceCommit": "fcbac3aba2fd38a4692898fc44c409cc96cfcb51",
+  "sourceSHA256": "172c6f20b32c2a6d90381f146e013f847d8639fbfbef14bbd2d124f10a40ec26",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 57.87,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-202.log",
+  "build": 202,
+  "app": "TestBuilds/ipad/202/GenErikDJ.app",
+  "appSHA256": "8df422efc34ecd1c261d5fc6403f188693d2d412e21529c2661fab680c9dacb1",
+  "state": "ready",
+  "createdUTC": "2026-11-10T11:57:01.057779+00:00"
+}

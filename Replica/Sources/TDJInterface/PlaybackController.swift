@@ -287,6 +287,17 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                 try cloneSource.copyForDeck(
                     outputSampleRate: rate, maximumOutputFrames: maximum, compactPool: deck.transportIndex >= 2)
             }.value
+        } else if let url = sourceURL ?? (track.nativeLibraryOnly == true
+            ? nil : store.mediaDirectory.appendingPathComponent(track.mediaFilename)),
+            url.isFileURL, url.lastPathComponent.lowercased().hasSuffix(".stem.mp4")
+        {
+            let core = core
+            let task = Task.detached(priority: .utility) {
+                try await StemPCM.prepare(url: url) { core.snapshot()?.anyDeckActive != true }
+            }
+            asset = try await withTaskCancellationHandler {
+                try await task.value
+            } onCancel: { task.cancel() }
         } else if let preparedAsset {
             asset = preparedAsset
         } else if let opening {
@@ -781,6 +792,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             requestedCaptureDevice = nil
             attachedCaptureDevice = nil
             s4CaptureChannels = 0
+            core.setFactoryInput(layout: 0, mask: 0)
             enabledCaptureDevice = nil
             core.setMicrophoneEnabled(false)
         #endif
@@ -996,14 +1008,41 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         var s2MicrophoneActive: Bool { s2MicEnabled || s2MK2MicEnabled }
         var s3ExtEnabled: Bool { enabledCaptureDevice == "S3" }
         private var s4CaptureChannels: UInt32 = 0
+        private var factoryCaptureMask: UInt32 = 0
+
+        private static func factoryCaptureChannels(_ device: String?) -> UInt32? {
+            switch device {
+            case "Z2 Bridge": 6
+            case "S8 Bridge": 4
+            case "MX2 Bridge": 1
+            default: nil
+            }
+        }
+
+        func setFactoryCapture(_ enabled: Bool, device: String, mask: UInt32 = 0, mic: Bool = false) throws {
+            guard let channels = Self.factoryCaptureChannels(device) else { return }
+            factoryCaptureMask = mask
+            if enabledCaptureDevice != device || !enabled {
+                try setCaptureEnabled(enabled, device: device)
+            }
+            guard enabled else { return }
+            if channels > 1 {
+                core.setFactoryInput(layout: channels, mask: mask)
+                if device == "Z2 Bridge" { core.setS4MicLevel(mic ? 1 : 0) }
+            }
+        }
+
+        func factoryCaptureActive(_ device: String) -> Bool { enabledCaptureDevice == device }
         var s4InputChannels: UInt32 { Self.isS4Capture(enabledCaptureDevice) ? s4CaptureChannels : 0 }
 
         private static func isS4Capture(_ device: String?) -> Bool {
-            device == "S4 Mk2" || device == "S4 Mk1 Bridge"
+            device == "S4 Mk2" || device == "S4 Mk1 Bridge" || device == "Z2 Bridge" || device == "S8 Bridge"
         }
 
         private func enableS4Capture(_ device: String) {
-            if device == "S4 Mk1 Bridge" {
+            if let channels = Self.factoryCaptureChannels(device) {
+                core.setFactoryInput(layout: channels, mask: factoryCaptureMask)
+            } else if device == "S4 Mk1 Bridge" {
                 core.enableS4MK1Input(true)
             } else {
                 core.setS4InputChannels(s4CaptureChannels)
@@ -1051,6 +1090,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             if !enabled {
                 if Self.isS4Capture(device), requestedCaptureDevice == device { requestedCaptureDevice = nil }
                 if enabledCaptureDevice == device {
+                    if Self.factoryCaptureChannels(device) != nil { core.setFactoryInput(layout: 0, mask: 0) }
                     core.setMicrophoneEnabled(false)
                     enabledCaptureDevice = nil
                 }
@@ -1076,7 +1116,9 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                 else {
                     throw TransportError.cache("The \(device) input is unavailable on this connection.")
                 }
-                if device == "S2 Mk2" || device == "S2 Mk3" { core.setExternalInputMix(level: 1, cue: false) }
+                if device == "S2 Mk2" || device == "S2 Mk3" || device == "MX2 Bridge" {
+                    core.setExternalInputMix(level: 1, cue: false)
+                }
                 if Self.isS4Capture(device) {
                     requestedCaptureDevice = device
                     enableS4Capture(device)
@@ -1085,7 +1127,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                 }
                 enabledCaptureDevice = device
             } catch {
-                let restorePlayback = device == "S2 Mk2" && openingInput
+                let restorePlayback = (device == "S2 Mk2" || Self.factoryCaptureChannels(device) != nil) && openingInput
                 if restorePlayback, outputActive { suspendOutput() }
                 if !outputActive { discardOutputGraph() }
                 if restorePlayback || Self.isS4Capture(device) {
@@ -1136,7 +1178,8 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                 else { throw TransportError.cache("The \(captureDevice) does not expose an audio input.") }
                 if session.preferredInput?.uid != port.uid { try session.setPreferredInput(port) }
                 if Self.isS4Capture(captureDevice) {
-                    let channels = captureDevice == "S4 Mk2" && session.maximumInputNumberOfChannels >= 6 ? 6 : 4
+                    let channels = Int(Self.factoryCaptureChannels(captureDevice)
+                        ?? (captureDevice == "S4 Mk2" && session.maximumInputNumberOfChannels >= 6 ? 6 : 4))
                     if session.inputNumberOfChannels != channels {
                         try? session.setPreferredInputNumberOfChannels(channels)
                     }
@@ -1188,6 +1231,9 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                 if let captureDevice {
                     let input = engine.inputNode
                     let format = input.outputFormat(forBus: 0)
+                    if let channels = Self.factoryCaptureChannels(captureDevice), format.channelCount != channels {
+                        throw TransportError.cache("Reconnect the \(captureDevice) with its input-enabled gadget.")
+                    }
                     guard captureDevice != "S4 Mk1 Bridge" || format.channelCount == 4 else {
                         throw TransportError.cache("The S4 Mk1 bridge requires four input channels.")
                     }

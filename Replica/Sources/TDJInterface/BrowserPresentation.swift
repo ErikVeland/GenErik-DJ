@@ -3,9 +3,11 @@ import Foundation
 enum BrowserPresentation {
     case standard, frontPhone
 
-    /// Use the whole window width, before help, docks or drawers consume space.
-    static func select(isPhone: Bool, windowWidth: Double) -> Self {
-        guard isPhone, windowWidth.isFinite, windowWidth > 0, windowWidth < 600 else { return .standard }
+    /// Use the short edge of the whole phone window so rotation keeps the same presentation.
+    static func select(isPhone: Bool, windowWidth: Double, windowHeight: Double) -> Self {
+        guard isPhone, windowWidth.isFinite, windowHeight.isFinite, windowWidth > 0, windowHeight > 0,
+            min(windowWidth, windowHeight) < 600
+        else { return .standard }
         return .frontPhone
     }
 }

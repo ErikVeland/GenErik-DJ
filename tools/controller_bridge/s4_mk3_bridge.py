@@ -11,9 +11,11 @@ import sys
 import time
 
 from z1_bridge import Decoder, encode, write_all
+from traktor_factory_screens import ScreenWorker
 
 INPUT, LIGHTS, RING, STATUS = 5, 6, 7, 8
-LENGTHS = {INPUT: 96, LIGHTS: 95, RING: 41, STATUS: 1}
+SCREEN, SCREEN_CONTENT = 18, 19
+LENGTHS = {INPUT: 96, LIGHTS: 95, RING: 41, STATUS: 1, SCREEN: 64, SCREEN_CONTENT: 103}
 MIN_INPUT_LENGTH = {1: 23, 2: 79, 3: 44}
 RING_INIT = bytes([0x30, 0, 1, 3] + [0] * 23)
 ID = [3, 0x17CC, 0x1720]
@@ -68,21 +70,25 @@ def controller_usb_parent(hid_path, sysfs=Path('/sys')):
     return interface.parent
 
 
-def playback_pcm(usb_parent, sysfs=Path('/sys')):
-    matches = [node.name for node in (sysfs / 'class/sound').glob('pcmC*D*p')
+def controller_pcm(usb_parent, direction, sysfs=Path('/sys')):
+    matches = [node.name for node in (sysfs / 'class/sound').glob(f'pcmC*D*{direction}')
                if usb_parent in node.resolve(strict=True).parents]
     if len(matches) != 1:
-        raise ValueError("The controller must expose one ALSA playback device.")
+        raise ValueError("The controller must expose one ALSA device for this direction.")
     card, device = matches[0][4:-1].split('D')
     return f'plughw:{card},{device}'
 
 
-def audio_command(capture, playback):
-    return ['alsaloop', '-C', capture, '-P', playback, '-c', '4', '-r', '48000', '-f', 'S32_LE',
+def playback_pcm(usb_parent, sysfs=Path('/sys')):
+    return controller_pcm(usb_parent, 'p', sysfs)
+
+
+def audio_command(capture, playback, channels=4):
+    return ['alsaloop', '-C', capture, '-P', playback, '-c', str(channels), '-r', '48000', '-f', 'S32_LE',
             '-t', '20000', '-S', '4']
 
 
-def relay(hid, midi, audio):
+def relay(hid, midi, audio, screens=None):
     latest = {report[0]: report for report_id in (1, 2)
               if (report := initial_input(hid, report_id)) is not None}
     write_hid(hid, RING_INIT)
@@ -118,6 +124,8 @@ def relay(hid, midi, audio):
                         for report_id, current in sorted(latest.items()):
                             write_all(midi, frame(INPUT, current))
                             sent[report_id] = current
+                    elif announced and screens is not None and kind in (SCREEN, SCREEN_CONTENT):
+                        screens.submit(report, content=kind == SCREEN_CONTENT)
                     elif announced and valid_feedback(kind, report):
                         key = (kind, report[1] if kind == RING else 0)
                         if feedback.get(key) != report:
@@ -155,9 +163,16 @@ def main():
         midi = os.open(args.midi, os.O_RDWR | os.O_NONBLOCK)
         try:
             with subprocess.Popen(audio_command(args.audio_in, playback)) as audio:
+                screens = None
                 try:
-                    relay(hid, midi, audio)
+                    screens = ScreenWorker('s4-mk3', usb_parent)
+                except (OSError, ValueError) as error:
+                    print(f'S4 Mk3 screens could not start. {error}', file=sys.stderr)
+                try:
+                    relay(hid, midi, audio, screens)
                 finally:
+                    if screens is not None:
+                        screens.close()
                     if audio.poll() is None:
                         audio.terminate()
                         try:

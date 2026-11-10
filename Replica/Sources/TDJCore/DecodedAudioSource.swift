@@ -76,8 +76,31 @@ final class DecodedAudioSource: @unchecked Sendable {
     private static func asset(url: URL, lease: DecodedSourceLease) async throws -> DecodedAudioSource {
         let asset = AVURLAsset(url: url)
         guard try await !asset.load(.hasProtectedContent) else { throw MusicLibraryError.protected }
-        guard let track = try await asset.loadTracks(withMediaType: .audio).first,
-            let format = try await track.load(.formatDescriptions).first,
+        guard let track = try await asset.loadTracks(withMediaType: .audio).first else {
+            throw MusicLibraryError.missingAudio
+        }
+        return try await assetTrack(url: url, asset: asset, track: track, lease: lease)
+    }
+
+    static func stemTracks(url: URL) async throws -> [DecodedAudioSource] {
+        let asset = AVURLAsset(url: url)
+        guard try await !asset.load(.hasProtectedContent) else { throw MusicLibraryError.protected }
+        let tracks = try await asset.loadTracks(withMediaType: .audio).sorted { $0.trackID < $1.trackID }
+        guard tracks.count == 5 else { throw PCMStreamingError.unsupported }
+        let lease = DecodedSourceLease({})
+        var sources: [DecodedAudioSource] = []
+        for track in tracks {
+            let start = try await track.load(.timeRange).start.seconds
+            guard abs(start) < 0.001 else { throw PCMStreamingError.unsupported }
+            sources.append(try await assetTrack(url: url, asset: asset, track: track, lease: lease))
+        }
+        return sources
+    }
+
+    private static func assetTrack(
+        url: URL, asset: AVURLAsset, track: AVAssetTrack, lease: DecodedSourceLease
+    ) async throws -> DecodedAudioSource {
+        guard let format = try await track.load(.formatDescriptions).first,
             let description = CMAudioFormatDescriptionGetStreamBasicDescription(format)
         else { throw MusicLibraryError.missingAudio }
         let rate = description.pointee.mSampleRate

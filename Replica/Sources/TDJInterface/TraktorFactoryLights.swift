@@ -40,6 +40,10 @@ struct TraktorFactoryLights {
         }
     }
 
+    mutating func patternLamp(_ lamp: TraktorFactoryProfile.Lamp, color: UInt8) {
+        if case .palette(let at) = lamp { set(at, color) }
+    }
+
     mutating func digits(_ number: Int, first: Int, count: Int, width: Int, reversed: Bool = false, fraction: Bool = false) {
         let masks: [UInt8] = [0xfc, 0x0c, 0xda, 0x9e, 0x2e, 0xb6, 0xf6, 0x1c, 0xfe, 0xbe]
         var text = String(number).compactMap(\.wholeNumberValue).map { masks[$0] }
@@ -128,6 +132,9 @@ struct TraktorFactoryLights {
                 case .play: active = state.phase.active
                 case .cue: active = session.heldCues.contains(deck) || (!state.phase.active && state.generation != 0)
                 case .sync: active = state.synced
+                case .microphone: active = session.microphone && playback.factoryCaptureActive(session.audioDevice)
+                case .liveInput: active = session.liveInputs.contains(deck) && playback.factoryCaptureActive(session.audioDevice)
+                case .timecode: active = session.timecode.contains(deck) && playback.factoryCaptureActive(session.audioDevice)
                 case .keylock: active = state.keylock
                 case .flux: active = state.fluxEnabled
                 case .reverse: active = session.reversing.contains(deck)
@@ -146,13 +153,38 @@ struct TraktorFactoryLights {
                 case .quantize: active = native.quantize
                 case .grid: active = s2Grids[deck] != nil
                 case .fxButton(let slot):
-                    active = slot == 0 ? native.fx[unit].enabled : native.fx[unit].slots.contains(slot - 1)
-                case .fxAssign(let unit): active = native.fx[unit].decks.contains(deck)
+                    let pattern = session.patterns[unit]
+                    if session.model == .mx2, pattern.mode == 2 {
+                        active = (slot == 0 && pattern.enabled) || (slot == 3 && pattern.ducking)
+                    } else {
+                        active = slot == 0 ? native.fx[unit].enabled : native.fx[unit].slots.contains(slot - 1)
+                    }
+                case .fxAssign(let unit):
+                    let pattern = session.patterns[unit]
+                    active = (session.model == .mx2 && pattern.mode == 2 ? pattern.decks : native.fx[unit].decks).contains(deck)
+                case .stemPads:
+                    reports.patternLamp(light.lamp, color: session.stemDecks.contains(deck) && isStemDeck(deck) ? 46 : 44)
+                    continue
+                case .stemFilterToggle(let part):
+                    active = stemMix(deck).map { !$0.bypassed.contains(part) && abs($0.filters[part]) > 0.01 } ?? false
+                case .stopSampleColumn(let part):
+                    active = stemMix(deck)?.muted.contains(part) == true
+                case .patternPads:
+                    let page = session.patterns[unit].page
+                    reports.patternLamp(light.lamp, color: page == 1 ? 70 : page == 0 ? 46 : 44)
+                    continue
                 case .mixerFX(let index): active = index == session.mixerFX
                 case .mixerButton(.cueA): active = state.mixer.cue
                 case .mixerButton(.filterToggleA): active = state.mixer.filterEnabled
                 case .pad(let slot):
-                    if session.sampleDecks.contains(deck) {
+                    if session.stemDecks.contains(deck), let mix = stemMix(deck) {
+                        reports.lamp(light.lamp, level: mix.muted.contains(slot % 4) ? 12 : 127)
+                    } else if session.model == .mx2, let page = session.patterns[unit].page {
+                        let step = page * 8 + slot
+                        let on = session.patterns[unit].steps & (1 << step) != 0
+                        let cursor = Int((snapshot.masterBeat * 4).rounded(.down)) & 15
+                        reports.patternLamp(light.lamp, color: cursor == step ? 14 : on ? 30 : 28)
+                    } else if session.sampleDecks.contains(deck) {
                         reports.lamp(light.lamp, level: sampleLevel(Int(deck.transportIndex) * 8 + slot))
                     } else if session.loopDecks.contains(deck) {
                         reports.lamp(light.lamp, level: session.rollPads[deck] == slot ? 127 : 28)
@@ -164,7 +196,12 @@ struct TraktorFactoryLights {
                     }
                     continue
                 case .sample(let slot):
-                    reports.lamp(light.lamp, level: sampleLevel(slot))
+                    if let mix = stemMix(deck) {
+                        let part = slot % 4
+                        reports.lamp(light.lamp, level: mix.muted.contains(part) ? 0 : UInt8(mix.gain[part] * 127))
+                    } else {
+                        reports.lamp(light.lamp, level: sampleLevel(slot))
+                    }
                     continue
                 default: active = false
                 }

@@ -87,6 +87,8 @@ extension TraktorFactoryProfile {
             p.button(1 + slot / 8, 0x80 >> (slot % 8), target, .sample(slot), .rgb(24 + 3 * slot))
         }
         for column in 0..<4 {
+            p.pot(14 + 2 * column, report: 1, target, .stemGain(column))
+            p.pot(6 + 2 * column, report: 1, target, .stemFilter(column))
             p.button(4, 0x80 >> column, target, .stopSampleColumn(column), .mono(78 - 2 * column))
         }
         p.pulses = [.rgb(24 + 3 * 15)]
@@ -150,6 +152,14 @@ extension TraktorFactoryProfile {
             for finger in 0..<2 {
                 p.inputs.append(.init(report: 1, byte: spec.strip + 2 * finger, encoding: .strip(shared: false), target: target, control: .strip))
             }
+            if model == .d2 || model == .s8 {
+                for part in 0..<4 {
+                    p.pot((model == .d2 ? 9 : 17) + 8 * side + 2 * part, target, .stemGain(part))
+                    p.inputs.append(.init(report: 2, byte: 1 + 8 * side + 2 * part, encoding: .endless,
+                                          target: target, control: .stemFilterTurn(part)))
+                    p.bit(first, 20 + 64 * side - part, target, .stemFilterToggle(part), .mono(40 + 118 * side + part))
+                }
+            }
             p.pulses.append(.paired(blue: spec.pulse.blue, amber: spec.pulse.amber, count: 25, stride: 1))
         }
         if model == .d2 {
@@ -160,6 +170,8 @@ extension TraktorFactoryProfile {
             p.addScreenMixer(model)
         }
         if model == .s8 {
+            p.bit(first, 146, .channel(.c), .liveInput, .mono(298))
+            p.bit(first, 168, .channel(.d), .liveInput, .mono(299))
             p.bit(first, 42, .surface(0), .loopPads, .mono(46))
             p.bit(first, 106, .surface(1), .loopPads, .mono(164))
             p.bit(first, 16, .surface(0), .grid, .mono(39))
@@ -213,6 +225,7 @@ extension TraktorFactoryProfile {
         p.bit(3, 32, .surface(0), .shift, .mono(5))
         p.bit(3, 7, .surface(0), .browser)
         p.bit(3, 4, .surface(0), .quantize, .mono(3))
+        p.bit(3, 16, .channel(.a), .microphone)
         p.turn(1, .surface(0), .browse)
         for side in 0..<2 {
             let target = Target.surface(side)
@@ -224,6 +237,8 @@ extension TraktorFactoryProfile {
             p.bit(3, side == 0 ? 25 : 33, target, .layer(side == 0 ? .a : .b), .mono(6 + side))
             p.bit(3, side == 0 ? 24 : 34, target, .layer(side == 0 ? .c : .d), .mono(8 + side))
             p.bit(3, 10 + side, channel, .mixerButton(.cueA), .mono(128 + side))
+            p.bit(3, side, channel, .liveInput)
+            p.bit(3, 12 + side, channel, .timecode, .mono(side == 0 ? 17 : 25))
             p.bit(3, side == 0 ? 30 : 39, channel, .mixerButton(.filterToggleA), .mono(13 + 8 * side))
             p.bit(3, side == 0 ? 17 : 40, target, .fxButton(0), .mono(12 + 8 * side))
             p.pot(13 + 14 * side, target, .fxKnob(0))
@@ -262,6 +277,8 @@ extension TraktorFactoryProfile {
             for ((byte, mask, lamp), control) in zip(buttons[side], transport) {
                 p.button(byte, mask, target, control, lamp.map(Lamp.mono))
             }
+            p.button(side == 0 ? 3 : 6, side == 0 ? 2 : 0x80, target, .stemPads, .palette(side == 0 ? 17 : 47))
+            p.button(side == 0 ? 3 : 7, 1, target, .patternPads, .palette(side == 0 ? 18 : 48))
             p.button(side == 0 ? 1 : 5, side == 0 ? 0x20 : 0x08, target, .prepare,
                      .mono(side == 0 ? 5 : 35))
             for i in 0..<8 { p.bit(0, padBits[side][i], target, .pad(i), .palette(20 + 30 * side + i)) }
@@ -283,6 +300,7 @@ extension TraktorFactoryProfile {
                 p.bit(0, 68 + 4 * side + unit, channel, .fxAssign(unit), .mono(60 + 4 * side + unit))
             }
         }
+        p.button(10, 2, .channel(.a), .microphone, .mono(73))
         p.pot(37, .channel(.a), .pot(.master))
         p.pot(39, .channel(.a), .pot(.cueMix))
         p.pot(41, .channel(.a), .pot(.monitor))

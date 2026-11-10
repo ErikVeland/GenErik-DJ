@@ -60,7 +60,7 @@ public struct LibraryGroupSource: Sendable, Identifiable {
                 if index & 255 == 0 { try checkCancellation() }
                 let old = previous.storage.inputGroups[index]
                 let new = groups[index]
-                if old.id != new.id || old.name != new.name {
+                if old.id != new.id || old.name != new.name || old.isAppPlaylist != new.isAppPlaylist {
                     matches = false
                     break
                 }
@@ -120,7 +120,8 @@ public struct LibraryGroupRequest: Hashable, Sendable {
 }
 public struct LibraryGroupProjection: Sendable {
     private let source: LibraryGroupSource
-    public var count: Int { source.groups.count }
+    public var groups: [CollectionGroup] { source.groups }
+    public var count: Int { groups.count }
     public let selectedGroup: CollectionGroup?
     private static let worker = AnalysisWorker()
     public func visibleGroups(in range: Range<Int>) -> [CollectionGroup] {

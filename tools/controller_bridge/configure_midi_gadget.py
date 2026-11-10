@@ -108,8 +108,9 @@ def setup(args):
             write_attribute(audio / "c_chmask", "0x33")
             write_attribute(audio / "c_srate", "48000")
             write_attribute(audio / "c_ssize", "4")
-            if modular == "s4-mk1":
-                write_attribute(audio / "p_chmask", "0x33")
+            capture_channels = 4 if modular == "s4-mk1" else len(FACTORY_MODELS[modular].capture) if modular in FACTORY_MODELS else 0
+            if capture_channels:
+                write_attribute(audio / "p_chmask", {1: "0x1", 4: "0x33", 6: "0x3f"}[capture_channels])
                 write_attribute(audio / "p_srate", "48000")
                 write_attribute(audio / "p_ssize", "4")
                 write_attribute(gadget / "bcdDevice", "0x0101")

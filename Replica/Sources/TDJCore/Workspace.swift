@@ -434,7 +434,8 @@ public actor LibraryService {
         let metadata = (try? await EmbeddedMetadata.read(url: url)) ?? EmbeddedMetadata()
         try Task.checkCancellation()
         let ext = url.pathExtension.lowercased().filter { $0.isLetter || $0.isNumber }
-        let filename = analysis.contentSHA256 + (ext.isEmpty ? "" : "." + ext)
+        let suffix = url.lastPathComponent.lowercased().hasSuffix(".stem.mp4") ? ".stem.mp4" : ext.isEmpty ? "" : "." + ext
+        let filename = analysis.contentSHA256 + suffix
         let destination = store.mediaDirectory.appendingPathComponent(filename)
         let sourceIdentity = analysis.contentSHA256
         if copyMedia {

@@ -90,15 +90,32 @@
             case .browserView:
                 applyNativeTraktorEvent(.browserView, isS3: false)
             case .fxAssign(let unit, let deck):
-                applyNativeMK2Event(.fxAssign(unit, deck), stateKey: \.x1MK3Performance)
+                if x1Patterns[unit].mode == 2 {
+                    if x1Patterns[unit].decks.remove(deck) == nil { x1Patterns[unit].decks.insert(deck) }
+                    updateX1Pattern(unit)
+                } else { applyNativeMK2Event(.fxAssign(unit, deck), stateKey: \.x1MK3Performance) }
             case .fxEnable(let unit, let slot):
-                applyNativeMK2Event(.fxEnable(unit, slot), stateKey: \.x1MK3Performance)
+                if x1Patterns[unit].button(slot.map { $0 + 1 } ?? 0, shifted: x1MK3Controls.shifted) {
+                    if slot == nil, x1MK3Controls.shifted, x1Patterns[unit].mode == 2 {
+                        x1Patterns[unit].decks = x1MK3Performance.fx[unit].decks
+                    }
+                    updateX1Pattern(unit)
+                } else { applyNativeMK2Event(.fxEnable(unit, slot), stateKey: \.x1MK3Performance) }
             case .fxPot(let unit, let knob, let value):
-                applyNativeMK2Event(.fxPot(unit, knob, value), stateKey: \.x1MK3Performance)
+                if x1Patterns[unit].mode == 2 {
+                    x1Patterns[unit].knob(knob, value: value)
+                    updateX1Pattern(unit)
+                } else { applyNativeMK2Event(.fxPot(unit, knob, value), stateKey: \.x1MK3Performance) }
             }
         }
 
+        private func updateX1Pattern(_ unit: Int) {
+            playback.core.setPatternUnit(UInt32(unit + 2), settings: x1Patterns[unit].settings)
+        }
+
         private func releaseX1MK3() {
+            x1Patterns = [.init(), .init()]
+            for unit in 0..<2 { updateX1Pattern(unit) }
             for deck in x1MK3Controls.reversing { perform(.rate, deck: deck, value: 1) }
             for deck in DeckID.allCases {
                 releaseS4PerformanceContacts(deck, stateKey: \.x1MK3Performance)
@@ -130,6 +147,11 @@
                 feedback.fxDecks = x1MK3Performance.fx.map(\.decks)
                 feedback.fxEnabled = x1MK3Performance.fx.map(\.enabled)
                 feedback.fxSlots = x1MK3Performance.fx.map(\.slots)
+                for (unit, pattern) in x1Patterns.enumerated() where pattern.mode == 2 {
+                    feedback.fxDecks[unit] = pattern.decks
+                    feedback.fxEnabled[unit] = pattern.enabled
+                    feedback.fxSlots[unit] = pattern.ducking ? [2] : []
+                }
                 for deck in x1MK3Controls.decks {
                     if let track = loaded[deck], let cues = performance.cues[track] {
                         feedback.cues[deck] = Set(cues.keys)

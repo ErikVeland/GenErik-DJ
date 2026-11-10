@@ -165,9 +165,29 @@ These factory adapters cover the eight remaining Traktor models in the 18-model 
 
 For Z2, S5, S8 and MX2, the gadget presents master on 1–2 and headphones on 3–4. The relay sends these four channels to the controller's ALSA playback device. NI documents headphones on channels 3–4 for its integrated Traktor interfaces. Check the physical output order, latency and reconnect behavior before live use. No physical controller or bridge was available for R137. [NI channel routing](https://support.native-instruments.com/support/solutions/articles/69000879976-using-a-native-instruments-audio-interface-as-system-audio-output).
 
-Open functions include full Remix Deck editing and F1 per-slot faders and filters, stems and Pattern Player, Z2 timecode and analogue capture, and MX2/S8 microphone capture. The colour panels show title, time, BPM and playback state. Waveforms and the controller's on-screen browser remain open. The existing S4 Mk3 motor, display and capture limits still apply.
+Open functions include full Remix Deck editing and F1 per-slot faders and filters, stems and Pattern Player, Z2 timecode and analogue capture, and MX2/S8 microphone capture. The colour panels show title, time, BPM and playback state. Waveforms and the controller's on-screen browser remain open. The existing S4 Mk3 motor, display and capture limits still apply to R137. See [R138](#r138-ni-performance-features) for later changes.
 
 
 Eleven focused Swift tests and 23 bridge tests passed on the source for [build 200](../testing/builds/200.json). A host check rendered a colour panel with a non-ASCII track title. The signed build passed the runtime framework check. Builds [198](../testing/builds/198.json) and [199](../testing/builds/199.json) record earlier candidates. All R137 checks stayed off the iPad. Logs are in `TestBuilds/r137/`.
 
 Sources. [NI older manuals](https://support.native-instruments.com/support/solutions/articles/69000879398-traktor-manuals-for-older-devices) · [X1 Mk1 USB mapping](https://github.com/Opa-/x1-mk1-usb2midi/blob/main/board.yml) · [Backspn report layouts](https://github.com/suitux/Backspn/tree/e0244b9c3ef16409d8c26fa2d27af3b7156204c5/crates/control/src/kontrol) · [Backspn screen protocol](https://github.com/suitux/Backspn/blob/e0244b9c3ef16409d8c26fa2d27af3b7156204c5/crates/control/src/s4mk3/screen.rs) · [Encdr endpoint descriptors](https://github.com/RufusIbiza/Encdr/tree/a5414658a69c4330d10b95f2359371dfc8550326/encdr/descriptors) · [Mixxx MX2 mapping](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Traktor-MX2-hid-scripts.js).
+
+## R138 NI performance features
+
+GenErik selects these mappings automatically on a matching bridge. The new capture routes need an updated gadget and iPadOS microphone permission. No controller setup is required in the app.
+
+| Feature | Implemented scope |
+| --- | --- |
+| Stems | Load a five-track `.stem.mp4` with an authored master and four aligned parts. D2 and S8 use their performance faders and filter controls. F1 uses its faders, filter knobs and Stop row. S5 and MX2 use held pads and encoders. S4 Mk3 uses its dedicated STEMS and MUTE buttons, pads, and MOVE and LOOP encoders. |
+| Pattern Player | MX2 and X1 Mk3 use the FX buttons, knobs and deck assignments. MX2 edits 16 steps over two pad pages. Two built-in kits use synthesized drum sounds. The engine triggers notes on its beat clock. |
+| Z2 timecode | REL/INT toggles relative control on A or B. It uses the Mk2 stereo carrier for speed and direction. It holds the playhead on signal loss and keeps the deck’s saved Sync choice. |
+| Audio inputs | Z2 routes mic/AUX to master and line inputs to empty A/B mixer channels. S8 maps the C/D pairs, including the hardware mic assignments. MX2 MIC routes its microphone to master. |
+| Screens | D2, S5, S8 and the Linux S4 Mk3 bridge show the track overview waveform and playhead. Browse shows four rows and the current selection from the app. |
+
+Stem preparation stops if a deck becomes active. It accepts one master and four mono or stereo tracks with matching sample rates and aligned starts. It limits the five decoded streams to a total of 480 MiB per Stem file. The app plays the authored master at the default settings and mixes the four parts when a control changes.
+
+Absolute Z2 needle-drop position, real-vinyl calibration, source separation, stem FX sends, Z1 Mk2 stem controls, NI kit import, the X1 Mk3 pattern display, additional S8 inputs, S4 Mk3 audio capture and direct DriverKit displays remain open. S5 AUX stays on the hardware mix path. Physical routing, control response, screen behavior and A10X performance remain unverified.
+
+[Build 203](../testing/builds/203.json) passed local signing and runtime checks. Twenty-four focused Swift tests and 25 bridge tests passed on its source. The host tests opened a synthetic five-track AAC file, exercised Pattern Player timing, and checked carrier tracking and input isolation. A host smoke test rendered both screen views. All checks stayed off the iPad. Logs and the synthetic file are in `TestBuilds/r138/`.
+
+[NI Stem controls](https://support.native-instruments.com/support/solutions/articles/69000879536-how-can-i-control-the-individual-stems-on-a-traktor-stem-deck-) · [NI S5 manual](https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/TRAKTOR_KONTROL_S5_Manual_English.pdf) · [NI X1 Mk3 Pattern Player](https://docs.native-instruments.com/ni-tech-manuals/traktor-x1-mk3-manual/en/using-the-pattern-player) · [NI MX2 controls](https://docs.native-instruments.com/online-guides/traktor-mx2-user-guide/en/traktor-mx2-overview) · [NI Z2 USB routing](https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/traktor_kontrol_z2_manual_english.pdf) · [Mixxx Mk2 carrier analysis](https://mixxx.org/news/2025-08-27-dvs-internals-pt3/).

@@ -72,7 +72,7 @@ private func unifiedProjection(
     let saved = try await LibraryBrowserProjection.selectedIDs(
         selection: Set(result.entries.map(\.membershipID)), tracks: [track], catalog: catalog)
     #expect(saved == [a.id, b.id, raw.id])
-    #expect(result.groups.contains { $0.id == "music:p" && $0.name == "Set · Music" })
+    #expect(result.groups.contains { $0.id == "music:p" && $0.name == "Set" && !$0.isAppPlaylist })
     let sorted = try await unifiedProjection(
         tracks: [track], catalog: catalog, sort: .title, category: .playlists, group: "music:p")
     #expect(sorted.entries.compactMap { $0.nativeItem?.id } == [a.id, b.id, b.id, raw.id])
@@ -210,8 +210,10 @@ private func unifiedProjection(
         source: result.groupSource, search: "Artist 114999", selectedID: "Artist 114999")
     #expect(choices.count == 1 && choices.selectedGroup?.id == "Artist 114999")
     let targets = try await LibraryGroupProjection.build(source: result.playlistTargets, search: "Saved")
-    #expect(
-        targets.count == 1 && targets.visibleGroups(in: 0..<1).first?.id == playlists.playlists.first?.id.uuidString)
+    #expect(targets.groups.map(\.name) == ["Saved"])
+    #expect(targets.groups.first?.isAppPlaylist == true)
+    #expect(targets.groups.first?.id == playlists.playlists.first?.id.uuidString)
+    #expect(playlists.playlists.first?.name == "Saved")
 }
 
 @Test func unifiedMetadataRefreshReusesGroupSourceWithoutLosingSelection() async throws {
