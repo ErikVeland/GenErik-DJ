@@ -51,6 +51,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             }
         }
     }
+    private var crossfaderAssignments: [DeckID: CrossfaderAssignment] = [:]
     private var pendingControlValues: [ControlValue] = []
     private var pendingTransport: [SourceLane: TrackedSource] = [:]
     private var touchAfterRelease: [DeckID: SourceControl] = [:]
@@ -272,13 +273,21 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
 
     public func load(
         track: Track, store: WorkspaceStore, deck: DeckID, sourceURL: URL? = nil, preparedAsset: PCMAsset? = nil,
-        opening: NativePlaybackOpening? = nil, synced: Bool = true, committed: @escaping (UInt64) -> Void = { _ in }
+        opening: NativePlaybackOpening? = nil, synced: Bool = true,
+        cloneSource: PCMAsset? = nil, sourceFrame: Double = 0, committed: @escaping (UInt64) -> Void = { _ in }
     ) async throws {
         guard core.snapshot()?[deck].phase.active != true else { throw TransportError.protectedDeck }
         invalidateRecovery(deck: deck)
         cancelSourcePreparations(deck: deck)
         let asset: PCMAsset
-        if let preparedAsset {
+        if let cloneSource {
+            let rate = core.sampleRate
+            let maximum = core.configuredMaximumOutputFrames == 0 ? 4096 : core.configuredMaximumOutputFrames
+            asset = try await Task.detached(priority: .userInitiated) {
+                try cloneSource.copyForDeck(
+                    outputSampleRate: rate, maximumOutputFrames: maximum, compactPool: deck.transportIndex >= 2)
+            }.value
+        } else if let preparedAsset {
             asset = preparedAsset
         } else if let opening {
             let rate = core.sampleRate
@@ -303,20 +312,22 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         // updates the asset's bound; prepare it again before retrying ownership.
         for attempt in 0..<3 {
             do {
-                try await submitLoad(asset: asset, track: track, deck: deck, synced: synced, committed: committed)
+                try await submitLoad(
+                    asset: asset, track: track, deck: deck, synced: synced, sourceFrame: sourceFrame, committed: committed)
                 return
             } catch TransportError.sourceCold where attempt < 2 { try Task.checkCancellation() }
         }
     }
     private func submitLoad(
-        asset: PCMAsset, track: Track, deck: DeckID, synced: Bool, committed: @escaping (UInt64) -> Void
+        asset: PCMAsset, track: Track, deck: DeckID, synced: Bool, sourceFrame: Double,
+        committed: @escaping (UInt64) -> Void
     ) async throws {
         guard core.snapshot()?[deck].phase.active != true else { throw TransportError.protectedDeck }
         let keylock = requestedKeylock(deck)
         let grid = track.grid
         let map = track.adaptiveMap
         let generation = try core.reserveLoad(
-            asset, deck: deck, grid: grid, synced: synced, keylock: keylock, adaptiveMap: map,
+            asset, deck: deck, grid: grid, sourceFrame: sourceFrame, synced: synced, keylock: keylock, adaptiveMap: map,
             resetMasterTempoWhenIdle: true)
         var submitted = false
         var ownedTicket: UInt64 = 0
@@ -337,7 +348,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             if keylock { preloadSpeed = min(8, preloadSpeed) }
         }
         ownedTicket = try await asset.prepareSource(
-            .init(position: 0, speed: preloadSpeed, keylock: keylock), generation: generation)
+            .init(position: sourceFrame, speed: preloadSpeed, keylock: keylock), generation: generation)
         try Task.checkCancellation()
         let ticket = ownedTicket
         ownedTicket = 0
@@ -455,12 +466,23 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         case .gain: (0...4).contains(value)
         case .low, .mid, .high: (0...2).contains(value)
         case .filterX: (-1...1).contains(value)
+        case .crossfaderAssignment: value == -1 || value == 0 || value == 1
         case .cue, .filterEnabled: value == 0 || value == 1
         default: (0...1).contains(value)
         }
         guard valid else { throw TransportError.invalid }
-        if parameter == .crossfader || parameter == .volume { invalidateRecovery(submitCancellation: false) }
+        if parameter == .crossfader || parameter == .crossfaderAssignment || parameter == .volume {
+            invalidateRecovery(submitCancellation: false)
+        }
         try submitControlValue(.mixer(parameter, value, deck))
+        if parameter == .crossfaderAssignment {
+            crossfaderAssignments[deck] = CrossfaderAssignment(rawValue: Int32(value))
+        }
+    }
+    func toggleCrossfaderAssignment(_ side: CrossfaderAssignment, deck: DeckID) throws {
+        let current = crossfaderAssignments[deck] ?? core.snapshot()?[deck].mixer.crossfaderAssignment
+            ?? (deck.leftSide ? .left : .right)
+        try setMixer(.crossfaderAssignment, value: Double(current.toggling(side).rawValue), deck: deck)
     }
     private func submitControlValue(_ value: ControlValue) throws {
         if pendingControlValues.isEmpty && pendingTransport.isEmpty {

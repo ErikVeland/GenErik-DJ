@@ -1,0 +1,15 @@
+{
+  "notes": "R127. Map S2 Mk1 Shift+Load, jog loop trimming and Shift+FX. Local verification only.",
+  "sourceCommit": "b565e8b34887f0d01c9cfa486489e0c3a245b3ec",
+  "sourceSHA256": "5d9b901e6f7749a6f671534068420ba740305a2dcc764f3f3fe918fe9137a723",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 79.39,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-189.log",
+  "build": 189,
+  "app": "TestBuilds/ipad/189/GenErikDJ.app",
+  "appSHA256": "74a11166aa0e07eef3459f5c3c488cf420d81091254697a737e139341004d67d",
+  "state": "ready",
+  "createdUTC": "2026-11-10T07:11:40.281686+00:00"
+}

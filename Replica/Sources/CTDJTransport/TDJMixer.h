@@ -56,7 +56,7 @@ static double filter_sample(state_filter *f, double x, int channel) {
     return low + (x - f->k * band - 2 * low) * f->hp;
 }
 typedef struct {
-    ramp volume, gain, low, mid, high, cue, filter_wet;
+    ramp volume, gain, low, mid, high, cue, filter_wet, crossfader_assignment;
     double filter_x, filter_y, low_state[2], high_state[2];
     bool filter_enabled;
     state_filter filter;
@@ -80,6 +80,7 @@ static void mixer_init(mixer *m, double rate, double gain) {
         mixer_deck *d = &m->decks[i];
         ramp_set(&d->volume, i < 2 ? 1 : 0, 0);
         ramp_set(&d->gain, 1, 0);
+        ramp_set(&d->crossfader_assignment, (i & 1) == 0 ? -1 : 1, 0);
         ramp_set(&d->low, 1, 0);
         ramp_set(&d->mid, 1, 0);
         ramp_set(&d->high, 1, 0);
@@ -111,5 +112,11 @@ static void mixer_process_deck(mixer *m, int index, double *l, double *r) {
     *l = samples[0];
     *r = samples[1];
     d->peak = fmax(d->peak, fmax(fabs(*l), fabs(*r)));
+}
+
+static inline double mixer_crossfader_gain(mixer_deck *d, double cross) {
+    double assignment = ramp_next(&d->crossfader_assignment);
+    double attenuation = assignment < 0 ? fmax(0, 2 * cross - 1) : fmax(0, 1 - 2 * cross);
+    return 1 - fabs(assignment) * attenuation;
 }
 #endif

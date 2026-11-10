@@ -14,11 +14,12 @@ import TDJCore
 
 @MainActor final class TraktorHIDBridgeConnection: S4MK3ReportConnection {
     enum Model {
-        case s4MK3, z1MK2, x1MK3, s2MK1
+        case s4MK3, z1MK2, x1MK3, s2MK1, s4MK1
 
         var deviceName: String {
             switch self {
             case .s4MK3: "GenErik S4 Mk3 Bridge"
+            case .s4MK1: "GenErik S4 Mk1 Bridge"
             case .z1MK2: "GenErik Z1 Mk2 Bridge"
             case .x1MK3: "GenErik X1 Mk3 Bridge"
             case .s2MK1: "GenErik S2 Mk1 Bridge"
@@ -29,6 +30,7 @@ import TDJCore
         var inputKind: ControllerBridgeFrame.Kind {
             switch self {
             case .s4MK3: .s4MK3Input
+            case .s4MK1: .s4MK1Report
             case .s2MK1: .s2MK1Report
             case .z1MK2, .x1MK3: .modularInput
             }
@@ -37,6 +39,7 @@ import TDJCore
         var lightSize: Int {
             switch self {
             case .s4MK3: 95
+            case .s4MK1: 103
             case .z1MK2: 47
             case .x1MK3: 50
             case .s2MK1: 62
@@ -201,6 +204,7 @@ import TDJCore
         case 0x80 where report.count == model.lightSize:
             switch model {
             case .s4MK3: kind = .s4MK3Lights
+            case .s4MK1: kind = .s4MK1Lights
             case .s2MK1: kind = .s2MK1Lights
             case .z1MK2, .x1MK3:
                 kind = .modularLights

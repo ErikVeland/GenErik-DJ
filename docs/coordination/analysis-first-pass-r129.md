@@ -1,10 +1,10 @@
-# R128: Downbeat recovery and first-pass cost
+# R129: Downbeat recovery and first-pass cost
 
 Continue from R124 in the authorised analysis worktree. Erik requested Mac app tests and the same full-track comparisons. Preserve manual, imported and accepted preparation. No device installation is part of this check.
 
 ## Frozen validation scope
 
-Use the previous 394 rhythm excerpts for development. Reserve 100 previously unscored GTZAN recordings before R128 tuning. Audio and recording identities differ from the prior cohorts. All 100 artists overlap earlier cohorts because R124 consumed the remaining artist-disjoint components. Do not describe this set as artist-disjoint.
+Use the previous 394 rhythm excerpts for development. Reserve 100 previously unscored GTZAN recordings before R129 tuning. Audio and recording identities differ from the prior cohorts. All 100 artists overlap earlier cohorts because R124 consumed the remaining artist-disjoint components. Do not describe this set as artist-disjoint.
 
 The new GTZAN reference hash is `d4a7b34a0240d4a5522427eaa7261669faa4ee47fc0be697b6dbd490631855f4`. Selection uses a fixed hash seed and genre balance, without analysis results.
 
@@ -31,3 +31,5 @@ Recovered grids remain review candidates. They have no numerical confidence esti
 Replay the previous rhythm cohorts and the frozen new inputs through the packaged Mac app. Compare a fresh accelerated first pass with the baseline first pass. Repeat the same 12 full tracks and both drift fixtures. Verify source hashes, saved-result reopening, unchanged key features, bounded timing and preparation authority. Record app and source identities for each result.
 
 Fresh host timing comparisons remain observational. Mac results do not establish Duo throughput, physical result sharing or A10X live acceptance.
+
+Frozen benchmark identifiers retain R128. The analysis request is R129 because the controller request owns R128. Raw analysis evidence remains under `TestBuilds/r128/` in this worktree. Consolidated copies use `TestBuilds/r129/`.

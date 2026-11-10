@@ -345,7 +345,10 @@ extension PCMAsset {
             try PCMStreamingError.check(status)
             throw TransportError.allocation
         }
-        self.init(streamPointer: pointer, frames: UInt64(decoder.frames), sampleRate: decoder.rate)
+        self.init(streamPointer: pointer, frames: UInt64(decoder.frames), sampleRate: decoder.rate) { rate, maximum, compact in
+            try PCMAsset(
+                decoder: decoder.duplicate(), outputSampleRate: rate, maximumOutputFrames: maximum, compactPool: compact)
+        }
     }
 }
 

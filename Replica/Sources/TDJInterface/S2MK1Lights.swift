@@ -64,8 +64,12 @@ enum S2MK1Lights {
             let focus = unit == 0 ? 0x1c : 0x39
             bytes[focus] = lamp(feedback.fxActive[unit])
             for slot in 0..<3 { bytes[focus - slot - 1] = lamp(feedback.fxSlots[unit].contains(slot)) }
-            bytes[0x3d - unit] = lamp(feedback.fxDecks[unit].contains(.a))
-            bytes[0x3b - unit] = lamp(feedback.fxDecks[unit].contains(.b))
+            let side: CrossfaderAssignment = unit == 0 ? .left : .right
+            for (deck, offset) in [(DeckID.a, 0x3d), (.b, 0x3b)] {
+                let assigned = snapshot[deck].mixer.crossfaderAssignment ?? (deck.leftSide ? .left : .right)
+                bytes[offset - unit] = lamp(
+                    controls.shifts.contains(deck) ? assigned == side : feedback.fxDecks[unit].contains(deck))
+            }
         }
         return bytes
     }

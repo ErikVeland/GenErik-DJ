@@ -132,6 +132,13 @@
                 } else if playback.generations[.d] != nil {
                     applyController(.cueB, value: 1, targetDeck: .d)
                 }
+            case .cloneDeck(let deck):
+                cloneTrackDeck(to: deck)
+            case .crossfaderAssign(let deck, let side):
+                do { try playback.toggleCrossfaderAssignment(side, deck: deck) }
+                catch { status = error.localizedDescription }
+            case .loopTrim(let deck, let end, let ticks):
+                queueS2MK1LoopTrim(deck: deck, end: end, ticks: ticks)
             case .s3EXTLevel(let value, let trim):
                 if trim { s3EXTTrim = pow(4, 2 * value - 1) } else { s3EXTLevel = value }
                 if playback.s3ExtEnabled { updateS3EXTMix() }

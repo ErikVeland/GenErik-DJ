@@ -76,6 +76,7 @@ enum S4MK2Event: Equatable {
     case gridDownbeat(DeckID, Int)
     case loopSet(DeckID)
     case tempoReset(DeckID)
+    case tempoPickup(DeckID, Double)
     case record
     case preview
     case quantize

@@ -56,7 +56,7 @@ typedef struct {
     _Atomic int32_t map_downbeat;
     _Atomic double map_rate, map_beats[TDJ_MAX_GRID_ANCHORS], map_frames[TDJ_MAX_GRID_ANCHORS];
     _Atomic double volume, gain, low, mid, high, cue, filter_x, filter_y, peak;
-    _Atomic int32_t filter_enabled;
+    _Atomic int32_t filter_enabled, crossfader_assignment;
     _Atomic int32_t recovery_armed, recovery_active, recovery_mix;
     _Atomic double recovery_start, recovery_end, recovery_mix_start;
     _Atomic int32_t loop_enabled, flux_enabled, touch_active, jump_pending, loop_rolling;
@@ -732,6 +732,7 @@ static void publish(tdj_engine *e) {
         atomic_store(&p->filter_x, m->filter_x);
         atomic_store(&p->filter_y, m->filter_y);
         atomic_store(&p->filter_enabled, m->filter_enabled);
+        atomic_store(&p->crossfader_assignment, (int32_t)m->crossfader_assignment.target);
         atomic_store(&p->peak, m->peak);
         atomic_store(&p->recovery_armed, d->recovery_armed);
         atomic_store(&p->recovery_active, d->recovery_active);
@@ -875,6 +876,7 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
         atomic_init(&p->filter_x, 0);
         atomic_init(&p->filter_y, 0);
         atomic_init(&p->filter_enabled, 0);
+        atomic_init(&p->crossfader_assignment, (i & 1) == 0 ? -1 : 1);
         atomic_init(&p->peak, 0);
         atomic_init(&p->target, 0);
         atomic_init(&p->rate, 1);
@@ -1235,6 +1237,12 @@ static int apply(tdj_engine *e, tdj_command c) {
             break;
         case TDJ_MIX_FILTER_ENABLED:
             break;
+        case TDJ_MIX_CROSSFADE_ASSIGNMENT:
+            if (c.value != -1 && c.value != 0 && c.value != 1)
+                return TDJ_INVALID;
+            r = &d->crossfader_assignment;
+            lower = -1;
+            break;
         default:
             return TDJ_INVALID;
         }
@@ -1450,7 +1458,10 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (!other->synced)
             return TDJ_PROTECTED;
         mixer_deck *channel = &e->mix.decks[(c.deck ^ 1)];
-        if (channel->volume.target <= 0.001 || channel->gain.target <= 0.001 ||
+        double outgoing_side = (c.deck & 1) == 0 ? -1 : 1;
+        if (e->mix.decks[c.deck].crossfader_assignment.target != outgoing_side ||
+            channel->crossfader_assignment.target != -outgoing_side ||
+            channel->volume.target <= 0.001 || channel->gain.target <= 0.001 ||
             (channel->filter_enabled && fabs(channel->filter_x) > 0.99))
             return TDJ_PROTECTED;
         if (other->state == TDJ_PLAYING || other->state == TDJ_QUEUED || other->loop_enabled || other->touch_active ||
@@ -2160,7 +2171,8 @@ static void controls(tdj_engine *e) {
         int status = apply(e, c);
         if (status == TDJ_OK) {
             if (c.kind == TDJ_PANIC || c.kind == TDJ_PLAY ||
-                (c.kind == TDJ_MIXER && (c.flag == TDJ_MIX_CROSSFADE || c.flag == TDJ_MIX_VOLUME))) {
+                (c.kind == TDJ_MIXER &&
+                 (c.flag == TDJ_MIX_CROSSFADE || c.flag == TDJ_MIX_CROSSFADE_ASSIGNMENT || c.flag == TDJ_MIX_VOLUME))) {
                 for (int i = 0; i < e->deck_count; ++i)
                     cancel_recovery(e, i);
             } else if (valid_deck_command(e, c.deck) &&
@@ -2442,7 +2454,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 effect_clock(e, i, &fx_bpm, &fx_beat);
                 for (int k = 0; k < 3; k++)
                     fx_process(&e->effects[i][k], e->rate, fx_bpm, fx_beat, &zero_l, &zero_r);
-                double level = volume * fmin(1, (i & 1) == 0 ? 2 * (1 - cross) : 2 * cross);
+                double level = volume * mixer_crossfader_gain(&e->mix.decks[i], cross);
                 l += zero_l * level;
                 r += zero_r * level;
                 cl += zero_l * cue;
@@ -2547,7 +2559,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             effect_clock(e, i, &fx_bpm, &fx_beat);
             for (int k = 0; k < 3; k++)
                 fx_process(&e->effects[i][k], e->rate, fx_bpm, fx_beat, &dl, &dr);
-            double level = volume * fmin(1, (i & 1) == 0 ? 2 * (1 - cross) : 2 * cross);
+            double level = volume * mixer_crossfader_gain(&e->mix.decks[i], cross);
             l += dl * level;
             r += dr * level;
             cl += dl * cue;
@@ -2770,6 +2782,7 @@ static tdj_deck_snapshot read_deck(atomic_deck *p) {
                                 .filter_x = atomic_load(&p->filter_x),
                                 .filter_y = atomic_load(&p->filter_y),
                                 .filter_enabled = atomic_load(&p->filter_enabled),
+                                .crossfader_assignment = atomic_load(&p->crossfader_assignment),
                                 .peak = atomic_load(&p->peak),
                                 .source_frame = atomic_load(&p->position),
                                 .source_bpm = atomic_load(&p->bpm),

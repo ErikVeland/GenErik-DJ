@@ -1,0 +1,15 @@
+{
+  "notes": "R128. Add S4 Mk1 native controls, split audio and lighting. Local verification only.",
+  "sourceCommit": "e7a8a478fe6117827b92a636ba660519f85a5298",
+  "sourceSHA256": "53cbb5b3cf21665f640f889e49fa5f2ce7347d36972d9d3068f5d89bc9b4ca9b",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 157.85,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-190.log",
+  "build": 190,
+  "app": "TestBuilds/ipad/190/GenErikDJ.app",
+  "appSHA256": "1e7fbacd4727ddfdcd01c6fc514d01781890b44695271739187731134e23294f",
+  "state": "ready",
+  "createdUTC": "2026-11-10T07:29:47.972203+00:00"
+}

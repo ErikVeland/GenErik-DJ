@@ -38,6 +38,7 @@ Erik requires automatic connection, controls, audio routing and custom lights. O
 | S2 Mk2 | `com.native-instruments.traktordj.kontrols2mk2` | Automatic split audio, native deck and mixer controls, and blue and amber lights on pad 4. See [scope and checks](s2-mk2-native.md). |
 | S2 Mk3 | `com.native-instruments.protocol.kontrols2mk3` | Automatic split audio and native deck and mixer controls. Pad 8 shows the blue beat pulse and amber warning. See [scope and checks](s2-mk3-native.md). |
 | S3 | `com.native-instruments.protocol.kontrols3` | Automatic split audio, native four-deck controls and blue and amber jog rings. See [scope and checks](s3-native.md). |
+| S4 Mk1 | No identifier in the preserved TDJ2 build | Linux CAIAQ bridge carries native four-deck controls, split audio and blue and amber lighting. See [R128](#r128-s4-mk1). |
 | S4 Mk2 | `com.native-instruments.traktordj.kontrols4mk2` | Automatic split audio, native four-deck controls and blue and amber Hot Cue lighting. See [scope and checks](s4-mk2-native.md). |
 | S4 Mk3 | No identifier in the preserved TDJ2 build | Linux bridge carries four-deck controls, lighting and four-channel audio. Hardware verification remains open. See [R123](#r123-s4-mk3-connection). |
 | Z1 Mk2 | No identifier in the preserved TDJ2 build | Linux bridge carries four-deck mixer controls, audio and custom lights. See [R125](#r125-z1-mk2-and-x1-mk3). |
@@ -76,17 +77,37 @@ The bottom LEDs on both models use the shared blue beat pulse and amber track-en
 
 Thirty-five focused Swift tests and sixteen bridge tests passed. [Build 187](../testing/builds/187.json) passed local signing and runtime framework checks. Verification stayed off the iPad. The build history retains the failed local attempts.
 
-The remaining Traktor models without a factory adapter are S4 Mk1, S5, S8, X1 Mk1, X1 Mk2, F1, D2, Z2 and MX2. Mixxx has HID mappings for S2 Mk1, F1 and MX2. Encdr has hardware references for X1 Mk1, X1 Mk2, S5, S8, D2 and Z2. The S4 Mk1 has a separate Linux driver reference. [Mixxx controller mappings](https://github.com/mixxxdj/mixxx/tree/main/res/controllers) · [Encdr hardware references](https://github.com/RufusIbiza/Encdr/tree/a5414658a69c4330d10b95f2359371dfc8550326/docs/hardware) · [S4 Mk1 Linux driver](https://github.com/jmanera/traktor-kontrol-s4-mk1-driver-linux)
+The remaining Traktor models without a factory adapter are S5, S8, X1 Mk1, X1 Mk2, F1, D2, Z2 and MX2. Mixxx has HID mappings for F1 and MX2. Encdr has hardware references for X1 Mk1, X1 Mk2, S5, S8, D2 and Z2. [Mixxx controller mappings](https://github.com/mixxxdj/mixxx/tree/main/res/controllers) · [Encdr hardware references](https://github.com/RufusIbiza/Encdr/tree/a5414658a69c4330d10b95f2359371dfc8550326/docs/hardware)
 
 ## R126 S2 Mk1
 
 The Linux bridge uses HID interface 03 on USB device `17cc:1101`. It reads the button, analogue and factory calibration reports. The app detects the bridge and selects master 1–2 and headphones 3–4. The controller mixes its microphone into the physical output. The bridge sends no microphone audio to the app. [Bridge setup](../../tools/controller_bridge/README.md#s2-mk1-bridge) · [Mixxx report map](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Traktor-Kontrol-S2-MK1-hid-scripts.js) · [Audio routing](https://manual.mixxx.org/2.5/en/hardware/controllers/native_instruments_traktor_kontrol_s2_mk1.html#audio-routing)
 
-The mapping covers A/B transport, held Cue, jog scratch and rim nudge, browse and load, loop in and out, loop move and size, Hot Cues, samples, tempo lock, mixer controls and FX groups. GenErik DJ keeps its saved Sync behaviour. Shift+GAIN adjusts the app filter. Deck cloning, loop edge trimming with the jog and Shift crossfader assignment remain open. [Native Instruments S2 Mk1 manual](https://images-eu.ssl-images-amazon.com/images/I/C1z6RGpnVTS.pdf)
+The mapping covers A/B transport, held Cue, jog scratch and rim nudge, browse and load, loop in and out, loop move and size, Hot Cues, samples, tempo lock, mixer controls and FX groups. GenErik DJ keeps its saved Sync behaviour. Shift+GAIN adjusts the app filter. See [R127](#r127-s2-mk1-shift-and-loop-controls) for deck cloning, loop trimming and crossfader assignment. [Native Instruments S2 Mk1 manual](https://images-eu.ssl-images-amazon.com/images/I/C1z6RGpnVTS.pdf)
 
 Pad 4 on each deck shows the blue beat pulse. The separate amber Alert lamp shows the track-end warning for either deck. The pads have blue and green emitters. Pad feedback restores the stored cue, loop or sample colour after the beat pulse. [Hardware report reference](https://github.com/RufusIbiza/Encdr/blob/a5414658a69c4330d10b95f2359371dfc8550326/docs/hardware/ni_kontrol_s2_mk1.md)
 
 Twenty-four focused Swift tests and seventeen bridge tests passed. [Build 188](../testing/builds/188.json) passed local signing and runtime framework checks. Verification stayed off the iPad. Physical controls, lighting, audio and bridge latency remain unverified.
+
+## R127 S2 Mk1 Shift and loop controls
+
+- **Shift+Load A/B** copies the opposite deck's track and its playhead position at the time of the press. The destination must be stopped and stays ready to play with its own saved Sync setting. A streamed clone uses an independent decoder or read-ahead buffer.
+- **Loop In or Out + jog** moves only the held edge of an active loop. The app combines jog ticks in each poll and keeps the edges inside the track. The transport still applies Sync. Stored cues and loops retain their saved positions.
+- **Shift+FX 1/2** assigns the channel to the left or right crossfader side. Press the same side again to unlink the channel. The FX buttons show that assignment while Shift is held. The audio engine smooths the change and keeps headphone cue independent. Recovery auto-mix requires the default left and right assignments.
+
+The bridge uses the same reports. GenErik DJ requires no settings for these controls. [NI S2 Mk1 manual](https://images-eu.ssl-images-amazon.com/images/I/C1z6RGpnVTS.pdf) · [NI deck duplication reference](https://docs.native-instruments.com/ni-tech-manuals/traktor-pro-manual/en/preferences)
+
+Twenty-six focused Swift tests and seventeen bridge tests passed. [Build 189](../testing/builds/189.json) passed local signing and runtime framework checks. Verification stayed off the iPad. Physical operation remains unverified.
+
+## R128 S4 Mk1
+
+The S4 Mk1 (USB `17cc:baff`) uses Native Instruments' CAIAQ USB protocol. The Linux kernel driver supplies native controls, LED brightness and four-channel playback. GenErik DJ detects the named [S4 Mk1 bridge](../../tools/controller_bridge/README.md#s4-mk1-bridge) and selects master 1–2 and headphones 3–4. [Linux input driver](https://github.com/torvalds/linux/blob/master/sound/usb/caiaq/input.c) · [Linux LED driver](https://github.com/torvalds/linux/blob/master/sound/usb/caiaq/control.c) · [Linux audio driver](https://github.com/torvalds/linux/blob/master/sound/usb/caiaq/audio.c)
+
+The mapping includes A/C and B/D deck layers, fixed A–D mixer channels, transport, held Cue, Sync, keylock, jog scratch and rim nudge, browse and load, headphone preview and seek, Shift+Load, Hot Cues, sample pads, loop in and out, loop size, Move, tempo pickup and lock, Snap, Quantize and two FX units. Shift+FX assigns the mixer channel to either crossfader side. The loop display and channel meters follow the app. [NI S4 Mk1 manual](https://manualzz.com/doc/22304763/native-instruments-traktor-kontrol-s4-manual) · [Backspn mapping](https://github.com/suitux/Backspn/blob/71668201f3d0ff6658cfd72fb5386dba9ebb789f/crates/control/src/kontrol/s4mk1.rs)
+
+Pad 4 on each selected deck shows the blue beat pulse. The shared amber Alert lamp follows the track-end warning for all four playing decks. The pad returns to its stored Hot Cue or loop colour between pulses.
+
+Remaining controls include the Loop Recorder, footswitch, FX Mode, clock-master buttons, jog loop trimming and external mic and line capture. Physical verification must check enumeration, channel order, latency, drift, jog feel, lamp colours and reconnect behaviour. Verification stays off the iPad.
 
 ## Required capabilities for each model
 

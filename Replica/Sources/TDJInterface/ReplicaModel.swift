@@ -342,6 +342,7 @@ import TDJCore
         @ObservationIgnored var s2MK1Bridge: TraktorHIDBridgeConnection?
         var s2MK1Receiving = false
         @ObservationIgnored var s2MK1Controls = S2MK1Controls()
+        @ObservationIgnored var s2MK1LoopTrims: [DeckID: S2MK1LoopTrim] = [:]
         @ObservationIgnored var s2MK1Performance = S4MK2Performance(sliceCount: 4)
         var s2MK2Connection: NIControllerAccessoryConnection?
         var s2MK2Status = "Waiting for S2 Mk2."
@@ -352,6 +353,10 @@ import TDJCore
         var s2Connection: NIControllerAccessoryConnection?
         var s3Connection: NIControllerAccessoryConnection?
         var s4Connection: NIControllerAccessoryConnection?
+        @ObservationIgnored var s4MK1Bridge: TraktorHIDBridgeConnection?
+        @ObservationIgnored var s4MK1Controls = S4MK1Controls()
+        @ObservationIgnored var s4MK1Performance = S4MK2Performance()
+        var s4MK1Receiving = false
         var s4MK3Bridge: (any S4MK3ReportConnection)?
         @ObservationIgnored var z1MK2Bridge: TraktorHIDBridgeConnection?
         @ObservationIgnored var x1MK3Bridge: TraktorHIDBridgeConnection?
@@ -956,10 +961,24 @@ import TDJCore
             trackID: trackID, deck: deck, sourceURL: sourceURL, nativeMetadata: nativeMetadata, nativeLoadOwner: nil)
     }
 
+    func cloneTrackDeck(to deck: DeckID) {
+        let source = deck.opposite
+        guard let snapshot = playback.core.snapshot(),
+            let trackID = loaded[source], committedTrackIDs[source] == trackID,
+            let generation = playback.generations[source], generation == snapshot[source].generation,
+            let asset = playback.core.asset(generation: generation), snapshot[source].sourceFrame.isFinite,
+            !preparingTrack.contains(source)
+        else { return }
+        let position = max(0, min(Double(asset.frames) - 1, snapshot[source].sourceFrame))
+        loadPreparedTrack(
+            trackID: trackID, deck: deck, sourceURL: nil, nativeMetadata: nil, nativeLoadOwner: nil,
+            cloneSource: asset, sourceFrame: position)
+    }
+
     @discardableResult func loadPreparedTrack(
         trackID: String, deck: DeckID, sourceURL: URL?, nativeMetadata: MusicLibraryImportMetadata?,
         nativeLoadOwner: UUID?, preparedAsset: PCMAsset? = nil, opening: NativePlaybackOpening? = nil,
-        onFailure: (@MainActor (Error) -> Void)? = nil
+        cloneSource: PCMAsset? = nil, sourceFrame: Double = 0, onFailure: (@MainActor (Error) -> Void)? = nil
     ) -> Task<Void, Never>? {
         cancelCloudSyncForPlayback()
         refreshPlayback()
@@ -967,7 +986,7 @@ import TDJCore
             onFailure?(TransportError.stale)
             return nil
         }
-        if sourceURL == nil, nativeLoadOwner == nil,
+        if sourceURL == nil, nativeLoadOwner == nil, cloneSource == nil,
             track.nativeLibraryOnly == true
                 || (!(track.musicLibrarySources ?? []).isEmpty
                     && !FileManager.default.isReadableFile(
@@ -1019,7 +1038,7 @@ import TDJCore
         storedPreparationKeys[trackID] = .init(value: storedKey)
         loadPreparations[deck] = .init(token: token, track: track)
         loaded[deck] = trackID
-        viewport[deck] = 0
+        viewport[deck] = sourceFrame
         gridDraft[deck] = pendingPreparations[trackID]?.value.grid
         editing.remove(deck)
         frozen.remove(deck)
@@ -1042,7 +1061,7 @@ import TDJCore
                 try await playback.load(
                     track: preparedSourceTrack, store: store, deck: deck, sourceURL: sourceURL,
                     preparedAsset: preparedAsset, opening: opening,
-                    synced: syncPreference(deck),
+                    synced: syncPreference(deck), cloneSource: cloneSource, sourceFrame: sourceFrame,
                     committed: { [weak self = self] generation in
                         guard let self else { return }
                         var acceptedTrack = preparedSourceTrack
@@ -1063,8 +1082,13 @@ import TDJCore
                             if deck.transportIndex < 2, self.s2MK1Bridge?.isReceiving == true {
                                 self.primeS4Mixer(deck, stateKey: \.s2MK1Performance)
                             }
+                            if deck.transportIndex < 2, self.s4MK1Bridge?.isReceiving == true {
+                                self.primeS4Mixer(deck, stateKey: \.s4MK1Performance)
+                            }
                             if deck.transportIndex >= 2 {
-                                if self.s4MK3Bridge?.isReceiving == true {
+                                if self.s4MK1Bridge?.isReceiving == true {
+                                    self.primeS4Mixer(deck, stateKey: \.s4MK1Performance)
+                                } else if self.s4MK3Bridge?.isReceiving == true {
                                     self.primeS4Mixer(deck, stateKey: \.s4MK3Performance)
                                 } else if self.s4Connection?.isReceiving == true {
                                     self.primeS4Mixer(deck)
@@ -1610,6 +1634,7 @@ import TDJCore
                 startS2MK3()
                 startS3()
                 startS4MK2()
+                startS4MK1Bridge()
                 startS4MK3Bridge()
                 startTraktorModularBridges()
             }
@@ -1629,6 +1654,7 @@ import TDJCore
                     self?.refreshS3Lights()
                     self?.maintainS4Input()
                     self?.refreshS4Lights()
+                    self?.maintainS4MK1Bridge()
                     self?.maintainS4MK3Bridge()
                     self?.maintainTraktorModularBridges()
                 #endif
@@ -1660,6 +1686,9 @@ import TDJCore
             s3Connection = nil
             s4Connection?.stop()
             s4Connection = nil
+            s4MK1Bridge?.stop()
+            s4MK1Bridge = nil
+            s4MK1Receiving = false
             s4MK3Bridge?.stop()
             s4MK3Bridge = nil
             z1MK2Bridge?.stop()

@@ -17,6 +17,7 @@ class GadgetSetupChecks(unittest.TestCase):
     def test_creates_named_modular_gadgets_with_model_specific_audio(self):
         self.check_gadget(s4_mk3=False, traktor="z1-mk2", expected_product="GenErik Z1 Mk2 Bridge")
         self.check_gadget(s4_mk3=False, traktor="s2-mk1", expected_product="GenErik S2 Mk1 Bridge")
+        self.check_gadget(s4_mk3=False, traktor="s4-mk1", expected_product="GenErik S4 Mk1 Bridge")
         self.check_gadget(s4_mk3=False, traktor="x1-mk3", expected_product="GenErik X1 Mk3 Bridge")
 
     def check_gadget(self, s4_mk3, traktor=None, expected_product=None):
@@ -71,7 +72,7 @@ class GadgetSetupChecks(unittest.TestCase):
             product = gadget / "strings/0x409/product"
             if expected_product:
                 self.assertEqual(product.read_text().strip(), expected_product)
-            if s4_mk3 or traktor in {"z1-mk2", "s2-mk1"}:
+            if s4_mk3 or traktor in {"z1-mk2", "s2-mk1", "s4-mk1"}:
                 self.assertTrue((configuration / "uac2.usb0").is_symlink())
                 self.assertEqual((audio / "c_chmask").read_text().strip(), "0x33")
                 self.assertEqual((audio / "p_chmask").read_text().strip(), "0")
