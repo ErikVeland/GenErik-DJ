@@ -259,7 +259,7 @@ private struct RetainedFilterGrid: View, Equatable {
             Divider()
             level("Headphone Level", .monitor, model.playbackSnapshot?.monitorGain ?? 0.5)
             VStack(spacing: 2) {
-                level("Headphone Mix", .cueBlend, model.playbackSnapshot?.cueBlend ?? 0)
+                level("Headphones Mix", .cueBlend, model.playbackSnapshot?.cueBlend ?? 0)
                 HStack {
                     detail("Cue")
                     Spacer()
