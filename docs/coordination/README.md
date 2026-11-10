@@ -4,7 +4,7 @@ Use `main` in `/Users/veland/GenErik DJ` for every test build. Work serially on 
 
 The [project north star](../product-direction.md) guides every feature. Clean, continuous audio comes first. Immediate, fluid multi-touch control comes second. TDJ1 sets the standard for both. Features, analysis, polish and repository cleanup are subordinate to these priorities. Background work must yield before it compromises performance. [Performance acceptance](release-gates.md) requires actual A10X evidence and Erik's listening and touch checks.
 
-**R156 library run:** The Mac is processing the frozen iPad inventory and uploading results directly to iCloud. Build 220 installed on the A10X. It supplies exact audio copies for failed Mac identity matches while idle. The first recovery matched the saved identity and completed Mac analysis. Fifteen Swift and eight campaign checks passed. Whole-library processing, complete device delivery and live acceptance remain open. [Run and evidence](library-analysis-r156.md).
+**R156 library run:** Four signed Mac workers process the frozen iPad inventory and upload results automatically. Build 224 is installed on the iPad and Duo. The iPad snapshot contains 733 exact Mac deep results. All 940 protected grids checked retain their timing. The Duo is locked, and the iPhone is unavailable. The remaining full library follows after iPad processing and receipt. Processing, all-device delivery and live acceptance remain open. [Run and evidence](library-analysis-r156.md).
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
