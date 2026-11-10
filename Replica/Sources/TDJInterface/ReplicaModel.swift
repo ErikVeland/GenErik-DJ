@@ -125,6 +125,9 @@ import TDJCore
     @ObservationIgnored var cloudTask: Task<Void, Never>?
     @ObservationIgnored let cloudSync = CloudPreparationSync()
     @ObservationIgnored let cloudFiles = BackgroundFileWork(label: "org.generikdj.cloud-recovery")
+    @ObservationIgnored var macSourceTransferLoop: Task<Void, Never>?
+    @ObservationIgnored var macSourceTransferWork: Task<Void, Never>?
+    @ObservationIgnored var macSourceTransferActive = false
     public var traktorPreparationRecords = 0
     /// Automatic preparation import shown as a quiet header pill. Nil when idle.
     public private(set) var preparationImport: PreparationImportProgress?
@@ -301,6 +304,7 @@ import TDJCore
     }
     public func finishForShutdown() async {
         stopAutomaticPreparationSharing()
+        await macSourceTransferWork?.value
         await cloudTask?.value
         waveformShutdown = true
         for task in nativeWaveformTasks.values { task.cancel() }
@@ -1804,7 +1808,7 @@ import TDJCore
             if let error = playback.recordingError { status = error }
         }
         let (snapshot, messages) = playback.snapshotAndMessages()
-        if cloudTask != nil,
+        if cloudTask != nil || macSourceTransferWork != nil,
             isRecording || recordingFinishing
                 || snapshot.map({ value in DeckID.allCases.contains { value[$0].phase.active || value[$0].touchActive }
                 }) == true

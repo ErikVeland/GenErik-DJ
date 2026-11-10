@@ -8,6 +8,7 @@ from unittest.mock import patch
 from library_analysis_delivery import read_revision, stage
 from prepare_library_analysis import prepare
 from run_library_analysis_campaign import make_remaining, summary
+from recover_library_analysis_sources import verify_source, publish
 
 
 class CampaignTests(unittest.TestCase):
@@ -30,6 +31,37 @@ class CampaignTests(unittest.TestCase):
         path.with_suffix('.payload').write_bytes(b'changed')
         with self.assertRaises(ValueError):
             read_revision(path)
+
+    def test_device_source_requires_matching_bytes_and_audio_dimensions(self):
+        audio = self.root / 'source.caf'
+        audio.write_bytes(b'original')
+        response = dict(sha256=hashlib.sha256(b'original').hexdigest(), sampleRate=44100, frameCount=42, channelCount=2)
+        expected = dict(analysis=dict(contentSHA256=response['sha256'], sampleRate=44100, frameCount=42, channelCount=2))
+        verify_source(audio, response, expected)
+        expected['analysis']['frameCount'] = 43
+        with self.assertRaises(RuntimeError):
+            verify_source(audio, response, expected)
+        audio.write_bytes(b'changed')
+        with self.assertRaises(RuntimeError):
+            verify_source(audio, response, None)
+
+    def test_recovery_retains_failed_attempt_and_publishes_complete_archive(self):
+        path = self.revision()
+        output = self.root / 'recovery'
+        (output / 'outbox').mkdir(parents=True)
+        (output / 'results').mkdir()
+        for source in [path, path.with_suffix('.payload')]:
+            (output / 'outbox' / source.name).write_bytes(source.read_bytes())
+        result = dict(id='7', revisionID=path.stem, audioSHA256='a' * 64)
+        (output / 'results' / '7.json').write_text(json.dumps(result))
+        destination = self.root / 'ipad'
+        (destination / 'results').mkdir(parents=True)
+        (destination / 'results' / '7.json').write_text(json.dumps(dict(id='7', error='identity mismatch')))
+        publish(output, destination, '7')
+        publish(output, destination, '7')
+        self.assertEqual(len(list((destination / 'failed-attempts').glob('*.json'))), 1)
+        self.assertEqual(json.loads((destination / 'results' / '7.json').read_text()), result)
+        read_revision(destination / 'outbox' / path.name)
 
     def test_manual_archive_is_not_staged(self):
         with self.assertRaises(ValueError):

@@ -27,3 +27,13 @@ The signed Mac trial received server acknowledgements for all three results. Its
 Device delivery and the full run are not yet complete. A cloud confirmation does not establish musical correctness. The manually corrected R139 tracks remain the verified musical references. The wider library establishes a versioned baseline for later review and comparison.
 
 Audio files are not included in iCloud preparation sync. Each device still requires its own available audio copy. Live audio and touch acceptance remain separate from this idle analysis run.
+
+## Exact iPad source recovery
+
+Some Mac candidates fail the saved iPad audio identity check. The cause is not yet established for each file. These results remain excluded from sharing.
+
+The recovery worker requests one iPad Music item by its persistent identifier. The iPad prepares one temporary lossless copy. Playback, backgrounding, power loss or excessive heat cancels preparation. The Mac verifies the copied bytes and audio dimensions against the saved identity before analysis. It copies this prepared file unchanged into the analyser.
+
+Each successful recovery retains the original failed attempt. The result and cloud payload become visible only after validation. The campaign can reconnect to an active analyser and wait for recovery before the full-library phase. Changed device identities and unavailable audio remain explicit review items.
+
+Fifteen focused Swift checks and eight campaign checks passed before device installation. These cover exact identity reads, cancellation, cloud admission, archive integrity and recovery publication. Device export and receipt still require verification.

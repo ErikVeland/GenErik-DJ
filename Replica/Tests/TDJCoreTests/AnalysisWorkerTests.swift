@@ -1,7 +1,21 @@
+import AVFoundation
 import Foundation
 import Testing
 
 @testable import TDJCore
+
+@Test func audioIdentityReadsExactBytesAndDimensionsWithoutAnalysis() async throws {
+    var workspace = URL(fileURLWithPath: #filePath)
+    for _ in 0..<4 { workspace.deleteLastPathComponent() }
+    let url = workspace.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures/routing-left440-right880.wav")
+    let identity = try await AnalysisWorker.shared.audioIdentity(url: url)
+    let audio = try AVAudioFile(forReading: url)
+    let hash = try AudioAnalyzer.sha256(url: url)
+    #expect(identity.sha256 == hash)
+    #expect(identity.frameCount == audio.length)
+    #expect(identity.sampleRate == audio.processingFormat.sampleRate)
+    #expect(identity.channels == Int(audio.processingFormat.channelCount))
+}
 
 private final class WorkerProbe: @unchecked Sendable {
     let lock = NSLock()
