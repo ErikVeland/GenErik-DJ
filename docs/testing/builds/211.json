@@ -1,0 +1,23 @@
+{
+  "notes": "R148. Check Keylock next to Tempo fader in Playback Settings. Turn it off, load a track and test vinyl-style pitch changes.",
+  "sourceCommit": "794a8a4bbb82fc30dbd1e49e2a58069882aebe08",
+  "sourceSHA256": "264666cf56d8a560fccdc7beafc2ca2c341ee50d2c97603d74bba6b864412887",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 88.77,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-211.log",
+  "build": 211,
+  "app": "TestBuilds/ipad/211/GenErikDJ.app",
+  "appSHA256": "4970876dcd247f8fac287f93d01d87fe94a9dd742d734e33dc8f20f428d285e3",
+  "state": "testing",
+  "createdUTC": "2026-11-10T12:40:14.887480+00:00",
+  "installedUTC": "2026-11-10T12:40:35.737783+00:00",
+  "launchedUTC": "2026-11-10T12:40:36.245597+00:00",
+  "launchVerification": "iOS accepted the launch request on the Duo.",
+  "deploymentTarget": "GenErik Duo",
+  "testScope": [
+    "R148. Check Keylock beside Tempo fader in Playback Settings.",
+    "Load a track with each Keylock setting and change its tempo. Check the saved choice after relaunch."
+  ]
+}
