@@ -72,7 +72,8 @@
                         worker.cancel()
                     }
                     try Task.checkCancellation()
-                    guard s2MayPrepareSample, s2Connection?.isReceiving == true else { return }
+                    guard s2MayPrepareSample, s2Connection?.isReceiving == true || s3Connection?.isReceiving == true
+                    else { return }
                     s2SampleSlots[slot] = try playback.installPad(asset, slot: slot)
                 } catch is CancellationError {
                 } catch { status = error.localizedDescription }
@@ -83,7 +84,7 @@
             if s2SampleLoad != nil && !s2MayPrepareSample { s2SampleLoad?.cancel() }
         }
 
-        func selectS2FX(_ choice: S2MixerFX, deck: DeckID) {
+        func selectS2FX(_ choice: S2MixerFX, deck: DeckID, enabled: Bool) {
             let previous = s2FX[deck] ?? .filter
             guard choice != previous else { return }
             if let kind = choice.effect {
@@ -108,12 +109,12 @@
                 guard setEffect(effect, slot: slot, deck: deck) else { return }
             }
             s2FX[deck] = choice
-            if let amount = s2FXAmount[deck] { applyS2FXAmount(amount, deck: deck) }
+            if let amount = s2FXAmount[deck] { applyS2FXAmount(amount, deck: deck, enabled: enabled) }
         }
 
-        func applyS2FXAmount(_ value: Double, deck: DeckID) {
+        func applyS2FXAmount(_ value: Double, deck: DeckID, enabled: Bool) {
             s2FXAmount[deck] = value
-            let position = value * 2 - 1
+            let position = enabled ? value * 2 - 1 : 0
             let wet = abs(position) > 0.025 ? abs(position) : 0
             _ = submitMixer(.filterX, value: position, deck: deck)
             if playbackSnapshot?[deck].mixer.filterEnabled != (wet > 0) {
@@ -127,7 +128,7 @@
             setEffect(effect, slot: slot, deck: deck)
         }
 
-        func setS2Roll(deck: DeckID, held: Bool) {
+        func setNativeTraktorRoll(deck: DeckID, held: Bool, quantized: Bool, beats: Double? = nil) {
             if !held {
                 guard let generation = s2RollGenerations.removeValue(forKey: deck),
                     playback.generations[deck] == generation
@@ -140,8 +141,10 @@
                 let timing = state.timing, let asset = playback.core.asset(generation: state.generation)
             else { return }
             let position = state.sourceFrame
-            let start = s2Quantize ? max(0, timing.frame(atBeat: floor(timing.beat(atFrame: position)))) : position
-            let end = min(Double(asset.frames), start + timing.span(beats: performance.loopBeats(for: deck), from: start))
+            let start = quantized ? max(0, timing.frame(atBeat: floor(timing.beat(atFrame: position)))) : position
+            let end = min(
+                Double(asset.frames), start + timing.span(beats: beats ?? performance.loopBeats(for: deck), from: start)
+            )
             guard end - start >= 1 else { return }
             s2RollGenerations[deck] = state.generation
             perform(.loopRoll, deck: deck, value: start, end: end)
@@ -189,7 +192,8 @@
             gridDraft[deck] = contact.preview
             if let generation = s2MetronomeGenerations[deck] {
                 try? playback.setGridMetronome(
-                    offset: contact.preview.anchorFrame - contact.original.anchorFrame, deck: deck, generation: generation)
+                    offset: contact.preview.anchorFrame - contact.original.anchorFrame, deck: deck,
+                    generation: generation)
             }
         }
 

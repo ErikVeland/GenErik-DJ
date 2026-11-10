@@ -1,29 +1,38 @@
 import Foundation
 import TDJCore
 
+struct NIControllerReportStartup {
+    let buttonBytes: Int
+    let potBytes: Int
+    private var requestedPots = false
+    private(set) var ready = false
+
+    init(buttonBytes: Int, potBytes: Int) {
+        self.buttonBytes = buttonBytes
+        self.potBytes = potBytes
+    }
+
+    mutating func consume(_ frame: Z1AccessoryProtocol.Frame) throws -> UInt8? {
+        switch frame.reportID {
+        case 1:
+            guard frame.payload.count == buttonBytes else { throw TransportError.invalid }
+            if !requestedPots {
+                requestedPots = true
+                return 2
+            }
+        case 2:
+            guard frame.payload.count == potBytes else { throw TransportError.invalid }
+            if requestedPots { ready = true }
+        default: break
+        }
+        return nil
+    }
+}
+
 enum S2MK3AccessoryProtocol {
     static let identifier = "com.native-instruments.protocol.kontrols2mk3"
 
-    struct Startup {
-        private var requestedPots = false
-        private(set) var ready = false
-
-        mutating func consume(_ frame: Z1AccessoryProtocol.Frame) throws -> UInt8? {
-            switch frame.reportID {
-            case 1:
-                guard frame.payload.count == 19 else { throw TransportError.invalid }
-                if !requestedPots {
-                    requestedPots = true
-                    return 2
-                }
-            case 2:
-                guard frame.payload.count == 38 else { throw TransportError.invalid }
-                if requestedPots { ready = true }
-            default: break
-            }
-            return nil
-        }
-    }
+    static func startup() -> NIControllerReportStartup { .init(buttonBytes: 19, potBytes: 38) }
 
     static func feedback(_ report: [UInt8]) throws -> [UInt8] {
         guard report.count == 62, report.first == 0x80 else { throw TransportError.invalid }
@@ -51,26 +60,33 @@ enum S2MixerFX: Int, CaseIterable {
     }
 }
 
+enum NativeTraktorEvent: Equatable {
+    case action(ControllerAction, Double)
+    case pot(ControllerAction, Double)
+    case deleteCue(DeckID, Int)
+    case flux(DeckID)
+    case reverse(DeckID, Bool)
+    case browser(S2BrowserCommand)
+    case eject(DeckID)
+    case loopRoll(DeckID, Bool)
+    case browserView
+    case samplePad(Int, shifted: Bool)
+    case sampleGain(Double)
+    case fx(S2MixerFX, Set<DeckID>)
+    case fxToggle(DeckID)
+    case move(DeckID, Int, shifted: Bool)
+    case loopSize(DeckID, Int, shifted: Bool)
+    case browserOpen
+    case park(DeckID, atCue: Bool)
+    case gridBegin(DeckID, anchor: Bool)
+    case gridMove(DeckID, Int)
+    case gridEnd(DeckID)
+    case mic
+    case quantize
+}
+
 struct S2MK3Controls {
-    enum Event: Equatable {
-        case action(ControllerAction, Double)
-        case pot(ControllerAction, Double)
-        case deleteCue(DeckID, Int)
-        case flux(DeckID)
-        case reverse(DeckID, Bool)
-        case browser(S2BrowserCommand)
-        case eject(DeckID)
-        case loopRoll(DeckID, Bool)
-        case browserView
-        case samplePad(Int, shifted: Bool)
-        case sampleGain(Double)
-        case fx(S2MixerFX, Set<DeckID>)
-        case gridBegin(DeckID, anchor: Bool)
-        case gridMove(DeckID, Int)
-        case gridEnd(DeckID)
-        case mic
-        case quantize
-    }
+    typealias Event = NativeTraktorEvent
 
     private static let buttons: [(ControllerAction, Int, UInt8)] = [
         (.playA, 2, 0x08), (.playB, 5, 0x20),

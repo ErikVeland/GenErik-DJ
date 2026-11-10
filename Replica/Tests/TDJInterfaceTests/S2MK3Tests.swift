@@ -9,7 +9,7 @@ import Testing
     let wire = [0x33, 0xc3, 0, 20, 0, 1] + short + [0x33, 0xc3, 0, 39, 0, 2] + long
     for cut in 0...wire.count {
         var decoder = Z1AccessoryProtocol.Decoder(framing: .lengthPrefixed)
-        var startup = S2MK3AccessoryProtocol.Startup()
+        var startup = S2MK3AccessoryProtocol.startup()
         _ = try startup.consume(.init(reportID: 2, payload: long))
         #expect(!startup.ready)
         let frames = try decoder.append(Array(wire.prefix(cut))) + decoder.append(Array(wire.dropFirst(cut)))
@@ -21,7 +21,7 @@ import Testing
         #expect(requests == [2])
         #expect(startup.ready)
     }
-    var startup = S2MK3AccessoryProtocol.Startup()
+    var startup = S2MK3AccessoryProtocol.startup()
     #expect(throws: TransportError.invalid) { try startup.consume(.init(reportID: 1, payload: [0])) }
     #expect(
         try S2MK3AccessoryProtocol.feedback([0x80] + Array(repeating: 0, count: 61)).prefix(6)

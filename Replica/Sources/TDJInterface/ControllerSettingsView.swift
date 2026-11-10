@@ -356,6 +356,7 @@ struct ControllerSettingsView: View {
         if let device = model.automaticOutputDevice { lines.append("\(device) audio routing: automatic") }
         #if os(iOS)
             lines.append(model.s2Status)
+            lines.append(model.s3Status)
         #endif
         return lines + connections
     }

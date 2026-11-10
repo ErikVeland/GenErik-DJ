@@ -18,6 +18,7 @@
     <key>UISupportedExternalAccessoryProtocols</key><array>
         <string>com.native-instruments.traktordj.kontrolz1</string>
         <string>com.native-instruments.protocol.kontrols2mk3</string>
+        <string>com.native-instruments.protocol.kontrols3</string>
     </array>
     <key>UIBackgroundModes</key><array><string>audio</string><string>processing</string><string>external-accessory</string><string>remote-notification</string></array>
     <key>ITSAppUsesNonExemptEncryption</key><false/>

@@ -7,14 +7,48 @@
     /// Streams run on the main run loop. Every callback has a fixed work limit.
     @MainActor final class NIControllerAccessoryConnection: NSObject, StreamDelegate {
         enum Model {
-            case z1, s2MK3
-            var name: String { self == .z1 ? "Z1" : "S2 Mk3" }
-            var identifier: String { self == .z1 ? Z1AccessoryProtocol.identifier : S2MK3AccessoryProtocol.identifier }
+            case z1, s2MK3, s3
+
+            var name: String {
+                switch self {
+                case .z1: "Z1"
+                case .s2MK3: "S2 Mk3"
+                case .s3: "S3"
+                }
+            }
+
+            var identifier: String {
+                switch self {
+                case .z1: Z1AccessoryProtocol.identifier
+                case .s2MK3: S2MK3AccessoryProtocol.identifier
+                case .s3: S3AccessoryProtocol.identifier
+                }
+            }
+
+            var inputStartup: NIControllerReportStartup? {
+                switch self {
+                case .z1: nil
+                case .s2MK3: S2MK3AccessoryProtocol.startup()
+                case .s3: S3AccessoryProtocol.startup()
+                }
+            }
+
+            func feedback(_ report: [UInt8], framing: Z1AccessoryProtocol.Framing) throws -> [UInt8] {
+                switch self {
+                case .z1: try Z1AccessoryProtocol.feedback(report, framing: framing)
+                case .s2MK3: try S2MK3AccessoryProtocol.feedback(report)
+                case .s3: try S3AccessoryProtocol.feedback(report)
+                }
+            }
         }
+
         private static var notificationUsers = 0
         private let model: Model
         private var name: String { model.name }
-        init(model: Model) { self.model = model }
+        init(model: Model) {
+            self.model = model
+            inputStartup = model.inputStartup
+        }
 
         var onFrame: ((Z1AccessoryProtocol.Frame) -> Void)?
         var onDisconnect: (() -> Void)?
@@ -26,14 +60,14 @@
         private var subscriptions: Set<AnyCancellable> = []
         private var decoder = Z1AccessoryProtocol.Decoder(framing: .lengthPrefixed)
         private var startup = Z1AccessoryProtocol.Startup()
-        private var s2Startup = S2MK3AccessoryProtocol.Startup()
+        private var inputStartup: NIControllerReportStartup?
         private var startupSent = false
         private var timeout: Task<Void, Never>?
         private var commands: [[UInt8]] = []
         private var writing: [UInt8] = []
         private var writeOffset = 0
-        private var pendingFeedback: [UInt8]?
-        private var lastFeedback: [UInt8] = []
+        private var pendingFeedback: [(id: UInt8, bytes: [UInt8])] = []
+        private var lastFeedback: [UInt8: [UInt8]] = [:]
         private var receivedInput = false
 
         func start() throws {
@@ -102,13 +136,13 @@
             }
             session = nil
             startup = .init()
-            s2Startup = .init()
+            inputStartup = model.inputStartup
             startupSent = false
             decoder = .init(framing: .lengthPrefixed)
             commands.removeAll()
             writing.removeAll()
             writeOffset = 0
-            pendingFeedback = nil
+            pendingFeedback.removeAll()
             lastFeedback.removeAll()
             receivedInput = false
             if wasConnected { onDisconnect?() }
@@ -173,21 +207,22 @@
             do {
                 let frames = try decoder.append(Array(bytes.prefix(count)))
                 for frame in frames {
-                    if model == .s2MK3 {
-                        let next = try s2Startup.consume(frame)
+                    if var input = inputStartup {
+                        let next = try input.consume(frame)
+                        inputStartup = input
                         if let next {
                             onFrame?(frame)
                             enqueueRequest(next)
                             continue
                         }
-                        guard s2Startup.ready else { continue }
+                        guard input.ready, frame.reportID == 1 || frame.reportID == 2 else { continue }
                         if !receivedInput {
                             receivedInput = true
                             timeout?.cancel()
                             timeout = nil
-                            onState?("S2 Mk3 native controls connected.", nil)
+                            onState?("\(name) native controls connected.", nil)
                         }
-                        if frame.reportID == 1 || frame.reportID == 2 { onFrame?(frame) }
+                        onFrame?(frame)
                         continue
                     }
                     if let next = try startup.consume(frame) {
@@ -213,15 +248,16 @@
         }
 
         func send(_ report: [UInt8]) {
-            guard receivedInput, report != lastFeedback,
-                let bytes = try?
-                    (model == .z1
-                    ? Z1AccessoryProtocol.feedback(report, framing: decoder.framing)
-                    : S2MK3AccessoryProtocol.feedback(report))
+            guard receivedInput, let id = report.first, report != lastFeedback[id],
+                let bytes = try? model.feedback(report, framing: decoder.framing)
             else { return }
-            lastFeedback = report
-            // Keep only the latest unsent light state. Never replace a partially written packet.
-            pendingFeedback = bytes
+            lastFeedback[id] = report
+            // Retain one unsent packet per report. Finish partial writes before sending newer values.
+            if let index = pendingFeedback.firstIndex(where: { $0.id == id }) {
+                pendingFeedback[index].bytes = bytes
+            } else {
+                pendingFeedback.append((id, bytes))
+            }
             flushOutput()
         }
 
@@ -232,9 +268,8 @@
                 if writing.isEmpty {
                     if !commands.isEmpty {
                         writing = commands.removeFirst()
-                    } else if let pendingFeedback {
-                        writing = pendingFeedback
-                        self.pendingFeedback = nil
+                    } else if !pendingFeedback.isEmpty {
+                        writing = pendingFeedback.removeFirst().bytes
                     } else {
                         return
                     }

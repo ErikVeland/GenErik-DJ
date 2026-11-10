@@ -340,6 +340,12 @@ import TDJCore
     #elseif os(iOS)
         private var z1Connection: NIControllerAccessoryConnection?
         var s2Connection: NIControllerAccessoryConnection?
+        var s3Connection: NIControllerAccessoryConnection?
+        @ObservationIgnored var s3Controls = S3Controls()
+        var s3Status = "Waiting for S3."
+        @ObservationIgnored var s3Takeover: [ControllerAction: ControllerMIDITakeoverState] = [:]
+        @ObservationIgnored var s3FXEnabled: Set<DeckID> = [.a, .b]
+        @ObservationIgnored var s3JumpBeats: [DeckID: Double] = [:]
         var s2Controls = S2MK3Controls()
         var s2Takeover: [ControllerAction: ControllerMIDITakeoverState] = [:]
         var s2LastScratch: [DeckID: TimeInterval] = [:]
@@ -1493,7 +1499,7 @@ import TDJCore
         }
     }
     #if os(iOS)
-        func ejectS2Deck(_ deck: DeckID) {
+        func ejectNativeTraktorDeck(_ deck: DeckID) {
             guard !arrangementPlaybackActive, !preparingTrack.contains(deck),
                 let state = playbackSnapshot?[deck], state.phase != .empty
             else { return }
@@ -1535,7 +1541,10 @@ import TDJCore
             if !z1Enabled, UserDefaults.standard.object(forKey: "controllers.nativeZ1.enabled") as? Bool != false {
                 toggleZ1()
             }
-            if !playback.offline { startS2MK3() }
+            if !playback.offline {
+                startS2MK3()
+                startS3()
+            }
         #endif
         playbackMonitor = Task { [weak self] in
             while !Task.isCancelled {
@@ -1546,6 +1555,7 @@ import TDJCore
                 #if os(iOS)
                     self?.maintainS2Extras()
                     self?.refreshS2Lights()
+                    self?.refreshS3Lights()
                 #endif
                 do { try await Task.sleep(for: .milliseconds(33)) } catch { return }
             }
@@ -1566,6 +1576,8 @@ import TDJCore
         #if os(iOS)
             s2Connection?.stop()
             s2Connection = nil
+            s3Connection?.stop()
+            s3Connection = nil
         #endif
         playback.stopAudio()
         refreshPlayback()
