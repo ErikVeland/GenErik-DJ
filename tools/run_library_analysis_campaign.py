@@ -50,6 +50,19 @@ def summary(output):
                 revisions=sorted({r['revisionID'] for r in results if r.get('revisionID')}))
 
 
+def reviewed_failures(root, errors):
+    reviewed = []
+    for error in errors:
+        path = root / 'source-recovery' / error['id'] / 'needs-review.json'
+        if not path.exists():
+            return None
+        record = json.loads(path.read_text())
+        if record.get('attempts', 1) < 3:
+            return None
+        reviewed.append(record)
+    return reviewed
+
+
 def make_remaining(mac, ipad, destination):
     done = {r['source'] for p in (ipad / 'results').glob('*.json')
             if (r := json.loads(p.read_text())).get('revisionID')}
@@ -107,6 +120,8 @@ def run(config):
                 update.update(mac=cloud['confirmed'], message=cloud['message'])
             except Exception as error:
                 update['uploadError'] = str(error)
+            confirmed_root = root / 'cloud' / 'CloudPreparation' / config['account']
+            update['mac'] = sorted(path.stem for path in confirmed_root.glob('*.confirmed'))
             for name, device in config['devices'].items():
                 try:
                     update[name] = sorted(receipts(device, config['account'], root / 'delivery' / name))
@@ -132,7 +147,9 @@ def run(config):
             if phase == 'full':
                 while True:
                     previous = summary(root / 'ipad')
-                    if not previous['errors'] and previous['complete'] == config['ipadCount']:
+                    unresolved = reviewed_failures(root, previous['errors'])
+                    if previous['complete'] + len(previous['errors']) == config['ipadCount'] and unresolved is not None:
+                        save(root / 'ipad-unresolved.json', unresolved)
                         break
                     save(root / 'campaign-status.json', dict(phase='waiting-for-source-recovery', **previous))
                     time.sleep(30)

@@ -130,8 +130,17 @@ def run(config, once=False):
             if not previous.get('error'):
                 continue
             work = recovery / item['id']
-            if (work / 'needs-review.json').exists():
-                continue
+            review_path = work / 'needs-review.json'
+            previous_review = json.loads(review_path.read_text()) if review_path.exists() else {}
+            if previous_review:
+                if previous_review.get('attempts', 1) >= 3 or time.time() - review_path.stat().st_mtime < 300:
+                    continue
+                evidence = work / ('failed-export-' + str(previous_review.get('attempts', 1)))
+                evidence.mkdir(exist_ok=True)
+                for name in ['request.json', 'response.json']:
+                    if (work / name).exists():
+                        shutil.copy2(work / name, evidence / name)
+                (work / 'request.json').unlink(missing_ok=True)
             save(status, dict(state='recovering', id=item['id'], title=item['title'],
                               updatedUTC=datetime.datetime.now(datetime.timezone.utc).isoformat()))
             try:
@@ -157,6 +166,9 @@ def run(config, once=False):
                 if not acknowledgement['complete']:
                     raise RuntimeError(acknowledgement['error'])
                 publish(output, root / 'ipad', item['id'])
+                if review_path.exists():
+                    shutil.copy2(review_path, work / 'recovered-review.json')
+                    review_path.unlink()
                 release_audio(device, work)
                 audio.unlink(missing_ok=True)
                 recovered += 1
@@ -171,8 +183,11 @@ def run(config, once=False):
                     save(status, dict(state='waiting-for-device', id=item['id'], error=str(error)))
                     time.sleep(30)
                     break
-                save(work / 'needs-review.json', dict(id=item['id'], title=item['title'], error=str(error)))
-        if once:
+                save(review_path, dict(id=item['id'], title=item['title'], error=str(error),
+                                      attempts=previous_review.get('attempts', 1 if previous_review else 0) + 1))
+        campaign_status = root / 'campaign-status.json'
+        phase = json.loads(campaign_status.read_text()).get('phase') if campaign_status.exists() else None
+        if once or phase in ['full', 'delivery']:
             if service is not None:
                 service.stdin.close()
                 service.wait()
