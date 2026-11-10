@@ -88,34 +88,28 @@ struct LibraryGroupList: View {
             let currentError = failedRequest == request ? error : nil
             let rowsReady = !loading && currentError == nil && request.canPresentResult(from: displayedRequest)
             if let result, result.count > 0 {
-                // Lazy rows render on scroll without relying on scroll-offset preferences.
-                ScrollViewReader { reader in
-                    ScrollView {
-                        LazyVStack(spacing: 0) {
-                            Color.clear.frame(height: 0).id("groupTop").accessibilityHidden(true)
-                            ForEach(LibraryBrowserRows(count: result.count).indices, id: \.self) { index in
-                                if let group = result.visibleGroups(in: index..<(index + 1)).first {
-                                    Button {
-                                        guard !loading, request.canPresentResult(from: displayedRequest) else { return }
-                                        choose(group)
-                                    } label: {
-                                        HStack {
-                                            Text(group.name).lineLimit(2)
-                                            Spacer()
-                                            if let count = counts[group.id] {
-                                                Text("\(count)").monospacedDigit().foregroundStyle(.secondary)
-                                            }
-                                            if selectedID == group.id { Image(systemName: "checkmark") }
-                                        }.padding(.horizontal, 8).frame(height: 57).contentShape(Rectangle())
-                                    }.buttonStyle(.plain).padding(.bottom, 1).accessibilityLabel(group.name)
-                                        .accessibilityAddTraits(selectedID == group.id ? .isSelected : [])
-                                }
-                            }
+                ScrollView {
+                    LazyVStack(spacing: 0) {
+                        ForEach(result.groups) { group in
+                            Button {
+                                guard !loading, request.canPresentResult(from: displayedRequest) else { return }
+                                choose(group)
+                            } label: {
+                                HStack {
+                                    Text(group.name).lineLimit(2)
+                                    Spacer()
+                                    if let count = counts[group.id] {
+                                        Text("\(count)").monospacedDigit().foregroundStyle(.secondary)
+                                    }
+                                    if selectedID == group.id { Image(systemName: "checkmark") }
+                                }.padding(.horizontal, 8).frame(height: 57).contentShape(Rectangle())
+                            }.buttonStyle(.plain).padding(.bottom, 1).accessibilityLabel(group.name)
+                                .accessibilityAddTraits(selectedID == group.id ? .isSelected : [])
                         }
-                    }.onChange(of: resetToken) { _, _ in reader.scrollTo("groupTop", anchor: .top) }
-                }.opacity(rowsReady ? 1 : 0).disabled(!rowsReady).allowsHitTesting(rowsReady).accessibilityHidden(
-                    !rowsReady
-                ).overlay { if !rowsReady { Text(currentError ?? "Searching…").foregroundStyle(.secondary) } }
+                    }
+                }.id(resetToken).opacity(rowsReady ? 1 : 0).disabled(!rowsReady).allowsHitTesting(rowsReady)
+                    .accessibilityHidden(!rowsReady)
+                    .overlay { if !rowsReady { Text(currentError ?? "Searching…").foregroundStyle(.secondary) } }
             } else if let currentError {
                 Spacer()
                 Text(currentError).foregroundStyle(.secondary)

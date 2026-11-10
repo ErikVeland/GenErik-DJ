@@ -85,9 +85,9 @@ import Testing
     #expect(groups.count == 3)
     #expect(
         groups.visibleGroups(in: 0..<groups.count).map(\.name).sorted() == [
-            "Closing · Music", "Peak · Music", "Warm Up · Music",
+            "Closing", "Peak", "Warm Up",
         ])
-    let peak = try #require(groups.visibleGroups(in: 0..<groups.count).first { $0.name == "Peak · Music" })
+    let peak = try #require(groups.visibleGroups(in: 0..<groups.count).first { $0.name == "Peak" })
     let members = try await LibraryBrowserProjection.build(
         librarySource: model.libraryReadSource(), catalogSource: model.catalogReadSource(), suggestionIDs: nil,
         search: "", sort: nil, category: .playlists, group: peak.id, playlists: CollectionPlaylists())

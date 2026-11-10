@@ -116,14 +116,14 @@ public struct LibraryBrowserProjection: Sendable {
         var playlistTargets: [CollectionGroup] = []
         for playlist in playlists.playlists {
             try tick()
-            playlistTargets.append(.init(id: playlist.id.uuidString, name: playlist.name))
+            playlistTargets.append(.init(id: playlist.id.uuidString, name: playlist.name + " · GenErik DJ"))
         }
         let groups: [CollectionGroup]
         if category == .playlists {
             var values = playlistTargets
             for playlist in catalog?.playlists ?? [] where playlist.itemIDs.contains(where: { byNative[$0] != nil }) {
                 try tick()
-                values.append(.init(id: "music:" + playlist.id, name: playlist.name + " · Music"))
+                values.append(.init(id: "music:" + playlist.id, name: playlist.name))
             }
             groups = values
         } else if category == .songs {

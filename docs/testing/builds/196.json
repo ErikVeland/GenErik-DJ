@@ -5,7 +5,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 82.45,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R140",
+      "report": "Remove the Music suffix from library playlists. Mark playlists created in the app. The list jumps and repeats names when returning to the top after scrolling past the first page.",
+      "buildAssumption": "Last recorded A10X install."
+    }
+  ],
   "log": "TestBuilds/ipad/build-196.log",
   "build": 196,
   "app": "TestBuilds/ipad/196/GenErikDJ.app",
