@@ -158,7 +158,7 @@ struct S4MK1Controls {
         if pressed(28) { events.append(.native(.browserView)) }
         if pressed(29) { events.append(.snap) }
         if pressed(31) { events.append(.quantize) }
-        if pressed(36) { events.append(.native(.browserOpen)) }
+        if pressed(36) { events.append(.preview) }
         let browse = turn(0)
         if browse != 0 { events.append(.native(.browser(.move(browse, groups: !shifts.isEmpty)))) }
         for (index, deck) in DeckID.allCases.enumerated() {

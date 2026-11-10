@@ -12,7 +12,7 @@ enum S4MK1Lights {
         func set(_ id: Int, _ active: Bool, dim: UInt8 = 0) { lights[id - 1] = active ? 31 : dim }
         func level(_ value: Double) -> UInt8 { UInt8((value * 31).rounded()) }
         set(1, feedback.quantize)
-        set(2, DeckID.allCases.contains { snapshot[$0].mixer.cue })
+        set(2, feedback.preview)
         set(4, snap)
         set(7, snap, dim: 2)
         set(10, feedback.quantize, dim: 2)

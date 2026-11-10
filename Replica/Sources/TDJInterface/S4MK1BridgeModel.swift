@@ -22,6 +22,16 @@
                 cue(
                     slot: slot, deck: deck, delete: shifted,
                     quantized: adding ? s4MK1Performance.snap : s4MK1Performance.quantize)
+            case .preview:
+                if s4MK1Performance.ownsPreview && s3PreviewHeld {
+                    stopS3Preview()
+                    s4MK1Performance.ownsPreview = false
+                } else if automaticOutputDevice == "S4 Mk1 Bridge" {
+                    s4MK1Performance.ownsPreview = true
+                    applyNativeTraktorEvent(.s3Preview(true), isS3: false)
+                }
+            case .native(.browser(.move(let detents, _))) where s4MK1Performance.ownsPreview && s3PreviewHeld:
+                seekS3Preview(detents: detents)
             case .native(.move(let deck, let detents, let shifted)):
                 moveS4LoopOrJump(deck, detents: detents, shifted: shifted)
             case .loopRecall(let deck, stop: false):
@@ -47,6 +57,7 @@
 
         private func releaseS4MK1Bridge() {
             s4MK1Receiving = false
+            if s4MK1Performance.ownsPreview { stopS3Preview() }
             for deck in s4MK1Controls.touched {
                 applyTraktorDeckAction(deck.leftSide ? .jogTouchA : .jogTouchB, deck: deck, value: 0, quantized: false)
             }
@@ -65,7 +76,13 @@
             if s4MK1Receiving != bridge.isReceiving { s4MK1Receiving = bridge.isReceiving }
             guard bridge.isReceiving, let snapshot = playbackSnapshot else { return }
 
+            if s4MK1Performance.ownsPreview && automaticOutputDevice != "S4 Mk1 Bridge" {
+                stopS3Preview()
+                s4MK1Performance.ownsPreview = false
+            }
+
             var feedback = S4MK2Lights.Feedback()
+            feedback.preview = s4MK1Performance.ownsPreview && s3PreviewHeld && playback.core.previewGeneration != 0
             feedback.quantize = s4MK1Performance.quantize
             feedback.samples = playback.core.playingPads
             feedback.sampleSlots = Set(s2SampleSlots.keys)

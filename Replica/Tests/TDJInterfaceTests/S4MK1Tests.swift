@@ -21,6 +21,14 @@ import Testing
     #expect(controls.consume(s4Mk1Panel(57, 72)) == [.native(.crossfaderAssign(.c, .left))])
 }
 
+@Test func s4Mk1BrowsePushTogglesPreviewAndTheButtonOpensTheBrowser() {
+    var controls = S4MK1Controls()
+    _ = controls.consume(s4Mk1Panel())
+    #expect(controls.consume(s4Mk1Panel(36)) == [.preview])
+    #expect(controls.consume(s4Mk1Panel()).isEmpty)
+    #expect(controls.consume(s4Mk1Panel(28)) == [.native(.browserView)])
+}
+
 @Test func s4Mk1WrappedScratchAndHeldCueReleaseOnDeckSwitch() {
     var controls = S4MK1Controls()
     var panel = s4Mk1Panel()
