@@ -21,3 +21,7 @@ Use the `GenErikDJS4DriverKit` scheme with an iOS device destination. To check c
 7. Confirm that iPadOS exposes four audio output channels. Check master 1–2 and headphones 3–4 separately.
 
 The entitlement files describe the access this target needs. Apple must grant the applicable entitlements before distribution. The built-in audio driver must expose the four channels for the automatic split route. Physical interface matching, audio, timing and recovery remain open. [Apple DriverKit for iPadOS](https://developer.apple.com/documentation/driverkit/creating-drivers-for-ipados) · [Apple entitlement process](https://developer.apple.com/documentation/DriverKit/requesting-entitlements-for-driverkit-development) · [USB transport entitlement](https://developer.apple.com/documentation/bundleresources/entitlements/com.apple.developer.driverkit.transport.usb)
+
+## Verification result
+
+The unsigned Release build passed on source `4d631e226`. The app contains the ARM64 DriverKit extension at the expected path. The runtime framework check, eleven focused Swift tests and the C++ report fixtures passed. The C++ fixtures check a split fader report, button-queue overflow and rejection of motor reports. No app or driver was installed or run on an iPad.
