@@ -176,6 +176,19 @@ bool tdj_read_snapshot(tdj_engine *engine, tdj_snapshot *snapshot);
 // A zero-frame call processes controls while device output is stopped.
 bool tdj_render(tdj_engine *engine, uint32_t count, float *left, float *right);
 // Same render pass, with a separate stereo headphone bus. Null monitor pointers discard that bus.
+void tdj_external_input_push(tdj_engine *engine, const float *left, const float *right, uint32_t count,
+                             uint32_t stride, double rate);
+void tdj_external_input_mix(tdj_engine *engine, double level, double cue_gain);
+typedef struct {
+    double left, right;
+    bool clip_left, clip_right;
+} tdj_master_meter;
+void tdj_master_meter_enable(tdj_engine *engine, bool enabled);
+tdj_master_meter tdj_master_meter_read(tdj_engine *engine);
+void tdj_preview_set_generation(tdj_engine *engine, uint64_t generation);
+uint64_t tdj_preview_generation(tdj_engine *engine);
+uint64_t tdj_preview_consumed(tdj_engine *engine);
+bool tdj_preview_push(tdj_engine *engine, const float *stereo, uint32_t count, double rate, uint64_t generation);
 bool tdj_render_buses(tdj_engine *engine, uint32_t count, float *left, float *right, float *cue_left, float *cue_right);
 bool tdj_render_recorded_buses(tdj_engine *engine, tdj_recording *recording, uint32_t count, float *left, float *right,
                                float *cue_left, float *cue_right);

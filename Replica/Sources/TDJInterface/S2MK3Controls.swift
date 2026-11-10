@@ -45,6 +45,7 @@ enum S2BrowserCommand: Equatable {
     case load(DeckID)
     case prepare(top: Bool)
     case sample(Int)
+    case previewS3
 }
 
 enum S2MixerFX: Int, CaseIterable {
@@ -83,6 +84,11 @@ enum NativeTraktorEvent: Equatable {
     case gridEnd(DeckID)
     case mic
     case quantize
+    case s3Preview(Bool)
+    case s3PreviewSeek(Int)
+    case s3EXT(shifted: Bool)
+    case s3EXTCue
+    case s3EXTLevel(Double, trim: Bool)
 }
 
 struct S2MK3Controls {

@@ -343,6 +343,17 @@ import TDJCore
         var s3Connection: NIControllerAccessoryConnection?
         @ObservationIgnored var s3Controls = S3Controls()
         var s3Status = "Waiting for S3."
+        @ObservationIgnored var s3EXTLine = false
+        @ObservationIgnored var s3EXTCue = false
+        @ObservationIgnored var s3EXTTrim = 1.0
+        @ObservationIgnored var s3EXTLevel = 0.0
+        @ObservationIgnored var s3EXTRequest: Task<Void, Never>?
+        @ObservationIgnored var s3PreviewHeld = false
+        @ObservationIgnored var s3PreviewEntry: LibraryBrowserEntry?
+        @ObservationIgnored var s3PreviewTask: Task<Void, Never>?
+        @ObservationIgnored var s3PreviewGeneration: UInt64 = 0
+        @ObservationIgnored var s3PreviewPosition = 0.0
+        @ObservationIgnored var s3PreviewFrames: Int64 = 0
         @ObservationIgnored var s3Takeover: [ControllerAction: ControllerMIDITakeoverState] = [:]
         @ObservationIgnored var s3FXEnabled: Set<DeckID> = [.a, .b]
         @ObservationIgnored var s3JumpBeats: [DeckID: Double] = [:]

@@ -188,7 +188,7 @@ static void reap_source(NativeSourceRetirement *retirement, uint32_t delay_ms) {
     _node = [[AVAudioSourceNode alloc] initWithFormat:format renderBlock:_renderBlock];
     return _node;
 }
-- (nullable AVAudioSinkNode *)makeMicrophoneSinkWithFormat:(AVAudioFormat *)format {
+- (nullable AVAudioSinkNode *)makeMicrophoneSinkWithFormat:(AVAudioFormat *)format stereo:(BOOL)stereo {
     if (format.commonFormat != AVAudioPCMFormatFloat32 || !format.channelCount || format.sampleRate <= 0)
         return nil;
     auto core = _context->core;
@@ -199,9 +199,19 @@ static void reap_source(NativeSourceRetirement *retirement, uint32_t delay_ms) {
         if (!owner || !buffers || !buffers->mNumberBuffers)
             return noErr;
         const AudioBuffer &first = buffers->mBuffers[0];
-        if (first.mData && first.mNumberChannels &&
-            frames <= first.mDataByteSize / sizeof(float) / first.mNumberChannels)
-            tdj_microphone_push(core, (const float *)first.mData, frames, first.mNumberChannels, rate);
+        if (!first.mData || !first.mNumberChannels ||
+            frames > first.mDataByteSize / sizeof(float) / first.mNumberChannels)
+            return noErr;
+        const float *left = (const float *)first.mData;
+        const float *right = left;
+        if (stereo && first.mNumberChannels > 1)
+            right = left + 1;
+        else if (stereo && buffers->mNumberBuffers > 1) {
+            const AudioBuffer &second = buffers->mBuffers[1];
+            if (second.mData && second.mNumberChannels == 1 && frames <= second.mDataByteSize / sizeof(float))
+                right = (const float *)second.mData;
+        }
+        tdj_external_input_push(core, left, right, frames, first.mNumberChannels, rate);
         return noErr;
     }];
 }

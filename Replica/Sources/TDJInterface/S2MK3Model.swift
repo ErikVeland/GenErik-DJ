@@ -109,6 +109,26 @@
                 toggleS2Mic()
             case .quantize:
                 s2Quantize.toggle()
+            case .s3Preview(let held):
+                if held {
+                    stopS3Preview()
+                    s3PreviewHeld = true
+                    queueS2Browser(.previewS3)
+                } else {
+                    stopS3Preview()
+                }
+            case .s3PreviewSeek(let detents):
+                seekS3Preview(detents: detents)
+            case .s3EXT(let shifted):
+                toggleS3EXT(shifted: shifted)
+            case .s3EXTCue:
+                if playback.s3ExtEnabled {
+                    s3EXTCue.toggle()
+                    updateS3EXTMix()
+                }
+            case .s3EXTLevel(let value, let trim):
+                if trim { s3EXTTrim = pow(4, 2 * value - 1) } else { s3EXTLevel = value }
+                if playback.s3ExtEnabled { updateS3EXTMix() }
             }
         }
 

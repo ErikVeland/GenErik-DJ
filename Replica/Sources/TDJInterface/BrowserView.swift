@@ -273,6 +273,9 @@ struct BrowserView: View {
                 case .sample(let slot):
                     guard let selected = entry(at: selectedIndex() ?? 0) else { continue }
                     model.loadS2Sample(selected, slot: slot)
+                case .previewS3:
+                    guard let selected = entry(at: selectedIndex() ?? 0) else { continue }
+                    model.previewS3Entry(selected)
                 }
             }
         }

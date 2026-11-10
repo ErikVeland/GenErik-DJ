@@ -670,6 +670,28 @@ public final class SampleTransport: @unchecked Sendable {
         tdj_microphone_set_enabled(pointer, enabled)
     }
 
+    public func setExternalInputMix(level: Double, cue: Bool, trim: Double = 1) {
+        tdj_external_input_mix(pointer, level * trim, cue ? trim : 0)
+    }
+
+    public func setMasterMeterEnabled(_ enabled: Bool) { tdj_master_meter_enable(pointer, enabled) }
+    public var masterMeter: (left: Double, right: Double, clipLeft: Bool, clipRight: Bool) {
+        let meter = tdj_master_meter_read(pointer)
+        return (meter.left, meter.right, meter.clip_left, meter.clip_right)
+    }
+
+    public func setPreviewGeneration(_ generation: UInt64) { tdj_preview_set_generation(pointer, generation) }
+    public var previewGeneration: UInt64 { tdj_preview_generation(pointer) }
+    public var previewConsumedFrames: UInt64 { tdj_preview_consumed(pointer) }
+
+    @discardableResult
+    public func pushPreview(_ stereo: [Float], frames: Int, sampleRate: Double, generation: UInt64) -> Bool {
+        guard frames > 0, frames <= stereo.count / 2, let count = UInt32(exactly: frames) else { return false }
+        return stereo.withUnsafeBufferPointer {
+            tdj_preview_push(pointer, $0.baseAddress, count, sampleRate, generation)
+        }
+    }
+
     public var renderedOutputFrame: UInt64 { tdj_rendered_output_frame(pointer) }
 
     public func snapshot() -> PlaybackSnapshot? {

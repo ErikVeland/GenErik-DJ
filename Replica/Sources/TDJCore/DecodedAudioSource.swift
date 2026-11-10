@@ -365,3 +365,34 @@ extension PCMAsset {
         return try PCMAsset(interleavedStereo: samples, sampleRate: source.rate)
     }
 }
+
+
+extension SampleTransport {
+    public func feedPreview(
+        url: URL, position: Double, generation: UInt64,
+        opened: @Sendable (Int64, Int64) async -> Void
+    ) async throws {
+        let source = try await DecodedAudioSource.open(url: url, cleanup: {})
+        guard (8000...192000).contains(source.rate), (1...2).contains(source.channels), source.frames > 0 else {
+            throw PCMStreamingError.unsupported
+        }
+        let start = Int64(Double(source.frames - 1) * min(1, max(0, position)))
+        var frame = start
+        await opened(source.frames, start)
+        var samples = [Float](repeating: 0, count: 2048 * 2)
+        while frame < source.frames, previewGeneration == generation {
+            try Task.checkCancellation()
+            let count = Int(min(2048, source.frames - frame))
+            try samples.withUnsafeMutableBufferPointer {
+                try source.read(first: frame, count: count, into: $0.baseAddress!)
+            }
+            while previewGeneration == generation {
+                try Task.checkCancellation()
+                if pushPreview(samples, frames: count, sampleRate: source.rate, generation: generation) { break }
+                try await Task.sleep(for: .milliseconds(12))
+            }
+            frame += Int64(count)
+            await Task.yield()
+        }
+    }
+}

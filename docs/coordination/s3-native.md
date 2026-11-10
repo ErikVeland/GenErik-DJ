@@ -27,6 +27,21 @@ The transport uses the same five-byte length header as the S2 Mk3. The TDJ2 iPad
 
 The [NI S3 manual](https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/TRAKTOR_KONTROL_S3_MK1_Manual_English_0120.pdf) documents the two physical deck sections, mixer and ring. The app uses the jog rings for the blue beat pulse and amber track-end warning. Amber pulses every four beats from 30 seconds, then every beat from 10 seconds. The pads retain Hot Cue or Sample feedback. A/B channel meters have their own output report. The app keeps one unsent packet per report ID and completes partial writes in order.
 
-C/D playback layers and outer mixer strips, the separate Preview Player, EXT input and the hardware master meter remain outside this increment. Physical S3 connection, audio, jog response and ring brightness remain unverified.
+R114 covers the Preview Player, EXT input and hardware master meter. C/D playback layers and outer mixer strips remain open. Physical S3 connection, audio, jog response and ring brightness remain unverified.
 
 Twenty-eight focused controller and audio tests passed. [Build 178](../testing/builds/178.json) installed on the A10X iPad. iPadOS accepted launch.
+
+
+## R114 Preview, EXT and master meter
+
+| S3 control | App action |
+| --- | --- |
+| Hold Preview | Audition the selected playable track in the S3 headphones. Turn Browse on the same side to scrub by 1.25% per detent. Release Preview to stop. |
+| EXT | Toggle external capture. Shift + EXT selects the mic or line input. The D trim and fader set the master level. D CUE monitors the input before the fader. |
+| Master meter | Show the rendered left and right master levels in report `81`. Each channel has a separate clip hold. |
+
+The [Mixxx S3 mapping](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Traktor-Kontrol-S3-hid-scripts.js) documents the Preview, EXT and D-strip control offsets and the stereo meter positions. The TDJ2 S3 accessory at `0x100a96254` confirms a 32-byte payload for report `F4`. It starts with `20 08` for mic and `20 00` for line. The app starts in mic mode. See the [NI S3 manual](https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/TRAKTOR_KONTROL_S3_MK1_Manual_English_0120.pdf).
+
+Preview reads ahead into a bounded stereo buffer. It feeds the headphones and stays out of the master mix and recording. The first EXT activation requires iPadOS microphone permission, an S3 input and output route, and paused decks. EXT feeds the master and recording mix, and D CUE feeds the headphones. Disconnect clears Preview and EXT.
+
+The playback engine has two source slots. Independent C/D need two more transport and mixer channels with their own streamed-source ownership, Sync alignment, recording attribution and route recovery. The outer D controls in this increment operate EXT. C/D playback and four-deck A10X performance verification remain open.

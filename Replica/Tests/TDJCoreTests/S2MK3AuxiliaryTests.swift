@@ -103,3 +103,55 @@ import Testing
     try core.setGridMetronome(offset: 0, deck: .a, generation: generation)
     #expect(core.renderBusesOffline(frames: 4500).cueLeft.allSatisfy { $0 == 0 })
 }
+
+@Test func s3MasterMeterReadsFinalStereoMasterInsteadOfCue() throws {
+    let core = try SampleTransport(sampleRate: 8000, outputGain: 1)
+    let asset = try PCMAsset(interleavedStereo: Array(repeating: [Float(0.25), 0.75], count: 4000).flatMap { $0 }, sampleRate: 8000)
+    let generation = try core.load(asset, deck: .a, grid: nil)
+    try core.setMixer(.cue, value: 1, deck: .a)
+    try core.setMixer(.master, value: 0.5)
+    core.setMasterMeterEnabled(true)
+    _ = core.renderBusesOffline(frames: 1024)
+    try core.play(deck: .a, generation: generation)
+    _ = core.renderBusesOffline(frames: 1024)
+    #expect(abs(core.masterMeter.left - 0.125) < 0.001)
+    #expect(abs(core.masterMeter.right - 0.375) < 0.001)
+    core.setMasterMeterEnabled(false)
+    #expect(core.masterMeter.left == 0)
+}
+
+@Test func s3PreviewFeedsOnlyHeadphonesAndRejectsOldProducer() throws {
+    let core = try SampleTransport(sampleRate: 8000, outputGain: 1)
+    core.setPreviewGeneration(1)
+    try core.setMixer(.monitor, value: 1)
+    let samples: [Float] = Array(repeating: [Float(0.25), Float(0.5)], count: 512).flatMap { $0 }
+    #expect(core.pushPreview(samples, frames: 512, sampleRate: 8000, generation: 1))
+    let playing = core.renderBusesOffline(frames: 256)
+    #expect(playing.left.allSatisfy { $0 == 0 } && playing.right.allSatisfy { $0 == 0 })
+    #expect(playing.cueRight.last == 0.25)
+    core.setPreviewGeneration(0)
+    #expect(!core.pushPreview(samples, frames: 512, sampleRate: 8000, generation: 1))
+    #expect(core.renderBusesOffline(frames: 256).cueRight.last == 0)
+}
+
+@Test func s3ExternalInputPreservesStereoAndCueIgnoresTheFader() throws {
+    let core = try SampleTransport(sampleRate: 8000, outputGain: 1)
+    let owner = core.nativeAudioRenderOwnership(metrics: nil)
+    let left = [Float](repeating: 0.25, count: 1024)
+    let right = [Float](repeating: 0.75, count: 1024)
+    core.setExternalInputMix(level: 0, cue: true)
+    try core.setMixer(.monitor, value: 1)
+    core.setMicrophoneEnabled(true)
+    left.withUnsafeBufferPointer { l in
+        right.withUnsafeBufferPointer { r in
+            tdj_external_input_push(owner.engineHandle, l.baseAddress, r.baseAddress, 1024, 1, 8000)
+        }
+    }
+    let cue = core.renderBusesOffline(frames: 256)
+    #expect(cue.left.last == 0 && cue.right.last == 0)
+    #expect(cue.cueLeft.last == 0.25 && cue.cueRight.last == 0.75)
+    core.setExternalInputMix(level: 0.5, cue: false)
+    let main = core.renderBusesOffline(frames: 256)
+    #expect(main.left.last == 0.125 && main.right.last == 0.375)
+    #expect(main.cueLeft.last == 0 && main.cueRight.last == 0)
+}

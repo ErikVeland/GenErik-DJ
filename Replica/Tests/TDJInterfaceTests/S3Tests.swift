@@ -145,3 +145,40 @@ import Testing
     pots[0x17] = 0x0f
     #expect(controls.consume(.init(reportID: 2, payload: pots)) == [.pot(.master, 1)])
 }
+
+@Test func s3PreviewAndEXTUseNativeEdgesAndInputCommand() throws {
+    var controls = S3Controls()
+    var buttons: [UInt8] = .init(repeating: 0, count: 21)
+    func report() -> [NativeTraktorEvent] { controls.consume(.init(reportID: 1, payload: buttons)) }
+    _ = report()
+    buttons[0] = 0x08
+    #expect(report() == [.s3Preview(true)])
+    buttons[10] = 0x01
+    #expect(report() == [.s3PreviewSeek(1)])
+    buttons[0] = 0
+    #expect(report() == [.s3Preview(false)])
+    buttons[6] = 0x04
+    #expect(report() == [.s3EXT(shifted: false)])
+    buttons[6] = 0
+    _ = report()
+    buttons[3] = 0x02
+    buttons[6] = 0x04
+    buttons[7] = 0x04
+    #expect(report() == [.s3EXT(shifted: true), .s3EXTCue])
+    let line = try S3AccessoryProtocol.feedback(S3AccessoryProtocol.inputSource(line: true))
+    let mic = try S3AccessoryProtocol.feedback(S3AccessoryProtocol.inputSource(line: false))
+    #expect(line.count == 38 && mic.count == 38)
+    #expect(Array(line.prefix(8)) == [0xb3, 0xc3, 0, 33, 0, 0xf4, 0x20, 0])
+    #expect(mic[7] == 0x08)
+}
+
+@Test func s3MasterMeterAndEXTFeedbackUseSeparateBytes() throws {
+    let core = try SampleTransport()
+    let reports = S3Lights.reports(
+        snapshot: try #require(core.snapshot()), sourceFrames: (nil, nil), cues: ([], []),
+        external: (true, true), master: (0, 1, false, true))
+    #expect(reports[0][0x33] == 0xff && reports[0][0x3b] == 0xff)
+    #expect(reports[1][0x3d...0x45].allSatisfy { $0 == 0 })
+    #expect(reports[1][0x46...0x4d].allSatisfy { $0 == 0x7f })
+    #expect(reports[1][0x4e] == 0x7e)
+}

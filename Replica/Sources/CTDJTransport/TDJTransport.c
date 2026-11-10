@@ -106,6 +106,9 @@ struct tdj_engine {
     atomic_deck published[2];
     stream_claim claims[TDJ_STREAM_MAX_TICKETS * 2];
     auxiliary_mix auxiliary;
+    _Atomic bool master_meter_enabled;
+    _Atomic double master_peak[2];
+    _Atomic uint32_t master_clip[2];
 };
 
 // Two milliseconds suppresses measured transport edges without delaying controls.
@@ -769,6 +772,11 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
     mixer_init(&e->mix, rate, gain);
     auxiliary_init(&e->auxiliary, rate);
     atomic_init(&e->published_paired_frames, 0);
+    atomic_init(&e->master_meter_enabled, false);
+    for (unsigned i = 0; i < 2; ++i) {
+        atomic_init(&e->master_peak[i], 0);
+        atomic_init(&e->master_clip[i], 0);
+    }
     atomic_init(&e->published_crossfader, 0.5);
     atomic_init(&e->published_master, gain);
     atomic_init(&e->published_monitor, 0.5);
@@ -1193,6 +1201,7 @@ static int apply(tdj_engine *e, tdj_command c) {
     }
     if (c.kind == TDJ_PANIC) {
         e->auxiliary.playing = 0;
+        tdj_preview_set_generation(e, 0);
         for (int i = 0; i < TDJ_PAD_COUNT; ++i) {
             pad_voice *pad = &e->auxiliary.pads[i];
             pad->reading = false;
@@ -2060,6 +2069,50 @@ static void controls(tdj_engine *e) {
     }
 }
 
+void tdj_master_meter_enable(tdj_engine *e, bool enabled) {
+    atomic_store_explicit(&e->master_meter_enabled, enabled, memory_order_relaxed);
+}
+tdj_master_meter tdj_master_meter_read(tdj_engine *e) {
+    if (!atomic_load_explicit(&e->master_meter_enabled, memory_order_relaxed))
+        return (tdj_master_meter){0};
+    return (tdj_master_meter){
+        atomic_load_explicit(&e->master_peak[0], memory_order_relaxed),
+        atomic_load_explicit(&e->master_peak[1], memory_order_relaxed),
+        atomic_load_explicit(&e->master_clip[0], memory_order_relaxed) != 0,
+        atomic_load_explicit(&e->master_clip[1], memory_order_relaxed) != 0,
+    };
+}
+static void update_master_meter(tdj_engine *e, const float *left, const float *right, uint32_t count) {
+    if (!count || !atomic_load_explicit(&e->master_meter_enabled, memory_order_relaxed))
+        return;
+    float peak[2] = {0, 0};
+    for (uint32_t i = 0; i < count; ++i) {
+        peak[0] = fmaxf(peak[0], fabsf(left[i]));
+        peak[1] = fmaxf(peak[1], fabsf(right[i]));
+    }
+    double decay = exp(-5 * count / e->rate);
+    for (unsigned i = 0; i < 2; ++i) {
+        double previous = atomic_load_explicit(&e->master_peak[i], memory_order_relaxed);
+        atomic_store_explicit(&e->master_peak[i], fmax(peak[i], previous * decay), memory_order_relaxed);
+        uint32_t clip = atomic_load_explicit(&e->master_clip[i], memory_order_relaxed);
+        clip = peak[i] >= 1 ? (uint32_t)(e->rate * 0.4) : clip > count ? clip - count : 0;
+        atomic_store_explicit(&e->master_clip[i], clip, memory_order_relaxed);
+    }
+}
+void tdj_preview_set_generation(tdj_engine *e, uint64_t generation) {
+    atomic_store_explicit(&e->auxiliary.preview.generation, generation, memory_order_release);
+}
+uint64_t tdj_preview_generation(tdj_engine *e) {
+    return atomic_load_explicit(&e->auxiliary.preview.generation, memory_order_acquire);
+}
+uint64_t tdj_preview_consumed(tdj_engine *e) {
+    preview_ring *preview = &e->auxiliary.preview;
+    uint64_t generation = atomic_load_explicit(&preview->consumed_generation, memory_order_acquire);
+    return generation == tdj_preview_generation(e) ? atomic_load_explicit(&preview->consumed, memory_order_relaxed) : 0;
+}
+bool tdj_preview_push(tdj_engine *e, const float *stereo, uint32_t count, double rate, uint64_t generation) {
+    return preview_push(&e->auxiliary.preview, stereo, count, rate, generation);
+}
 uint32_t tdj_playing_pads(tdj_engine *e) {
     return atomic_load_explicit(&e->auxiliary.published_playing, memory_order_acquire);
 }
@@ -2069,7 +2122,17 @@ void tdj_microphone_set_enabled(tdj_engine *e, bool enabled) {
 }
 
 void tdj_microphone_push(tdj_engine *e, const float *samples, uint32_t count, uint32_t stride, double rate) {
-    microphone_push(&e->auxiliary, samples, count, stride, rate);
+    microphone_push(&e->auxiliary, samples, samples, count, stride, rate);
+}
+void tdj_external_input_push(tdj_engine *e, const float *left, const float *right, uint32_t count, uint32_t stride,
+                             double rate) {
+    microphone_push(&e->auxiliary, left, right, count, stride, rate);
+}
+void tdj_external_input_mix(tdj_engine *e, double level, double cue_gain) {
+    if (isfinite(level) && level >= 0 && level <= 4)
+        atomic_store_explicit(&e->auxiliary.input_level, level, memory_order_relaxed);
+    if (isfinite(cue_gain) && cue_gain >= 0 && cue_gain <= 4)
+        atomic_store_explicit(&e->auxiliary.input_cue, cue_gain, memory_order_relaxed);
 }
 
 bool tdj_render(tdj_engine *e, uint32_t count, float *left, float *right) {
@@ -2119,6 +2182,16 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
     controls(e);
     auxiliary_mix *aux = &e->auxiliary;
     mic_block mic = microphone_begin(aux, e->rate);
+    if (mic.enabled) {
+        double input_level = atomic_load_explicit(&aux->input_level, memory_order_relaxed);
+        double input_cue = atomic_load_explicit(&aux->input_cue, memory_order_relaxed);
+        if (input_level != aux->input_master_ramp.target)
+            ramp_set(&aux->input_master_ramp, input_level, e->mix.smoothing);
+        if (input_cue != aux->input_cue_ramp.target)
+            ramp_set(&aux->input_cue_ramp, input_cue, e->mix.smoothing);
+    }
+    preview_block preview = preview_begin(&aux->preview, e->rate);
+    uint32_t preview_read = preview.read;
     if ((e->maximum_output_frames && count > e->maximum_output_frames) ||
         !tdj_stream_can_render(e->decks[0].asset, count) || !tdj_stream_can_render(e->decks[1].asset, count)) {
         if (count) {
@@ -2401,15 +2474,23 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
         if (aux->playing || aux->pad_gain.remaining)
             mix_pads(aux, e->rate, &l, &r);
         if (mic.enabled || aux->mic_gain > 0) {
-            float input = microphone_next(aux, &mic);
-            l += input;
-            r += input;
+            double input_l, input_r;
+            microphone_next(aux, &mic, &input_l, &input_r);
+            double level = ramp_next(&aux->input_master_ramp), cue = ramp_next(&aux->input_cue_ramp);
+            l += input_l * level;
+            r += input_r * level;
+            cl += input_l * cue;
+            cr += input_r * cue;
         }
         left[f] = (float)(l * master);
         right[f] = (float)(r * master);
         if (cue_left) {
-            cue_left[f] = (float)((cl * (1 - blend) + l * master * blend) * monitor);
-            cue_right[f] = (float)((cr * (1 - blend) + r * master * blend) * monitor);
+            double hl = cl * (1 - blend) + l * master * blend;
+            double hr = cr * (1 - blend) + r * master * blend;
+            if (preview.generation)
+                preview_next(&aux->preview, &preview, &hl, &hr);
+            cue_left[f] = (float)(hl * monitor);
+            cue_right[f] = (float)(hr * monitor);
         }
         e->frame++;
         if (e->running && e->decks[0].state != TDJ_PLAYING && e->decks[1].state != TDJ_PLAYING &&
@@ -2418,6 +2499,10 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             e->running = false;
         }
     }
+    update_master_meter(e, left, right, count);
+    if (preview.read != preview_read)
+        atomic_fetch_add_explicit(&aux->preview.consumed, preview.read - preview_read, memory_order_relaxed);
+    atomic_store_explicit(&aux->preview.read, preview.read, memory_order_release);
     atomic_store_explicit(&aux->mic_read, mic.read, memory_order_release);
     atomic_store_explicit(&aux->published_playing, aux->playing, memory_order_release);
     for (int i = 0; i < 2; i++) {

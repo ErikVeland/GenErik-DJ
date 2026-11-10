@@ -9,10 +9,17 @@ enum S3AccessoryProtocol {
     static func startup() -> NIControllerReportStartup { .init(buttonBytes: buttonBytes, potBytes: potBytes) }
 
     static func feedback(_ report: [UInt8]) throws -> [UInt8] {
-        guard (report.first == 0x80 && report.count == 83) || (report.first == 0x81 && report.count == 79) else {
+        guard
+            (report.first == 0x80 && report.count == 83) || (report.first == 0x81 && report.count == 79)
+                || (report.first == 0xf4 && report.count == 33)
+        else {
             throw TransportError.invalid
         }
         return [0xb3, 0xc3, 0, UInt8(report.count), 0] + report
+    }
+
+    static func inputSource(line: Bool) -> [UInt8] {
+        [0xf4, 0x20, line ? 0 : 0x08] + Array(repeating: 0, count: 30)
     }
 }
 
@@ -36,6 +43,7 @@ struct S3Controls {
     private var fxHeld: [(UInt8, S2MixerFX)] = []
     private var fxAssigned = false
     private(set) var browseGroups = false
+    private(set) var previewing: DeckID?
     private(set) var shifts: Set<DeckID> = []
     private(set) var samples: Set<DeckID> = []
     private(set) var jogMode: Set<DeckID> = [.a, .b]
@@ -50,13 +58,20 @@ struct S3Controls {
         if frame.reportID == 2, bytes.count == S3AccessoryProtocol.potBytes {
             let previous = previousPots
             previousPots = bytes
-            return Self.pots.compactMap { action, offset in
+            var events: [NativeTraktorEvent] = Self.pots.compactMap { action, offset in
                 let value = Self.word(bytes, offset)
                 guard value <= 4095, action != .master || !shifts.isEmpty,
                     previous.map({ Self.word($0, offset) != value }) ?? true
                 else { return nil }
                 return .pot(action, value == 2047 ? 0.5 : Double(value) / 4095)
             }
+            for (offset, trim) in [(0x09, false), (0x15, true)] {
+                let value = Self.word(bytes, offset)
+                if value <= 4095, previous.map({ Self.word($0, offset) != value }) ?? true {
+                    events.append(.s3EXTLevel(value == 2047 ? 0.5 : Double(value) / 4095, trim: trim))
+                }
+            }
+            return events
         }
         guard frame.reportID == 1, bytes.count == S3AccessoryProtocol.buttonBytes else { return [] }
         let previous = previousButtons
@@ -75,6 +90,8 @@ struct S3Controls {
         if held(1, 0x01) { shifts.insert(.a) }
         if held(4, 0x02) { shifts.insert(.b) }
         var events: [NativeTraktorEvent] = []
+        if pressed(7, 0x04) { events.append(.s3EXT(shifted: !shifts.isEmpty)) }
+        if pressed(8, 0x04) { events.append(.s3EXTCue) }
         for (mask, choice) in Self.fxButtons where pressed(8, mask) {
             if fxHeld.isEmpty { fxAssigned = false }
             fxHeld.append((mask, choice))
@@ -127,9 +144,22 @@ struct S3Controls {
                 events.append(.browserOpen)
             }
             if pressed(top, left ? 0x40 : 0x80) { events.append(.browserView) }
+            let previewMask: UInt8 = left ? 0x08 : 0x10
+            if pressed(top, previewMask) {
+                previewing = deck
+                events.append(.s3Preview(true))
+            } else if previewing == deck, !held(top, previewMask) {
+                previewing = nil
+                events.append(.s3Preview(false))
+            }
             let browse = encoder(left ? 0x0b : 0x0c, left ? 0 : 4)
             if browse != 0 {
-                events.append(.browser(.move(browse, groups: shifted || browseGroups || held(top, left ? 0x10 : 0x20))))
+                if previewing == deck {
+                    events.append(.s3PreviewSeek(browse))
+                } else {
+                    events.append(
+                        .browser(.move(browse, groups: shifted || browseGroups || held(top, left ? 0x10 : 0x20))))
+                }
             }
             if pressed(9, left ? 0x01 : 0x08) {
                 events.append(shifted ? .eject(deck) : .browser(.load(deck)))
@@ -219,12 +249,23 @@ struct S3Controls {
 enum S3Lights {
     static func reports(
         snapshot: PlaybackSnapshot, sourceFrames: (a: UInt64?, b: UInt64?), cues: (a: Set<Int>, b: Set<Int>),
-        controls: S3Controls = .init(), feedback: S2MK3Feedback = .init(), enabledFX: Set<DeckID> = [.a, .b]
+        controls: S3Controls = .init(), feedback: S2MK3Feedback = .init(), enabledFX: Set<DeckID> = [.a, .b],
+        external: (enabled: Bool, cue: Bool) = (false, false),
+        master: (left: Double, right: Double, clipLeft: Bool, clipRight: Bool) = (0, 0, false, false)
     ) -> [[UInt8]] {
         var buttons = [UInt8](repeating: 0, count: 83)
         var meters = [UInt8](repeating: 0, count: 79)
         buttons[0] = 0x80
         meters[0] = 0x81
+        buttons[0x33] = external.enabled ? 0xff : 0x04
+        buttons[0x3b] = external.enabled && external.cue ? 0xff : 0x04
+        for (peak, clipping, start) in [(master.left, master.clipLeft, 0x3d), (master.right, master.clipRight, 0x46)] {
+            let db = 20 * log10(max(1e-12, peak))
+            for (segment, threshold) in [-36.0, -24, -18, -12, -9, -6, -3, 0].enumerated() {
+                meters[start + segment] = db >= threshold ? 0x7f : 0
+            }
+            meters[start + 8] = clipping ? 0x7e : 0
+        }
         let fxPalette: [UInt8] = [0x04, 0x1c, 0x2c, 0x04]
         for fx in S2MixerFX.allCases {
             buttons[0x3c + fx.rawValue] = fxPalette[fx.rawValue] + (feedback.fx.contains(fx) ? 3 : 1)
@@ -238,6 +279,7 @@ enum S3Lights {
             buttons[base + 1] = controls.shifts.contains(deck) ? 0x77 : 0x20
             buttons[base + 2] = white(state.fluxEnabled)
             buttons[base + 3] = controls.reversing.contains(deck) ? 0x77 : 0x20
+            buttons[base + 4] = white(controls.previewing == deck)
             buttons[base + 6] = white(controls.browseGroups)
             buttons[base + 7] = white(feedback.browser)
             buttons[base + 8] = white(controls.gridHeld.contains(deck))

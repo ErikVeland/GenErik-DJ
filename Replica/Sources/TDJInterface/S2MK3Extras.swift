@@ -39,7 +39,7 @@
 
         private var s2MayPrepareSample: Bool {
             !isRecording && !recordingFinishing && !arrangementPlaybackActive && !playback.s2MicEnabled
-                && playback.core.playingPads == 0
+                && !playback.s3ExtEnabled && playback.core.previewGeneration == 0 && playback.core.playingPads == 0
                 && DeckID.allCases.allSatisfy { !controlDisplay[$0].phase.active && !preparingPlayback.contains($0) }
         }
 

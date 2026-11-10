@@ -6,7 +6,14 @@
         func startS3() {
             guard s3Connection == nil else { return }
             let connection = NIControllerAccessoryConnection(model: .s3)
-            connection.onState = { [weak self] status, _ in self?.s3Status = status }
+            connection.onState = { [weak self, weak connection] status, _ in
+                guard let self else { return }
+                s3Status = status
+                if connection?.isReceiving == true {
+                    playback.core.setMasterMeterEnabled(true)
+                    connection?.send(S3AccessoryProtocol.inputSource(line: s3EXTLine))
+                }
+            }
             connection.onFrame = { [weak self] frame in
                 guard let self else { return }
                 for event in s3Controls.consume(frame) { applyNativeTraktorEvent(event, isS3: true) }
@@ -19,6 +26,11 @@
         }
 
         private func releaseS3Controls() {
+            playback.core.setMasterMeterEnabled(false)
+            stopS3Preview()
+            s3EXTRequest?.cancel()
+            try? playback.setCaptureEnabled(false, device: "S3")
+            s3EXTCue = false
             for deck in s3Controls.touched { applyController(deck == .a ? .jogTouchA : .jogTouchB, value: 0) }
             for deck in s3Controls.reversing { perform(.rate, deck: deck, value: 1) }
             for deck in s3Controls.bent { resetControllerWheelJog(deck) }
@@ -72,7 +84,8 @@
                 fx: Set(DeckID.allCases.map { s2FX[$0] ?? .filter }), browser: browserVisible)
             let reports = S3Lights.reports(
                 snapshot: snapshot, sourceFrames: frames, cues: (slots(.a), slots(.b)),
-                controls: s3Controls, feedback: feedback, enabledFX: s3FXEnabled)
+                controls: s3Controls, feedback: feedback, enabledFX: s3FXEnabled,
+                external: (playback.s3ExtEnabled, s3EXTCue), master: playback.core.masterMeter)
             for report in reports { connection.send(report) }
         }
     }

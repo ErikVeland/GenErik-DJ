@@ -2,6 +2,7 @@
 #define TDJ_AUXILIARY_H
 
 #define MIC_CAPACITY 8192u
+#define PREVIEW_CAPACITY 16384u
 
 typedef struct {
     tdj_asset *asset;
@@ -13,7 +14,90 @@ typedef struct {
 } pad_voice;
 
 typedef struct {
+    float left, right;
+    uint64_t generation;
+} preview_frame;
+
+typedef struct {
+    _Atomic uint64_t generation, consumed, consumed_generation;
+    _Atomic uint32_t write, read;
+    _Atomic double rate;
+    atomic_flag producer;
+    preview_frame frames[PREVIEW_CAPACITY];
+    uint64_t rendering_generation;
+    double fraction, gain, last_l, last_r;
+} preview_ring;
+
+typedef struct {
+    uint32_t read, write;
+    uint64_t generation;
+    double step;
+} preview_block;
+
+static bool preview_push(preview_ring *preview, const float *samples, uint32_t count, double rate, uint64_t generation) {
+    if (!generation || !samples || !count || count > PREVIEW_CAPACITY || !isfinite(rate) ||
+        rate < 8000 || rate > 192000 || atomic_flag_test_and_set_explicit(&preview->producer, memory_order_acquire))
+        return false;
+    uint32_t write = atomic_load_explicit(&preview->write, memory_order_relaxed);
+    uint32_t read = atomic_load_explicit(&preview->read, memory_order_acquire);
+    bool accepted = atomic_load_explicit(&preview->generation, memory_order_acquire) == generation &&
+                    count <= PREVIEW_CAPACITY - (write - read);
+    if (accepted) {
+        for (uint32_t i = 0; i < count; ++i)
+            preview->frames[(write + i) & (PREVIEW_CAPACITY - 1)] =
+                (preview_frame){samples[2 * i], samples[2 * i + 1], generation};
+        atomic_store_explicit(&preview->rate, rate, memory_order_relaxed);
+        atomic_store_explicit(&preview->write, write + count, memory_order_release);
+    }
+    atomic_flag_clear_explicit(&preview->producer, memory_order_release);
+    return accepted;
+}
+
+static preview_block preview_begin(preview_ring *preview, double rate) {
+    uint32_t write = atomic_load_explicit(&preview->write, memory_order_acquire);
+    preview_block block = {
+        .generation = atomic_load_explicit(&preview->generation, memory_order_acquire),
+        .write = write,
+        .read = atomic_load_explicit(&preview->read, memory_order_relaxed),
+        .step = atomic_load_explicit(&preview->rate, memory_order_relaxed) / rate
+    };
+    if (preview->rendering_generation != block.generation) {
+        preview->rendering_generation = block.generation;
+        preview->fraction = preview->gain = 0;
+        atomic_store_explicit(&preview->consumed, 0, memory_order_relaxed);
+        atomic_store_explicit(&preview->consumed_generation, block.generation, memory_order_release);
+    }
+    if (!block.generation)
+        block.read = block.write;
+    while (block.read != block.write &&
+           preview->frames[block.read & (PREVIEW_CAPACITY - 1)].generation != block.generation)
+        ++block.read;
+    return block;
+}
+
+static void preview_next(preview_ring *preview, preview_block *block, double *left, double *right) {
+    if (block->write - block->read <= (uint32_t)fmax(1, ceil(preview->fraction + block->step))) {
+        preview->gain = fmax(0, preview->gain - 1.0 / 256);
+        *left += preview->last_l * preview->gain;
+        *right += preview->last_r * preview->gain;
+        return;
+    }
+    const preview_frame *a = &preview->frames[block->read & (PREVIEW_CAPACITY - 1)];
+    const preview_frame *b = &preview->frames[(block->read + 1) & (PREVIEW_CAPACITY - 1)];
+    preview->gain = fmin(0.5, preview->gain + 1.0 / 256);
+    preview->last_l = a->left + (b->left - a->left) * preview->fraction;
+    preview->last_r = a->right + (b->right - a->right) * preview->fraction;
+    *left += preview->gain * preview->last_l;
+    *right += preview->gain * preview->last_r;
+    preview->fraction += block->step;
+    uint32_t consumed = (uint32_t)preview->fraction;
+    block->read += consumed;
+    preview->fraction -= consumed;
+}
+
+typedef struct {
     pad_voice pads[TDJ_PAD_COUNT];
+    preview_ring preview;
     uint32_t playing;
     _Atomic uint32_t published_playing;
     ramp pad_gain;
@@ -21,9 +105,12 @@ typedef struct {
     _Atomic bool mic_enabled;
     _Atomic double mic_rate;
     atomic_flag mic_producer;
-    float mic_samples[MIC_CAPACITY];
+    _Atomic double input_level;
+    _Atomic double input_cue;
+    ramp input_master_ramp, input_cue_ramp;
+    float mic_samples[MIC_CAPACITY][2];
     double mic_fraction;
-    float mic_last, mic_gain;
+    float mic_last[2], mic_gain;
 } auxiliary_mix;
 
 typedef struct {
@@ -34,17 +121,28 @@ typedef struct {
 
 static void auxiliary_init(auxiliary_mix *aux, double rate) {
     atomic_init(&aux->published_playing, 0);
+    atomic_init(&aux->preview.generation, 0);
+    atomic_init(&aux->preview.consumed, 0);
+    atomic_init(&aux->preview.consumed_generation, 0);
+    atomic_init(&aux->preview.write, 0);
+    atomic_init(&aux->preview.read, 0);
+    atomic_init(&aux->preview.rate, rate);
+    atomic_flag_clear(&aux->preview.producer);
     atomic_init(&aux->mic_read, 0);
     atomic_init(&aux->mic_write, 0);
     atomic_init(&aux->mic_enabled, false);
     atomic_init(&aux->mic_rate, rate);
+    atomic_init(&aux->input_level, 1);
+    atomic_init(&aux->input_cue, 0);
+    ramp_set(&aux->input_master_ramp, 1, 0);
     atomic_flag_clear(&aux->mic_producer);
     ramp_set(&aux->pad_gain, 0.35, 0);
 }
 
 // The sink publishes samples only after writing the entire block.
-static void microphone_push(auxiliary_mix *aux, const float *samples, uint32_t count, uint32_t stride, double rate) {
-    if (!atomic_load_explicit(&aux->mic_enabled, memory_order_acquire) || !samples || !stride ||
+static void microphone_push(auxiliary_mix *aux, const float *left, const float *right, uint32_t count, uint32_t stride,
+                            double rate) {
+    if (!atomic_load_explicit(&aux->mic_enabled, memory_order_acquire) || !left || !right || !stride ||
         stride > 32 || count > MIC_CAPACITY || !isfinite(rate) || rate < 8000 || rate > 192000)
         return;
     if (atomic_flag_test_and_set_explicit(&aux->mic_producer, memory_order_acquire))
@@ -53,8 +151,10 @@ static void microphone_push(auxiliary_mix *aux, const float *samples, uint32_t c
     uint32_t read = atomic_load_explicit(&aux->mic_read, memory_order_acquire);
     if (count <= MIC_CAPACITY - (write - read)) {
         for (uint32_t i = 0; i < count; ++i) {
-            float value = samples[i * stride];
-            aux->mic_samples[(write + i) & (MIC_CAPACITY - 1)] = isfinite(value) ? fmaxf(-1, fminf(1, value)) : 0;
+            float l = left[i * stride], r = right[i * stride];
+            float *destination = aux->mic_samples[(write + i) & (MIC_CAPACITY - 1)];
+            destination[0] = isfinite(l) ? fmaxf(-1, fminf(1, l)) : 0;
+            destination[1] = isfinite(r) ? fmaxf(-1, fminf(1, r)) : 0;
         }
         atomic_store_explicit(&aux->mic_rate, rate, memory_order_relaxed);
         atomic_store_explicit(&aux->mic_write, write + count, memory_order_release);
@@ -75,11 +175,12 @@ static mic_block microphone_begin(auxiliary_mix *aux, double rate) {
     return block;
 }
 
-static float microphone_next(auxiliary_mix *aux, mic_block *block) {
+static void microphone_next(auxiliary_mix *aux, mic_block *block, double *left, double *right) {
     if (block->enabled && block->write - block->read > (uint32_t)fmax(1, ceil(aux->mic_fraction + block->step))) {
-        float a = aux->mic_samples[block->read & (MIC_CAPACITY - 1)];
-        float b = aux->mic_samples[(block->read + 1) & (MIC_CAPACITY - 1)];
-        aux->mic_last = (float)(a + (b - a) * aux->mic_fraction);
+        const float *a = aux->mic_samples[block->read & (MIC_CAPACITY - 1)];
+        const float *b = aux->mic_samples[(block->read + 1) & (MIC_CAPACITY - 1)];
+        for (unsigned i = 0; i < 2; ++i)
+            aux->mic_last[i] = (float)(a[i] + (b[i] - a[i]) * aux->mic_fraction);
         aux->mic_fraction += block->step;
         uint32_t consumed = (uint32_t)aux->mic_fraction;
         block->read += consumed;
@@ -88,7 +189,8 @@ static float microphone_next(auxiliary_mix *aux, mic_block *block) {
     } else {
         aux->mic_gain = fmaxf(0, aux->mic_gain - 1.0f / 128);
     }
-    return aux->mic_last * aux->mic_gain;
+    *left = aux->mic_last[0] * aux->mic_gain;
+    *right = aux->mic_last[1] * aux->mic_gain;
 }
 
 static unsigned pad_fade_frames(double rate) {
