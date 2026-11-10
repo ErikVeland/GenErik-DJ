@@ -87,6 +87,8 @@
                     do { s2SampleSlots[to] = try playback.installPad(asset, slot: to) } catch {
                         status = error.localizedDescription
                     }
+                case (.recordedLoop, .sample(let to)):
+                    copyS4MK1RecordedLoop(to: to)
                 default:
                     break
                 }
@@ -94,8 +96,32 @@
                 switch target {
                 case .deck(let deck) where loaded[deck] != nil: s4MK1CopySource = target
                 case .sample(let slot) where s2SampleSlots[slot] != nil: s4MK1CopySource = target
+                case .recordedLoop where playback.core.loopRecorderState.contains(.stored): s4MK1CopySource = target
                 default: break
                 }
+            }
+        }
+
+        private func copyS4MK1RecordedLoop(to slot: Int) {
+            guard s4MK1ExportTask == nil, s2SampleSlots[slot] == nil else { return }
+            let core = playback.core
+            s4MK1ExportTask = Task { [weak self] in
+                guard let self else { return }
+                defer { s4MK1ExportTask = nil }
+                do {
+                    try core.requestLoopRecorderExport()
+                    defer { core.finishLoopRecorderExport() }
+                    for _ in 0..<100 where core.loopRecorderExportFrames == 0 {
+                        if !playback.outputActive { core.processControlsWhileIdle() }
+                        try await Task.sleep(for: .milliseconds(10))
+                    }
+                    guard core.loopRecorderExportFrames > 0 else { throw TransportError.unresolved }
+                    let asset = try await Task.detached(priority: .utility) { try core.makeLoopRecorderAsset() }.value
+                    try Task.checkCancellation()
+                    guard s4MK1Bridge?.isReceiving == true, s2SampleSlots[slot] == nil else { return }
+                    s2SampleSlots[slot] = try playback.installPad(asset, slot: slot)
+                } catch is CancellationError {
+                } catch { status = error.localizedDescription }
             }
         }
 
@@ -175,6 +201,7 @@
             if s4MK1RecorderReady { playback.core.enableLoopRecorder(false) }
             s4MK1RecorderReady = false
             s4MK1RecorderTask?.cancel()
+            s4MK1ExportTask?.cancel()
             s4MK1RecorderTask = nil
             s4MK1PendingRecorder.removeAll()
         }

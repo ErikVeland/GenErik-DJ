@@ -24,7 +24,11 @@ enum S4MK1Lights {
         set(10, feedback.quantize, dim: 2)
         set(11, browsing || controls.copying, dim: 2)
         let flash = Int(snapshot.outputFrame / UInt64(max(1, snapshot.sampleRate / 4))) % 2 == 0
-        set(12, recorder.contains(.playing), dim: 2)
+        let recorderPlay =
+            controls.copying
+            ? copySource == .recordedLoop || (copySource == nil && recorder.contains(.stored) && flash)
+            : recorder.contains(.playing)
+        set(12, recorderPlay, dim: 2)
         set(13, recorder.contains(.hasUndo) || recorder.contains(.stored) && !recorder.contains(.playing), dim: 2)
 
         var pulses: [DeckID: (blue: Double, amber: Double?)] = [:]

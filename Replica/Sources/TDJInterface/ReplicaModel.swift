@@ -363,6 +363,7 @@ import TDJCore
         @ObservationIgnored var s4MK1CopySource: S4MK1CopyTarget?
         @ObservationIgnored var s4MK1ReferenceBPM = 0.0
         @ObservationIgnored var s4MK1ClockDeck: (deck: DeckID, generation: UInt64)?
+        @ObservationIgnored var s4MK1ExportTask: Task<Void, Never>?
         @ObservationIgnored var s4MK1RecorderTask: Task<Void, Never>?
         @ObservationIgnored var s4MK1RecorderReady = false
         @ObservationIgnored var s4MK1PendingRecorder: [PerformanceLoopRecorderAction] = []

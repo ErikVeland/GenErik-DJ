@@ -32,6 +32,9 @@ import Testing
     #expect(controls.consume(s4Mk1Panel(28, 33)) == [.copyTarget(.deck(.a))])
     #expect(controls.consume(s4Mk1Panel(28, 35)) == [.copyTarget(.deck(.d))])
     #expect(controls.consume(s4Mk1Panel()) == [.copyEnd])
+    #expect(controls.consume(s4Mk1Panel(28, 27)) == [.copyTarget(.recordedLoop)])
+    #expect(controls.consume(s4Mk1Panel(28, 9)) == [.copyTarget(.sample(0))])
+    #expect(controls.consume(s4Mk1Panel()) == [.copyEnd])
 }
 
 @Test func s4Mk1WrappedScratchAndHeldCueReleaseOnDeckSwitch() {

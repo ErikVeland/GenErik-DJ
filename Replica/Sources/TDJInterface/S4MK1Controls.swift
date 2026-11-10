@@ -3,6 +3,7 @@ import TDJCore
 enum S4MK1CopyTarget: Equatable {
     case deck(DeckID)
     case sample(Int)
+    case recordedLoop
 }
 
 struct S4MK1Controls {
@@ -223,7 +224,14 @@ struct S4MK1Controls {
         if pressed(24) { events.append(.loopRecorder(.size)) }
         if pressed(25) || pressed(80) { events.append(.loopRecorder(.record)) }
         if pressed(26) { events.append(.loopRecorder(.undo)) }
-        if pressed(27) { events.append(.loopRecorder(.play)) }
+        if pressed(27) {
+            if copying {
+                copyUsed = true
+                events.append(.copyTarget(.recordedLoop))
+            } else {
+                events.append(.loopRecorder(.play))
+            }
+        }
         if pressed(30) { events.append(.clockMaster(nil)) }
         if pressed(29) { events.append(.snap) }
         if pressed(31) { events.append(.quantize) }

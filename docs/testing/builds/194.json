@@ -1,0 +1,15 @@
+{
+  "notes": "R134. Verify S4 Mk1 Loop Recorder, footswitch, FX, clock, loop trim and capture. Local checks only.",
+  "sourceCommit": "202ff8f84ef966473e866bc55e24593374b6e866",
+  "sourceSHA256": "91d8cbbf506d996179821fff604c2e71254aab128c91618fe25d6eb9ee27b21e",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 94.48,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-194.log",
+  "build": 194,
+  "app": "TestBuilds/ipad/194/GenErikDJ.app",
+  "appSHA256": "831e9b922f592a8d5cb06cbfe3f876ab0c3b074653703cfd103f509b94bc6b89",
+  "state": "ready",
+  "createdUTC": "2026-11-10T07:51:29.831770+00:00"
+}

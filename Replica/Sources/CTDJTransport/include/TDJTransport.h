@@ -194,6 +194,10 @@ void tdj_external_input_push(tdj_engine *engine, const float *left, const float 
 bool tdj_loop_recorder_prepare(tdj_engine *engine);
 void tdj_loop_recorder_enable(tdj_engine *engine, bool enabled);
 int32_t tdj_loop_recorder_state(tdj_engine *engine);
+bool tdj_loop_recorder_request_export(tdj_engine *engine);
+int32_t tdj_loop_recorder_export_frames(tdj_engine *engine);
+bool tdj_loop_recorder_export(tdj_engine *engine, float *stereo, uint32_t count);
+void tdj_loop_recorder_finish_export(tdj_engine *engine);
 void tdj_s4_mk1_input_set_enabled(tdj_engine *engine, bool enabled);
 void tdj_s4_input_set_channels(tdj_engine *engine, uint32_t channels);
 void tdj_s4_mic_set_level(tdj_engine *engine, double level);

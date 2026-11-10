@@ -749,6 +749,25 @@ public final class SampleTransport: @unchecked Sendable {
         .init(rawValue: tdj_loop_recorder_state(pointer))
     }
 
+    public func requestLoopRecorderExport() throws {
+        guard tdj_loop_recorder_request_export(pointer) else { throw TransportError.activePerformance }
+    }
+
+    public var loopRecorderExportFrames: Int { Int(tdj_loop_recorder_export_frames(pointer)) }
+
+    public func makeLoopRecorderAsset() throws -> PCMAsset {
+        let frames = loopRecorderExportFrames
+        guard frames > 0 else { throw TransportError.unresolved }
+        var stereo = [Float](repeating: 0, count: frames * 2)
+        let copied = stereo.withUnsafeMutableBufferPointer {
+            tdj_loop_recorder_export(pointer, $0.baseAddress, UInt32(frames))
+        }
+        guard copied else { throw TransportError.stale }
+        return try PCMAsset(interleavedStereo: stereo, sampleRate: sampleRate)
+    }
+
+    public func finishLoopRecorderExport() { tdj_loop_recorder_finish_export(pointer) }
+
     public func controlLoopRecorder(_ action: PerformanceLoopRecorderAction) throws {
         var command = tdj_command()
         command.kind = TDJ_LOOP_RECORDER
