@@ -527,6 +527,14 @@ private struct DeckPanelHorizontalBounds: Shape {
                         if track != nil {
                             DeckActionPane(model: model, deck: deck, panels: panels, openSections: openSections)
                         }
+                    }.overlay(alignment: .topLeading) {
+                        #if os(iOS)
+                            if UIDevice.current.userInterfaceIdiom == .pad, DeckID.primary.contains(deck),
+                                track != nil, !editing, layout.waveformHeight >= 96
+                            {
+                                LiveStemPane(experiment: model.liveStems, deck: deck, playback: model.playback)
+                            }
+                        #endif
                     }
                     if showsHotcues {
                         HotcuePadRow(model: model, deck: deck).frame(height: layout.hotcueHeight).clipped()
@@ -681,6 +689,33 @@ private struct DeckPanelHorizontalBounds: Shape {
     }
 }
 
+@MainActor private struct DeckSlideoutHandle: View {
+    let open: Bool
+    let icon: String
+    let label: String
+    let opensUpward: Bool
+    let toggle: () -> Void
+
+    var body: some View {
+        Button(action: toggle) {
+            Image(systemName: open ? "xmark" : icon)
+                .frame(width: 44, height: 48)
+                .foregroundStyle(open ? PerformancePalette.cyan : PerformancePalette.text)
+                .bevelPanel(cornerRadius: 5, sunken: open)
+                .contentShape(Rectangle())
+        }.buttonStyle(.plain)
+            .accessibilityLabel("\(open ? "Close" : "Open") \(label)")
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 12).onEnded { value in
+                    let vertical = value.translation.height * (opensUpward ? -1 : 1)
+                    let expand = vertical > 16 || value.translation.width > 24
+                    let collapse = vertical < -16 || value.translation.width < -24
+                    if (!open && expand) || (open && collapse) { toggle() }
+                }
+            ).layoutPriority(1)
+    }
+}
+
 @MainActor private struct DeckActionPane: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
@@ -690,22 +725,11 @@ private struct DeckPanelHorizontalBounds: Shape {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     var body: some View {
         HStack(spacing: 4) {
-            Button {
-                panels.toggleControls()
-            } label: {
-                Image(systemName: panels.extraVisible ? "xmark" : "slider.horizontal.3")
-                    .frame(width: 44, height: 48).foregroundStyle(
-                        panels.extraVisible ? PerformancePalette.cyan : PerformancePalette.text
-                    ).bevelPanel(cornerRadius: 5, sunken: panels.extraVisible)
-            }.buttonStyle(.plain).accessibilityLabel(
-                "\(panels.extraVisible ? "Close" : "Open") utility strip for deck \(deck.rawValue.uppercased())"
-            ).simultaneousGesture(
-                DragGesture(minimumDistance: 12).onEnded { value in
-                    let open = value.translation.height < -16 || value.translation.width > 24
-                    let close = value.translation.height > 16 || value.translation.width < -24
-                    if (open && !panels.extraVisible) || (close && panels.extraVisible) { panels.toggleControls() }
-                }
-            ).layoutPriority(1)
+            DeckSlideoutHandle(
+                open: panels.extraVisible, icon: "slider.horizontal.3",
+                label: "utility strip for deck \(deck.rawValue.uppercased())", opensUpward: true,
+                toggle: { panels.toggleControls() }
+            )
             ZStack(alignment: .leading) {
                 if panels.extraVisible {
                     ViewThatFits(in: .horizontal) {
@@ -1320,42 +1344,75 @@ extension ReplicaView {
     }
 }
 
-@MainActor private struct LiveStemButtons: View {
+@MainActor private struct LiveStemPane: View {
     let experiment: LiveStemExperiment
     let deck: DeckID
     let playback: PlaybackController
+    @State private var open = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
-        let activeDeck = experiment.deck == deck
-        HStack(spacing: 2) {
-            ForEach(LiveStemExperiment.Mode.allCases, id: \.rawValue) { mode in
-                let selected = activeDeck ? experiment.mode == mode : mode == .mix
-                Button {
-                    experiment.select(mode, deck: deck, playback: playback)
-                } label: {
-                    VStack(spacing: 1) {
-                        Text(mode.title).font(.system(size: 13, weight: .semibold))
-                        if activeDeck && selected {
-                            if mode == .mix {
-                                Text(experiment.status.hasPrefix("Stopped") ? "Stopped" : "Dry")
-                            } else {
-                                TimelineView(.periodic(from: .now, by: 0.5)) { _ in
-                                    Text(experiment.isCovered(in: playback.core.snapshot()) ? "Live" : "Waiting")
-                                }
-                            }
-                        }
-                    }.font(.system(size: 9))
-                        .frame(width: 48, height: 44)
-                        .foregroundStyle(selected ? PerformancePalette.cyan : PerformancePalette.text)
-                        .bevelPanel(cornerRadius: 3, sunken: selected)
-                        .contentShape(Rectangle())
-                }.buttonStyle(.plain)
-                    .accessibilityLabel(mode == .instrumental ? "Instrumental" : mode.title)
-                    .accessibilityValue(selected ? experiment.status : "")
-                    .accessibilityAddTraits(selected ? .isSelected : [])
+        HStack(spacing: 4) {
+            DeckSlideoutHandle(
+                open: open, icon: "waveform.path", label: "stem strip for deck \(deck.rawValue.uppercased())",
+                opensUpward: false, toggle: { open.toggle() }
+            )
+            if open {
+                HStack(spacing: 4) {
+                    ForEach(LiveStemExperiment.Mode.allCases, id: \.rawValue, content: modeButton)
+                    statusLabel
+                }.padding(.trailing, 6)
+                    .transition(.move(edge: .leading).combined(with: .opacity))
             }
-        }.disabled(experiment.deck != nil && !activeDeck)
-            .fixedSize().layoutPriority(1).protectsFrontDeckSwipe()
+        }.background {
+            if open { RoundedRectangle(cornerRadius: 5).fill(PerformancePalette.sunken) }
+        }.overlay {
+            if open {
+                RoundedRectangle(cornerRadius: 5).strokeBorder(PerformancePalette.secondaryText.opacity(0.5))
+                    .allowsHitTesting(false)
+            }
+        }.clipped().protectsFrontDeckSwipe()
+            .animation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.9), value: open)
+    }
+
+    private var activeDeck: Bool { experiment.deck == deck }
+
+    private func modeButton(_ mode: LiveStemExperiment.Mode) -> some View {
+        let selected = activeDeck ? experiment.mode == mode : mode == .mix
+        let icon: String
+        switch mode {
+        case .mix: icon = "waveform"
+        case .vocal: icon = "mic.fill"
+        case .instrumental: icon = "music.note"
+        }
+        return Button {
+            experiment.select(selected ? .mix : mode, deck: deck, playback: playback)
+        } label: {
+            Image(systemName: icon)
+                .frame(width: 44, height: 48)
+                .foregroundStyle(selected ? PerformancePalette.cyan : PerformancePalette.text)
+                .bevelPanel(cornerRadius: 5, sunken: selected)
+                .contentShape(Rectangle())
+        }.buttonStyle(.plain)
+            .accessibilityLabel(mode == .instrumental ? "Instrumental" : mode.title)
+            .accessibilityAddTraits(selected ? .isSelected : [])
+            .disabled(experiment.deck != nil && !activeDeck)
+    }
+
+    @ViewBuilder private var statusLabel: some View {
+        Group {
+            if let owner = experiment.deck, owner != deck {
+                Text("Deck \(owner.rawValue.uppercased()) in use")
+            } else if activeDeck && experiment.mode != .mix {
+                TimelineView(.periodic(from: .now, by: 0.5)) { _ in
+                    Text(experiment.isCovered(in: playback.core.snapshot()) ? "Live" : "Waiting")
+                }
+            } else {
+                Text(experiment.status.isEmpty ? "Original mix" : experiment.status)
+            }
+        }.font(.caption2)
+            .foregroundStyle(PerformancePalette.secondaryText)
+            .frame(width: 96, alignment: .leading)
     }
 }
 
@@ -1396,13 +1453,6 @@ extension ReplicaView {
                 if editing {
                     GridEditBar(model: model, deck: deck).protectsFrontDeckSwipe()
                 } else {
-                    #if os(iOS)
-                        if UIDevice.current.userInterfaceIdiom == .pad, track != nil,
-                            DeckID.primary.contains(deck)
-                        {
-                            LiveStemButtons(experiment: model.liveStems, deck: deck, playback: model.playback)
-                        }
-                    #endif
                     if beatJump && track != nil {
                         ForEach([-1.0, 1.0], id: \.self) { direction in
                             Button {

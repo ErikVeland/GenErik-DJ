@@ -5,7 +5,12 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 86.69,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R153",
+      "report": "The live stem buttons do not turn on or off. Move them into a slideout under the cover and use icons."
+    }
+  ],
   "log": "TestBuilds/ipad/build-213.log",
   "build": 213,
   "app": "TestBuilds/ipad/213/GenErikDJ.app",
