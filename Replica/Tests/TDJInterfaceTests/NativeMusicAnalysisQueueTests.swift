@@ -86,3 +86,59 @@ func analysisQueueDefersLoadedMix(native: Bool) async throws {
     #expect(batches[4].title.contains("Pass 3 of 3"))
     await queue.finish()
 }
+
+@Test @MainActor func analysisQueueResumesAfter3402WithoutSkippingInterruptedJobOrLaterPass() async throws {
+    let items = (0..<3500).map { queueItem(String($0), seconds: Double($0 + 1) / 10) }
+    func makeQueue() -> NativeMusicAnalysisQueue {
+        NativeMusicAnalysisQueue(
+            catalog: .init(items: items, playlists: []), tracks: [], loaded: [],
+            mediaDirectory: FileManager.default.temporaryDirectory,
+            worker: .init(label: "test.analysis-resume"))
+    }
+    let first = makeQueue()
+    let batches = await first.prepare()
+    await first.begin(try #require(batches.first))
+    var completed = Set<String>()
+    for _ in 0..<3402 { completed.insert(try #require(await first.next()).id) }
+    let interrupted = try #require(await first.next())
+    await first.finish()
+
+    let resumed = makeQueue()
+    let nextBatches = await resumed.prepare()
+    #expect(await resumed.begin(try #require(nextBatches.first), completed: completed) == 3402)
+    #expect(await resumed.next()?.id == interrupted.id)
+    var remaining = 1
+    while let job = await resumed.next() {
+        #expect(!completed.contains(job.id))
+        remaining += 1
+    }
+    #expect(remaining == 98)
+    let structure = try #require(nextBatches.first { $0.pass == .structure })
+    #expect(await resumed.begin(structure) == 0)
+    var structureCount = 0
+    while await resumed.next() != nil { structureCount += 1 }
+    #expect(structureCount == 3500)
+    await resumed.finish()
+}
+
+@Test @MainActor func analysisResumeRetainsMatchesAndReviewUntilCatalogueChangesOrRunFinishes() {
+    let state = NativeMusicSessionState()
+    state.resumeAnalysis(catalogVersion: 1)
+    state.completedAnalysisJobs[.matching] = ["song"]
+    state.matchedAnalysisJobs["song"] = "track"
+    state.analysisReviews["song"] = "Check the downbeat."
+    state.resumeAnalysis(catalogVersion: 1)
+    #expect(state.completedAnalysisJobs[.matching] == ["song"])
+    #expect(state.matchedAnalysisJobs["song"] == "track")
+    #expect(state.analysisReviews["song"] != nil)
+    #expect(state.completedAnalysisJobs[.structure] == nil)
+    state.resumeAnalysis(catalogVersion: 2)
+    #expect(state.completedAnalysisJobs.isEmpty)
+    #expect(state.matchedAnalysisJobs.isEmpty)
+    #expect(state.analysisReviews.isEmpty)
+    state.completedAnalysisJobs[.matching] = ["song"]
+    state.finishedAnalysis = (2, 10)
+    state.resumeAnalysis(catalogVersion: 2)
+    #expect(state.completedAnalysisJobs.isEmpty)
+    #expect(state.finishedAnalysis == nil)
+}

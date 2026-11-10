@@ -2,7 +2,7 @@ import Foundation
 import TDJCore
 
 final class NativeMusicAnalysisQueue: Sendable {
-    enum Pass: CaseIterable, Sendable {
+    enum Pass: CaseIterable, Hashable, Sendable {
         case matching, deep, structure
 
         var title: String {
@@ -81,6 +81,7 @@ final class NativeMusicAnalysisQueue: Sendable {
         var items: [Job] = []
         var position = 0
         var end = 0
+        var completed = Set<String>()
     }
 
     private let includeDeep: Bool
@@ -137,19 +138,24 @@ final class NativeMusicAnalysisQueue: Sendable {
         } ?? []
     }
 
-    func begin(_ batch: Batch) async {
+    @discardableResult
+    func begin(_ batch: Batch, completed: Set<String> = []) async -> Int {
         await value.update {
             $0.position = batch.range.lowerBound
             $0.end = batch.range.upperBound
-        }
+            $0.completed = completed
+            return $0.items[batch.range].filter { completed.contains($0.id) }.count
+        } ?? 0
     }
 
     func next() async -> Job? {
         await value.update {
-            guard $0.position < $0.end else { return nil as Job? }
-            let item = $0.items[$0.position]
-            $0.position += 1
-            return item
+            while $0.position < $0.end {
+                let item = $0.items[$0.position]
+                $0.position += 1
+                if !$0.completed.contains(item.id) { return item }
+            }
+            return nil as Job?
         } ?? nil
     }
 

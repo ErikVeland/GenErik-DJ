@@ -14,6 +14,9 @@ import TDJCore
     var waitingForStructure: (catalogVersion: UInt64, libraryRevision: Int)?
     var backgroundRun: (id: UUID, report: (Int, Int) -> Void, systemProgress: ((Double) -> Void)?)?
     var analysisWorkFraction = 0.0
+    var completedAnalysisJobs: [NativeMusicAnalysisQueue.Pass: Set<String>] = [:]
+    var matchedAnalysisJobs: [String: String] = [:]
+    var analysisReviews: [String: String] = [:]
     var analysisChecked = 0
     var analysisTotal = 0
     var analyses: [UUID: Task<Void, Never>] = [:]
@@ -23,6 +26,16 @@ import TDJCore
     var measurements: [AnalysisMeasurement.Record] = []
     var droppedMeasurements = 0
     var measurementLogUnavailable = false
+    func resumeAnalysis(catalogVersion: UInt64) {
+        if analysisCatalogVersion != catalogVersion || finishedAnalysis != nil {
+            completedAnalysisJobs.removeAll()
+            matchedAnalysisJobs.removeAll()
+            analysisReviews.removeAll()
+        }
+        finishedAnalysis = nil
+        analysisCatalogVersion = catalogVersion
+    }
+
     let projection = BackgroundFileWork(label: "org.generikdj.native-music-index")
     let files = BackgroundFileWork(label: "org.generikdj.native-music-files")
 }
@@ -201,8 +214,8 @@ extension ReplicaModel {
             catalog: musicLibraryCatalog ?? .init(items: [], playlists: []), tracks: library.tracks,
             loaded: priorityTracks, mediaDirectory: store.mediaDirectory, worker: state.projection,
             includeDeep: AnalysisExecution.supportsAcceleration && !state.backgrounded)
+        state.resumeAnalysis(catalogVersion: version)
         libraryAnalysisOwner = token
-        state.analysisCatalogVersion = version
         state.analysisChecked = 0
         state.analysisTotal = 0
         if state.analysisWorkFraction >= 0.032 {
@@ -251,22 +264,28 @@ extension ReplicaModel {
                     "Checking \(mixes.range.count) mixes over 19 minutes after shorter tracks, before structure analysis."
                 )
             }
-            var matched: [String: String] = [:]
-            var review: [String: String] = [:]
+            var matched = state.matchedAnalysisJobs
+            var review = state.analysisReviews
+            defer {
+                state.matchedAnalysisJobs = matched
+                state.analysisReviews = review
+            }
             var waitingForConditions = false
             batches: for batch in batches {
-                await queue.begin(batch)
-                guard !Task.isCancelled, libraryAnalysisOwner == token else { break }
                 let pass = batch.pass
+                let resumed = await queue.begin(batch, completed: state.completedAnalysisJobs[pass] ?? [])
+                guard !Task.isCancelled, libraryAnalysisOwner == token else { break }
                 state.activePass = pass
                 let batchCount = batch.range.count
                 let passStart = state.analysisChecked
+                state.analysisChecked += resumed
+                if resumed == batchCount { continue }
                 let title = batch.title
                 var matchingCounts: [LibraryMatchingSource: Int] = [:]
                 @MainActor func logMatchingSummary() {
                     logAnalysis(
                         "\(batch.isMix ? "Mixes over 19 min · " : "")Pass 1 summary \(state.analysisChecked - passStart) of \(batchCount) · "
-                            + "Traktor both \(matchingCounts[.traktorBoth, default: 0]), "
+                            + "resumed \(resumed), Traktor both \(matchingCounts[.traktorBoth, default: 0]), "
                             + "grid only \(matchingCounts[.traktorGrid, default: 0]), "
                             + "key only \(matchingCounts[.traktorKey, default: 0]), "
                             + "saved GenErik \(matchingCounts[.saved, default: 0]), "
@@ -275,7 +294,8 @@ extension ReplicaModel {
                 }
                 defer { if pass == .matching { logMatchingSummary() } }
                 analysisProgress = .init(
-                    done: 0, total: batchCount, title: title, isLibraryAnalysis: true)
+                    done: resumed, total: batchCount, title: title, isLibraryAnalysis: true)
+                if resumed > 0 { logAnalysis("Resuming \(title) at \(resumed) of \(batchCount).") }
                 while let job = await queue.next() {
                     state.activeTrackID = matched[job.id] ?? job.trackID
                     defer { state.activeTrackID = nil }
@@ -384,6 +404,7 @@ extension ReplicaModel {
                     }
                     let warning = review[job.id].map { LibraryAnalysisWarning(title: job.title, message: $0) }
                     if libraryAnalysisWarnings[job.id] != warning { libraryAnalysisWarnings[job.id] = warning }
+                    state.completedAnalysisJobs[pass, default: []].insert(job.id)
                     state.analysisChecked += 1
                     let checked = state.analysisChecked - passStart
                     if pass == .matching {
