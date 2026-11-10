@@ -1,0 +1,15 @@
+{
+  "notes": "R123 adds the S4 Mk3 Linux bridge for native HID controls, four-channel audio and blue and amber jog-ring feedback. Build only. Physical bridge and controller verification remain open.",
+  "sourceCommit": "d894d006128b45b911895429e72319813eaf7190",
+  "sourceSHA256": "35ffb6b892b6e45e2c1f034eb49978321c7194ee572e92e6ec3dd9b97e237c04",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 75.96,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-186.log",
+  "build": 186,
+  "app": "TestBuilds/ipad/186/GenErikDJ.app",
+  "appSHA256": "af74c8fa905c91c9ccb44dc913c63e05d295a17bc4070538206d356815b183fe",
+  "state": "ready",
+  "createdUTC": "2026-11-10T06:04:22.050035+00:00"
+}
