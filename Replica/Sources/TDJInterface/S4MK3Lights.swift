@@ -58,9 +58,13 @@ enum S4MK3Lights {
         return bytes
     }
 
-    static func ring(side: Int, state: DeckPlaybackSnapshot, frames: UInt64?) -> [UInt8] {
+    static func ring(
+        side: Int, state: DeckPlaybackSnapshot, frames: UInt64?, lighting: ControllerPlaybackLights.Options = .init()
+    ) -> [UInt8] {
         var report: [UInt8] = [0x32, UInt8(side)] + .init(repeating: 0, count: 39)
-        guard let pulse = ControllerPlaybackLights.levels(state: state, frameCount: frames) else { return report }
+        guard let pulse = ControllerPlaybackLights.levels(
+            state: state, frameCount: frames, options: lighting
+        ) else { return report }
         let amber = pulse.amber ?? 0
         let blue = pulse.blue * (pulse.amber == nil ? 1 : 0.35)
         let level = amber > 0.03 ? amber : blue

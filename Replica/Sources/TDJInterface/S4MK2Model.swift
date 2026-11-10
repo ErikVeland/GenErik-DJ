@@ -451,6 +451,7 @@
         func refreshS4Lights() {
             guard let connection = s4Connection, connection.isReceiving, let snapshot = playbackSnapshot else { return }
             var feedback = S4MK2Lights.Feedback()
+            feedback.lighting = lightOptions(for: "S4 Mk2")
             feedback.quantize = s4Performance.quantize
             feedback.preview = s4Performance.ownsPreview && s3PreviewHeld && playback.core.previewGeneration != 0
             feedback.recording = isRecording

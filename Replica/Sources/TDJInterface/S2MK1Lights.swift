@@ -50,7 +50,9 @@ enum S2MK1Lights {
                     bytes[channel - slot] = 0x0c
                 }
             }
-            if let pulse = ControllerPlaybackLights.levels(state: state, frameCount: feedback.frames[deck]) {
+            if let pulse = ControllerPlaybackLights.levels(
+                state: state, frameCount: feedback.frames[deck], options: feedback.lighting
+            ) {
                 let offset = lights.blue - 3
                 let blue = UInt8((pulse.blue * (pulse.amber == nil ? 24 : 8)).rounded())
                 if blue >= 4 {

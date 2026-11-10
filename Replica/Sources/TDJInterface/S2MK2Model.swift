@@ -128,6 +128,7 @@
                 return
             }
             var feedback = S4MK2Lights.Feedback()
+            feedback.lighting = lightOptions(for: "S2 Mk2")
             var cueKinds: [DeckID: [Int: PerformanceCueKind]] = [:]
             feedback.samples = playback.core.playingPads
             feedback.sampleSlots = Set(s2SampleSlots.keys)

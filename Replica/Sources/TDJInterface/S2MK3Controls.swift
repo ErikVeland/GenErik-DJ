@@ -300,6 +300,7 @@ struct S2MK3Feedback {
     var browser = false
     var mic = false
     var quantize = true
+    var lighting = ControllerPlaybackLights.Options()
 }
 
 enum S2MK3Lights {
@@ -346,7 +347,8 @@ enum S2MK3Lights {
                 }
             }
             if let levels = ControllerPlaybackLights.levels(
-                state: state, frameCount: index == 0 ? sourceFrames.a : sourceFrames.b
+                state: state, frameCount: index == 0 ? sourceFrames.a : sourceFrames.b,
+                options: feedback.lighting
             ) {
                 let amber = palette(levels.amber ?? 0, base: 0x10)
                 let blue = palette(levels.amber == nil ? levels.blue : levels.blue * 0.35, base: 0x2c)

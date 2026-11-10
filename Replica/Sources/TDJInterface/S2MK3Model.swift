@@ -201,7 +201,7 @@
                 playingSamples: playback.core.playingPads,
                 shifts: s2Controls.shifts, gridDecks: Set(s2Grids.keys),
                 fx: Set(DeckID.primary.map { s2FX[$0] ?? .filter }), browser: browserVisible,
-                mic: playback.s2MicEnabled, quantize: s2Quantize)
+                mic: playback.s2MicEnabled, quantize: s2Quantize, lighting: lightOptions(for: "S2 Mk3"))
             connection.send(
                 S2MK3Lights.report(
                     snapshot: snapshot, sourceFrames: frames, cues: (slots(.a), slots(.b)), feedback: feedback))

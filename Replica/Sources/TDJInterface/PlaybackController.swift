@@ -439,6 +439,9 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     func setGridMetronome(offset: Double?, deck: DeckID, generation: UInt64) throws {
         try submitControlValue(.gridMetronome(offset, deck, generation))
     }
+    func hasPendingTouch(_ deck: DeckID) -> Bool {
+        latestSources[.performance(deck, PerformanceAction.touch.rawValue)] != nil
+    }
     public func perform(
         _ action: PerformanceAction, deck: DeckID, value: Double = 0, end: Double = 0, enabled: Bool = true,
         quantum: Double = 0, touchRate: Double? = nil, followsPosition: Bool = false

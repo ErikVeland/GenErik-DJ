@@ -49,7 +49,9 @@ enum S4MK1Lights {
                 : controls.browsing ? flash : state.mixer.cue
             set(base + 10, cueLight, dim: 2)
             for unit in 0..<2 { set(base + 11 + unit, feedback.fxDecks[unit].contains(deck), dim: 2) }
-            pulses[deck] = ControllerPlaybackLights.levels(state: state, frameCount: feedback.frames[deck])
+            pulses[deck] = ControllerPlaybackLights.levels(
+                state: state, frameCount: feedback.frames[deck], options: feedback.lighting
+            )
         }
         lights[4] = level(pulses.values.compactMap(\.amber).max() ?? 0)
 

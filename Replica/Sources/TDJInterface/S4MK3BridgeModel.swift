@@ -108,6 +108,7 @@
                 updateHardwareScreens(linux, decks: s4MK3Controls.layers, snapshot: snapshot)
             }
             var feedback = S4MK2Lights.Feedback()
+            feedback.lighting = lightOptions(for: "S4 Mk3")
             feedback.quantize = s4MK3Performance.quantize
             feedback.preview = s4MK3Performance.ownsPreview && s3PreviewHeld && playback.core.previewGeneration != 0
             feedback.samples = playback.core.playingPads
@@ -132,7 +133,7 @@
                 bridge.feedback(
                     S4MK3Lights.ring(
                         side: side, state: state,
-                        frames: playback.core.asset(generation: state.generation)?.frames))
+                        frames: playback.core.asset(generation: state.generation)?.frames, lighting: feedback.lighting))
             }
             let stems = Dictionary(uniqueKeysWithValues: s4MK3Controls.layers.compactMap { deck in
                 stemMix(deck).map { (deck, $0.muted) }
