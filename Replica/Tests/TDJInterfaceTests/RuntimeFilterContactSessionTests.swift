@@ -93,7 +93,7 @@ import Testing
     let session = RuntimeFilterContactSession()
     let samples = (0..<8192).flatMap { i -> [Float] in [Float(i % 97) / 200, -Float(i % 71) / 200] }
     for core in [reference.playback.core, model.playback.core, dry] {
-        for deck in DeckID.allCases {
+        for deck in DeckID.primary {
             let asset = try PCMAsset(interleavedStereo: samples, sampleRate: 48000)
             let generation = try core.load(asset, deck: deck, grid: nil, synced: false)
             core.processControlsWhileIdle()
@@ -102,7 +102,7 @@ import Testing
     }
     var differs = false
     for point in [(0.25, 0.75), (0.8, 0.4), (0.8, 0.2)] {
-        for deck in DeckID.allCases {
+        for deck in DeckID.primary {
             try reference.playback.setMixer(.filterX, value: point.0 * 2 - 1, deck: deck)
             try reference.playback.setMixer(.filterY, value: 1 - point.1, deck: deck)
             try reference.playback.setMixer(.filterEnabled, value: 1, deck: deck)
@@ -130,7 +130,7 @@ import Testing
     defer { try? FileManager.default.removeItem(at: root) }
     let model = try ReplicaModel(root: root, playback: PlaybackController(offline: true))
     let session = RuntimeFilterContactSession()
-    for deck in DeckID.allCases { #expect(session.apply(model: model, deck: deck, x: 0.3, y: 0.4)) }
+    for deck in DeckID.primary { #expect(session.apply(model: model, deck: deck, x: 0.3, y: 0.4)) }
     var full = false
     for _ in 0..<4096 {
         do { try model.playback.core.setMixer(.low, value: 1, deck: .a) } catch TransportError.queueFull {

@@ -204,7 +204,7 @@ extension DirectControlDriverTests {
         let clock = ContinuousClock()
         func commands(_ core: SampleTransport, _ batch: Int) throws {
             try core.setMasterBPM(120 + sin(Double(batch) * 0.03) * 8)
-            for deck in DeckID.allCases {
+            for deck in DeckID.primary {
                 for slot in 0..<3 {
                     try core.setEffect(
                         (slot + batch / 100) % PerformanceEffect.supportedCount, slot: slot,

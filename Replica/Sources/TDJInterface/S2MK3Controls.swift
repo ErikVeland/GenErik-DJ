@@ -84,6 +84,10 @@ enum NativeTraktorEvent: Equatable {
     case gridEnd(DeckID)
     case mic
     case quantize
+    case s3Layer(DeckID)
+    case s3BendEnd(DeckID)
+    case s3Action(ControllerAction, DeckID, Double)
+    case s3Pot(ControllerAction, DeckID, Double)
     case s3Preview(Bool)
     case s3PreviewSeek(Int)
     case s3EXT(shifted: Bool)

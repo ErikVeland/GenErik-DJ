@@ -73,7 +73,7 @@ import Testing
         root: root.appendingPathComponent("Model"), playback: PlaybackController(offline: true))
     let samples = (0..<8192).flatMap { i -> [Float] in [Float(i % 97) / 200, -Float(i % 71) / 200] }
     func setup(_ model: ReplicaModel) throws {
-        for deck in DeckID.allCases {
+        for deck in DeckID.primary {
             let asset = try PCMAsset(interleavedStereo: samples, sampleRate: 48000)
             let generation = try model.playback.core.load(asset, deck: deck, grid: nil, synced: false)
             model.playback.core.processControlsWhileIdle()
@@ -84,7 +84,7 @@ import Testing
     try setup(exercised)
     var nonzero = false
     for batch in 0..<22 {
-        for deck in DeckID.allCases {
+        for deck in DeckID.primary {
             for slot in 0..<3 {
                 let kind = (batch + slot) % PerformanceEffect.supportedCount
                 let x = 0.2 + Double(batch % 5) * 0.1

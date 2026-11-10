@@ -92,14 +92,22 @@
             }
             if playback.s3ExtEnabled {
                 try? playback.setCaptureEnabled(false, device: "S3")
+                s3Takeover[.d] = nil
+                if let choice = s3PendingFX[.d], playback.generations[.d] != nil {
+                    selectS2FX(choice, deck: .d, enabled: s3FXEnabled.contains(.d))
+                }
                 return
             }
             if let request = s3EXTRequest {
                 request.cancel()
                 return
             }
+            guard playbackSnapshot?[.d].phase.active != true else {
+                status = "Pause deck D before opening EXT."
+                return
+            }
             guard automaticOutputDevice == "S3", playback.canOpenCapture(device: "S3") else {
-                status = "Connect the S3 and pause both decks before opening EXT."
+                status = "Connect the S3 and pause playback before opening EXT."
                 return
             }
             s3EXTRequest = Task { [weak self] in
@@ -109,7 +117,9 @@
                 let granted =
                     permission == .granted
                     ? true : permission == .undetermined ? await AVAudioApplication.requestRecordPermission() : false
-                guard !Task.isCancelled, s3Connection?.isReceiving == true else { return }
+                guard !Task.isCancelled, s3Connection?.isReceiving == true,
+                    playback.core.snapshot()?[.d].phase.active != true
+                else { return }
                 guard granted else {
                     status = "Allow microphone access to use the S3 EXT input."
                     return

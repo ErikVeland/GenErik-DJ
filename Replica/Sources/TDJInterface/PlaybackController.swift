@@ -84,7 +84,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             throw TransportError.cache("Stop recording before changing audio routing.")
         }
         let state = core.snapshot()
-        guard !outputActive, outputStartTask == nil, state?.a.phase.active != true, state?.b.phase.active != true else {
+        guard !outputActive, outputStartTask == nil, state?.anyDeckActive != true else {
             throw TransportError.cache("Stop playback before changing audio routing.")
         }
         stopAudio()
@@ -154,7 +154,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     private func enqueueRecordingTrack(_ metadata: RecordingTrackMetadata, recorder: SetRecorder) {
         guard recordingRegisteredGenerations.insert(metadata.key).inserted else { return }
         recorder.registerTrack(
-            deck: metadata.deck == .a ? 0 : 1, generation: metadata.generation, artist: metadata.artist,
+            deck: UInt32(metadata.deck.transportIndex), generation: metadata.generation, artist: metadata.artist,
             title: metadata.title)
     }
     public func finishRecording() async {
@@ -270,15 +270,20 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             let rate = core.sampleRate
             let maximum = core.configuredMaximumOutputFrames == 0 ? 4096 : core.configuredMaximumOutputFrames
             asset = try await Task.detached(priority: .userInitiated) {
-                try opening.asset(outputSampleRate: rate, maximumOutputFrames: maximum)
+                try opening.asset(outputSampleRate: rate, maximumOutputFrames: maximum, compactPool: deck.transportIndex >= 2)
             }.value
         } else {
             asset = try await PCMCache.prepareAsync(
                 track: track, store: store, streamed: streamingPlayback, outputSampleRate: core.sampleRate,
                 maximumOutputFrames: core.configuredMaximumOutputFrames == 0
-                    ? 4096 : core.configuredMaximumOutputFrames, sourceURL: sourceURL)
+                    ? 4096 : core.configuredMaximumOutputFrames, sourceURL: sourceURL, compactPool: deck.transportIndex >= 2)
         }
         try Task.checkCancellation()
+        if deck.transportIndex >= 2 {
+            let core = core
+            try await Task.detached(priority: .utility) { try core.prepareExtraDecks() }.value
+            try Task.checkCancellation()
+        }
         if let loadCheckpoint { try await loadCheckpoint(.decoded) }
         // The output route can change while the decoder is working. A cold LOAD
         // updates the asset's bound; prepare it again before retrying ownership.
@@ -293,7 +298,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         asset: PCMAsset, track: Track, deck: DeckID, synced: Bool, committed: @escaping (UInt64) -> Void
     ) async throws {
         guard core.snapshot()?[deck].phase.active != true else { throw TransportError.protectedDeck }
-        let keylock = keylockPreference[deck] ?? true
+        let keylock = requestedKeylock(deck)
         let grid = track.grid
         let map = track.adaptiveMap
         let generation = try core.reserveLoad(
@@ -502,7 +507,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         keylockPreference[deck] = enabled
         if !outputActive { core.processControlsWhileIdle() }
     }
-    public func requestedKeylock(_ deck: DeckID) -> Bool { keylockPreference[deck] ?? true }
+    public func requestedKeylock(_ deck: DeckID) -> Bool { keylockPreference[deck] ?? (deck.transportIndex < 2) }
     public func warmCuePositions(_ cues: [PerformanceCue], deck: DeckID) {
         guard let generation = generations[deck], let asset = core.asset(generation: generation), asset.isStreamed
         else { return }
@@ -617,7 +622,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         guard outputActive, !interrupted, !mediaServicesUnavailable,
             outputWatchdog.isStalled(frame: core.renderedOutputFrame)
         else { return }
-        let activeDeck = core.snapshot().map { $0.a.phase.active || $0.b.phase.active } ?? true
+        let activeDeck = core.snapshot().map(\.anyDeckActive) ?? true
         let pendingStart = sentSources.values.contains { action in
             switch action.lane {
             case .play, .recall: return true
@@ -733,7 +738,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         _ event: OutputEvent, outputs: [AudioOutputDevice]? = nil, restart: () throws -> Void
     ) {
         let hadOutput = outputActive || outputStartTask != nil || outputRecoveryPending
-            || (offline && core.snapshot().map { $0.a.phase.active || $0.b.phase.active } == true)
+            || (offline && core.snapshot().map(\.anyDeckActive) == true)
         let previousRoute = outputRoute
         let previousAutomaticDevice = automaticOutputDevice
         switch event {
@@ -929,7 +934,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             attachedCaptureDevice == device
                 || (outputStartTask == nil && recorder == nil && recordingStartTask == nil
                     && core.playingPads == 0 && core.previewGeneration == 0
-                    && core.snapshot().map { !$0.a.phase.active && !$0.b.phase.active } == true)
+                    && core.snapshot().map { !$0.anyDeckActive } == true)
         }
 
         func startS3PreviewOutput() throws {
@@ -957,7 +962,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             guard !offline, automaticOutputDevice == device, canOpenCapture(device: device),
                 AVAudioApplication.shared.recordPermission == .granted
             else {
-                throw TransportError.cache("Pause both decks before opening the \(device) input.")
+                throw TransportError.cache("Pause playback before opening the \(device) input.")
             }
             if attachedCaptureDevice != device {
                 suspendOutput()
@@ -1099,7 +1104,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         engine.prepare()
         try core.configureMaximumOutputFrames(source.auAudioUnit.maximumFramesToRender)
         let state = core.snapshot()
-        if state?.a.phase.active == true || state?.b.phase.active == true {
+        if state?.anyDeckActive == true {
             outputStartIdentity &+= 1
             let identity = outputStartIdentity
             let core = core
@@ -1112,7 +1117,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                         guard let self, self.outputStartIdentity == identity else { return }
                         self.collectMessages()
                         let state = core.snapshot()
-                        guard state?.a.phase.active == true || state?.b.phase.active == true || self.recorder != nil
+                        guard state?.anyDeckActive == true || self.recorder != nil
                         else { return }
                         let maximum = source.auAudioUnit.maximumFramesToRender
                         if maximum != core.configuredMaximumOutputFrames {
@@ -1367,7 +1372,7 @@ extension PlaybackController {
                 if let deck = tracked.control.deck, snapshot[deck].generation != tracked.control.generation {
                     throw TransportError.stale
                 }
-                for deck in DeckID.allCases where tracked.control.deck == nil || tracked.control.deck == deck {
+                for deck in snapshot.deckIDs where tracked.control.deck == nil || tracked.control.deck == deck {
                     let generation = snapshot[deck].generation
                     guard let asset = core.asset(generation: generation), asset.isStreamed else { continue }
                     let targets = tracked.control.preparationTargets(
@@ -1391,7 +1396,7 @@ extension PlaybackController {
                 if !self.outputActive {
                     core.processControlsWhileIdle()
                     let state = core.snapshot()
-                    if !self.offline, state?.a.phase.active == true || state?.b.phase.active == true {
+                    if !self.offline, state?.anyDeckActive == true {
                         try self.startOutput()
                     }
                 }

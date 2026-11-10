@@ -18,7 +18,7 @@ import TDJCore
     }
     @discardableResult package func cancelAll(model: ReplicaModel) -> Int {
         var count = 0
-        for deck in DeckID.allCases {
+        for deck in DeckID.primary {
             let contact = deck == .a ? a : b
             guard contact.isTouching else { continue }
             _ = contact.update(.init(phase: .cancelled, points: [], ending: []))

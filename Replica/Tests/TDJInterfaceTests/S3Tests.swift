@@ -41,7 +41,10 @@ import Testing
     pots[7] = 0
     pots[2] = 0
     pots[3] = 0
-    #expect(controls.consume(.init(reportID: 2, payload: pots)) == [.pot(.levelA, 0.5), .pot(.levelB, 0)])
+    #expect(
+        controls.consume(.init(reportID: 2, payload: pots)) == [
+            .pot(.levelA, 0.5), .pot(.levelB, 0), .s3Pot(.levelA, .c, 0),
+        ])
 }
 
 @Test func s3UsesTheIPadJogCounterAndReleasesOnGridOrJogChanges() {
@@ -83,7 +86,7 @@ import Testing
     buttons[7] = 0x40
     _ = report()
     buttons[7] = 0
-    #expect(report() == [.fx(.flanger, [.a, .b])])
+    #expect(report() == [.fx(.flanger, Set(DeckID.allCases))])
 }
 
 @Test func s3JogRingPulsesBlueAndWarnsAmberWithoutTakingOverThePads() throws {
@@ -181,4 +184,31 @@ import Testing
     #expect(reports[1][0x3d...0x45].allSatisfy { $0 == 0 })
     #expect(reports[1][0x46...0x4d].allSatisfy { $0 == 0x7f })
     #expect(reports[1][0x4e] == 0x7e)
+}
+
+@Test func s3OuterLayerOwnsTransportAndKeepsTheInnerMixerIndependent() {
+    var controls = S3Controls()
+    var buttons: [UInt8] = .init(repeating: 0, count: 21)
+    func report() -> [NativeTraktorEvent] { controls.consume(.init(reportID: 1, payload: buttons)) }
+    _ = report()
+    buttons[9] = 0x10
+    #expect(report() == [.action(.jogTouchA, 1)])
+    buttons[1] = 0x04
+    buttons[4] = 0x08
+    #expect(report() == [.action(.jogTouchA, 0), .s3Layer(.c), .s3Layer(.d)])
+    buttons[2] = 0x01
+    buttons[5] = 0x02
+    buttons[7] = 0x01
+    buttons[8] = 0x09
+    #expect(
+        report() == [
+            .action(.cueA, 1), .s3Action(.playA, .c, 1), .browser(.load(.c)),
+            .s3Action(.playB, .d, 1), .browser(.load(.d)),
+        ])
+    var pots: [UInt8] = .init(repeating: 0xff, count: 62)
+    pots[0] = 0
+    pots[1] = 0
+    pots[2] = 0xff
+    pots[3] = 0x07
+    #expect(controls.consume(.init(reportID: 2, payload: pots)) == [.s3Pot(.tempoA, .c, 0), .s3Pot(.levelA, .c, 0.5)])
 }

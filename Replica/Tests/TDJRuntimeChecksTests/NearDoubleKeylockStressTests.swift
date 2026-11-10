@@ -17,7 +17,7 @@ private func nearDoubleRig(_ track: Track) throws -> (SampleTransport, [DeckID: 
     let core = try SampleTransport(sampleRate: 48000)
     let asset = try PCMAsset(interleavedStereo: [Float](repeating: 0.125, count: 48000 * 2), sampleRate: 48000)
     var generations: [DeckID: UInt64] = [:]
-    for deck in DeckID.allCases {
+    for deck in DeckID.primary {
         generations[deck] = try core.load(asset, deck: deck, grid: track.grid, synced: true, keylock: true)
     }
     core.processControlsWhileIdle()
@@ -71,7 +71,7 @@ private func nearDoubleRig(_ track: Track) throws -> (SampleTransport, [DeckID: 
         try core.setMasterBPM(bpm)
         core.processControlsWhileIdle()
         let snapshot = try #require(core.snapshot())
-        for deck in DeckID.allCases {
+        for deck in DeckID.primary {
             #expect(snapshot[deck].grid == manual.grid)
             #expect(snapshot[deck].synced && snapshot[deck].keylock)
             #expect(abs(snapshot[deck].speed - bpm / 60) < 1e-9)
@@ -149,7 +149,7 @@ private func nearDoubleRig(_ track: Track) throws -> (SampleTransport, [DeckID: 
     }
     await model.importFiles([base.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures/clock-a-120.wav")])
     let original = try #require(model.library.tracks.first)
-    for deck in DeckID.allCases { model.load(trackID: original.id, deck: deck) }
+    for deck in DeckID.primary { model.load(trackID: original.id, deck: deck) }
     await model.flushWrites()
     try await model.prepareLoadedWaveforms()
     let loadedAnalysisA = try #require(model.track(.a)?.analysis)

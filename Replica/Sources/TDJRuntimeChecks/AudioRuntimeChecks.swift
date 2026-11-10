@@ -440,14 +440,14 @@ public enum AudioRuntimeChecks {
             progress("Preparing the search library")
             let catalogTracks = try await prepare { try searchCatalog(from: track, count: searchCatalogTracks) }
             try Task.checkCancellation()
-            for deck in DeckID.allCases { model.load(trackID: track.id, deck: deck) }
+            for deck in DeckID.primary { model.load(trackID: track.id, deck: deck) }
             await model.flushWrites()
             try Task.checkCancellation()
             guard model.loaded.count == 2 else { throw TransportError.cache(model.status) }
             if keylockStress == .manual60BPM { try await keylockStress.prepareLoadedFixture(track, model: model) }
             if ProcessInfo.processInfo.environment["TDJ_ADAPTIVE_GRID_CHECK"] == "1" {
                 var maps: [String: BeatGridMap] = [:]
-                for deck in DeckID.allCases {
+                for deck in DeckID.primary {
                     let rate = track.analysis.sampleRate
                     let end = Double(track.analysis.frameCount - 1)
                     let map = BeatGridMap(
@@ -468,7 +468,7 @@ public enum AudioRuntimeChecks {
             }
             var modelFXSetupSubmissions = 0
             var modelFilterSetupTouches = 0
-            for deck in DeckID.allCases {
+            for deck in DeckID.primary {
                 if let filterSession {
                     guard filterSession.apply(model: model, deck: deck, x: 0.6, y: 0.7) else {
                         throw TransportError.invalid
@@ -567,7 +567,7 @@ public enum AudioRuntimeChecks {
             searchTask = search
             if let preparationCollections {
                 let grids = Dictionary(
-                    uniqueKeysWithValues: DeckID.allCases.compactMap { deck in
+                    uniqueKeysWithValues: DeckID.primary.compactMap { deck in
                         model.track(deck)?.grid.map { (deck, $0) }
                     })
                 let generations = RuntimePreparationImportStress.generations(model: model)
@@ -614,7 +614,7 @@ public enum AudioRuntimeChecks {
             func performControlCommands() {
                 do {
                     try controller.setMasterBPM(120 + sin(Double(batches) * 0.03) * 8)
-                    for deck in DeckID.allCases {
+                    for deck in DeckID.primary {
                         for slot in 0..<3 {
                             let kind = (slot + batches / 100) % PerformanceEffect.supportedCount
                             if controlConfiguration.modelFX {
@@ -650,7 +650,7 @@ public enum AudioRuntimeChecks {
                     stressObservation?.observe(model.playbackSnapshot)
                     if filterSession != nil { filterObservation.observe(model.playbackSnapshot) }
                     if !sequential && batches > 0 && batches % 100 == 0 {
-                        for deck in DeckID.allCases where model.playbackSnapshot?[deck].phase == .playing {
+                        for deck in DeckID.primary where model.playbackSnapshot?[deck].phase == .playing {
                             model.cue(slot: 1, deck: deck)
                             recalls += 1
                         }
@@ -912,7 +912,7 @@ public enum AudioRuntimeChecks {
     {
         let controller = try PlaybackController(validationMode: true)
         defer { controller.stopAudio() }
-        for deck in DeckID.allCases { try await controller.load(track: track, store: store, deck: deck) }
+        for deck in DeckID.primary { try await controller.load(track: track, store: store, deck: deck) }
         let a = try controller.generations[.a].unwrap("Missing startup deck.")
         try controller.core.play(deck: .a, generation: a)
         controller.core.processControlsWhileIdle()

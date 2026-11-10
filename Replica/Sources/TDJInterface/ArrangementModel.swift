@@ -234,7 +234,7 @@ extension ReplicaModel {
         }
     }
     var arrangementPlaybackActive: Bool {
-        DeckID.allCases.contains {
+        DeckID.primary.contains {
             playbackSnapshot?[$0].phase.active == true || playbackSnapshot?[$0].touchActive == true
         }
     }
@@ -243,7 +243,7 @@ extension ReplicaModel {
             for task in arrangementTasks.values { task.cancel() }
             for task in gridDetectionTasks.values { task.cancel() }
         } else if wasPlaying {
-            for deck in DeckID.allCases where loaded[deck] != nil {
+            for deck in DeckID.primary where loaded[deck] != nil {
                 Task { [weak self] in await self?.prepareArrangement(deck: deck) }
             }
         }
@@ -271,7 +271,7 @@ extension ReplicaModel {
     }
     func persistArrangement(trackID: String) {
         guard let value = arrangements[trackID],
-            let track = DeckID.allCases.compactMap({ self.track($0) }).first(where: { $0.id == trackID })
+            let track = DeckID.primary.compactMap({ self.track($0) }).first(where: { $0.id == trackID })
         else { return }
         let url = arrangementURL(trackID)
         let cache = ArrangementCache(

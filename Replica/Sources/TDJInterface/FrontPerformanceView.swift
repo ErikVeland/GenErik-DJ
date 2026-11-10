@@ -108,7 +108,7 @@ import TDJCore
 
     private var deckSelector: some View {
         HStack(spacing: 4) {
-            ForEach(DeckID.allCases, id: \.self) { deck in
+            ForEach(DeckID.primary, id: \.self) { deck in
                 Button {
                     settleDeck(on: deck)
                 } label: {

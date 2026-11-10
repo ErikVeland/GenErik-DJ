@@ -24,13 +24,13 @@ extension ReplicaModel {
             playback.invalidateRecovery()
             recoveryState.settings = performance.recovery
         }
-        guard performance.recovery.mode != .off else { return }
-        for deck in DeckID.allCases {
+        guard performance.recovery.mode != .off, recoveryState.tasks.isEmpty else { return }
+        for deck in snapshot.deckIDs {
             let state = snapshot[deck]
-            let other: DeckID = deck == .a ? .b : .a
-            guard state.phase == .playing, !snapshot[other].phase.active, !state.loopEnabled, !state.touchActive,
+            let other: DeckID = deck.opposite
+            guard state.phase == .playing, !state.loopEnabled, !state.touchActive,
                 !state.jumpPending, !state.braking, state.performanceRate == 1, state.mixer.volume > 0,
-                deck == .a ? snapshot.crossfader < 1 : snapshot.crossfader > 0,
+                deck.leftSide ? snapshot.crossfader < 1 : snapshot.crossfader > 0,
                 recoveryState.attempted[deck] != state.generation, !preparingPlayback.contains(deck),
                 let track = track(deck), let timing = track.timing, !track.analysis.waveform.isEmpty
             else { continue }
@@ -67,7 +67,9 @@ extension ReplicaModel {
                     } else {
                         self.recoveryState.feedback[deck] = "Set the last drop in Playback settings"
                     }
-                    guard settings.mode == .autoMix else { return }
+                    guard settings.mode == .autoMix, let latest = self.playback.core.snapshot(),
+                        !latest.deckIDs.contains(where: { $0 != deck && latest[$0].phase.active })
+                    else { return }
                     let context = SuggestionContext(
                         referenceTrackID: track.id, destination: other, performanceBPM: snapshot.masterBPM,
                         usePerformanceBPM: state.synced, loadedTrackIDs: [track.id],
@@ -106,6 +108,7 @@ extension ReplicaModel {
                     }
                 }
             }
+            break
         }
     }
 

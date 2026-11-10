@@ -25,7 +25,7 @@ import Testing
     let core = try SampleTransport()
     var observation = RuntimeFilterStressObservation()
     for step in 0..<3 {
-        for deck in DeckID.allCases {
+        for deck in DeckID.primary {
             try core.setMixer(.filterEnabled, value: 1, deck: deck)
             try core.setMixer(.filterX, value: Double(step) / 4, deck: deck)
             try core.setMixer(.filterY, value: Double(step) / 5, deck: deck)

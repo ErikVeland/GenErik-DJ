@@ -8,7 +8,7 @@ public enum PCMCache {
     /// Deck loading has its own serial background queue; it never waits for analysis.
     public static func prepareAsync(
         track: Track, store: WorkspaceStore, streamed: Bool = false, outputSampleRate: Double = 48000,
-        maximumOutputFrames: UInt32 = 4096, sourceURL: URL? = nil,
+        maximumOutputFrames: UInt32 = 4096, sourceURL: URL? = nil, compactPool: Bool = false,
         checkWorkAllowed: @escaping @Sendable () throws -> Void = {}
     ) async throws -> PCMAsset {
         for attempt in 0..<40 {
@@ -16,7 +16,7 @@ public enum PCMCache {
                 return try await worker.run { check in
                     try prepare(
                         track: track, store: store, streamed: streamed, outputSampleRate: outputSampleRate,
-                        maximumOutputFrames: maximumOutputFrames, sourceURL: sourceURL,
+                        maximumOutputFrames: maximumOutputFrames, sourceURL: sourceURL, compactPool: compactPool,
                         checkCancellation: {
                             try check()
                             try checkWorkAllowed()
@@ -32,7 +32,7 @@ public enum PCMCache {
 
     public static func prepare(
         track: Track, store: WorkspaceStore, streamed: Bool = false, outputSampleRate: Double = 48000,
-        maximumOutputFrames: UInt32 = 4096, sourceURL: URL? = nil,
+        maximumOutputFrames: UInt32 = 4096, sourceURL: URL? = nil, compactPool: Bool = false,
         checkCancellation: @Sendable () throws -> Void = { try Task.checkCancellation() }
     ) throws -> PCMAsset {
         try checkCancellation()
@@ -49,7 +49,7 @@ public enum PCMCache {
         if let size = try? cache.resourceValues(forKeys: [.fileSizeKey]).fileSize, Int64(size) == expectedBytes {
             return try asset(
                 cache: cache, frames: UInt64(frames), sampleRate: track.analysis.sampleRate, streamed: streamed,
-                outputSampleRate: outputSampleRate, maximumOutputFrames: maximumOutputFrames)
+                outputSampleRate: outputSampleRate, maximumOutputFrames: maximumOutputFrames, compactPool: compactPool)
         }
         let source = sourceURL ?? store.mediaDirectory.appendingPathComponent(track.mediaFilename)
         if streamed {
@@ -58,7 +58,7 @@ public enum PCMCache {
                 throw TransportError.nativeSourceChanged
             }
             return try PCMAsset(
-                decoder: decoder, outputSampleRate: outputSampleRate, maximumOutputFrames: maximumOutputFrames)
+                decoder: decoder, outputSampleRate: outputSampleRate, maximumOutputFrames: maximumOutputFrames, compactPool: compactPool)
         }
         let temporary = directory.appendingPathComponent(UUID().uuidString + ".partial")
         defer { try? FileManager.default.removeItem(at: temporary) }
@@ -75,7 +75,7 @@ public enum PCMCache {
         }
         return try asset(
             cache: cache, frames: UInt64(frames), sampleRate: track.analysis.sampleRate, streamed: streamed,
-            outputSampleRate: outputSampleRate, maximumOutputFrames: maximumOutputFrames)
+            outputSampleRate: outputSampleRate, maximumOutputFrames: maximumOutputFrames, compactPool: compactPool)
     }
     public static func writeStructurePCM(source: URL, destination: URL, matching analysis: AudioAnalysis) async throws {
         try await AnalysisWorker.shared.run { check in
@@ -132,12 +132,12 @@ public enum PCMCache {
     }
     private static func asset(
         cache: URL, frames: UInt64, sampleRate: Double, streamed: Bool, outputSampleRate: Double,
-        maximumOutputFrames: UInt32
+        maximumOutputFrames: UInt32, compactPool: Bool
     ) throws -> PCMAsset {
         if streamed {
             return try PCMAsset(
                 streamedFile: cache, frames: frames, sampleRate: sampleRate, outputSampleRate: outputSampleRate,
-                maximumOutputFrames: maximumOutputFrames)
+                maximumOutputFrames: maximumOutputFrames, compactPool: compactPool)
         }
         return try PCMAsset(mappedFile: cache, frames: frames, sampleRate: sampleRate)
     }

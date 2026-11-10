@@ -9,6 +9,7 @@ extern "C" {
 typedef struct tdj_asset tdj_asset;
 #define TDJ_STREAM_BLOCK_FRAMES 8192u
 #define TDJ_STREAM_BLOCK_COUNT 512u
+#define TDJ_STREAM_COMPACT_POOL 1u
 #define TDJ_STREAM_MAX_RANGES 64u
 #define TDJ_STREAM_MAX_TICKETS 16u
 #define TDJ_STREAM_GLOBAL_PCM_BYTES (128ull * 1024ull * 1024ull)

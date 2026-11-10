@@ -23,7 +23,7 @@ struct RecoverySettingsView: View {
                 Text(
                     "Replay waits until the final beat. It uses your marker, a detected drop, or a recent audible section."
                 ).font(.caption).foregroundStyle(.secondary)
-                ForEach(DeckID.allCases, id: \.self) { deck in
+                ForEach(DeckID.primary, id: \.self) { deck in
                     if let track = model.track(deck) {
                         HStack {
                             Button("Deck \(deck.rawValue.uppercased()): use playhead as last drop") {

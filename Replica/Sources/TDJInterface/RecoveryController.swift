@@ -54,7 +54,7 @@ extension PlaybackController {
     public func prepareRecoveryMix(_ plan: RecoveryPlan, deck: DeckID, incomingFrame: Double, leadBars: Int)
         async throws
     {
-        let incoming: DeckID = deck == .a ? .b : .a
+        let incoming: DeckID = deck.opposite
         guard let generation = generations[deck], let nextGeneration = generations[incoming],
             let asset = core.asset(generation: nextGeneration), let snapshot = core.snapshot(),
             let start = plan.mixStartFrame(leadBars: leadBars), snapshot[incoming].sourceBPM > 0

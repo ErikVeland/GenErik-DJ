@@ -70,15 +70,15 @@ private func observationWAV(_ url: URL) throws {
     let model = try ReplicaModel(root: root, playback: PlaybackController(offline: true))
     track = try #require(model.library.tracks.first)
     if controllerOwnsLoads {
-        for deck in DeckID.allCases { model.load(trackID: track.id, deck: deck) }
+        for deck in DeckID.primary { model.load(trackID: track.id, deck: deck) }
         await model.playbackLoads?.value
-        for deck in DeckID.allCases {
+        for deck in DeckID.primary {
             try model.playback.setSync(false, deck: deck)
             model.pressPlay(deck: deck)
         }
     } else {
         let asset = try PCMAsset(interleavedStereo: [Float](repeating: 0, count: 192000), sampleRate: 48000)
-        for deck in DeckID.allCases {
+        for deck in DeckID.primary {
             let generation = try model.playback.core.load(asset, deck: deck, grid: track.grid, synced: false)
             model.playback.core.processControlsWhileIdle()
             try model.playback.core.play(deck: deck, generation: generation)
@@ -89,9 +89,9 @@ private func observationWAV(_ url: URL) throws {
     _ = model.playback.core.renderOffline(frames: 256)
     let state = try #require(model.playback.core.snapshot())
     let grids = Dictionary(
-        uniqueKeysWithValues: DeckID.allCases.compactMap { deck in state[deck].grid.map { (deck, $0) } })
+        uniqueKeysWithValues: DeckID.primary.compactMap { deck in state[deck].grid.map { (deck, $0) } })
     try #require(grids.count == 2 && state.a.phase == .playing && state.b.phase == .playing)
-    let generations = Dictionary(uniqueKeysWithValues: DeckID.allCases.map { ($0, state[$0].generation) })
+    let generations = Dictionary(uniqueKeysWithValues: DeckID.primary.map { ($0, state[$0].generation) })
     let collections = try RuntimePreparationImportStress.prepareCollections(directory: root, duration: 2, entries: 1)
     return (model, root, track, grids, generations, collections)
 }
@@ -225,7 +225,7 @@ func preparationImportCancellationStillObservesTheLastState(_ mutation: String) 
     var report = RuntimePreparationImportReport(entriesPerCollection: 1)
     report.completedImports = 1
     report.referencesBound = 1
-    for deck in DeckID.allCases {
+    for deck in DeckID.primary {
         try #require(f.model.track(deck)?.grid == f.grids[deck])
         try #require(f.model.playback.core.snapshot()?[deck].grid == f.grids[deck])
         try #require(f.model.playback.generations[deck] == nil)

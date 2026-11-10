@@ -987,9 +987,9 @@ extension ReplicaView {
     /// ImageRenderer does not mount asynchronous view tasks. Prepare its waveforms explicitly.
     public func preparedForSnapshot() async throws -> some View {
         try await model.prepareLoadedWaveforms()
-        for deck in DeckID.allCases { await model.prepareArrangement(deck: deck) }
+        for deck in DeckID.primary { await model.prepareArrangement(deck: deck) }
         var indexes: [WaveformIndexKey: WaveformRangeIndex] = [:]
-        for deck in DeckID.allCases {
+        for deck in DeckID.primary {
             if let track = model.track(deck) {
                 indexes[WaveformIndexKey(track.analysis)] = await WaveformIndexes.shared.load(track.analysis)
             }
@@ -1000,7 +1000,7 @@ extension ReplicaView {
                 tracks: model.library.tracks, suggestionIDs: nil, search: "", sort: .title, category: .songs,
                 group: nil, playlists: .init(), catalog: nil) : nil
         var bands: [String: BandWaveform] = [:]
-        for deck in DeckID.allCases {
+        for deck in DeckID.primary {
             if let track = model.track(deck) {
                 _ = try? PCMCache.prepare(track: track, store: model.store)
                 bands[track.id] = await BandWaveforms.shared.load(track: track, store: model.store, core: model.playback.core, patience: 5)

@@ -55,13 +55,14 @@ public final class PCMAsset: @unchecked Sendable {
     }
     public init(
         streamedFile: URL, frames: UInt64, sampleRate: Double, outputSampleRate: Double = 48000,
-        maximumOutputFrames: UInt32 = 4096
+        maximumOutputFrames: UInt32 = 4096, compactPool: Bool = false
     ) throws {
         var configuration = tdj_stream_config()
         configuration.output_rate = outputSampleRate
         configuration.forward_seconds = 2
         configuration.backward_seconds = 1
         configuration.max_output_frames = maximumOutputFrames
+        configuration.reserved = compactPool ? TDJ_STREAM_COMPACT_POOL : 0
         var status = Int32(TDJ_STREAM_INVALID.rawValue)
         guard
             let pointer = streamedFile.path.withCString({
@@ -241,7 +242,19 @@ public struct PlaybackSnapshot: Codable, Equatable, Sendable {
     public let clockRunning: Bool
     public let a: DeckPlaybackSnapshot
     public let b: DeckPlaybackSnapshot
-    public subscript(_ deck: DeckID) -> DeckPlaybackSnapshot { deck == .a ? a : b }
+    public let c: DeckPlaybackSnapshot?
+    public let d: DeckPlaybackSnapshot?
+    private static let empty = DeckPlaybackSnapshot(tdj_deck_snapshot())
+    public subscript(_ deck: DeckID) -> DeckPlaybackSnapshot {
+        switch deck {
+        case .a: a
+        case .b: b
+        case .c: c ?? Self.empty
+        case .d: d ?? Self.empty
+        }
+    }
+    public var anyDeckActive: Bool { a.phase.active || b.phase.active || c?.phase.active == true || d?.phase.active == true }
+    public var deckIDs: [DeckID] { c == nil ? DeckID.primary : DeckID.allCases }
     fileprivate init(_ value: tdj_snapshot) {
         pairedFrames = value.paired_frames
         crossfader = value.crossfader
@@ -255,6 +268,8 @@ public struct PlaybackSnapshot: Codable, Equatable, Sendable {
         clockRunning = value.clock_running != 0
         a = .init(value.a)
         b = .init(value.b)
+        c = value.extra_decks ? .init(value.c) : nil
+        d = value.extra_decks ? .init(value.d) : nil
     }
 }
 
@@ -328,6 +343,7 @@ public final class SampleTransport: @unchecked Sendable {
         _ asset: PCMAsset, deck: DeckID, grid: BeatGrid?, sourceFrame: Double = 0, synced: Bool = true,
         keylock: Bool = false, adaptiveMap: BeatGridMap? = nil, resetMasterTempoWhenIdle: Bool = false
     ) throws -> UInt64 {
+        if deck.transportIndex >= 2 { try prepareExtraDecks() }
         if let adaptiveMap { try adaptiveMap.validate(frameCount: Int64(asset.frames)) }
         guard adaptiveMap.map({ $0.sampleRate == asset.sampleRate }) ?? true else { throw TransportError.invalid }
         guard grid.map({ $0.sampleRate == asset.sampleRate }) ?? true else { throw TransportError.invalid }
@@ -361,7 +377,7 @@ public final class SampleTransport: @unchecked Sendable {
             : assets[generation].map {
                 [
                     SourcePreparation(
-                        asset: $0, deck: command.deck == 0 ? .a : .b, generation: generation, ticket: preparationTicket)
+                        asset: $0, deck: DeckID.allCases[Int(command.deck)], generation: generation, ticket: preparationTicket)
                 ]
             } ?? []
         do { try send(command, preparations: preparations) } catch {
@@ -405,9 +421,21 @@ public final class SampleTransport: @unchecked Sendable {
                 Self.release(preparations)
                 throw TransportError.stale
             }
-            if command.kind == TDJ_TEMPO, preparation.deck == .b {
-                command.preparation_ticket_b = preparation.ticket
-                command.preparation_generation_b = preparation.generation
+            if command.kind == TDJ_TEMPO {
+                switch preparation.deck {
+                case .a:
+                    command.preparation_ticket = preparation.ticket
+                    command.generation = preparation.generation
+                case .b:
+                    command.preparation_ticket_b = preparation.ticket
+                    command.preparation_generation_b = preparation.generation
+                case .c:
+                    command.preparation_ticket_c = preparation.ticket
+                    command.preparation_generation_c = preparation.generation
+                case .d:
+                    command.preparation_ticket_d = preparation.ticket
+                    command.preparation_generation_d = preparation.generation
+                }
             } else {
                 command.preparation_ticket = preparation.ticket
                 command.generation = preparation.generation
@@ -750,7 +778,11 @@ public final class SampleTransport: @unchecked Sendable {
         }
         return (left, right)
     }
-    private func index(_ deck: DeckID) -> Int32 { deck == .a ? 0 : 1 }
+    public func prepareExtraDecks() throws {
+        guard tdj_engine_prepare_extra_decks(pointer) else { throw TransportError.allocation }
+    }
+
+    private func index(_ deck: DeckID) -> Int32 { deck.transportIndex }
     private static func release(_ preparations: [SourcePreparation]) {
         for preparation in preparations { preparation.asset.releaseSourcePreparation(preparation.ticket) }
     }

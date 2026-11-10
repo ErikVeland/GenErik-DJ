@@ -2,13 +2,14 @@ import CTDJTransport
 import Foundation
 import Testing
 
-@Test(arguments: [false, true])
-func sourceStarvationRefillsWithoutStoppingEitherDeck(synced: Bool) throws {
+@Test(arguments: [false, true], [Int32(0), Int32(3)])
+func sourceStarvationRefillsWithoutStoppingEitherDeck(synced: Bool, sourceDeck: Int32) throws {
     let engine = try #require(tdj_engine_create(48000, 1))
+    if sourceDeck == 3 { try #require(tdj_engine_prepare_extra_decks(engine)) }
     let resident = try #require((0..<(48000 * 20 * 2)).map { $0.isMultiple(of: 2) ? Float(0.25) : 0 }
         .withUnsafeBufferPointer { tdj_asset_create($0.baseAddress, 48000 * 20, 48000) })
     var config = tdj_stream_config(output_rate: 48000, forward_seconds: 2, backward_seconds: 1,
-                                   max_output_frames: 512, reserved: 0)
+                                   max_output_frames: 512, reserved: sourceDeck == 3 ? TDJ_STREAM_COMPACT_POOL : 0)
     var error: Int32 = 0
     let stream = try #require(tdj_asset_open_decoder(48000 * 4, 48000, &config, { _, _, frames, stereo in
         guard let stereo else { return TDJ_STREAM_INVALID.rawValue }
@@ -63,12 +64,18 @@ func sourceStarvationRefillsWithoutStoppingEitherDeck(synced: Bool) throws {
                                   loop_start: 0, loop_end: 0, continuing_position: 0, keylock: 1,
                                   reserve_continuing: 0)
     var request = tdj_stream_request()
-    try #require(tdj_asset_plan_target(stream, &target, 1, 1, &request) == TDJ_STREAM_READY.rawValue)
+    try #require(tdj_asset_plan_target(stream, &target, 1, UInt64(sourceDeck + 1), &request) == TDJ_STREAM_READY.rawValue)
     let ticket = tdj_asset_request_prepare(stream, &request)
     try #require(ticket != 0)
     try #require(tdj_asset_service(stream, 32) == TDJ_STREAM_READY.rawValue)
-    send(TDJ_LOAD, deck: 0, flag: synced ? 9 : 8, asset: stream, bpm: 100, ticket: ticket)
-    send(TDJ_PLAY, deck: 0)
+    send(TDJ_LOAD, deck: sourceDeck, flag: synced ? 9 : 8, asset: stream, bpm: 100, ticket: ticket)
+    var fader = tdj_command()
+    fader.kind = TDJ_MIXER
+    fader.deck = sourceDeck
+    fader.flag = TDJ_MIX_VOLUME
+    fader.value = 1
+    try #require(tdj_submit(engine, fader))
+    send(TDJ_PLAY, deck: sourceDeck)
     _ = render()
     tdj_asset_release_preparation(stream, ticket)
 
@@ -84,9 +91,9 @@ func sourceStarvationRefillsWithoutStoppingEitherDeck(synced: Bool) throws {
         #expect(output.left.allSatisfy { $0 > 0.15 })
     }
     let waiting = try snapshot()
-    #expect(waiting.a.state == TDJ_PLAYING)
-    #expect(waiting.a.source_frame == held.a.source_frame)
-    #expect(waiting.a.synced == (synced ? 1 : 0))
+    #expect((sourceDeck == 0 ? waiting.a : waiting.d).state == TDJ_PLAYING)
+    #expect((sourceDeck == 0 ? waiting.a : waiting.d).source_frame == (sourceDeck == 0 ? held.a : held.d).source_frame)
+    #expect((sourceDeck == 0 ? waiting.a : waiting.d).synced == (synced ? 1 : 0))
     #expect(waiting.b.source_frame - held.b.source_frame == 480 * 512)
     #expect(waiting.master_beat > held.master_beat + 10)
 
@@ -102,11 +109,11 @@ func sourceStarvationRefillsWithoutStoppingEitherDeck(synced: Bool) throws {
     }
     #expect(recovered)
     let after = try snapshot()
-    #expect(after.a.state == TDJ_PLAYING)
-    #expect(after.a.synced == (synced ? 1 : 0))
-    #expect(after.a.last_start_frame == held.a.last_start_frame)
+    #expect((sourceDeck == 0 ? after.a : after.d).state == TDJ_PLAYING)
+    #expect((sourceDeck == 0 ? after.a : after.d).synced == (synced ? 1 : 0))
+    #expect((sourceDeck == 0 ? after.a : after.d).last_start_frame == (sourceDeck == 0 ? held.a : held.d).last_start_frame)
     if synced {
-        let phase = after.a.source_frame / 28800 - after.master_beat
+        let phase = (sourceDeck == 0 ? after.a : after.d).source_frame / 28800 - after.master_beat
         #expect(abs(phase - phase.rounded()) < 0.0001)
     }
     let missesAtRecovery = missing()

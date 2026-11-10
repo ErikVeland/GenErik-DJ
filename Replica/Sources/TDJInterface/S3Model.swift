@@ -31,7 +31,9 @@
             s3EXTRequest?.cancel()
             try? playback.setCaptureEnabled(false, device: "S3")
             s3EXTCue = false
-            for deck in s3Controls.touched { applyController(deck == .a ? .jogTouchA : .jogTouchB, value: 0) }
+            for deck in s3Controls.touched {
+                applyController(deck.leftSide ? .jogTouchA : .jogTouchB, value: 0, targetDeck: deck)
+            }
             for deck in s3Controls.reversing { perform(.rate, deck: deck, value: 1) }
             for deck in s3Controls.bent { resetControllerWheelJog(deck) }
             for deck in s3Controls.rolling { setNativeTraktorRoll(deck: deck, held: false, quantized: true) }
@@ -46,6 +48,42 @@
             for deck in s3Controls.touched { s2LastScratch[deck] = nil }
             s3Controls = .init()
             s3Takeover.removeAll()
+            s3ExtraPots.removeAll()
+        }
+
+        func applyS3Pot(_ action: ControllerAction, deck: DeckID, value: Double) {
+            if deck.transportIndex >= 2 {
+                guard deck != .d || !playback.s3ExtEnabled else { return }
+                s3ExtraPots[deck, default: [:]][action] = value
+                guard playback.generations[deck] != nil else { return }
+            }
+            let filter = action == .filterA || action == .filterB
+            let current = controllerValue(action, targetDeck: deck)
+            let target = filter ? s2FXAmount[deck] ?? current : current
+            guard s3Takeover[deck, default: [:]][action, default: .init()].shouldApply(input: value, target: target)
+            else { return }
+            if filter {
+                applyS2FXAmount(value, deck: deck, enabled: s3FXEnabled.contains(deck))
+            } else {
+                applyController(action, value: value, refreshMixer: false, targetDeck: deck)
+            }
+        }
+
+        func primeS3Mixer(_ deck: DeckID) {
+            guard s3PrimedMixer.insert(deck).inserted else { return }
+            let values = s3ExtraPots[deck, default: [:]]
+            let fader: ControllerAction = deck.leftSide ? .levelA : .levelB
+            _ = submitMixer(.volume, value: values[fader] ?? 0, deck: deck)
+            for (action, value) in values where action != fader {
+                if action == .filterA || action == .filterB {
+                    applyS2FXAmount(value, deck: deck, enabled: s3FXEnabled.contains(deck))
+                } else if action != .tempoA && action != .tempoB {
+                    applyController(action, value: value, refreshMixer: false, targetDeck: deck)
+                }
+            }
+            if let choice = s3PendingFX[deck] {
+                selectS2FX(choice, deck: deck, enabled: s3FXEnabled.contains(deck))
+            }
         }
 
         func moveS3(deck: DeckID, detents: Int, shifted: Bool) {
@@ -81,11 +119,14 @@
             }
             let feedback = S2MK3Feedback(
                 sampleSlots: Set(s2SampleSlots.keys), playingSamples: playback.core.playingPads,
-                fx: Set(DeckID.allCases.map { s2FX[$0] ?? .filter }), browser: browserVisible)
+                fx: Set(DeckID.allCases.map { s3PendingFX[$0] ?? s2FX[$0] ?? .filter }), browser: browserVisible)
             let reports = S3Lights.reports(
                 snapshot: snapshot, sourceFrames: frames, cues: (slots(.a), slots(.b)),
                 controls: s3Controls, feedback: feedback, enabledFX: s3FXEnabled,
-                external: (playback.s3ExtEnabled, s3EXTCue), master: playback.core.masterMeter)
+                external: (playback.s3ExtEnabled, s3EXTCue), master: playback.core.masterMeter,
+                extraFrames: [.c: snapshot[.c], .d: snapshot[.d]].compactMapValues {
+                    playback.core.asset(generation: $0.generation)?.frames
+                }, extraCues: [.c: slots(.c), .d: slots(.d)])
             for report in reports { connection.send(report) }
         }
     }

@@ -83,11 +83,11 @@ enum RuntimePreparationImportStress {
 
     @MainActor static func generations(model: ReplicaModel) -> [DeckID: UInt64] {
         guard let state = model.playback.core.snapshot(),
-            DeckID.allCases.allSatisfy({
+            DeckID.primary.allSatisfy({
                 state[$0].generation > 0 && model.playback.generations[$0] == state[$0].generation
             })
         else { return [:] }
-        return Dictionary(uniqueKeysWithValues: DeckID.allCases.map { ($0, state[$0].generation) })
+        return Dictionary(uniqueKeysWithValues: DeckID.primary.map { ($0, state[$0].generation) })
     }
 
     @MainActor static func observe(
@@ -98,14 +98,14 @@ enum RuntimePreparationImportStress {
         report.fullAnalysisRetained =
             report.fullAnalysisRetained && stored?.analysis == track.analysis
             && stored?.analysis.musicalAnalysisDeferred != true
-        let decks = Set(DeckID.allCases)
+        let decks = Set(DeckID.primary)
         guard Set(expectedGrids.keys) == decks, Set(expectedGenerations.keys) == decks,
             expectedGenerations.values.allSatisfy({ $0 > 0 }), let state = model.playback.core.snapshot()
         else {
             report.activePreparationUnchanged = false
             return
         }
-        for deck in DeckID.allCases {
+        for deck in DeckID.primary {
             report.activePreparationUnchanged =
                 report.activePreparationUnchanged && model.loaded[deck] == track.id
                 && model.track(deck)?.grid == expectedGrids[deck] && state[deck].grid == expectedGrids[deck]
@@ -152,7 +152,7 @@ enum RuntimePreparationImportStress {
         var report = RuntimePreparationImportReport(entriesPerCollection: collectionEntries)
         let expectedGenerations = expectedGenerations ?? generations(model: model)
         guard collections.count == 2, collections[0].sha256 != collections[1].sha256,
-            Set(expectedGrids.keys) == Set(DeckID.allCases), Set(expectedGenerations.keys) == Set(DeckID.allCases),
+            Set(expectedGrids.keys) == Set(DeckID.primary), Set(expectedGenerations.keys) == Set(DeckID.primary),
             expectedGenerations.values.allSatisfy({ $0 > 0 })
         else {
             report.failures = 1

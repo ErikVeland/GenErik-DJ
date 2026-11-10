@@ -51,17 +51,17 @@ import Testing
     await model.refreshMusicLibrary()
     await model.importMusicLibraryItems([provider.item.id])
     let track = try #require(model.library.tracks.first)
-    for deck in DeckID.allCases { model.load(trackID: track.id, deck: deck) }
+    for deck in DeckID.primary { model.load(trackID: track.id, deck: deck) }
     await model.flushWrites()
-    for deck in DeckID.allCases {
+    for deck in DeckID.primary {
         try model.playback.setSync(false, deck: deck)
         model.pressPlay(deck: deck)
     }
     await model.flushTransportRequests()
     _ = model.playback.core.renderOffline(frames: 256)
-    for deck in DeckID.allCases { #expect(model.playback.core.snapshot()?[deck].phase == .playing) }
+    for deck in DeckID.primary { #expect(model.playback.core.snapshot()?[deck].phase == .playing) }
     let grids = Dictionary(
-        uniqueKeysWithValues: DeckID.allCases.compactMap { deck in model.track(deck)?.grid.map { (deck, $0) } })
+        uniqueKeysWithValues: DeckID.primary.compactMap { deck in model.track(deck)?.grid.map { (deck, $0) } })
     #expect(grids.count == 2)
     let collections = try RuntimePreparationImportStress.prepareCollections(directory: root, duration: duration)
     var report = RuntimePreparationImportReport(entriesPerCollection: 10_000)
