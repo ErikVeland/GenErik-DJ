@@ -22,6 +22,10 @@ struct AudioOutputDevice: Equatable, Sendable {
         case "traktor kontrol s4 mk2": return "S4 Mk2"
         case "generik s4 mk1 bridge": return "S4 Mk1 Bridge"
         case "generik s4 mk3 bridge": return "S4 Mk3 Bridge"
+        case "generik z2 bridge": return "Z2 Bridge"
+        case "generik s5 bridge": return "S5 Bridge"
+        case "generik s8 bridge": return "S8 Bridge"
+        case "generik mx2 bridge": return "MX2 Bridge"
         default: return nil
         }
     }

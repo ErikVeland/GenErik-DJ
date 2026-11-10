@@ -9,6 +9,7 @@
             if automaticOutputDevice == s4MK3AudioDevice, s4MK3Bridge?.isReceiving == true { return s4MK3AudioDevice }
             if automaticOutputDevice == "S4 Mk2", s4Connection?.isReceiving == true { return "S4 Mk2" }
             if automaticOutputDevice == "S3", s3Connection?.isReceiving == true { return "S3" }
+            if automaticOutputDevice == "MX2 Bridge", factorySessions[.mx2]?.bridge.isReceiving == true { return "MX2 Bridge" }
             return nil
         }
 

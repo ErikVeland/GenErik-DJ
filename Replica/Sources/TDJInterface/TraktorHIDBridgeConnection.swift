@@ -13,8 +13,9 @@ import TDJCore
 }
 
 @MainActor final class TraktorHIDBridgeConnection: S4MK3ReportConnection {
-    enum Model {
+    enum Model: Equatable {
         case s4MK3, z1MK2, x1MK3, s2MK1, s4MK1
+        case factory(TraktorFactoryModel)
 
         var deviceName: String {
             switch self {
@@ -23,6 +24,7 @@ import TDJCore
             case .z1MK2: "GenErik Z1 Mk2 Bridge"
             case .x1MK3: "GenErik X1 Mk3 Bridge"
             case .s2MK1: "GenErik S2 Mk1 Bridge"
+            case .factory(let model): model.bridgeName
             }
         }
 
@@ -33,6 +35,7 @@ import TDJCore
             case .s4MK1: .s4MK1Report
             case .s2MK1: .s2MK1Report
             case .z1MK2, .x1MK3: .modularInput
+            case .factory: .factoryInput
             }
         }
 
@@ -43,6 +46,7 @@ import TDJCore
             case .z1MK2: 47
             case .x1MK3: 50
             case .s2MK1: 62
+            case .factory: 0
             }
         }
     }
@@ -58,6 +62,7 @@ import TDJCore
     private var source: MIDIEndpointRef = 0
     private var destination: MIDIEndpointRef = 0
     private var decoder = ControllerBridgeDecoder()
+    private var factoryInput = TraktorFactoryFragments()
     private var lastHeartbeat: ContinuousClock.Instant?
     private var lastHello: ContinuousClock.Instant?
     private var lastFeedback: [Int: [UInt8]] = [:]
@@ -123,22 +128,34 @@ import TDJCore
         lastHello = nil
         lastFeedback.removeAll(keepingCapacity: true)
         decoder = .init()
+        factoryInput = .init()
         if wasReceiving { onDisconnect?() }
     }
 
-    private func bridgeDevice(_ endpoint: MIDIEndpointRef) -> MIDIDeviceRef? {
+    static func availableFactoryModels() -> Set<TraktorFactoryModel> {
+        let names = Set((0..<MIDIGetNumberOfSources()).map(MIDIGetSource).compactMap { endpoint in
+            deviceNames(endpoint)?.names
+        }.flatMap { $0 })
+        return Set(TraktorFactoryModel.allCases.filter { names.contains($0.bridgeName) })
+    }
+
+    private static func deviceNames(_ endpoint: MIDIEndpointRef) -> (device: MIDIDeviceRef, names: [String])? {
         var entity: MIDIEntityRef = 0
         var device: MIDIDeviceRef = 0
         guard endpoint != 0, MIDIEndpointGetEntity(endpoint, &entity) == noErr, entity != 0,
             MIDIEntityGetDevice(entity, &device) == noErr, device != 0
         else { return nil }
-        let matches = [kMIDIPropertyName, kMIDIPropertyModel, kMIDIPropertyDisplayName].contains { key in
+        let names: [String] = [kMIDIPropertyName, kMIDIPropertyModel, kMIDIPropertyDisplayName].compactMap { key in
             var property: Unmanaged<CFString>?
-            guard MIDIObjectGetStringProperty(device, key, &property) == noErr else { return false }
-            return property?.takeRetainedValue() as String? == model.deviceName
+            guard MIDIObjectGetStringProperty(device, key, &property) == noErr else { return nil }
+            return property?.takeRetainedValue() as String?
         }
-        guard matches else { return nil }
-        return device
+        return (device, names)
+    }
+
+    private func bridgeDevice(_ endpoint: MIDIEndpointRef) -> MIDIDeviceRef? {
+        guard let info = Self.deviceNames(endpoint), info.names.contains(model.deviceName) else { return nil }
+        return info.device
     }
 
     private func refresh() {
@@ -177,6 +194,10 @@ import TDJCore
                     case model.statusKind where report.payload == [0]:
                         reset()
                     case model.inputKind where isReceiving:
+                        if report.kind == .factoryInput {
+                            if let raw = factoryInput.append(report.payload) { onReport?(raw) }
+                            continue
+                        }
                         let length = Int(report.payload[0])
                         if (1..<report.payload.count).contains(length) {
                             onReport?(Array(report.payload[1...length]))
@@ -197,6 +218,16 @@ import TDJCore
 
     func feedback(_ report: [UInt8]) {
         guard isReceiving else { return }
+        if case .factory(let factory) = model {
+            guard let id = report.first, let index = factory.lightSizes.indices.first(where: {
+                id == 0x80 + $0
+            }), report.count == factory.lightSizes[index], lastFeedback[Int(id)] != report else { return }
+            for payload in TraktorFactoryFragments.payloads(report) {
+                guard send(kind: .factoryLights, payload: payload) else { return }
+            }
+            lastFeedback[Int(id)] = report
+            return
+        }
         let kind: ControllerBridgeFrame.Kind
         let key: Int
         var payload = report
@@ -206,6 +237,7 @@ import TDJCore
             case .s4MK3: kind = .s4MK3Lights
             case .s4MK1: kind = .s4MK1Lights
             case .s2MK1: kind = .s2MK1Lights
+            case .factory: return
             case .z1MK2, .x1MK3:
                 kind = .modularLights
                 payload = [UInt8(report.count)] + report + .init(repeating: 0, count: 50 - report.count)
@@ -218,6 +250,13 @@ import TDJCore
         }
         guard lastFeedback[key] != report else { return }
         if send(kind: kind, payload: payload) { lastFeedback[key] = report }
+    }
+
+    func factoryScreen(_ payload: [UInt8]) {
+        guard isReceiving, let screen = payload.first, screen < 2 else { return }
+        let key = 256 + Int(screen)
+        guard lastFeedback[key] != payload else { return }
+        if send(kind: .factoryScreen, payload: payload) { lastFeedback[key] = payload }
     }
 
     private func send(kind: ControllerBridgeFrame.Kind, payload: [UInt8]) -> Bool {

@@ -361,6 +361,10 @@ import TDJCore
         @ObservationIgnored var beatpadPerformance = S4MK2Performance(sliceCount: 4)
         @ObservationIgnored var beatpadInstantFX: [DeckID: (slot: Int, effect: EffectControl)] = [:]
         var beatpadStatus = "Waiting for the original Beatpad."
+        @ObservationIgnored var factorySessions: [TraktorFactoryModel: TraktorFactorySession] = [:]
+        @ObservationIgnored var factoryPerformance: [TraktorFactoryModel: S4MK2Performance] = [:]
+        @ObservationIgnored var nextFactoryDiscovery: ContinuousClock.Instant?
+        var receivingFactoryControllers: [TraktorFactoryModel] = []
         @ObservationIgnored var s4MK1Bridge: TraktorHIDBridgeConnection?
         @ObservationIgnored var s4MK1Controls = S4MK1Controls()
         @ObservationIgnored var s4MK1Performance = S4MK2Performance()
@@ -1694,6 +1698,7 @@ import TDJCore
                     self?.maintainS4MK1Bridge()
                     self?.maintainS4MK3Bridge()
                     self?.maintainTraktorModularBridges()
+                    self?.maintainTraktorFactoryBridges()
                 #endif
                 do { try await Task.sleep(for: .milliseconds(33)) } catch { return }
             }
@@ -1736,6 +1741,7 @@ import TDJCore
             x1MK3Bridge = nil
             z1MK2Receiving = false
             x1MK3Receiving = false
+            stopTraktorFactoryBridges()
         #endif
         playback.stopAudio()
         refreshPlayback()
