@@ -1,0 +1,18 @@
+{
+  "notes": "R156: Record per-record CloudKit error codes to distinguish rejected uploads from existing saved revisions.",
+  "sourceCommit": "e00cebb7f1a9b2e54976826a671c050fe9171250",
+  "sourceSHA256": "2f6a85b22385b0476ed65b49b0b4d3b27661cd13047b97648a521cbffcd61ab0",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 67.58,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-223.log",
+  "build": 223,
+  "app": "TestBuilds/ipad/223/GenErikDJ.app",
+  "appSHA256": "5f466611db8316a6aefdeab379284cb40f8b592fe6d30a221f5d7c6f86ab9964",
+  "state": "testing",
+  "createdUTC": "2026-11-10T15:03:23.789014+00:00",
+  "installedUTC": "2026-11-10T15:03:37.770056+00:00",
+  "launchedUTC": "2026-11-10T15:03:38.249524+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}

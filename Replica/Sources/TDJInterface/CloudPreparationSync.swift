@@ -4,6 +4,17 @@ import TDJCore
 
 /// Sync retains revisions in the signed-in user's private database.
 actor CloudPreparationSync: CKSyncEngineDelegate {
+    nonisolated static func hasOnlyVerifiedConflicts(_ error: Error, ids: Set<CKRecord.ID>) -> Bool {
+        let value = error as NSError
+        guard value.domain == CKErrorDomain, value.code == CKError.Code.partialFailure.rawValue,
+            let failures = value.userInfo[CKPartialErrorsByItemIDKey] as? [AnyHashable: Error], !failures.isEmpty
+        else { return false }
+        return failures.allSatisfy { key, error in
+            guard let id = key as? CKRecord.ID, ids.contains(id) else { return false }
+            let detail = error as NSError
+            return detail.domain == CKErrorDomain && detail.code == CKError.Code.serverRecordChanged.rawValue
+        }
+    }
     static let containerID = "iCloud.org.generikdj.analysis"
     private let files = BackgroundFileWork(label: "org.generikdj.cloud-files")
     private var zoneID = CKRecordZone.ID(zoneName: "PreparationRevisions")
@@ -15,6 +26,8 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
     private var confirmed: Set<String> = []
     private var uploadsRemaining: Int?
     private var engineStateFilename = "engine-state"
+    private var verifiedConflicts: Set<CKRecord.ID> = []
+    private var conflictFetch: CKFetchRecordsOperation?
 
     struct Result: Sendable {
         let root: URL
@@ -24,6 +37,7 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
 
     func stop() async {
         stopped = true
+        conflictFetch?.cancel()
         await engine?.cancelOperations()
     }
 
@@ -38,6 +52,7 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
         zoneID = .init(zoneName: automatic ? "AutomaticAnalysis" : "PreparationRevisions")
         engineStateFilename = automatic ? "automatic-engine-state" : "engine-state"
         failure = nil
+        verifiedConflicts.removeAll()
         let container = CKContainer(identifier: Self.containerID)
         guard try await container.accountStatus() == .available else {
             throw CoreError.invalidWorkspace("Sign in to iCloud before syncing. Local preparation is retained.")
@@ -174,7 +189,18 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
             })
         try check()
         await progress("Uploading saved preparation revisions…")
-        try await syncEngine.sendChanges(.init(operationGroup: group))
+        while true {
+            let verifiedBefore = verifiedConflicts.count
+            do {
+                try await syncEngine.sendChanges(.init(operationGroup: group))
+                break
+            } catch {
+                try check()
+                guard verifiedConflicts.count > verifiedBefore,
+                    Self.hasOnlyVerifiedConflicts(error, ids: verifiedConflicts) else { throw error }
+                if uploadsRemaining == 0 { break }
+            }
+        }
         try check()
         let all = try await files.run { Swift.Result { try storage.list() } }.get()
         let pending = all.filter { !confirmed.contains($0.id) }.count
@@ -259,7 +285,10 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
                         server.recordID == item.record.recordID
                     {
                         // A repeated revision is accepted only after its payload is verified.
-                        try await retain(server, vault: vault)
+                        let complete = try await fetchConflictRecord(server.recordID)
+                        try check()
+                        try await retain(complete, vault: vault)
+                        verifiedConflicts.insert(server.recordID)
                         syncEngine.state.remove(pendingRecordZoneChanges: [.saveRecord(server.recordID)])
                     } else {
                         failure = item.error.localizedDescription
@@ -311,6 +340,33 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
         try await markConfirmed(id, vault: vault)
     }
 
+    private func fetchConflictRecord(_ id: CKRecord.ID) async throws -> CKRecord {
+        try check()
+        let operation = CKFetchRecordsOperation(recordIDs: [id])
+        operation.desiredKeys = ["audioSHA256", "payload"]
+        operation.configuration.qualityOfService = .background
+        operation.configuration.timeoutIntervalForRequest = 20
+        operation.configuration.timeoutIntervalForResource = 40
+        let result = CloudConflictFetchResult()
+        conflictFetch = operation
+        defer { conflictFetch = nil }
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                operation.perRecordResultBlock = { _, value in result.set(value) }
+                operation.fetchRecordsResultBlock = { completion in
+                    switch completion {
+                    case .failure(let error): continuation.resume(throwing: error)
+                    case .success:
+                        continuation.resume(with: result.get() ?? .failure(
+                            CoreError.invalidWorkspace("The cloud revision was not returned. Saved preparation is retained.")))
+                    }
+                }
+                CKContainer(identifier: Self.containerID).privateCloudDatabase.add(operation)
+            }
+        } onCancel: { operation.cancel() }
+    }
+
     private func markConfirmed(_ id: String, vault: CloudPreparationVault) async throws {
         guard id.count == 64, id.allSatisfy({ $0.isHexDigit }) else {
             throw CoreError.invalidWorkspace("The cloud revision identifier is invalid.")
@@ -322,4 +378,11 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
         }.get()
         confirmed.insert(id)
     }
+}
+
+private final class CloudConflictFetchResult: @unchecked Sendable {
+    private let lock = NSLock()
+    private var value: Swift.Result<CKRecord, Error>?
+    func set(_ value: Swift.Result<CKRecord, Error>) { lock.withLock { self.value = value } }
+    func get() -> Swift.Result<CKRecord, Error>? { lock.withLock { value } }
 }
