@@ -25,6 +25,11 @@ extension ReplicaModel {
     }
 
     func adoptAutomaticCloudResults(_ result: CloudPreparationSync.Result) async throws {
+        let started = Date()
+        var applied = 0
+        defer {
+            logAnalysis("Cloud adoption: \(applied) results applied in \(Date().timeIntervalSince(started)) seconds; \(automaticCloudRead.count) revisions checked.")
+        }
         if automaticCloudAccount != result.root {
             automaticCloudAccount = result.root
             automaticCloudRead.removeAll()
@@ -84,6 +89,7 @@ extension ReplicaModel {
                             try await service.adoptDeepAnalysis(
                                 deep, trackID: local.id,
                                 protectedTracks: Set(loaded.values)))
+                        applied += 1
                     }
                 }
                 try Task.checkCancellation()

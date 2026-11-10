@@ -27,6 +27,7 @@ extension ReplicaModel {
         cloudBusy = true
         cloudSyncIsAutomatic = automatic
         cloudStatus = "Preparing local revisions…"
+        logAnalysis("Cloud sync started. Automatic: \(automatic).")
         if !automatic { cancelNativeMusicAnalysis() }
         cloudTask = Task {
             let timeout = Task { [weak self, cloudSync] in
@@ -54,7 +55,10 @@ extension ReplicaModel {
                     store: store, tracks: library.tracks,
                     performance: performance, automatic: automatic,
                     retainedResults: { [self] in try await adoptAutomaticCloudResults($0) }
-                ) { [self] message in self.cloudStatus = message }
+                ) { [self] message in
+                    self.cloudStatus = message
+                    self.logAnalysis("Cloud sync: \(message)")
+                }
                 if !automatic {
                     let shared = try await cloudSync.synchronize(
                         store: store, tracks: library.tracks,
@@ -68,13 +72,16 @@ extension ReplicaModel {
                 try Task.checkCancellation()
                 try await adoptAutomaticCloudResults(result)
                 cloudStatus = result.message
+                logAnalysis("Cloud sync finished: \(result.message)")
                 automaticCloudRetryAt = Date().addingTimeInterval(60)
                 if !automatic { await loadCloudVersions() }
             } catch is CancellationError {
                 automaticCloudRetryAt = Date().addingTimeInterval(30)
                 cloudStatus = "Sync paused. Saved analysis will retry while the decks are idle."
+                logAnalysis("Cloud sync cancelled at: \(cloudStatus)")
             } catch {
                 cloudStatus = "Sync did not finish. Local preparation is retained. \(error.localizedDescription)"
+                logAnalysis("Cloud sync failed: \((error as NSError).domain) \((error as NSError).code); \(error.localizedDescription)")
                 automaticCloudRetryAt = Date().addingTimeInterval(300)
                 if !automatic { await loadCloudVersions() }
             }
