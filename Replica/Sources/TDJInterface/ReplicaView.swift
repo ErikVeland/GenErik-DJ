@@ -19,6 +19,15 @@ private let surface = PerformancePalette.panel
     @State private var audioSettingsPresented = false
     @State private var deckAPanels = DeckPanelPresentation()
     @State private var deckBPanels = DeckPanelPresentation()
+    @State private var deckCPanels = DeckPanelPresentation()
+    @State private var deckDPanels = DeckPanelPresentation()
+    @State private var upperDeck = DeckID.a
+    @State private var lowerDeck = DeckID.b
+    @State private var waveformContacts: Set<DeckID> = []
+    @AppStorage(FourDeckTrial.preferenceKey) private var fourDeckTrial = false
+    private var fourDecks: Bool { fourDeckTrial && FourDeckTrial.isAvailable }
+    private var upper: DeckID { fourDecks ? upperDeck : .a }
+    private var lower: DeckID { fourDecks ? lowerDeck : .b }
     @State private var libraryPanel = LibraryPanelState()
     @State private var deckSplit = DeckSplitState()
     @State private var touchInterruption = UUID()
@@ -96,6 +105,35 @@ private let surface = PerformancePalette.panel
         return nil
     }
 
+    private func updateWaveformContact(_ deck: DeckID, active: Bool) {
+        if active { waveformContacts.insert(deck) } else { waveformContacts.remove(deck) }
+    }
+
+    private func deckSelector(upper isUpper: Bool) -> some View {
+        let shown = isUpper ? upper : lower
+        let decks: [DeckID] = isUpper ? [.a, .c] : [.b, .d]
+        return HStack(spacing: 0) {
+            ForEach(decks, id: \.self) { deck in
+                let playing = model.controlDisplay[deck].phase.active
+                Button {
+                    guard !waveformContacts.contains(shown), !model.previewing.contains(shown),
+                        model.playbackSnapshot?[shown].touchActive != true
+                    else { return }
+                    if isUpper { upperDeck = deck } else { lowerDeck = deck }
+                } label: {
+                    VStack(spacing: 1) {
+                        Text(deck.rawValue.uppercased()).font(.system(size: 14, weight: .bold))
+                        Circle().fill(playing ? PerformancePalette.syncGreen : Color.clear).frame(width: 4, height: 4)
+                    }.frame(width: 44, height: 44).foregroundStyle(
+                        shown == deck ? PerformancePalette.cyan : PerformancePalette.secondaryText
+                    ).background(shown == deck ? PerformancePalette.sunken : Color.clear).contentShape(Rectangle())
+                }.accessibilityLabel("Show deck \(deck.rawValue.uppercased())")
+                    .accessibilityValue(playing ? "Playing" : "")
+                    .accessibilityAddTraits(shown == deck ? .isSelected : [])
+            }
+        }
+    }
+
     private func performanceSurface(presentation: BrowserPresentation, innerPortrait: Bool) -> some View {
         VStack(spacing: 0) {
             PerformanceToolbar(
@@ -120,13 +158,14 @@ private let surface = PerformancePalette.panel
                         VStack(alignment: .leading, spacing: 0) {
                             VStack(spacing: 0) {
                                 DeckView(
-                                    model: model, deck: .a, panels: deckAPanels,
+                                    model: model, deck: upper, panels: upper == .a ? deckAPanels : deckCPanels,
                                     snapshotEffects: snapshotEffectsDeck == .a,
                                     snapshotMixer: snapshotMixerDecks.contains(.a),
                                     snapshotFilter: snapshotFilterDecks.contains(.a),
                                     isFocused: innerPortrait && deckSplit.focusedUpper,
                                     focus: innerPortrait ? { deckSplit.focus(upper: true) } : nil,
                                     openFullHeightSections: openFullHeightSections,
+                                    deckSelector: fourDecks ? AnyView(deckSelector(upper: true)) : nil,
                                     requestPerformanceSpace: { minimum in
                                         if model.browserVisible {
                                             libraryPanel.makeRoom(
@@ -142,7 +181,7 @@ private let surface = PerformancePalette.panel
                                             upper: true, minimum: minimum, height: available.deckArea.height,
                                             handleExtent: handleExtent)
                                     }
-                                ).frame(height: split.a.height).contentShape(Rectangle()).clipped()
+                                ).id(upper).frame(height: split.a.height).contentShape(Rectangle()).clipped()
                                 DeckSplitHandle(
                                     interruption: touchInterruption,
                                     aShare: split.a.height / max(1, split.a.height + split.b.height),
@@ -159,13 +198,14 @@ private let surface = PerformancePalette.panel
                                     }
                                 ).frame(height: split.handle.height).clipped()
                                 DeckView(
-                                    model: model, deck: .b, panels: deckBPanels,
+                                    model: model, deck: lower, panels: lower == .b ? deckBPanels : deckDPanels,
                                     snapshotEffects: snapshotEffectsDeck == .b,
                                     snapshotMixer: snapshotMixerDecks.contains(.b),
                                     snapshotFilter: snapshotFilterDecks.contains(.b),
                                     isFocused: innerPortrait && !deckSplit.focusedUpper,
                                     focus: innerPortrait ? { deckSplit.focus(upper: false) } : nil,
                                     openFullHeightSections: openFullHeightSections,
+                                    deckSelector: fourDecks ? AnyView(deckSelector(upper: false)) : nil,
                                     requestPerformanceSpace: { minimum in
                                         if model.browserVisible {
                                             libraryPanel.makeRoom(
@@ -181,7 +221,7 @@ private let surface = PerformancePalette.panel
                                             upper: false, minimum: minimum, height: available.deckArea.height,
                                             handleExtent: handleExtent)
                                     }
-                                ).frame(height: split.b.height).contentShape(Rectangle()).clipped()
+                                ).id(lower).frame(height: split.b.height).contentShape(Rectangle()).clipped()
                             }.padding(.horizontal, deckInset).frame(
                                 width: workspace.deckArea.width, height: workspace.deckArea.height)
                             HStack(spacing: 0) {
@@ -211,7 +251,7 @@ private let surface = PerformancePalette.panel
                             BrowserView(
                                 model: model, importAudio: { importPresented = true },
                                 linkCollection: { traktorImportPresented = true }
-                            ).frame(
+                            ).environment(\.loadDeckTargets, .init(upper: upper, lower: lower)).frame(
                                 width: workspace.libraryArea.width, height: workspace.libraryArea.height,
                                 alignment: .top
                             ).clipped().allowsHitTesting(libraryPanel.acceptsContentInput).disabled(
@@ -252,12 +292,14 @@ private let surface = PerformancePalette.panel
                                 }
                             }
                         PerformanceDock(
-                            model: model, panelsA: deckAPanels, panelsB: deckBPanels,
+                            model: model, panelsA: upper == .a ? deckAPanels : deckCPanels,
+                            panelsB: lower == .b ? deckBPanels : deckDPanels, deckA: upper, deckB: lower,
                             geometry: PerformanceDockGeometry(
                                 width: space.size.width, height: workspace.deckArea.height,
                                 deckBoundary: split.handle.midY, verticalInset: innerPortrait ? 8 : 0))
                     }.frame(width: space.size.width, height: space.size.height, alignment: .topLeading).environment(
-                        \.performancePanelPortrait, space.size.width < space.size.height)
+                        \.performancePanelPortrait, space.size.width < space.size.height
+                    ).environment(\.waveformContactChanged, fourDecks ? updateWaveformContact : nil)
                 }
             }
 
@@ -351,6 +393,7 @@ private struct DeckPanelHorizontalBounds: Shape {
     var isFocused = false
     var focus: (() -> Void)?
     var openFullHeightSections: ((DeckID, SectionEditIdentity) -> Void)?
+    var deckSelector: AnyView? = nil
     var requestPerformanceSpace: (Double) -> Void = { _ in }
     @Environment(\.performancePanelPortrait) private var portrait
     @State private var sectionPanel = SectionEditorPanelState()
@@ -445,6 +488,7 @@ private struct DeckPanelHorizontalBounds: Shape {
                 DeckHeader(
                     model: model, deck: deck, dense: true, showsArtwork: false, isFocused: isFocused, focus: focus
                 ).buttonStyle(.plain)
+                deckSelector
             }.frame(height: layout.headerHeight, alignment: .top).background(
                 DeckSectionHeader(model: model, deck: deck, visibleSeconds: zoom.wrappedValue, waveform: waveformAxis)
             ).clipped()
@@ -918,11 +962,29 @@ struct WaveformView: View, Equatable {
     }
 }
 
+struct LoadDeckTargets {
+    var upper = DeckID.a
+    var lower = DeckID.b
+
+    func deck(for direction: DeckID) -> DeckID { direction == .a ? upper : lower }
+}
+
+private struct LoadDeckTargetsKey: EnvironmentKey { static let defaultValue = LoadDeckTargets() }
+
+extension EnvironmentValues {
+    var loadDeckTargets: LoadDeckTargets {
+        get { self[LoadDeckTargetsKey.self] }
+        set { self[LoadDeckTargetsKey.self] = newValue }
+    }
+}
+
 @MainActor struct LoadSlider: View {
     var tall = false
     let load: (DeckID) -> Void
     @State private var gesture = LoadSliderGestureSession()
-    @State private var contactActive = false
+    @State private var contactTargets: LoadDeckTargets?
+    @Environment(\.loadDeckTargets) private var targets
+    private var displayedTargets: LoadDeckTargets { contactTargets ?? targets }
     @State private var contactGeometry = LoadSliderContactGeometry()
     @State private var ignoreUntilRelease = false
     @GestureState private var dragging = false
@@ -933,7 +995,7 @@ struct WaveformView: View, Equatable {
     private var maximumTravel: Double { tall ? TallLoadSliderMetrics.maximumTravel : 18 }
     var body: some View {
         VStack(spacing: 0) {
-            Text("A").font(.system(size: tall ? 28 : 9, weight: .heavy)).foregroundStyle(
+            Text(displayedTargets.upper.rawValue.uppercased()).font(.system(size: tall ? 28 : 9, weight: .heavy)).foregroundStyle(
                 gesture.armedDeck == .a ? PerformancePalette.cyan : Color(white: tall ? 0.45 : 0.88)
             ).frame(height: tall ? TallLoadSliderMetrics.labelHeight : nil)
             ZStack {
@@ -946,7 +1008,7 @@ struct WaveformView: View, Equatable {
                     height: tall ? TallLoadSliderMetrics.handleHeight : nil
                 ).bevelPanel(cornerRadius: 4).offset(y: gesture.offset)
             }.frame(height: tall ? TallLoadSliderMetrics.railHeight : nil)
-            Text("B").font(.system(size: tall ? 28 : 9, weight: .heavy)).foregroundStyle(
+            Text(displayedTargets.lower.rawValue.uppercased()).font(.system(size: tall ? 28 : 9, weight: .heavy)).foregroundStyle(
                 gesture.armedDeck == .b ? PerformancePalette.cyan : Color(white: tall ? 0.45 : 0.88)
             ).frame(height: tall ? TallLoadSliderMetrics.labelHeight : nil)
         }.frame(width: tall ? 96 : 64, height: tall ? TallLoadSliderMetrics.height : 56).padding(tall ? 4 : 0)
@@ -958,19 +1020,21 @@ struct WaveformView: View, Equatable {
                             active = true
                         }.onChanged { value in
                             guard !ignoreUntilRelease else { return }
-                            if !contactActive {
+                            if contactTargets == nil {
                                 guard panelPresented, acceptsNewContacts,
                                     contactGeometry.begin(frame: geometry.frame(in: .global))
                                 else {
                                     ignoreUntilRelease = true
                                     return
                                 }
-                                contactActive = true
+                                contactTargets = targets
                                 handle(.began, at: value.startLocation)
                             }
                             handle(.moved, at: value.location)
                         }.onEnded { value in
-                            if !ignoreUntilRelease, contactActive, panelPresented { handle(.ended, at: value.location) }
+                            if !ignoreUntilRelease, contactTargets != nil, panelPresented {
+                                handle(.ended, at: value.location)
+                            }
                             cancelContact(untilRelease: false)
                         })
                 }
@@ -978,20 +1042,22 @@ struct WaveformView: View, Equatable {
                 of: panelPresented
             ) { _, presented in if !presented { cancelContact() } }.onChange(of: touchInterruption) { _, _ in
                 cancelContact()
-            }.accessibilityLabel("Load track. Drag up for deck A or down for deck B.").accessibilityAction(
-                named: "Load deck A"
-            ) { if panelPresented && acceptsNewContacts { load(.a) } }.accessibilityAction(named: "Load deck B") {
-                if panelPresented && acceptsNewContacts { load(.b) }
+            }.accessibilityLabel(
+                "Load track. Drag up for deck \(targets.upper.rawValue.uppercased()) or down for deck \(targets.lower.rawValue.uppercased())."
+            ).accessibilityAction(named: "Load deck \(targets.upper.rawValue.uppercased())") {
+                if panelPresented && acceptsNewContacts { load(targets.upper) }
+            }.accessibilityAction(named: "Load deck \(targets.lower.rawValue.uppercased())") {
+                if panelPresented && acceptsNewContacts { load(targets.lower) }
             }.onDisappear { cancelContact() }
     }
     private func cancelContact(untilRelease: Bool = true) {
-        contactActive = false
+        contactTargets = nil
         contactGeometry.cancel()
         gesture = LoadSliderGestureSession()
         ignoreUntilRelease = untilRelease && dragging
     }
     private func handle(_ phase: SurfaceEvent.Phase, at point: CGPoint) {
-        guard contactActive, let mapped = contactGeometry.point(at: point) else { return }
+        guard let contactTargets, let mapped = contactGeometry.point(at: point) else { return }
         let event = SurfaceEvent(phase: phase, points: [mapped], ending: phase == .ended ? [1] : [])
         let deck = gesture.handle(
             event, height: contactGeometry.height, maximumTravel: maximumTravel, edgeTapThreshold: tall ? 0.22 : nil,
@@ -1001,7 +1067,7 @@ struct WaveformView: View, Equatable {
                 gesture = LoadSliderGestureSession()
             }
         }
-        if let deck { load(deck) }
+        if let deck { load(contactTargets.deck(for: deck)) }
     }
 
 }

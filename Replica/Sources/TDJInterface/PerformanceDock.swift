@@ -5,6 +5,8 @@ import TDJCore
     @Bindable var model: ReplicaModel
     let panelsA: DeckPanelPresentation
     let panelsB: DeckPanelPresentation
+    var deckA = DeckID.a
+    var deckB = DeckID.b
     let geometry: PerformanceDockGeometry
     @Environment(\.displayScale) private var displayScale
     private var grouped: Bool { geometry.verticalInset > 0 }
@@ -12,12 +14,12 @@ import TDJCore
     var body: some View {
         ScrollView(.vertical) {
             ZStack(alignment: .topLeading) {
-                stack(deck: .a, panels: panelsA, buttons: geometry.aButtons)
+                stack(deck: deckA, panels: panelsA, buttons: geometry.aButtons)
                 CrossfaderView(
                     model: model, width: geometry.crossfader.width, showsDeckLabels: false, verticalPadding: 0
                 ).frame(height: geometry.crossfader.height).position(
                     x: localX(geometry.crossfader), y: geometry.crossfader.midY)
-                stack(deck: .b, panels: panelsB, buttons: geometry.bButtons)
+                stack(deck: deckB, panels: panelsB, buttons: geometry.bButtons)
             }.frame(width: PerformanceDockGeometry.dockWidth, height: geometry.contentHeight).overlay {
                 if grouped { panelBorders.allowsHitTesting(false).accessibilityHidden(true) }
             }

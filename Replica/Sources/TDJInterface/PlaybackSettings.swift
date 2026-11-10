@@ -1,5 +1,8 @@
 import SwiftUI
 import TDJCore
+#if os(iOS)
+    import UIKit
+#endif
 
 /// Playback choices visible in the saved S21/S30 reference screens.
 struct PlaybackSettings: View {
@@ -10,6 +13,7 @@ struct PlaybackSettings: View {
         copy.showsPlayback = false
         return copy
     }
+    @AppStorage(FourDeckTrial.preferenceKey) private var fourDecks = false
     @AppStorage(DeckToolSettings.sectionWaveformColours) private var sectionWaveformColours = true
     @AppStorage(DeckToolSettings.beatJump) private var beatJump = false
     @AppStorage(DeckToolSettings.tempoFader) private var tempoFader = false
@@ -29,6 +33,10 @@ struct PlaybackSettings: View {
                 }
                 Toggle("Slicer Quantize", isOn: preference(\.slicerQuantize))
                 Toggle("Freeze on Load", isOn: preference(\.freezeOnLoad))
+                if FourDeckTrial.isAvailable {
+                    Toggle("Four decks (test)", isOn: $fourDecks)
+                        .disabled(fourDecks && [.c, .d].contains { model.playbackSnapshot?[$0].phase.active == true })
+                }
                 RecoverySettingsView(model: model)
                 Divider()
                 Text("Extra deck controls").font(.headline)
@@ -83,4 +91,16 @@ enum DeckToolSettings {
     static let headphoneButton = "deckTools.headphoneButton"
     static let vinylStop = "deckTools.vinylStop"
     static let vinylStopDuration = "deckTools.vinylStopDuration"
+}
+
+enum FourDeckTrial {
+    static let preferenceKey = "playback.fourDeckTrial"
+    static var isAvailable: Bool {
+        #if os(iOS)
+            UIDevice.current.userInterfaceIdiom == .pad
+                && Bundle.main.object(forInfoDictionaryKey: "GenErikFourDeckTrial") as? String == "YES"
+        #else
+            false
+        #endif
+    }
 }

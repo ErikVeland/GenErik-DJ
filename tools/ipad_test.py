@@ -92,12 +92,15 @@ def build(config, notes):
                  "-jobs", "2", f"PRODUCT_BUNDLE_IDENTIFIER={BUNDLE}",
                  f"CURRENT_PROJECT_VERSION={number}", f"DEVELOPMENT_TEAM={config['team']}",
                  "CODE_SIGN_STYLE=Automatic", "INFOPLIST_KEY_CFBundleDisplayName=GenErik DJ",
+                 f"GENERIK_FOUR_DECK_TRIAL={'YES' if config.get('four_deck_trial') else 'NO'}",
                  "TARGETED_DEVICE_FAMILY=1,2", "build"], stdout=output, stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError:
             print(f"Build failed. See {log}", flush=True)
             raise
     if before != source_identity() or int(info(app)["CFBundleVersion"]) != number:
         raise ValueError("Source or build identity changed. Installation stopped.")
+    if (info(app).get("GenErikFourDeckTrial") == "YES") != bool(config.get("four_deck_trial")):
+        raise ValueError("The signed app does not match the requested four-deck trial setting.")
     frameworks = verify_embedded_frameworks(app)
     print(f"Runtime search paths resolve {frameworks} embedded framework(s).", flush=True)
     run(["codesign", "--verify", "--deep", "--strict", str(app)])
@@ -254,12 +257,15 @@ def export_testflight(config, number, upload=False):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=["run", "build", "deploy", "testflight", "export", "upload"])
+    parser.add_argument("--four-deck-trial", action="store_true", help="Expose the four-deck opt-in on iPad")
     parser.add_argument("--notes", default="Incremental iPad test build")
     parser.add_argument("--number", type=int, help="Saved build to install, including rollback")
     parser.add_argument("--device", help="Override the saved test iPad device ID")
     parser.add_argument("--team", help="Override the saved signing team")
     parser.add_argument("--install-timeout", type=int, default=20, help="Installation limit in seconds")
     args = parser.parse_args()
+    if args.four_deck_trial and args.action not in {"run", "build"}:
+        parser.error("--four-deck-trial requires run or build.")
     if args.install_timeout < 1:
         parser.error("The installation limit must be at least one second.")
     if args.action in {"deploy", "export", "upload"} and args.number is None:
@@ -273,6 +279,7 @@ def main():
         config_path = LOCAL / "config.json"
         config = json.loads(config_path.read_text()) if config_path.exists() else {}
         config["install_timeout"] = args.install_timeout
+        config["four_deck_trial"] = args.four_deck_trial
         for key in ["device", "team"]:
             if getattr(args, key):
                 config[key] = getattr(args, key)

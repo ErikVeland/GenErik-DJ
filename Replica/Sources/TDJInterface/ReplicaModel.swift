@@ -608,8 +608,7 @@ import TDJCore
         didSet { loadedTrackCache.removeAll(keepingCapacity: true) }
     }
     @ObservationIgnored private var committedPreparations: [DeckID: LoadPreparation] = [:]
-    private var waveformZoomA: (loadID: UUID, seconds: Double)?
-    private var waveformZoomB: (loadID: UUID, seconds: Double)?
+    private var waveformZoom: [DeckID: (loadID: UUID, seconds: Double)] = [:]
     private var playbackMonitor: Task<Void, Never>?
     private var pendingLoadPlay: [DeckID: UUID] = [:]
     public var playWhenReady: Set<DeckID> { Set(pendingLoadPlay.keys) }
@@ -692,7 +691,7 @@ import TDJCore
     }
 
     func waveformZoomSeconds(deck: DeckID) -> Double {
-        let zoom = deck == .a ? waveformZoomA : waveformZoomB
+        let zoom = waveformZoom[deck]
         guard pendingNativeSelection[deck] == nil, let zoom, zoom.loadID == loadIdentity(deck) else {
             return WaveformLayers.defaultSeconds(bpm: nil)
         }
@@ -701,7 +700,7 @@ import TDJCore
 
     func setWaveformZoomSeconds(_ seconds: Double, deck: DeckID, loadID: UUID?) {
         guard let loadID, loadID == loadIdentity(deck), pendingNativeSelection[deck] == nil else { return }
-        if deck == .a { waveformZoomA = (loadID, seconds) } else { waveformZoomB = (loadID, seconds) }
+        waveformZoom[deck] = (loadID, seconds)
     }
 
     /// Runs at every launch and activation. Reads the collection, never writes to its source, and

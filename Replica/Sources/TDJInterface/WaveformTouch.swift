@@ -1,6 +1,17 @@
 import SwiftUI
 import TDJCore
 
+private struct WaveformContactChangedKey: EnvironmentKey {
+    static let defaultValue: (@MainActor (DeckID, Bool) -> Void)? = nil
+}
+
+extension EnvironmentValues {
+    var waveformContactChanged: (@MainActor (DeckID, Bool) -> Void)? {
+        get { self[WaveformContactChangedKey.self] }
+        set { self[WaveformContactChangedKey.self] = newValue }
+    }
+}
+
 /// Contact arbitration is shared by the waveform, grid editor and slicer.
 /// Thresholds and quantisation choices are development policies, not NI measurements.
 struct WaveformTouch: View {
@@ -9,15 +20,29 @@ struct WaveformTouch: View {
     let span: Double
     var onZoom: (Double) -> Void = { _ in }
     @State private var session = WaveformGestureSession()
+    @Environment(\.waveformContactChanged) private var contactChanged
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.touchSurfaceInputGate) private var inputGate
     var body: some View {
         let _ = session.inputGate = inputGate
         TouchSurface(geometryPolicy: .retainContactSpace) {
             session.handle($0, model: model, deck: deck, span: span, onZoom: onZoom)
+            guard let contactChanged else { return }
+            switch $0.phase {
+            case .began: contactChanged(deck, true)
+            case .ended: if $0.remaining.isEmpty { contactChanged(deck, false) }
+            case .cancelled: contactChanged(deck, false)
+            case .moved: break
+            }
         }.accessibilityLabel("Deck \(deck.rawValue) waveform").onDisappear {
             session.stopMotion(model: model, deck: deck)
-        }.onChange(of: scenePhase) { _, phase in if phase != .active { session.stopMotion(model: model, deck: deck) } }
+            contactChanged?(deck, false)
+        }.onChange(of: scenePhase) { _, phase in
+            if phase != .active {
+                session.stopMotion(model: model, deck: deck)
+                contactChanged?(deck, false)
+            }
+        }
     }
 }
 
