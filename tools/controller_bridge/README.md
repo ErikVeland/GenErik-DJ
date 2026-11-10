@@ -134,3 +134,23 @@ sudo python3 tools/controller_bridge/traktor_modular_bridge.py x1-mk3 --hidraw /
 7. For the Z1 Mk2, check master on outputs 1–2 and headphones on outputs 3–4.
 
 Run one relay per gadget. The Z1 Mk2 uses the same `alsaloop` requirements as the S4 Mk3. The X1 Mk3 requires MIDI only. Physical enumeration, audio latency and lighting remain unverified. [Z1 Mk2 HID reports](https://github.com/infifox/mixxx-traktor-controllers/blob/a9e8f8ea8adbed29c4d86d224049990ec8ba21ca/doc/TraktorZ1MK2.spec.md) · [X1 Mk3 HID reports](https://github.com/infifox/mixxx-traktor-controllers/blob/36dc56869f3ad681e9b12f10f3dd15d0c4d540e6/doc/TraktorX1MK3.spec.md)
+
+## S2 Mk1 bridge
+
+The S2 Mk1 bridge carries native HID reports and four-channel audio. GenErik DJ detects the named bridge and selects master 1–2 and headphones 3–4.
+
+1. Follow the [board and audio setup](#configure-the-bridge).
+2. Use `--traktor s2-mk1` in place of `--s4-mk3` when you create the gadget.
+3. Find the S2 Mk1 HID interface 03 for USB device `17cc:1101`.
+4. Start the relay with the S2 Mk1 HID node and the gadget's raw MIDI node.
+
+```sh
+python3 tools/controller_bridge/traktor_modular_bridge.py s2-mk1 \
+  --hidraw /dev/hidrawN --midi /dev/snd/midiCND0 \
+  --audio-in hw:CARD=UAC2Gadget,DEV=0
+```
+
+5. Check the Controllers connection report in GenErik DJ.
+6. Check that master and headphones play separate signals.
+
+The relay finds the controller's ALSA playback device. It reads the controller's stored calibration before it sends the initial control state. If the pressure calibration is missing, rim nudge remains available and scratch stays off. The Mk1 mixes its microphone in hardware. [HID reports](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Traktor-Kontrol-S2-MK1-hid-scripts.js) · [Audio routing](https://manual.mixxx.org/2.5/en/hardware/controllers/native_instruments_traktor_kontrol_s2_mk1.html#audio-routing)

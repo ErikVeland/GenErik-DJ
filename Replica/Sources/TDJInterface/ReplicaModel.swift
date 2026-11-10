@@ -339,6 +339,10 @@ import TDJCore
         private var z1Connection: Z1HIDConnection?
     #elseif os(iOS)
         private var z1Connection: NIControllerAccessoryConnection?
+        @ObservationIgnored var s2MK1Bridge: TraktorHIDBridgeConnection?
+        var s2MK1Receiving = false
+        @ObservationIgnored var s2MK1Controls = S2MK1Controls()
+        @ObservationIgnored var s2MK1Performance = S4MK2Performance(sliceCount: 4)
         var s2MK2Connection: NIControllerAccessoryConnection?
         var s2MK2Status = "Waiting for S2 Mk2."
         @ObservationIgnored var s2MK2Controls = S2MK2Controls()
@@ -1056,6 +1060,9 @@ import TDJCore
                         self.committedTrackIDs[deck] = trackID
                         self.trackLoadFailures[deck] = nil
                         #if os(iOS)
+                            if deck.transportIndex < 2, self.s2MK1Bridge?.isReceiving == true {
+                                self.primeS4Mixer(deck, stateKey: \.s2MK1Performance)
+                            }
                             if deck.transportIndex >= 2 {
                                 if self.s4MK3Bridge?.isReceiving == true {
                                     self.primeS4Mixer(deck, stateKey: \.s4MK3Performance)
@@ -1598,6 +1605,7 @@ import TDJCore
                 toggleZ1()
             }
             if !playback.offline {
+                startS2MK1Bridge()
                 startS2MK2()
                 startS2MK3()
                 startS3()
@@ -1613,6 +1621,7 @@ import TDJCore
                 #endif
                 self?.refreshPlayback()
                 #if os(iOS)
+                    self?.maintainS2MK1Bridge()
                     self?.maintainS2Extras()
                     self?.maintainS2MK2Mic()
                     self?.refreshS2MK2Lights()
@@ -1640,6 +1649,9 @@ import TDJCore
             z1Enabled = false
         #endif
         #if os(iOS)
+            s2MK1Bridge?.stop()
+            s2MK1Bridge = nil
+            s2MK1Receiving = false
             s2MK2Connection?.stop()
             s2MK2Connection = nil
             s2Connection?.stop()

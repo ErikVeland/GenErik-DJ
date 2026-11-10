@@ -361,6 +361,7 @@ struct ControllerSettingsView: View {
             lines.append(model.s4MK3BridgeStatus)
             lines.append(model.z1MK2Receiving ? "Z1 Mk2 bridge connected." : "Waiting for the Z1 Mk2 bridge.")
             lines.append(model.x1MK3Receiving ? "X1 Mk3 bridge connected." : "Waiting for the X1 Mk3 bridge.")
+            lines.append(model.s2MK1Receiving ? "S2 Mk1 bridge connected." : "Waiting for the S2 Mk1 bridge.")
             lines.append(model.s2MK2Status)
         #endif
         return lines + connections
