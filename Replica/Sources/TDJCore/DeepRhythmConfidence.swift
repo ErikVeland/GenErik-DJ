@@ -10,7 +10,7 @@ public struct DeepRhythmConfidence: Codable, Equatable, Sendable {
 
 extension DeepBeatAnalysis {
     public var rhythmConfidence: DeepRhythmConfidence? {
-        guard profile == .current, profile.decisionPolicy == 9, adaptiveCandidate != nil,
+        guard profile == .current, (9...10).contains(profile.decisionPolicy), adaptiveCandidate != nil,
             audio.sampleRate > 0, (20...35).contains(Double(audio.frameCount) / audio.sampleRate) else { return nil }
         // Frozen R118 development bins. Longer tracks have no calibrated estimate.
         return hasStrongEvidence

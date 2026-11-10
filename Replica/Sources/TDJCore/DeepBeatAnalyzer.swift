@@ -128,7 +128,8 @@ enum DeepBeatAnalyzer {
         let constantCandidate = grid.map(DeepBeatCandidate.init)
         // Development references measured an 8 ms early bias. Keep this correction in review evidence only.
         let adaptive = try DeepAdaptiveBeatCandidate.fit(
-            beats: beatTimes.map { $0 + 0.008 }, bars: BeatThisAnalyzer.peaks(downbeats).map { $0 + 0.008 },
+            beats: DeepRhythmTiming.refinedPeaks(beats).map { $0 + 0.008 },
+            bars: DeepRhythmTiming.refinedPeaks(downbeats).map { $0 + 0.008 },
             sampleRate: checkpoints.analysis.sampleRate, frameCount: checkpoints.analysis.frameCount,
             checkCancellation: checkCancellation)
         let result = DeepBeatAnalysis(
@@ -139,7 +140,10 @@ enum DeepBeatAnalyzer {
                 ? try BeatThisTempo.preferred(
                     beats: beatTimes, configuration: .init(), checkCancellation: checkCancellation)
                 : nil,
-            adaptiveCandidate: adaptive, learnedKey: try analyzeKey())
+            adaptiveCandidate: adaptive, learnedKey: try analyzeKey(),
+            rhythmEvidence: try DeepRhythmEvidence.measure(
+                beats: beats, bars: downbeats, times: beatTimes, constant: constantCandidate,
+                adaptive: adaptive, checkCancellation: checkCancellation))
         try checkCancellation()
         try checkpoints.finish(result)
         return result

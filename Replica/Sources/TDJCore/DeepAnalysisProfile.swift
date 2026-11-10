@@ -29,11 +29,11 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public var keyModelVersion: String? = nil
 
     public static let current = Self(
-        generation: 9, model: "BeatThis/final0",
+        generation: 10, model: "BeatThis/final0",
         weightsSHA256:
             "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331",
-        conversion: 1, preprocessing: 1, decisionPolicy: 9,
-        upgradeBenefit: "Add licensed learned keys and calibrated rhythm review evidence.",
+        conversion: 1, preprocessing: 1, decisionPolicy: 10,
+        upgradeBenefit: "Refine review timing and retain rhythm reliability evidence.",
         keyModelVersion: LearnedKeyProfile.current.id)
 
     public var inferenceID: String {
@@ -96,6 +96,7 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
     public var tempoCandidateBPM: Double? = nil
     public var adaptiveCandidate: DeepAdaptiveBeatCandidate? = nil
     public var learnedKey: LearnedKeyAnalysis? = nil
+    public var rhythmEvidence: DeepRhythmEvidence? = nil
 
     public var needsReview: Bool { adaptiveCandidate != nil || candidate == nil || !hasStrongEvidence }
     public func needsReview(for track: Track) -> Bool {
@@ -105,6 +106,7 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
     var hasStrongEvidence: Bool { candidate?.hasStrongEvidence == true }
 
     public func validate(matching analysis: AudioAnalysis) throws {
+        try rhythmEvidence?.validate()
         guard audio == AnalysisAudioIdentity(analysis), coveredFrames == audio.frameCount,
             audio.sampleRate.isFinite, audio.sampleRate > 0, audio.frameCount > 0, audio.channels > 0,
             BeatThisWindows.frameCount(analysis) > 0,
