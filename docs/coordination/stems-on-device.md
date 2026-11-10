@@ -36,3 +36,16 @@ The local model repository is in `Replica/Sources/TDJInterface/StemModelReposito
 6. Retain the original track as the fallback when separation fails or the cache does not match.
 
 The project cannot close the model or performance gates without the model artefact and target-device evidence. No stem-separation claim is made until those checks pass.
+
+## R150 live two-stem experiment
+
+R150 adds a separate test with Deezer's two-stem Spleeter model. The bundled conversion comes from [Ark Tech revision b1ae6a0](https://huggingface.co/ark-tech/spleeter-2stems-coreml/tree/b1ae6a0b706d2843d658a800852471eb3810c852). Its weight SHA-256 is `f511e2c558185481ff847e2f2bc34aee38a29af0ef73140eb4dced5c18192d6a`. Its model metadata targets iOS 17. The published build still needs a physical iPad check.
+
+1. Load two local songs. Choose a 44.1 kHz song with a clear vocal for the test deck.
+2. Play both decks. Check audio and touch in **Mix**.
+3. Tap **Vocal** on one deck. Wait for the first separated chunk.
+4. Switch between **Mix**, **Vocal** and **Inst** while moving the waveform or crossfader.
+5. Listen for dropouts, vocal bleed, hollow backing and changes in stereo position.
+6. Check touch response as the iPad warms up. Note the build number and any faults.
+
+The worker separates up to 90 seconds on one deck per launch. It reads a separate copy of the audio source. The renderer reads completed frames at the existing deck position. Outside that range, it plays the original mix. The worker stops if a deck stops or the iPad reaches a serious thermal state. The test logs chunk times and changes in audio callback counts. Relaunch to test another deck or track.

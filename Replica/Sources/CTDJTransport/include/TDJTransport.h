@@ -173,6 +173,11 @@ typedef struct {
     tdj_deck_snapshot a, b, c, d;
 } tdj_snapshot;
 
+bool tdj_live_vocal_begin(tdj_engine *, unsigned deck, uint64_t generation, uint64_t first, uint64_t capacity);
+bool tdj_live_vocal_append(tdj_engine *, const float *samples, uint64_t frames);
+void tdj_live_vocal_mode(tdj_engine *, int mode);
+bool tdj_asset_read_resident(const tdj_asset *, uint64_t first, uint32_t frames, float *stereo);
+
 tdj_asset *tdj_asset_create(const float *interleaved_stereo, uint64_t frames, double sample_rate);
 // Map and prepare the first read of its pages on the loader, never the audio callback.
 tdj_asset *tdj_asset_map(const char *path, uint64_t frames, double sample_rate);

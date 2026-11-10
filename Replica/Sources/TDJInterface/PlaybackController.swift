@@ -2,6 +2,9 @@ import AVFoundation
 import CTDJAudioSource
 import Foundation
 import TDJCore
+#if os(iOS)
+    import UIKit
+#endif
 
 public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster, masterAndHeadphones }
 
@@ -243,8 +246,13 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     public init(
         offline: Bool = false, sampleRate: Double = 48000, validationMode: Bool = false, streamingPlayback: Bool? = nil
     ) throws {
+        #if os(iOS)
+            let measureLiveStems = UIDevice.current.userInterfaceIdiom == .pad && !offline
+        #else
+            let measureLiveStems = false
+        #endif
         let metrics =
-            validationMode
+            validationMode || measureLiveStems
             ? try AudioCallbackMetrics(
                 sampleRate: sampleRate,
                 traceThreadCPU: ProcessInfo.processInfo.environment["TDJ_DIAGNOSE_AUDIO_CPU"] == "1") : nil

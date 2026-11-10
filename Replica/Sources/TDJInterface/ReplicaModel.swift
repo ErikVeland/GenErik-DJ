@@ -518,6 +518,7 @@ import TDJCore
         } catch { status = error.localizedDescription }
     }
     public let playback: PlaybackController
+    let liveStems = LiveStemExperiment()
     public let calibration: SuggestionCalibration?
     public let store: WorkspaceStore
     let service: LibraryService
