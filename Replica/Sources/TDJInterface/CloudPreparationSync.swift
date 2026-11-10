@@ -2,6 +2,23 @@ import CloudKit
 import Foundation
 import TDJCore
 
+struct CloudPreparationTransferLimits: Sendable {
+    let imports: Int
+    let uploads: Int?
+    let batch: Int
+
+    init(automatic: Bool, offlineLibrary: Bool) {
+        #if os(macOS)
+        let offline = automatic && offlineLibrary
+        #else
+        let offline = false
+        #endif
+        imports = offline ? 512 : 32
+        uploads = automatic ? imports : nil
+        batch = offline ? 32 : 1
+    }
+}
+
 /// Sync retains revisions in the signed-in user's private database.
 actor CloudPreparationSync: CKSyncEngineDelegate {
     nonisolated static func hasOnlyVerifiedConflicts(_ error: Error, ids: Set<CKRecord.ID>) -> Bool {
@@ -25,6 +42,7 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
     private var failure: String?
     private var confirmed: Set<String> = []
     private var uploadsRemaining: Int?
+    private var uploadBatchSize = 1
     private var engineStateFilename = "engine-state"
     private var verifiedConflicts: Set<CKRecord.ID> = []
     private var conflictFetch: CKFetchRecordsOperation?
@@ -43,12 +61,14 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
 
     func synchronize(
         store: WorkspaceStore, tracks: [Track], performance: PerformancePreparation, automatic: Bool = false,
-        incomingDirectories: [URL] = [], expectedAccount: String? = nil,
+        incomingDirectories: [URL] = [], expectedAccount: String? = nil, offlineLibrary: Bool = false,
         retainedResults: @escaping @MainActor @Sendable (Result) async throws -> Void,
         progress: @escaping @MainActor @Sendable (String) -> Void
     ) async throws -> Result {
         stopped = false
-        uploadsRemaining = automatic ? 32 : nil
+        let limits = CloudPreparationTransferLimits(automatic: automatic, offlineLibrary: offlineLibrary)
+        uploadsRemaining = limits.uploads
+        uploadBatchSize = limits.batch
         zoneID = .init(zoneName: automatic ? "AutomaticAnalysis" : "PreparationRevisions")
         engineStateFilename = automatic ? "automatic-engine-state" : "engine-state"
         failure = nil
@@ -136,7 +156,7 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
                             }
                             try storage.retain(data: Data(contentsOf: sourceVault.payloadURL(id)), expectedID: id)
                             retained += 1
-                            if retained >= 32 { return }
+                            if retained >= limits.imports { return }
                         }
                     }
                 }
@@ -221,19 +241,25 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
         -> CKSyncEngine.RecordZoneChangeBatch?
     {
         guard engine === syncEngine, !stopped, failure == nil, uploadsRemaining != 0, let vault else { return nil }
-        guard
-            let change = syncEngine.state.pendingRecordZoneChanges.first(where: { context.options.scope.contains($0) }),
-            case .saveRecord(let id) = change
-        else { return nil }
-        let result = await files.run { Swift.Result { try vault.read(id.recordName) } }
-        guard !stopped else { return nil }
+        let ids = syncEngine.state.pendingRecordZoneChanges.compactMap { change -> CKRecord.ID? in
+            guard context.options.scope.contains(change), case .saveRecord(let id) = change else { return nil }
+            return id
+        }.prefix(min(uploadBatchSize, uploadsRemaining ?? uploadBatchSize))
+        guard !ids.isEmpty else { return nil }
+        let result = await files.run { Swift.Result {
+            try ids.map { id in (id, try vault.read(id.recordName).track.analysis.contentSHA256) }
+        } }
+        guard !stopped, !Task.isCancelled else { return nil }
         switch result {
-        case .success(let archive):
-            let record = CKRecord(recordType: "PreparationRevision", recordID: id)
-            record["audioSHA256"] = archive.track.analysis.contentSHA256
-            record["payload"] = CKAsset(fileURL: vault.payloadURL(id.recordName))
-            if uploadsRemaining != nil { uploadsRemaining! -= 1 }
-            return .init(recordsToSave: [record], atomicByZone: false)
+        case .success(let entries):
+            let records = entries.map { id, hash in
+                let record = CKRecord(recordType: "PreparationRevision", recordID: id)
+                record["audioSHA256"] = hash
+                record["payload"] = CKAsset(fileURL: vault.payloadURL(id.recordName))
+                return record
+            }
+            if uploadsRemaining != nil { uploadsRemaining! -= records.count }
+            return .init(recordsToSave: records, atomicByZone: false)
         case .failure(let error):
             failure = error.localizedDescription
             return nil

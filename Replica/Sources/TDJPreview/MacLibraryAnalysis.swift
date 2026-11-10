@@ -115,19 +115,26 @@ enum MacLibraryAnalysis {
                     guard freeBytes > decodedBytes + 5 * 1024 * 1024 * 1024 else {
                         throw CoreError.invalidWorkspace("The analysis volume has insufficient free space for this decoded track.")
                     }
-                    if FileManager.default.fileExists(atPath: audio.path) {
-                        try FileManager.default.removeItem(at: audio)
+                    // MP3 tail padding can vary. Every retry must match the saved full identity.
+                    let attempts = item.expected != nil && item.usePreparedAudio != true
+                        && URL(fileURLWithPath: path).pathExtension.lowercased() == "mp3" ? 3 : 1
+                    for _ in 0..<attempts {
+                        try Task.checkCancellation()
+                        if FileManager.default.fileExists(atPath: audio.path) {
+                            try FileManager.default.removeItem(at: audio)
+                        }
+                        if item.usePreparedAudio == true {
+                            try FileManager.default.copyItem(at: URL(fileURLWithPath: path), to: audio)
+                        } else {
+                            try await MusicLibraryAudio.decodeAsset(url: URL(fileURLWithPath: path), destination: audio)
+                        }
+                        let hash = try MacAnalysisAudit.digest(audio)
+                        result.audioSHA256 = hash
+                        if let expected = item.expected, hash != expected.analysis.contentSHA256 { continue }
+                        selected = path
+                        break
                     }
-                    if item.usePreparedAudio == true {
-                        try FileManager.default.copyItem(at: URL(fileURLWithPath: path), to: audio)
-                    } else {
-                        try await MusicLibraryAudio.decodeAsset(url: URL(fileURLWithPath: path), destination: audio)
-                    }
-                    let hash = try MacAnalysisAudit.digest(audio)
-                    result.audioSHA256 = hash
-                    if let expected = item.expected, hash != expected.analysis.contentSHA256 { continue }
-                    selected = path
-                    break
+                    if selected != nil { break }
                 }
                 guard let selected else {
                     throw CoreError.invalidAudio("No source matches the device audio identity. This result was not queued for sharing.")

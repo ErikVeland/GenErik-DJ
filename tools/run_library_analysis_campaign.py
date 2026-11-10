@@ -43,7 +43,8 @@ def summary(output):
     for path in (output / 'results').glob('*.json'):
         stamp = path.stat().st_mtime_ns
         if path not in _result_cache or _result_cache[path][0] != stamp:
-            _result_cache[path] = stamp, json.loads(path.read_text())
+            result = json.loads(path.read_text())
+            _result_cache[path] = stamp, {key: result[key] for key in ['id', 'revisionID', 'error'] if key in result}
         results.append(_result_cache[path][1])
     return dict(processed=len(results), complete=sum(bool(r.get('revisionID')) for r in results),
                 errors=[dict(id=r['id'], error=r['error']) for r in results if r.get('error')],
