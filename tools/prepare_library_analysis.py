@@ -52,10 +52,9 @@ def prepare(device, library, mac):
         if expected and (expected['analysis']['configurationID'].startswith('native-')
                          or expected.get('nativeSourceNeedsAnalysis') is True):
             expected = None
-        items.append(dict(id=identifier, title=item['title'], artist=item['artist'],
+        items.append(dict(id=identifier, title=item['title'], artist=item['artist'], duration=item['duration'],
                           paths=paths, expected=expected))
-    items.sort(key=lambda x: (x['expected']['analysis']['frameCount'] / x['expected']['analysis']['sampleRate']
-                             if x['expected'] else 0, x['id']))
+    items.sort(key=lambda x: (x['duration'], x['id']))
     if len({x['id'] for x in items}) != len(items):
         raise ValueError('The device inventory contains duplicate identifiers.')
     return dict(items=items)
