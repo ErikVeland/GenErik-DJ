@@ -47,7 +47,6 @@ struct FrontBrowserView: View {
     @State private var selecting = false
     @State private var selection = Set<String>()
     @State private var adding = false
-    @State private var settingsVisible = false
     @State private var playlistName = ""
     @State private var playlistError: String?
     private var playlistURL: URL { model.store.root.appendingPathComponent("collection-playlists.json") }
@@ -911,23 +910,5 @@ extension FrontBrowserView {
         return projection?.allEntries.first { $0.id == id }
     }
 
-    fileprivate var settingsPanel: some View {
-        HStack(alignment: .top, spacing: 0) {
-            VStack(alignment: .leading, spacing: 10) {
-                Text("Library").font(.headline).padding(.bottom, 4)
-                Button {
-                    Task { await model.openNativeMusicLibrary() }
-                } label: {
-                    Label("Refresh Music library", systemImage: "arrow.clockwise")
-                }.disabled(model.musicLibraryRefreshing || model.importing)
-                Button(action: importAudio) { Label("Import audio files", systemImage: "folder") }
-                Button(action: linkCollection) { Label("Link DJ collection file", systemImage: "link") }
-                Text("A linked collection is read at every launch and imported again when it changes.").font(.caption)
-                    .foregroundStyle(.secondary).frame(width: 260, alignment: .leading)
-                Spacer()
-            }.padding(24).frame(width: 320)
-            Divider()
-            ScrollView { PlaybackSettings(model: model).pickerStyle(.inline).padding(24) }
-        }.background(PerformancePalette.panel)
-    }
+
 }

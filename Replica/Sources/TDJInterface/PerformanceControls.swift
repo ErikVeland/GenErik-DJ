@@ -56,13 +56,7 @@ struct PerformanceControls: View {
         } label: {
             Image(systemName: "gearshape")
         }.popover(isPresented: $settings) {
-            VStack(alignment: .leading) {
-                PlaybackSettings(model: model)
-                Button("Gesture guide") {
-                    settings = false
-                    model.helpVisible = true
-                }
-            }.padding().frame(width: 300).onDisappear { model.savePerformance() }
+            DeckUtilitySettings(model: model, deck: deck)
         }
     }
     private func sectionsButton(_ open: @escaping () -> Void) -> some View {

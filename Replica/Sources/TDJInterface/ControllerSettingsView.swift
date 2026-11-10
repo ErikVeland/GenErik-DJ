@@ -59,7 +59,7 @@ struct ControllerSettingsView: View {
                     Button("Import Pattern Kits…") { importingPatternKits = true }
                 }
             #endif
-            DisclosureGroup("MIDI setup") {
+            DisclosureGroup("Custom MIDI setup") {
                 midiSettings.padding(.top, 8)
             }
         }
@@ -107,8 +107,8 @@ struct ControllerSettingsView: View {
     private func controllerLights(_ name: String) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(name).font(.subheadline.weight(.semibold))
-            Toggle("Pulse", isOn: lightBinding(name, \.pulse))
-            Toggle("Warning", isOn: lightBinding(name, \.warning))
+            Toggle("Beat pulse", isOn: lightBinding(name, \.pulse))
+            Toggle("Track-end warning", isOn: lightBinding(name, \.warning))
             if name == "Z1", !input.isZ1BridgeConnected {
                 Toggle("Direct connection", isOn: Binding(
                     get: { model.z1Enabled }, set: { if $0 != model.z1Enabled { model.toggleZ1() } }))
