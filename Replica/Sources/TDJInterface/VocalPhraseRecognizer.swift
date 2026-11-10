@@ -9,6 +9,15 @@ import whisper
 final class VocalInferenceCancellation: @unchecked Sendable {
     private let lock = NSLock()
     private var cancelled = false
+    private var progress: AnalysisWorkProgress.Step?
+
+    func setProgress(_ step: AnalysisWorkProgress.Step?) {
+        lock.withLock { progress = step }
+    }
+
+    func reportProgress(_ percent: Int32) {
+        lock.withLock { progress?.advance(Int64(percent), of: 100) }
+    }
     var isCancelled: Bool {
         lock.lock()
         defer { lock.unlock() }
@@ -43,7 +52,7 @@ enum VocalPhraseRecognizer {
         -> [VocalPhrase]
     {
         try cancellation.check()
-        let samples = try monoSamples(pcm: pcm, analysis: analysis, cancellation: cancellation)
+        let samples = try monoSamples(pcm: pcm, analysis: analysis, cancellation: cancellation, progressRange: 0.84...0.87)
         var contextParameters = whisper_context_default_params()
         contextParameters.use_gpu = false
         guard let context = whisper_init_from_file_with_params(model.path, contextParameters) else {
@@ -54,7 +63,7 @@ enum VocalPhraseRecognizer {
         return try samples.withUnsafeBufferPointer {
             try decode(
                 $0, sourceOffset: 0, ownedStart: 0, ownedEnd: Double(analysis.frameCount), analysis: analysis,
-                context: context, cancellation: cancellation)
+                context: context, cancellation: cancellation, progressRange: 0.87...0.96)
         }
     }
 
@@ -74,7 +83,7 @@ enum VocalPhraseRecognizer {
         let windows = VocalRecognitionWindow.plan(
             features: features, sampleRate: analysis.sampleRate, frameCount: analysis.frameCount)
         guard !windows.isEmpty else { return unchanged }
-        let samples = try monoSamples(pcm: pcm, analysis: analysis, cancellation: cancellation)
+        let samples = try monoSamples(pcm: pcm, analysis: analysis, cancellation: cancellation, progressRange: 0.96...0.97)
         var parameters = whisper_context_default_params()
         parameters.use_gpu = false
         guard let inference = whisper_init_from_file_with_params(model.path, parameters) else {
@@ -82,17 +91,20 @@ enum VocalPhraseRecognizer {
         }
         defer { whisper_free(inference) }
         var phrases = [VocalPhrase]()
-        for window in windows.sorted(by: { $0.vocalScore > $1.vocalScore }) {
+        let share = 0.02 / Double(windows.count)
+        for (index, window) in windows.sorted(by: { $0.vocalScore > $1.vocalScore }).enumerated() {
             try cancellation.check()
             let start = max(0, min(samples.count, Int((window.start / analysis.sampleRate * 16000).rounded())))
             let end = max(start, min(samples.count, Int((window.end / analysis.sampleRate * 16000).rounded())))
             guard end > start else { continue }
             let offset = Double(start) / 16000 * analysis.sampleRate
+            let startProgress = 0.97 + Double(index) * share
             phrases += try samples.withUnsafeBufferPointer { buffer in
                 let region = UnsafeBufferPointer(start: buffer.baseAddress!.advanced(by: start), count: end - start)
                 return try decode(
                     region, sourceOffset: offset, ownedStart: window.coreStart, ownedEnd: window.coreEnd,
-                    analysis: analysis, context: inference, cancellation: cancellation, musicWindow: true)
+                    analysis: analysis, context: inference, cancellation: cancellation, musicWindow: true,
+                    progressRange: startProgress...(startProgress + share))
             }
         }
         try cancellation.check()
@@ -108,7 +120,7 @@ enum VocalPhraseRecognizer {
     private static func decode(
         _ samples: UnsafeBufferPointer<Float>, sourceOffset: Double, ownedStart: Double, ownedEnd: Double,
         analysis: AudioAnalysis, context: OpaquePointer, cancellation: VocalInferenceCancellation,
-        musicWindow: Bool = false
+        musicWindow: Bool = false, progressRange: ClosedRange<Double>
     ) throws -> [VocalPhrase] {
         try cancellation.check()
         var parameters = whisper_full_default_params(WHISPER_SAMPLING_GREEDY)
@@ -131,6 +143,15 @@ enum VocalPhraseRecognizer {
             guard let pointer else { return false }
             return !Unmanaged<VocalInferenceCancellation>.fromOpaque(pointer).takeUnretainedValue().isCancelled
         }
+        if AnalysisWorkProgress.observer != nil {
+            cancellation.setProgress(AnalysisWorkProgress.Step(progressRange))
+            parameters.progress_callback_user_data = pointer
+            parameters.progress_callback = { _, _, percent, pointer in
+                guard let pointer else { return }
+                Unmanaged<VocalInferenceCancellation>.fromOpaque(pointer).takeUnretainedValue().reportProgress(percent)
+            }
+        }
+        defer { cancellation.setProgress(nil) }
         let result = whisper_full(context, parameters, samples.baseAddress, Int32(samples.count))
         try cancellation.check()
         guard result == 0 else {
@@ -167,7 +188,9 @@ enum VocalPhraseRecognizer {
         return phrases
     }
 
-    static func monoSamples(pcm: URL, analysis: AudioAnalysis, cancellation: VocalInferenceCancellation) throws
+    static func monoSamples(pcm: URL, analysis: AudioAnalysis, cancellation: VocalInferenceCancellation,
+        progressRange: ClosedRange<Double>
+    ) throws
         -> [Float]
     {
         let rate = analysis.sampleRate
@@ -189,6 +212,7 @@ enum VocalPhraseRecognizer {
             let stereo = raw.bindMemory(to: Float.self)
             var position = 0
             var samples = [Float]()
+            var progress = AnalysisWorkProgress.Step(progressRange)
             samples.reserveCapacity(Int(Double(frames) / rate * 16000) + 16000)
             while true {
                 try cancellation.check()
@@ -217,6 +241,7 @@ enum VocalPhraseRecognizer {
                     throw CoreError.invalidAudio("The vocal analysis source contains invalid samples.")
                 }
                 samples.append(contentsOf: chunk)
+                progress.advance(Int64(position), of: frames)
                 if status == .endOfStream { return samples }
             }
         }

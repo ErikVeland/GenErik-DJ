@@ -151,6 +151,7 @@ final class ControllerMIDIInbox: @unchecked Sendable {
     struct Frame {
         let source: UInt32
         let payload: Payload
+        var timestamp: UInt64 = 0
     }
     private let lock = NSLock()
     private var frames: [Frame] = []
@@ -161,11 +162,11 @@ final class ControllerMIDIInbox: @unchecked Sendable {
         refresh = true
         lock.unlock()
     }
-    func append(source: UInt32, bytes: [UInt8]) {
+    func append(source: UInt32, bytes: [UInt8], timestamp: UInt64 = 0) {
         lock.lock()
         defer { lock.unlock() }
         if frames.count < 128 && bytes.count <= 4096 {
-            frames.append(.init(source: source, payload: .bytes(bytes)))
+            frames.append(.init(source: source, payload: .bytes(bytes), timestamp: timestamp))
         } else {
             overflow = true
         }
@@ -427,6 +428,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     func refreshSources() {
         sources = (0..<MIDIGetNumberOfSources()).compactMap { describe(MIDIGetSource($0)) }
         destinations = (0..<MIDIGetNumberOfDestinations()).compactMap { describe(MIDIGetDestination($0)) }
+        #if os(iOS)
+            sources.removeAll { BeatpadMIDIConnection.isBeatpad($0.reference) }
+            destinations.removeAll { BeatpadMIDIConnection.isBeatpad($0.reference) }
+        #endif
         let sourceIDs = Set(sources.map(\.id))
         for id in Array(connectedEndpoints.keys) where !sourceIDs.contains(id) { disconnectInput(id) }
         for source in sources

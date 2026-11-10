@@ -93,6 +93,7 @@ public enum MusicalStructureAnalyzer {
         var previousEnvelope = 0.0
         let coefficient = 1 - exp(-2 * Double.pi * 180 / rate)
         let envelopeSize = max(1, Int(rate * 0.02))
+        var progress = AnalysisWorkProgress.Step(0.40...0.84)
         try data.withUnsafeBytes { raw in
             let samples = raw.bindMemory(to: Float.self)
             for start in stride(from: 0, to: Int(analysis.frameCount), by: second) {
@@ -130,6 +131,7 @@ public enum MusicalStructureAnalyzer {
                         bass: sqrt(bassPower / max(power, 1e-12)),
                         rhythm: min(1, Double(attacks) / max(1, Double(count) / rate) / 3), bands: spectrum.bands,
                         chroma: spectrum.chroma))
+                progress.advance(Int64(start + count), of: analysis.frameCount)
             }
         }
         classifier.completeAnalysis()

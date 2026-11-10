@@ -121,6 +121,7 @@ public enum AudioAnalyzer {
                 harmonicFrames: spectrum.harmonicFrames,
                 checkCancellation: checkCancellation)
         }
+        AnalysisWorkProgress.observer?(0.76)
         let duration = Double(decoded.frameCount) / decoded.sampleRate
         let configurationID = configuration.id(for: duration)
         AnalysisMeasurement.current?.update { $0.requestedConfigurationID = configurationID }
@@ -243,6 +244,8 @@ public enum AudioAnalyzer {
         let span = AnalysisMeasurement.begin("sourceHash")
         let measurement = AnalysisMeasurement.current
         var bytes: Int64 = 0
+        var progress = AnalysisWorkProgress.Step(0.20...0.28)
+        let size = AnalysisWorkProgress.observer == nil ? 0 : (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0
         defer {
             span?.finish()
             measurement?.count("hashBytesRead", bytes)
@@ -256,6 +259,7 @@ public enum AudioAnalyzer {
             bytes += Int64(data.count)
             try checkCancellation()
             digest.update(data: data)
+            progress.advance(bytes, of: Int64(size))
             return true
         }) {}
         let hash = digest.finalize().map { String(format: "%02x", $0) }.joined()
@@ -300,6 +304,7 @@ public enum AudioAnalyzer {
         var previousInput = 0.0
         var previousFiltered = 0.0
         let highPass = exp(-2 * .pi * 20 / rate)
+        var progress = AnalysisWorkProgress.Step(0.28...0.72)
         while framesRead < declaredFrames {
             try checkCancellation()
             let remaining = AVAudioFrameCount(min(Int64(buffer.frameCapacity), declaredFrames - framesRead))
@@ -348,6 +353,7 @@ public enum AudioAnalyzer {
                 }
             }
             framesRead += Int64(length)
+            progress.advance(framesRead, of: declaredFrames)
         }
         if count > 0 { waveform.append(.init(minimum: low, maximum: high, rms: Float(sqrt(power / Double(count))))) }
         guard framesRead > 0 else { throw CoreError.invalidAudio("No audio frames were decoded.") }

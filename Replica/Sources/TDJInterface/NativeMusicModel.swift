@@ -12,7 +12,8 @@ import TDJCore
     var conditions = LibraryAnalysisConditions.initial
     var activePass: NativeMusicAnalysisQueue.Pass?
     var waitingForStructure: (catalogVersion: UInt64, libraryRevision: Int)?
-    var backgroundRun: (id: UUID, report: (Int, Int) -> Void)?
+    var backgroundRun: (id: UUID, report: (Int, Int) -> Void, systemProgress: ((Double) -> Void)?)?
+    var analysisWorkFraction = 0.0
     var analysisChecked = 0
     var analysisTotal = 0
     var analyses: [UUID: Task<Void, Never>] = [:]
@@ -95,12 +96,15 @@ extension ReplicaModel {
         if backgrounded { cancelNativeMusicAnalysis() }
     }
 
-    func beginBackgroundLibraryAnalysis(report: @escaping (Int, Int) -> Void) -> UUID? {
+    func beginBackgroundLibraryAnalysis(
+        systemProgress: ((Double) -> Void)? = nil, report: @escaping (Int, Int) -> Void
+    ) -> UUID? {
         let state = nativeMusic
         guard !state.closed, state.backgroundRun == nil, !arrangementPlaybackActive, libraryAnalysisPlaybackIsIdle
         else { return nil }
         let id = UUID()
-        state.backgroundRun = (id, report)
+        state.backgroundRun = (id, report, systemProgress)
+        if libraryAnalysisOwner != nil || musicLibraryRefreshing { systemProgress?(state.analysisWorkFraction) }
         report(state.analysisChecked, state.analysisTotal)
         return id
     }
@@ -124,6 +128,26 @@ extension ReplicaModel {
         guard nativeMusic.backgroundRun?.id == id else { return }
         nativeMusic.backgroundRun = nil
         if nativeMusic.backgrounded { cancelNativeMusicAnalysis() }
+    }
+
+    func reportLibraryWork(_ fraction: Double) {
+        let state = nativeMusic
+        guard fraction > state.analysisWorkFraction else { return }
+        state.analysisWorkFraction = fraction
+        state.backgroundRun?.systemProgress?(fraction)
+    }
+
+    private func libraryWorkObserver(
+        token: UUID, checked: Int, range: ClosedRange<Double>
+    ) -> (@Sendable (Double) -> Void)? {
+        guard nativeMusic.backgroundRun?.systemProgress != nil else { return nil }
+        return { [weak self] fraction in
+            Task { @MainActor in
+                guard let self, self.libraryAnalysisOwner == token, self.nativeMusic.analysisChecked == checked
+                else { return }
+                self.reportLibraryWork(range.lowerBound + (range.upperBound - range.lowerBound) * fraction)
+            }
+        }
     }
 
     func cancelNativeMusicAnalysis() {
@@ -178,6 +202,10 @@ extension ReplicaModel {
         state.analysisCatalogVersion = version
         state.analysisChecked = 0
         state.analysisTotal = 0
+        if state.analysisWorkFraction >= 0.032 {
+            state.analysisWorkFraction = 0
+            state.backgroundRun?.systemProgress?(0)
+        }
         state.analyses[token] = Task(priority: .background) { [weak self] in
             guard let self else {
                 await queue.finish()
@@ -198,7 +226,13 @@ extension ReplicaModel {
                 }
             }
             await removeStaleNativeSources()
-            let batches = await queue.prepare()
+            guard !Task.isCancelled, libraryAnalysisOwner == token else {
+                await queue.finish()
+                return
+            }
+            reportLibraryWork(0.032)
+            let batches = await queue.prepare(
+                progress: libraryWorkObserver(token: token, checked: 0, range: 0.032...0.06))
             guard !Task.isCancelled, libraryAnalysisOwner == token else {
                 await queue.finish()
                 return
@@ -207,6 +241,7 @@ extension ReplicaModel {
             let total = batches.reduce(0) { $0 + $1.range.count }
             state.analysisTotal = total
             state.backgroundRun?.report(0, total)
+            reportLibraryWork(0.06)
             if count > 0 { logAnalysis("Analysis queue: \(count) songs") }
             if let mixes = batches.first(where: { $0.isMix }) {
                 logAnalysis(
@@ -269,51 +304,57 @@ extension ReplicaModel {
                         duration: job.duration)
                     var matchingSource = LibraryMatchingSource.failed
                     var outcome = "success"
+                    let trackShare = 0.94 / Double(max(1, total))
+                    let trackStart = 0.06 + Double(state.analysisChecked) * trackShare
+                    let observer = libraryWorkObserver(
+                        token: token, checked: state.analysisChecked, range: trackStart...(trackStart + trackShare))
                     let issue = await withTaskCancellationHandler {
-                        await AnalysisExecution.$foregroundLibrary.withValue(!state.backgrounded) {
-                            await AnalysisMeasurement.$current.withValue(measurement) {
-                                do {
-                                    switch pass {
-                                    case .matching:
-                                        let (track, source) = try await prepareLibraryMatching(job)
-                                        matchingSource = source
-                                        measurement.capture(track.analysis)
-                                        measurement.update { $0.source = source.rawValue }
-                                        matched[job.id] = track.id
-                                        return libraryMatchingIssue(track)
-                                    case .deep:
-                                        if let trackID = matched[job.id], let track = library.track(id: trackID) {
-                                            guard !loaded.values.contains(trackID) else {
-                                                state.deferredDeepTracks.insert(trackID)
-                                                return nil
-                                            }
-                                            state.deferredDeepTracks.remove(trackID)
-                                            let result = try await prepareLibraryDeepAnalysis(job, track: track)
-                                            try Task.checkCancellation()
-                                            adoptLibrary(
-                                                try await service.adoptDeepAnalysis(
-                                                    result, trackID: trackID, protectedTracks: Set(loaded.values)))
-                                            return result.needsReview(for: track)
-                                                ? "Deep beat evidence needs review." : nil
-                                        }
-                                        outcome = "skipped"
-                                        return nil
-                                    case .structure:
-                                        if let trackID = matched[job.id] {
-                                            guard let track = library.track(id: trackID) else {
-                                                throw CoreError.staleContext
-                                            }
+                        await AnalysisWorkProgress.$observer.withValue(observer) {
+                            await AnalysisExecution.$foregroundLibrary.withValue(!state.backgrounded) {
+                                await AnalysisMeasurement.$current.withValue(measurement) {
+                                    do {
+                                        switch pass {
+                                        case .matching:
+                                            let (track, source) = try await prepareLibraryMatching(job)
+                                            matchingSource = source
                                             measurement.capture(track.analysis)
-                                            let arrangement = try await prepareLibraryStructure(job, track: track)
-                                            return arrangement.automaticCues?.isEmpty != false
-                                                ? "No reliable section starts were found for hot cues." : nil
+                                            measurement.update { $0.source = source.rawValue }
+                                            matched[job.id] = track.id
+                                            return libraryMatchingIssue(track)
+                                        case .deep:
+                                            if let trackID = matched[job.id], let track = library.track(id: trackID) {
+                                                guard !loaded.values.contains(trackID) else {
+                                                    state.deferredDeepTracks.insert(trackID)
+                                                    return nil
+                                                }
+                                                state.deferredDeepTracks.remove(trackID)
+                                                let result = try await prepareLibraryDeepAnalysis(job, track: track)
+                                                try Task.checkCancellation()
+                                                adoptLibrary(
+                                                    try await service.adoptDeepAnalysis(
+                                                        result, trackID: trackID, protectedTracks: Set(loaded.values)))
+                                                return result.needsReview(for: track)
+                                                    ? "Deep beat evidence needs review." : nil
+                                            }
+                                            outcome = "skipped"
+                                            return nil
+                                        case .structure:
+                                            if let trackID = matched[job.id] {
+                                                guard let track = library.track(id: trackID) else {
+                                                    throw CoreError.staleContext
+                                                }
+                                                measurement.capture(track.analysis)
+                                                let arrangement = try await prepareLibraryStructure(job, track: track)
+                                                return arrangement.automaticCues?.isEmpty != false
+                                                    ? "No reliable section starts were found for hot cues." : nil
+                                            }
+                                            outcome = "skipped"
+                                            return nil
                                         }
-                                        outcome = "skipped"
-                                        return nil
+                                    } catch {
+                                        outcome = error is CancellationError ? "cancelled" : "failed"
+                                        return error.localizedDescription
                                     }
-                                } catch {
-                                    outcome = error is CancellationError ? "cancelled" : "failed"
-                                    return error.localizedDescription
                                 }
                             }
                         }
@@ -348,6 +389,7 @@ extension ReplicaModel {
                     }
                     analysisProgress?.done = checked
                     state.backgroundRun?.report(state.analysisChecked, total)
+                    reportLibraryWork(0.06 + Double(state.analysisChecked) * trackShare)
                     if checked == 1 {
                         logAnalysis("\(title) \(checked) of \(batchCount) after checking \(job.title)")
                     }

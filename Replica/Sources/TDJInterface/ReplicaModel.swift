@@ -356,6 +356,11 @@ import TDJCore
         var s2Connection: NIControllerAccessoryConnection?
         var s3Connection: NIControllerAccessoryConnection?
         var s4Connection: NIControllerAccessoryConnection?
+        @ObservationIgnored var beatpadConnection: BeatpadMIDIConnection?
+        @ObservationIgnored var beatpadControls = BeatpadControls()
+        @ObservationIgnored var beatpadPerformance = S4MK2Performance(sliceCount: 4)
+        @ObservationIgnored var beatpadInstantFX: [DeckID: (slot: Int, effect: EffectControl)] = [:]
+        var beatpadStatus = "Waiting for the original Beatpad."
         @ObservationIgnored var s4MK1Bridge: TraktorHIDBridgeConnection?
         @ObservationIgnored var s4MK1Controls = S4MK1Controls()
         @ObservationIgnored var s4MK1Performance = S4MK2Performance()
@@ -860,26 +865,41 @@ import TDJCore
         let provider = musicLibraryProvider
         let cacheURL = store.root.appendingPathComponent(".music-library-catalog-v1.json")
         let files = nativeMusic.files
+        if libraryAnalysisOwner == nil {
+            nativeMusic.analysisWorkFraction = 0
+            nativeMusic.backgroundRun?.systemProgress?(0)
+        }
+        let catalogProgress: @Sendable (Double) -> Void = { [weak self] fraction in
+            Task { @MainActor in
+                guard let self, self.musicLibraryRefreshing else { return }
+                self.reportLibraryWork(0.02 * fraction)
+            }
+        }
         let work = Task { [weak self] in
             defer {
                 self?.musicLibraryRefreshing = false
                 self?.musicLibraryRefreshTask = nil
             }
             do {
-                let catalog = try await provider.catalog()
+                let catalog = try await AnalysisWorkProgress.$observer.withValue(catalogProgress) {
+                    try await provider.catalog()
+                }
                 try Task.checkCancellation()
                 if let self {
+                    reportLibraryWork(0.021)
                     let reconciled = try await service.reconcileAvailableAudio(
                         catalog: catalog, protectedTracks: Set(loaded.values))
                     try Task.checkCancellation()
                     adoptLibrary(reconciled)
                     musicLibraryCatalog = catalog
                     musicLibraryNotices.clearFailures()
+                    reportLibraryWork(0.025)
                 }
                 if provider.allowsCachedCatalog {
                     await files.run { try? JSONEncoder().encode(catalog).write(to: cacheURL, options: .atomic) }
                 }
                 await self?.refreshCollectionHints()
+                self?.reportLibraryWork(0.03)
             } catch is CancellationError {} catch {
                 self?.musicLibraryCatalog = nil
                 self?.musicLibraryError = error.localizedDescription
@@ -1644,6 +1664,7 @@ import TDJCore
                 toggleZ1()
             }
             if !playback.offline {
+                startBeatpad()
                 startS2MK1Bridge()
                 startS2MK2()
                 startS2MK3()
@@ -1661,6 +1682,7 @@ import TDJCore
                 #endif
                 self?.refreshPlayback()
                 #if os(iOS)
+                    self?.maintainBeatpad()
                     self?.maintainS2MK1Bridge()
                     self?.maintainS2Extras()
                     self?.maintainS2MK2Mic()
@@ -1690,6 +1712,8 @@ import TDJCore
             z1Enabled = false
         #endif
         #if os(iOS)
+            beatpadConnection?.stop()
+            beatpadConnection = nil
             s2MK1Bridge?.stop()
             s2MK1Bridge = nil
             s2MK1Receiving = false

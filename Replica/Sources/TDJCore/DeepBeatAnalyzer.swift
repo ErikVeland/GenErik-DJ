@@ -167,7 +167,10 @@ extension AnalysisWorker {
             try withoutActuallyEscaping(check) { boundedCheck in
                 try DeepBeatAnalyzer.analyze(
                     url: url, analysis: analysis, root: root,
-                    progress: progress, checkCancellation: boundedCheck)
+                    progress: { done, total in
+                        progress(done, total)
+                        AnalysisWorkProgress.observer?(0.20 + 0.65 * Double(done) / Double(total))
+                    }, checkCancellation: boundedCheck)
             }
         }
     }

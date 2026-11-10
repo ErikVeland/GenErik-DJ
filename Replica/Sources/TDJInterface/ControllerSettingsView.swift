@@ -355,6 +355,7 @@ struct ControllerSettingsView: View {
             "Audio routing: \(model.outputRoute == .stereoMaster ? "Stereo master" : "Master 1–2 / Headphones 3–4")")
         if let device = model.automaticOutputDevice { lines.append("\(device) audio routing: automatic") }
         #if os(iOS)
+            lines.append(model.beatpadStatus)
             lines.append(model.s2Status)
             lines.append(model.s3Status)
             lines.append(model.s4Status)

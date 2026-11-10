@@ -9,12 +9,21 @@ public struct MusicLibraryReconciliation: Sendable {
     public let entries: [Entry]
     public let analysisQueue: [MusicLibraryItem]
 
-    public init(catalog: MusicLibraryCatalog, tracks: [Track]) {
+    public init(
+        catalog: MusicLibraryCatalog, tracks: [Track], progress: (@Sendable (Double) -> Void)? = nil
+    ) {
         var matches: [MusicLibrarySource: Track] = [:]
-        for track in tracks {
+        var indexProgress = AnalysisWorkProgress.Step(0...0.5, observer: progress)
+        for (index, track) in tracks.enumerated() {
             for source in track.musicLibrarySources ?? [] where matches[source] == nil { matches[source] = track }
+            indexProgress.advance(Int64(index + 1), of: Int64(tracks.count))
         }
-        entries = catalog.items.map { Entry(item: $0, track: matches[$0.source]) }
+        var entryProgress = AnalysisWorkProgress.Step(0.5...1, observer: progress)
+        entries = catalog.items.enumerated().map { index, item in
+            let entry = Entry(item: item, track: matches[item.source])
+            entryProgress.advance(Int64(index + 1), of: Int64(catalog.items.count))
+            return entry
+        }
         analysisQueue = entries.compactMap { entry in
             guard entry.track == nil || entry.track?.analysis.musicalAnalysisDeferred == true, entry.item.isOnDevice
             else { return nil }

@@ -133,7 +133,8 @@
         }
 
         func pressS4Cue(
-            _ deck: DeckID, stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
+            _ deck: DeckID, stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance,
+            recallStored: Bool = false
         ) {
             endS4SliceMode(deck, stateKey: stateKey)
             guard !preparingTrack.contains(deck), !editing.contains(deck), !arrangementPlaybackActive,
@@ -152,7 +153,8 @@
             }
 
             let upper = Double(asset.frames)
-            let source = min(upper - 1, max(0, state.sourceFrame))
+            let origin = recallStored ? cuePoints[deck] ?? 0 : state.sourceFrame
+            let source = min(upper - 1, max(0, origin))
             let savedFrame =
                 state.synced
                 ? state.timing?.nearestPhaseAlignedFrame(to: source, masterBeat: 0, within: 0..<upper) : nil
