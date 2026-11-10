@@ -29,10 +29,24 @@ Press MOVE to enter Freeze. If a loop is active, MOVE enters Loop Slicer instead
 
 On a stopped deck, hold CUE to play from the floating cue. Release CUE to stop at the cue. Press PLAY during the hold to continue. On a playing deck, CUE stops and returns to the floating cue. A deck layer change or controller disconnect ends a hold. The app keeps the saved Sync choice.
 
-The app requests the S4 inputs automatically while playback is idle. iPadOS can ask for microphone permission. With four channels, line 1–2 goes to the C mixer strip and line 3–4 goes to the D mixer strip. A loaded track takes over its strip. With six channels, the mono mic pair also goes to the master and recording. The rear hardware gain adjusts the input. The front MIC VOL control has no verified native report mapping. If iPadOS does not expose the required channels, the app keeps normal playback available. [NI manual, sections 5.2 and 6.8](https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/traktor_kontrol_s4_mk2_manual_english.pdf) · [NI input channel assignments](https://support.native-instruments.com/support/solutions/articles/69000879459-how-to-use-a-microphone-with-the-traktor-kontrol-s4)
+The app requests the S4 inputs automatically while playback is idle. iPadOS can ask for microphone permission. With four channels, line 1–2 goes to the C mixer strip and line 3–4 goes to the D mixer strip. A loaded track takes over its strip. With six channels, the mono mic pair also goes to the master and recording. The rear hardware gain adjusts the input. R120 maps the front MIC VOL control. If iPadOS does not expose the required channels, the app keeps normal playback available. [NI manual, sections 5.2 and 6.8](https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/traktor_kontrol_s4_mk2_manual_english.pdf) · [NI input channel assignments](https://support.native-instruments.com/support/solutions/articles/69000879459-how-to-use-a-microphone-with-the-traktor-kontrol-s4)
 
 Physical Lightning input exposure, control response and sustained A10X performance remain open.
 
 Fifteen focused host tests passed across 17 cases. They cover MOVE and pad report edges, slice bounds and lighting, Cue park and continuation, four- and six-channel input routing, loaded-deck priority, and regression checks for Sync, waveform release, S2 mic and S3 input.
 
 [Build 182](../testing/builds/182.json) installed on the A10X iPad. iPadOS accepted the launch request.
+
+## R120 Front MIC VOL
+
+MIC VOL controls the mono microphone contribution to master and recording. The first valid report sets the level. The mic starts muted until that report arrives. The renderer ramps later changes from mute to unity and the app clears the setting when the accessory disconnects. Both line pairs keep their own mixer levels.
+
+NI's Controller Editor 2.2.4 factory map names the control `PotiMicVol` and assigns NHL analogue ID `0x20000004`. The assignment is in `KontrolS4MK2::Map::Map` at `0x100395c7b–0x100395cca` in the macOS Controller Editor binary. The adjacent Cue Mix assignment uses ID `0x20000003`. [NI factory installer](https://support.native-instruments.com/support/solutions/articles/69000879400-traktor-pro-legacy-installers-for-older-operating-systems)
+
+In Traktor DJ 2.4.1 on iPad, the S4 decoder starts the analogue block at payload offset `0x1a` and reads consecutive little-endian 16-bit values in analogue index order. Analogue index 4 therefore uses zero-based payload offsets `0x22–0x23` in report `01`. The reader starts at `0x100a99454` and receives the block from `0x100a96d90`. The app uses its existing S4 pot normalisation. [NI manual, section 6.9](https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/traktor_kontrol_s4_mk2_manual_english.pdf)
+
+Physical knob response and Lightning mic input exposure remain open.
+
+Fourteen focused host tests passed. They cover the report byte positions, adjacent fields, first valid report, mute, gain ramps, recorded level and line isolation. Existing S2 and S3 capture checks also passed.
+
+[Build 183](../testing/builds/183.json) installed on the A10X iPad. iPadOS accepted the launch request.

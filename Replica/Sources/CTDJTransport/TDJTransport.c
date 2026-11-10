@@ -2261,6 +2261,10 @@ void tdj_s4_input_set_channels(tdj_engine *e, uint32_t channels) {
                          atomic_load_explicit(&e->extra_prepared, memory_order_acquire)))
         microphone_configure(&e->auxiliary, channels);
 }
+void tdj_s4_mic_set_level(tdj_engine *e, double level) {
+    if (isfinite(level) && level >= 0 && level <= 1)
+        atomic_store_explicit(&e->auxiliary.s4_mic_level, level, memory_order_relaxed);
+}
 void tdj_s4_input_push(tdj_engine *e, const float *const *input, const uint32_t *strides, uint32_t count,
                        uint32_t channels, double rate) {
     if (input && strides && (channels == 4 || channels == 6))
@@ -2327,6 +2331,10 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             ramp_set(&aux->input_master_ramp, input_level, e->mix.smoothing);
         if (input_cue != aux->input_cue_ramp.target)
             ramp_set(&aux->input_cue_ramp, input_cue, e->mix.smoothing);
+    } else if (mic.channels == 6) {
+        double level = atomic_load_explicit(&aux->s4_mic_level, memory_order_relaxed);
+        if (level != aux->s4_mic_ramp.target)
+            ramp_set(&aux->s4_mic_ramp, level, e->mix.smoothing);
     }
     preview_block preview = preview_begin(&aux->preview, e->rate);
     uint32_t preview_read = preview.read;
@@ -2631,7 +2639,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             cl += input[0] * cue;
             cr += input[1] * cue;
         } else if (mic.channels == 6) {
-            double mono = (live[4] + live[5]) * 0.5;
+            double mono = (live[4] + live[5]) * 0.5 * ramp_next(&aux->s4_mic_ramp);
             l += mono;
             r += mono;
         }

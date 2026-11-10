@@ -702,6 +702,10 @@ public final class SampleTransport: @unchecked Sendable {
         tdj_s4_input_set_channels(pointer, channels)
     }
 
+    public func setS4MicLevel(_ level: Double) {
+        tdj_s4_mic_set_level(pointer, level)
+    }
+
     public func setExternalInputMix(level: Double, cue: Bool, trim: Double = 1) {
         tdj_external_input_mix(pointer, level * trim, cue ? trim : 0)
     }

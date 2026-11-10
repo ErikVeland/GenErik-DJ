@@ -172,3 +172,34 @@ import Testing
     #expect(lights[65] == 0 && lights[66] == 0x30 && lights[67] == 0)
     #expect(lights[52 + 0x21 + 2] == 0x7f)
 }
+
+@Test func s4MK2MicVolumeUsesOnlyTheFactoryAnalogWord() {
+    var controls = S4MK2Controls()
+    var bytes = [UInt8](repeating: 0xff, count: 98)
+    func levels() -> [Double] {
+        controls.consume(bytes).compactMap { event in
+            if case .micLevel(let level) = event { return level }
+            return nil
+        }
+    }
+
+    #expect(levels().isEmpty)
+    bytes[34] = 0x00
+    bytes[35] = 0x08
+    #expect(levels() == [0.5])
+    bytes[32] = 16
+    bytes[33] = 0
+    bytes[36] = 16
+    bytes[37] = 0
+    #expect(levels().isEmpty)
+    bytes[34] = 16
+    bytes[35] = 0
+    #expect(levels() == [0])
+    bytes[34] = 0xf0
+    bytes[35] = 0x0f
+    #expect(levels() == [1])
+    #expect(levels().isEmpty)
+
+    controls = .init()
+    #expect(levels() == [1])
+}
