@@ -7,21 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01BDD6BA2BF23AC7D8B09C80 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = DBFC562A393673FC999AB736 /* PrivacyInfo.xcprivacy */; };
+		28CAB428585C53CD651C5288 /* StoreMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F60B960C1103F8E11F9DFB /* StoreMain.swift */; };
 		41C26E2A73649878BC320D29 /* PreviewMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495C80687D6DDFEC2782EF4 /* PreviewMain.swift */; };
 		4F1D410FBB683DA5970BB914 /* MacKeyCandidateAudit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1039C0636F18EB4D031CD07E /* MacKeyCandidateAudit.swift */; };
 		724CE0AEF7AC08E7BC3138A4 /* MacLibraryAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153428DDC767749EE4929864 /* MacLibraryAnalysis.swift */; };
+		811182345D54D689236950F0 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 62983906438CAD5806D3E2FB /* AppIcon.icon */; };
+		84C2F7BDB5CF17D71EBA448B /* TDJCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6199CD81D1AF7211FF013C87 /* TDJCore */; };
+		AD632797EEB874A6510A1F16 /* TDJInterface in Frameworks */ = {isa = PBXBuildFile; productRef = 5BFB659196E7734D5A8538E9 /* TDJInterface */; };
 		B737004C9EBCE1D1AEA71F5A /* TDJInterface in Frameworks */ = {isa = PBXBuildFile; productRef = AB6D8DA99367FE561C2F2067 /* TDJInterface */; };
 		C0C6A50694A7EFC373C95432 /* MacAnalysisAudit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87C65E8A25DFF2C3C7F8F6C /* MacAnalysisAudit.swift */; };
 		DE8FD16FDE604F11B682C41E /* TDJCore in Frameworks */ = {isa = PBXBuildFile; productRef = 725D8503B5BB893D5BCC5E62 /* TDJCore */; };
+		FABB6C2FCF67DF8A5243FD04 /* THIRD_PARTY_NOTICES.txt in Resources */ = {isa = PBXBuildFile; fileRef = 52609D16B5E1FB975279F89A /* THIRD_PARTY_NOTICES.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1039C0636F18EB4D031CD07E /* MacKeyCandidateAudit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacKeyCandidateAudit.swift; sourceTree = "<group>"; };
 		153428DDC767749EE4929864 /* MacLibraryAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacLibraryAnalysis.swift; sourceTree = "<group>"; };
+		52609D16B5E1FB975279F89A /* THIRD_PARTY_NOTICES.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = THIRD_PARTY_NOTICES.txt; sourceTree = "<group>"; };
+		62983906438CAD5806D3E2FB /* AppIcon.icon */ = {isa = PBXFileReference; path = AppIcon.icon; sourceTree = "<group>"; };
+		7488CDFC8EA03C7EC01C3E58 /* GenErikDJStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GenErikDJStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF11D5BA023C6D53C1511AF9 /* Replica */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Replica; path = ..; sourceTree = SOURCE_ROOT; };
 		C495C80687D6DDFEC2782EF4 /* PreviewMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewMain.swift; sourceTree = "<group>"; };
 		D87C65E8A25DFF2C3C7F8F6C /* MacAnalysisAudit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAnalysisAudit.swift; sourceTree = "<group>"; };
+		DBFC562A393673FC999AB736 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		E7DC8ED5B1396F7190B10EFF /* GenErikDJMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GenErikDJMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6F60B960C1103F8E11F9DFB /* StoreMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreMain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,9 +45,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FDAC85972C0D89D3E0D9670E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD632797EEB874A6510A1F16 /* TDJInterface in Frameworks */,
+				84C2F7BDB5CF17D71EBA448B /* TDJCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2EDA1EF75FF012F0931F3416 /* Replica */ = {
+			isa = PBXGroup;
+			children = (
+				52609D16B5E1FB975279F89A /* THIRD_PARTY_NOTICES.txt */,
+			);
+			name = Replica;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		632DDCF2BE72F1438CA9E507 /* TDJPreview */ = {
 			isa = PBXGroup;
 			children = (
@@ -47,6 +76,16 @@
 			);
 			name = TDJPreview;
 			path = ../Sources/TDJPreview;
+			sourceTree = "<group>";
+		};
+		7D7C52A62AC82B9BF67B41EC /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				62983906438CAD5806D3E2FB /* AppIcon.icon */,
+				DBFC562A393673FC999AB736 /* PrivacyInfo.xcprivacy */,
+			);
+			name = iPad;
+			path = ../iPad;
 			sourceTree = "<group>";
 		};
 		804915C7A4F79A3DF8AFF00D /* Packages */ = {
@@ -61,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				E7DC8ED5B1396F7190B10EFF /* GenErikDJMac.app */,
+				7488CDFC8EA03C7EC01C3E58 /* GenErikDJStore.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -68,7 +108,10 @@
 		F482DA0E7B069C6E1FA0933F = {
 			isa = PBXGroup;
 			children = (
+				F6F60B960C1103F8E11F9DFB /* StoreMain.swift */,
+				7D7C52A62AC82B9BF67B41EC /* iPad */,
 				804915C7A4F79A3DF8AFF00D /* Packages */,
+				2EDA1EF75FF012F0931F3416 /* Replica */,
 				632DDCF2BE72F1438CA9E507 /* TDJPreview */,
 				D390DD1636F791E8F1ACA144 /* Products */,
 			);
@@ -97,6 +140,27 @@
 			productReference = E7DC8ED5B1396F7190B10EFF /* GenErikDJMac.app */;
 			productType = "com.apple.product-type.application";
 		};
+		813B381FC8122865FC3DCAA8 /* GenErikDJStore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 66F58AAF6DC9AC381A50C353 /* Build configuration list for PBXNativeTarget "GenErikDJStore" */;
+			buildPhases = (
+				850527AFAE2012FDF0F8EEA8 /* Sources */,
+				97AD1851C5FE304C7924E7B4 /* Resources */,
+				FDAC85972C0D89D3E0D9670E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GenErikDJStore;
+			packageProductDependencies = (
+				5BFB659196E7734D5A8538E9 /* TDJInterface */,
+				6199CD81D1AF7211FF013C87 /* TDJCore */,
+			);
+			productName = GenErikDJStore;
+			productReference = 7488CDFC8EA03C7EC01C3E58 /* GenErikDJStore.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -107,6 +171,10 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					3578F9FA1D2060467A665F64 = {
+						DevelopmentTeam = 54WU29TRTY;
+						ProvisioningStyle = Automatic;
+					};
+					813B381FC8122865FC3DCAA8 = {
 						DevelopmentTeam = 54WU29TRTY;
 						ProvisioningStyle = Automatic;
 					};
@@ -130,11 +198,33 @@
 			projectRoot = "";
 			targets = (
 				3578F9FA1D2060467A665F64 /* GenErikDJMac */,
+				813B381FC8122865FC3DCAA8 /* GenErikDJStore */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		97AD1851C5FE304C7924E7B4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				811182345D54D689236950F0 /* AppIcon.icon in Resources */,
+				01BDD6BA2BF23AC7D8B09C80 /* PrivacyInfo.xcprivacy in Resources */,
+				FABB6C2FCF67DF8A5243FD04 /* THIRD_PARTY_NOTICES.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		850527AFAE2012FDF0F8EEA8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28CAB428585C53CD651C5288 /* StoreMain.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C683F1776696DE6CBAD2A5F4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -192,6 +282,64 @@
 				);
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.generikdj.replica.audiocheck;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		40E844F133988608E2B3755E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GenErikDJStore.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 54WU29TRTY;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "GenErik DJ";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Choose local Music tracks for DJ analysis and mixing.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Receive audio from connected DJ controllers and audio inputs.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.generikdj.replica.audiocheck;
+				PRODUCT_NAME = "GenErik DJ";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		C399CAE93E46D27947CCA69B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GenErikDJStore.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 54WU29TRTY;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "GenErik DJ";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Choose local Music tracks for DJ analysis and mixing.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Receive audio from connected DJ controllers and audio inputs.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.generikdj.replica.audiocheck;
+				PRODUCT_NAME = "GenErik DJ";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 6.0;
 			};
@@ -328,6 +476,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		66F58AAF6DC9AC381A50C353 /* Build configuration list for PBXNativeTarget "GenErikDJStore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C399CAE93E46D27947CCA69B /* Debug */,
+				40E844F133988608E2B3755E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		F4418C3E1FE3FE100D5E290D /* Build configuration list for PBXProject "GenErikDJMac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -347,6 +504,14 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		5BFB659196E7734D5A8538E9 /* TDJInterface */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TDJInterface;
+		};
+		6199CD81D1AF7211FF013C87 /* TDJCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TDJCore;
+		};
 		725D8503B5BB893D5BCC5E62 /* TDJCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TDJCore;

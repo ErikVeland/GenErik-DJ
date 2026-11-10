@@ -1,0 +1,26 @@
+{
+  "build": 226,
+  "notes": "R161: External iOS testing candidate with current GenErik icon, controller support, settings and analysis recovery. Audio and touch acceptance remains open.",
+  "sourceCommit": "c9fd852c8c16a4d376d7aaa2dd3d14b7e217cef5",
+  "sourceSHA256": "2b6162ee911cba895bff7c1d383aa6c86eadf64d5bc17f82e5dcccce0ed69744",
+  "state": "export-failed",
+  "distribution": "TestFlight",
+  "feedback": [],
+  "xcode": "Xcode 27.1\nBuild version 27A9275",
+  "developerDirectory": "/Applications/Xcode.app/Contents/Developer",
+  "createdUTC": "2026-11-10T19:47:35.858246+00:00",
+  "archive": "TestBuilds/ipad/226/GenErikDJ.xcarchive",
+  "log": "TestBuilds/ipad/226/archive.log",
+  "app": "TestBuilds/ipad/226/GenErikDJ.xcarchive/Products/Applications/GenErikDJ.app",
+  "appSHA256": "b8f4506659055051ca19991c178cb0592dec7ccb90f6cc467a5dffcb3580f153",
+  "archiveSHA256": "d3f703a869ed1c8a5aa587aa175297140091eb86e7e6a35f33cd0456edfbd367",
+  "buildSeconds": 120.6,
+  "distributionAttempts": [
+    {
+      "action": "export",
+      "log": "TestBuilds/ipad/226/export-1.log",
+      "state": "failed",
+      "failure": "Command '['xcodebuild', '-exportArchive', '-archivePath', '/Users/veland/GenErik DJ/TestBuilds/ipad/226/GenErikDJ.xcarchive', '-exportPath', '/Users/veland/GenErik DJ/TestBuilds/ipad/226/export-1', '-exportOptionsPlist', '/Users/veland/GenErik DJ/TestBuilds/ipad/226/export-1.plist', '-allowProvisioningUpdates']' returned non-zero exit status 70."
+    }
+  ]
+}
