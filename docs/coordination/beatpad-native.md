@@ -6,6 +6,8 @@ The mapping covers Play, Sync, Set and Jump Cue, pitch, platter scratch, rim nud
 
 The jog ring pulses blue on the beat. The track-end warning uses the ring's red-plus-green setting. Check the resulting color on the controller. The original iCut crossfader gesture and the dedicated DIN cable's app compatibility remain open. The controller sets master, headphones and analog input gain in hardware.
 
+Thirty-two focused Swift tests passed. [Build 196](../testing/builds/196.json) passed signing and framework checks. It installed on the 10.5-inch A10X iPad Pro, and iPadOS accepted launch. Controller checks remain open. The host test logs are in `TestBuilds/r135/`.
+
 ## First iPad test
 
 1. Power the Beatpad from its own supply.

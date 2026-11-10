@@ -1,0 +1,18 @@
+{
+  "notes": "R135. Add direct USB support for the original Reloop Beatpad. Verify controls, split audio and lights.",
+  "sourceCommit": "115e315515990b9c47e0488a1cf9bebc1aa5f194",
+  "sourceSHA256": "f2ddb3ae44d95f2620f7648c4958c473083758c689754d0fab2778c80fd68afa",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 82.45,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-196.log",
+  "build": 196,
+  "app": "TestBuilds/ipad/196/GenErikDJ.app",
+  "appSHA256": "e87e60f36a413a1e7d49f01bffc7c52f99af1f9b7078ca0d450565e61195a22b",
+  "state": "testing",
+  "createdUTC": "2026-11-10T08:06:34.676114+00:00",
+  "installedUTC": "2026-11-10T08:06:55.402015+00:00",
+  "launchedUTC": "2026-11-10T08:06:55.752750+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
