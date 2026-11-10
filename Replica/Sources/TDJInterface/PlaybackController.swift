@@ -383,6 +383,15 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         try submitSource(.cueRecall(deck, generation, frame: cue.frame, loopEnd: cue.loopEnd, quantum: quantum))
         if !outputActive { core.processControlsWhileIdle() }
     }
+    func finishCueContact(deck: DeckID, generation: UInt64, cue: Double, continuePlaying: Bool) throws {
+        guard generations[deck] == generation else { return }
+        if continuePlaying, !offline { try startOutput(userInitiated: true) }
+        invalidateSource(.play(deck))
+        cancelPerformancePreparations(deck: deck)
+        try submitSource(.finishCueContact(deck: deck, generation: generation, cue: cue, continuePlaying: continuePlaying))
+        if !outputActive { core.processControlsWhileIdle() }
+    }
+
     func eject(deck: DeckID, accepted: @escaping () -> Void) throws {
         guard let generation = generations[deck], core.snapshot()?[deck].generation == generation else {
             throw TransportError.stale
@@ -729,6 +738,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         #if os(iOS)
             requestedCaptureDevice = nil
             attachedCaptureDevice = nil
+            s4CaptureChannels = 0
             enabledCaptureDevice = nil
             core.setMicrophoneEnabled(false)
         #endif
@@ -788,7 +798,13 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                 core.processControlsWhileIdle()
                 collectMessages()
             }
+            #if os(iOS)
+                let reopenS4Input = requestedCaptureDevice == "S4 Mk2" && automaticOutputDevice == "S4 Mk2"
+            #endif
             if hadOutput || engine != nil { discardOutputGraph() }
+            #if os(iOS)
+                if reopenS4Input { requestedCaptureDevice = "S4 Mk2" }
+            #endif
         }
 
         guard outputRecoveryPending else { return }
@@ -857,10 +873,16 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                 core.setMicrophoneEnabled(false)
                 enabledCaptureDevice = nil
             }
-            if Self.currentAudioOutputs.first?.automaticSplitOutputName != "S3" {
-                core.setPreviewGeneration(0)
+            let outputs = Self.currentAudioOutputs
+            let device = outputs.count == 1 ? outputs.first?.automaticSplitOutputName : nil
+            if device != "S3", device != "S4 Mk2" { core.setPreviewGeneration(0) }
+            handleOutputEvent(event, outputs: outputs) {
+                do { try startOutput() } catch {
+                    guard requestedCaptureDevice == "S4 Mk2" else { throw error }
+                    discardOutputGraph()
+                    try startOutput()
+                }
             }
-            handleOutputEvent(event, outputs: Self.currentAudioOutputs) { try startOutput() }
         #else
             handleOutputEvent(event) { try startOutput() }
         #endif
@@ -928,10 +950,13 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         private var enabledCaptureDevice: String?
         var s2MicEnabled: Bool { enabledCaptureDevice == "S2 Mk3" }
         var s3ExtEnabled: Bool { enabledCaptureDevice == "S3" }
+        private var s4CaptureChannels: UInt32 = 0
+        var s4InputChannels: UInt32 { enabledCaptureDevice == "S4 Mk2" ? s4CaptureChannels : 0 }
 
         var canOpenS2Mic: Bool { canOpenCapture(device: "S2 Mk3") }
         func canOpenCapture(device: String) -> Bool {
-            attachedCaptureDevice == device
+            if device == "S4 Mk2", !preparationTasks.isEmpty || !pendingTransport.isEmpty { return false }
+            return attachedCaptureDevice == device
                 || (outputStartTask == nil && recorder == nil && recordingStartTask == nil
                     && core.playingPads == 0 && core.previewGeneration == 0
                     && core.snapshot().map { !$0.anyDeckActive } == true)
@@ -953,6 +978,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
 
         func setCaptureEnabled(_ enabled: Bool, device: String) throws {
             if !enabled {
+                if device == "S4 Mk2", requestedCaptureDevice == device { requestedCaptureDevice = nil }
                 if enabledCaptureDevice == device {
                     core.setMicrophoneEnabled(false)
                     enabledCaptureDevice = nil
@@ -979,10 +1005,20 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                     throw TransportError.cache("The \(device) input is unavailable on this connection.")
                 }
                 if device == "S2 Mk3" { core.setExternalInputMix(level: 1, cue: false) }
-                core.setMicrophoneEnabled(true)
+                if device == "S4 Mk2" {
+                    requestedCaptureDevice = device
+                    core.setS4InputChannels(s4CaptureChannels)
+                } else {
+                    core.setMicrophoneEnabled(true)
+                }
                 enabledCaptureDevice = device
             } catch {
                 if !outputActive { discardOutputGraph() }
+                if device == "S4 Mk2" {
+                    let session = AVAudioSession.sharedInstance()
+                    try? session.setCategory(.playback, mode: .default)
+                    updateOutputDevice(Self.currentAudioOutputs)
+                }
                 throw error
             }
         }
@@ -1025,6 +1061,12 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                     let port = session.availableInputs?.first(where: { Self.matchesInput($0, device: captureDevice) })
                 else { throw TransportError.cache("The \(captureDevice) does not expose an audio input.") }
                 if session.preferredInput?.uid != port.uid { try session.setPreferredInput(port) }
+                if captureDevice == "S4 Mk2" {
+                    let channels = session.maximumInputNumberOfChannels >= 6 ? 6 : 4
+                    if session.inputNumberOfChannels != channels {
+                        try? session.setPreferredInputNumberOfChannels(channels)
+                    }
+                }
                 guard session.currentRoute.inputs.contains(where: { $0.uid == port.uid }),
                     Self.currentAudioOutputs.count == 1,
                     Self.currentAudioOutputs.first?.automaticSplitOutputName == captureDevice
@@ -1072,9 +1114,13 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                 if let captureDevice {
                     let input = engine.inputNode
                     let format = input.outputFormat(forBus: 0)
-                    guard let sink = native.makeMicrophoneSink(format: format, stereo: captureDevice == "S3") else {
-                        throw TransportError.cache("The \(captureDevice) input format is unavailable.")
+                    let sink = captureDevice == "S4 Mk2"
+                        ? native.makeS4InputSink(format: format)
+                        : native.makeMicrophoneSink(format: format, stereo: captureDevice == "S3")
+                    guard let sink else {
+                        throw TransportError.cache("The \(captureDevice) input channels are unavailable.")
                     }
+                    if captureDevice == "S4 Mk2" { s4CaptureChannels = format.channelCount }
                     engine.attach(sink)
                     engine.connect(input, to: sink, format: format)
                     attachedCaptureDevice = captureDevice
@@ -1149,6 +1195,10 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             outputRetryAt = nil
             #if os(iOS)
                 outputPortIDs = Set(AVAudioSession.sharedInstance().currentRoute.outputs.map(\.uid))
+                if requestedCaptureDevice == "S4 Mk2", attachedCaptureDevice == "S4 Mk2" {
+                    core.setS4InputChannels(s4CaptureChannels)
+                    enabledCaptureDevice = "S4 Mk2"
+                }
             #endif
             #if os(macOS)
                 timingActivity = activity
@@ -1335,6 +1385,9 @@ extension PlaybackController {
             parkRollRelease(deck: deck, generation: generation)
         }
         if case .touchRelease(let deck) = tracked.lane {
+            if message.error != nil, let park = tracked.control.cueContinuationPark {
+                _ = try? submitSource(park, canPrepare: false)
+            }
             let next = touchAfterRelease.removeValue(forKey: deck)
             if message.error == nil, let next, generations[deck] == next.generation {
                 do { try submitSource(next) } catch {
@@ -1407,7 +1460,9 @@ extension PlaybackController {
                     let generation = tracked.control.generation, self.generations[deck] == generation
                 {
                     // Clear the hold even when the streaming worker cannot provide the return audio.
-                    try? self.submitSource(.parkTouchRelease(deck: deck, generation: generation), canPrepare: false)
+                    _ = try? self.submitSource(
+                        tracked.control.cueContinuationPark ?? .parkTouchRelease(deck: deck, generation: generation),
+                        canPrepare: false)
                     if !self.outputActive { core.processControlsWhileIdle() }
                 }
                 if case .rollRelease(let deck) = tracked.lane, let generation = tracked.control.generation {

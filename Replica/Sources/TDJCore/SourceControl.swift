@@ -22,6 +22,21 @@ public enum SourceControl: Sendable {
                      end: 0, enabled: false, quantum: 0)
     }
 
+    public static func finishCueContact(
+        deck: DeckID, generation: UInt64, cue: Double, continuePlaying: Bool
+    ) -> Self {
+        .performance(
+            .touch, deck, generation, value: Double(continuePlaying ? TDJ_TOUCH_CUE_CONTINUE : TDJ_TOUCH_CUE_PARK),
+            end: cue, enabled: false, quantum: 0)
+    }
+
+    public var cueContinuationPark: Self? {
+        guard case .performance(.touch, let deck, let generation, let value, let end, false, _, _, _) = self,
+            value == Double(TDJ_TOUCH_CUE_CONTINUE)
+        else { return nil }
+        return .finishCueContact(deck: deck, generation: generation, cue: end, continuePlaying: false)
+    }
+
     var command: tdj_command {
         var result = tdj_command()
         func deck(_ deck: DeckID, _ generation: UInt64) {

@@ -698,6 +698,10 @@ public final class SampleTransport: @unchecked Sendable {
         tdj_microphone_set_enabled(pointer, enabled)
     }
 
+    public func setS4InputChannels(_ channels: UInt32) {
+        tdj_s4_input_set_channels(pointer, channels)
+    }
+
     public func setExternalInputMix(level: Double, cue: Bool, trim: Double = 1) {
         tdj_external_input_mix(pointer, level * trim, cue ? trim : 0)
     }

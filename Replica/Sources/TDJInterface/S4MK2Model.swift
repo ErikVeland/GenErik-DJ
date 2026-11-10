@@ -1,4 +1,5 @@
 #if os(iOS)
+    import AVFoundation
     import Foundation
     import TDJCore
 
@@ -10,6 +11,9 @@
             var knobs = [0.5, 0.5, 0.5, 0.5]
         }
 
+        var slices: [DeckID: S4MK2SliceContact] = [:]
+        var cueContacts: [DeckID: S4MK2CueContact] = [:]
+        var cueMarks: [DeckID: S4MK2CueContact] = [:]
         var takeover: [DeckID: [ControllerAction: ControllerMIDITakeoverState]] = [:]
         var extraPots: [DeckID: [ControllerAction: Double]] = [:]
         var loopIn: [DeckID: (generation: UInt64, frame: Double)] = [:]
@@ -17,6 +21,8 @@
         var jumpBeats: [DeckID: Double] = [:]
         var fx = [FXUnit(), FXUnit()]
         var previousFX: [DeckID: [EffectControl]] = [:]
+        var inputTask: Task<Void, Never>?
+        var inputAttempted = false
         var recordingTask: Task<Void, Never>?
         var ownsPreview = false
         var quantize = true
@@ -46,10 +52,13 @@
 
         private func releaseS4Controls() {
             if s3Connection?.isReceiving != true { playback.core.setMasterMeterEnabled(false) }
+            s4Performance.inputTask?.cancel()
+            try? playback.setCaptureEnabled(false, device: "S4 Mk2")
             if s4Performance.ownsPreview { stopS3Preview() }
             for deck in s4Controls.touched {
                 applyTraktorDeckAction(deck.leftSide ? .jogTouchA : .jogTouchB, deck: deck, value: 0, quantized: false)
             }
+            for deck in DeckID.allCases { releaseS4PerformanceContacts(deck) }
             for deck in s4Controls.bent { resetControllerWheelJog(deck) }
             for deck in s4Controls.gridEditing { endS2Grid(deck: deck, save: false) }
             if s2Connection?.isReceiving != true, s3Connection?.isReceiving != true {
@@ -71,20 +80,34 @@
         private func applyS4Event(_ event: S4MK2Event) {
             switch event {
             case .action(let action, let deck, let value):
-                if let slot = action.hotcueSlot, let trackID = loaded[deck],
-                    performance.cues[trackID]?[slot] == nil
-                {
-                    cue(slot: slot, deck: deck, quantized: s4Performance.snap)
+                if value > 0, action.isJog || action == .jogTouchA || action == .jogTouchB {
+                    releaseS4PerformanceContacts(deck)
+                }
+                applyTraktorDeckAction(action, deck: deck, value: value, quantized: s4Performance.quantize)
+            case .sliceMode(let deck):
+                toggleS4SliceMode(deck)
+            case .pad(let deck, let slot, let held, let shifted):
+                handleS4Pad(deck, slot: slot, held: held, shifted: shifted)
+            case .cue(let deck, let held):
+                if held { pressS4Cue(deck) } else { finishS4Cue(deck, continuePlaying: false) }
+            case .cueLatch(let deck):
+                if s4Performance.cueContacts[deck] != nil {
+                    finishS4Cue(deck, continuePlaying: true)
                 } else {
-                    applyTraktorDeckAction(action, deck: deck, value: value, quantized: s4Performance.quantize)
+                    pressPlay(deck: deck, vinylStop: false)
                 }
             case .pot(let action, let deck, let value):
                 applyS4Pot(action, deck: deck, value: value)
             case .layer(let deck):
+                releaseS4PerformanceContacts(
+                    deck.leftSide
+                        ? (deck == .a ? .c : .a)
+                        : (deck == .b ? .d : .b))
                 s4Performance.takeover[deck]?[deck.leftSide ? .tempoA : .tempoB] = nil
             case .bendEnd(let deck):
                 resetControllerWheelJog(deck)
             case .native(.move(let deck, let detents, let shifted)):
+                if moveS4SliceBank(deck, detents: detents, resize: shifted) { return }
                 let beats = s4Performance.jumpBeats[deck, default: 4]
                 if shifted {
                     s4Performance.jumpBeats[deck] = min(32, max(0.03125, beats * pow(2, Double(detents))))
@@ -99,6 +122,12 @@
                 } else {
                     applyNativeTraktorEvent(.loopSize(deck, detents, shifted: false), isS3: false)
                 }
+            case .native(.eject(let deck)):
+                releaseS4PerformanceContacts(deck)
+                ejectNativeTraktorDeck(deck)
+            case .native(.park(let deck, let atCue)):
+                releaseS4PerformanceContacts(deck)
+                applyNativeTraktorEvent(.park(deck, atCue: atCue), isS3: false)
             case .native(let event):
                 applyNativeTraktorEvent(event, isS3: false)
             case .gain(let deck, let detents):
@@ -114,6 +143,7 @@
                 guard let bpm = playbackSnapshot?.masterBPM, bpm > 0 else { return }
                 setMasterBPM(min(300, max(30, bpm + Double(detents) * 0.1)))
             case .gridToggle(let deck):
+                releaseS4PerformanceContacts(deck)
                 beginS2Grid(deck: deck, anchor: false)
             case .gridDownbeat(let deck, let beat):
                 selectS2GridDownbeat(deck: deck, beat: beat)
@@ -178,7 +208,12 @@
         private func applyS4Pot(_ action: ControllerAction, deck: DeckID, value: Double) {
             if deck.transportIndex >= 2 {
                 s4Performance.extraPots[deck, default: [:]][action] = value
-                guard playback.generations[deck] != nil else { return }
+                if playback.generations[deck] == nil {
+                    if playback.s4InputChannels > 0, action != .tempoA, action != .tempoB {
+                        setS4Pot(action, deck: deck, value: value)
+                    }
+                    return
+                }
             }
             guard
                 s4Performance.takeover[deck, default: [:]][action, default: .init()]
@@ -251,6 +286,65 @@
             }
         }
 
+        func maintainS4Input() {
+            guard s4Connection?.isReceiving == true else { return }
+            guard playback.automaticOutputDevice == "S4 Mk2" else {
+                s4Performance.inputTask?.cancel()
+                s4Performance.inputTask = nil
+                s4Performance.inputAttempted = false
+                return
+            }
+            guard !s4Performance.inputAttempted, s4Performance.inputTask == nil,
+                playbackSnapshot?.anyDeckActive != true, preparingTrack.isEmpty,
+                playback.canOpenCapture(device: "S4 Mk2")
+            else { return }
+            s4Performance.inputAttempted = true
+            s4Performance.inputTask = Task { [weak self] in
+                guard let self else { return }
+                defer {
+                    if !Task.isCancelled { s4Performance.inputTask = nil }
+                }
+                let permission = AVAudioApplication.shared.recordPermission
+                let granted: Bool
+                switch permission {
+                case .granted: granted = true
+                case .undetermined: granted = await AVAudioApplication.requestRecordPermission()
+                default: granted = false
+                }
+                guard !Task.isCancelled else { return }
+                guard granted else {
+                    s4Status = "S4 Mk2 controls connected. Microphone permission is off."
+                    return
+                }
+                let core = playback.core
+                do {
+                    try await Task.detached(priority: .utility) { try core.prepareExtraDecks() }.value
+                    guard !Task.isCancelled, s4Connection?.isReceiving == true,
+                        playback.automaticOutputDevice == "S4 Mk2"
+                    else { return }
+                    guard preparingTrack.isEmpty, playback.canOpenCapture(device: "S4 Mk2") else {
+                        s4Performance.inputAttempted = false
+                        return
+                    }
+                    cancelNativeMusicAnalysis()
+                    try playback.setCaptureEnabled(true, device: "S4 Mk2")
+                    for deck in [DeckID.c, .d] where playback.generations[deck] == nil {
+                        for (action, value) in s4Performance.extraPots[deck, default: [:]]
+                        where action != .tempoA && action != .tempoB {
+                            setS4Pot(action, deck: deck, value: value)
+                        }
+                    }
+                    s4Status =
+                        playback.s4InputChannels == 6
+                        ? "S4 Mk2 controls, line inputs and microphone connected."
+                        : "S4 Mk2 controls and line inputs connected."
+                } catch {
+                    guard !Task.isCancelled else { return }
+                    s4Status = error.localizedDescription
+                }
+            }
+        }
+
         func refreshS4Lights() {
             guard let connection = s4Connection, connection.isReceiving, let snapshot = playbackSnapshot else { return }
             var feedback = S4MK2Lights.Feedback()
@@ -265,6 +359,17 @@
             let master = playback.core.masterMeter
             feedback.master = (master.clipLeft, master.clipRight)
             for deck in s4Controls.layers {
+                if let contact = s4Performance.slices[deck],
+                    contact.generation != snapshot[deck].generation
+                        || (contact.bank.looping && !snapshot[deck].loopEnabled)
+                {
+                    endS4SliceMode(deck)
+                }
+                if let contact = s4Performance.slices[deck], contact.generation == snapshot[deck].generation {
+                    feedback.sliceModes[deck] = contact.bank.looping
+                    feedback.heldSlices[deck] = contact.held.last
+                }
+                feedback.cueHeld[deck] = s4Performance.cueContacts[deck]?.generation == snapshot[deck].generation
                 feedback.frames[deck] = playback.core.asset(generation: snapshot[deck].generation)?.frames
                 if let track = loaded[deck], let cues = performance.cues[track] {
                     feedback.cues[deck] = Set(cues.keys)

@@ -215,6 +215,37 @@ static void reap_source(NativeSourceRetirement *retirement, uint32_t delay_ms) {
         return noErr;
     }];
 }
+- (nullable AVAudioSinkNode *)makeS4InputSinkWithFormat:(AVAudioFormat *)format {
+    const uint32_t channels = format.channelCount;
+    if (format.commonFormat != AVAudioPCMFormatFloat32 || (channels != 4 && channels != 6) || format.sampleRate <= 0)
+        return nil;
+    auto core = _context->core;
+    id owner = _keepAlive;
+    double rate = format.sampleRate;
+    return [[AVAudioSinkNode alloc] initWithReceiverBlock:^OSStatus(
+        const AudioTimeStamp *timestamp, AVAudioFrameCount frames, const AudioBufferList *buffers) {
+        if (!owner || !buffers || buffers->mNumberBuffers > channels)
+            return noErr;
+        const float *input[6];
+        uint32_t strides[6];
+        unsigned index = 0;
+        for (unsigned i = 0; i < buffers->mNumberBuffers; ++i) {
+            const AudioBuffer &buffer = buffers->mBuffers[i];
+            const uint32_t stride = buffer.mNumberChannels;
+            if (!buffer.mData || !stride || stride > channels - index ||
+                frames > buffer.mDataByteSize / sizeof(float) / stride)
+                return noErr;
+            const float *data = (const float *)buffer.mData;
+            for (unsigned ch = 0; ch < stride; ++ch) {
+                input[index] = data + ch;
+                strides[index++] = stride;
+            }
+        }
+        if (index == channels)
+            tdj_s4_input_push(core, input, strides, frames, channels, rate);
+        return noErr;
+    }];
+}
 - (AVAudioSourceNodeRenderBlock)renderBlock {
     return _renderBlock;
 }
