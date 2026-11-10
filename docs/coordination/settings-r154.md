@@ -105,3 +105,17 @@ Any crackle, pause, delayed touch or visible stall blocks acceptance. Build succ
 - `Replica/Sources/TDJInterface/ControllerFeedbackSettingsView.swift`
 - `Replica/Sources/TDJInterface/CloudPreparationSettings.swift`
 - `Replica/Sources/TDJInterface/KeyImportReviewView.swift`
+
+## R157 and R158 — detail pages and library opening
+
+Feedback assumes build 217. Erik requested the remaining MIDI and preparation pages and full-screen library opening.
+
+Controller settings shows connected MIDI inputs, activity and performance lights first. Connections and profiles, searchable MIDI learning, feedback mappings and pattern kit import have separate setup pages. Leaving learning cancels the active assignment. Clearing mappings requires confirmation.
+
+Library preparation separates sources, key import, iCloud sharing and saved versions. The overview shows status and points to live deck preparation tools. Saved versions loads its history only when opened, supports track and artist search, and retains the idle-only restore guard and next-launch confirmation. Existing import review and manual-preparation protection remain unchanged.
+
+The toolbar Library icon always requests the full available browser height, including from a partly open pane. Close and drag controls remain available. Full height uses the existing iPad workspace and does not select the phone layout.
+
+Verification: focused panel checks cover full opening from partial and hidden states in both iPad orientations and both handle sizes. Physical navigation, MIDI hardware, import/restore flows, audio and touch acceptance remain open. General settings search remains separate from the completed detail-page work.
+
+The focused panel harness passed 261 checks. Its old dock-width assertion failed 24 times on the unchanged baseline. The assertion now checks full library width and separation from the deck area. Baseline failures and passing results remain under `TestBuilds/r157/`.

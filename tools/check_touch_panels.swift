@@ -69,6 +69,12 @@ import Foundation
         ] {
             var fullHeight = LibraryPanelState()
             fullHeight.updateViewport(width: width, height: height, presented: true, handleExtent: handle)
+            var iconOpen = fullHeight
+            iconOpen.present(fullyExpanded: true)
+            expect(iconOpen.extent == full, "Library icon expands a partially open pane")
+            iconOpen.setPresented(false)
+            iconOpen.present(fullyExpanded: true)
+            expect(iconOpen.extent == full, "Library icon opens a hidden pane at full height")
             fullHeight.beginDrag()
             fullHeight.updateDrag(translation: height)
             fullHeight.endDrag(velocity: 0)
@@ -235,7 +241,8 @@ import Foundation
                     workspace.deckArea.height >= 0,
                     "browser expansion cannot produce negative deck space")
                 expect(workspace.libraryArea.maxY == height, "browser remains attached to bottom edge")
-                expect(workspace.libraryArea.maxX <= baseline.workArea.maxX, "browser cannot cover dock")
+                expect(workspace.libraryArea.maxX == width, "browser uses the full workspace width")
+                expect(workspace.libraryArea.minY >= workspace.deckArea.maxY, "browser stays below deck and dock space")
             }
         }
         print("\(checks) panel and library checks; \(failures) failures")

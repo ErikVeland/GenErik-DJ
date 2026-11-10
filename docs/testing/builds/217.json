@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 58.39,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "requests": [
+        "R157",
+        "R158"
+      ],
+      "buildAssumed": true,
+      "report": "Finish MIDI and preparation detail pages by live use versus setup. Library icon must open full screen instead of a tiny sliver."
+    }
+  ],
   "log": "TestBuilds/ipad/build-217.log",
   "build": 217,
   "app": "TestBuilds/ipad/217/GenErikDJ.app",
