@@ -45,3 +45,28 @@ import Testing
     track.preparation.gridWasEditedByUser = true
     #expect(try track.adoptingDeepAnalysis(corrected).analysis.adaptiveCandidate == previous.fixedReviewCandidate)
 }
+
+@Test func deepOpeningCorrectionKeepsBeatTimingAndSharesTheCorrectedBar() throws {
+    var track = try syntheticTrack("a", bpm: 120)
+    track.analysis.implementation = "Beat This small0 fitted grid"
+    let result = DeepBeatAnalysis(audio: .init(track.analysis), profile: .current,
+        coveredFrames: track.analysis.frameCount, windowCount: 1,
+        candidate: .init(.init(bpm: 120.001, firstBar: 1.01, beatAgreement: 1, barAgreement: 0.69,
+                              residualMilliseconds: 5, openingPhaseCorrected: true)))
+    let updated = try track.adoptingDeepAnalysis(result)
+    #expect(updated.bpm == track.bpm)
+    #expect(updated.grid?.anchorFrame == track.grid?.anchorFrame)
+    #expect(updated.grid?.downbeatOffset == 2)
+    #expect(updated.analysis.detectedDownbeatOffset == 2)
+    #expect(updated.analysis.downbeatConfidence == 0.69)
+    #expect(updated.analysis.acceptedDeepBeatAnalysis == result)
+    let shared = try CloudPreparationArchive.analysisOnly(track: updated, arrangement: nil)
+        .automaticallyMergedTrack(matching: track)
+    #expect(shared.grid == updated.grid)
+    track.preparation.gridWasEditedByUser = true
+    #expect(try track.adoptingDeepAnalysis(result).preparation == track.preparation)
+    track.preparation.gridWasEditedByUser = false
+    track.preparation.grid = try BeatGrid(bpm: 120, anchorFrame: 0.25 * track.analysis.sampleRate,
+                                         sampleRate: track.analysis.sampleRate)
+    #expect(try track.adoptingDeepAnalysis(result).analysis.acceptedDeepBeatAnalysis == nil)
+}

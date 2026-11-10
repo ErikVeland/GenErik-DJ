@@ -150,6 +150,8 @@ final class BarStartDetectionTests: XCTestCase {
             AudioAnalysis.self, from: JSONSerialization.data(withJSONObject: value["analysis"]!))
         let original = try decoder.decode(
             BeatGrid.self, from: JSONSerialization.data(withJSONObject: value["importedGrid"]!))
+        XCTAssertNil(prep.detectedBarGrid(analysis: analysis, imported: original, importIsUnlocked: true))
+        analysis.barAnalysisVersion = BarStartAnalysis.version
         let adopted = prep.detectedBarGrid(analysis: analysis, imported: original, importIsUnlocked: true)
         XCTAssertEqual(adopted?.bpm ?? -1, 136.017769, accuracy: 0.0001)
         XCTAssertEqual((adopted?.anchorFrame ?? -44100) / 44100, 0.180408, accuracy: 0.01)

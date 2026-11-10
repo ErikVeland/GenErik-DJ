@@ -217,7 +217,8 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
             importIsUnlocked: traktorPreparation?.record.rawEntry.attributes["LOCK"] == "0")
     }
     public var needsAutomaticBarAnalysis: Bool {
-        mayRefreshAutomaticGrid && analysis.barAnalysisVersion != BarStartAnalysis.version
+        mayRefreshAutomaticGrid && analysis.acceptedDeepBeatAnalysis == nil
+            && analysis.barAnalysisVersion != BarStartAnalysis.version
     }
     var needsTempoOctaveUpgrade: Bool {
         mayRefreshAutomaticGrid && traktorPreparation?.normalized.grid == nil

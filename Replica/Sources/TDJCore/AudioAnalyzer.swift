@@ -282,7 +282,8 @@ public enum AudioAnalyzer {
     }
 
     static func guidedBeatPhase(
-        url: URL, matching analysis: AudioAnalysis, bpm: Double, checkCancellation: @Sendable () throws -> Void
+        url: URL, matching analysis: AudioAnalysis, bpm: Double, neuralBeats: [Double],
+        checkCancellation: @Sendable () throws -> Void
     ) throws -> GuidedBeatPhase? {
         let before = try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
         let decoded = try decode(url: url, waveformFramesPerBin: nil, analyzeMusic: true,
@@ -294,7 +295,7 @@ public enum AudioAnalyzer {
         }
         return try MusicalRhythmAnalyzer.guidedPhase(
             frames: pulses.frames, sampleRate: decoded.sampleRate, framesPerBin: Double(pulses.framesPerBin),
-            bpm: bpm, checkCancellation: checkCancellation)
+            bpm: bpm, neuralBeats: neuralBeats, checkCancellation: checkCancellation)
     }
 
     private static func decode(

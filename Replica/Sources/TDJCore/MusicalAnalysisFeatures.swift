@@ -123,7 +123,7 @@ enum MusicalRhythmAnalyzer {
     }
 
     static func guidedPhase(
-        frames: [MusicalPulseFrame], sampleRate: Double, framesPerBin: Double, bpm: Double,
+        frames: [MusicalPulseFrame], sampleRate: Double, framesPerBin: Double, bpm: Double, neuralBeats: [Double] = [],
         checkCancellation: @Sendable () throws -> Void
     ) throws -> GuidedBeatPhase? {
         try checkCancellation()
@@ -145,11 +145,15 @@ enum MusicalRhythmAnalyzer {
                 abs(($0.phase - fit.phase).remainder(dividingBy: fit.period)) <= 0.045
                     && $0.occupancy >= 0.45 && $0.coverage >= 0.85
             }.count
-            guard support >= 3 else { continue }
+            let errors = neuralBeats.map { abs(($0 - fit.phase).remainder(dividingBy: fit.period)) }.sorted()
+            let neuralAgreement = errors.isEmpty ? nil : Double(errors.filter { $0 <= 0.04 }.count) / Double(errors.count)
+            let neuralSupports = errors.count >= 32 && neuralAgreement! >= 0.55 && errors[errors.count / 2] <= 0.02
+            guard support >= 3 || neuralSupports else { continue }
             let anchor = fit.phase + ceil(-fit.phase / fit.period) * fit.period
             return .init(bpm: 60 / fit.period, anchorSeconds: max(0, anchor),
                          residualMilliseconds: fit.residual * 1000, occupancy: fit.occupancy,
-                         coverage: fit.coverage, supportingBands: support)
+                         coverage: fit.coverage, supportingBands: support,
+                         neuralAgreement: neuralSupports ? neuralAgreement : nil)
         }
         return nil
     }

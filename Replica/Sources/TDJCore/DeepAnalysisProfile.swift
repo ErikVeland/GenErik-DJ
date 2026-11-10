@@ -30,10 +30,10 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public var rhythmCalibrationVersion: String? = nil
 
     public static let current = Self(
-        generation: 13, model: "BeatThis/final0",
+        generation: 14, model: "BeatThis/final0",
         weightsSHA256:
             "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331",
-        conversion: 1, preprocessing: 1, decisionPolicy: 13,
+        conversion: 1, preprocessing: 1, decisionPolicy: 14,
         upgradeBenefit: "Preserve supported opening bars and refine tempo-octave beat phase with sustained audio evidence.",
         keyModelVersion: LearnedKeyProfile.current.id, rhythmCalibrationVersion: DeepRhythmCalibration.id)
 
@@ -97,12 +97,15 @@ public struct GuidedBeatPhase: Codable, Equatable, Sendable {
     public let occupancy: Double
     public let coverage: Double
     public let supportingBands: Int
+    public var neuralAgreement: Double? = nil
 
     var isValid: Bool {
         bpm.isFinite && (60...200).contains(bpm) && anchorSeconds.isFinite && anchorSeconds >= 0
             && residualMilliseconds.isFinite && (0...8).contains(residualMilliseconds)
             && occupancy.isFinite && (0.70...1).contains(occupancy)
-            && coverage.isFinite && (0.90...1).contains(coverage) && (3...4).contains(supportingBands)
+            && coverage.isFinite && (0.90...1).contains(coverage) && (1...4).contains(supportingBands)
+            && (neuralAgreement.map { $0.isFinite && (0.55...1).contains($0) } ?? true)
+            && (supportingBands >= 3 || neuralAgreement != nil)
     }
 }
 
@@ -182,6 +185,26 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
             sampleRate: track.analysis.sampleRate, downbeatOffset: 0)
     }
 
+    func acceptedOpeningGrid(for track: Track) -> BeatGrid? {
+        guard profile == .current, let candidate, candidate.openingPhaseCorrected == true,
+            candidate.beatAgreement >= 0.95, candidate.residualMilliseconds <= 20,
+            track.mayRefreshAutomaticGrid, track.traktorPreparation?.normalized.grid == nil,
+            track.analysis.acceptedDeepBeatAnalysis == nil,
+            track.analysis.implementation == "Beat This small0 fitted grid",
+            (try? validate(matching: track.analysis)) != nil, let previous = track.grid,
+            abs(candidate.bpm / previous.bpm - 1) <= 0.001 else { return nil }
+        let previousReview = track.analysis.deepBeatAnalysis?.adaptiveCandidate?.map
+            ?? track.analysis.deepBeatAnalysis?.fixedReviewCandidate
+        guard track.analysis.adaptiveCandidate == nil
+            || (previousReview != nil && track.analysis.adaptiveCandidate == previousReview) else { return nil }
+        let offset = (candidate.firstBarSeconds - previous.anchorFrame / previous.sampleRate) * previous.bpm / 60
+        let beat = Int(offset.rounded())
+        let phase = ((beat % 4) + 4) % 4
+        guard abs(offset - Double(beat)) <= 0.10, (phase - previous.downbeatOffset + 4) % 4 == 2 else { return nil }
+        return try? BeatGrid(bpm: previous.bpm, anchorFrame: previous.anchorFrame,
+                            sampleRate: previous.sampleRate, downbeatOffset: phase)
+    }
+
     func acceptedTempoGrid(for track: Track) -> BeatGrid? {
         guard profile == .current, candidate == nil, let tempo = tempoCandidateBPM,
             track.mayRefreshAutomaticGrid, track.traktorPreparation?.normalized.grid == nil,
@@ -241,6 +264,15 @@ extension Track {
             DeepAnalysisProfile.current.needsAnalysis(after: analysis.deepBeatAnalysis)
         else { return self }
         var copy = self
+        if let grid = result.acceptedOpeningGrid(for: self) {
+            copy.preparation.grid = grid
+            copy.analysis.implementation = "\(result.profile.model) opening bar with first-pass beat timing"
+            copy.analysis.acceptedDeepBeatAnalysis = result
+            copy.analysis.detectedDownbeatOffset = grid.downbeatOffset
+            copy.analysis.downbeatConfidence = min(0.69, result.candidate!.barAgreement)
+            copy.analysis.beatModelVersion = result.profile.id
+            copy.analysis.barAnalysisVersion = BarStartAnalysis.version
+        }
         if let grid = result.acceptedTempoGrid(for: self) {
             copy.analysis.implementation = result.guidedPhase == nil
                 ? "\(result.profile.model) tempo octave with DSP beat phase"

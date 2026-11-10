@@ -20,6 +20,15 @@ import Testing
     }
     #expect(try MusicalRhythmAnalyzer.guidedPhase(
         frames: isolated, sampleRate: 44100, framesPerBin: 220.5, bpm: 80, checkCancellation: {}) == nil)
+    let aligned = (0..<159).map { 0.55 + Double($0) * 0.75 }
+    let neuralSupported = try MusicalRhythmAnalyzer.guidedPhase(
+        frames: isolated, sampleRate: 44100, framesPerBin: 220.5, bpm: 80, neuralBeats: aligned, checkCancellation: {})
+    #expect(neuralSupported?.supportingBands == 1)
+    #expect(neuralSupported?.neuralAgreement == 1)
+    let conflicting = try MusicalRhythmAnalyzer.guidedPhase(
+        frames: isolated, sampleRate: 44100, framesPerBin: 220.5, bpm: 80,
+        neuralBeats: aligned.map { $0 + 0.2 }, checkCancellation: {})
+    #expect(conflicting == nil)
     #expect(throws: CancellationError.self) {
         try MusicalRhythmAnalyzer.guidedPhase(
             frames: frames, sampleRate: 44100, framesPerBin: 220.5, bpm: 80,
@@ -56,6 +65,8 @@ import Testing
     older.analysis.deepBeatAnalysis = oldResult
     older.analysis.acceptedDeepBeatAnalysis = oldResult
     older.analysis.implementation = "BeatThis/final0 tempo octave with DSP beat phase"
+    older.analysis.barAnalysisVersion = BarStartAnalysis.version - 1
+    #expect(!older.needsAutomaticBarAnalysis)
     older.preparation.grid = try BeatGrid(bpm: 80, anchorFrame: 0.38 * track.analysis.sampleRate,
                                          sampleRate: track.analysis.sampleRate)
     #expect(try older.adoptingDeepAnalysis(result).grid == updated.grid)
