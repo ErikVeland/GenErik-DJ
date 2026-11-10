@@ -258,8 +258,16 @@ private struct RetainedFilterGrid: View, Equatable {
 
             Divider()
             level("Headphone Level", .monitor, model.playbackSnapshot?.monitorGain ?? 0.5)
-            VStack(spacing: 2) {
-                level("Headphone Mix", .cueBlend, model.playbackSnapshot?.cueBlend ?? 0)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Headphones Mix").fontWeight(.semibold)
+                TouchFader(value: cueBlend, range: 0...1, reset: 0.5, horizontalHeight: 44, readValue: { cueBlend }) {
+                    model.setMixer(.cueBlend, value: $0)
+                }.accessibilityRepresentation {
+                    Slider(
+                        value: Binding(get: { cueBlend }, set: { model.setMixer(.cueBlend, value: $0) }),
+                        in: 0...1, step: 0.05
+                    ).accessibilityLabel("Headphones Mix").accessibilityHint("Cue at zero percent, Master at 100 percent.")
+                }
                 HStack {
                     detail("Cue")
                     Spacer()
@@ -273,6 +281,8 @@ private struct RetainedFilterGrid: View, Equatable {
             #endif
         }
     }
+
+    private var cueBlend: Double { model.playbackSnapshot?.cueBlend ?? 0 }
 
     private func detail(_ title: String) -> some View {
         Text(title).font(.caption).foregroundStyle(PerformancePalette.secondaryText)

@@ -74,3 +74,45 @@ import Testing
     report[1] = 0x22
     #expect(controls.consume(report) == [.action(.playA, .c), .cue(.c, true)])
 }
+
+@Test func z1Mk2StemKnobsFollowTheSelectedDeckAndLeaveEQAlone() {
+    var controls = Z1MK2Controls()
+    var report: [UInt8] = [1] + .init(repeating: 0, count: 34)
+    _ = controls.consume(report)
+    report[1] = 0x02
+    report[3] = 128
+    #expect(controls.consume(report) == [.mode(.a)])
+    report[3] = 255
+    report[4] = 15
+    report[9] = 255
+    report[10] = 15
+    report[13] = 255
+    report[14] = 15
+    #expect(controls.consume(report) == [.stemGain(.a, 0, 1), .stemGain(.a, 3, 1), .pot(.gainB, .b, 1)])
+
+    report[1] = 0x14
+    #expect(controls.consume(report) == [.layer, .mode(.d)])
+    report[13] = 0
+    report[14] = 0
+    #expect(controls.consume(report) == [.stemGain(.d, 0, 0)])
+    report[1] = 0x08
+    #expect(controls.consume(report) == [.mode(.d)])
+    report[13] = 255
+    report[14] = 15
+    #expect(controls.consume(report) == [.pot(.gainB, .d, 1)])
+}
+
+@Test func x1Mk3PatternScreenUsesBoundedUTF8AndCarriesTheLiveStep() throws {
+    let payload = X1PatternScreen.payload(
+        side: 1, mode: true, kit: String(repeating: "å", count: 20),
+        sound: "Snare", steps: 0x8421, cursor: 5, ducking: true)
+    #expect(payload.count == 64)
+    #expect(Array(payload.prefix(6)) == [1, 1, 0x21, 0x84, 5, 1])
+    #expect(String(bytes: payload[6..<34], encoding: .utf8) == String(repeating: "å", count: 14))
+    #expect(payload[34] == 0)
+    var decoder = ControllerBridgeDecoder()
+    let frame = try ControllerBridgeFrame(kind: .x1PatternScreen, payload: payload)
+    #expect(decoder.append(frame.encoded) == [frame])
+    #expect(X1PatternScreen.payload(side: 0, mode: false, kit: "", sound: "", steps: 0, cursor: nil, ducking: false)
+        == .init(repeating: 0, count: 64))
+}

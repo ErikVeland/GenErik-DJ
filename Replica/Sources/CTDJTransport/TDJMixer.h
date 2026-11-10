@@ -43,23 +43,31 @@ static void filter_step(state_filter *f) {
     f->a2 = g * f->a1;
     f->a3 = g * f->a2;
 }
-static double filter_sample(state_filter *f, double x, int channel) {
-    double difference = x - f->integrator2[channel];
-    double band = f->a1 * f->integrator1[channel] + f->a2 * difference;
-    double low = f->integrator2[channel] + f->a2 * f->integrator1[channel] + f->a3 * difference;
-    f->integrator1[channel] = 2 * band - f->integrator1[channel];
-    f->integrator2[channel] = 2 * low - f->integrator2[channel];
-    if (fabs(f->integrator1[channel]) < 1e-25)
-        f->integrator1[channel] = 0;
-    if (fabs(f->integrator2[channel]) < 1e-25)
-        f->integrator2[channel] = 0;
+static double filter_sample_state(const state_filter *f, double x, double *first, double *second) {
+    double difference = x - *second;
+    double band = f->a1 * *first + f->a2 * difference;
+    double low = *second + f->a2 * *first + f->a3 * difference;
+    *first = 2 * band - *first;
+    *second = 2 * low - *second;
+    if (fabs(*first) < 1e-25)
+        *first = 0;
+    if (fabs(*second) < 1e-25)
+        *second = 0;
     return low + (x - f->k * band - 2 * low) * f->hp;
 }
+
+static double filter_sample(state_filter *f, double x, int channel) {
+    return filter_sample_state(f, x, &f->integrator1[channel], &f->integrator2[channel]);
+}
+typedef struct {
+    double low[2], high[2], integrator1[2], integrator2[2];
+} mixer_bypass;
 typedef struct {
     ramp volume, gain, low, mid, high, cue, filter_wet, crossfader_assignment;
     double filter_x, filter_y, low_state[2], high_state[2];
     bool filter_enabled;
     state_filter filter;
+    mixer_bypass bypass;
     double peak;
 } mixer_deck;
 typedef struct {
@@ -92,8 +100,9 @@ static void mixer_clear_track(mixer_deck *d) {
     memset(d->high_state, 0, sizeof(d->high_state));
     memset(d->filter.integrator1, 0, sizeof(d->filter.integrator1));
     memset(d->filter.integrator2, 0, sizeof(d->filter.integrator2));
+    d->bypass = (mixer_bypass){0};
 }
-static void mixer_process_deck(mixer *m, int index, double *l, double *r) {
+static void mixer_process_split(mixer *m, int index, double *l, double *r, double *dry) {
     mixer_deck *d = &m->decks[index];
     double gain = ramp_next(&d->gain), low = ramp_next(&d->low), mid = ramp_next(&d->mid), high = ramp_next(&d->high);
     double wet = ramp_next(&d->filter_wet);
@@ -108,10 +117,24 @@ static void mixer_process_deck(mixer *m, int index, double *l, double *r) {
              (high - 1) * (x - d->high_state[ch]);
         double filtered = filter_sample(&d->filter, x, ch);
         samples[ch] = x + (filtered - x) * wet;
+        if (dry) {
+            mixer_bypass *b = &d->bypass;
+            double y = dry[ch] * gain;
+            b->low[ch] += m->low_coefficient * (y - b->low[ch]);
+            b->high[ch] += m->high_coefficient * (y - b->high[ch]);
+            y += (low - 1) * b->low[ch] + (mid - 1) * (b->high[ch] - b->low[ch]) +
+                 (high - 1) * (y - b->high[ch]);
+            double filtered_dry = filter_sample_state(&d->filter, y, &b->integrator1[ch], &b->integrator2[ch]);
+            dry[ch] = y + (filtered_dry - y) * wet;
+        }
     }
     *l = samples[0];
     *r = samples[1];
     d->peak = fmax(d->peak, fmax(fabs(*l), fabs(*r)));
+}
+
+static void mixer_process_deck(mixer *m, int index, double *l, double *r) {
+    mixer_process_split(m, index, l, r, NULL);
 }
 
 static inline double mixer_crossfader_gain(mixer_deck *d, double cross) {

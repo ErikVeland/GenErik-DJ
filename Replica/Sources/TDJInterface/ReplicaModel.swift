@@ -400,9 +400,14 @@ import TDJCore
         var z1MK2Receiving = false
         var x1MK3Receiving = false
         @ObservationIgnored var z1MK2Controls = Z1MK2Controls()
+        @ObservationIgnored var z1MK2StemPickup: [DeckID: (generation: UInt64, knobs: [Int: ControllerMIDITakeoverState])] = [:]
         @ObservationIgnored var z1MK2Takeover: [DeckID: [ControllerAction: ControllerMIDITakeoverState]] = [:]
         @ObservationIgnored var z1MK2FXEnabled: Set<DeckID> = []
         @ObservationIgnored var x1MK3Controls = X1MK3Controls()
+        @ObservationIgnored var nextX1PatternScreen: ContinuousClock.Instant?
+        @ObservationIgnored var patternKits: [PatternKitArchive.Info] = []
+        @ObservationIgnored var patternKitLoad: Task<Void, Never>?
+        @ObservationIgnored var patternKitImporting = false
         @ObservationIgnored var x1Patterns = [TraktorPatternUnit(), TraktorPatternUnit()]
         @ObservationIgnored var x1MK3Performance = S4MK2Performance()
         @ObservationIgnored var s4MK3DirectTransport: (any S4MK3ReportConnection)?
@@ -513,6 +518,7 @@ import TDJCore
         } catch { status = error.localizedDescription }
     }
     public let playback: PlaybackController
+    let liveStems = LiveStemExperiment()
     public let calibration: SuggestionCalibration?
     public let store: WorkspaceStore
     let service: LibraryService
@@ -632,6 +638,7 @@ import TDJCore
             automaticTraktorSources: automaticTraktorSources)
         self.playback = try playback ?? PlaybackController()
         mixerPreferences = try MixerPreferences.load(from: root.appendingPathComponent("mixer-preferences.json"))
+        self.playback.setPrimaryKeylockDefault(mixerPreferences.primaryKeylock ?? true)
         try self.playback.setMixer(.filterY, value: mixerPreferences.filterResonanceA, deck: .a)
         try self.playback.setMixer(.filterY, value: mixerPreferences.filterResonanceB, deck: .b)
         playbackSnapshot = self.playback.core.snapshot()
@@ -1921,10 +1928,19 @@ import TDJCore
             refreshPlayback()
         } catch { status = error.localizedDescription }
     }
+    var primaryKeylockEnabled: Bool {
+        get { mixerPreferences.primaryKeylock ?? true }
+        set {
+            guard newValue != primaryKeylockEnabled else { return }
+            mixerPreferences.primaryKeylock = newValue
+            playback.setPrimaryKeylockDefault(newValue)
+            persistMixerPreferences()
+        }
+    }
     public func toggleKeylock(deck: DeckID) {
         guard playbackSnapshot?[deck].phase != .empty else { return }
         do {
-            try playback.setKeylock(!playback.requestedKeylock(deck), deck: deck)
+            try playback.toggleKeylock(deck: deck)
             refreshPlayback()
         } catch { status = error.localizedDescription }
     }

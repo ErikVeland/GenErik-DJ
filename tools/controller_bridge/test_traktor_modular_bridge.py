@@ -1,3 +1,4 @@
+import importlib.util
 import unittest
 
 from traktor_modular_bridge import INPUT, LENGTHS, S2_MK1, S2_MK1_INPUT, X1_MK3, Z1_MK2, feedback, input_frame
@@ -35,6 +36,27 @@ class S2Mk1BridgeChecks(unittest.TestCase):
         self.assertEqual(feedback(S2_MK1, report), report)
         self.assertIsNone(feedback(S2_MK1, report[:-1] + b'\x20'))
         self.assertIsNone(feedback(S2_MK1, b'\x81' + report[1:]))
+
+
+@unittest.skipUnless(importlib.util.find_spec("PIL"), "Pillow is required for OLED drawing.")
+class PatternScreenTests(unittest.TestCase):
+    def test_pattern_screen_writes_only_the_two_fx_oleds(self):
+        from traktor_modular_bridge import pattern_screen_report
+
+        payload = bytes([1, 1, 0x11, 0x11, 4, 1]) + b'Factory Kit'.ljust(29, b'\0') + b'Kick'.ljust(29, b'\0')
+        frame = pattern_screen_report(payload)
+        self.assertEqual((frame[0], len(frame)), (0xe4, 1025))
+        self.assertTrue(any(frame[1:]))
+        def pixel(x, y):
+            return bool(frame[1 + 16 * y + x // 8] & (0x80 >> (x % 8)))
+        self.assertTrue(pixel(4, 55))
+        self.assertFalse(pixel(12, 55))
+        self.assertTrue(pixel(36, 61))
+        self.assertFalse(pixel(44, 61))
+        blank = pattern_screen_report(bytes(64))
+        self.assertEqual(blank, b'\xe0' + bytes(1024))
+        self.assertIsNone(pattern_screen_report(bytes([2]) + payload[1:]))
+        self.assertIsNone(pattern_screen_report(payload[:-1]))
 
 
 if __name__ == '__main__':

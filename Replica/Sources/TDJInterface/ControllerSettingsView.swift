@@ -1,5 +1,6 @@
 import SwiftUI
 import TDJCore
+import UniformTypeIdentifiers
 
 #if os(iOS)
     import AVFoundation
@@ -20,6 +21,10 @@ struct ControllerSettingsView: View {
     @State private var confirmation: ProfileChange?
     @State private var originalZ1Attached = false
     @State private var connectedLights: [String] = []
+    #if os(iOS)
+        @State private var importingPatternKits = false
+        @State private var patternKitMessage: String?
+    #endif
 
     private enum ProfileChange {
         case controls(LearnedControllerProfile)
@@ -49,6 +54,11 @@ struct ControllerSettingsView: View {
             if !hasOriginalZ1 && connectedLights.isEmpty && input.sources.isEmpty {
                 Text("Connect a controller to see its settings.").foregroundStyle(.secondary)
             }
+            #if os(iOS)
+                if connectedLights.contains("X1 Mk3") || connectedLights.contains("MX2") {
+                    Button("Import Pattern Kits…") { importingPatternKits = true }
+                }
+            #endif
             DisclosureGroup("MIDI setup") {
                 midiSettings.padding(.top, 8)
             }
@@ -70,6 +80,21 @@ struct ControllerSettingsView: View {
             }
         }
         #if os(iOS)
+            .fileImporter(isPresented: $importingPatternKits, allowedContentTypes: [.json]) { result in
+                Task {
+                    do {
+                        let count = try await model.importPatternKits(result.get())
+                        patternKitMessage = count == 1 ? "1 imported kit ready." : "\(count) imported kits ready."
+                    } catch { patternKitMessage = error.localizedDescription }
+                }
+            }
+            .alert("Pattern Kits", isPresented: Binding(
+                get: { patternKitMessage != nil }, set: { if !$0 { patternKitMessage = nil } })
+            ) {
+                Button("OK") { patternKitMessage = nil }
+            } message: {
+                Text(patternKitMessage ?? "")
+            }
             .onReceive(NotificationCenter.default.publisher(for: .EAAccessoryDidConnect).receive(on: RunLoop.main)) {
                 _ in refreshOriginalZ1()
             }

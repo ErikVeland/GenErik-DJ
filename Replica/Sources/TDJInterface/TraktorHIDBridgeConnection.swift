@@ -259,6 +259,13 @@ import TDJCore
         if send(kind: content ? .factoryScreenContent : .factoryScreen, payload: payload) { lastFeedback[key] = payload }
     }
 
+    func x1PatternScreen(_ payload: [UInt8]) {
+        guard model == .x1MK3, isReceiving, let side = payload.first, side < 2 else { return }
+        let key = 260 + Int(side)
+        guard lastFeedback[key] != payload else { return }
+        if send(kind: .x1PatternScreen, payload: payload) { lastFeedback[key] = payload }
+    }
+
     private func send(kind: ControllerBridgeFrame.Kind, payload: [UInt8]) -> Bool {
         guard output != 0, destination != 0, let frame = try? ControllerBridgeFrame(kind: kind, payload: payload)
         else { return false }

@@ -1,0 +1,29 @@
+{
+  "notes": "R147 native NI stem controls and per-stem FX sends. Local verification only.",
+  "sourceCommit": "c780040311bd5507530fce2829c13f37544aad4c",
+  "sourceSHA256": "14a5b87379fe664c517bf723651a981b56a460672b5ab0aa450a617302cc444e",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 58.14,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "request": "R148",
+      "date": "2026-11-10",
+      "summary": "Move Keylock into Playback Settings beside Tempo fader. Enable it by default for steady pitch. Turn it off for vinyl-style pitch changes."
+    }
+  ],
+  "log": "TestBuilds/ipad/build-210.log",
+  "build": 210,
+  "app": "TestBuilds/ipad/210/GenErikDJ.app",
+  "appSHA256": "7013227fe3ad94ffcc306022ee416b132a5cf902b4a67dcf98152a2a39106d1a",
+  "state": "testing",
+  "createdUTC": "2026-11-10T12:35:54.846841+00:00",
+  "installedUTC": "2026-11-10T12:36:14.438757+00:00",
+  "launchedUTC": "2026-11-10T12:36:15.212359+00:00",
+  "launchVerification": "iOS accepted the launch request on the Duo.",
+  "deploymentTarget": "GenErik Duo",
+  "testScope": [
+    "R145. Check the front speaker button below the camera.",
+    "R146. Check the OUTPUT menu, Headphones Mix centre snap and Keylock in each deck’s settings."
+  ]
+}

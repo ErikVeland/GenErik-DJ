@@ -1,0 +1,15 @@
+{
+  "notes": "R149 NI Pattern Player kit import and X1 Mk3 pattern screens. Local verification only.",
+  "sourceCommit": "138b6cab04a23656f75aba7b85843eac96ee1556",
+  "sourceSHA256": "9c157001d22b9b49e0d0f9c9c0c45ede6aaf437aeb8f4ca8c0689b9c64428a90",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 101.06,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-212.log",
+  "build": 212,
+  "app": "TestBuilds/ipad/212/GenErikDJ.app",
+  "appSHA256": "8aba9408c391b028b45113de6c72032b059137612c235797a646e5e53b3ce04d",
+  "state": "ready",
+  "createdUTC": "2026-11-10T12:53:56.954764+00:00"
+}

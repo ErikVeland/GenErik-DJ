@@ -35,7 +35,16 @@ struct PlaybackSettings: View {
             }
             Toggle("Section colours in waveform", isOn: $sectionWaveformColours)
             Toggle("Beat jump", isOn: $beatJump)
-            Toggle("Tempo fader", isOn: $tempoFader)
+            VStack(alignment: .leading, spacing: 6) {
+                Toggle("Tempo fader", isOn: $tempoFader)
+                if showsPlayback {
+                    Toggle("Keylock", isOn: $model.primaryKeylockEnabled)
+                    Text("Keeps pitch steady as tempo changes. Turn it off for vinyl-style pitch changes.")
+                        .font(.caption).foregroundStyle(.secondary)
+                    Text("Applies when a track loads on Deck A or B.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+            }
             Toggle("CUE button", isOn: $cueButton)
             Toggle("Headphone button", isOn: $headphoneButton)
             Toggle("Vinyl stop", isOn: $vinylStop)

@@ -153,6 +153,8 @@ extension TraktorFactoryProfile {
                 p.inputs.append(.init(report: 1, byte: spec.strip + 2 * finger, encoding: .strip(shared: false), target: target, control: .strip))
             }
             if model == .d2 || model == .s8 {
+                p.bit(first, 22 + 64 * side, target, .stemSendPage(false), .mono(32 + 118 * side))
+                p.bit(first, 14 + 64 * side, target, .stemSendPage(true), .mono(36 + 118 * side))
                 for part in 0..<4 {
                     p.pot((model == .d2 ? 9 : 17) + 8 * side + 2 * part, target, .stemGain(part))
                     p.inputs.append(.init(report: 2, byte: 1 + 8 * side + 2 * part, encoding: .endless,

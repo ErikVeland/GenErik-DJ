@@ -12,6 +12,7 @@
             mixer.onDisconnect = { [weak self] in
                 self?.z1MK2Controls.disconnect()
                 self?.z1MK2Takeover.removeAll()
+                self?.z1MK2StemPickup.removeAll()
             }
             z1MK2Bridge = mixer
             mixer.start()
@@ -29,7 +30,23 @@
         private func applyZ1MK2(_ event: Z1MK2Controls.Event) {
             switch event {
             case .layer:
-                for deck in DeckID.allCases { z1MK2Takeover[deck] = nil }
+                z1MK2Takeover.removeAll()
+                z1MK2StemPickup.removeAll()
+            case .mode(let deck):
+                z1MK2StemPickup[deck] = nil
+                let actions = Z1MK2Controls.knobs[deck.leftSide ? 0 : 1].prefix(4)
+                for action in actions { z1MK2Takeover[deck]?[action] = nil }
+            case .stemGain(let deck, let part, let value):
+                guard let stem = stemMix(deck) else {
+                    applyZ1MK2(.pot(Z1MK2Controls.knobs[deck.leftSide ? 0 : 1][part], deck, value))
+                    return
+                }
+                var pickup = z1MK2StemPickup[deck]
+                if pickup?.generation != stem.generation { pickup = (stem.generation, [:]) }
+                guard var pickup else { return }
+                let apply = pickup.knobs[part, default: .init()].shouldApply(input: value, target: stem.gain[part])
+                z1MK2StemPickup[deck] = pickup
+                if apply { changeStem(deck) { $0.gain[part] = value } }
             case .cue(let deck):
                 applyController(deck.leftSide ? .cueA : .cueB, value: 1, refreshMixer: false, targetDeck: deck)
             case .pot(let action, let deck, let value):
@@ -80,7 +97,8 @@
                         value: direction < 0 ? 0 : 1, targetDeck: deck)
                 }
             case .hotcue(let deck, let slot, let delete):
-                cue(slot: slot, deck: deck, delete: delete, quantized: true)
+                if delete, isStemDeck(deck) { changeStem(deck) { $0.toggleMute(slot) } }
+                else { cue(slot: slot, deck: deck, delete: delete, quantized: true) }
             case .loopSize(let deck, let detents, let shifted):
                 applyNativeMK2Event(.native(.loopSize(deck, detents, shifted: shifted)), stateKey: \.x1MK3Performance)
             case .browse(let count, let groups):
@@ -95,7 +113,7 @@
                     updateX1Pattern(unit)
                 } else { applyNativeMK2Event(.fxAssign(unit, deck), stateKey: \.x1MK3Performance) }
             case .fxEnable(let unit, let slot):
-                if x1Patterns[unit].button(slot.map { $0 + 1 } ?? 0, shifted: x1MK3Controls.shifted) {
+                if x1Patterns[unit].button(slot.map { $0 + 1 } ?? 0, shifted: x1MK3Controls.shifted, kits: patternKits) {
                     if slot == nil, x1MK3Controls.shifted, x1Patterns[unit].mode == 2 {
                         x1Patterns[unit].decks = x1MK3Performance.fx[unit].decks
                     }
@@ -103,7 +121,7 @@
                 } else { applyNativeMK2Event(.fxEnable(unit, slot), stateKey: \.x1MK3Performance) }
             case .fxPot(let unit, let knob, let value):
                 if x1Patterns[unit].mode == 2 {
-                    x1Patterns[unit].knob(knob, value: value)
+                    x1Patterns[unit].knob(knob, value: value, kits: patternKits)
                     updateX1Pattern(unit)
                 } else { applyNativeMK2Event(.fxPot(unit, knob, value), stateKey: \.x1MK3Performance) }
             }
@@ -114,6 +132,7 @@
         }
 
         private func releaseX1MK3() {
+            nextX1PatternScreen = nil
             x1Patterns = [.init(), .init()]
             for unit in 0..<2 { updateX1Pattern(unit) }
             for deck in x1MK3Controls.reversing { perform(.rate, deck: deck, value: 1) }
@@ -141,10 +160,12 @@
             if z1Receiving {
                 z1MK2Bridge?.feedback(
                     TraktorModularLights.z1(snapshot, controls: z1MK2Controls, frames: frames, enabled: z1MK2FXEnabled,
-                        lighting: lightOptions(for: "Z1 Mk2")))
+                        lighting: lightOptions(for: "Z1 Mk2"), hasStems: isStemDeck))
             }
             if x1Receiving {
+                startPatternKitLoad()
                 var feedback = TraktorModularLights.X1Feedback()
+                feedback.stemMuted = stemPadMutes(Set(x1MK3Controls.decks))
                 feedback.fxDecks = x1MK3Performance.fx.map(\.decks)
                 feedback.fxEnabled = x1MK3Performance.fx.map(\.enabled)
                 feedback.fxSlots = x1MK3Performance.fx.map(\.slots)
@@ -164,6 +185,19 @@
                 x1MK3Bridge?.feedback(
                     TraktorModularLights.x1(snapshot, controls: x1MK3Controls, frames: frames, feedback: feedback,
                         lighting: lightOptions(for: "X1 Mk3")))
+                let now = ContinuousClock.now
+                if nextX1PatternScreen.map({ now >= $0 }) ?? true {
+                    nextX1PatternScreen = now + .milliseconds(80)
+                    for (side, pattern) in x1Patterns.enumerated() {
+                        let playing = pattern.enabled && !pattern.decks.isEmpty && snapshot.clockRunning
+                        let cursor = playing ? Int((snapshot.masterBeat * 4).rounded(.down)
+                            .truncatingRemainder(dividingBy: 16)) & 15 : nil
+                        let labels = pattern.labels(kits: patternKits)
+                        x1MK3Bridge?.x1PatternScreen(X1PatternScreen.payload(
+                            side: side, mode: pattern.mode == 2, kit: labels.kit, sound: labels.sound,
+                            steps: pattern.steps, cursor: cursor, ducking: pattern.ducking))
+                    }
+                }
             }
         }
     }

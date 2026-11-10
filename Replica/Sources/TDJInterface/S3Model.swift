@@ -16,7 +16,7 @@
             }
             connection.onFrame = { [weak self] frame in
                 guard let self else { return }
-                for event in s3Controls.consume(frame) { applyNativeTraktorEvent(event, isS3: true) }
+                for event in s3Controls.consume(frame, hasStems: isStemDeck) { applyNativeTraktorEvent(event, isS3: true) }
             }
             connection.onDisconnect = { [weak self] in self?.releaseS3Controls() }
             do {
@@ -118,7 +118,7 @@
                 return Set(cues.keys)
             }
             let feedback = S2MK3Feedback(
-                sampleSlots: Set(s2SampleSlots.keys), playingSamples: playback.core.playingPads,
+                stemMuted: stemPadMutes(s3Controls.samples), sampleSlots: Set(s2SampleSlots.keys), playingSamples: playback.core.playingPads,
                 fx: Set(DeckID.allCases.map { s3PendingFX[$0] ?? s2FX[$0] ?? .filter }), browser: browserVisible,
                 lighting: lightOptions(for: "S3"))
             let reports = S3Lights.reports(

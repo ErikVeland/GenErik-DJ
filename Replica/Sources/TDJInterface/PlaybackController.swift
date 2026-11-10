@@ -2,6 +2,9 @@ import AVFoundation
 import CTDJAudioSource
 import Foundation
 import TDJCore
+#if os(iOS)
+    import UIKit
+#endif
 
 public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster, masterAndHeadphones }
 
@@ -11,8 +14,8 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     var recoveryAwaitedCommands: Set<UInt64> = []
     var recoveryAcknowledgements: [UInt64: TransportAcknowledgement] = [:]
     public private(set) var generations: [DeckID: UInt64] = [:]
-    // Development startup policy. Original default and persistence remain unmeasured.
-    private var keylockPreference: [DeckID: Bool] = [.a: true, .b: true]
+    private var primaryKeylockDefault = true
+    private var keylockPreference: [DeckID: Bool] = [:]
     private var ejectCommits: [UInt64: (DeckID, () -> Void)] = [:]
     private var pendingKeylock: [UInt64: (DeckID, Bool)] = [:]
     private var latestKeylock: [DeckID: UInt64] = [:]
@@ -243,8 +246,13 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     public init(
         offline: Bool = false, sampleRate: Double = 48000, validationMode: Bool = false, streamingPlayback: Bool? = nil
     ) throws {
+        #if os(iOS)
+            let measureLiveStems = UIDevice.current.userInterfaceIdiom == .pad && !offline
+        #else
+            let measureLiveStems = false
+        #endif
         let metrics =
-            validationMode
+            validationMode || measureLiveStems
             ? try AudioCallbackMetrics(
                 sampleRate: sampleRate,
                 traceThreadCPU: ProcessInfo.processInfo.environment["TDJ_DIAGNOSE_AUDIO_CPU"] == "1") : nil
@@ -313,9 +321,13 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                     ? 4096 : core.configuredMaximumOutputFrames, sourceURL: sourceURL, compactPool: deck.transportIndex >= 2)
         }
         try Task.checkCancellation()
-        if deck.transportIndex >= 2 {
+        if deck.transportIndex >= 2 || asset.hasStems {
             let core = core
-            try await Task.detached(priority: .utility) { try core.prepareExtraDecks() }.value
+            let hasStems = asset.hasStems
+            try await Task.detached(priority: .utility) {
+                if deck.transportIndex >= 2 { try core.prepareExtraDecks() }
+                if hasStems { try core.prepareStemSends(deck) }
+            }.value
             try Task.checkCancellation()
         }
         if let loadCheckpoint { try await loadCheckpoint(.decoded) }
@@ -572,7 +584,24 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         keylockPreference[deck] = enabled
         if !outputActive { core.processControlsWhileIdle() }
     }
-    public func requestedKeylock(_ deck: DeckID) -> Bool { keylockPreference[deck] ?? (deck.transportIndex < 2) }
+    func setPrimaryKeylockDefault(_ enabled: Bool) {
+        guard enabled != primaryKeylockDefault else { return }
+        primaryKeylockDefault = enabled
+        for deck in DeckID.primary {
+            invalidateSource(.keylock(deck))
+            latestKeylock[deck] = nil
+            keylockPreference[deck] = nil
+        }
+    }
+
+    func toggleKeylock(deck: DeckID) throws {
+        let enabled = keylockPreference[deck] ?? core.snapshot()?[deck].keylock ?? requestedKeylock(deck)
+        try setKeylock(!enabled, deck: deck)
+    }
+
+    public func requestedKeylock(_ deck: DeckID) -> Bool {
+        keylockPreference[deck] ?? (deck.transportIndex < 2 && primaryKeylockDefault)
+    }
     public func warmCuePositions(_ cues: [PerformanceCue], deck: DeckID) {
         guard let generation = generations[deck], let asset = core.asset(generation: generation), asset.isStreamed
         else { return }

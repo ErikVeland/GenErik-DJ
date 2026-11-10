@@ -199,3 +199,45 @@ REL/INT selects absolute vinyl control on Z2 decks A and B. Both sides of Trakto
 Controller settings show Pulse and Warning for each connected controller with native feedback. Both settings are on by default. The app saves them separately for each model. MIDI setup stays in a collapsed section. The pane omits connection diagnostics.
 
 The focused Mac checks passed with synthetic Mk2 vinyl, capture routing and lighting reports. [Build 207](../testing/builds/207.json) passed signing and runtime checks. The tool rejected [build 206](../testing/builds/206.json) after the source changed during compilation. Real-vinyl calibration, physical controllers and A10X performance remain open.
+
+## R147 Native stem controls and FX sends
+
+The controls work with authored `.stem.mp4` files. The app uses the existing accessory and bridge connections. It needs no MIDI mapping or app setting.
+
+| Controller | Stem controls |
+| --- | --- |
+| Z1 Mk2 | Each side has its own EQ and Stem buttons. Gain, High, Mid and Low control drums, bass, other and vocals in Stem mode. Knobs use pickup when you change mode, deck layer or stem track. |
+| S2 Mk3 and S3 | Press Samples on a stem deck. Pads 1–4 mute stems. Hold pads 5–8 and turn Move for volume or Loop for filter. Press Hotcue to return to cues. |
+| S4 Mk3 | Pads 1–4 mute stems directly in Stem mode. Pads 5–8 keep the existing volume and filter controls. |
+| X1 Mk3 | Shift and number buttons 1–4 mute stems on a stem deck. An unshifted press keeps the Hot Cue action. |
+| S8 and D2 | The Performance arrows select Filter or FX Send. The four ON buttons switch the selected function. The knobs change filter or send amount. |
+| S5 | Loading stems opens Stem mode. The lower pads select stems. Hold Shift and press an upper pad to switch its FX send. Shift and a lower pad reset volume and filter. |
+| F1 | Hold Shift and turn Browse to select a deck. Hold Shift and use the second row of pads to switch individual FX sends. |
+
+Each send starts at full level. A send can bypass the deck FX chain while its stem stays audible through the channel EQ, fader and cue. The renderer allocates the extra processor before stem playback. It uses the original single path for ordinary tracks and when no split is needed.
+
+[NI Z1 Mk2 controls](https://docs.native-instruments.com/ni-tech-manuals/traktor-z1-mk2-manual/en/using-the-z1-with-traktor) · [Z1 Mk2 HID reports](https://github.com/infifox/mixxx-traktor-controllers/blob/a9e8f8ea8adbed29c4d86d224049990ec8ba21ca/doc/TraktorZ1MK2.spec.md) · [NI stem controller guide](https://www.native-instruments.com/blogs/blog/how-to-mix-stems) · [NI S8, D2 and F1 stem controls](https://support.native-instruments.com/support/solutions/articles/69000879536-how-can-i-control-the-individual-stems-on-a-traktor-stem-deck-) · [NI S5 manual](https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/TRAKTOR_KONTROL_S5_Manual_English.pdf).
+
+The Mac checks passed for native reports, dry and partial sends, track changes and Key Lock at 85% tempo. The optional real-file fixture did not run. [Build 210](../testing/builds/210.json) passed runtime and signing checks. The tool rejected [build 209](../testing/builds/209.json) after the source changed during compilation. Hardware and A10X performance checks remain open.
+
+## R149 NI Pattern Player kits and X1 Mk3 displays
+
+The exporter reads factory one-shots and preset beat positions from a local Apple Silicon Traktor Pro 4 app. The signed Traktor Pro 4.0.0 package exposed 16 kits, with eight sounds and eight presets per sound. The repository contains no NI audio. [NI Pattern Player guide](https://www.native-instruments.com/blogs/blog/pattern-player-traktor-pro).
+
+1. On the Mac, run the exporter with the path to your local Traktor Pro 4 app.
+
+   ```sh
+   python3 tools/pattern_kits/export_traktor.py "/path/to/Traktor Pro 4.app" "$HOME/Desktop/NI-Pattern-Kits.json"
+   ```
+
+2. Copy the exported file to Files on your playback device.
+3. Connect the X1 Mk3 or MX2 with its existing bridge.
+4. Pause the decks.
+5. Open Controllers and select **Import Pattern Kits…**.
+6. Select the exported JSON file.
+7. Select Pattern Player on the controller.
+8. Hold Shift and press FX button 2 or 3 to select a kit.
+
+The app saves imported kits and adds them to the existing kit selector. It keeps the original preset timing, including hits between steps. Editing the MX2 pads switches that pattern to the 16-step grid. The two X1 Mk3 FX OLEDs show the kit, sample and pattern, with a cursor while the clock runs. The app sends display updates through the existing bridge. [NI X1 Mk3 controls](https://docs.native-instruments.com/ni-tech-manuals/traktor-x1-mk3-manual/en/using-the-pattern-player) · [OLED report layout](https://github.com/RufusIbiza/Encdr/blob/main/docs/hardware/ni_kontrol_x1_mk3.md).
+
+The off-device checks exported 16 kits from the signed Traktor Pro 4.0.0 installer. The app imported and reopened the library, skipped duplicate kits and played the exported 808 kick. The synthetic timing check retained an off-grid hit. The bridge tests checked the OLED report IDs, length, pattern bits and cursor. [Build 212](../testing/builds/212.json) passed signing and runtime checks. Physical OLED response and A10X performance remain open.

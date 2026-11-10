@@ -117,7 +117,7 @@ If the relay exits, restart it with the current device nodes. Check that the Con
 
 ## Z1 Mk2 and X1 Mk3 bridges
 
-GenErik DJ detects each named bridge automatically. Keep the controller in its native mode. The Z1 Mk2 bridge carries four-channel audio and HID controls. The X1 Mk3 bridge carries HID controls and uses the iPad's current audio device.
+GenErik DJ detects each named bridge automatically. Keep the controller in its native mode. The Z1 Mk2 bridge carries four-channel audio and HID controls. The X1 Mk3 bridge carries HID controls and the two Pattern Player OLEDs. The app uses the iPad's current audio device.
 
 1. Prepare the Linux board as described in [Recommended board](#recommended-board).
 2. Connect the controller to the board's USB host port.
@@ -130,10 +130,10 @@ sudo python3 tools/controller_bridge/traktor_modular_bridge.py z1-mk2 --hidraw /
 sudo python3 tools/controller_bridge/traktor_modular_bridge.py x1-mk3 --hidraw /dev/hidraw2 --midi /dev/snd/midiC1D0
 ```
 
-6. Check the Controllers connection report in GenErik DJ.
+6. Check that your controller appears in GenErik DJ under Controllers.
 7. For the Z1 Mk2, check master on outputs 1–2 and headphones on outputs 3–4.
 
-Run one relay per gadget. The Z1 Mk2 uses the same `alsaloop` requirements as the S4 Mk3. The X1 Mk3 requires MIDI only. Physical enumeration, audio latency and lighting remain unverified. [Z1 Mk2 HID reports](https://github.com/infifox/mixxx-traktor-controllers/blob/a9e8f8ea8adbed29c4d86d224049990ec8ba21ca/doc/TraktorZ1MK2.spec.md) · [X1 Mk3 HID reports](https://github.com/infifox/mixxx-traktor-controllers/blob/36dc56869f3ad681e9b12f10f3dd15d0c4d540e6/doc/TraktorX1MK3.spec.md)
+Run one relay per gadget. The Z1 Mk2 uses the same `alsaloop` requirements as the S4 Mk3. For the X1 Mk3 OLEDs, install `python3-pil` on the board. Run the updated relay. GenErik DJ sends the display state when you select Pattern Player. [X1 Mk3 OLED reports](https://github.com/RufusIbiza/Encdr/blob/main/docs/hardware/ni_kontrol_x1_mk3.md). Physical enumeration, audio latency and lighting remain unverified. [Z1 Mk2 HID reports](https://github.com/infifox/mixxx-traktor-controllers/blob/a9e8f8ea8adbed29c4d86d224049990ec8ba21ca/doc/TraktorZ1MK2.spec.md) · [X1 Mk3 HID reports](https://github.com/infifox/mixxx-traktor-controllers/blob/36dc56869f3ad681e9b12f10f3dd15d0c4d540e6/doc/TraktorX1MK3.spec.md)
 
 ## S2 Mk1 bridge
 
