@@ -189,6 +189,9 @@
             case .tempoReset(let deck):
                 setDeckTempo(percent: 0, deck: deck)
                 self[keyPath: stateKey].takeover[deck]?[deck.leftSide ? .tempoA : .tempoB] = nil
+            case .tempoPickup(let deck, let position):
+                setDeckTempo(percent: position * 16 - 8, deck: deck)
+                self[keyPath: stateKey].takeover[deck]?[deck.leftSide ? .tempoA : .tempoB] = nil
             case .record:
                 guard self[keyPath: stateKey].recordingTask == nil, !recordingFinishing else { return }
                 self[keyPath: stateKey].recordingTask = Task { [weak self] in
@@ -258,6 +261,15 @@
                 _ = submitMixer(.filterEnabled, value: 1, deck: deck)
             }
             applyController(action, value: value, refreshMixer: false, targetDeck: deck)
+        }
+
+        func moveS4LoopOrJump(_ deck: DeckID, detents: Int, shifted: Bool) {
+            let beats = Double(detents) * (shifted ? 1 : performance.loopBeats(for: deck))
+            if playbackSnapshot?[deck].loopEnabled == true {
+                moveS3Loop(deck: deck, beats: beats)
+            } else {
+                beatJump(beats: beats, deck: deck)
+            }
         }
 
         func primeS4Mixer(

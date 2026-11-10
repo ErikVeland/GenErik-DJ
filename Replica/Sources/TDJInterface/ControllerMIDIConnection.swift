@@ -942,7 +942,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             default: break
             }
         case .z1Output, .s4MK3Input, .s4MK3Lights, .s4MK3Ring, .s4MK3Status,
-            .modularInput, .modularLights, .modularStatus, .s2MK1Report, .s2MK1Lights: break
+            .modularInput, .modularLights, .modularStatus, .s2MK1Report, .s2MK1Lights, .s4MK1Report, .s4MK1Lights: break
         }
     }
     private func sendFeedback() {

@@ -72,7 +72,7 @@ def playback_pcm(usb_parent, sysfs=Path('/sys')):
     matches = [node.name for node in (sysfs / 'class/sound').glob('pcmC*D*p')
                if usb_parent in node.resolve(strict=True).parents]
     if len(matches) != 1:
-        raise ValueError("The S4 Mk3 must expose one ALSA playback device.")
+        raise ValueError("The controller must expose one ALSA playback device.")
     card, device = matches[0][4:-1].split('D')
     return f'plughw:{card},{device}'
 

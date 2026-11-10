@@ -353,6 +353,10 @@ import TDJCore
         var s2Connection: NIControllerAccessoryConnection?
         var s3Connection: NIControllerAccessoryConnection?
         var s4Connection: NIControllerAccessoryConnection?
+        @ObservationIgnored var s4MK1Bridge: TraktorHIDBridgeConnection?
+        @ObservationIgnored var s4MK1Controls = S4MK1Controls()
+        @ObservationIgnored var s4MK1Performance = S4MK2Performance()
+        var s4MK1Receiving = false
         var s4MK3Bridge: (any S4MK3ReportConnection)?
         @ObservationIgnored var z1MK2Bridge: TraktorHIDBridgeConnection?
         @ObservationIgnored var x1MK3Bridge: TraktorHIDBridgeConnection?
@@ -1078,8 +1082,13 @@ import TDJCore
                             if deck.transportIndex < 2, self.s2MK1Bridge?.isReceiving == true {
                                 self.primeS4Mixer(deck, stateKey: \.s2MK1Performance)
                             }
+                            if deck.transportIndex < 2, self.s4MK1Bridge?.isReceiving == true {
+                                self.primeS4Mixer(deck, stateKey: \.s4MK1Performance)
+                            }
                             if deck.transportIndex >= 2 {
-                                if self.s4MK3Bridge?.isReceiving == true {
+                                if self.s4MK1Bridge?.isReceiving == true {
+                                    self.primeS4Mixer(deck, stateKey: \.s4MK1Performance)
+                                } else if self.s4MK3Bridge?.isReceiving == true {
                                     self.primeS4Mixer(deck, stateKey: \.s4MK3Performance)
                                 } else if self.s4Connection?.isReceiving == true {
                                     self.primeS4Mixer(deck)
@@ -1625,6 +1634,7 @@ import TDJCore
                 startS2MK3()
                 startS3()
                 startS4MK2()
+                startS4MK1Bridge()
                 startS4MK3Bridge()
                 startTraktorModularBridges()
             }
@@ -1644,6 +1654,7 @@ import TDJCore
                     self?.refreshS3Lights()
                     self?.maintainS4Input()
                     self?.refreshS4Lights()
+                    self?.maintainS4MK1Bridge()
                     self?.maintainS4MK3Bridge()
                     self?.maintainTraktorModularBridges()
                 #endif
@@ -1675,6 +1686,9 @@ import TDJCore
             s3Connection = nil
             s4Connection?.stop()
             s4Connection = nil
+            s4MK1Bridge?.stop()
+            s4MK1Bridge = nil
+            s4MK1Receiving = false
             s4MK3Bridge?.stop()
             s4MK3Bridge = nil
             z1MK2Bridge?.stop()

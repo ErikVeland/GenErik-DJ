@@ -23,12 +23,7 @@
             case .pad(let deck, let slot, let held, let shifted) where s2MK1Controls.samples.contains(deck):
                 if held { pressS2Sample(slot: S2MK3Controls.sampleSlot(deck: deck, pad: slot), shifted: shifted) }
             case .native(.move(let deck, let detents, let shifted)):
-                let beats = Double(detents) * (shifted ? 1 : performance.loopBeats(for: deck))
-                if playbackSnapshot?[deck].loopEnabled == true {
-                    moveS3Loop(deck: deck, beats: beats)
-                } else {
-                    beatJump(beats: beats, deck: deck)
-                }
+                moveS4LoopOrJump(deck, detents: detents, shifted: shifted)
             case .loopRecall(let deck, stop: false):
                 if let state = playbackSnapshot?[deck], !state.loopEnabled,
                     s2MK1Performance.loopRecall[deck]?.generation != state.generation

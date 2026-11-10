@@ -154,3 +154,28 @@ python3 tools/controller_bridge/traktor_modular_bridge.py s2-mk1 \
 6. Check that master and headphones play separate signals.
 
 The relay finds the controller's ALSA playback device. It reads the controller's stored calibration before it sends the initial control state. If the pressure calibration is missing, rim nudge remains available and scratch stays off. The Mk1 mixes its microphone in hardware. [HID reports](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Traktor-Kontrol-S2-MK1-hid-scripts.js) · [Audio routing](https://manual.mixxx.org/2.5/en/hardware/controllers/native_instruments_traktor_kontrol_s2_mk1.html#audio-routing)
+
+## S4 Mk1 bridge
+
+The S4 Mk1 uses the Linux `snd-usb-caiaq` driver for native controls, lights and four-channel audio. GenErik DJ detects `GenErik S4 Mk1 Bridge` and selects master 1–2 and headphones 3–4. [Linux CAIAQ input](https://github.com/torvalds/linux/blob/master/sound/usb/caiaq/input.c) · [Linux CAIAQ audio](https://github.com/torvalds/linux/blob/master/sound/usb/caiaq/audio.c)
+
+1. Prepare the [recommended board](#recommended-board). Use a Linux kernel with `CONFIG_SND_USB_CAIAQ` and `CONFIG_SND_USB_CAIAQ_INPUT`. Install `python3-evdev` and `alsa-utils`.
+2. Power the S4 Mk1 from its own supply. Connect USB device `17cc:baff` to the board's host port.
+3. Follow the [gadget setup](#configure-the-bridge). Use `--traktor s4-mk1` in place of `--s4-mk3`.
+4. Start the relay. Substitute the gadget's raw MIDI device and capture PCM. Use a user with access to the controller's input event and ALSA devices.
+
+```sh
+python3 tools/controller_bridge/s4_mk1_bridge.py \
+  --midi /dev/snd/midiCND0 --audio-in hw:CARD=UAC2Gadget,DEV=0
+```
+
+5. Check the Controllers connection report in GenErik DJ.
+6. Check the master and headphones for separate signals. Check pad 4 for the blue beat pulse and the Alert lamp for the amber track-end warning.
+
+The relay finds the input and playback devices for the S4 Mk1. The first jog pressure reading sets the rest level. Leave the platters untouched when you start the relay. Restart the relay after you reconnect the controller.
+
+| Kind | Raw size | Direction | Meaning |
+| --- | ---: | --- | --- |
+| 11 | 1 | Both | 0 disconnected, 1 connected, 3 app state request. |
+| 14 | 74 | Bridge to app | Control snapshot with its length and zero padding. |
+| 15 | 103 | App to bridge | 163 five-bit LED values after byte 0x80. |
