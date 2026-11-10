@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 50.31,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-10",
+      "requestIDs": [
+        "R130"
+      ],
+      "report": "Remove the duplicate Analyse progress meter at the bottom of the library.",
+      "summary": "Build 184 is assumed from the last recorded iPad install."
+    }
+  ],
   "log": "TestBuilds/ipad/build-184.log",
   "build": 184,
   "app": "TestBuilds/ipad/184/GenErikDJ.app",

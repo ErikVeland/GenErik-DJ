@@ -19,6 +19,7 @@ struct PreparationImportPill: View {
 struct LibraryAnalysisFooter: View {
     let model: ReplicaModel
     let progress: PreparationImportProgress
+    var showsProgress = true
     @State private var backgroundRequestFailed = false
 
     private var showsBackgroundButton: Bool {
@@ -29,27 +30,29 @@ struct LibraryAnalysisFooter: View {
     }
 
     var body: some View {
-        HStack(spacing: 8) {
-            PreparationImportPill(progress: progress)
-            Spacer(minLength: 0)
-            #if os(iOS)
-                if #available(iOS 26, *), showsBackgroundButton {
-                    Button {
-                        backgroundRequestFailed = !ReplicaLifecycle.continueLibraryAnalysis(model)
-                    } label: {
-                        Text(model.libraryAnalysisContinuesInBackground ? "Background Analysis On" : "Analyse in Background")
-                            .font(.system(size: 11, weight: .semibold)).foregroundStyle(PerformancePalette.cyan)
-                            .frame(minHeight: 44).contentShape(Rectangle())
-                    }.buttonStyle(.plain)
-                        .disabled(model.libraryAnalysisContinuesInBackground || model.arrangementPlaybackActive
-                            || model.isRecording || model.recordingFinishing)
-                        .alert("Background analysis could not start", isPresented: $backgroundRequestFailed) {
-                            Button("OK", role: .cancel) {}
-                        } message: {
-                            Text("Keep GenErik DJ open to continue analysis, or try again later.")
-                        }
-                }
-            #endif
-        }.padding(.horizontal, 22).frame(height: showsBackgroundButton ? 44 : 36).background(PerformancePalette.panel)
+        if showsProgress || showsBackgroundButton {
+            HStack(spacing: 8) {
+                if showsProgress { PreparationImportPill(progress: progress) }
+                Spacer(minLength: 0)
+                #if os(iOS)
+                    if #available(iOS 26, *), showsBackgroundButton {
+                        Button {
+                            backgroundRequestFailed = !ReplicaLifecycle.continueLibraryAnalysis(model)
+                        } label: {
+                            Text(model.libraryAnalysisContinuesInBackground ? "Background Analysis On" : "Analyse in Background")
+                                .font(.system(size: 11, weight: .semibold)).foregroundStyle(PerformancePalette.cyan)
+                                .frame(minHeight: 44).contentShape(Rectangle())
+                        }.buttonStyle(.plain)
+                            .disabled(model.libraryAnalysisContinuesInBackground || model.arrangementPlaybackActive
+                                || model.isRecording || model.recordingFinishing)
+                            .alert("Background analysis could not start", isPresented: $backgroundRequestFailed) {
+                                Button("OK", role: .cancel) {}
+                            } message: {
+                                Text("Keep GenErik DJ open to continue analysis, or try again later.")
+                            }
+                    }
+                #endif
+            }.padding(.horizontal, 22).frame(height: showsBackgroundButton ? 44 : 36).background(PerformancePalette.panel)
+        }
     }
 }
