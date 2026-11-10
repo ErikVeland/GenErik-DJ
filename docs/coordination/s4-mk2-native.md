@@ -17,13 +17,13 @@ The fourth Hot Cue LED on each side shows the blue beat pulse and amber track-en
 
 The archived Traktor DJ 2.4.1 app identifies the S4 Mk2 as `com.native-instruments.traktordj.kontrols4mk2`. Its accessory startup requests `D0` through `D5`, then receives 98 payload bytes in report `01`. Its LED writer sends 174 payload bytes in report `83`. The Mixxx USB mapping supplies the control and LED field assignments. Native iPad reports use a different frame and combine the USB fields. [NI manual](https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/traktor_kontrol_s4_mk2_manual_english.pdf) · [Mixxx hardware mapping](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Traktor-Kontrol-S4-MK2-hid-scripts.js)
 
-Physical connection, calibration, audio, jog response and LED output remain open. R118 extends the mapping below.
+Physical connection, calibration, audio, jog response and LED output remain open. R119 extends the mapping below.
 
 Eleven focused host tests passed. Five S4 Mk2 tests cover startup, calibration, layer switching, blue and amber feedback, and route selection. Existing S3 framing and Z1 routing tests also passed.
 
 [Build 181](../testing/builds/181.json) installed on the A10X iPad. iPadOS accepted the launch request.
 
-## R118 Freeze, Loop Slicer, Cue and external input
+## R119 Freeze, Loop Slicer, Cue and external input
 
 Press MOVE to enter Freeze. If a loop is active, MOVE enters Loop Slicer instead. Press MOVE again to exit. Hot Cue 1–4 play slices 1–4. Remix 1–4 play slices 5–8. In Freeze, turn MOVE to move the bank and hold Shift while turning it to resize the bank. In Loop Slicer, turning MOVE moves the loop. Holding a pad repeats its slice. Release the pad to return to the underlying loop. The blue and amber pulse still uses Hot Cue 4.
 
@@ -34,3 +34,5 @@ The app requests the S4 inputs automatically while playback is idle. iPadOS can 
 Physical Lightning input exposure, control response and sustained A10X performance remain open.
 
 Fifteen focused host tests passed across 17 cases. They cover MOVE and pad report edges, slice bounds and lighting, Cue park and continuation, four- and six-channel input routing, loaded-deck priority, and regression checks for Sync, waveform release, S2 mic and S3 input.
+
+[Build 182](../testing/builds/182.json) installed on the A10X iPad. iPadOS accepted the launch request.
