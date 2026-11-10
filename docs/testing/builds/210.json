@@ -5,7 +5,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 58.14,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R148",
+      "date": "2026-11-10",
+      "summary": "Move Keylock into Playback Settings beside Tempo fader. Enable it by default for steady pitch. Turn it off for vinyl-style pitch changes."
+    }
+  ],
   "log": "TestBuilds/ipad/build-210.log",
   "build": 210,
   "app": "TestBuilds/ipad/210/GenErikDJ.app",
@@ -18,6 +24,6 @@
   "deploymentTarget": "GenErik Duo",
   "testScope": [
     "R145. Check the front speaker button below the camera.",
-    "R146. Check the OUTPUT menu, Headphones Mix centre snap and Keylock in each deck\u2019s settings."
+    "R146. Check the OUTPUT menu, Headphones Mix centre snap and Keylock in each deck’s settings."
   ]
 }

@@ -58,15 +58,6 @@ struct PerformanceControls: View {
         }.popover(isPresented: $settings) {
             VStack(alignment: .leading) {
                 PlaybackSettings(model: model)
-                Toggle(
-                    "Keylock",
-                    isOn: Binding(
-                        get: { model.controlDisplay[deck].keylock == true },
-                        set: { _ in model.toggleKeylock(deck: deck) })
-                ).disabled(
-                    model.track(deck) == nil || model.preparingPlayback.contains(deck)
-                        || model.controlDisplay[deck].phase == .queued)
-                    .accessibilityHint("Keep the track’s pitch steady when its tempo changes.")
                 Button("Gesture guide") {
                     settings = false
                     model.helpVisible = true

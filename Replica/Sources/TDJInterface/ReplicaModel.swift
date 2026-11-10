@@ -633,6 +633,7 @@ import TDJCore
             automaticTraktorSources: automaticTraktorSources)
         self.playback = try playback ?? PlaybackController()
         mixerPreferences = try MixerPreferences.load(from: root.appendingPathComponent("mixer-preferences.json"))
+        self.playback.setPrimaryKeylockDefault(mixerPreferences.primaryKeylock ?? true)
         try self.playback.setMixer(.filterY, value: mixerPreferences.filterResonanceA, deck: .a)
         try self.playback.setMixer(.filterY, value: mixerPreferences.filterResonanceB, deck: .b)
         playbackSnapshot = self.playback.core.snapshot()
@@ -1922,10 +1923,19 @@ import TDJCore
             refreshPlayback()
         } catch { status = error.localizedDescription }
     }
+    var primaryKeylockEnabled: Bool {
+        get { mixerPreferences.primaryKeylock ?? true }
+        set {
+            guard newValue != primaryKeylockEnabled else { return }
+            mixerPreferences.primaryKeylock = newValue
+            playback.setPrimaryKeylockDefault(newValue)
+            persistMixerPreferences()
+        }
+    }
     public func toggleKeylock(deck: DeckID) {
         guard playbackSnapshot?[deck].phase != .empty else { return }
         do {
-            try playback.setKeylock(!playback.requestedKeylock(deck), deck: deck)
+            try playback.toggleKeylock(deck: deck)
             refreshPlayback()
         } catch { status = error.localizedDescription }
     }

@@ -11,8 +11,8 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     var recoveryAwaitedCommands: Set<UInt64> = []
     var recoveryAcknowledgements: [UInt64: TransportAcknowledgement] = [:]
     public private(set) var generations: [DeckID: UInt64] = [:]
-    // Development startup policy. Original default and persistence remain unmeasured.
-    private var keylockPreference: [DeckID: Bool] = [.a: true, .b: true]
+    private var primaryKeylockDefault = true
+    private var keylockPreference: [DeckID: Bool] = [:]
     private var ejectCommits: [UInt64: (DeckID, () -> Void)] = [:]
     private var pendingKeylock: [UInt64: (DeckID, Bool)] = [:]
     private var latestKeylock: [DeckID: UInt64] = [:]
@@ -576,7 +576,24 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         keylockPreference[deck] = enabled
         if !outputActive { core.processControlsWhileIdle() }
     }
-    public func requestedKeylock(_ deck: DeckID) -> Bool { keylockPreference[deck] ?? (deck.transportIndex < 2) }
+    func setPrimaryKeylockDefault(_ enabled: Bool) {
+        guard enabled != primaryKeylockDefault else { return }
+        primaryKeylockDefault = enabled
+        for deck in DeckID.primary {
+            invalidateSource(.keylock(deck))
+            latestKeylock[deck] = nil
+            keylockPreference[deck] = nil
+        }
+    }
+
+    func toggleKeylock(deck: DeckID) throws {
+        let enabled = keylockPreference[deck] ?? core.snapshot()?[deck].keylock ?? requestedKeylock(deck)
+        try setKeylock(!enabled, deck: deck)
+    }
+
+    public func requestedKeylock(_ deck: DeckID) -> Bool {
+        keylockPreference[deck] ?? (deck.transportIndex < 2 && primaryKeylockDefault)
+    }
     public func warmCuePositions(_ cues: [PerformanceCue], deck: DeckID) {
         guard let generation = generations[deck], let asset = core.asset(generation: generation), asset.isStreamed
         else { return }
