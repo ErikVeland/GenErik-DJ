@@ -85,7 +85,7 @@ Each step is one focused iPad iteration with its own signed build and feedback r
 
 Erik authorised implementation without a mockup. The first build consolidates six settings categories, adapts navigation to pane width, and replaces the global form in the deck gear with scoped live controls. It retains the existing loop buttons and saved preferences.
 
-Remaining refinements: settings search, separate preparation detail pages, and a separate MIDI mapping page. These are not in this first build. Touch target and larger-text review remain part of physical acceptance. No new search or preparation background work was added.
+Remaining after build 217: settings search, separate preparation detail pages, and a separate MIDI mapping page. R157 below completes the detail pages in build 218. Touch target and larger-text review remain part of physical acceptance. No new search or preparation background work was added.
 
 For each implementation iteration, verify changed bindings and saved-value compatibility with focused checks. Then build from consolidated main using `tools/ipad_test.py`, install the numbered iPad build and hand back.
 
@@ -119,3 +119,5 @@ The toolbar Library icon always requests the full available browser height, incl
 Verification: focused panel checks cover full opening from partial and hidden states in both iPad orientations and both handle sizes. Physical navigation, MIDI hardware, import/restore flows, audio and touch acceptance remain open. General settings search remains separate from the completed detail-page work.
 
 The focused panel harness passed 261 checks. Its old dock-width assertion failed 24 times on the unchanged baseline. The assertion now checks full library width and separation from the deck area. Baseline failures and passing results remain under `TestBuilds/r157/`.
+
+Build 218 passed the incremental iPad compile, framework and signing checks, installed on the A10X, and received iPadOS launch acceptance. Physical acceptance remains with Erik. Source and build identity are recorded in `docs/testing/builds/218.json`. No further device actions followed launch.
