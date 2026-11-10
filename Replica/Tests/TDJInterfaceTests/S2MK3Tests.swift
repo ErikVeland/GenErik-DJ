@@ -164,3 +164,22 @@ func s2MK3EjectAndMoveRollUseTheirOwnDeckAndEdges(deck: DeckID) {
     data[6] = 0
     #expect(report() == [.loopRoll(deck, false)])
 }
+
+@Test func s2Mk3SamplesLayerUsesNativeStemPadsAndEncoders() {
+    var controls = S2MK3Controls()
+    var data = [UInt8](repeating: 0, count: 19)
+    func report() -> [NativeTraktorEvent] {
+        controls.consume(.init(reportID: 1, payload: data), hasStems: { $0 == .a })
+    }
+    #expect(report().isEmpty)
+    data[0] = 0x80
+    data[1] = 0x10
+    #expect(report() == [.stemMute(.a, 0)])
+    data[2] = 0x01
+    data[8] = 0x10
+    data[9] = 0x01
+    #expect(report() == [.stemAdjust(.a, 0, detents: 1, filter: true), .stemAdjust(.a, 0, detents: 1, filter: false)])
+    data[2] = 0
+    data[9] = 0x02
+    #expect(report() == [.action(.loopUpA, 1)])
+}

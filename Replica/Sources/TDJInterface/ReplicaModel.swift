@@ -400,6 +400,7 @@ import TDJCore
         var z1MK2Receiving = false
         var x1MK3Receiving = false
         @ObservationIgnored var z1MK2Controls = Z1MK2Controls()
+        @ObservationIgnored var z1MK2StemPickup: [DeckID: (generation: UInt64, knobs: [Int: ControllerMIDITakeoverState])] = [:]
         @ObservationIgnored var z1MK2Takeover: [DeckID: [ControllerAction: ControllerMIDITakeoverState]] = [:]
         @ObservationIgnored var z1MK2FXEnabled: Set<DeckID> = []
         @ObservationIgnored var x1MK3Controls = X1MK3Controls()

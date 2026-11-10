@@ -25,6 +25,8 @@ enum { LOOP_EXPORT_IDLE, LOOP_EXPORT_WAITING, LOOP_EXPORT_READY, LOOP_EXPORT_UNA
 typedef struct {
     tdj_asset *asset;
     uint64_t stem_mix;
+    uint32_t stem_sends;
+    bool stem_split;
     uint64_t generation, last_start;
     int32_t state;
     bool synced, keylock;
@@ -49,7 +51,7 @@ typedef struct {
     bool braking, brake_primed;
     double brake_rate, brake_seconds, brake_strength, brake_target_strength;
     double brake_phase, brake_cursor;
-    float brake_l[2], brake_r[2];
+    float brake_l[2], brake_r[2], brake_bypass_l[2], brake_bypass_r[2];
 } deck;
 
 // Atomic fields make the snapshot race-free under the C memory model.
@@ -104,6 +106,7 @@ struct tdj_engine {
     atomic_flag extra_allocating;
     deck decks[TDJ_DECK_COUNT];
     tdj_keylock *keylocks[TDJ_DECK_COUNT];
+    _Atomic(tdj_keylock *) stem_keylocks[TDJ_DECK_COUNT];
     dry_transition transitions[TDJ_DECK_COUNT];
     tdj_command commands[COMMAND_CAPACITY];
     _Atomic unsigned command_write, command_read;
@@ -118,7 +121,7 @@ struct tdj_engine {
     auxiliary_mix auxiliary;
     _Atomic uint64_t pattern_settings[TDJ_PATTERN_UNITS];
     pattern_voice patterns[TDJ_PATTERN_UNITS];
-    _Atomic uint64_t stem_settings[TDJ_DECK_COUNT];
+    _Atomic uint64_t stem_settings[TDJ_DECK_COUNT], stem_send_settings[TDJ_DECK_COUNT];
     _Atomic uint64_t timecode[2];
     mk2_decoder mk2[2];
     uint64_t mk2_capture_configuration;
@@ -146,6 +149,15 @@ static bool asset_is_used(const tdj_engine *e, const tdj_asset *asset, int first
 static bool valid_deck_command(const tdj_engine *e, int index) {
     return index >= 0 && index < TDJ_DECK_COUNT &&
            (index < 2 || atomic_load_explicit(&e->extra_prepared, memory_order_acquire));
+}
+
+static void reset_deck_keylock(tdj_engine *e, int index) {
+    tdj_keylock_reset(e->keylocks[index]);
+    if (e->decks[index].stem_split) {
+        tdj_keylock *bypass = atomic_load_explicit(&e->stem_keylocks[index], memory_order_acquire);
+        if (bypass)
+            tdj_keylock_reset(bypass);
+    }
 }
 
 // Two milliseconds suppresses measured transport edges without delaying controls.
@@ -389,7 +401,7 @@ static void set_performance_rate(tdj_engine *e, int index, double value) {
     bool crossing = (d->performance_rate == 1) != (value == 1);
     bool silence_boundary = (d->performance_rate == 0) != (value == 0);
     if (crossing)
-        tdj_keylock_reset(e->keylocks[index]);
+        reset_deck_keylock(e, index);
     d->performance_rate = value;
     // Preserve emitted output across pipeline changes and held stops. Ordinary
     // nonzero raw-rate updates keep their continuous cursor and existing ramp.
@@ -403,15 +415,14 @@ static void brake_clear(tdj_engine *e, int index) {
     d->braking = false;
     d->brake_primed = false;
     d->brake_rate = 0;
-    tdj_keylock_reset(e->keylocks[index]);
+    reset_deck_keylock(e, index);
     transition_request(e, index, 0);
 }
 static bool stem_active(const deck *d) {
-    return d->asset->stems[0] && d->stem_mix != TDJ_STEM_DEFAULT;
+    return d->asset->stems[0] && (d->stem_split || d->stem_mix != TDJ_STEM_DEFAULT);
 }
 
-static bool stem_read(void *context, uint64_t frame, float *l, float *r) {
-    deck *d = context;
+static bool stem_read_lane(deck *d, uint64_t frame, bool bypass, float *l, float *r) {
     *l = *r = 0;
     if (frame >= d->asset->frames)
         return false;
@@ -422,7 +433,11 @@ static bool stem_read(void *context, uint64_t frame, float *l, float *r) {
         unsigned gain_byte = mix & 127;
         if (!gain_byte)
             continue;
-        float gain = (float)gain_byte / 127;
+        unsigned send = d->stem_split ? (d->stem_sends >> (8 * i)) & 255 : 255;
+        unsigned weight = bypass ? 255 - send : send;
+        if (!weight)
+            continue;
+        float gain = (float)gain_byte / 127 * ((float)weight / 255);
         int filter = (int8_t)(mix >> 8);
         const float *samples = d->asset->stems[i]->samples;
         float left = samples[2 * frame], right = samples[2 * frame + 1];
@@ -439,8 +454,26 @@ static bool stem_read(void *context, uint64_t frame, float *l, float *r) {
     return true;
 }
 
-static void brake_input(tdj_engine *e, int index, double position, double start, double end, float *l, float *r) {
+static bool stem_read(void *context, uint64_t frame, float *l, float *r) {
+    return stem_read_lane(context, frame, false, l, r);
+}
+
+static bool stem_bypass_read(void *context, uint64_t frame, float *l, float *r) {
+    return stem_read_lane(context, frame, true, l, r);
+}
+
+static void stem_bypass_sample(tdj_keylock *processor, deck *d, double position, double rate,
+                               double start, double end, float *l, float *r) {
+    tdj_keylock_sample_stream(processor, d, stem_bypass_read, d->asset->frames, d->asset->rate,
+                              position, rate, d->keylock, start, end, l, r);
+}
+
+static void brake_input(tdj_engine *e, int index, double position, double start, double end,
+                        float *l, float *r, float *bl, float *br) {
     deck *d = &e->decks[index];
+    if (d->stem_split)
+        stem_bypass_sample(atomic_load_explicit(&e->stem_keylocks[index], memory_order_relaxed),
+                           d, position, d->free_rate, start, end, bl, br);
     if (stem_active(d))
         tdj_keylock_sample_stream(e->keylocks[index], d, stem_read, d->asset->frames, d->asset->rate,
                                  position, d->free_rate, d->keylock, start, end, l, r);
@@ -458,15 +491,18 @@ static double brake_cursor_next(deck *d, double cursor, double step, double star
         cursor = start + fmod(fmax(0, cursor - start), end - start);
     return fmax(0, fmin(d->asset->frames - 1, cursor));
 }
-static void brake_sample(tdj_engine *e, int index, double start, double end, float *l, float *r) {
+static void brake_sample(tdj_engine *e, int index, double start, double end,
+                         float *l, float *r, float *bl, float *br) {
     deck *d = &e->decks[index];
     double step = d->asset->rate / e->rate * d->free_rate;
     if (!d->brake_primed) {
         d->brake_cursor = d->position;
         d->brake_phase = 0;
-        brake_input(e, index, d->brake_cursor, start, end, &d->brake_l[0], &d->brake_r[0]);
+        brake_input(e, index, d->brake_cursor, start, end, &d->brake_l[0], &d->brake_r[0],
+                    &d->brake_bypass_l[0], &d->brake_bypass_r[0]);
         d->brake_cursor = brake_cursor_next(d, d->brake_cursor, step, start, end);
-        brake_input(e, index, d->brake_cursor, start, end, &d->brake_l[1], &d->brake_r[1]);
+        brake_input(e, index, d->brake_cursor, start, end, &d->brake_l[1], &d->brake_r[1],
+                    &d->brake_bypass_l[1], &d->brake_bypass_r[1]);
         d->brake_primed = true;
     }
     *l = d->brake_l[0] + (d->brake_l[1] - d->brake_l[0]) * d->brake_phase;
@@ -476,13 +512,20 @@ static void brake_sample(tdj_engine *e, int index, double start, double end, flo
     double gain = remaining <= 1.00001 ? 0 : fmin(1, (remaining - 1) / (e->rate * 0.002));
     *l *= gain;
     *r *= gain;
+    if (d->stem_split) {
+        *bl = (d->brake_bypass_l[0] + (d->brake_bypass_l[1] - d->brake_bypass_l[0]) * d->brake_phase) * gain;
+        *br = (d->brake_bypass_r[0] + (d->brake_bypass_r[1] - d->brake_bypass_r[0]) * d->brake_phase) * gain;
+    }
     d->brake_phase += d->brake_rate;
     if (d->brake_phase >= 1) {
         d->brake_phase -= 1;
         d->brake_l[0] = d->brake_l[1];
         d->brake_r[0] = d->brake_r[1];
+        d->brake_bypass_l[0] = d->brake_bypass_l[1];
+        d->brake_bypass_r[0] = d->brake_bypass_r[1];
         d->brake_cursor = brake_cursor_next(d, d->brake_cursor, step, start, end);
-        brake_input(e, index, d->brake_cursor, start, end, &d->brake_l[1], &d->brake_r[1]);
+        brake_input(e, index, d->brake_cursor, start, end, &d->brake_l[1], &d->brake_r[1],
+                    &d->brake_bypass_l[1], &d->brake_bypass_r[1]);
     }
 }
 static double maximum_source_rate(deck *d, double master) {
@@ -893,8 +936,11 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
     mk2_reset(&e->mk2[1]);
     atomic_init(&e->factory_live_inputs, 0);
     atomic_init(&e->factory_s8_input, false);
-    for (unsigned i = 0; i < TDJ_DECK_COUNT; ++i)
+    for (unsigned i = 0; i < TDJ_DECK_COUNT; ++i) {
         atomic_init(&e->stem_settings[i], TDJ_STEM_DEFAULT);
+        atomic_init(&e->stem_send_settings[i], 0);
+        atomic_init(&e->stem_keylocks[i], NULL);
+    }
     for (unsigned i = 0; i < TDJ_PATTERN_UNITS; ++i) {
         atomic_init(&e->pattern_settings[i], 0);
         e->patterns[i].step = INT64_MIN;
@@ -1023,6 +1069,20 @@ failed:
     atomic_flag_clear_explicit(&e->extra_allocating, memory_order_release);
     return false;
 }
+bool tdj_engine_prepare_stem_sends(tdj_engine *e, unsigned deck) {
+    if (!e || deck >= TDJ_DECK_COUNT)
+        return false;
+    if (atomic_load_explicit(&e->stem_keylocks[deck], memory_order_acquire))
+        return true;
+    tdj_keylock *candidate = tdj_keylock_create(e->rate), *empty = NULL;
+    if (!candidate)
+        return false;
+    if (!atomic_compare_exchange_strong_explicit(&e->stem_keylocks[deck], &empty, candidate,
+                                                 memory_order_acq_rel, memory_order_acquire))
+        tdj_keylock_destroy(candidate);
+    return true;
+}
+
 // Used only by the diagnostic factory before the engine is returned to its owner.
 void tdj_engine_attach_keylock_trace(tdj_engine *e, const tdj_keylock_trace *trace) {
     if (!e || !trace)
@@ -1192,7 +1252,7 @@ static void resume_starved_stream(tdj_engine *e, int index) {
         d->continuing = d->position;
     d->stream_starved = false;
     // The stretcher may have consumed missing input before the hold.
-    tdj_keylock_reset(e->keylocks[index]);
+    reset_deck_keylock(e, index);
 }
 
 static void cancel_recovery(tdj_engine *e, int index) {
@@ -1523,6 +1583,8 @@ static int apply(tdj_engine *e, tdj_command c) {
             e->paired_frames = 0;
         *d = proposed;
         d->stem_mix = TDJ_STEM_DEFAULT;
+        d->stem_sends = UINT32_MAX;
+        d->stem_split = false;
         atomic_store_explicit(&e->stem_settings[c.deck], TDJ_STEM_DEFAULT, memory_order_relaxed);
         if (c.deck >= e->deck_count)
             e->deck_count = TDJ_DECK_COUNT;
@@ -1531,7 +1593,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             e->master_chosen = true;
         }
         tdj_stream_mark_started(c.asset);
-        tdj_keylock_reset(e->keylocks[c.deck]);
+        reset_deck_keylock(e, c.deck);
         mixer_clear_track(&e->mix.decks[c.deck]);
         return TDJ_OK;
     }
@@ -1547,7 +1609,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         *d = (deck){.map_dirty = true};
         if (c.deck < 2)
             e->paired_frames = 0;
-        tdj_keylock_reset(e->keylocks[c.deck]);
+        reset_deck_keylock(e, c.deck);
         mixer_clear_track(&e->mix.decks[c.deck]);
         return TDJ_OK;
     }
@@ -1625,7 +1687,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (status != TDJ_OK)
             return status;
         *other = proposed;
-        tdj_keylock_reset(e->keylocks[(c.deck ^ 1)]);
+        reset_deck_keylock(e, c.deck ^ 1);
         if (!d->recovery_armed)
             d->recovery_start = -1;
         d->recovery_armed = true;
@@ -1715,7 +1777,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (status != TDJ_OK)
             return status;
         *d = proposed;
-        tdj_keylock_reset(e->keylocks[c.deck]);
+        reset_deck_keylock(e, c.deck);
         transition_request(e, c.deck, 0);
         return TDJ_OK;
     }
@@ -1741,7 +1803,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             double stopped_position = d->position;
             align_synced_position(d, 0);
             if (d->position != stopped_position) {
-                tdj_keylock_reset(e->keylocks[c.deck]);
+                reset_deck_keylock(e, c.deck);
                 transition_request(e, c.deck, 0);
             }
             if (!any_deck_active(e)) {
@@ -1761,7 +1823,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             if (status != TDJ_OK)
                 return status;
             *d = restarting;
-            tdj_keylock_reset(e->keylocks[c.deck]);
+            reset_deck_keylock(e, c.deck);
             transition_request(e, c.deck, 0);
             return TDJ_OK;
         }
@@ -1798,7 +1860,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             advance_clock_epoch(e);
             e->running = false;
         }
-        tdj_keylock_reset(e->keylocks[c.deck]);
+        reset_deck_keylock(e, c.deck);
         transition_request(e, c.deck, 0);
         return TDJ_OK;
     }
@@ -1838,7 +1900,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             d->jump_pending = false;
             if (d->state == TDJ_ENDED)
                 d->state = TDJ_PAUSED;
-            tdj_keylock_reset(e->keylocks[c.deck]);
+            reset_deck_keylock(e, c.deck);
             transition_request(e, c.deck, 0);
         }
         return TDJ_OK;
@@ -1883,7 +1945,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             }
         }
         *d = proposed;
-        tdj_keylock_reset(e->keylocks[c.deck]);
+        reset_deck_keylock(e, c.deck);
         transition_request(e, c.deck, 0);
         return TDJ_OK;
     }
@@ -1952,7 +2014,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         d->loop_enabled = c.flag != 0;
         d->jump_pending = false;
         if (reset_loop) {
-            tdj_keylock_reset(e->keylocks[c.deck]);
+            reset_deck_keylock(e, c.deck);
             transition_request(e, c.deck, 0);
         }
         return TDJ_OK;
@@ -2018,7 +2080,7 @@ static int apply(tdj_engine *e, tdj_command c) {
                     if (follows_position && d->position != c.value) {
                         d->position = c.value;
                         d->touch_start = c.value;
-                        tdj_keylock_reset(e->keylocks[c.deck]);
+                        reset_deck_keylock(e, c.deck);
                         transition_request(e, c.deck, 0);
                     }
                     if (follows_position) {
@@ -2124,7 +2186,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             transition_request(e, c.deck, 0);
         }
         if (!with_rate || !d->jump_pending)
-            tdj_keylock_reset(e->keylocks[c.deck]);
+            reset_deck_keylock(e, c.deck);
         return TDJ_OK;
     }
     if (c.kind == TDJ_RATE) {
@@ -2190,7 +2252,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             return status;
         d->synced = true;
         d->position = position;
-        tdj_keylock_reset(e->keylocks[c.deck]);
+        reset_deck_keylock(e, c.deck);
         transition_request(e, c.deck, 0);
         return TDJ_OK;
     }
@@ -2214,7 +2276,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             d->free_rate = source_rate(e, d);
         if (d->position != proposed.position) {
             d->position = proposed.position;
-            tdj_keylock_reset(e->keylocks[c.deck]);
+            reset_deck_keylock(e, c.deck);
             transition_request(e, c.deck, 0);
         }
         d->synced = c.flag != 0;
@@ -2255,7 +2317,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             return status;
         if (d->position != proposed.position) {
             d->position = proposed.position;
-            tdj_keylock_reset(e->keylocks[c.deck]);
+            reset_deck_keylock(e, c.deck);
             transition_request(e, c.deck, 0);
         }
         d->grid_click_position_valid = false;
@@ -2280,7 +2342,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             return status;
         d->position = proposed.position;
         d->state = TDJ_PAUSED;
-        tdj_keylock_reset(e->keylocks[c.deck]);
+        reset_deck_keylock(e, c.deck);
         mixer_clear_track(&e->mix.decks[c.deck]);
         transition_request(e, c.deck, 0);
         return TDJ_OK;
@@ -2613,19 +2675,36 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
     uint64_t missing[TDJ_DECK_COUNT] = {0};
     uint64_t recorded_generations[TDJ_DECK_COUNT] = {0};
     uint32_t recorded_offsets[TDJ_DECK_COUNT] = {UINT32_MAX, UINT32_MAX, UINT32_MAX, UINT32_MAX};
-    for (int deck = 0; deck < e->deck_count; deck++) {
-        double bpm, beat;
-        if (e->decks[deck].asset && e->decks[deck].asset->stems[0]) {
-            uint64_t mix = atomic_load_explicit(&e->stem_settings[deck], memory_order_relaxed);
-            if (mix != e->decks[deck].stem_mix) {
-                e->decks[deck].stem_mix = mix;
-                tdj_keylock_reset(e->keylocks[deck]);
-                transition_request(e, deck, 0);
+    for (int index = 0; index < e->deck_count; index++) {
+        deck *d = &e->decks[index];
+        if (d->asset && d->asset->stems[0]) {
+            uint64_t mix = atomic_load_explicit(&e->stem_settings[index], memory_order_relaxed);
+            uint64_t packet = atomic_load_explicit(&e->stem_send_settings[index], memory_order_relaxed);
+            uint32_t sends = (packet >> 32) == (uint32_t)d->generation ? (uint32_t)packet : UINT32_MAX;
+            bool split = false;
+            if (sends != UINT32_MAX && atomic_load_explicit(&e->stem_keylocks[index], memory_order_acquire))
+                for (unsigned slot = 0; slot < 3; ++slot) {
+                    performance_fx *fx = &e->effects[index][slot];
+                    split |= fx->enabled || fx->wet.value > 0 || fx->reverb_tail_active;
+                }
+            if (mix != d->stem_mix || split != d->stem_split || (split && sends != d->stem_sends)) {
+                bool reset = mix != d->stem_mix || split != d->stem_split;
+                if (split != d->stem_split)
+                    e->mix.decks[index].bypass = (mixer_bypass){0};
+                d->stem_mix = mix;
+                d->stem_sends = sends;
+                d->stem_split = split;
+                if (reset) {
+                    d->brake_primed = false;
+                    reset_deck_keylock(e, index);
+                }
+                transition_request(e, index, 0);
             }
         }
-        effect_clock(e, deck, &bpm, &beat);
+        double bpm, beat;
+        effect_clock(e, index, &bpm, &beat);
         for (int slot = 0; slot < 3; slot++)
-            fx_prepare(&e->effects[deck][slot], e->rate, bpm);
+            fx_prepare(&e->effects[index][slot], e->rate, bpm);
     }
     uint64_t target_frames[TDJ_DECK_COUNT] = {UINT64_MAX, UINT64_MAX, UINT64_MAX, UINT64_MAX};
     for (int i = 0; i < e->deck_count; ++i) {
@@ -2766,7 +2845,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                     d->performance_rate = d->pending_touch_rate;
                     d->pending_touch_rate_valid = false;
                 }
-                tdj_keylock_reset(e->keylocks[i]);
+                reset_deck_keylock(e, i);
                 transition_request(e, i, 0);
             }
             double wrap_start = 0, wrap_end = 0;
@@ -2781,11 +2860,11 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 wrap_start = d->recovery_start;
                 wrap_end = d->recovery_end;
             }
-            float source_l, source_r;
+            float source_l, source_r, bypass_l = 0, bypass_r = 0;
             if (d->stream_starved)
                 source_l = source_r = 0;
             else if (d->braking)
-                brake_sample(e, i, wrap_start, wrap_end, &source_l, &source_r);
+                brake_sample(e, i, wrap_start, wrap_end, &source_l, &source_r, &bypass_l, &bypass_r);
             else if (d->performance_rate != 1) {
                 uint64_t at = (uint64_t)fmax(0, fmin(d->asset->frames - 1, floor(d->position)));
                 uint64_t next = at + 1 < d->asset->frames ? at + 1 : at;
@@ -2810,11 +2889,21 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 }
                 if (d->performance_rate == 0)
                     source_l = source_r = 0;
-            } else if (stem_active(d))
+                else if (d->stem_split) {
+                    float al, ar, bl, br;
+                    stem_bypass_read(d, at, &al, &ar);
+                    stem_bypass_read(d, next, &bl, &br);
+                    bypass_l = al * (1 - fraction) + bl * fraction;
+                    bypass_r = ar * (1 - fraction) + br * fraction;
+                }
+            } else if (stem_active(d)) {
                 tdj_keylock_sample_stream(e->keylocks[i], d, stem_read, d->asset->frames, d->asset->rate,
                                          d->position, source_rate(e, d), d->keylock, wrap_start, wrap_end,
                                          &source_l, &source_r);
-            else if (d->asset->stream)
+                if (d->stem_split)
+                    stem_bypass_sample(atomic_load_explicit(&e->stem_keylocks[i], memory_order_relaxed),
+                                       d, d->position, source_rate(e, d), wrap_start, wrap_end, &bypass_l, &bypass_r);
+            } else if (d->asset->stream)
                 tdj_keylock_sample_stream_spans(e->keylocks[i], d->asset, tdj_stream_render_read_stereo,
                                                 tdj_stream_render_span, d->asset->frames, d->asset->rate, d->position,
                                                 source_rate(e, d), d->keylock, wrap_start, wrap_end, &source_l,
@@ -2846,13 +2935,22 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                         d->stream_failed = false;
                 }
             }
-            double dl = source_l, dr = source_r;
+            double dl = source_l + bypass_l, dr = source_r + bypass_r;
             transition_sample(transition, &dl, &dr);
-            mixer_process_deck(&e->mix, i, &dl, &dr);
+            double dry[2] = {bypass_l, bypass_r};
+            if (d->stem_split) {
+                mixer_process_split(&e->mix, i, &dl, &dr, dry);
+                dl -= dry[0];
+                dr -= dry[1];
+            } else {
+                mixer_process_deck(&e->mix, i, &dl, &dr);
+            }
             double fx_bpm, fx_beat;
             effect_clock(e, i, &fx_bpm, &fx_beat);
             for (int k = 0; k < 3; k++)
                 fx_process(&e->effects[i][k], e->rate, fx_bpm, fx_beat, &dl, &dr);
+            dl += dry[0];
+            dr += dry[1];
             double level = volume * mixer_crossfader_gain(&e->mix.decks[i], cross);
             if (pattern_count)
                 level *= duck[i];
@@ -3142,6 +3240,18 @@ bool tdj_read_snapshot(tdj_engine *e, tdj_snapshot *out) {
         }
     }
     return false;
+}
+
+void tdj_stem_sends_set(tdj_engine *e, unsigned deck, uint64_t generation, uint32_t levels) {
+    if (!e || deck >= TDJ_DECK_COUNT)
+        return;
+    _Atomic uint64_t *settings = &e->stem_send_settings[deck];
+    uint64_t packet = (generation << 32) | levels;
+    uint64_t previous = atomic_load_explicit(settings, memory_order_relaxed);
+    while ((previous >> 32) <= (packet >> 32) &&
+           !atomic_compare_exchange_weak_explicit(settings, &previous, packet, memory_order_relaxed,
+                                                  memory_order_relaxed)) {}
+
 }
 
 void tdj_stem_mix_set(tdj_engine *e, unsigned deck, uint64_t mix) {

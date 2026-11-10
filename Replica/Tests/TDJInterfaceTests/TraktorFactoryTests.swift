@@ -136,3 +136,17 @@ func traktorFactoryLightReportsFitEveryMappedLamp(model: TraktorFactoryModel) {
     pattern.decks = [.b]
     #expect(pattern.settings & 0x3fffff == 0x120800)
 }
+
+@Test(arguments: [(TraktorFactoryModel.d2, 17, 3, 4, 0), (.s8, 41, 13, 14, 1)])
+func traktorFactoryStemSendPageUsesTheNativePerformanceArrows(
+    model: TraktorFactoryModel, count: Int, right: Int, left: Int, side: Int
+) {
+    var controls = TraktorFactoryControls(model)
+    var report: [UInt8] = [1] + .init(repeating: 0, count: count - 1)
+    _ = controls.consume(report)
+    report[right] = 0x40
+    #expect(controls.consume(report).contains { $0.target == .surface(side) && $0.control == .stemSendPage(true) && $0.value == 1 })
+    report[right] = 0
+    report[left] = 0x40
+    #expect(controls.consume(report).contains { $0.target == .surface(side) && $0.control == .stemSendPage(false) && $0.value == 1 })
+}

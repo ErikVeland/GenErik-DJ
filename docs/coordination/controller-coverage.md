@@ -199,3 +199,21 @@ REL/INT selects absolute vinyl control on Z2 decks A and B. Both sides of Trakto
 Controller settings show Pulse and Warning for each connected controller with native feedback. Both settings are on by default. The app saves them separately for each model. MIDI setup stays in a collapsed section. The pane omits connection diagnostics.
 
 The focused Mac checks passed with synthetic Mk2 vinyl, capture routing and lighting reports. [Build 207](../testing/builds/207.json) passed signing and runtime checks. The tool rejected [build 206](../testing/builds/206.json) after the source changed during compilation. Real-vinyl calibration, physical controllers and A10X performance remain open.
+
+## R147 Native stem controls and FX sends
+
+The controls work with authored `.stem.mp4` files. The app uses the existing accessory and bridge connections. It needs no MIDI mapping or app setting.
+
+| Controller | Stem controls |
+| --- | --- |
+| Z1 Mk2 | Each side has its own EQ and Stem buttons. Gain, High, Mid and Low control drums, bass, other and vocals in Stem mode. Knobs use pickup when you change mode, deck layer or stem track. |
+| S2 Mk3 and S3 | Press Samples on a stem deck. Pads 1–4 mute stems. Hold pads 5–8 and turn Move for volume or Loop for filter. Press Hotcue to return to cues. |
+| S4 Mk3 | Pads 1–4 mute stems directly in Stem mode. Pads 5–8 keep the existing volume and filter controls. |
+| X1 Mk3 | Shift and number buttons 1–4 mute stems on a stem deck. An unshifted press keeps the Hot Cue action. |
+| S8 and D2 | The Performance arrows select Filter or FX Send. The four ON buttons switch the selected function. The knobs change filter or send amount. |
+| S5 | Loading stems opens Stem mode. The lower pads select stems. Hold Shift and press an upper pad to switch its FX send. Shift and a lower pad reset volume and filter. |
+| F1 | Hold Shift and turn Browse to select a deck. Hold Shift and use the second row of pads to switch individual FX sends. |
+
+Each send starts at full level. A send can bypass the deck FX chain while its stem stays audible through the channel EQ, fader and cue. The renderer allocates the extra processor before stem playback. It uses the original single path for ordinary tracks and when no split is needed.
+
+[NI Z1 Mk2 controls](https://docs.native-instruments.com/ni-tech-manuals/traktor-z1-mk2-manual/en/using-the-z1-with-traktor) · [Z1 Mk2 HID reports](https://github.com/infifox/mixxx-traktor-controllers/blob/a9e8f8ea8adbed29c4d86d224049990ec8ba21ca/doc/TraktorZ1MK2.spec.md) · [NI stem controller guide](https://www.native-instruments.com/blogs/blog/how-to-mix-stems) · [NI S8, D2 and F1 stem controls](https://support.native-instruments.com/support/solutions/articles/69000879536-how-can-i-control-the-individual-stems-on-a-traktor-stem-deck-) · [NI S5 manual](https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/TRAKTOR_KONTROL_S5_Manual_English.pdf).

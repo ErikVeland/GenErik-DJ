@@ -176,3 +176,38 @@ func traktorPerformanceDecodesARealFiveTrackContainer() async throws {
     #expect(abs(try #require(core.factoryTimecode(side: 1).seconds) - 60_426.0 / 2500) < 0.002)
     #expect(core.factoryTimecode(side: 0).seconds == nil)
 }
+
+@Test func traktorPerformanceStemSendBypassesOnlyTheUnsentSignal() throws {
+    let core = try SampleTransport(sampleRate: 48_000, outputGain: 1)
+    func asset(_ left: Float, _ right: Float) throws -> PCMAsset {
+        try PCMAsset(
+            interleavedStereo: (0..<12_000).flatMap { _ in [left, right] }, sampleRate: 48_000)
+    }
+    let stem = try PCMAsset(master: asset(0.3, 0.3),
+                            stems: [asset(0.3, 0), asset(0, 0.3), asset(0, 0), asset(0, 0)])
+    let generation = try core.load(stem, deck: .a, grid: nil, synced: false)
+    try core.play(deck: .a, generation: generation)
+    try core.setEffect(PerformanceEffect.gater.rawValue, slot: 0, x: 0, y: 1, enabled: true, deck: .a)
+    core.setStemSends(.a, generation: generation, levels: 0xffff00ff)
+    let full = core.renderOffline(frames: 4096)
+    let gated = 1024..<4096
+    #expect(full.left[gated].contains { abs($0) < 0.05 })
+    #expect(full.right[gated].allSatisfy { abs($0 - 0.3) < 0.01 })
+
+    core.setStemSends(.a, generation: generation, levels: 0xffff0080)
+    let half = core.renderOffline(frames: 2048)
+    #expect(half.left.dropFirst(512).contains { abs($0 - 0.15) < 0.03 })
+    #expect(half.right.dropFirst(512).allSatisfy { abs($0 - 0.3) < 0.01 })
+
+    try core.play(deck: .a, generation: generation)
+    core.processControlsWhileIdle()
+    let next = try core.load(stem, deck: .a, grid: nil, synced: false)
+    try core.play(deck: .a, generation: next)
+    core.setStemSends(.a, generation: generation, levels: 0)
+    let fresh = core.renderOffline(frames: 4096)
+    #expect(fresh.right[gated].contains { abs($0) < 0.05 })
+    core.setStemSends(.a, generation: next, levels: 0xffff00ff)
+    core.setStemSends(.a, generation: generation, levels: UInt32.max)
+    let current = core.renderOffline(frames: 4096)
+    #expect(current.right[gated].allSatisfy { abs($0 - 0.3) < 0.01 })
+}

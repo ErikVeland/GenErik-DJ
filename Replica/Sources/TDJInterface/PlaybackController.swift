@@ -313,9 +313,13 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                     ? 4096 : core.configuredMaximumOutputFrames, sourceURL: sourceURL, compactPool: deck.transportIndex >= 2)
         }
         try Task.checkCancellation()
-        if deck.transportIndex >= 2 {
+        if deck.transportIndex >= 2 || asset.hasStems {
             let core = core
-            try await Task.detached(priority: .utility) { try core.prepareExtraDecks() }.value
+            let hasStems = asset.hasStems
+            try await Task.detached(priority: .utility) {
+                if deck.transportIndex >= 2 { try core.prepareExtraDecks() }
+                if hasStems { try core.prepareStemSends(deck) }
+            }.value
             try Task.checkCancellation()
         }
         if let loadCheckpoint { try await loadCheckpoint(.decoded) }
