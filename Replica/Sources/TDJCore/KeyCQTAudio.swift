@@ -22,8 +22,8 @@ public final class KeyCQTAudio: KeyFeatureAudio {
         let filters: [Filter]
     }
     private struct Bank: Decodable { let format: String; let groups: [Group] }
-    private let groups: [Group]
-    private let readers: [CQTReader]
+    private let banks: [RateBank]
+    private var nextFrame = 0
     public let frameCount: Int
 
     private let check: @Sendable () throws -> Void
@@ -51,55 +51,163 @@ public final class KeyCQTAudio: KeyFeatureAudio {
             }
         }
         guard covered.count == 105 else { throw CoreError.invalidAudio("The key filters have missing bands.") }
-        groups = bank.groups
-        readers = try groups.map { try CQTReader(url: url, rate: Double($0.sampleRate), checkCancellation: checkCancellation) }
-        frameCount = max(0, readers[0].sampleCount / groups[0].hop - 1)
+        let groups = bank.groups
+        let rates = Array(Set(groups.map(\.sampleRate))).sorted(by: >)
+        let source = try CQTSource(url: url, consumers: rates.count, checkCancellation: checkCancellation)
+        banks = try rates.enumerated().map { index, rate in
+            try RateBank(groups: groups.filter { $0.sampleRate == rate }, source: source,
+                         consumer: index, checkCancellation: checkCancellation)
+        }
+        frameCount = max(0, Int((Double(source.frameCount) * 44100 / source.format.sampleRate).rounded()) / 8820 - 1)
         guard frameCount >= 8 else { throw CoreError.invalidAudio("The key model needs at least two seconds of audio.") }
     }
 
     public func fill(_ frames: Range<Int>, into values: UnsafeMutablePointer<Float>) throws {
-        guard frames.lowerBound >= 0, frames.upperBound <= frameCount else {
-            throw CoreError.invalidAudio("The key feature range is invalid.")
+        guard frames.lowerBound >= nextFrame, frames.upperBound <= frameCount else {
+            throw CoreError.invalidAudio("The key feature range is invalid or precedes saved input.")
         }
-        for (group, reader) in zip(groups, readers) {
-            let size = group.fftSize
-            let power = vDSP_Length(size.trailingZeroBitCount)
+        // Advance every rate together, including gaps left by saved feature windows.
+        for frame in nextFrame..<frames.upperBound {
+            try check()
+            for bank in banks {
+                try bank.fill(frame: frame, into: frame >= frames.lowerBound
+                    ? values.advanced(by: (frame - frames.lowerBound) * 105) : nil)
+            }
+            nextFrame = frame + 1
+        }
+    }
+
+    private final class RateBank {
+        let reader: CQTReader
+        let hop: Int
+        let spectra: [Spectrum]
+        var samples: [Float]
+        init(groups: [Group], source: CQTSource, consumer: Int,
+             checkCancellation: @escaping @Sendable () throws -> Void) throws {
+            reader = try CQTReader(source: source, consumer: consumer, rate: Double(groups[0].sampleRate),
+                                   checkCancellation: checkCancellation)
+            hop = groups[0].hop
+            spectra = try groups.map(Spectrum.init)
+            samples = .init(repeating: 0, count: groups.map(\.fftSize).max()!)
+        }
+        func fill(frame: Int, into values: UnsafeMutablePointer<Float>?) throws {
+            try reader.fill(start: frame * hop - samples.count / 2, into: &samples)
+            guard let values else { return }
+            for spectrum in spectra { try spectrum.fill(samples, into: values) }
+        }
+    }
+
+    private final class Spectrum {
+        let group: Group
+        let fft: FFTSetup
+        let power: vDSP_Length
+        var real: [Float]
+        var imaginary: [Float]
+        init(_ group: Group) throws {
+            self.group = group
+            power = vDSP_Length(group.fftSize.trailingZeroBitCount)
             guard let fft = vDSP_create_fftsetup(power, FFTRadix(kFFTRadix2)) else {
                 throw CoreError.invalidAudio("Cannot prepare the key spectrum.")
             }
-            defer { vDSP_destroy_fftsetup(fft) }
-            var real = [Float](repeating: 0, count: size)
-            var imaginary = real
-            for frame in frames {
-                try check()
-                let start = frame * group.hop - size / 2
-                try reader.fill(start: start, into: &real)
-                vDSP_vclr(&imaginary, 1, vDSP_Length(size))
-                real.withUnsafeMutableBufferPointer { re in
-                    imaginary.withUnsafeMutableBufferPointer { im in
-                        var split = DSPSplitComplex(realp: re.baseAddress!, imagp: im.baseAddress!)
-                        vDSP_fft_zip(fft, &split, 1, power, FFTDirection(FFT_FORWARD))
-                    }
+            self.fft = fft
+            real = .init(repeating: 0, count: group.fftSize)
+            imaginary = real
+        }
+        deinit { vDSP_destroy_fftsetup(fft) }
+        func fill(_ samples: [Float], into values: UnsafeMutablePointer<Float>) throws {
+            let offset = (samples.count - real.count) / 2
+            for i in real.indices { real[i] = samples[offset + i] }
+            vDSP_vclr(&imaginary, 1, vDSP_Length(imaginary.count))
+            real.withUnsafeMutableBufferPointer { re in
+                imaginary.withUnsafeMutableBufferPointer { im in
+                    var split = DSPSplitComplex(realp: re.baseAddress!, imagp: im.baseAddress!)
+                    vDSP_fft_zip(fft, &split, 1, power, FFTDirection(FFT_FORWARD))
                 }
-                for (band, filter) in group.filters.enumerated() {
-                    var re: Float = 0
-                    var im: Float = 0
-                    for index in filter.indices.indices {
-                        let bin = filter.indices[index]
-                        re += filter.real[index] * real[bin] - filter.imaginary[index] * imaginary[bin]
-                        im += filter.real[index] * imaginary[bin] + filter.imaginary[index] * real[bin]
-                    }
-                    let value = log1p(hypot(re, im))
-                    guard value.isFinite else { throw CoreError.invalidAudio("The key spectrum is not finite.") }
-                    values[(frame - frames.lowerBound) * 105 + group.firstBand + band] = value
+            }
+            for (band, filter) in group.filters.enumerated() {
+                var re: Float = 0
+                var im: Float = 0
+                for index in filter.indices.indices {
+                    let bin = filter.indices[index]
+                    re += filter.real[index] * real[bin] - filter.imaginary[index] * imaginary[bin]
+                    im += filter.real[index] * imaginary[bin] + filter.imaginary[index] * real[bin]
                 }
+                let value = log1p(hypot(re, im))
+                guard value.isFinite else { throw CoreError.invalidAudio("The key spectrum is not finite.") }
+                values[group.firstBand + band] = value
             }
         }
     }
 }
 
+private final class CQTSource {
+    let file: AVAudioFile
+    let format: AVAudioFormat
+    let frameCount: Int64
+    private let buffer: AVAudioPCMBuffer
+    private let check: @Sendable () throws -> Void
+    private var positions: [Int64]
+    private var samples: [[Float]]
+    private var first: Int64 = 0
+
+    init(url: URL, consumers: Int, checkCancellation: @escaping @Sendable () throws -> Void) throws {
+        file = try AVAudioFile(forReading: url, commonFormat: .pcmFormatFloat32, interleaved: false)
+        format = file.processingFormat
+        frameCount = file.length
+        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: 8192) else {
+            throw CoreError.invalidAudio("Cannot prepare shared key audio.")
+        }
+        self.buffer = buffer
+        check = checkCancellation
+        positions = .init(repeating: 0, count: consumers)
+        samples = .init(repeating: [], count: Int(format.channelCount))
+    }
+
+    func read(consumer: Int, requested: AVAudioFrameCount, into output: AVAudioPCMBuffer) throws -> Bool {
+        try check()
+        let position = positions[consumer]
+        let count = Int(min(Int64(min(requested, output.frameCapacity)), frameCount - position))
+        guard count > 0 else { output.frameLength = 0; return false }
+        let discard = Int(positions.min()! - first)
+        if discard > 0 {
+            for channel in samples.indices { samples[channel].removeFirst(discard) }
+            first += Int64(discard)
+        }
+        while first + Int64(samples[0].count) < position + Int64(count) {
+            try check()
+            try file.read(into: buffer, frameCount: AVAudioFrameCount(min(8192, frameCount - file.framePosition)))
+            guard buffer.frameLength > 0, let channels = buffer.floatChannelData else {
+                throw CoreError.invalidAudio("The key audio ended before its recorded length.")
+            }
+            for channel in samples.indices {
+                samples[channel].append(contentsOf: UnsafeBufferPointer(start: channels[channel], count: Int(buffer.frameLength)))
+            }
+            guard samples[0].count <= max(131072, Int(format.sampleRate)) else {
+                throw CoreError.invalidAudio("The key audio readers exceeded their buffer limit.")
+            }
+            AnalysisMeasurement.current?.count("keySourceDecodedFrames", Int64(buffer.frameLength))
+            AnalysisMeasurement.current?.update {
+                $0.counters["keySourcePeakBufferedFrames"] = max($0.counters["keySourcePeakBufferedFrames", default: 0], Int64(samples[0].count))
+            }
+        }
+        guard let channels = output.floatChannelData else {
+            throw CoreError.invalidAudio("The key audio buffer has no channels.")
+        }
+        let offset = Int(position - first)
+        for channel in samples.indices {
+            samples[channel].withUnsafeBufferPointer { source in
+                channels[channel].update(from: source.baseAddress!.advanced(by: offset), count: count)
+            }
+        }
+        output.frameLength = AVAudioFrameCount(count)
+        positions[consumer] += Int64(count)
+        return true
+    }
+}
+
 private final class CQTReader {
-    private let file: AVAudioFile
+    private let source: CQTSource
+    private let consumer: Int
     private let input: AVAudioPCMBuffer
     private let output: AVAudioPCMBuffer
     private let converter: AVAudioConverter?
@@ -110,11 +218,11 @@ private final class CQTReader {
 
     private let check: @Sendable () throws -> Void
 
-    init(url: URL, rate: Double, checkCancellation: @escaping @Sendable () throws -> Void) throws {
+    init(source: CQTSource, consumer: Int, rate: Double, checkCancellation: @escaping @Sendable () throws -> Void) throws {
         check = checkCancellation
-        file = try AVAudioFile(forReading: url, commonFormat: .pcmFormatFloat32, interleaved: false)
-        let format = file.processingFormat
-        let count = (Double(file.length) * rate / format.sampleRate).rounded()
+        self.source = source; self.consumer = consumer
+        let format = source.format
+        let count = (Double(source.frameCount) * rate / format.sampleRate).rounded()
         guard count >= 2, count <= rate * 24 * 3600,
             let target = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: rate,
                                        channels: format.channelCount, interleaved: false),
@@ -158,10 +266,7 @@ private final class CQTReader {
     }
 
     private func readInput(_ requested: AVAudioFrameCount) throws -> Bool {
-        let remaining = min(Int64(min(requested, input.frameCapacity)), file.length - file.framePosition)
-        guard remaining > 0 else { return false }
-        try file.read(into: input, frameCount: AVAudioFrameCount(remaining))
-        return input.frameLength > 0
+        try source.read(consumer: consumer, requested: requested, into: input)
     }
     private func read() throws -> AVAudioPCMBuffer? {
         guard let converter else { return try readInput(input.frameCapacity) ? input : nil }
