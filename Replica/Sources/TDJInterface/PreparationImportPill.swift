@@ -22,9 +22,20 @@ struct LibraryAnalysisFooter: View {
     var showsProgress = true
     @State private var backgroundRequestFailed = false
 
+    private var backgroundButtonTitle: LocalizedStringKey {
+        switch model.backgroundAnalysisStatus {
+        case .idle: "Analyse in Background"
+        case .queued: "Background Analysis Queued"
+        case .running: "Background Analysis Running"
+        }
+    }
+
     private var showsBackgroundButton: Bool {
         #if os(iOS)
-            if #available(iOS 26, *) { return progress.isLibraryAnalysis && model.libraryAnalysisNeedsWork }
+            if #available(iOS 26, *) {
+                return progress.isLibraryAnalysis
+                    && (model.libraryAnalysisNeedsWork || model.backgroundAnalysisStatus != .idle)
+            }
         #endif
         return false
     }
@@ -37,13 +48,14 @@ struct LibraryAnalysisFooter: View {
                 #if os(iOS)
                     if #available(iOS 26, *), showsBackgroundButton {
                         Button {
+                            guard model.backgroundAnalysisStatus == .idle else { return }
                             backgroundRequestFailed = !ReplicaLifecycle.continueLibraryAnalysis(model)
                         } label: {
-                            Text(model.libraryAnalysisContinuesInBackground ? "Background Analysis On" : "Analyse in Background")
+                            Text(backgroundButtonTitle)
                                 .font(.system(size: 11, weight: .semibold)).foregroundStyle(PerformancePalette.cyan)
                                 .frame(minHeight: 44).contentShape(Rectangle())
                         }.buttonStyle(.plain)
-                            .disabled(model.libraryAnalysisContinuesInBackground || model.arrangementPlaybackActive
+                            .disabled(model.backgroundAnalysisStatus != .idle || model.arrangementPlaybackActive
                                 || model.isRecording || model.recordingFinishing)
                             .alert("Background analysis could not start", isPresented: $backgroundRequestFailed) {
                                 Button("OK", role: .cancel) {}

@@ -134,7 +134,10 @@ import TDJCore
     public internal(set) var analysisProgress: PreparationImportProgress?
     var libraryAnalysisOwner: UUID?
     public var analysisIsRunning: Bool { libraryAnalysisOwner != nil || deckAnalysisIsRunning }
-    var libraryAnalysisContinuesInBackground = false
+    enum BackgroundAnalysisStatus {
+        case idle, queued, running
+    }
+    var backgroundAnalysisStatus: BackgroundAnalysisStatus = .idle
     public internal(set) var browserHintsVersion: UInt64 = 0
     @ObservationIgnored var collectionHints: [String: BrowserPreparationHint] = [:]
     @ObservationIgnored var analysisHints = NativeAnalysisHints()

@@ -45,7 +45,7 @@
         @available(iOS 26, *)
         func continueAnalysis() -> Bool {
             guard let model, UIApplication.shared.applicationState == .active, active == nil,
-                !model.libraryAnalysisContinuesInBackground, model.libraryAnalysisNeedsWork,
+                model.backgroundAnalysisStatus == .idle, model.libraryAnalysisNeedsWork,
                 !model.arrangementPlaybackActive, !model.playback.isRecording, !model.playback.recordingFinishing
             else { return false }
             let scheduler = BGTaskScheduler.shared
@@ -57,17 +57,23 @@
                 }
                 self.start(continued, progress: continued.progress)
             }
-            guard registered else { return false }
+            guard registered else {
+                model.logAnalysis("Could not register background analysis.")
+                return false
+            }
             let request = BGContinuedProcessingTaskRequest(
                 identifier: identifier, title: "Analysing library", subtitle: "Preparing tracks")
-            request.strategy = .fail
-            model.libraryAnalysisContinuesInBackground = true
+            request.strategy = .queue
+            model.backgroundAnalysisStatus = .queued
             do {
                 try scheduler.submit(request)
+                model.logAnalysis("Background analysis request accepted.")
                 return true
             } catch {
-                model.libraryAnalysisContinuesInBackground = false
-                model.logAnalysis("Could not continue analysis: \(error.localizedDescription)")
+                model.backgroundAnalysisStatus = .idle
+                let failure = error as NSError
+                model.logAnalysis(
+                    "Could not submit background analysis (\(failure.domain) \(failure.code)): \(failure.localizedDescription)")
                 return false
             }
         }
@@ -78,14 +84,24 @@
 
         private func start(_ task: BGTask, progress: Progress? = nil) {
             model?.updateLibraryAnalysisConditions(LibraryAnalysisEnvironmentObserver.current)
+            if let model, progress != nil, !model.libraryAnalysisNeedsWork {
+                model.backgroundAnalysisStatus = .idle
+                model.logAnalysis("Background analysis did not start because the library was already checked.")
+                task.setTaskCompleted(success: true)
+                return
+            }
             guard let model, active == nil, let id = model.beginBackgroundLibraryAnalysis(report: { checked, total in
                 progress?.totalUnitCount = Int64(max(1, total))
                 progress?.completedUnitCount = Int64(checked)
             }) else {
-                if active == nil { model?.libraryAnalysisContinuesInBackground = false }
+                if progress != nil {
+                    if active == nil { model?.backgroundAnalysisStatus = .idle }
+                    model?.logAnalysis("Background analysis could not start while the app or playback was busy.")
+                }
                 task.setTaskCompleted(success: false)
                 return
             }
+            if progress != nil { model.backgroundAnalysisStatus = .running }
             let worker = Task(priority: .background) { [weak self, weak model] in
                 let complete = await model?.runBackgroundLibraryAnalysis(id) ?? false
                 self?.finish(id, success: complete)
@@ -96,15 +112,22 @@
                 model.setLibraryAnalysisBackgrounded(true)
             }
             task.expirationHandler = { @Sendable [weak self] in
-                Task { @MainActor in self?.finish(id, success: false) }
+                Task { @MainActor in self?.finish(id, success: false, expired: true) }
             }
         }
 
-        private func finish(_ id: UUID, success: Bool) {
+        private func finish(_ id: UUID, success: Bool, expired: Bool = false) {
             guard let work = active, work.id == id else { return }
             active = nil
             model?.endBackgroundLibraryAnalysis(id)
-            model?.libraryAnalysisContinuesInBackground = false
+            if !(work.task is BGProcessingTask) {
+                model?.backgroundAnalysisStatus = .idle
+                if expired {
+                    model?.logAnalysis("iOS ended background analysis before it finished.")
+                } else if !success {
+                    model?.logAnalysis("Background analysis stopped with library work remaining.")
+                }
+            }
             work.worker.cancel()
             work.task.expirationHandler = nil
             work.task.setTaskCompleted(success: success)
