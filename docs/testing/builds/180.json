@@ -1,0 +1,23 @@
+{
+  "notes": "R115 adds independent S3 C/D playback, four-deck Sync, mixing, recording and recovery.",
+  "sourceCommit": "708367c0ae3577fa15db0572687b21a3a813e69a",
+  "sourceSHA256": "c1964868829733db963535823b2fd08d8e67da71f19b30b451484212957f35b5",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 72.03,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-180.log",
+  "build": 180,
+  "app": "TestBuilds/ipad/180/GenErikDJ.app",
+  "appSHA256": "73a9af67c52f8e06d30852186f3c5727ca968f3a7b872f2cf3c673ed7171d4ab",
+  "state": "testing",
+  "createdUTC": "2026-11-10T00:40:17.331808+00:00",
+  "installedUTC": "2026-11-10T00:40:29.996701+00:00",
+  "launchedUTC": "2026-11-10T00:40:30.363360+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requests": [
+    "R115"
+  ],
+  "hostVerification": "43 focused tests passed on the installed app source. Log: TestBuilds/r115/signed-tests.log.",
+  "remainingVerification": "Physical S3 layer controls and routing, and sustained four-deck playback, recording and recovery on A10X."
+}

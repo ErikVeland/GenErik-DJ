@@ -60,3 +60,5 @@ C/D use the same native beat clock and recording mix as A/B. Each source has its
 The app allocates C/D DSP on a utility task before the first extra load. The render loop uses two slots until it accepts that load. C/D use 16 MiB source pools. A/B retain 32 MiB each. A stopped-deck replacement fits within the existing 128 MiB PCM limit. Optional waveform and library work yield while any deck is active.
 
 The iPad keeps its two-deck touch layout. The S3 controls C/D. Host verification covers independent transport, four simultaneous streamed sources, stopped-deck replacement, shared Sync, recording identity, and stream starvation and refill on D. Sustained four-deck audio and physical S3 acceptance on A10X remain open.
+
+Forty-three focused tests passed on the installed app source. [Build 180](../testing/builds/180.json) installed on the A10X iPad. iPadOS accepted launch.
