@@ -86,4 +86,24 @@ import Testing
             anchors: [.init(beat: 0, frame: 0), .init(beat: 4, frame: 88_200)], sampleRate: analysis.sampleRate)
         #expect(try existing.adoptingDeepAnalysis(result).analysis.adaptiveCandidate == existing.analysis.adaptiveCandidate)
     }
+
+    @Test func explicitAcceptanceCanResolveAMissingGrid() throws {
+        let fitted = try DeepAdaptiveBeatCandidate.fit(
+            beats: beats, bars: bars, sampleRate: rate, frameCount: 2_400_000, checkCancellation: {})
+        let candidate = try #require(fitted)
+        var preparation = Preparation()
+        preparation.correctedKey = .init(tonic: 5, mode: .minor)
+        try preparation.acceptAdaptive(candidate.map, frameCount: 2_400_000)
+        #expect(preparation.adaptiveMap == candidate.map)
+        #expect(preparation.grid?.sampleRate == rate)
+        #expect(preparation.grid?.anchorFrame == candidate.map.frame(atBeat: 0))
+        #expect(preparation.grid?.downbeatOffset == 2)
+        #expect(preparation.correctedKey == .init(tonic: 5, mode: .minor))
+        var locked = Preparation()
+        locked.gridLocked = true
+        #expect(throws: CoreError.invalidGrid) {
+            try locked.acceptAdaptive(candidate.map, frameCount: 2_400_000)
+        }
+        #expect(locked.grid == nil && locked.adaptiveMap == nil)
+    }
 }

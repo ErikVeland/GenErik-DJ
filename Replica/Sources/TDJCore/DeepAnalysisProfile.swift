@@ -43,6 +43,12 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public func needsAnalysis(after result: DeepBeatAnalysis?) -> Bool {
         guard let result else { return true }
         if result.profile.id == id { return false }
+        if generation == 4, decisionPolicy == 4,
+            result.profile.generation == 3, result.profile.decisionPolicy == 3,
+            inferenceID == result.profile.inferenceID, result.candidate != nil
+        {
+            return false
+        }
         return generation > result.profile.generation && !upgradeBenefit.isEmpty
     }
 }

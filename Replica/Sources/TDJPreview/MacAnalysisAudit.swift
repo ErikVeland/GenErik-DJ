@@ -98,11 +98,7 @@ enum MacAnalysisAudit {
                 if let candidate = result.adaptiveCandidate, adopted.analysis.adaptiveCandidate == candidate.map {
                     let map = candidate.map
                     var preview = adopted
-                    preview.preparation.grid = try BeatGrid(
-                        bpm: map.bpm(atFrame: map.anchors[0].frame), anchorFrame: map.frame(atBeat: 0),
-                        sampleRate: map.sampleRate, downbeatOffset: map.downbeatOffset)
-                    preview.preparation.adaptiveMap = map
-                    preview.preparation.gridMode = .adaptive
+                    try preview.preparation.acceptAdaptive(map, frameCount: adopted.analysis.frameCount)
                     report.rows[index].reviewTimeline = try AnalysisBenchmarkTimeline(track: preview)
                 }
             } catch {

@@ -40,8 +40,10 @@ The 2018 madmom key CNN is an external evaluation candidate. Its weights use CC-
 
 On the same 100 key development files, the production detector matched 49 exact keys. The native learned candidate matched 91. It corrected 45 results and worsened three. Its confidence above 0.8 selected 68 tracks, with 67 exact matches. The candidate took 11.93 seconds in total, excluding model load. This is an extra key pass, not a whole-engine speed comparison. Core ML's compute plan preferred the Neural Engine for all 40 reported operations. Runtime hardware counters were not captured.
 
-The key candidate and its 0.8 confidence band are fixed for the 78-file holdout comparison. That comparison is in progress. The 100-file rhythm holdout remains untested.
+The fixed candidate matched 63 of 78 held-out keys (80.77%). The production detector matched 41 (52.56%). The candidate corrected 29 results and worsened seven. Its confidence band from 0.8 selected 55 excerpts, with 50 exact matches (90.91%). It took 9.19 seconds, excluding model load. These lower held-out results limit the development claim. No threshold was adjusted after this comparison. The 100-file rhythm holdout remains untested.
 
 Deep policy 4 adds a review candidate when the constant-grid fit fails. It requires consistent four-beat bars and consecutive beat intervals. It compresses the complete model sequence to at most 256 anchors, with at most 8 ms deviation. Unsupported bar lengths and sequences that exceed the anchor limit remain unresolved. The candidate does not replace playback preparation or an existing adaptive candidate. It has no calibrated confidence value. The sharing path carries it as analysis evidence.
+
+Explicit acceptance can create a missing base grid. Policy 4 upgrades only unresolved policy 3 results with the same inference profile. A resolved constant fit receives no benefit from this policy change. Changed model weights and later policies remain eligible under the existing version rules.
 
 Evidence is under `TestBuilds/r116`. Rhythm candidate measurements and physical device acceptance remain open. No automatic learned-key adoption is enabled.

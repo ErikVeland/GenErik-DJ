@@ -106,8 +106,15 @@ extension BeatTiming {
 
 extension Preparation {
     public mutating func acceptAdaptive(_ map: BeatGridMap, frameCount: Int64) throws {
-        guard !gridLocked, let grid, grid.sampleRate == map.sampleRate else { throw CoreError.invalidGrid }
+        guard !gridLocked, grid.map({ $0.sampleRate == map.sampleRate }) ?? true else {
+            throw CoreError.invalidGrid
+        }
         try map.validate(frameCount: frameCount)
+        if grid == nil {
+            grid = try BeatGrid(
+                bpm: map.bpm(atFrame: map.anchors[0].frame), anchorFrame: map.frame(atBeat: 0),
+                sampleRate: map.sampleRate, downbeatOffset: map.downbeatOffset)
+        }
         adaptiveMap = map
         gridMode = .adaptive
     }

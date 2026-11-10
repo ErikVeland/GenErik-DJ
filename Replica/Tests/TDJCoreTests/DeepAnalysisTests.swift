@@ -14,6 +14,26 @@ private func emptyWindow(_ index: Int, _ start: Int) -> DeepPredictionWindow {
         downbeats: .init(repeating: -10, count: 1500))
 }
 
+@Test func deepAdaptiveUpgradeSkipsPreviouslyResolvedConstantFits() throws {
+    let analysis = try deepTestAnalysis()
+    let current = DeepAnalysisProfile.current
+    let previous = DeepAnalysisProfile(
+        generation: 3, model: current.model, weightsSHA256: current.weightsSHA256,
+        conversion: current.conversion, preprocessing: current.preprocessing, decisionPolicy: 3,
+        upgradeBenefit: "Earlier constant-grid policy.")
+    let candidate = DeepBeatCandidate(.init(
+        bpm: 120, firstBar: 0, beatAgreement: 0.98, barAgreement: 0.96, residualMilliseconds: 8))
+    let resolved = DeepBeatAnalysis(
+        audio: .init(analysis), profile: previous, coveredFrames: analysis.frameCount,
+        windowCount: BeatThisWindows.starts(frameCount: BeatThisWindows.frameCount(analysis)).count,
+        candidate: candidate)
+    let unresolved = DeepBeatAnalysis(
+        audio: resolved.audio, profile: previous, coveredFrames: resolved.coveredFrames,
+        windowCount: resolved.windowCount, candidate: nil)
+    #expect(!current.needsAnalysis(after: resolved))
+    #expect(current.needsAnalysis(after: unresolved))
+}
+
 @Test func deepCheckpointsResumeOnlyUnfinishedWindows() throws {
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
     defer { try? FileManager.default.removeItem(at: root) }
