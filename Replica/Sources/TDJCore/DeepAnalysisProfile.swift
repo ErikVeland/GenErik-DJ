@@ -26,19 +26,21 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public let preprocessing: Int
     public let decisionPolicy: Int
     public let upgradeBenefit: String
+    public var keyModelVersion: String? = nil
 
     public static let current = Self(
-        generation: 7, model: "BeatThis/final0",
+        generation: 8, model: "BeatThis/final0",
         weightsSHA256:
             "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331",
-        conversion: 1, preprocessing: 1, decisionPolicy: 7,
-        upgradeBenefit: "Retain deep grid candidates for explicit review.")
+        conversion: 1, preprocessing: 1, decisionPolicy: 8,
+        upgradeBenefit: "Add versioned learned keys and preserve detailed rhythm evidence.",
+        keyModelVersion: LearnedKeyProfile.current.id)
 
     public var inferenceID: String {
         analysisDigest(Data("\(model)|\(weightsSHA256)|fp16-\(conversion)|mel-\(preprocessing)|1500-6-50".utf8))
     }
 
-    public var id: String { "\(inferenceID)-policy\(decisionPolicy)" }
+    public var id: String { "\(inferenceID)-policy\(decisionPolicy)" + (keyModelVersion.map { "-key-" + analysisDigest(Data($0.utf8)) } ?? "") }
 
     public func needsAnalysis(after result: DeepBeatAnalysis?) -> Bool {
         guard let result else { return true }
@@ -93,6 +95,7 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
     public let candidate: DeepBeatCandidate?
     public var tempoCandidateBPM: Double? = nil
     public var adaptiveCandidate: DeepAdaptiveBeatCandidate? = nil
+    public var learnedKey: LearnedKeyAnalysis? = nil
 
     public var needsReview: Bool { candidate == nil || !hasStrongEvidence }
     public func needsReview(for track: Track) -> Bool {
@@ -112,8 +115,16 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
             candidate.map({ $0.isValid && $0.firstBarSeconds < analysis.duration }) ?? true,
             tempoCandidateBPM.map({ $0.isFinite && (60...200).contains($0) && candidate == nil }) ?? true
         else { throw CoreError.invalidAudio("The deep analysis does not match this audio or its coverage.") }
+        if let learnedKey {
+            try learnedKey.validate()
+            guard learnedKey.featureFrames == Int((Double(audio.frameCount) * 44100 / audio.sampleRate).rounded()) / 8820 - 1 else {
+                throw CoreError.invalidAudio("The learned key coverage does not match this audio.")
+            }
+            guard profile.keyModelVersion == learnedKey.profile.id else {
+                throw CoreError.invalidAudio("The learned key profile does not match the deep result.")
+            }
+        }
         if let adaptiveCandidate {
-            guard !hasStrongEvidence else { throw CoreError.invalidAudio("The deep analysis contains conflicting grid candidates.") }
             try adaptiveCandidate.validate(frameCount: audio.frameCount, sampleRate: audio.sampleRate)
         }
     }
@@ -216,7 +227,14 @@ extension Track {
             copy.analysis.adaptiveCandidate = reviewMap
             copy.analysis.adaptiveConfidence = nil
         }
+        if let learned = result.learnedKey, learned.mayReplaceAutomaticKey,
+            keyDecision.authority == nil || keyDecision.authority == .independent || keyDecision.authority == .unknownTag
+        {
+            copy.analysis.key = learned.key
+            copy.analysis.keyConfidence = learned.calibratedConfidence ?? learned.score
+        }
         copy.analysis.deepBeatAnalysis = result
+        copy.recordKeyAnalysisChange(from: analysis)
         return copy
     }
 }
@@ -227,6 +245,12 @@ extension AudioAnalysis {
         var copy = self
         copy.deepBeatAnalysis = previous.deepBeatAnalysis
         copy.acceptedDeepBeatAnalysis = previous.acceptedDeepBeatAnalysis
+        if let learned = previous.deepBeatAnalysis?.learnedKey, learned.mayReplaceAutomaticKey,
+            previous.key == learned.key
+        {
+            copy.key = previous.key
+            copy.keyConfidence = previous.keyConfidence
+        }
         if let candidate = previous.deepBeatAnalysis?.adaptiveCandidate?.map
             ?? previous.deepBeatAnalysis?.fixedReviewCandidate,
             previous.adaptiveCandidate == candidate

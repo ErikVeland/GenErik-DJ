@@ -31,7 +31,7 @@ let package = Package(
             name: "CTDJAudioSource", dependencies: ["CTDJTransport"],
             cxxSettings: [.unsafeFlags(["-O3", "-fobjc-arc"])],
             linkerSettings: [.linkedFramework("AVFoundation"), .linkedFramework("Foundation")]),
-        .target(name: "TDJCore", dependencies: ["CTDJTransport"], resources: [.copy("BeatThisAssets")]),
+        .target(name: "TDJCore", dependencies: ["CTDJTransport"], resources: [.copy("BeatThisAssets"), .copy("KeyModelAssets")]),
         .target(
             name: "TDJInterface", dependencies: ["TDJCore", "CTDJAudioSource", "whisper"],
             resources: [.process("Resources"), .copy("StemModelAssets"), .copy("VocalModelAssets")]),

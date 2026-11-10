@@ -109,5 +109,5 @@ struct DeepAnalysisCheckpoints {
     }
 
     private func file(_ index: Int) -> URL { directory.appendingPathComponent("window-\(index).json") }
-    private var resultFile: URL { directory.appendingPathComponent("result-policy\(profile.decisionPolicy).json") }
+    private var resultFile: URL { directory.appendingPathComponent("result-\(profile.id).json") }
 }

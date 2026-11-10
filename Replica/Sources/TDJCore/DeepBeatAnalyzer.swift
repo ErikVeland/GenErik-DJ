@@ -37,7 +37,19 @@ enum DeepBeatAnalyzer {
         var model: MLModel?
         let features = try MLMultiArray(shape: [1, 1500, 128], dataType: .float32)
         let input = try MLDictionaryFeatureProvider(dictionary: ["spectrogram": features])
-        return try run(checkpoints: checkpoints, progress: progress, checkCancellation: checkCancellation) {
+        return try run(checkpoints: checkpoints, progress: progress, checkCancellation: checkCancellation, analyzeKey: {
+            let current = try url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
+            guard current.fileSize == before.fileSize, current.contentModificationDate == before.contentModificationDate else {
+                throw CoreError.invalidAudio("The audio changed before key analysis.")
+            }
+            let key = try withoutActuallyEscaping(checkCancellation) { boundedCheck in
+                try LearnedKeyAnalyzer.analyze(url: url, analysis: analysis, root: root, checkCancellation: boundedCheck)
+            }
+            guard try AudioAnalyzer.sha256(url: url, checkCancellation: checkCancellation) == analysis.contentSHA256 else {
+                throw CoreError.invalidAudio("The audio changed during deep analysis.")
+            }
+            return key
+        }) {
             index, start in
             try checkCancellation()
             if model == nil {
@@ -81,7 +93,8 @@ enum DeepBeatAnalyzer {
 
     static func run(
         checkpoints: DeepAnalysisCheckpoints, progress: (Int, Int) -> Void,
-        checkCancellation: @Sendable () throws -> Void, predict: (Int, Int) throws -> DeepPredictionWindow
+        checkCancellation: @Sendable () throws -> Void,
+        analyzeKey: () throws -> LearnedKeyAnalysis? = { nil }, predict: (Int, Int) throws -> DeepPredictionWindow
     ) throws -> DeepBeatAnalysis {
         if let result = checkpoints.result() { return result }
         let frames = BeatThisWindows.frameCount(checkpoints.analysis)
@@ -113,12 +126,11 @@ enum DeepBeatAnalyzer {
             requireOpeningBar: true, checkCancellation: checkCancellation)
         let beatTimes = BeatThisAnalyzer.peaks(beats)
         let constantCandidate = grid.map(DeepBeatCandidate.init)
-        let adaptive = constantCandidate?.hasStrongEvidence != true
-            ? try DeepAdaptiveBeatCandidate.fit(
-                beats: beatTimes, bars: BeatThisAnalyzer.peaks(downbeats),
-                sampleRate: checkpoints.analysis.sampleRate, frameCount: checkpoints.analysis.frameCount,
-                checkCancellation: checkCancellation)
-            : nil
+        // Development references measured an 8 ms early bias. Keep this correction in review evidence only.
+        let adaptive = try DeepAdaptiveBeatCandidate.fit(
+            beats: beatTimes.map { $0 + 0.008 }, bars: BeatThisAnalyzer.peaks(downbeats).map { $0 + 0.008 },
+            sampleRate: checkpoints.analysis.sampleRate, frameCount: checkpoints.analysis.frameCount,
+            checkCancellation: checkCancellation)
         let result = DeepBeatAnalysis(
             audio: .init(checkpoints.analysis), profile: checkpoints.profile,
             coveredFrames: checkpoints.analysis.frameCount, windowCount: checkpoints.starts.count,
@@ -127,7 +139,7 @@ enum DeepBeatAnalyzer {
                 ? try BeatThisTempo.preferred(
                     beats: beatTimes, configuration: .init(), checkCancellation: checkCancellation)
                 : nil,
-            adaptiveCandidate: adaptive)
+            adaptiveCandidate: adaptive, learnedKey: try analyzeKey())
         try checkCancellation()
         try checkpoints.finish(result)
         return result
@@ -140,9 +152,11 @@ extension AnalysisWorker {
         progress: @escaping @Sendable (Int, Int) -> Void = { _, _ in }
     ) async throws -> DeepBeatAnalysis {
         try await run { check in
-            try DeepBeatAnalyzer.analyze(
-                url: url, analysis: analysis, root: root,
-                progress: progress, checkCancellation: check)
+            try withoutActuallyEscaping(check) { boundedCheck in
+                try DeepBeatAnalyzer.analyze(
+                    url: url, analysis: analysis, root: root,
+                    progress: progress, checkCancellation: boundedCheck)
+            }
         }
     }
 }

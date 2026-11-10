@@ -1,0 +1,121 @@
+{
+  "format": "generik.key-candidate/v1",
+  "modelID": "musical-key-cnn-mit-2025-v1",
+  "weightsSHA256": "fc92072f1b9b19552ce3b74a9c8ce0cecb97633a12ae524ac0d93c05800e354e",
+  "filtersSHA256": "93368ced3ad3c4410c6e1b1edb7b8805799690175bec8f503beea4c7f28bdc69",
+  "preprocessingVersion": 1,
+  "conversionVersion": 1,
+  "decisionPolicyVersion": 1,
+  "sampleRate": 44100,
+  "fftSize": 0,
+  "hop": 8820,
+  "bands": 105,
+  "windowFrames": 600,
+  "classOrder": [
+    {
+      "tonic": 8,
+      "mode": "minor"
+    },
+    {
+      "tonic": 3,
+      "mode": "minor"
+    },
+    {
+      "tonic": 10,
+      "mode": "minor"
+    },
+    {
+      "tonic": 5,
+      "mode": "minor"
+    },
+    {
+      "tonic": 0,
+      "mode": "minor"
+    },
+    {
+      "tonic": 7,
+      "mode": "minor"
+    },
+    {
+      "tonic": 2,
+      "mode": "minor"
+    },
+    {
+      "tonic": 9,
+      "mode": "minor"
+    },
+    {
+      "tonic": 4,
+      "mode": "minor"
+    },
+    {
+      "tonic": 11,
+      "mode": "minor"
+    },
+    {
+      "tonic": 6,
+      "mode": "minor"
+    },
+    {
+      "tonic": 1,
+      "mode": "minor"
+    },
+    {
+      "tonic": 11,
+      "mode": "major"
+    },
+    {
+      "tonic": 6,
+      "mode": "major"
+    },
+    {
+      "tonic": 1,
+      "mode": "major"
+    },
+    {
+      "tonic": 8,
+      "mode": "major"
+    },
+    {
+      "tonic": 3,
+      "mode": "major"
+    },
+    {
+      "tonic": 10,
+      "mode": "major"
+    },
+    {
+      "tonic": 5,
+      "mode": "major"
+    },
+    {
+      "tonic": 0,
+      "mode": "major"
+    },
+    {
+      "tonic": 7,
+      "mode": "major"
+    },
+    {
+      "tonic": 2,
+      "mode": "major"
+    },
+    {
+      "tonic": 9,
+      "mode": "major"
+    },
+    {
+      "tonic": 4,
+      "mode": "major"
+    }
+  ],
+  "licence": "MIT",
+  "sourceRevision": "61d8fc170f262410f66a12057adffc5aceea0b2c",
+  "source": "https://github.com/a1ex90/MusicalKeyCNN",
+  "originalTorchMaxError": 4.76837158203125e-07,
+  "torchCoreMLMaxError": 0.001146078109741211,
+  "referenceAudioSHA256": "93ddbe94c7a42150a4111cb9bb70d5267c30c4de5e60a107c2f5ba6ea1785341",
+  "referenceFeatureFrames": 599,
+  "referenceFeaturesSHA256": "0cd0567871966e9bba892160121f009af77eca17dcd432233c976fc17d897eb4",
+  "aggregation": "Mean temporal logits. Consecutive windows of up to 600 frames. Dynamic final window, minimum eight frames."
+}

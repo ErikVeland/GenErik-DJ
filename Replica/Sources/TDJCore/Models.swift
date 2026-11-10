@@ -63,8 +63,8 @@ public struct AudioAnalysis: Codable, Equatable, Sendable {
     public internal(set) var bpm: Double?
     public internal(set) var beatAnchorFrame: Double?
     public internal(set) var tempoConfidence: Double
-    public let key: MusicalKey?
-    public let keyConfidence: Double
+    public internal(set) var key: MusicalKey?
+    public internal(set) var keyConfidence: Double
     public let chroma: [Double]
     public let timbre: [Double]
     public var beatModelVersion: String? = nil

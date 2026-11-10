@@ -5,11 +5,6 @@ import CryptoKit
 import Foundation
 import TDJCore
 
-protocol KeyFeatureAudio {
-    var frameCount: Int { get }
-    func fill(_ frames: Range<Int>, into values: UnsafeMutablePointer<Float>) throws
-}
-
 /// Evaluate an external key model without changing library keys or performance workspaces.
 enum MacKeyCandidateAudit {
     struct Profile: Codable {

@@ -1,10 +1,14 @@
 import AVFoundation
 import Accelerate
 import Foundation
-import TDJCore
+
+public protocol KeyFeatureAudio {
+    var frameCount: Int { get }
+    func fill(_ frames: Range<Int>, into values: UnsafeMutablePointer<Float>) throws
+}
 
 /// The pinned MusicalKeyCNN frontend uses sparse, complex constant-Q filters.
-final class KeyCQTAudio: KeyFeatureAudio {
+public final class KeyCQTAudio: KeyFeatureAudio {
     private struct Filter: Decodable {
         let indices: [Int]
         let real: [Float]
@@ -20,9 +24,12 @@ final class KeyCQTAudio: KeyFeatureAudio {
     private struct Bank: Decodable { let format: String; let groups: [Group] }
     private let groups: [Group]
     private let readers: [CQTReader]
-    let frameCount: Int
+    public let frameCount: Int
 
-    init(url: URL, filtersURL: URL) throws {
+    private let check: @Sendable () throws -> Void
+
+    public init(url: URL, filtersURL: URL, checkCancellation: @escaping @Sendable () throws -> Void = { try Task.checkCancellation() }) throws {
+        check = checkCancellation
         let bank = try JSONDecoder().decode(Bank.self, from: Data(contentsOf: filtersURL))
         guard bank.format == "generik.key-cqt/v1", bank.groups.count == 5 else {
             throw CoreError.invalidAudio("The constant-Q filter bank is invalid.")
@@ -45,12 +52,12 @@ final class KeyCQTAudio: KeyFeatureAudio {
         }
         guard covered.count == 105 else { throw CoreError.invalidAudio("The key filters have missing bands.") }
         groups = bank.groups
-        readers = try groups.map { try CQTReader(url: url, rate: Double($0.sampleRate)) }
+        readers = try groups.map { try CQTReader(url: url, rate: Double($0.sampleRate), checkCancellation: checkCancellation) }
         frameCount = max(0, readers[0].sampleCount / groups[0].hop - 1)
         guard frameCount >= 8 else { throw CoreError.invalidAudio("The key model needs at least two seconds of audio.") }
     }
 
-    func fill(_ frames: Range<Int>, into values: UnsafeMutablePointer<Float>) throws {
+    public func fill(_ frames: Range<Int>, into values: UnsafeMutablePointer<Float>) throws {
         guard frames.lowerBound >= 0, frames.upperBound <= frameCount else {
             throw CoreError.invalidAudio("The key feature range is invalid.")
         }
@@ -64,7 +71,7 @@ final class KeyCQTAudio: KeyFeatureAudio {
             var real = [Float](repeating: 0, count: size)
             var imaginary = real
             for frame in frames {
-                try Task.checkCancellation()
+                try check()
                 let start = frame * group.hop - size / 2
                 try reader.fill(start: start, into: &real)
                 vDSP_vclr(&imaginary, 1, vDSP_Length(size))
@@ -101,7 +108,10 @@ private final class CQTReader {
     private var inputError: (any Error)?
     let sampleCount: Int
 
-    init(url: URL, rate: Double) throws {
+    private let check: @Sendable () throws -> Void
+
+    init(url: URL, rate: Double, checkCancellation: @escaping @Sendable () throws -> Void) throws {
+        check = checkCancellation
         file = try AVAudioFile(forReading: url, commonFormat: .pcmFormatFloat32, interleaved: false)
         let format = file.processingFormat
         let count = (Double(file.length) * rate / format.sampleRate).rounded()
@@ -129,7 +139,9 @@ private final class CQTReader {
         samples.removeFirst(discard); sampleStart += discard
         let end = min(sampleCount, start + values.count)
         while sampleStart + samples.count < end {
-            try Task.checkCancellation()
+            try check()
+            let trim = min(samples.count, max(0, first - sampleStart))
+            samples.removeFirst(trim); sampleStart += trim
             guard let buffer = try read(), let channels = buffer.floatChannelData else { break }
             let channelCount = Int(buffer.format.channelCount)
             for frame in 0..<Int(buffer.frameLength) {

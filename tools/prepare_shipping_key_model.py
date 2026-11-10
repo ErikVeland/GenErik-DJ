@@ -30,6 +30,7 @@ def main():
  original=model(tensor.transpose(2,3)).detach().numpy()[0];actual=wrapper(tensor).mean(dim=2).detach().numpy()[0];assert np.max(abs(actual-original))<1e-5
  converted=ct.convert(traced,inputs=[ct.TensorType(name='spectrogram',shape=(1,1,ct.RangeDim(8,600,default=600),105))],outputs=[ct.TensorType(name='logits',dtype=np.float32)],compute_precision=ct.precision.FLOAT16,minimum_deployment_target=ct.target.iOS17)
  core=converted.predict({'spectrogram':tensor.numpy()})['logits'].mean(axis=2)[0];error=float(max(abs(core-actual)));assert error<.1 and core.argmax()==actual.argmax(),error
+ converted.user_defined_metadata.update({'weightsSHA256':sha(checkpoint),'modelID':'musical-key-cnn-mit-2025-v1','preprocessingVersion':'1','conversionVersion':'1'})
  a.output.mkdir(parents=True);converted.save(a.output/'KeyCandidate.mlpackage');features.tofile(a.output/'reference-features.f32')
  freqs=65*2**(np.arange(105)/24);alpha=librosa.filters._relative_bandwidth(freqs=freqs);lengths,_=librosa.filters.wavelet_lengths(freqs=freqs,sr=44100,alpha=alpha)
  groups=[];rate=44100;hop=8820

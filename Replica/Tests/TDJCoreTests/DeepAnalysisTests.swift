@@ -14,7 +14,7 @@ private func emptyWindow(_ index: Int, _ start: Int) -> DeepPredictionWindow {
         downbeats: .init(repeating: -10, count: 1500))
 }
 
-@Test func deepAdaptiveUpgradeSkipsPreviouslyResolvedConstantFits() throws {
+@Test func learnedKeyUpgradeReconsidersEarlierRhythmOnlyResults() throws {
     let analysis = try deepTestAnalysis()
     let current = DeepAnalysisProfile.current
     let previous = DeepAnalysisProfile(
@@ -30,7 +30,7 @@ private func emptyWindow(_ index: Int, _ start: Int) -> DeepPredictionWindow {
     let unresolved = DeepBeatAnalysis(
         audio: resolved.audio, profile: previous, coveredFrames: resolved.coveredFrames,
         windowCount: resolved.windowCount, candidate: nil)
-    #expect(!current.needsAnalysis(after: resolved))
+    #expect(current.needsAnalysis(after: resolved))
     #expect(current.needsAnalysis(after: unresolved))
     let weak = DeepBeatAnalysis(
         audio: resolved.audio, profile: previous, coveredFrames: resolved.coveredFrames,
@@ -45,7 +45,7 @@ private func emptyWindow(_ index: Int, _ start: Int) -> DeepPredictionWindow {
     let previouslyReviewed = DeepBeatAnalysis(
         audio: resolved.audio, profile: policyFour, coveredFrames: resolved.coveredFrames,
         windowCount: resolved.windowCount, candidate: nil)
-    #expect(!current.needsAnalysis(after: previouslyReviewed))
+    #expect(current.needsAnalysis(after: previouslyReviewed))
     let previouslyWeak = DeepBeatAnalysis(
         audio: resolved.audio, profile: policyFour, coveredFrames: resolved.coveredFrames,
         windowCount: resolved.windowCount, candidate: weak.candidate)

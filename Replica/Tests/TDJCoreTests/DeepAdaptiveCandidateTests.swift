@@ -95,6 +95,24 @@ import Testing
         #expect(try existing.adoptingDeepAnalysis(result).analysis.adaptiveCandidate == existing.analysis.adaptiveCandidate)
     }
 
+    @Test func aStrongConstantFitCanRetainMoreDetailedTimingForReview() throws {
+        let analysis = try syntheticTrack("strong-review", bpm: 120).analysis.replacingWaveform(
+            [], configurationID: "test", frameCount: 4_410_000, decodedFrames: nil)
+        let track = try Track(title: "Strong review", mediaFilename: "review.wav", analysis: analysis)
+        let fitted = try DeepAdaptiveBeatCandidate.fit(
+            beats: beats, bars: bars, sampleRate: analysis.sampleRate,
+            frameCount: analysis.frameCount, checkCancellation: {})
+        let candidate = try #require(fitted)
+        let result = DeepBeatAnalysis(
+            audio: .init(analysis), profile: .current, coveredFrames: analysis.frameCount,
+            windowCount: BeatThisWindows.starts(frameCount: BeatThisWindows.frameCount(analysis)).count,
+            candidate: .init(.init(bpm: 120, firstBar: 0.1, beatAgreement: 0.98,
+                                  barAgreement: 0.98, residualMilliseconds: 8)), adaptiveCandidate: candidate)
+        let updated = try track.adoptingDeepAnalysis(result)
+        #expect(updated.preparation == track.preparation)
+        #expect(updated.analysis.adaptiveCandidate == candidate.map)
+    }
+
     @Test func explicitAcceptanceCanResolveAMissingGrid() throws {
         let fitted = try DeepAdaptiveBeatCandidate.fit(
             beats: beats, bars: bars, sampleRate: rate, frameCount: 2_400_000, checkCancellation: {})
