@@ -214,3 +214,45 @@ enum FourDeckTrial {
         #endif
     }
 }
+
+struct SettingsDetailPage<Content: View>: View {
+    let title: String
+    private let content: Content
+    init(_ title: String, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.content = content()
+    }
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 18) { content }
+                .frame(maxWidth: 700, alignment: .leading).padding(20)
+                .frame(maxWidth: .infinity, alignment: .topLeading)
+        }.background(PerformancePalette.panel).navigationTitle(title)
+            .foregroundStyle(PerformancePalette.text).tint(PerformancePalette.cyan)
+    }
+}
+
+struct SettingsPageLink<Destination: View>: View {
+    let title: String
+    let detail: String
+    private let destination: Destination
+    init(_ title: String, detail: String, @ViewBuilder destination: () -> Destination) {
+        self.title = title
+        self.detail = detail
+        self.destination = destination()
+    }
+    var body: some View {
+        NavigationLink {
+            destination
+        } label: {
+            HStack(spacing: 12) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title).font(.body.weight(.semibold))
+                    Text(detail).font(.caption).foregroundStyle(PerformancePalette.secondaryText)
+                }
+                Spacer(minLength: 8)
+                Image(systemName: "chevron.right").font(.caption.weight(.semibold))
+            }.frame(maxWidth: .infinity, minHeight: 52, alignment: .leading).contentShape(Rectangle())
+        }.buttonStyle(.plain)
+    }
+}

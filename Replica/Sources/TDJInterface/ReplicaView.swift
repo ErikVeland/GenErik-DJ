@@ -1184,7 +1184,7 @@ extension ReplicaView {
             NotificationCenterButton(model: model)
             HStack(spacing: 0) {
                 Button {
-                    if model.browserVisible { model.browserVisible = false } else { model.showLibrary() }
+                    model.showLibrary(fullyExpanded: true)
                 } label: {
                     Image(systemName: "music.note").font(.system(size: 18)).foregroundStyle(
                         model.browserVisible ? PerformancePalette.cyan : PerformancePalette.text

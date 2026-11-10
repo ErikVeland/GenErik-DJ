@@ -258,10 +258,12 @@ struct SettingsBrowser: View {
                             Spacer(minLength: 0)
                         }.frame(minHeight: 52).padding(.horizontal, 20)
                         Divider()
-                        ScrollView {
-                            VStack(alignment: .leading, spacing: 18) { content }
-                                .frame(maxWidth: 700, alignment: .leading).padding(20)
-                                .frame(maxWidth: .infinity, alignment: .topLeading)
+                        NavigationStack {
+                            ScrollView {
+                                VStack(alignment: .leading, spacing: 18) { content }
+                                    .frame(maxWidth: 700, alignment: .leading).padding(20)
+                                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                            }.background(PerformancePalette.panel)
                         }.id(page)
                     }.frame(maxWidth: .infinity).background(PerformancePalette.panel)
                 }
@@ -305,19 +307,37 @@ struct SettingsBrowser: View {
         case .layout:
             LayoutSettings()
         case .library:
-            SettingsGroup("Music sources") {
-                Button {
-                    Task { await model.openNativeMusicLibrary() }
-                } label: {
-                    Label("Refresh Music library", systemImage: "arrow.clockwise")
-                }.disabled(model.musicLibraryRefreshing || model.importing)
-                Button(action: importAudio) { Label("Import audio files", systemImage: "folder") }
-                Button(action: linkCollection) { Label("Link DJ collection", systemImage: "link") }
-                Text("A linked collection is read at launch and imported again when it changes.")
-                    .font(.caption).foregroundStyle(.secondary)
+            SettingsGroup("During a set") {
+                Text(
+                    "Set cues, loops and replay markers in the deck utility drawer. Edit grids and sections beside the waveform."
+                )
+                .font(.subheadline)
+                Text(model.cloudStatus).font(.caption).foregroundStyle(.secondary)
+                    .accessibilityIdentifier("cloudPreparationStatus")
             }
-            SettingsGroup("Keys from other tools") { KeyImportReviewView(model: model) }
-            SettingsGroup("Preparation backup & sharing") { CloudPreparationSettings(model: model) }
+            SettingsGroup("Prepare your library") {
+                SettingsPageLink("Music sources", detail: "Refresh, import audio or link a collection") {
+                    SettingsDetailPage("Music sources") {
+                        SettingsGroup("Music sources") {
+                            Button {
+                                Task { await model.openNativeMusicLibrary() }
+                            } label: {
+                                Label("Refresh Music library", systemImage: "arrow.clockwise")
+                            }.disabled(model.musicLibraryRefreshing || model.importing)
+                            Button(action: importAudio) { Label("Import audio files", systemImage: "folder") }
+                            Button(action: linkCollection) { Label("Link DJ collection", systemImage: "link") }
+                            Text("A linked collection is read at launch and imported again when it changes.")
+                                .font(.caption).foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                SettingsPageLink("Import keys", detail: "Review keys before applying them to your tracks") {
+                    SettingsDetailPage("Import keys") { KeyImportReviewView(model: model) }
+                }
+                SettingsPageLink("iCloud preparation", detail: "Sharing status, backup and saved versions") {
+                    SettingsDetailPage("iCloud preparation") { CloudPreparationSettings(model: model) }
+                }
+            }
         case .controllers:
             SettingsGroup("Devices & controls") { ControllerSettingsView(model: model) }
         case .about:
