@@ -101,3 +101,18 @@ import Testing
     report[14] = 15
     #expect(controls.consume(report) == [.pot(.gainB, .d, 1)])
 }
+
+@Test func x1Mk3PatternScreenUsesBoundedUTF8AndCarriesTheLiveStep() throws {
+    let payload = X1PatternScreen.payload(
+        side: 1, mode: true, kit: String(repeating: "å", count: 20),
+        sound: "Snare", steps: 0x8421, cursor: 5, ducking: true)
+    #expect(payload.count == 64)
+    #expect(Array(payload.prefix(6)) == [1, 1, 0x21, 0x84, 5, 1])
+    #expect(String(bytes: payload[6..<34], encoding: .utf8) == String(repeating: "å", count: 14))
+    #expect(payload[34] == 0)
+    var decoder = ControllerBridgeDecoder()
+    let frame = try ControllerBridgeFrame(kind: .x1PatternScreen, payload: payload)
+    #expect(decoder.append(frame.encoded) == [frame])
+    #expect(X1PatternScreen.payload(side: 0, mode: false, kit: "", sound: "", steps: 0, cursor: nil, ducking: false)
+        == .init(repeating: 0, count: 64))
+}

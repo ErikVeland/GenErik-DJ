@@ -404,6 +404,10 @@ import TDJCore
         @ObservationIgnored var z1MK2Takeover: [DeckID: [ControllerAction: ControllerMIDITakeoverState]] = [:]
         @ObservationIgnored var z1MK2FXEnabled: Set<DeckID> = []
         @ObservationIgnored var x1MK3Controls = X1MK3Controls()
+        @ObservationIgnored var nextX1PatternScreen: ContinuousClock.Instant?
+        @ObservationIgnored var patternKits: [PatternKitArchive.Info] = []
+        @ObservationIgnored var patternKitLoad: Task<Void, Never>?
+        @ObservationIgnored var patternKitImporting = false
         @ObservationIgnored var x1Patterns = [TraktorPatternUnit(), TraktorPatternUnit()]
         @ObservationIgnored var x1MK3Performance = S4MK2Performance()
         @ObservationIgnored var s4MK3DirectTransport: (any S4MK3ReportConnection)?

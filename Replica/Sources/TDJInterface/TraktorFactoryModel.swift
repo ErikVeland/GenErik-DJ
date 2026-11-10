@@ -132,6 +132,7 @@
                 session.bridge.poll()
                 guard session.bridge.isReceiving else { continue }
                 receiving.append(model)
+                if model == .mx2 { startPatternKitLoad() }
                 if model == .z2, !session.timecode.isEmpty { maintainFactoryTimecode(session, now: now) }
                 if model == .s5 {
                     for deck in session.decks {
@@ -678,7 +679,7 @@
                     }
                 }
             case .fxButton(let slot) where down:
-                if session.model == .mx2, session.patterns[unit].button(slot, shifted: shifted) {
+                if session.model == .mx2, session.patterns[unit].button(slot, shifted: shifted, kits: patternKits) {
                     if slot == 0 && shifted, session.patterns[unit].mode == 2 {
                         session.patterns[unit].decks = self[keyPath: stateKey].fx[unit].decks
                     }
@@ -686,7 +687,7 @@
                 } else { apply(.fxEnable(unit, slot == 0 ? nil : slot - 1)) }
             case .fxKnob(let knob):
                 if session.model == .mx2, session.patterns[unit].mode == 2 {
-                    session.patterns[unit].knob(knob, value: event.value)
+                    session.patterns[unit].knob(knob, value: event.value, kits: patternKits)
                     updatePattern(unit)
                 } else { apply(.fxPot(unit, knob, event.value)) }
             case .fxAssign(let unit) where down:

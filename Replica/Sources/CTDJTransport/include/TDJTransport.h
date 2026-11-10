@@ -2,6 +2,8 @@
 #define TDJ_TRANSPORT_H
 #include <stdint.h>
 #include <stdbool.h>
+#include <stddef.h>
+
 #include "TDJRecording.h"
 #include "TDJCallbackMetrics.h"
 #include "TDJStreaming.h"
@@ -15,6 +17,8 @@ typedef struct tdj_engine tdj_engine;
 bool tdj_engine_prepare_stem_sends(tdj_engine *engine, unsigned deck);
 void tdj_stem_sends_set(tdj_engine *engine, unsigned deck, uint64_t generation, uint32_t levels);
 void tdj_stem_mix_set(tdj_engine *engine, unsigned deck, uint64_t mix);
+bool tdj_pattern_register_kit(tdj_engine *engine, unsigned slot, const uint8_t *pcm, size_t bytes,
+                              const uint32_t *frames, const uint8_t *counts, const float *notes);
 void tdj_pattern_set(tdj_engine *engine, unsigned unit, uint64_t settings);
 void tdj_factory_input_set(tdj_engine *engine, unsigned layout, uint32_t input_mask);
 bool tdj_mk2_prepare(void);
