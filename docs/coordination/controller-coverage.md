@@ -8,13 +8,13 @@ Cover all NI controllers and class-compliant MIDI controllers, including hardwar
 
 | Model family | Variants in scope | Published MIDI-mode position | App state |
 | --- | --- | --- | --- |
-| S2 | Mk1, Mk2, Mk3 | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Model mappings and iPad endpoint access unverified. |
-| S3 | S3 | MIDI mode documented | Same. |
-| S4 | Mk1, Mk2 | MIDI mode documented | Same. |
+| S2 | Mk1, Mk2, Mk3 | MIDI mode documented | Mk2 and Mk3 have native iPad mappings. Mk1 has no factory adapter. |
+| S3 | S3 | MIDI mode documented | Native four-deck iPad mapping. |
+| S4 | Mk1, Mk2 | MIDI mode documented | Mk2 has a native four-deck iPad mapping. Mk1 has no factory adapter. |
 | S4 | Mk3 | No MIDI mode in NI's supported-mode table | A Linux bridge implementation is available for A10X. See [R123](#r123-s4-mk3-connection). |
 | S5, S8 | Both | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Screens/native features remain unfinished. |
-| X1 | Mk1, Mk2, Mk3 | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Model mappings remain unverified. |
-| Z1 | Original, Mk2 | MIDI mode documented | Original Z1 has native HID groundwork and a development bridge path. Direct iPad transport, Mk2 mapping and hardware acceptance remain unverified. |
+| X1 | Mk1, Mk2, Mk3 | MIDI mode documented | Mk3 has a native HID bridge. Mk1 and Mk2 have no factory adapters. |
+| Z1 | Original, Mk2 | MIDI mode documented | The original Z1 has a native iPad mapping. Mk2 has a native HID and audio bridge. |
 | F1, D2, Z2 | All three | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Remix/stem/display/audio features need separate implementation. |
 | MX2 | MX2 | MIDI mode documented | Generic MIDI input/learn and configurable note/CC output. Model mapping, feedback behaviour and audio remain unverified. |
 | DDJ-FLX4 | DDJ-FLX4 | Published MIDI message list | Opt-in profile maps transport, mixer, Hot Cue pads in Hot Cue pad mode, platter jog and touch, and wheel-side temporary rate bend. A separate output profile maps play, sync, headphone-cue and Hot Cue lights. Touch-rate calibration, endpoint access and hardware acceptance remain unverified. |
@@ -73,7 +73,9 @@ Both models use their documented native HID reports through the Linux bridge. Th
 
 The bottom LEDs on both models use the shared blue beat pulse and amber track-end warning. Local checks cover report decoding, deck changes, light values, gadget creation and selection of the split audio route. Physical controller behaviour, bridge audio and A10X performance remain open. These models are outside the S4 Mk3 DriverKit entitlement request.
 
-The remaining Traktor models without a factory adapter are S2 Mk1, S4 Mk1, S5, S8, X1 Mk1, X1 Mk2, F1, D2, Z2 and MX2.
+Thirty-five focused Swift tests and sixteen bridge tests passed. [Build 187](../testing/builds/187.json) passed local signing and runtime framework checks. Verification stayed off the iPad. The build history retains the failed local attempts.
+
+The remaining Traktor models without a factory adapter are S2 Mk1, S4 Mk1, S5, S8, X1 Mk1, X1 Mk2, F1, D2, Z2 and MX2. Mixxx has HID mappings for S2 Mk1, F1 and MX2. Encdr has hardware references for X1 Mk1, X1 Mk2, S5, S8, D2 and Z2. The S4 Mk1 has a separate Linux driver reference. [Mixxx controller mappings](https://github.com/mixxxdj/mixxx/tree/main/res/controllers) · [Encdr hardware references](https://github.com/RufusIbiza/Encdr/tree/a5414658a69c4330d10b95f2359371dfc8550326/docs/hardware) · [S4 Mk1 Linux driver](https://github.com/jmanera/traktor-kontrol-s4-mk1-driver-linux)
 
 ## Required capabilities for each model
 
