@@ -11,7 +11,7 @@ import subprocess
 import threading
 import time
 
-from library_analysis_delivery import stage, receipts
+from library_analysis_delivery import receipts
 from prepare_library_analysis import mac_items
 
 _result_cache = {}
@@ -76,11 +76,20 @@ def run(config):
     state_lock = threading.Lock()
 
     def delivery():
+        cloud_config = root / 'cloud-config.json'
+        save(cloud_config, dict(outboxes=[str(p / 'outbox') for p in outputs],
+                                root=str(root / 'cloud'), expectedAccount=config['account']))
         while not stop.is_set():
             update = dict(updatedUTC=datetime.datetime.now(datetime.timezone.utc).isoformat())
             try:
-                queued, staged = stage([p / 'outbox' for p in outputs], config['uploader'], config['account'], root / 'delivery' / 'uploader')
-                update.update(waitingToStage=queued - staged, stagedThisCycle=staged)
+                report = root / 'mac-cloud-receipts.json'
+                with (root / 'cloud.log').open('a') as log:
+                    result = subprocess.run([config['app'], '--library-cloud', str(cloud_config), str(report)],
+                                            stdout=log, stderr=subprocess.STDOUT, timeout=600)
+                if result.returncode:
+                    raise RuntimeError('Mac iCloud sync did not finish. See cloud.log.')
+                cloud = json.loads(report.read_text())
+                update.update(mac=cloud['confirmed'], message=cloud['message'])
             except Exception as error:
                 update['uploadError'] = str(error)
             for name, device in config['devices'].items():

@@ -12,7 +12,7 @@ Each track retains its first-pass analysis, deep result, final automatic analysi
 
 Results use the existing automatic CloudPreparation archive. They contain analysis, not the sender's manual performance preparation. The production receiver preserves manual grids, imported preparation and newer results. Loaded tracks remain protected until the app can safely adopt the result.
 
-The delivery worker stages payloads before their revision indexes on the Duo. It checks the signed-in account before each batch. It never creates cloud confirmation markers. The app uploads through its normal private CloudKit database. The worker reads actual confirmation markers on the receiving devices.
+The signed Mac app uploads directly through the existing private CloudKit transport. It uses the same app identity and container as the iOS test app. It checks the signed-in account before each batch and validates every incoming archive. The worker never creates cloud confirmation markers. It reads actual confirmation markers on the receiving devices.
 
 The full-library phase waits until every iPad item has a successful result and the iPad has confirmed every generated revision. It then skips source files completed in the iPad run and processes the remaining local files. Offline devices retain pending delivery. Receiving a revision and adopting it into a currently loaded track are separate checks.
 
@@ -22,6 +22,8 @@ Initial evidence is retained under `TestBuilds/r156` in the analysis worktree. L
 
 The initial three-track Mac trial matched all three device audio hashes. A changed-identity trial produced no export. Restart reused completed results. Six focused Python checks cover corrupt payloads, manual archives, account changes, commit order, candidate matching and phase selection.
 
-Cloud delivery and the full run are not yet complete. A cloud confirmation does not establish musical correctness. The manually corrected R139 tracks remain the verified musical references. The wider library establishes a versioned baseline for later review and comparison.
+The signed Mac trial received server acknowledgements for all three results. Its account hash matched the iPad and Duo. The initial separate Mac app identifier failed CloudKit container association. That failed attempt remains retained. The working Mac build uses `org.generikdj.replica.audiocheck` with an Apple development profile and the Development CloudKit environment, matching the installed test apps. Production/TestFlight is a separate environment.
+
+Device delivery and the full run are not yet complete. A cloud confirmation does not establish musical correctness. The manually corrected R139 tracks remain the verified musical references. The wider library establishes a versioned baseline for later review and comparison.
 
 Audio files are not included in iCloud preparation sync. Each device still requires its own available audio copy. Live audio and touch acceptance remain separate from this idle analysis run.
