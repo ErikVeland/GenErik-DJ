@@ -90,3 +90,27 @@ private final class DeepResumeStop: @unchecked Sendable {
     func cancel() { lock.withLock { stopped = true } }
     func check() throws { if lock.withLock({ stopped }) { throw CancellationError() } }
 }
+
+@Test func newerSharedAnalysisReplacesSameProfileWithoutRollingBackOrChangingManualGrid() throws {
+    var local = try syntheticTrack("latest", bpm: 120)
+    local.preparation.gridIsManual = true
+    var older = DeepBeatAnalysis(
+        audio: .init(local.analysis), profile: .current,
+        coveredFrames: local.analysis.frameCount,
+        windowCount: BeatThisWindows.starts(frameCount: BeatThisWindows.frameCount(local.analysis)).count,
+        candidate: nil)
+    older.completedAt = Date(timeIntervalSince1970: 100)
+    local.analysis.deepBeatAnalysis = older
+    var newer = older
+    newer.completedAt = Date(timeIntervalSince1970: 200)
+    let merged = try local.adoptingDeepAnalysis(newer)
+    #expect(merged.analysis.deepBeatAnalysis == newer)
+    #expect(merged.preparation == local.preparation)
+    #expect(try merged.adoptingDeepAnalysis(older) == merged)
+    #expect(try merged.adoptingDeepAnalysis(newer) == merged)
+    var legacy = older
+    legacy.completedAt = nil
+    #expect(try merged.adoptingDeepAnalysis(legacy) == merged)
+    let legacyData = try JSONEncoder().encode(legacy)
+    #expect(try JSONDecoder().decode(DeepBeatAnalysis.self, from: legacyData).completedAt == nil)
+}
