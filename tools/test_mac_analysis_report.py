@@ -48,6 +48,22 @@ class GridScoringTests(unittest.TestCase):
         self.assertEqual(result['scores']['finalGrid']['bpmWithinPointOne'], 1)
         self.assertEqual(result['scores']['finalGrid']['downbeatPhaseWithin25ms'], 0)
 
+    def test_key_summary_scores_the_saved_final_key(self):
+        before = dict(tonic=0, mode='major')
+        after = dict(tonic=9, mode='minor')
+        analysis = dict(contentSHA256='audio', frameCount=44100 * 30, sampleRate=44100, key=before)
+        labels = dict(id='a', sha256='audio', tempo=dict(status='unlabelled'),
+                      downbeat=dict(status='unlabelled'), key=dict(status='labelled', key=after))
+        provenance = dict(tracks=[dict(id='a', title='Learned key case', audioSHA256='audio')])
+        row = dict(id='a', firstPass=analysis, finalAnalysis=dict(analysis, key=after))
+        report = dict(runID='test', manifest=dict(tracks=[labels]), rows=[row])
+        result = summarise(report, provenance)
+        self.assertEqual(result['keyExact'], 1)
+        self.assertEqual(result['firstPassKeyExact'], 0)
+        self.assertEqual(result['tracks'][0]['ourKey'], after)
+        del row['finalAnalysis']
+        self.assertEqual(summarise(report, provenance)['keyExact'], 0)
+
 
 if __name__ == '__main__':
     unittest.main()

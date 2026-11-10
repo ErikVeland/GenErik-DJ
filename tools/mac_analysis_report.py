@@ -102,8 +102,10 @@ def summarise(report, provenance):
         item['deepTempoAccepted'] = row.get('acceptedTempoOnly', False)
         item['deepTempoCandidateBPM'] = row.get('deep', {}).get('tempoCandidateBPM')
         item['deepEvidence'] = candidate
-        item['keyExact'] = analysis.get('key') == labels['key'].get('key') if labels['key']['status'] == 'labelled' else None
-        item['ourKey'] = analysis.get('key')
+        final_key = (row.get('finalAnalysis') or analysis).get('key')
+        item['firstPassKeyExact'] = analysis.get('key') == labels['key'].get('key') if labels['key']['status'] == 'labelled' else None
+        item['keyExact'] = final_key == labels['key'].get('key') if labels['key']['status'] == 'labelled' else None
+        item['ourKey'] = final_key
         item['referenceKey'] = labels['key'].get('key')
         item['reuseMatches'] = row.get('reuseMatches', False)
         for field in ['firstPassPerformance', 'deepPerformance', 'reusePerformance']:
@@ -128,6 +130,7 @@ def summarise(report, provenance):
         'timingScope': 'Production Mac app diagnostic. Fresh analysis caches; ordinary filesystem and OS model caches. Queue scheduling and UI playback are not measured.',
         'timings': {field: timing_summary([r.get(field) for r in output]) for field in ['firstPassPerformance', 'deepPerformance', 'reusePerformance']},
         'scores': scores, 'keyExact': sum(r.get('keyExact') is True for r in output),
+        'firstPassKeyExact': sum(r.get('firstPassKeyExact') is True for r in output),
         'keyReferences': sum(r.get('keyExact') is not None for r in output),
         'deepAccepted': sum(r.get('deepAccepted', False) for r in output),
         'deepTempoAccepted': sum(r.get('deepTempoAccepted', False) for r in output), 'tracks': output,
