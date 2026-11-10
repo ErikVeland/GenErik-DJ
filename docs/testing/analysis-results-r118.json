@@ -1,0 +1,1845 @@
+{
+  "format": "generik.analysis-results/v1",
+  "request": "R118",
+  "status": "measured",
+  "date": "2026-11-10",
+  "finalApplication": {
+    "sourceCommit": "02e3acd541a8decfd93e83653fb3c3953e29f833",
+    "sourceSHA256": "5b951c69f5be75881a83feb760d84c2dcb6f2d0d0f2fccf836e73a138232bdb4",
+    "appSHA256": "d5eaaf28b2604c2c06b87bb8d1e328d65a9e444f71f47267385b0ac641345051",
+    "binarySHA256": "15340dcd24b80bb191fa65ec277837b49e9086472686c7f5bf4eb362ad395842",
+    "reportToolCommit": "42a67fab332d9882a6c55a6f0df631dc8a7d6c12",
+    "hardware": "Apple M4 Pro",
+    "memoryBytes": 25769803776,
+    "buildLog": "mac-final-build-01.log"
+  },
+  "deepProfile": {
+    "conversion": 1,
+    "decisionPolicy": 9,
+    "generation": 9,
+    "keyModelVersion": "MusicalKeyCNN/MIT-2025|fc92072f1b9b19552ce3b74a9c8ce0cecb97633a12ae524ac0d93c05800e354e|cqt1|fp161|policy1|cal1",
+    "model": "BeatThis/final0",
+    "preprocessing": 1,
+    "upgradeBenefit": "Add licensed learned keys and calibrated rhythm review evidence.",
+    "weightsSHA256": "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331"
+  },
+  "keyModel": {
+    "format": "generik.key-candidate/v1",
+    "modelID": "musical-key-cnn-mit-2025-v1",
+    "weightsSHA256": "fc92072f1b9b19552ce3b74a9c8ce0cecb97633a12ae524ac0d93c05800e354e",
+    "filtersSHA256": "93368ced3ad3c4410c6e1b1edb7b8805799690175bec8f503beea4c7f28bdc69",
+    "preprocessingVersion": 1,
+    "conversionVersion": 1,
+    "decisionPolicyVersion": 1,
+    "sampleRate": 44100,
+    "fftSize": 0,
+    "hop": 8820,
+    "bands": 105,
+    "windowFrames": 600,
+    "classOrder": [
+      {
+        "tonic": 8,
+        "mode": "minor"
+      },
+      {
+        "tonic": 3,
+        "mode": "minor"
+      },
+      {
+        "tonic": 10,
+        "mode": "minor"
+      },
+      {
+        "tonic": 5,
+        "mode": "minor"
+      },
+      {
+        "tonic": 0,
+        "mode": "minor"
+      },
+      {
+        "tonic": 7,
+        "mode": "minor"
+      },
+      {
+        "tonic": 2,
+        "mode": "minor"
+      },
+      {
+        "tonic": 9,
+        "mode": "minor"
+      },
+      {
+        "tonic": 4,
+        "mode": "minor"
+      },
+      {
+        "tonic": 11,
+        "mode": "minor"
+      },
+      {
+        "tonic": 6,
+        "mode": "minor"
+      },
+      {
+        "tonic": 1,
+        "mode": "minor"
+      },
+      {
+        "tonic": 11,
+        "mode": "major"
+      },
+      {
+        "tonic": 6,
+        "mode": "major"
+      },
+      {
+        "tonic": 1,
+        "mode": "major"
+      },
+      {
+        "tonic": 8,
+        "mode": "major"
+      },
+      {
+        "tonic": 3,
+        "mode": "major"
+      },
+      {
+        "tonic": 10,
+        "mode": "major"
+      },
+      {
+        "tonic": 5,
+        "mode": "major"
+      },
+      {
+        "tonic": 0,
+        "mode": "major"
+      },
+      {
+        "tonic": 7,
+        "mode": "major"
+      },
+      {
+        "tonic": 2,
+        "mode": "major"
+      },
+      {
+        "tonic": 9,
+        "mode": "major"
+      },
+      {
+        "tonic": 4,
+        "mode": "major"
+      }
+    ],
+    "licence": "MIT",
+    "sourceRevision": "61d8fc170f262410f66a12057adffc5aceea0b2c",
+    "source": "https://github.com/a1ex90/MusicalKeyCNN",
+    "originalTorchMaxError": 4.76837158203125e-07,
+    "torchCoreMLMaxError": 0.001146078109741211,
+    "referenceAudioSHA256": "93ddbe94c7a42150a4111cb9bb70d5267c30c4de5e60a107c2f5ba6ea1785341",
+    "referenceFeatureFrames": 599,
+    "referenceFeaturesSHA256": "0cd0567871966e9bba892160121f009af77eca17dcd432233c976fc17d897eb4",
+    "aggregation": "Mean temporal logits. Consecutive windows of up to 600 frames. Dynamic final window, minimum eight frames."
+  },
+  "frontendParity": {
+    "format": "generik.key-frontend-parity/v1",
+    "scope": "Identical decoded mono 44.1 kHz PCM. MP3 decoder differences are excluded.",
+    "runID": "27202063-DAF6-4C14-B6E5-0292E27CC351",
+    "audioSHA256": "b7e17f59dfcbce571caddc8e190d52f53c539af2a42ba4787bf5b3b352b85106",
+    "reportSHA256": "9f791ded24418f5c700fc69559eab6ddc45550e204ec6338b961d28699c230c7",
+    "nativeFeaturesSHA256": "ad73fcfaec3ff2eda72b8fac8481a7ae9e428634ac5042b21799b7b913622a39",
+    "shape": [
+      599,
+      105
+    ],
+    "meanAbsoluteError": 3.553765282049426e-07,
+    "maxAbsoluteError": 8.031725883483887e-06,
+    "librosaVersion": "0.11.0"
+  },
+  "key": {
+    "development": {
+      "runID": "27094F6B-8554-4993-9682-E6F92275BEBB",
+      "reportSHA256": "fe99c13bdca879026548183672863fc795311bb36e1165dece32ab0fe6e71a32",
+      "tracks": 100,
+      "reopened": 100,
+      "first": {
+        "referenceTracks": 100,
+        "exact": 49,
+        "resolved": 86,
+        "exactAccuracy": 0.49,
+        "weightedAccuracy": 0.579,
+        "confidenceBins": [
+          {
+            "low": 0,
+            "high": 0.5,
+            "tracks": 52,
+            "meanScore": 0.2692307692307692
+          },
+          {
+            "low": 0.5,
+            "high": 0.8,
+            "tracks": 21,
+            "meanScore": 0.8095238095238095
+          },
+          {
+            "low": 0.8,
+            "high": 1,
+            "tracks": 27,
+            "meanScore": 0.6666666666666666
+          }
+        ]
+      },
+      "final": {
+        "referenceTracks": 100,
+        "exact": 60,
+        "resolved": 90,
+        "exactAccuracy": 0.6,
+        "weightedAccuracy": 0.679,
+        "confidenceBins": [
+          {
+            "low": 0,
+            "high": 0.5,
+            "tracks": 40,
+            "meanScore": 0.2
+          },
+          {
+            "low": 0.5,
+            "high": 0.8,
+            "tracks": 9,
+            "meanScore": 0.7777777777777778
+          },
+          {
+            "low": 0.8,
+            "high": 1,
+            "tracks": 51,
+            "meanScore": 0.8823529411764706
+          }
+        ]
+      },
+      "rawModel": {
+        "referenceTracks": 100,
+        "exact": 86,
+        "resolved": 100,
+        "exactAccuracy": 0.86,
+        "weightedAccuracy": 0.879,
+        "confidenceBins": [
+          {
+            "low": 0,
+            "high": 0.5,
+            "tracks": 23,
+            "meanScore": 0.6086956521739131
+          },
+          {
+            "low": 0.5,
+            "high": 0.8,
+            "tracks": 39,
+            "meanScore": 0.8717948717948718
+          },
+          {
+            "low": 0.8,
+            "high": 1,
+            "tracks": 38,
+            "meanScore": 1.0
+          }
+        ]
+      },
+      "acceptedPredictions": 38,
+      "pairedWins": 11,
+      "pairedLosses": 0,
+      "maximumScoreDifferenceFromStandalone": 0,
+      "timings": {
+        "firstPassPerformance": {
+          "tracks": 100,
+          "wallSeconds": 0.162855828,
+          "audioSeconds": 12005.668571428572,
+          "timesRealtime": 73719.61273273297,
+          "secondsPerAudioMinute": 0.0008138946716598635,
+          "p50Seconds": 0.0013806665000000002,
+          "p90Seconds": 0.0026765539000000002,
+          "p95Seconds": 0.0028209148999999998,
+          "processCPUSeconds": 0.0812899999999992,
+          "processLifetimePeakRSSBytes": 740392960,
+          "thermalStates": [
+            "nominal"
+          ]
+        },
+        "deepPerformance": {
+          "tracks": 100,
+          "wallSeconds": 352.221943623,
+          "audioSeconds": 12005.668571428572,
+          "timesRealtime": 34.085521327651335,
+          "secondsPerAudioMinute": 1.7602781962242122,
+          "p50Seconds": 3.1945982500000003,
+          "p90Seconds": 3.750742661900001,
+          "p95Seconds": 4.461590257999998,
+          "processCPUSeconds": 252.63950900000012,
+          "processLifetimePeakRSSBytes": 774782976,
+          "thermalStates": [
+            "nominal"
+          ]
+        },
+        "reusePerformance": {
+          "tracks": 100,
+          "wallSeconds": 0.146835794,
+          "audioSeconds": 12005.668571428572,
+          "timesRealtime": 81762.54743055752,
+          "secondsPerAudioMinute": 0.0007338323215890398,
+          "p50Seconds": 0.0011192914999999999,
+          "p90Seconds": 0.0020648746999999998,
+          "p95Seconds": 0.003409304799999998,
+          "processCPUSeconds": 0.09987300000003341,
+          "processLifetimePeakRSSBytes": 774782976,
+          "thermalStates": [
+            "nominal"
+          ]
+        }
+      }
+    },
+    "holdout": {
+      "runID": "8E99386A-2F3A-4B24-8CA6-0536A9BCCAE5",
+      "reportSHA256": "d58ce92769f2a189479d1ff2ff70137521f1492de7070161bae46a4393ddda48",
+      "tracks": 78,
+      "reopened": 78,
+      "first": {
+        "referenceTracks": 78,
+        "exact": 41,
+        "resolved": 68,
+        "exactAccuracy": 0.5256410256410257,
+        "weightedAccuracy": 0.591025641025641,
+        "confidenceBins": [
+          {
+            "low": 0,
+            "high": 0.5,
+            "tracks": 45,
+            "meanScore": 0.5111111111111111
+          },
+          {
+            "low": 0.5,
+            "high": 0.8,
+            "tracks": 17,
+            "meanScore": 0.7058823529411765
+          },
+          {
+            "low": 0.8,
+            "high": 1,
+            "tracks": 16,
+            "meanScore": 0.375
+          }
+        ]
+      },
+      "final": {
+        "referenceTracks": 78,
+        "exact": 56,
+        "resolved": 71,
+        "exactAccuracy": 0.717948717948718,
+        "weightedAccuracy": 0.75,
+        "confidenceBins": [
+          {
+            "low": 0,
+            "high": 0.5,
+            "tracks": 21,
+            "meanScore": 0.42857142857142855
+          },
+          {
+            "low": 0.5,
+            "high": 0.8,
+            "tracks": 8,
+            "meanScore": 0.625
+          },
+          {
+            "low": 0.8,
+            "high": 1,
+            "tracks": 49,
+            "meanScore": 0.8571428571428571
+          }
+        ]
+      },
+      "rawModel": {
+        "referenceTracks": 78,
+        "exact": 67,
+        "resolved": 78,
+        "exactAccuracy": 0.8589743589743589,
+        "weightedAccuracy": 0.867948717948718,
+        "confidenceBins": [
+          {
+            "low": 0,
+            "high": 0.5,
+            "tracks": 13,
+            "meanScore": 0.6153846153846154
+          },
+          {
+            "low": 0.5,
+            "high": 0.8,
+            "tracks": 25,
+            "meanScore": 0.84
+          },
+          {
+            "low": 0.8,
+            "high": 1,
+            "tracks": 40,
+            "meanScore": 0.95
+          }
+        ]
+      },
+      "acceptedPredictions": 40,
+      "pairedWins": 15,
+      "pairedLosses": 0,
+      "maximumScoreDifferenceFromStandalone": 0,
+      "timings": {
+        "firstPassPerformance": {
+          "tracks": 78,
+          "wallSeconds": 0.133014043,
+          "audioSeconds": 9364.42775510204,
+          "timesRealtime": 70401.7977643311,
+          "secondsPerAudioMinute": 0.000852250963829774,
+          "p50Seconds": 0.0013472915,
+          "p90Seconds": 0.0038143546,
+          "p95Seconds": 0.003960331199999999,
+          "processCPUSeconds": 0.06130400000000191,
+          "processLifetimePeakRSSBytes": 580042752,
+          "thermalStates": [
+            "nominal"
+          ]
+        },
+        "deepPerformance": {
+          "tracks": 78,
+          "wallSeconds": 232.244560967,
+          "audioSeconds": 9364.42775510204,
+          "timesRealtime": 40.3214082435827,
+          "secondsPerAudioMinute": 1.4880432656899878,
+          "p50Seconds": 2.992460167,
+          "p90Seconds": 3.2319958876999997,
+          "p95Seconds": 3.3056546393,
+          "processCPUSeconds": 196.51476300000024,
+          "processLifetimePeakRSSBytes": 613892096,
+          "thermalStates": [
+            "nominal"
+          ]
+        },
+        "reusePerformance": {
+          "tracks": 78,
+          "wallSeconds": 0.092873589,
+          "audioSeconds": 9364.42775510204,
+          "timesRealtime": 100829.82531343804,
+          "secondsPerAudioMinute": 0.0005950620246884781,
+          "p50Seconds": 0.0011265415000000002,
+          "p90Seconds": 0.0017789956999999998,
+          "p95Seconds": 0.0023228124499999996,
+          "processCPUSeconds": 0.07751400000001851,
+          "processLifetimePeakRSSBytes": 613892096,
+          "thermalStates": [
+            "nominal"
+          ]
+        }
+      }
+    }
+  },
+  "rhythm": {
+    "development": {
+      "runID": "CF1262A6-ED92-4649-9192-EA4A8F6B4341",
+      "reportSHA256": "40642479d5b887b8827ab5054200df0e6d5592d3786b5d46ab1ecc213aafbeef",
+      "tracks": 100,
+      "reopened": 100,
+      "reviewCandidates": 52,
+      "first": {
+        "beats": {
+          "referenceTracks": 100,
+          "referenceEvents": 6236,
+          "predictedEvents": 4999,
+          "matched": 3561,
+          "precision": 0.7123424684936988,
+          "recall": 0.5710391276459269,
+          "microF1": 0.6339118825100134,
+          "macroF1": 0.5916905893175766,
+          "tracksWith95PercentEvents": 34,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 16,
+              "meanScore": 0.0
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 11,
+              "meanScore": 0.29068125044825355
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 73,
+              "meanScore": 0.7667337695455736
+            }
+          ]
+        },
+        "downbeats": {
+          "referenceTracks": 100,
+          "referenceEvents": 1591,
+          "predictedEvents": 1193,
+          "matched": 740,
+          "precision": 0.6202849958088852,
+          "recall": 0.46511627906976744,
+          "microF1": 0.5316091954022989,
+          "macroF1": 0.5047974638423992,
+          "tracksWith95PercentEvents": 26,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 0,
+              "meanScore": null
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 17,
+              "meanScore": 0.17132914696516796
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 65,
+              "meanScore": 0.7318023213204932
+            }
+          ]
+        }
+      },
+      "final": {
+        "beats": {
+          "referenceTracks": 100,
+          "referenceEvents": 6236,
+          "predictedEvents": 4999,
+          "matched": 3561,
+          "precision": 0.7123424684936988,
+          "recall": 0.5710391276459269,
+          "microF1": 0.6339118825100134,
+          "macroF1": 0.5916905893175766,
+          "tracksWith95PercentEvents": 34,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 16,
+              "meanScore": 0.0
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 11,
+              "meanScore": 0.29068125044825355
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 73,
+              "meanScore": 0.7667337695455736
+            }
+          ]
+        },
+        "downbeats": {
+          "referenceTracks": 100,
+          "referenceEvents": 1591,
+          "predictedEvents": 1193,
+          "matched": 740,
+          "precision": 0.6202849958088852,
+          "recall": 0.46511627906976744,
+          "microF1": 0.5316091954022989,
+          "macroF1": 0.5047974638423992,
+          "tracksWith95PercentEvents": 26,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 0,
+              "meanScore": null
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 17,
+              "meanScore": 0.17132914696516796
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 65,
+              "meanScore": 0.7318023213204932
+            }
+          ]
+        }
+      },
+      "review": {
+        "beats": {
+          "referenceTracks": 100,
+          "referenceEvents": 6236,
+          "predictedEvents": 5084,
+          "matched": 3962,
+          "precision": 0.7793076317859953,
+          "recall": 0.6353431686978832,
+          "microF1": 0.7,
+          "macroF1": 0.6570282523376201,
+          "tracksWith95PercentEvents": 39,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 15,
+              "meanScore": 0.0
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 10,
+              "meanScore": 0.2917493754930789
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 23,
+              "meanScore": 0.7415616005236771
+            }
+          ]
+        },
+        "downbeats": {
+          "referenceTracks": 100,
+          "referenceEvents": 1591,
+          "predictedEvents": 1221,
+          "matched": 840,
+          "precision": 0.687960687960688,
+          "recall": 0.5279698302954117,
+          "microF1": 0.5974395448079659,
+          "macroF1": 0.5682395621355759,
+          "tracksWith95PercentEvents": 29,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 0,
+              "meanScore": null
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 13,
+              "meanScore": 0.1984047819288094
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 18,
+              "meanScore": 0.5909490629169205
+            }
+          ]
+        }
+      },
+      "previousPolicy7Review": {
+        "beats": {
+          "referenceTracks": 100,
+          "referenceEvents": 6236,
+          "predictedEvents": 5082,
+          "matched": 3746,
+          "precision": 0.7371113734750099,
+          "recall": 0.6007055805003207,
+          "microF1": 0.6619544089061672,
+          "macroF1": 0.6188763328641403,
+          "tracksWith95PercentEvents": 35,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 15,
+              "meanScore": 0.0
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 10,
+              "meanScore": 0.2917493754930789
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 66,
+              "meanScore": 0.7975885532061848
+            }
+          ]
+        },
+        "downbeats": {
+          "referenceTracks": 100,
+          "referenceEvents": 1591,
+          "predictedEvents": 1214,
+          "matched": 781,
+          "precision": 0.64332784184514,
+          "recall": 0.4908862350722816,
+          "microF1": 0.5568627450980392,
+          "macroF1": 0.5292860496146417,
+          "tracksWith95PercentEvents": 27,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 0,
+              "meanScore": null
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 16,
+              "meanScore": 0.16120388531715762
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 58,
+              "meanScore": 0.7625358886794789
+            }
+          ]
+        }
+      },
+      "confidence": {
+        "format": "generik.rhythm-confidence/v1",
+        "operation": "evaluate",
+        "split": "development",
+        "sourceReportSHA256": "40642479d5b887b8827ab5054200df0e6d5592d3786b5d46ab1ecc213aafbeef",
+        "benchmarkSHA256": "92c173d838414d2d698e580150a5803e57a9c9931fcd159bae829a8e6f3ff144",
+        "runID": "CF1262A6-ED92-4649-9192-EA4A8F6B4341",
+        "profile": {
+          "conversion": 1,
+          "decisionPolicy": 9,
+          "generation": 9,
+          "keyModelVersion": "MusicalKeyCNN/MIT-2025|fc92072f1b9b19552ce3b74a9c8ce0cecb97633a12ae524ac0d93c05800e354e|cqt1|fp161|policy1|cal1",
+          "model": "BeatThis/final0",
+          "preprocessing": 1,
+          "upgradeBenefit": "Add licensed learned keys and calibrated rhythm review evidence.",
+          "weightsSHA256": "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331"
+        },
+        "target": "Both beat and downbeat F1 at least 0.95 within 25 ms, over annotated spans.",
+        "domain": "20\u201335 second excerpts with a valid four-beat adaptive proposal.",
+        "bins": {
+          "strong-constant-fit": {
+            "observations": 43,
+            "successes": 26,
+            "observedRate": 0.6046511627906976,
+            "wilson95": [
+              0.4557879659331908,
+              0.7363489380154359
+            ],
+            "smoothedDevelopmentEstimate": null
+          },
+          "weak-or-missing-constant-fit": {
+            "observations": 9,
+            "successes": 0,
+            "observedRate": 0.0,
+            "wilson95": [
+              0.0,
+              0.2991527535509594
+            ],
+            "smoothedDevelopmentEstimate": null
+          }
+        },
+        "brierScore": {
+          "calibrated": 0.19912269548633185,
+          "modelConsistency": 0.4965114250828536
+        }
+      },
+      "byteIdenticalBeatWindows": 200,
+      "keyCheckpointHits": 100,
+      "pairedReviewVsPlayback": {
+        "beats": {
+          "improved": 25,
+          "worsened": 10
+        },
+        "downbeats": {
+          "improved": 21,
+          "worsened": 6
+        }
+      },
+      "beatInferenceCalls": 0
+    },
+    "holdout": {
+      "runID": "40ACFDD6-0BB2-4E6A-84D5-D7801E1E572A",
+      "reportSHA256": "0c86e67a2ae2a60dd5a3aa43133fa23f9e8f72017d0423da3e946cb0c9e3831a",
+      "tracks": 100,
+      "reopened": 100,
+      "reviewCandidates": 52,
+      "first": {
+        "beats": {
+          "referenceTracks": 100,
+          "referenceEvents": 6112,
+          "predictedEvents": 4952,
+          "matched": 3184,
+          "precision": 0.6429725363489499,
+          "recall": 0.5209424083769634,
+          "microF1": 0.5755603759942155,
+          "macroF1": 0.5501141128673354,
+          "tracksWith95PercentEvents": 26,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 16,
+              "meanScore": 0.0
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 20,
+              "meanScore": 0.2581890077629666
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 64,
+              "meanScore": 0.7788692364292844
+            }
+          ]
+        },
+        "downbeats": {
+          "referenceTracks": 100,
+          "referenceEvents": 1583,
+          "predictedEvents": 1076,
+          "matched": 714,
+          "precision": 0.6635687732342007,
+          "recall": 0.4510423246999368,
+          "microF1": 0.537044001504325,
+          "macroF1": 0.49673028280777204,
+          "tracksWith95PercentEvents": 23,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 0,
+              "meanScore": null
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 15,
+              "meanScore": 0.3379152041910928
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 60,
+              "meanScore": 0.7434050036318468
+            }
+          ]
+        }
+      },
+      "final": {
+        "beats": {
+          "referenceTracks": 100,
+          "referenceEvents": 6112,
+          "predictedEvents": 4952,
+          "matched": 3184,
+          "precision": 0.6429725363489499,
+          "recall": 0.5209424083769634,
+          "microF1": 0.5755603759942155,
+          "macroF1": 0.5501141128673354,
+          "tracksWith95PercentEvents": 26,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 16,
+              "meanScore": 0.0
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 20,
+              "meanScore": 0.2581890077629666
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 64,
+              "meanScore": 0.7788692364292844
+            }
+          ]
+        },
+        "downbeats": {
+          "referenceTracks": 100,
+          "referenceEvents": 1583,
+          "predictedEvents": 1076,
+          "matched": 714,
+          "precision": 0.6635687732342007,
+          "recall": 0.4510423246999368,
+          "microF1": 0.537044001504325,
+          "macroF1": 0.49673028280777204,
+          "tracksWith95PercentEvents": 23,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 0,
+              "meanScore": null
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 15,
+              "meanScore": 0.3379152041910928
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 60,
+              "meanScore": 0.7434050036318468
+            }
+          ]
+        }
+      },
+      "review": {
+        "beats": {
+          "referenceTracks": 100,
+          "referenceEvents": 6112,
+          "predictedEvents": 5019,
+          "matched": 3476,
+          "precision": 0.6925682406853955,
+          "recall": 0.568717277486911,
+          "microF1": 0.6245620339592131,
+          "macroF1": 0.5985715590723683,
+          "tracksWith95PercentEvents": 28,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 15,
+              "meanScore": 0.0
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 16,
+              "meanScore": 0.2497404808940839
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 17,
+              "meanScore": 0.6360293980673456
+            }
+          ]
+        },
+        "downbeats": {
+          "referenceTracks": 100,
+          "referenceEvents": 1583,
+          "predictedEvents": 1119,
+          "matched": 775,
+          "precision": 0.6925826630920465,
+          "recall": 0.4895767530006317,
+          "microF1": 0.5736491487786824,
+          "macroF1": 0.5374002838146025,
+          "tracksWith95PercentEvents": 22,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 0,
+              "meanScore": null
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 10,
+              "meanScore": 0.2429323596365151
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 15,
+              "meanScore": 0.5218953369947736
+            }
+          ]
+        }
+      },
+      "previousPolicy7Review": {
+        "beats": {
+          "referenceTracks": 100,
+          "referenceEvents": 6112,
+          "predictedEvents": 5032,
+          "matched": 3293,
+          "precision": 0.6544117647058824,
+          "recall": 0.5387761780104712,
+          "microF1": 0.5909906676238335,
+          "macroF1": 0.569912467372978,
+          "tracksWith95PercentEvents": 27,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 15,
+              "meanScore": 0.0
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 17,
+              "meanScore": 0.24528004339903547
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 60,
+              "meanScore": 0.7978658962229646
+            }
+          ]
+        },
+        "downbeats": {
+          "referenceTracks": 100,
+          "referenceEvents": 1583,
+          "predictedEvents": 1099,
+          "matched": 737,
+          "precision": 0.6706096451319381,
+          "recall": 0.4655716993051169,
+          "microF1": 0.5495898583146905,
+          "macroF1": 0.512803056399707,
+          "tracksWith95PercentEvents": 23,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 0,
+              "meanScore": null
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 13,
+              "meanScore": 0.3170485606671418
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 55,
+              "meanScore": 0.7689816301619018
+            }
+          ]
+        }
+      },
+      "confidence": {
+        "format": "generik.rhythm-confidence/v1",
+        "operation": "evaluate",
+        "split": "holdout",
+        "sourceReportSHA256": "0c86e67a2ae2a60dd5a3aa43133fa23f9e8f72017d0423da3e946cb0c9e3831a",
+        "benchmarkSHA256": "92c173d838414d2d698e580150a5803e57a9c9931fcd159bae829a8e6f3ff144",
+        "runID": "40ACFDD6-0BB2-4E6A-84D5-D7801E1E572A",
+        "profile": {
+          "conversion": 1,
+          "decisionPolicy": 9,
+          "generation": 9,
+          "keyModelVersion": "MusicalKeyCNN/MIT-2025|fc92072f1b9b19552ce3b74a9c8ce0cecb97633a12ae524ac0d93c05800e354e|cqt1|fp161|policy1|cal1",
+          "model": "BeatThis/final0",
+          "preprocessing": 1,
+          "upgradeBenefit": "Add licensed learned keys and calibrated rhythm review evidence.",
+          "weightsSHA256": "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331"
+        },
+        "target": "Both beat and downbeat F1 at least 0.95 within 25 ms, over annotated spans.",
+        "domain": "20\u201335 second excerpts with a valid four-beat adaptive proposal.",
+        "bins": {
+          "strong-constant-fit": {
+            "observations": 44,
+            "successes": 19,
+            "observedRate": 0.4318181818181818,
+            "wilson95": [
+              0.29682504164854573,
+              0.5777610925944561
+            ],
+            "smoothedDevelopmentEstimate": null
+          },
+          "weak-or-missing-constant-fit": {
+            "observations": 7,
+            "successes": 0,
+            "observedRate": 0.0,
+            "wilson95": [
+              0.0,
+              0.35433884297520657
+            ],
+            "smoothedDevelopmentEstimate": null
+          }
+        },
+        "brierScore": {
+          "calibrated": 0.2372127694052828,
+          "modelConsistency": 0.624754424666158
+        }
+      },
+      "byteIdenticalBeatWindows": 200,
+      "keyCheckpointHits": 0,
+      "pairedReviewVsPlayback": {
+        "beats": {
+          "improved": 25,
+          "worsened": 12
+        },
+        "downbeats": {
+          "improved": 20,
+          "worsened": 12
+        }
+      },
+      "beatInferenceCalls": 0
+    },
+    "independent": {
+      "runID": "C5949EE5-8C0C-47AA-AB4B-9187710E6689",
+      "reportSHA256": "7ce56319a28398aaff990e439b226ee00225fcd567fe13a7696d0954c31b9a42",
+      "tracks": 100,
+      "reopened": 100,
+      "reviewCandidates": 54,
+      "first": {
+        "beats": {
+          "referenceTracks": 100,
+          "referenceEvents": 6061,
+          "predictedEvents": 5099,
+          "matched": 3519,
+          "precision": 0.690135320651108,
+          "recall": 0.5805972611780235,
+          "microF1": 0.6306451612903226,
+          "macroF1": 0.5991324767111988,
+          "tracksWith95PercentEvents": 28,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 16,
+              "meanScore": 0.0
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 12,
+              "meanScore": 0.27142180264884347
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 72,
+              "meanScore": 0.7868914727685244
+            }
+          ]
+        },
+        "downbeats": {
+          "referenceTracks": 100,
+          "referenceEvents": 1523,
+          "predictedEvents": 1122,
+          "matched": 783,
+          "precision": 0.6978609625668449,
+          "recall": 0.5141168745896257,
+          "microF1": 0.5920604914933837,
+          "macroF1": 0.5466970402132524,
+          "tracksWith95PercentEvents": 28,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 0,
+              "meanScore": null
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 10,
+              "meanScore": 0.5328438228438228
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 67,
+              "meanScore": 0.7364368028789106
+            }
+          ]
+        }
+      },
+      "final": {
+        "beats": {
+          "referenceTracks": 100,
+          "referenceEvents": 6061,
+          "predictedEvents": 5099,
+          "matched": 3519,
+          "precision": 0.690135320651108,
+          "recall": 0.5805972611780235,
+          "microF1": 0.6306451612903226,
+          "macroF1": 0.5991324767111988,
+          "tracksWith95PercentEvents": 28,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 16,
+              "meanScore": 0.0
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 12,
+              "meanScore": 0.27142180264884347
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 72,
+              "meanScore": 0.7868914727685244
+            }
+          ]
+        },
+        "downbeats": {
+          "referenceTracks": 100,
+          "referenceEvents": 1523,
+          "predictedEvents": 1122,
+          "matched": 783,
+          "precision": 0.6978609625668449,
+          "recall": 0.5141168745896257,
+          "microF1": 0.5920604914933837,
+          "macroF1": 0.5466970402132524,
+          "tracksWith95PercentEvents": 28,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 0,
+              "meanScore": null
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 10,
+              "meanScore": 0.5328438228438228
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 67,
+              "meanScore": 0.7364368028789106
+            }
+          ]
+        }
+      },
+      "review": {
+        "beats": {
+          "referenceTracks": 100,
+          "referenceEvents": 6061,
+          "predictedEvents": 5218,
+          "matched": 3770,
+          "precision": 0.7224990417784591,
+          "recall": 0.6220095693779905,
+          "microF1": 0.6684989804060644,
+          "macroF1": 0.6411795450461599,
+          "tracksWith95PercentEvents": 32,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 14,
+              "meanScore": 0.0
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 12,
+              "meanScore": 0.27142180264884347
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 20,
+              "meanScore": 0.6595398259818246
+            }
+          ]
+        },
+        "downbeats": {
+          "referenceTracks": 100,
+          "referenceEvents": 1523,
+          "predictedEvents": 1153,
+          "matched": 831,
+          "precision": 0.7207285342584562,
+          "recall": 0.5456336178594878,
+          "microF1": 0.6210762331838565,
+          "macroF1": 0.5781976188403701,
+          "tracksWith95PercentEvents": 24,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 0,
+              "meanScore": null
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 9,
+              "meanScore": 0.48093758093758093
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 16,
+              "meanScore": 0.47233725763878753
+            }
+          ]
+        }
+      },
+      "previousPolicy7Review": {
+        "beats": {
+          "referenceTracks": 100,
+          "referenceEvents": 6061,
+          "predictedEvents": 5216,
+          "matched": 3699,
+          "precision": 0.7091641104294478,
+          "recall": 0.6102953308034977,
+          "microF1": 0.656025538707103,
+          "macroF1": 0.6305195243199845,
+          "tracksWith95PercentEvents": 30,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 14,
+              "meanScore": 0.0
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 12,
+              "meanScore": 0.27142180264884347
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 67,
+              "meanScore": 0.8038543659353686
+            }
+          ]
+        },
+        "downbeats": {
+          "referenceTracks": 100,
+          "referenceEvents": 1523,
+          "predictedEvents": 1151,
+          "matched": 827,
+          "precision": 0.7185056472632494,
+          "recall": 0.5430072225869993,
+          "microF1": 0.6185489902767389,
+          "macroF1": 0.577380444771657,
+          "tracksWith95PercentEvents": 30,
+          "confidenceBins": [
+            {
+              "low": 0,
+              "high": 0.5,
+              "tracks": 0,
+              "meanScore": null
+            },
+            {
+              "low": 0.5,
+              "high": 0.8,
+              "tracks": 10,
+              "meanScore": 0.5328438228438228
+            },
+            {
+              "low": 0.8,
+              "high": 1,
+              "tracks": 62,
+              "meanScore": 0.7498671672320255
+            }
+          ]
+        }
+      },
+      "confidence": {
+        "format": "generik.rhythm-confidence/v1",
+        "operation": "evaluate",
+        "split": "holdout",
+        "sourceReportSHA256": "7ce56319a28398aaff990e439b226ee00225fcd567fe13a7696d0954c31b9a42",
+        "benchmarkSHA256": "49a6c71ada45fbf03b9eccdcf260aaa835b443e4da337b0737a6a146efbd55ce",
+        "runID": "C5949EE5-8C0C-47AA-AB4B-9187710E6689",
+        "profile": {
+          "conversion": 1,
+          "decisionPolicy": 9,
+          "generation": 9,
+          "keyModelVersion": "MusicalKeyCNN/MIT-2025|fc92072f1b9b19552ce3b74a9c8ce0cecb97633a12ae524ac0d93c05800e354e|cqt1|fp161|policy1|cal1",
+          "model": "BeatThis/final0",
+          "preprocessing": 1,
+          "upgradeBenefit": "Add licensed learned keys and calibrated rhythm review evidence.",
+          "weightsSHA256": "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331"
+        },
+        "target": "Both beat and downbeat F1 at least 0.95 within 25 ms, over annotated spans.",
+        "domain": "20\u201335 second excerpts with a valid four-beat adaptive proposal.",
+        "bins": {
+          "strong-constant-fit": {
+            "observations": 48,
+            "successes": 21,
+            "observedRate": 0.4375,
+            "wilson95": [
+              0.3070105464041092,
+              0.5772522849899835
+            ],
+            "smoothedDevelopmentEstimate": null
+          },
+          "weak-or-missing-constant-fit": {
+            "observations": 6,
+            "successes": 1,
+            "observedRate": 0.16666666666666666,
+            "wilson95": [
+              0.03005258587173032,
+              0.563509436563646
+            ],
+            "smoothedDevelopmentEstimate": null
+          }
+        },
+        "brierScore": {
+          "calibrated": 0.25829201101928373,
+          "modelConsistency": 0.5869595027553505
+        }
+      },
+      "byteIdenticalBeatWindows": 200,
+      "keyCheckpointHits": 0,
+      "pairedReviewVsPlayback": {
+        "beats": {
+          "improved": 27,
+          "worsened": 17
+        },
+        "downbeats": {
+          "improved": 18,
+          "worsened": 13
+        }
+      },
+      "beatInferenceCalls": 0
+    }
+  },
+  "originalTwelve": {
+    "runID": "A0501A56-5B54-4B37-BC88-45213FB9A4A7",
+    "reportSHA256": "9d5a38e0052ee43eaac590b397a1c8707b718479ba07d9bbfb6c3bcd65b59c51",
+    "tracks": 12,
+    "reopened": 12,
+    "firstPassChanges": [],
+    "referenceScores": {
+      "referenceTracks": 9,
+      "resolved": 9,
+      "bpmWithinPointOne": 9,
+      "bpmWithinTwoPercent": 9,
+      "beatPhaseWithin25ms": 7,
+      "downbeatPhaseWithin25ms": 4,
+      "fullTrackGridWithin25ms": 7
+    },
+    "keyMatches": 6,
+    "firstPassKeyMatches": 6,
+    "keyReferences": 9,
+    "tempoOnlyIDs": [
+      "11"
+    ],
+    "automaticConstantReplacements": 0,
+    "keyChanges": [
+      {
+        "id": "02",
+        "before": {
+          "mode": "major",
+          "tonic": 2
+        },
+        "after": {
+          "mode": "minor",
+          "tonic": 2
+        },
+        "score": 0.9000200989793836
+      }
+    ],
+    "corrected99Problems": {
+      "resolved": true,
+      "bpm": 93.28006882845926,
+      "bpmError": 0.005631171540741775,
+      "bpmErrorPercent": 0.006036478839455128,
+      "beatPhaseMs": 26.389242430502335,
+      "maxFullTrackGridErrorMs": 40.36735635879918,
+      "p95FullTrackGridErrorMs": 39.66845066238434,
+      "downbeatPhaseMs": 26.428070524747493
+    },
+    "timings": {
+      "firstPassPerformance": {
+        "tracks": 12,
+        "wallSeconds": 257.340895083,
+        "audioSeconds": 4693.636173752834,
+        "timesRealtime": 18.23898285672395,
+        "secondsPerAudioMinute": 3.2896571300784196,
+        "p50Seconds": 17.0458265625,
+        "p90Seconds": 39.21614419230001,
+        "p95Seconds": 40.4944973773,
+        "processCPUSeconds": 294.674877,
+        "processLifetimePeakRSSBytes": 578486272,
+        "thermalStates": [
+          "nominal"
+        ]
+      },
+      "deepPerformance": {
+        "tracks": 12,
+        "wallSeconds": 203.943179291,
+        "audioSeconds": 4693.636173752834,
+        "timesRealtime": 23.014430735413978,
+        "secondsPerAudioMinute": 2.607059922089389,
+        "p50Seconds": 13.061704500000001,
+        "p90Seconds": 28.399375033600005,
+        "p95Seconds": 42.03794546669998,
+        "processCPUSeconds": 118.48103400000008,
+        "processLifetimePeakRSSBytes": 578486272,
+        "thermalStates": [
+          "nominal"
+        ]
+      },
+      "reusePerformance": {
+        "tracks": 12,
+        "wallSeconds": 0.017627751,
+        "audioSeconds": 4693.636173752834,
+        "timesRealtime": 266264.03865999886,
+        "secondsPerAudioMinute": 0.00022534023108023208,
+        "p50Seconds": 0.001330792,
+        "p90Seconds": 0.00219785,
+        "p95Seconds": 0.0022814812499999996,
+        "processCPUSeconds": 0.014767000000233566,
+        "processLifetimePeakRSSBytes": 578486272,
+        "thermalStates": [
+          "nominal"
+        ]
+      }
+    },
+    "predictionComparison": {
+      "format": "generik.prediction-comparison/v1",
+      "scope": "Fresh R118 versus fresh R116 original-track inference. Same model and preprocessing identities.",
+      "windows": 164,
+      "byteIdentical": 111,
+      "maxLogitDifference": 0.1484375
+    },
+    "deepStageSeconds": {
+      "analysisQueueWait": 0.000482707,
+      "beatThisGridFit": 0.297890874,
+      "deepBeatInference": 36.234468964,
+      "learnedKeyFrontend": 108.892992709,
+      "learnedKeyInference": 0.226147875,
+      "sourceHash": 0.9179152070000001
+    }
+  },
+  "driftFixtures": {
+    "runID": "C770E1AE-0082-4A60-BEDD-B171FE2DA50F",
+    "reportSHA256": "2c643961d25854dd8bef865a2deb8ccb756e9e1b5ffcd95997d19886b67eee52",
+    "rows": [
+      {
+        "id": "synthetic-drift",
+        "maximumErrorMs": 2.493197278909065,
+        "beat120ErrorMs": 1.4739229024911538,
+        "downbeatOffset": 0,
+        "anchors": 33,
+        "savedResultMatches": true,
+        "originalCandidateRetained": true
+      },
+      {
+        "id": "synthetic-delayed-bar-2",
+        "maximumErrorMs": 2.4931972789126178,
+        "beat120ErrorMs": 1.4965986394628317,
+        "downbeatOffset": 2,
+        "anchors": 33,
+        "savedResultMatches": true,
+        "originalCandidateRetained": true
+      }
+    ]
+  },
+  "validation": {
+    "focusedSwiftTests": 36,
+    "benchmarkPythonTests": 20,
+    "reportPythonTests": 6,
+    "logs": [
+      {
+        "path": "TestBuilds/r118/final-focused-tests.log",
+        "sha256": "93b918fc0df25d2acceb24713f63179d713eeac027790cd2c6a77a8938e8aa36"
+      },
+      {
+        "path": "TestBuilds/r118/scorer-green.log",
+        "sha256": "244d5a0653221273c834694f46b92cd90f3b359bced7158e649fb89aef49f477"
+      },
+      {
+        "path": "TestBuilds/r118/report-key-green.log",
+        "sha256": "dcd2147edfda2291b456dfb6d9f3021f0fed07760d5a1c8869fc5446f30e28fe"
+      },
+      {
+        "path": "TestBuilds/r118/mac-final-build-01.log",
+        "sha256": "19928892f21e5a2814a9f4d1c809966f6c2b64a981f27ea63bf4c5a14be276fb"
+      }
+    ]
+  },
+  "scopeLimits": [
+    "Mac host only. No Duo throughput, physical iPad sharing or A10X performance acceptance.",
+    "Key benchmark has stable high-confidence EDM excerpts. Exact full-track and modulation accuracy remain unverified.",
+    "Rhythm F1 measures events within 25 ms, not the percentage of fully correct tracks. Review results assume acceptance of every offered candidate.",
+    "Rhythm confidence is a development-bin estimate. It overestimates the stronger group on independent validation. No automatic full-grid replacement.",
+    "Neural Engine compute plans do not prove runtime device utilisation.",
+    "Replay timings reuse first-pass results and beat checkpoints. Other host activity was present. Fresh timing comparisons are observational.",
+    "Original Traktor references remain unverified, except for Erik\u2019s one-beat correction to the bar choice for 99 Problems."
+  ],
+  "resourceBundles": [
+    {
+      "name": "GenErikDJ_TDJInterface.bundle",
+      "sourcePath": "/Users/veland/.codex/worktrees/tiered-analysis-r88/GenErik DJ/Replica/.build/arm64-apple-macosx/release/GenErikDJ_TDJInterface.bundle",
+      "sha256": "63a805e247adebd35c509e73f6c044b84d187a0f0b8ab597f54650b2ef9f6f41",
+      "bytes": 423596356,
+      "archivePath": "/Users/veland/.codex/worktrees/tiered-analysis-r88/GenErik DJ/TestBuilds/r118/FinalPolicy9.resources/GenErikDJ_TDJInterface.bundle"
+    },
+    {
+      "name": "GenErikDJ_TDJCore.bundle",
+      "sourcePath": "/Users/veland/.codex/worktrees/tiered-analysis-r88/GenErik DJ/Replica/.build/arm64-apple-macosx/release/GenErikDJ_TDJCore.bundle",
+      "sha256": "1f0128d1f3c620d6efacd0a80360bc12a15a1bd34469b91abddb9235d478151d",
+      "bytes": 55905679,
+      "archivePath": "/Users/veland/.codex/worktrees/tiered-analysis-r88/GenErik DJ/TestBuilds/r118/FinalPolicy9.resources/GenErikDJ_TDJCore.bundle"
+    }
+  ],
+  "keyConfidence": {
+    "format": "generik.key-confidence/v1",
+    "calibrationVersion": 1,
+    "domain": "Published stable-key GiantSteps+ excerpts. Whole-track and cross-genre reliability remain unverified.",
+    "rule": "Fixed development bins with Laplace smoothing. Acceptance threshold uses raw score >= 0.8.",
+    "development": {
+      "runID": "E7B7B11D-034B-432E-A000-10DFC52CCFE1",
+      "reportSHA256": "da2f5031f4c54ddbb84df1383b3c3ad1ee4a3026e752a383d2f5e5172f24a742",
+      "bins": [
+        {
+          "low": 0,
+          "high": 0.5,
+          "developmentCorrect": 14,
+          "developmentTotal": 23,
+          "estimate": 0.6,
+          "observations": 23,
+          "correct": 14
+        },
+        {
+          "low": 0.5,
+          "high": 0.8,
+          "developmentCorrect": 34,
+          "developmentTotal": 39,
+          "estimate": 0.8536585365853658,
+          "observations": 39,
+          "correct": 34
+        },
+        {
+          "low": 0.8,
+          "high": 1,
+          "developmentCorrect": 38,
+          "developmentTotal": 38,
+          "estimate": 0.975,
+          "observations": 38,
+          "correct": 38
+        }
+      ],
+      "brierScore": {
+        "rawScore": 0.12221033209295945,
+        "calibrated": 0.09875552498512791
+      }
+    },
+    "holdout": {
+      "runID": "FF176C0A-D074-4F54-BB41-9186084E3BB4",
+      "reportSHA256": "8e06e7f7b14a7db303f7806812bea510d10bfcdb437da716733717b72928e6c7",
+      "bins": [
+        {
+          "low": 0,
+          "high": 0.5,
+          "developmentCorrect": 14,
+          "developmentTotal": 23,
+          "estimate": 0.6,
+          "observations": 13,
+          "correct": 8
+        },
+        {
+          "low": 0.5,
+          "high": 0.8,
+          "developmentCorrect": 34,
+          "developmentTotal": 39,
+          "estimate": 0.8536585365853658,
+          "observations": 25,
+          "correct": 21
+        },
+        {
+          "low": 0.8,
+          "high": 1,
+          "developmentCorrect": 38,
+          "developmentTotal": 38,
+          "estimate": 0.975,
+          "observations": 40,
+          "correct": 38
+        }
+      ],
+      "brierScore": {
+        "rawScore": 0.13791940239132222,
+        "calibrated": 0.10730338321206852
+      }
+    }
+  },
+  "keyWindowRepair": {
+    "format": "generik.key-resume-check/v1",
+    "sourceRunID": "A0501A56-5B54-4B37-BC88-45213FB9A4A7",
+    "sourceReportSHA256": "9d5a38e0052ee43eaac590b397a1c8707b718479ba07d9bbfb6c3bcd65b59c51",
+    "fixtureReportSHA256": "d03c19895c8b3fac55602fb64d9c8010788d24f02045002c7d1d22ee7abbae3c",
+    "resultRunID": "AE01C043-7D18-40AE-B23E-660484539A68",
+    "resultReportSHA256": "0ca7c955b907baa30bbc177eb14d3fee6843c5e8904ee407606a15cc1d192dd8",
+    "trackID": "02",
+    "windows": 4,
+    "recomputedWindows": 2,
+    "unchangedWindowsReused": 2,
+    "finalEvidenceIdentical": true,
+    "allWindowBytesRestored": true,
+    "reopened": true,
+    "scope": "Repair missing and damaged key windows using a derived diagnostic input. This does not simulate device suspension.",
+    "beatInferenceCalls": 0
+  },
+  "keyWindowComparison": {
+    "format": "generik.key-window-comparison/v1",
+    "scope": "Whole-track upstream Torch inference versus bounded 120-second windows on the same native features. This measures window-boundary effects, not musical accuracy.",
+    "sourceRunID": "7A57FAD6-FF29-4552-B9F1-F7769EC39E99",
+    "reportSHA256": "2a69af701a636d11c870ae7086e8cad8e159bfe2ed80ac6cb4eeff926c1dfa2d",
+    "rows": [
+      {
+        "id": "01",
+        "audioSHA256": "040dac90a48569da8f4f1898b0c32241ec326fa0f18a0914be3cd08c445f17dc",
+        "featureSHA256": "c3e5a6540f63f543a7e4b76cec702aabaa2d7555e7478cbcead99af4605d9faa",
+        "frames": 941,
+        "fullWinner": 6,
+        "chunkedWinner": 6,
+        "classUnchanged": true,
+        "maxLogitDifference": 0.05879192474560879
+      },
+      {
+        "id": "02",
+        "audioSHA256": "bce4ecae77c74eaee7f6037f94f966dff4426dd26d2d03e364d65f1db2e111a7",
+        "featureSHA256": "e0eb7fef25fd6dc8ff0527cb737f6f8acfe048a791e8759030a33e64c3eff0e2",
+        "frames": 2136,
+        "fullWinner": 6,
+        "chunkedWinner": 6,
+        "classUnchanged": true,
+        "maxLogitDifference": 0.1064107784171231
+      },
+      {
+        "id": "03",
+        "audioSHA256": "51e2fb71f75d0f32ea4650f743fed42a47c6ba6899eadfe0def6a07e4c5d66b4",
+        "featureSHA256": "a079d017e33d17d96acbd889ce0829e8b7e10b005e06dd247c5aee51ed1c0a54",
+        "frames": 1167,
+        "fullWinner": 0,
+        "chunkedWinner": 0,
+        "classUnchanged": true,
+        "maxLogitDifference": 0.05661999932650863
+      },
+      {
+        "id": "04",
+        "audioSHA256": "f915d8b0ed4fe10b3cd208c484fd24b8e5c62be88a4307541231dffb06599276",
+        "featureSHA256": "7f62919a0caf105a1d4f7c071b4ddd3afbb8d80e12b69c548380f4b6dbdd22e3",
+        "frames": 1265,
+        "fullWinner": 3,
+        "chunkedWinner": 3,
+        "classUnchanged": true,
+        "maxLogitDifference": 0.09424359888970102
+      },
+      {
+        "id": "05",
+        "audioSHA256": "02965db03be249f94b75db385b0999bfbf7f46bc64dd08e1f23c739333196706",
+        "featureSHA256": "84c6801a8d55625388e35a9329db0744857efc9cc9e4c5dbc0a4244a1690d38b",
+        "frames": 1172,
+        "fullWinner": 8,
+        "chunkedWinner": 8,
+        "classUnchanged": true,
+        "maxLogitDifference": 0.06390328603248108
+      },
+      {
+        "id": "06",
+        "audioSHA256": "c06499c1028f3d65596b51c9cf1b897ba40446b219a14f526c0981afee7489a7",
+        "featureSHA256": "eb234b8e08afa24bc46d716e8d928f19e2093dc88fb8398b0c1692c249dc1274",
+        "frames": 1073,
+        "fullWinner": 5,
+        "chunkedWinner": 5,
+        "classUnchanged": true,
+        "maxLogitDifference": 0.04808789580615613
+      },
+      {
+        "id": "07",
+        "audioSHA256": "7cc30c74e71292202dc33e190c3b95952e987d2c81a3587333212b897732c8c5",
+        "featureSHA256": "90c2a6a96960a31ba16a83c0c97db342714b4b30ebf7dc88343d1ef07d709611",
+        "frames": 1444,
+        "fullWinner": 3,
+        "chunkedWinner": 3,
+        "classUnchanged": true,
+        "maxLogitDifference": 0.0990938504536949
+      },
+      {
+        "id": "08",
+        "audioSHA256": "15ba55002906f86256aed14a7948880f3f1c81c7c5daf3b50b1b114cc51afc44",
+        "featureSHA256": "9a19bd1736f1a94feaa53f811bc3adbf218a5597e1e1652449d194d00e53309f",
+        "frames": 1282,
+        "fullWinner": 7,
+        "chunkedWinner": 7,
+        "classUnchanged": true,
+        "maxLogitDifference": 0.10890824794769305
+      },
+      {
+        "id": "09",
+        "audioSHA256": "f880995d4dc31b73a9632fbd4d1e4bad8060bbcbe640dd5440efb4555fa60bbe",
+        "featureSHA256": "180cbdccd8188b0814572d036be5dfdaf9fa08e6cb407dace5fc6975b20834d2",
+        "frames": 1520,
+        "fullWinner": 3,
+        "chunkedWinner": 3,
+        "classUnchanged": true,
+        "maxLogitDifference": 0.06721216502942529
+      },
+      {
+        "id": "10",
+        "audioSHA256": "e290cd3b0892ffe259019f87a6958847b9c7e310535f7cb206c1dcf5b9bd6a8b",
+        "featureSHA256": "339c324b895bba3e7b03859c75e797cbd78733e80a5b25257d42a7803a8721a8",
+        "frames": 1275,
+        "fullWinner": 22,
+        "chunkedWinner": 22,
+        "classUnchanged": true,
+        "maxLogitDifference": 0.10757437292134986
+      },
+      {
+        "id": "11",
+        "audioSHA256": "88e0504e7df5ce093830334f4a38d246c98414cb3cc979e39b92d9718bc6fe06",
+        "featureSHA256": "d3d62f41d20a55b36615603505ae7ad972084f7ef1bfe4dec04d19141b785142",
+        "frames": 3290,
+        "fullWinner": 4,
+        "chunkedWinner": 4,
+        "classUnchanged": true,
+        "maxLogitDifference": 0.08686943355847987
+      },
+      {
+        "id": "12",
+        "audioSHA256": "9bf303af41fe2b76be51f36d29664ae41ade2bc7fba9f4912eaf7ef6bfac5a47",
+        "featureSHA256": "4560a5dcee7506667324e4730f627cb9938766d17a8f519ef1693122aec8407d",
+        "frames": 6886,
+        "fullWinner": 7,
+        "chunkedWinner": 7,
+        "classUnchanged": true,
+        "maxLogitDifference": 0.06119078702704872
+      }
+    ]
+  },
+  "corpora": [
+    {
+      "path": "docs/testing/analysis-benchmark-r116-key.json",
+      "sha256": "0b591553864dc19372eaa4f1a5824c92e35892ac856d011017f97cff1b27671c",
+      "tracks": 178
+    },
+    {
+      "path": "docs/testing/analysis-benchmark-r116-gtzan.json",
+      "sha256": "92c173d838414d2d698e580150a5803e57a9c9931fcd159bae829a8e6f3ff144",
+      "tracks": 200
+    },
+    {
+      "path": "docs/testing/analysis-benchmark-r118-rhythm.json",
+      "sha256": "49a6c71ada45fbf03b9eccdcf260aaa835b443e4da337b0737a6a146efbd55ce",
+      "tracks": 100
+    }
+  ],
+  "keyModelRuntimeArtifacts": {
+    "Replica/Sources/TDJCore/KeyModelAssets/KeyCandidate.mlpackage/Data/com.apple.CoreML/weights/weight.bin": "8a2ac0c53badf4dcc47ba2be2daad7e72975d19811d0bbe59924553c6fa30a13",
+    "Replica/Sources/TDJCore/KeyModelAssets/cqt.json": "93368ced3ad3c4410c6e1b1edb7b8805799690175bec8f503beea4c7f28bdc69"
+  },
+  "computePlan": {
+    "operations": 24,
+    "neuralEnginePreferred": 24,
+    "runtimeUtilisationMeasured": false
+  },
+  "evidenceArchive": {
+    "path": "TestBuilds/r118/archive-integrity.json",
+    "sha256": "ad6c4e45a3cf114a399671a1debc12a86c1c9ca745d6dc57834658e768dc8248",
+    "files": 107
+  }
+}
