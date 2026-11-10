@@ -185,6 +185,7 @@ bool tdj_render(tdj_engine *engine, uint32_t count, float *left, float *right);
 void tdj_external_input_push(tdj_engine *engine, const float *left, const float *right, uint32_t count,
                              uint32_t stride, double rate);
 void tdj_s4_input_set_channels(tdj_engine *engine, uint32_t channels);
+void tdj_s4_mic_set_level(tdj_engine *engine, double level);
 void tdj_s4_input_push(tdj_engine *engine, const float *const *input, const uint32_t *strides,
                        uint32_t count, uint32_t channels, double rate);
 void tdj_external_input_mix(tdj_engine *engine, double level, double cue_gain);

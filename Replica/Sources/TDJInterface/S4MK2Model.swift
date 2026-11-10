@@ -54,6 +54,7 @@
             if s3Connection?.isReceiving != true { playback.core.setMasterMeterEnabled(false) }
             s4Performance.inputTask?.cancel()
             try? playback.setCaptureEnabled(false, device: "S4 Mk2")
+            playback.core.setS4MicLevel(0)
             if s4Performance.ownsPreview { stopS3Preview() }
             for deck in s4Controls.touched {
                 applyTraktorDeckAction(deck.leftSide ? .jogTouchA : .jogTouchB, deck: deck, value: 0, quantized: false)
@@ -98,6 +99,8 @@
                 }
             case .pot(let action, let deck, let value):
                 applyS4Pot(action, deck: deck, value: value)
+            case .micLevel(let value):
+                playback.core.setS4MicLevel(value)
             case .layer(let deck):
                 releaseS4PerformanceContacts(
                     deck.leftSide

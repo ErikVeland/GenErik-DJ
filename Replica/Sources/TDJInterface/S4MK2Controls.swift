@@ -34,6 +34,7 @@ enum S4MK2AccessoryProtocol {
 enum S4MK2Event: Equatable {
     case action(ControllerAction, DeckID, Double)
     case pot(ControllerAction, DeckID, Double)
+    case micLevel(Double)
     case layer(DeckID)
     case bendEnd(DeckID)
     case native(NativeTraktorEvent)
@@ -280,6 +281,8 @@ struct S4MK2Controls {
         }
         if let value = pot(0x07) { events.append(.pot(.crossfader, .a, value)) }
         if let value = pot(0x0d) { events.append(.pot(.cueMix, .a, value)) }
+        // NI's factory PotiMicVol is analog control 4.
+        if let value = pot(0x0f) { events.append(.micLevel(value)) }
         let browse = encoder(2, 0)
         if browse != 0 {
             events.append(

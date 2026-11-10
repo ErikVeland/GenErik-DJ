@@ -109,7 +109,8 @@ typedef struct {
     atomic_flag mic_producer;
     _Atomic double input_level;
     _Atomic double input_cue;
-    ramp input_master_ramp, input_cue_ramp;
+    _Atomic double s4_mic_level;
+    ramp input_master_ramp, input_cue_ramp, s4_mic_ramp;
     float mic_samples[MIC_CAPACITY][6];
     double mic_fraction;
     float mic_last[6], mic_gain;
@@ -136,6 +137,7 @@ static void auxiliary_init(auxiliary_mix *aux, double rate) {
     atomic_init(&aux->mic_rate, rate);
     atomic_init(&aux->input_level, 1);
     atomic_init(&aux->input_cue, 0);
+    atomic_init(&aux->s4_mic_level, 0);
     ramp_set(&aux->input_master_ramp, 1, 0);
     atomic_flag_clear(&aux->mic_producer);
     ramp_set(&aux->pad_gain, 0.35, 0);
@@ -201,6 +203,8 @@ static mic_block microphone_begin(auxiliary_mix *aux, double rate) {
         if (active_channels) {
             aux->rendering_mic_channels = active_channels;
             aux->mic_gain = 0;
+            if (active_channels == 6)
+                ramp_set(&aux->s4_mic_ramp, atomic_load_explicit(&aux->s4_mic_level, memory_order_relaxed), 0);
         }
     }
     if (!active_channels)

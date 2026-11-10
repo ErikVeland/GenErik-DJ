@@ -166,15 +166,31 @@ import Testing
     try core.setMixer(.monitor, value: 1)
     tdj_s4_input_set_channels(owner.engineHandle, 6)
     let channels: [Float] = [0.125, 0.25, 0.375, 0.5, 0.0625, 0.0625]
-    let block = (0..<1_024).flatMap { _ in channels }
+    let block = (0..<2_048).flatMap { _ in channels }
     block.withUnsafeBufferPointer { buffer in
         let pointers = (0..<6).map { buffer.baseAddress?.advanced(by: $0) }
         let strides = [UInt32](repeating: 6, count: 6)
-        tdj_s4_input_push(owner.engineHandle, pointers, strides, 1_024, 6, 8_000)
+        tdj_s4_input_push(owner.engineHandle, pointers, strides, 2_048, 6, 8_000)
     }
-    let buses = core.renderBusesOffline(frames: 256)
-    #expect(buses.left.last == 0.1875 && buses.right.last == 0.3125)
-    #expect(buses.cueLeft.last == 0.375 && buses.cueRight.last == 0.5)
+    let initial = core.renderBusesOffline(frames: 256)
+    #expect(initial.left.last == 0.125 && initial.right.last == 0.25)
+    #expect(initial.cueLeft.last == 0.375 && initial.cueRight.last == 0.5)
+    let format = try #require(AVAudioFormat(standardFormatWithSampleRate: 8_000, channels: 2))
+    let recorded = try #require(AVAudioPCMBuffer(pcmFormat: format, frameCapacity: 256))
+    core.recording.start()
+    core.setS4MicLevel(0.5)
+    let half = core.renderBusesOffline(frames: 256)
+    #expect(half.left.first.map { $0 > 0.125 && $0 < 0.15625 } == true)
+    #expect(half.left.last == 0.15625 && half.right.last == 0.28125)
+    #expect(core.recording.read(into: recorded) == 256)
+    #expect(recorded.floatChannelData?[0][255] == 0.15625)
+    core.setS4MicLevel(1)
+    let full = core.renderBusesOffline(frames: 256)
+    #expect(full.left.last == 0.1875 && full.right.last == 0.3125)
+    core.setS4MicLevel(0)
+    let lowered = core.renderBusesOffline(frames: 256)
+    #expect(lowered.left.last == 0.125 && lowered.right.last == 0.25)
+    #expect(lowered.cueLeft.last == 0.375 && lowered.cueRight.last == 0.5)
     tdj_s4_input_set_channels(owner.engineHandle, 0)
     let muted = core.renderBusesOffline(frames: 256)
     #expect(muted.left.last == 0 && muted.cueRight.last == 0)
