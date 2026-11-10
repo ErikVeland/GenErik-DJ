@@ -6,6 +6,8 @@ The [project north star](../product-direction.md) guides every feature. Clean, c
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
+**First on A10X (R155).** Test two decks in Mix mode with the original Z1. Start with crossfader return, then load a long unanalysed track while the other deck plays. Defer four decks and live stems until the two-deck baseline holds. [Test order and acceptance](completion-programme.md#first-test-on-the-a10x).
+
 **R139 analysis check:** The Mac app now corrects Untouched’s downbeat and Dune’s beat phase. Reference differences fell to 9 ms and 19 ms. All 180 fresh excerpts retained their scores, and all 574 earlier policy results retained playback timelines. Dune’s bar and physical device checks remain open. [Results and evidence](analysis-phase-r139.md).
 
 **R129 analysis check:** The final Mac first pass took 129 seconds, down from 308, on the same 12 tracks. Review downbeat F1 rose from 56.22% to 57.40% on 99 new labelled recordings. The gain remains uncertain, and recovered grids require review. Erik’s reference corrections give 6/9 downbeat agreement in both baseline and final results. At that stage, Untouched and Dune remained unresolved. All 574 policy results reopened. [Results and evidence](analysis-first-pass-r129.md).
