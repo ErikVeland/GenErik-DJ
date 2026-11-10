@@ -12,6 +12,8 @@ struct AudioOutputDevice: Equatable, Sendable {
         guard wired else { return nil }
         switch normalizedName {
         case "traktor kontrol z1": return "Z1"
+        case "traktor z1 mk2", "traktor kontrol z1 mk2": return "Z1 Mk2"
+        case "generik z1 mk2 bridge": return "Z1 Mk2 Bridge"
         case "traktor kontrol s2 mk2": return "S2 Mk2"
         case "traktor kontrol s2 mk3": return "S2 Mk3"
         case "traktor kontrol s3": return "S3"

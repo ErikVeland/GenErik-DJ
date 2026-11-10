@@ -317,7 +317,7 @@ enum S3Lights {
             meters[start + 8] = clipping ? 0x7e : 0
         }
         let fxPalette: [UInt8] = [0x04, 0x1c, 0x2c, 0x04]
-        for fx in S2MixerFX.allCases {
+        for fx in S2MixerFX.s2Presets {
             buttons[0x3c + fx.rawValue] = fxPalette[fx.rawValue] + (feedback.fx.contains(fx) ? 3 : 1)
         }
         buttons[0x40] = 0x0c + (feedback.fx.contains(.filter) ? 3 : 1)
