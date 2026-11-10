@@ -17,8 +17,7 @@ from prepare_library_analysis import mac_items
 _result_cache = {}
 
 
-def analysis_is_running(output):
-    path = output / 'run.lock'
+def lock_is_held(path):
     if not path.exists():
         return False
     with path.open('a') as lock:
@@ -27,6 +26,10 @@ def analysis_is_running(output):
         except BlockingIOError:
             return True
     return False
+
+
+def analysis_is_running(output):
+    return lock_is_held(output / 'run.lock')
 
 
 def save(path, value):
@@ -118,6 +121,13 @@ def run(config):
     thread = threading.Thread(target=delivery, daemon=True)
     thread.start()
     try:
+        if config.get('recoveryApp') and not lock_is_held(root / 'source-recovery' / 'worker.lock'):
+            import sys
+            recovery_config = root / 'recovery-config.json'
+            save(recovery_config, config)
+            with (root / 'recovery.log').open('a') as log:
+                subprocess.Popen([sys.executable, str(pathlib.Path(__file__).with_name('recover_library_analysis_sources.py')),
+                                  str(recovery_config)], stdout=log, stderr=subprocess.STDOUT)
         for phase in ['ipad', 'full']:
             if phase == 'full':
                 while True:

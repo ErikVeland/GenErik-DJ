@@ -1,0 +1,18 @@
+{
+  "notes": "R156: Prepare exact iPad audio copies for Mac analysis while idle. Cancel for playback, backgrounding, power loss or heat. Preserve manual preparation.",
+  "sourceCommit": "bdc57d76be61363d395c6c8d294a7e5421c87df0",
+  "sourceSHA256": "242d8b02d3db518959a3df6ee7a149f4d8c8a7eb2bf8c0b4526154441aef9e9d",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 97.28,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-220.log",
+  "build": 220,
+  "app": "TestBuilds/ipad/220/GenErikDJ.app",
+  "appSHA256": "3ecb2e493d2725c144c980de92e6059ce6d1293f3abd9201232dc216307c12ab",
+  "state": "testing",
+  "createdUTC": "2026-11-10T14:23:31.154442+00:00",
+  "installedUTC": "2026-11-10T14:23:45.551533+00:00",
+  "launchedUTC": "2026-11-10T14:23:45.969753+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
