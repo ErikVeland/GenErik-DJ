@@ -226,7 +226,8 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
     var needsAdaptiveCandidateUpgrade: Bool {
         mayRefreshAutomaticGrid && traktorPreparation?.normalized.grid == nil
             && analysis.acceptedDeepBeatAnalysis == nil && analysis.adaptiveCandidate != nil
-            && analysis.configurationID != AnalysisConfiguration().id(for: analysis.duration)
+            && (analysis.configurationID.hasPrefix("beat-this-small0-grid-1-")
+                || analysis.configurationID.hasPrefix("beat-this-small0-grid-2-"))
     }
     public var needsFullPreparationAnalysis: Bool {
         nativeSourceNeedsAnalysis == true || analysis.musicalAnalysisDeferred == true || needsAutomaticBarAnalysis

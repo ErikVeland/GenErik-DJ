@@ -94,7 +94,7 @@ func tempoOctaveDecisionFollowsSpacingAcrossTempos(_ bpm: Double) throws {
     #expect(!track.needsCurrentLibraryAnalysis)
 }
 
-@Test(arguments: ["automatic", "manual", "edited", "locked", "adaptive", "deep", "current", "noCandidate"])
+@Test(arguments: ["automatic", "legacy", "manual", "edited", "locked", "adaptive", "deep", "current", "future", "unknown", "noCandidate"])
 func adaptiveCandidateUpgradeIsSelectiveAndProtectsPreparation(_ state: String) throws {
     var track = try syntheticTrack("a", bpm: 120)
     let map = BeatGridMap(anchors: [.init(beat: 0, frame: 0), .init(beat: 16, frame: 360000)], sampleRate: 44100)
@@ -109,14 +109,18 @@ func adaptiveCandidateUpgradeIsSelectiveAndProtectsPreparation(_ state: String) 
             audio: .init(track.analysis), profile: .current, coveredFrames: track.analysis.frameCount,
             windowCount: 1, candidate: nil)
     }
-    if state == "current" {
-        var encoded = try #require(JSONSerialization.jsonObject(with: JSONEncoder().encode(track.analysis)) as? [String: Any])
-        encoded["configurationID"] = AnalysisConfiguration().id(for: track.analysis.duration)
-        track.analysis = try JSONDecoder().decode(AudioAnalysis.self, from: JSONSerialization.data(withJSONObject: encoded))
-    }
-    #expect(track.needsAdaptiveCandidateUpgrade == (state == "automatic"))
-    #expect(track.needsCurrentLibraryAnalysis == (state == "automatic"))
-    if state == "automatic" { #expect(track.needsFullPreparationAnalysis) }
+    var encoded = try #require(
+        JSONSerialization.jsonObject(with: JSONEncoder().encode(track.analysis)) as? [String: Any])
+    let current = AnalysisConfiguration().id(for: track.analysis.duration)
+    let version = state == "future" ? "4" : state == "legacy" ? "1" : "2"
+    encoded["configurationID"] = state == "current" ? current : state == "unknown" ? "unknown"
+        : current.replacingOccurrences(of: "grid-3-", with: "grid-\(version)-")
+    track.analysis = try JSONDecoder().decode(
+        AudioAnalysis.self, from: JSONSerialization.data(withJSONObject: encoded))
+    let shouldRefresh = state == "automatic" || state == "legacy"
+    #expect(track.needsAdaptiveCandidateUpgrade == shouldRefresh)
+    #expect(track.needsCurrentLibraryAnalysis == shouldRefresh)
+    if shouldRefresh { #expect(track.needsFullPreparationAnalysis) }
 }
 
 @Test func uncertainIndependentKeyRequestsReviewWithoutOverridingAuthority() throws {
