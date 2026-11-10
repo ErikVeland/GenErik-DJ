@@ -10,6 +10,14 @@
   "build": 207,
   "app": "TestBuilds/ipad/207/GenErikDJ.app",
   "appSHA256": "f6ba1d90b3c514f7a981315cc25cabe680889d004b75bdeda95d9bec5539f0fc",
-  "state": "ready",
-  "createdUTC": "2026-11-10T12:19:14.736628+00:00"
+  "state": "testing",
+  "createdUTC": "2026-11-10T12:19:14.736628+00:00",
+  "installedUTC": "2026-11-10T12:19:34.217434+00:00",
+  "launchedUTC": "2026-11-10T12:19:34.936662+00:00",
+  "launchVerification": "iOS accepted the launch request on the Duo. Erik checks the inner portrait layout and playback controls.",
+  "deploymentTarget": "GenErik Duo",
+  "testScope": [
+    "R143. Open the Duo in portrait and check the focused deck height.",
+    "Tap each track header. Drag the divider and check both Play controls."
+  ]
 }
