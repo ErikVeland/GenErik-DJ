@@ -1,0 +1,15 @@
+{
+  "notes": "R138 authored stems, Pattern Player, relative Z2 timecode, capture and controller screens. Local verification only.",
+  "sourceCommit": "bb02c30196e9bae4718e22f9346b10e0fa33c5d2",
+  "sourceSHA256": "ede891603156be6a5d3d2e21694074d3b721ca94e4be7aca219e18ece3870d87",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 106.99,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-201.log",
+  "build": 201,
+  "app": "TestBuilds/ipad/201/GenErikDJ.app",
+  "appSHA256": "3e34d0457a8fdd18b6b4a77f64b7ecf8ef6bfb5cb1415095cbeca434fef508ec",
+  "state": "ready",
+  "createdUTC": "2026-11-10T11:55:25.888496+00:00"
+}

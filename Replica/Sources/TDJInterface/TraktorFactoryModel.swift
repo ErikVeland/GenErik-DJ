@@ -258,9 +258,26 @@
                     guard allowed else {
                         throw TransportError.cache("Allow microphone access to use the controller inputs.")
                     }
-                    let mask = session.liveInputs.reduce(UInt32(0)) { $0 | (1 << $1.transportIndex) }
+                    guard playback.canOpenCapture(device: session.audioDevice) else {
+                        throw TransportError.cache("Pause playback before opening the controller inputs.")
+                    }
                     cancelNativeMusicAnalysis()
+                    if session.model == .s8 {
+                        let core = playback.core
+                        try await Task.detached(priority: .utility) { try core.prepareExtraDecks() }.value
+                        guard !Task.isCancelled, session.bridge.isReceiving, session.needsCapture else { return }
+                    }
+                    let mask = session.liveInputs.reduce(UInt32(0)) { $0 | (1 << $1.transportIndex) }
                     try playback.setFactoryCapture(true, device: session.audioDevice, mask: mask, mic: session.microphone)
+                    if session.model == .s8 {
+                        let key = \ReplicaModel.[factory: session.model]
+                        for deck in session.liveInputs where playback.generations[deck] == nil {
+                            let pots = self[keyPath: key].extraPots[deck, default: [:]]
+                            for (action, value) in pots {
+                                applyNativeMK2Event(.pot(action, deck, value), stateKey: key)
+                            }
+                        }
+                    }
                 } catch {
                     session.microphone = false
                     session.liveInputs = []

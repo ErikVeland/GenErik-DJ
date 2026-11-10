@@ -3134,6 +3134,8 @@ void tdj_pattern_set(tdj_engine *e, unsigned unit, uint64_t settings) {
 }
 
 void tdj_factory_input_set(tdj_engine *e, unsigned layout, uint32_t input_mask) {
+    if (layout == 4 && !atomic_load_explicit(&e->extra_prepared, memory_order_acquire))
+        return;
     atomic_store_explicit(&e->factory_live_inputs, input_mask & 15, memory_order_relaxed);
     if (layout == 6) {
         atomic_store_explicit(&e->factory_s8_input, false, memory_order_relaxed);
