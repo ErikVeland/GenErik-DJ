@@ -134,7 +134,7 @@ private func emptyWindow(_ index: Int, _ start: Int) -> DeepPredictionWindow {
     #expect(try manual.adoptingDeepAnalysis(result) == manual)
     var changed = try syntheticTrack("a", bpm: 80)
     changed.analysis = track.analysis
-    #expect(result.acceptedGrid(for: changed) == nil)
+    #expect(result.needsReview(for: changed))
     let remote = try syntheticTrack("b", bpm: 120)
     #expect(throws: (any Error).self) { try remote.adoptingDeepAnalysis(result) }
     let copy = try JSONDecoder().decode(Track.self, from: JSONEncoder().encode(manual))
@@ -143,15 +143,16 @@ private func emptyWindow(_ index: Int, _ start: Int) -> DeepPredictionWindow {
 }
 
 @Test func deepAcceptedEvidenceSurvivesLaterFirstPass() throws {
-    var base = try syntheticTrack("a", bpm: 120)
-    base.preparation.grid = nil
-    base.analysis.bpm = nil
+    let base = try syntheticTrack("a", bpm: 120)
     let accepted = DeepBeatAnalysis(
         audio: .init(base.analysis), profile: .current,
         coveredFrames: base.analysis.frameCount, windowCount: 1,
         candidate: .init(.init(bpm: 120, firstBar: 0, beatAgreement: 0.98, barAgreement: 0.96, residualMilliseconds: 8))
     )
-    let prepared = try base.adoptingDeepAnalysis(accepted)
+    // Preserve the saved state of a grid accepted by an earlier policy.
+    var prepared = base
+    prepared.analysis.deepBeatAnalysis = accepted
+    prepared.analysis.acceptedDeepBeatAnalysis = accepted
     #expect(prepared.analysis.acceptedDeepBeatAnalysis == accepted)
     var weak = base.analysis
     weak.bpm = 60
@@ -167,7 +168,7 @@ private func emptyWindow(_ index: Int, _ start: Int) -> DeepPredictionWindow {
     #expect(other.deepBeatAnalysis == nil)
 }
 
-@Test func deepEvidenceKeepsAnExistingGridButCanFillAMissingGrid() throws {
+@Test func deepEvidenceKeepsGridsUntilExplicitReview() throws {
     let track = try syntheticTrack("a", bpm: 120)
     let result = DeepBeatAnalysis(
         audio: .init(track.analysis), profile: .current, coveredFrames: track.analysis.frameCount,
@@ -175,7 +176,6 @@ private func emptyWindow(_ index: Int, _ start: Int) -> DeepPredictionWindow {
         candidate: .init(.init(bpm: 120.01, firstBar: 0.015,
                               beatAgreement: 1, barAgreement: 1, residualMilliseconds: 5)))
     let retained = try track.adoptingDeepAnalysis(result)
-    #expect(result.acceptedGrid(for: track) == nil)
     #expect(retained.preparation == track.preparation)
     #expect(retained.analysis.bpm == track.analysis.bpm)
     #expect(retained.analysis.beatAnchorFrame == track.analysis.beatAnchorFrame)
@@ -185,9 +185,18 @@ private func emptyWindow(_ index: Int, _ start: Int) -> DeepPredictionWindow {
     var unresolved = track
     unresolved.preparation.grid = nil
     unresolved.analysis.bpm = nil
-    let filled = try unresolved.adoptingDeepAnalysis(result)
-    #expect(filled.grid?.bpm == 120.01)
-    #expect(filled.analysis.acceptedDeepBeatAnalysis == result)
+    var reviewed = try unresolved.adoptingDeepAnalysis(result)
+    #expect(reviewed.grid == nil)
+    #expect(result.needsReview(for: unresolved))
+    #expect(reviewed.analysis.acceptedDeepBeatAnalysis == nil)
+    let map = try #require(reviewed.analysis.adaptiveCandidate)
+    #expect(map == result.fixedReviewCandidate)
+    #expect(unresolved.analysis.retainingDeepEvidence(from: reviewed.analysis).adaptiveCandidate == map)
+    let archive = CloudPreparationArchive.analysisOnly(track: reviewed, arrangement: nil)
+    let shared = try archive.automaticallyMergedTrack(matching: unresolved)
+    #expect(shared.grid == nil && shared.analysis.adaptiveCandidate == map)
+    try reviewed.preparation.acceptAdaptive(map, frameCount: reviewed.analysis.frameCount)
+    #expect(abs(try #require(reviewed.grid?.bpm) - 120.01) < 1e-9)
 }
 
 @Test func deepWindowStoragePreservesFloatBitsWithinBoundedSize() throws {

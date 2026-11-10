@@ -28,11 +28,11 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public let upgradeBenefit: String
 
     public static let current = Self(
-        generation: 6, model: "BeatThis/final0",
+        generation: 7, model: "BeatThis/final0",
         weightsSHA256:
             "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331",
-        conversion: 1, preprocessing: 1, decisionPolicy: 6,
-        upgradeBenefit: "Preserve existing grid timing and retain deep review evidence.")
+        conversion: 1, preprocessing: 1, decisionPolicy: 7,
+        upgradeBenefit: "Retain deep grid candidates for explicit review.")
 
     public var inferenceID: String {
         analysisDigest(Data("\(model)|\(weightsSHA256)|fp16-\(conversion)|mel-\(preprocessing)|1500-6-50".utf8))
@@ -43,13 +43,14 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public func needsAnalysis(after result: DeepBeatAnalysis?) -> Bool {
         guard let result else { return true }
         if result.profile.id == id { return false }
-        if generation == 6, decisionPolicy == 6,
+        if generation == 7, decisionPolicy == 7,
             (result.profile.generation == 3 && result.profile.decisionPolicy == 3
                 || result.profile.generation == 4 && result.profile.decisionPolicy == 4
-                || result.profile.generation == 5 && result.profile.decisionPolicy == 5),
+                || result.profile.generation == 5 && result.profile.decisionPolicy == 5
+                || result.profile.generation == 6 && result.profile.decisionPolicy == 6),
             inferenceID == result.profile.inferenceID
         {
-            if result.profile.decisionPolicy == 5 { return false }
+            if result.profile.decisionPolicy >= 5 { return false }
             if result.hasStrongEvidence { return false }
             if result.profile.decisionPolicy == 4, result.candidate == nil { return false }
         }
@@ -96,7 +97,7 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
     public var needsReview: Bool { candidate == nil || !hasStrongEvidence }
     public func needsReview(for track: Track) -> Bool {
         guard track.mayRefreshAutomaticGrid, track.traktorPreparation?.normalized.grid == nil else { return false }
-        return needsReview || compatibleGrid(for: track) == nil
+        return track.grid == nil || needsReview || compatibleGrid(for: track) == nil
     }
     var hasStrongEvidence: Bool { candidate?.hasStrongEvidence == true }
 
@@ -117,10 +118,14 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
         }
     }
 
-    /// Strong deep evidence can fill a missing grid. Existing timing remains the transport authority.
-    public func acceptedGrid(for track: Track) -> BeatGrid? {
-        guard track.grid == nil else { return nil }
-        return compatibleGrid(for: track)
+    /// A constant map can be reviewed through the same controls as a variable-tempo candidate.
+    public var fixedReviewCandidate: BeatGridMap? {
+        guard hasStrongEvidence, let candidate else { return nil }
+        let map = BeatGridMap(anchors: [
+            .init(beat: 0, frame: candidate.firstBarSeconds * audio.sampleRate),
+            .init(beat: 1, frame: (candidate.firstBarSeconds + 60 / candidate.bpm) * audio.sampleRate),
+        ], sampleRate: audio.sampleRate)
+        return (try? map.validate(frameCount: audio.frameCount)) == nil ? nil : map
     }
 
     private func compatibleGrid(for track: Track) -> BeatGrid? {
@@ -190,20 +195,7 @@ extension Track {
             DeepAnalysisProfile.current.needsAnalysis(after: analysis.deepBeatAnalysis)
         else { return self }
         var copy = self
-        if let grid = result.acceptedGrid(for: self), let candidate = result.candidate {
-            copy.analysis.implementation = "\(result.profile.model) full-track grid"
-            copy.analysis.acceptedDeepBeatAnalysis = result
-            copy.preparation.grid = grid
-            copy.analysis.bpm = candidate.bpm
-            copy.analysis.beatAnchorFrame = grid.anchorFrame
-            copy.analysis.tempoConfidence = candidate.beatAgreement
-            copy.analysis.detectedDownbeatOffset = 0
-            copy.analysis.downbeatConfidence = candidate.barAgreement
-            copy.analysis.gridResidualMilliseconds = candidate.residualMilliseconds
-            copy.analysis.barAnalysisVersion = BarStartAnalysis.version
-            copy.analysis.beatModelVersion = result.profile.id
-            copy.analysis.musicalAnalysisDeferred = false
-        } else if let grid = result.acceptedTempoGrid(for: self) {
+        if let grid = result.acceptedTempoGrid(for: self) {
             copy.analysis.implementation = "\(result.profile.model) tempo octave with DSP beat phase"
             copy.analysis.acceptedDeepBeatAnalysis = result
             copy.preparation.grid = grid
@@ -217,10 +209,11 @@ extension Track {
             copy.analysis.barAnalysisVersion = BarStartAnalysis.version
             copy.analysis.musicalAnalysisDeferred = false
         }
-        if let candidate = result.adaptiveCandidate, mayRefreshAutomaticGrid,
+        let reviewMap = result.adaptiveCandidate?.map ?? (grid == nil ? result.fixedReviewCandidate : nil)
+        if let reviewMap, mayRefreshAutomaticGrid,
             traktorPreparation?.normalized.grid == nil, copy.analysis.adaptiveCandidate == nil
         {
-            copy.analysis.adaptiveCandidate = candidate.map
+            copy.analysis.adaptiveCandidate = reviewMap
             copy.analysis.adaptiveConfidence = nil
         }
         copy.analysis.deepBeatAnalysis = result
@@ -234,10 +227,11 @@ extension AudioAnalysis {
         var copy = self
         copy.deepBeatAnalysis = previous.deepBeatAnalysis
         copy.acceptedDeepBeatAnalysis = previous.acceptedDeepBeatAnalysis
-        if let candidate = previous.deepBeatAnalysis?.adaptiveCandidate,
-            previous.adaptiveCandidate == candidate.map
+        if let candidate = previous.deepBeatAnalysis?.adaptiveCandidate?.map
+            ?? previous.deepBeatAnalysis?.fixedReviewCandidate,
+            previous.adaptiveCandidate == candidate
         {
-            copy.adaptiveCandidate = candidate.map
+            copy.adaptiveCandidate = candidate
             copy.adaptiveConfidence = nil
         }
         if previous.acceptedDeepBeatAnalysis != nil {

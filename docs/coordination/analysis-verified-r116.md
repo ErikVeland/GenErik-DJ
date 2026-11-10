@@ -54,6 +54,8 @@ Policy 6 contains that failure without tuning model thresholds. Strong deep evid
 
 The Mac policy audit reuses a completed first-pass report and its prediction checkpoints. It verifies audio hashes, inference identity and source coverage. Its output records the source report hash and run ID. Replay timings are not fresh-analysis timings. Policy 6 checks on the same corpus are regression checks after the failed holdout, not new independent accuracy evidence.
 
+The policy 6 replay exposed one false grid fill: `gtzan:metal.00001`. Its high-confidence deep grid matched no annotated beats or downbeats. Policy 7 therefore keeps full constant-grid proposals for explicit review. For a missing grid, a bounded constant candidate uses the existing grid acceptance controls. The first-pass grid remains unchanged. The separate tempo-octave correction still uses its existing evidence rules. Existing accepted grids are not silently reset.
+
 Explicit acceptance can create a missing base grid. Policy 5 preserves strong policy 3 and 4 fits with the same inference profile. It also skips policy 4 results whose missing constant fit was already reviewed. Weak older constant fits can upgrade. The model weights remain unchanged, so these policy upgrades can reuse saved predictions. Changed weights and later policies remain eligible under the existing version rules.
 
 A later first pass retains an offered deep candidate only for the same audio identity. The existing manual, locked, imported and accepted adaptive preparation protections remain in place. Twenty-one focused Swift tests passed. Twenty Python tests passed for the benchmark and key comparison. One optional real-model unit test remains skipped. The packaged Mac audit supplies the real-model evidence separately.
