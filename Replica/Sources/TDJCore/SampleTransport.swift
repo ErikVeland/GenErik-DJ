@@ -769,6 +769,32 @@ public final class SampleTransport: @unchecked Sendable {
         tdj_stem_mix_set(pointer, UInt32(deck.transportIndex), settings)
     }
 
+    func registerPatternKit(_ kit: PatternKitArchive.Kit, slot: UInt32) throws {
+        var pcm = Data()
+        var frames: [UInt32] = []
+        var counts: [UInt8] = []
+        var notes: [Float] = []
+        guard kit.sounds.count == 8 else { throw PatternKitArchive.ImportError.invalid }
+        for sound in kit.sounds {
+            guard sound.pcm.count.isMultiple(of: 4), sound.presets.count == 8 else {
+                throw PatternKitArchive.ImportError.invalid
+            }
+            frames.append(UInt32(sound.pcm.count / 4))
+            pcm.append(sound.pcm)
+            for preset in sound.presets {
+                guard (1...16).contains(preset.count) else { throw PatternKitArchive.ImportError.invalid }
+                counts.append(UInt8(preset.count))
+                notes.append(contentsOf: preset.map(Float.init))
+                notes.append(contentsOf: repeatElement(0, count: 16 - preset.count))
+            }
+        }
+        let registered = pcm.withUnsafeBytes { bytes in
+            tdj_pattern_register_kit(
+                pointer, slot, bytes.bindMemory(to: UInt8.self).baseAddress, bytes.count, frames, counts, notes)
+        }
+        guard registered else { throw PatternKitArchive.ImportError.invalid }
+    }
+
     public func setPatternUnit(_ unit: UInt32, settings: UInt64) {
         tdj_pattern_set(pointer, unit, settings)
     }

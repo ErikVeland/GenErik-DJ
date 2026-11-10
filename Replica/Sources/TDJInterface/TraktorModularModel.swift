@@ -113,7 +113,7 @@
                     updateX1Pattern(unit)
                 } else { applyNativeMK2Event(.fxAssign(unit, deck), stateKey: \.x1MK3Performance) }
             case .fxEnable(let unit, let slot):
-                if x1Patterns[unit].button(slot.map { $0 + 1 } ?? 0, shifted: x1MK3Controls.shifted) {
+                if x1Patterns[unit].button(slot.map { $0 + 1 } ?? 0, shifted: x1MK3Controls.shifted, kits: patternKits) {
                     if slot == nil, x1MK3Controls.shifted, x1Patterns[unit].mode == 2 {
                         x1Patterns[unit].decks = x1MK3Performance.fx[unit].decks
                     }
@@ -121,7 +121,7 @@
                 } else { applyNativeMK2Event(.fxEnable(unit, slot), stateKey: \.x1MK3Performance) }
             case .fxPot(let unit, let knob, let value):
                 if x1Patterns[unit].mode == 2 {
-                    x1Patterns[unit].knob(knob, value: value)
+                    x1Patterns[unit].knob(knob, value: value, kits: patternKits)
                     updateX1Pattern(unit)
                 } else { applyNativeMK2Event(.fxPot(unit, knob, value), stateKey: \.x1MK3Performance) }
             }
@@ -132,6 +132,7 @@
         }
 
         private func releaseX1MK3() {
+            nextX1PatternScreen = nil
             x1Patterns = [.init(), .init()]
             for unit in 0..<2 { updateX1Pattern(unit) }
             for deck in x1MK3Controls.reversing { perform(.rate, deck: deck, value: 1) }
@@ -162,6 +163,7 @@
                         lighting: lightOptions(for: "Z1 Mk2"), hasStems: isStemDeck))
             }
             if x1Receiving {
+                startPatternKitLoad()
                 var feedback = TraktorModularLights.X1Feedback()
                 feedback.stemMuted = stemPadMutes(Set(x1MK3Controls.decks))
                 feedback.fxDecks = x1MK3Performance.fx.map(\.decks)
@@ -183,6 +185,19 @@
                 x1MK3Bridge?.feedback(
                     TraktorModularLights.x1(snapshot, controls: x1MK3Controls, frames: frames, feedback: feedback,
                         lighting: lightOptions(for: "X1 Mk3")))
+                let now = ContinuousClock.now
+                if nextX1PatternScreen.map({ now >= $0 }) ?? true {
+                    nextX1PatternScreen = now + .milliseconds(80)
+                    for (side, pattern) in x1Patterns.enumerated() {
+                        let playing = pattern.enabled && !pattern.decks.isEmpty && snapshot.clockRunning
+                        let cursor = playing ? Int((snapshot.masterBeat * 4).rounded(.down)
+                            .truncatingRemainder(dividingBy: 16)) & 15 : nil
+                        let labels = pattern.labels(kits: patternKits)
+                        x1MK3Bridge?.x1PatternScreen(X1PatternScreen.payload(
+                            side: side, mode: pattern.mode == 2, kit: labels.kit, sound: labels.sound,
+                            steps: pattern.steps, cursor: cursor, ducking: pattern.ducking))
+                    }
+                }
             }
         }
     }

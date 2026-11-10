@@ -17,7 +17,8 @@ from z1_bridge import Decoder, encode, write_all
 
 INPUT, LIGHTS, STATUS = 9, 10, 11
 S2_MK1_INPUT, S2_MK1_LIGHTS = 12, 13
-LENGTHS = {INPUT: 36, LIGHTS: 51, STATUS: 1, S2_MK1_INPUT: 53, S2_MK1_LIGHTS: 62}
+X1_PATTERN_SCREEN = 20
+LENGTHS = {INPUT: 36, LIGHTS: 51, STATUS: 1, S2_MK1_INPUT: 53, S2_MK1_LIGHTS: 62, X1_PATTERN_SCREEN: 64}
 S2_MK1_CALIBRATION = range(0xd0, 0xd5)
 
 
@@ -60,6 +61,37 @@ def feedback(model, payload):
     return report if all(value <= 0x7e for value in report[1:]) else None
 
 
+
+def pattern_screen_report(payload):
+    if len(payload) != 64:
+        return None
+    side, mode, low, high, cursor, flags = payload[:6]
+    if side > 1 or mode > 1 or (cursor > 15 and cursor != 255) or flags > 1:
+        return None
+    report = bytes((0xe0 if side == 0 else 0xe4,))
+    if not mode:
+        return report + bytes(1024)
+
+    from PIL import Image, ImageDraw
+
+    image = Image.new('1', (128, 64))
+    draw = ImageDraw.Draw(image)
+    for start, y in ((6, 4), (35, 25)):
+        label = payload[start:start + 29].split(b'\0', 1)[0].decode('utf-8', errors='replace')
+        while label and draw.textlength(label) > 118:
+            label = label[:-1]
+        draw.text((5, y), label, fill=1)
+    if flags & 1:
+        draw.text((100, 38), 'DUCK', fill=1)
+    steps = low | (high << 8)
+    for step in range(16):
+        x = 2 + 8 * step
+        selected = bool(steps & (1 << step))
+        draw.rectangle((x, 53, x + 4, 58), outline=1, fill=1 if selected else 0)
+        if step == cursor:
+            draw.line((x, 61, x + 4, 61), fill=1)
+    return report + image.tobytes()
+
 def controller_usb_parent(model, hid_path, sysfs=Path('/sys')):
     device = (sysfs / 'class/hidraw' / hid_path.name / 'device').resolve(strict=True)
     identity = f'HID_ID=0003:000017CC:{model.product:08X}'
@@ -100,6 +132,9 @@ def relay(model, hid, midi, audio):
     decoder = Decoder(LENGTHS)
     heartbeat = None
     last_lights = None
+    last_screens = {}
+    pending_screens = {}
+    screens_available = model == X1_MK3
     while audio is None or audio.poll() is None:
         for fd in select.select([hid, midi], [], [], 0.05)[0]:
             try:
@@ -120,6 +155,8 @@ def relay(model, hid, midi, audio):
                         write_all(midi, encode(STATUS, b'\x01', LENGTHS))
                         heartbeat = time.monotonic()
                         last_lights = None
+                        last_screens.clear()
+                        pending_screens.clear()
                         for frame in calibration:
                             write_all(midi, frame)
                         for _, frame in sorted(latest.items()):
@@ -130,6 +167,29 @@ def relay(model, hid, midi, audio):
                             if not select.select([], [hid], [], 0.05)[1] or os.write(hid, report) != len(report):
                                 raise OSError('The controller did not accept a complete light report.')
                             last_lights = report
+                    if heartbeat is not None and screens_available and kind == X1_PATTERN_SCREEN:
+                        side = payload[0]
+                        if side < 2:
+                            if last_screens.get(side) == payload:
+                                pending_screens.pop(side, None)
+                            else:
+                                pending_screens[side] = payload
+        if pending_screens and select.select([], [hid], [], 0)[1]:
+            side = next(iter(pending_screens))
+            payload = pending_screens[side]
+            try:
+                report = pattern_screen_report(payload)
+                if report is not None:
+                    if os.write(hid, report) != len(report):
+                        raise OSError('Incomplete X1 OLED report.')
+                    last_screens[side] = payload
+                del pending_screens[side]
+            except BlockingIOError:
+                pass
+            except (ImportError, OSError, UnicodeError) as error:
+                print(f'X1 pattern display is unavailable: {error}', file=sys.stderr)
+                pending_screens.clear()
+                screens_available = False
         if heartbeat is not None and time.monotonic() - heartbeat >= 0.5:
             write_all(midi, encode(STATUS, b'\x01', LENGTHS))
             heartbeat = time.monotonic()

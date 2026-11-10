@@ -219,3 +219,23 @@ Each send starts at full level. A send can bypass the deck FX chain while its st
 [NI Z1 Mk2 controls](https://docs.native-instruments.com/ni-tech-manuals/traktor-z1-mk2-manual/en/using-the-z1-with-traktor) · [Z1 Mk2 HID reports](https://github.com/infifox/mixxx-traktor-controllers/blob/a9e8f8ea8adbed29c4d86d224049990ec8ba21ca/doc/TraktorZ1MK2.spec.md) · [NI stem controller guide](https://www.native-instruments.com/blogs/blog/how-to-mix-stems) · [NI S8, D2 and F1 stem controls](https://support.native-instruments.com/support/solutions/articles/69000879536-how-can-i-control-the-individual-stems-on-a-traktor-stem-deck-) · [NI S5 manual](https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/TRAKTOR_KONTROL_S5_Manual_English.pdf).
 
 The Mac checks passed for native reports, dry and partial sends, track changes and Key Lock at 85% tempo. The optional real-file fixture did not run. [Build 210](../testing/builds/210.json) passed runtime and signing checks. The tool rejected [build 209](../testing/builds/209.json) after the source changed during compilation. Hardware and A10X performance checks remain open.
+
+## R149 NI Pattern Player kits and X1 Mk3 displays
+
+The exporter reads factory one-shots and preset beat positions from a local Apple Silicon Traktor Pro 4 app. The signed Traktor Pro 4.0.0 package exposed 16 kits, with eight sounds and eight presets per sound. The repository contains no NI audio. [NI Pattern Player guide](https://www.native-instruments.com/blogs/blog/pattern-player-traktor-pro).
+
+1. On the Mac, run the exporter with the path to your local Traktor Pro 4 app.
+
+   ```sh
+   python3 tools/pattern_kits/export_traktor.py "/path/to/Traktor Pro 4.app" "$HOME/Desktop/NI-Pattern-Kits.json"
+   ```
+
+2. Copy the exported file to Files on your playback device.
+3. Connect the X1 Mk3 or MX2 with its existing bridge.
+4. Pause the decks.
+5. Open Controllers and select **Import Pattern Kits…**.
+6. Select the exported JSON file.
+7. Select Pattern Player on the controller.
+8. Hold Shift and press FX button 2 or 3 to select a kit.
+
+The app saves imported kits and adds them to the existing kit selector. It keeps the original preset timing, including hits between steps. Editing the MX2 pads switches that pattern to the 16-step grid. The two X1 Mk3 FX OLEDs show the kit, sample and pattern, with a cursor while the clock runs. The app sends display updates through the existing bridge. [NI X1 Mk3 controls](https://docs.native-instruments.com/ni-tech-manuals/traktor-x1-mk3-manual/en/using-the-pattern-player) · [OLED report layout](https://github.com/RufusIbiza/Encdr/blob/main/docs/hardware/ni_kontrol_x1_mk3.md).

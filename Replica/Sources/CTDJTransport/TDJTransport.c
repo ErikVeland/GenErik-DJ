@@ -121,6 +121,7 @@ struct tdj_engine {
     auxiliary_mix auxiliary;
     _Atomic uint64_t pattern_settings[TDJ_PATTERN_UNITS];
     pattern_voice patterns[TDJ_PATTERN_UNITS];
+    _Atomic(pattern_kit *) pattern_kits[PATTERN_KITS];
     _Atomic uint64_t stem_settings[TDJ_DECK_COUNT], stem_send_settings[TDJ_DECK_COUNT];
     _Atomic uint64_t timecode[2];
     mk2_decoder mk2[2];
@@ -941,6 +942,8 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
         atomic_init(&e->stem_send_settings[i], 0);
         atomic_init(&e->stem_keylocks[i], NULL);
     }
+    for (unsigned i = 0; i < PATTERN_KITS; ++i)
+        atomic_init(&e->pattern_kits[i], NULL);
     for (unsigned i = 0; i < TDJ_PATTERN_UNITS; ++i) {
         atomic_init(&e->pattern_settings[i], 0);
         e->patterns[i].step = INT64_MIN;
@@ -1104,6 +1107,8 @@ void tdj_engine_destroy(tdj_engine *e) {
         for (int k = 0; k < 3; k++)
             fx_destroy(&e->effects[i][k]);
     }
+    for (unsigned i = 0; i < PATTERN_KITS; ++i)
+        free(atomic_load_explicit(&e->pattern_kits[i], memory_order_relaxed));
     free(atomic_load_explicit(&e->loop_recorder_buffer, memory_order_acquire));
     free(e);
 }
@@ -2719,12 +2724,20 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
     unsigned active_patterns[TDJ_PATTERN_UNITS], pattern_count = 0;
     for (unsigned i = 0; i < TDJ_PATTERN_UNITS; ++i) {
         uint64_t settings = atomic_load_explicit(&e->pattern_settings[i], memory_order_relaxed);
-        e->patterns[i].settings = settings;
+        pattern_voice *voice = &e->patterns[i];
+        voice->settings = settings;
         if ((settings & 0x1f0000) > 0x100000 && e->running) {
-            active_patterns[pattern_count++] = i;
+            unsigned slot = (settings >> 51) & 31;
+            const pattern_kit *kit = slot >= 1 && slot <= PATTERN_KITS
+                ? atomic_load_explicit(&e->pattern_kits[slot - 1], memory_order_acquire) : NULL;
+            pattern_prepare_pcm(voice, kit ? &kit->sounds[(settings >> 56) & 7] : NULL, e->rate);
+            if (!slot || kit)
+                active_patterns[pattern_count++] = i;
         } else {
-            e->patterns[i].step = INT64_MIN;
-            e->patterns[i].remaining = 0;
+            voice->step = INT64_MIN;
+            voice->remaining = 0;
+            voice->sound = NULL;
+            voice->preset = NULL;
         }
     }
     bool s4 = mic.channels >= 4;
@@ -2745,7 +2758,8 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 pattern_voice *voice = &e->patterns[active_patterns[n]];
                 if (voice->step == INT64_MIN && clock_step - (double)step > e->bpm * 4 / (60 * e->rate))
                     voice->step = step;
-                double sample = pattern_sample(voice, step, e->rate);
+                double sample = voice->sound
+                    ? pattern_sample_pcm(voice, step, clock_step * 0.25) : pattern_sample(voice, step, e->rate);
                 l += sample;
                 r += sample;
                 if (voice->settings & UINT64_C(0x200000)) {
@@ -3257,6 +3271,59 @@ void tdj_stem_sends_set(tdj_engine *e, unsigned deck, uint64_t generation, uint3
 void tdj_stem_mix_set(tdj_engine *e, unsigned deck, uint64_t mix) {
     if (e && deck < TDJ_DECK_COUNT)
         atomic_store_explicit(&e->stem_settings[deck], mix, memory_order_relaxed);
+}
+
+bool tdj_pattern_register_kit(tdj_engine *e, unsigned slot, const uint8_t *pcm, size_t bytes,
+                              const uint32_t *frames, const uint8_t *counts, const float *notes) {
+    if (!e || slot >= PATTERN_KITS || !pcm || !frames || !counts || !notes)
+        return false;
+    if (atomic_load_explicit(&e->pattern_kits[slot], memory_order_acquire))
+        return true;
+    size_t total = 0;
+    for (unsigned sound = 0; sound < PATTERN_SOUNDS; ++sound) {
+        if (!frames[sound] || frames[sound] > 44100 * 5)
+            return false;
+        total += frames[sound];
+    }
+    if (bytes != total * sizeof(float))
+        return false;
+    pattern_kit *kit = malloc(sizeof(*kit) + bytes);
+    if (!kit)
+        return false;
+    memcpy(kit->pcm, pcm, bytes);
+    for (size_t i = 0; i < total; ++i)
+        if (!isfinite(kit->pcm[i]) || fabsf(kit->pcm[i]) > 1.001f)
+            goto failed;
+    size_t offset = 0;
+    for (unsigned sound = 0; sound < PATTERN_SOUNDS; ++sound) {
+        pattern_sound *out = &kit->sounds[sound];
+        out->pcm = kit->pcm + offset;
+        out->frames = frames[sound];
+        offset += frames[sound];
+        for (unsigned p = 0; p < PATTERN_SOUNDS; ++p) {
+            unsigned index = sound * PATTERN_SOUNDS + p;
+            unsigned count = counts[index];
+            if (!count || count > PATTERN_NOTES)
+                goto failed;
+            out->presets[p].count = count;
+            float previous = -1;
+            for (unsigned n = 0; n < count; ++n) {
+                float beat = notes[index * PATTERN_NOTES + n];
+                if (!isfinite(beat) || beat < 0 || beat >= 4 || beat <= previous)
+                    goto failed;
+                out->presets[p].notes[n] = beat;
+                previous = beat;
+            }
+        }
+    }
+    pattern_kit *empty = NULL;
+    if (!atomic_compare_exchange_strong_explicit(&e->pattern_kits[slot], &empty, kit,
+                                                 memory_order_acq_rel, memory_order_acquire))
+        free(kit);
+    return true;
+failed:
+    free(kit);
+    return false;
 }
 
 void tdj_pattern_set(tdj_engine *e, unsigned unit, uint64_t settings) {

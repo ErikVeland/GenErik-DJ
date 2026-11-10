@@ -236,3 +236,48 @@ func traktorPerformanceDecodesARealFiveTrackContainer() async throws {
     #expect(leftEnergy < rightEnergy * 0.75)
     #expect(try #require(core.snapshot()).a.sourceFrame > 10_000)
 }
+
+@Test func traktorPerformanceImportedPatternUsesPCMAndOriginalBeatOffset() throws {
+    let core = try SampleTransport(sampleRate: 48_000, outputGain: 1)
+    var pcm = Data()
+    var sample = Float(0.4).bitPattern.littleEndian
+    for _ in 0..<2048 { withUnsafeBytes(of: &sample) { pcm.append(contentsOf: $0) } }
+    let sound = PatternKitArchive.Sound(name: "Tone", pcm: pcm, presets: .init(repeating: [0.28], count: 8))
+    let kit = PatternKitArchive.Kit(id: "test", name: "Test Kit", sounds: .init(repeating: sound, count: 8))
+    try core.registerPatternKit(kit, slot: 0)
+    let asset = try PCMAsset(interleavedStereo: .init(repeating: 0, count: 96_000), sampleRate: 48_000)
+    let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48_000)
+    let generation = try core.load(asset, deck: .a, grid: grid)
+    try core.play(deck: .a, generation: generation)
+    core.setPatternUnit(0, settings: (1 << 16) | (1 << 20) | (128 << 27) | (128 << 35) | (255 << 43) | (1 << 51) | (1 << 59))
+    #expect(core.renderOffline(frames: 6700).left.allSatisfy { $0 == 0 })
+    #expect(core.renderOffline(frames: 256).left.contains { $0 > 0.08 })
+}
+
+@Test(.enabled(if: ProcessInfo.processInfo.environment["TDJ_NI_PATTERN_KITS"] != nil))
+func traktorPerformanceLoadsAndReopensARealNIKitsExport() throws {
+    let path = try #require(ProcessInfo.processInfo.environment["TDJ_NI_PATTERN_KITS"])
+    let archive = URL(fileURLWithPath: path)
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
+    try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let core = try SampleTransport(outputGain: 1)
+    let kits = try PatternKitArchive.load(from: root, importing: archive, core: core)
+    #expect(kits.count == 16)
+    let slot = try #require(kits.firstIndex { $0.name == "808 Kit" })
+    #expect(kits[slot].sounds == ["Kick", "Clave", "Snare", "Clap", "Closed Hat", "Open Hat", "Shaker", "Ride"])
+    #expect(kits[slot].presets[0][0] == [0, 2])
+    let again = try PatternKitArchive.load(from: root, importing: archive, core: core)
+    #expect(again.map(\.name) == kits.map(\.name))
+    let reopened = try SampleTransport(outputGain: 1)
+    #expect(try PatternKitArchive.load(from: root, core: reopened).map(\.name) == kits.map(\.name))
+
+    let silent = try PCMAsset(interleavedStereo: .init(repeating: 0, count: 96_000), sampleRate: 48_000)
+    let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48_000)
+    let generation = try reopened.load(silent, deck: .a, grid: grid)
+    try reopened.play(deck: .a, generation: generation)
+    let level: UInt64 = (128 << 27) | (128 << 35) | (255 << 43)
+    let selection = (UInt64(slot + 1) << 51) | (UInt64(1) << 59)
+    reopened.setPatternUnit(0, settings: (1 << 16) | (1 << 20) | level | selection)
+    #expect(reopened.renderOffline(frames: 2048).left.contains { abs($0) > 0.02 })
+}
