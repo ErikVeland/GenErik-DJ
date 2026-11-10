@@ -339,6 +339,12 @@ import TDJCore
         private var z1Connection: Z1HIDConnection?
     #elseif os(iOS)
         private var z1Connection: NIControllerAccessoryConnection?
+        var s2MK2Connection: NIControllerAccessoryConnection?
+        var s2MK2Status = "Waiting for S2 Mk2."
+        @ObservationIgnored var s2MK2Controls = S2MK2Controls()
+        @ObservationIgnored var s2MK2Performance = S4MK2Performance(sliceCount: 4)
+        @ObservationIgnored var s2MK2MicPending = false
+        @ObservationIgnored var s2MK2MicRequest: Task<Void, Never>?
         var s2Connection: NIControllerAccessoryConnection?
         var s3Connection: NIControllerAccessoryConnection?
         var s4Connection: NIControllerAccessoryConnection?
@@ -1570,6 +1576,7 @@ import TDJCore
                 toggleZ1()
             }
             if !playback.offline {
+                startS2MK2()
                 startS2MK3()
                 startS3()
                 startS4MK2()
@@ -1583,6 +1590,8 @@ import TDJCore
                 self?.refreshPlayback()
                 #if os(iOS)
                     self?.maintainS2Extras()
+                    self?.maintainS2MK2Mic()
+                    self?.refreshS2MK2Lights()
                     self?.refreshS2Lights()
                     self?.refreshS3Lights()
                     self?.maintainS4Input()
@@ -1605,6 +1614,8 @@ import TDJCore
             z1Enabled = false
         #endif
         #if os(iOS)
+            s2MK2Connection?.stop()
+            s2MK2Connection = nil
             s2Connection?.stop()
             s2Connection = nil
             s3Connection?.stop()

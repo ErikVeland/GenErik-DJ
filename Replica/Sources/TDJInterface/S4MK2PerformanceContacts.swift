@@ -15,23 +15,26 @@
     }
 
     extension ReplicaModel {
-        func toggleS4SliceMode(_ deck: DeckID) {
-            if s4Performance.slices[deck] != nil {
-                endS4SliceMode(deck)
+        func toggleS4SliceMode(
+            _ deck: DeckID, stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
+        ) {
+            if self[keyPath: stateKey].slices[deck] != nil {
+                endS4SliceMode(deck, stateKey: stateKey)
                 return
             }
             guard !editing.contains(deck), !preparingTrack.contains(deck), !arrangementPlaybackActive,
-                s4Performance.cueContacts[deck] == nil,
+                self[keyPath: stateKey].cueContacts[deck] == nil,
                 let state = playbackSnapshot?[deck], !state.touchActive, !state.loopRolling,
-                let bank = makeS4SliceBank(deck, state: state)
+                let bank = makeS4SliceBank(deck, state: state, count: self[keyPath: stateKey].sliceCount)
             else { return }
             let ownsFreeze = !frozen.contains(deck)
-            s4Performance.slices[deck] = .init(generation: state.generation, bank: bank, ownsFreeze: ownsFreeze)
+            self[keyPath: stateKey].slices[deck] = .init(
+                generation: state.generation, bank: bank, ownsFreeze: ownsFreeze)
             if ownsFreeze { frozen.insert(deck) }
             viewport[deck] = bank.timing.frame(atBeat: bank.origin + bank.beats / 2)
         }
 
-        private func makeS4SliceBank(_ deck: DeckID, state: DeckPlaybackSnapshot) -> S4MK2SliceBank? {
+        private func makeS4SliceBank(_ deck: DeckID, state: DeckPlaybackSnapshot, count: Int) -> S4MK2SliceBank? {
             guard let grid = state.timing, let asset = playback.core.asset(generation: state.generation) else {
                 return nil
             }
@@ -39,17 +42,20 @@
                 let origin = grid.beat(atFrame: state.loopStart)
                 return .init(
                     timing: grid, origin: origin, beats: grid.beat(atFrame: state.loopEnd) - origin,
-                    frames: Double(asset.frames), looping: true)
+                    frames: Double(asset.frames), looping: true, count: count)
             }
             let visibleBeats = min(32, max(0.25, waveformZoomSeconds(deck: deck) * state.sourceBPM / 60))
             let center = grid.beat(atFrame: viewport[deck] ?? state.sourceFrame)
             return .init(
                 timing: grid, origin: floor(center - visibleBeats / 2), beats: visibleBeats,
-                frames: Double(asset.frames), looping: false)
+                frames: Double(asset.frames), looping: false, count: count)
         }
 
-        func moveS4SliceBank(_ deck: DeckID, detents: Int, resize: Bool) -> Bool {
-            guard var contact = s4Performance.slices[deck] else { return false }
+        func moveS4SliceBank(
+            _ deck: DeckID, detents: Int, resize: Bool,
+            stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
+        ) -> Bool {
+            guard var contact = self[keyPath: stateKey].slices[deck] else { return false }
             if contact.bank.looping {
                 guard !resize else { return false }
                 moveS3Loop(deck: deck, beats: Double(detents) * contact.bank.beats)
@@ -58,21 +64,24 @@
             let next = resize ? contact.bank.resized(by: detents) : contact.bank.moved(groups: detents)
             if let next {
                 contact.bank = next
-                s4Performance.slices[deck] = contact
+                self[keyPath: stateKey].slices[deck] = contact
                 viewport[deck] = next.timing.frame(atBeat: next.origin + next.beats / 2)
             }
             return true
         }
 
-        func handleS4Pad(_ deck: DeckID, slot: Int, held: Bool, shifted: Bool) {
-            guard s4Performance.cueContacts[deck] == nil else { return }
-            guard var contact = s4Performance.slices[deck] else {
+        func handleS4Pad(
+            _ deck: DeckID, slot: Int, held: Bool, shifted: Bool,
+            stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
+        ) {
+            guard self[keyPath: stateKey].cueContacts[deck] == nil else { return }
+            guard var contact = self[keyPath: stateKey].slices[deck] else {
                 if held {
                     if slot < 4 {
                         let adding = loaded[deck].map { performance.cues[$0]?[slot] == nil } ?? false
                         cue(
                             slot: slot, deck: deck, delete: shifted,
-                            quantized: adding ? s4Performance.snap : s4Performance.quantize)
+                            quantized: adding ? self[keyPath: stateKey].snap : self[keyPath: stateKey].quantize)
                     } else {
                         pressS2Sample(slot: (deck.leftSide ? 0 : 8) + slot - 4, shifted: shifted)
                     }
@@ -80,7 +89,7 @@
                 return
             }
             guard let state = playbackSnapshot?[deck], state.generation == contact.generation else {
-                endS4SliceMode(deck)
+                endS4SliceMode(deck, stateKey: stateKey)
                 return
             }
             let previous = contact.held.last
@@ -91,13 +100,15 @@
                 contact.held.removeAll { $0 == slot }
             }
             if contact.bank.looping {
-                guard state.loopEnabled, let bank = makeS4SliceBank(deck, state: state) else {
-                    endS4SliceMode(deck)
+                guard state.loopEnabled,
+                    let bank = makeS4SliceBank(deck, state: state, count: self[keyPath: stateKey].sliceCount)
+                else {
+                    endS4SliceMode(deck, stateKey: stateKey)
                     return
                 }
                 contact.bank = bank
             }
-            s4Performance.slices[deck] = contact
+            self[keyPath: stateKey].slices[deck] = contact
             guard previous != contact.held.last else { return }
             if let selected = contact.held.last, let range = contact.bank.range(slot: selected) {
                 perform(
@@ -108,8 +119,10 @@
             }
         }
 
-        func endS4SliceMode(_ deck: DeckID) {
-            guard let contact = s4Performance.slices.removeValue(forKey: deck) else { return }
+        func endS4SliceMode(
+            _ deck: DeckID, stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
+        ) {
+            guard let contact = self[keyPath: stateKey].slices.removeValue(forKey: deck) else { return }
             if contact.ownsFreeze {
                 frozen.remove(deck)
                 previewing.remove(deck)
@@ -119,8 +132,10 @@
             }
         }
 
-        func pressS4Cue(_ deck: DeckID) {
-            endS4SliceMode(deck)
+        func pressS4Cue(
+            _ deck: DeckID, stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
+        ) {
+            endS4SliceMode(deck, stateKey: stateKey)
             guard !preparingTrack.contains(deck), !editing.contains(deck), !arrangementPlaybackActive,
                 let state = playback.core.snapshot()?[deck], !state.loopRolling, !state.braking,
                 playback.generations[deck] == state.generation,
@@ -128,10 +143,10 @@
             else { return }
 
             if state.phase.active {
-                let saved = s4Performance.cueMarks[deck]
+                let saved = self[keyPath: stateKey].cueMarks[deck]
                 let frame = saved?.generation == state.generation ? saved?.frame ?? 0 : cuePoints[deck] ?? 0
                 let cue = S4MK2CueContact(generation: state.generation, frame: min(Double(asset.frames - 1), frame))
-                s4Performance.cueMarks[deck] = cue
+                self[keyPath: stateKey].cueMarks[deck] = cue
                 finishS4Cue(cue, deck: deck, continuePlaying: false)
                 return
             }
@@ -142,7 +157,7 @@
                 state.synced
                 ? state.timing?.nearestPhaseAlignedFrame(to: source, masterBeat: 0, within: 0..<upper) : nil
             let cue = S4MK2CueContact(generation: state.generation, frame: savedFrame ?? source)
-            s4Performance.cueMarks[deck] = cue
+            self[keyPath: stateKey].cueMarks[deck] = cue
             cuePoints[deck] = cue.frame
             let phase = playbackSnapshot?.masterBeat ?? 0
             let aligned =
@@ -152,13 +167,16 @@
             do {
                 try playback.perform(
                     .touch, deck: deck, value: aligned ?? cue.frame, touchRate: 1, followsPosition: true)
-                s4Performance.cueContacts[deck] = cue
+                self[keyPath: stateKey].cueContacts[deck] = cue
                 refreshPlayback()
             } catch { status = error.localizedDescription }
         }
 
-        func finishS4Cue(_ deck: DeckID, continuePlaying: Bool) {
-            guard let cue = s4Performance.cueContacts.removeValue(forKey: deck) else { return }
+        func finishS4Cue(
+            _ deck: DeckID, continuePlaying: Bool,
+            stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
+        ) {
+            guard let cue = self[keyPath: stateKey].cueContacts.removeValue(forKey: deck) else { return }
             finishS4Cue(cue, deck: deck, continuePlaying: continuePlaying)
         }
 
@@ -176,9 +194,11 @@
             }
         }
 
-        func releaseS4PerformanceContacts(_ deck: DeckID) {
-            finishS4Cue(deck, continuePlaying: false)
-            endS4SliceMode(deck)
+        func releaseS4PerformanceContacts(
+            _ deck: DeckID, stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
+        ) {
+            finishS4Cue(deck, continuePlaying: false, stateKey: stateKey)
+            endS4SliceMode(deck, stateKey: stateKey)
         }
     }
 #endif

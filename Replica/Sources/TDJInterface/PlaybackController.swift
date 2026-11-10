@@ -949,13 +949,17 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         private var attachedCaptureDevice: String?
         private var enabledCaptureDevice: String?
         var s2MicEnabled: Bool { enabledCaptureDevice == "S2 Mk3" }
+        var s2MK2MicEnabled: Bool { enabledCaptureDevice == "S2 Mk2" }
+        var s2MicrophoneActive: Bool { s2MicEnabled || s2MK2MicEnabled }
         var s3ExtEnabled: Bool { enabledCaptureDevice == "S3" }
         private var s4CaptureChannels: UInt32 = 0
         var s4InputChannels: UInt32 { enabledCaptureDevice == "S4 Mk2" ? s4CaptureChannels : 0 }
 
         var canOpenS2Mic: Bool { canOpenCapture(device: "S2 Mk3") }
         func canOpenCapture(device: String) -> Bool {
-            if device == "S4 Mk2", !preparationTasks.isEmpty || !pendingTransport.isEmpty { return false }
+            if device == "S4 Mk2" || (device == "S2 Mk2" && attachedCaptureDevice != device) {
+                guard preparationTasks.isEmpty, pendingTransport.isEmpty else { return false }
+            }
             return attachedCaptureDevice == device
                 || (outputStartTask == nil && recorder == nil && recordingStartTask == nil
                     && core.playingPads == 0 && core.previewGeneration == 0
@@ -990,7 +994,8 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             else {
                 throw TransportError.cache("Pause playback before opening the \(device) input.")
             }
-            if attachedCaptureDevice != device {
+            let openingInput = attachedCaptureDevice != device
+            if openingInput {
                 suspendOutput()
                 discardOutputGraph()
                 requestedCaptureDevice = device
@@ -1004,7 +1009,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                 else {
                     throw TransportError.cache("The \(device) input is unavailable on this connection.")
                 }
-                if device == "S2 Mk3" { core.setExternalInputMix(level: 1, cue: false) }
+                if device == "S2 Mk2" || device == "S2 Mk3" { core.setExternalInputMix(level: 1, cue: false) }
                 if device == "S4 Mk2" {
                     requestedCaptureDevice = device
                     core.setS4InputChannels(s4CaptureChannels)
@@ -1013,8 +1018,10 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                 }
                 enabledCaptureDevice = device
             } catch {
+                let restorePlayback = device == "S2 Mk2" && openingInput
+                if restorePlayback, outputActive { suspendOutput() }
                 if !outputActive { discardOutputGraph() }
-                if device == "S4 Mk2" {
+                if restorePlayback || device == "S4 Mk2" {
                     let session = AVAudioSession.sharedInstance()
                     try? session.setCategory(.playback, mode: .default)
                     updateOutputDevice(Self.currentAudioOutputs)

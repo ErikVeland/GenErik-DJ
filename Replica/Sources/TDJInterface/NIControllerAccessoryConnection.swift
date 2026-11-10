@@ -7,11 +7,12 @@
     /// Streams run on the main run loop. Every callback has a fixed work limit.
     @MainActor final class NIControllerAccessoryConnection: NSObject, StreamDelegate {
         enum Model {
-            case z1, s2MK3, s3, s4MK2
+            case z1, s2MK2, s2MK3, s3, s4MK2
 
             var name: String {
                 switch self {
                 case .z1: "Z1"
+                case .s2MK2: "S2 Mk2"
                 case .s2MK3: "S2 Mk3"
                 case .s3: "S3"
                 case .s4MK2: "S4 Mk2"
@@ -21,6 +22,7 @@
             var identifier: String {
                 switch self {
                 case .z1: Z1AccessoryProtocol.identifier
+                case .s2MK2: S2MK2AccessoryProtocol.identifier
                 case .s2MK3: S2MK3AccessoryProtocol.identifier
                 case .s3: S3AccessoryProtocol.identifier
                 case .s4MK2: S4MK2AccessoryProtocol.identifier
@@ -29,15 +31,24 @@
 
             var inputStartup: NIControllerReportStartup? {
                 switch self {
-                case .z1, .s4MK2: nil
+                case .z1, .s2MK2, .s4MK2: nil
                 case .s2MK3: S2MK3AccessoryProtocol.startup()
                 case .s3: S3AccessoryProtocol.startup()
+                }
+            }
+
+            var calibrationStartup: NIControllerCalibrationStartup? {
+                switch self {
+                case .s2MK2: S2MK2AccessoryProtocol.startup()
+                case .s4MK2: S4MK2AccessoryProtocol.startup()
+                case .z1, .s2MK3, .s3: nil
                 }
             }
 
             func feedback(_ report: [UInt8], framing: Z1AccessoryProtocol.Framing) throws -> [UInt8] {
                 switch self {
                 case .z1: try Z1AccessoryProtocol.feedback(report, framing: framing)
+                case .s2MK2: try S2MK2AccessoryProtocol.feedback(report)
                 case .s2MK3: try S2MK3AccessoryProtocol.feedback(report)
                 case .s3: try S3AccessoryProtocol.feedback(report)
                 case .s4MK2: try S4MK2AccessoryProtocol.feedback(report)
@@ -50,6 +61,7 @@
         private var name: String { model.name }
         init(model: Model) {
             self.model = model
+            calibrationStartup = model.calibrationStartup
             inputStartup = model.inputStartup
         }
 
@@ -63,7 +75,7 @@
         private var subscriptions: Set<AnyCancellable> = []
         private var decoder = Z1AccessoryProtocol.Decoder(framing: .lengthPrefixed)
         private var startup = Z1AccessoryProtocol.Startup()
-        private var s4Startup = S4MK2AccessoryProtocol.Startup()
+        private var calibrationStartup: NIControllerCalibrationStartup?
         private var inputStartup: NIControllerReportStartup?
         private var startupSent = false
         private var timeout: Task<Void, Never>?
@@ -140,7 +152,7 @@
             }
             session = nil
             startup = .init()
-            s4Startup = .init()
+            calibrationStartup = model.calibrationStartup
             inputStartup = model.inputStartup
             startupSent = false
             decoder = .init(framing: .lengthPrefixed)
@@ -184,7 +196,7 @@
             if !startupSent, session.inputStream?.streamStatus == .open, session.outputStream?.streamStatus == .open {
                 startupSent = true
                 if model == .z1 { onState?("Reading Z1 calibration.", nil) }
-                enqueueRequest(model == .z1 || model == .s4MK2 ? 0xd0 : 1)
+                enqueueRequest(model == .z1 || calibrationStartup != nil ? 0xd0 : 1)
             }
             if event.contains(.hasBytesAvailable) { readInput() }
             if event.contains(.hasSpaceAvailable) { flushOutput() }
@@ -212,11 +224,13 @@
             do {
                 let frames = try decoder.append(Array(bytes.prefix(count)))
                 for frame in frames {
-                    if model == .s4MK2 {
-                        if let next = try s4Startup.consume(frame) {
+                    if var startup = calibrationStartup {
+                        let next = try startup.consume(frame)
+                        calibrationStartup = startup
+                        if let next {
                             onFrame?(frame)
                             enqueueRequest(next)
-                        } else if s4Startup.ready, frame.reportID == 1 {
+                        } else if startup.ready, frame.reportID == 1 {
                             markReceiving()
                             onFrame?(frame)
                         }

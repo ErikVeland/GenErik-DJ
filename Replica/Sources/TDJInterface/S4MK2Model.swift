@@ -11,6 +11,7 @@
             var knobs = [0.5, 0.5, 0.5, 0.5]
         }
 
+        var sliceCount = 8
         var slices: [DeckID: S4MK2SliceContact] = [:]
         var cueContacts: [DeckID: S4MK2CueContact] = [:]
         var cueMarks: [DeckID: S4MK2CueContact] = [:]
@@ -40,7 +41,7 @@
             connection.onFrame = { [weak self] frame in
                 guard let self else { return }
                 if frame.reportID == 1 {
-                    for event in s4Controls.consume(frame.payload) { applyS4Event(event) }
+                    for event in s4Controls.consume(frame.payload) { applyNativeMK2Event(event) }
                 } else {
                     s4Controls.addCalibration(frame)
                 }
@@ -78,42 +79,48 @@
             s4Performance.recordingTask = recording
         }
 
-        private func applyS4Event(_ event: S4MK2Event) {
+        func applyNativeMK2Event(
+            _ event: S4MK2Event, stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
+        ) {
             switch event {
             case .action(let action, let deck, let value):
                 if value > 0, action.isJog || action == .jogTouchA || action == .jogTouchB {
-                    releaseS4PerformanceContacts(deck)
+                    releaseS4PerformanceContacts(deck, stateKey: stateKey)
                 }
-                applyTraktorDeckAction(action, deck: deck, value: value, quantized: s4Performance.quantize)
+                applyTraktorDeckAction(action, deck: deck, value: value, quantized: self[keyPath: stateKey].quantize)
             case .sliceMode(let deck):
-                toggleS4SliceMode(deck)
+                toggleS4SliceMode(deck, stateKey: stateKey)
             case .pad(let deck, let slot, let held, let shifted):
-                handleS4Pad(deck, slot: slot, held: held, shifted: shifted)
+                handleS4Pad(deck, slot: slot, held: held, shifted: shifted, stateKey: stateKey)
             case .cue(let deck, let held):
-                if held { pressS4Cue(deck) } else { finishS4Cue(deck, continuePlaying: false) }
+                if held {
+                    pressS4Cue(deck, stateKey: stateKey)
+                } else {
+                    finishS4Cue(deck, continuePlaying: false, stateKey: stateKey)
+                }
             case .cueLatch(let deck):
-                if s4Performance.cueContacts[deck] != nil {
-                    finishS4Cue(deck, continuePlaying: true)
+                if self[keyPath: stateKey].cueContacts[deck] != nil {
+                    finishS4Cue(deck, continuePlaying: true, stateKey: stateKey)
                 } else {
                     pressPlay(deck: deck, vinylStop: false)
                 }
             case .pot(let action, let deck, let value):
-                applyS4Pot(action, deck: deck, value: value)
+                applyS4Pot(action, deck: deck, value: value, stateKey: stateKey)
             case .micLevel(let value):
                 playback.core.setS4MicLevel(value)
             case .layer(let deck):
                 releaseS4PerformanceContacts(
                     deck.leftSide
                         ? (deck == .a ? .c : .a)
-                        : (deck == .b ? .d : .b))
-                s4Performance.takeover[deck]?[deck.leftSide ? .tempoA : .tempoB] = nil
+                        : (deck == .b ? .d : .b), stateKey: stateKey)
+                self[keyPath: stateKey].takeover[deck]?[deck.leftSide ? .tempoA : .tempoB] = nil
             case .bendEnd(let deck):
                 resetControllerWheelJog(deck)
             case .native(.move(let deck, let detents, let shifted)):
-                if moveS4SliceBank(deck, detents: detents, resize: shifted) { return }
-                let beats = s4Performance.jumpBeats[deck, default: 4]
+                if moveS4SliceBank(deck, detents: detents, resize: shifted, stateKey: stateKey) { return }
+                let beats = self[keyPath: stateKey].jumpBeats[deck, default: 4]
                 if shifted {
-                    s4Performance.jumpBeats[deck] = min(32, max(0.03125, beats * pow(2, Double(detents))))
+                    self[keyPath: stateKey].jumpBeats[deck] = min(32, max(0.03125, beats * pow(2, Double(detents))))
                 } else if playbackSnapshot?[deck].loopEnabled == true {
                     moveS3Loop(deck: deck, beats: Double(detents) * beats)
                 } else {
@@ -126,10 +133,10 @@
                     applyNativeTraktorEvent(.loopSize(deck, detents, shifted: false), isS3: false)
                 }
             case .native(.eject(let deck)):
-                releaseS4PerformanceContacts(deck)
+                releaseS4PerformanceContacts(deck, stateKey: stateKey)
                 ejectNativeTraktorDeck(deck)
             case .native(.park(let deck, let atCue)):
-                releaseS4PerformanceContacts(deck)
+                releaseS4PerformanceContacts(deck, stateKey: stateKey)
                 applyNativeTraktorEvent(.park(deck, atCue: atCue), isS3: false)
             case .native(let event):
                 applyNativeTraktorEvent(event, isS3: false)
@@ -142,75 +149,94 @@
                 } else {
                     applyController(action, value: 0.5, refreshMixer: false, targetDeck: deck)
                 }
+            case .filter(let deck, let detents):
+                let action: ControllerAction = deck.leftSide ? .filterA : .filterB
+                if let detents {
+                    guard let current = controllerValue(action, targetDeck: deck) else { return }
+                    setS4Pot(action, deck: deck, value: min(1, max(0, current + Double(detents) / 32)))
+                } else {
+                    _ = submitMixer(.filterEnabled, value: 0, deck: deck)
+                    applyController(action, value: 0.5, refreshMixer: false, targetDeck: deck)
+                }
             case .masterTempo(let detents):
                 guard let bpm = playbackSnapshot?.masterBPM, bpm > 0 else { return }
                 setMasterBPM(min(300, max(30, bpm + Double(detents) * 0.1)))
             case .gridToggle(let deck):
-                releaseS4PerformanceContacts(deck)
+                releaseS4PerformanceContacts(deck, stateKey: stateKey)
                 beginS2Grid(deck: deck, anchor: false)
             case .gridDownbeat(let deck, let beat):
                 selectS2GridDownbeat(deck: deck, beat: beat)
             case .loopMark(let deck, let end):
-                markS4Loop(deck, end: end)
+                markS4Loop(deck, end: end, stateKey: stateKey)
             case .loopRecall(let deck, let stop):
                 if let state = playbackSnapshot?[deck] {
                     if state.loopEnabled, !stop {
-                        s4Performance.loopRecall[deck] = (state.generation, state.loopStart, state.loopEnd)
+                        self[keyPath: stateKey].loopRecall[deck] = (state.generation, state.loopStart, state.loopEnd)
                         perform(.loop, deck: deck, enabled: false)
-                    } else if let loop = s4Performance.loopRecall[deck], loop.generation == state.generation {
+                    } else if let loop = self[keyPath: stateKey].loopRecall[deck], loop.generation == state.generation {
                         if stop && state.phase.active { pressPlay(deck: deck, vinylStop: false) }
                         setLoop(
-                            start: loop.start, end: loop.end, deck: deck, quantized: s4Performance.quantize && !stop)
+                            start: loop.start, end: loop.end, deck: deck,
+                            quantized: self[keyPath: stateKey].quantize && !stop)
                     }
                 }
             case .loopSet(let deck):
                 guard let state = playbackSnapshot?[deck] else { return }
                 if state.loopEnabled {
-                    s4Performance.loopRecall[deck] = (state.generation, state.loopStart, state.loopEnd)
+                    self[keyPath: stateKey].loopRecall[deck] = (state.generation, state.loopStart, state.loopEnd)
                 }
-                toggleLoop(deck: deck, quantized: s4Performance.snap)
+                toggleLoop(deck: deck, quantized: self[keyPath: stateKey].snap)
             case .tempoReset(let deck):
                 setDeckTempo(percent: 0, deck: deck)
-                s4Performance.takeover[deck]?[deck.leftSide ? .tempoA : .tempoB] = nil
+                self[keyPath: stateKey].takeover[deck]?[deck.leftSide ? .tempoA : .tempoB] = nil
             case .record:
-                guard s4Performance.recordingTask == nil, !recordingFinishing else { return }
-                s4Performance.recordingTask = Task { [weak self] in
+                guard self[keyPath: stateKey].recordingTask == nil, !recordingFinishing else { return }
+                self[keyPath: stateKey].recordingTask = Task { [weak self] in
                     guard let self else { return }
-                    defer { s4Performance.recordingTask = nil }
+                    defer { self[keyPath: stateKey].recordingTask = nil }
                     await toggleRecording()
                 }
             case .preview:
                 guard automaticOutputDevice == "S4 Mk2" else { return }
-                let active = s4Performance.ownsPreview && s3PreviewHeld
+                let active = self[keyPath: stateKey].ownsPreview && s3PreviewHeld
                 stopS3Preview()
-                s4Performance.ownsPreview = !active
+                self[keyPath: stateKey].ownsPreview = !active
                 if !active {
                     s3PreviewHeld = true
                     queueS2Browser(.previewS3)
                 }
             case .quantize:
-                s4Performance.quantize.toggle()
+                self[keyPath: stateKey].quantize.toggle()
             case .snap:
-                s4Performance.snap.toggle()
+                self[keyPath: stateKey].snap.toggle()
             case .fxAssign(let unit, let deck):
-                if s4Performance.fx[unit].decks.remove(deck) == nil { s4Performance.fx[unit].decks.insert(deck) }
-                applyS4FX(deck)
+                if self[keyPath: stateKey].fx[unit].decks.remove(deck) == nil {
+                    self[keyPath: stateKey].fx[unit].decks.insert(deck)
+                }
+                applyS4FX(deck, stateKey: stateKey)
             case .fxEnable(let unit, let slot):
                 if let slot {
-                    if s4Performance.fx[unit].slots.remove(slot) == nil { s4Performance.fx[unit].slots.insert(slot) }
+                    if self[keyPath: stateKey].fx[unit].slots.remove(slot) == nil {
+                        self[keyPath: stateKey].fx[unit].slots.insert(slot)
+                    }
                 } else {
-                    s4Performance.fx[unit].enabled.toggle()
+                    self[keyPath: stateKey].fx[unit].enabled.toggle()
                 }
-                for deck in s4Performance.fx[unit].decks { applyS4FX(deck) }
+                for deck in self[keyPath: stateKey].fx[unit].decks { applyS4FX(deck, stateKey: stateKey) }
             case .fxPot(let unit, let knob, let value):
-                s4Performance.fx[unit].knobs[knob] = value
-                for deck in s4Performance.fx[unit].decks { applyS4FX(deck, slot: knob == 0 ? nil : knob - 1) }
+                self[keyPath: stateKey].fx[unit].knobs[knob] = value
+                for deck in self[keyPath: stateKey].fx[unit].decks {
+                    applyS4FX(deck, slot: knob == 0 ? nil : knob - 1, stateKey: stateKey)
+                }
             }
         }
 
-        private func applyS4Pot(_ action: ControllerAction, deck: DeckID, value: Double) {
+        private func applyS4Pot(
+            _ action: ControllerAction, deck: DeckID, value: Double,
+            stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
+        ) {
             if deck.transportIndex >= 2 {
-                s4Performance.extraPots[deck, default: [:]][action] = value
+                self[keyPath: stateKey].extraPots[deck, default: [:]][action] = value
                 if playback.generations[deck] == nil {
                     if playback.s4InputChannels > 0, action != .tempoA, action != .tempoB {
                         setS4Pot(action, deck: deck, value: value)
@@ -219,7 +245,7 @@
                 }
             }
             guard
-                s4Performance.takeover[deck, default: [:]][action, default: .init()]
+                self[keyPath: stateKey].takeover[deck, default: [:]][action, default: .init()]
                     .shouldApply(input: value, target: controllerValue(action, targetDeck: deck))
             else { return }
             setS4Pot(action, deck: deck, value: value)
@@ -244,33 +270,40 @@
             if s4Performance.fx.contains(where: { $0.decks.contains(deck) }) { applyS4FX(deck) }
         }
 
-        private func markS4Loop(_ deck: DeckID, end: Bool) {
+        private func markS4Loop(
+            _ deck: DeckID, end: Bool,
+            stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
+        ) {
             guard let state = playbackSnapshot?[deck], state.generation != 0 else { return }
-            let frame = s4Performance.snap ? snappedFrame(state.sourceFrame, deck: deck) : state.sourceFrame
+            let frame = self[keyPath: stateKey].snap ? snappedFrame(state.sourceFrame, deck: deck) : state.sourceFrame
             if !end {
-                s4Performance.loopIn[deck] = (state.generation, frame)
-            } else if let start = s4Performance.loopIn[deck], start.generation == state.generation, frame > start.frame
+                self[keyPath: stateKey].loopIn[deck] = (state.generation, frame)
+            } else if let start = self[keyPath: stateKey].loopIn[deck], start.generation == state.generation,
+                frame > start.frame
             {
-                s4Performance.loopRecall[deck] = (state.generation, start.frame, frame)
+                self[keyPath: stateKey].loopRecall[deck] = (state.generation, start.frame, frame)
                 setLoop(start: start.frame, end: frame, deck: deck)
             }
         }
 
-        private func applyS4FX(_ deck: DeckID, slot changed: Int? = nil) {
+        private func applyS4FX(
+            _ deck: DeckID, slot changed: Int? = nil,
+            stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
+        ) {
             guard deck.transportIndex < 2 || playback.generations[deck] != nil else { return }
-            let assigned = s4Performance.fx.filter { $0.decks.contains(deck) }
+            let assigned = self[keyPath: stateKey].fx.filter { $0.decks.contains(deck) }
             if assigned.isEmpty {
-                if let previous = s4Performance.previousFX.removeValue(forKey: deck) {
+                if let previous = self[keyPath: stateKey].previousFX.removeValue(forKey: deck) {
                     for (slot, effect) in previous.enumerated() { setEffect(effect, slot: slot, deck: deck) }
                 }
                 return
             }
             let previous =
-                s4Performance.previousFX[deck]
+                self[keyPath: stateKey].previousFX[deck]
                 ?? (0..<3).map {
                     effects[deck]?[$0] ?? .init(kind: $0)
                 }
-            s4Performance.previousFX[deck] = previous
+            self[keyPath: stateKey].previousFX[deck] = previous
             for slot in 0..<3 where changed == nil || changed == slot {
                 var effect = previous[slot]
                 if let unit = assigned.first(where: { $0.enabled && $0.slots.contains(slot) }) {

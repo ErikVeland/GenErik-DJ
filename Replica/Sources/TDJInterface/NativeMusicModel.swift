@@ -382,7 +382,7 @@ extension ReplicaModel {
     private var libraryAnalysisPlaybackIsIdle: Bool {
         if playback.core.playingPads != 0 { return false }
         #if os(iOS)
-            if playback.s2MicEnabled || playback.s3ExtEnabled || playback.s4InputChannels > 0
+            if playback.s2MicrophoneActive || playback.s3ExtEnabled || playback.s4InputChannels > 0
                 || playback.core.previewGeneration != 0 || s2SampleLoad != nil {
                 return false
             }
