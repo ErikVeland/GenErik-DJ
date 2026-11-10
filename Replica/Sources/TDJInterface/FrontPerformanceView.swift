@@ -5,6 +5,7 @@ import TDJCore
     @Bindable var model: ReplicaModel
     var importAudio: () -> Void
     var linkCollection: () -> Void
+    @Binding var outputPresented: Bool
     @State private var selection = FrontDeckSelection(selected: DeckID.a)
     @State private var deckSlide = FrontDeckSlideState()
     @State private var panelsA = DeckPanelPresentation()
@@ -45,7 +46,11 @@ import TDJCore
                     width: layout.library.width, height: layout.library.height, alignment: .top
                 ).clipped().allowsHitTesting(browser.acceptsContentInput).disabled(!browser.acceptsContentInput)
                     .accessibilityHidden(!browser.acceptsContentInput)
-                performanceControls.id(activeDeck).frame(height: layout.controls.height).protectsFrontDeckSwipe()
+                HStack(spacing: 4) {
+                    performanceControls.id(activeDeck)
+                    AudioQuickButton(model: model, isPresented: $outputPresented).frame(width: 44)
+                }.buttonStyle(FrontControlButtonStyle()).padding(.horizontal, 4).background(PerformancePalette.frame)
+                    .frame(height: layout.controls.height).protectsFrontDeckSwipe()
             }.frame(width: space.size.width, height: space.size.height, alignment: .top).clipped().background(
                 PerformancePalette.stage
             ).overlayPreferenceValue(FrontDeckSwipeProtectionKey.self) { anchors in
@@ -263,8 +268,7 @@ import TDJCore
                 Text("Sync")
             }.accessibilityLabel("Sync deck \(activeDeck.rawValue.uppercased())")
             DeckPlaybackButton(model: model, deck: activeDeck)
-        }.buttonStyle(FrontControlButtonStyle()).disabled(model.track(activeDeck) == nil).padding(.horizontal, 4)
-            .background(PerformancePalette.frame)
+        }.disabled(model.track(activeDeck) == nil)
     }
 
     private var crossfader: some View {
