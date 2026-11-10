@@ -15,11 +15,13 @@ import Testing
                                             barAgreement: 1, residualMilliseconds: 0))
         let result = DeepBeatAnalysis(audio: .init(analysis), profile: .current, coveredFrames: analysis.frameCount,
             windowCount: BeatThisWindows.starts(frameCount: BeatThisWindows.frameCount(analysis)).count,
-            candidate: strong, adaptiveCandidate: map)
+            candidate: strong, adaptiveCandidate: map, rhythmEvidence: .init(version: 1,
+                features: [9.39375, 12.4375, 13.370186941964286, 0.020109753695928653, 11.791208791211538, 1]))
         let confidence = try #require(result.rhythmConfidence)
-        #expect(confidence.observations == 43)
-        #expect(confidence.successes == 26)
-        #expect(confidence.probability == 27.0 / 45)
+        #expect(confidence.observations == 159)
+        #expect(confidence.calibrationVersion == 2)
+        #expect(confidence.successes == 76)
+        #expect(abs(confidence.probability - 0.39764451975203435) < 1e-12)
         #expect(result.needsReview)
         let track = try Track(title: "Confidence", mediaFilename: "confidence.wav", analysis: analysis)
         let updated = try track.adoptingDeepAnalysis(result)
@@ -31,6 +33,18 @@ import Testing
         #expect(long.rhythmConfidence == nil)
         let weak = DeepBeatAnalysis(audio: result.audio, profile: .current, coveredFrames: result.coveredFrames,
             windowCount: result.windowCount, candidate: nil, adaptiveCandidate: map)
-        #expect(weak.rhythmConfidence?.probability == 1.0 / 11)
+        #expect(weak.rhythmConfidence == nil)
+        var unknown = result
+        unknown.rhythmEvidence = .init(version: 2, features: result.rhythmEvidence!.features)
+        #expect(unknown.rhythmConfidence == nil)
+        unknown.rhythmEvidence = .init(version: 1, features: [.nan, 1, 1, 0, 1, 1])
+        #expect(unknown.rhythmConfidence == nil)
+        var oldProfile = DeepAnalysisProfile.current
+        oldProfile.rhythmCalibrationVersion = nil
+        let old = DeepBeatAnalysis(audio: result.audio, profile: oldProfile, coveredFrames: result.coveredFrames,
+            windowCount: result.windowCount, candidate: strong, adaptiveCandidate: map, rhythmEvidence: result.rhythmEvidence)
+        #expect(old.rhythmConfidence == nil)
+        #expect(old.profile.id != result.profile.id)
+        #expect(old.profile.inferenceID == result.profile.inferenceID)
     }
 }

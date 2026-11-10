@@ -27,20 +27,21 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public let decisionPolicy: Int
     public let upgradeBenefit: String
     public var keyModelVersion: String? = nil
+    public var rhythmCalibrationVersion: String? = nil
 
     public static let current = Self(
-        generation: 10, model: "BeatThis/final0",
+        generation: 11, model: "BeatThis/final0",
         weightsSHA256:
             "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331",
-        conversion: 1, preprocessing: 1, decisionPolicy: 10,
-        upgradeBenefit: "Refine review timing and retain rhythm reliability evidence.",
-        keyModelVersion: LearnedKeyProfile.current.id)
+        conversion: 1, preprocessing: 1, decisionPolicy: 11,
+        upgradeBenefit: "Refine review timing and estimate rhythm reliability from validated evidence.",
+        keyModelVersion: LearnedKeyProfile.current.id, rhythmCalibrationVersion: DeepRhythmCalibration.id)
 
     public var inferenceID: String {
         analysisDigest(Data("\(model)|\(weightsSHA256)|fp16-\(conversion)|mel-\(preprocessing)|1500-6-50".utf8))
     }
 
-    public var id: String { "\(inferenceID)-policy\(decisionPolicy)" + (keyModelVersion.map { "-key-" + analysisDigest(Data($0.utf8)) } ?? "") }
+    public var id: String { "\(inferenceID)-policy\(decisionPolicy)" + (keyModelVersion.map { "-key-" + analysisDigest(Data($0.utf8)) } ?? "") + (rhythmCalibrationVersion.map { "-cal-" + analysisDigest(Data($0.utf8)) } ?? "") }
 
     public func needsAnalysis(after result: DeepBeatAnalysis?) -> Bool {
         guard let result else { return true }
