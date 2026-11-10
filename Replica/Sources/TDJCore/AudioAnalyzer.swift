@@ -121,6 +121,7 @@ public enum AudioAnalyzer {
                 harmonicFrames: spectrum.harmonicFrames,
                 checkCancellation: checkCancellation)
         }
+        AnalysisMeasurement.current?.update { $0.dspRhythm = .init(rhythm) }
         AnalysisWorkProgress.observer?(0.76)
         let duration = Double(decoded.frameCount) / decoded.sampleRate
         let configurationID = configuration.id(for: duration)

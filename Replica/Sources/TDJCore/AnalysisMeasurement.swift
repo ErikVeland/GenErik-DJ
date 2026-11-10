@@ -5,6 +5,24 @@ import Foundation
 public final class AnalysisMeasurement: @unchecked Sendable {
     @TaskLocal public static var current: AnalysisMeasurement?
 
+    public struct RhythmSummary: Codable, Sendable {
+        public let bpm: Double?
+        public let anchorSeconds: Double?
+        public let confidence: Double
+        public let downbeatOffset: Int?
+        public let downbeatConfidence: Double?
+        public let residualMilliseconds: Double?
+
+        init(_ rhythm: MusicalRhythmResult) {
+            bpm = rhythm.bpm
+            anchorSeconds = rhythm.anchorSeconds
+            confidence = rhythm.confidence
+            downbeatOffset = rhythm.downbeat
+            downbeatConfidence = rhythm.downbeatConfidence
+            residualMilliseconds = rhythm.gridResidualMilliseconds
+        }
+    }
+
     public struct Record: Codable, Sendable {
         public var format = "generik.analysis-measurement/v1"
         public var attemptID = UUID().uuidString
@@ -24,6 +42,7 @@ public final class AnalysisMeasurement: @unchecked Sendable {
         public var modelID: String?
         public var beatThisRequestedComputeUnits: String?
         public var beatThisEffectiveComputeUnits: String?
+        public var dspRhythm: RhythmSummary?
         public var structureVersion: Int?
         public var durationSeconds: Double?
         public var sourceSizeBytes: Int?
