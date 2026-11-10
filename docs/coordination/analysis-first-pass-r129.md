@@ -1,46 +1,52 @@
-# R129: Downbeat recovery and first-pass cost
+# R129: Downbeat recovery and first-pass speed
 
-Continue from R124 in the authorised analysis worktree. Erik requested Mac app tests and the same full-track comparisons. Preserve manual, imported and accepted preparation. No device installation is part of this check.
+The final Mac first pass took **128.97 seconds**, down from **307.66 seconds**, on the same 12 tracks. First pass plus deep analysis took **278.17 seconds**, down from **454.67 seconds**. These are observed diagnostic timings, with model startup included.
 
-## Frozen validation scope
+Version 12 adds limited recovery of rejected rhythm proposals. On newly reserved GTZAN recordings, review downbeat event F1 rose from **56.22% to 57.40%**. Three tracks improved and two worsened. Recovered grids require review and have no numerical confidence estimate.
 
-Use the previous 394 rhythm excerpts for development. Reserve 100 previously unscored GTZAN recordings before R129 tuning. Audio and recording identities differ from the prior cohorts. Every selected recording shares an artist with earlier cohorts because R124 consumed the remaining artist-disjoint components. Do not describe this set as artist-disjoint.
+## Same-track accuracy and human corrections
 
-The new GTZAN reference hash is `d4a7b34a0240d4a5522427eaa7261669faa4ee47fc0be697b6dbd490631855f4`. Selection uses a fixed hash seed and genre balance, without analysis results.
+Erik's corrections move the saved Traktor reference later in each track. The [correction record](../testing/analysis-human-bar-corrections-r129.json) binds each statement to the exact audio hash. Original comparisons remain available.
 
-Reserve 80 Ballroom excerpts as additional diagnostics. The reference hash is `842fd06fcfb5716664d018ceecca0aa57fabec52b937a98a37805a10aab61d47`. Exclude published recording replicas and exact audio duplicates. Keep three-beat metres in the diagnostic set. Artist identity is unavailable.
+| Track | Reference correction | Final result |
+| --- | --- | --- |
+| 99 Problems | One beat later, retained from R109 | Correct bar choice, about 26 ms from the reference |
+| Big Ole Freak | Two beats later | Agrees within 25 ms |
+| Fuck You, Rhythm Scholar Remix | One beat later | Agrees within 25 ms |
+| Untouched | One beat later | Still approximately two beats early |
+| ...In The End, Dune | Half a beat later at the confirmed 80 BPM level | Correct tempo level, roughly 170 ms beat-phase error, bar unresolved |
 
-Ballroom was part of upstream model training. Its scores measure new policy behaviour on new diagnostic inputs, not generalisation to unseen model data. The [model authors describe this distinction](https://github.com/CPJKU/beat_this#available-models). The [Ballroom annotation authors describe manual bar labels and corrected beat times](https://github.com/CPJKU/BallroomAnnotations#annotation-strategy).
+The corrected baseline and final app both have 6/9 downbeats within 25 ms. Tempo agreement remains 9/9 and key agreement remains 6/9. The largest playback-event change between the baseline and final app is 0.365 ms. Exact harmonic features, waveforms and final key choices stayed unchanged on all 12 tracks.
 
-Do not score either new reference set until the native candidate is frozen. Enable the recovery policy only if review downbeat event F1 improves on the new GTZAN recordings. Preserve first-pass and playback timelines in the replay comparison. Record paired losses as well as gains. Keep a failed candidate and its evidence if qualification fails.
+These human checks establish relative beat or bar position. They do not establish precise onset timestamps, exact tempo precision or key accuracy. The remaining Traktor labels include automatic results.
 
-## Fixed implementation hypotheses
+An interim update incorrectly reported a 7/9 baseline and attributed the 6/9 result to acceleration. A direct comparison and a fresh CPU control exposed that reporting error. Untouched's wrong bar and Dune's unresolved bar already occur in the stored baseline. Erik received the correction. The final app retains the validated acceleration path. Earlier interpretations remain in the raw history and are superseded by the [final verification record](../testing/analysis-first-pass-r129-results.json).
 
-The R124 first pass spent 151.91 seconds in beat-model inference and 125.38 seconds in decoding and feature extraction on the original 12 tracks. The Mac path requested CPU-only execution. Test the existing foreground Neural Engine path on capable Macs, with the existing CPU fallback and cancellation rules. Older hardware retains the CPU path.
+## First-pass speed
 
-A CPU sample of the production app found repeated Swift array-access checks in the spectral transform loop. Use bounded buffer access and reusable prefix storage. Retain the transform, sample coverage, arithmetic and musical decisions. Compare harmonic features directly against the previous app.
+| Stage, all 12 tracks | R124 CPU baseline | Optimised CPU control | Final accelerated first pass |
+| --- | ---: | ---: | ---: |
+| First-pass wall time | 307.66 s | 220.32 s | 128.97 s |
+| Decode and audio features | 125.38 s | 65.05 s | 64.70 s |
+| Beat-model inference | 151.91 s | 124.89 s | 18.45 s |
 
-For rhythm, retain every candidate accepted by the existing fitter. Recovery runs only after that fitter fails. Permit one to three beat intervals, with each inferred interval within the existing 12% tolerance. Limit inserted beats to 5% of observed beats, allowing one insertion on a short excerpt.
+The final model-loading total was 19.69 seconds. Core ML requested CPU + Neural Engine execution. Per-operator hardware placement was not profiled.
 
-If the original bar peaks still fail, compare downbeat logits within each four-beat group. Require a positive winning peak, a logit margin of at least two, at least four supporting groups, and 90% agreement on one bar position. Reject ambiguous two-beat and unsupported three-beat patterns. Keep compression, anchor, tempo, cancellation and audio-coverage bounds.
+A separate consecutive CPU comparison on Blue Monday reduced decode and feature time from 8.70 to 5.42 seconds. First-pass output matched exactly in that pair. All 12 CPU-control musical decisions stayed unchanged. Two tracks had floating-point differences below 1e-9 in stored numeric values.
 
-Recovered grids remain review candidates. They have no numerical confidence estimate because calibration version 2 did not use this decoder. Existing candidates retain their calibrated evidence. Deep generation and decision policy 12 identify the change while retaining compatible prediction windows.
+The two accelerated full-track first passes took 158.11 and 128.97 seconds. OS caches and other host activity were not controlled. These timings do not establish Duo throughput or A10X performance.
 
-## Required measurements
+## Frozen benchmark and recovery results
 
-Replay the previous rhythm cohorts and the frozen new inputs through the packaged Mac app. Compare a fresh accelerated first pass with the baseline first pass. Repeat the same 12 full tracks and both drift fixtures. Verify source hashes, saved-result reopening, unchanged key features, bounded timing and preparation authority. Record app and source identities for each result.
+The prior 394 rhythm excerpts were development and regression data. We reserved 100 previously unscored GTZAN recordings and 80 Ballroom diagnostics before tuning. GTZAN audio hashes and recording identities differ from prior cohorts. Every selected recording shares an artist with earlier cohorts. The GTZAN set is not artist-disjoint.
 
-Fresh host timing comparisons remain observational. Mac results do not establish Duo throughput, physical result sharing or A10X live acceptance.
+GTZAN reference SHA-256: `d4a7b34a0240d4a5522427eaa7261669faa4ee47fc0be697b6dbd490631855f4`.
 
-Frozen benchmark identifiers retain R128. The analysis request is R129 because the controller request owns R128. Raw analysis evidence remains under `TestBuilds/r128/` in this worktree. Consolidated copies use `TestBuilds/r129/`.
+Ballroom reference SHA-256: `842fd06fcfb5716664d018ceecca0aa57fabec52b937a98a37805a10aab61d47`.
 
-## Recovery qualification
+Ballroom selection excludes published recording replicas and audio duplicates. Three-beat metres remain included. Artist identity is unavailable. Ballroom was in upstream model training, so it is additional diagnostic evidence. The [model authors describe training coverage](https://github.com/CPJKU/beat_this#available-models). The [annotation authors describe the manual reference process](https://github.com/CPJKU/BallroomAnnotations#annotation-strategy).
 
-The frozen native candidate passed the declared GTZAN qualification rule. Downbeat event F1 rose from 56.22% to 57.40% on the 99 newly reserved recordings with downbeat labels. Three tracks improved and two worsened. The remaining recording has beat labels only. No algorithm changes followed these scores.
-
-These are event scores at a 25 ms tolerance. They are not the percentage of fully correct tracks.
-
-The gain remains uncertain. A paired bootstrap over 60 artist and recording groups gives a descriptive 95% interval of −0.21 to +3.08 percentage points. This supports continued review testing. It does not establish a reliable gain across other libraries.
+The declared qualification rule required improved review downbeat F1 on the new GTZAN recordings, with unchanged playback timelines in policy replay. The candidate passed. No algorithm tuning followed these scores.
 
 | Cohort | Tracks with bar labels | Previous review F1 | Policy 12 review F1 | Improved / worsened tracks |
 | --- | ---: | ---: | ---: | ---: |
@@ -51,30 +57,32 @@ The gain remains uncertain. A paired bootstrap over 60 artist and recording grou
 | New GTZAN recordings | 99 | 56.22% | 57.40% | 3 / 2 |
 | New Ballroom diagnostics | 80 | 66.89% | 67.32% | 1 / 0 |
 
-Policy replay preserved first-pass decisions and playback timelines on all 574 recordings. All saved results reopened. All 1,146 beat windows and 574 key windows were byte-identical to their inputs. The 323 existing adaptive candidates retained their evidence and confidence. The 42 recovered candidates have no numerical confidence. Final key choices stayed unchanged.
+These are event scores at a 25 ms tolerance, not percentages of fully correct tracks. One new GTZAN recording has beat labels only. A paired bootstrap over 60 artist and recording groups gives a descriptive 95% interval of −0.21 to +3.08 percentage points. The observed gain does not establish a reliable improvement across other libraries.
 
-The replay report omits waveform bins by design. The first checker attempt stopped because it compared those empty bins with a full baseline waveform. The second stopped on the GTZAN recording without downbeat labels. The corrected checker compares every retained first-pass field and both timelines. It counts downbeats only where labels exist. Both failed attempts remain in the evidence folder.
+A fresh accelerated run also checked all 180 new excerpts. First-pass downbeat F1 changed from 53.49% to 53.64% on GTZAN and from 64.60% to 64.74% on Ballroom. Beat scores had one paired gain and one paired loss in each set. Harmonic features, waveforms and final key choices stayed unchanged across these excerpts and the 12 original tracks. Rhythm-dependent energy values changed on 12 inputs.
 
-## Human reference corrections
+## Implementation and versions
 
-Erik checked these bar positions against the saved Traktor references. Positive shifts move the reference later in the track.
+Keep existing valid rhythm candidates. Recovery runs only after the original fitter fails. It permits sparse missed beats with the existing 12% interval tolerance and a 5% insertion limit. Bar recovery requires a positive winner, a logit margin of two, at least four supporting groups and 90% agreement. Existing compression, tempo, audio-coverage and cancellation bounds remain.
 
-| Track | Reference correction |
-| --- | --- |
-| 99 Problems | One beat later, retained from R109 |
-| Big Ole Freak | Two beats later |
-| Fuck You, Rhythm Scholar Remix | One beat later |
-| Untouched | One beat later |
-| ...In The End, Dune | Half a beat later at the confirmed 80 BPM metrical level |
+The 42 recovered candidates have no numerical confidence. Calibration version 2 still applies only to unchanged original candidates. Deep generation and decision policy 12 identify the new behaviour. Compatible model predictions and key windows remain reusable. Manual, imported and accepted preparation retain priority.
 
-The [correction record](../testing/analysis-human-bar-corrections-r129.json) binds each statement to the exact audio hash. Original Traktor comparisons remain available. These checks establish relative beat or bar position. They do not establish precise onset timestamps, exact tempo precision or key accuracy.
+Mac foreground analysis now uses the existing accelerated model path on capable hardware. The iOS policy remains unchanged. The spectral transform uses bounded array access and reusable prefix storage. It retains the same arithmetic, precision and sample coverage.
 
-Updating these reference labels raises the previous app's strict downbeat agreement from 4/9 to 6/9. GenErik already chose the corrected bars on Big Ole Freak and the Cee-Lo remix. Untouched remains approximately two beats early. The corrected 99 Problems bar remains 26.43 ms from the saved reference, just outside the 25 ms limit. Dune retains a roughly 170 ms beat-phase error after its 80 BPM correction. Its bar position remains unresolved. Its neural peaks also favour the wrong phase. No track-specific offset was added.
+## Verification and remaining work
 
-## Accelerated first-pass candidate
+All 574 policy-replay results reopened. First-pass decisions and playback timelines stayed unchanged. All 1,146 beat windows and 574 key windows were byte-identical to their inputs. The 323 existing adaptive candidates retained their evidence and confidence. Final key choices stayed unchanged.
 
-The CPU + Neural Engine candidate reduced the same-track first pass from 307.66 to 158.11 seconds. This total includes 20.20 seconds for initial model loading. Beat inference fell from 151.91 to 16.65 seconds. The deep pass took another 169.44 seconds. These are observational Mac timings.
+The final package repeated the 180 fresh policy replays, all 12 original tracks and both drift fixtures. The drift fixtures remain within 2.493 ms across 128 beats. The final package includes the consolidated progress-reporting changes.
 
-The full-track comparison preserves the corrected downbeat count of 6/9. Tempo agreement remains 9/9 and key agreement remains 6/9. Untouched's wrong bar and Dune's unresolved bar both occur in the stored baseline. The accelerated model changes a few fitted timing values by less than a millisecond. It does not change these error classifications.
+Thirty-two focused tests passed. One optional actual-model unit test was skipped. Packaged-app runs exercised the actual models. A wider earlier filter exposed two unrelated failures: exact floating-point assertions in key transposition and an unavailable-item browser fixture. They were reproduced in isolation, with unchanged source hashes. Their logs remain preserved.
 
-An interim update used an incorrect baseline count of 7/9 and attributed these existing errors to acceleration. A fresh CPU control run and a direct baseline comparison exposed that reporting error. The correction was sent to Erik. Keep both the accelerated run and the CPU control as evidence. Enable the validated foreground acceleration path on capable Macs. Deep Neural Engine analysis and the existing iOS execution policy stay available.
+The first replay checker compared omitted waveform bins with full waveform data. The second assumed every track had downbeat labels. Both stopped before qualification. Corrected checks compare every retained field, both timelines and only labelled events. An interrupted build and all subsequent attempts remain preserved.
+
+Untouched's bar choice, Dune's phase, precise full-track references, calibrated recovery confidence, stronger independent validation, physical result sharing and device performance remain open. Mac results do not establish live A10X acceptance.
+
+## Evidence
+
+The final app ran source `b13f33c446d7312022ad73b430d8fb1c69b7e0cb`. The [verification record](../testing/analysis-first-pass-r129-results.json) contains source, app and report hashes, scores, timing, paired losses and limits.
+
+Frozen benchmark identifiers retain R128 because that identifier was reserved before the controller request took it. The analysis request is R129. Raw evidence remains under `TestBuilds/r128/` in the authorised analysis worktree. Consolidated copies use `TestBuilds/r129/`. `AcceptedPolicy12.app` is the final package. `FinalPolicy12.app` is the retained CPU control. `Policy12.app` is the first accelerated candidate.
