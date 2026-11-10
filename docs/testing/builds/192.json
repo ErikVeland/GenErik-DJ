@@ -1,0 +1,18 @@
+{
+  "notes": "R130. Show analysis progress in the toolbar. Keep the Analyse in Background button when available.",
+  "sourceCommit": "0b85d4f0dce3aca31f30992f20200d1f7bd4a396",
+  "sourceSHA256": "86b189332d44b1695e41169469e5a642978bc8e5c2939e60b2963a96f49fb4ed",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 80.43,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-192.log",
+  "build": 192,
+  "app": "TestBuilds/ipad/192/GenErikDJ.app",
+  "appSHA256": "d651ab5a16442742d52f8bb34f29ed757328d4644b4176d7f398687981be08e6",
+  "state": "testing",
+  "createdUTC": "2026-11-10T07:35:56.307506+00:00",
+  "installedUTC": "2026-11-10T07:36:09.451795+00:00",
+  "launchedUTC": "2026-11-10T07:36:09.801646+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}

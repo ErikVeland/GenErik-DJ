@@ -12,7 +12,17 @@
         "R130"
       ],
       "report": "Remove the duplicate Analyse progress meter at the bottom of the library.",
-      "summary": "Build 184 is assumed from the last recorded iPad install."
+      "summary": "Build 184 is assumed from the last recorded iPad install.",
+      "fixCommit": "0b85d4f0dce3aca31f30992f20200d1f7bd4a396",
+      "result": "Build 192 installed. Library appearance awaits Erik's check."
+    },
+    {
+      "date": "2026-11-10",
+      "requestIDs": [
+        "R131"
+      ],
+      "report": "Use the grey space to the right of Recommendations.",
+      "summary": "Build 184 is assumed from the last recorded iPad install when Erik reported the issue."
     }
   ],
   "log": "TestBuilds/ipad/build-184.log",
