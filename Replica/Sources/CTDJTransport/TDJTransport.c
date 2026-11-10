@@ -713,12 +713,13 @@ static void publish(tdj_engine *e) {
     atomic_store(&e->published_bpm, e->bpm);
     atomic_store(&e->published_beat, beat);
     atomic_store(&e->published_running, e->running);
-    atomic_store(&e->published_extra, e->deck_count > 2);
+    int visible_decks = microphone_channels(&e->auxiliary) >= 4 ? TDJ_DECK_COUNT : e->deck_count;
+    atomic_store(&e->published_extra, visible_decks > 2);
     atomic_store(&e->published_crossfader, e->mix.crossfader.target);
     atomic_store(&e->published_master, e->mix.master.target);
     atomic_store(&e->published_monitor, e->mix.monitor.target);
     atomic_store(&e->published_cue_blend, e->mix.cue_mix.target);
-    for (int i = 0; i < e->deck_count; ++i) {
+    for (int i = 0; i < visible_decks; ++i) {
         deck *d = &e->decks[i];
         atomic_deck *p = &e->published[i];
         mixer_deck *m = &e->mix.decks[i];
@@ -1615,6 +1616,41 @@ static int apply(tdj_engine *e, tdj_command c) {
         }
         return start_deck(e, d, c.deck, c.preparation_ticket, c.generation);
     }
+    if (c.kind == TDJ_TOUCH && c.flag == 0 && (c.value == TDJ_TOUCH_CUE_PARK || c.value == TDJ_TOUCH_CUE_CONTINUE)) {
+        if (!isfinite(c.value2) || c.value2 < 0 || c.value2 >= d->asset->frames)
+            return TDJ_INVALID;
+        deck proposed = *d;
+        proposed.touch_active = false;
+        proposed.touch_end = 0;
+        proposed.pending_touch_rate_valid = false;
+        proposed.jump_pending = false;
+        proposed.performance_rate = 1;
+        if (c.value == TDJ_TOUCH_CUE_PARK) {
+            proposed.state = TDJ_PAUSED;
+            proposed.position = c.value2;
+            align_synced_position(&proposed, 0);
+            proposed.continuing = proposed.position;
+        } else if (d->touch_active && d->state == TDJ_PLAYING) {
+            if (!align_synced_position(&proposed, beat_now(e)))
+                return TDJ_ALIGNMENT_UNAVAILABLE;
+            int status = stream_validate(e, c.deck, &proposed, e->bpm, c.preparation_ticket, c.generation);
+            if (status != TDJ_OK)
+                return status;
+        } else if (!deck_active(d)) {
+            proposed.position = c.value2;
+            int status = start_deck(e, &proposed, c.deck, c.preparation_ticket, c.generation);
+            if (status != TDJ_OK)
+                return status;
+        }
+        *d = proposed;
+        if (!any_deck_active(e) && e->running) {
+            advance_clock_epoch(e);
+            e->running = false;
+        }
+        tdj_keylock_reset(e->keylocks[c.deck]);
+        transition_request(e, c.deck, 0);
+        return TDJ_OK;
+    }
     if (d->state == TDJ_QUEUED)
         return TDJ_UNRESOLVED;
     // Performance policies are explicit development choices pending paired TDJ1 captures.
@@ -2112,7 +2148,7 @@ static void controls(tdj_engine *e) {
             break;
         tdj_command c = e->commands[read];
         bool same_touch = false, touch_noop = false;
-        if (c.kind == TDJ_TOUCH && c.flag == 0 && valid_deck_command(e, c.deck))
+        if (c.kind == TDJ_TOUCH && c.flag == 0 && c.value > TDJ_TOUCH_CUE_PARK && valid_deck_command(e, c.deck))
             touch_noop = !e->decks[c.deck].touch_active;
         if (c.kind == TDJ_TOUCH && c.flag == TDJ_TOUCH_WITH_RATE && valid_deck_command(e, c.deck)) {
             deck *d = &e->decks[c.deck];
@@ -2208,15 +2244,27 @@ uint32_t tdj_playing_pads(tdj_engine *e) {
 }
 
 void tdj_microphone_set_enabled(tdj_engine *e, bool enabled) {
-    atomic_store_explicit(&e->auxiliary.mic_enabled, enabled, memory_order_release);
+    microphone_configure(&e->auxiliary, enabled ? 2 : 0);
 }
 
 void tdj_microphone_push(tdj_engine *e, const float *samples, uint32_t count, uint32_t stride, double rate) {
-    microphone_push(&e->auxiliary, samples, samples, count, stride, rate);
+    tdj_external_input_push(e, samples, samples, count, stride, rate);
 }
 void tdj_external_input_push(tdj_engine *e, const float *left, const float *right, uint32_t count, uint32_t stride,
                              double rate) {
-    microphone_push(&e->auxiliary, left, right, count, stride, rate);
+    const float *input[] = {left, right};
+    const uint32_t strides[] = {stride, stride};
+    microphone_push(&e->auxiliary, input, strides, count, 2, rate);
+}
+void tdj_s4_input_set_channels(tdj_engine *e, uint32_t channels) {
+    if (channels == 0 || ((channels == 4 || channels == 6) &&
+                         atomic_load_explicit(&e->extra_prepared, memory_order_acquire)))
+        microphone_configure(&e->auxiliary, channels);
+}
+void tdj_s4_input_push(tdj_engine *e, const float *const *input, const uint32_t *strides, uint32_t count,
+                       uint32_t channels, double rate) {
+    if (input && strides && (channels == 4 || channels == 6))
+        microphone_push(&e->auxiliary, input, strides, count, channels, rate);
 }
 void tdj_external_input_mix(tdj_engine *e, double level, double cue_gain) {
     if (isfinite(level) && level >= 0 && level <= 4)
@@ -2272,7 +2320,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
     controls(e);
     auxiliary_mix *aux = &e->auxiliary;
     mic_block mic = microphone_begin(aux, e->rate);
-    if (mic.enabled) {
+    if (mic.channels == 2) {
         double input_level = atomic_load_explicit(&aux->input_level, memory_order_relaxed);
         double input_cue = atomic_load_explicit(&aux->input_cue, memory_order_relaxed);
         if (input_level != aux->input_master_ramp.target)
@@ -2319,10 +2367,15 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 target_frames[i] = e->epoch_frame + (uint64_t)ceil(offset);
         }
     }
-    for (int i = 0; i < e->deck_count; ++i)
+    bool s4 = mic.channels >= 4;
+    int mix_decks = s4 ? TDJ_DECK_COUNT : e->deck_count;
+    for (int i = 0; i < mix_decks; ++i)
         e->mix.decks[i].peak = 0;
     for (uint32_t f = 0; f < count; ++f) {
         double l = 0, r = 0, cl = 0, cr = 0;
+        double live[6];
+        if (s4)
+            microphone_next(aux, &mic, live);
         bool audible[TDJ_DECK_COUNT] = {false};
         for (int i = 0; i < e->deck_count; i++) {
             deck *d = &e->decks[i], *other = &e->decks[(i ^ 1)];
@@ -2352,9 +2405,10 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
         double cross = ramp_next(&e->mix.crossfader);
         double master = ramp_next(&e->mix.master), monitor = ramp_next(&e->mix.monitor),
                blend = ramp_next(&e->mix.cue_mix);
-        for (int i = 0; i < e->deck_count; ++i) {
+        for (int i = 0; i < mix_decks; ++i) {
             deck *d = &e->decks[i];
-            if (i >= 2 && !d->asset && !e->transitions[i].playing && !e->transitions[i].remaining)
+            bool line = s4 && i >= 2 && !d->asset;
+            if (i >= 2 && !line && !d->asset && !e->transitions[i].playing && !e->transitions[i].remaining)
                 continue;
             if (d->state == TDJ_QUEUED && e->frame >= target_frames[i]) {
                 d->state = TDJ_PLAYING;
@@ -2372,7 +2426,8 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             transition->playing = playing;
             if (!playing) {
                 d->grid_click_position_valid = false;
-                double zero_l = 0, zero_r = 0;
+                double zero_l = line ? live[(i - 2) * 2] : 0;
+                double zero_r = line ? live[(i - 2) * 2 + 1] : 0;
                 transition_sample(transition, &zero_l, &zero_r);
                 mixer_process_deck(&e->mix, i, &zero_l, &zero_r);
                 double fx_bpm, fx_beat;
@@ -2567,14 +2622,18 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             e->paired_frames++;
         if (aux->playing || aux->pad_gain.remaining)
             mix_pads(aux, e->rate, &l, &r);
-        if (mic.enabled || aux->mic_gain > 0) {
-            double input_l, input_r;
-            microphone_next(aux, &mic, &input_l, &input_r);
+        if (mic.channels == 2) {
+            double input[2];
+            microphone_next(aux, &mic, input);
             double level = ramp_next(&aux->input_master_ramp), cue = ramp_next(&aux->input_cue_ramp);
-            l += input_l * level;
-            r += input_r * level;
-            cl += input_l * cue;
-            cr += input_r * cue;
+            l += input[0] * level;
+            r += input[1] * level;
+            cl += input[0] * cue;
+            cr += input[1] * cue;
+        } else if (mic.channels == 6) {
+            double mono = (live[4] + live[5]) * 0.5;
+            l += mono;
+            r += mono;
         }
         left[f] = (float)(l * master);
         right[f] = (float)(r * master);

@@ -25,6 +25,8 @@ API_AVAILABLE(macos(14.0), ios(17.0))
 - (instancetype)init NS_UNAVAILABLE;
 - (nullable AVAudioSourceNode *)makeNodeWithFormat:(AVAudioFormat *)format NS_SWIFT_NAME(makeNode(format:));
 - (nullable AVAudioSinkNode *)makeMicrophoneSinkWithFormat:(AVAudioFormat *)format stereo:(BOOL)stereo NS_SWIFT_NAME(makeMicrophoneSink(format:stereo:));
+- (nullable AVAudioSinkNode *)makeS4InputSinkWithFormat:(AVAudioFormat *)format
+    NS_SWIFT_NAME(makeS4InputSink(format:));
 - (BOOL)suspendIfIdle;
 - (void)suspendAndWait;
 - (BOOL)resume;

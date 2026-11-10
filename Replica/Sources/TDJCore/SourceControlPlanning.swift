@@ -1,3 +1,4 @@
+import CTDJTransport
 import Foundation
 
 extension SourceControl {
@@ -144,6 +145,10 @@ extension SourceControl {
                     if state.fluxEnabled && !state.loopEnabled { target.position = bounded(state.continuingFrame) }
                     target.reserveContinuing = state.fluxEnabled && state.loopEnabled
                     alignmentBeat = state.touchWasPlaying ? snapshot.masterBeat : 0
+                    if value == Double(TDJ_TOUCH_CUE_CONTINUE) {
+                        target.position = state.touchActive ? state.sourceFrame : bounded(end)
+                        alignmentBeat = state.touchActive ? snapshot.masterBeat : entryBeat
+                    }
                 }
             case .rate:
                 target.performanceRate = value
@@ -238,7 +243,7 @@ extension SourceControl {
         let mayChooseNativeTempo: Bool
         switch self {
         case .play, .cueRecall: mayChooseNativeTempo = !snapshot.clockRunning && state.synced
-        default: mayChooseNativeTempo = false
+        default: mayChooseNativeTempo = cueContinuationPark != nil && !snapshot.clockRunning && state.synced
         }
         if mayChooseNativeTempo {
             for var native in targets {

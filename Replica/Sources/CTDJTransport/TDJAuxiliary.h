@@ -102,21 +102,23 @@ typedef struct {
     _Atomic uint32_t published_playing;
     ramp pad_gain;
     _Atomic uint32_t mic_write, mic_read;
-    _Atomic bool mic_enabled;
+    _Atomic uint64_t mic_configuration;
+    uint64_t rendering_mic_configuration;
+    unsigned rendering_mic_channels;
     _Atomic double mic_rate;
     atomic_flag mic_producer;
     _Atomic double input_level;
     _Atomic double input_cue;
     ramp input_master_ramp, input_cue_ramp;
-    float mic_samples[MIC_CAPACITY][2];
+    float mic_samples[MIC_CAPACITY][6];
     double mic_fraction;
-    float mic_last[2], mic_gain;
+    float mic_last[6], mic_gain;
 } auxiliary_mix;
 
 typedef struct {
     uint32_t read, write;
     double step;
-    bool enabled;
+    unsigned channels;
 } mic_block;
 
 static void auxiliary_init(auxiliary_mix *aux, double rate) {
@@ -130,7 +132,7 @@ static void auxiliary_init(auxiliary_mix *aux, double rate) {
     atomic_flag_clear(&aux->preview.producer);
     atomic_init(&aux->mic_read, 0);
     atomic_init(&aux->mic_write, 0);
-    atomic_init(&aux->mic_enabled, false);
+    atomic_init(&aux->mic_configuration, 0);
     atomic_init(&aux->mic_rate, rate);
     atomic_init(&aux->input_level, 1);
     atomic_init(&aux->input_cue, 0);
@@ -139,47 +141,78 @@ static void auxiliary_init(auxiliary_mix *aux, double rate) {
     ramp_set(&aux->pad_gain, 0.35, 0);
 }
 
+static unsigned microphone_channels(const auxiliary_mix *aux) {
+    return atomic_load_explicit(&aux->mic_configuration, memory_order_acquire) & 7;
+}
+
+static void microphone_configure(auxiliary_mix *aux, unsigned channels) {
+    uint64_t configuration = atomic_load_explicit(&aux->mic_configuration, memory_order_acquire);
+    while ((configuration & 7) != channels) {
+        uint64_t write = atomic_load_explicit(&aux->mic_write, memory_order_acquire);
+        uint32_t revision = ((uint32_t)configuration & ~UINT32_C(7)) + 8;
+        uint64_t next = (write << 32) | revision | channels;
+        if (atomic_compare_exchange_weak_explicit(&aux->mic_configuration, &configuration, next,
+                                                  memory_order_acq_rel, memory_order_acquire))
+            return;
+    }
+}
+
 // The sink publishes samples only after writing the entire block.
-static void microphone_push(auxiliary_mix *aux, const float *left, const float *right, uint32_t count, uint32_t stride,
-                            double rate) {
-    if (!atomic_load_explicit(&aux->mic_enabled, memory_order_acquire) || !left || !right || !stride ||
-        stride > 32 || count > MIC_CAPACITY || !isfinite(rate) || rate < 8000 || rate > 192000)
+static void microphone_push(auxiliary_mix *aux, const float *const *input, const uint32_t *strides,
+                            uint32_t count, unsigned channels, double rate) {
+    uint64_t configuration = atomic_load_explicit(&aux->mic_configuration, memory_order_acquire);
+    if ((configuration & 7) != channels || count > MIC_CAPACITY || !isfinite(rate) || rate < 8000 || rate > 192000)
         return;
+    for (unsigned ch = 0; ch < channels; ++ch)
+        if (!input[ch] || !strides[ch] || strides[ch] > 32)
+            return;
     if (atomic_flag_test_and_set_explicit(&aux->mic_producer, memory_order_acquire))
         return;
     uint32_t write = atomic_load_explicit(&aux->mic_write, memory_order_relaxed);
     uint32_t read = atomic_load_explicit(&aux->mic_read, memory_order_acquire);
     if (count <= MIC_CAPACITY - (write - read)) {
         for (uint32_t i = 0; i < count; ++i) {
-            float l = left[i * stride], r = right[i * stride];
             float *destination = aux->mic_samples[(write + i) & (MIC_CAPACITY - 1)];
-            destination[0] = isfinite(l) ? fmaxf(-1, fminf(1, l)) : 0;
-            destination[1] = isfinite(r) ? fmaxf(-1, fminf(1, r)) : 0;
+            for (unsigned ch = 0; ch < channels; ++ch) {
+                float sample = input[ch][i * strides[ch]];
+                destination[ch] = isfinite(sample) ? fmaxf(-1, fminf(1, sample)) : 0;
+            }
         }
-        atomic_store_explicit(&aux->mic_rate, rate, memory_order_relaxed);
-        atomic_store_explicit(&aux->mic_write, write + count, memory_order_release);
+        if (configuration == atomic_load_explicit(&aux->mic_configuration, memory_order_acquire)) {
+            atomic_store_explicit(&aux->mic_rate, rate, memory_order_relaxed);
+            atomic_store_explicit(&aux->mic_write, write + count, memory_order_release);
+        }
     }
     atomic_flag_clear_explicit(&aux->mic_producer, memory_order_release);
 }
 
 static mic_block microphone_begin(auxiliary_mix *aux, double rate) {
+    uint64_t configuration = atomic_load_explicit(&aux->mic_configuration, memory_order_acquire);
     mic_block block;
-    block.enabled = atomic_load_explicit(&aux->mic_enabled, memory_order_acquire);
+    const unsigned active_channels = configuration & 7;
+    block.channels = active_channels ? active_channels : aux->mic_gain > 0 ? aux->rendering_mic_channels : 0;
     block.write = atomic_load_explicit(&aux->mic_write, memory_order_acquire);
     block.read = atomic_load_explicit(&aux->mic_read, memory_order_relaxed);
-    block.step = block.enabled ? atomic_load_explicit(&aux->mic_rate, memory_order_relaxed) / rate : 1;
-    if (!block.enabled) {
-        block.read = block.write;
+    block.step = block.channels ? atomic_load_explicit(&aux->mic_rate, memory_order_relaxed) / rate : 1;
+    if (configuration != aux->rendering_mic_configuration) {
+        aux->rendering_mic_configuration = configuration;
+        block.read = (uint32_t)(configuration >> 32);
         aux->mic_fraction = 0;
+        if (active_channels) {
+            aux->rendering_mic_channels = active_channels;
+            aux->mic_gain = 0;
+        }
     }
+    if (!active_channels)
+        block.read = block.write;
     return block;
 }
 
-static void microphone_next(auxiliary_mix *aux, mic_block *block, double *left, double *right) {
-    if (block->enabled && block->write - block->read > (uint32_t)fmax(1, ceil(aux->mic_fraction + block->step))) {
+static void microphone_next(auxiliary_mix *aux, mic_block *block, double *output) {
+    if (block->write - block->read > (uint32_t)fmax(1, ceil(aux->mic_fraction + block->step))) {
         const float *a = aux->mic_samples[block->read & (MIC_CAPACITY - 1)];
         const float *b = aux->mic_samples[(block->read + 1) & (MIC_CAPACITY - 1)];
-        for (unsigned i = 0; i < 2; ++i)
+        for (unsigned i = 0; i < block->channels; ++i)
             aux->mic_last[i] = (float)(a[i] + (b[i] - a[i]) * aux->mic_fraction);
         aux->mic_fraction += block->step;
         uint32_t consumed = (uint32_t)aux->mic_fraction;
@@ -189,8 +222,8 @@ static void microphone_next(auxiliary_mix *aux, mic_block *block, double *left, 
     } else {
         aux->mic_gain = fmaxf(0, aux->mic_gain - 1.0f / 128);
     }
-    *left = aux->mic_last[0] * aux->mic_gain;
-    *right = aux->mic_last[1] * aux->mic_gain;
+    for (unsigned i = 0; i < block->channels; ++i)
+        output[i] = aux->mic_last[i] * aux->mic_gain;
 }
 
 static unsigned pad_fade_frames(double rate) {

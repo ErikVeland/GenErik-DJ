@@ -3,6 +3,9 @@ import TDJCore
 
 enum S4MK2Lights {
     struct Feedback {
+        var sliceModes: [DeckID: Bool] = [:]
+        var heldSlices: [DeckID: Int] = [:]
+        var cueHeld: [DeckID: Bool] = [:]
         var frames: [DeckID: UInt64] = [:]
         var cues: [DeckID: Set<Int>] = [:]
         var loops: [DeckID: Double] = [:]
@@ -54,7 +57,8 @@ enum S4MK2Lights {
             let playing = state.phase.active
             bytes[transport] = lamp(controls.shifts.contains(deck), dim: 0x04)
             bytes[transport + 1] = lamp(state.synced, dim: 0x04)
-            bytes[transport + 2] = lamp(!playing && state.phase != .empty, dim: 0x04)
+            bytes[transport + 2] = lamp(
+                feedback.cueHeld[deck] == true || (!playing && state.phase != .empty), dim: 0x04)
             bytes[transport + 3] = lamp(playing, dim: 0x04)
             bytes[deckBase + 0x29 + side * 2] = lamp(state.loopEnabled || feedback.loopMarked[deck] == true, dim: 4)
             bytes[deckBase + 0x2a + side * 2] = lamp(state.loopEnabled, dim: 4)
@@ -68,10 +72,16 @@ enum S4MK2Lights {
 
             for slot in 0..<4 {
                 let offset = deckBase + 1 + side * 12 + slot * 3
-                if feedback.cues[deck]?.contains(slot) == true { bytes[offset + 2] = 0x30 }
+                if let looping = feedback.sliceModes[deck] {
+                    bytes[offset + (looping ? 1 : 2)] = feedback.heldSlices[deck] == slot ? 0x7f : 0x30
+                } else if feedback.cues[deck]?.contains(slot) == true {
+                    bytes[offset + 2] = 0x30
+                }
                 let sample = side * 8 + slot
-                bytes[deckBase + 0x19 + side * 8 + slot] = lamp(
-                    feedback.samples & (1 << sample) != 0, dim: feedback.sampleSlots.contains(sample) ? 0x20 : 4)
+                bytes[deckBase + 0x19 + side * 8 + slot] =
+                    feedback.sliceModes[deck] != nil
+                    ? lamp(feedback.heldSlices[deck] == slot + 4, dim: 0x30)
+                    : lamp(feedback.samples & (1 << sample) != 0, dim: feedback.sampleSlots.contains(sample) ? 0x20 : 4)
             }
             if let pulse = ControllerPlaybackLights.levels(state: state, frameCount: feedback.frames[deck]) {
                 let offset = deckBase + 10 + side * 12

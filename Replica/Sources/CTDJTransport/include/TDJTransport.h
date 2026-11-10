@@ -30,6 +30,8 @@ typedef struct tdj_engine tdj_engine;
 #define TDJ_TOUCH 13
 // Disabled touch commands can park the deck if release audio is unavailable.
 #define TDJ_TOUCH_PARK_RELEASE -1
+#define TDJ_TOUCH_CUE_PARK -2
+#define TDJ_TOUCH_CUE_CONTINUE -3
 #define TDJ_TOUCH_WITH_RATE 3
 #define TDJ_TOUCH_FOLLOWS_POSITION 4
 #define TDJ_RATE 14
@@ -182,6 +184,9 @@ bool tdj_render(tdj_engine *engine, uint32_t count, float *left, float *right);
 // Same render pass, with a separate stereo headphone bus. Null monitor pointers discard that bus.
 void tdj_external_input_push(tdj_engine *engine, const float *left, const float *right, uint32_t count,
                              uint32_t stride, double rate);
+void tdj_s4_input_set_channels(tdj_engine *engine, uint32_t channels);
+void tdj_s4_input_push(tdj_engine *engine, const float *const *input, const uint32_t *strides,
+                       uint32_t count, uint32_t channels, double rate);
 void tdj_external_input_mix(tdj_engine *engine, double level, double cue_gain);
 typedef struct {
     double left, right;

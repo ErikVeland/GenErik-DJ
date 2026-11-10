@@ -155,3 +155,48 @@ import Testing
     #expect(main.left.last == 0.125 && main.right.last == 0.375)
     #expect(main.cueLeft.last == 0 && main.cueRight.last == 0)
 }
+
+@Test func s4MK2InputRoutesLinePairsThroughEmptyOuterMixersAndMicToMain() throws {
+    let core = try SampleTransport(sampleRate: 8_000, outputGain: 1)
+    try core.prepareExtraDecks()
+    let owner = core.nativeAudioRenderOwnership(metrics: nil)
+    try core.setMixer(.volume, value: 1, deck: .c)
+    try core.setMixer(.volume, value: 0, deck: .d)
+    try core.setMixer(.cue, value: 1, deck: .d)
+    try core.setMixer(.monitor, value: 1)
+    tdj_s4_input_set_channels(owner.engineHandle, 6)
+    let channels: [Float] = [0.125, 0.25, 0.375, 0.5, 0.0625, 0.0625]
+    let block = (0..<1_024).flatMap { _ in channels }
+    block.withUnsafeBufferPointer { buffer in
+        let pointers = (0..<6).map { buffer.baseAddress?.advanced(by: $0) }
+        let strides = [UInt32](repeating: 6, count: 6)
+        tdj_s4_input_push(owner.engineHandle, pointers, strides, 1_024, 6, 8_000)
+    }
+    let buses = core.renderBusesOffline(frames: 256)
+    #expect(buses.left.last == 0.1875 && buses.right.last == 0.3125)
+    #expect(buses.cueLeft.last == 0.375 && buses.cueRight.last == 0.5)
+    tdj_s4_input_set_channels(owner.engineHandle, 0)
+    let muted = core.renderBusesOffline(frames: 256)
+    #expect(muted.left.last == 0 && muted.cueRight.last == 0)
+}
+
+@Test func s4MK2FourChannelRouteKeepsTheMicOffAndYieldsToALoadedDeck() throws {
+    let core = try SampleTransport(sampleRate: 8_000, outputGain: 1)
+    try core.prepareExtraDecks()
+    let owner = core.nativeAudioRenderOwnership(metrics: nil)
+    try core.setMixer(.volume, value: 1, deck: .c)
+    try core.setMixer(.volume, value: 1, deck: .d)
+    tdj_s4_input_set_channels(owner.engineHandle, 4)
+    let asset = try PCMAsset(interleavedStereo: .init(repeating: 0, count: 16_000), sampleRate: 8_000)
+    _ = try core.load(asset, deck: .c, grid: nil)
+    let channels: [Float] = [0.125, 0.25, 0.375, 0.5]
+    let block = (0..<1_024).flatMap { _ in channels }
+    block.withUnsafeBufferPointer { buffer in
+        let pointers = (0..<4).map { buffer.baseAddress?.advanced(by: $0) }
+        let strides = [UInt32](repeating: 4, count: 4)
+        tdj_s4_input_push(owner.engineHandle, pointers, strides, 1_024, 4, 8_000)
+    }
+    let buses = core.renderBusesOffline(frames: 256)
+    #expect(buses.left.last == 0.375 && buses.right.last == 0.5)
+    #expect(buses.cueLeft.last == 0 && buses.cueRight.last == 0)
+}

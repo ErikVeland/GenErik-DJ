@@ -40,6 +40,10 @@ enum S4MK2Event: Equatable {
     case gain(DeckID, Int?)
     case loopMark(DeckID, end: Bool)
     case loopRecall(DeckID, stop: Bool)
+    case sliceMode(DeckID)
+    case pad(DeckID, Int, held: Bool, shifted: Bool)
+    case cue(DeckID, held: Bool)
+    case cueLatch(DeckID)
     case masterTempo(Int)
     case gridToggle(DeckID)
     case gridDownbeat(DeckID, Int)
@@ -73,10 +77,6 @@ struct S4MK2Controls {
         28, 29, 30, 31, 32, 33, 34, 35, 11, 15, 19, 23, 10, 14, 18, 22, 9, 13, 17, 21, 8, 12, 16, 20, 7,
     ]
     private static let linearCalibrationOrder = [24, 25, 26, 27, 1, 2, 0]
-    private static let pads: [[ControllerAction]] = [
-        [.hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A],
-        [.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B],
-    ]
     private static let mixer: [(DeckID, Int, Int)] = [
         (.a, 0x37, 0x17), (.b, 0x39, 0x1f), (.c, 0x3b, 0x27), (.d, 0x3d, 0x2f),
     ]
@@ -85,6 +85,7 @@ struct S4MK2Controls {
     private var calibration: [Int: Calibration] = [:]
     private var previous: [UInt8]?
     private(set) var layers = DeckID.primary
+    private var cueHeld: Set<DeckID> = []
     private(set) var touched: Set<DeckID> = []
     private(set) var bent: Set<DeckID> = []
     private(set) var shifts: Set<DeckID> = []
@@ -152,6 +153,7 @@ struct S4MK2Controls {
             let old = layers[side]
             let switched = pressed(channel, 0x20)
             if switched {
+                if cueHeld.remove(old) != nil { events.append(.cue(old, held: false)) }
                 if touched.remove(old) != nil { events.append(.action(touch, old, 0)) }
                 if bent.remove(old) != nil { events.append(.bendEnd(old)) }
                 if gridEditing.remove(old) != nil { events.append(.native(.gridEnd(old))) }
@@ -168,11 +170,18 @@ struct S4MK2Controls {
             if pressed(channel, 0x10) {
                 events.append(.native(shifted ? .eject(deck) : .browser(.load(deck))))
             }
-            if pressed(transport, 1) { events.append(.action(left ? .playA : .playB, deck, 1)) }
             if pressed(transport, 2) {
-                events.append(
-                    shifted ? .native(.park(deck, atCue: false)) : .action(left ? .cueReturnA : .cueReturnB, deck, 1))
+                if shifted {
+                    events.append(.native(.park(deck, atCue: false)))
+                } else {
+                    cueHeld.insert(deck)
+                    events.append(.cue(deck, held: true))
+                }
             }
+            if pressed(transport, 1) {
+                events.append(cueHeld.contains(deck) ? .cueLatch(deck) : .action(left ? .playA : .playB, deck, 1))
+            }
+            if !held(transport, 2), cueHeld.remove(deck) != nil { events.append(.cue(deck, held: false)) }
             if pressed(transport, 4) {
                 if shifted {
                     if gridEditing.remove(deck) != nil {
@@ -192,22 +201,25 @@ struct S4MK2Controls {
             if pressed(remix, 2) { events.append(.native(.flux(deck))) }
             if pressed(remix, 4) { events.append(.loopMark(deck, end: false)) }
             if pressed(remix, 8) { events.append(.loopMark(deck, end: true)) }
-            for (slot, action) in Self.pads[side].enumerated() {
-                let mask = UInt8(0x80 >> slot)
-                if pressed(transport, mask) {
-                    if editing {
-                        events.append(.gridDownbeat(deck, slot))
-                    } else {
-                        events.append(shifted ? .native(.deleteCue(deck, slot)) : .action(action, deck, 1))
-                    }
-                }
-                if pressed(remix, mask) { events.append(.native(.samplePad(side * 8 + slot, shifted: shifted))) }
-            }
-
             if pressed(0x13, left ? 0x02 : 0x10) {
                 events.append(shifted ? .tempoReset(deck) : .loopSet(deck))
             }
-            if pressed(0x13, left ? 0x01 : 0x08) { events.append(.loopRecall(deck, stop: shifted)) }
+            if pressed(0x13, left ? 0x01 : 0x08) {
+                events.append(shifted ? .loopRecall(deck, stop: true) : .sliceMode(deck))
+            }
+            if let last, !switched {
+                for slot in 0..<8 {
+                    let offset = slot < 4 ? transport : remix
+                    let mask = UInt8(0x80 >> (slot % 4))
+                    let down = held(offset, mask)
+                    guard down != (last[offset - 1] & mask != 0) else { continue }
+                    if editing, slot < 4 {
+                        if down { events.append(.gridDownbeat(deck, slot)) }
+                    } else {
+                        events.append(.pad(deck, slot, held: down, shifted: shifted))
+                    }
+                }
+            }
             let move = encoder(left ? 1 : 2, left ? 0 : 4)
             let size = encoder(left ? 1 : 3, left ? 4 : 0)
             if move != 0 { events.append(.native(.move(deck, move, shifted: shifted))) }

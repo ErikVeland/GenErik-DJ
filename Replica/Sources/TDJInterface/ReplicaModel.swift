@@ -1585,6 +1585,7 @@ import TDJCore
                     self?.maintainS2Extras()
                     self?.refreshS2Lights()
                     self?.refreshS3Lights()
+                    self?.maintainS4Input()
                     self?.refreshS4Lights()
                 #endif
                 do { try await Task.sleep(for: .milliseconds(33)) } catch { return }

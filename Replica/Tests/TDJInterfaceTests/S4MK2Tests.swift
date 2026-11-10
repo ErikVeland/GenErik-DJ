@@ -102,3 +102,73 @@ import Testing
     controller.updateOutputDevice([])
     #expect(controller.outputRoute == .stereoMaster)
 }
+
+@Test func s4MK2DecodesMovePadEdgesAndCueOwnershipAcrossLayers() {
+    var controls = S4MK2Controls()
+    var bytes = [UInt8](repeating: 0, count: 98)
+    func report() -> [S4MK2Event] { controls.consume(bytes) }
+    _ = report()
+    bytes[18] = 1
+    #expect(report().contains(.sliceMode(.a)))
+    bytes[18] = 0
+    bytes[12] = 0x82
+    bytes[13] = 0x10
+    let pressed = report()
+    #expect(pressed.contains(.cue(.a, held: true)))
+    #expect(pressed.contains(.pad(.a, 0, held: true, shifted: false)))
+    #expect(pressed.contains(.pad(.a, 7, held: true, shifted: false)))
+    bytes[12] = 0x02
+    #expect(report().contains(.pad(.a, 0, held: false, shifted: false)))
+    bytes[14] = 0x20
+    #expect(report().contains(.cue(.a, held: false)))
+    bytes[12] = 0
+    #expect(!report().contains(.cue(.c, held: false)))
+}
+
+@Test func s4MK2UsesEightGridSlicesWithTrackAndLoopBoundaries() throws {
+    let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48_000)
+    let timing = BeatTiming(fixed: grid)
+    let freeze = try #require(S4MK2SliceBank(timing: timing, origin: 2, beats: 4, frames: 144_000, looping: false))
+    #expect(freeze.range(slot: 0) == 48_000..<60_000)
+    #expect(freeze.range(slot: 7) == 132_000..<144_000)
+    #expect(freeze.moved(groups: 1)?.range(slot: 0) == 48_000..<60_000)
+    let loop = try #require(S4MK2SliceBank(timing: timing, origin: 1, beats: 2, frames: 144_000, looping: true))
+    #expect(loop.range(slot: 7) == 66_000..<72_000)
+}
+
+@Test func s4MK2CueReleaseParksAndPlayKeepsTheDeckGoing() throws {
+    let core = try SampleTransport(sampleRate: 48_000)
+    let asset = try PCMAsset(interleavedStereo: .init(repeating: 0.2, count: 192_000), sampleRate: 48_000)
+    let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48_000)
+    let generation = try core.load(asset, deck: .c, grid: grid, synced: true)
+    let start = SourceControl.performance(
+        .touch, .c, generation, value: 24_000, end: 0, enabled: true, quantum: 0, touchRate: 1,
+        followsPosition: true)
+    try core.submit(start)
+    _ = core.renderOffline(frames: 512)
+    #expect(core.snapshot()?[.c].touchActive == true)
+    try core.submit(.finishCueContact(deck: .c, generation: generation, cue: 24_000, continuePlaying: false))
+    _ = core.renderOffline(frames: 512)
+    let parked = try #require(core.snapshot()?[.c])
+    #expect(parked.phase == .paused && parked.sourceFrame == 24_000 && parked.synced && !parked.touchActive)
+
+    try core.submit(start)
+    _ = core.renderOffline(frames: 512)
+    try core.submit(.finishCueContact(deck: .c, generation: generation, cue: 24_000, continuePlaying: true))
+    _ = core.renderOffline(frames: 512)
+    let playing = try #require(core.snapshot()?[.c])
+    #expect(playing.phase == .playing && playing.sourceFrame > 24_000 && playing.synced && !playing.touchActive)
+}
+
+@Test func s4MK2SliceFeedbackDistinguishesFreezeAndLoopAndShowsTheHeldPad() throws {
+    let core = try SampleTransport(sampleRate: 48_000)
+    let snapshot = try #require(core.snapshot())
+    var feedback = S4MK2Lights.Feedback()
+    feedback.sliceModes = [.a: false, .b: true]
+    feedback.heldSlices = [.a: 1, .b: 6]
+    let lights = S4MK2Lights.report(snapshot: snapshot, controls: .init(), feedback: feedback)
+    #expect(lights[53] == 0 && lights[54] == 0 && lights[55] == 0x30)
+    #expect(lights[58] == 0x7f)
+    #expect(lights[65] == 0 && lights[66] == 0x30 && lights[67] == 0)
+    #expect(lights[52 + 0x21 + 2] == 0x7f)
+}
