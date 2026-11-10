@@ -13,6 +13,14 @@
       ],
       "report": "Use the full width beside Recommendations.",
       "summary": "Build 192 is assumed from the last recorded iPad install."
+    },
+    {
+      "date": "2026-11-10",
+      "requestIDs": [
+        "R133"
+      ],
+      "report": "Use the round GenErik logo on the loading screen.",
+      "summary": "Build 192 is assumed from the last recorded iPad install."
     }
   ],
   "log": "TestBuilds/ipad/build-192.log",

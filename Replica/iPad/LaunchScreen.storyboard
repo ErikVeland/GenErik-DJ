@@ -12,19 +12,19 @@
                     <view key="view" contentMode="scaleToFill" id="launch-view">
                         <rect key="frame" x="0" y="0" width="1112" height="834"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="LaunchWordmark" translatesAutoresizingMaskIntoConstraints="NO" id="launch-wordmark">
-                                <rect key="frame" x="222.4" y="365.7" width="667.2" height="102.6"/>
-                                <color key="tintColor" red="0.19" green="0.205" blue="0.22" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="LaunchLogo" translatesAutoresizingMaskIntoConstraints="NO" id="launch-logo">
+                                <rect key="frame" x="446" y="307" width="220" height="220"/>
+                                <color key="tintColor" red="0.48" green="0.50" blue="0.52" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="launch-wordmark" secondAttribute="height" multiplier="13:2" id="wordmark-aspect"/>
+                                    <constraint firstAttribute="width" constant="220" id="logo-width"/>
+                                    <constraint firstAttribute="height" constant="220" id="logo-height"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" name="LaunchBackground"/>
                         <constraints>
-                            <constraint firstItem="launch-wordmark" firstAttribute="centerX" secondItem="launch-view" secondAttribute="centerX" id="wordmark-center-x"/>
-                            <constraint firstItem="launch-wordmark" firstAttribute="centerY" secondItem="launch-view" secondAttribute="centerY" id="wordmark-center-y"/>
-                            <constraint firstItem="launch-wordmark" firstAttribute="width" secondItem="launch-view" secondAttribute="width" multiplier="0.6" id="wordmark-width"/>
+                            <constraint firstItem="launch-logo" firstAttribute="centerX" secondItem="launch-view" secondAttribute="centerX" id="logo-center-x"/>
+                            <constraint firstItem="launch-logo" firstAttribute="centerY" secondItem="launch-view" secondAttribute="centerY" id="logo-center-y"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -33,7 +33,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchWordmark" width="468" height="72"/>
+        <image name="LaunchLogo" width="220" height="220"/>
         <namedColor name="LaunchBackground">
             <color red="0.047" green="0.051" blue="0.055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
