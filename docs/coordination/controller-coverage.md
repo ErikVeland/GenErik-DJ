@@ -39,7 +39,9 @@ Erik requires automatic connection, controls, audio routing and custom lights. O
 | S3 | `com.native-instruments.protocol.kontrols3` | Automatic split audio, native four-deck controls and blue and amber jog rings. See [scope and checks](s3-native.md). |
 | S4 Mk2 | `com.native-instruments.traktordj.kontrols4mk2` | Automatic split audio, native four-deck controls and blue and amber Hot Cue lighting. See [scope and checks](s4-mk2-native.md). |
 | S4 Mk3 | No identifier in the preserved TDJ2 build | Linux bridge carries four-deck controls, lighting and four-channel audio. Hardware verification remains open. See [R123](#r123-s4-mk3-connection). |
-| MX2, Z1 Mk2, X1 Mk3 | No identifier in the preserved TDJ2 build | Verify a direct iPad connection. Implement factory mappings and feedback for a documented transport. |
+| Z1 Mk2 | No identifier in the preserved TDJ2 build | Linux bridge carries four-deck mixer controls, audio and custom lights. See [R125](#r125-z1-mk2-and-x1-mk3). |
+| X1 Mk3 | No identifier in the preserved TDJ2 build | Linux bridge carries four-deck transport, browse, FX and custom lights. See [R125](#r125-z1-mk2-and-x1-mk3). |
+| MX2 | No identifier in the preserved TDJ2 build | Native mapping and automatic connection remain open. |
 | Other Traktor variants | No identifier in the preserved TDJ2 build | Verify transport, per-model control and feedback reports, and audio where fitted. See the variant list above. |
 
 The first increment recognises the four named NI audio devices when iPadOS selects them as the sole wired output. It assigns main to channels 1–2 and headphones to 3–4. The audio session checks for four channels before playback. The controller session is separate.
@@ -61,6 +63,17 @@ The S4 Mk3 bridge keeps the controller in HID mode. It presents USB MIDI and fou
 The separate M-series DriverKit scheme adds a direct USB transport for the same app mapping. It needs a signed driver and hardware verification. [DriverKit build and verification](s4-mk3-driverkit.md)
 
 Twenty-two focused Swift tests and thirteen bridge tests passed. Build 186 passed local iOS signing and runtime checks. The physical bridge and iPad were outside this verification. [Build record](../testing/builds/186.json)
+
+## R125 Z1 Mk2 and X1 Mk3
+
+Both models use their documented native HID reports through the Linux bridge. The app connects automatically when the matching bridge appears. The Z1 Mk2 bridge also supplies four audio channels. GenErik DJ assigns master to 1–2 and headphones to 3–4. The audio route also recognises the Z1 Mk2 when iPadOS exposes its wired audio output directly. Direct USB audio does not provide native HID controls. [Bridge setup](../../tools/controller_bridge/README.md#z1-mk2-and-x1-mk3-bridges) · [Z1 Mk2 audio specifications](https://www.native-instruments.com/products/traktor-z1)
+
+- **Z1 Mk2.** A/B and C/D mixer layers, gain, EQ, channel faders, crossfader, headphone cue and blend, mixer FX and level meters. The Z1 controls its own master and headphone volume when it supplies the audio output. GenErik DJ uses filter and four mixer FX presets. The app does not map Stem mode or the OLED displays. [NI control guide](https://docs.native-instruments.com/online-guides/traktor-z1-mk2-manual/en/using-the-z1-with-traktor) · [HID report map](https://github.com/infifox/mixxx-traktor-controllers/blob/a9e8f8ea8adbed29c4d86d224049990ec8ba21ca/doc/TraktorZ1MK2.spec.md)
+- **X1 Mk3.** Menu switches between A/B and C/D. The two sides map transport, held Cue, nudge, reverse, Hot Cues, loops, browse, load and FX groups. Shift turns browse into group navigation and selects the mapped secondary transport actions. Displays, mixer mode and Pattern Player remain open. The X1 Mk3 has no audio interface. [NI hardware guide](https://docs.native-instruments.com/online-guides/traktor-x1-mk3-manual/en/hardware-overview) · [HID report map](https://github.com/infifox/mixxx-traktor-controllers/blob/36dc56869f3ad681e9b12f10f3dd15d0c4d540e6/doc/TraktorX1MK3.spec.md)
+
+The bottom LEDs on both models use the shared blue beat pulse and amber track-end warning. Local checks cover report decoding, deck changes, light values, gadget creation and selection of the split audio route. Physical controller behaviour, bridge audio and A10X performance remain open. These models are outside the S4 Mk3 DriverKit entitlement request.
+
+The remaining Traktor models without a factory adapter are S2 Mk1, S4 Mk1, S5, S8, X1 Mk1, X1 Mk2, F1, D2, Z2 and MX2.
 
 ## Required capabilities for each model
 
