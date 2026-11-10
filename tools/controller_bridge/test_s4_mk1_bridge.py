@@ -1,10 +1,18 @@
 import unittest
 
-from s4_mk1_bridge import INPUT, LENGTHS, InputState, unpack_lights
+from s4_mk1_bridge import INPUT, LENGTHS, InputState, four_channel_pcm, unpack_lights
 from z1_bridge import Decoder
 
 
 class S4Mk1BridgeChecks(unittest.TestCase):
+    def test_alsa_preserves_both_stereo_subdevices_in_order(self):
+        config = four_channel_pcm('plughw:7,0')
+        self.assertIn('slaves.first.pcm "hw:7,0,0"', config)
+        self.assertIn('slaves.second.pcm "hw:7,0,1"', config)
+        self.assertIn('bindings.2 { slave second channel 0 }', config)
+        self.assertIn('bindings.3 { slave second channel 1 }', config)
+        self.assertIn('slave.pcm "generik_s4_pairs"', config)
+
     def test_native_state_keeps_high_resolution_and_fixed_keys(self):
         state = InputState([0x100 + 63], [0] * 47)
         state.axes[2] = 4095

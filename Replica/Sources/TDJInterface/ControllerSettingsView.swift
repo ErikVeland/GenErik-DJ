@@ -358,6 +358,7 @@ struct ControllerSettingsView: View {
             lines.append(model.s2Status)
             lines.append(model.s3Status)
             lines.append(model.s4Status)
+            if let input = model.s4MK1InputStatus { lines.append(input) }
             lines.append(model.s4MK1Receiving ? "S4 Mk1 bridge connected." : "Waiting for the S4 Mk1 bridge.")
             lines.append(model.s4MK3BridgeStatus)
             lines.append(model.z1MK2Receiving ? "Z1 Mk2 bridge connected." : "Waiting for the Z1 Mk2 bridge.")

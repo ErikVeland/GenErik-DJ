@@ -50,6 +50,12 @@ typedef struct tdj_engine tdj_engine;
 #define TDJ_LOOP_ROLL 27
 #define TDJ_EJECT 28
 #define TDJ_GRID_METRONOME 29
+#define TDJ_LOOP_RECORDER 30
+#define TDJ_LOOP_REC_RECORD 0
+#define TDJ_LOOP_REC_PLAY 1
+#define TDJ_LOOP_REC_UNDO 2
+#define TDJ_LOOP_REC_SIZE 3
+#define TDJ_LOOP_REC_WET 4
 #define TDJ_PAD_COUNT 16
 #define TDJ_EFFECT_DELAY 0
 #define TDJ_EFFECT_REVERB 1
@@ -110,7 +116,7 @@ double tdj_beatgrid_beat(tdj_beatgrid_map map, double frame);
 
 typedef struct {
     int32_t kind, deck, flag;
-    uint64_t id, generation;
+    uint64_t id, generation, reference_generation;
     double value, value2, value3;
     double touch_rate;
     tdj_asset *asset;
@@ -185,6 +191,10 @@ bool tdj_render(tdj_engine *engine, uint32_t count, float *left, float *right);
 // Same render pass, with a separate stereo headphone bus. Null monitor pointers discard that bus.
 void tdj_external_input_push(tdj_engine *engine, const float *left, const float *right, uint32_t count,
                              uint32_t stride, double rate);
+bool tdj_loop_recorder_prepare(tdj_engine *engine);
+void tdj_loop_recorder_enable(tdj_engine *engine, bool enabled);
+int32_t tdj_loop_recorder_state(tdj_engine *engine);
+void tdj_s4_mk1_input_set_enabled(tdj_engine *engine, bool enabled);
 void tdj_s4_input_set_channels(tdj_engine *engine, uint32_t channels);
 void tdj_s4_mic_set_level(tdj_engine *engine, double level);
 void tdj_s4_input_push(tdj_engine *engine, const float *const *input, const uint32_t *strides,

@@ -43,7 +43,7 @@ extension SourceControl {
         }
         let entryBeat: Double? = hasReference ? 0 : snapshot.clockRunning ? snapshot.masterBeat : nil
         switch self {
-        case .tempo(let bpm): if state.synced, state.sourceBPM > 0 { target.speed = bpm / state.sourceBPM }
+        case .tempo(let bpm, _, _): if state.synced, state.sourceBPM > 0 { target.speed = bpm / state.sourceBPM }
         case .freeRate(let rate, _, _): if !state.synced { target.speed = rate }
         case .sync(let enabled, _, _):
             target.speed =
@@ -194,7 +194,7 @@ extension SourceControl {
         }
         if proposedSynced, let map = state.adaptiveMap {
             let master: Double
-            if case .tempo(let bpm) = self { master = bpm } else { master = snapshot.masterBPM }
+            if case .tempo(let bpm, _, _) = self { master = bpm } else { master = snapshot.masterBPM }
             for pair in zip(map.anchors, map.anchors.dropFirst()) {
                 let bpm = 60 * map.sampleRate * (pair.1.beat - pair.0.beat) / (pair.1.frame - pair.0.frame)
                 target.speed = max(target.speed, master / bpm)

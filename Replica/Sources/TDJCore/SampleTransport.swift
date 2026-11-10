@@ -2,6 +2,23 @@ import CTDJTransport
 import Darwin
 import Foundation
 
+public enum PerformanceLoopRecorderAction: Equatable, Sendable {
+    case record, play, undo, size, wet(Double)
+}
+
+public struct PerformanceLoopRecorderState: OptionSet, Sendable {
+    public let rawValue: Int32
+    public init(rawValue: Int32) { self.rawValue = rawValue }
+    public static let armed = Self(rawValue: 1)
+    public static let recording = Self(rawValue: 2)
+    public static let playing = Self(rawValue: 4)
+    public static let overdubbing = Self(rawValue: 8)
+    public static let stored = Self(rawValue: 16)
+    public static let hasUndo = Self(rawValue: 32)
+    public static let undone = Self(rawValue: 64)
+    public var isActive: Bool { !intersection([.armed, .recording, .playing, .overdubbing]).isEmpty }
+}
+
 public enum TransportError: Error, LocalizedError, Equatable {
     case allocation, queueFull, stale, unresolved, protectedDeck, invalid, keylockRate, sourceCold, playbackCapacity,
         syncUnavailable, activePerformance, nativeSourceChanged
@@ -721,6 +738,33 @@ public final class SampleTransport: @unchecked Sendable {
     public func setMicrophoneEnabled(_ enabled: Bool) {
         tdj_microphone_set_enabled(pointer, enabled)
     }
+
+    public func prepareLoopRecorder() throws {
+        guard tdj_loop_recorder_prepare(pointer) else { throw TransportError.allocation }
+    }
+
+    public func enableLoopRecorder(_ enabled: Bool) { tdj_loop_recorder_enable(pointer, enabled) }
+
+    public var loopRecorderState: PerformanceLoopRecorderState {
+        .init(rawValue: tdj_loop_recorder_state(pointer))
+    }
+
+    public func controlLoopRecorder(_ action: PerformanceLoopRecorderAction) throws {
+        var command = tdj_command()
+        command.kind = TDJ_LOOP_RECORDER
+        switch action {
+        case .record: command.flag = TDJ_LOOP_REC_RECORD
+        case .play: command.flag = TDJ_LOOP_REC_PLAY
+        case .undo: command.flag = TDJ_LOOP_REC_UNDO
+        case .size: command.flag = TDJ_LOOP_REC_SIZE
+        case .wet(let wet):
+            command.flag = TDJ_LOOP_REC_WET
+            command.value = wet
+        }
+        try send(command)
+    }
+
+    public func enableS4MK1Input(_ enabled: Bool) { tdj_s4_mk1_input_set_enabled(pointer, enabled) }
 
     public func setS4InputChannels(_ channels: UInt32) {
         tdj_s4_input_set_channels(pointer, channels)

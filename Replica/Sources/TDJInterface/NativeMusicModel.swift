@@ -383,6 +383,7 @@ extension ReplicaModel {
         if playback.core.playingPads != 0 { return false }
         #if os(iOS)
             if playback.s2MicrophoneActive || playback.s3ExtEnabled || playback.s4InputChannels > 0
+                || playback.core.loopRecorderState.isActive
                 || playback.core.previewGeneration != 0 || s2SampleLoad != nil {
                 return false
             }

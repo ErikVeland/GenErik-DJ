@@ -103,7 +103,13 @@ def setup(args):
             write_attribute(audio / "c_chmask", "0x33")
             write_attribute(audio / "c_srate", "48000")
             write_attribute(audio / "c_ssize", "4")
-            write_attribute(audio / "p_chmask", "0")
+            if modular == "s4-mk1":
+                write_attribute(audio / "p_chmask", "0x33")
+                write_attribute(audio / "p_srate", "48000")
+                write_attribute(audio / "p_ssize", "4")
+                write_attribute(gadget / "bcdDevice", "0x0101")
+            else:
+                write_attribute(audio / "p_chmask", "0")
             if (audio / "function_name").exists():
                 write_attribute(audio / "function_name", product)
             audio_link = configuration / "uac2.usb0"

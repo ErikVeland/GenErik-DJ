@@ -77,6 +77,13 @@ enum S4MK2Event: Equatable {
     case loopSet(DeckID)
     case tempoReset(DeckID)
     case tempoPickup(DeckID, Double)
+    case clockMaster(DeckID?)
+    case browseMode(Bool)
+    case copyTarget(S4MK1CopyTarget)
+    case copyEnd
+    case loopRecorder(PerformanceLoopRecorderAction)
+    case fxMode(Int, snapshot: Bool)
+    case fxSelect(Int, Int?)
     case record
     case preview
     case quantize

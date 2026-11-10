@@ -26,7 +26,12 @@ import Testing
     _ = controls.consume(s4Mk1Panel())
     #expect(controls.consume(s4Mk1Panel(36)) == [.preview])
     #expect(controls.consume(s4Mk1Panel()).isEmpty)
-    #expect(controls.consume(s4Mk1Panel(28)) == [.native(.browserView)])
+    #expect(controls.consume(s4Mk1Panel(28)).isEmpty)
+    #expect(controls.consume(s4Mk1Panel()) == [.browseMode(true)])
+    #expect(controls.consume(s4Mk1Panel(35)) == [.native(.browser(.load(.d)))])
+    #expect(controls.consume(s4Mk1Panel(28, 33)) == [.copyTarget(.deck(.a))])
+    #expect(controls.consume(s4Mk1Panel(28, 35)) == [.copyTarget(.deck(.d))])
+    #expect(controls.consume(s4Mk1Panel()) == [.copyEnd])
 }
 
 @Test func s4Mk1WrappedScratchAndHeldCueReleaseOnDeckSwitch() {
@@ -130,4 +135,54 @@ private func s4Mk1Lamp(_ id: Int, in report: [UInt8]) -> UInt8 {
     let low = UInt16(report[offset])
     let high = offset + 1 < report.count ? UInt16(report[offset + 1]) : 0
     return UInt8(((high << 8 | low) >> (bit % 8)) & 31)
+}
+
+@Test func s4Mk1RemainingNativeButtonsAndAnalogAxes() {
+    var controls = S4MK1Controls()
+    _ = controls.consume(s4Mk1Panel())
+    #expect(
+        controls.consume(s4Mk1Panel(24, 25, 26, 27, 30, 69, 93)) == [
+            .loopRecorder(.size), .loopRecorder(.record), .loopRecorder(.undo), .loopRecorder(.play),
+            .clockMaster(nil), .fxMode(0, snapshot: false), .fxMode(1, snapshot: false),
+        ])
+    _ = controls.consume(s4Mk1Panel())
+    #expect(controls.consume(s4Mk1Panel(80)) == [.loopRecorder(.record)])
+    _ = controls.consume(s4Mk1Panel())
+    #expect(controls.consume(s4Mk1Panel(57, 59, 93)) == [.clockMaster(.b), .fxMode(1, snapshot: true)])
+    var pots = [UInt8](repeating: 0, count: 73)
+    pots[0] = 2
+    _ = controls.consume(pots)
+    s4Mk1Word(4080, at: 9, in: &pots)
+    s4Mk1Word(4080, at: 17, in: &pots)
+    #expect(controls.consume(pots) == [.loopRecorder(.wet(1)), .micLevel(1)])
+}
+
+@Test func s4Mk1ActiveLoopInConsumesJogTicksAndReleasesScratch() {
+    var controls = S4MK1Controls()
+    var panel = s4Mk1Panel()
+    s4Mk1Word(2800, at: 26, in: &panel)
+    _ = controls.consume(panel)
+    s4Mk1Word(3300, at: 26, in: &panel)
+    #expect(controls.consume(panel) == [.action(.jogTouchA, .a, 1)])
+    panel[2] = 1 << 2
+    s4Mk1Word(3, at: 13, in: &panel)
+    #expect(
+        controls.consume(panel, activeLoop: { $0 == .a }) == [
+            .action(.jogTouchA, .a, 0), .native(.loopTrim(.a, end: false, ticks: 3)),
+        ])
+    panel[2] = 0
+    #expect(controls.consume(panel, activeLoop: { $0 == .a }).isEmpty)
+}
+
+@Test func s4Mk1FXSingleAndGroupUseDistinctSlotsAndRecallParameters() {
+    var fx = S4MK1FX()
+    let group = fx.effect(slot: 2, unit: 0, enabled: true, slots: [2], knobs: [0.8, 0.2, 0.3, 0.4])
+    #expect(group?.kind == 2 && group?.x == 0.4 && group?.y == 0.8)
+    fx.group = false
+    fx.select(slot: 1)
+    fx.defaults[1] = [0.2, 0.4, 0.5]
+    fx.resetSingle()
+    #expect(fx.effect(slot: 2, unit: 0, enabled: true, slots: [2], knobs: [0.5, 0, 0, 0]) == nil)
+    let single = fx.effect(slot: 0, unit: 0, enabled: true, slots: [], knobs: [0.5, 0, 0, 0])
+    #expect(single?.kind == 1 && single?.x == 0.2 && single?.y == 0.4)
 }
