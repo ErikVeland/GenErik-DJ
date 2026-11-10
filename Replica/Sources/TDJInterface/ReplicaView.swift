@@ -1124,7 +1124,6 @@ extension ReplicaView {
     }
 }
 
-/// RECORD, SPLIT OUTPUT and MASTER, as in the original speaker popover, with routing details below.
 @MainActor struct AudioQuickPanel: View {
     @Bindable var model: ReplicaModel
     @State private var details = false
@@ -1140,20 +1139,6 @@ extension ReplicaView {
                 }.disabled(model.recordingFinishing).accessibilityLabel(model.isRecording ? "Stop recording" : "Record")
             }
             Divider()
-            row(model.automaticOutputDevice.map { "\($0.uppercased()) OUTPUT" } ?? "SPLIT OUTPUT") {
-                if model.automaticOutputDevice != nil {
-                    Text("Automatic").foregroundStyle(.secondary)
-                } else {
-                    Toggle(
-                        "",
-                        isOn: Binding(
-                            get: { model.outputRoute == .masterAndHeadphones },
-                            set: { model.setOutputRoute($0 ? .masterAndHeadphones : .stereoMaster) })
-                    ).labelsHidden().disabled(model.isRecording || model.recordingFinishing).accessibilityLabel(
-                        "Split output")
-                }
-            }
-            Divider()
             row("MASTER") {
                 Slider(
                     value: Binding(
@@ -1164,7 +1149,8 @@ extension ReplicaView {
             Divider()
             DisclosureGroup(isExpanded: $details) {
                 VStack(alignment: .leading, spacing: 8) {
-                    AudioSettingsView(model: model)
+                    OutputSettingsView(model: model)
+                    Divider()
                     HStack {
                         ForEach([DeckID.a, .b], id: \.self) { deck in
                             Button {
@@ -1187,7 +1173,11 @@ extension ReplicaView {
                     }
                 }.padding(.bottom, 14)
             } label: {
-                rowTitle("OUTPUT").frame(minHeight: 54, alignment: .leading)
+                HStack {
+                    rowTitle("OUTPUT")
+                    Spacer(minLength: 8)
+                    Text(outputSummary).foregroundStyle(PerformancePalette.secondaryText).lineLimit(1)
+                }.frame(minHeight: 54, alignment: .leading)
             }.padding(.horizontal, 14).font(.system(size: 13))
         }.frame(width: 360).foregroundStyle(PerformancePalette.text).background(PerformancePalette.panel).alert(
             "Recording location", isPresented: $locationPrompt
@@ -1199,6 +1189,11 @@ extension ReplicaView {
             Text("Add a venue or location for the recording filename.")
         }
     }
+    private var outputSummary: String {
+        if let device = model.automaticOutputDevice { return "\(device) · Auto" }
+        return model.outputRoute == .masterAndHeadphones ? "Split" : "Stereo"
+    }
+
     private func rowTitle(_ title: String) -> some View {
         Text(title).font(.system(size: 14, weight: .bold)).foregroundStyle(PerformancePalette.secondaryText)
     }
