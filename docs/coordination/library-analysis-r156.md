@@ -53,3 +53,9 @@ Two older sharing tests failed on the unchanged baseline. One expected a missing
 Mac recovery now keeps one analyser process open. A fresh “Blockbuster” run took 108.61 seconds under the active workload. The next run in the same process took 1.40 seconds. First-pass and deep results were identical except for completion time. This measures model setup reuse on one short track, not general library throughput. Evidence is under `service-proof` in the external run folder.
 
 Source recovery retries failed exports with a new request after five minutes. Three failed attempts produce an explicit exception for review. Prior requests and responses remain retained. The worker exits after the campaign starts the full-library phase. Nine campaign checks passed, including the repeated-failure gate.
+
+Build 222 applied 24 results in 9.65 seconds, then reached download. A later group applied 32 results in 8.17 seconds. The iPad acknowledged the recovered “Blockbuster” revision. A copied library contained 236 exact Mac results. All 222 protected grids checked in that set remained unchanged. The run still has unapplied results.
+
+Build 223 identified CloudKit error 14 inside the remaining partial upload failures. The saved engine state contained 382 pending revisions with no local confirmation. The receiver now fetches and verifies the complete server payload for a conflicting revision. It clears that pending upload only after verification. It continues only when every error is a verified conflict and the operation made progress. Other errors and cancellation still stop sync. Seventeen focused checks passed. Device verification remains open.
+
+Build 222 also installed on the Duo. iOS refused both launch attempts because the device was locked. The iPad build record retains separate device evidence. The iPhone remained unavailable. Neither device has confirmed the current Mac batch.

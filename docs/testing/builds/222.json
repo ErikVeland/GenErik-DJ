@@ -14,5 +14,21 @@
   "createdUTC": "2026-11-10T14:50:07.208282+00:00",
   "installedUTC": "2026-11-10T14:50:21.418965+00:00",
   "launchedUTC": "2026-11-10T14:50:21.989111+00:00",
-  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "deviceInstalls": [
+    {
+      "device": "iPad A10X",
+      "installedUTC": "2026-11-10T14:50:21.418965+00:00",
+      "launchedUTC": "2026-11-10T14:50:21.989111+00:00",
+      "state": "testing"
+    },
+    {
+      "device": "Duo",
+      "installedUTC": "2026-11-10T14:54:06.047561+00:00",
+      "state": "installed-device-locked",
+      "log": "/Volumes/iTunes/GenErik DJ Analysis/r156/duo-deploy-222.log",
+      "launchFailure": "iOS refused launch because the device was locked.",
+      "retryLog": "/Volumes/iTunes/GenErik DJ Analysis/r156/duo-launch-222-retry.log"
+    }
+  ]
 }
