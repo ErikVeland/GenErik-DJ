@@ -13,6 +13,8 @@
 #include "TDJAsset.h"
 #include "TDJAuxiliary.h"
 #include "TDJLoopRecorder.h"
+#include "TDJPattern.h"
+#include "TDJTimecode.h"
 
 #define COMMAND_CAPACITY 128u
 #define MESSAGE_CAPACITY 512u
@@ -21,6 +23,7 @@ enum { LOOP_EXPORT_IDLE, LOOP_EXPORT_WAITING, LOOP_EXPORT_READY, LOOP_EXPORT_UNA
 
 typedef struct {
     tdj_asset *asset;
+    uint64_t stem_mix;
     uint64_t generation, last_start;
     int32_t state;
     bool synced, keylock;
@@ -112,6 +115,12 @@ struct tdj_engine {
     atomic_deck published[TDJ_DECK_COUNT];
     stream_claim claims[TDJ_STREAM_MAX_TICKETS * TDJ_DECK_COUNT];
     auxiliary_mix auxiliary;
+    _Atomic uint64_t pattern_settings[TDJ_PATTERN_UNITS];
+    pattern_voice patterns[TDJ_PATTERN_UNITS];
+    _Atomic uint64_t stem_settings[TDJ_DECK_COUNT];
+    _Atomic uint64_t timecode[2];
+    _Atomic uint32_t factory_live_inputs;
+    _Atomic bool factory_s8_input;
     _Atomic(loop_recorder *) loop_recorder_buffer;
     _Atomic bool loop_recorder_enabled, loop_recorder_reset;
     _Atomic int32_t loop_recorder_status, loop_export_state;
@@ -235,6 +244,25 @@ tdj_asset *tdj_asset_map(const char *path, uint64_t frames, double rate) {
     return asset;
 }
 
+tdj_asset *tdj_asset_create_stems(const tdj_asset *master, const tdj_asset *const *stems) {
+    if (!master || !master->samples || !stems || master->stems[0])
+        return NULL;
+    for (unsigned i = 0; i < 4; ++i)
+        if (!stems[i] || !stems[i]->samples || stems[i]->frames != master->frames || stems[i]->rate != master->rate)
+            return NULL;
+    tdj_asset *asset = calloc(1, sizeof(*asset));
+    if (!asset)
+        return NULL;
+    asset->samples = master->samples;
+    asset->frames = master->frames;
+    asset->rate = master->rate;
+    for (unsigned i = 0; i < 4; ++i)
+        asset->stems[i] = stems[i];
+    return asset;
+}
+
+#define TDJ_STEM_DEFAULT UINT64_C(0x007f007f007f007f)
+
 void tdj_asset_destroy(tdj_asset *asset) {
     if (!asset)
         return;
@@ -242,7 +270,7 @@ void tdj_asset_destroy(tdj_asset *asset) {
         tdj_stream_destroy(asset);
     else if (asset->mapped)
         munmap((void *)asset->samples, asset->bytes);
-    else
+    else if (!asset->stems[0])
         free((void *)asset->samples);
     free(asset);
 }
@@ -375,9 +403,45 @@ static void brake_clear(tdj_engine *e, int index) {
     tdj_keylock_reset(e->keylocks[index]);
     transition_request(e, index, 0);
 }
+static bool stem_active(const deck *d) {
+    return d->asset->stems[0] && d->stem_mix != TDJ_STEM_DEFAULT;
+}
+
+static bool stem_read(void *context, uint64_t frame, float *l, float *r) {
+    deck *d = context;
+    *l = *r = 0;
+    if (frame >= d->asset->frames)
+        return false;
+    uint64_t before = frame > 6 ? frame - 6 : 0;
+    uint64_t after = frame + 6 < d->asset->frames ? frame + 6 : d->asset->frames - 1;
+    uint64_t mix = d->stem_mix;
+    for (unsigned i = 0; i < 4; ++i, mix >>= 16) {
+        unsigned gain_byte = mix & 127;
+        if (!gain_byte)
+            continue;
+        float gain = (float)gain_byte / 127;
+        int filter = (int8_t)(mix >> 8);
+        const float *samples = d->asset->stems[i]->samples;
+        float left = samples[2 * frame], right = samples[2 * frame + 1];
+        if (filter) {
+            float low_l = (samples[2 * before] + samples[2 * after] + 2 * left) * 0.25f;
+            float low_r = (samples[2 * before + 1] + samples[2 * after + 1] + 2 * right) * 0.25f;
+            float amount = (float)filter / 127;
+            left += amount < 0 ? (left - low_l) * amount : -low_l * amount;
+            right += amount < 0 ? (right - low_r) * amount : -low_r * amount;
+        }
+        *l += gain * left;
+        *r += gain * right;
+    }
+    return true;
+}
+
 static void brake_input(tdj_engine *e, int index, double position, double start, double end, float *l, float *r) {
     deck *d = &e->decks[index];
-    if (d->asset->stream)
+    if (stem_active(d))
+        tdj_keylock_sample_stream(e->keylocks[index], d, stem_read, d->asset->frames, d->asset->rate,
+                                 position, d->free_rate, d->keylock, start, end, l, r);
+    else if (d->asset->stream)
         tdj_keylock_sample_stream_spans(e->keylocks[index], d->asset, tdj_stream_render_read_stereo,
                                         tdj_stream_render_span, d->asset->frames, d->asset->rate, position,
                                         d->free_rate, d->keylock, start, end, l, r);
@@ -820,6 +884,17 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
     e->bpm = 120;
     mixer_init(&e->mix, rate, gain);
     auxiliary_init(&e->auxiliary, rate);
+    atomic_init(&e->timecode[0], 0);
+    atomic_init(&e->timecode[1], 0);
+    atomic_init(&e->factory_live_inputs, 0);
+    atomic_init(&e->factory_s8_input, false);
+    for (unsigned i = 0; i < TDJ_DECK_COUNT; ++i)
+        atomic_init(&e->stem_settings[i], TDJ_STEM_DEFAULT);
+    for (unsigned i = 0; i < TDJ_PATTERN_UNITS; ++i) {
+        atomic_init(&e->pattern_settings[i], 0);
+        e->patterns[i].step = INT64_MIN;
+        e->patterns[i].noise = i + 1;
+    }
     atomic_init(&e->published_paired_frames, 0);
     atomic_init(&e->master_meter_enabled, false);
     for (unsigned i = 0; i < 2; ++i) {
@@ -1442,6 +1517,8 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (c.deck < 2)
             e->paired_frames = 0;
         *d = proposed;
+        d->stem_mix = TDJ_STEM_DEFAULT;
+        atomic_store_explicit(&e->stem_settings[c.deck], TDJ_STEM_DEFAULT, memory_order_relaxed);
         if (c.deck >= e->deck_count)
             e->deck_count = TDJ_DECK_COUNT;
         if (reset_tempo) {
@@ -2380,10 +2457,12 @@ void tdj_loop_recorder_finish_export(tdj_engine *e) {
 }
 
 void tdj_s4_mk1_input_set_enabled(tdj_engine *e, bool enabled) {
+    atomic_store_explicit(&e->factory_s8_input, false, memory_order_relaxed);
     if (!enabled || atomic_load_explicit(&e->extra_prepared, memory_order_acquire))
         microphone_configure(&e->auxiliary, enabled ? (8 | 4) : 0);
 }
 void tdj_s4_input_set_channels(tdj_engine *e, uint32_t channels) {
+    atomic_store_explicit(&e->factory_s8_input, false, memory_order_relaxed);
     if (channels == 0 || ((channels == 4 || channels == 6) &&
                          atomic_load_explicit(&e->extra_prepared, memory_order_acquire)))
         microphone_configure(&e->auxiliary, channels);
@@ -2394,8 +2473,22 @@ void tdj_s4_mic_set_level(tdj_engine *e, double level) {
 }
 void tdj_s4_input_push(tdj_engine *e, const float *const *input, const uint32_t *strides, uint32_t count,
                        uint32_t channels, double rate) {
-    if (input && strides && (channels == 4 || channels == 6))
-        microphone_push(&e->auxiliary, input, strides, count, channels, rate);
+    if (!input || !strides || (channels != 4 && channels != 6))
+        return;
+    uint64_t layout = atomic_load_explicit(&e->auxiliary.mic_configuration, memory_order_acquire);
+    if (channels == 6 && (layout & 15) == 14) {
+        for (unsigned side = 0; side < 2; ++side) {
+            double speed;
+            unsigned pair = side * 2;
+            bool valid = input[pair] && input[pair + 1] &&
+                         timecode_speed(input[pair], input[pair + 1], strides[pair], strides[pair + 1], count, rate, &speed);
+            uint64_t previous = atomic_load_explicit(&e->timecode[side], memory_order_relaxed);
+            uint64_t stamp = (previous >> 17) + 1;
+            uint64_t sample = valid ? UINT64_C(65536) | (uint16_t)(int16_t)lrint(speed * 4096) : 0;
+            atomic_store_explicit(&e->timecode[side], (stamp << 17) | sample, memory_order_release);
+        }
+    }
+    microphone_push(&e->auxiliary, input, strides, count, channels, rate);
 }
 void tdj_external_input_mix(tdj_engine *e, double level, double cue_gain) {
     if (isfinite(level) && level >= 0 && level <= 4)
@@ -2501,6 +2594,14 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
     uint32_t recorded_offsets[TDJ_DECK_COUNT] = {UINT32_MAX, UINT32_MAX, UINT32_MAX, UINT32_MAX};
     for (int deck = 0; deck < e->deck_count; deck++) {
         double bpm, beat;
+        if (e->decks[deck].asset && e->decks[deck].asset->stems[0]) {
+            uint64_t mix = atomic_load_explicit(&e->stem_settings[deck], memory_order_relaxed);
+            if (mix != e->decks[deck].stem_mix) {
+                e->decks[deck].stem_mix = mix;
+                tdj_keylock_reset(e->keylocks[deck]);
+                transition_request(e, deck, 0);
+            }
+        }
         effect_clock(e, deck, &bpm, &beat);
         for (int slot = 0; slot < 3; slot++)
             fx_prepare(&e->effects[deck][slot], e->rate, bpm);
@@ -2515,12 +2616,45 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 target_frames[i] = e->epoch_frame + (uint64_t)ceil(offset);
         }
     }
+    unsigned active_patterns[TDJ_PATTERN_UNITS], pattern_count = 0;
+    for (unsigned i = 0; i < TDJ_PATTERN_UNITS; ++i) {
+        uint64_t settings = atomic_load_explicit(&e->pattern_settings[i], memory_order_relaxed);
+        e->patterns[i].settings = settings;
+        if ((settings & 0x1f0000) > 0x100000 && e->running) {
+            active_patterns[pattern_count++] = i;
+        } else {
+            e->patterns[i].step = INT64_MIN;
+            e->patterns[i].remaining = 0;
+        }
+    }
     bool s4 = mic.channels >= 4;
-    int mix_decks = s4 ? TDJ_DECK_COUNT : e->deck_count;
+    bool s8 = atomic_load_explicit(&e->factory_s8_input, memory_order_relaxed);
+    uint32_t live_inputs = atomic_load_explicit(&e->factory_live_inputs, memory_order_relaxed);
+    int mix_decks = s4 && !mic.z2 ? TDJ_DECK_COUNT : e->deck_count;
     for (int i = 0; i < mix_decks; ++i)
         e->mix.decks[i].peak = 0;
     for (uint32_t f = 0; f < count; ++f) {
         double l = 0, r = 0, cl = 0, cr = 0;
+        double duck[TDJ_DECK_COUNT];
+        if (pattern_count) {
+            for (unsigned i = 0; i < TDJ_DECK_COUNT; ++i)
+                duck[i] = 1;
+            double clock_step = beat_now(e) * 4;
+            int64_t step = (int64_t)floor(clock_step);
+            for (unsigned n = 0; n < pattern_count; ++n) {
+                pattern_voice *voice = &e->patterns[active_patterns[n]];
+                if (voice->step == INT64_MIN && clock_step - (double)step > e->bpm * 4 / (60 * e->rate))
+                    voice->step = step;
+                double sample = pattern_sample(voice, step, e->rate);
+                l += sample;
+                r += sample;
+                if (voice->settings & UINT64_C(0x200000)) {
+                    for (unsigned i = 0; i < TDJ_DECK_COUNT; ++i)
+                        if (voice->settings & (UINT64_C(0x10000) << i))
+                            duck[i] = fmin(duck[i], 1 - fabs(sample) * 0.8);
+                }
+            }
+        }
         double live[6];
         if (s4)
             microphone_next(aux, &mic, live);
@@ -2555,7 +2689,8 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                blend = ramp_next(&e->mix.cue_mix);
         for (int i = 0; i < mix_decks; ++i) {
             deck *d = &e->decks[i];
-            bool line = s4 && i >= 2 && !d->asset && !(mic.shared_aux && i == 3);
+            bool line = !d->asset && (mic.z2 ? i < 2 && (live_inputs & (1u << i))
+                : s4 && i >= 2 && !(mic.shared_aux && i == 3) && (!s8 || (live_inputs & (1u << i))));
             if (i >= 2 && !line && !d->asset && !e->transitions[i].playing && !e->transitions[i].remaining)
                 continue;
             if (d->state == TDJ_QUEUED && e->frame >= target_frames[i]) {
@@ -2574,8 +2709,9 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             transition->playing = playing;
             if (!playing) {
                 d->grid_click_position_valid = false;
-                double zero_l = line ? live[(i - 2) * 2] : 0;
-                double zero_r = line ? live[(i - 2) * 2 + 1] : 0;
+                int pair = mic.z2 ? i : i - 2;
+                double zero_l = line ? live[pair * 2] : 0;
+                double zero_r = line ? live[pair * 2 + 1] : 0;
                 transition_sample(transition, &zero_l, &zero_r);
                 mixer_process_deck(&e->mix, i, &zero_l, &zero_r);
                 double fx_bpm, fx_beat;
@@ -2635,10 +2771,15 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 double fraction = d->position - floor(d->position);
                 if (wrap_end > wrap_start && next >= wrap_end)
                     next = (uint64_t)wrap_start;
-                if (d->asset->stream) {
+                if (d->asset->stream || stem_active(d)) {
                     float al, ar, bl, br;
-                    tdj_stream_render_read_stereo(d->asset, at, &al, &ar);
-                    tdj_stream_render_read_stereo(d->asset, next, &bl, &br);
+                    if (d->asset->stream) {
+                        tdj_stream_render_read_stereo(d->asset, at, &al, &ar);
+                        tdj_stream_render_read_stereo(d->asset, next, &bl, &br);
+                    } else {
+                        stem_read(d, at, &al, &ar);
+                        stem_read(d, next, &bl, &br);
+                    }
                     source_l = al * (1 - fraction) + bl * fraction;
                     source_r = ar * (1 - fraction) + br * fraction;
                 } else {
@@ -2648,7 +2789,11 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 }
                 if (d->performance_rate == 0)
                     source_l = source_r = 0;
-            } else if (d->asset->stream)
+            } else if (stem_active(d))
+                tdj_keylock_sample_stream(e->keylocks[i], d, stem_read, d->asset->frames, d->asset->rate,
+                                         d->position, source_rate(e, d), d->keylock, wrap_start, wrap_end,
+                                         &source_l, &source_r);
+            else if (d->asset->stream)
                 tdj_keylock_sample_stream_spans(e->keylocks[i], d->asset, tdj_stream_render_read_stereo,
                                                 tdj_stream_render_span, d->asset->frames, d->asset->rate, d->position,
                                                 source_rate(e, d), d->keylock, wrap_start, wrap_end, &source_l,
@@ -2688,6 +2833,8 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             for (int k = 0; k < 3; k++)
                 fx_process(&e->effects[i][k], e->rate, fx_bpm, fx_beat, &dl, &dr);
             double level = volume * mixer_crossfader_gain(&e->mix.decks[i], cross);
+            if (pattern_count)
+                level *= duck[i];
             l += dl * level;
             r += dr * level;
             cl += dl * cue;
@@ -2782,6 +2929,10 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             double level = ramp_next(&aux->s4_mic_ramp);
             l += live[2] * level;
             r += live[3] * level;
+        } else if (mic.z2) {
+            double level = ramp_next(&aux->s4_mic_ramp);
+            l += live[4] * level;
+            r += live[5] * level;
         } else if (mic.channels == 6) {
             double mono = (live[4] + live[5]) * 0.5 * ramp_next(&aux->s4_mic_ramp);
             l += mono;
@@ -2970,4 +3121,36 @@ bool tdj_read_snapshot(tdj_engine *e, tdj_snapshot *out) {
         }
     }
     return false;
+}
+
+void tdj_stem_mix_set(tdj_engine *e, unsigned deck, uint64_t mix) {
+    if (e && deck < TDJ_DECK_COUNT)
+        atomic_store_explicit(&e->stem_settings[deck], mix, memory_order_relaxed);
+}
+
+void tdj_pattern_set(tdj_engine *e, unsigned unit, uint64_t settings) {
+    if (e && unit < TDJ_PATTERN_UNITS)
+        atomic_store_explicit(&e->pattern_settings[unit], settings, memory_order_relaxed);
+}
+
+void tdj_factory_input_set(tdj_engine *e, unsigned layout, uint32_t input_mask) {
+    atomic_store_explicit(&e->factory_live_inputs, input_mask & 15, memory_order_relaxed);
+    if (layout == 6) {
+        atomic_store_explicit(&e->factory_s8_input, false, memory_order_relaxed);
+        microphone_configure(&e->auxiliary, 14);
+    } else if (layout == 4) {
+        atomic_store_explicit(&e->factory_s8_input, true, memory_order_relaxed);
+        microphone_configure(&e->auxiliary, 4);
+    } else {
+        microphone_configure(&e->auxiliary, 0);
+        atomic_store_explicit(&e->factory_s8_input, false, memory_order_relaxed);
+    }
+}
+
+uint64_t tdj_timecode_read(tdj_engine *e, unsigned side) {
+    return side < 2 ? atomic_load_explicit(&e->timecode[side], memory_order_acquire) : 0;
+}
+
+bool tdj_timecode_speed(const float *left, const float *right, unsigned count, double sample_rate, double *speed) {
+    return left && right && speed && timecode_speed(left, right, 1, 1, count, sample_rate, speed);
 }

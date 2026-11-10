@@ -2,6 +2,7 @@
 """Relay factory Traktor reports through a GenErik USB MIDI gadget."""
 import argparse
 from contextlib import ExitStack
+from tempfile import TemporaryDirectory
 import fcntl
 import os
 from pathlib import Path
@@ -12,13 +13,13 @@ import sys
 import time
 from typing import NamedTuple
 
-from s4_mk3_bridge import audio_command, playback_pcm
+from s4_mk3_bridge import audio_command, controller_pcm, playback_pcm
 from traktor_factory_screens import PANELS, ScreenWorker
 from z1_bridge import Decoder, encode, write_all
 
-STATUS, INPUT, LIGHTS, SCREEN = 11, 16, 17, 18
+STATUS, INPUT, LIGHTS, SCREEN, SCREEN_CONTENT = 11, 16, 17, 18, 19
 CHUNK = 100
-LENGTHS = {STATUS: 1, INPUT: CHUNK + 3, LIGHTS: CHUNK + 3, SCREEN: 64}
+LENGTHS = {STATUS: 1, INPUT: CHUNK + 3, LIGHTS: CHUNK + 3, SCREEN: 64, SCREEN_CONTENT: 103}
 
 
 class Model(NamedTuple):
@@ -29,6 +30,8 @@ class Model(NamedTuple):
     lights: tuple
     audio: bool = False
     startup: bytes = b''
+    capture: tuple = ()
+    capture_source_channels: int = 0
 
     @property
     def gadget(self):
@@ -40,10 +43,10 @@ MODELS = {
     'x1-mk2': Model('X1 Mk2', 0x1220, 0, {1: (31, 32)}, (52, 91)),
     'f1': Model('F1', 0x1120, 0, {1: (22,)}, (81,)),
     'd2': Model('D2', 0x1400, 0, {1: (17, 64), 2: (25, 64)}, (123,)),
-    'z2': Model('Z2', 0x1130, 4, {1: (9, 64), 2: (53, 64)}, (95, 41), True, b'\xf1\x93\x40'),
+    'z2': Model('Z2', 0x1130, 4, {1: (9, 64), 2: (53, 64)}, (95, 41), True, b'\xf1\x93\x00', (2, 3, 4, 5, 0, 1), 8),
     's5': Model('S5', 0x1420, 3, {1: (30, 64), 2: (79, 128)}, (105, 105, 74), True),
-    's8': Model('S8', 0x1370, 5, {1: (41, 64), 2: (109, 128)}, (119, 119, 74), True),
-    'mx2': Model('MX2', 0x2420, 3, {1: (15, 79, 80), 2: (53, 117, 118), 3: (20, 84, 85)}, (106,), True),
+    's8': Model('S8', 0x1370, 5, {1: (41, 64), 2: (109, 128)}, (119, 119, 74), True, capture=(4, 5, 6, 7), capture_source_channels=10),
+    'mx2': Model('MX2', 0x2420, 3, {1: (15, 79, 80), 2: (53, 117, 118), 3: (20, 84, 85)}, (106,), True, capture=(0,), capture_source_channels=1),
 }
 
 
@@ -192,6 +195,18 @@ class X1MK1USB:
             pass
 
 
+def capture_configuration(pcm, channels, route):
+    ttable = '\n'.join(f'    ttable.{output}.{source} 1' for output, source in enumerate(route))
+    return f'''</usr/share/alsa/alsa.conf>
+pcm.generik_capture {{
+    type route
+    slave.pcm "{pcm}"
+    slave.channels {channels}
+{ttable}
+}}
+'''
+
+
 def relay(model, device, midi, audio, screens=None):
     latest = {}
     sent_lights = {}
@@ -238,8 +253,8 @@ def relay(model, device, midi, audio, screens=None):
                     for report in latest.values():
                         for frame in fragments(INPUT, report):
                             write_all(midi, frame)
-                if heartbeat is not None and kind == SCREEN and screens is not None:
-                    screens.submit(payload)
+                if heartbeat is not None and kind in (SCREEN, SCREEN_CONTENT) and screens is not None:
+                    screens.submit(payload, content=kind == SCREEN_CONTENT)
                 if heartbeat is not None and kind == LIGHTS:
                     report = lights.append(payload)
                     if report and sent_lights.get(report[0]) != report:
@@ -267,6 +282,7 @@ def main():
     parser.add_argument('--hidraw', type=Path)
     parser.add_argument('--midi', type=Path, required=True)
     parser.add_argument('--audio-in', default='hw:CARD=UAC2Gadget,DEV=0')
+    parser.add_argument('--audio-out', default='hw:CARD=UAC2Gadget,DEV=0')
     args = parser.parse_args()
     if not sys.platform.startswith('linux'):
         parser.error('Run the relay on Linux bridge hardware.')
@@ -281,6 +297,17 @@ def main():
         audio = subprocess.Popen(audio_command(args.audio_in, playback_pcm(device.usb_parent))) if model.audio else None
         if audio is not None:
             stack.callback(stop_audio, audio)
+        if model.capture:
+            try:
+                capture = controller_pcm(device.usb_parent, 'c')
+                directory = Path(stack.enter_context(TemporaryDirectory(prefix='generik-input-')))
+                configuration = directory / 'alsa.conf'
+                configuration.write_text(capture_configuration(capture, model.capture_source_channels, model.capture))
+                command = audio_command('generik_capture', args.audio_out, len(model.capture))
+                process = subprocess.Popen(command, env={**os.environ, 'ALSA_CONFIG_PATH': str(configuration)})
+                stack.callback(stop_audio, process)
+            except (OSError, ValueError) as error:
+                print(f'{model.name} input relay could not start. {error}', file=sys.stderr)
         screens = None
         if args.model in PANELS:
             try:

@@ -295,7 +295,7 @@ private let surface = PerformancePalette.panel
                 case .success(let urls): if let url = urls.first { Task { await model.importTraktorPreparation(url) } }
                 case .failure(let error): model.status = error.localizedDescription
                 }
-            }.fileImporter(isPresented: $importPresented, allowedContentTypes: [.audio], allowsMultipleSelection: true)
+            }.fileImporter(isPresented: $importPresented, allowedContentTypes: [.audio, .mpeg4Movie], allowsMultipleSelection: true)
         { result in
             switch result {
             case .success(let urls): Task { await model.importFiles(urls) }

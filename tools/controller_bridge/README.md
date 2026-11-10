@@ -206,3 +206,11 @@ python3 tools/controller_bridge/traktor_factory_bridge.py s8 --midi /dev/snd/mid
 The relay finds one matching control device. If more than one HID device matches, pass its control node with `--hidraw`. The original X1 uses USB directly and needs permission to claim its control interface. The relay returns the interface to the kernel when it exits.
 
 The four audio models use the controller's ALSA playback device. The D2, S5 and S8 screen worker draws track and deck status. A screen error does not stop control or audio. Physical tests of USB connection, sound, controls, lights and screens remain open. [Controller scope and references](../../docs/coordination/controller-coverage.md#r137-remaining-traktor-variants)
+
+### Capture and hardware screens
+
+Recreate the Z2, S8 or MX2 gadget with the updated helper to expose its inputs. Use the existing model key. The helper increments the USB device revision for the new channel layout. Start the matching relay and reconnect the iPad. Select the input with the controller’s hardware button. If iPadOS asks for microphone access, allow it. Pause playback before opening the input for the first time.
+
+The Z2 sends channel A and B input pairs first, then the mic/AUX pair. The S8 sends its C/D input pairs. The MX2 sends its microphone input. The controller’s audio and MIDI ports keep the same app profile names.
+
+Install `python3-usb` and `python3-pil` on the bridge to use the D2, S5, S8 or S4 Mk3 screens. The displays use the same Browse selection as the app. See the [coverage and limits](../../docs/coordination/controller-coverage.md#r138-ni-performance-features).

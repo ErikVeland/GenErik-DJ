@@ -6,38 +6,46 @@ import sys
 from threading import Condition, Thread
 
 WIDTH, HEIGHT = 480, 272
-PANELS = {'d2': (1, 0x02, 1), 's5': (4, 0x03, 2), 's8': (6, 0x04, 2)}
+PANELS = {'d2': (1, 0x02, 1), 's5': (4, 0x03, 2), 's8': (6, 0x04, 2), 's4-mk3': (4, 0x03, 2)}
 STRIDE = WIDTH * 3
 
 
-def rectangles(current, previous):
+def rectangles(current, previous, width=WIDTH, height=HEIGHT):
+    stride = width * 3
     if previous is None:
-        return [(0, HEIGHT)]
+        return [(0, height)]
     bands = []
-    for row in range(HEIGHT):
-        offset = row * STRIDE
-        if current[offset:offset + STRIDE] != previous[offset:offset + STRIDE]:
+    for row in range(height):
+        offset = row * stride
+        if current[offset:offset + stride] != previous[offset:offset + stride]:
             if bands and bands[-1][0] + bands[-1][1] == row:
-                start, height = bands[-1]
-                bands[-1] = start, height + 1
+                start, rows = bands[-1]
+                bands[-1] = start, rows + 1
             else:
                 bands.append((row, 1))
-    return [(0, HEIGHT)] if len(bands) > 16 else bands
+    return [(0, height)] if len(bands) > 16 else bands
 
 
-def encode_screen(screen, current, previous=None):
-    for row, height in rectangles(current, previous):
-        pixels = memoryview(current)[row * STRIDE:(row + height) * STRIDE]
-        rgb565 = array('H', ((r >> 3) << 11 | (g >> 2) << 5 | (b >> 3)
-                             for r, g, b in zip(pixels[::3], pixels[1::3], pixels[2::3])))
+def encode_screen(screen, current, previous=None, width=WIDTH, height=HEIGHT, runs=True):
+    stride = width * 3
+    for row, rows in rectangles(current, previous, width, height):
+        pixels = memoryview(current)[row * stride:(row + rows) * stride]
+        colors = zip(pixels[::3], pixels[1::3], pixels[2::3])
+        if runs:
+            words = ((r >> 3) << 11 | (g >> 2) << 5 | (b >> 3) for r, g, b in colors)
+        else:
+            words = ((b >> 3) << 11 | (g >> 2) << 5 | (r >> 3) for r, g, b in colors)
+        rgb565 = array('H', words)
         if sys.byteorder == 'little':
             rgb565.byteswap()
-        header = struct.pack('>BBBB6xHHH', 0x84, 0, screen, 0x60, row, WIDTH, height)
-        runs = struct.pack('>I', len(rgb565) // 2) + rgb565.tobytes() + b'\x03\0\0\0'
-        yield header + runs + bytes((0x40, 0, screen, 0))
+        header = struct.pack('>BBBB6xHHH', 0x84, 0, screen, 0x60 if runs else 0x21, row, width, rows)
+        data = rgb565.tobytes()
+        if runs:
+            data = struct.pack('>I', len(rgb565) // 2) + data + b'\x03\0\0\0'
+        yield header + data + bytes((0x40, 0, screen, 0))
 
 
-def draw_status(payload):
+def draw_status(payload, content=None):
     from PIL import Image, ImageDraw, ImageFont
 
     side, deck, flags, position, duration, bpm, length = struct.unpack_from('<BBBHHHB', payload)
@@ -53,6 +61,18 @@ def draw_status(payload):
     amber = (255, 180, 65)
     white = (237, 244, 252)
     draw.rectangle((0, 0, WIDTH - 1, 56), fill=(26, 39, 58))
+    if content and content[1] == 1:
+        draw.text((24, 12), 'BROWSE', font=font(27), fill=cyan)
+        draw.text((365, 16), f'DECK {"ABCD"[deck]}', font=font(18), fill=white)
+        for row in range(4):
+            offset = 3 + 25 * row
+            label = content[offset:offset + 25].rstrip(b'\0').decode('utf-8', errors='replace')
+            if label:
+                top = 63 + 48 * row
+                if row == content[2]:
+                    draw.rectangle((16, top, 463, top + 44), fill=(37, 70, 92))
+                draw.text((28, top + 8), label, font=font(23), fill=white)
+        return side, image.tobytes()
     draw.text((24, 12), f'DECK {"ABCD"[deck]}', font=font(27), fill=cyan)
     state = 'PLAY' if flags & 1 else 'READY' if flags & 8 else 'EMPTY'
     draw.text((345, 14), state, font=font(22), fill=white)
@@ -66,9 +86,21 @@ def draw_status(payload):
     if duration:
         draw.text((313, 129), f'-{time_label(remaining)}', font=font(33),
                   fill=amber if remaining <= 30 and not flags & 4 else white)
-    draw.rectangle((24, 185, 455, 194), fill=(47, 62, 80))
-    if duration and position:
-        draw.rectangle((24, 185, 24 + 431 * min(position, duration) // duration, 194), fill=cyan)
+    if content:
+        cursor = 24 + 431 * int.from_bytes(content[2:4], 'little') // 65535
+        draw.line((24, 193, 455, 193), fill=(47, 62, 80))
+        for column, peak in enumerate(content[4:]):
+            x = 24 + column * 431 // 98
+            height = 17 * peak // 255
+            if height:
+                color = (55, 141, 184) if x < cursor else cyan
+                draw.line((x, 193 - height, x, 193 + height), fill=color, width=3)
+        if flags & 8:
+            draw.line((cursor, 174, cursor, 211), fill=amber, width=2)
+    else:
+        draw.rectangle((24, 185, 455, 194), fill=(47, 62, 80))
+        if duration and position:
+            draw.rectangle((24, 185, 24 + 431 * min(position, duration) // duration, 194), fill=cyan)
     footer = f'{bpm / 10:.1f} BPM' if bpm else 'BPM —'
     if flags & 2:
         footer += '     SYNC'
@@ -85,17 +117,27 @@ class ScreenWorker:
         self.bus = int((usb_parent / 'busnum').read_text())
         self.address = int((usb_parent / 'devnum').read_text())
         self.condition = Condition()
-        self.pending = {}
+        self.pending = set()
+        self.status = {}
+        self.content = {}
         self.running = True
         self.thread = Thread(target=self.run, name=f'{model}-display', daemon=True)
         self.thread.start()
 
-    def submit(self, payload):
-        if len(payload) != 64 or payload[0] >= self.count or payload[1] >= 4 or payload[9] > 54:
+    def submit(self, payload, content=False):
+        if content:
+            if len(payload) != 103 or payload[1] > 1:
+                return
+        elif len(payload) != 64 or payload[1] >= 4 or payload[9] > 54:
+            return
+        side = payload[0]
+        if side >= self.count:
             return
         with self.condition:
-            self.pending[payload[0]] = payload
-            self.condition.notify()
+            (self.content if content else self.status)[side] = payload
+            if side in self.status:
+                self.pending.add(side)
+                self.condition.notify()
 
     def close(self):
         with self.condition:
@@ -124,14 +166,20 @@ class ScreenWorker:
                 raise OSError('The documented screen endpoint is unavailable.')
             usb.util.claim_interface(device, self.interface)
             previous = {}
+            runs = self.model != 's4-mk3'
+            width, height = (WIDTH, HEIGHT) if runs else (320, 240)
             while True:
                 with self.condition:
                     self.condition.wait_for(lambda: not self.running or self.pending)
                     if not self.running:
                         return
-                    _, payload = self.pending.popitem()
-                side, frame = draw_status(payload)
-                for rectangle in encode_screen(side, frame, previous.get(side)):
+                    side = self.pending.pop()
+                    status = self.status[side]
+                    content = self.content.get(side)
+                side, frame = draw_status(status, content)
+                if not runs:
+                    frame = PIL.Image.frombytes('RGB', (WIDTH, HEIGHT), frame).resize((width, height)).tobytes()
+                for rectangle in encode_screen(side, frame, previous.get(side), width, height, runs):
                     if device.write(self.endpoint, rectangle, timeout=250) != len(rectangle):
                         raise OSError('The screen did not accept the complete update.')
                 previous[side] = frame

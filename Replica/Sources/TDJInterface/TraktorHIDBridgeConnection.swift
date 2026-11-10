@@ -252,11 +252,11 @@ import TDJCore
         if send(kind: kind, payload: payload) { lastFeedback[key] = report }
     }
 
-    func factoryScreen(_ payload: [UInt8]) {
+    func factoryScreen(_ payload: [UInt8], content: Bool = false) {
         guard isReceiving, let screen = payload.first, screen < 2 else { return }
-        let key = 256 + Int(screen)
+        let key = (content ? 258 : 256) + Int(screen)
         guard lastFeedback[key] != payload else { return }
-        if send(kind: .factoryScreen, payload: payload) { lastFeedback[key] = payload }
+        if send(kind: content ? .factoryScreenContent : .factoryScreen, payload: payload) { lastFeedback[key] = payload }
     }
 
     private func send(kind: ControllerBridgeFrame.Kind, payload: [UInt8]) -> Bool {

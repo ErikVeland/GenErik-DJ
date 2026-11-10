@@ -34,6 +34,12 @@
                 applyNativeTraktorEvent(.s3Preview(held), isS3: false)
             case .native(.s3PreviewSeek(let detents)):
                 if s4MK3Performance.ownsPreview { seekS3Preview(detents: detents) }
+            case .native(.samplePad(let slot, _)) where isStemDeck(DeckID.allCases[slot / 8]):
+                let deck = DeckID.allCases[slot / 8]
+                let part = slot % 4
+                changeStem(deck) {
+                    if $0.muted.remove(part) == nil { $0.muted.insert(part) }
+                }
             case .pad(let deck, let slot, let held, let shifted) where s4MK3Performance.slices[deck] == nil:
                 guard held, s4MK3Performance.cueContacts[deck] == nil else { return }
                 let adding = loaded[deck].map { performance.cues[$0]?[slot] == nil } ?? false
@@ -70,6 +76,7 @@
                 }
                 s2BrowserCommands.removeAll()
             }
+            s4MK3NextScreenUpdate = nil
             s4MK3Controls = .init()
             s4MK3Performance = .init()
         }
@@ -80,6 +87,11 @@
             guard bridge.isReceiving, let snapshot = playbackSnapshot else { return }
             if s4MK3BridgeStatus != s4MK3ConnectedStatus {
                 s4MK3BridgeStatus = s4MK3ConnectedStatus
+            }
+            let now = ContinuousClock.now
+            if let linux = bridge as? TraktorHIDBridgeConnection, s4MK3NextScreenUpdate.map({ now >= $0 }) ?? true {
+                s4MK3NextScreenUpdate = now + .milliseconds(250)
+                updateHardwareScreens(linux, decks: s4MK3Controls.layers, snapshot: snapshot)
             }
             var feedback = S4MK2Lights.Feedback()
             feedback.quantize = s4MK3Performance.quantize
@@ -108,7 +120,10 @@
                         side: side, state: state,
                         frames: playback.core.asset(generation: state.generation)?.frames))
             }
-            bridge.feedback(S4MK3Lights.panel(snapshot: snapshot, controls: s4MK3Controls, feedback: feedback))
+            let stems = Dictionary(uniqueKeysWithValues: s4MK3Controls.layers.compactMap { deck in
+                stemMix(deck).map { (deck, $0.muted) }
+            })
+            bridge.feedback(S4MK3Lights.panel(snapshot: snapshot, controls: s4MK3Controls, feedback: feedback, stems: stems))
         }
     }
 #endif

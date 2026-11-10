@@ -74,6 +74,9 @@ struct BrowserView: View {
         #if os(iOS)
             content.onChange(of: model.s2BrowserRevision, initial: true) { _, _ in receiveS2Browser() }
                 .onChange(of: displayedRequest) { _, _ in receiveS2Browser() }
+                .onChange(of: model.selectedTrackID) { _, _ in publishFactoryBrowser() }
+                .onChange(of: model.receivingFactoryControllers) { _, _ in publishFactoryBrowser() }
+                .onChange(of: model.s4MK3BridgeStatus) { _, _ in publishFactoryBrowser() }
         #else
             content
         #endif
@@ -229,7 +232,31 @@ struct BrowserView: View {
         }
     }
     #if os(iOS)
+        private func publishFactoryBrowser() {
+            guard model.s4MK3Bridge?.isReceiving == true
+                || model.receivingFactoryControllers.contains(where: { [.d2, .s5, .s8].contains($0) })
+            else { return }
+            guard (snapshotProjection != nil || displayedRequest == request), entryCount > 0 else {
+                model.factoryBrowserRows = []
+                return
+            }
+            let selected = model.selectedTrackID
+            let index: Int
+            if let row = s2RowIndex, (0..<entryCount).contains(row),
+                visibleEntries(in: row..<(row + 1)).first?.id == selected
+            {
+                index = row
+            } else {
+                index = snapshotProjection?.tracks.firstIndex { $0.id == selected }
+                    ?? projection?.entries.firstIndex { $0.id == selected } ?? 0
+            }
+            let start = max(0, min(index - 1, entryCount - 4))
+            model.factoryBrowserRows = visibleEntries(in: start..<min(entryCount, start + 4)).map(\.title)
+            model.factoryBrowserSelection = index - start
+        }
+
         private func receiveS2Browser() {
+            defer { publishFactoryBrowser() }
             guard !model.s2BrowserCommands.isEmpty else { return }
             if displayedSection != .songs && displayedSection != .playlists { open(.songs) }
             guard snapshotProjection != nil || displayedRequest == request else { return }
