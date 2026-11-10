@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 80.43,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-10",
+      "requestIDs": [
+        "R131"
+      ],
+      "report": "Use the full width beside Recommendations.",
+      "summary": "Build 192 is assumed from the last recorded iPad install."
+    }
+  ],
   "log": "TestBuilds/ipad/build-192.log",
   "build": 192,
   "app": "TestBuilds/ipad/192/GenErikDJ.app",

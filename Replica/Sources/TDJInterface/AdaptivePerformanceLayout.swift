@@ -59,7 +59,7 @@ struct PerformanceWorkspaceGeometry {
         let deckHeight = max(0, available - handle - extent)
         dock = PerformanceDockGeometry(width: width, height: deckHeight)
         deckArea = CGRect(x: 0, y: 0, width: dock.workArea.width, height: deckHeight)
-        libraryArea = CGRect(x: 0, y: deckHeight + handle, width: dock.workArea.width, height: extent)
+        libraryArea = CGRect(x: 0, y: deckHeight + handle, width: width.isFinite ? max(0, width) : 0, height: extent)
     }
 
     init(width: Double, height: Double, browserVisible: Bool, deckShare: Double) {
@@ -69,7 +69,7 @@ struct PerformanceWorkspaceGeometry {
         dock = PerformanceDockGeometry(width: width, height: deckHeight)
         deckArea = CGRect(x: 0, y: 0, width: dock.workArea.width, height: deckHeight)
         let libraryY = min(available, deckHeight + AdaptivePerformanceLayout.dividerHeight)
-        libraryArea = CGRect(x: 0, y: libraryY, width: dock.workArea.width, height: max(0, available - libraryY))
+        libraryArea = CGRect(x: 0, y: libraryY, width: width.isFinite ? max(0, width) : 0, height: max(0, available - libraryY))
     }
 }
 
