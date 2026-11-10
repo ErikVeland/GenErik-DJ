@@ -5,7 +5,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 59.88,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R154",
+      "buildAssumed": true,
+      "report": "Settings are messy and unintuitive. Reorganise by DJ utility in both directions: live changes in the utility drawer, lasting preferences in Settings. Implement for an iPad test instead of mockups."
+    }
+  ],
   "log": "TestBuilds/ipad/build-215.log",
   "build": 215,
   "app": "TestBuilds/ipad/215/GenErikDJ.app",
