@@ -185,3 +185,14 @@ private func recoveryTransport() throws -> (SampleTransport, UInt64) {
     let incomingPhase = (incoming.beat(atFrame: frame) - 2).truncatingRemainder(dividingBy: 4)
     #expect(outgoingPhase == incomingPhase)
 }
+
+@Test func recoveryCancelsOnManualCrossfaderAssignment() throws {
+    let (core, generation) = try recoveryTransport()
+    try core.armRecoveryReplay(deck: .a, generation: generation, dropFrame: 8000, endFrame: 32000)
+    core.processControlsWhileIdle()
+    #expect(core.snapshot()?.a.recoveryArmed == true)
+    try core.setMixer(.crossfaderAssignment, value: Double(CrossfaderAssignment.through.rawValue), deck: .a)
+    core.processControlsWhileIdle()
+    #expect(core.snapshot()?.a.recoveryArmed == false)
+    #expect(core.snapshot()?.a.phase == .playing)
+}

@@ -2171,7 +2171,8 @@ static void controls(tdj_engine *e) {
         int status = apply(e, c);
         if (status == TDJ_OK) {
             if (c.kind == TDJ_PANIC || c.kind == TDJ_PLAY ||
-                (c.kind == TDJ_MIXER && (c.flag == TDJ_MIX_CROSSFADE || c.flag == TDJ_MIX_VOLUME))) {
+                (c.kind == TDJ_MIXER &&
+                 (c.flag == TDJ_MIX_CROSSFADE || c.flag == TDJ_MIX_CROSSFADE_ASSIGNMENT || c.flag == TDJ_MIX_VOLUME))) {
                 for (int i = 0; i < e->deck_count; ++i)
                     cancel_recovery(e, i);
             } else if (valid_deck_command(e, c.deck) &&
