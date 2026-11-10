@@ -103,8 +103,8 @@ private let surface = PerformancePalette.panel
                     let split = deckSplit.geometry(
                         width: workspace.deckArea.width - 12, height: workspace.deckArea.height,
                         handleExtent: handleExtent)
-                    HStack(alignment: .top, spacing: 0) {
-                        VStack(spacing: 0) {
+                    ZStack(alignment: .topTrailing) {
+                        VStack(alignment: .leading, spacing: 0) {
                             VStack(spacing: 0) {
                                 DeckView(
                                     model: model, deck: .a, panels: deckAPanels,
@@ -165,7 +165,7 @@ private let surface = PerformancePalette.panel
                                             handleExtent: handleExtent)
                                     }
                                 ).frame(height: split.b.height).contentShape(Rectangle()).clipped()
-                            }.padding(.horizontal, 6).frame(height: workspace.deckArea.height)
+                            }.padding(.horizontal, 6).frame(width: workspace.deckArea.width, height: workspace.deckArea.height)
                             HStack(spacing: 0) {
                                 TouchPanelHandle(
                                     presented: libraryPanel.extent > 0, maximumExtent: libraryPanel.maximumExtent,
@@ -212,7 +212,7 @@ private let surface = PerformancePalette.panel
                             ).clipped().allowsHitTesting(libraryPanel.acceptsContentInput).disabled(
                                 !libraryPanel.acceptsContentInput
                             ).accessibilityHidden(!libraryPanel.acceptsContentInput)
-                        }.frame(width: workspace.dock.workArea.width, height: space.size.height, alignment: .top)
+                        }.frame(width: space.size.width, height: space.size.height, alignment: .topLeading)
                             .clipped().animation(
                                 reduceMotion || libraryPanel.isDragging || deckSplit.isDragging
                                     ? nil : .smooth(duration: 0.25), value: libraryPanel.extent
