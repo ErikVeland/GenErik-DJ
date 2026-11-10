@@ -16,9 +16,12 @@ public enum MusicLibraryAudio {
     /// `maximumSeconds` limits the decode to the opening of the item, for first-minute analysis of mixes.
     public static func decodeAsset(url: URL, destination: URL, maximumSeconds: Double? = nil) async throws {
         let progress = AnalysisWorkProgress.observer
+        let offline = AnalysisExecution.offlineBatch
         let worker = Task.detached(priority: .background) {
             try await AnalysisWorkProgress.$observer.withValue(progress) {
-                try await decode(url: url, destination: destination, maximumSeconds: maximumSeconds)
+                try await AnalysisExecution.$offlineBatch.withValue(offline) {
+                    try await decode(url: url, destination: destination, maximumSeconds: maximumSeconds)
+                }
             }
         }
         try await withTaskCancellationHandler(operation: { try await worker.value }, onCancel: { worker.cancel() })

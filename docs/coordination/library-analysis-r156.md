@@ -59,3 +59,9 @@ Build 222 applied 24 results in 9.65 seconds, then reached download. A later gro
 Build 223 identified CloudKit error 14 inside the remaining partial upload failures. The saved engine state contained 382 pending revisions with no local confirmation. The receiver now fetches and verifies the complete server payload for a conflicting revision. It clears that pending upload only after verification. It continues only when every error is a verified conflict and the operation made progress. Other errors and cancellation still stop sync. Seventeen focused checks passed. Device verification remains open.
 
 Build 222 also installed on the Duo. iOS refused both launch attempts because the device was locked. The iPad build record retains separate device evidence. The iPhone remained unavailable. Neither device has confirmed the current Mac batch.
+
+## Offline Mac workers
+
+The Mac has an M4 Pro, 14 CPU cores and 24 GB memory. The initial worker used background priority. A dedicated offline context now requests higher CPU priority only on macOS. Normal app work and iOS remain at background priority. Four focused checks verify that boundary and cancellation.
+
+The optional worker pool assigns disjoint track inventories to at most four processes. Each process retains its own model compilation and checkpoints. Validated payloads reach the shared outbox before their result files. A late failed attempt cannot replace a successful device-source recovery. Restart reuses the frozen plan and rejects a changed analyser. Thirteen campaign and pool checks passed. Real-track throughput and result comparisons remain pending.

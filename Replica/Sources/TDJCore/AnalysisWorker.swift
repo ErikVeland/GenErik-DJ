@@ -37,19 +37,26 @@ public final class AnalysisWorker: Sendable {
         let cancellation = AnalysisCancellation()
         let measurement = AnalysisMeasurement.current
         let foreground = AnalysisExecution.foregroundLibrary
+        #if os(macOS)
+            let offline = AnalysisExecution.offlineBatch
+        #else
+            let offline = false
+        #endif
         let progress = AnalysisWorkProgress.observer
         let wait = AnalysisMeasurement.begin("analysisQueueWait")
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
-                queue.async(qos: .background, flags: .enforceQoS) {
+                queue.async(qos: offline ? .userInitiated : .background, flags: .enforceQoS) {
                     wait?.finish()
                     do {
                         try cancellation.check()
                         let value = try AnalysisMeasurement.$current.withValue(measurement) {
                             try AnalysisExecution.$foregroundLibrary.withValue(foreground) {
-                                try AnalysisWorkProgress.$observer.withValue(progress) {
-                                    try work { try cancellation.check() }
+                                try AnalysisExecution.$offlineBatch.withValue(offline) {
+                                    try AnalysisWorkProgress.$observer.withValue(progress) {
+                                        try work { try cancellation.check() }
+                                    }
                                 }
                             }
                         }
