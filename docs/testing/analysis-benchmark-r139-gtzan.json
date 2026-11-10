@@ -2,7 +2,7 @@
   "format": "generik.verified-analysis/v1",
   "version": "r139-gtzan-new-recordings-1",
   "selectionSeed": "generik-r139-unseen-recordings-v1",
-  "selection": "Previously unscored recordings and audio, selected before R128 development. Artist overlap remains because all eligible artist-disjoint components were consumed in R124.",
+  "selection": "Previously unscored recordings and audio, selected before R139 development. Artist overlap remains because all eligible artist-disjoint components were consumed in R124.",
   "eligibleTracks": 416,
   "artistOverlapTracks": 100,
   "sources": {

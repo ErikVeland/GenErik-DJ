@@ -1,0 +1,4215 @@
+{
+  "format": "generik.analysis-results/v1",
+  "request": "R139",
+  "status": "measured",
+  "source": {
+    "request": "R139",
+    "sourceCommit": "fd925a2f18394f0b6ed9d9ea0ed9ddc5f113abb0",
+    "sourceSHA256": "0b1164e3c3b3621499c3c6dea3a487d8222a91e3b70ec45c7ca0ab2a8062dfbe",
+    "appSHA256": "57aa6484367bfb33da90e0ccd9c2533ef70160a5e1d0df0f8ef663dc9ebba522",
+    "binarySHA256": "2d28d9bd6089ffeaa510c30b4d420f73a2603a3c5a5c4f1986c4d7dc6d177907",
+    "resources": {
+      "GenErikDJ_TDJCore.bundle": "1f0128d1f3c620d6efacd0a80360bc12a15a1bd34469b91abddb9235d478151d",
+      "GenErikDJ_TDJInterface.bundle": "63a805e247adebd35c509e73f6c044b84d187a0f0b8ab597f54650b2ef9f6f41"
+    },
+    "resourceArchive": "TestBuilds/r128/Policy12.resources"
+  },
+  "baselineSource": {
+    "request": "R129",
+    "sourceCommit": "b13f33c446d7312022ad73b430d8fb1c69b7e0cb",
+    "sourceSHA256": "fe73fe0e536d962809faf825aa8e11d8b7d9fe07c2136b363cba3271544e608d",
+    "appSHA256": "dd731c0dabe64ebdef21bcee6bb92a8164d6126164e571cbb4a4404be2e004a2",
+    "binarySHA256": "f4db9e2fa587e1f8f0ef8ef17fd69c2d9bb7190c693d07cd5a2b11634f4826a3"
+  },
+  "freeze": {
+    "frozenUTC": "2026-11-10T12:33:09.813652+00:00",
+    "source": {
+      "request": "R139",
+      "sourceCommit": "fd925a2f18394f0b6ed9d9ea0ed9ddc5f113abb0",
+      "sourceSHA256": "0b1164e3c3b3621499c3c6dea3a487d8222a91e3b70ec45c7ca0ab2a8062dfbe",
+      "appSHA256": "57aa6484367bfb33da90e0ccd9c2533ef70160a5e1d0df0f8ef663dc9ebba522",
+      "binarySHA256": "2d28d9bd6089ffeaa510c30b4d420f73a2603a3c5a5c4f1986c4d7dc6d177907",
+      "resources": {
+        "GenErikDJ_TDJCore.bundle": "1f0128d1f3c620d6efacd0a80360bc12a15a1bd34469b91abddb9235d478151d",
+        "GenErikDJ_TDJInterface.bundle": "63a805e247adebd35c509e73f6c044b84d187a0f0b8ab597f54650b2ef9f6f41"
+      },
+      "resourceArchive": "TestBuilds/r128/Policy12.resources"
+    },
+    "developmentGate": "Untouched bar and Dune phase within 25 ms of corrected references; Dune at 80 BPM.",
+    "freshScoresRead": false
+  },
+  "referenceMetadataCorrection": {
+    "oldSHA256": "be52992ffed2b5b266ca5d4d97f165c80807023199ac4fd994a435a5cbe811dd",
+    "newSHA256": "ac34dde67a9740e32e57554e52a759d9f8278343f09280d2ba724cab38a734bb",
+    "change": "Correct the copied selection description from R128 to R139. Audio, labels, selection seed and every other field are unchanged."
+  },
+  "deepProfile": {
+    "conversion": 1,
+    "decisionPolicy": 14,
+    "generation": 14,
+    "keyModelVersion": "MusicalKeyCNN/MIT-2025|fc92072f1b9b19552ce3b74a9c8ce0cecb97633a12ae524ac0d93c05800e354e|cqt1|fp161|policy1|cal1",
+    "model": "BeatThis/final0",
+    "preprocessing": 1,
+    "rhythmCalibrationVersion": "rhythm-logistic2-62ff7defe3af01e507246e41fd3f31278a55f3d4cc4155b5c08505d85dc8e736",
+    "upgradeBenefit": "Preserve supported opening bars and refine tempo-octave beat phase with sustained audio evidence.",
+    "weightsSHA256": "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331"
+  },
+  "originalTwelve": {
+    "beforeScores": {
+      "firstPass": {
+        "referenceTracks": 9,
+        "resolved": 9,
+        "bpmWithinPointOne": 8,
+        "bpmWithinTwoPercent": 8,
+        "beatPhaseWithin25ms": 7,
+        "downbeatPhaseWithin25ms": 6,
+        "fullTrackGridWithin25ms": 7
+      },
+      "deepCandidate": {
+        "referenceTracks": 9,
+        "resolved": 8,
+        "bpmWithinPointOne": 8,
+        "bpmWithinTwoPercent": 8,
+        "beatPhaseWithin25ms": 7,
+        "downbeatPhaseWithin25ms": 6,
+        "fullTrackGridWithin25ms": 7
+      },
+      "finalGrid": {
+        "referenceTracks": 9,
+        "resolved": 9,
+        "bpmWithinPointOne": 9,
+        "bpmWithinTwoPercent": 9,
+        "beatPhaseWithin25ms": 7,
+        "downbeatPhaseWithin25ms": 6,
+        "fullTrackGridWithin25ms": 7
+      }
+    },
+    "afterScores": {
+      "firstPass": {
+        "referenceTracks": 9,
+        "resolved": 9,
+        "bpmWithinPointOne": 8,
+        "bpmWithinTwoPercent": 8,
+        "beatPhaseWithin25ms": 7,
+        "downbeatPhaseWithin25ms": 6,
+        "fullTrackGridWithin25ms": 7
+      },
+      "deepCandidate": {
+        "referenceTracks": 9,
+        "resolved": 8,
+        "bpmWithinPointOne": 8,
+        "bpmWithinTwoPercent": 8,
+        "beatPhaseWithin25ms": 7,
+        "downbeatPhaseWithin25ms": 7,
+        "fullTrackGridWithin25ms": 7
+      },
+      "finalGrid": {
+        "referenceTracks": 9,
+        "resolved": 9,
+        "bpmWithinPointOne": 9,
+        "bpmWithinTwoPercent": 9,
+        "beatPhaseWithin25ms": 8,
+        "downbeatPhaseWithin25ms": 7,
+        "fullTrackGridWithin25ms": 8
+      }
+    },
+    "keyExact": 6,
+    "tracks": [
+      {
+        "id": "01",
+        "title": "3Cag (feat. Radie Peat)",
+        "before": {
+          "resolved": true,
+          "bpm": 71.00576169170185,
+          "bpmError": 0.0038616917018430286,
+          "bpmErrorPercent": 0.005438856850092932,
+          "beatPhaseMs": 20.47644773354973,
+          "maxFullTrackGridErrorMs": 20.47644773354973,
+          "p95FullTrackGridErrorMs": 19.970904882443797,
+          "downbeatPhaseMs": 20.47644773354973
+        },
+        "after": {
+          "resolved": true,
+          "bpm": 71.00576169170185,
+          "bpmError": 0.0038616917018430286,
+          "bpmErrorPercent": 0.005438856850092932,
+          "beatPhaseMs": 20.47644773354973,
+          "maxFullTrackGridErrorMs": 20.47644773354973,
+          "p95FullTrackGridErrorMs": 19.970904882443797,
+          "downbeatPhaseMs": 20.47644773354973
+        },
+        "deepOpeningBarAccepted": false,
+        "deepGuidedPhaseAccepted": false
+      },
+      {
+        "id": "02",
+        "title": "Blue Monday '88",
+        "before": null,
+        "after": null,
+        "deepOpeningBarAccepted": false,
+        "deepGuidedPhaseAccepted": false
+      },
+      {
+        "id": "03",
+        "title": "Groove Is In The Heart",
+        "before": {
+          "resolved": true,
+          "bpm": 121.55252264786807,
+          "bpmError": 0.004522647868071772,
+          "bpmErrorPercent": 0.003720873949442094,
+          "beatPhaseMs": 16.07911136539897,
+          "maxFullTrackGridErrorMs": 16.07911136539897,
+          "p95FullTrackGridErrorMs": 15.645656148045651,
+          "downbeatPhaseMs": 16.07911136539897
+        },
+        "after": {
+          "resolved": true,
+          "bpm": 121.55252264786807,
+          "bpmError": 0.004522647868071772,
+          "bpmErrorPercent": 0.003720873949442094,
+          "beatPhaseMs": 16.07911136539897,
+          "maxFullTrackGridErrorMs": 16.07911136539897,
+          "p95FullTrackGridErrorMs": 15.645656148045651,
+          "downbeatPhaseMs": 16.07911136539897
+        },
+        "deepOpeningBarAccepted": false,
+        "deepGuidedPhaseAccepted": false
+      },
+      {
+        "id": "04",
+        "title": " I Like It",
+        "before": {
+          "resolved": true,
+          "bpm": 68.0004344889045,
+          "bpmError": 0.00043448890450292765,
+          "bpmErrorPercent": 0.0006389542713369778,
+          "beatPhaseMs": 5.564488073973611,
+          "maxFullTrackGridErrorMs": 5.564488073973611,
+          "p95FullTrackGridErrorMs": 5.483585704489185,
+          "downbeatPhaseMs": 5.564488073973611
+        },
+        "after": {
+          "resolved": true,
+          "bpm": 68.0004344889045,
+          "bpmError": 0.00043448890450292765,
+          "bpmErrorPercent": 0.0006389542713369778,
+          "beatPhaseMs": 5.564488073973611,
+          "maxFullTrackGridErrorMs": 5.564488073973611,
+          "p95FullTrackGridErrorMs": 5.483585704489185,
+          "downbeatPhaseMs": 5.564488073973611
+        },
+        "deepOpeningBarAccepted": false,
+        "deepGuidedPhaseAccepted": false
+      },
+      {
+        "id": "05",
+        "title": "99 Problems (Produced By Rick Rubin)",
+        "before": {
+          "resolved": true,
+          "bpm": 93.27995542484798,
+          "bpmError": 0.00574457515202198,
+          "bpmErrorPercent": 0.006158044750714797,
+          "beatPhaseMs": 26.027044079517392,
+          "maxFullTrackGridErrorMs": 40.286674244416346,
+          "p95FullTrackGridErrorMs": 39.573692736171395,
+          "downbeatPhaseMs": 26.066654163308556
+        },
+        "after": {
+          "resolved": true,
+          "bpm": 93.27995542484798,
+          "bpmError": 0.00574457515202198,
+          "bpmErrorPercent": 0.006158044750714797,
+          "beatPhaseMs": 26.027044079517392,
+          "maxFullTrackGridErrorMs": 40.286674244416346,
+          "p95FullTrackGridErrorMs": 39.573692736171395,
+          "downbeatPhaseMs": 26.066654163308556
+        },
+        "deepOpeningBarAccepted": false,
+        "deepGuidedPhaseAccepted": false
+      },
+      {
+        "id": "06",
+        "title": "Big Ole Freak",
+        "before": {
+          "resolved": true,
+          "bpm": 71.50026422468676,
+          "bpmError": 0.00066422468675853,
+          "bpmErrorPercent": 0.0009289907730414271,
+          "beatPhaseMs": 22.46547619050365,
+          "maxFullTrackGridErrorMs": 22.46547619050365,
+          "p95FullTrackGridErrorMs": 22.366470826434917,
+          "downbeatPhaseMs": 22.449884794587316
+        },
+        "after": {
+          "resolved": true,
+          "bpm": 71.50026422468676,
+          "bpmError": 0.00066422468675853,
+          "bpmErrorPercent": 0.0009289907730414271,
+          "beatPhaseMs": 22.46547619050365,
+          "maxFullTrackGridErrorMs": 22.46547619050365,
+          "p95FullTrackGridErrorMs": 22.366470826434917,
+          "downbeatPhaseMs": 22.449884794587316
+        },
+        "deepOpeningBarAccepted": false,
+        "deepGuidedPhaseAccepted": false
+      },
+      {
+        "id": "07",
+        "title": "Stayin' Happy (Pharrell Vs The Bee Gee's)",
+        "before": null,
+        "after": null,
+        "deepOpeningBarAccepted": false,
+        "deepGuidedPhaseAccepted": false
+      },
+      {
+        "id": "08",
+        "title": "Fuck You (Rhythm Scholar Remix)(Explicit)",
+        "before": {
+          "resolved": true,
+          "bpm": 130.00429941623608,
+          "bpmError": 0.0032994162360751034,
+          "bpmErrorPercent": 0.0025379929662561196,
+          "beatPhaseMs": 11.724560851068212,
+          "maxFullTrackGridErrorMs": 11.724560851068212,
+          "p95FullTrackGridErrorMs": 11.399513271271935,
+          "downbeatPhaseMs": 11.7128474247693
+        },
+        "after": {
+          "resolved": true,
+          "bpm": 130.00429941623608,
+          "bpmError": 0.0032994162360751034,
+          "bpmErrorPercent": 0.0025379929662561196,
+          "beatPhaseMs": 11.724560851068212,
+          "maxFullTrackGridErrorMs": 11.724560851068212,
+          "p95FullTrackGridErrorMs": 11.399513271271935,
+          "downbeatPhaseMs": 11.7128474247693
+        },
+        "deepOpeningBarAccepted": false,
+        "deepGuidedPhaseAccepted": false
+      },
+      {
+        "id": "09",
+        "title": "Celebration Generation",
+        "before": {
+          "resolved": true,
+          "bpm": 151.5964031513348,
+          "bpmError": 0.0014031513348129465,
+          "bpmErrorPercent": 0.0009255920939477136,
+          "beatPhaseMs": 5.899130029591984,
+          "maxFullTrackGridErrorMs": 5.899130029591984,
+          "p95FullTrackGridErrorMs": 5.758456231262468,
+          "downbeatPhaseMs": 5.899130029591984
+        },
+        "after": {
+          "resolved": true,
+          "bpm": 151.5964031513348,
+          "bpmError": 0.0014031513348129465,
+          "bpmErrorPercent": 0.0009255920939477136,
+          "beatPhaseMs": 5.899130029591984,
+          "maxFullTrackGridErrorMs": 5.899130029591984,
+          "p95FullTrackGridErrorMs": 5.758456231262468,
+          "downbeatPhaseMs": 5.899130029591984
+        },
+        "deepOpeningBarAccepted": false,
+        "deepGuidedPhaseAccepted": false
+      },
+      {
+        "id": "10",
+        "title": "Untouched",
+        "before": {
+          "resolved": true,
+          "bpm": 176.99984644817698,
+          "bpmError": 0.0008464481769863141,
+          "bpmErrorPercent": 0.0004782220108578983,
+          "beatPhaseMs": 9.387314068895147,
+          "maxFullTrackGridErrorMs": 9.387314068895147,
+          "p95FullTrackGridErrorMs": 9.326685191872164,
+          "downbeatPhaseMs": 668.5809968716508
+        },
+        "after": {
+          "resolved": true,
+          "bpm": 176.99984644817698,
+          "bpmError": 0.0008464481769863141,
+          "bpmErrorPercent": 0.0004782220108578983,
+          "beatPhaseMs": 9.387314068895147,
+          "maxFullTrackGridErrorMs": 9.387314068895147,
+          "p95FullTrackGridErrorMs": 9.326685191872164,
+          "downbeatPhaseMs": 9.385692975926618
+        },
+        "deepOpeningBarAccepted": true,
+        "deepGuidedPhaseAccepted": false
+      },
+      {
+        "id": "11",
+        "title": "...In The End",
+        "before": {
+          "resolved": true,
+          "bpm": 80.00910879618657,
+          "bpmError": 0.023408796186572545,
+          "bpmErrorPercent": 0.02926622657122291,
+          "beatPhaseMs": 170.08025123474164,
+          "maxFullTrackGridErrorMs": 362.33746940989704,
+          "p95FullTrackGridErrorMs": 352.72460850113924,
+          "downbeatPhaseMs": null
+        },
+        "after": {
+          "resolved": true,
+          "bpm": 79.98845413730851,
+          "bpmError": 0.0027541373085142595,
+          "bpmErrorPercent": 0.0034432871232059625,
+          "beatPhaseMs": 18.62876836886862,
+          "maxFullTrackGridErrorMs": 18.62876836886862,
+          "p95FullTrackGridErrorMs": 17.497485278400735,
+          "downbeatPhaseMs": null
+        },
+        "deepOpeningBarAccepted": false,
+        "deepGuidedPhaseAccepted": true
+      },
+      {
+        "id": "12",
+        "title": "The Wedding DJ - Coming Out Of My Head 120",
+        "before": null,
+        "after": null,
+        "deepOpeningBarAccepted": false,
+        "deepGuidedPhaseAccepted": false
+      }
+    ],
+    "parity": [
+      {
+        "id": "01",
+        "maximumAbsoluteFeatureDifferences": {
+          "key": 0.0,
+          "keyConfidence": 7.0549822372978355e-09,
+          "keyStability": 0.0,
+          "chroma": 3.302209200528594e-10,
+          "timbre": 1.211640066056674e-09,
+          "tuningCents": 2.4700838929803126e-08,
+          "cachedEnergyLevel": 0.0,
+          "waveform": 3.29999999992836e-07,
+          "waveformFramesPerBin": 0.0
+        },
+        "finalKeyUnchanged": true,
+        "timelines": {
+          "beats": {
+            "beforeEvents": 224,
+            "afterEvents": 224,
+            "unchangedWithin1ms": true
+          },
+          "downbeats": {
+            "beforeEvents": 56,
+            "afterEvents": 56,
+            "unchangedWithin1ms": true
+          }
+        }
+      },
+      {
+        "id": "02",
+        "maximumAbsoluteFeatureDifferences": {
+          "key": 0.0,
+          "keyConfidence": 0.0,
+          "keyStability": 0.0,
+          "chroma": 0.0,
+          "timbre": 0.0,
+          "tuningCents": 0.0,
+          "cachedEnergyLevel": 0.0,
+          "waveform": 0.0,
+          "waveformFramesPerBin": 0.0
+        },
+        "finalKeyUnchanged": true,
+        "timelines": {
+          "beats": {
+            "beforeEvents": 930,
+            "afterEvents": 930,
+            "unchangedWithin1ms": true
+          },
+          "downbeats": {
+            "beforeEvents": 233,
+            "afterEvents": 233,
+            "unchangedWithin1ms": true
+          }
+        }
+      },
+      {
+        "id": "03",
+        "maximumAbsoluteFeatureDifferences": {
+          "key": 0.0,
+          "keyConfidence": 0.0,
+          "keyStability": 0.0,
+          "chroma": 0.0,
+          "timbre": 0.0,
+          "tuningCents": 0.0,
+          "cachedEnergyLevel": 0.0,
+          "waveform": 0.0,
+          "waveformFramesPerBin": 0.0
+        },
+        "finalKeyUnchanged": true,
+        "timelines": {
+          "beats": {
+            "beforeEvents": 474,
+            "afterEvents": 474,
+            "unchangedWithin1ms": true
+          },
+          "downbeats": {
+            "beforeEvents": 119,
+            "afterEvents": 119,
+            "unchangedWithin1ms": true
+          }
+        }
+      },
+      {
+        "id": "04",
+        "maximumAbsoluteFeatureDifferences": {
+          "key": 0.0,
+          "keyConfidence": 0.0,
+          "keyStability": 0.0,
+          "chroma": 2.59185159445785e-10,
+          "timbre": 6.088223397648918e-10,
+          "tuningCents": 1.586084552585021e-07,
+          "cachedEnergyLevel": 0.0,
+          "waveform": 4.999999999588667e-07,
+          "waveformFramesPerBin": 0.0
+        },
+        "finalKeyUnchanged": true,
+        "timelines": {
+          "beats": {
+            "beforeEvents": 288,
+            "afterEvents": 288,
+            "unchangedWithin1ms": true
+          },
+          "downbeats": {
+            "beforeEvents": 72,
+            "afterEvents": 72,
+            "unchangedWithin1ms": true
+          }
+        }
+      },
+      {
+        "id": "05",
+        "maximumAbsoluteFeatureDifferences": {
+          "key": 0.0,
+          "keyConfidence": 0.0,
+          "keyStability": 0.0,
+          "chroma": 0.0,
+          "timbre": 0.0,
+          "tuningCents": 0.0,
+          "cachedEnergyLevel": 0.0,
+          "waveform": 0.0,
+          "waveformFramesPerBin": 0.0
+        },
+        "finalKeyUnchanged": true,
+        "timelines": {
+          "beats": {
+            "beforeEvents": 364,
+            "afterEvents": 364,
+            "unchangedWithin1ms": true
+          },
+          "downbeats": {
+            "beforeEvents": 91,
+            "afterEvents": 91,
+            "unchangedWithin1ms": true
+          }
+        }
+      },
+      {
+        "id": "06",
+        "maximumAbsoluteFeatureDifferences": {
+          "key": 0.0,
+          "keyConfidence": 0.0,
+          "keyStability": 0.0,
+          "chroma": 2.3747043081945307e-09,
+          "timbre": 1.1369701846675184e-09,
+          "tuningCents": 4.474804455867343e-07,
+          "cachedEnergyLevel": 0.0,
+          "waveform": 4.699999999191462e-07,
+          "waveformFramesPerBin": 0.0
+        },
+        "finalKeyUnchanged": true,
+        "timelines": {
+          "beats": {
+            "beforeEvents": 257,
+            "afterEvents": 257,
+            "unchangedWithin1ms": true
+          },
+          "downbeats": {
+            "beforeEvents": 65,
+            "afterEvents": 65,
+            "unchangedWithin1ms": true
+          }
+        }
+      },
+      {
+        "id": "07",
+        "maximumAbsoluteFeatureDifferences": {
+          "key": 0.0,
+          "keyConfidence": 0.0,
+          "keyStability": 0.0,
+          "chroma": 0.0,
+          "timbre": 0.0,
+          "tuningCents": 0.0,
+          "cachedEnergyLevel": 0.0,
+          "waveform": 0.0,
+          "waveformFramesPerBin": 0.0
+        },
+        "finalKeyUnchanged": true,
+        "timelines": {
+          "beats": {
+            "beforeEvents": 497,
+            "afterEvents": 497,
+            "unchangedWithin1ms": true
+          },
+          "downbeats": {
+            "beforeEvents": 125,
+            "afterEvents": 125,
+            "unchangedWithin1ms": true
+          }
+        }
+      },
+      {
+        "id": "08",
+        "maximumAbsoluteFeatureDifferences": {
+          "key": 0.0,
+          "keyConfidence": 0.0,
+          "keyStability": 0.0,
+          "chroma": 0.0,
+          "timbre": 0.0,
+          "tuningCents": 0.0,
+          "cachedEnergyLevel": 0.0,
+          "waveform": 0.0,
+          "waveformFramesPerBin": 0.0
+        },
+        "finalKeyUnchanged": true,
+        "timelines": {
+          "beats": {
+            "beforeEvents": 556,
+            "afterEvents": 556,
+            "unchangedWithin1ms": true
+          },
+          "downbeats": {
+            "beforeEvents": 139,
+            "afterEvents": 139,
+            "unchangedWithin1ms": true
+          }
+        }
+      },
+      {
+        "id": "09",
+        "maximumAbsoluteFeatureDifferences": {
+          "key": 0.0,
+          "keyConfidence": 0.0,
+          "keyStability": 0.0,
+          "chroma": 0.0,
+          "timbre": 0.0,
+          "tuningCents": 0.0,
+          "cachedEnergyLevel": 0.0,
+          "waveform": 0.0,
+          "waveformFramesPerBin": 0.0
+        },
+        "finalKeyUnchanged": true,
+        "timelines": {
+          "beats": {
+            "beforeEvents": 769,
+            "afterEvents": 769,
+            "unchangedWithin1ms": true
+          },
+          "downbeats": {
+            "beforeEvents": 193,
+            "afterEvents": 193,
+            "unchangedWithin1ms": true
+          }
+        }
+      },
+      {
+        "id": "10",
+        "maximumAbsoluteFeatureDifferences": {
+          "key": 0.0,
+          "keyConfidence": 8.482660102115958e-09,
+          "keyStability": 0.0,
+          "chroma": 3.851860982950761e-10,
+          "timbre": 4.192997754559613e-10,
+          "tuningCents": 5.3871221261658775e-08,
+          "cachedEnergyLevel": 0.0,
+          "waveform": 3.399999999320613e-07,
+          "waveformFramesPerBin": 0.0
+        },
+        "finalKeyUnchanged": true,
+        "timelines": {
+          "beats": {
+            "beforeEvents": 753,
+            "afterEvents": 753,
+            "unchangedWithin1ms": true
+          },
+          "downbeats": {
+            "beforeEvents": 188,
+            "afterEvents": 188,
+            "unchangedWithin1ms": false
+          }
+        }
+      },
+      {
+        "id": "11",
+        "maximumAbsoluteFeatureDifferences": {
+          "key": 0.0,
+          "keyConfidence": 4.478964488185966e-08,
+          "keyStability": 0.0,
+          "chroma": 2.4908769907794337e-09,
+          "timbre": 2.605837226554719e-09,
+          "tuningCents": 6.492362594201495e-07,
+          "cachedEnergyLevel": 0.0,
+          "waveform": 2.599999999741698e-07,
+          "waveformFramesPerBin": 0.0
+        },
+        "finalKeyUnchanged": true,
+        "timelines": {
+          "beats": {
+            "beforeEvents": 878,
+            "afterEvents": 877,
+            "unchangedWithin1ms": false
+          },
+          "downbeats": {
+            "beforeEvents": 0,
+            "afterEvents": 0,
+            "unchangedWithin1ms": true
+          }
+        }
+      },
+      {
+        "id": "12",
+        "maximumAbsoluteFeatureDifferences": {
+          "key": 0.0,
+          "keyConfidence": 0.0,
+          "keyStability": 0.0,
+          "chroma": 0.0,
+          "timbre": 0.0,
+          "tuningCents": 0.0,
+          "cachedEnergyLevel": 0.0,
+          "waveform": 0.0,
+          "waveformFramesPerBin": 0.0
+        },
+        "finalKeyUnchanged": true,
+        "timelines": {
+          "beats": {
+            "beforeEvents": 2754,
+            "afterEvents": 2754,
+            "unchangedWithin1ms": true
+          },
+          "downbeats": {
+            "beforeEvents": 0,
+            "afterEvents": 0,
+            "unchangedWithin1ms": true
+          }
+        }
+      }
+    ],
+    "baselineTiming": {
+      "firstPassPerformance": {
+        "tracks": 12,
+        "wallSeconds": 128.969564084,
+        "audioSeconds": 4693.636173752834,
+        "timesRealtime": 36.393363093759014,
+        "secondsPerAudioMinute": 1.6486522513850668,
+        "p50Seconds": 8.312335854,
+        "p90Seconds": 22.103882591700003,
+        "p95Seconds": 23.0278938253,
+        "processCPUSeconds": 88.89435599999999,
+        "processLifetimePeakRSSBytes": 288702464,
+        "thermalStates": [
+          "nominal"
+        ]
+      },
+      "deepPerformance": {
+        "tracks": 12,
+        "wallSeconds": 149.20307449999999,
+        "audioSeconds": 4693.636173752834,
+        "timesRealtime": 31.458039249404575,
+        "secondsPerAudioMinute": 1.9073025983695298,
+        "p50Seconds": 7.5440873955,
+        "p90Seconds": 33.123179350300006,
+        "p95Seconds": 36.0696038484,
+        "processCPUSeconds": 71.14585200000002,
+        "processLifetimePeakRSSBytes": 551354368,
+        "thermalStates": [
+          "nominal"
+        ]
+      }
+    },
+    "candidateTiming": {
+      "firstPassPerformance": {
+        "tracks": 12,
+        "wallSeconds": 169.110157582,
+        "audioSeconds": 4693.636173752834,
+        "timesRealtime": 27.75490390916898,
+        "secondsPerAudioMinute": 2.1617801378940706,
+        "p50Seconds": 10.0593325205,
+        "p90Seconds": 26.4136885286,
+        "p95Seconds": 27.0305067352,
+        "processCPUSeconds": 93.10203900000002,
+        "processLifetimePeakRSSBytes": 263176192,
+        "thermalStates": [
+          "nominal"
+        ]
+      },
+      "deepPerformance": {
+        "tracks": 12,
+        "wallSeconds": 160.57703662400002,
+        "audioSeconds": 4693.636173752834,
+        "timesRealtime": 29.229809395120686,
+        "secondsPerAudioMinute": 2.0526989823620188,
+        "p50Seconds": 7.5069682085,
+        "p90Seconds": 34.0777742872,
+        "p95Seconds": 39.55084576424999,
+        "processCPUSeconds": 80.74172899999996,
+        "processLifetimePeakRSSBytes": 871104512,
+        "thermalStates": [
+          "nominal"
+        ]
+      }
+    },
+    "reportSHA256": "8fd4598415b7e092687855234f4476d92c1f1efcb49fe3e9ca8668d92d7d7315"
+  },
+  "fresh": {
+    "gtzan": {
+      "tracks": 100,
+      "comparisons": {
+        "first": {
+          "beats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 6059,
+              "predictedEvents": 5576,
+              "matched": 3563,
+              "precision": 0.6389885222381636,
+              "recall": 0.5880508334708697,
+              "microF1": 0.6124623979372583,
+              "macroF1": 0.5912193503056266,
+              "tracksWith95PercentEvents": 27,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 9,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 22,
+                  "meanScore": 0.17555399697637875
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 69,
+                  "meanScore": 0.8008658999577148
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 6059,
+              "predictedEvents": 5576,
+              "matched": 3563,
+              "precision": 0.6389885222381636,
+              "recall": 0.5880508334708697,
+              "microF1": 0.6124623979372583,
+              "macroF1": 0.5912193503056266,
+              "tracksWith95PercentEvents": 27,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 9,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 22,
+                  "meanScore": 0.17555399697637875
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 69,
+                  "meanScore": 0.8008658999577148
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 98,
+              "referenceEvents": 1538,
+              "predictedEvents": 1253,
+              "matched": 774,
+              "precision": 0.6177174780526736,
+              "recall": 0.5032509752925878,
+              "microF1": 0.5546399140093157,
+              "macroF1": 0.5356722082777282,
+              "tracksWith95PercentEvents": 27,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 22,
+                  "meanScore": 0.27228716946585285
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 62,
+                  "meanScore": 0.750089656176913
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 98,
+              "referenceEvents": 1538,
+              "predictedEvents": 1253,
+              "matched": 774,
+              "precision": 0.6177174780526736,
+              "recall": 0.5032509752925878,
+              "microF1": 0.5546399140093157,
+              "macroF1": 0.5356722082777282,
+              "tracksWith95PercentEvents": 27,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 22,
+                  "meanScore": 0.27228716946585285
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 62,
+                  "meanScore": 0.750089656176913
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "final": {
+          "beats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 6059,
+              "predictedEvents": 5576,
+              "matched": 3563,
+              "precision": 0.6389885222381636,
+              "recall": 0.5880508334708697,
+              "microF1": 0.6124623979372583,
+              "macroF1": 0.5912193503056266,
+              "tracksWith95PercentEvents": 27,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 9,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 22,
+                  "meanScore": 0.17555399697637875
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 69,
+                  "meanScore": 0.8008658999577148
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 6059,
+              "predictedEvents": 5576,
+              "matched": 3563,
+              "precision": 0.6389885222381636,
+              "recall": 0.5880508334708697,
+              "microF1": 0.6124623979372583,
+              "macroF1": 0.5912193503056266,
+              "tracksWith95PercentEvents": 27,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 9,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 22,
+                  "meanScore": 0.17555399697637875
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 69,
+                  "meanScore": 0.8008658999577148
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 98,
+              "referenceEvents": 1538,
+              "predictedEvents": 1253,
+              "matched": 774,
+              "precision": 0.6177174780526736,
+              "recall": 0.5032509752925878,
+              "microF1": 0.5546399140093157,
+              "macroF1": 0.5356722082777282,
+              "tracksWith95PercentEvents": 27,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 22,
+                  "meanScore": 0.27228716946585285
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 62,
+                  "meanScore": 0.750089656176913
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 98,
+              "referenceEvents": 1538,
+              "predictedEvents": 1253,
+              "matched": 774,
+              "precision": 0.6177174780526736,
+              "recall": 0.5032509752925878,
+              "microF1": 0.5546399140093157,
+              "macroF1": 0.5356722082777282,
+              "tracksWith95PercentEvents": 27,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 22,
+                  "meanScore": 0.27228716946585285
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 62,
+                  "meanScore": 0.750089656176913
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "review": {
+          "beats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 6059,
+              "predictedEvents": 5567,
+              "matched": 3754,
+              "precision": 0.6743308783905155,
+              "recall": 0.6195741871595973,
+              "microF1": 0.645793910201273,
+              "macroF1": 0.6258200974124078,
+              "tracksWith95PercentEvents": 31,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 8,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 20,
+                  "meanScore": 0.13456464875217705
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 10,
+                  "meanScore": 0.558797471751955
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 6059,
+              "predictedEvents": 5567,
+              "matched": 3754,
+              "precision": 0.6743308783905155,
+              "recall": 0.6195741871595973,
+              "microF1": 0.645793910201273,
+              "macroF1": 0.6258200974124078,
+              "tracksWith95PercentEvents": 31,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 8,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 20,
+                  "meanScore": 0.13456464875217705
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 10,
+                  "meanScore": 0.558797471751955
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 98,
+              "referenceEvents": 1538,
+              "predictedEvents": 1259,
+              "matched": 838,
+              "precision": 0.6656076250992852,
+              "recall": 0.5448634590377113,
+              "microF1": 0.5992134429746157,
+              "macroF1": 0.5775947874891145,
+              "tracksWith95PercentEvents": 31,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 14,
+                  "meanScore": 0.13307704200561343
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 9,
+                  "meanScore": 0.3293756052376742
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 98,
+              "referenceEvents": 1538,
+              "predictedEvents": 1259,
+              "matched": 838,
+              "precision": 0.6656076250992852,
+              "recall": 0.5448634590377113,
+              "microF1": 0.5992134429746157,
+              "macroF1": 0.5775947874891145,
+              "tracksWith95PercentEvents": 31,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 14,
+                  "meanScore": 0.13307704200561343
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 9,
+                  "meanScore": 0.3293756052376742
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        }
+      },
+      "reopened": 100,
+      "baselineReportSHA256": "12191e77d186d6ec02d9d72832ff1dc151b9556fa1024d19da1f09b529142d08",
+      "candidateReportSHA256": "ab9e087b152fd359acd2e3a6624c7f8941fc98d05727a7d7555954bfc27a188f",
+      "referenceFileSHA256": "ac34dde67a9740e32e57554e52a759d9f8278343f09280d2ba724cab38a734bb",
+      "automaticOpeningCorrections": 0,
+      "automaticPhaseCorrections": 0
+    },
+    "ballroom": {
+      "tracks": 80,
+      "comparisons": {
+        "first": {
+          "beats": {
+            "before": {
+              "referenceTracks": 80,
+              "referenceEvents": 5145,
+              "predictedEvents": 3663,
+              "matched": 2841,
+              "precision": 0.7755937755937756,
+              "recall": 0.5521865889212828,
+              "microF1": 0.6450953678474114,
+              "macroF1": 0.6128285031637735,
+              "tracksWith95PercentEvents": 27,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 17,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 10,
+                  "meanScore": 0.21105456922094518
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 53,
+                  "meanScore": 0.8852025388847629
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 80,
+              "referenceEvents": 5145,
+              "predictedEvents": 3663,
+              "matched": 2841,
+              "precision": 0.7755937755937756,
+              "recall": 0.5521865889212828,
+              "microF1": 0.6450953678474114,
+              "macroF1": 0.6128285031637735,
+              "tracksWith95PercentEvents": 27,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 17,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 10,
+                  "meanScore": 0.21105456922094518
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 53,
+                  "meanScore": 0.8852025388847629
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 80,
+              "referenceEvents": 1400,
+              "predictedEvents": 861,
+              "matched": 707,
+              "precision": 0.8211382113821138,
+              "recall": 0.505,
+              "microF1": 0.6253869969040248,
+              "macroF1": 0.6050167775479582,
+              "tracksWith95PercentEvents": 31,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 8,
+                  "meanScore": 0.30588155805547107
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 51,
+                  "meanScore": 0.9010645046939783
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 80,
+              "referenceEvents": 1400,
+              "predictedEvents": 861,
+              "matched": 707,
+              "precision": 0.8211382113821138,
+              "recall": 0.505,
+              "microF1": 0.6253869969040248,
+              "macroF1": 0.6050167775479582,
+              "tracksWith95PercentEvents": 31,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 8,
+                  "meanScore": 0.30588155805547107
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 51,
+                  "meanScore": 0.9010645046939783
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "final": {
+          "beats": {
+            "before": {
+              "referenceTracks": 80,
+              "referenceEvents": 5145,
+              "predictedEvents": 3663,
+              "matched": 2841,
+              "precision": 0.7755937755937756,
+              "recall": 0.5521865889212828,
+              "microF1": 0.6450953678474114,
+              "macroF1": 0.6128285031637735,
+              "tracksWith95PercentEvents": 27,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 17,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 10,
+                  "meanScore": 0.21105456922094518
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 53,
+                  "meanScore": 0.8852025388847629
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 80,
+              "referenceEvents": 5145,
+              "predictedEvents": 3663,
+              "matched": 2841,
+              "precision": 0.7755937755937756,
+              "recall": 0.5521865889212828,
+              "microF1": 0.6450953678474114,
+              "macroF1": 0.6128285031637735,
+              "tracksWith95PercentEvents": 27,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 17,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 10,
+                  "meanScore": 0.21105456922094518
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 53,
+                  "meanScore": 0.8852025388847629
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 80,
+              "referenceEvents": 1400,
+              "predictedEvents": 861,
+              "matched": 707,
+              "precision": 0.8211382113821138,
+              "recall": 0.505,
+              "microF1": 0.6253869969040248,
+              "macroF1": 0.6050167775479582,
+              "tracksWith95PercentEvents": 31,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 8,
+                  "meanScore": 0.30588155805547107
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 51,
+                  "meanScore": 0.9010645046939783
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 80,
+              "referenceEvents": 1400,
+              "predictedEvents": 861,
+              "matched": 707,
+              "precision": 0.8211382113821138,
+              "recall": 0.505,
+              "microF1": 0.6253869969040248,
+              "macroF1": 0.6050167775479582,
+              "tracksWith95PercentEvents": 31,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 8,
+                  "meanScore": 0.30588155805547107
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 51,
+                  "meanScore": 0.9010645046939783
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "review": {
+          "beats": {
+            "before": {
+              "referenceTracks": 80,
+              "referenceEvents": 5145,
+              "predictedEvents": 3685,
+              "matched": 3099,
+              "precision": 0.840976933514247,
+              "recall": 0.602332361516035,
+              "microF1": 0.7019252548131371,
+              "macroF1": 0.6591233245666304,
+              "tracksWith95PercentEvents": 36,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 17,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 8,
+                  "meanScore": 0.17418578537284587
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 2,
+                  "meanScore": 0.8236215538847118
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 80,
+              "referenceEvents": 5145,
+              "predictedEvents": 3685,
+              "matched": 3099,
+              "precision": 0.840976933514247,
+              "recall": 0.602332361516035,
+              "microF1": 0.7019252548131371,
+              "macroF1": 0.6591233245666304,
+              "tracksWith95PercentEvents": 36,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 17,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 8,
+                  "meanScore": 0.17418578537284587
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 2,
+                  "meanScore": 0.8236215538847118
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 80,
+              "referenceEvents": 1400,
+              "predictedEvents": 867,
+              "matched": 779,
+              "precision": 0.8985005767012687,
+              "recall": 0.5564285714285714,
+              "microF1": 0.6872518747243053,
+              "macroF1": 0.6568822263307923,
+              "tracksWith95PercentEvents": 35,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 4,
+                  "meanScore": 0.2423076923076923
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 2,
+                  "meanScore": 0.7727272727272727
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 80,
+              "referenceEvents": 1400,
+              "predictedEvents": 867,
+              "matched": 779,
+              "precision": 0.8985005767012687,
+              "recall": 0.5564285714285714,
+              "microF1": 0.6872518747243053,
+              "macroF1": 0.6568822263307923,
+              "tracksWith95PercentEvents": 35,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 4,
+                  "meanScore": 0.2423076923076923
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 2,
+                  "meanScore": 0.7727272727272727
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        }
+      },
+      "reopened": 80,
+      "baselineReportSHA256": "e5d8a6fb4d31fc02c5fec62e8c743ad2d4133711adcad68fe076c49fdd3f63dc",
+      "candidateReportSHA256": "efb60ac34d3c973b01203ea97a990101b8249d71b6b8626766405b0f56f0781f",
+      "referenceFileSHA256": "fac5aaaa0bdde952d4aaf61ae540435444f96717317332d4d8cc4d986f9f5028",
+      "automaticOpeningCorrections": 0,
+      "automaticPhaseCorrections": 0
+    }
+  },
+  "replays": {
+    "development": {
+      "tracks": 100,
+      "reopened": 100,
+      "comparisons": {
+        "first": {
+          "beats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 6236,
+              "predictedEvents": 4999,
+              "matched": 3561,
+              "precision": 0.7123424684936988,
+              "recall": 0.5710391276459269,
+              "microF1": 0.6339118825100134,
+              "macroF1": 0.5916905893175766,
+              "tracksWith95PercentEvents": 34,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 11,
+                  "meanScore": 0.29068125044825355
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 73,
+                  "meanScore": 0.7667337695455736
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 6236,
+              "predictedEvents": 4999,
+              "matched": 3561,
+              "precision": 0.7123424684936988,
+              "recall": 0.5710391276459269,
+              "microF1": 0.6339118825100134,
+              "macroF1": 0.5916905893175766,
+              "tracksWith95PercentEvents": 34,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 11,
+                  "meanScore": 0.29068125044825355
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 73,
+                  "meanScore": 0.7667337695455736
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 1591,
+              "predictedEvents": 1193,
+              "matched": 740,
+              "precision": 0.6202849958088852,
+              "recall": 0.46511627906976744,
+              "microF1": 0.5316091954022989,
+              "macroF1": 0.5047974638423992,
+              "tracksWith95PercentEvents": 26,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 17,
+                  "meanScore": 0.17132914696516796
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 65,
+                  "meanScore": 0.7318023213204932
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 1591,
+              "predictedEvents": 1193,
+              "matched": 740,
+              "precision": 0.6202849958088852,
+              "recall": 0.46511627906976744,
+              "microF1": 0.5316091954022989,
+              "macroF1": 0.5047974638423992,
+              "tracksWith95PercentEvents": 26,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 17,
+                  "meanScore": 0.17132914696516796
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 65,
+                  "meanScore": 0.7318023213204932
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "final": {
+          "beats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 6236,
+              "predictedEvents": 4999,
+              "matched": 3561,
+              "precision": 0.7123424684936988,
+              "recall": 0.5710391276459269,
+              "microF1": 0.6339118825100134,
+              "macroF1": 0.5916905893175766,
+              "tracksWith95PercentEvents": 34,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 11,
+                  "meanScore": 0.29068125044825355
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 73,
+                  "meanScore": 0.7667337695455736
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 6236,
+              "predictedEvents": 4999,
+              "matched": 3561,
+              "precision": 0.7123424684936988,
+              "recall": 0.5710391276459269,
+              "microF1": 0.6339118825100134,
+              "macroF1": 0.5916905893175766,
+              "tracksWith95PercentEvents": 34,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 11,
+                  "meanScore": 0.29068125044825355
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 73,
+                  "meanScore": 0.7667337695455736
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 1591,
+              "predictedEvents": 1193,
+              "matched": 740,
+              "precision": 0.6202849958088852,
+              "recall": 0.46511627906976744,
+              "microF1": 0.5316091954022989,
+              "macroF1": 0.5047974638423992,
+              "tracksWith95PercentEvents": 26,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 17,
+                  "meanScore": 0.17132914696516796
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 65,
+                  "meanScore": 0.7318023213204932
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 1591,
+              "predictedEvents": 1193,
+              "matched": 740,
+              "precision": 0.6202849958088852,
+              "recall": 0.46511627906976744,
+              "microF1": 0.5316091954022989,
+              "macroF1": 0.5047974638423992,
+              "tracksWith95PercentEvents": 26,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 17,
+                  "meanScore": 0.17132914696516796
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 65,
+                  "meanScore": 0.7318023213204932
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "review": {
+          "beats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 6236,
+              "predictedEvents": 5119,
+              "matched": 4045,
+              "precision": 0.7901933971478804,
+              "recall": 0.6486529826812059,
+              "microF1": 0.7124614707177455,
+              "macroF1": 0.6720182043527201,
+              "tracksWith95PercentEvents": 40,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 14,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 8,
+                  "meanScore": 0.2591672388468681
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 16,
+                  "meanScore": 0.732034229824629
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 6236,
+              "predictedEvents": 5119,
+              "matched": 4045,
+              "precision": 0.7901933971478804,
+              "recall": 0.6486529826812059,
+              "microF1": 0.7124614707177455,
+              "macroF1": 0.6720182043527201,
+              "tracksWith95PercentEvents": 40,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 14,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 8,
+                  "meanScore": 0.2591672388468681
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 16,
+                  "meanScore": 0.732034229824629
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 1591,
+              "predictedEvents": 1229,
+              "matched": 873,
+              "precision": 0.71033360455655,
+              "recall": 0.5487115021998743,
+              "microF1": 0.6191489361702127,
+              "macroF1": 0.5923702729713028,
+              "tracksWith95PercentEvents": 31,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 11,
+                  "meanScore": 0.14356928773404745
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 11,
+                  "meanScore": 0.5301577492275166
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 1591,
+              "predictedEvents": 1229,
+              "matched": 873,
+              "precision": 0.71033360455655,
+              "recall": 0.5487115021998743,
+              "microF1": 0.6191489361702127,
+              "macroF1": 0.5923702729713028,
+              "tracksWith95PercentEvents": 31,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 11,
+                  "meanScore": 0.14356928773404745
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 11,
+                  "meanScore": 0.5301577492275166
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        }
+      },
+      "changedPlaybackTimelines": [],
+      "byteIdenticalCheckpoints": {
+        "window-*.json": 200,
+        "key-window-*.json": 100
+      },
+      "checkpointManifestSHA256": "8bee326f02faa4ce0cb7355492fdcac411fbcd967fed52e97f2247a6b330eaa6",
+      "reportSHA256": "405ebba7bb7d1085907ee14a9511084928f8e211a0b783f6b9ba5d109e33187c"
+    },
+    "holdout": {
+      "tracks": 100,
+      "reopened": 100,
+      "comparisons": {
+        "first": {
+          "beats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 6112,
+              "predictedEvents": 4952,
+              "matched": 3184,
+              "precision": 0.6429725363489499,
+              "recall": 0.5209424083769634,
+              "microF1": 0.5755603759942155,
+              "macroF1": 0.5501141128673354,
+              "tracksWith95PercentEvents": 26,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 20,
+                  "meanScore": 0.2581890077629666
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 64,
+                  "meanScore": 0.7788692364292844
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 6112,
+              "predictedEvents": 4952,
+              "matched": 3184,
+              "precision": 0.6429725363489499,
+              "recall": 0.5209424083769634,
+              "microF1": 0.5755603759942155,
+              "macroF1": 0.5501141128673354,
+              "tracksWith95PercentEvents": 26,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 20,
+                  "meanScore": 0.2581890077629666
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 64,
+                  "meanScore": 0.7788692364292844
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 1583,
+              "predictedEvents": 1076,
+              "matched": 714,
+              "precision": 0.6635687732342007,
+              "recall": 0.4510423246999368,
+              "microF1": 0.537044001504325,
+              "macroF1": 0.49673028280777204,
+              "tracksWith95PercentEvents": 23,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 15,
+                  "meanScore": 0.3379152041910928
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 60,
+                  "meanScore": 0.7434050036318468
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 1583,
+              "predictedEvents": 1076,
+              "matched": 714,
+              "precision": 0.6635687732342007,
+              "recall": 0.4510423246999368,
+              "microF1": 0.537044001504325,
+              "macroF1": 0.49673028280777204,
+              "tracksWith95PercentEvents": 23,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 15,
+                  "meanScore": 0.3379152041910928
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 60,
+                  "meanScore": 0.7434050036318468
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "final": {
+          "beats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 6112,
+              "predictedEvents": 4952,
+              "matched": 3184,
+              "precision": 0.6429725363489499,
+              "recall": 0.5209424083769634,
+              "microF1": 0.5755603759942155,
+              "macroF1": 0.5501141128673354,
+              "tracksWith95PercentEvents": 26,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 20,
+                  "meanScore": 0.2581890077629666
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 64,
+                  "meanScore": 0.7788692364292844
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 6112,
+              "predictedEvents": 4952,
+              "matched": 3184,
+              "precision": 0.6429725363489499,
+              "recall": 0.5209424083769634,
+              "microF1": 0.5755603759942155,
+              "macroF1": 0.5501141128673354,
+              "tracksWith95PercentEvents": 26,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 20,
+                  "meanScore": 0.2581890077629666
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 64,
+                  "meanScore": 0.7788692364292844
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 1583,
+              "predictedEvents": 1076,
+              "matched": 714,
+              "precision": 0.6635687732342007,
+              "recall": 0.4510423246999368,
+              "microF1": 0.537044001504325,
+              "macroF1": 0.49673028280777204,
+              "tracksWith95PercentEvents": 23,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 15,
+                  "meanScore": 0.3379152041910928
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 60,
+                  "meanScore": 0.7434050036318468
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 1583,
+              "predictedEvents": 1076,
+              "matched": 714,
+              "precision": 0.6635687732342007,
+              "recall": 0.4510423246999368,
+              "microF1": 0.537044001504325,
+              "macroF1": 0.49673028280777204,
+              "tracksWith95PercentEvents": 23,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 15,
+                  "meanScore": 0.3379152041910928
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 60,
+                  "meanScore": 0.7434050036318468
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "review": {
+          "beats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 6112,
+              "predictedEvents": 5058,
+              "matched": 3564,
+              "precision": 0.7046263345195729,
+              "recall": 0.5831151832460733,
+              "microF1": 0.6381378692927484,
+              "macroF1": 0.6116620022508589,
+              "tracksWith95PercentEvents": 33,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 14,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 16,
+                  "meanScore": 0.2497404808940839
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 13,
+                  "meanScore": 0.6412890607447287
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 6112,
+              "predictedEvents": 5058,
+              "matched": 3564,
+              "precision": 0.7046263345195729,
+              "recall": 0.5831151832460733,
+              "microF1": 0.6381378692927484,
+              "macroF1": 0.6116620022508589,
+              "tracksWith95PercentEvents": 33,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 14,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 16,
+                  "meanScore": 0.2497404808940839
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 13,
+                  "meanScore": 0.6412890607447287
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 1583,
+              "predictedEvents": 1131,
+              "matched": 800,
+              "precision": 0.7073386383731212,
+              "recall": 0.505369551484523,
+              "microF1": 0.5895357406042742,
+              "macroF1": 0.5503183254661422,
+              "tracksWith95PercentEvents": 24,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 9,
+                  "meanScore": 0.22548039959612787
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 12,
+                  "meanScore": 0.48734391871821464
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 1583,
+              "predictedEvents": 1131,
+              "matched": 800,
+              "precision": 0.7073386383731212,
+              "recall": 0.505369551484523,
+              "microF1": 0.5895357406042742,
+              "macroF1": 0.5503183254661422,
+              "tracksWith95PercentEvents": 24,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 9,
+                  "meanScore": 0.22548039959612787
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 12,
+                  "meanScore": 0.48734391871821464
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        }
+      },
+      "changedPlaybackTimelines": [],
+      "byteIdenticalCheckpoints": {
+        "window-*.json": 200,
+        "key-window-*.json": 100
+      },
+      "checkpointManifestSHA256": "5b896e25521d7abb8ad25c1d2505cd0128f880ba8b135991c02cf1d880f98aa3",
+      "reportSHA256": "c2dd246617401f384961a77df5328966f4a56b57cbfe2de0651e800b9db4d019"
+    },
+    "independent": {
+      "tracks": 100,
+      "reopened": 100,
+      "comparisons": {
+        "first": {
+          "beats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 6061,
+              "predictedEvents": 5099,
+              "matched": 3519,
+              "precision": 0.690135320651108,
+              "recall": 0.5805972611780235,
+              "microF1": 0.6306451612903226,
+              "macroF1": 0.5991324767111988,
+              "tracksWith95PercentEvents": 28,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 12,
+                  "meanScore": 0.27142180264884347
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 72,
+                  "meanScore": 0.7868914727685244
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 6061,
+              "predictedEvents": 5099,
+              "matched": 3519,
+              "precision": 0.690135320651108,
+              "recall": 0.5805972611780235,
+              "microF1": 0.6306451612903226,
+              "macroF1": 0.5991324767111988,
+              "tracksWith95PercentEvents": 28,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 12,
+                  "meanScore": 0.27142180264884347
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 72,
+                  "meanScore": 0.7868914727685244
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 1523,
+              "predictedEvents": 1122,
+              "matched": 783,
+              "precision": 0.6978609625668449,
+              "recall": 0.5141168745896257,
+              "microF1": 0.5920604914933837,
+              "macroF1": 0.5466970402132524,
+              "tracksWith95PercentEvents": 28,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 10,
+                  "meanScore": 0.5328438228438228
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 67,
+                  "meanScore": 0.7364368028789106
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 1523,
+              "predictedEvents": 1122,
+              "matched": 783,
+              "precision": 0.6978609625668449,
+              "recall": 0.5141168745896257,
+              "microF1": 0.5920604914933837,
+              "macroF1": 0.5466970402132524,
+              "tracksWith95PercentEvents": 28,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 10,
+                  "meanScore": 0.5328438228438228
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 67,
+                  "meanScore": 0.7364368028789106
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "final": {
+          "beats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 6061,
+              "predictedEvents": 5099,
+              "matched": 3519,
+              "precision": 0.690135320651108,
+              "recall": 0.5805972611780235,
+              "microF1": 0.6306451612903226,
+              "macroF1": 0.5991324767111988,
+              "tracksWith95PercentEvents": 28,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 12,
+                  "meanScore": 0.27142180264884347
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 72,
+                  "meanScore": 0.7868914727685244
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 6061,
+              "predictedEvents": 5099,
+              "matched": 3519,
+              "precision": 0.690135320651108,
+              "recall": 0.5805972611780235,
+              "microF1": 0.6306451612903226,
+              "macroF1": 0.5991324767111988,
+              "tracksWith95PercentEvents": 28,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 12,
+                  "meanScore": 0.27142180264884347
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 72,
+                  "meanScore": 0.7868914727685244
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 1523,
+              "predictedEvents": 1122,
+              "matched": 783,
+              "precision": 0.6978609625668449,
+              "recall": 0.5141168745896257,
+              "microF1": 0.5920604914933837,
+              "macroF1": 0.5466970402132524,
+              "tracksWith95PercentEvents": 28,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 10,
+                  "meanScore": 0.5328438228438228
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 67,
+                  "meanScore": 0.7364368028789106
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 1523,
+              "predictedEvents": 1122,
+              "matched": 783,
+              "precision": 0.6978609625668449,
+              "recall": 0.5141168745896257,
+              "microF1": 0.5920604914933837,
+              "macroF1": 0.5466970402132524,
+              "tracksWith95PercentEvents": 28,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 10,
+                  "meanScore": 0.5328438228438228
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 67,
+                  "meanScore": 0.7364368028789106
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "review": {
+          "beats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 6061,
+              "predictedEvents": 5180,
+              "matched": 3798,
+              "precision": 0.7332046332046332,
+              "recall": 0.6266292690975087,
+              "microF1": 0.6757405924739792,
+              "macroF1": 0.6482402321179087,
+              "tracksWith95PercentEvents": 35,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 14,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 12,
+                  "meanScore": 0.27142180264884347
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 13,
+                  "meanScore": 0.6034411966677512
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 6061,
+              "predictedEvents": 5180,
+              "matched": 3798,
+              "precision": 0.7332046332046332,
+              "recall": 0.6266292690975087,
+              "microF1": 0.6757405924739792,
+              "macroF1": 0.6482402321179087,
+              "tracksWith95PercentEvents": 35,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 14,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 12,
+                  "meanScore": 0.27142180264884347
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 13,
+                  "meanScore": 0.6034411966677512
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 1523,
+              "predictedEvents": 1162,
+              "matched": 874,
+              "precision": 0.7521514629948365,
+              "recall": 0.5738673670387393,
+              "microF1": 0.651024208566108,
+              "macroF1": 0.6049989060629861,
+              "tracksWith95PercentEvents": 29,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 5,
+                  "meanScore": 0.30205128205128207
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 14,
+                  "meanScore": 0.45739642631246047
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 1523,
+              "predictedEvents": 1162,
+              "matched": 874,
+              "precision": 0.7521514629948365,
+              "recall": 0.5738673670387393,
+              "microF1": 0.651024208566108,
+              "macroF1": 0.6049989060629861,
+              "tracksWith95PercentEvents": 29,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 5,
+                  "meanScore": 0.30205128205128207
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 14,
+                  "meanScore": 0.45739642631246047
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        }
+      },
+      "changedPlaybackTimelines": [],
+      "byteIdenticalCheckpoints": {
+        "window-*.json": 200,
+        "key-window-*.json": 100
+      },
+      "checkpointManifestSHA256": "46132f33a08c6b99b0a1e7b4e418b539a799a30ad11431756dceb500f577f956",
+      "reportSHA256": "5b74c6c33e347e018f65535eda47413c66b3b5406c65e2edfe79f3bce4be76b8"
+    },
+    "fresh": {
+      "tracks": 94,
+      "reopened": 94,
+      "comparisons": {
+        "first": {
+          "beats": {
+            "before": {
+              "referenceTracks": 94,
+              "referenceEvents": 5104,
+              "predictedEvents": 4905,
+              "matched": 4117,
+              "precision": 0.8393476044852192,
+              "recall": 0.8066222570532915,
+              "microF1": 0.8226596063542811,
+              "macroF1": 0.7862162244588907,
+              "tracksWith95PercentEvents": 47,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 7,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 4,
+                  "meanScore": 0.3285458793403196
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 83,
+                  "meanScore": 0.8745800190575236
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 94,
+              "referenceEvents": 5104,
+              "predictedEvents": 4905,
+              "matched": 4117,
+              "precision": 0.8393476044852192,
+              "recall": 0.8066222570532915,
+              "microF1": 0.8226596063542811,
+              "macroF1": 0.7862162244588907,
+              "tracksWith95PercentEvents": 47,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 7,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 4,
+                  "meanScore": 0.3285458793403196
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 83,
+                  "meanScore": 0.8745800190575236
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 94,
+              "referenceEvents": 1279,
+              "predictedEvents": 1198,
+              "matched": 966,
+              "precision": 0.8063439065108514,
+              "recall": 0.7552775605942142,
+              "microF1": 0.779975777149778,
+              "macroF1": 0.7473207619097187,
+              "tracksWith95PercentEvents": 40,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 8,
+                  "meanScore": 0.47966485507246376
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 78,
+                  "meanScore": 0.8514209330632545
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 94,
+              "referenceEvents": 1279,
+              "predictedEvents": 1198,
+              "matched": 966,
+              "precision": 0.8063439065108514,
+              "recall": 0.7552775605942142,
+              "microF1": 0.779975777149778,
+              "macroF1": 0.7473207619097187,
+              "tracksWith95PercentEvents": 40,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 8,
+                  "meanScore": 0.47966485507246376
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 78,
+                  "meanScore": 0.8514209330632545
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "final": {
+          "beats": {
+            "before": {
+              "referenceTracks": 94,
+              "referenceEvents": 5104,
+              "predictedEvents": 4905,
+              "matched": 4117,
+              "precision": 0.8393476044852192,
+              "recall": 0.8066222570532915,
+              "microF1": 0.8226596063542811,
+              "macroF1": 0.7862162244588907,
+              "tracksWith95PercentEvents": 47,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 7,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 4,
+                  "meanScore": 0.3285458793403196
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 83,
+                  "meanScore": 0.8745800190575236
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 94,
+              "referenceEvents": 5104,
+              "predictedEvents": 4905,
+              "matched": 4117,
+              "precision": 0.8393476044852192,
+              "recall": 0.8066222570532915,
+              "microF1": 0.8226596063542811,
+              "macroF1": 0.7862162244588907,
+              "tracksWith95PercentEvents": 47,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 7,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 4,
+                  "meanScore": 0.3285458793403196
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 83,
+                  "meanScore": 0.8745800190575236
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 94,
+              "referenceEvents": 1279,
+              "predictedEvents": 1198,
+              "matched": 966,
+              "precision": 0.8063439065108514,
+              "recall": 0.7552775605942142,
+              "microF1": 0.779975777149778,
+              "macroF1": 0.7473207619097187,
+              "tracksWith95PercentEvents": 40,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 8,
+                  "meanScore": 0.47966485507246376
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 78,
+                  "meanScore": 0.8514209330632545
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 94,
+              "referenceEvents": 1279,
+              "predictedEvents": 1198,
+              "matched": 966,
+              "precision": 0.8063439065108514,
+              "recall": 0.7552775605942142,
+              "microF1": 0.779975777149778,
+              "macroF1": 0.7473207619097187,
+              "tracksWith95PercentEvents": 40,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 8,
+                  "meanScore": 0.47966485507246376
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 78,
+                  "meanScore": 0.8514209330632545
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "review": {
+          "beats": {
+            "before": {
+              "referenceTracks": 94,
+              "referenceEvents": 5104,
+              "predictedEvents": 4828,
+              "matched": 4241,
+              "precision": 0.8784175642087821,
+              "recall": 0.8309169278996865,
+              "microF1": 0.8540072492952074,
+              "macroF1": 0.8210941854034046,
+              "tracksWith95PercentEvents": 47,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 6,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 3,
+                  "meanScore": 0.28379120000196884
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 11,
+                  "meanScore": 0.8687440548504185
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 94,
+              "referenceEvents": 5104,
+              "predictedEvents": 4828,
+              "matched": 4241,
+              "precision": 0.8784175642087821,
+              "recall": 0.8309169278996865,
+              "microF1": 0.8540072492952074,
+              "macroF1": 0.8210941854034046,
+              "tracksWith95PercentEvents": 47,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 6,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 3,
+                  "meanScore": 0.28379120000196884
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 11,
+                  "meanScore": 0.8687440548504185
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 94,
+              "referenceEvents": 1279,
+              "predictedEvents": 1183,
+              "matched": 989,
+              "precision": 0.8360101437024514,
+              "recall": 0.7732603596559813,
+              "microF1": 0.8034118602761983,
+              "macroF1": 0.7770224483876157,
+              "tracksWith95PercentEvents": 37,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 5,
+                  "meanScore": 0.3255590062111801
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 8,
+                  "meanScore": 0.9292989417989418
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 94,
+              "referenceEvents": 1279,
+              "predictedEvents": 1183,
+              "matched": 989,
+              "precision": 0.8360101437024514,
+              "recall": 0.7732603596559813,
+              "microF1": 0.8034118602761983,
+              "macroF1": 0.7770224483876157,
+              "tracksWith95PercentEvents": 37,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 5,
+                  "meanScore": 0.3255590062111801
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 8,
+                  "meanScore": 0.9292989417989418
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        }
+      },
+      "changedPlaybackTimelines": [],
+      "byteIdenticalCheckpoints": {
+        "window-*.json": 188,
+        "key-window-*.json": 94
+      },
+      "checkpointManifestSHA256": "8cb0afbc8abbb8536e36cdefec5cc88232754acb69362f7426ab713114e34a9f",
+      "reportSHA256": "e88cf5b64bb36e20fbc4b0e803fbb3a601a5d641ba86994d463b9096620602d1"
+    },
+    "gtzan": {
+      "tracks": 100,
+      "reopened": 100,
+      "comparisons": {
+        "first": {
+          "beats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 6107,
+              "predictedEvents": 4782,
+              "matched": 3388,
+              "precision": 0.7084901714763697,
+              "recall": 0.5547732110692648,
+              "microF1": 0.6222793644962806,
+              "macroF1": 0.5763163060077531,
+              "tracksWith95PercentEvents": 31,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 17,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 18,
+                  "meanScore": 0.1971132306592297
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 65,
+                  "meanScore": 0.8320552684447565
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 6107,
+              "predictedEvents": 4782,
+              "matched": 3388,
+              "precision": 0.7084901714763697,
+              "recall": 0.5547732110692648,
+              "microF1": 0.6222793644962806,
+              "macroF1": 0.5763163060077531,
+              "tracksWith95PercentEvents": 31,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 17,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 18,
+                  "meanScore": 0.1971132306592297
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 65,
+                  "meanScore": 0.8320552684447565
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 99,
+              "referenceEvents": 1549,
+              "predictedEvents": 1143,
+              "matched": 720,
+              "precision": 0.6299212598425197,
+              "recall": 0.4648160103292447,
+              "microF1": 0.5349182763744428,
+              "macroF1": 0.5075752290168246,
+              "tracksWith95PercentEvents": 26,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 24,
+                  "meanScore": 0.29899258148901614
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 57,
+                  "meanScore": 0.7556864160864782
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 99,
+              "referenceEvents": 1549,
+              "predictedEvents": 1143,
+              "matched": 720,
+              "precision": 0.6299212598425197,
+              "recall": 0.4648160103292447,
+              "microF1": 0.5349182763744428,
+              "macroF1": 0.5075752290168246,
+              "tracksWith95PercentEvents": 26,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 24,
+                  "meanScore": 0.29899258148901614
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 57,
+                  "meanScore": 0.7556864160864782
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "final": {
+          "beats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 6107,
+              "predictedEvents": 4782,
+              "matched": 3388,
+              "precision": 0.7084901714763697,
+              "recall": 0.5547732110692648,
+              "microF1": 0.6222793644962806,
+              "macroF1": 0.5763163060077531,
+              "tracksWith95PercentEvents": 31,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 17,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 18,
+                  "meanScore": 0.1971132306592297
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 65,
+                  "meanScore": 0.8320552684447565
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 6107,
+              "predictedEvents": 4782,
+              "matched": 3388,
+              "precision": 0.7084901714763697,
+              "recall": 0.5547732110692648,
+              "microF1": 0.6222793644962806,
+              "macroF1": 0.5763163060077531,
+              "tracksWith95PercentEvents": 31,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 17,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 18,
+                  "meanScore": 0.1971132306592297
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 65,
+                  "meanScore": 0.8320552684447565
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 99,
+              "referenceEvents": 1549,
+              "predictedEvents": 1143,
+              "matched": 720,
+              "precision": 0.6299212598425197,
+              "recall": 0.4648160103292447,
+              "microF1": 0.5349182763744428,
+              "macroF1": 0.5075752290168246,
+              "tracksWith95PercentEvents": 26,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 24,
+                  "meanScore": 0.29899258148901614
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 57,
+                  "meanScore": 0.7556864160864782
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 99,
+              "referenceEvents": 1549,
+              "predictedEvents": 1143,
+              "matched": 720,
+              "precision": 0.6299212598425197,
+              "recall": 0.4648160103292447,
+              "microF1": 0.5349182763744428,
+              "macroF1": 0.5075752290168246,
+              "tracksWith95PercentEvents": 26,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 24,
+                  "meanScore": 0.29899258148901614
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 57,
+                  "meanScore": 0.7556864160864782
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "review": {
+          "beats": {
+            "before": {
+              "referenceTracks": 100,
+              "referenceEvents": 6107,
+              "predictedEvents": 4829,
+              "matched": 3600,
+              "precision": 0.7454959618968731,
+              "recall": 0.5894874733911905,
+              "microF1": 0.6583760058522312,
+              "macroF1": 0.6182133158595198,
+              "tracksWith95PercentEvents": 39,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 15,
+                  "meanScore": 0.15995893506857925
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 11,
+                  "meanScore": 0.7257537327747067
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 100,
+              "referenceEvents": 6107,
+              "predictedEvents": 4829,
+              "matched": 3600,
+              "precision": 0.7454959618968731,
+              "recall": 0.5894874733911905,
+              "microF1": 0.6583760058522312,
+              "macroF1": 0.6182133158595198,
+              "tracksWith95PercentEvents": 39,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 15,
+                  "meanScore": 0.15995893506857925
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 11,
+                  "meanScore": 0.7257537327747067
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 99,
+              "referenceEvents": 1549,
+              "predictedEvents": 1179,
+              "matched": 783,
+              "precision": 0.6641221374045801,
+              "recall": 0.5054874112330536,
+              "microF1": 0.5740469208211144,
+              "macroF1": 0.5513955632365125,
+              "tracksWith95PercentEvents": 33,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 15,
+                  "meanScore": 0.18214023040264177
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 10,
+                  "meanScore": 0.2846688034188034
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 99,
+              "referenceEvents": 1549,
+              "predictedEvents": 1179,
+              "matched": 783,
+              "precision": 0.6641221374045801,
+              "recall": 0.5054874112330536,
+              "microF1": 0.5740469208211144,
+              "macroF1": 0.5513955632365125,
+              "tracksWith95PercentEvents": 33,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 15,
+                  "meanScore": 0.18214023040264177
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 10,
+                  "meanScore": 0.2846688034188034
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        }
+      },
+      "changedPlaybackTimelines": [],
+      "byteIdenticalCheckpoints": {
+        "window-*.json": 200,
+        "key-window-*.json": 100
+      },
+      "checkpointManifestSHA256": "bd5a75c44d8c5d83b9daab4d6d7121cb988678f8a8b780329ea337678b41e29c",
+      "reportSHA256": "83eaf1147ee58c659bfc6fcbc71495da825a4519c980897601831c0774c7ac07"
+    },
+    "ballroom": {
+      "tracks": 80,
+      "reopened": 80,
+      "comparisons": {
+        "first": {
+          "beats": {
+            "before": {
+              "referenceTracks": 80,
+              "referenceEvents": 5091,
+              "predictedEvents": 3799,
+              "matched": 2991,
+              "precision": 0.7873124506449065,
+              "recall": 0.5875073659398939,
+              "microF1": 0.6728908886389201,
+              "macroF1": 0.6195395212766591,
+              "tracksWith95PercentEvents": 25,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 7,
+                  "meanScore": 0.2621430984557373
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 57,
+                  "meanScore": 0.8373361405779398
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 80,
+              "referenceEvents": 5091,
+              "predictedEvents": 3799,
+              "matched": 2991,
+              "precision": 0.7873124506449065,
+              "recall": 0.5875073659398939,
+              "microF1": 0.6728908886389201,
+              "macroF1": 0.6195395212766591,
+              "tracksWith95PercentEvents": 25,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 7,
+                  "meanScore": 0.2621430984557373
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 57,
+                  "meanScore": 0.8373361405779398
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 80,
+              "referenceEvents": 1385,
+              "predictedEvents": 934,
+              "matched": 749,
+              "precision": 0.8019271948608137,
+              "recall": 0.5407942238267148,
+              "microF1": 0.6459680896938336,
+              "macroF1": 0.6151322126887477,
+              "tracksWith95PercentEvents": 24,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 6,
+                  "meanScore": 0.12210526315789473
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 57,
+                  "meanScore": 0.8504902708096921
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 80,
+              "referenceEvents": 1385,
+              "predictedEvents": 934,
+              "matched": 749,
+              "precision": 0.8019271948608137,
+              "recall": 0.5407942238267148,
+              "microF1": 0.6459680896938336,
+              "macroF1": 0.6151322126887477,
+              "tracksWith95PercentEvents": 24,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 6,
+                  "meanScore": 0.12210526315789473
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 57,
+                  "meanScore": 0.8504902708096921
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "final": {
+          "beats": {
+            "before": {
+              "referenceTracks": 80,
+              "referenceEvents": 5091,
+              "predictedEvents": 3799,
+              "matched": 2991,
+              "precision": 0.7873124506449065,
+              "recall": 0.5875073659398939,
+              "microF1": 0.6728908886389201,
+              "macroF1": 0.6195395212766591,
+              "tracksWith95PercentEvents": 25,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 7,
+                  "meanScore": 0.2621430984557373
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 57,
+                  "meanScore": 0.8373361405779398
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 80,
+              "referenceEvents": 5091,
+              "predictedEvents": 3799,
+              "matched": 2991,
+              "precision": 0.7873124506449065,
+              "recall": 0.5875073659398939,
+              "microF1": 0.6728908886389201,
+              "macroF1": 0.6195395212766591,
+              "tracksWith95PercentEvents": 25,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 16,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 7,
+                  "meanScore": 0.2621430984557373
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 57,
+                  "meanScore": 0.8373361405779398
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 80,
+              "referenceEvents": 1385,
+              "predictedEvents": 934,
+              "matched": 749,
+              "precision": 0.8019271948608137,
+              "recall": 0.5407942238267148,
+              "microF1": 0.6459680896938336,
+              "macroF1": 0.6151322126887477,
+              "tracksWith95PercentEvents": 24,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 6,
+                  "meanScore": 0.12210526315789473
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 57,
+                  "meanScore": 0.8504902708096921
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 80,
+              "referenceEvents": 1385,
+              "predictedEvents": 934,
+              "matched": 749,
+              "precision": 0.8019271948608137,
+              "recall": 0.5407942238267148,
+              "microF1": 0.6459680896938336,
+              "macroF1": 0.6151322126887477,
+              "tracksWith95PercentEvents": 24,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 6,
+                  "meanScore": 0.12210526315789473
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 57,
+                  "meanScore": 0.8504902708096921
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        },
+        "review": {
+          "beats": {
+            "before": {
+              "referenceTracks": 80,
+              "referenceEvents": 5091,
+              "predictedEvents": 3953,
+              "matched": 3171,
+              "precision": 0.8021755628636479,
+              "recall": 0.6228638774307602,
+              "microF1": 0.7012383900928792,
+              "macroF1": 0.6587520924687112,
+              "tracksWith95PercentEvents": 29,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 14,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 7,
+                  "meanScore": 0.2621430984557373
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 4,
+                  "meanScore": 0.5452194707866066
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 80,
+              "referenceEvents": 5091,
+              "predictedEvents": 3953,
+              "matched": 3171,
+              "precision": 0.8021755628636479,
+              "recall": 0.6228638774307602,
+              "microF1": 0.7012383900928792,
+              "macroF1": 0.6587520924687112,
+              "tracksWith95PercentEvents": 29,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 14,
+                  "meanScore": 0.0
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 7,
+                  "meanScore": 0.2621430984557373
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 4,
+                  "meanScore": 0.5452194707866066
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          },
+          "downbeats": {
+            "before": {
+              "referenceTracks": 80,
+              "referenceEvents": 1385,
+              "predictedEvents": 974,
+              "matched": 794,
+              "precision": 0.8151950718685832,
+              "recall": 0.5732851985559567,
+              "microF1": 0.6731665960152607,
+              "macroF1": 0.6522475691987258,
+              "tracksWith95PercentEvents": 28,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 6,
+                  "meanScore": 0.12210526315789473
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 4,
+                  "meanScore": 0.6481950067476383
+                }
+              ]
+            },
+            "after": {
+              "referenceTracks": 80,
+              "referenceEvents": 1385,
+              "predictedEvents": 974,
+              "matched": 794,
+              "precision": 0.8151950718685832,
+              "recall": 0.5732851985559567,
+              "microF1": 0.6731665960152607,
+              "macroF1": 0.6522475691987258,
+              "tracksWith95PercentEvents": 28,
+              "confidenceBins": [
+                {
+                  "low": 0,
+                  "high": 0.5,
+                  "tracks": 0,
+                  "meanScore": null
+                },
+                {
+                  "low": 0.5,
+                  "high": 0.8,
+                  "tracks": 6,
+                  "meanScore": 0.12210526315789473
+                },
+                {
+                  "low": 0.8,
+                  "high": 1,
+                  "tracks": 4,
+                  "meanScore": 0.6481950067476383
+                }
+              ]
+            },
+            "wins": 0,
+            "losses": 0,
+            "changed": []
+          }
+        }
+      },
+      "changedPlaybackTimelines": [],
+      "byteIdenticalCheckpoints": {
+        "window-*.json": 158,
+        "key-window-*.json": 80
+      },
+      "checkpointManifestSHA256": "12fd1567731011ceba1d99e108535c5f6f707428ed455aa54ccb65772f0c958b",
+      "reportSHA256": "f6b5c82a19d028673d08dd711806871b6e6ad85950bf8991e43c07f5910cb412"
+    }
+  },
+  "drift": [
+    {
+      "id": "synthetic-drift",
+      "maximumErrorMs": 2.493197278909065,
+      "beat120ErrorMs": 1.4739229024911538,
+      "downbeatOffset": 0
+    },
+    {
+      "id": "synthetic-delayed-bar-2",
+      "maximumErrorMs": 2.4931972789126178,
+      "beat120ErrorMs": 1.4965986394628317,
+      "downbeatOffset": 2
+    }
+  ],
+  "focusedTests": {
+    "swiftTestingPassed": 24,
+    "xctestPassed": 11,
+    "reportTestsPassed": 6,
+    "analysisCommit": "f5eccfd33",
+    "logSHA256": "449cd37aa1309d707c7f55fc8fd9fc644bef0c16508e3f19d54c5d334bf32aec"
+  },
+  "limits": [
+    "Human original-track corrections establish relative beat and bar positions, not sample-precise timing, exact tempo or key.",
+    "Fresh GTZAN recordings have artist overlap with development recordings. Ballroom overlaps upstream model training.",
+    "Full-track confidence is not calibrated. Corrected opening bars retain a conflict score of 0.69, not a calibrated probability.",
+    "Dune beat phase is corrected; its bar remains unresolved.",
+    "Mac app measurements do not establish Duo speed, physical sharing or A10X performance readiness."
+  ],
+  "evidenceNotes": [
+    "Candidate01 did not fix either automatic grid; its raw evidence is retained.",
+    "The first Python audio probe used 220-frame bins. Swift uses 221 at 44.1 kHz. Corrected native-bin research and Mac measurements supersede the initial estimate.",
+    "The GTZAN selection description was corrected from R128 to R139. Every audio identity, label, selection seed and other field is unchanged. The original file and both hashes are retained.",
+    "Exact feature comparison detected small numerical differences. Original-track waveform differences are at most 0.0000005 and chroma/timbre differences at most 0.000000003. Musical decisions are checked separately.",
+    "Missing historical Creep fixtures were restored from the inactive worktree with hashes. Failed attempts remain retained."
+  ],
+  "timingControl": {
+    "baseline": {
+      "tracks": 3,
+      "firstPassSeconds": 48.562184417,
+      "firstPassExcludingModelLoadSeconds": 29.712730041999997,
+      "stageSeconds": {
+        "analysisQueueWait": 0.000646375,
+        "beatThisDecodeAndSpectrogram": 8.889518704,
+        "beatThisGridFit": 0.07541604199999999,
+        "beatThisInference": 5.325974295,
+        "beatThisInputSetup": 0.020758042,
+        "beatThisModelLoad": 18.849454375,
+        "beatThisTotal": 33.178576043,
+        "decodeAndFeatures": 14.739093833,
+        "dspRhythm": 0.404684083,
+        "keyFinalization": 0.001276583,
+        "sourceHash": 0.163796584,
+        "sourceStatVerification": 0.000439207
+      },
+      "reportSHA256": "a7033e6a7e98abc0d96234650b9509bb9bfb336e187957eb828d7c70a412b497"
+    },
+    "candidate": {
+      "tracks": 3,
+      "firstPassSeconds": 50.751551874,
+      "firstPassExcludingModelLoadSeconds": 28.868981915,
+      "stageSeconds": {
+        "analysisQueueWait": 0.000764126,
+        "beatThisDecodeAndSpectrogram": 6.384833336000002,
+        "beatThisGridFit": 0.075579334,
+        "beatThisInference": 5.278750039,
+        "beatThisInputSetup": 0.024057292,
+        "beatThisModelLoad": 21.882569959,
+        "beatThisTotal": 33.663341458,
+        "decodeAndFeatures": 16.489004416999997,
+        "dspRhythm": 0.47104771,
+        "keyFinalization": 0.000776876,
+        "sourceHash": 0.081228583,
+        "sourceStatVerification": 0.000807667
+      },
+      "reportSHA256": "e70779a4d16c2acd2376e8e55e764e339d6c7b186e4f24eee2d455cab3445ef4"
+    },
+    "scope": "Sequential native Mac runs on the same three tracks after qualification, under background host load. Not an isolated throughput benchmark or a speedup claim."
+  }
+}

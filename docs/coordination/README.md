@@ -6,7 +6,9 @@ The main goal is a performance-ready app on the 2017 10.5-inch A10X iPad Pro. Li
 
 Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace the iPad or Duo inside layouts.
 
-**R129 analysis check:** The final Mac first pass took 129 seconds, down from 308, on the same 12 tracks. Review downbeat F1 rose from 56.22% to 57.40% on 99 new labelled recordings. The gain remains uncertain, and recovered grids require review. Erik’s reference corrections give 6/9 downbeat agreement in both baseline and final results. Untouched and Dune remain unresolved. All 574 policy results reopened. [Results and evidence](analysis-first-pass-r129.md).
+**R139 analysis check:** The Mac app now corrects Untouched’s downbeat and Dune’s beat phase. Reference differences fell to 9 ms and 19 ms. All 180 fresh excerpts retained their scores, and all 574 earlier policy results retained playback timelines. Dune’s bar and physical device checks remain open. [Results and evidence](analysis-phase-r139.md).
+
+**R129 analysis check:** The final Mac first pass took 129 seconds, down from 308, on the same 12 tracks. Review downbeat F1 rose from 56.22% to 57.40% on 99 new labelled recordings. The gain remains uncertain, and recovered grids require review. Erik’s reference corrections give 6/9 downbeat agreement in both baseline and final results. At that stage, Untouched and Dune remained unresolved. All 574 policy results reopened. [Results and evidence](analysis-first-pass-r129.md).
 
 **R124 analysis check:** Key-feature preparation was about 2.9 times faster on the same 12 tracks. New versioned confidence reduced prediction error on 94 fresh rhythm excerpts. Downbeat review scores improved on prior cohorts but fell slightly on fresh validation. All 572 benchmark results and the original 12 tracks reopened. Key decisions and the 80 BPM correction stayed unchanged. Both drift fixtures remain below 2.5 ms. Full-track confidence and physical device checks remain open. [Results and limits](analysis-downbeats-r124.md).
 
