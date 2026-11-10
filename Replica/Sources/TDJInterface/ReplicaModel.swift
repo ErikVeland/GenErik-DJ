@@ -361,6 +361,7 @@ import TDJCore
         @ObservationIgnored var beatpadPerformance = S4MK2Performance(sliceCount: 4)
         @ObservationIgnored var beatpadInstantFX: [DeckID: (slot: Int, effect: EffectControl)] = [:]
         var beatpadStatus = "Waiting for the original Beatpad."
+        @ObservationIgnored var traktorStemMixes: [DeckID: TraktorStemMix] = [:]
         @ObservationIgnored var factorySessions: [TraktorFactoryModel: TraktorFactorySession] = [:]
         @ObservationIgnored var factoryPerformance: [TraktorFactoryModel: S4MK2Performance] = [:]
         @ObservationIgnored var nextFactoryDiscovery: ContinuousClock.Instant?
@@ -387,12 +388,14 @@ import TDJCore
         @ObservationIgnored var z1MK2Takeover: [DeckID: [ControllerAction: ControllerMIDITakeoverState]] = [:]
         @ObservationIgnored var z1MK2FXEnabled: Set<DeckID> = []
         @ObservationIgnored var x1MK3Controls = X1MK3Controls()
+        @ObservationIgnored var x1Patterns = [TraktorPatternUnit(), TraktorPatternUnit()]
         @ObservationIgnored var x1MK3Performance = S4MK2Performance()
         @ObservationIgnored var s4MK3DirectTransport: (any S4MK3ReportConnection)?
         var s4MK3AudioDevice: String { s4MK3DirectTransport == nil ? "S4 Mk3 Bridge" : "S4 Mk3" }
         var s4MK3ConnectedStatus: String { "\(s4MK3AudioDevice) controls connected." }
         var s4MK3WaitingStatus: String { "Waiting for \(s4MK3AudioDevice)." }
         var s4MK3BridgeStatus = "Waiting for S4 Mk3 bridge."
+        @ObservationIgnored var s4MK3NextScreenUpdate: ContinuousClock.Instant?
         @ObservationIgnored var s4MK3Controls = S4MK3Controls()
         @ObservationIgnored var s4MK3Performance = S4MK2Performance()
         var s4Status = "Waiting for S4 Mk2."
@@ -423,6 +426,8 @@ import TDJCore
         var s2Status = "Waiting for S2 Mk3."
         @ObservationIgnored var s2Quantize = true
         @ObservationIgnored var s2BrowserCommands: [S2BrowserCommand] = []
+        @ObservationIgnored var factoryBrowserRows: [String] = []
+        @ObservationIgnored var factoryBrowserSelection = 0
         var s2BrowserRevision: UInt64 = 0
         @ObservationIgnored var s2SampleSlots: [Int: UInt64] = [:]
         @ObservationIgnored var s2SampleLoad: Task<Void, Never>?

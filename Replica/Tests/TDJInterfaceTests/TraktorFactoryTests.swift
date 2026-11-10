@@ -110,3 +110,29 @@ func traktorFactoryLightReportsFitEveryMappedLamp(model: TraktorFactoryModel) {
     f1.lamp(.rgb(24), level: 100)
     #expect(Array(f1.reports[0][25..<28]) == [100, 0, 25])
 }
+
+@Test func traktorPerformanceBrowserAndPatternPackets() {
+    let rows = ["First", "Café 🎧", String(repeating: "🎧", count: 10), "Fourth"]
+    let packet = TraktorFactoryScreenContent.browser(side: 1, rows: rows, selected: 2)
+    #expect(packet.count == 103)
+    #expect(Array(packet.prefix(3)) == [1, 1, 2])
+    #expect(String(decoding: packet[53..<77], as: UTF8.self) == String(repeating: "🎧", count: 6))
+    let waveform = TraktorFactoryScreenContent.waveform(side: 0, analysis: nil, progress: 0.5)
+    #expect(waveform.count == 103)
+    #expect(Array(waveform.prefix(4)) == [0, 0, 0, 128])
+
+    var pattern = TraktorPatternUnit()
+    let first = pattern.button(0, shifted: true)
+    let second = pattern.button(0, shifted: true)
+    #expect(first && second)
+    pattern.selectPage(shifted: false)
+    pattern.selectPage(shifted: false)
+    pattern.selectPage(shifted: true)
+    pattern.toggleStep(3)
+    #expect(pattern.steps == 0x0800)
+    let enabled = pattern.button(0, shifted: false)
+    #expect(enabled)
+    #expect(pattern.settings == 0)
+    pattern.decks = [.b]
+    #expect(pattern.settings & 0x3fffff == 0x120800)
+}

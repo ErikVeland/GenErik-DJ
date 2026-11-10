@@ -32,11 +32,13 @@ enum TraktorFactoryControl: Equatable {
     case shift, play, cue, cuePlay, sync, keylock, flux, reverse, clockMaster
     case layer(DeckID?), browser, browse, load, preview, prepare
     case loop, loopSize, loopMark(Bool), move, tempo, masterTempo, jump(Int)
-    case pad(Int), hotcues, samples, loopPads, freeze, grid, quantize
+    case pad(Int), hotcues, samples, patternPads, loopPads, freeze, grid, quantize
     case sample(Int), stopSampleColumn(Int)
+    case stemPads, stemGain(Int), stemFilter(Int), stemFilterTurn(Int), stemFilterToggle(Int)
     case fxButton(Int), fxKnob(Int), fxAssign(Int), mixerFX(Int)
     case pot(ControllerAction), mixerButton(ControllerAction), mixerSwitch(ControllerAction), crossfaderAssign
     case jog, jogTouch, strip
+    case microphone, liveInput, timecode
 
     var x1HotcueSlot: Int? {
         switch self {
@@ -60,7 +62,7 @@ struct TraktorFactoryProfile {
     }
 
     enum Encoding {
-        case bit(UInt8), switchField(Int, UInt8), nibble(Int), pot(bigEndian: Bool), wheel, strip(shared: Bool)
+        case bit(UInt8), switchField(Int, UInt8), nibble(Int), endless, pot(bigEndian: Bool), wheel, strip(shared: Bool)
     }
 
     struct Input {
@@ -127,6 +129,7 @@ struct TraktorFactoryControls {
     let profile: TraktorFactoryProfile
     private var previous: [UInt8: [UInt8]] = [:]
     private var lastPot: [Int: Int] = [:]
+    private var endlessRemainder: [Int: Int] = [:]
 
     init(_ model: TraktorFactoryModel) { profile = .factory(model) }
 
@@ -154,6 +157,15 @@ struct TraktorFactoryControls {
                 let delta = ((current - last + 24) % 16) - 8
                 guard delta != 0 else { continue }
                 value = Double(delta)
+            case .endless:
+                guard let prior, let now = Self.word(report, byte), let last = Self.word(prior, byte),
+                    now < 1000, last < 1000
+                else { continue }
+                let delta = (now - last + 1500) % 1000 - 500
+                let total = endlessRemainder[index, default: 0] + delta * 32
+                endlessRemainder[index] = total % 1000
+                guard abs(total) >= 1000 else { continue }
+                value = Double(total / 1000)
             case .pot(let bigEndian):
                 guard let raw = Self.word(report, byte, bigEndian: bigEndian) else { continue }
                 let now = raw & 0x0fff

@@ -2,7 +2,7 @@ import TDJCore
 
 enum S4MK3Lights {
     static func panel(
-        snapshot: PlaybackSnapshot, controls: S4MK3Controls, feedback: S4MK2Lights.Feedback
+        snapshot: PlaybackSnapshot, controls: S4MK3Controls, feedback: S4MK2Lights.Feedback, stems: [DeckID: Set<Int>] = [:]
     ) -> [UInt8] {
         var bytes = [UInt8](repeating: 0, count: 95)
         bytes[0] = 0x80
@@ -31,7 +31,9 @@ enum S4MK3Lights {
                 if let looping = feedback.sliceModes[deck] {
                     bytes[1 + first + slot] = lamp(feedback.heldSlices[deck] == slot, looping ? 28 : 44)
                 } else if controls.samples.contains(deck) {
-                    if feedback.sampleSlots.contains(sample) {
+                    if let muted = stems[deck] {
+                        bytes[1 + first + slot] = lamp(!muted.contains(slot % 4), [44, 28, 12, 60][slot % 4])
+                    } else if feedback.sampleSlots.contains(sample) {
                         bytes[1 + first + slot] = lamp(feedback.samples & (1 << sample) != 0, 28)
                     }
                 } else if feedback.cues[deck]?.contains(slot) == true {

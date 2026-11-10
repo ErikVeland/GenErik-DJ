@@ -49,6 +49,20 @@ public final class PCMAsset: @unchecked Sendable {
     var streamingWorker: PCMStreamWorker?
     typealias StreamCopy = @Sendable (Double, UInt32, Bool) throws -> PCMAsset
     private let streamCopy: StreamCopy?
+    private var stemParts: [PCMAsset] = []
+    public var hasStems: Bool { !stemParts.isEmpty }
+
+    public init(master: PCMAsset, stems: [PCMAsset]) throws {
+        guard stems.count == 4 else { throw TransportError.invalid }
+        let parts: [OpaquePointer?] = stems.map(\.pointer)
+        guard let asset = parts.withUnsafeBufferPointer({ tdj_asset_create_stems(master.pointer, $0.baseAddress) })
+        else { throw TransportError.invalid }
+        pointer = asset
+        frames = master.frames
+        sampleRate = master.sampleRate
+        streamCopy = nil
+        stemParts = [master] + stems
+    }
     var nextSourceRequest: UInt64 = 0
     var accountedStreamingTelemetry = tdj_stream_telemetry()
     public let frames: UInt64
@@ -725,6 +739,24 @@ public final class SampleTransport: @unchecked Sendable {
         command.generation = generation
         command.flag = enabled ? 1 : 0
         try send(command)
+    }
+
+    public func setFactoryInput(layout: UInt32, mask: UInt32) {
+        tdj_factory_input_set(pointer, layout, mask)
+    }
+
+    public func factoryTimecode(side: UInt32) -> (stamp: UInt64, rate: Double?) {
+        let value = tdj_timecode_read(pointer, side)
+        let rate = value & 0x10000 != 0 ? Double(Int16(bitPattern: UInt16(truncatingIfNeeded: value))) / 4096 : nil
+        return (value >> 17, rate)
+    }
+
+    public func setStemMix(_ deck: DeckID, settings: UInt64) {
+        tdj_stem_mix_set(pointer, UInt32(deck.transportIndex), settings)
+    }
+
+    public func setPatternUnit(_ unit: UInt32, settings: UInt64) {
+        tdj_pattern_set(pointer, unit, settings)
     }
 
     public func setPadGain(_ value: Double) throws {

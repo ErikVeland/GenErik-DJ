@@ -9,6 +9,7 @@ struct tdj_asset {
     double rate;
     size_t bytes;
     bool mapped;
+    const struct tdj_asset *stems[4];
     tdj_stream *stream;
 };
 void tdj_stream_destroy(tdj_asset *);

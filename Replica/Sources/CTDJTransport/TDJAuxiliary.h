@@ -121,7 +121,7 @@ typedef struct {
     uint32_t read, write;
     double step;
     unsigned channels;
-    bool shared_aux;
+    bool shared_aux, z2;
 } mic_block;
 
 static void auxiliary_init(auxiliary_mix *aux, double rate) {
@@ -213,6 +213,7 @@ static mic_block microphone_begin(auxiliary_mix *aux, double rate) {
     if (!active_channels)
         block.read = block.write;
     block.shared_aux = block.channels == 4 && aux->rendering_shared_aux;
+    block.z2 = block.channels == 6 && aux->rendering_shared_aux;
     return block;
 }
 
