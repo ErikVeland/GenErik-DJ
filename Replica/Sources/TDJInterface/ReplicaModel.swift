@@ -356,6 +356,11 @@ import TDJCore
         var s2Connection: NIControllerAccessoryConnection?
         var s3Connection: NIControllerAccessoryConnection?
         var s4Connection: NIControllerAccessoryConnection?
+        @ObservationIgnored var beatpadConnection: BeatpadMIDIConnection?
+        @ObservationIgnored var beatpadControls = BeatpadControls()
+        @ObservationIgnored var beatpadPerformance = S4MK2Performance(sliceCount: 4)
+        @ObservationIgnored var beatpadInstantFX: [DeckID: (slot: Int, effect: EffectControl)] = [:]
+        var beatpadStatus = "Waiting for the original Beatpad."
         @ObservationIgnored var s4MK1Bridge: TraktorHIDBridgeConnection?
         @ObservationIgnored var s4MK1Controls = S4MK1Controls()
         @ObservationIgnored var s4MK1Performance = S4MK2Performance()
@@ -1644,6 +1649,7 @@ import TDJCore
                 toggleZ1()
             }
             if !playback.offline {
+                startBeatpad()
                 startS2MK1Bridge()
                 startS2MK2()
                 startS2MK3()
@@ -1661,6 +1667,7 @@ import TDJCore
                 #endif
                 self?.refreshPlayback()
                 #if os(iOS)
+                    self?.maintainBeatpad()
                     self?.maintainS2MK1Bridge()
                     self?.maintainS2Extras()
                     self?.maintainS2MK2Mic()
@@ -1690,6 +1697,8 @@ import TDJCore
             z1Enabled = false
         #endif
         #if os(iOS)
+            beatpadConnection?.stop()
+            beatpadConnection = nil
             s2MK1Bridge?.stop()
             s2MK1Bridge = nil
             s2MK1Receiving = false

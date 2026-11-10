@@ -75,6 +75,7 @@
                     try Task.checkCancellation()
                     guard s2MayPrepareSample, s2Connection?.isReceiving == true || s3Connection?.isReceiving == true
                         || s4MK3Bridge?.isReceiving == true || s4MK1Bridge?.isReceiving == true
+                        || beatpadConnection?.isConnected == true
                     else { return }
                     s2SampleSlots[slot] = try playback.installPad(asset, slot: slot)
                 } catch is CancellationError {
