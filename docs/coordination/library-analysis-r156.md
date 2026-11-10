@@ -75,6 +75,17 @@ A 15-item trial covered 14 audio identities. Four workers took 54.41 seconds, co
 
 The larger trial completed 59 parallel and 58 serial analyses. Every completed result retained the earlier musical decisions. Comparisons exclude completion dates and allow absolute numerical differences below 0.0000001 or relative differences below 0.000000000001. Untouched and Dune retained their corrected results. Raw outputs and comparisons remain under `pool-proof` and `pool-proof-60` in the external run folder.
 
-The incomplete trials exposed variable MP3 tail padding in Apple's asset decoder. Eight repeated decodes of each affected file produced identical shared audio prefixes, with a 529-frame difference at the end. This occurred in serial decoding too. The Mac now allows three MP3 decode attempts when a saved device identity exists. Each attempt must match the complete saved hash. Other mismatches still require the exact device copy. Evidence remains under `decode-proof`. The new retry path requires a signed Mac check.
+The incomplete trials exposed variable MP3 tail padding in Apple's asset decoder. Eight repeated decodes of each affected file produced identical shared audio prefixes, with a 529-frame difference at the end. This occurred in serial decoding too. The Mac now allows three MP3 decode attempts when a saved device identity exists. Each attempt must match the complete saved hash. Other mismatches still require the exact device copy. Evidence remains under `decode-proof`. The signed Mac check retained all three reference-track decisions and rejected the deliberately wrong identity. Both affected MP3s still failed that check after retries. Their results remained excluded from sharing and require exact-source recovery.
 
 Build 224 installed on the iPad and Duo. The Duo remains locked, so launch and receipt are unverified. The iPad continued automatic downloads. Of the 382 pending uploads captured before the conflict fix, 32 had cleared at the later snapshot. Other uploads and automatic-cycle deadlines remain visible. The full run and all-device delivery remain incomplete.
+
+
+## Active campaign v5
+
+At 15:53 UTC on 10 November 2026, campaign v5 replaced the single Mac analyser with four workers. It retained 1,433 terminal attempts and the interrupted checkpoints. The previous cloud operation finished before the replacement started. The existing device-source recovery worker continued without interruption.
+
+The signed library runner comes from canonical `main` at `057475342a10e41f593eaa5ad327b22f7df41ae5`. Its executable and frozen script hashes are recorded in `source-v5.json`. The app is `LibraryRunner.app` in the external run folder. Earlier apps, scripts, manifests and failed evidence remain retained.
+
+The Mac completed a new larger upload cycle. The copied iPad library contained 733 exact Mac deep results. All 940 protected grids checked retained their timing. One JSON round trip changed the displayed anchor by less than 0.000000001 frame. The raw before/after values remain in `ipad-adoption-proof-224.json`.
+
+The frozen full-library phase remains queued after iPad processing and receipt. It uses the same four-worker plan. The controller retains checkpoints, explicit exceptions and pending cloud delivery. The Duo is on build 224 but locked. The iPhone remains unavailable. The campaign is still in progress, and no whole-library or all-device completion is claimed.
