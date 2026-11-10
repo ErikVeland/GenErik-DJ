@@ -71,9 +71,11 @@ private enum ModelFailure: Error { case unsupported }
 }
 
 #if os(macOS)
-@Test func macForegroundKeepsTheQualifiedFirstPassModel() {
-    AnalysisExecution.$foregroundLibrary.withValue(true) {
-        #expect(AnalysisExecution.computeUnits == .cpuOnly)
+@Test func macForegroundCanUseAnAvailableNeuralEngine() {
+    let available = MLComputeDevice.allComputeDevices.contains {
+        if case .neuralEngine = $0 { return true }
+        return false
     }
+    #expect(AnalysisExecution.supportsAcceleration == available)
 }
 #endif

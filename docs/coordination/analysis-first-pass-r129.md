@@ -4,7 +4,7 @@ Continue from R124 in the authorised analysis worktree. Erik requested Mac app t
 
 ## Frozen validation scope
 
-Use the previous 394 rhythm excerpts for development. Reserve 100 previously unscored GTZAN recordings before R129 tuning. Audio and recording identities differ from the prior cohorts. All 100 artists overlap earlier cohorts because R124 consumed the remaining artist-disjoint components. Do not describe this set as artist-disjoint.
+Use the previous 394 rhythm excerpts for development. Reserve 100 previously unscored GTZAN recordings before R129 tuning. Audio and recording identities differ from the prior cohorts. Every selected recording shares an artist with earlier cohorts because R124 consumed the remaining artist-disjoint components. Do not describe this set as artist-disjoint.
 
 The new GTZAN reference hash is `d4a7b34a0240d4a5522427eaa7261669faa4ee47fc0be697b6dbd490631855f4`. Selection uses a fixed hash seed and genre balance, without analysis results.
 
@@ -40,6 +40,8 @@ The frozen native candidate passed the declared GTZAN qualification rule. Downbe
 
 These are event scores at a 25 ms tolerance. They are not the percentage of fully correct tracks.
 
+The gain remains uncertain. A paired bootstrap over 60 artist and recording groups gives a descriptive 95% interval of −0.21 to +3.08 percentage points. This supports continued review testing. It does not establish a reliable gain across other libraries.
+
 | Cohort | Tracks with bar labels | Previous review F1 | Policy 12 review F1 | Improved / worsened tracks |
 | --- | ---: | ---: | ---: | ---: |
 | R116 development | 100 | 60.48% | 61.91% | 6 / 1 |
@@ -67,12 +69,12 @@ Erik checked these bar positions against the saved Traktor references. Positive 
 
 The [correction record](../testing/analysis-human-bar-corrections-r129.json) binds each statement to the exact audio hash. Original Traktor comparisons remain available. These checks establish relative beat or bar position. They do not establish precise onset timestamps, exact tempo precision or key accuracy.
 
-Updating these reference labels raises the previous app's strict downbeat agreement from 4/9 to 7/9. GenErik already chose the corrected bars on Big Ole Freak, the Cee-Lo remix and Untouched. The corrected 99 Problems bar remains 26.43 ms from the saved reference, just outside the 25 ms limit. Dune retains a roughly 170 ms phase error after its 80 BPM correction. Its neural peaks also favour the wrong phase. No track-specific offset was added.
+Updating these reference labels raises the previous app's strict downbeat agreement from 4/9 to 6/9. GenErik already chose the corrected bars on Big Ole Freak and the Cee-Lo remix. Untouched remains approximately two beats early. The corrected 99 Problems bar remains 26.43 ms from the saved reference, just outside the 25 ms limit. Dune retains a roughly 170 ms beat-phase error after its 80 BPM correction. Its bar position remains unresolved. Its neural peaks also favour the wrong phase. No track-specific offset was added.
 
 ## Accelerated first-pass candidate
 
 The CPU + Neural Engine candidate reduced the same-track first pass from 307.66 to 158.11 seconds. This total includes 20.20 seconds for initial model loading. Beat inference fell from 151.91 to 16.65 seconds. The deep pass took another 169.44 seconds. These are observational Mac timings.
 
-The full-track comparison rejected this acceleration change. Untouched moved to the wrong bar. Dune retained 80 BPM but lost its downbeat proposal. Corrected downbeat agreement fell from 7/9 to 6/9. Tempo agreement remained 9/9 and key agreement remained 6/9.
+The full-track comparison preserves the corrected downbeat count of 6/9. Tempo agreement remains 9/9 and key agreement remains 6/9. Untouched's wrong bar and Dune's unresolved bar both occur in the stored baseline. The accelerated model changes a few fitted timing values by less than a millisecond. It does not change these error classifications.
 
-Restore the previous Mac first-pass model and retain the spectral CPU optimisation. Deep Neural Engine analysis and the existing iOS execution policy stay available. A focused test now checks that Mac foreground analysis retains the qualified first-pass model. The archived accelerated app and its failed accuracy evidence remain available for model work.
+An interim update used an incorrect baseline count of 7/9 and attributed these existing errors to acceleration. A fresh CPU control run and a direct baseline comparison exposed that reporting error. The correction was sent to Erik. Keep both the accelerated run and the CPU control as evidence. Enable the validated foreground acceleration path on capable Macs. Deep Neural Engine analysis and the existing iOS execution policy stay available.

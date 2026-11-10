@@ -6,9 +6,7 @@ public enum AnalysisExecution {
     @TaskLocal public static var foregroundLibrary = false
 
     public static let supportsAcceleration: Bool = {
-        // R129 found bar-position regressions with the accelerated Mac first pass.
-        // Deep analysis uses a separate model policy.
-        #if os(iOS) && !targetEnvironment(simulator)
+        #if (os(iOS) && !targetEnvironment(simulator)) || os(macOS)
             return MLComputeDevice.allComputeDevices.contains {
                 if case .neuralEngine = $0 { return true }
                 return false
