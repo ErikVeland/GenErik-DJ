@@ -4,7 +4,7 @@ import Testing
 @testable import TDJInterface
 
 @Test func s4MK2NegotiatesSixCalibrationReportsAndUsesOneFeedbackReport() throws {
-    var startup = S4MK2AccessoryProtocol.Startup()
+    var startup = S4MK2AccessoryProtocol.startup()
     let buttons = Z1AccessoryProtocol.Frame(reportID: 1, payload: .init(repeating: 0, count: 98))
     #expect(try startup.consume(buttons) == nil)
     #expect(!startup.ready)

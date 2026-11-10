@@ -34,7 +34,7 @@ Erik requires automatic connection, controls, audio routing and custom lights. O
 | Model | Native iPad accessory identifier in TDJ2 | GenErik DJ status |
 | --- | --- | --- |
 | Z1 Mk1 | `com.native-instruments.traktordj.kontrolz1` | Native controls, automatic audio, blue beat pulse and amber track-end warning. Physical acceptance remains open. |
-| S2 Mk2 | `com.native-instruments.traktordj.kontrols2mk2` | Automatic split audio. Native session, controls and lights remain open. |
+| S2 Mk2 | `com.native-instruments.traktordj.kontrols2mk2` | Automatic split audio, native deck and mixer controls, and blue and amber lights on pad 4. See [scope and checks](s2-mk2-native.md). |
 | S2 Mk3 | `com.native-instruments.protocol.kontrols2mk3` | Automatic split audio and native deck and mixer controls. Pad 8 shows the blue beat pulse and amber warning. See [scope and checks](s2-mk3-native.md). |
 | S3 | `com.native-instruments.protocol.kontrols3` | Automatic split audio, native four-deck controls and blue and amber jog rings. See [scope and checks](s3-native.md). |
 | S4 Mk2 | `com.native-instruments.traktordj.kontrols4mk2` | Automatic split audio, native four-deck controls and blue and amber Hot Cue lighting. See [scope and checks](s4-mk2-native.md). |

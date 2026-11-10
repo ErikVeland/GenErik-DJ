@@ -5,29 +5,54 @@ enum S4MK2AccessoryProtocol {
     static let identifier = "com.native-instruments.traktordj.kontrols4mk2"
     static let inputBytes = 98
 
-    struct Startup {
-        private var expected: UInt8 = 0xd0
-        private(set) var ready = false
-
-        mutating func consume(_ frame: Z1AccessoryProtocol.Frame) throws -> UInt8? {
-            switch frame.reportID {
-            case 0xd0...0xd5:
-                guard frame.payload.count == 32 else { throw TransportError.invalid }
-                guard frame.reportID == expected else { return nil }
-                expected = expected == 0xd5 ? 1 : expected + 1
-                return expected
-            case 1:
-                guard frame.payload.count == S4MK2AccessoryProtocol.inputBytes else { throw TransportError.invalid }
-                ready = expected == 1
-            default: break
-            }
-            return nil
-        }
+    static func startup() -> NIControllerCalibrationStartup {
+        .init(lastCalibration: 0xd5, inputBytes: inputBytes)
     }
 
     static func feedback(_ report: [UInt8]) throws -> [UInt8] {
         guard report.first == 0x83, report.count == 175 else { throw TransportError.invalid }
         return [0xb3, 0xc3, 0, 175, 0] + report
+    }
+}
+
+struct NIControllerCalibrationStartup {
+    let lastCalibration: UInt8
+    let inputBytes: Int
+    private var expected: UInt8 = 0xd0
+    private(set) var ready = false
+
+    init(lastCalibration: UInt8, inputBytes: Int) {
+        self.lastCalibration = lastCalibration
+        self.inputBytes = inputBytes
+    }
+
+    mutating func consume(_ frame: Z1AccessoryProtocol.Frame) throws -> UInt8? {
+        switch frame.reportID {
+        case 0xd0...lastCalibration:
+            guard frame.payload.count == 32 else { throw TransportError.invalid }
+            guard frame.reportID == expected else { return nil }
+            expected = expected == lastCalibration ? 1 : expected + 1
+            return expected
+        case 1:
+            guard frame.payload.count == inputBytes else { throw TransportError.invalid }
+            ready = expected == 1
+        default: break
+        }
+        return nil
+    }
+}
+
+struct NIControllerPotCalibration {
+    let minimum: Int
+    let center: Int?
+    let maximum: Int
+
+    func position(_ value: Int) -> Double {
+        let value = min(maximum, max(minimum, value))
+        guard let center else { return Double(value - minimum) / Double(maximum - minimum) }
+        return value < center
+            ? Double(value - minimum) / Double(center - minimum) * 0.5
+            : 0.5 + Double(value - center) / Double(maximum - center) * 0.5
     }
 }
 
@@ -39,6 +64,7 @@ enum S4MK2Event: Equatable {
     case bendEnd(DeckID)
     case native(NativeTraktorEvent)
     case gain(DeckID, Int?)
+    case filter(DeckID, Int?)
     case loopMark(DeckID, end: Bool)
     case loopRecall(DeckID, stop: Bool)
     case sliceMode(DeckID)
@@ -60,20 +86,6 @@ enum S4MK2Event: Equatable {
 }
 
 struct S4MK2Controls {
-    private struct Calibration {
-        let minimum: Int
-        let center: Int?
-        let maximum: Int
-
-        func position(_ value: Int) -> Double {
-            let value = min(maximum, max(minimum, value))
-            guard let center else { return Double(value - minimum) / Double(maximum - minimum) }
-            return value < center
-                ? Double(value - minimum) / Double(center - minimum) * 0.5
-                : 0.5 + Double(value - center) / Double(maximum - center) * 0.5
-        }
-    }
-
     private static let calibrationOrder = [
         28, 29, 30, 31, 32, 33, 34, 35, 11, 15, 19, 23, 10, 14, 18, 22, 9, 13, 17, 21, 8, 12, 16, 20, 7,
     ]
@@ -83,7 +95,7 @@ struct S4MK2Controls {
     ]
 
     private var calibrationBytes: [UInt8] = []
-    private var calibration: [Int: Calibration] = [:]
+    private var calibration: [Int: NIControllerPotCalibration] = [:]
     private var previous: [UInt8]?
     private(set) var layers = DeckID.primary
     private var cueHeld: Set<DeckID> = []
