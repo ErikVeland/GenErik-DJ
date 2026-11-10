@@ -1,0 +1,18 @@
+{
+  "notes": "R160: Resume interrupted analysis from completed jobs in each pass. Retain track matches and review warnings. Ten focused tests passed, including interruption at 3402. Check continued progress during Mac transfers, audio and touch.",
+  "sourceCommit": "aa0db350092d93eba07185fb28f38c815bcfa746",
+  "sourceSHA256": "2b6162ee911cba895bff7c1d383aa6c86eadf64d5bc17f82e5dcccce0ed69744",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 92.27,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-225.log",
+  "build": 225,
+  "app": "TestBuilds/ipad/225/GenErikDJ.app",
+  "appSHA256": "2e6bde95694257db50f6e34bc35d270f9a7d8b24881bba124665398b3da1f6c5",
+  "state": "testing",
+  "createdUTC": "2026-11-10T19:30:41.473686+00:00",
+  "installedUTC": "2026-11-10T19:30:55.874266+00:00",
+  "launchedUTC": "2026-11-10T19:30:56.374785+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
