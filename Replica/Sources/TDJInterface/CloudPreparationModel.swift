@@ -1,3 +1,4 @@
+import CloudKit
 import Foundation
 import TDJCore
 
@@ -81,7 +82,7 @@ extension ReplicaModel {
                 logAnalysis("Cloud sync cancelled at: \(cloudStatus)")
             } catch {
                 cloudStatus = "Sync did not finish. Local preparation is retained. \(error.localizedDescription)"
-                logAnalysis("Cloud sync failed: \((error as NSError).domain) \((error as NSError).code); \(error.localizedDescription)")
+                logAnalysis("Cloud sync failed: \(Self.cloudErrorSummary(error))")
                 automaticCloudRetryAt = Date().addingTimeInterval(300)
                 if !automatic { await loadCloudVersions() }
             }
@@ -93,6 +94,20 @@ extension ReplicaModel {
         guard let cloudTask, !cloudTask.isCancelled else { return }
         cloudTask.cancel()
         Task { await cloudSync.stop() }
+    }
+
+    static func cloudErrorSummary(_ error: Error) -> String {
+        let value = error as NSError
+        var summary = "\(value.domain) \(value.code); \(value.localizedDescription)"
+        if let partial = value.userInfo[CKPartialErrorsByItemIDKey] as? [AnyHashable: Error] {
+            let codes = Dictionary(grouping: partial.values.map { $0 as NSError }, by: { "\($0.domain) \($0.code)" })
+            summary += "; record errors: " + codes.keys.sorted().map { "\($0) x\(codes[$0]!.count)" }.joined(separator: ", ")
+        }
+        if let underlying = value.userInfo[NSUnderlyingErrorKey] as? Error {
+            let nested = underlying as NSError
+            summary += "; underlying: \(nested.domain) \(nested.code); \(nested.localizedDescription)"
+        }
+        return summary
     }
 
     func loadCloudVersions() async {
