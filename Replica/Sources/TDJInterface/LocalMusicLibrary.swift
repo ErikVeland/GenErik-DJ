@@ -82,9 +82,10 @@ extension LocalMusicLibraryProviding {
                 Self.stage("Music library access not authorised: \(authorization.rawValue)", at: diagnosticsURL)
                 throw authorization == .restricted ? MusicLibraryError.restricted : MusicLibraryError.permissionDenied
             }
+            let progress = AnalysisWorkProgress.observer
             return try await Self.onMediaQueue {
                 Self.stage("Reading native songs and playlists", at: diagnosticsURL)
-                let catalog = try Self.iosCatalog()
+                let catalog = try Self.iosCatalog(progress: progress)
                 Self.stage(
                     "Finished native library read: \(catalog.items.count) songs, \(catalog.playlists.count) playlists",
                     at: diagnosticsURL)
@@ -188,9 +189,11 @@ extension LocalMusicLibraryProviding {
             return .init(items: items, playlists: playlists)
         }
     #else
-        private nonisolated static func iosCatalog() throws -> MusicLibraryCatalog {
+        private nonisolated static func iosCatalog(progress: (@Sendable (Double) -> Void)?) throws -> MusicLibraryCatalog {
             guard let songs = MPMediaQuery.songs().items else { throw MusicLibraryError.unavailable }
-            let items: [MusicLibraryItem] = songs.map { item -> MusicLibraryItem in
+            progress?(0.05)
+            var songProgress = AnalysisWorkProgress.Step(0.05...0.85, observer: progress)
+            let items: [MusicLibraryItem] = songs.enumerated().map { index, item -> MusicLibraryItem in
                 let url = item.assetURL
                 let hasLocalAsset: Bool
                 let isCloudOnly: Bool
@@ -214,18 +217,23 @@ extension LocalMusicLibraryProviding {
                 } else {
                     availability = .unavailable
                 }
+                songProgress.advance(Int64(index + 1), of: Int64(songs.count))
                 return MusicLibraryItem(
                     source: .init(platform: .iosMusic, persistentID: String(item.persistentID)),
                     title: item.title ?? "Untitled", artist: item.artist ?? "", album: item.albumTitle ?? "",
                     genre: item.genre, duration: item.playbackDuration, assetURL: url, availability: availability)
             }.sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
             let known = Set(items.filter(\.isOnDevice).map(\.id))
-            let playlists = (MPMediaQuery.playlists().collections as? [MPMediaPlaylist] ?? []).map { playlist in
-                MusicLibraryPlaylist(
+            let collections = MPMediaQuery.playlists().collections as? [MPMediaPlaylist] ?? []
+            var playlistProgress = AnalysisWorkProgress.Step(0.85...1, observer: progress)
+            let playlists = collections.enumerated().map { index, playlist in
+                let entry = MusicLibraryPlaylist(
                     id: "ios-playlist:\(playlist.persistentID)", name: playlist.name ?? "Playlist",
                     itemIDs: playlist.items.map {
                         MusicLibrarySource(platform: .iosMusic, persistentID: String($0.persistentID)).id
                     }.filter { known.contains($0) })
+                playlistProgress.advance(Int64(index + 1), of: Int64(collections.count))
+                return entry
             }.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
             return .init(items: items, playlists: playlists)
         }

@@ -94,19 +94,29 @@ final class NativeMusicAnalysisQueue: Sendable {
             State(catalog: catalog, tracks: tracks, loaded: loaded, mediaDirectory: mediaDirectory), worker: worker)
     }
 
-    func prepare() async -> [Batch] {
+    func prepare(progress: (@Sendable (Double) -> Void)? = nil) async -> [Batch] {
         await value.update { state in
-            let managed = state.tracks.filter {
-                $0.nativeLibraryOnly != true
+            var fileProgress = AnalysisWorkProgress.Step(0...0.3, observer: progress)
+            let managed = state.tracks.enumerated().compactMap { index, track -> Track? in
+                let readable = track.nativeLibraryOnly != true
                     && FileManager.default.isReadableFile(
-                        atPath: state.mediaDirectory.appendingPathComponent($0.mediaFilename).path)
+                        atPath: state.mediaDirectory.appendingPathComponent(track.mediaFilename).path)
+                fileProgress.advance(Int64(index + 1), of: Int64(state.tracks.count))
+                return readable ? track : nil
             }
             var seen = Set(managed.map(\.id))
             var jobs = managed.map(Job.managed)
-            let entries = MusicLibraryReconciliation(catalog: state.catalog, tracks: state.tracks).entries
-            for entry in entries where entry.item.isOnDevice {
-                if let id = entry.track?.id, !seen.insert(id).inserted { continue }
-                jobs.append(.native(entry.item, entry.track))
+            let reconciliationProgress: (@Sendable (Double) -> Void)? = progress.map { observer in
+                { @Sendable fraction in observer(0.3 + 0.4 * fraction) }
+            }
+            let entries = MusicLibraryReconciliation(
+                catalog: state.catalog, tracks: state.tracks, progress: reconciliationProgress).entries
+            var jobProgress = AnalysisWorkProgress.Step(0.7...0.9, observer: progress)
+            for (index, entry) in entries.enumerated() {
+                if entry.item.isOnDevice, entry.track.map({ seen.insert($0.id).inserted }) ?? true {
+                    jobs.append(.native(entry.item, entry.track))
+                }
+                jobProgress.advance(Int64(index + 1), of: Int64(entries.count))
             }
             state.items = jobs.enumerated().sorted { a, b in
                 if a.element.isMix != b.element.isMix { return !a.element.isMix }
@@ -116,6 +126,7 @@ final class NativeMusicAnalysisQueue: Sendable {
                 if a.element.duration != b.element.duration { return a.element.duration < b.element.duration }
                 return a.offset < b.offset
             }.map(\.element)
+            progress?(1)
             let split = state.items.firstIndex(where: \.isMix) ?? state.items.count
             let ranges = [0..<split, split..<state.items.count].filter { !$0.isEmpty }
             return Pass.allCases.filter { $0 != .deep || self.includeDeep }.flatMap { pass in

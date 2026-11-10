@@ -90,10 +90,12 @@
                 task.setTaskCompleted(success: true)
                 return
             }
-            guard let model, active == nil, let id = model.beginBackgroundLibraryAnalysis(report: { checked, total in
-                progress?.totalUnitCount = Int64(max(1, total))
-                progress?.completedUnitCount = Int64(checked)
-            }) else {
+            let systemProgress = progress.map { progress in
+                LibrarySystemProgress(progress: progress, model: model)
+            }
+            guard let model, active == nil, let id = model.beginBackgroundLibraryAnalysis(
+                systemProgress: systemProgress.map { tracker in tracker.report }, report: { _, _ in }
+            ) else {
                 if progress != nil {
                     if active == nil { model?.backgroundAnalysisStatus = .idle }
                     model?.logAnalysis("Background analysis could not start while the app or playback was busy.")
@@ -132,6 +134,35 @@
             work.task.expirationHandler = nil
             work.task.setTaskCompleted(success: success)
             if work.task is BGProcessingTask, !success { scheduleIdleAnalysis() }
+        }
+    }
+
+    @MainActor private final class LibrarySystemProgress {
+        private let progress: Progress
+        private weak var model: ReplicaModel?
+        private var base: Int64 = 0
+        private var lastLog: ContinuousClock.Instant?
+
+        init(progress: Progress, model: ReplicaModel?) {
+            self.progress = progress
+            self.model = model
+            progress.totalUnitCount = 1_000_000_000
+        }
+
+        func report(_ fraction: Double) {
+            if fraction == 0 {
+                base = progress.completedUnitCount
+                return
+            }
+            let remaining = progress.totalUnitCount - base
+            let completed = base + Int64(Double(remaining) * min(0.999999, fraction))
+            guard completed > progress.completedUnitCount else { return }
+            progress.completedUnitCount = completed
+            let now = ContinuousClock.now
+            if lastLog.map({ $0.duration(to: now) >= .seconds(10) }) ?? true {
+                lastLog = now
+                model?.logAnalysis("Background analysis progress: \(completed) of \(progress.totalUnitCount).")
+            }
         }
     }
 #endif

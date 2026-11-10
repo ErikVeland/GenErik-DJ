@@ -99,6 +99,7 @@ public enum PCMCache {
         defer { try? handle.close() }
         var interleaved = [Float](repeating: 0, count: 32768 * 2)
         var position: Int64 = 0
+        var progress = AnalysisWorkProgress.Step(0.20...0.40)
         while position < frames {
             try checkCancellation()
             try file.read(into: buffer, frameCount: AVAudioFrameCount(min(32768, frames - position)))
@@ -118,6 +119,7 @@ public enum PCMCache {
                 try handle.write(contentsOf: $0.prefix(count * 2 * MemoryLayout<Float>.size))
             }
             position += Int64(count)
+            progress.advance(position, of: frames)
         }
         try handle.synchronize()
         try handle.close()

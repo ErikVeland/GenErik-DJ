@@ -64,7 +64,8 @@ enum BeatThisAnalyzer {
         var barLogits: [Float] = []
         var starts = Array(stride(from: -border, to: frameCount - border, by: strideSize))
         if frameCount > strideSize { starts[starts.count - 1] = frameCount - window + border }
-        for start in starts {
+        var progress = AnalysisWorkProgress.Step(0.76...0.95)
+        for (index, start) in starts.enumerated() {
             try checkCancellation()
             try AnalysisMeasurement.measure("beatThisDecodeAndSpectrogram") {
                 try features.withUnsafeMutableBufferPointer(ofType: Float.self) { values, _ in
@@ -87,6 +88,7 @@ enum BeatThisAnalyzer {
                 try append(result, name: "beats", range: first..<end, to: &beatLogits)
                 try append(result, name: "downbeats", range: first..<end, to: &barLogits)
             }
+            progress.advance(Int64(index + 1), of: Int64(starts.count))
         }
         try checkCancellation()
         let grid = try fit(

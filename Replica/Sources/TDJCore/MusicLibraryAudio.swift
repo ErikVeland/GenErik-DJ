@@ -10,12 +10,16 @@ public enum MusicLibraryAudio {
         let asset: AVAsset
         let track: AVAssetTrack
         let maximumSeconds: Double?
+        let duration: Double?
     }
     private static let pcmWorker = AnalysisWorker(label: "org.generikdj.music-asset-decode")
     /// `maximumSeconds` limits the decode to the opening of the item, for first-minute analysis of mixes.
     public static func decodeAsset(url: URL, destination: URL, maximumSeconds: Double? = nil) async throws {
+        let progress = AnalysisWorkProgress.observer
         let worker = Task.detached(priority: .background) {
-            try await decode(url: url, destination: destination, maximumSeconds: maximumSeconds)
+            try await AnalysisWorkProgress.$observer.withValue(progress) {
+                try await decode(url: url, destination: destination, maximumSeconds: maximumSeconds)
+            }
         }
         try await withTaskCancellationHandler(operation: { try await worker.value }, onCancel: { worker.cancel() })
     }
@@ -31,7 +35,10 @@ public enum MusicLibraryAudio {
         guard let track = try await asset.loadTracks(withMediaType: .audio).first else {
             throw MusicLibraryError.missingAudio
         }
-        let input = DecodeInput(asset: asset, track: track, maximumSeconds: maximumSeconds)
+        let duration = AnalysisWorkProgress.observer == nil ? nil : (try? await asset.load(.duration).seconds)
+        let input = DecodeInput(
+            asset: asset, track: track, maximumSeconds: maximumSeconds,
+            duration: duration.map { min($0, maximumSeconds ?? $0) })
         // The decoder checks cancellation before committing its file. A later
         // cancellation must not turn a committed output into an unowned failure.
         try await pcmWorker.run(checkAfterWork: false) { check in
@@ -66,6 +73,7 @@ public enum MusicLibraryAudio {
         }
         var file: AVAudioFile?
         var written: Int64 = 0
+        var progress = AnalysisWorkProgress.Step(0...0.20)
         while let sample = output.copyNextSampleBuffer() {
             try checkCancellation()
             try autoreleasepool {
@@ -98,6 +106,9 @@ public enum MusicLibraryAudio {
                 }
                 try file?.write(from: buffer)
                 written += Int64(count)
+                if let duration = input.duration, duration.isFinite, duration > 0 {
+                    progress.advance(fraction: Double(written) / format.sampleRate / duration)
+                }
             }
         }
         try checkCancellation()

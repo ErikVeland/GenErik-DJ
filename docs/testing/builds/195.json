@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 95.64,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-10",
+      "requestIDs": [
+        "R136"
+      ],
+      "report": "Report real progress during queue preparation and long tracks.",
+      "summary": "On the Duo, iOS marked the task stalled after 36 seconds without progress and expired it at 18:02:37 Brisbane time. The system progress tracker showed zero of zero."
+    }
+  ],
   "log": "TestBuilds/ipad/build-195.log",
   "build": 195,
   "app": "TestBuilds/ipad/195/GenErikDJ.app",
