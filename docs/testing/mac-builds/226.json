@@ -1,0 +1,35 @@
+{
+  "request": "R161",
+  "platform": "macOS",
+  "build": 226,
+  "sourceCommit": "e04f45ae40119a8063ee0ab8f24ce3f2f9c56f99",
+  "state": "uploaded-processing",
+  "archive": "TestBuilds/r161/mac/GenErikDJ-226.xcarchive",
+  "log": "TestBuilds/r161/mac/archive-226.log",
+  "checks": "Deep strict signature verification passed. Icon, privacy manifest, sandbox entitlements and build identity verified. Runtime and device acceptance remain open.",
+  "architectures": [
+    "x86_64",
+    "arm64"
+  ],
+  "archiveSHA256": "76becba694b7f99b12232008e168e9664f1b329cf25e3a36b4b2fabb6934896c",
+  "distributionAttempts": [
+    {
+      "action": "export",
+      "log": "TestBuilds/r161/mac/export-1.log",
+      "state": "failed",
+      "failure": "No Accounts; missing Mac App Store profile and distribution certificates."
+    },
+    {
+      "action": "export",
+      "log": "TestBuilds/r161/mac/export-2.log",
+      "state": "succeeded"
+    },
+    {
+      "action": "upload",
+      "log": "TestBuilds/r161/mac/upload-1.log",
+      "state": "succeeded"
+    }
+  ],
+  "package": "TestBuilds/r161/mac/export-2/GenErik DJ.pkg",
+  "packageSHA256": "f2937851835281fc2192a3b5a2d218a3075601de97c65e26e89a97f7712ae069"
+}
