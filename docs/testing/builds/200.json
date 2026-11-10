@@ -1,0 +1,15 @@
+{
+  "notes": "R137 adds the eight remaining Traktor factory profiles with deck-load and disconnect handling. Local verification only.",
+  "sourceCommit": "b8d30ea77afc31a2065c492ce34d0f320e012736",
+  "sourceSHA256": "14d3c6436579943da53924d721b4daeb53b852b9d8d16e855ff364910bc5eaee",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 54.11,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-200.log",
+  "build": 200,
+  "app": "TestBuilds/ipad/200/GenErikDJ.app",
+  "appSHA256": "8e31fc58b4f1c3ef9d54ce06bfe584deeef694f2a144c41b818ac44f4ac02536",
+  "state": "ready",
+  "createdUTC": "2026-11-10T08:34:46.397822+00:00"
+}
