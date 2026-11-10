@@ -60,7 +60,7 @@ public struct LibraryGroupSource: Sendable, Identifiable {
                 if index & 255 == 0 { try checkCancellation() }
                 let old = previous.storage.inputGroups[index]
                 let new = groups[index]
-                if old.id != new.id || old.name != new.name {
+                if old.id != new.id || old.name != new.name || old.isAppPlaylist != new.isAppPlaylist {
                     matches = false
                     break
                 }

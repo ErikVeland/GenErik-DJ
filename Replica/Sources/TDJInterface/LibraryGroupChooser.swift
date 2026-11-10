@@ -96,6 +96,10 @@ struct LibraryGroupList: View {
                                 choose(group)
                             } label: {
                                 HStack {
+                                    if group.isAppPlaylist {
+                                        Image(systemName: "internaldrive").foregroundStyle(.secondary)
+                                            .accessibilityHidden(true)
+                                    }
                                     Text(group.name).lineLimit(2)
                                     Spacer()
                                     if let count = counts[group.id] {
@@ -104,6 +108,7 @@ struct LibraryGroupList: View {
                                     if selectedID == group.id { Image(systemName: "checkmark") }
                                 }.padding(.horizontal, 8).frame(height: 57).contentShape(Rectangle())
                             }.buttonStyle(.plain).padding(.bottom, 1).accessibilityLabel(group.name)
+                                .accessibilityValue(group.isAppPlaylist ? "On-device playlist" : "")
                                 .accessibilityAddTraits(selectedID == group.id ? .isSelected : [])
                         }
                     }

@@ -7,9 +7,12 @@
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
   "feedback": [
     {
-      "request": "R140",
-      "report": "Remove the Music suffix from library playlists. Mark playlists created in the app. The list jumps and repeats names when returning to the top after scrolling past the first page.",
-      "buildAssumption": "Last recorded A10X install."
+      "date": "2026-11-10",
+      "requestIDs": [
+        "R140"
+      ],
+      "report": "Remove the Music suffix. Use an icon for playlists created in the app. When returning to the top after scrolling past the first page, the list jumps and repeats names.",
+      "summary": "Build 196 is assumed from the last recorded iPad install."
     }
   ],
   "log": "TestBuilds/ipad/build-196.log",
