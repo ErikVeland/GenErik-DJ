@@ -56,7 +56,8 @@ import Testing
         }
     }
 
-    @Test func sharesAReviewCandidateWithoutChangingPlaybackPreparation() throws {
+    @Test(arguments: [false, true])
+    func sharesAReviewCandidateWithoutChangingPlaybackPreparation(weakConstantFit: Bool) throws {
         let analysis = try syntheticTrack("a", bpm: 120).analysis.replacingWaveform(
             [], configurationID: "test", frameCount: 4_410_000, decodedFrames: nil)
         let track = try Track(title: "Review", mediaFilename: "review.wav", analysis: analysis)
@@ -67,7 +68,9 @@ import Testing
         let result = DeepBeatAnalysis(
             audio: .init(analysis), profile: .current, coveredFrames: analysis.frameCount,
             windowCount: BeatThisWindows.starts(frameCount: BeatThisWindows.frameCount(analysis)).count,
-            candidate: nil, adaptiveCandidate: candidate)
+            candidate: weakConstantFit ? DeepBeatCandidate(.init(
+                bpm: 120, firstBar: 0.1, beatAgreement: 0.85, barAgreement: 0.95,
+                residualMilliseconds: 30)) : nil, adaptiveCandidate: candidate)
         let updated = try track.adoptingDeepAnalysis(result)
         #expect(updated.preparation == track.preparation)
         #expect(updated.analysis.adaptiveCandidate == candidate.map)

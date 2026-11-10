@@ -42,8 +42,33 @@ On the same 100 key development files, the production detector matched 49 exact 
 
 The fixed candidate matched 63 of 78 held-out keys (80.77%). The production detector matched 41 (52.56%). The candidate corrected 29 results and worsened seven. Its confidence band from 0.8 selected 55 excerpts, with 50 exact matches (90.91%). It took 9.19 seconds, excluding model load. These lower held-out results limit the development claim. No threshold was adjusted after this comparison. The 100-file rhythm holdout remains untested.
 
-Deep policy 4 adds a review candidate when the constant-grid fit fails. It requires consistent four-beat bars and consecutive beat intervals. It compresses the complete model sequence to at most 256 anchors, with at most 8 ms deviation. Unsupported bar lengths and sequences that exceed the anchor limit remain unresolved. The candidate does not replace playback preparation or an existing adaptive candidate. It has no calibrated confidence value. The sharing path carries it as analysis evidence.
+Deep policy 4 added a review candidate when the constant-grid fit failed. In the development run, it offered two candidates. Hypothetical acceptance increased beat F1 from 63.99% to 64.43% and downbeat F1 from 53.95% to 54.36%. All saved results reopened. The actual playback timelines remained unchanged.
 
-Explicit acceptance can create a missing base grid. Policy 4 upgrades only unresolved policy 3 results with the same inference profile. A resolved constant fit receives no benefit from this policy change. Changed model weights and later policies remain eligible under the existing version rules.
+Policy 5 also offers alternatives to weak constant fits. The candidate requires consistent four-beat bars and consecutive beat intervals. It compresses the complete model sequence to at most 256 anchors, with at most 8 ms deviation. Unsupported bar lengths and sequences that exceed the anchor limit remain unresolved. The candidate does not replace playback preparation or an existing adaptive candidate. It has no calibrated confidence value. The sharing path carries it as analysis evidence.
+
+Explicit acceptance can create a missing base grid. Policy 5 preserves strong policy 3 and 4 fits with the same inference profile. It also skips policy 4 results whose missing constant fit was already reviewed. Weak older constant fits can upgrade. The model weights remain unchanged, so these policy upgrades can reuse saved predictions. Changed weights and later policies remain eligible under the existing version rules.
+
+A later first pass retains an offered deep candidate only for the same audio identity. The existing manual, locked, imported and accepted adaptive preparation protections remain in place. Twenty-one focused Swift tests passed. Twenty Python tests passed for the benchmark and key comparison. One optional real-model unit test remains skipped. The packaged Mac audit supplies the real-model evidence separately.
+
+## Model and hardware scope
+
+Tests ran on an Apple M4 Pro Mac with 24 GiB of memory. Core ML preferred the Neural Engine for all 746 operations in the small beat model's inspected plan. The learned key plan preferred it for all 40 operations. Both probes requested CPU and Neural Engine compute units. These are placement plans, not runtime utilisation measurements or Duo timings.
+
+The production Mac first pass requests CPU only. The deep rhythm pass and the external learned-key pass request CPU and Neural Engine units. The small-model plan probe does not change the production first-pass policy. A Mac first-pass acceleration comparison remains separate work.
+
+The learned key weights remain external research assets. No automatic learned-key replacement is enabled. The current licence restricts commercial use. Commercial model selection or training rights remain open. The new model's output scores also need calibration before automatic acceptance.
+
+The native key conversion preserves separate weights, preprocessing, conversion and decision versions. Its audio frontend uses bounded windows. The original 12 files were evaluated with the same fixed candidate. Agreement with nine automatic Traktor keys fell from six to four. This is not a verified accuracy loss. Blue Monday, 99 Problems and Big Ole Freak changed key predictions and need listening review.
+
+## Reproduce the scores
+
+1. Validate each frozen benchmark with `tools/verified_analysis_benchmark.py validate` and `--verify-audio`.
+2. Create an unlabelled run manifest with the tool's `manifest` operation and the required split.
+3. Run the packaged Mac app with `--analysis-audit <manifest> <new-output-folder>`.
+4. Score the report with the tool's `score` operation, `--report` and `--output`.
+5. For the external key candidate, run `--key-candidate-audit <manifest> <model-folder> <new-output-folder>`.
+6. Compare its report with `tools/compare_key_candidate.py <benchmark> <baseline-report> <candidate-report> <new-output-file>`.
+
+Keep each run's source, binary, model, manifest and report hashes. Keep failed runs. Do not reuse a scored holdout for tuning. New tuning requires a new independent test cohort.
 
 Evidence is under `TestBuilds/r116`. Rhythm candidate measurements and physical device acceptance remain open. No automatic learned-key adoption is enabled.

@@ -28,11 +28,11 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public let upgradeBenefit: String
 
     public static let current = Self(
-        generation: 4, model: "BeatThis/final0",
+        generation: 5, model: "BeatThis/final0",
         weightsSHA256:
             "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331",
-        conversion: 1, preprocessing: 1, decisionPolicy: 4,
-        upgradeBenefit: "Retain full-track adaptive rhythm candidates for review.")
+        conversion: 1, preprocessing: 1, decisionPolicy: 5,
+        upgradeBenefit: "Retain adaptive alternatives to missing or weak constant-grid fits.")
 
     public var inferenceID: String {
         analysisDigest(Data("\(model)|\(weightsSHA256)|fp16-\(conversion)|mel-\(preprocessing)|1500-6-50".utf8))
@@ -43,11 +43,13 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public func needsAnalysis(after result: DeepBeatAnalysis?) -> Bool {
         guard let result else { return true }
         if result.profile.id == id { return false }
-        if generation == 4, decisionPolicy == 4,
-            result.profile.generation == 3, result.profile.decisionPolicy == 3,
-            inferenceID == result.profile.inferenceID, result.candidate != nil
+        if generation == 5, decisionPolicy == 5,
+            (result.profile.generation == 3 && result.profile.decisionPolicy == 3
+                || result.profile.generation == 4 && result.profile.decisionPolicy == 4),
+            inferenceID == result.profile.inferenceID
         {
-            return false
+            if result.hasStrongEvidence { return false }
+            if result.profile.decisionPolicy == 4, result.candidate == nil { return false }
         }
         return generation > result.profile.generation && !upgradeBenefit.isEmpty
     }
@@ -74,6 +76,10 @@ public struct DeepBeatCandidate: Codable, Equatable, Sendable {
             && barAgreement.isFinite && (0...1).contains(barAgreement)
             && residualMilliseconds.isFinite && residualMilliseconds >= 0
     }
+
+    var hasStrongEvidence: Bool {
+        beatAgreement >= 0.90 && barAgreement >= 0.80 && residualMilliseconds <= 20
+    }
 }
 
 public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
@@ -90,11 +96,7 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
         guard track.mayRefreshAutomaticGrid, track.traktorPreparation?.normalized.grid == nil else { return false }
         return needsReview || acceptedGrid(for: track) == nil
     }
-    var hasStrongEvidence: Bool {
-        guard let candidate else { return false }
-        return candidate.beatAgreement >= 0.90 && candidate.barAgreement >= 0.80
-            && candidate.residualMilliseconds <= 20
-    }
+    var hasStrongEvidence: Bool { candidate?.hasStrongEvidence == true }
 
     public func validate(matching analysis: AudioAnalysis) throws {
         guard audio == AnalysisAudioIdentity(analysis), coveredFrames == audio.frameCount,
@@ -108,7 +110,7 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
             tempoCandidateBPM.map({ $0.isFinite && (60...200).contains($0) && candidate == nil }) ?? true
         else { throw CoreError.invalidAudio("The deep analysis does not match this audio or its coverage.") }
         if let adaptiveCandidate {
-            guard candidate == nil else { throw CoreError.invalidAudio("The deep analysis contains conflicting grid candidates.") }
+            guard !hasStrongEvidence else { throw CoreError.invalidAudio("The deep analysis contains conflicting grid candidates.") }
             try adaptiveCandidate.validate(frameCount: audio.frameCount, sampleRate: audio.sampleRate)
         }
     }

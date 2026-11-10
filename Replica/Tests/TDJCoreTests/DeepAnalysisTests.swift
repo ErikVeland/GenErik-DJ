@@ -32,6 +32,24 @@ private func emptyWindow(_ index: Int, _ start: Int) -> DeepPredictionWindow {
         windowCount: resolved.windowCount, candidate: nil)
     #expect(!current.needsAnalysis(after: resolved))
     #expect(current.needsAnalysis(after: unresolved))
+    let weak = DeepBeatAnalysis(
+        audio: resolved.audio, profile: previous, coveredFrames: resolved.coveredFrames,
+        windowCount: resolved.windowCount, candidate: .init(.init(
+            bpm: 120, firstBar: 0, beatAgreement: 0.85, barAgreement: 0.95,
+            residualMilliseconds: 30)))
+    #expect(current.needsAnalysis(after: weak))
+    let policyFour = DeepAnalysisProfile(
+        generation: 4, model: current.model, weightsSHA256: current.weightsSHA256,
+        conversion: current.conversion, preprocessing: current.preprocessing, decisionPolicy: 4,
+        upgradeBenefit: "Review missing constant fits.")
+    let previouslyReviewed = DeepBeatAnalysis(
+        audio: resolved.audio, profile: policyFour, coveredFrames: resolved.coveredFrames,
+        windowCount: resolved.windowCount, candidate: nil)
+    #expect(!current.needsAnalysis(after: previouslyReviewed))
+    let previouslyWeak = DeepBeatAnalysis(
+        audio: resolved.audio, profile: policyFour, coveredFrames: resolved.coveredFrames,
+        windowCount: resolved.windowCount, candidate: weak.candidate)
+    #expect(current.needsAnalysis(after: previouslyWeak))
 }
 
 @Test func deepCheckpointsResumeOnlyUnfinishedWindows() throws {

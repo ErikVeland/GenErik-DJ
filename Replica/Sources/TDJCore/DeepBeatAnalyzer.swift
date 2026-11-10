@@ -112,7 +112,8 @@ enum DeepBeatAnalyzer {
             beats: beats, downbeats: downbeats, configuration: .init(),
             requireOpeningBar: true, checkCancellation: checkCancellation)
         let beatTimes = BeatThisAnalyzer.peaks(beats)
-        let adaptive = grid == nil
+        let constantCandidate = grid.map(DeepBeatCandidate.init)
+        let adaptive = constantCandidate?.hasStrongEvidence != true
             ? try DeepAdaptiveBeatCandidate.fit(
                 beats: beatTimes, bars: BeatThisAnalyzer.peaks(downbeats),
                 sampleRate: checkpoints.analysis.sampleRate, frameCount: checkpoints.analysis.frameCount,
@@ -121,7 +122,7 @@ enum DeepBeatAnalyzer {
         let result = DeepBeatAnalysis(
             audio: .init(checkpoints.analysis), profile: checkpoints.profile,
             coveredFrames: checkpoints.analysis.frameCount, windowCount: checkpoints.starts.count,
-            candidate: grid.map(DeepBeatCandidate.init),
+            candidate: constantCandidate,
             tempoCandidateBPM: grid == nil
                 ? try BeatThisTempo.preferred(
                     beats: beatTimes, configuration: .init(), checkCancellation: checkCancellation)
