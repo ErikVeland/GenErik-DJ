@@ -5,6 +5,11 @@ import CryptoKit
 import Foundation
 import TDJCore
 
+protocol KeyFeatureAudio {
+    var frameCount: Int { get }
+    func fill(_ frames: Range<Int>, into values: UnsafeMutablePointer<Float>) throws
+}
+
 /// Evaluate an external key model without changing library keys or performance workspaces.
 enum MacKeyCandidateAudit {
     struct Profile: Codable {
@@ -58,17 +63,25 @@ enum MacKeyCandidateAudit {
         let manifest = try JSONDecoder().decode(AnalysisBenchmarkManifest.self, from: Data(contentsOf: manifestURL))
         try manifest.validate()
         let profile = try JSONDecoder().decode(Profile.self, from: Data(contentsOf: modelDirectory.appendingPathComponent("profile.json")))
-        guard profile.modelID == "madmom-key-cnn-2018-eval1", profile.preprocessingVersion == 1,
+        let isCQT = profile.modelID == "musical-key-cnn-mit-2025-v1"
+        let knownModel = isCQT
+            ? profile.weightsSHA256 == "fc92072f1b9b19552ce3b74a9c8ce0cecb97633a12ae524ac0d93c05800e354e"
+                && profile.filtersSHA256 == "93368ced3ad3c4410c6e1b1edb7b8805799690175bec8f503beea4c7f28bdc69"
+            : profile.modelID == "madmom-key-cnn-2018-eval1"
+                && profile.weightsSHA256 == "c58ba553be1048877662a663a2670c0051b3c2c66d109b6042ba722ed0bfc7a6"
+        guard knownModel, profile.preprocessingVersion == 1,
             profile.conversionVersion == 1, profile.decisionPolicyVersion == 1,
-            profile.weightsSHA256 == "c58ba553be1048877662a663a2670c0051b3c2c66d109b6042ba722ed0bfc7a6",
-            profile.sampleRate == 44100, profile.fftSize == 8192, profile.hop == 8820,
+            profile.sampleRate == 44100, profile.fftSize == (isCQT ? 0 : 8192), profile.hop == 8820,
             profile.bands == 105, profile.windowFrames == 600, profile.classOrder.count == 24,
             profile.classOrder.enumerated().allSatisfy({ index, key in
-                key.tonic == (index % 12 + 9) % 12 && key.mode == (index < 12 ? .major : .minor)
+                isCQT
+                    ? key.tonic == ((index < 12 ? 8 : 11) + 7 * (index % 12)) % 12
+                        && key.mode == (index < 12 ? .minor : .major)
+                    : key.tonic == (index % 12 + 9) % 12 && key.mode == (index < 12 ? .major : .minor)
             }),
             !manifest.tracks.isEmpty, !FileManager.default.fileExists(atPath: output.path)
         else { throw CoreError.invalidAudio("The candidate profile or audit output is invalid.") }
-        let filtersURL = modelDirectory.appendingPathComponent("filters.f32")
+        let filtersURL = modelDirectory.appendingPathComponent(isCQT ? "cqt.json" : "filters.f32")
         guard try digest(filtersURL) == profile.filtersSHA256 else {
             throw CoreError.invalidAudio("The key model filters changed.")
         }
@@ -99,7 +112,9 @@ enum MacKeyCandidateAudit {
                 let source = URL(fileURLWithPath: expected.path, relativeTo: manifestURL.deletingLastPathComponent())
                 row.contentSHA256 = try digest(source)
                 guard row.contentSHA256 == expected.sha256 else { throw CoreError.invalidAudio("The key audit audio changed.") }
-                let frontend = try KeyAudio(url: source, filtersURL: filtersURL)
+                let frontend: any KeyFeatureAudio = try isCQT
+                    ? KeyCQTAudio(url: source, filtersURL: filtersURL)
+                    : KeyAudio(url: source, filtersURL: filtersURL)
                 row.featureFrames = frontend.frameCount
                 let featureURL = featuresDirectory.appendingPathComponent(expected.sha256 + ".f32")
                 FileManager.default.createFile(atPath: featureURL.path, contents: nil)
@@ -111,9 +126,10 @@ enum MacKeyCandidateAudit {
                 var inferenceSeconds = 0.0
                 for first in stride(from: 0, to: frontend.frameCount, by: 600) {
                     try Task.checkCancellation()
-                    let features = try MLMultiArray(shape: [1, 1, 600, 105], dataType: .float32)
-                    let featureStart = ProcessInfo.processInfo.systemUptime
                     let count = min(600, frontend.frameCount - first)
+                    let modelFrames = isCQT ? max(8, count) : 600
+                    let features = try MLMultiArray(shape: [1, 1, NSNumber(value: modelFrames), 105], dataType: .float32)
+                    let featureStart = ProcessInfo.processInfo.systemUptime
                     try features.withUnsafeMutableBufferPointer(ofType: Float.self) { values, _ in
                         values.update(repeating: 0)
                         try frontend.fill(first..<(first + count), into: values.baseAddress!)
@@ -123,7 +139,7 @@ enum MacKeyCandidateAudit {
                     let inferenceStart = ProcessInfo.processInfo.systemUptime
                     let prediction = try await model.prediction(from: MLDictionaryFeatureProvider(dictionary: ["spectrogram": features]))
                     guard let values = prediction.featureValue(for: "logits")?.multiArrayValue,
-                        values.shape.map(\.intValue) == [1, 24, 75], values.dataType == .float32
+                        values.shape.map(\.intValue) == [1, 24, modelFrames / 8], values.dataType == .float32
                     else { throw CoreError.invalidAudio("The key model returned an invalid output shape.") }
                     let valid = max(1, count / 8)
                     for key in 0..<24 {
@@ -162,7 +178,7 @@ enum MacKeyCandidateAudit {
     }
 }
 
-private final class KeyAudio {
+private final class KeyAudio: KeyFeatureAudio {
     private let file: AVAudioFile
     private let input: AVAudioPCMBuffer
     private let output: AVAudioPCMBuffer
