@@ -70,6 +70,7 @@ public struct AudioAnalysis: Codable, Equatable, Sendable {
     public var beatModelVersion: String? = nil
     public var deepBeatAnalysis: DeepBeatAnalysis? = nil
     public var acceptedDeepBeatAnalysis: DeepBeatAnalysis? = nil
+    public var acceptedLearnedKey: LearnedKeyAnalysis? = nil
     public var musicalAnalysisDeferred: Bool? = nil
     public var waveformReference: String? = nil
     public var waveformDecodedFrames: Int64? = nil
@@ -102,6 +103,7 @@ extension AudioAnalysis {
         copy.beatModelVersion = beatModelVersion
         copy.deepBeatAnalysis = frameCount == self.frameCount ? deepBeatAnalysis : nil
         copy.acceptedDeepBeatAnalysis = frameCount == self.frameCount ? acceptedDeepBeatAnalysis : nil
+        copy.acceptedLearnedKey = frameCount == self.frameCount ? acceptedLearnedKey : nil
         copy.musicalAnalysisDeferred = musicalAnalysisDeferred
         copy.waveformReference = configurationID == self.configurationID ? waveformReference : nil
         copy.waveformDecodedFrames = decodedFrames

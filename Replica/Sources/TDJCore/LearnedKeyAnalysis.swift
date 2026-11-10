@@ -73,7 +73,8 @@ enum LearnedKeyAnalyzer {
             let file = folder.appendingPathComponent("key-window-\(first).json")
             let identity = "\(analysis.contentSHA256)|\(LearnedKeyProfile.current.id)|\(first)|\(count)"
             let sums: [Double]
-            if let data = try? Data(contentsOf: file), data.count < 8192,
+            if let size = try? file.resourceValues(forKeys: [.fileSizeKey]).fileSize, size < 8192,
+                let data = try? Data(contentsOf: file), data.count < 8192,
                 let saved = try? JSONDecoder().decode(KeyWindow.self, from: data), saved.identity == identity,
                 saved.values.count == 24, saved.values.allSatisfy(\.isFinite),
                 saved.digest == analysisDigest(try JSONEncoder.sorted.encode(saved.values)) {

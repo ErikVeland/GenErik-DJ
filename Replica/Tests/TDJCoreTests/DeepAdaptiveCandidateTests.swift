@@ -113,6 +113,34 @@ import Testing
         #expect(updated.analysis.adaptiveCandidate == candidate.map)
     }
 
+    @Test func upgradesOnlyAnUnacceptedCandidateFromThePreviousDeepPolicy() throws {
+        let analysis = try syntheticTrack("upgrade-review", bpm: 120).analysis.replacingWaveform(
+            [], configurationID: "test", frameCount: 4_410_000, decodedFrames: nil)
+        let fitted = try DeepAdaptiveBeatCandidate.fit(beats: beats, bars: bars,
+            sampleRate: analysis.sampleRate, frameCount: analysis.frameCount, checkCancellation: {})
+        let old = try #require(fitted)
+        let shifted = try DeepAdaptiveBeatCandidate.fit(beats: beats.map { $0 + 0.008 },
+            bars: bars.map { $0 + 0.008 }, sampleRate: analysis.sampleRate,
+            frameCount: analysis.frameCount, checkCancellation: {})
+        let new = try #require(shifted)
+        let current = DeepAnalysisProfile.current
+        let previous = DeepAnalysisProfile(generation: 7, model: current.model, weightsSHA256: current.weightsSHA256,
+            conversion: 1, preprocessing: 1, decisionPolicy: 7, upgradeBenefit: "Earlier review policy.")
+        let oldResult = DeepBeatAnalysis(audio: .init(analysis), profile: previous, coveredFrames: analysis.frameCount,
+            windowCount: BeatThisWindows.starts(frameCount: BeatThisWindows.frameCount(analysis)).count,
+            candidate: nil, adaptiveCandidate: old)
+        let newResult = DeepBeatAnalysis(audio: .init(analysis), profile: current, coveredFrames: analysis.frameCount,
+            windowCount: oldResult.windowCount, candidate: nil, adaptiveCandidate: new)
+        var track = try Track(title: "Upgrade review", mediaFilename: "review.wav", analysis: analysis)
+        track.analysis.deepBeatAnalysis = oldResult
+        track.analysis.adaptiveCandidate = old.map
+        let updated = try track.adoptingDeepAnalysis(newResult)
+        #expect(updated.analysis.adaptiveCandidate == new.map)
+        #expect(updated.preparation == track.preparation)
+        try track.preparation.acceptAdaptive(old.map, frameCount: analysis.frameCount)
+        #expect(try track.adoptingDeepAnalysis(newResult).preparation.adaptiveMap == old.map)
+    }
+
     @Test func explicitAcceptanceCanResolveAMissingGrid() throws {
         let fitted = try DeepAdaptiveBeatCandidate.fit(
             beats: beats, bars: bars, sampleRate: rate, frameCount: 2_400_000, checkCancellation: {})

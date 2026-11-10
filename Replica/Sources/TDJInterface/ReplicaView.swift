@@ -1595,7 +1595,7 @@ extension ReplicaView {
                     model.setGridLocked(model.gridPreparation(deck)?.gridLocked != true, deck: deck)
                 }
                 if let confidence = model.candidateConfidence(deck) {
-                    Text("Candidate confidence: \(Int(confidence * 100))%")
+                    Text("Candidate confidence estimate: \(Int(confidence * 100))%")
                 }
             } label: {
                 Image(systemName: "slider.horizontal.3")

@@ -14,10 +14,14 @@ import Testing
         let updated = try original.adoptingDeepAnalysis(result)
         #expect(updated.key == key)
         #expect(updated.analysis.keyConfidence == 39.0 / 40)
+        #expect(updated.analysis.acceptedLearnedKey == learned)
         #expect(updated.preparation == original.preparation)
         #expect(updated.keyGovernance?.events.count == 2)
         let refreshed = original.analysis.retainingDeepEvidence(from: updated.analysis)
         #expect(refreshed.key == key)
+        var laterEvidence = updated.analysis
+        laterEvidence.deepBeatAnalysis = nil
+        #expect(original.analysis.retainingDeepEvidence(from: laterEvidence).key == key)
         let shared = CloudPreparationArchive.analysisOnly(track: updated, arrangement: nil)
         #expect(try shared.automaticallyMergedTrack(matching: original).key == key)
         var manual = original

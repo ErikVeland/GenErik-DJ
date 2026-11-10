@@ -75,6 +75,7 @@ public struct WorkspaceStore: Sendable {
             let a = track.analysis
             try a.deepBeatAnalysis?.validate(matching: a)
             try a.acceptedDeepBeatAnalysis?.validate(matching: a)
+            try a.acceptedLearnedKey?.validate()
             if let reference = track.traktorPreparation {
                 guard reference.normalized.collectionSHA256 == reference.collection.sourceSHA256,
                     reference.normalized.entryIndex == reference.record.entryIndex,

@@ -1,0 +1,412 @@
+{
+  "format": "generik.rhythm-confidence/v1",
+  "operation": "fit",
+  "split": "development",
+  "sourceReportSHA256": "7319159adab5da7b7cf1f24f6c8fd8bfdb6a3e3b907e9ac3aa1bf06578344e7d",
+  "benchmarkSHA256": "92c173d838414d2d698e580150a5803e57a9c9931fcd159bae829a8e6f3ff144",
+  "runID": "BF5DB7BB-660D-4CA0-A53F-7E27A5439816",
+  "profile": {
+    "conversion": 1,
+    "decisionPolicy": 8,
+    "generation": 8,
+    "keyModelVersion": "MusicalKeyCNN/MIT-2025|fc92072f1b9b19552ce3b74a9c8ce0cecb97633a12ae524ac0d93c05800e354e|cqt1|fp161|policy1|cal1",
+    "model": "BeatThis/final0",
+    "preprocessing": 1,
+    "upgradeBenefit": "Add versioned learned keys and preserve detailed rhythm evidence.",
+    "weightsSHA256": "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331"
+  },
+  "target": "Both beat and downbeat F1 at least 0.95 within 25 ms, over annotated spans.",
+  "domain": "20\u201335 second excerpts with a valid four-beat adaptive proposal.",
+  "bins": {
+    "strong-constant-fit": {
+      "observations": 43,
+      "successes": 26,
+      "observedRate": 0.6046511627906976,
+      "wilson95": [
+        0.4557879659331908,
+        0.7363489380154359
+      ],
+      "smoothedDevelopmentEstimate": 0.6
+    },
+    "weak-or-missing-constant-fit": {
+      "observations": 9,
+      "successes": 0,
+      "observedRate": 0.0,
+      "wilson95": [
+        0.0,
+        0.2991527535509594
+      ],
+      "smoothedDevelopmentEstimate": 0.09090909090909091
+    }
+  },
+  "rows": [
+    {
+      "id": "gtzan:country.00058",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:disco.00014",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:metal.00079",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:pop.00031",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:rock.00084",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:blues.00050",
+      "bin": "weak-or-missing-constant-fit",
+      "success": false,
+      "probability": 0.09090909090909091,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:country.00001",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:disco.00079",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:hiphop.00045",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:jazz.00098",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:pop.00020",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:blues.00066",
+      "bin": "weak-or-missing-constant-fit",
+      "success": false,
+      "probability": 0.09090909090909091,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:classical.00088",
+      "bin": "weak-or-missing-constant-fit",
+      "success": false,
+      "probability": 0.09090909090909091,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:country.00072",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:disco.00059",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:hiphop.00072",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:pop.00083",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:country.00071",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:disco.00022",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:metal.00091",
+      "bin": "weak-or-missing-constant-fit",
+      "success": false,
+      "probability": 0.09090909090909091,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:pop.00019",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:reggae.00031",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:hiphop.00035",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:metal.00025",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:pop.00033",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:rock.00044",
+      "bin": "weak-or-missing-constant-fit",
+      "success": false,
+      "probability": 0.09090909090909091,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:country.00004",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:disco.00024",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:pop.00024",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:rock.00057",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:country.00098",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:disco.00065",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:hiphop.00033",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:pop.00038",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:blues.00008",
+      "bin": "weak-or-missing-constant-fit",
+      "success": false,
+      "probability": 0.09090909090909091,
+      "modelBarConsistency": 0.9047619047619048
+    },
+    {
+      "id": "gtzan:country.00099",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:disco.00026",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:hiphop.00000",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:pop.00029",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:rock.00073",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:blues.00063",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:disco.00063",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:hiphop.00029",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:metal.00069",
+      "bin": "weak-or-missing-constant-fit",
+      "success": false,
+      "probability": 0.09090909090909091,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:pop.00028",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:rock.00030",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:country.00035",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:disco.00068",
+      "bin": "weak-or-missing-constant-fit",
+      "success": false,
+      "probability": 0.09090909090909091,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:hiphop.00034",
+      "bin": "weak-or-missing-constant-fit",
+      "success": false,
+      "probability": 0.09090909090909091,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:jazz.00006",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:pop.00036",
+      "bin": "strong-constant-fit",
+      "success": true,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    },
+    {
+      "id": "gtzan:reggae.00058",
+      "bin": "strong-constant-fit",
+      "success": false,
+      "probability": 0.6,
+      "modelBarConsistency": 1
+    }
+  ],
+  "brierScore": {
+    "calibrated": 0.19912269548633185,
+    "modelConsistency": 0.4965114250828536
+  }
+}

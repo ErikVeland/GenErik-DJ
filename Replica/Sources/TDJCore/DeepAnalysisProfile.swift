@@ -29,11 +29,11 @@ public struct DeepAnalysisProfile: Codable, Equatable, Sendable {
     public var keyModelVersion: String? = nil
 
     public static let current = Self(
-        generation: 8, model: "BeatThis/final0",
+        generation: 9, model: "BeatThis/final0",
         weightsSHA256:
             "8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331",
-        conversion: 1, preprocessing: 1, decisionPolicy: 8,
-        upgradeBenefit: "Add versioned learned keys and preserve detailed rhythm evidence.",
+        conversion: 1, preprocessing: 1, decisionPolicy: 9,
+        upgradeBenefit: "Add licensed learned keys and calibrated rhythm review evidence.",
         keyModelVersion: LearnedKeyProfile.current.id)
 
     public var inferenceID: String {
@@ -97,7 +97,7 @@ public struct DeepBeatAnalysis: Codable, Equatable, Sendable {
     public var adaptiveCandidate: DeepAdaptiveBeatCandidate? = nil
     public var learnedKey: LearnedKeyAnalysis? = nil
 
-    public var needsReview: Bool { candidate == nil || !hasStrongEvidence }
+    public var needsReview: Bool { adaptiveCandidate != nil || candidate == nil || !hasStrongEvidence }
     public func needsReview(for track: Track) -> Bool {
         guard track.mayRefreshAutomaticGrid, track.traktorPreparation?.normalized.grid == nil else { return false }
         return track.grid == nil || needsReview || compatibleGrid(for: track) == nil
@@ -221,15 +221,19 @@ extension Track {
             copy.analysis.musicalAnalysisDeferred = false
         }
         let reviewMap = result.adaptiveCandidate?.map ?? (grid == nil ? result.fixedReviewCandidate : nil)
+        let previousReview = analysis.deepBeatAnalysis?.adaptiveCandidate?.map ?? analysis.deepBeatAnalysis?.fixedReviewCandidate
+        let mayReplaceReview = analysis.adaptiveCandidate == nil
+            || (previousReview != nil && analysis.adaptiveCandidate == previousReview)
         if let reviewMap, mayRefreshAutomaticGrid,
-            traktorPreparation?.normalized.grid == nil, copy.analysis.adaptiveCandidate == nil
+            traktorPreparation?.normalized.grid == nil, mayReplaceReview
         {
             copy.analysis.adaptiveCandidate = reviewMap
-            copy.analysis.adaptiveConfidence = nil
+            copy.analysis.adaptiveConfidence = result.rhythmConfidence?.probability
         }
         if let learned = result.learnedKey, learned.mayReplaceAutomaticKey,
             keyDecision.authority == nil || keyDecision.authority == .independent || keyDecision.authority == .unknownTag
         {
+            copy.analysis.acceptedLearnedKey = learned
             copy.analysis.key = learned.key
             copy.analysis.keyConfidence = learned.calibratedConfidence ?? learned.score
         }
@@ -245,8 +249,11 @@ extension AudioAnalysis {
         var copy = self
         copy.deepBeatAnalysis = previous.deepBeatAnalysis
         copy.acceptedDeepBeatAnalysis = previous.acceptedDeepBeatAnalysis
-        if let learned = previous.deepBeatAnalysis?.learnedKey, learned.mayReplaceAutomaticKey,
-            previous.key == learned.key
+        copy.acceptedLearnedKey = previous.acceptedLearnedKey
+            ?? previous.deepBeatAnalysis?.learnedKey.flatMap {
+                $0.mayReplaceAutomaticKey && previous.key == $0.key ? $0 : nil
+            }
+        if let learned = copy.acceptedLearnedKey, previous.key == learned.key
         {
             copy.key = previous.key
             copy.keyConfidence = previous.keyConfidence
@@ -256,7 +263,7 @@ extension AudioAnalysis {
             previous.adaptiveCandidate == candidate
         {
             copy.adaptiveCandidate = candidate
-            copy.adaptiveConfidence = nil
+            copy.adaptiveConfidence = previous.deepBeatAnalysis?.rhythmConfidence?.probability
         }
         if previous.acceptedDeepBeatAnalysis != nil {
             copy.implementation = previous.implementation
