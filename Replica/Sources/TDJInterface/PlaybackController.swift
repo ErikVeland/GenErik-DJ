@@ -73,8 +73,22 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     public private(set) var outputRoute: AudioOutputRoute = .stereoMaster
     public private(set) var automaticOutputDevice: String?
     private var requestedOutputRoute: AudioOutputRoute = .stereoMaster
+    var s4MK3DirectAudioEnabled = false {
+        didSet {
+            #if os(iOS)
+                if !offline { updateOutputDevice(Self.currentAudioOutputs) }
+            #endif
+        }
+    }
+
+    private func automaticAudioDevice(_ outputs: [AudioOutputDevice]) -> String? {
+        guard outputs.count == 1, let device = outputs.first else { return nil }
+        if s4MK3DirectAudioEnabled, device.isS4MK3Direct { return "S4 Mk3" }
+        return device.automaticSplitOutputName
+    }
+
     func updateOutputDevice(_ outputs: [AudioOutputDevice]) {
-        automaticOutputDevice = outputs.count == 1 ? outputs[0].automaticSplitOutputName : nil
+        automaticOutputDevice = automaticAudioDevice(outputs)
         outputRoute = automaticOutputDevice != nil ? .masterAndHeadphones : requestedOutputRoute
     }
     public func setOutputRoute(_ route: AudioOutputRoute) throws {
@@ -874,8 +888,8 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                 enabledCaptureDevice = nil
             }
             let outputs = Self.currentAudioOutputs
-            let device = outputs.count == 1 ? outputs.first?.automaticSplitOutputName : nil
-            if device != "S3", device != "S4 Mk2", device != "S4 Mk3 Bridge" { core.setPreviewGeneration(0) }
+            let device = automaticAudioDevice(outputs)
+            if device != "S3", device != "S4 Mk2", device != "S4 Mk3 Bridge", device != "S4 Mk3" { core.setPreviewGeneration(0) }
             handleOutputEvent(event, outputs: outputs) {
                 do { try startOutput() } catch {
                     guard requestedCaptureDevice == "S4 Mk2" else { throw error }

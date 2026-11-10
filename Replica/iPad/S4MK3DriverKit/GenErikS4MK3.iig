@@ -1,0 +1,31 @@
+#ifndef GenErikS4MK3_h
+#define GenErikS4MK3_h
+#include <DriverKit/IOService.iig>
+#include <USBDriverKit/IOUSBHostPipe.iig>
+namespace S4MK3 { struct Batch; }
+
+class GenErikS4MK3 : public IOService {
+public:
+    virtual bool init() override;
+    virtual void free() override;
+    virtual kern_return_t Start(IOService* provider) override;
+    virtual kern_return_t Stop(IOService* provider) override;
+    virtual kern_return_t NewUserClient(uint32_t type, IOUserClient** userClient) override;
+
+    kern_return_t ReadBatch(S4MK3::Batch* batch) LOCALONLY;
+    kern_return_t WriteLight(const uint8_t* bytes, size_t count) LOCALONLY;
+    bool AcquireClient() LOCALONLY;
+    void ReleaseClient() LOCALONLY;
+
+    virtual void InputComplete(OSAction* action TARGET, IOReturn status, uint32_t actualByteCount,
+                               uint64_t completionTimestamp) TYPE(IOUSBHostPipe::CompleteAsyncIO);
+    virtual void PanelComplete(OSAction* action TARGET, IOReturn status, uint32_t actualByteCount,
+                               uint64_t completionTimestamp) TYPE(IOUSBHostPipe::CompleteAsyncIO);
+
+private:
+    void CloseInterface() LOCALONLY;
+    kern_return_t StartInput() LOCALONLY;
+    kern_return_t QueuePanel(const uint8_t* bytes, size_t count) LOCALONLY;
+};
+
+#endif
