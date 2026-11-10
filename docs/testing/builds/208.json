@@ -1,0 +1,23 @@
+{
+  "notes": "R144. Group the open Duo portrait dock controls with thin borders and space above and below the panel. Check both Play controls and the crossfader.",
+  "sourceCommit": "72f102f55ce02f48748a858a573d2d347181a71f",
+  "sourceSHA256": "5aec794cc27a0134a81f42b4b80e9cf3552b988bfaaec771f065520ff228ac76",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 84.6,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-208.log",
+  "build": 208,
+  "app": "TestBuilds/ipad/208/GenErikDJ.app",
+  "appSHA256": "c1a7ae37bc45a77ed6468a0b342c84ce54036c1a151668d5803f8af1ad702fd5",
+  "state": "testing",
+  "createdUTC": "2026-11-10T12:24:14.951311+00:00",
+  "installedUTC": "2026-11-10T12:24:31.331657+00:00",
+  "launchedUTC": "2026-11-10T12:24:31.793396+00:00",
+  "launchVerification": "iOS accepted the launch request on the Duo.",
+  "deploymentTarget": "GenErik Duo",
+  "testScope": [
+    "R144. Check the shared dock border, thin button dividers and outer margins on the open Duo in portrait.",
+    "Check both Play controls and the crossfader."
+  ]
+}
