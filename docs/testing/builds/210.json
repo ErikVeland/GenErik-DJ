@@ -10,6 +10,14 @@
   "build": 210,
   "app": "TestBuilds/ipad/210/GenErikDJ.app",
   "appSHA256": "7013227fe3ad94ffcc306022ee416b132a5cf902b4a67dcf98152a2a39106d1a",
-  "state": "ready",
-  "createdUTC": "2026-11-10T12:35:54.846841+00:00"
+  "state": "testing",
+  "createdUTC": "2026-11-10T12:35:54.846841+00:00",
+  "installedUTC": "2026-11-10T12:36:14.438757+00:00",
+  "launchedUTC": "2026-11-10T12:36:15.212359+00:00",
+  "launchVerification": "iOS accepted the launch request on the Duo.",
+  "deploymentTarget": "GenErik Duo",
+  "testScope": [
+    "R145. Check the front speaker button below the camera.",
+    "R146. Check the OUTPUT menu, Headphones Mix centre snap and Keylock in each deck\u2019s settings."
+  ]
 }
