@@ -4,8 +4,14 @@
     import TDJCore
 
     extension ReplicaModel {
+        private var nativePreviewDevice: String? {
+            if automaticOutputDevice == "S4 Mk2", s4Connection?.isReceiving == true { return "S4 Mk2" }
+            if automaticOutputDevice == "S3", s3Connection?.isReceiving == true { return "S3" }
+            return nil
+        }
+
         func previewS3Entry(_ entry: LibraryBrowserEntry) {
-            guard s3PreviewHeld, entry.canLoad, s3Connection?.isReceiving == true else { return }
+            guard s3PreviewHeld, entry.canLoad, nativePreviewDevice != nil else { return }
             s3PreviewEntry = entry
             startS3Preview(entry, position: 0)
         }
@@ -52,7 +58,8 @@
                     }
                     try Task.checkCancellation()
                     guard s3PreviewHeld, s3PreviewGeneration == generation else { return }
-                    try playback.startS3PreviewOutput()
+                    guard let device = nativePreviewDevice else { return }
+                    try playback.startNativePreviewOutput(device: device)
                     cancelNativeMusicAnalysis()
                     let core = playback.core
                     core.setPreviewGeneration(generation)

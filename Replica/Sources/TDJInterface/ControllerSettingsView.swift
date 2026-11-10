@@ -357,6 +357,7 @@ struct ControllerSettingsView: View {
         #if os(iOS)
             lines.append(model.s2Status)
             lines.append(model.s3Status)
+            lines.append(model.s4Status)
         #endif
         return lines + connections
     }

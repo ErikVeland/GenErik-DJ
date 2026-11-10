@@ -341,6 +341,10 @@ import TDJCore
         private var z1Connection: NIControllerAccessoryConnection?
         var s2Connection: NIControllerAccessoryConnection?
         var s3Connection: NIControllerAccessoryConnection?
+        var s4Connection: NIControllerAccessoryConnection?
+        var s4Status = "Waiting for S4 Mk2."
+        @ObservationIgnored var s4Controls = S4MK2Controls()
+        @ObservationIgnored var s4Performance = S4MK2Performance()
         @ObservationIgnored var s3Controls = S3Controls()
         var s3Status = "Waiting for S3."
         @ObservationIgnored var s3EXTLine = false
@@ -356,7 +360,7 @@ import TDJCore
         @ObservationIgnored var s3PreviewFrames: Int64 = 0
         @ObservationIgnored var s3Takeover: [DeckID: [ControllerAction: ControllerMIDITakeoverState]] = [:]
         @ObservationIgnored var s3ExtraPots: [DeckID: [ControllerAction: Double]] = [:]
-        @ObservationIgnored var s3PrimedMixer: Set<DeckID> = []
+        @ObservationIgnored var nativePrimedMixer: Set<DeckID> = []
         @ObservationIgnored var s3PendingFX: [DeckID: S2MixerFX] = [:]
         @ObservationIgnored var s3FXEnabled = Set(DeckID.allCases)
         @ObservationIgnored var s3JumpBeats: [DeckID: Double] = [:]
@@ -1029,7 +1033,13 @@ import TDJCore
                         self.committedTrackIDs[deck] = trackID
                         self.trackLoadFailures[deck] = nil
                         #if os(iOS)
-                            if deck.transportIndex >= 2 { self.primeS3Mixer(deck) }
+                            if deck.transportIndex >= 2 {
+                                if self.s4Connection?.isReceiving == true {
+                                    self.primeS4Mixer(deck)
+                                } else {
+                                    self.primeS3Mixer(deck)
+                                }
+                            }
                         #endif
                         self.playback.registerRecordingTrack(
                             deck: deck, generation: generation, artist: preparedSourceTrack.artist,
@@ -1562,6 +1572,7 @@ import TDJCore
             if !playback.offline {
                 startS2MK3()
                 startS3()
+                startS4MK2()
             }
         #endif
         playbackMonitor = Task { [weak self] in
@@ -1574,6 +1585,7 @@ import TDJCore
                     self?.maintainS2Extras()
                     self?.refreshS2Lights()
                     self?.refreshS3Lights()
+                    self?.refreshS4Lights()
                 #endif
                 do { try await Task.sleep(for: .milliseconds(33)) } catch { return }
             }
@@ -1596,6 +1608,8 @@ import TDJCore
             s2Connection = nil
             s3Connection?.stop()
             s3Connection = nil
+            s4Connection?.stop()
+            s4Connection = nil
         #endif
         playback.stopAudio()
         refreshPlayback()

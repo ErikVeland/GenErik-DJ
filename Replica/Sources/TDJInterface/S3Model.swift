@@ -26,7 +26,7 @@
         }
 
         private func releaseS3Controls() {
-            playback.core.setMasterMeterEnabled(false)
+            if s4Connection?.isReceiving != true { playback.core.setMasterMeterEnabled(false) }
             stopS3Preview()
             s3EXTRequest?.cancel()
             try? playback.setCaptureEnabled(false, device: "S3")
@@ -70,7 +70,7 @@
         }
 
         func primeS3Mixer(_ deck: DeckID) {
-            guard s3PrimedMixer.insert(deck).inserted else { return }
+            guard nativePrimedMixer.insert(deck).inserted else { return }
             let values = s3ExtraPots[deck, default: [:]]
             let fader: ControllerAction = deck.leftSide ? .levelA : .levelB
             _ = submitMixer(.volume, value: values[fader] ?? 0, deck: deck)

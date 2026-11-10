@@ -37,7 +37,7 @@ Erik requires automatic connection, controls, audio routing and custom lights. O
 | S2 Mk2 | `com.native-instruments.traktordj.kontrols2mk2` | Automatic split audio. Native session, controls and lights remain open. |
 | S2 Mk3 | `com.native-instruments.protocol.kontrols2mk3` | Automatic split audio and native deck and mixer controls. Pad 8 shows the blue beat pulse and amber warning. See [scope and checks](s2-mk3-native.md). |
 | S3 | `com.native-instruments.protocol.kontrols3` | Automatic split audio, native four-deck controls and blue and amber jog rings. See [scope and checks](s3-native.md). |
-| S4 Mk2 | `com.native-instruments.traktordj.kontrols4mk2` | Automatic split audio. Native session, deck layers, controls and lights remain open. |
+| S4 Mk2 | `com.native-instruments.traktordj.kontrols4mk2` | Automatic split audio, native four-deck controls and blue and amber Hot Cue lighting. See [scope and checks](s4-mk2-native.md). |
 | MX2, Z1 Mk2, X1 Mk3 | No identifier in the preserved TDJ2 build | Verify a direct iPad connection. Implement factory mappings and feedback for a documented transport. |
 | Other Traktor variants | No identifier in the preserved TDJ2 build | Verify transport, per-model control and feedback reports, and audio where fitted. See the variant list above. |
 

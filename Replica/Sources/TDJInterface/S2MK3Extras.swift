@@ -197,6 +197,15 @@
             }
         }
 
+        func selectS2GridDownbeat(deck: DeckID, beat: Int) {
+            guard var contact = s2Grids[deck], !contact.anchor,
+                playbackSnapshot?[deck].generation == contact.generation,
+                (try? contact.preview.selectDownbeat(beat)) != nil
+            else { return }
+            s2Grids[deck] = contact
+            gridDraft[deck] = contact.preview
+        }
+
         func endS2Grid(deck: DeckID, save: Bool) {
             if let generation = s2MetronomeGenerations.removeValue(forKey: deck) {
                 try? playback.setGridMetronome(offset: nil, deck: deck, generation: generation)

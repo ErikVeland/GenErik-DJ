@@ -139,7 +139,7 @@
             }
         }
 
-        private func applyTraktorDeckAction(
+        func applyTraktorDeckAction(
             _ action: ControllerAction, deck: DeckID, value: Double, quantized: Bool
         ) {
             if action == .jogA || action == .jogB {

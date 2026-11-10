@@ -1,0 +1,104 @@
+import TDJCore
+import Testing
+
+@testable import TDJInterface
+
+@Test func s4MK2NegotiatesSixCalibrationReportsAndUsesOneFeedbackReport() throws {
+    var startup = S4MK2AccessoryProtocol.Startup()
+    let buttons = Z1AccessoryProtocol.Frame(reportID: 1, payload: .init(repeating: 0, count: 98))
+    #expect(try startup.consume(buttons) == nil)
+    #expect(!startup.ready)
+    for id in UInt8(0xd0)...0xd5 {
+        let frame = Z1AccessoryProtocol.Frame(reportID: id, payload: .init(repeating: 0xff, count: 32))
+        #expect(try startup.consume(frame) == (id == 0xd5 ? 1 : id + 1))
+    }
+    #expect(!startup.ready)
+    #expect(try startup.consume(buttons) == nil)
+    #expect(startup.ready)
+    let report = try S4MK2AccessoryProtocol.feedback([0x83] + .init(repeating: 0, count: 174))
+    #expect(Array(report.prefix(6)) == [0xb3, 0xc3, 0, 175, 0, 0x83])
+    #expect(report.count == 180)
+}
+
+@Test func s4MK2SwitchesTheDeckSurfaceButKeepsMixerChannelsFixed() {
+    var controls = S4MK2Controls()
+    var bytes: [UInt8] = .init(repeating: 0, count: 98)
+    func report() -> [S4MK2Event] { controls.consume(bytes) }
+    bytes[12] = 1
+    #expect(!report().contains(.action(.playA, .a, 1)))
+    bytes[12] = 0
+    bytes[14] = 0x20
+    bytes[9] = 0x20
+    #expect(report().contains(.layer(.c)))
+    #expect(controls.layers == [.c, .d])
+    bytes[12] = 1
+    bytes[11] = 4
+    bytes[14] = 0x40
+    bytes[9] = 0x80
+    bytes[0x3b + 19] = 0xf0
+    bytes[0x3b + 20] = 0x0f
+    let events = report()
+    #expect(events.contains(.action(.playA, .c, 1)))
+    #expect(events.contains(.action(.syncB, .d, 1)))
+    #expect(events.contains(.action(.cueA, .a, 1)))
+    #expect(events.contains(.action(.cueB, .d, 1)))
+    #expect(events.contains(.pot(.levelA, .c, 1)))
+}
+
+@Test func s4MK2CalibratesTheCrossfaderAndReleasesAPlatterOnLayerChange() {
+    var controls = S4MK2Controls()
+    for id in UInt8(0xd0)...0xd5 {
+        var block = [UInt8](repeating: 0xff, count: 32)
+        if id == 0xd5 {
+            block.replaceSubrange(28..<32, with: [0x00, 0x02, 0x00, 0x0a])
+        }
+        controls.addCalibration(.init(reportID: id, payload: block))
+    }
+    var bytes: [UInt8] = .init(repeating: 0, count: 98)
+    bytes[27] = 6
+    #expect(controls.consume(bytes).contains(.pot(.crossfader, .a, 0.5)))
+    bytes[16] = 1
+    #expect(controls.consume(bytes).contains(.action(.jogTouchA, .a, 1)))
+    bytes[14] = 0x20
+    #expect(controls.consume(bytes).contains(.action(.jogTouchA, .a, 0)))
+    #expect(controls.touched.isEmpty)
+    bytes[12] = 0x0c
+    #expect(controls.consume(bytes).contains(.gridToggle(.c)))
+    bytes[12] = 0x80
+    #expect(controls.consume(bytes).contains(.gridDownbeat(.c, 0)))
+}
+
+@Test func s4MK2ShowsTheBluePulseAndAmberWarningForTheSelectedOuterDeck() throws {
+    let core = try SampleTransport(sampleRate: 48_000)
+    let asset = try PCMAsset(interleavedStereo: .init(repeating: 0.25, count: 96_000), sampleRate: 48_000)
+    let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48_000)
+    let generation = try core.load(asset, deck: .c, grid: grid)
+    try core.play(deck: .c, generation: generation)
+    _ = core.renderOffline(frames: 256)
+    let snapshot = try #require(core.snapshot())
+    var controls = S4MK2Controls()
+    var bytes = [UInt8](repeating: 0, count: 98)
+    _ = controls.consume(bytes)
+    bytes[14] = 0x20
+    _ = controls.consume(bytes)
+
+    var feedback = S4MK2Lights.Feedback()
+    feedback.frames[.c] = 48_000 * 60
+    let blue = S4MK2Lights.report(snapshot: snapshot, controls: controls, feedback: feedback)
+    #expect(blue[62] == 0 && blue[63] == 0 && blue[64] > 80)
+    #expect(blue[74] == 0 && blue[75] == 0 && blue[76] == 0)
+    feedback.frames[.c] = 48_000
+    let amber = S4MK2Lights.report(snapshot: snapshot, controls: controls, feedback: feedback)
+    #expect(amber[62] > amber[63] && amber[63] > 0 && amber[64] == 0)
+}
+
+@Test @MainActor func s4MK2SelectsSplitOutputWithoutChangingTheSavedChoice() throws {
+    let controller = try PlaybackController(offline: true)
+    controller.updateOutputDevice([.init(name: "Traktor Kontrol S4 MK2", wired: true)])
+    #expect(controller.automaticOutputDevice == "S4 Mk2")
+    #expect(controller.outputRoute == .masterAndHeadphones)
+    try controller.setOutputRoute(.stereoMaster)
+    #expect(controller.outputRoute == .masterAndHeadphones)
+    controller.updateOutputDevice([])
+    #expect(controller.outputRoute == .stereoMaster)
+}

@@ -7,13 +7,14 @@
     /// Streams run on the main run loop. Every callback has a fixed work limit.
     @MainActor final class NIControllerAccessoryConnection: NSObject, StreamDelegate {
         enum Model {
-            case z1, s2MK3, s3
+            case z1, s2MK3, s3, s4MK2
 
             var name: String {
                 switch self {
                 case .z1: "Z1"
                 case .s2MK3: "S2 Mk3"
                 case .s3: "S3"
+                case .s4MK2: "S4 Mk2"
                 }
             }
 
@@ -22,12 +23,13 @@
                 case .z1: Z1AccessoryProtocol.identifier
                 case .s2MK3: S2MK3AccessoryProtocol.identifier
                 case .s3: S3AccessoryProtocol.identifier
+                case .s4MK2: S4MK2AccessoryProtocol.identifier
                 }
             }
 
             var inputStartup: NIControllerReportStartup? {
                 switch self {
-                case .z1: nil
+                case .z1, .s4MK2: nil
                 case .s2MK3: S2MK3AccessoryProtocol.startup()
                 case .s3: S3AccessoryProtocol.startup()
                 }
@@ -38,6 +40,7 @@
                 case .z1: try Z1AccessoryProtocol.feedback(report, framing: framing)
                 case .s2MK3: try S2MK3AccessoryProtocol.feedback(report)
                 case .s3: try S3AccessoryProtocol.feedback(report)
+                case .s4MK2: try S4MK2AccessoryProtocol.feedback(report)
                 }
             }
         }
@@ -60,6 +63,7 @@
         private var subscriptions: Set<AnyCancellable> = []
         private var decoder = Z1AccessoryProtocol.Decoder(framing: .lengthPrefixed)
         private var startup = Z1AccessoryProtocol.Startup()
+        private var s4Startup = S4MK2AccessoryProtocol.Startup()
         private var inputStartup: NIControllerReportStartup?
         private var startupSent = false
         private var timeout: Task<Void, Never>?
@@ -136,6 +140,7 @@
             }
             session = nil
             startup = .init()
+            s4Startup = .init()
             inputStartup = model.inputStartup
             startupSent = false
             decoder = .init(framing: .lengthPrefixed)
@@ -179,7 +184,7 @@
             if !startupSent, session.inputStream?.streamStatus == .open, session.outputStream?.streamStatus == .open {
                 startupSent = true
                 if model == .z1 { onState?("Reading Z1 calibration.", nil) }
-                enqueueRequest(model == .z1 ? 0xd0 : 1)
+                enqueueRequest(model == .z1 || model == .s4MK2 ? 0xd0 : 1)
             }
             if event.contains(.hasBytesAvailable) { readInput() }
             if event.contains(.hasSpaceAvailable) { flushOutput() }
@@ -207,6 +212,16 @@
             do {
                 let frames = try decoder.append(Array(bytes.prefix(count)))
                 for frame in frames {
+                    if model == .s4MK2 {
+                        if let next = try s4Startup.consume(frame) {
+                            onFrame?(frame)
+                            enqueueRequest(next)
+                        } else if s4Startup.ready, frame.reportID == 1 {
+                            markReceiving()
+                            onFrame?(frame)
+                        }
+                        continue
+                    }
                     if var input = inputStartup {
                         let next = try input.consume(frame)
                         inputStartup = input
@@ -216,12 +231,7 @@
                             continue
                         }
                         guard input.ready, frame.reportID == 1 || frame.reportID == 2 else { continue }
-                        if !receivedInput {
-                            receivedInput = true
-                            timeout?.cancel()
-                            timeout = nil
-                            onState?("\(name) native controls connected.", nil)
-                        }
+                        markReceiving()
                         onFrame?(frame)
                         continue
                     }
@@ -245,6 +255,14 @@
             } catch {
                 fail("\(name) sent an invalid report. Reconnect the controller.")
             }
+        }
+
+        private func markReceiving() {
+            guard !receivedInput else { return }
+            receivedInput = true
+            timeout?.cancel()
+            timeout = nil
+            onState?("\(name) native controls connected.", nil)
         }
 
         func send(_ report: [UInt8]) {

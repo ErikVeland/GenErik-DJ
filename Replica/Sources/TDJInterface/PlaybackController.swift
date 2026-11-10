@@ -937,13 +937,13 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                     && core.snapshot().map { !$0.anyDeckActive } == true)
         }
 
-        func startS3PreviewOutput() throws {
-            guard automaticOutputDevice == "S3", outputRoute == .masterAndHeadphones else {
-                throw TransportError.cache("Connect the S3 audio output before previewing.")
+        func startNativePreviewOutput(device: String) throws {
+            guard automaticOutputDevice == device, outputRoute == .masterAndHeadphones else {
+                throw TransportError.cache("Connect the \(device) audio output before previewing.")
             }
             try startOutput()
-            guard automaticOutputDevice == "S3", outputRoute == .masterAndHeadphones else {
-                throw TransportError.cache("Connect the S3 audio output before previewing.")
+            guard automaticOutputDevice == device, outputRoute == .masterAndHeadphones else {
+                throw TransportError.cache("Connect the \(device) audio output before previewing.")
             }
         }
 
