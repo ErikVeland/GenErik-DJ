@@ -32,8 +32,7 @@ def encode_screen(screen, current, previous=None):
                              for r, g, b in zip(pixels[::3], pixels[1::3], pixels[2::3])))
         if sys.byteorder == 'little':
             rgb565.byteswap()
-        header = struct.pack('>BBBB8xHH', 0x84, 0, screen, 0x60, WIDTH, height)
-        header = header[:10] + struct.pack('>H', row) + header[12:]
+        header = struct.pack('>BBBB6xHHH', 0x84, 0, screen, 0x60, row, WIDTH, height)
         runs = struct.pack('>I', len(rgb565) // 2) + rgb565.tobytes() + b'\x03\0\0\0'
         yield header + runs + bytes((0x40, 0, screen, 0))
 
@@ -108,7 +107,7 @@ class ScreenWorker:
         try:
             import usb.core
             import usb.util
-            from PIL import Image  # noqa: F401
+            import PIL.Image
         except ImportError as error:
             print(f'{self.model} screens need PyUSB and Pillow. {error}', file=sys.stderr)
             return

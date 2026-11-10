@@ -189,7 +189,7 @@ The relay finds the input and playback devices for the S4 Mk1. The first jog pre
 
 ## X1 Mk1, X1 Mk2, F1, D2, Z2, S5, S8 and MX2
 
-Use the [Raspberry Pi 4 setup](#recommended-board) for these models. Use one controller per gadget. The app selects the factory profile when it finds the matching name. The Z2, S5, S8 and MX2 gadgets add four-channel audio. The other four gadgets carry MIDI only.
+Use the [Raspberry Pi 4 setup](#recommended-board) for these models. Use one controller per gadget and one connected gadget per model. The app selects the factory profile when it finds the matching name. The Z2, S5, S8 and MX2 gadgets add four-channel audio. The other four gadgets carry MIDI only.
 
 1. Install `alsa-utils`. For X1 Mk1, install `python3-usb`. For D2, S5 or S8, also install `python3-usb` and `python3-pil` for the screens.
 2. Connect the controller to a USB-A host port on the Pi. Keep the controller in its native mode.

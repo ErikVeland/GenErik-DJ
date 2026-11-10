@@ -94,3 +94,19 @@ func traktorFactoryLightReportsFitEveryMappedLamp(model: TraktorFactoryModel) {
         #expect(wireless.automaticSplitOutputName == nil)
     }
 }
+
+@Test func traktorFactoryOriginalX1HotcueLayerUsesAllEightButtons() {
+    let controls: [TraktorFactoryControl] = [
+        .loopMark(false), .jump(-1), .cue, .play, .loopMark(true), .jump(1), .cuePlay, .sync,
+    ]
+    #expect(controls.compactMap(\.x1HotcueSlot) == Array(0..<8))
+}
+
+@Test func traktorFactoryD2AndF1UseTheirNativeRGBOrder() {
+    var d2 = TraktorFactoryLights(.d2)
+    d2.lamp(.rgb(0), level: 100)
+    #expect(Array(d2.reports[0].prefix(4)) == [0x80, 100, 25, 0])
+    var f1 = TraktorFactoryLights(.f1)
+    f1.lamp(.rgb(24), level: 100)
+    #expect(Array(f1.reports[0][25..<28]) == [100, 0, 25])
+}

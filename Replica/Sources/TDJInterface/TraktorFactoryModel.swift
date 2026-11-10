@@ -1,4 +1,5 @@
 #if os(iOS)
+    import Foundation
     import TDJCore
 
     @MainActor final class TraktorFactorySession {
@@ -8,12 +9,16 @@
         var decks: [DeckID]
         var shifts: Set<TraktorFactoryProfile.Target> = []
         var sampleDecks: Set<DeckID> = []
+        var loopDecks: Set<DeckID> = []
+        var rollPads: [DeckID: Int] = [:]
+        var cuePlay: Set<DeckID> = []
         var hotcueMode = false
         var touched: Set<DeckID> = []
         var reversing: Set<DeckID> = []
         var heldCues: Set<DeckID> = []
         var heldPads: [DeckID: Set<Int>] = [:]
         var mixerFX = 4
+        var nextSample = 0
         var nextScreenUpdate: ContinuousClock.Instant?
 
         init(_ model: TraktorFactoryModel) {
@@ -44,12 +49,16 @@
             decks = model.defaultDecks
             shifts = []
             sampleDecks = []
+            loopDecks = []
+            rollPads = [:]
+            cuePlay = []
             hotcueMode = false
             touched = []
             reversing = []
             heldCues = []
             heldPads = [:]
             mixerFX = 4
+            nextSample = 0
             nextScreenUpdate = nil
         }
     }
@@ -157,6 +166,10 @@
                 applyTraktorDeckAction(.jogTouchA, deck: deck, value: 0, quantized: true)
             }
             session.heldCues.remove(deck)
+            session.cuePlay.remove(deck)
+            if session.rollPads.removeValue(forKey: deck) != nil {
+                setNativeTraktorRoll(deck: deck, held: false, quantized: true)
+            }
             session.heldPads[deck] = nil
             releaseS4PerformanceContacts(deck, stateKey: \ReplicaModel.[factory: session.model])
         }
@@ -170,6 +183,11 @@
             let detents = Int(event.value)
             func apply(_ event: S4MK2Event) { applyNativeMK2Event(event, stateKey: stateKey) }
 
+            if session.model == .x1MK1, session.hotcueMode, down, let slot = event.control.x1HotcueSlot {
+                cue(slot: slot, deck: deck, delete: shifted, quantized: self[keyPath: stateKey].quantize)
+                return
+            }
+
             switch event.control {
             case .shift: break
             case .play where down: apply(.cueLatch(deck))
@@ -179,6 +197,17 @@
                     apply(.cue(deck, held: true))
                 } else if session.heldCues.remove(deck) != nil {
                     apply(.cue(deck, held: false))
+                }
+            case .cuePlay:
+                if down {
+                    session.cuePlay.insert(deck)
+                    pressS4Cue(deck, stateKey: stateKey, recallStored: true)
+                } else if session.cuePlay.remove(deck) != nil {
+                    if self[keyPath: stateKey].cueContacts[deck] != nil {
+                        finishS4Cue(deck, continuePlaying: true, stateKey: stateKey)
+                    } else {
+                        pressPlay(deck: deck, vinylStop: false)
+                    }
                 }
             case .sync where down: apply(.action(.syncA, deck, 1))
             case .keylock where down: apply(.action(.keylockA, deck, 1))
@@ -209,7 +238,17 @@
                 if self[keyPath: stateKey].ownsPreview { seekS3Preview(detents: detents) }
                 else { queueS2Browser(.move(detents, groups: shifted)) }
             case .load where down:
-                if shifted { apply(.native(.eject(deck))) } else { queueS2Browser(.load(deck)) }
+                if session.model == .f1 {
+                    if shifted { queueS2Browser(.openGroup) }
+                    else if s2SampleSlots[session.nextSample] == nil { queueS2Browser(.sample(session.nextSample)) }
+                } else if shifted && session.model == .mx2 {
+                    queueS2Browser(.openGroup)
+                } else if shifted {
+                    apply(.native(.eject(deck)))
+                } else {
+                    queueS2Browser(.load(deck))
+                }
+            case .prepare where down: queueS2Browser(.prepare(top: shifted))
             case .preview:
                 if down, automaticOutputDevice == "MX2 Bridge" {
                     stopS3Preview()
@@ -224,21 +263,27 @@
             case .loopSize:
                 if s2Grids[deck] != nil { apply(.native(.gridMove(deck, detents))) }
                 else { apply(.native(.loopSize(deck, detents, shifted: shifted))) }
-            case .loopMark(let end) where down:
-                if session.model == .x1MK1 && session.hotcueMode {
-                    cue(slot: end ? 1 : 0, deck: deck, delete: shifted, quantized: self[keyPath: stateKey].quantize)
-                } else { apply(.loopMark(deck, end: end)) }
+            case .loopMark(let end) where down: apply(.loopMark(deck, end: end))
             case .move: apply(.native(.move(deck, detents, shifted: shifted)))
             case .tempo: apply(.tempoPickup(deck, event.value))
             case .masterTempo: apply(.masterTempo(detents))
             case .jump(let direction) where down:
-                if session.model == .x1MK1 && session.hotcueMode {
-                    cue(slot: direction < 0 ? 2 : 3, deck: deck, delete: shifted, quantized: self[keyPath: stateKey].quantize)
-                } else {
-                    moveS4LoopOrJump(deck, detents: direction, shifted: shifted)
-                }
+                moveS4LoopOrJump(deck, detents: direction, shifted: shifted)
             case .pad(let slot):
-                if down && session.sampleDecks.contains(deck) {
+                if !down, session.rollPads[deck] == slot {
+                    session.rollPads[deck] = nil
+                    setNativeTraktorRoll(deck: deck, held: false, quantized: true)
+                } else if down && session.loopDecks.contains(deck) {
+                    let beats = pow(2, Double(slot - 4))
+                    let quantized = self[keyPath: stateKey].quantize
+                    if shifted {
+                        if playbackSnapshot?[deck].loopEnabled != true { setLoopSize(beats, deck: deck) }
+                        toggleLoop(deck: deck, quantized: quantized)
+                    } else if session.rollPads[deck] == nil, s2RollGenerations[deck] == nil {
+                        setNativeTraktorRoll(deck: deck, held: true, quantized: quantized, beats: beats)
+                        if s2RollGenerations[deck] != nil { session.rollPads[deck] = slot }
+                    }
+                } else if down && session.sampleDecks.contains(deck) {
                     pressS2Sample(slot: Int(deck.transportIndex) * 8 + slot, shifted: shifted)
                 } else if down, self[keyPath: stateKey].slices[deck] == nil {
                     cue(slot: slot, deck: deck, delete: shifted, quantized: self[keyPath: stateKey].quantize)
@@ -251,18 +296,26 @@
             case .hotcues where down:
                 if session.model == .x1MK1 { session.hotcueMode.toggle() }
                 session.sampleDecks.remove(deck)
+                session.loopDecks.remove(deck)
                 if self[keyPath: stateKey].slices[deck] != nil { apply(.sliceMode(deck)) }
             case .samples where down:
                 if self[keyPath: stateKey].slices[deck] != nil { apply(.sliceMode(deck)) }
+                session.loopDecks.remove(deck)
                 session.sampleDecks.insert(deck)
+            case .loopPads where down:
+                if self[keyPath: stateKey].slices[deck] != nil { apply(.sliceMode(deck)) }
+                session.sampleDecks.remove(deck)
+                session.loopDecks.insert(deck)
             case .freeze where down:
                 session.sampleDecks.remove(deck)
+                session.loopDecks.remove(deck)
                 apply(.sliceMode(deck))
             case .grid where down:
                 if s2Grids[deck] == nil { apply(.gridToggle(deck)) }
                 else { apply(.native(.gridEnd(deck))) }
             case .quantize where down: apply(.quantize)
             case .sample(let slot) where down:
+                session.nextSample = slot
                 pressS2Sample(slot: slot, shifted: shifted)
             case .stopSampleColumn(let column) where down:
                 for slot in stride(from: column, to: 16, by: 4) {

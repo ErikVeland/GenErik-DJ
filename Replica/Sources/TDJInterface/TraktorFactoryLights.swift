@@ -40,6 +40,20 @@ struct TraktorFactoryLights {
         }
     }
 
+    mutating func digits(_ number: Int, first: Int, count: Int, width: Int, reversed: Bool = false, fraction: Bool = false) {
+        let masks: [UInt8] = [0xfc, 0x0c, 0xda, 0x9e, 0x2e, 0xb6, 0xf6, 0x1c, 0xfe, 0xbe]
+        var text = String(number).compactMap(\.wholeNumberValue).map { masks[$0] }
+        if fraction { text.insert(0x02, at: 0) }
+        if text.count < count { text = .init(repeating: 0, count: count - text.count) + text }
+        if reversed { text.reverse() }
+        for (digit, mask) in text.prefix(count).enumerated() {
+            for segment in 0..<width {
+                let bit = segment + (width == 7 ? 1 : 0)
+                set(first + digit * width + segment, mask & (1 << bit) != 0 ? 127 : 0)
+            }
+        }
+    }
+
     mutating func meter(first: Int, count: Int, peak: Double) {
         let floor = -36.0
         for i in 0..<count {
@@ -59,11 +73,16 @@ struct TraktorFactoryLights {
     }
 
     private mutating func rgb(_ at: Int, red: UInt8, green: UInt8, blue: UInt8) {
-        if model == .f1 {
+        switch model {
+        case .f1:
             set(at, blue)
             set(at + 1, red)
             set(at + 2, green)
-        } else {
+        case .d2:
+            set(at, blue)
+            set(at + 1, green)
+            set(at + 2, red)
+        default:
             set(at, red)
             set(at + 1, green)
             set(at + 2, blue)
@@ -100,6 +119,11 @@ struct TraktorFactoryLights {
                 let state = snapshot[deck]
                 let unit = session.fxUnit(light.target)
                 let active: Bool
+                if session.model == .x1MK1, session.hotcueMode, let slot = light.control.x1HotcueSlot {
+                    let marked = loaded[deck].flatMap { performance.cues[$0]?[slot] } != nil
+                    reports.lamp(light.lamp, level: marked ? 127 : 5)
+                    continue
+                }
                 switch light.control {
                 case .play: active = state.phase.active
                 case .cue: active = session.heldCues.contains(deck) || (!state.phase.active && state.generation != 0)
@@ -115,8 +139,9 @@ struct TraktorFactoryLights {
                 case .layer(let selected): active = selected.map { $0 == deck } ?? (deck.transportIndex >= 2)
                 case .hotcues:
                     active = session.model == .x1MK1 ? session.hotcueMode
-                        : !session.sampleDecks.contains(deck) && native.slices[deck] == nil
+                        : !session.sampleDecks.contains(deck) && !session.loopDecks.contains(deck) && native.slices[deck] == nil
                 case .samples: active = session.sampleDecks.contains(deck)
+                case .loopPads: active = session.loopDecks.contains(deck)
                 case .freeze: active = native.slices[deck] != nil
                 case .quantize: active = native.quantize
                 case .grid: active = s2Grids[deck] != nil
@@ -129,6 +154,8 @@ struct TraktorFactoryLights {
                 case .pad(let slot):
                     if session.sampleDecks.contains(deck) {
                         reports.lamp(light.lamp, level: sampleLevel(Int(deck.transportIndex) * 8 + slot))
+                    } else if session.loopDecks.contains(deck) {
+                        reports.lamp(light.lamp, level: session.rollPads[deck] == slot ? 127 : 28)
                     } else if let slice = native.slices[deck] {
                         reports.lamp(light.lamp, level: slice.held.last == slot ? 127 : 40)
                     } else {
@@ -143,9 +170,20 @@ struct TraktorFactoryLights {
                 }
                 reports.lamp(light.lamp, level: active ? 127 : 5)
             }
+            if session.model == .f1 {
+                reports.digits(1, first: 0, count: 2, width: 8, reversed: true)
+            }
+            if session.model == .z2 {
+                for (side, deck) in session.decks.enumerated() {
+                    let beats = performance.loopBeats(for: deck)
+                    reports.digits(Int((beats < 1 ? 1 / beats : beats).rounded()), first: 52 + 21 * side,
+                                   count: 3, width: 7, fraction: beats < 1)
+                }
+            }
             for (side, pulse) in profile.pulses.enumerated() {
                 let state = snapshot[session.decks[side]]
                 let frames = playback.core.asset(generation: state.generation)?.frames
+                if session.model == .x1MK1 && session.hotcueMode { continue }
                 if let levels = ControllerPlaybackLights.levels(state: state, frameCount: frames) {
                     reports.pulse(pulse, blue: levels.blue, amber: levels.amber)
                 }

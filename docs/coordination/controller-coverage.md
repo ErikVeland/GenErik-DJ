@@ -157,13 +157,13 @@ These factory adapters cover the eight remaining Traktor models in the 18-model 
 | Models | Mapped functions | Lighting and output |
 | --- | --- | --- |
 | X1 Mk1 and X1 Mk2 | A/B transport, held Cue, Sync, browse and load, loops, Hot Cues and two FX units. Mk2 also maps the touch strip. | Mk1 uses fixed-colour lamps for the beat and warning. Mk2 uses the two-colour strip. |
-| F1 | Sixteen sample cells, column stop, browse, Sync, Quantize and reverse. | Sample pads show state. Pad 16 shows the blue beat and amber warning for deck C. |
+| F1 | Sixteen sample cells, column stop, browse, Sync and Quantize. | Sample pads show state. Pad 16 shows the blue beat and amber warning for deck C. |
 | D2 | Selectable deck, transport, browse and load, loops, pads, touch strip, Grid and FX. | Touch-strip lights show blue and amber. The screen shows deck and track status. |
-| Z2 | Four-deck mixer, deck selection, Hot Cues, Sync, browse and load, loops, FX and cue mix. | RGB pad lighting, channel meters and split audio. |
+| Z2 | Four-deck mixer, deck selection, Hot Cues, Sync, browse and load, loop size displays, FX and cue mix. | RGB pad lighting, channel meters and split audio. |
 | S5 and S8 | Four-deck mixing, two deck surfaces, browse and load, loops, pads, FX and touch strips. S8 also maps mixer switches and Grid. | Channel meters, blue and amber strips, split audio and deck status on both screens. |
-| MX2 | Two-deck transport, jog and touch, browse and load, headphone Preview, loops, Hot Cues, mixer and FX. | Blue and amber light strips, channel meters and split audio. |
+| MX2 | Two-deck transport, jog and touch, browse and load, headphone Preview, loop rolls, Hot Cues, mixer and FX. | Blue and amber light strips, channel meters and split audio. |
 
-For Z2, S5, S8 and MX2, the gadget presents master on 1–2 and headphones on 3–4. The relay sends these four channels to the controller's ALSA playback device. Check the physical output order, latency and reconnect behavior before live use. No physical controller or bridge was available for R137.
+For Z2, S5, S8 and MX2, the gadget presents master on 1–2 and headphones on 3–4. The relay sends these four channels to the controller's ALSA playback device. NI documents headphones on channels 3–4 for its integrated Traktor interfaces. Check the physical output order, latency and reconnect behavior before live use. No physical controller or bridge was available for R137. [NI channel routing](https://support.native-instruments.com/support/solutions/articles/69000879976-using-a-native-instruments-audio-interface-as-system-audio-output).
 
 Open functions include full Remix Deck editing and F1 per-slot faders and filters, stems and Pattern Player, Z2 timecode and analogue capture, and MX2/S8 microphone capture. The colour panels show title, time, BPM and playback state. Waveforms and the controller's on-screen browser remain open. The existing S4 Mk3 motor, display and capture limits still apply.
 
