@@ -1,5 +1,8 @@
 # Application architecture
 
+The [architecture guide](../ARCHITECTURE.md) defines the TDJ1 simplicity rules, base and expanded features, and current source assessment.
+This page describes the source layout.
+
 The app uses Swift 6, SwiftUI, AVFoundation and a native C/C++ audio engine. The active target is the A10X iPad on iPadOS 17. Shared Mac preview and diagnostic targets remain development tools.
 
 | Target | Responsibility |

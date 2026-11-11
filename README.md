@@ -27,7 +27,7 @@ The helper reuses `.build-ipad/`, archives the signed app and records its source
 | `Analysis/Traktor-DJ-1x/` | Original-app requirements, reference captures and fixtures |
 | `docs/` | Current work, testing instructions and history access |
 
-See [architecture](Replica/README.md), [current work](docs/coordination/README.md), [requests](docs/coordination/requests.md) and [documentation](DOCUMENTATION.md).
+See [architecture and feature boundaries](ARCHITECTURE.md), [source layout](Replica/README.md), [current work](docs/coordination/README.md), [requests](docs/coordination/requests.md) and [documentation](DOCUMENTATION.md).
 
 Run `python3 tools/check_repo.py` to check script syntax, generated files and documentation links. The source formatting rules are in `.swift-format`, `.clang-format` and `.editorconfig`.
 

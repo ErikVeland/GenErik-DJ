@@ -6,6 +6,7 @@
 | Requests and remaining work | [Request ledger](docs/coordination/requests.md) |
 | iPad feedback loop | [Testing](docs/testing/README.md) |
 | Audio and touch acceptance | [Release gates](docs/coordination/release-gates.md) |
+| Simplicity, feature boundaries and DJ stories | [Architecture guide](ARCHITECTURE.md) |
 | Source layout | [Architecture](Replica/README.md) |
 | Playback and Sync | [Playback](Replica/Playback.md) |
 | Streaming memory and ownership | [PCM streaming](Replica/PCMStreamingDesign.md) |

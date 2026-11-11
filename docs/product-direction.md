@@ -17,4 +17,8 @@ Let the DJ work directly on the waveform, jump by beats, set and resize loops, a
 
 ## How features earn their place
 
+Start small. Start simple. Add a feature only when a real DJ task needs it.
+Keep new expansions off until the DJ chooses them. Keep setup and maintenance outside the ordinary live surface.
+Use the [architecture guide](../ARCHITECTURE.md) for feature boundaries, DJ stories and review rules.
+
 Add features that make a real DJ task easier while preserving the flow of a set. Keep the performance surface free of clutter and extra steps. Defer or simplify any feature that slows the DJ down. Make analysis and other background work yield, pause or cancel before they affect audio or touch.
