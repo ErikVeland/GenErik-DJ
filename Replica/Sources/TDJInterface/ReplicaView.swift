@@ -1175,7 +1175,11 @@ extension ReplicaView {
                 MasterTempoButton(model: model, tempoWheelVisible: $tempoWheelVisible).padding(.horizontal, 12).popover(
                     isPresented: $tempoWheelVisible
                 ) { TempoWheel(model: model).padding(16) }
-                if showClock { BatteryReadout() }
+                #if os(macOS)
+                    BatteryReadout()
+                #else
+                    if showClock { BatteryReadout() }
+                #endif
             }.font(.system(size: 16, weight: .medium)).foregroundStyle(PerformancePalette.text).fixedSize(
                 horizontal: true, vertical: false
             ).frame(height: 44).bevelPanel(cornerRadius: 6, sunken: true)
@@ -1274,51 +1278,71 @@ extension ReplicaView {
 }
 
 @MainActor struct BatteryReadout: View {
-    #if os(iOS)
-        @Environment(\.scenePhase) private var scenePhase
-        @State private var level: Float = -1
-        @State private var isCharging = false
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var level: Float = -1
+    @State private var isCharging = false
+    #if os(macOS)
+        @State private var observation: MacBatteryObservation?
+        private let readBattery: @MainActor () -> MacBatterySource?
+
+        init(readBattery: @escaping @MainActor () -> MacBatterySource? = MacBatterySource.current) {
+            self.readBattery = readBattery
+        }
     #endif
 
     var body: some View {
-        #if os(iOS)
-            HStack(spacing: 0) {
-                if let reading = Self.presentation(for: level, isCharging: isCharging) {
-                    HStack(spacing: 5) {
-                        Image(systemName: reading.symbol)
-                            .foregroundStyle(reading.tint)
-                        if let symbol = reading.chargingSymbol {
-                            Image(systemName: symbol).font(.system(size: 12, weight: .semibold))
-                        }
-                        Text("\(reading.percent)%").monospacedDigit()
-                    }.padding(.horizontal, 14).overlay(alignment: .leading) { Divider().frame(height: 22) }
-                        .accessibilityElement(children: .ignore)
-                        .accessibilityLabel("Battery")
-                        .accessibilityValue(isCharging ? "\(reading.percent)%, charging" : "\(reading.percent)%")
-                }
-            }.onAppear {
+        HStack(spacing: 0) {
+            if let reading = Self.presentation(for: level, isCharging: isCharging) {
+                HStack(spacing: 5) {
+                    Image(systemName: reading.symbol)
+                        .foregroundStyle(reading.tint)
+                    if let symbol = reading.chargingSymbol {
+                        Image(systemName: symbol).font(.system(size: 12, weight: .semibold))
+                    }
+                    Text("\(reading.percent)%").monospacedDigit()
+                }.padding(.horizontal, 14).overlay(alignment: .leading) { Divider().frame(height: 22) }
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("Battery")
+                    .accessibilityValue(isCharging ? "\(reading.percent)%, charging" : "\(reading.percent)%")
+            }
+        }.onAppear {
+            #if os(iOS)
                 UIDevice.current.isBatteryMonitoringEnabled = true
-                refresh()
-            }.onReceive(
+            #elseif os(macOS)
+                if observation == nil {
+                    observation = MacBatteryObservation { refresh() }
+                }
+            #endif
+            refresh()
+        }
+        #if os(iOS)
+            .onReceive(
                 NotificationCenter.default.publisher(for: UIDevice.batteryLevelDidChangeNotification)
                     .merge(with: NotificationCenter.default.publisher(for: UIDevice.batteryStateDidChangeNotification))
                     .receive(on: RunLoop.main)
             ) { _ in
                 refresh()
-            }.onChange(of: scenePhase) { _, phase in
-                if phase == .active { refresh() }
             }
-        #else
-            EmptyView()
         #endif
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { refresh() }
+        }.onDisappear {
+            #if os(macOS)
+                observation = nil
+            #endif
+        }
     }
-    #if os(iOS)
-        private func refresh() {
+    private func refresh() {
+        #if os(iOS)
             let device = UIDevice.current
             level = device.batteryLevel
             isCharging = device.batteryState == .charging
-        }
-    #endif
+        #elseif os(macOS)
+            let reading = readBattery()
+            level = reading?.level ?? -1
+            isCharging = reading?.isCharging ?? false
+        #endif
+    }
 
     static func presentation(for level: Float, isCharging: Bool = false)
         -> (percent: Int, symbol: String, tint: Color, chargingSymbol: String?)?
