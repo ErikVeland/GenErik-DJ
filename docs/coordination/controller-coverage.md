@@ -1,6 +1,103 @@
 # Controller coverage
 
-Request R23. Updated 10 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
+Request R23. Updated 11 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
+
+## R169 complete source catalogue
+
+The [complete catalogue](controller-catalogue.md) covers the published Serato iOS list, every pinned Mixxx definition, all existing NI variants and Beatpad.
+The [machine-readable records](controller-catalogue.json) retain source hashes, model roles, connection routes, actions and unresolved input/output rows.
+The catalogue is complete for this source boundary. Complete controller support remains a release blocker.
+
+### Implementation and priority
+
+The app bundles 107 bounded data recipes alongside seven existing code profiles.
+Fourteen factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+Most imported recipes remain partial. They require manual selection while script lifecycle and advanced behaviour remain unresolved.
+
+This batch adds reviewed core profiles for XDJ-RR, OMNIS-DUO, DDJ-GRV6, DDJ-SR and Hercules Inpulse 500.
+FLX4, FLX2, XDJ-RR, OMNIS-DUO and GRV6 cover the first five entries in the reviewed regional sales list.
+Pioneer/AlphaTheta remains the first brand tier. Other model popularity ranks remain unknown.
+
+| Added profile | Implemented core scope | Remaining scope |
+| --- | --- | --- |
+| XDJ-RR | Transport, tempo, mixer, cue, jog, browse/load, Hot Cues, loop toggle and supported lights. | Hardware MIDI mode, other pad modes, loop editing, FX, meters, display and audio routing. |
+| OMNIS-DUO | Transport, tempo, mixer, cue, jog, browse/load, Hot Cues and Beat Jump. | Hardware Software Control mode, loop editing, FX, shifted modes, display and audio routing. |
+| DDJ-GRV6 | Four deck targets, transport, tempo, mixer, cue, jog, browse/load, Hot Cues and supported lights. | Groove Circuit, FX, shifted modes, cue deletion, other pad modes, meters and audio routing. |
+| DDJ-SR | Four documented target channels, transport, tempo, mixer, cue, jog, browse/load and Hot Cues. | FX, shifted modes, other pad modes, meters and audio routing. |
+| Inpulse 500 | Two decks, mixer, filter, tempo, transport, cue, jog, browse/load, Hot Cues and mode startup/shutdown. | Loop encoder, guides, FX, shifted modes, other pad modes, meters and audio routing. |
+
+The Inpulse 500 uses the maintained note-based jog-touch address, `91/92 08`.
+This resolves the conflicting CC row in its printed table without assigning tempo CC `B1/B2 08` to touch.
+Its software mode requires a paired physical output. Failed startup leaves the controls inactive.
+
+The R164 FLX4/DDJ-400 Browse encoding was wrong. The factory table specifies `1/127` relative steps.
+R169 corrects both profiles and records the focused checks. Jog encoders retain their separate `65/63` encoding.
+
+### Boundaries and verification
+
+The importer never executes downloaded controller JavaScript. Every source input and output row retains a conversion disposition.
+It rejects unknown encodings, conflicting addresses and incomplete high-resolution pairs.
+It preserves feedback ranges, including reversed LED polarity.
+Source locks and [reproduction checks](../../tools/controller_profiles/README.md) prevent silent source drift or missing definitions.
+
+The runtime retains A/B/C/D targets in input state, feedback, learning and reconnection.
+Changing A controls or lights preserves C assignments. Startup and shutdown messages use the paired physical output.
+The data format bounds file size, profile count, bindings, addresses and mode messages.
+No new controller processing enters the audio render callback.
+
+All 42 focused Swift checks, 10 importer checks and native iPad compilation passed before handoff.
+The repository check retains 12 existing historical link failures. New-file formatting and prose checks passed.
+Native compilation retains existing actor-isolation and weak-capture warnings outside the changed controller files.
+Evidence stays in `TestBuilds/r169/`. No signed app, installation or physical-controller acceptance forms part of this work.
+
+The catalogue records 81 models without an implemented protocol in the pinned references and 40 adapter-needed records.
+Partial recipes also retain unresolved functions. These gaps block full support, even where core controls select automatically.
+Physical identity, audio routes, jog calibration, pad modes, lights, screens, motors and A10X audio/touch require model-specific evidence.
+Source-reuse and distribution review remains open. The original Z1 remains the physical acceptance baseline.
+
+## R164 automatic MIDI profiles
+
+This is the first implementation batch towards the 120-device target. It reuses the existing MIDI decoders, action routes and five Pioneer profiles. It adds FLX2 and DDJ-400. The seven profiles below configure controls and status lights automatically. Hardware acceptance remains open.
+
+| Profile | New or reused scope | Automatic audio |
+| --- | --- | --- |
+| DDJ-FLX4 | Existing transport, mixer, jogs, Hot Cues and lights. Added tempo, filter, browse, load, loop toggle and size, shifted Beat Jump and both Shift buttons. | Main 1–2 and headphones 3–4. |
+| DDJ-FLX2 | New profile from the manufacturer's E1 table. Transport, mixer, tempo, filter, jogs, Hot Cues and status lights. | Channel order remains unverified. |
+| DDJ-400 | New profile reuses the verified common FLX4 addresses. Its master volume stays in hardware. | Main 1–2 and headphones 3–4. |
+| DDJ-REV1 | Reuses the existing two-deck profile and lights. Restores the documented global Shift binding that its existing test expected. | Remains outside the automatic routing table. |
+| DDJ-REV5 | Reuses the existing two-deck profile and lights. | Remains outside the automatic routing table. |
+| DDJ-1000 | Reuses the existing two-deck profile and lights. | External mixer routing remains outside this change. |
+| DDJ-FLX10 | Reuses the existing two-deck profile and lights. | External mixer routing remains outside this change. |
+
+Fresh settings enable MIDI discovery. Known physical devices need no input picker, profile button or feedback switch. Exact model names and known manufacturer prefixes select a profile. Other Mk variants, virtual ports and ambiguous input ports do not activate a guessed profile. Feedback only uses an unambiguous output on the same physical device.
+
+Factory mappings bind to the current endpoints without changing saved learned mappings. Custom mappings and explicit disable choices for known models survive new endpoint IDs. These saved choices apply per model. Two identical models share those choices. Existing source-specific custom mappings take priority.
+
+Known factory MIDI 1.0 devices use the byte input so paired 14-bit CCs retain their original messages. Generic MIDI 2.0 input keeps the existing UMP path. Feedback stays at 30 Hz and sends changed values only. Idle discovery polls at 4 Hz. Connected input retains the existing 120 Hz drain. No controller work enters the audio render callback.
+
+The FLX2, FLX4 and DDJ-400 filter knobs enable the filter away from centre and bypass it at centre. They preserve touch resonance. Browse and load use the existing iPad library command queue. Jog-touch release remains effective after a Shift change. Starts, seeks and jog release continue through the existing transport and Sync rules.
+
+### Sources and priority
+
+The [Coolblue sales list](https://www.coolblue.be/en/dj-controller/top-10) placed FLX4 first and FLX2 second when checked on 11 November 2026. This is a regional sales proxy. It does not establish global installed-base rankings. These models lead this batch. DDJ-400 follows because the documented message family offers direct reuse. The remaining five profiles already existed and migrate together.
+
+- [FLX2 manufacturer MIDI table](https://assets.pioneerdjhub.com/DDJ-FLX2_MIDI_Message_List_E1.pdf), including separate global CFX controls and deck Shift buttons.
+- [FLX4 manufacturer MIDI table](https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-flx4/ddj-flx4_midi_message_list_e1.pdf).
+- Maintained [FLX4](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Pioneer-DDJ-FLX4.midi.xml) and [DDJ-400](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Pioneer-DDJ-400.midi.xml) protocol references. No upstream scripts are bundled or executed.
+- Documented audio pairs for [FLX4](https://manual.mixxx.org/2.5/en/hardware/controllers/pioneer_ddj_flx4) and [DDJ-400](https://manual.mixxx.org/2.5/en/hardware/controllers/pioneer_ddj_400).
+- [REV1 manufacturer MIDI table](https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-rev1/ddj-rev1_midi_message_list_e1.pdf), M11: channel 7, Note 63 for Shift.
+
+### Verification and remaining work
+
+All 34 focused host tests passed. Native iPad compilation passed. The repository check retained 12 existing historical link failures. New-file formatting passed with the requested block-comment style. Evidence stays in `TestBuilds/r164/`, including failed attempts and source hashes. No signed app or device installation forms part of this batch.
+
+Physical MIDI identity, lighting, jog calibration, audio routing, reconnect behaviour and A10X sound and touch remain unverified. Hot Cue pad mode remains required. Other pad modes, complete FX banks, screens, motors and additional deck layers are not added here. The original Z1 remains the physical acceptance baseline.
+
+R169 records the source boundary and core profiles for XDJ-RR, OMNIS-DUO and GRV6. Physical acceptance remains open.
+
+The R169 source catalogue also records the Inpulse 500 jog-touch conflict and its maintained note-based mapping.
+
+The older increment notes below retain their original evidence and limits. Use the later request sections for current implementation state.
 
 ## Scope
 
