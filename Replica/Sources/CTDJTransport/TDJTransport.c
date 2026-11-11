@@ -9,6 +9,7 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include "TDJMixer.h"
+#include "TDJBassAssist.h"
 #include "TDJEffects.h"
 #include "TDJAsset.h"
 #include "TDJAuxiliary.h"
@@ -106,6 +107,11 @@ typedef struct {
 struct tdj_engine {
     double rate, gain, bpm, epoch_ticks;
     mixer mix;
+    bass_assist bass;
+    _Atomic int32_t bass_mode, bass_leader;
+    _Atomic uint64_t bass_sequence;
+    _Atomic bool bass_available;
+    _Atomic double bass_correlation, bass_cancellation, bass_reduction[2];
     performance_fx effects[TDJ_DECK_COUNT][3];
     _Atomic double published_crossfader, published_master, published_monitor, published_cue_blend;
     uint64_t frame, epoch_frame, paired_frames;
@@ -972,6 +978,15 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
     e->gain = gain;
     e->bpm = 120;
     mixer_init(&e->mix, rate, gain);
+    bass_assist_init(&e->bass, rate);
+    atomic_init(&e->bass_mode, TDJ_BASS_OFF);
+    atomic_init(&e->bass_sequence, 0);
+    atomic_init(&e->bass_available, false);
+    atomic_init(&e->bass_leader, -1);
+    atomic_init(&e->bass_correlation, 0);
+    atomic_init(&e->bass_cancellation, 0);
+    atomic_init(&e->bass_reduction[0], 0);
+    atomic_init(&e->bass_reduction[1], 0);
     auxiliary_init(&e->auxiliary, rate);
     atomic_init(&e->timecode[0], 0);
     atomic_init(&e->timecode[1], 0);
@@ -2458,6 +2473,56 @@ static void controls(tdj_engine *e) {
     }
 }
 
+void tdj_bass_assist_set_mode(tdj_engine *e, int32_t mode) {
+    if (mode >= TDJ_BASS_OFF && mode <= TDJ_BASS_HANDOVER)
+        atomic_store_explicit(&e->bass_mode, mode, memory_order_relaxed);
+}
+tdj_bass_assist_meter tdj_bass_assist_read(tdj_engine *e) {
+    if (atomic_load_explicit(&e->bass_mode, memory_order_relaxed) == TDJ_BASS_OFF)
+        return (tdj_bass_assist_meter){.leader = -1};
+    for (unsigned attempt = 0; attempt < 4; ++attempt) {
+        uint64_t before = atomic_load(&e->bass_sequence);
+        if (before & 1)
+            continue;
+        tdj_bass_assist_meter result = {
+            .available = atomic_load(&e->bass_available),
+            .leader = atomic_load(&e->bass_leader),
+            .correlation = atomic_load(&e->bass_correlation),
+            .cancellation_db = atomic_load(&e->bass_cancellation),
+            .reduction_a_db = atomic_load(&e->bass_reduction[0]),
+            .reduction_b_db = atomic_load(&e->bass_reduction[1]),
+        };
+        if (before == atomic_load(&e->bass_sequence))
+            return result;
+    }
+    return (tdj_bass_assist_meter){.leader = -1};
+}
+/**
+ * Publishes bass measurements once per callback, outside the sample loop.
+ */
+static void publish_bass_assist(tdj_engine *e) {
+    bass_assist *b = &e->bass;
+    double a = b->power[0][0] + b->power[0][1], c = b->power[1][0] + b->power[1][1];
+    double correlation = a > 0 && c > 0 ? b->covariance / sqrt(a * c) : 0;
+    double ratio = a + c > 0 ? fmax(1e-6, 1 + 2 * b->covariance / (a + c)) : 1;
+    atomic_fetch_add(&e->bass_sequence, 1);
+    atomic_store(&e->bass_available, b->available);
+    atomic_store(&e->bass_leader, b->leader);
+    atomic_store(&e->bass_correlation, b->available ? fmax(-1, fmin(1, correlation)) : 0);
+    atomic_store(&e->bass_cancellation, b->available ? fmax(0, -10 * log10(ratio)) : 0);
+    for (unsigned i = 0; i < 2; ++i)
+        atomic_store(&e->bass_reduction[i], -20 * log10(fmax(0.251188643150958, b->applied[i])));
+    atomic_fetch_add(&e->bass_sequence, 1);
+}
+/**
+ * Keeps bass decisions outside manual control and unavailable source states.
+ */
+static bool bass_decks_ready(const tdj_engine *e, bool pair) {
+    return pair && e->decks[0].state == TDJ_PLAYING && e->decks[1].state == TDJ_PLAYING &&
+        !e->decks[0].touch_active && !e->decks[1].touch_active &&
+        !e->decks[0].braking && !e->decks[1].braking &&
+        !e->decks[0].stream_starved && !e->decks[1].stream_starved;
+}
 void tdj_master_meter_enable(tdj_engine *e, bool enabled) {
     atomic_store_explicit(&e->master_meter_enabled, enabled, memory_order_relaxed);
 }
@@ -2804,10 +2869,20 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
     bool s8 = atomic_load_explicit(&e->factory_s8_input, memory_order_relaxed);
     uint32_t live_inputs = atomic_load_explicit(&e->factory_live_inputs, memory_order_relaxed);
     int mix_decks = s4 && !mic.z2 ? TDJ_DECK_COUNT : e->deck_count;
+    int bass_mode = atomic_load_explicit(&e->bass_mode, memory_order_relaxed);
+    bool bass_running = bass_assist_begin(&e->bass, bass_mode, e->decks[0].generation, e->decks[1].generation);
+    bool bass_pair = e->deck_count == 2 && mix_decks == 2 && !live_inputs &&
+        e->mix.decks[0].crossfader_assignment.target == -1 &&
+        e->mix.decks[1].crossfader_assignment.target == 1;
+    if (bass_running && !bass_decks_ready(e, bass_pair))
+        bass_assist_suspend(&e->bass);
+    if (!count && bass_running)
+        publish_bass_assist(e);
     for (int i = 0; i < mix_decks; ++i)
         e->mix.decks[i].peak = 0;
     for (uint32_t f = 0; f < count; ++f) {
         double l = 0, r = 0, cl = 0, cr = 0;
+        double bass_samples[2][2], bass_levels[2];
         double duck[TDJ_DECK_COUNT];
         if (pattern_count) {
             for (unsigned i = 0; i < TDJ_DECK_COUNT; ++i)
@@ -2895,6 +2970,11 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 double level = volume * mixer_crossfader_gain(&e->mix.decks[i], cross);
                 l += zero_l * level;
                 r += zero_r * level;
+                if (bass_running && i < 2) {
+                    bass_samples[i][0] = zero_l;
+                    bass_samples[i][1] = zero_r;
+                    bass_levels[i] = level;
+                }
                 cl += zero_l * cue;
                 cr += zero_r * cue;
                 continue;
@@ -3037,6 +3117,11 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 level *= duck[i];
             l += dl * level;
             r += dr * level;
+            if (bass_running && i < 2) {
+                bass_samples[i][0] = dl;
+                bass_samples[i][1] = dr;
+                bass_levels[i] = level;
+            }
             cl += dl * cue;
             cr += dr * cue;
             audible[i] = level > 1e-7 && (fabs(dl) + fabs(dr)) > 1e-7;
@@ -3113,6 +3198,15 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 brake_clear(e, i);
             }
         }
+        if (bass_running && e->bass.running) {
+            bool pair = bass_decks_ready(e, bass_pair);
+            int preferred = e->decks[0].last_start <= e->decks[1].last_start ? 0 : 1;
+            double change_l, change_r;
+            if (bass_assist_sample(&e->bass, bass_samples, bass_levels, pair, cross, preferred, &change_l, &change_r)) {
+                l += change_l;
+                r += change_r;
+            }
+        }
         if (audible[0] && audible[1] && master > 1e-7)
             e->paired_frames++;
         if (aux->playing || aux->pad_gain.remaining)
@@ -3158,6 +3252,8 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
     }
     if (loop)
         atomic_store_explicit(&e->loop_recorder_status, loop_recorder_state(loop), memory_order_relaxed);
+    if (count && bass_running)
+        publish_bass_assist(e);
     update_master_meter(e, left, right, count);
     if (preview.read != preview_read)
         atomic_fetch_add_explicit(&aux->preview.consumed, preview.read - preview_read, memory_order_relaxed);

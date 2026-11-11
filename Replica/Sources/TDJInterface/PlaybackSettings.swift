@@ -45,6 +45,18 @@ struct PlaybackSettings: View {
                     .font(.caption).foregroundStyle(.secondary)
             }
             SettingsGroup("Timing · all decks") { QuantizeSettings(model: model) }
+            SettingsGroup("Bass assistance · A/B") {
+                Picker("Bass assistance", selection: $model.bassAssistanceMode) {
+                    ForEach(BassAssistanceMode.allCases, id: \.self) { mode in
+                        Text(mode.title).tag(mode)
+                    }
+                }
+                Text("Follows the crossfader and reduces competing lows. Keeps your timing, EQ values and headphone cue.")
+                    .font(.caption).foregroundStyle(.secondary)
+                if model.bassAssistanceMode != .off {
+                    BassAssistanceReadout(mode: model.bassAssistanceMode, meter: model.bassAssistanceMeter)
+                }
+            }
             SettingsGroup("Stop behaviour · all decks") { VinylStopSettings() }
             SettingsGroup("At track end · all decks") { RecoverySettingsView(model: model) }
         }

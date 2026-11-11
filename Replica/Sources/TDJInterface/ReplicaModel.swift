@@ -283,6 +283,16 @@ import TDJCore
         }
     }
     private var mixerPreferences = MixerPreferences()
+    public private(set) var bassAssistanceMeter = BassAssistanceMeter()
+    public var bassAssistanceMode: BassAssistanceMode {
+        get { mixerPreferences.bassAssistance ?? .off }
+        set {
+            guard newValue != bassAssistanceMode else { return }
+            mixerPreferences.bassAssistance = newValue
+            playback.core.setBassAssistance(newValue)
+            persistMixerPreferences()
+        }
+    }
     private let mixerPersistence = CoalescingFileWriter<MixerPreferences>()
     private let collectionPersistence = CoalescingFileWriter<CollectionPlaylists>()
     private var mixerPreferencesURL: URL { store.root.appendingPathComponent("mixer-preferences.json") }
@@ -642,6 +652,7 @@ import TDJCore
             automaticTraktorSources: automaticTraktorSources)
         self.playback = try playback ?? PlaybackController()
         mixerPreferences = try MixerPreferences.load(from: root.appendingPathComponent("mixer-preferences.json"))
+        self.playback.core.setBassAssistance(mixerPreferences.bassAssistance ?? .off)
         self.playback.setPrimaryKeylockDefault(mixerPreferences.primaryKeylock ?? true)
         try self.playback.setMixer(.filterY, value: mixerPreferences.filterResonanceA, deck: .a)
         try self.playback.setMixer(.filterY, value: mixerPreferences.filterResonanceB, deck: .b)
@@ -1801,6 +1812,11 @@ import TDJCore
         refreshPlayback()
     }
     public func refreshPlayback() {
+        if bassAssistanceMode != .off {
+            bassAssistanceMeter = playback.core.bassAssistanceMeter
+        } else if bassAssistanceMeter != BassAssistanceMeter() {
+            bassAssistanceMeter = BassAssistanceMeter()
+        }
         if outputRoute != playback.outputRoute { outputRoute = playback.outputRoute }
         if automaticOutputDevice != playback.automaticOutputDevice { automaticOutputDevice = playback.automaticOutputDevice }
         let wasRecording = isRecording || recordingFinishing
