@@ -2,7 +2,7 @@
 
 Request R23. Updated 11 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
-## R165 complete source catalogue
+## R169 complete source catalogue
 
 The [complete catalogue](controller-catalogue.md) covers the published Serato iOS list, every pinned Mixxx definition, all existing NI variants and Beatpad.
 The [machine-readable records](controller-catalogue.json) retain source hashes, model roles, connection routes, actions and unresolved input/output rows.
@@ -31,7 +31,7 @@ This resolves the conflicting CC row in its printed table without assigning temp
 Its software mode requires a paired physical output. Failed startup leaves the controls inactive.
 
 The R164 FLX4/DDJ-400 Browse encoding was wrong. The factory table specifies `1/127` relative steps.
-R165 corrects both profiles and tests both directions. Jog encoders retain their separate `65/63` encoding.
+R169 corrects both profiles and records the focused checks. Jog encoders retain their separate `65/63` encoding.
 
 ### Boundaries and verification
 
@@ -48,7 +48,7 @@ No new controller processing enters the audio render callback.
 All 42 focused Swift checks, 10 importer checks and native iPad compilation passed before handoff.
 The repository check retains 12 existing historical link failures. New-file formatting and prose checks passed.
 Native compilation retains existing actor-isolation and weak-capture warnings outside the changed controller files.
-Evidence stays in `TestBuilds/r165/`. No signed app, installation or physical-controller acceptance forms part of this work.
+Evidence stays in `TestBuilds/r169/`. No signed app, installation or physical-controller acceptance forms part of this work.
 
 The catalogue records 81 models without an implemented protocol in the pinned references and 40 adapter-needed records.
 Partial recipes also retain unresolved functions. These gaps block full support, even where core controls select automatically.
@@ -93,9 +93,9 @@ All 34 focused host tests passed. Native iPad compilation passed. The repository
 
 Physical MIDI identity, lighting, jog calibration, audio routing, reconnect behaviour and A10X sound and touch remain unverified. Hot Cue pad mode remains required. Other pad modes, complete FX banks, screens, motors and additional deck layers are not added here. The original Z1 remains the physical acceptance baseline.
 
-The next popularity checks are XDJ-RR, OMNIS-DUO and GRV6, which followed FLX2 in the same sales list. Establish their A10X-accessible protocol before adding automatic profiles. Continue with documented MIDI families after that check. Bridge-only hardware must retain a separate label.
+R169 records the source boundary and core profiles for XDJ-RR, OMNIS-DUO and GRV6. Physical acceptance remains open.
 
-A batch converter and the remaining catalogue are still open. The [Hercules Inpulse 500 MIDI table](https://ts.hercules.com/download/sound/manuals/DJC_Inpulse500/DJControlInpulse500_MIDI_Commands.pdf) is retained as research evidence. Its printed tempo-MSB and jog-touch rows both use `B1 08`. Resolve that conflict against a maintained implementation or capture before adding a jog-touch mapping.
+The R169 source catalogue also records the Inpulse 500 jog-touch conflict and its maintained note-based mapping.
 
 The older increment notes below retain their original evidence and limits. Use the later request sections for current implementation state.
 

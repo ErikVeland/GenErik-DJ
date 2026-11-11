@@ -95,7 +95,7 @@ class ConversionTests(unittest.TestCase):
 
 class GeneratedCatalogueTests(unittest.TestCase):
     def test_source_inventory_and_generated_data(self):
-        cache = ROOT / "TestBuilds/r165/upstream"
+        cache = ROOT / "TestBuilds/r169/upstream"
         if not cache.exists():
             self.skipTest("Fetch the locked public reference cache before checking regeneration.")
         catalogue, runtime = build(cache, None)

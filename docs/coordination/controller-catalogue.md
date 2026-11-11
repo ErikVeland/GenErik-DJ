@@ -1,4 +1,4 @@
-# Controller catalogue — R165
+# Controller catalogue — R169
 
 Reviewed 11 November 2026. This catalogue is complete for the defined source boundary. Controller feature parity remains a release blocker.
 
@@ -318,4 +318,4 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 The importer reads XML protocol facts. It never executes downloaded controller JavaScript. Script-dependent controls remain unresolved.
 Mixxx source files use GPL-2.0-or-later. The app bundles independently normalised protocol tables, not the upstream scripts. This does not settle distribution obligations.
 Manufacturer MIDI tables retain their owners’ rights. Their hashes and URLs identify the reviewed versions.
-See [the importer procedure](../../tools/controller_profiles/README.md) and [the R165 delivery note](controller-coverage.md#r165-complete-source-catalogue).
+See [the importer procedure](../../tools/controller_profiles/README.md) and [the R169 delivery note](controller-coverage.md#r169-complete-source-catalogue).

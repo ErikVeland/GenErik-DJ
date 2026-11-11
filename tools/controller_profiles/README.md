@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R165 source catalogue and bounded MIDI data recipes.
+These tools reproduce the R169 source catalogue and bounded MIDI data recipes.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -21,16 +21,16 @@ The first command downloads public references when the cache is absent.
 It verifies each pinned Git blob before writing the manifest.
 
 ```sh
-python3 tools/controller_profiles/fetch_reference.py TestBuilds/r165/upstream
+python3 tools/controller_profiles/fetch_reference.py TestBuilds/r169/upstream
 python3 tools/controller_profiles/build_catalogue.py \
-  --cache TestBuilds/r165/upstream \
+  --cache TestBuilds/r169/upstream \
   --catalogue docs/coordination/controller-catalogue.json \
   --runtime Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json
 python3 tools/controller_profiles/report.py
 python3 -m unittest discover -s tools/controller_profiles -p 'test_*.py'
 ```
 
-To verify the original Serato HTML snapshot, add `--serato TestBuilds/r165/serato-ios.html` to the build command.
+To verify the original Serato HTML snapshot, add `--serato TestBuilds/r169/serato-ios.html` to the build command.
 The tool rejects a different page hash or different model rows.
 The locked rows allow offline reproduction without that HTML file.
 
