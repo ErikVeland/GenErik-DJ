@@ -1698,6 +1698,8 @@ import TDJCore
                 toggleZ1()
             }
             if !playback.offline {
+                configureControllerMIDI()
+                if controllerInput.shouldStartAutomatically { controllerInput.start() }
                 startBeatpad()
                 startS2MK1Bridge()
                 startS2MK2()

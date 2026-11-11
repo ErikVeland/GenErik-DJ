@@ -1,6 +1,50 @@
 # Controller coverage
 
-Request R23. Updated 10 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
+Request R23. Updated 11 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
+
+## R164 automatic MIDI profiles
+
+This is the first implementation batch towards the 120-device target. It reuses the existing MIDI decoders, action routes and five Pioneer profiles. It adds FLX2 and DDJ-400. The seven profiles below configure controls and status lights automatically. Hardware acceptance remains open.
+
+| Profile | New or reused scope | Automatic audio |
+| --- | --- | --- |
+| DDJ-FLX4 | Existing transport, mixer, jogs, Hot Cues and lights. Added tempo, filter, browse, load, loop toggle and size, shifted Beat Jump and both Shift buttons. | Main 1–2 and headphones 3–4. |
+| DDJ-FLX2 | New profile from the manufacturer's E1 table. Transport, mixer, tempo, filter, jogs, Hot Cues and status lights. | Channel order remains unverified. |
+| DDJ-400 | New profile reuses the verified common FLX4 addresses. Its master volume stays in hardware. | Main 1–2 and headphones 3–4. |
+| DDJ-REV1 | Reuses the existing two-deck profile and lights. Restores the documented global Shift binding that its existing test expected. | Remains outside the automatic routing table. |
+| DDJ-REV5 | Reuses the existing two-deck profile and lights. | Remains outside the automatic routing table. |
+| DDJ-1000 | Reuses the existing two-deck profile and lights. | External mixer routing remains outside this change. |
+| DDJ-FLX10 | Reuses the existing two-deck profile and lights. | External mixer routing remains outside this change. |
+
+Fresh settings enable MIDI discovery. Known physical devices need no input picker, profile button or feedback switch. Exact model names and known manufacturer prefixes select a profile. Other Mk variants, virtual ports and ambiguous input ports do not activate a guessed profile. Feedback only uses an unambiguous output on the same physical device.
+
+Factory mappings bind to the current endpoints without changing saved learned mappings. Custom mappings and explicit disable choices for known models survive new endpoint IDs. These saved choices apply per model. Two identical models share those choices. Existing source-specific custom mappings take priority.
+
+Known factory MIDI 1.0 devices use the byte input so paired 14-bit CCs retain their original messages. Generic MIDI 2.0 input keeps the existing UMP path. Feedback stays at 30 Hz and sends changed values only. Idle discovery polls at 4 Hz. Connected input retains the existing 120 Hz drain. No controller work enters the audio render callback.
+
+The FLX2, FLX4 and DDJ-400 filter knobs enable the filter away from centre and bypass it at centre. They preserve touch resonance. Browse and load use the existing iPad library command queue. Jog-touch release remains effective after a Shift change. Starts, seeks and jog release continue through the existing transport and Sync rules.
+
+### Sources and priority
+
+The [Coolblue sales list](https://www.coolblue.be/en/dj-controller/top-10) placed FLX4 first and FLX2 second when checked on 11 November 2026. This is a regional sales proxy. It does not establish global installed-base rankings. These models lead this batch. DDJ-400 follows because the documented message family offers direct reuse. The remaining five profiles already existed and migrate together.
+
+- [FLX2 manufacturer MIDI table](https://assets.pioneerdjhub.com/DDJ-FLX2_MIDI_Message_List_E1.pdf), including separate global CFX controls and deck Shift buttons.
+- [FLX4 manufacturer MIDI table](https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-flx4/ddj-flx4_midi_message_list_e1.pdf).
+- Maintained [FLX4](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Pioneer-DDJ-FLX4.midi.xml) and [DDJ-400](https://github.com/mixxxdj/mixxx/blob/main/res/controllers/Pioneer-DDJ-400.midi.xml) protocol references. No upstream scripts are bundled or executed.
+- Documented audio pairs for [FLX4](https://manual.mixxx.org/2.5/en/hardware/controllers/pioneer_ddj_flx4) and [DDJ-400](https://manual.mixxx.org/2.5/en/hardware/controllers/pioneer_ddj_400).
+- [REV1 manufacturer MIDI table](https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-rev1/ddj-rev1_midi_message_list_e1.pdf), M11: channel 7, Note 63 for Shift.
+
+### Verification and remaining work
+
+All 34 focused host tests passed. Native iPad compilation passed. The repository check retained 12 existing historical link failures. New-file formatting passed with the requested block-comment style. Evidence stays in `TestBuilds/r164/`, including failed attempts and source hashes. No signed app or device installation forms part of this batch.
+
+Physical MIDI identity, lighting, jog calibration, audio routing, reconnect behaviour and A10X sound and touch remain unverified. Hot Cue pad mode remains required. Other pad modes, complete FX banks, screens, motors and additional deck layers are not added here. The original Z1 remains the physical acceptance baseline.
+
+The next popularity checks are XDJ-RR, OMNIS-DUO and GRV6, which followed FLX2 in the same sales list. Establish their A10X-accessible protocol before adding automatic profiles. Continue with documented MIDI families after that check. Bridge-only hardware must retain a separate label.
+
+A batch converter and the remaining catalogue are still open. The [Hercules Inpulse 500 MIDI table](https://ts.hercules.com/download/sound/manuals/DJC_Inpulse500/DJControlInpulse500_MIDI_Commands.pdf) is retained as research evidence. Its printed tempo-MSB and jog-touch rows both use `B1 08`. Resolve that conflict against a maintained implementation or capture before adding a jog-touch mapping.
+
+The older increment notes below retain their original evidence and limits. Use the later request sections for current implementation state.
 
 ## Scope
 

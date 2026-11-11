@@ -7,19 +7,6 @@ import UniformTypeIdentifiers
     import ExternalAccessory
 #endif
 
-private enum LearnedControllerProfile: String, CaseIterable {
-    case flx4 = "DDJ-FLX4"
-    case flx10 = "DDJ-FLX10"
-    case rev1 = "DDJ-REV1"
-    case rev5 = "DDJ-REV5"
-    case ddj1000 = "DDJ-1000"
-
-    static func matching(_ name: String) -> Self? {
-        let value = name.uppercased().filter { $0.isLetter || $0.isNumber }
-        return allCases.first { value.contains($0.rawValue.filter { $0.isLetter || $0.isNumber }) }
-    }
-}
-
 struct ControllerSettingsView: View {
     @Bindable var model: ReplicaModel
     @State private var confirmation: ProfileChange?
@@ -33,8 +20,8 @@ struct ControllerSettingsView: View {
     #endif
 
     private enum ProfileChange {
-        case controls(LearnedControllerProfile)
-        case feedback(LearnedControllerProfile)
+        case controls(ControllerFactoryProfile)
+        case feedback(ControllerFactoryProfile)
     }
 
     private var input: ControllerMIDIConnection { model.controllerInput }
@@ -63,6 +50,9 @@ struct ControllerSettingsView: View {
             ForEach(input.sources) { source in
                 HStack {
                     Text(source.name)
+                    if let profile = input.factoryProfileName(source: source.id) {
+                        Text("\(profile) · Automatic").font(.caption).foregroundStyle(.secondary)
+                    }
                     Spacer()
                     Text(input.enabled && input.isInputActive(source.id) ? "Active" : "Inactive")
                         .font(.caption).foregroundStyle(.secondary)
@@ -184,7 +174,7 @@ struct ControllerSettingsView: View {
                                 }))
                     }
                     if input.isInputActive(source.id), !input.originalZ1Bridge {
-                        if let profile = LearnedControllerProfile.matching(source.name) {
+                        if let profile = ControllerFactoryProfile.matching([source.name]) {
                             Button("Load \(profile.rawValue) controls") { confirmation = .controls(profile) }
                         }
                         SettingsPageLink("Learn controls", detail: "Assign buttons, faders and shifted controls") {
@@ -204,13 +194,13 @@ struct ControllerSettingsView: View {
                         ForEach(input.destinations) { output in Text(output.name).tag(Optional(output.id)) }
                     }
                     if let output = selectedOutput, !input.originalZ1Bridge {
-                        if let profile = LearnedControllerProfile.matching(output.name) {
+                        if let profile = ControllerFactoryProfile.matching([output.name]) {
                             Button("Load \(profile.rawValue) lights") { confirmation = .feedback(profile) }
                         }
                         Toggle(
                             "MIDI feedback",
                             isOn: Binding(
-                                get: { input.midiFeedbackEnabled }, set: input.setMIDIFeedbackEnabled
+                                get: { input.isSelectedFeedbackEnabled }, set: input.setMIDIFeedbackEnabled
                             )
                         ).disabled(!input.feedbackOutputAvailable || input.selectedFeedbackBindings.isEmpty)
                         SettingsPageLink("Map controller lights", detail: "Set MIDI messages for LEDs and feedback") {
@@ -285,16 +275,8 @@ struct ControllerSettingsView: View {
     private func applyProfile() {
         guard let confirmation else { return }
         switch confirmation {
-        case .controls(.flx4): input.applyDDJFLX4Profile()
-        case .controls(.flx10): input.applyDDJFLX10Profile()
-        case .controls(.rev1): input.applyDDJREV1Profile()
-        case .controls(.rev5): input.applyDDJREV5Profile()
-        case .controls(.ddj1000): input.applyDDJ1000Profile()
-        case .feedback(.flx4): input.applyDDJFLX4FeedbackProfile()
-        case .feedback(.flx10): input.applyDDJFLX10FeedbackProfile()
-        case .feedback(.rev1): input.applyDDJREV1FeedbackProfile()
-        case .feedback(.rev5): input.applyDDJREV5FeedbackProfile()
-        case .feedback(.ddj1000): input.applyDDJ1000FeedbackProfile()
+        case .controls(let profile): input.applyFactoryProfile(profile)
+        case .feedback(let profile): input.applyFactoryFeedbackProfile(profile)
         }
         self.confirmation = nil
     }
@@ -308,144 +290,7 @@ struct ControllerSettingsView: View {
     }
 
     private func enable(_ enabled: Bool) {
-        if enabled {
-            let model = model
-            input.onAction = { [weak model] action, value in model?.applyController(action, value: value) }
-            input.currentValue = { [weak model] action in model?.controllerValue(action) }
-            input.onZ1Report = { [weak model] report in model?.receiveZ1(report) }
-            input.onZ1Calibration = { [weak model] calibration in model?.configureZ1Bridge(calibration) }
-            input.onBridgeReset = { [weak model] in model?.configureZ1Bridge(nil) }
-            input.start()
-        } else {
-            input.stop()
-        }
-    }
-}
-
-extension ReplicaModel {
-    func applyControllerWheelJog(_ value: Double, deck: DeckID) {
-        guard loaded[deck] != nil else {
-            resetControllerWheelJog(deck, restoreRate: false)
-            return
-        }
-        guard playbackSnapshot?[deck].touchActive != true, !controllerJogTouched.contains(deck) else {
-            resetControllerWheelJog(deck, restoreRate: false)
-            return
-        }
-        let delta = ControllerJogBend.deltaCounts(fromNormalizedValue: value)
-        guard delta != 0 else {
-            resetControllerWheelJog(deck)
-            return
-        }
-        let offset = ControllerJogBend.accumulatedCounts(
-            current: controllerJogBendOffsets[deck, default: 0], delta: delta)
-        controllerJogBendOffsets[deck] = offset
-        perform(.rate, deck: deck, value: ControllerJogBend.playbackRate(forCounts: offset))
-        controllerJogBendTasks[deck]?.cancel()
-        let token = UUID()
-        controllerJogBendTokens[deck] = token
-        controllerJogBendTasks[deck] = Task { [weak self] in
-            do { try await Task.sleep(nanoseconds: ControllerJogBend.releaseDelayNanoseconds) } catch { return }
-            guard let self, self.controllerJogBendTokens[deck] == token else { return }
-            self.resetControllerWheelJog(deck)
-        }
-    }
-
-    func resetControllerWheelJog(_ deck: DeckID, restoreRate: Bool = true) {
-        let wasActive = controllerJogBendOffsets[deck, default: 0] != 0 || controllerJogBendTasks[deck] != nil
-        controllerJogBendTasks[deck]?.cancel()
-        controllerJogBendTasks[deck] = nil
-        controllerJogBendTokens[deck] = nil
-        controllerJogBendOffsets[deck] = 0
-        if wasActive, restoreRate, playbackSnapshot?[deck].touchActive != true { perform(.rate, deck: deck, value: 1) }
-    }
-
-    func controllerValue(_ action: ControllerAction, targetDeck: DeckID? = nil) -> Double? {
-        let deck = targetDeck ?? action.deck
-        if let slot = action.hotcueSlot {
-            guard let trackID = loaded[deck] else { return 0 }
-            return performance.cues[trackID]?[slot] == nil ? 0 : 1
-        }
-        guard let snapshot = playbackSnapshot else { return nil }
-        let mixer = snapshot[deck].mixer
-        switch action {
-        case .playA, .playB: return snapshot[deck].phase == .playing ? 1 : 0
-        case .syncA, .syncB: return snapshot[deck].synced ? 1 : 0
-        case .keylockA, .keylockB: return snapshot[deck].keylock ? 1 : 0
-        case .cueA, .cueB: return mixer.cue ? 1 : 0
-        case .filterToggleA, .filterToggleB: return mixer.filterEnabled ? 1 : 0
-        case .loopA, .loopB: return snapshot[deck].loopEnabled ? 1 : 0
-        case .fxToggleA, .fxToggleB:
-            return effects[deck]?[selectedEffectSlots[deck, default: 0]]?.enabled == true ? 1 : 0
-        case .levelA, .levelB: return mixerFaderValue(.volume, deck: deck)
-        case .gainA, .gainB: return mixer.gain > 0 ? (log(mixer.gain) / log(4) + 1) / 2 : 0
-        case .lowA, .lowB: return mixerFaderValue(.low, deck: deck).map { $0 / 2 }
-        case .midA, .midB: return mixerFaderValue(.mid, deck: deck).map { $0 / 2 }
-        case .highA, .highB: return mixerFaderValue(.high, deck: deck).map { $0 / 2 }
-        case .filterA, .filterB: return (mixer.filterX + 1) / 2
-        case .fxA, .fxB: return effects[deck]?[selectedEffectSlots[deck, default: 0]]?.x ?? 0.5
-        case .crossfader: return snapshot.crossfader
-        case .cueMix: return snapshot.cueBlend
-        case .master: return snapshot.masterGain
-        case .monitor: return snapshot.monitorGain
-        case .tempoA, .tempoB: return min(1, max(0, (deckTempoPercent(deck: deck) + 8) / 16))
-        default: return nil
-        }
-    }
-    func applyController(
-        _ action: ControllerAction, value: Double, refreshMixer: Bool = true, targetDeck: DeckID? = nil
-    ) {
-        guard value.isFinite, (0...1).contains(value) else { return }
-        let deck = targetDeck ?? action.deck
-        func mix(_ parameter: MixerParameter, value: Double, deck: DeckID = .a) {
-            if submitMixer(parameter, value: value, deck: deck), refreshMixer { refreshPlayback() }
-        }
-        switch action {
-        case .playA, .playB: pressPlay(deck: deck)
-        case .syncA, .syncB: toggleSync(deck: deck)
-        case .keylockA, .keylockB: toggleKeylock(deck: deck)
-        case .cueA, .cueB: mix(.cue, value: playbackSnapshot?[deck].mixer.cue == true ? 0 : 1, deck: deck)
-        case .levelA, .levelB: mix(.volume, value: value, deck: deck)
-        case .gainA, .gainB: mix(.gain, value: pow(4, 2 * value - 1), deck: deck)
-        case .lowA, .lowB: mix(.low, value: 2 * value, deck: deck)
-        case .midA, .midB: mix(.mid, value: 2 * value, deck: deck)
-        case .highA, .highB: mix(.high, value: 2 * value, deck: deck)
-        case .filterA, .filterB: mix(.filterX, value: 2 * value - 1, deck: deck)
-        case .filterToggleA, .filterToggleB:
-            mix(.filterEnabled, value: playbackSnapshot?[deck].mixer.filterEnabled == true ? 0 : 1, deck: deck)
-        case .fxA, .fxB: setHardwareEffectX(value, deck: deck)
-        case .fxToggleA, .fxToggleB: toggleHardwareEffect(deck: deck)
-        case .crossfader: mix(.crossfader, value: value)
-        case .cueMix: mix(.cueBlend, value: value)
-        case .master: mix(.master, value: value)
-        case .monitor: mix(.monitor, value: value)
-        case .tempoA, .tempoB: setDeckTempo(percent: value * 16 - 8, deck: deck)
-        case .loopA, .loopB: toggleLoop(deck: deck)
-        case .loopUpA, .loopUpB: stepLoopSize(direction: 1, deck: deck)
-        case .loopDownA, .loopDownB: stepLoopSize(direction: -1, deck: deck)
-        case .jumpBackA, .jumpBackB: beatJump(beats: -performance.loopBeats(for: deck), deck: deck)
-        case .jumpForwardA, .jumpForwardB: beatJump(beats: performance.loopBeats(for: deck), deck: deck)
-        case .cueReturnA, .cueReturnB: pressCue(deck: deck)
-        case .freezeA, .freezeB: toggleFreeze(deck: deck)
-        case .jogTouchA, .jogTouchB:
-            if value > 0 {
-                resetControllerWheelJog(deck, restoreRate: false)
-                controllerJogTouched.insert(deck)
-                guard let frame = playbackSnapshot?[deck].sourceFrame else { return }
-                perform(.touch, deck: deck, value: frame, touchRate: 0)
-            } else {
-                controllerJogTouched.remove(deck)
-                perform(.touch, deck: deck, enabled: false)
-            }
-        case .jogA, .jogB:
-            let rate = min(4, max(-4, (value - 0.5) * 8))
-            guard controllerJogTouched.contains(deck), let frame = playbackSnapshot?[deck].sourceFrame else { return }
-            perform(.touch, deck: deck, value: frame, touchRate: rate)
-        case .wheelJogA, .wheelJogB: applyControllerWheelJog(value, deck: deck)
-        case .hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A, .hotcue1B,
-            .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B:
-            if let slot = action.hotcueSlot { cue(slot: slot, deck: deck) }
-        case .shift: break
-        }
+        model.configureControllerMIDI()
+        input.setEnabled(enabled)
     }
 }

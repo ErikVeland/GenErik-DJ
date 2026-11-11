@@ -12,6 +12,8 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case loopA, loopB, loopUpA, loopUpB, loopDownA, loopDownB, jumpBackA, jumpBackB, jumpForwardA, jumpForwardB
     case cueReturnA, cueReturnB, freezeA, freezeB
     case jogA, jogB, jogTouchA, jogTouchB, wheelJogA, wheelJogB
+    case browse, browseGroups, openGroup, loadA, loadB
+    case filterKnobA, filterKnobB
     case hotcue1A, hotcue2A, hotcue3A, hotcue4A, hotcue5A, hotcue6A, hotcue7A, hotcue8A
     case hotcue1B, hotcue2B, hotcue3B, hotcue4B, hotcue5B, hotcue6B, hotcue7B, hotcue8B
     var id: String { rawValue }
@@ -22,6 +24,13 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         if self == .cueMix { return "Headphone blend" }
         if self == .master { return "Master level" }
         if self == .monitor { return "Headphone level" }
+        if self == .browse { return "Browse tracks" }
+        if self == .browseGroups { return "Browse groups" }
+        if self == .openGroup { return "Open group" }
+        if self == .loadA || self == .loadB { return "\(deck.rawValue.uppercased()) · Load selected track" }
+        if self == .filterKnobA || self == .filterKnobB {
+            return "\(deck.rawValue.uppercased()) · Filter knob (automatic on/off)"
+        }
         if let hotcueSlot { return "\(deck.rawValue.uppercased()) · Hotcue \(hotcueSlot + 1)" }
         let labels = [
             "play": "Play / Pause", "sync": "Sync", "keylock": "Key lock", "cue": "Headphone cue", "level": "Volume",
@@ -36,7 +45,8 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     var isButton: Bool {
         switch self {
         case .levelA, .levelB, .gainA, .gainB, .lowA, .lowB, .midA, .midB, .highA, .highB, .filterA, .filterB, .fxA,
-            .fxB, .crossfader, .cueMix, .master, .monitor, .tempoA, .tempoB, .jogA, .jogB, .wheelJogA, .wheelJogB:
+            .fxB, .crossfader, .cueMix, .master, .monitor, .tempoA, .tempoB, .jogA, .jogB, .wheelJogA, .wheelJogB,
+            .browse, .browseGroups, .filterKnobA, .filterKnobB:
             false
         default: true
         }
@@ -48,6 +58,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         }
     }
     var isJog: Bool { self == .jogA || self == .jogB || self == .wheelJogA || self == .wheelJogB }
+    var isBrowserEncoder: Bool { self == .browse || self == .browseGroups }
     var hotcueSlot: Int? {
         guard rawValue.hasPrefix("hotcue"), let value = Int(rawValue.dropFirst(6).dropLast()) else { return nil }
         return value - 1
@@ -227,6 +238,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         let id: Int32
         let reference: MIDIEndpointRef
         let name: String
+        var identity: ControllerFactoryEndpoint? = nil
     }
     var enabled = false
     var sources: [Source] = []
@@ -238,7 +250,15 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     var feedbackOutputAvailable = false
     var selectedFeedbackBindings: [ControllerFeedbackBinding] {
         guard let feedbackSelected else { return [] }
-        return feedbackBindings.filter { $0.destination == feedbackSelected }
+        let custom = feedbackBindings.filter { $0.destination == feedbackSelected }
+        return custom.isEmpty ? factoryFeedback[feedbackSelected, default: []] : custom
+    }
+    var isSelectedFeedbackEnabled: Bool {
+        guard let feedbackSelected else { return false }
+        if factorySessions.contains(where: { $0.destination == feedbackSelected }) {
+            return factoryFeedbackIsEnabled(feedbackSelected)
+        }
+        return midiFeedbackEnabled
     }
     var originalZ1Bridge = false
     var isZ1BridgeConnected: Bool { originalZ1Bridge && bridgeConnected }
@@ -282,23 +302,45 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var shiftLayers: [Int32: ControllerShiftLayerState] = [:]
     @ObservationIgnored private var bindings: [ControllerBinding] = []
     @ObservationIgnored private var timer: Timer?
+    @ObservationIgnored private var pollingInterval = 0.0
     @ObservationIgnored private let inbox = ControllerMIDIInbox()
+    @ObservationIgnored private let preferences: UserDefaults
+    @ObservationIgnored private var factorySessions: [ControllerFactorySession] = []
+    @ObservationIgnored private var factoryBindings: [Int32: [ControllerBinding]] = [:]
+    @ObservationIgnored private var factoryFeedback: [Int32: [ControllerFeedbackBinding]] = [:]
+    @ObservationIgnored private var sentFactoryValues: [Int32: [ControllerAction: [UInt8]]] = [:]
+    @ObservationIgnored private var lastFactoryOutputTime = 0.0
+    @ObservationIgnored private var disabledFactoryProfiles: Set<ControllerFactoryProfile> = []
+    @ObservationIgnored private var disabledFactoryFeedback: Set<ControllerFactoryProfile> = []
+    @ObservationIgnored private var customFactoryInputs: [String: [ControllerBinding]] = [:]
+    @ObservationIgnored private var customFactoryFeedback: [String: [ControllerFeedbackBinding]] = [:]
     private static let storageKey = "controllers.midiBindings.v1"
     private static let activeInputsStorageKey = "controllers.midiActiveInputs.v1"
     private static let feedbackStorageKey = "controllers.midiFeedback.v1"
 
-    init() {
-        if let data = UserDefaults.standard.data(forKey: Self.storageKey),
+    init(preferences: UserDefaults = .standard) {
+        self.preferences = preferences
+        disabledFactoryProfiles = Set((preferences.stringArray(forKey: "controllers.factory.disabled") ?? [])
+            .compactMap(ControllerFactoryProfile.init(rawValue:)))
+        disabledFactoryFeedback = Set((preferences.stringArray(forKey: "controllers.factory.feedbackDisabled") ?? [])
+            .compactMap(ControllerFactoryProfile.init(rawValue:)))
+        if let data = preferences.data(forKey: "controllers.factory.customInputs"),
+            let saved = try? JSONDecoder().decode([String: [ControllerBinding]].self, from: data)
+        { customFactoryInputs = saved }
+        if let data = preferences.data(forKey: "controllers.factory.customFeedback"),
+            let saved = try? JSONDecoder().decode([String: [ControllerFeedbackBinding]].self, from: data)
+        { customFactoryFeedback = saved }
+        if let data = preferences.data(forKey: Self.storageKey),
             let saved = try? JSONDecoder().decode([ControllerBinding].self, from: data), saved.count <= 256
         {
             bindings = saved
         }
-        if let data = UserDefaults.standard.data(forKey: Self.activeInputsStorageKey),
+        if let data = preferences.data(forKey: Self.activeInputsStorageKey),
             let saved = try? JSONDecoder().decode([Int32].self, from: data), saved.count <= 64
         {
             activeInputIDs = Set(saved)
         }
-        if let data = UserDefaults.standard.data(forKey: Self.feedbackStorageKey),
+        if let data = preferences.data(forKey: Self.feedbackStorageKey),
             let saved = try? JSONDecoder().decode([ControllerFeedbackBinding].self, from: data), saved.count <= 128,
             saved.allSatisfy({
                 $0.channel < 16 && $0.number < 128 && $0.offValue < 128 && $0.onValue < 128
@@ -366,7 +408,16 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         lastInput = "No input received."
         enabled = true
         refreshSources()
-        let timer = Timer(timeInterval: 1.0 / 120, repeats: true) { [weak self] _ in
+        updatePollingInterval()
+    }
+
+    private func updatePollingInterval() {
+        guard enabled else { return }
+        let interval = connectedEndpoints.isEmpty ? 0.25 : 1.0 / 120
+        guard timer == nil || pollingInterval != interval else { return }
+        timer?.invalidate()
+        pollingInterval = interval
+        let timer = Timer(timeInterval: interval, repeats: true) { [weak self] _ in
             MainActor.assumeIsolated { self?.drain() }
         }
         self.timer = timer
@@ -411,6 +462,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         pendingValues.removeAll()
         _ = inbox.take()
         sentMIDIValues.removeAll()
+        factorySessions.removeAll()
+        factoryBindings.removeAll()
+        factoryFeedback.removeAll()
+        sentFactoryValues.removeAll()
         resetBridge()
         sources = []
         destinations = []
@@ -424,15 +479,41 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         guard MIDIObjectGetIntegerProperty(reference, kMIDIPropertyUniqueID, &id) == noErr else { return nil }
         var name: Unmanaged<CFString>?
         MIDIObjectGetStringProperty(reference, kMIDIPropertyDisplayName, &name)
-        return .init(id: id, reference: reference, name: name?.takeRetainedValue() as String? ?? "MIDI port")
+        let displayName = name?.takeRetainedValue() as String? ?? "MIDI port"
+        var entity: MIDIEntityRef = 0
+        var device: MIDIDeviceRef = 0
+        var identity: ControllerFactoryEndpoint?
+        if MIDIEndpointGetEntity(reference, &entity) == noErr, entity != 0,
+            MIDIEntityGetDevice(entity, &device) == noErr, device != 0
+        {
+            var offline: Int32 = 0
+            if MIDIObjectGetIntegerProperty(device, kMIDIPropertyOffline, &offline) == noErr, offline != 0 {
+                return nil
+            }
+            let names: [String] = [device, reference].flatMap { object in
+                [kMIDIPropertyModel, kMIDIPropertyName, kMIDIPropertyDisplayName].compactMap { property in
+                    var value: Unmanaged<CFString>?
+                    guard MIDIObjectGetStringProperty(object, property, &value) == noErr else { return nil }
+                    return value?.takeRetainedValue() as String?
+                }
+            }
+            identity = .init(id: id, device: device, names: names)
+        }
+        return .init(id: id, reference: reference, name: displayName, identity: identity)
     }
     func refreshSources() {
+        let previousDestinations = Dictionary(uniqueKeysWithValues: destinations.map { ($0.id, $0.reference) })
         sources = (0..<MIDIGetNumberOfSources()).compactMap { describe(MIDIGetSource($0)) }
         destinations = (0..<MIDIGetNumberOfDestinations()).compactMap { describe(MIDIGetDestination($0)) }
+        for destination in destinations where previousDestinations[destination.id] != destination.reference {
+            sentFactoryValues[destination.id] = nil
+            if destination.id == feedbackSelected { sentMIDIValues.removeAll() }
+        }
         #if os(iOS)
             sources.removeAll { BeatpadMIDIConnection.isBeatpad($0.reference) }
             destinations.removeAll { BeatpadMIDIConnection.isBeatpad($0.reference) }
         #endif
+        reconcileFactoryProfiles()
         let sourceIDs = Set(sources.map(\.id))
         for id in Array(connectedEndpoints.keys) where !sourceIDs.contains(id) { disconnectInput(id) }
         for source in sources
@@ -448,7 +529,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 reconnectInputs()
             }
         }
-        for id in activeInputIDs where sourceIDs.contains(id) { connectInput(id) }
+        for id in sourceIDs where isInputActive(id) { connectInput(id) }
         if let feedbackSelected, !destinations.contains(where: { $0.id == feedbackSelected }) {
             self.feedbackSelected = nil
             sentFeedback = []
@@ -456,10 +537,103 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             midiFeedbackEnabled = false
         }
         if selected == nil {
-            status =
-                sources.isEmpty
-                ? "No MIDI inputs found. Check the connection and MIDI mode." : "Choose the controller input to use."
+            if !factorySessions.isEmpty {
+                status = factorySessions.allSatisfy { connectedEndpoints[$0.source] != nil }
+                    ? "Factory controller profiles loaded automatically."
+                    : "Factory profiles loaded. Check the controller connection."
+            } else {
+                status = sources.isEmpty
+                    ? "No MIDI inputs found. Check the connection and MIDI mode." : "Choose the controller input to use."
+            }
         }
+        updatePollingInterval()
+    }
+
+    func reconcileFactoryProfiles() {
+        let sessions = ControllerFactorySession.discover(
+            sources: sources.compactMap(\.identity), destinations: destinations.compactMap(\.identity),
+            disabled: disabledFactoryProfiles)
+        guard sessions != factorySessions else { return }
+        for old in factorySessions where !sessions.contains(old) {
+            disconnectInput(old.source)
+            if let destination = old.destination { sentFactoryValues[destination] = nil }
+        }
+        factorySessions = sessions
+        rememberFactoryOverrides()
+        factoryBindings = Dictionary(uniqueKeysWithValues: sessions.map { session in
+            let profile = customFactoryInputs[session.profile.rawValue]?.map { binding in
+                ControllerBinding(source: session.source, group: binding.group, channel: binding.channel,
+                    kind: binding.kind, number: binding.number, parameter: binding.parameter,
+                    noteNumber: binding.noteNumber, action: binding.action, encoding: binding.encoding,
+                    inverted: binding.inverted, shifted: binding.shifted)
+            } ?? session.profile.bindings(source: session.source)
+            return (session.source, profile)
+        })
+        factoryFeedback = Dictionary(uniqueKeysWithValues: sessions.compactMap { session in
+            guard let destination = session.destination else {
+                return nil
+            }
+            let profile = customFactoryFeedback[session.profile.rawValue]?.map { binding in
+                ControllerFeedbackBinding(destination: destination, action: binding.action, kind: binding.kind,
+                    channel: binding.channel, number: binding.number, offValue: binding.offValue,
+                    onValue: binding.onValue, offUsesNoteOn: binding.offUsesNoteOn)
+            } ?? session.profile.feedback(destination: destination)
+            return (destination, profile)
+        })
+        for session in sessions { connectInput(session.source) }
+    }
+
+    func factoryProfileName(source: Int32) -> String? {
+        guard !bindings.contains(where: { $0.source == source }) else { return nil }
+        guard let session = factorySessions.first(where: { $0.source == source }),
+            customFactoryInputs[session.profile.rawValue] == nil else { return nil }
+        return session.profile.rawValue
+    }
+
+    private func inputBindings(source: Int32) -> [ControllerBinding] {
+        let custom = bindings.filter { $0.source == source }
+        return custom.isEmpty ? factoryBindings[source, default: []] : custom
+    }
+
+    private func factoryFeedbackIsEnabled(_ destination: Int32) -> Bool {
+        guard factoryFeedback[destination] != nil,
+            let session = factorySessions.first(where: { $0.destination == destination }) else { return false }
+        return !disabledFactoryFeedback.contains(session.profile)
+    }
+
+    func applyFactoryProfile(_ profile: ControllerFactoryProfile) {
+        guard !originalZ1Bridge, let selected else { return }
+        releaseMomentaryActions(source: selected)
+        bindings.removeAll { $0.source == selected }
+        bindings.append(contentsOf: profile.bindings(source: selected))
+        values = values.filter { !$0.key.hasPrefix("\(selected)-") }
+        valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
+        pendingValues.removeAll()
+        learning = nil
+        learningShifted = false
+        shiftLayers[selected] = nil
+        persist()
+        status = "Loaded the \(profile.rawValue) factory profile."
+    }
+
+    func applyFactoryFeedbackProfile(_ profile: ControllerFactoryProfile) {
+        guard let destination = feedbackSelected else { return }
+        feedbackBindings.removeAll { $0.destination == destination }
+        feedbackBindings.append(contentsOf: profile.feedback(destination: destination))
+        sentMIDIValues.removeAll()
+        midiFeedbackEnabled = false
+        persistFeedbackBindings()
+        setMIDIFeedbackEnabled(false)
+        feedbackStatus = "Loaded the \(profile.rawValue) light mappings. Enable MIDI feedback to send them."
+    }
+
+    func setEnabled(_ enabled: Bool) {
+        preferences.set(enabled, forKey: "controllers.midi.enabled")
+        if enabled { start() } else { stop() }
+    }
+
+    var shouldStartAutomatically: Bool {
+        preferences.object(forKey: "controllers.midi.enabled") as? Bool != false
     }
     func select(_ id: Int32?) {
         learning = nil
@@ -488,6 +662,13 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
     func setInputActive(_ id: Int32, active: Bool) {
         guard sources.contains(where: { $0.id == id }) else { return }
+        if let identity = sources.first(where: { $0.id == id })?.identity,
+            let profile = ControllerFactoryProfile.matching(identity.names)
+        {
+            if active { disabledFactoryProfiles.remove(profile) } else { disabledFactoryProfiles.insert(profile) }
+            preferences.set(disabledFactoryProfiles.map(\.rawValue).sorted(), forKey: "controllers.factory.disabled")
+            reconcileFactoryProfiles()
+        }
         if active {
             activeInputIDs.insert(id)
             connectInput(id)
@@ -501,16 +682,17 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             learningShifted = false
         }
     }
-    func isInputActive(_ id: Int32) -> Bool { activeInputIDs.contains(id) }
+    func isInputActive(_ id: Int32) -> Bool { activeInputIDs.contains(id) || factoryBindings[id] != nil }
     private func persistActiveInputs() {
         let data = try? JSONEncoder().encode(activeInputIDs.sorted())
-        UserDefaults.standard.set(data, forKey: Self.activeInputsStorageKey)
+        preferences.set(data, forKey: Self.activeInputsStorageKey)
     }
     private func inputPort(for id: Int32) -> MIDIPortRef {
-        originalZ1Bridge && id == selected ? port : protocolPort != 0 ? protocolPort : port
+        if factoryBindings[id] != nil || (originalZ1Bridge && id == selected) { return port }
+        return protocolPort != 0 ? protocolPort : port
     }
     private func connectInput(_ id: Int32) {
-        guard enabled, activeInputIDs.contains(id), connectedEndpoints[id] == nil,
+        guard enabled, isInputActive(id), connectedEndpoints[id] == nil,
             let source = sources.first(where: { $0.id == id })
         else { return }
         let inputPort = inputPort(for: id)
@@ -525,6 +707,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sourceIDsByEndpoint[source.reference] = id
         decoders[id] = .init()
         bridgeDecoders[id] = .init()
+        updatePollingInterval()
     }
     private func disconnectInput(_ id: Int32) {
         guard let endpoint = connectedEndpoints.removeValue(forKey: id) else { return }
@@ -540,10 +723,11 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         takeoverStates = takeoverStates.filter { !$0.key.hasPrefix("\(id)-") }
         pendingValues.removeAll()
         releaseMomentaryActions(source: id)
+        updatePollingInterval()
     }
     private func reconnectInputs() {
         for id in Array(connectedEndpoints.keys) { disconnectInput(id) }
-        for id in activeInputIDs { connectInput(id) }
+        for source in sources where isInputActive(source.id) { connectInput(source.id) }
     }
     func setBridgeMode(_ enabled: Bool) {
         originalZ1Bridge = enabled
@@ -568,6 +752,20 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         if !destinationIsMapped { midiFeedbackEnabled = false }
     }
     func setMIDIFeedbackEnabled(_ enabled: Bool) {
+        if let destination = feedbackSelected,
+            let session = factorySessions.first(where: { $0.destination == destination })
+        {
+            if enabled { disabledFactoryFeedback.remove(session.profile) }
+            else { disabledFactoryFeedback.insert(session.profile) }
+            preferences.set(disabledFactoryFeedback.map(\.rawValue).sorted(), forKey: "controllers.factory.feedbackDisabled")
+            let profile = customFactoryFeedback[session.profile.rawValue]?.map { binding in
+                ControllerFeedbackBinding(destination: destination, action: binding.action, kind: binding.kind,
+                    channel: binding.channel, number: binding.number, offValue: binding.offValue,
+                    onValue: binding.onValue, offUsesNoteOn: binding.offUsesNoteOn)
+            } ?? session.profile.feedback(destination: destination)
+            factoryFeedback[destination] = profile
+            sentFactoryValues[destination] = nil
+        }
         midiFeedbackEnabled =
             enabled && feedbackOutputAvailable && feedbackSelected != nil && !selectedFeedbackBindings.isEmpty
         sentMIDIValues.removeAll()
@@ -579,6 +777,16 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         guard let destination = feedbackSelected, channel < 16, number < 128, offValue < 128, onValue < 128,
             action.supportsFeedback, kind == .control || action.isButton
         else { return }
+        let wasEnabled = isSelectedFeedbackEnabled
+        if !feedbackBindings.contains(where: { $0.destination == destination }),
+            let factory = factoryFeedback[destination]
+        {
+            guard feedbackBindings.count + factory.count <= 128 else {
+                feedbackStatus = "The controller feedback mapping is full."
+                return
+            }
+            feedbackBindings.append(contentsOf: factory)
+        }
         if !feedbackBindings.contains(where: { $0.destination == destination && $0.action == action }),
             feedbackBindings.count >= 128
         {
@@ -591,6 +799,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 offValue: offValue, onValue: onValue))
         feedbackBindings.sort { $0.id < $1.id }
         persistFeedbackBindings()
+        setMIDIFeedbackEnabled(wasEnabled)
         sentMIDIValues[action] = nil
     }
     func applyDDJFLX4FeedbackProfile() {
@@ -598,50 +807,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             feedbackStatus = "Choose the DDJ-FLX4 MIDI output before loading status feedback."
             return
         }
-        let profile: [ControllerFeedbackBinding] = [
-            .init(
-                destination: destination, action: .playA, kind: .note, channel: 0, number: 11, offValue: 0,
-                onValue: 127, offUsesNoteOn: true),
-            .init(
-                destination: destination, action: .syncA, kind: .note, channel: 0, number: 88, offValue: 0,
-                onValue: 127, offUsesNoteOn: true),
-            .init(
-                destination: destination, action: .cueA, kind: .note, channel: 0, number: 84, offValue: 0, onValue: 127,
-                offUsesNoteOn: true),
-            .init(
-                destination: destination, action: .playB, kind: .note, channel: 1, number: 11, offValue: 0,
-                onValue: 127, offUsesNoteOn: true),
-            .init(
-                destination: destination, action: .syncB, kind: .note, channel: 1, number: 88, offValue: 0,
-                onValue: 127, offUsesNoteOn: true),
-            .init(
-                destination: destination, action: .cueB, kind: .note, channel: 1, number: 84, offValue: 0, onValue: 127,
-                offUsesNoteOn: true),
-        ]
-        var completeProfile = profile
-        for (padChannel, padActions) in [
-            (
-                UInt8(7),
-                [
-                    ControllerAction.hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A,
-                    .hotcue8A,
-                ]
-            ),
-            (
-                UInt8(9),
-                [
-                    ControllerAction.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B,
-                    .hotcue8B,
-                ]
-            ),
-        ] {
-            for (number, action) in padActions.enumerated() {
-                completeProfile.append(
-                    .init(
-                        destination: destination, action: action, kind: .note, channel: padChannel,
-                        number: UInt8(number), offValue: 0, onValue: 127, offUsesNoteOn: true))
-            }
-        }
+        let completeProfile = Self.ddjFLX4FeedbackBindings(destination: destination)
         let actions = completeProfile.map(\.action)
         feedbackBindings.removeAll { $0.destination == destination && actions.contains($0.action) }
         feedbackBindings.append(contentsOf: completeProfile)
@@ -1007,6 +1173,30 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             sentMIDIValues[binding.action] = message
         }
     }
+
+    private func sendFactoryFeedback() {
+        let now = ProcessInfo.processInfo.systemUptime
+        guard outputPort != 0, now - lastFactoryOutputTime >= 1.0 / 30 else { return }
+        lastFactoryOutputTime = now
+        for (id, profile) in factoryFeedback {
+            guard factoryFeedbackIsEnabled(id),
+                !(id == feedbackSelected && midiFeedbackEnabled),
+                let destination = destinations.first(where: { $0.id == id })
+            else { continue }
+            for binding in profile {
+                guard let value = currentValue?(binding.action), value.isFinite else { continue }
+                let bounded = min(1, max(0, value))
+                let outputValue = binding.action.isButton
+                    ? (bounded > 0 ? binding.onValue : binding.offValue) : UInt8((bounded * 127).rounded())
+                let status: UInt8 = binding.kind == .control ? 0xB0 | binding.channel
+                    : (bounded > 0 || binding.offUsesNoteOn == true ? 0x90 : 0x80) | binding.channel
+                let message = [status, binding.number, outputValue]
+                guard sentFactoryValues[id]?[binding.action] != message else { continue }
+                guard sendMIDIMessage(message, destination: destination.reference) else { break }
+                sentFactoryValues[id, default: [:]][binding.action] = message
+            }
+        }
+    }
     private func sendMIDIMessage(_ bytes: [UInt8], destination: MIDIEndpointRef) -> Bool {
         var list = MIDIPacketList()
         let start = MIDIPacketListInit(&list)
@@ -1020,6 +1210,13 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
     func clearBindings() {
         guard let selected else { return }
+        if let session = factorySessions.first(where: { $0.source == selected }) {
+            customFactoryInputs[session.profile.rawValue] = nil
+            preferences.set(try? JSONEncoder().encode(customFactoryInputs), forKey: "controllers.factory.customInputs")
+            disabledFactoryProfiles.insert(session.profile)
+            preferences.set(disabledFactoryProfiles.map(\.rawValue).sorted(), forKey: "controllers.factory.disabled")
+            reconcileFactoryProfiles()
+        }
         bindings.removeAll { $0.source == selected }
         values.removeAll()
         valueStates.removeAll()
@@ -1035,58 +1232,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             return
         }
         releaseMomentaryActions(source: selected)
-        func binding(
-            _ action: ControllerAction, kind: ControllerMIDIMessage.Kind, channel: UInt8, number: UInt8,
-            encoding: ControllerMIDIEncoding = .absolute
-        ) -> ControllerBinding {
-            .init(
-                source: selected, group: 0, channel: channel, kind: kind, number: number, parameter: nil,
-                noteNumber: nil, action: action, encoding: encoding, inverted: false, shifted: false)
-        }
-        var profile: [ControllerBinding] = []
-        for (channel, deck) in [(UInt8(0), "A"), (UInt8(1), "B")] {
-            let play: ControllerAction = deck == "A" ? .playA : .playB
-            let cue: ControllerAction = deck == "A" ? .cueReturnA : .cueReturnB
-            let headphoneCue: ControllerAction = deck == "A" ? .cueA : .cueB
-            let sync: ControllerAction = deck == "A" ? .syncA : .syncB
-            profile += [
-                binding(play, kind: .note, channel: channel, number: 11),
-                binding(cue, kind: .note, channel: channel, number: 12),
-                binding(headphoneCue, kind: .note, channel: channel, number: 84),
-                binding(sync, kind: .note, channel: channel, number: 88),
-            ]
-            let controls: [(ControllerAction, UInt8)] =
-                deck == "A"
-                ? [(.gainA, 4), (.highA, 7), (.midA, 11), (.lowA, 15), (.levelA, 19)]
-                : [(.gainB, 4), (.highB, 7), (.midB, 11), (.lowB, 15), (.levelB, 19)]
-            profile += controls.map {
-                binding($0.0, kind: .control, channel: channel, number: $0.1, encoding: .paired14Bit)
-            }
-            let padChannel: UInt8 = deck == "A" ? 7 : 9
-            let hotcues: [ControllerAction] =
-                deck == "A"
-                ? [.hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A]
-                : [.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B]
-            profile += hotcues.enumerated().map {
-                binding($0.element, kind: .note, channel: padChannel, number: UInt8($0.offset))
-            }
-            let jog: ControllerAction = deck == "A" ? .jogA : .jogB
-            let jogTouch: ControllerAction = deck == "A" ? .jogTouchA : .jogTouchB
-            let wheelJog: ControllerAction = deck == "A" ? .wheelJogA : .wheelJogB
-            profile += [
-                binding(jog, kind: .control, channel: channel, number: 34, encoding: .binaryOffset),
-                binding(jog, kind: .control, channel: channel, number: 35, encoding: .binaryOffset),
-                binding(jogTouch, kind: .note, channel: channel, number: 54),
-                binding(wheelJog, kind: .control, channel: channel, number: 33, encoding: .binaryOffset),
-            ]
-        }
-        profile += [
-            binding(.crossfader, kind: .control, channel: 6, number: 31, encoding: .paired14Bit),
-            binding(.master, kind: .control, channel: 6, number: 8, encoding: .paired14Bit),
-            binding(.cueMix, kind: .control, channel: 6, number: 12, encoding: .paired14Bit),
-            binding(.monitor, kind: .control, channel: 6, number: 13, encoding: .paired14Bit),
-            binding(.shift, kind: .note, channel: 6, number: 63),
-        ]
+        let profile = Self.ddjFLX4Bindings(source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
@@ -1423,11 +1569,12 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             binding(.master, kind: .control, channel: 6, number: 8, encoding: .paired14Bit),
             binding(.cueMix, kind: .control, channel: 6, number: 12, encoding: .paired14Bit),
             binding(.monitor, kind: .control, channel: 6, number: 13, encoding: .paired14Bit),
+            binding(.shift, kind: .note, channel: 6, number: 63),
         ]
         return profile
     }
     func bindingName(_ action: ControllerAction) -> String {
-        let assigned = bindings.filter { $0.source == selected && $0.action == action }
+        let assigned = selected.map { inputBindings(source: $0).filter { $0.action == action } } ?? []
         guard !assigned.isEmpty else { return "Unassigned" }
         return assigned.sorted { !$0.isShifted && $1.isShifted }.map { binding in
             let layer = binding.isShifted ? "Shift" : "Base"
@@ -1448,7 +1595,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     private func persist() {
         bindingCount = bindings.count
         takeoverStates.removeAll()
-        if let data = try? JSONEncoder().encode(bindings) { UserDefaults.standard.set(data, forKey: Self.storageKey) }
+        if let data = try? JSONEncoder().encode(bindings) { preferences.set(data, forKey: Self.storageKey) }
+        rememberFactoryOverrides()
     }
     private func releaseMomentaryActions(source: Int32? = nil) {
         var resetWheelJogA = source == nil
@@ -1469,8 +1617,22 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
     private func persistFeedbackBindings() {
         if let data = try? JSONEncoder().encode(feedbackBindings) {
-            UserDefaults.standard.set(data, forKey: Self.feedbackStorageKey)
+            preferences.set(data, forKey: Self.feedbackStorageKey)
         }
+        rememberFactoryOverrides()
+    }
+
+    private func rememberFactoryOverrides() {
+        for session in factorySessions {
+            let input = bindings.filter { $0.source == session.source }
+            if !input.isEmpty { customFactoryInputs[session.profile.rawValue] = input }
+            if let destination = session.destination {
+                let output = feedbackBindings.filter { $0.destination == destination }
+                if !output.isEmpty { customFactoryFeedback[session.profile.rawValue] = output }
+            }
+        }
+        preferences.set(try? JSONEncoder().encode(customFactoryInputs), forKey: "controllers.factory.customInputs")
+        preferences.set(try? JSONEncoder().encode(customFactoryFeedback), forKey: "controllers.factory.customFeedback")
     }
     private func drain() {
         let (frames, overflow, refresh) = inbox.take()
@@ -1517,8 +1679,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         pendingValues.removeAll(keepingCapacity: true)
         for (action, value) in pending { onAction?(action, value) }
         sendFeedback()
+        sendFactoryFeedback()
     }
-    private func receive(_ message: ControllerMIDIMessage, source sourceID: Int32) {
+    func receive(_ message: ControllerMIDIMessage, source sourceID: Int32) {
         let parameterLabel = message.kind == .program ? " bank" : " parameter"
         let parameter = message.parameter.map { "\(parameterLabel) \($0)" } ?? ""
         let note = message.noteNumber.map { " note \($0)" } ?? ""
@@ -1568,10 +1731,20 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                         || (self.learningEncoding == .paired14Bit && binding.number == number + 32)
                         || (binding.mode == .paired14Bit && binding.number < 32 && binding.number + 32 == number))
             }
-            let replacesShift = learning != .shift && bindings.contains(where: { $0.action == .shift && sameInput($0) })
+            let replacesShift = learning != .shift && inputBindings(source: sourceID).contains(where: {
+                $0.action == .shift && sameInput($0)
+            })
             if bindingIsShifted && replacesShift {
                 status = "That control is assigned as Shift. Clear mappings before reusing it."
                 return
+            }
+            if !bindings.contains(where: { $0.source == sourceID }), let factory = factoryBindings[sourceID] {
+                guard bindings.count + factory.count < 256 else {
+                    status = "The controller mapping is full."
+                    self.learning = nil
+                    return
+                }
+                bindings.append(contentsOf: factory)
             }
             bindings.removeAll {
                 $0.source == sourceID
@@ -1601,7 +1774,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 ? "Saved \(learning.title). The old Shift mapping was removed." : "Saved \(learning.title)."
             return
         }
-        let matches = bindings.filter {
+        let matches = inputBindings(source: sourceID).filter {
             $0.source == sourceID && $0.umpGroup == message.group && $0.kind == message.kind
                 && $0.channel == message.channel && $0.parameter == message.parameter
                 && $0.noteNumber == message.noteNumber
@@ -1624,6 +1797,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     let previousDelta = ((pendingValues[binding.action] ?? 0.5) - 0.5) * 8
                     let signedDelta = binding.inverted == true ? -delta : delta
                     value = 0.5 + min(4, max(-4, previousDelta + signedDelta)) / 8
+                } else if binding.action.isBrowserEncoder {
+                    let previousDelta = ((pendingValues[binding.action] ?? 0.5) - 0.5) * 126
+                    let signedDelta = binding.inverted == true ? -delta : delta
+                    value = 0.5 + min(63, max(-63, previousDelta + signedDelta)) / 126
                 } else if let target = pendingValues[binding.action] ?? currentValue?(binding.action) {
                     guard target.isFinite else { continue }
                     value = min(1, max(0, target + (binding.inverted == true ? -delta : delta) / 127))
@@ -1642,7 +1819,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 status = shiftLayer.isActive ? "Shift layer active." : "Base layer active."
                 continue
             }
-            guard binding.isShifted == (shiftLayers[sourceID]?.isActive ?? false) else { continue }
+            guard binding.isShifted == (shiftLayers[sourceID]?.isActive ?? false)
+                || (binding.action.isMomentary && value == 0) else { continue }
             if binding.action.isMomentary {
                 guard previous != value else { continue }
                 var inputs = activeMomentaryInputs[binding.action, default: []]
@@ -1658,14 +1836,14 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             }
             if binding.action.isButton {
                 if message.kind == .program {
-                    onAction?(binding.action, 1)
+                    emitButton(binding.action, value: 1)
                     continue
                 }
                 if previous == nil && message.kind != .note { continue }
                 guard value > 0, (previous ?? 0) == 0 else { continue }
-                onAction?(binding.action, value)
+                emitButton(binding.action, value: value)
             } else {
-                if !binding.action.isJog && !message.kind.isRelativeController
+                if !binding.action.isJog && !binding.action.isBrowserEncoder && !message.kind.isRelativeController
                     && (binding.mode == .absolute || binding.mode == .paired14Bit)
                 {
                     let takeoverKey = bindingTakeoverKey(binding)
@@ -1682,5 +1860,14 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 pendingValues[binding.action] = value
             }
         }
+    }
+
+    private func emitButton(_ action: ControllerAction, value: Double) {
+        if action == .loadA || action == .loadB || action == .openGroup {
+            for encoder in [ControllerAction.browse, .browseGroups] {
+                if let pending = pendingValues.removeValue(forKey: encoder) { onAction?(encoder, pending) }
+            }
+        }
+        onAction?(action, value)
     }
 }
