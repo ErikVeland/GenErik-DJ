@@ -110,7 +110,7 @@ For musical acceptance, use the same drifting remix and steady modern remix. Inc
 
 The first version uses one-bar alignment with existing controls. It does not add the later 8/16/32-beat selector or change automatic adaptive-grid adoption. Broader controller qualification, four decks and live stems remain separate work.
 
-The one-bar implementation is available on `feature/r162-lock-on-second-deck` for review in [draft PR 4](https://github.com/ErikVeland/GenErik-DJ/pull/4). The authorised isolated worktree excludes concurrent R163/R164 changes. It is not a new consolidated test build.
+The one-bar implementation is now merged into main. Its original isolated review is [PR 4](https://github.com/ErikVeland/GenErik-DJ/pull/4). The historical worktree and evidence remain preserved. R170 now verifies bass assistance against this timing controller. No new consolidated device build is established.
 
 ## Recorded verification
 

@@ -64,7 +64,7 @@ The correction follows the current fader gains, so a closed fader cannot leak a 
 
 ## Separate work and later experiments
 
-[R162](persistent-sync.md#r162-human-groove-and-bar-alignment) remains the transport work for natural groove and bar alignment.
+[R162](groove-sync-r162.md) now supplies the merged transport candidate for natural groove and bar alignment.
 R170 must not replace its grid authority or introduce another timing controller.
 
 Dynamic phase rotation, fractional delays, predictive analysis and automatic peak protection need separate measured experiments.
@@ -94,7 +94,7 @@ A smooth leader swap can still pass through destructive interference. This relea
 The first release is implemented. Playback Settings contains the saved mode and a conditional bass readout.
 No phase rotation, automatic timing correction or limiter is included in R170.
 
-### Local verification
+### Initial local verification
 
 - All 51 native cases passed at 44.1, 48 and 96 kHz through the existing transport-check script.
 - Four focused Swift tests passed. The preference round-trip test includes all three modes.
@@ -124,12 +124,33 @@ The shell initially selected Command Line Tools. That toolchain lacks Swift Test
 The installed Xcode 27.2 toolchain compiled the affected targets and passed the focused Swift tests.
 The native check retains an existing integer-conversion warning in `TDJLoopRecorder.h`.
 
-### Delivery boundary
+### Initial delivery boundary
 
 The implementation was committed as `039decc` and merged into main before the iPad helper ran.
-All 14 changed source, test and check files match the hashes retained with the verification results.
+The initial 14 changed source, test and check files matched the hashes retained with those verification results.
 The standard `tools/ipad_test.py run` command stopped because the signing team/device configuration is absent.
 It stopped before compilation and did not allocate a build number or change a device.
-This Mac reports no valid signing identity. The iPad signing configuration is absent.
+That delivery attempt reported no valid signing identity and no iPad signing configuration.
 CoreDevice device discovery timed out. No signed build, installation or A10X acceptance is established.
 Do not enable assistance by default or describe this candidate as gig-ready.
+
+
+## Consolidation on 12 November 2026
+
+Both natural-mix commits represent the same implementation: `039decc` on consolidated local main and `4eb7967` on the isolated review branch.
+[PR 5](https://github.com/ErikVeland/GenErik-DJ/pull/5) is merged through `d0f53fa`.
+The duplicate commit history does not create a second audio processor or Settings control.
+
+A separate ethos integration also used R170. The active ledger now assigns that integration R171.
+R170 continues to identify natural mix assistance. Historical commit names, branches and validation folders remain preserved.
+
+The consolidated engine retains both the R162 groove candidate and R170 bass assistance.
+The new regression compares source positions, master timing, Sync state and cue samples with bass assistance off and enabled.
+It covers Measure only and Bass handover while an adaptive solo deck acquires the second deck's bar timing.
+No runtime audio policy or saved default changes in this consolidation.
+
+Consolidated validation is recorded under `TestBuilds/r170-consolidation/`.
+All 51 bass cases, 13 groove scenarios and nine focused Swift tests passed on the consolidated source.
+The new interaction test passed for both Measure only and Bass handover.
+New-test formatting and whitespace checks passed. The repository check retains the same 12 historical link failures.
+No new signed build, installation or device acceptance is claimed.

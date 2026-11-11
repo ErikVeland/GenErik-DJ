@@ -89,7 +89,7 @@ Erik selected second-deck start as the trigger. He confirmed intervals of 4, 8, 
 - Return to solo playback without a position jump when the other deck stops.
 - Keep missing or unaccepted grids visible as unresolved. Do not claim alignment without usable timing evidence.
 
-R162 implements the adaptive Sync behaviour above on its review branch. It does not change musical references or approve automatic adaptive-grid adoption. See the [detailed design, DJ benefits and verification](groove-sync-r162.md). Physical acceptance remains open.
+R162 implements the adaptive Sync behaviour above and is merged into main. It does not change musical references or approve automatic adaptive-grid adoption. See the [detailed design, DJ benefits and verification](groove-sync-r162.md). Physical acceptance remains open.
 
 ### Implementation and acceptance scope
 
