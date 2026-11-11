@@ -236,6 +236,7 @@ struct SettingsBrowser: View {
     @State private var page = Page.playback
     @State private var showingDetail = false
     @AppStorage(FourDeckTrial.preferenceKey) private var fourDecks = false
+    @AppStorage(LiveStemTrial.preferenceKey) private var liveStems = false
 
     var body: some View {
         GeometryReader { geometry in
@@ -346,12 +347,19 @@ struct SettingsBrowser: View {
                 Text("Share saved sets from Recordings using the share button.").font(.caption).foregroundStyle(
                     .secondary)
             }
-            if FourDeckTrial.isAvailable {
+            if FourDeckTrial.isAvailable || LiveStemTrial.isAvailable {
                 SettingsGroup("Test features") {
-                    Toggle("Four decks", isOn: $fourDecks)
-                        .disabled(fourDecks && [.c, .d].contains { model.playbackSnapshot?[$0].phase.active == true })
-                    Text("A10X trial. Stop decks C and D before switching back to two decks.")
-                        .font(.caption).foregroundStyle(.secondary)
+                    if FourDeckTrial.isAvailable {
+                        Toggle("Four decks", isOn: $fourDecks)
+                            .disabled(fourDecks && [.c, .d].contains { model.playbackSnapshot?[$0].phase.active == true })
+                        Text("A10X trial. Stop decks C and D before switching back to two decks.")
+                            .font(.caption).foregroundStyle(.secondary)
+                    }
+                    if LiveStemTrial.isAvailable {
+                        Toggle("Live stem separation", isOn: $liveStems)
+                        Text("A10X trial. One track per launch. Mix stops preparation. Prepared audio stays available until relaunch.")
+                            .font(.caption).foregroundStyle(.secondary)
+                    }
                 }
             }
             SettingsGroup("GenErik DJ") {

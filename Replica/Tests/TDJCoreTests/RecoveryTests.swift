@@ -3,11 +3,33 @@ import Testing
 
 @testable import TDJCore
 
-@Test func recoveryDefaultsToLastDropAndSurvivesLegacySettings() throws {
+@Test func recoveryDefaultsToOffForNewSettings() throws {
     let original = PerformancePreparation()
     let data = try JSONEncoder().encode(original)
-    #expect(try JSONDecoder().decode(PerformancePreparation.self, from: data).recovery.mode == .replayLastDrop)
+    #expect(RecoverySettings().mode == .off)
+    #expect(original.recovery.mode == .off)
+    #expect(try JSONDecoder().decode(PerformancePreparation.self, from: data).recovery.mode == .off)
     #expect(original.recovery.leadBars == 16)
+}
+
+@Test func recoveryRetainsLegacyReplayWhenTheSavedFieldIsMissing() throws {
+    let encoded = try JSONEncoder().encode(PerformancePreparation())
+    var legacy = try #require(JSONSerialization.jsonObject(with: encoded) as? [String: Any])
+    legacy.removeValue(forKey: "recoveryValue")
+    let decoded = try JSONDecoder().decode(
+        PerformancePreparation.self, from: JSONSerialization.data(withJSONObject: legacy))
+    #expect(decoded.recovery.mode == .replayLastDrop)
+    let saved = try JSONEncoder().encode(decoded)
+    #expect(try JSONDecoder().decode(PerformancePreparation.self, from: saved).recovery.mode == .replayLastDrop)
+}
+
+@Test(arguments: RecoveryMode.allCases) func recoveryPreservesSavedChoices(mode: RecoveryMode) throws {
+    var original = PerformancePreparation()
+    original.recovery.mode = mode
+    original.recovery.leadBars = 8
+    original.recovery.dropFrames["prepared-track"] = 1234
+    let saved = try JSONEncoder().encode(original)
+    #expect(try JSONDecoder().decode(PerformancePreparation.self, from: saved).recovery == original.recovery)
 }
 
 @Test func recoveryFindsFinalDropAndExcludesTrailingSilence() throws {

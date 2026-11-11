@@ -12,7 +12,7 @@ public enum RecoveryMode: String, Codable, CaseIterable, Sendable {
 }
 
 public struct RecoverySettings: Codable, Equatable, Sendable {
-    public var mode: RecoveryMode = .replayLastDrop
+    public var mode: RecoveryMode = .off
     public var leadBars: Int = 16
     public var dropFrames: [String: Double] = [:]
     public init() {}

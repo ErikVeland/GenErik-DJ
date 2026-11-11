@@ -3,6 +3,24 @@ import Observation
 import OSLog
 import TDJCore
 
+/**
+ * Separates vocal audio on the preparation worker.
+ */
+protocol LiveVocalSeparating {
+    func vocals(in input: [Float]) throws -> [Float]
+}
+
+/**
+ * Supplies playback and metrics without owning output setup.
+ */
+@MainActor protocol LiveStemPlayback: AnyObject, Sendable {
+    var core: SampleTransport { get }
+    var callbackSummary: AudioCallbackSummary? { get }
+}
+
+extension SpleeterVocalMask: LiveVocalSeparating {}
+extension PlaybackController: LiveStemPlayback {}
+
 @MainActor @Observable final class LiveStemExperiment {
     enum Mode: Int32, CaseIterable {
         case mix, vocal, instrumental
@@ -22,13 +40,46 @@ import TDJCore
     private(set) var first: UInt64 = 0
     private(set) var end: UInt64 = 0
     private(set) var generation: UInt64 = 0
+    private(set) var isEnabled = false
+    private(set) var isSeparating = false
+    private(set) var isStopping = false
+    @ObservationIgnored private var separationTask: Task<Void, Never>?
+    @ObservationIgnored private let makeSeparator: @Sendable () throws -> any LiveVocalSeparating
 
-    func select(_ mode: Mode, deck: DeckID, playback: PlaybackController) {
+    init(makeSeparator: @escaping @Sendable () throws -> any LiveVocalSeparating = { try SpleeterVocalMask() }) {
+        self.makeSeparator = makeSeparator
+    }
+
+    deinit { separationTask?.cancel() }
+
+    func setEnabled(_ enabled: Bool, playback: any LiveStemPlayback) {
+        isEnabled = enabled
+        if !enabled { stop(playback: playback) }
+    }
+
+    func canSelect(_ mode: Mode, deck: DeckID) -> Bool {
+        guard isEnabled, self.deck == nil || self.deck == deck else { return false }
+        return mode == .mix || (!isStopping && (self.deck == nil || isSeparating || end > first))
+    }
+
+    private func stop(playback: any LiveStemPlayback) {
+        mode = .mix
+        playback.core.setLiveVocalMode(0)
+        separationTask?.cancel()
+        isStopping = separationTask != nil
+        status = isStopping ? "Stopping separation" : "Original mix"
+    }
+
+    func select(_ mode: Mode, deck: DeckID, playback: any LiveStemPlayback) {
+        guard canSelect(mode, deck: deck) else { return }
+        if mode == .mix {
+            stop(playback: playback)
+            return
+        }
         let core = playback.core
         if self.deck == deck {
             self.mode = mode
             core.setLiveVocalMode(mode.rawValue)
-            if mode == .mix { status = "Original mix" }
             return
         }
         guard self.deck == nil, mode != .mix else { return }
@@ -50,9 +101,12 @@ import TDJCore
         let generation = self.generation
         let before = playback.callbackSummary
         let began = ProcessInfo.processInfo.systemUptime
-        Task.detached(priority: .utility) { [weak self] in
+        let makeSeparator = self.makeSeparator
+        isSeparating = true
+        separationTask = Task.detached(priority: .utility) { [weak self] in
             do {
-                let model = try SpleeterVocalMask()
+                try Task.checkCancellation()
+                let model = try makeSeparator()
                 let read = try asset.liveVocalReader()
                 let first = try Self.playhead(core, deck: deck, generation: generation)
                 guard first < asset.frames else { throw TransportError.invalid }
@@ -61,6 +115,7 @@ import TDJCore
                     throw TransportError.allocation
                 }
                 await self?.started(first: first, core: core)
+                try Task.checkCancellation()
                 var input = [Float](repeating: 0, count: 2 * SpleeterVocalMask.inputFrames)
                 var offset: UInt64 = 0
                 var previousTail: [Float] = []
@@ -103,7 +158,11 @@ import TDJCore
                     let elapsed = ProcessInfo.processInfo.systemUptime - began
                     await self?.published(end: first + offset, blockTime: blockTime, elapsed: elapsed)
                 }
+                try Task.checkCancellation()
                 await self?.finish("Test window ready", playback: playback, baseline: before)
+            } catch is CancellationError {
+                core.setLiveVocalMode(0)
+                await self?.finish("Relaunch to prepare", playback: playback, baseline: before, reset: true)
             } catch {
                 core.setLiveVocalMode(0)
                 Self.log.error("Separation stopped: \(String(describing: error), privacy: .public)")
@@ -126,20 +185,28 @@ import TDJCore
 
     private func started(first: UInt64, core: SampleTransport) {
         self.first = first
+        guard isEnabled, !isStopping else {
+            core.setLiveVocalMode(0)
+            return
+        }
         status = "Separating"
         core.setLiveVocalMode(mode.rawValue)
     }
 
     private func published(end: UInt64, blockTime: Double, elapsed: Double) {
+        guard isEnabled, !isStopping else { return }
         self.end = end
         status = String(format: "Chunk %.1fs", blockTime)
         Self.log.info("Processed chunk in \(blockTime, privacy: .public)s, elapsed \(elapsed, privacy: .public)s")
     }
 
     private func finish(
-        _ message: String, playback: PlaybackController, baseline: AudioCallbackSummary?, reset: Bool = false
+        _ message: String, playback: any LiveStemPlayback, baseline: AudioCallbackSummary?, reset: Bool = false
     ) {
         if reset { mode = .mix }
+        separationTask = nil
+        isSeparating = false
+        isStopping = false
         status = message
         if let baseline, let now = playback.callbackSummary {
             Self.log.info("""

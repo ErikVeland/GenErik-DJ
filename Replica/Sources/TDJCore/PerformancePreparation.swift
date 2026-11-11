@@ -34,9 +34,17 @@ public struct PerformancePreparation: Codable, Sendable {
         get { waveformScratchAudioValue ?? true }
         set { waveformScratchAudioValue = newValue }
     }
-    private var recoveryValue: RecoverySettings?
+    private var recoveryValue: RecoverySettings? = .init()
+    /**
+     * Retains replay for older saved preparation without recovery settings.
+     */
     public var recovery: RecoverySettings {
-        get { recoveryValue ?? .init() }
+        get {
+            if let recoveryValue { return recoveryValue }
+            var legacy = RecoverySettings()
+            legacy.mode = .replayLastDrop
+            return legacy
+        }
         set { recoveryValue = newValue }
     }
     public var defaultLoopBeats: Double = 4

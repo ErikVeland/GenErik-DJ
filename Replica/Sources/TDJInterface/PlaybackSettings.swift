@@ -215,6 +215,17 @@ enum FourDeckTrial {
     }
 }
 
+enum LiveStemTrial {
+    static let preferenceKey = "playback.liveStemTrial"
+    static var isAvailable: Bool {
+        #if os(iOS)
+            UIDevice.current.userInterfaceIdiom == .pad
+        #else
+            false
+        #endif
+    }
+}
+
 struct SettingsDetailPage<Content: View>: View {
     let title: String
     private let content: Content

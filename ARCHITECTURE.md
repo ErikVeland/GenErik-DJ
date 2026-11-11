@@ -49,8 +49,8 @@ Defaults describe a fresh preference store. Saved choices can produce a differen
 | Check the incoming track | Headphone cue, blend and level through the sound controls or connected hardware | Extra deck Headphone cue button and manual channel setup | Extra button starts hidden. Routing setup stays under Sound & Headphones. [S2](#s2), [S3](#s3) |
 | Read and prepare music | Waveform, usable beat grid, BPM, key, visible uncertainty and contextual corrections | Deep library analysis, section editing, key imports, iCloud sharing and saved-version recovery | Preparation and maintenance use dedicated pages and workers. Device acceptance remains open. [S2](#s2), [S5](#s5) |
 | Record or review a set | Start recording from the sound panel. Find recordings and history in the browser. | Share or reload a saved recording when required | Recording requires a DJ action. Sharing stays with the selected recording. [S2](#s2) |
-| Handle the end of a track | The DJ chooses the next transition | Replay the best section or auto-mix the next track | **Exception:** replay starts enabled. Auto-mix requires a separate mode choice. [S6](#s6) |
-| Remix with separate parts | Play the original full mix | Live Vocal/Instrumental separation, authored stems, Pattern Player and hardware sample workflows | **Exception:** eligible iPad decks show a collapsed live-stem handle without a saved opt-in. Separation starts after selection. [S7](#s7) |
+| Handle the end of a track | The DJ chooses the next transition | Replay the best section or auto-mix the next track | R166 starts new settings off. Existing files retain explicit choices or legacy replay behaviour. [S6](#s6) |
+| Remix with separate parts | Play the original full mix | Live Vocal/Instrumental separation, authored stems, Pattern Player and hardware sample workflows | R166 adds a saved, default-off live-stem gate. Mix or Off cancels preparation. Physical acceptance remains open. [S7](#s7) |
 | Use physical controls | Touch remains sufficient. Original Z1 remains the reference hardware workflow. | Other controller adapters, MIDI learning, timecode, inputs, kits and hardware screens | Setup stays in Controllers. Some adapters activate on connection. Physical acceptance varies by model. [S8](#s8) |
 
 Base membership does not require permanent visibility.
@@ -78,8 +78,8 @@ An expansion does not earn a permanent button merely because it exists.
 | --- | --- | --- |
 | A deliberate four-track routine | As the DJ, I enable four decks for a routine that needs them. | Two decks remain the normal starting point. The trial needs separate A10X acceptance. |
 | A preference for physical-style controls | As the DJ, I enable Beat Jump buttons or a Tempo fader because they suit my technique. | Each choice adds only its own controls. It preserves direct waveform gestures. |
-| A planned vocal transition | As the DJ, I choose separate vocal control for that transition. | The extra controls and processing require deliberate activation. The current live-stem handle lacks that saved gate. |
-| A short interruption at a function | As the DJ, I choose replay or auto-mix before stepping away briefly. | The mode states what it will do. Replay currently starts enabled and needs a product decision. |
+| A planned vocal transition | As the DJ, I choose separate vocal control for that transition. | I enable the trial before its handle appears. Mix cancels preparation and retains audio already prepared. |
+| A short interruption at a function | As the DJ, I choose replay or auto-mix before stepping away briefly. | The mode states what it will do. New settings require my choice. Existing settings keep their behaviour. |
 | Preparation before a gig | As the DJ, I analyse tracks, review imported keys and share preparation across devices. | Long work stays outside live control paths. A set must not depend on a live cloud connection. |
 | A different booth controller | As the DJ, I connect the required controller and configure only its relevant options. | Its hardware functions do not add unrelated controls to the ordinary touch layout. |
 
@@ -162,7 +162,7 @@ Any migration needs its own request, scope and acceptance checks.
 ## How well the current app follows this guide
 
 Source review: **11 November 2026**, against application source at `dec70c08`.
-This documentation change does not alter runtime code or saved settings.
+R163 changed documentation only. The historical findings below describe that reviewed source.
 The assessment excludes uncommitted R162 transport work present during this review.
 
 **Overall judgement: the performance surface is broadly aligned with the TDJ1 simplicity ethos.**
@@ -192,6 +192,62 @@ This supports Erik's testing impression, but does not replace physical acceptanc
 
 These findings recommend follow-up decisions. They do not authorise feature removal, default changes or a cleanup programme.
 R155 two-deck acceptance remains open. Four decks and live stems remain deferred in the [completion programme](docs/coordination/completion-programme.md).
+
+## R166 response to the real gaps
+
+Erik chose opt-in replay for new settings and preservation of existing saved behaviour.
+The source changes address the three observed gaps together. A10X acceptance remains open.
+
+| Gap | Source change | Verification boundary |
+| --- | --- | --- |
+| Live stems appear without an opt-in | Add Live stem separation under Help & About → Test features. Its saved value starts off. | No handle or worker starts while off. Other stem and controller workflows keep their existing activation rules. |
+| Mix bypasses output while preparation continues | Cancel the retained worker on Mix, saved Off, or experiment disposal. Preserve the existing single-track, 90-second limit. | Stop publication after cancellation. Keep both decks playing. Prepared audio remains available for the same track. |
+| Replay starts enabled | New settings start Off. Explicit saved modes survive. Older files without a recovery field retain replay. | Check new, legacy and explicit Off/Replay/Auto-mix settings through save and reload. |
+| Notification centre ignores its switch | Bind toolbar visibility to the existing saved value. Preserve its default and the Settings gesture-guide route. | Check hiding, showing and reopening the app. Do not discard notices when hiding their button. |
+
+Cancellation is cooperative. A running Core ML call can finish before the worker stops.
+The output returns to the original mix immediately. The worker must not publish a cancelled result or start another separation window.
+The existing stem strip shows Stopping separation during cancellation.
+It shows Prepared for cached audio and Original mix outside available coverage after preparation stops.
+Closing the drawer alone preserves the selected performance mode. It does not disable the feature.
+
+The current trial retains prepared audio until relaunch. It does not support another separation run within that launch.
+This change does not add a new cache manager, engine reset path or background service.
+
+## Where future gaps are likely
+
+These are predictions from the current features and boundaries, not additional observed defects.
+Review the relevant row when a request changes that area.
+The highest near-term risks combine four decks, live stems, controller layers and simultaneous touch.
+
+| Expansion trigger | Likely UX or UI gap | Real DJ situation | Smallest useful guard |
+| --- | --- | --- | --- |
+| More decks and controller layers | The visible deck and action target disagree. Controls shrink to fit more information. | The DJ edits C's loop while believing A is selected. | Keep A/C and B/D selection explicit. Verify action ownership. Preserve two-deck geometry when the expansion stays off. |
+| More drawers and gestures | Open panels compete for waveform space or take another control's touch. | An EQ adjustment dismisses a loop or becomes a seek. | Reuse panel ownership and cancellation rules. Check the changed gesture with one other active touch. |
+| More hidden capabilities | Useful options become difficult to find. Setup requires knowledge of internal feature names. | The DJ cannot find headphone cue before a set. | Place options under existing DJ tasks. Use plain labels and the existing guide before adding shortcuts or another settings category. |
+| More modes and bypass states | Closed, bypassed, stopping and disabled look the same. | The DJ selects the original mix but the iPad continues expensive preparation. | Define each state's output and worker lifetime. Use the existing status area for necessary feedback. |
+| More asynchronous preparation | Old results affect a new track or undo a more recent choice. | A late result changes the deck after the DJ loads another track. | Bind work to track identity, generation and request. Test cancellation while a result waits to publish. |
+| More saved preferences | An update enables features unexpectedly or erases a deliberate choice. | The next gig opens with extra buttons or different track-end behaviour. | Separate fresh defaults from legacy decoding. Check missing fields and every existing saved mode. |
+| More deck and global options | A control's scope becomes unclear. A default looks like a live value. | The DJ changes Keylock on load but expects the playing track to change. | Label scope and application timing. Keep immediate deck actions beside the deck. |
+| More controller adapters and automatic routes | Connection changes control ownership, layers or cue routing unexpectedly. | A reconnect sends headphone cue to the wrong output. | Keep adapters behind the existing contracts. Check the affected model, route locks and reconnect path physically. |
+| Larger libraries and deeper analysis | Progress updates, cache work or long source reads compete with live control. | Loading a long track makes the crossfader stutter. | Keep playback reads urgent. Bound, pause or cancel optional work. Check the affected workload on the A10X. |
+| More cloud and imported preparation | A set depends on connectivity, or imported results overwrite accepted corrections. | A network failure removes useful preparation before a transition. | Retain local playback and accepted preparation. Show unresolved state where the DJ needs it. Keep sync outside active performance. |
+| More compact controls and gesture-only actions | Touch targets shrink, labels clip, or essential actions become inaccessible. | A quick booth adjustment hits the neighbouring control. | Preserve 44-point targets and meaningful labels. Check the affected pane with larger text and existing accessibility controls. |
+| More phone and foldable layouts | A phone shortcut or orientation rule replaces the iPad workspace. | Rotating the iPad moves familiar controls during a mix. | Select layouts from device and screen context. Keep the phone front-screen boundary explicit. |
+
+### Review each expansion before it reaches the live surface
+
+1. Name one DJ task and the smallest change that serves it.
+2. State its default, saved scope and activation trigger.
+3. Compare the base workspace before and after, with the feature off.
+4. Define output and worker behaviour for enable, bypass, close, disable and cancellation.
+5. Select one high-risk interaction with an existing feature.
+6. Check legacy settings and reject stale asynchronous results where relevant.
+7. Verify the changed flow, audio and touch through the focused A10X test loop.
+
+Do not turn this review into a full combination sweep for each small change.
+Choose checks from the changed boundaries and record what remains unverified.
+Do not add a feature registry, preset system, warning panel or onboarding flow merely to support this checklist.
 
 ## Evidence and related guides
 

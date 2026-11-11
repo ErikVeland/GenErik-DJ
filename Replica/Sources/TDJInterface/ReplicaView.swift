@@ -25,6 +25,7 @@ private let surface = PerformancePalette.panel
     @State private var lowerDeck = DeckID.b
     @State private var waveformContacts: Set<DeckID> = []
     @AppStorage(FourDeckTrial.preferenceKey) private var fourDeckTrial = false
+    @AppStorage(LiveStemTrial.preferenceKey) private var liveStemTrial = false
     private var fourDecks: Bool { fourDeckTrial && FourDeckTrial.isAvailable }
     private var upper: DeckID { fourDecks ? upperDeck : .a }
     private var lower: DeckID { fourDecks ? lowerDeck : .b }
@@ -60,7 +61,9 @@ private let surface = PerformancePalette.panel
                 .ignoresSafeArea(.container, edges: phonePortrait ? .horizontal : [])
         }.environment(\.touchSurfaceInterruption, touchInterruption).background(
             PerformancePalette.frame.ignoresSafeArea()
-        )
+        ).onChange(of: liveStemTrial, initial: true) { _, enabled in
+            model.liveStems.setEnabled(enabled && LiveStemTrial.isAvailable, playback: model.playback)
+        }
         #if os(iOS)
             .statusBarHidden(true).persistentSystemOverlays(.hidden)
         #endif
@@ -428,6 +431,7 @@ private struct DeckPanelHorizontalBounds: Shape {
     @AppStorage(DeckToolSettings.tempoFader) private var tempoFader = false
     @AppStorage(DeckToolSettings.cueButton) private var cueButton = false
     @AppStorage(DeckToolSettings.headphoneButton) private var headphoneButton = false
+    @AppStorage(LiveStemTrial.preferenceKey) private var liveStemTrial = false
     private var selection: MusicLibraryItem? { model.pendingNativeSelection[deck] }
     private var track: Track? { selection == nil ? model.track(deck) : nil }
     private var editing: Bool { selection == nil && model.editing.contains(deck) }
@@ -529,7 +533,7 @@ private struct DeckPanelHorizontalBounds: Shape {
                         }
                     }.overlay(alignment: .topLeading) {
                         #if os(iOS)
-                            if UIDevice.current.userInterfaceIdiom == .pad, DeckID.primary.contains(deck),
+                            if liveStemTrial, UIDevice.current.userInterfaceIdiom == .pad, DeckID.primary.contains(deck),
                                 track != nil, !editing, layout.waveformHeight >= 96
                             {
                                 LiveStemPane(experiment: model.liveStems, deck: deck, playback: model.playback)
@@ -1128,6 +1132,7 @@ extension ReplicaView {
 
 @MainActor private struct PerformanceToolbar: View {
     @Bindable var model: ReplicaModel
+    @AppStorage(BrowserSettings.notificationCenterKey) private var notifications = true
     @Binding var tempoWheelVisible: Bool
     @Binding var audioSettingsPresented: Bool
     @Binding var importPresented: Bool
@@ -1181,7 +1186,7 @@ extension ReplicaView {
                 horizontal: true, vertical: false
             ).frame(height: 44).bevelPanel(cornerRadius: 6, sunken: true)
             Spacer(minLength: 8)
-            NotificationCenterButton(model: model)
+            if notifications { NotificationCenterButton(model: model) }
             HStack(spacing: 0) {
                 Button {
                     model.showLibrary(fullyExpanded: true)
@@ -1396,7 +1401,7 @@ extension ReplicaView {
         }.buttonStyle(.plain)
             .accessibilityLabel(mode == .instrumental ? "Instrumental" : mode.title)
             .accessibilityAddTraits(selected ? .isSelected : [])
-            .disabled(experiment.deck != nil && !activeDeck)
+            .disabled(!experiment.canSelect(mode, deck: deck))
     }
 
     @ViewBuilder private var statusLabel: some View {
@@ -1405,7 +1410,10 @@ extension ReplicaView {
                 Text("Deck \(owner.rawValue.uppercased()) in use")
             } else if activeDeck && experiment.mode != .mix {
                 TimelineView(.periodic(from: .now, by: 0.5)) { _ in
-                    Text(experiment.isCovered(in: playback.core.snapshot()) ? "Live" : "Waiting")
+                    Text(
+                        experiment.isCovered(in: playback.core.snapshot())
+                            ? (experiment.isSeparating ? "Live" : "Prepared")
+                            : (experiment.isSeparating ? "Waiting" : "Original mix"))
                 }
             } else {
                 Text(experiment.status.isEmpty ? "Original mix" : experiment.status)
