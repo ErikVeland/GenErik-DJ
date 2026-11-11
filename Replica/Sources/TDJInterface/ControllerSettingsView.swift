@@ -176,6 +176,9 @@ struct ControllerSettingsView: View {
                     if input.isInputActive(source.id), !input.originalZ1Bridge {
                         if let profile = ControllerFactoryProfile.matching([source.name]) {
                             Button("Load \(profile.rawValue) controls") { confirmation = .controls(profile) }
+                            if let scope = profile.definition?.scope {
+                                Text(scope).font(.caption).foregroundStyle(.secondary)
+                            }
                         }
                         SettingsPageLink("Learn controls", detail: "Assign buttons, faders and shifted controls") {
                             SettingsDetailPage("Learn controls") {

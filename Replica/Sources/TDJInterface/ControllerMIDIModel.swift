@@ -3,6 +3,12 @@ import TDJCore
 
 extension ReplicaModel {
     func configureControllerMIDI() {
+        controllerInput.onTargetAction = { [weak self] target, value in
+            self?.applyController(target.action, value: value, targetDeck: target.deck)
+        }
+        controllerInput.currentTargetValue = { [weak self] target in
+            self?.controllerValue(target.action, targetDeck: target.deck)
+        }
         controllerInput.onAction = { [weak self] action, value in self?.applyController(action, value: value) }
         controllerInput.currentValue = { [weak self] action in self?.controllerValue(action) }
         controllerInput.onZ1Report = { [weak self] report in self?.receiveZ1(report) }

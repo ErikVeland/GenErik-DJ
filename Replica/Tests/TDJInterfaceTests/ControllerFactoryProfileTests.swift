@@ -250,10 +250,24 @@ private func endpoint(_ id: Int32, device: UInt32 = 1, name: String = "DDJ-FLX4"
             if action == .browse { detents += Int(((value - 0.5) * 126).rounded()) }
         }
         var decoder = ControllerMIDIDecoder()
-        for message in decoder.append([0xB6, 64, 65, 64, 65, 0x96, 70, 127]) {
+        for message in decoder.append([0xB6, 64, 1, 64, 1, 0x96, 70, 127]) {
             controller.receive(message, source: 10)
         }
         #expect(actions == [.browse, .loadA])
         #expect(detents == 2)
+    }
+}
+
+@Test @MainActor func controllerFactoryBrowseUsesBothFactoryDirections() {
+    withController { controller, _ in
+        var detents: [Int] = []
+        controller.onAction = { action, value in
+            if action == .browse { detents.append(Int(((value - 0.5) * 126).rounded())) }
+        }
+        var decoder = ControllerMIDIDecoder()
+        for message in decoder.append([0xB6, 64, 1, 0x96, 70, 127, 70, 0, 0xB6, 64, 127, 0x96, 70, 127]) {
+            controller.receive(message, source: 10)
+        }
+        #expect(detents == [1, -1])
     }
 }

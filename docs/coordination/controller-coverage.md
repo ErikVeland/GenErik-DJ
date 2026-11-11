@@ -2,6 +2,59 @@
 
 Request R23. Updated 11 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R165 complete source catalogue
+
+The [complete catalogue](controller-catalogue.md) covers the published Serato iOS list, every pinned Mixxx definition, all existing NI variants and Beatpad.
+The [machine-readable records](controller-catalogue.json) retain source hashes, model roles, connection routes, actions and unresolved input/output rows.
+The catalogue is complete for this source boundary. Complete controller support remains a release blocker.
+
+### Implementation and priority
+
+The app bundles 107 bounded data recipes alongside seven existing code profiles.
+Fourteen factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+Most imported recipes remain partial. They require manual selection while script lifecycle and advanced behaviour remain unresolved.
+
+This batch adds reviewed core profiles for XDJ-RR, OMNIS-DUO, DDJ-GRV6, DDJ-SR and Hercules Inpulse 500.
+FLX4, FLX2, XDJ-RR, OMNIS-DUO and GRV6 cover the first five entries in the reviewed regional sales list.
+Pioneer/AlphaTheta remains the first brand tier. Other model popularity ranks remain unknown.
+
+| Added profile | Implemented core scope | Remaining scope |
+| --- | --- | --- |
+| XDJ-RR | Transport, tempo, mixer, cue, jog, browse/load, Hot Cues, loop toggle and supported lights. | Hardware MIDI mode, other pad modes, loop editing, FX, meters, display and audio routing. |
+| OMNIS-DUO | Transport, tempo, mixer, cue, jog, browse/load, Hot Cues and Beat Jump. | Hardware Software Control mode, loop editing, FX, shifted modes, display and audio routing. |
+| DDJ-GRV6 | Four deck targets, transport, tempo, mixer, cue, jog, browse/load, Hot Cues and supported lights. | Groove Circuit, FX, shifted modes, cue deletion, other pad modes, meters and audio routing. |
+| DDJ-SR | Four documented target channels, transport, tempo, mixer, cue, jog, browse/load and Hot Cues. | FX, shifted modes, other pad modes, meters and audio routing. |
+| Inpulse 500 | Two decks, mixer, filter, tempo, transport, cue, jog, browse/load, Hot Cues and mode startup/shutdown. | Loop encoder, guides, FX, shifted modes, other pad modes, meters and audio routing. |
+
+The Inpulse 500 uses the maintained note-based jog-touch address, `91/92 08`.
+This resolves the conflicting CC row in its printed table without assigning tempo CC `B1/B2 08` to touch.
+Its software mode requires a paired physical output. Failed startup leaves the controls inactive.
+
+The R164 FLX4/DDJ-400 Browse encoding was wrong. The factory table specifies `1/127` relative steps.
+R165 corrects both profiles and tests both directions. Jog encoders retain their separate `65/63` encoding.
+
+### Boundaries and verification
+
+The importer never executes downloaded controller JavaScript. Every source input and output row retains a conversion disposition.
+It rejects unknown encodings, conflicting addresses and incomplete high-resolution pairs.
+It preserves feedback ranges, including reversed LED polarity.
+Source locks and [reproduction checks](../../tools/controller_profiles/README.md) prevent silent source drift or missing definitions.
+
+The runtime retains A/B/C/D targets in input state, feedback, learning and reconnection.
+Changing A controls or lights preserves C assignments. Startup and shutdown messages use the paired physical output.
+The data format bounds file size, profile count, bindings, addresses and mode messages.
+No new controller processing enters the audio render callback.
+
+All 42 focused Swift checks, 10 importer checks and native iPad compilation passed before handoff.
+The repository check retains 12 existing historical link failures. New-file formatting and prose checks passed.
+Native compilation retains existing actor-isolation and weak-capture warnings outside the changed controller files.
+Evidence stays in `TestBuilds/r165/`. No signed app, installation or physical-controller acceptance forms part of this work.
+
+The catalogue records 81 models without an implemented protocol in the pinned references and 40 adapter-needed records.
+Partial recipes also retain unresolved functions. These gaps block full support, even where core controls select automatically.
+Physical identity, audio routes, jog calibration, pad modes, lights, screens, motors and A10X audio/touch require model-specific evidence.
+Source-reuse and distribution review remains open. The original Z1 remains the physical acceptance baseline.
+
 ## R164 automatic MIDI profiles
 
 This is the first implementation batch towards the 120-device target. It reuses the existing MIDI decoders, action routes and five Pioneer profiles. It adds FLX2 and DDJ-400. The seven profiles below configure controls and status lights automatically. Hardware acceptance remains open.

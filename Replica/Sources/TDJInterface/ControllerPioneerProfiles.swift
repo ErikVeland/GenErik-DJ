@@ -68,7 +68,7 @@ extension ControllerMIDIConnection {
         profile += [
             binding(.filterKnobA, .control, 6, 23, .paired14Bit),
             binding(.filterKnobB, .control, 6, 24, .paired14Bit),
-            binding(.browse, .control, 6, 64, .binaryOffset),
+            binding(.browse, .control, 6, 64, .twosComplement),
             binding(.openGroup, .note, 6, 65),
             binding(.loadA, .note, 6, 70), binding(.loadB, .note, 6, 71),
         ]
