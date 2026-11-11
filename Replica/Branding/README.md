@@ -16,3 +16,6 @@ iconutil -c icns Branding/GenErikDJ.iconset -o Branding/GenErikDJ.icns
 The script regenerates fallback icon sizes and previews. These outputs are
 ignored. Earlier icon iterations and duplicate exports remain in the
 [archive](../../docs/history.md). The iPad project compiles its current icon.
+
+`Scripts/package-mac.sh` exports the Mac icon set with `--mac-only` and embeds
+`GenErikDJ.icns` in `Build/GenErik DJ.app`. This mode leaves the iPad assets unchanged.

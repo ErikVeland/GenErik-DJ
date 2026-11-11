@@ -150,12 +150,12 @@ import TDJInterface
 struct PreviewApp: App {
     @NSApplicationDelegateAdaptor(ReplicaLifecycle.self) private var lifecycle
     var body: some Scene {
-        WindowGroup("GenErik DJ · Development") {
+        WindowGroup("GenErik DJ") {
             Group {
                 if let model = try? ReplicaModel(root: PreviewMain.workspaceRoot, discoverSyncedTraktor: true) {
                     ReplicaView(model: model)
                 } else {
-                    Text("Cannot open the development workspace. Its original files were retained.").padding(30)
+                    Text("Cannot open the workspace. Its original files were retained.").padding(30)
                 }
             }.frame(minWidth: 800, minHeight: 600)
         }.defaultSize(width: 1024, height: 768)

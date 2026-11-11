@@ -116,7 +116,7 @@ The app writes results after each track and retains failures. It does not import
 3. Summarise the report with `tools/mac_analysis_report.py`.
 
 ```sh
-'Replica/Build/GenErik DJ Development.app/Contents/MacOS/tdj-preview' \
+'Replica/Build/GenErik DJ.app/Contents/MacOS/tdj-preview' \
   --analysis-audit /absolute/path/manifest.json /absolute/path/new-run
 python3 tools/mac_analysis_report.py /absolute/path/new-run/report.json \
   /absolute/path/reference-provenance.json /absolute/path/new-summary.json

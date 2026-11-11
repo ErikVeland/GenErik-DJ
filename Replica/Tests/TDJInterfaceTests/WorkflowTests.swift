@@ -4,8 +4,9 @@ import Testing
 @testable import TDJCore
 @testable import TDJInterface
 
-@Test func packagedAppDoesNotUseFindersWorkingDirectory() {
-    let bundle = URL(fileURLWithPath: "/tmp/project/Replica/Build/GenErik DJ Development.app")
+@Test(arguments: ["GenErik DJ.app", "GenErik DJ Development.app"])
+func packagedAppDoesNotUseFindersWorkingDirectory(_ appName: String) {
+    let bundle = URL(fileURLWithPath: "/tmp/project/Replica/Build/\(appName)")
     #expect(
         DevelopmentWorkspace.resolve(override: nil, bundleURL: bundle, currentDirectory: "/").path
             == "/tmp/project/Replica/.workspace")
