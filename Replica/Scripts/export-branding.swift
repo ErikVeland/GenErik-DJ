@@ -21,5 +21,7 @@ for size in [16, 32, 128, 256, 512] {
     try export(size: size, to: iconset.appendingPathComponent("icon_\(size)x\(size).png"))
     try export(size: size * 2, to: iconset.appendingPathComponent("icon_\(size)x\(size)@2x.png"))
 }
-try export(size: 1024, to: root.appendingPathComponent("iPad/Assets.xcassets/AppIcon.appiconset/AppIcon.png"))
-try export(size: 512, to: root.appendingPathComponent("Branding/AppIcon-preview.png"))
+if !CommandLine.arguments.contains("--mac-only") {
+    try export(size: 1024, to: root.appendingPathComponent("iPad/Assets.xcassets/AppIcon.appiconset/AppIcon.png"))
+    try export(size: 512, to: root.appendingPathComponent("Branding/AppIcon-preview.png"))
+}
