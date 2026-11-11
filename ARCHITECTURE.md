@@ -203,8 +203,9 @@ Show missing or unaccepted timing as unresolved. Loading shows the file start at
 Keep manual and imported preparation separate from detected proposals.
 Do not silently replace accepted corrections to make a new analysis feature appear successful.
 
-[R162](docs/coordination/persistent-sync.md#r162-human-groove-and-bar-alignment) specifies human groove and bar alignment.
-The reviewed commit contains requirements only. Uncommitted R162 transport work is outside this assessment.
+[R162](docs/coordination/groove-sync-r162.md) now supplies the merged groove and bar-alignment candidate.
+[R170](docs/coordination/natural-mix-r170.md) adds optional bass assistance without another timing controller.
+The source assessment below remains historical. Physical acceptance of the combined engine stays open.
 
 ## Rules for an expansion
 

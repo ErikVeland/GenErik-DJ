@@ -3,6 +3,48 @@ import Testing
 
 @testable import TDJCore
 
+@Test(arguments: [BassAssistanceMode.measure, .handover])
+func bassAssistancePreservesGrooveSyncAndCue(mode: BassAssistanceMode) throws {
+    let plain = try SampleTransport(sampleRate: 8000)
+    let assisted = try SampleTransport(sampleRate: 8000)
+    let samples = (0..<160000).flatMap { frame -> [Float] in
+        let value = Float(0.3 * sin(2 * .pi * 50 * Double(frame) / 8000))
+        return [value, -value]
+    }
+    let asset = try PCMAsset(interleavedStereo: samples, sampleRate: 8000)
+    let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 8000)
+    let map = BeatGridMap(
+        anchors: (0...32).map { beat in
+            let offset = [0.0, 0.28, 0.5, 0.78][beat % 4]
+            return .init(beat: Double(beat), frame: (Double(beat / 4) + offset) * 16160)
+        }, sampleRate: 8000)
+    for core in [plain, assisted] {
+        try core.setMasterBPM(120)
+        let a = try core.load(asset, deck: .a, grid: grid, adaptiveMap: map)
+        _ = try core.load(asset, deck: .b, grid: grid)
+        for deck in [DeckID.a, .b] { try core.setMixer(.cue, value: 1, deck: deck) }
+        try core.play(deck: .a, generation: a)
+        _ = core.renderOffline(frames: 8000)
+        try core.play(deck: .b, generation: #require(core.snapshot()?.b.generation))
+    }
+    assisted.setBassAssistance(mode)
+    for _ in 0..<64 {
+        let expected = plain.renderBusesOffline(frames: 512)
+        let actual = assisted.renderBusesOffline(frames: 512)
+        #expect(actual.cueLeft == expected.cueLeft && actual.cueRight == expected.cueRight)
+        let reference = try #require(plain.snapshot())
+        let observed = try #require(assisted.snapshot())
+        #expect(observed.masterBeat == reference.masterBeat)
+        for deck in [DeckID.a, .b] {
+            #expect(observed[deck].sourceFrame == reference[deck].sourceFrame)
+            #expect(observed[deck].grooveSync == reference[deck].grooveSync)
+            #expect(observed[deck].synced && reference[deck].synced)
+        }
+    }
+    #expect(assisted.bassAssistanceMeter.available)
+    #expect(assisted.snapshot()?.a.grooveSync == .aligned)
+}
+
 @Test func bassAssistanceOldPreferencesStayOffAndPreserveSync() throws {
     let data = Data(#"{"filterResonanceA":0.3,"filterResonanceB":0.7,"syncA":false,"syncB":true}"#.utf8)
     let saved = try JSONDecoder().decode(MixerPreferences.self, from: data)
