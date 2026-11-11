@@ -70,3 +70,40 @@ Build 151 installed on the A10X iPad, and iPadOS accepted launch. No later devic
 
 Host checks and installation do not establish A10X acceptance or gig readiness.
 R90 crossfader silence, R91 preview-strip behaviour and R92 long-track flicker remain separate blockers.
+
+## R162: human groove and bar alignment
+
+Erik clarified this use case on 11 November 2026. A track should retain its human groove during solo playback. Its grid may drift against the master clock. When the second deck starts, the tracks should lock for the blend as gracefully as possible.
+
+Erik selected second-deck start as the trigger. He confirmed intervals of 4, 8, 16 or 32 beats, rather than those numbers of bars. The first implementation should use four beats, or one bar. Longer intervals remain later options.
+
+### Required behaviour
+
+- Keep the saved Sync choice. Only an explicit Sync-off action disables it.
+- Allow solo playback to retain its timing variation. A second loaded or paused deck does not start the lock.
+- Start the lock when the second deck starts, including preparation in headphones before the blend becomes audible.
+- Align the first beat of each bar to the shared clock. Preserve timing differences between those boundaries.
+- Spread corrections through playback speed. Do not seek or skip audio at each boundary.
+- Preserve the source position of the audible deck when the lock starts. Keep the chosen master tempo.
+- Bound and smooth correction rates. Large errors must not force an audible rush, drag or position jump.
+- Return to solo playback without a position jump when the other deck stops.
+- Keep missing or unaccepted grids visible as unresolved. Do not claim alignment without usable timing evidence.
+
+This changes the intended adaptive Sync behaviour described above. It does not change musical references or approve automatic adaptive-grid adoption. The current implementation still follows local adaptive tempo continuously. R162 currently defines requirements only. Transport changes and device checks remain open.
+
+### Implementation and acceptance scope
+
+Evaluate bar-boundary timing and bounded speed correction before changing the live renderer. Define correction limits and the response to an error that exceeds them. Check the incoming start against the actual bar phase of the audible track. Preserve queued-start deadlines and source-readiness checks.
+
+Use the same drifting Norwegian disco remix and steady modern remix throughout the comparison. Include ordinary fixed-tempo controls, breakdowns and sparse percussion. Review the real audio and accepted bar positions before scoring.
+
+1. Verify that one playing deck retains its timing variation while the other deck is loaded and paused.
+2. Start the second deck. Verify bar alignment without a source-position jump on the audible deck.
+3. Listen through a long blend. Check bar alignment and retained timing within each bar separately.
+4. Test large phase errors and incorrect grids. Verify that correction limits prevent forced jumps or abrupt rate changes.
+5. Check both start orders, explicit Sync off, loops, seeks and gesture releases.
+6. Stop either deck. Check the return to solo playback and the saved Sync choice.
+7. Verify streamed-source preparation, recording, clock-dependent effects and recovery on the exact test source.
+8. On the A10X with the original Z1, check sound, touch and heat through the combined workload.
+
+Implementation, correction limits, focused transport checks and physical acceptance remain open. This specification does not include a device build or installation.
