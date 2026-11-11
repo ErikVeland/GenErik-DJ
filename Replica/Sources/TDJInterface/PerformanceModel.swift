@@ -98,7 +98,18 @@ extension ReplicaModel {
     }
     public func toggleGridEditing(deck: DeckID) {
         perform(.touch, deck: deck, enabled: false)
-        if editing.contains(deck) { editing.remove(deck) } else { editing.insert(deck) }
+        if editing.contains(deck) {
+            if !gridLocked.contains(deck), let draft = gridDraft[deck], draft != track(deck)?.grid {
+                saveGrid(draft, deck: deck)
+            }
+            if let downbeat = gridDownbeatDraft.removeValue(forKey: deck), !gridLocked.contains(deck) {
+                selectDownbeat(deck: deck, beat: downbeat)
+            }
+            editing.remove(deck)
+        } else {
+            gridDownbeatDraft[deck] = nil
+            editing.insert(deck)
+        }
     }
     public func cue(slot: Int, deck: DeckID, delete: Bool = false, quantized: Bool = true) {
         guard (0..<8).contains(slot), let track = track(deck), let state = playbackSnapshot?[deck] else { return }

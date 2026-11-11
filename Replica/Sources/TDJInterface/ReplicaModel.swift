@@ -100,6 +100,7 @@ import TDJCore
     public private(set) var applyingGrids: Set<DeckID> = []
     var adaptiveUndo: [String: [Preparation]] = [:]
     public var gridDraft: [DeckID: BeatGrid] = [:]
+    public private(set) var gridDownbeatDraft: [DeckID: Int] = [:]
     public var editing: Set<DeckID> = []
     public var browserVisible = false
     public private(set) var browserPresentationID = UUID()
@@ -1109,6 +1110,7 @@ import TDJCore
         loaded[deck] = trackID
         viewport[deck] = sourceFrame
         gridDraft[deck] = pendingPreparations[trackID]?.value.grid
+        gridDownbeatDraft[deck] = nil
         editing.remove(deck)
         frozen.remove(deck)
         previewing.remove(deck)
@@ -1681,6 +1683,7 @@ import TDJCore
                     loadedTrackCache[deck] = nil
                     viewport[deck] = 0
                     gridDraft[deck] = nil
+                    gridDownbeatDraft[deck] = nil
                     editing.remove(deck)
                     frozen.remove(deck)
                     previewing.remove(deck)

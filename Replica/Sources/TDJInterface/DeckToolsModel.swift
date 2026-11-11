@@ -120,6 +120,14 @@ extension ReplicaModel {
         guard !gridLocked.contains(deck) else { return }
         selectDownbeat(deck: deck, beat: ((beat % 4) + 4) % 4)
     }
+    /// Moves the live playhead to a visible grid beat and stages that beat as the downbeat.
+    public func moveGridPlayhead(toBeat beat: Int, deck: DeckID) {
+        guard editing.contains(deck), !gridLocked.contains(deck), gridPreparation(deck)?.gridLocked != true,
+            let timing = timing(deck)
+        else { return }
+        jump(timing.frame(atBeat: Double(beat)), deck: deck, quantized: false)
+        gridDownbeatDraft[deck] = ((beat % 4) + 4) % 4
+    }
     public func toggleHotcuePads(deck: DeckID) {
         if hotcuePadsVisible.remove(deck) == nil { hotcuePadsVisible.insert(deck) } else { hotcueDeleting.remove(deck) }
     }

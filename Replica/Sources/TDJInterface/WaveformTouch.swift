@@ -442,7 +442,11 @@ enum WaveformZoom {
         }
         if event.phase == .ended && event.remaining.isEmpty {
             if model.editing.contains(deck) {
-                if moved, let grid = model.gridDraft[deck] { model.saveGrid(grid, deck: deck) }
+                if !moved, let timing = model.timing(deck) {
+                    let frame = model.boundedFrame(center + (first.x - 0.5) * span, deck: deck)
+                    let beat = Int(timing.beat(atFrame: frame).rounded())
+                    model.moveGridPlayhead(toBeat: beat, deck: deck)
+                }
             } else if multi && dismissLoop {
                 model.perform(.loop, deck: deck, enabled: false)
             } else if directActive {

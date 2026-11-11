@@ -1589,12 +1589,6 @@ extension ReplicaView {
                         }
                     }.contentShape(Rectangle()).overlay {
                         PerformanceOverlay(model: model, deck: deck, span: visibleSeconds * track.analysis.sampleRate)
-                    }.overlay(alignment: .topLeading) {
-                        if editing, let grid = model.grid(deck) {
-                            GridBeatMarkers(
-                                model: model, deck: deck, grid: grid, center: model.viewport[deck] ?? 0,
-                                span: visibleSeconds * track.analysis.sampleRate)
-                        }
                     }.overlay {
                         WaveformTouch(model: model, deck: deck, span: visibleSeconds * track.analysis.sampleRate) {
                             frameSpan in
@@ -1602,6 +1596,12 @@ extension ReplicaView {
                                 frameSpan: frameSpan, sampleRate: track.analysis.sampleRate,
                                 duration: track.analysis.duration)
                         }.id(model.loadIdentity(deck))
+                    }.overlay(alignment: .topLeading) {
+                        if editing, let grid = model.grid(deck) {
+                            GridBeatMarkers(
+                                model: model, deck: deck, grid: grid, center: model.viewport[deck] ?? 0,
+                                span: visibleSeconds * track.analysis.sampleRate)
+                        }
                     }
                 }
 
@@ -1694,13 +1694,6 @@ extension ReplicaView {
                     recovery)
             }
             Spacer()
-            if editing, let grid = model.grid(deck) {
-                ForEach(0..<4) { beat in
-                    Button("\(beat + 1)") { model.selectDownbeat(deck: deck, beat: beat) }.frame(width: 44, height: 44)
-                        .foregroundStyle(
-                            (model.timing(deck)?.downbeatOffset ?? grid.downbeatOffset) == beat ? .orange : deckBlue)
-                }
-            }
         }.padding(.horizontal, 8).frame(height: 44).background(surface)
 
     }
@@ -1841,7 +1834,7 @@ extension ReplicaView {
     }
 }
 
-/// Numbered bar positions over the waveform while editing. Tapping a number makes that beat beat 1.
+/// Tapping a numbered beat moves the playhead and stages that beat as the downbeat for Done.
 @MainActor struct GridBeatMarkers: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
@@ -1859,16 +1852,20 @@ extension ReplicaView {
                 let beat = first + offset
                 let x = (timing.frame(atBeat: Double(beat)) - left) / perPoint
                 if x >= 0 && x <= geometry.size.width {
+                    let downbeatOffset = model.gridDownbeatDraft[deck] ?? timing.downbeatOffset
+                    let beatNumber = ((beat - downbeatOffset) % 4 + 4) % 4 + 1
                     Button {
-                        model.setDownbeat(atBeat: beat, deck: deck)
+                        model.moveGridPlayhead(toBeat: beat, deck: deck)
                     } label: {
-                        Text("\(((beat-timing.downbeatOffset)%4+4)%4+1)").font(.system(size: 14, weight: .bold))
-                            .foregroundStyle(PerformancePalette.text).frame(width: 44, height: 44).bevelPanel(
+                        Text("\(beatNumber)").font(.system(size: 14, weight: .bold))
+                            .foregroundStyle(beatNumber == 1 ? .orange : PerformancePalette.text)
+                            .frame(width: 44, height: 44).bevelPanel(
                                 cornerRadius: 3)
-                    }.position(x: x + 22, y: 22).accessibilityLabel("Make this beat the downbeat")
+                    }.position(x: x + 22, y: 22).accessibilityLabel(
+                        "Move the playhead to beat \(beatNumber). Done saves it as the downbeat.")
                 }
             }
-        }.disabled(model.gridLocked.contains(deck))
+        }.disabled(model.gridLocked.contains(deck) || model.gridPreparation(deck)?.gridLocked == true)
     }
     static func count(span: Double, grid: BeatGrid) -> Int { max(0, min(64, Int(ceil(span / grid.framesPerBeat)) + 1)) }
     /// 1 to 4 within the bar.
