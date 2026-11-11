@@ -23,7 +23,7 @@ final class ArrangementCueTests: XCTestCase {
             ]))
         XCTAssertEqual(value.next?.frame, 1200)
         XCTAssertEqual(value.next?.beatsAway, 2.4)
-        XCTAssertEqual(value.next?.remainingBeatMarks, 3)
+        XCTAssertNil(value.next?.remainingBeatMarks)
         XCTAssertEqual(value.next?.distance, "3 beats")
         XCTAssertFalse(try XCTUnwrap(value.next).estimated)
     }
@@ -120,5 +120,32 @@ final class ArrangementCueTests: XCTestCase {
         let result = try timeline(value)
         XCTAssertEqual(result.next?.label, "My chorus")
         XCTAssertEqual(result.next?.estimated, false)
+    }
+    func testBeatMarksCountDownOnlyToAnAlignedEntry() throws {
+        let value = arrangement([.init(frame: 6000, name: "Vocal", kind: .vocal, state: .accepted)])
+        XCTAssertEqual(try timeline(value, frame: 4000).next?.remainingBeatMarks, 4)
+        XCTAssertEqual(try timeline(value, frame: 4500).next?.remainingBeatMarks, 3)
+        XCTAssertEqual(try timeline(value, frame: 5500).next?.remainingBeatMarks, 1)
+        XCTAssertNil(try timeline(value, frame: 6000).next?.remainingBeatMarks)
+    }
+    func testBeatAlignmentUsesTheAdaptiveMap() throws {
+        let fixed = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 1000)
+        let map = BeatGridMap(
+            anchors: [.init(beat: 0, frame: 0), .init(beat: 16, frame: 8000), .init(beat: 32, frame: 24000)],
+            sampleRate: 1000)
+        let timing = BeatTiming(fixed: fixed, adaptive: map)
+        let aligned = try timeline(
+            arrangement([.init(frame: 22000, name: "Entry", kind: .vocal)]), frame: 20000, timing: timing)
+        let pickup = try timeline(
+            arrangement([.init(frame: 22500, name: "Pickup", kind: .vocal)]), frame: 20000, timing: timing)
+        XCTAssertEqual(aligned.next?.remainingBeatMarks, 2)
+        XCTAssertNil(pickup.next?.remainingBeatMarks)
+        XCTAssertEqual(pickup.next?.frame, 22500)
+    }
+    func testBeatAlignmentAllowsOnlySampleRounding() throws {
+        let rounded = try timeline(arrangement([.init(frame: 6000.75, name: "Entry", kind: .vocal)]), frame: 4500)
+        let between = try timeline(arrangement([.init(frame: 6001.25, name: "Pickup", kind: .vocal)]), frame: 4500)
+        XCTAssertNotNil(rounded.next?.remainingBeatMarks)
+        XCTAssertNil(between.next?.remainingBeatMarks)
     }
 }

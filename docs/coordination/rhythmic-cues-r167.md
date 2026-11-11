@@ -13,7 +13,7 @@ They do not start analysis, change audio, alter Sync or add a timer.
 - Use saved mix-in and mix-out regions as suggestions. Do not infer a safe transition from a section name.
 - Keep short names and distances beside symbols. Preserve custom section names.
 - Increase marker contrast near arrival. Do not flash the performance surface.
-- Show four small remaining-beat marks only during the next cue's final four beats.
+- Show remaining-beat marks only during the final four beats before a grid-aligned cue.
 - Keep the ending cue quiet in the existing time row. Do not duplicate its beat marks.
 - Preserve the existing section editor, waveform gestures, pane geometry and touch targets.
 
@@ -33,7 +33,7 @@ Slip retains the audible source position for nearby cues and the continuing posi
 The ending row marks Slip explicitly. Reverse playback suppresses approaching cues and shows Reverse.
 Tail and Ended remain distinct. Reduced Motion hides the beat marks.
 
-## Verification and delivery
+## Initial verification on 11 November 2026
 
 Focused checks cover pickups, adaptive timing, rate changes, missing grids, loop holds and Slip.
 They also cover reverse, pause, active ribbons, dismissed landmarks, endings and accepted preparation.
@@ -61,3 +61,30 @@ No signed iPad build or installation is claimed. Readability and performance acc
 7. Confirm that sound stays clean and touch stays immediate.
 
 Erik confirms whether the cues help without drawing attention away from the performance.
+
+## Quieter follow-up on 12 November 2026
+
+Keep each upcoming event name in the header. Remove its repeated text from the moving waveform marker.
+Use short ticks at the waveform edges. Keep the musical peaks clear between them.
+Retain the existing playhead, section rail, event symbols and saved region ribbons.
+
+During the final four beats, show either the beat marks or the numeric distance.
+Keep the approximate symbol visible for an estimated cue when its beat marks appear.
+Reduced Motion keeps the numeric distance.
+
+Only show beat marks when the saved cue lies on an actual beat in the timing map.
+Allow one source sample for rounding. Preserve off-beat pickups without a beat-mark countdown or any timing adjustment.
+
+All 14 focused core tests passed against the current production objects.
+The updated cue views compiled and rendered in the same static fixture at 320 and 680 points.
+Visual inspection confirmed that the markers leave the waveform peaks clear and the labels fit.
+Evidence remains in `TestBuilds/r167-quiet-cues/`.
+
+The model's grid draft now has an internal setter so its existing helper files can update it.
+This clears the compilation blocker without making the draft writable outside the interface module.
+The repository check script passed all 14 selected cue tests after this access correction.
+An earlier run stopped during restricted debug-file generation. The script disables that output.
+
+Host checks found no valid signing identity and did not list the A10X iPad.
+The iPad build configuration is still absent. No numbered iPad build or device installation is claimed.
+The A10X acceptance steps above remain open.

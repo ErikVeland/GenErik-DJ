@@ -100,7 +100,7 @@ import TDJCore
     public private(set) var applyingGrids: Set<DeckID> = []
     var adaptiveUndo: [String: [Preparation]] = [:]
     public var gridDraft: [DeckID: BeatGrid] = [:]
-    public private(set) var gridDownbeatDraft: [DeckID: Int] = [:]
+    public internal(set) var gridDownbeatDraft: [DeckID: Int] = [:]
     public var editing: Set<DeckID> = []
     public var browserVisible = false
     public private(set) var browserPresentationID = UUID()

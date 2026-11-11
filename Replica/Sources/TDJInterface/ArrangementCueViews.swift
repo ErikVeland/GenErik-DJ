@@ -57,14 +57,16 @@ struct ArrangementCueBadge: View {
                 .foregroundStyle(cue.kind.cueColour.opacity(cue.emphasis))
             Text(cue.label).lineLimit(1)
             if showsBeatMarks, let remaining = cue.remainingBeatMarks, !reduceMotion {
+                if cue.estimated { Text("≈").foregroundStyle(.secondary) }
                 HStack(spacing: 2) {
                     ForEach(0..<4) { index in
                         Circle().fill(cue.kind.cueColour.opacity(index < remaining ? 0.8 : 0.15))
                             .frame(width: 3, height: 3)
                     }
                 }.accessibilityHidden(true)
+            } else {
+                Text(cue.distance).monospacedDigit().fixedSize()
             }
-            Text(cue.distance).monospacedDigit().fixedSize()
         }.accessibilityElement(children: .ignore)
             .accessibilityLabel("\(cue.estimated ? "Estimated " : "")\(cue.label). \(cue.distance)")
     }
@@ -135,7 +137,7 @@ struct ArrangementCueBadge: View {
             }
             if let region = timeline.region {
                 ribbon(region, y: size.height - 8, height: 6)
-                if !overview {
+                if !overview, size.width >= 32 {
                     context.draw(
                         Text(Image(systemName: region.kind.symbol)).font(.system(size: 10))
                             .foregroundColor(region.kind.cueColour),
@@ -148,27 +150,19 @@ struct ArrangementCueBadge: View {
             ribbon(next, y: size.height - 8, height: 6)
             let colour = next.kind.cueColour.opacity(next.emphasis)
             var boundary = Path()
-            boundary.move(to: .init(x: px, y: overview ? 3 : 20))
-            boundary.addLine(to: .init(x: px, y: size.height - 9))
+            let top = overview || size.height < 40 ? 3.0 : 20.0
+            boundary.move(to: .init(x: px, y: top))
+            boundary.addLine(to: .init(x: px, y: min(top + 8, size.height - 3)))
+            if size.height >= 40 {
+                boundary.move(to: .init(x: px, y: size.height - 14))
+                boundary.addLine(to: .init(x: px, y: size.height - 9))
+            }
             context.stroke(
                 boundary, with: .color(colour),
                 style: StrokeStyle(lineWidth: 1, dash: next.estimated || next.heldByLoop ? [3, 4] : []))
-            guard !overview, size.height >= 64 else { return }
+            guard !overview, size.width >= 32, size.height >= 64 else { return }
             let symbol = Text(Image(systemName: next.kind.symbol)).font(.system(size: 11)).foregroundColor(colour)
             context.draw(symbol, at: .init(x: min(size.width - 10, max(10, px)), y: 11))
-            if size.width >= 240 {
-                let label = Text(next.label).font(.system(size: 10, weight: .medium)).foregroundColor(
-                    PerformancePalette.text.opacity(next.heldByLoop ? 0.45 : 1))
-                let resolved = context.resolve(label)
-                let measured = resolved.measure(in: CGSize(width: 120, height: 16))
-                let after = px + 12 + measured.width <= size.width - 4
-                let start = after ? px + 12 : max(0, px - 12 - measured.width)
-                var labelContext = context
-                labelContext.clip(to: Path(CGRect(x: start, y: 3, width: measured.width, height: 16)))
-                labelContext.draw(
-                    resolved, at: .init(x: after ? px + 12 : px - 12, y: 11),
-                    anchor: after ? .leading : .trailing)
-            }
         }.allowsHitTesting(false).accessibilityHidden(true)
     }
 }

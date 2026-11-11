@@ -28,6 +28,7 @@ public struct ArrangementCue: Sendable {
     public var end: Double?
     public var estimated: Bool
     public var beatsAway: Double?
+    public var beatAligned: Bool
     public var secondsAway: Double
     public var heldByLoop: Bool
 
@@ -51,7 +52,7 @@ public struct ArrangementCue: Sendable {
     }
 
     public var remainingBeatMarks: Int? {
-        guard !heldByLoop, let beatsAway, beatsAway > 0, beatsAway <= 4 else { return nil }
+        guard !heldByLoop, beatAligned, let beatsAway, beatsAway > 0, beatsAway <= 4 else { return nil }
         return Int(ceil(beatsAway))
     }
 }
@@ -90,6 +91,9 @@ extension TrackArrangement {
             return ArrangementCue(
                 kind: kind, label: label, frame: target, end: end, estimated: estimated,
                 beatsAway: grid.map { max(0, $0.beat(atFrame: target) - $0.beat(atFrame: position)) },
+                beatAligned: grid.map {
+                    abs($0.frame(atBeat: $0.beat(atFrame: target).rounded()) - target) <= 1
+                } ?? false,
                 secondsAway: max(0, target - position) / max(1, sampleRate) / speed,
                 heldByLoop: loopEnd.map { target >= $0 } ?? false)
         }
