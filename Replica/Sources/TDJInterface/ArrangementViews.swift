@@ -41,7 +41,7 @@ struct ArrangementColourRegion {
             if let current = arrangement.section(at: model.playbackSnapshot?[deck].sourceFrame ?? 0) {
                 context.fill(
                     Path(CGRect(origin: .zero, size: size)),
-                    with: .color(Color(arrangementHex: current.colourHex).opacity(0.2)))
+                    with: .color(Color(arrangementHex: current.colourHex).opacity(0.08)))
             }
             let span = max(1, visibleSeconds * track.analysis.sampleRate)
             let left = (model.viewport[deck] ?? 0) - span / 2
@@ -66,19 +66,27 @@ struct ArrangementColourRegion {
     var inHeader = false
     var openEditor: () -> Void = {}
     var body: some View {
-        let status = model.arrangementStatus(deck: deck)
+        let timeline = model.arrangementCueTimeline(deck: deck)
         HStack(spacing: 8) {
-            Text(status?.currentSection ?? "STRUCTURE PREPARING").foregroundStyle(currentColour).lineLimit(1)
-            if let id = model.track(deck)?.id, model.structureAnalyzing.contains(id) {
-                Text("ANALYSING STRUCTURE").lineLimit(1).foregroundStyle(.secondary)
-            } else if let status, !status.nextEvent.isEmpty {
-                Text(status.nextEvent).lineLimit(1).foregroundStyle(.secondary)
+            if let timeline {
+                ViewThatFits(in: .horizontal) {
+                    HStack(spacing: 8) {
+                        Label(timeline.currentLabel, systemImage: timeline.currentKind.symbol)
+                            .foregroundStyle(currentColour).lineLimit(1)
+                        if let next = timeline.next { ArrangementCueBadge(cue: next) }
+                    }.fixedSize(horizontal: true, vertical: false)
+                    if let next = timeline.next {
+                        ArrangementCueBadge(cue: next)
+                    } else {
+                        Label(timeline.currentLabel, systemImage: timeline.currentKind.symbol).lineLimit(1)
+                    }
+                }
+            } else {
+                Image(systemName: "waveform").foregroundStyle(.secondary)
+                    .accessibilityLabel("Song structure is not ready")
             }
             Spacer(minLength: 0)
-            if compact, let status {
-                Text(status.endingText).lineLimit(1).foregroundStyle(
-                    status.warning == .red || status.warning == .urgent ? Color.red : Color.secondary)
-            }
+            if compact { ArrangementEndingCue(model: model, deck: deck) }
             if showsEditorButton {
                 Button(action: openEditor) { Image(systemName: "diamond").frame(width: 44, height: 44) }
                     .accessibilityLabel("Edit sections and analysis landmarks").disabled(
@@ -114,6 +122,14 @@ struct ArrangementColourRegion {
     var editorDraft: TrackArrangement? = nil
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     var body: some View {
+        if editorDraft == nil, !model.editing.contains(deck) {
+            PerformanceArrangementOverlay(
+                model: model, deck: deck, track: track, center: center, span: span, overview: overview)
+        } else {
+            editorOverlay
+        }
+    }
+    private var editorOverlay: some View {
         Canvas { context, size in
             guard let arrangement = editorDraft ?? model.arrangements[track.id] else { return }
             let left = center - span / 2

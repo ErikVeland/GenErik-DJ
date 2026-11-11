@@ -658,14 +658,8 @@ private struct DeckPanelHorizontalBounds: Shape {
                         "Current time on deck \(deck.rawValue.uppercased()): \(elapsedTime)"
                     ).padding(.horizontal, 3).background(.black.opacity(0.72))
                     Spacer(minLength: 0)
-                    if let status = model.arrangementStatus(deck: deck) {
-                        Text(status.endingText).font(
-                            .system(size: 10, weight: .semibold, design: .monospaced)
-                        ).foregroundStyle(
-                            status.warning == .red || status.warning == .urgent
-                                ? Color.red : PerformancePalette.text
-                        ).lineLimit(1).padding(.horizontal, 3).background(.black.opacity(0.72))
-                    }
+                    ArrangementEndingCue(model: model, deck: deck)
+                        .padding(.horizontal, 3).background(.black.opacity(0.72))
                     Spacer(minLength: 0)
                     Text(remainingTime).accessibilityLabel(
                         "Time left on deck \(deck.rawValue.uppercased()): \(remainingTime)"
@@ -878,7 +872,7 @@ struct WaveformView: View, Equatable {
         for region in regions {
             var coloured = context
             coloured.clip(to: Path(region.rect))
-            for (path, opacity) in zip(paths, [0.55, 0.82, 1.0]) {
+            for (path, opacity) in zip(paths, [0.72, 0.82, 1.0]) {
                 coloured.fill(path, with: .color(region.colour.opacity(opacity)))
             }
         }
