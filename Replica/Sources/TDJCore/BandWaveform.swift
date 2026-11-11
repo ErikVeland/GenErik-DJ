@@ -34,20 +34,22 @@ public struct BandWaveform: Sendable {
         let size = Self.baseFramesPerBin
         let lowCoefficient = Float(1 - exp(-2 * Double.pi * 150 / sampleRate))
         let highCoefficient = Float(1 - exp(-2 * Double.pi * 2500 / sampleRate))
-        var lowState: Float = 0
-        var highState: Float = 0
+        var lowState = SIMD2<Float>(repeating: 0)
+        var highState = SIMD2<Float>(repeating: 0)
         var base = [Bin](repeating: .init(), count: (frames + size - 1) / size)
         var top = Bin()
         for start in stride(from: 0, to: frames, by: size) {
             if start % (size * 256) == 0 { try checkCancellation() }
             var bin = Bin()
             for frame in start..<min(frames, start + size) {
-                let x = 0.5 * (samples[2 * frame] + samples[2 * frame + 1])
-                lowState += lowCoefficient * (x - lowState)
-                highState += highCoefficient * (x - highState)
-                bin.low = max(bin.low, abs(lowState))
-                bin.mid = max(bin.mid, abs(highState - lowState))
-                bin.high = max(bin.high, abs(x - highState))
+                let x = SIMD2(samples[2 * frame], samples[2 * frame + 1])
+                lowState += (x - lowState) * lowCoefficient
+                highState += (x - highState) * highCoefficient
+                let mid = highState - lowState
+                let high = x - highState
+                bin.low = max(bin.low, max(abs(lowState.x), abs(lowState.y)))
+                bin.mid = max(bin.mid, max(abs(mid.x), abs(mid.y)))
+                bin.high = max(bin.high, max(abs(high.x), abs(high.y)))
             }
             base[start / size] = bin
             top.include(bin)
@@ -117,10 +119,14 @@ public struct BandWaveformColumns: Sendable {
         let count = max(1, pixelWidth)
         let perPixel = max(1e-9, span / Double(count))
         let half = max(0, height) / 2 * WaveformLayers.headroom
-        // Scale each band against the track's own loudest moment; lows draw widest, highs as a narrow core.
+        /**
+         * Keeps quiet spectral leakage from becoming a dominant visual layer.
+         */
+        let floor = max(1e-6, Double(max(waveform.maximum.low, waveform.maximum.mid, waveform.maximum.high)) * 0.2)
         let scale = (
-            low: 1 / max(1e-6, Double(waveform.maximum.low)), mid: 0.8 / max(1e-6, Double(waveform.maximum.mid)),
-            high: 0.55 / max(1e-6, Double(waveform.maximum.high))
+            low: 1 / max(floor, Double(waveform.maximum.low)),
+            mid: WaveformLayers.bodyFraction / max(floor, Double(waveform.maximum.mid)),
+            high: WaveformLayers.coreFraction / max(floor, Double(waveform.maximum.high))
         )
         var low = [Double](repeating: 0, count: count)
         var mid = low

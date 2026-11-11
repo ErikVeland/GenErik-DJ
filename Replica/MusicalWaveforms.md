@@ -1,5 +1,25 @@
 # Musical waveform preparation
 
+## Clarity comes first
+
+Readability takes priority over exact amplitude. Read the bands like performance stems, with kick and bass as the primary shape.
+Use the middle layer for harmonic and vocal-range texture. Keep upper percussion and fine detail in a narrow core.
+The current bands describe frequency content. They do not isolate drums, bass, instruments or vocals.
+
+R168 retains peaks from either stereo channel, rather than cancelling opposite-polarity content through a mono average.
+It narrows the supporting layers and increases the outer shape's contrast within section colours.
+It limits display gain for very quiet bands so leakage does not become dominant.
+The fallback keeps its peak silhouette visible around the inner body, even when RMS is high.
+Its inner layers show level contrast until frequency detail is ready.
+Source audio, beat positions, colours, layer count and gestures stay unchanged.
+
+The display retains track-wide scaling, 64-frame bins, four summary levels and the existing headroom.
+No new drawing pass, stem processing or performance control is added.
+Band preparation still yields to playback and touch through the existing idle and cancellation guards.
+Use the [clarity contract](../ARCHITECTURE.md#waveform-clarity) for DJ priorities and physical acceptance.
+
+## Current workspace
+
 The diamond control above each loaded waveform opens **Musical structure**. The compact deck has the same control.
 
 The waveform uses the section colours by default. The same palette connects the detailed waveform, overview and header. The header background shows the current section colour. A narrow timeline at its top follows the detailed waveform, with matching section boundaries. Current-section and next-event guidance share the track information area.

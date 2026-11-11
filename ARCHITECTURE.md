@@ -16,8 +16,9 @@ It does not certify exact TDJ1 fidelity or gig readiness.
 
 1. Keep clean, continuous audio at the intended speed.
 2. Keep immediate, fluid multi-touch control.
-3. Keep the live workspace simple and familiar.
-4. Add only the capability needed for a demonstrated DJ task.
+3. Make musical time, peaks and mixing cues clear at a glance.
+4. Keep the live workspace simple and familiar.
+5. Add only the capability needed for a demonstrated DJ task.
 
 Any crackle, dropout, unintended pause, slowdown or stop blocks acceptance.
 A missed touch, delayed control, visible stutter or UI stall also blocks acceptance.
@@ -26,6 +27,55 @@ An optional feature must yield, pause or stop before it compromises these priori
 The active performance target is Erik's 2017 A10X iPad Pro.
 Build success and host tests cannot replace his listening and touch checks.
 Use the existing [acceptance gates](docs/coordination/release-gates.md) and [test loop](docs/testing/README.md).
+
+## Waveform clarity
+
+Clarity is a north star alongside simplicity. Readability takes priority over literal amplitude accuracy.
+The waveform must help a DJ choose and execute the next mix within a short glance.
+TDJ1 remains the reference for readable peaks, beat/bar emphasis and an uncluttered surface.
+
+| Read first | What the DJ needs | Display rule |
+| --- | --- | --- |
+| Beats and bars | Align the incoming phrase and recognise the next beat one | Keep bar lines stronger than ordinary beats. Use the accepted grid, independently of waveform level. |
+| Kick and bass | Choose the bass handover and avoid competing low ends | Give the primary silhouette the most space. Keep attacks, decay and gaps distinct. |
+| Phrase changes and vocal-range content | Choose an entry that supports the outgoing track | Keep harmonic and vocal-range texture readable inside the primary shape. Use existing phrase context and verified preparation. |
+| Upper percussion and fine detail | Read rhythm and texture without losing the bass pattern | Keep the high-frequency core narrow. Quiet traces must not become dominant through display gain. |
+| The whole track | Locate a useful passage without losing the live position | Keep the overview simple. Retain detail, timing and gesture ownership while the DJ changes zoom. |
+
+Read the bands like performance stems. Their visual weight can serve a mixing task rather than match their physical amplitude.
+Use shape, relative width, brightness and contrast consistently.
+Keep peaks visible around the inner layers, including dense recordings and the temporary full-mix preview.
+Retain stable scaling across the track. Do not amplify each screenful until it fills the pane.
+Do not fabricate attacks or flatten a real transient pattern to make the display look uniform.
+
+Kick and bass share the primary low-frequency layer.
+The middle layer supplies harmonic and vocal-range texture. The high core supplies percussion and fine detail.
+These roles guide visual reading. Current frequency bands do not identify isolated instruments or prove that a vocal is present.
+Use verified stem envelopes when they already exist and share the track clock, grid and source identity.
+Do not start separation, add stem lanes or add live controls solely for waveform appearance.
+
+Section colours convey phrase context. Band width and contrast must retain the musical hierarchy within those colours.
+Labels, ribbons and markers must leave transient shapes readable and must not intercept an active waveform gesture.
+Show unresolved timing or preparation honestly. Preserve the existing waveform while optional detail prepares.
+
+R168 strengthens the peak silhouette, narrows supporting layers, limits quiet-band amplification and retains stereo content without cancellation.
+It preserves the three layers, palette, headroom, beat/bar drawing and gesture routes.
+The waveform keeps its current level summaries and drawing paths. Extra preparation remains outside active playback.
+
+### Acceptance in a real mix
+
+Use a bass-heavy dance track, human-played disco, a sparse vocal passage and a bright passage without bass.
+Include a dense mastered track and a stereo-wide recording.
+Check the normal deck view, a reduced deck pane, the overview and a zoom change.
+
+1. Find the next beat one and the bass handover with a short glance.
+2. Read the kick attacks and quiet gaps without relying on labels.
+3. Distinguish primary bass from supporting texture when section colours change.
+4. Check that a bass-absent passage does not look like full bass.
+5. Keep waveform touches and another performance control active together.
+6. Check audio, scrolling and touch on the A10X before accepting the display.
+
+Synthetic checks and rendered fixtures establish geometry and regressions. They do not establish superiority to TDJ1 or physical A10X acceptance.
 
 ## Base feature set versus expanded feature set
 

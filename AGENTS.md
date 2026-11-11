@@ -6,6 +6,10 @@ Build the most intuitive, fluid, multi-touch digital DJ app. Follow the [project
 
 Treat any audio crackle, dropout, unintended pause, slowdown or stop as a blocking defect. A missed touch, delayed control, visible stutter or UI stall also blocks acceptance.
 
+Clarity is a north star alongside simplicity. Waveform readability takes priority over exact amplitude. Emphasise beats, bars, kick and bass first. Keep peaks distinct and quiet gaps visible. Harmonic, vocal-range and high-frequency detail supports the primary shape.
+
+Preserve the three-layer workspace and reuse prepared stem data when available. Do not start live separation for display detail. Follow the [waveform clarity contract](ARCHITECTURE.md#waveform-clarity).
+
 Preserve Erik's TDJ1 touch conventions. Keep waveforms, beat jumps, loops, navigation and movable panes part of one adaptable workspace. Let direct touch guide the design. Keep new features free of clutter, extra steps and slowdowns. Audio and touch performance take priority over features, analysis quality, visual polish and repository cleanup. Background work must yield, pause or cancel before it compromises live performance. Verify improvements on the actual 2017 A10X iPad Pro. Keep existing deadlines and limits. Build success, host timings and a tidy repository do not establish performance readiness. Read `docs/coordination/README.md` and the request ledger before starting work.
 
 The beat grid is the transport timing authority. Keep Sync enabled until Erik explicitly disables it. Starts, restarts, seeks and gesture releases must preserve or restore grid alignment when Sync is enabled and a usable grid exists. Temporary manual control must not change the saved Sync choice. A missing grid must remain visible as unresolved. Loading shows the file start at the playhead, not the grid anchor. See `docs/coordination/live-test-144.md`.

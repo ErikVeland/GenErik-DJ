@@ -1,7 +1,8 @@
 import Foundation
 
-/// Column geometry for the layered deck waveform. Each column is mirrored about the centre line:
-/// the peak outline is the low-frequency body, RMS is the mid band and a narrower core marks the highs.
+/**
+ * Draws a fallback peak silhouette with level-based inner layers, mirrored about the centre line.
+ */
 public struct WaveformLayers: Sendable, Equatable {
     public struct Column: Sendable, Equatable {
         public let x: Int
@@ -12,6 +13,11 @@ public struct WaveformLayers: Sendable, Equatable {
 
     /// Fraction of half the height a full-scale peak uses, leaving headroom like a DJ display.
     public static let headroom = 0.86
+    /**
+     * Keeps the primary shape wider than the inner texture and fine detail.
+     */
+    public static let bodyFraction = 0.65
+    public static let coreFraction = 0.32
     /// Visible span for one bar and one beat at the given tempo.
     public static func defaultSeconds(bpm: Double?) -> Double {
         guard let bpm, bpm.isFinite, bpm > 0 else { return 2.5 }
@@ -45,7 +51,7 @@ public struct WaveformLayers: Sendable, Equatable {
                 extent = index.extent(from: low, to: high)
             }
             let peak = Double(min(1, max(extent.maximum, -extent.minimum))) * half
-            let body = min(peak, Double(min(1, extent.rms)) * 1.6 * half)
+            let body = min(peak * Self.bodyFraction, Double(min(1, extent.rms)) * 1.6 * half)
             columns.append(.init(x: x, peak: peak, body: body, core: body * 0.45))
         }
         self.columns = columns
