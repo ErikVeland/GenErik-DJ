@@ -14,6 +14,22 @@ extern "C" {
 typedef struct tdj_asset tdj_asset;
 tdj_asset *tdj_asset_create_stems(const tdj_asset *master, const tdj_asset *const *stems);
 typedef struct tdj_engine tdj_engine;
+#define TDJ_BASS_OFF 0
+#define TDJ_BASS_MEASURE 1
+#define TDJ_BASS_HANDOVER 2
+typedef struct {
+    bool available;
+    int32_t leader;
+    double correlation, cancellation_db, reduction_a_db, reduction_b_db;
+} tdj_bass_assist_meter;
+/**
+ * Selects optional A/B bass analysis or handover without using the command queue.
+ */
+void tdj_bass_assist_set_mode(tdj_engine *engine, int32_t mode);
+/**
+ * Reads a bounded snapshot of bass evidence and current gain reductions.
+ */
+tdj_bass_assist_meter tdj_bass_assist_read(tdj_engine *engine);
 bool tdj_engine_prepare_stem_sends(tdj_engine *engine, unsigned deck);
 void tdj_stem_sends_set(tdj_engine *engine, unsigned deck, uint64_t generation, uint32_t levels);
 void tdj_stem_mix_set(tdj_engine *engine, unsigned deck, uint64_t mix);

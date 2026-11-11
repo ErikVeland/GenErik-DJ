@@ -904,6 +904,20 @@ public final class SampleTransport: @unchecked Sendable {
         tdj_external_input_mix(pointer, level * trim, cue ? trim : 0)
     }
 
+    /**
+     * Selects bass assistance independently of queued transport controls.
+     */
+    public func setBassAssistance(_ mode: BassAssistanceMode) {
+        tdj_bass_assist_set_mode(pointer, mode.rawValue)
+    }
+    public var bassAssistanceMeter: BassAssistanceMeter {
+        let meter = tdj_bass_assist_read(pointer)
+        return BassAssistanceMeter(
+            available: meter.available, leader: meter.leader == 0 ? .a : meter.leader == 1 ? .b : nil,
+            correlation: meter.correlation, cancellationDB: meter.cancellation_db,
+            reductionADB: meter.reduction_a_db, reductionBDB: meter.reduction_b_db)
+    }
+
     public func setMasterMeterEnabled(_ enabled: Bool) { tdj_master_meter_enable(pointer, enabled) }
     public var masterMeter: (left: Double, right: Double, clipLeft: Bool, clipRight: Bool) {
         let meter = tdj_master_meter_read(pointer)

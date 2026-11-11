@@ -11,7 +11,7 @@ mkdir -p "$TDJ_TRANSITION_CACHE"
 python3 - "$TDJ_TRANSITION_CACHE" <<'PY'
 import hashlib,sys
 from pathlib import Path
-files=[Path('Scripts/check-transport-transitions-native.sh'),Path('Scripts/transport-transition-native-check.cpp')]+sorted(p for p in Path('Sources/CTDJTransport').rglob('*') if p.is_file())
+files=[Path('Scripts/check-transport-transitions-native.sh'),Path('Scripts/transport-transition-native-check.cpp'),Path('Scripts/bass-assist-native-check.h')]+sorted(p for p in Path('Sources/CTDJTransport').rglob('*') if p.is_file())
 Path(sys.argv[1],'sources.sha256').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+str(p)+'\n' for p in files))
 PY
 for unit in TDJTransport TDJStreaming TDJRecording; do

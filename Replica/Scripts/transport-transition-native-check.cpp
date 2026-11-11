@@ -568,7 +568,13 @@ static void continuous_manipulation_checks() {
                     rate, checked);
     }
 }
+#include "bass-assist-native-check.h"
+
 int main(int argc, char **argv) {
+    if (argc > 1 && std::strcmp(argv[1], "--bass-assist-only") == 0) {
+        bass_checks::run();
+        return 0;
+    }
     if (argc > 1 && std::strcmp(argv[1], "--scratch-only") == 0) {
         for (double rate : {44100., 48000., 96000.}) {
             std::vector<float> source((int)rate * 4 * 2);
