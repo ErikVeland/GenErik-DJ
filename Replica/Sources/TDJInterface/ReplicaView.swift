@@ -872,7 +872,7 @@ struct WaveformView: View, Equatable {
         for region in regions {
             var coloured = context
             coloured.clip(to: Path(region.rect))
-            for (path, opacity) in zip(paths, [0.72, 0.82, 1.0]) {
+            for (path, opacity) in zip(paths, [0.55, 0.82, 1.0]) {
                 coloured.fill(path, with: .color(region.colour.opacity(opacity)))
             }
         }

@@ -119,49 +119,79 @@ private func longestFlatRun(_ heights: [Double]) -> Int {
     #expect(silence.maximum == .init())
 }
 
-@Test func bandWaveformMakesBassThePrimaryShape() throws {
-    let samples = kickPattern(seconds: 2)
-    let waveform = try samples.withUnsafeBufferPointer { try BandWaveform(interleavedStereo: $0, sampleRate: 44100) }
-    let columns = BandWaveformColumns(
-        waveform, left: 0, span: Double(waveform.frameCount), pixelWidth: 900, height: 240)
-    #expect(columns.low.max()! > columns.mid.max()! * 1.4)
-    #expect(columns.mid.max()! > columns.high.max()! * 1.5)
+@Test func waveformContrastSeparatesKickAndSnareWithoutDimmingTheirAttacks() throws {
+    var bins = [BandWaveform.Bin](repeating: .init(low: 0.2, mid: 0.15, high: 0.05), count: 40)
+    bins[15].low = 1
+    bins[25].mid = 1
+    bins[25].high = 1
+    let original = bins
+    try BandWaveform.emphasiseAttacks(in: &bins, maximum: .init(low: 1, mid: 1, high: 1), sampleRate: 6400)
+    #expect(bins[15] == original[15])
+    #expect(bins[25] == original[25])
+    #expect(bins[12].low > bins[13].low && bins[13].low > bins[14].low)
+    #expect(bins[14].low < original[14].low)
+    #expect(bins[14].mid == original[14].mid && bins[14].high == original[14].high)
+    #expect(bins[24].mid < original[24].mid && bins[24].high < original[24].high)
+    #expect(bins[24].low == original[24].low)
+    #expect(bins[16] == original[16] && bins[26] == original[26])
 }
 
-@Test func denseFallbackKeepsItsPeakSilhouetteAndQuietGaps() {
-    let bins = [
-        WaveformBin(minimum: -0.9, maximum: 0.9, rms: 0.8),
-        WaveformBin(minimum: -0.1, maximum: 0.1, rms: 0.08),
-        WaveformBin(minimum: 0, maximum: 0, rms: 0),
-        WaveformBin(minimum: -0.7, maximum: 0.7, rms: 0.6),
-    ]
-    let layers = WaveformLayers(
-        index: WaveformRangeIndex(bins), framesPerBin: 64, left: 0, span: 256, width: 4, height: 240)
-    #expect(layers.columns.count == 4)
-    #expect(layers.columns.allSatisfy { $0.body <= $0.peak * 0.7 && $0.core <= $0.body })
-    #expect(layers.columns[0].peak > layers.columns[1].peak * 8)
-    #expect(layers.columns[2].peak == 0 && layers.columns[2].body == 0)
+@Test func waveformContrastLeavesSustainAndClearGapsIntact() throws {
+    var sustained = [BandWaveform.Bin](repeating: .init(low: 0.8, mid: 0.5, high: 0.3), count: 100)
+    let original = sustained
+    try BandWaveform.emphasiseAttacks(
+        in: &sustained, maximum: .init(low: 0.8, mid: 0.5, high: 0.3), sampleRate: 6400)
+    #expect(sustained == original)
+    var isolated = [BandWaveform.Bin](repeating: .init(), count: 100)
+    isolated[20] = .init(low: 1, mid: 1, high: 1)
+    let clearGaps = isolated
+    try BandWaveform.emphasiseAttacks(in: &isolated, maximum: .init(low: 1, mid: 1, high: 1), sampleRate: 6400)
+    #expect(isolated == clearGaps)
 }
 
-@Test func highFrequencyOnlyAudioDoesNotLookLikeFullBass() throws {
-    let samples = (0..<44100).flatMap { frame -> [Float] in
-        let value = Float(0.2 * sin(2 * .pi * 8000 * Double(frame) / 44100))
-        return [value, value]
+@Test func waveformContrastProtectsTheWholeRisingAttack() throws {
+    var bins = [BandWaveform.Bin](repeating: .init(low: 0.2), count: 40)
+    bins[13].low = 0.3
+    bins[14].low = 0.8
+    bins[15].low = 1
+    let original = bins
+    try BandWaveform.emphasiseAttacks(in: &bins, maximum: .init(low: 1), sampleRate: 6400)
+    #expect(bins[13...15].elementsEqual(original[13...15]))
+    #expect(bins[12].low < original[12].low)
+}
+
+@Test func waveformContrastPreservesAnAttackAtTheFileStart() throws {
+    var bins = [BandWaveform.Bin](repeating: .init(low: 0.2), count: 40)
+    bins[0].low = 0.1
+    bins[1].low = 0.8
+    bins[2].low = 1
+    let original = bins
+    try BandWaveform.emphasiseAttacks(in: &bins, maximum: .init(low: 1), sampleRate: 6400)
+    #expect(bins[0...2].elementsEqual(original[0...2]))
+}
+
+@Test func waveformContrastKeepsItsTimingAcrossSampleRates() throws {
+    for rate in [44100.0, 48000, 96000] {
+        let hit = Int(rate * 0.25 / 64)
+        var bins = [BandWaveform.Bin](repeating: .init(low: 0.2), count: hit * 2)
+        bins[hit].low = 1
+        try BandWaveform.emphasiseAttacks(in: &bins, maximum: .init(low: 1), sampleRate: rate)
+        let faded = bins.indices.filter { $0 != hit && bins[$0].low < 0.2 }
+        #expect(!faded.isEmpty && faded.allSatisfy { $0 < hit })
+        #expect(faded.allSatisfy { Double(hit - $0) * 64 / rate <= 0.03 })
+        #expect(bins[hit].low == 1)
     }
-    let waveform = try samples.withUnsafeBufferPointer { try BandWaveform(interleavedStereo: $0, sampleRate: 44100) }
-    let columns = BandWaveformColumns(waveform, left: 0, span: 44100, pixelWidth: 900, height: 240)
-    #expect(columns.low.max()! < 240 * 0.5 * WaveformLayers.headroom * 0.35)
-    #expect(columns.high.max()! > columns.low.max()!)
 }
 
-@Test func bassWithQuietHighFrequencyDetailKeepsThatDetailSecondary() throws {
-    let samples = (0..<44100).flatMap { frame -> [Float] in
-        let value = Float(
-            0.6 * sin(2 * .pi * 55 * Double(frame) / 44100)
-                + 0.001 * sin(2 * .pi * 8000 * Double(frame) / 44100))
-        return [value, value]
-    }
-    let waveform = try samples.withUnsafeBufferPointer { try BandWaveform(interleavedStereo: $0, sampleRate: 44100) }
-    let columns = BandWaveformColumns(waveform, left: 0, span: 44100, pixelWidth: 900, height: 240)
-    #expect(columns.high.max()! < columns.low.max()! * 0.15)
+@Test func waveformContrastRemainsCancellable() throws {
+    var bins = [BandWaveform.Bin](repeating: .init(low: 0.2), count: 1024)
+    var checks = 0
+    var cancelled = false
+    do {
+        try BandWaveform.emphasiseAttacks(in: &bins, maximum: .init(low: 1), sampleRate: 44100) {
+            checks += 1
+            if checks == 2 { throw CancellationError() }
+        }
+    } catch is CancellationError { cancelled = true }
+    #expect(cancelled)
 }

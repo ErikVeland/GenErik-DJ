@@ -3,18 +3,20 @@
 ## Clarity comes first
 
 Readability takes priority over exact amplitude. Read the bands like performance stems, with kick and bass as the primary shape.
-Use the middle layer for harmonic and vocal-range texture. Keep upper percussion and fine detail in a narrow core.
+Use the middle layer for harmonic and vocal-range texture. Keep snare attacks clear through the middle and upper layers.
 The current bands describe frequency content. They do not isolate drums, bass, instruments or vocals.
 
 R168 retains peaks from either stereo channel, rather than cancelling opposite-polarity content through a mono average.
-It narrows the supporting layers and increases the outer shape's contrast within section colours.
-It limits display gain for very quiet bands so leakage does not become dominant.
-The fallback keeps its peak silhouette visible around the inner body, even when RMS is high.
+It retains the original layer widths, gain and brightness after Erik rejected the first visual candidate.
+Prepared bands taper their preceding decay for up to 30 ms before a strong attack.
+The attack keeps its height and time. Each band handles its own lead-in, so a kick does not dim unrelated snare frequencies.
+The detector follows rises in band energy. It does not create or reposition beats.
+The full-mix fallback retains its original balance.
 Its inner layers show level contrast until frequency detail is ready.
 Source audio, beat positions, colours, layer count and gestures stay unchanged.
 
 The display retains track-wide scaling, 64-frame bins, four summary levels and the existing headroom.
-No new drawing pass, stem processing or performance control is added.
+The contrast pass prepares in place before the level summaries. It adds no drawing pass, stem processing or performance control.
 Band preparation still yields to playback and touch through the existing idle and cancellation guards.
 Use the [clarity contract](../ARCHITECTURE.md#waveform-clarity) for DJ priorities and physical acceptance.
 

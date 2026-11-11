@@ -6,7 +6,9 @@ Build the most intuitive, fluid, multi-touch digital DJ app. Follow the [project
 
 Treat any audio crackle, dropout, unintended pause, slowdown or stop as a blocking defect. A missed touch, delayed control, visible stutter or UI stall also blocks acceptance.
 
-Clarity is a north star alongside simplicity. Waveform readability takes priority over exact amplitude. Emphasise beats, bars, kick and bass first. Keep peaks distinct and quiet gaps visible. Harmonic, vocal-range and high-frequency detail supports the primary shape.
+Clarity is a north star alongside simplicity. Waveform readability takes priority over exact amplitude. Emphasise beats, bars, kick and bass first. Keep peaks distinct and quiet gaps visible.
+
+Preserve strong kick and snare attack frequencies. Separate each attack from the preceding decay in those bands. Judge the actual shapes against the accepted reference.
 
 Preserve the three-layer workspace and reuse prepared stem data when available. Do not start live separation for display detail. Follow the [waveform clarity contract](ARCHITECTURE.md#waveform-clarity).
 

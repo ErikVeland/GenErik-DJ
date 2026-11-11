@@ -37,18 +37,22 @@ TDJ1 remains the reference for readable peaks, beat/bar emphasis and an unclutte
 | Read first | What the DJ needs | Display rule |
 | --- | --- | --- |
 | Beats and bars | Align the incoming phrase and recognise the next beat one | Keep bar lines stronger than ordinary beats. Use the accepted grid, independently of waveform level. |
-| Kick and bass | Choose the bass handover and avoid competing low ends | Give the primary silhouette the most space. Keep attacks, decay and gaps distinct. |
+| Kick, snare and bass | Identify alternating or overlapping drum hits and choose the bass handover | Keep their hitting frequencies strong and separate. Taper preceding decay within each band. |
 | Phrase changes and vocal-range content | Choose an entry that supports the outgoing track | Keep harmonic and vocal-range texture readable inside the primary shape. Use existing phrase context and verified preparation. |
-| Upper percussion and fine detail | Read rhythm and texture without losing the bass pattern | Keep the high-frequency core narrow. Quiet traces must not become dominant through display gain. |
+| Upper percussion and fine detail | Read rhythm and texture without losing the drum pattern | Keep meaningful percussion peaks visible and retain their contrast against surrounding decay. |
 | The whole track | Locate a useful passage without losing the live position | Keep the overview simple. Retain detail, timing and gesture ownership while the DJ changes zoom. |
 
 Read the bands like performance stems. Their visual weight can serve a mixing task rather than match their physical amplitude.
 Use shape, relative width, brightness and contrast consistently.
-Keep peaks visible around the inner layers, including dense recordings and the temporary full-mix preview.
+Keep kick and snare attack frequencies strong. Improve local separation by tapering the preceding decay, while retaining peak height and timing.
 Retain stable scaling across the track. Do not amplify each screenful until it fills the pane.
 Do not fabricate attacks or flatten a real transient pattern to make the display look uniform.
 
+Readability cannot be inferred from thinner bands or lower gain.
+Compare the actual kick/snare shapes with the accepted reference. Preserve useful inner peaks and their contrast.
+
 Kick and bass share the primary low-frequency layer.
+Snare attacks read through their middle and upper frequency peaks.
 The middle layer supplies harmonic and vocal-range texture. The high core supplies percussion and fine detail.
 These roles guide visual reading. Current frequency bands do not identify isolated instruments or prove that a vocal is present.
 Use verified stem envelopes when they already exist and share the track clock, grid and source identity.
@@ -58,7 +62,9 @@ Section colours convey phrase context. Band width and contrast must retain the m
 Labels, ribbons and markers must leave transient shapes readable and must not intercept an active waveform gesture.
 Show unresolved timing or preparation honestly. Preserve the existing waveform while optional detail prepares.
 
-R168 strengthens the peak silhouette, narrows supporting layers, limits quiet-band amplification and retains stereo content without cancellation.
+R168 retains the accepted band widths and brightness.
+A short visual fade reduces the preceding decay within a band before a strong attack.
+Stereo content remains visible without cancellation.
 It preserves the three layers, palette, headroom, beat/bar drawing and gesture routes.
 The waveform keeps its current level summaries and drawing paths. Extra preparation remains outside active playback.
 
@@ -71,7 +77,7 @@ Check the normal deck view, a reduced deck pane, the overview and a zoom change.
 1. Find the next beat one and the bass handover with a short glance.
 2. Read the kick attacks and quiet gaps without relying on labels.
 3. Distinguish primary bass from supporting texture when section colours change.
-4. Check that a bass-absent passage does not look like full bass.
+4. Check that kick and snare remain distinct in alternating and overlapping patterns.
 5. Keep waveform touches and another performance control active together.
 6. Check audio, scrolling and touch on the A10X before accepting the display.
 

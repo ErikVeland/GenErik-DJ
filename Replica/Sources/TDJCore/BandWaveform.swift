@@ -54,6 +54,7 @@ public struct BandWaveform: Sendable {
             base[start / size] = bin
             top.include(bin)
         }
+        try Self.emphasiseAttacks(in: &base, maximum: top, sampleRate: sampleRate, checkCancellation: checkCancellation)
         var levels = [base]
         while levels.count < 4, let last = levels.last, last.count > 1 {
             levels.append(
@@ -68,6 +69,53 @@ public struct BandWaveform: Sendable {
         self.frameCount = frames
         self.levels = levels
         self.maximum = top
+    }
+
+    /**
+     * Tapers preceding decay within each band while retaining the attack itself.
+     */
+    static func emphasiseAttacks(
+        in bins: inout [Bin], maximum: Bin, sampleRate: Double, checkCancellation: () throws -> Void = {}
+    ) rethrows {
+        guard !bins.isEmpty, sampleRate.isFinite, sampleRate > 0 else { return }
+        let fadeBins = max(1, Int(sampleRate * 0.03 / Double(baseFramesPerBin)))
+        let spacing = max(fadeBins + 1, Int(sampleRate * 0.06 / Double(baseFramesPerBin)))
+        let release = Float(exp(-Double(baseFramesPerBin) / (sampleRate * 0.05)))
+        let threshold = SIMD3(maximum.low, maximum.mid, maximum.high) * 0.15
+        var envelope = SIMD3<Float>(repeating: 0)
+        var previousAttack = SIMD3<Int>(repeating: -spacing)
+        for index in bins.indices {
+            if index.isMultiple(of: 256) { try checkCancellation() }
+            let value = SIMD3(bins[index].low, bins[index].mid, bins[index].high)
+            for band in 0..<3 {
+                if value[band] > threshold[band], value[band] > envelope[band] * 2,
+                    index - previousAttack[band] >= spacing
+                {
+                    var start = index
+                    let limit = max(0, index - fadeBins)
+                    while start > limit {
+                        let prior = bins[start - 1]
+                        let current = bins[start]
+                        if SIMD3(prior.low, prior.mid, prior.high)[band]
+                            >= SIMD3(current.low, current.mid, current.high)[band]
+                        { break }
+                        start -= 1
+                    }
+                    let attack = start == 0 ? 0 : min(index, start + 1)
+                    for lead in max(0, attack - fadeBins)..<attack {
+                        let distance = Float(attack - lead) / Float(fadeBins)
+                        let gain = 0.2 + 0.8 * distance * distance
+                        switch band {
+                        case 0: bins[lead].low *= gain
+                        case 1: bins[lead].mid *= gain
+                        default: bins[lead].high *= gain
+                        }
+                    }
+                    previousAttack[band] = index
+                }
+                envelope[band] = max(value[band], envelope[band] * release)
+            }
+        }
     }
 
     /// Reads a playback cache file (interleaved stereo 32-bit float).
@@ -119,14 +167,9 @@ public struct BandWaveformColumns: Sendable {
         let count = max(1, pixelWidth)
         let perPixel = max(1e-9, span / Double(count))
         let half = max(0, height) / 2 * WaveformLayers.headroom
-        /**
-         * Keeps quiet spectral leakage from becoming a dominant visual layer.
-         */
-        let floor = max(1e-6, Double(max(waveform.maximum.low, waveform.maximum.mid, waveform.maximum.high)) * 0.2)
         let scale = (
-            low: 1 / max(floor, Double(waveform.maximum.low)),
-            mid: WaveformLayers.bodyFraction / max(floor, Double(waveform.maximum.mid)),
-            high: WaveformLayers.coreFraction / max(floor, Double(waveform.maximum.high))
+            low: 1 / max(1e-6, Double(waveform.maximum.low)), mid: 0.8 / max(1e-6, Double(waveform.maximum.mid)),
+            high: 0.55 / max(1e-6, Double(waveform.maximum.high))
         )
         var low = [Double](repeating: 0, count: count)
         var mid = low
