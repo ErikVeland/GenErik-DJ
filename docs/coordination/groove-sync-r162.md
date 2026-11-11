@@ -8,6 +8,8 @@ Erik selected second-deck start as the trigger on 11 November 2026. Loading anot
 
 This changes adaptive Sync playback. It does not change analysis results, accepted preparation or the saved Sync choice.
 
+The [musical mixing strategy](humanising-dj-mixing.md) covers headroom, phase, frequency space, warmth, DJ control and shared research. Broader assistance remains proposed.
+
 ## Value during a set
 
 Consider a drifting Norwegian disco remix followed by a steady modern remix. During solo playback, continuous beat correction can change the original push and pull. During a long blend, unchecked tempo drift requires repeated nudges and can separate the two rhythms.

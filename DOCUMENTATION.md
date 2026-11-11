@@ -8,6 +8,7 @@
 | Audio and touch acceptance | [Release gates](docs/coordination/release-gates.md) |
 | Source layout | [Architecture](Replica/README.md) |
 | Playback and Sync | [Playback](Replica/Playback.md) |
+| Human groove and musical mixing strategy | [Humanising DJ mixing](docs/coordination/humanising-dj-mixing.md), [R162 bar alignment](docs/coordination/groove-sync-r162.md) |
 | Streaming memory and ownership | [PCM streaming](Replica/PCMStreamingDesign.md) |
 | Audio/UI scheduling | [Responsiveness](Replica/Responsiveness.md) |
 | Analysis and waveforms | [Analysis](Replica/Analysis.md), [musical waveforms](Replica/MusicalWaveforms.md) |
