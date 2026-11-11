@@ -1,0 +1,2979 @@
+{
+  "schemaVersion": 1,
+  "reviewed": "2026-11-11",
+  "mixxx": {
+    "repository": "mixxxdj/mixxx",
+    "revision": "20f2c218ae1b762ac39fd76ff408c8428056f4f7",
+    "files": [
+      {
+        "path": "LICENSE",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/LICENSE",
+        "git_blob": "8ea4ac28edd6d60cf9f0a23deddf92f9ec924ebe",
+        "sha256": "c10911954286426c2335e8ccddb5496b75a89e797cfe4ada9f3e64d744759a0c",
+        "bytes": 177985
+      },
+      {
+        "path": "res/controllers/Akai MPD24.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai%20MPD24.midi.xml",
+        "git_blob": "167c91964b5c434504f1083fcb524e2cdbc0ca67",
+        "sha256": "690329279c1f35541e9b460c07241b8854985585da0673366b6288ab4d2b58cb",
+        "bytes": 7346
+      },
+      {
+        "path": "res/controllers/Akai-LPD8-RK-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai-LPD8-RK-scripts.js",
+        "git_blob": "45b4d5954ef1729eacaa0b97e5202de6cf5cf62a",
+        "sha256": "a8a0d9135df9e0edc1046a618f78eea3ec33f2f05b76c7dc3798d19c4fe31456",
+        "bytes": 29758
+      },
+      {
+        "path": "res/controllers/Akai-LPD8-RK.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai-LPD8-RK.midi.xml",
+        "git_blob": "34811f8babddcda14b1b1601208dc42d500d707f",
+        "sha256": "cbd3318d70f73b488c4a0325e7fdf365166a10fcc0cda118621d0fe1cfb4e063",
+        "bytes": 40988
+      },
+      {
+        "path": "res/controllers/Allen and Heath Xone K2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Allen%20and%20Heath%20Xone%20K2.midi.xml",
+        "git_blob": "140e25054b922326542942a06044c2e2c461f3d9",
+        "sha256": "76973fcf90ec72922de052f5a2813281f8cfb16f2358302d67b2b249e0c5ff79",
+        "bytes": 190748
+      },
+      {
+        "path": "res/controllers/Allen-and-Heath-Xone-K2-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Allen-and-Heath-Xone-K2-scripts.js",
+        "git_blob": "617f82ff1534e63d8914982ebbe75248357bc34a",
+        "sha256": "edce0138d4782e4c2d9ca28bac478697041288031f2d1ca5759cb92238b646f9",
+        "bytes": 39411
+      },
+      {
+        "path": "res/controllers/American Audio RADIUS 2000 CH1.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20RADIUS%202000%20CH1.midi.xml",
+        "git_blob": "7c86ab6248e120242eebd1eb0ae724da36bb5572",
+        "sha256": "d9ad4e954b96723daeb9add18222b54dad0d66a5872f34f62d197c01aed9c079",
+        "bytes": 9893
+      },
+      {
+        "path": "res/controllers/American Audio RADIUS 2000 CH2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20RADIUS%202000%20CH2.midi.xml",
+        "git_blob": "a307b050c1babb1ae4ba194545f204b6a3673ad7",
+        "sha256": "817c72207fbc863251f26bbda46915a90701081432879b5eaca8bb8ffdb03fec",
+        "bytes": 9893
+      },
+      {
+        "path": "res/controllers/American Audio VMS2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20VMS2.midi.xml",
+        "git_blob": "58d22a26cef2ec7f4561e4801f94553585635986",
+        "sha256": "920ddbaa7dbb63e35d622d3052816ba2ac5c1373a39f8f0e6f9bf81946fb59df",
+        "bytes": 37131
+      },
+      {
+        "path": "res/controllers/American Audio VMS4.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20VMS4.midi.xml",
+        "git_blob": "750b47533a962b9045ea63acde9f4f9ac4622a81",
+        "sha256": "5b594b9051c1fc9d5ab99b149b75df358e8cd4469a314a3af24ab41a824282c1",
+        "bytes": 69717
+      },
+      {
+        "path": "res/controllers/American-Audio-RADIUS-2000-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American-Audio-RADIUS-2000-scripts.js",
+        "git_blob": "9faf58f7057a1ed4ed0547ce3ac982d99015c923",
+        "sha256": "e316793c0c91378ff31d87a60ba495fb38b7f25d2c04dd9ddfc27deceee367e9",
+        "bytes": 9242
+      },
+      {
+        "path": "res/controllers/American-Audio-VMS2-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American-Audio-VMS2-scripts.js",
+        "git_blob": "8224dfd1fe9d3437076867ffaa25798fdca9b31c",
+        "sha256": "03b41120cec7361b93242ac4808c6b96d0d9c4c72b7e3342ff3d18ab29a7f774",
+        "bytes": 16913
+      },
+      {
+        "path": "res/controllers/American-Audio-VMS4-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American-Audio-VMS4-scripts.js",
+        "git_blob": "07dbdb209d3c7110fb58cd4d32f5b204a8a8e91e",
+        "sha256": "1ec3997c2223ce8e70532d8f446483db7848eaffc3f525c5dc03178525127133",
+        "bytes": 18512
+      },
+      {
+        "path": "res/controllers/Arturia-KeyLab-Mk1-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Arturia-KeyLab-Mk1-scripts.js",
+        "git_blob": "1545786c682080d82e4c85974238dea80da98de2",
+        "sha256": "b67ec8f8ccc9481125d6087d58378acbc4bd6cd812f67f38daa9ce6c469f2ae2",
+        "bytes": 37031
+      },
+      {
+        "path": "res/controllers/ArturiaKeyLab.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/ArturiaKeyLab.midi.xml",
+        "git_blob": "d427f226629b9b0c1d0be91f944d7fa5c05cff11",
+        "sha256": "dfa94f00c4ac092534502445c7879c03f1a73dd66331788ce4b01a951cb33f79",
+        "bytes": 17891
+      },
+      {
+        "path": "res/controllers/Behringer BCD2000.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD2000.midi.xml",
+        "git_blob": "7e06ce0171bb46bef9d6ec1731b59e410ff5becd",
+        "sha256": "112b417f83a008529d62f1278442898fee4f03097ad83860438a7f4b2ee86ef7",
+        "bytes": 20770
+      },
+      {
+        "path": "res/controllers/Behringer BCD3000 Advanced.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD3000%20Advanced.midi.xml",
+        "git_blob": "32a224193461a1e9ebee6cdb20eb4a9108dc2277",
+        "sha256": "4ab776451cf5f43738f81f6e6e6f7effa907d690017411605c52a898dacd0231",
+        "bytes": 38204
+      },
+      {
+        "path": "res/controllers/Behringer BCD3000.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD3000.midi.xml",
+        "git_blob": "53b65cf920c568e17245bf3c1a318054b35d7c2a",
+        "sha256": "7d844f064886cfb937f3ffbaf29506846265c42be6eb946e2204c6c9ab19b2d1",
+        "bytes": 20747
+      },
+      {
+        "path": "res/controllers/Behringer BCR2000.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCR2000.midi.xml",
+        "git_blob": "535652854143d9017e4270a53d1795e1e7029d5e",
+        "sha256": "e961989dc4bacae20715a575b259a9b869eb3b032406df12a96afe3c56e39671",
+        "bytes": 640
+      },
+      {
+        "path": "res/controllers/Behringer CMD MM1.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20MM1.midi.xml",
+        "git_blob": "7e35c02e7a5663b07e0c030f0469de6c9aa52511",
+        "sha256": "b32bdb57cdd2e8474f0b77e51df0122b389fe2b8a8c0c0230146e512592f6a90",
+        "bytes": 17818
+      },
+      {
+        "path": "res/controllers/Behringer CMD Micro.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20Micro.midi.xml",
+        "git_blob": "d1cc0d23ad0badc86746687bdae3bfd5188dcb3c",
+        "sha256": "e89119e414cf4aca2053e3da80b21db4d81a994af368654313b3b88614845c1c",
+        "bytes": 17947
+      },
+      {
+        "path": "res/controllers/Behringer CMDStudio4a.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMDStudio4a.midi.xml",
+        "git_blob": "e24fca97ad7985a13d204e36d789708427cc4942",
+        "sha256": "75c69da47993bef18003ae79ccbb21cd0860dcdbbbada64571f1319c25351cf4",
+        "bytes": 130953
+      },
+      {
+        "path": "res/controllers/Behringer DDM4000.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20DDM4000.midi.xml",
+        "git_blob": "7d2b69229737a530fdb8ae864a3cbce8ee7a351a",
+        "sha256": "74724faeac70e591badee6dbe7478171294239e4c2eb310cf05bde480fcb20a0",
+        "bytes": 564
+      },
+      {
+        "path": "res/controllers/Behringer-BCD2000-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-BCD2000-scripts.js",
+        "git_blob": "45110d5dee121b244f072818eef538c95f7ff0db",
+        "sha256": "6feba398edae70effc357297ec72ce1b5d5bf71dccb65932a78a2bf2c780e9da",
+        "bytes": 3128
+      },
+      {
+        "path": "res/controllers/Behringer-BCD3000-Advanced-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-BCD3000-Advanced-scripts.js",
+        "git_blob": "40a93bdd0965189851ae823cd90ce9f9a882a7e8",
+        "sha256": "87323383fe83c734901545294afb00215f93a6ad451afad146aebb272643e3fe",
+        "bytes": 6516
+      },
+      {
+        "path": "res/controllers/Behringer-BCD3000-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-BCD3000-scripts.js",
+        "git_blob": "f6d86a4c98eb01756d154956a2e2138c592634fb",
+        "sha256": "0036f216b58ed62c0422f9b005bd6adb0722b57cd6dbc9f8be5ee419f4325e3c",
+        "bytes": 3087
+      },
+      {
+        "path": "res/controllers/Behringer-BCR2000-preset-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-BCR2000-preset-scripts.js",
+        "git_blob": "d98e6c6cca31d1daf4c746886678a10f10265fad",
+        "sha256": "83ea7da36aa208082f7758751ced8bbd8eebca241ff85b75768f5587de8f1bf6",
+        "bytes": 5831
+      },
+      {
+        "path": "res/controllers/Behringer-BCR2000-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-BCR2000-scripts.js",
+        "git_blob": "b66337ddfb5fe148b02056c50453f28324698da6",
+        "sha256": "87ab64b1d3b61c824f3bc0bfa8075df8e06b77483eb8dbba23112cfeedf876cb",
+        "bytes": 10530
+      },
+      {
+        "path": "res/controllers/Behringer-CMD-MM1-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-CMD-MM1-scripts.js",
+        "git_blob": "68f074722a491200e1e4f9583970e4094a5aa2b9",
+        "sha256": "5babd6d36087846163ab27f777372d521cb70c2fef15d9777a915007873a65f1",
+        "bytes": 19850
+      },
+      {
+        "path": "res/controllers/Behringer-CMD-Micro-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-CMD-Micro-scripts.js",
+        "git_blob": "a8b5ccc6829ca33d35d8f062d2b717e18744db16",
+        "sha256": "b86618e11ebf2666da9ccf169bfd2804325681ff0c400264c963c6912bb819b5",
+        "bytes": 3880
+      },
+      {
+        "path": "res/controllers/Behringer-CMDStudio4a-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-CMDStudio4a-scripts.js",
+        "git_blob": "6152e8cdbe9622e71a12657a04ec36f13394c560",
+        "sha256": "84adc04600502c0dc5691db8c4f7e95eaaac77ef991c9581a6cfe4cc7105ccd1",
+        "bytes": 12129
+      },
+      {
+        "path": "res/controllers/Behringer-DDM4000-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-DDM4000-scripts.js",
+        "git_blob": "00eee216f185b8ee4272ed7fa1b19daddaaf8534",
+        "sha256": "ead855d1801c8aed74c97a61e46944da81e2d1a29db4d009c26d010a4b51bcc4",
+        "bytes": 27114
+      },
+      {
+        "path": "res/controllers/Behringer-Extension-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-Extension-scripts.js",
+        "git_blob": "160f2afe2848a1002f85c144b7f4812227b65fac",
+        "sha256": "6c175dcf576804ccb09389075550b08f483c7c1c53569bad9d8d548ee4d0da89",
+        "bytes": 69705
+      },
+      {
+        "path": "res/controllers/DJ TechTools MIDI Fighter Spectra.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Spectra.midi.xml",
+        "git_blob": "0bedd2493d6317fa169242a0104c04c535b1ebe0",
+        "sha256": "2ae64044c60cc85c3b5c11cacd90f2ff4d018ac8859fdb1a15d9f40eb411fc26",
+        "bytes": 35596
+      },
+      {
+        "path": "res/controllers/DJ TechTools MIDI Fighter Twister.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Twister.midi.xml",
+        "git_blob": "ae5d30025bff3f7e8106350404fe1c08b9da5f0a",
+        "sha256": "fb875ed8e2518d3ae773c1e4a20a471190fa461c33a40a0364cd8c51ff904ca7",
+        "bytes": 40481
+      },
+      {
+        "path": "res/controllers/DJ TechTools-MIDI Fighter Spectra-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools-MIDI%20Fighter%20Spectra-scripts.js",
+        "git_blob": "fc7dd3d7c8c9dade8511c684590b902a7c22ec33",
+        "sha256": "e727b3e2c7a4c5c9b845e69a1576f7e1ccd78e1d0c3df7ef812d027d6d73dcce",
+        "bytes": 16730
+      },
+      {
+        "path": "res/controllers/DJ TechTools-MIDI Fighter Twister-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools-MIDI%20Fighter%20Twister-scripts.js",
+        "git_blob": "ecc560ee2be3171e29659bafb782ce613561ddef",
+        "sha256": "4bfb41f2ea7380a8f6eaf7ca894578df7c301081f500fd07961ae9d620e92336",
+        "bytes": 23814
+      },
+      {
+        "path": "res/controllers/DJ-Tech CDJ-101.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20CDJ-101.midi.xml",
+        "git_blob": "cc7cc6d1bca5eee350a4613a0edc2dd30af22b9a",
+        "sha256": "67b81fe30a79ae834367c55bfb0f8808b7efa1d2b9b13e9d9a85d01548d01648",
+        "bytes": 5826
+      },
+      {
+        "path": "res/controllers/DJ-Tech DJM-101.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20DJM-101.midi.xml",
+        "git_blob": "c1b09a43ee6e02a121812ac4610579b88967e24f",
+        "sha256": "e6fd3dafde0b0044841208ce92021190e4f02caab4c042766122b5f97e99587c",
+        "bytes": 6015
+      },
+      {
+        "path": "res/controllers/DJ-Tech Kontrol One.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Kontrol%20One.midi.xml",
+        "git_blob": "47d3c328d992d6c135b0433a3b478e0a12eefdbf",
+        "sha256": "c867803184375965b65e1d49ee5a35e13bff1ba7549e65f7e72d980c814e3989",
+        "bytes": 41005
+      },
+      {
+        "path": "res/controllers/DJ-Tech Mix-101.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mix-101.midi.xml",
+        "git_blob": "25d27b78227967417e33316549e9fa17ae7d0210",
+        "sha256": "6c1364e0ab02722419e9680a9d05caf594aa8bc45a2f3188c2098e3e464a83a4",
+        "bytes": 11518
+      },
+      {
+        "path": "res/controllers/DJ-Tech Mixer One.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mixer%20One.midi.xml",
+        "git_blob": "8e09da443cf78c54945fccfe467b6805607ce7cb",
+        "sha256": "c895e5904a8de34494f2b74cbeca06fbd835c879683d968cc150b485331ccbc8",
+        "bytes": 23237
+      },
+      {
+        "path": "res/controllers/DJ-Tech i-Mix Reload.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20i-Mix%20Reload.midi.xml",
+        "git_blob": "9096d9f3cc34faf6324e4b54065c049f90f43b16",
+        "sha256": "f036d54b4ce670f40ef6e4f91ef47c899a9160e9bcf9677f69e772094f731b39",
+        "bytes": 16896
+      },
+      {
+        "path": "res/controllers/DJ-Tech-CDJ-101-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech-CDJ-101-scripts.js",
+        "git_blob": "daea57c37189c87396a2fd545f058deaeeaef267",
+        "sha256": "15c2091a3f39bad84bf8c7d95ae959a441cb41b755fd444a919fdc65cc13562d",
+        "bytes": 6948
+      },
+      {
+        "path": "res/controllers/DJ-Tech-DJM-101-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech-DJM-101-scripts.js",
+        "git_blob": "666a96967ece19b84953a5fb2039dedb8c0e2141",
+        "sha256": "fc98d0142c7265e67f7da8bcf0655811e19a25af8dfe40bba2688e03baeb1745",
+        "bytes": 3052
+      },
+      {
+        "path": "res/controllers/DJ-Tech-Kontrol-One-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech-Kontrol-One-scripts.js",
+        "git_blob": "20dacb610b04d81e3fa6fb592784a26587c85c03",
+        "sha256": "4ce919cd968d2e4e8bdcda6db5f1209389ab1efb35c6c89599d5e15fc0855266",
+        "bytes": 81116
+      },
+      {
+        "path": "res/controllers/DJ-Tech-Mixer-One-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech-Mixer-One-scripts.js",
+        "git_blob": "4ce65051719d8ea2de408bc373a537c3f4825549",
+        "sha256": "5a08166293187281e59bcea4cf646f6d987a107c0c17d9ee754089420e964b21",
+        "bytes": 3510
+      },
+      {
+        "path": "res/controllers/DJ-Tech-i-Mix-Reload-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech-i-Mix-Reload-scripts.js",
+        "git_blob": "60fd662ab2062c5bdebff5ed7d5dcfbb9449bd07",
+        "sha256": "7a25b07233c2eba9ca667e1ec51510dd9635fcfde7bdd4c890c1cd4f29ee59d8",
+        "bytes": 9008
+      },
+      {
+        "path": "res/controllers/DJTechTools MIDI Fighter.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJTechTools%20MIDI%20Fighter.midi.xml",
+        "git_blob": "e65e000064233103f16386e72617a62bb9db1c13",
+        "sha256": "2f92f9c317337ef0866da8323e42a3be878fdb0847ecdeebe06ccae7ab8d6120",
+        "bytes": 8407
+      },
+      {
+        "path": "res/controllers/DJTechTools-MIDIFighter-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJTechTools-MIDIFighter-scripts.js",
+        "git_blob": "12843eb4c1b9693f3390daa6472653da1c18fcf8",
+        "sha256": "38836ff9410778a216efe63fd05240e534782f39ed94df7d9214b2ea5ccd3748",
+        "bytes": 5180
+      },
+      {
+        "path": "res/controllers/Denon DN HS5500.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20DN%20HS5500.midi.xml",
+        "git_blob": "b11e62891331eed95c3f3c717b4143fc57c98969",
+        "sha256": "859e3f06a1a1cd659c60e276dd4422f7beea5857cc8ff45d4924d20e9955e9b9",
+        "bytes": 24782
+      },
+      {
+        "path": "res/controllers/Denon DN SC2000.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20DN%20SC2000.midi.xml",
+        "git_blob": "b751863ffc33b630c7cdc2c0a012ca270ab2e273",
+        "sha256": "7d531793ad47bbe219aa761a8f39e2ee22dd853c977f94b69426e19ffe86da8e",
+        "bytes": 34528
+      },
+      {
+        "path": "res/controllers/Denon MC3000.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20MC3000.midi.xml",
+        "git_blob": "0276a225f3bf351d907d908c06fb4da753b049c9",
+        "sha256": "0cf80d155f2573c4b01467649a7fbb1de85d2586f6aff4fb90f91f3bf75601bd",
+        "bytes": 43553
+      },
+      {
+        "path": "res/controllers/Denon MC4000.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20MC4000.midi.xml",
+        "git_blob": "3ddd8b174a7fbf8b6977c25f7127177f348dcfbc",
+        "sha256": "c3e48e924916e3bd982b70f755853385f400e4c4e77c035432c93f83c7cab570",
+        "bytes": 48372
+      },
+      {
+        "path": "res/controllers/Denon-DN-HS5500-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-DN-HS5500-scripts.js",
+        "git_blob": "b6dfe0e628cb04d3792d08a05a369b4f55fa411f",
+        "sha256": "f69659e8669a9c28b5e1a868cbd8a82bc34f534c394c5c967450d796a103661a",
+        "bytes": 16969
+      },
+      {
+        "path": "res/controllers/Denon-DN-SC2000.midi.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-DN-SC2000.midi.js",
+        "git_blob": "0f54089d030872bc4f58e0e01409c3d4f289e8c3",
+        "sha256": "72f5e8a46afa7a2ad69f7fe1c926de8322d5d9d71e8bf5125dc71d2e201c9999",
+        "bytes": 19402
+      },
+      {
+        "path": "res/controllers/Denon-MC3000-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC3000-scripts.js",
+        "git_blob": "12c2dded95c1f4c65d3973b3530a63b27a658aa6",
+        "sha256": "fb06584b939abc39c46961aa0e67d1e951c0aaf82143b3bdad164627a70b0352",
+        "bytes": 21099
+      },
+      {
+        "path": "res/controllers/Denon-MC4000-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC4000-scripts.js",
+        "git_blob": "6989a1af41aaf31db84791a49aeef95be6274ca5",
+        "sha256": "dbfbd0f0307e891e0f4a8f93eae93ff445c5aa7a97c5ff58670331c663127e70",
+        "bytes": 7018
+      },
+      {
+        "path": "res/controllers/Denon-MC6000MK2-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC6000MK2-scripts.js",
+        "git_blob": "6732229949e9a1942c77d092243c8cb448ba734d",
+        "sha256": "efdfda0fe1ad915725d0c46b791c9e81d9bb11879a90532d6390c4819c1fdd3f",
+        "bytes": 65457
+      },
+      {
+        "path": "res/controllers/Denon-MC6000MK2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC6000MK2.midi.xml",
+        "git_blob": "bcc863c0834c4290d0701d26763576a8a4fb71a1",
+        "sha256": "09dcf2480361a4ba4c4a209535ef388e02cf3897e5b25cbe2786495035e062d0",
+        "bytes": 97881
+      },
+      {
+        "path": "res/controllers/Denon-MC7000-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC7000-scripts.js",
+        "git_blob": "7cdbea75a08f0395daee1471d6a11a7496be281b",
+        "sha256": "5d2b24a7c36a3e5e7886e43b7e4fd83378ca5857c48beb7ba99b47ef26bda2a3",
+        "bytes": 60065
+      },
+      {
+        "path": "res/controllers/Denon-MC7000.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC7000.midi.xml",
+        "git_blob": "b36a5a0683e6f6773a30d18f1a7744460b9a543a",
+        "sha256": "d12a96a48aad17be649c914a61a341303c0d7b43ac5bee37158bc0c61e1db09a",
+        "bytes": 153846
+      },
+      {
+        "path": "res/controllers/Dummy Device Screen.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Dummy%20Device%20Screen.hid.xml",
+        "git_blob": "4a0b7fd23a5c852a22b25fc64a791dcad388f7be",
+        "sha256": "cf67b7e974ff300a3e264f6229a3f3c83fedbfbc7020aab9674efd667055610e",
+        "bytes": 3706
+      },
+      {
+        "path": "res/controllers/EKS Otus.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/EKS%20Otus.hid.xml",
+        "git_blob": "674d5ad15e748527204f2ff441de87cd1a0e18fd",
+        "sha256": "c68eaee8fa9740f72c7961c96c74eae68495dfda45732530f9ea1f15f4989088",
+        "bytes": 738
+      },
+      {
+        "path": "res/controllers/EKS-Otus.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/EKS-Otus.js",
+        "git_blob": "d9c65f6ffba6e0b0295dc0b893e0835e20b363f4",
+        "sha256": "5540373a2d48267348e9bdc1a18e0e98b7212558ddb59ae079787faeeff63000",
+        "bytes": 32026
+      },
+      {
+        "path": "res/controllers/Electrix Tweaker.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Electrix%20Tweaker.midi.xml",
+        "git_blob": "d631e056555fbff482649471c4c047c89bca46f3",
+        "sha256": "fba75aac5f2870b235c0103f2188749b41ddaa7384256201a143b41e5f0cc04f",
+        "bytes": 22896
+      },
+      {
+        "path": "res/controllers/Electrix-Tweaker-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Electrix-Tweaker-scripts.js",
+        "git_blob": "97388d78c8a01241471e94e15a0fa6f7a5e8ed74",
+        "sha256": "40fb3b9f73c83810c02714c03008dc5c1493b39a34fe83ab4991504ab95de667",
+        "bytes": 50384
+      },
+      {
+        "path": "res/controllers/Evolution_Xsession.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Evolution_Xsession.midi.xml",
+        "git_blob": "7a7620fc1134090e79a8e237848ccba21f3f65ff",
+        "sha256": "39047d1f78b29b5c3e20329eea6aa9c4b37148a8a8146ff75cf679c875420fa2",
+        "bytes": 6073
+      },
+      {
+        "path": "res/controllers/FaderFoxDJ2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/FaderFoxDJ2.midi.xml",
+        "git_blob": "10e57d1e9ec346c286dbd9e8f6aa011a958d66a7",
+        "sha256": "6b38d6b237dc3ec66b210c3d8671ea7c81cdf47557d8974614bb82758b4ea678",
+        "bytes": 19908
+      },
+      {
+        "path": "res/controllers/Gemini CDMP-7000 L audio.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20CDMP-7000%20L%20audio.midi.xml",
+        "git_blob": "73de6cebf0fee7ec8fd94b976da0396f0877b84d",
+        "sha256": "321bc74c86eab15607e315f1b82b54db00a756cf2f8dcfdc60773390ab814d80",
+        "bytes": 15766
+      },
+      {
+        "path": "res/controllers/Gemini CDMP-7000 R audio.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20CDMP-7000%20R%20audio.midi.xml",
+        "git_blob": "28e3abaf91c5f73955c42fe1b1f0482b3ace7450",
+        "sha256": "504ac6a45ed442633d8bc650a7f0aabf1274fc394a1f2b738479fa477a0b7e4e",
+        "bytes": 15769
+      },
+      {
+        "path": "res/controllers/Gemini FirstMix.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20FirstMix.midi.xml",
+        "git_blob": "bafefdb95e1a8997de3449ac105f3b153112cfac",
+        "sha256": "6c6a4f50f223a97316eb07da4f9da3ddf02464a849ae118e50d8b4b82af1c2a5",
+        "bytes": 13409
+      },
+      {
+        "path": "res/controllers/Gemini-CDMP-7000-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini-CDMP-7000-scripts.js",
+        "git_blob": "e87e91a57faeb5f62a19415a75a8bafc89d35c56",
+        "sha256": "53cb558032ef7c6d95a4348ee433ff6ab1eb9febadd12a3a688df0cc1eb489a8",
+        "bytes": 26821
+      },
+      {
+        "path": "res/controllers/Gemini-FirstMix-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini-FirstMix-scripts.js",
+        "git_blob": "749ea3acc273a0f5ac1e4e69b86f202ff5e909e4",
+        "sha256": "ad9b01a05949ba0990dfd10510fd48ddd4030573ff1d7283b13805342007074c",
+        "bytes": 11874
+      },
+      {
+        "path": "res/controllers/Hercules DJ Console 4-Mx.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%204-Mx.midi.xml",
+        "git_blob": "683d2626cc21c5573e428c5f33cc57c136548b16",
+        "sha256": "14471ecb560c879bbd05713d1b62bf019154c9bdfac4625e711b8d20245d49d7",
+        "bytes": 79704
+      },
+      {
+        "path": "res/controllers/Hercules DJ Console Mac Edition.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20Mac%20Edition.midi.xml",
+        "git_blob": "d9f3a072026f946641ead5282e1c60a3ebc86dba",
+        "sha256": "f1fbfe9cf65024c78ff94b38cd518ed55d63c94ae6eba7baef55bfff5d4fa5a0",
+        "bytes": 5560
+      },
+      {
+        "path": "res/controllers/Hercules DJ Console Mk1.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20Mk1.hid.xml",
+        "git_blob": "0cb20fe83839626c166c0302db720410359c9380",
+        "sha256": "55e69d0307805bed361440ab7b42731103f8a93fb452bfbffef2ae092c481549",
+        "bytes": 1782
+      },
+      {
+        "path": "res/controllers/Hercules DJ Console Mk2.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20Mk2.hid.xml",
+        "git_blob": "3e0e0e66c8dd4fe20d3b5e2f7347b38c754fcecb",
+        "sha256": "bd645c0d7a6cb8be66c6d5fbc0e92a42b6cd2fd0d2714fff398300a8f0c94bb3",
+        "bytes": 608
+      },
+      {
+        "path": "res/controllers/Hercules DJ Console Mk2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20Mk2.midi.xml",
+        "git_blob": "9da54e54e89d69182010e6b86b032cdf16c630e2",
+        "sha256": "091602bfbbea02e32e971d760a46926589abdcfe5429316ce74f76f26c412587",
+        "bytes": 12673
+      },
+      {
+        "path": "res/controllers/Hercules DJ Console Mk4.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20Mk4.midi.xml",
+        "git_blob": "ee70dd1e551851cbeea9afbba173a3bd2f83ffa5",
+        "sha256": "84c6ee5ab8236761abaa272ebbf32adf0dbed735a835194510fd53ebef74d141",
+        "bytes": 25190
+      },
+      {
+        "path": "res/controllers/Hercules DJ Console RMX 2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20RMX%202.midi.xml",
+        "git_blob": "bb7e4f70c4271baab74d433d8d2a0d2e7af55f9a",
+        "sha256": "fc81916d9b3fb2e6df22c17ca5949149fe61df12b03957cd3c36d6c8c6640c32",
+        "bytes": 65722
+      },
+      {
+        "path": "res/controllers/Hercules DJ Console RMX Advanced.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20RMX%20Advanced.midi.xml",
+        "git_blob": "fd93d91817f5f7b9048876bd6900fb4c13a5588f",
+        "sha256": "3f6c4fb518d4eb84b680ea4753ee06c196c4af6f56978128e098901852d90276",
+        "bytes": 20841
+      },
+      {
+        "path": "res/controllers/Hercules DJ Console RMX.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20RMX.hid.xml",
+        "git_blob": "b80cf92a9ad52be86af067ec446ff4dea4da97ea",
+        "sha256": "f91324a52f5adcfeb554d1dda016d6cc741cb845ceb0b88f4e03a31e21792faf",
+        "bytes": 650
+      },
+      {
+        "path": "res/controllers/Hercules DJ Console RMX.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20RMX.midi.xml",
+        "git_blob": "3d34784ec8fa80c64efed59c935ac3c48e99e30b",
+        "sha256": "01fb3e33574e9ea3b16a812b86f0debe967084b43fbfcf7b1f2bc1d46988efb4",
+        "bytes": 18974
+      },
+      {
+        "path": "res/controllers/Hercules DJ Control AIR.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20AIR.midi.xml",
+        "git_blob": "01436ebc624e7067cd4316d749f2344172f701e9",
+        "sha256": "a9f2441243b8645751b5c2a56e64adc0f0ba8cf10078a34829d0851beb5a1125",
+        "bytes": 34101
+      },
+      {
+        "path": "res/controllers/Hercules DJ Control Instinct.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20Instinct.midi.xml",
+        "git_blob": "2e007dbf87e0f64f663d09c61505456d3c940e37",
+        "sha256": "f9ea6b7e8bbb33b19695b1f2c830c4dff256e76424820cd21f1f8dce117a398f",
+        "bytes": 44664
+      },
+      {
+        "path": "res/controllers/Hercules DJ Control MP3 e2-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20MP3%20e2-scripts.js",
+        "git_blob": "f85b5c6b40fa10c38911109c6a0c179110e167cd",
+        "sha256": "255a660b41e696bf777557c31db27af201e494aa6ffa5d8f69d55910f927036f",
+        "bytes": 40161
+      },
+      {
+        "path": "res/controllers/Hercules DJ Control MP3 e2.bulk.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20MP3%20e2.bulk.xml",
+        "git_blob": "f0ea42887dd85ae3c61481c4341809722bad33ef",
+        "sha256": "390e2a68068d7235895c838c68358c91fe90e594c46f184b3d8f5ddbaf3d580d",
+        "bytes": 1081
+      },
+      {
+        "path": "res/controllers/Hercules DJ Control MP3 e2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20MP3%20e2.midi.xml",
+        "git_blob": "5559cdd43e6e875319ad87cbfbd7d816d3b22f5b",
+        "sha256": "4cc87965bb45002224463ab60a34aabe0cfec59e225f1bdb6ddca33ccce429f1",
+        "bytes": 13663
+      },
+      {
+        "path": "res/controllers/Hercules DJ Control MP3.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20MP3.hid.xml",
+        "git_blob": "2eab09cf8d3030b1558dbfafbe9fc2f49d3bfbb1",
+        "sha256": "a766589447f4bd6e845f728648978d08134247cb9498ef4bf0ead9e10f034f8d",
+        "bytes": 758
+      },
+      {
+        "path": "res/controllers/Hercules DJ Control MP3.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20MP3.midi.xml",
+        "git_blob": "0fbdbefe8187f64f559a09e7af115a53b066108f",
+        "sha256": "262988cde0da88b9f11235212307511ae2e6ed535abdefea0eb18fd61c4d142e",
+        "bytes": 12483
+      },
+      {
+        "path": "res/controllers/Hercules DJ Control Steel.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20Steel.midi.xml",
+        "git_blob": "25a1fd67df03f102c22a487fe9735ba5e3b96f76",
+        "sha256": "8be8b89e4c9e4c690b7765afadf25946f157dbf7fa8e80245d1f35f457a222b4",
+        "bytes": 23697
+      },
+      {
+        "path": "res/controllers/Hercules DJControl Compact.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Compact.midi.xml",
+        "git_blob": "75cb4f7b508190fd1bbeb8bee5435b2b57d37ae4",
+        "sha256": "a598e43feda6b1d48efda26e33a41fa258e88bc15b4100ec6fae399dac1374dd",
+        "bytes": 46108
+      },
+      {
+        "path": "res/controllers/Hercules DJControl MIX.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20MIX.midi.xml",
+        "git_blob": "f4a0e34d3c7751bfd4c15e5305976aaa5faedc7a",
+        "sha256": "7d64670a5235dcde14373a700f1aec70124f1f3880d1efa65ee2459faa32ee18",
+        "bytes": 54397
+      },
+      {
+        "path": "res/controllers/Hercules DJControl Starlight.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Starlight.midi.xml",
+        "git_blob": "4d6a3a244526c4eea4e3079ad6a92a0bd41a330c",
+        "sha256": "e47b766a85f4fa234c41c4bf91ae456ca35dacc507184f69d3b2d458bf35d6c1",
+        "bytes": 53608
+      },
+      {
+        "path": "res/controllers/Hercules P32 DJ.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20P32%20DJ.midi.xml",
+        "git_blob": "6d7dc0fb0438186bdfc474002437a4c6bf965863",
+        "sha256": "ecb129e3912c7efc9cf3742e6e5b5ccd3756a2a63659816c5a3db1bfedfa9ac3",
+        "bytes": 85490
+      },
+      {
+        "path": "res/controllers/Hercules-DJ-Console-4-Mx-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Console-4-Mx-scripts.js",
+        "git_blob": "e1d137ed11a18276b68d53380da0f83c73716682",
+        "sha256": "423f48d6686a96db6156f855a1abfb43a7c13dfe7eb3a81e6f5706252a85b84c",
+        "bytes": 91175
+      },
+      {
+        "path": "res/controllers/Hercules-DJ-Console-Mk1-hid-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Console-Mk1-hid-scripts.js",
+        "git_blob": "980ad947c613824a5c2766408c87c775f726cb1a",
+        "sha256": "5a6e0538780c83be29f6fa31bdb899a4c6566ffdc2b1313f6f2bd810ffcb6222",
+        "bytes": 23775
+      },
+      {
+        "path": "res/controllers/Hercules-DJ-Console-Mk2-hid-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Console-Mk2-hid-scripts.js",
+        "git_blob": "a491711aa291ddef3417f97e733f7280c0fab83c",
+        "sha256": "7022c7582b01c1cc3e8c8e8789e1a44bf5bb4d29f8dc884b7640ee6f0edf34c0",
+        "bytes": 22768
+      },
+      {
+        "path": "res/controllers/Hercules-DJ-Console-Mk2-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Console-Mk2-scripts.js",
+        "git_blob": "873cbd4bb0b11cf2f8c958f0ef6cd256840105c1",
+        "sha256": "c4e8242efa8c5ccd90093611ffc34f51942ca87e42a29c1c1b968027da733471",
+        "bytes": 19119
+      },
+      {
+        "path": "res/controllers/Hercules-DJ-Console-Mk4-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Console-Mk4-scripts.js",
+        "git_blob": "da200f7c267d97695f9986b013efb63672b136c7",
+        "sha256": "c3e14b8b15df095c0259f0a3681724e7fb2c4926cc66223b4ac129042648ceaf",
+        "bytes": 12304
+      },
+      {
+        "path": "res/controllers/Hercules-DJ-Console-RMX-2-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Console-RMX-2-scripts.js",
+        "git_blob": "351793ea6b5637f19bf9e54c067aa98936528320",
+        "sha256": "a891020eac028edfce238d9815f8cefbad8349b12de5d91baad013b02507ac11",
+        "bytes": 5961
+      },
+      {
+        "path": "res/controllers/Hercules-DJ-Console-RMX-hid-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Console-RMX-hid-scripts.js",
+        "git_blob": "0e5cb8c1f3e8cd67b2570452e736f0eea26d5509",
+        "sha256": "36738f3174bf43b1206fb995e4764ed8735dc7b0e599986cfdd61139920524fc",
+        "bytes": 19593
+      },
+      {
+        "path": "res/controllers/Hercules-DJ-Console-RMX-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Console-RMX-scripts.js",
+        "git_blob": "14a23f45ea80b059e5bce4ebc547e3714f246fb5",
+        "sha256": "ff0b2cf1aa5679027c9ed1bd840296f9fa5c14e3e49b888120cbe61d2f1572d8",
+        "bytes": 34770
+      },
+      {
+        "path": "res/controllers/Hercules-DJ-Control-AIR-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Control-AIR-scripts.js",
+        "git_blob": "6f454759f5738ce35260720f9f33ba1dc2cb358d",
+        "sha256": "6cd67a03b59b1d17967e51585890cb06ccb62ca4ecf6d72df5e3ef67414ea8a2",
+        "bytes": 6754
+      },
+      {
+        "path": "res/controllers/Hercules-DJ-Control-Instinct-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Control-Instinct-scripts.js",
+        "git_blob": "0d7a690d3b1037e166e0fb69540d223952876860",
+        "sha256": "18b48894cada26b755cbb5fe7057a4dfe0e1cdf9a93f20dc350580bb83acea2f",
+        "bytes": 5566
+      },
+      {
+        "path": "res/controllers/Hercules-DJ-Control-MP3-hid-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Control-MP3-hid-scripts.js",
+        "git_blob": "367b228b2ac9b6930f94ef4692bfee63b409e9e2",
+        "sha256": "24fbc30aff87289babcbddcf87d01de16e12a8650f46d0f59594f207b86ab941",
+        "bytes": 24288
+      },
+      {
+        "path": "res/controllers/Hercules-DJ-Control-MP3-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Control-MP3-scripts.js",
+        "git_blob": "e0edeb80293d6265bae29567f626d0f040ee2592",
+        "sha256": "132e2b79db5f0387e21455ec9c9050aef8422136c2fcb23cee924ac9fbc7242a",
+        "bytes": 21996
+      },
+      {
+        "path": "res/controllers/Hercules-DJ-Control-Steel-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Control-Steel-scripts.js",
+        "git_blob": "f9182adab2642f6f0c491e9ac376372c59c57748",
+        "sha256": "29586dfd663d090cb08819d5c9fbcee22fffc170f647ec66bfddafaf0dc07cea",
+        "bytes": 41106
+      },
+      {
+        "path": "res/controllers/Hercules-DJControl-Compact-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJControl-Compact-scripts.js",
+        "git_blob": "a860f66069f0d39aff7bdf9b8e43ddaaf4544489",
+        "sha256": "17ba587adeccad7d91f13bede5c97a50dde8514ed45156277319d0407efe9bd0",
+        "bytes": 3700
+      },
+      {
+        "path": "res/controllers/Hercules-DJControl-Inpulse-200-script.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJControl-Inpulse-200-script.js",
+        "git_blob": "44af50094234fabb501af04435d0c76726ffdb57",
+        "sha256": "67b2a81ee4a0e9a9bb88de2f6ce61f0fb078d5f8d1e446e148b2cef5f921553d",
+        "bytes": 6573
+      },
+      {
+        "path": "res/controllers/Hercules-DJControl-Inpulse-300-script.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJControl-Inpulse-300-script.js",
+        "git_blob": "380fcdf5de3a47d11c43d02f7e1398871325867c",
+        "sha256": "bada98bf9c806879113612c10422d96c582473f67502fc14b9bafedc12c28af4",
+        "bytes": 29098
+      },
+      {
+        "path": "res/controllers/Hercules-DJControl-Inpulse-500-script.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJControl-Inpulse-500-script.js",
+        "git_blob": "92194ca722c491f05e7bf17b62c758196a333628",
+        "sha256": "04257954e0831b4bb2f9b57811f6ed994d0facb2264a9b2216048dab0e9c9b6a",
+        "bytes": 57224
+      },
+      {
+        "path": "res/controllers/Hercules-DJControl-MIX-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJControl-MIX-scripts.js",
+        "git_blob": "8d10d491add349ea0b7ab29a90940d780c49fed5",
+        "sha256": "fbfdce6c5be7753be5da0bd9e71ff9e1b19bb6458e71dcf3937cc9c7dffffce8",
+        "bytes": 8734
+      },
+      {
+        "path": "res/controllers/Hercules-DJControl-Starlight-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJControl-Starlight-scripts.js",
+        "git_blob": "2100eb85d8808e25ba72381aa272bc9f72b5c81e",
+        "sha256": "7d88136dae1f18738d4f987bfc91a7e8ba2597e03bc7daf0887e30c36623347d",
+        "bytes": 10344
+      },
+      {
+        "path": "res/controllers/Hercules-P32-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-P32-scripts.js",
+        "git_blob": "a93a93205d97d9dfe02f762436396e9c1db426ba",
+        "sha256": "3067820bf96457abfbcd494b044d2b046a2d42560804f3dd824bfa89111b167b",
+        "bytes": 21897
+      },
+      {
+        "path": "res/controllers/Hercules-mp3e2-compat.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-mp3e2-compat.js",
+        "git_blob": "35c6d6b93532050355afcb1f361fd4ef59859cf9",
+        "sha256": "6d2d66fbaeaa6c8017ceaa5dc1e7dc941a91e36426dce8fd4f617e50e18cab16",
+        "bytes": 3979
+      },
+      {
+        "path": "res/controllers/Hercules_DJControl_Inpulse_200.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_200.midi.xml",
+        "git_blob": "b9d10873f59606296be6c27f316734680140a8ca",
+        "sha256": "c0927a1bbc75c1c1727034d2bd0f0f01d018ee264c1c63c203d3f9d8e06b6587",
+        "bytes": 65627
+      },
+      {
+        "path": "res/controllers/Hercules_DJControl_Inpulse_300.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_300.midi.xml",
+        "git_blob": "c1c0a58cdd6299909a593b5bfba005e28de6c09f",
+        "sha256": "43c8c84c8832af0c26d038851be8280ffb8b9a9c7c0e8b1d9811b520333114c4",
+        "bytes": 109415
+      },
+      {
+        "path": "res/controllers/Hercules_DJControl_Inpulse_500.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_500.midi.xml",
+        "git_blob": "cc9317cdcbd5c795da0ac4f1b23cada23f654eee",
+        "sha256": "f1d74f45917a685b3a1bc32c3cc917a95397baeeb1cb5c3a76a4e211da845bc2",
+        "bytes": 130188
+      },
+      {
+        "path": "res/controllers/Hercules_DJControl_Jogvision-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Jogvision-scripts.js",
+        "git_blob": "948e124c0f087b80ffc5784bb54830d308ed4927",
+        "sha256": "5cc5b31d7ad135a30762c6c6e55c82d0e26fd8b645306068ccef98a5ffb5384a",
+        "bytes": 32272
+      },
+      {
+        "path": "res/controllers/Hercules_DJControl_Jogvision.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Jogvision.midi.xml",
+        "git_blob": "9ead402712ca9ba863bad5c37f03298cb2a6eb74",
+        "sha256": "8e0499c69c0b91494b8af06da6c722d80c39efc978d7f56c8536c47fc226c7fe",
+        "bytes": 61520
+      },
+      {
+        "path": "res/controllers/Icon-P1Nano-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-P1Nano-scripts.js",
+        "git_blob": "a6d129dded44ee8bf77b1d2037d48a23ffa05214",
+        "sha256": "d4ef3188fbd5f057b08d91aaf668864a345802fe0fd44bb38958e9e0cd12e4c6",
+        "bytes": 31129
+      },
+      {
+        "path": "res/controllers/Icon-P1Nano.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-P1Nano.midi.xml",
+        "git_blob": "27cc12e6d9f9ecbecd92fa53a2dba211540c6ddb",
+        "sha256": "ecbfe0e4fa6086b541de170efff0e9ddb6497a98f4a82e251a8d4a317d9005d0",
+        "bytes": 24966
+      },
+      {
+        "path": "res/controllers/Icon-iControls-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-iControls-scripts.js",
+        "git_blob": "c7030066b09facf12b8e8210acf2c7d60f8a46c1",
+        "sha256": "6e44c621405cc6efe0c315c8f8c5d45cbf46ced39012aa08823667fc98f9078e",
+        "bytes": 6446
+      },
+      {
+        "path": "res/controllers/Icon-iControls.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-iControls.midi.xml",
+        "git_blob": "836c04bcd3beb992c03d38f89afee267ed088198",
+        "sha256": "9f2f635393abc48434938e2ac5fc84b209fdaf54ef4a36745c9e97c40b460df0",
+        "bytes": 16587
+      },
+      {
+        "path": "res/controllers/Intech TEK2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Intech%20TEK2.midi.xml",
+        "git_blob": "e9b9d557467d483c9167b18fb9ba9cf083b9d5c3",
+        "sha256": "83b5467bc8197cfe9c7289118f17c5ba4dc074598ae71f6fee31e4dbfb82c734",
+        "bytes": 3044
+      },
+      {
+        "path": "res/controllers/Intech TEK2.scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Intech%20TEK2.scripts.js",
+        "git_blob": "470717837627bda42da84cdedd57f78ff6d61f85",
+        "sha256": "2cc6528d68ad4b79cb8b31503af78704831dc5fc099ff59587f5040895161f4c",
+        "bytes": 1014
+      },
+      {
+        "path": "res/controllers/Ion Discover DJ.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion%20Discover%20DJ.midi.xml",
+        "git_blob": "ec2162de4941aebe5f64601aff185819dfa10beb",
+        "sha256": "84afadae9e064fce2e44b0cb7b597de0ce946620bb3a260e75dd6fced72d130d",
+        "bytes": 15359
+      },
+      {
+        "path": "res/controllers/Ion-Discover-DJ-Pro-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion-Discover-DJ-Pro-scripts.js",
+        "git_blob": "21e3a5c3e5354c0f203c928e26246706e6be387a",
+        "sha256": "0854d2baef6fcb69369231c72ab6d08051854e7e9b98520aabcaa386b54b561a",
+        "bytes": 9683
+      },
+      {
+        "path": "res/controllers/Ion-Discover-DJ-Pro.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion-Discover-DJ-Pro.midi.xml",
+        "git_blob": "58418593dc993d052d1055a159e7fd3dd66ba441",
+        "sha256": "e85e5257bf44bd544b7ad7ab2090b24e9a62fd901109f0c2881a33b42feea7df",
+        "bytes": 26818
+      },
+      {
+        "path": "res/controllers/Ion-Discover-DJ-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion-Discover-DJ-scripts.js",
+        "git_blob": "bcae16532672858929e21dcd1f4fa2a440ae6bad",
+        "sha256": "474c10819937ff03eb2ff895ca49d66c6971bf6ba0a55f528863fd476ab62623",
+        "bytes": 8343
+      },
+      {
+        "path": "res/controllers/KANE_QuNeo.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/KANE_QuNeo.midi.xml",
+        "git_blob": "46c8383fb78123c0d9104c80a1ef1850aaadb7e9",
+        "sha256": "162fc97f7bc747eab7c3ba7d9ea20a395522f6c3ceb1a70f407e5cb860daf381",
+        "bytes": 82209
+      },
+      {
+        "path": "res/controllers/KANE_QuNeo_scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/KANE_QuNeo_scripts.js",
+        "git_blob": "bd00b91679cb2e637177c3dced08f72f26a3993c",
+        "sha256": "05818844ce21fb71db95f9b0d753c9e4c7085c568e6e30961e650f4588518bc6",
+        "bytes": 108722
+      },
+      {
+        "path": "res/controllers/Kontrol Dj KDJ500.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Kontrol%20Dj%20KDJ500.midi.xml",
+        "git_blob": "89e5139dd0df6a55c52920dce79f78119865aa77",
+        "sha256": "5f24636b954fb2032cc8cbf8d246096a3d9e57447f3a6afae1e9ad334b9fe803",
+        "bytes": 9385
+      },
+      {
+        "path": "res/controllers/Kontrol-Dj-KDJ500-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Kontrol-Dj-KDJ500-scripts.js",
+        "git_blob": "e472e1805031f4aba1c166f5938679d2439470ed",
+        "sha256": "65f02ef8c26152c486c395498d9348efd6b8e2fd29b76eeebaaf060504b3593b",
+        "bytes": 494
+      },
+      {
+        "path": "res/controllers/Korg nanoKONTROL 2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg%20nanoKONTROL%202.midi.xml",
+        "git_blob": "2d0e517b82a8e1f1fc345b98457921593f8fa5f2",
+        "sha256": "a19c7e408bc1f1045988c9e4c0ef55fc9d7eab3fd0ff1d12ed6e41bb092c5422",
+        "bytes": 15848
+      },
+      {
+        "path": "res/controllers/Korg nanoKONTROL.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg%20nanoKONTROL.midi.xml",
+        "git_blob": "63c406ec99277c6530be4e501a61d2d581d0bb55",
+        "sha256": "a9f52af3463195476b84e5f08b0beb95c434ef3dc753ea5e20de0046f936c5c2",
+        "bytes": 9499
+      },
+      {
+        "path": "res/controllers/Korg nanoPAD2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg%20nanoPAD2.midi.xml",
+        "git_blob": "e2ec3a237e6fc88dae957fc61f14c638a4b44af8",
+        "sha256": "fc949b9470100c6c712ce363ea6a10096b4c12d4f2c64445111c22a2a0f0ffef",
+        "bytes": 28059
+      },
+      {
+        "path": "res/controllers/Korg-KAOSS-DJ-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-KAOSS-DJ-scripts.js",
+        "git_blob": "0430127cfd52ae4cd55dbdfcd3edf2aaca4eda2c",
+        "sha256": "e67f4d1af9e0f73d760425d9cf207738c64d662ffeca2ca79faf3676dcf2fb00",
+        "bytes": 11803
+      },
+      {
+        "path": "res/controllers/Korg-KAOSS-DJ.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-KAOSS-DJ.midi.xml",
+        "git_blob": "ca502503245c940dc03c070edf941dc2167f78e9",
+        "sha256": "85d2555f1ff54adee404f0443df3f2af4363090f1cde762371d11413c8aa6285",
+        "bytes": 34494
+      },
+      {
+        "path": "res/controllers/Korg-nanoKONTROL-2-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-nanoKONTROL-2-scripts.js",
+        "git_blob": "d9b4bd936b0aacfadc22da468e90209c5df17efe",
+        "sha256": "285927c6c799aab43b9ee2f5e01939c8c98c9f463b1edbf883f0065c0a093de9",
+        "bytes": 76002
+      },
+      {
+        "path": "res/controllers/Korg-nanoPAD2-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-nanoPAD2-scripts.js",
+        "git_blob": "61c6757698f6ac8892321f69d864dc7857a040e1",
+        "sha256": "2bd5b933ef595b8b641c735b9564e771ad1e4716550f6a74e2e819d1cbd06f92",
+        "bytes": 8125
+      },
+      {
+        "path": "res/controllers/M-Audio_Xsession_pro.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/M-Audio_Xsession_pro.midi.xml",
+        "git_blob": "2e49149efcdd373e6241f717e7a0275f97dc127b",
+        "sha256": "68ee4b218f46d750423e6af0841b82f6e623bdf7a7fc8f7719acb67f6adf16ef",
+        "bytes": 6227
+      },
+      {
+        "path": "res/controllers/MVave-SMC-Mixer-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMC-Mixer-scripts.js",
+        "git_blob": "222c9769d9e3c5ee4bde61a4c536a0bc5723cff0",
+        "sha256": "606e2bf0aa7a5a4a7256dd59fc96cf2d3f4868ebc0c102e8fed40d80d3cf535c",
+        "bytes": 15030
+      },
+      {
+        "path": "res/controllers/MVave-SMC-Mixer.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMC-Mixer.midi.xml",
+        "git_blob": "7394621cd82b4bf5f8178fa1f40e55dd309d2774",
+        "sha256": "daca4d1f4600618c49e8b253bd542fec939d1339288009e0de5283a3f3f54638",
+        "bytes": 19262
+      },
+      {
+        "path": "res/controllers/MVave-SMK-25-II-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMK-25-II-scripts.js",
+        "git_blob": "e82ee6bde6f2a86a810ff972f100a92d3485ffe4",
+        "sha256": "17a9805035cc7e92321a9c386d000329401a66eecab6ab74a32d1bd79f9f4d13",
+        "bytes": 11034
+      },
+      {
+        "path": "res/controllers/MVave-SMK-25-II.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMK-25-II.midi.xml",
+        "git_blob": "373a7656e73f069e85728aada442f26b2af36f85",
+        "sha256": "d5e0f9762e78ca33c654cd889595cc4a5ab0268c42b43c13cbdff1dd2c07c0f5",
+        "bytes": 8899
+      },
+      {
+        "path": "res/controllers/Midi-Keyboard.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Midi-Keyboard.midi.xml",
+        "git_blob": "8aa205c59290e3e59466bf6c56e7ad2171092757",
+        "sha256": "4b74e316da53d35b06a030bb02429fa510a02a63a5f6dfd8b2125de9c3053fde",
+        "bytes": 6729
+      },
+      {
+        "path": "res/controllers/MidiTech-MidiControl.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MidiTech-MidiControl.midi.xml",
+        "git_blob": "813b47cee5691b9b9171abf25d146130ab61b2a1",
+        "sha256": "c29ba4c18aa86ab34a3093f8b5b9cb9fe89303d322f9091ca7ddd62c70644679",
+        "bytes": 9577
+      },
+      {
+        "path": "res/controllers/Midi_for_light-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Midi_for_light-scripts.js",
+        "git_blob": "a7b1a863143fc63a47dc403e09eb31446ac23eac",
+        "sha256": "02edd0f2b1cf4a58bc0c6a95193fcf9220b8b7a949a9164dd6e811571b4855d9",
+        "bytes": 29748
+      },
+      {
+        "path": "res/controllers/Midi_for_light.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Midi_for_light.midi.xml",
+        "git_blob": "69b1629fc5ab2c44d8e67b2a49317cbc9e2b5011",
+        "sha256": "76d5241e592c53237c6c457c8a50e7633f19dd7995972c18c5c77741d90f5f0e",
+        "bytes": 12286
+      },
+      {
+        "path": "res/controllers/MixVibes U-Mix Control 2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%202.midi.xml",
+        "git_blob": "291507b777356ce42ee6478f5fb283a3c6f1fa40",
+        "sha256": "89a62e4ba79ded920dca67e16b2632b1e9020bdd7a79d78cb5f2feecdefa7b0a",
+        "bytes": 26114
+      },
+      {
+        "path": "res/controllers/MixVibes U-Mix Control Pro 2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%20Pro%202.midi.xml",
+        "git_blob": "c9b62423c5d2785c5f4c5cbde85360ba21b2f5ff",
+        "sha256": "d460da29d06de95265297711fadae4d55ea77ca08821a778ba055ce0452e7840",
+        "bytes": 31039
+      },
+      {
+        "path": "res/controllers/MixVibes-U-Mix-Control-Pro-2-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes-U-Mix-Control-Pro-2-scripts.js",
+        "git_blob": "268532f0902a72f23769e101867b6fac0bd0d5a5",
+        "sha256": "017a5ca80355f3a35162c101b37e4ee8b5b0de0d747a0f414622cec49f53c7ad",
+        "bytes": 852
+      },
+      {
+        "path": "res/controllers/Mixman DM2 (Linux).js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Mixman%20DM2%20%28Linux%29.js",
+        "git_blob": "b65ead84c7319c226b89d3ae262a8e79b1966a11",
+        "sha256": "7e15798c322c50bc88e8f0f3292300d667da8a1315db63c5f6956b70b2941924",
+        "bytes": 1485
+      },
+      {
+        "path": "res/controllers/Mixman DM2 (Linux).midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Mixman%20DM2%20%28Linux%29.midi.xml",
+        "git_blob": "34b05adf006110331a83d2c45cd50fd1f40dfa20",
+        "sha256": "870115f316f19f2aef74f536f8cf7075e235a244744c0e2715f43d8d0ee4992b",
+        "bytes": 12008
+      },
+      {
+        "path": "res/controllers/Mixman DM2 (OS X).js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Mixman%20DM2%20%28OS%20X%29.js",
+        "git_blob": "6e704bb1c4e92a2b8e404454d2ad420173e16a54",
+        "sha256": "fcf7301ea49b4ce7f619d57610275d151bc9f4b8b3f217056aa0064966d5512a",
+        "bytes": 7242
+      },
+      {
+        "path": "res/controllers/Mixman DM2 (OS X).midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Mixman%20DM2%20%28OS%20X%29.midi.xml",
+        "git_blob": "c843cd1fd7f4ead25295669be6876929d21ddfb6",
+        "sha256": "efb1da626923b7e0fcda3967d04ec32b2b27857b276373929af130c4873c3ff2",
+        "bytes": 8578
+      },
+      {
+        "path": "res/controllers/Mixman DM2 (Windows).midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Mixman%20DM2%20%28Windows%29.midi.xml",
+        "git_blob": "39f8082d45c6d970ab4417e35189b2c7df2b8894",
+        "sha256": "40e61fcd3409910cd439381ffc1f3313a6810f7e9b43b653ac188b6318fd3c19",
+        "bytes": 7173
+      },
+      {
+        "path": "res/controllers/Nintendo Wiimote.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Nintendo%20Wiimote.hid.xml",
+        "git_blob": "d5db59c2138fc4e4e42c312b20c3369c23a93ca2",
+        "sha256": "638a11df938b610f07baad4561f19cd3a36d8e3061f74fa4b2d0c301ad363ca0",
+        "bytes": 1041
+      },
+      {
+        "path": "res/controllers/Nintendo-Wiimote.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Nintendo-Wiimote.js",
+        "git_blob": "e3eae5ced552867462898253be70b06e7161c971",
+        "sha256": "aaaab8e24394b3b17e8747d747dc58a1e63528cd39c925bb68012e6de6aacb30",
+        "bytes": 47194
+      },
+      {
+        "path": "res/controllers/Novation Dicer.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Dicer.midi.xml",
+        "git_blob": "d080b82737dfc69535eb4dc14d90e27f88eb141d",
+        "sha256": "1ebe1d435a086e02e819b57f2ca6e61993269ed9971c5748f01726189baf5f46",
+        "bytes": 33611
+      },
+      {
+        "path": "res/controllers/Novation Launchpad MK2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20MK2.midi.xml",
+        "git_blob": "5860f2295874176d419bd5dcba80f665a1f3fbc7",
+        "sha256": "d453c050f1faa2830986f6a0a34b7168bd92122e31df2f9ad7a0bc4f290a1934",
+        "bytes": 21916
+      },
+      {
+        "path": "res/controllers/Novation Launchpad Mini MK3.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20Mini%20MK3.midi.xml",
+        "git_blob": "a4ed7a73ef6981b88a961514a07f0fcf65b8256f",
+        "sha256": "3defeb6d00eb7c70aebae696bcbd897f87f83a6764c269d533b90da0f467fd78",
+        "bytes": 22030
+      },
+      {
+        "path": "res/controllers/Novation Launchpad.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad.midi.xml",
+        "git_blob": "251af87d5d81f18fea68258e790d0c9a7da852c2",
+        "sha256": "b3f937cacaad9673f3a1c0e29beb21d141d2331653227aa0392d0a0d5213f1fe",
+        "bytes": 21900
+      },
+      {
+        "path": "res/controllers/Novation-Dicer-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Dicer-scripts.js",
+        "git_blob": "36bacc1f03e93906f1134dd33bd5e14ae02d8425",
+        "sha256": "18846f299c05e02b305fce81f72cedc1deaaa245cc06d3920d96d6bbedd58aa3",
+        "bytes": 13947
+      },
+      {
+        "path": "res/controllers/Novation-Launchpad MK2-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad%20MK2-scripts.js",
+        "git_blob": "7d9c744ea89b04487c7beee13427fe66337071df",
+        "sha256": "a01853bbeef2e965ec8dd8397ed2b90906c7efb599cc6348b32dcefb1180e837",
+        "bytes": 213119
+      },
+      {
+        "path": "res/controllers/Novation-Launchpad Mini MK3-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad%20Mini%20MK3-scripts.js",
+        "git_blob": "df85635effd131bdfa1dad4ed5a9726e3fc9c2f7",
+        "sha256": "75ff90c1bb13d1c23940550e8a67af6bbe93316c3b65530fe9924a6320606d63",
+        "bytes": 213745
+      },
+      {
+        "path": "res/controllers/Novation-Launchpad-Mini-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad-Mini-scripts.js",
+        "git_blob": "94476e78151d6419b742bcf84fb98bd9909e4ac3",
+        "sha256": "bef8dfd7ad45b3e71e2f256da7553c731e6f7cfb9a2d2595ccad71a4958800eb",
+        "bytes": 15365
+      },
+      {
+        "path": "res/controllers/Novation-Launchpad-Mini.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad-Mini.midi.xml",
+        "git_blob": "24e1fe74a9314bcd984ae50931eb5d560c8ce10b",
+        "sha256": "9d4b1b788392e7ba3851d5eba881b175d6c777befd8a9f4a658318bd4e7524f2",
+        "bytes": 24387
+      },
+      {
+        "path": "res/controllers/Novation-Launchpad-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad-scripts.js",
+        "git_blob": "762e50aac5a54d3b4afaa497a7cea34ed4a58aa6",
+        "sha256": "6d98ab7cbb178c13bdc2a26c972a9ebdfaecdcf14d86d18167269fd244d5f292",
+        "bytes": 212972
+      },
+      {
+        "path": "res/controllers/Numark DJ2Go.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20DJ2Go.midi.xml",
+        "git_blob": "651ad13dfabbe5bdfbacdff8c9e233fbb14110aa",
+        "sha256": "33d00ae474510745778cbba79a0b9848409f40b38c9fd97393241eddf802e964",
+        "bytes": 11752
+      },
+      {
+        "path": "res/controllers/Numark MIXTRACK.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20MIXTRACK.midi.xml",
+        "git_blob": "e31a33341849a2db5c809b27216cfcb9f35dc280",
+        "sha256": "027be45a6c6f33dc9169ea963ca8f50b552bd1091ec76cdb3af7b08795a4f88d",
+        "bytes": 25409
+      },
+      {
+        "path": "res/controllers/Numark Mixtrack 2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml",
+        "git_blob": "6363a230e789120abe76a97811014dbdc04c122e",
+        "sha256": "7550d413ea9c7e17ec0de63bdae4642759552ae2f25b69404feb6e0bae524d4f",
+        "bytes": 37260
+      },
+      {
+        "path": "res/controllers/Numark Mixtrack Platinum FX.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%20Platinum%20FX.midi.xml",
+        "git_blob": "92be36f2cd04ca2086798a681099a8862e96dfc7",
+        "sha256": "673a924d86c3abcb316ffc8986430540c8ed1d4283540ea5fe38a6a9b5ff3e94",
+        "bytes": 141046
+      },
+      {
+        "path": "res/controllers/Numark Mixtrack Platinum.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%20Platinum.midi.xml",
+        "git_blob": "5a13840352a3bc453b24d1411f87a94e4d16978a",
+        "sha256": "22155364f8a6f981d38198b4b67e929f517057c38745586de7087e34b7f8840a",
+        "bytes": 84028
+      },
+      {
+        "path": "res/controllers/Numark Mixtrack Pro FX.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%20Pro%20FX.midi.xml",
+        "git_blob": "3cac016a09ab70ef135059fe6b30edb04ddfc9e2",
+        "sha256": "b96f810a2c6e2fdd5f3c4c7bf15c566ed1d9c86fb1c97fe782e3eb1e85f7e2c8",
+        "bytes": 63530
+      },
+      {
+        "path": "res/controllers/Numark Mixtrack Pro.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%20Pro.midi.xml",
+        "git_blob": "f2ddff9750ebb1300c9b32cf0209679a191d6e21",
+        "sha256": "bd1947f6dc97ce042250d044f3009ca6435d5124aba6c522d64656c9a7c4e879",
+        "bytes": 27051
+      },
+      {
+        "path": "res/controllers/Numark N4.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20N4.midi.xml",
+        "git_blob": "68d1ba9a4cf4cd23aab8c3e84e1dea8872a02643",
+        "sha256": "a09cdf0b03f2f35227b0a2890b0ab4890a92d9c1932ba0510dc3209d8300b583",
+        "bytes": 71386
+      },
+      {
+        "path": "res/controllers/Numark NS4FX.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20NS4FX.midi.xml",
+        "git_blob": "8d193e73366e32f3503575db1db6e1755446bb3f",
+        "sha256": "abdfd3f892fef1ddf682582160bd63c72a61af6a8c1b2f70e5ab871a74ebd543",
+        "bytes": 124271
+      },
+      {
+        "path": "res/controllers/Numark NS6II.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20NS6II.midi.xml",
+        "git_blob": "83b00783bec07b46e175d538d5765539b8ec137c",
+        "sha256": "c15995a8cd0781c9ef01736294188219c8ba163312fb58bbfef56e8d6acaf3a1",
+        "bytes": 180274
+      },
+      {
+        "path": "res/controllers/Numark NS7.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20NS7.midi.xml",
+        "git_blob": "456ca9ae7dd785cab3ebe464b32440b785f0704a",
+        "sha256": "79dc2bcba5388720fdbbc99f676a592eca711e19e56ce7e45b4b4b3872434660",
+        "bytes": 16001
+      },
+      {
+        "path": "res/controllers/Numark Omni Control.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Omni%20Control.midi.xml",
+        "git_blob": "3a2006e75dccedf505e8fc1870aa3595abbb4c7d",
+        "sha256": "76213e3911df592e11c42dce1ea7f4f24803e0bd09d464eaa5f1edbf3a9c8e8e",
+        "bytes": 31732
+      },
+      {
+        "path": "res/controllers/Numark Total Control.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Total%20Control.midi.xml",
+        "git_blob": "55e7c3e8c7c9d50eae4ea834ea66c5d4e260f631",
+        "sha256": "be7294d8711be9f935ccbf61f06890cb18efbc3f6c0564850b72c3c97f1df173",
+        "bytes": 16790
+      },
+      {
+        "path": "res/controllers/Numark V7.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20V7.midi.xml",
+        "git_blob": "41e8a5c03b1ceb637814633e9fd8a44befe4e270",
+        "sha256": "a78f638574af9ef3ad7e9cc8d0e238c5214e890263fa4b6486bfcd2f4b25f738",
+        "bytes": 21749
+      },
+      {
+        "path": "res/controllers/Numark iDJ Live II.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20iDJ%20Live%20II.midi.xml",
+        "git_blob": "4cdae5ce22cf83b1f067145fd9cf67370363e5b2",
+        "sha256": "ff382e3e7b227ce8aa5639f0ec21df82de1ebed2d7dc6569a4fa8312b4624c34",
+        "bytes": 8754
+      },
+      {
+        "path": "res/controllers/Numark-DJ2Go-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-DJ2Go-scripts.js",
+        "git_blob": "ed21369ffae4913c0016695745ee3fe55da4523f",
+        "sha256": "1769f3eca226df4f80077d47e62d18586302215e0a2ae7552fe9b0da0ca2a63f",
+        "bytes": 23680
+      },
+      {
+        "path": "res/controllers/Numark-MixTrack-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-MixTrack-scripts.js",
+        "git_blob": "e5b60c39329c006cdc82f5266343046e7ff11fd2",
+        "sha256": "a8c5ad998b4cc87674bc939173183b603b0dc036663796dbf7526adebe3d24c8",
+        "bytes": 10151
+      },
+      {
+        "path": "res/controllers/Numark-Mixstream-Pro.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixstream-Pro.midi.xml",
+        "git_blob": "ffc68178ec1880fd20cabc972c0170397257855a",
+        "sha256": "34140ee6b96defaa382cd6e8523da0ebd9279d2c802d879c1c3c96974dce3054",
+        "bytes": 34356
+      },
+      {
+        "path": "res/controllers/Numark-Mixstream-Pro.scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixstream-Pro.scripts.js",
+        "git_blob": "db86fef775eeb2ca01376709b27a0511231a6b8d",
+        "sha256": "02da45d00c1b18f1ebbb0e30350add0f771dec74cafd51faa2251a0995255a72",
+        "bytes": 38103
+      },
+      {
+        "path": "res/controllers/Numark-Mixtrack-2-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-2-scripts.js",
+        "git_blob": "fa3977a87605fefdc63d53e2c09adea8dedb0a5c",
+        "sha256": "f09ef1d27db619a79eb2e889221b58e56855c5f6ff8a27004d4b5d03e00ee354",
+        "bytes": 17336
+      },
+      {
+        "path": "res/controllers/Numark-Mixtrack-3-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-3-scripts.js",
+        "git_blob": "7c62b307bb80f7c2fd4b9dfc3c04ca2f0c279cc5",
+        "sha256": "c24139a51fbcdf0b334c29c8706e17981c5dc45e333e29665c177acc791f80c6",
+        "bytes": 74344
+      },
+      {
+        "path": "res/controllers/Numark-Mixtrack-3.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-3.midi.xml",
+        "git_blob": "93c9b5f63cd974cc14c04f9991f8fe556ee5e388",
+        "sha256": "f1624e28b10047d64044684599badea8ae1624d70329dceb62721ea454d1125d",
+        "bytes": 38066
+      },
+      {
+        "path": "res/controllers/Numark-Mixtrack-Platinum-FX-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Platinum-FX-scripts.js",
+        "git_blob": "faebd4ac55a61386706d1f6dd551e98d6c484a7b",
+        "sha256": "91921759bdeaeb0d966d6255af97f86b3881233e8b4ccf343e384b03466428de",
+        "bytes": 72789
+      },
+      {
+        "path": "res/controllers/Numark-Mixtrack-Platinum-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Platinum-scripts.js",
+        "git_blob": "28eb30a2de296f4d543337073a592293d1f8759c",
+        "sha256": "937259197d877cba7b921cc4ca6cae89ad9e93911e7b54d3ad72cb9c441e358a",
+        "bytes": 67151
+      },
+      {
+        "path": "res/controllers/Numark-Mixtrack-Pro-FX-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Pro-FX-scripts.js",
+        "git_blob": "0f777aa7f5f29998852d33f339f2ecb68063c507",
+        "sha256": "0eea844813e09d906b9abe99e487669a0530759bf5ebb47919d3fad64ba61889",
+        "bytes": 26666
+      },
+      {
+        "path": "res/controllers/Numark-Mixtrack-Pro-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Pro-scripts.js",
+        "git_blob": "1bbf23d5ec74cf6bf005bb2ed160951985b7938a",
+        "sha256": "80e19306ce9bc88f369bca5424ac56288119044504723baab2a04b73d57d24cc",
+        "bytes": 22801
+      },
+      {
+        "path": "res/controllers/Numark-N4-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-N4-scripts.js",
+        "git_blob": "012a8984fc866ccf2e14e85d0b668aa6a0167502",
+        "sha256": "996aa0b3e06af496a7322e26fe6cd864d0ab85276f5754832c0c3dd7f8169d8a",
+        "bytes": 28300
+      },
+      {
+        "path": "res/controllers/Numark-NS4FX-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-NS4FX-scripts.js",
+        "git_blob": "c5fb095b09baf6d2ac4f1d59d5c3e647d1bbb8dd",
+        "sha256": "6f4e07324eb6116d10e2d1196cc4258abb1f0738c1e48c1402d2c2cb94e44a5e",
+        "bytes": 89601
+      },
+      {
+        "path": "res/controllers/Numark-NS6II-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-NS6II-scripts.js",
+        "git_blob": "720091db807db54eee98a8da42e9c902a60b6448",
+        "sha256": "1fcfe8397b711bcb9ecd9a38ff8b45039a05e82eccab78551c6e73b5efbc309f",
+        "bytes": 52967
+      },
+      {
+        "path": "res/controllers/Numark-NS7-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-NS7-scripts.js",
+        "git_blob": "f2fcf7213f92155173d94198526f37d7a434a685",
+        "sha256": "9733ac8bd235e94d4e2cd885d9f59136b400afb8e9f845d94ad3116fe3fedfc3",
+        "bytes": 3376
+      },
+      {
+        "path": "res/controllers/Numark-Omni-Control-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Omni-Control-scripts.js",
+        "git_blob": "5411520ffcadba1e14f56e440b426f7fc512a10e",
+        "sha256": "7665ba5762f35a31c0699bdd50cc279cf1405fca06a4295baba0123d3fc37035",
+        "bytes": 18448
+      },
+      {
+        "path": "res/controllers/Numark-Party-Mix.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Party-Mix.midi.xml",
+        "git_blob": "47c8c63468c82a2d9513c17a5fee7aed0ea6bf11",
+        "sha256": "8745faac533e58e2a23699bfb365442564876226aee98ab12570b01efe84136b",
+        "bytes": 17423
+      },
+      {
+        "path": "res/controllers/Numark-Party-Mix.scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Party-Mix.scripts.js",
+        "git_blob": "f04098db4cfc9b92094b4cbd4d86e6f407e3bb08",
+        "sha256": "f6a918228964c90105a47a9faa109a0dc80935cb269d0495054ab04712997132",
+        "bytes": 13651
+      },
+      {
+        "path": "res/controllers/Numark-Scratch-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Scratch-scripts.js",
+        "git_blob": "606058069006f6f3316f6e3ee4537e3a29a8986b",
+        "sha256": "e00bf9d265bee9131cad79ce4ab52fb8b736cbced8f2783cbae2921f4034d3a1",
+        "bytes": 13337
+      },
+      {
+        "path": "res/controllers/Numark-Scratch.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Scratch.midi.xml",
+        "git_blob": "a23674152c1c0e8772e2b5f7aeec86f490e3c110",
+        "sha256": "faeb3d79ff98c46ce6ae2a3a5f00f2af74692bcd141d38d5d427b6459f4efd35",
+        "bytes": 30284
+      },
+      {
+        "path": "res/controllers/Numark-Total-Control-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Total-Control-scripts.js",
+        "git_blob": "341c9a424324c69118a16735017badd9595919b2",
+        "sha256": "1630779e5dfd5cc6f00233633987928f8f3929f761932aa70b97405618deca59",
+        "bytes": 18459
+      },
+      {
+        "path": "res/controllers/Numark-V7-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-V7-scripts.js",
+        "git_blob": "ab8ceb1fc48ae90e6ba044cc436a63bf4095c7e8",
+        "sha256": "2d58f3b5eb85c96116baa16a956b89eab4478ddfdaff5c487f7c3abd783df491",
+        "bytes": 58841
+      },
+      {
+        "path": "res/controllers/Numark-iDJ-Live-II-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-iDJ-Live-II-scripts.js",
+        "git_blob": "b09c1d28a720e5af0378f26dcefff89736de477d",
+        "sha256": "2474aa5e02de51744cd9ccf7fbea53f9f5f6ce338479da16d0a8369bbb9c0166",
+        "bytes": 3348
+      },
+      {
+        "path": "res/controllers/Numark_DJ2GO2_Touch.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark_DJ2GO2_Touch.midi.xml",
+        "git_blob": "1b4d5e429f3581212711276dd53fb8a09ed29b38",
+        "sha256": "30807f8e574e857149c4e5b3f79e2d07ab8a841e159c040852a8c5d7b1641990",
+        "bytes": 29974
+      },
+      {
+        "path": "res/controllers/Numark_DJ2GO2_Touch_scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark_DJ2GO2_Touch_scripts.js",
+        "git_blob": "b655916f026693700779a6fcdbb32a4d202f3c67",
+        "sha256": "8c39e503fcd2c1c6be23c997d7c092b58ee91aec22d32fa1fa7392e1f1fd900f",
+        "bytes": 6615
+      },
+      {
+        "path": "res/controllers/Pioneer CDJ HID.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ%20HID.hid.xml",
+        "git_blob": "4c1a79a83a719e1de7951e4f0c93e607cba1c96a",
+        "sha256": "3edb240d22083a57a34ab4e20e31d2f36fd69fb856f2756b7a2b270320f6fda8",
+        "bytes": 1156
+      },
+      {
+        "path": "res/controllers/Pioneer CDJ-2000.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-2000.midi.xml",
+        "git_blob": "506da23a934e6d4b816ea1f30c06f5c8965e5b8e",
+        "sha256": "cdbdd68aa755e3a1192211ea681cbdadac4b564ff9f3cc27cbcf42f348c954a9",
+        "bytes": 13114
+      },
+      {
+        "path": "res/controllers/Pioneer CDJ-350 Ch1.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-350%20Ch1.midi.xml",
+        "git_blob": "f58b145cac63cec6f369989e0e991c94238299bd",
+        "sha256": "d326428b18915904a0c7039c24d06db1a6955c8edfb9cf89291a790047e6e095",
+        "bytes": 11252
+      },
+      {
+        "path": "res/controllers/Pioneer CDJ-350 Ch2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-350%20Ch2.midi.xml",
+        "git_blob": "3dfa6953094e73527de855614c6a02fba77cc5bb",
+        "sha256": "c97fc1c858794f4346c21b0e141852b1c1a180879ceff3bdc59bea6e7971106e",
+        "bytes": 11255
+      },
+      {
+        "path": "res/controllers/Pioneer CDJ-850.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-850.midi.xml",
+        "git_blob": "b3d91bc9fae5b53a942bd4f488dea99b345b4c22",
+        "sha256": "6b69d8725980668af4243b2ce2a2e2b19b3e6e4713329e81d1201af2527cea19",
+        "bytes": 15446
+      },
+      {
+        "path": "res/controllers/Pioneer DDJ-200.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20DDJ-200.midi.xml",
+        "git_blob": "16c86be2068e7cfdd6f2d1604db516b0d7155978",
+        "sha256": "817fb25f11ce4889bc0c26240f56aa20d640af90a4623ff55ff8df15d6538e90",
+        "bytes": 34988
+      },
+      {
+        "path": "res/controllers/Pioneer DDJ-SX.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20DDJ-SX.midi.xml",
+        "git_blob": "6cf030f5b11370db761bd72592c771222a631900",
+        "sha256": "daf68dbe0234b28737accfdb352bda7e4684d0a91f0efcd3bd108ce9c9b1b2dd",
+        "bytes": 275039
+      },
+      {
+        "path": "res/controllers/Pioneer-CDJ-2000-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-CDJ-2000-scripts.js",
+        "git_blob": "ecc4c75f9788558203236d65ea3d954fdd89e289",
+        "sha256": "4917e516ae09e509d7d7928b87be35aece865b972f9a4a6d92e73ae30bf4537b",
+        "bytes": 917
+      },
+      {
+        "path": "res/controllers/Pioneer-CDJ-350-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-CDJ-350-scripts.js",
+        "git_blob": "35ef23acc2f1e19d349bb42e03c26c16c3e968cd",
+        "sha256": "88a6442ba1c1819869829fd17827a58bed4353f5be80dbe2d691061b517e1207",
+        "bytes": 2500
+      },
+      {
+        "path": "res/controllers/Pioneer-CDJ-850-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-CDJ-850-scripts.js",
+        "git_blob": "dcbcce806ebbdfc61b3d38fc806d01437701d111",
+        "sha256": "bb01e37dd47fa0f647f3d8bfa2583675b8cf9c4777125bd0f2a5ea96022bba99",
+        "bytes": 2337
+      },
+      {
+        "path": "res/controllers/Pioneer-CDJ-HID.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-CDJ-HID.js",
+        "git_blob": "436a1f22954c6aed0a8a9dd454be360676ef93c4",
+        "sha256": "61e35dcfe5c72d92510f224758ba52f78d5f7ea4099129dc0e4be0a01fe122be",
+        "bytes": 33007
+      },
+      {
+        "path": "res/controllers/Pioneer-DDJ-200-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-200-scripts.js",
+        "git_blob": "5c9c3928ea865829d1492c046bdfe91fb572e9f6",
+        "sha256": "68fa3dfbb7711ad5e60d40e121f9a5cc0e30f12c3584710729f6a44f591f4191",
+        "bytes": 16161
+      },
+      {
+        "path": "res/controllers/Pioneer-DDJ-400-script.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-400-script.js",
+        "git_blob": "8050f7c2db03b994ede4ec97d1e74e927badb996",
+        "sha256": "87e1c696fe445d3c9816f04da9f3d0d5e774d0fc1c88bad699864bf13545a86d",
+        "bytes": 22979
+      },
+      {
+        "path": "res/controllers/Pioneer-DDJ-400.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-400.midi.xml",
+        "git_blob": "3377fa4dad370cf1f336989a220bf0049ee2fd93",
+        "sha256": "97eae1632fb273c0d818901cb6ec10b094268d595eb31ebc8c31050bc3513ac7",
+        "bytes": 113819
+      },
+      {
+        "path": "res/controllers/Pioneer-DDJ-FLX4-script.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-FLX4-script.js",
+        "git_blob": "20e6256741b7bbecdb926b6f1c29a759938baff8",
+        "sha256": "1330b02fe5e4cd528e1f681233405d9288bbd88a232f3f3db9faa26399938da9",
+        "bytes": 36201
+      },
+      {
+        "path": "res/controllers/Pioneer-DDJ-FLX4.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-FLX4.midi.xml",
+        "git_blob": "6c5aa30c90160a8d28fb41249624607a2a1951d4",
+        "sha256": "7d84a58391b71a9c3540fd4a3b675db93faa1c7bb7a862e891cf6ba259e97c98",
+        "bytes": 148445
+      },
+      {
+        "path": "res/controllers/Pioneer-DDJ-SB-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-SB-scripts.js",
+        "git_blob": "cfb3f2477458bbf274c3694f8088fcdee2040ade",
+        "sha256": "476004eb2bb05772782669f6dccee7d7678a8710044642c46c9d11c9e73cfed9",
+        "bytes": 35109
+      },
+      {
+        "path": "res/controllers/Pioneer-DDJ-SB.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-SB.midi.xml",
+        "git_blob": "4452e7259c5869d268d64043b9543ceb7f45e7b9",
+        "sha256": "fcb4bd949ab5df8789a6317ee8bc067616f607c22fb5d8bf6eefbdbac787422d",
+        "bytes": 67893
+      },
+      {
+        "path": "res/controllers/Pioneer-DDJ-SB2-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-SB2-scripts.js",
+        "git_blob": "8c18d6cb2fe8065b24db389d1e6776715491a110",
+        "sha256": "806df109f01e269ac98afb14f06beca916b015c90d3fc2aeebb618ef4aac9331",
+        "bytes": 44487
+      },
+      {
+        "path": "res/controllers/Pioneer-DDJ-SB2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-SB2.midi.xml",
+        "git_blob": "34f9974fb0bf34e85f292ac5c6bf90a7b14c7bac",
+        "sha256": "c9caaabd1ed1826dad6e3dd7c68b5cb98c2403a4d0b8d05b086462eade33565e",
+        "bytes": 182878
+      },
+      {
+        "path": "res/controllers/Pioneer-DDJ-SB3-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-SB3-scripts.js",
+        "git_blob": "29f0b2bae8cac2b4ca1540f52b30d4ee3482fb0a",
+        "sha256": "916d2813f5feb685a02ab5b3fb1b6f35d0b89833bd1837ca08ad42a17215eefe",
+        "bytes": 55528
+      },
+      {
+        "path": "res/controllers/Pioneer-DDJ-SB3.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-SB3.midi.xml",
+        "git_blob": "589a539c2594726a8a884373f8c8ed9ae10cdfd2",
+        "sha256": "67efe99432c2f3818df865b93f097591145941f68b951d8a950576b499f944c5",
+        "bytes": 174029
+      },
+      {
+        "path": "res/controllers/Pioneer-DDJ-SX-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-SX-scripts.js",
+        "git_blob": "217d10678827c26a9532a37ac7d1ebef5732c63e",
+        "sha256": "901cdee84ec9b973a66f528f52d3a6bdb3e19c31976c73d1e9bec899b9abc4ac",
+        "bytes": 95223
+      },
+      {
+        "path": "res/controllers/Reloop Beatpad.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Beatpad.midi.xml",
+        "git_blob": "086f792fb93fdb250e4b71cef18cc6c22f236971",
+        "sha256": "588522b1aca02604c7ecf24a48d2ecec8112560859b233b142fbbbaefc8a3f05",
+        "bytes": 71451
+      },
+      {
+        "path": "res/controllers/Reloop Digital Jockey 2 Controller Edition.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Digital%20Jockey%202%20Controller%20Edition.midi.xml",
+        "git_blob": "7bf5399342ae95fce58197789dab672e815f073b",
+        "sha256": "e76490f9f1d88f54fca76d66080d57207f8916178bbc3cc314ac2fde0807606c",
+        "bytes": 21710
+      },
+      {
+        "path": "res/controllers/Reloop Jockey 3 ME.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Jockey%203%20ME.midi.xml",
+        "git_blob": "90e15037f7c3985f2bdad725b9fe1c0ff5614cc8",
+        "sha256": "4a9ab00f0d7f0df1f12a6a20caed39481cd72697c49331a89f069c0c4bef4518",
+        "bytes": 120531
+      },
+      {
+        "path": "res/controllers/Reloop Terminal Mix 2-4.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Terminal%20Mix%202-4.js",
+        "git_blob": "6b4aa99cddebe3c931f3bee3afe62ced7fcd3b18",
+        "sha256": "0676fdf76d5c39223e7fbb05f7fee6ca071bba5971f6908db00d1cdbe033d7de",
+        "bytes": 20152
+      },
+      {
+        "path": "res/controllers/Reloop Terminal Mix 2-4.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Terminal%20Mix%202-4.midi.xml",
+        "git_blob": "3f49eddf271b79477c3e082b33a6f3f26966508e",
+        "sha256": "75ec007d96620b4665d7435c8c7a86bae8a4fae6146542a5c37ae3ac32b01c40",
+        "bytes": 92007
+      },
+      {
+        "path": "res/controllers/Reloop-Beatmix-2-4-MK2-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatmix-2-4-MK2-scripts.js",
+        "git_blob": "f9fd48947257ba35bccc663033fb7feb96209a93",
+        "sha256": "d4373a391b20ffb7f944b9ceba9706df1ce7a1af9ef8568b0a005145775fe652",
+        "bytes": 30311
+      },
+      {
+        "path": "res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml",
+        "git_blob": "488960e2c7a48be27e68fe9607a0759388b69766",
+        "sha256": "9ad44392c28b9221126520cf1afb1fa7a379b2974a20cafcdcef5ae7a4bd6832",
+        "bytes": 122238
+      },
+      {
+        "path": "res/controllers/Reloop-Beatpad-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatpad-scripts.js",
+        "git_blob": "ad60a18a954363daa2308fc1cf720c3985d463fa",
+        "sha256": "8fa76b24a5c4d6e5decdc59af231575d024601a236c1b7bcc385eeceb4dae3f8",
+        "bytes": 103901
+      },
+      {
+        "path": "res/controllers/Reloop-Digital-Jockey-2-IE.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey-2-IE.midi.xml",
+        "git_blob": "8489cb34dcf8fe77ac02403ee90ad6e40b031be7",
+        "sha256": "aaf1eb35bccb967a9453cfdb36a6098c383f2cb0af11263add4c8794a33106a4",
+        "bytes": 47267
+      },
+      {
+        "path": "res/controllers/Reloop-Digital-Jockey-2-IE.scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey-2-IE.scripts.js",
+        "git_blob": "a199e9a425be8d2a87a56a0bed2a3774b55e0707",
+        "sha256": "69ee3a9c98af5e6081966f42c5464da201d576c436594712e8d4ced9a5b9e5f3",
+        "bytes": 30443
+      },
+      {
+        "path": "res/controllers/Reloop-Digital-Jockey2-Controller-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey2-Controller-scripts.js",
+        "git_blob": "b3cb88eee22a781418217f86d3d0393a42ee368f",
+        "sha256": "411d3b8482ed33d401d1aa051df9a8bb89ac56b7cd8c4d4810ddaf7c7865cd81",
+        "bytes": 36295
+      },
+      {
+        "path": "res/controllers/Reloop-Jockey-3-ME-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Jockey-3-ME-scripts.js",
+        "git_blob": "347a044f8dfa6265425fb88f4618899206d374ac",
+        "sha256": "ba294deef3ca7d42bfc9d84f6fe349eb686d643aca36418f3102359b6c0af5bc",
+        "bytes": 22803
+      },
+      {
+        "path": "res/controllers/Reloop-Mixage.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Mixage.midi.xml",
+        "git_blob": "363d98cc690583c9637f6fec8b81dc37656c3211",
+        "sha256": "0d164d8bb64df6b9a0593b2b0110b5a5182591c1f47abe187cd2e4dd9fd114cc",
+        "bytes": 33832
+      },
+      {
+        "path": "res/controllers/Reloop-Mixage.scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Mixage.scripts.js",
+        "git_blob": "168a13fd7250ecffcd1c3ba8c2ff0c7141f918a6",
+        "sha256": "131e6b630cd6e3cdc79dff4dd3380accc11bb4c4cc6e478d01674356c2b62f44",
+        "bytes": 32534
+      },
+      {
+        "path": "res/controllers/Roland_DJ-505-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Roland_DJ-505-scripts.js",
+        "git_blob": "995758c98fe7250d095815a6dc258a22110647e2",
+        "sha256": "6e996b5a17d1fa97bfd20be69e4b76ad1996967bb91cbcb36e3855819bb02522",
+        "bytes": 71873
+      },
+      {
+        "path": "res/controllers/Roland_DJ-505.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Roland_DJ-505.midi.xml",
+        "git_blob": "c4eca0a1619db2d13f33a46a21711a563d9e9ced",
+        "sha256": "7484f8d2e0c524f779d6c842892e219679deccc501d8cd183eea5a4b3132e688",
+        "bytes": 141462
+      },
+      {
+        "path": "res/controllers/Sony SixxAxis.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Sony%20SixxAxis.hid.xml",
+        "git_blob": "004b8800678ee66f1e6451434fcfbe16bbd30d96",
+        "sha256": "1a629bc186a2077a7fb91677a21acc0c958d4c611817cc0cbfb458f69752c2e3",
+        "bytes": 861
+      },
+      {
+        "path": "res/controllers/Sony-SixxAxis.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Sony-SixxAxis.js",
+        "git_blob": "ba0def6e24e935b93224fab1a00b029a85961598",
+        "sha256": "2e537f3649ac5b6b7c9c0acc9bb6688ee80b1c33356fb68a5d8c3314a8c59559",
+        "bytes": 12310
+      },
+      {
+        "path": "res/controllers/Soundless_joyMIDI.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Soundless_joyMIDI.midi.xml",
+        "git_blob": "b3e25cdd8cfb5db98d775caffa97718366309897",
+        "sha256": "b818c7adbc93b476f1bb8288de54c28d5dc9e643453ef0f00745bee5f2358523",
+        "bytes": 42118
+      },
+      {
+        "path": "res/controllers/Soundless_joyMIDI_scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Soundless_joyMIDI_scripts.js",
+        "git_blob": "5ebc62b4a17771a0ad73b514ac0db6662d65e0b9",
+        "sha256": "a8a29eca4db23cc8c0088ee84b41c496dbcf0c840933ae0fb5cbd8dbcea1ce14",
+        "bytes": 24867
+      },
+      {
+        "path": "res/controllers/Stanton SCS.1d.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.1d.midi.xml",
+        "git_blob": "ada5b9cc50507f0523efc0a2ac5137e56f96be84",
+        "sha256": "004eb31fc5f82686ff2e846f89cc1bce07a1c61b1d1b2fd24160343fdd9d7e98",
+        "bytes": 38464
+      },
+      {
+        "path": "res/controllers/Stanton SCS.1m.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.1m.midi.xml",
+        "git_blob": "96cffe9030e1650378966cbfb4809206e1dcb95b",
+        "sha256": "a2ff020a9d21367a96352524adb6704b84d64b623770a3529ef35b5be3db54b7",
+        "bytes": 34633
+      },
+      {
+        "path": "res/controllers/Stanton SCS.3d Alternate.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.3d%20Alternate.midi.xml",
+        "git_blob": "93a86828768927bf2e52f9d1516155f80be8418d",
+        "sha256": "5d021013529accb22bd8715c2a62b6521e6c592541f7a08ac4b181d0d4cf4898",
+        "bytes": 9606
+      },
+      {
+        "path": "res/controllers/Stanton SCS.3d.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.3d.midi.xml",
+        "git_blob": "f27a06c4f7f8a5c3bb4879c2cb8e722f088e33aa",
+        "sha256": "66cac24e703788c4a291e17b14b0533c7cf6e5355832903bf2cbee2e96a505e9",
+        "bytes": 24393
+      },
+      {
+        "path": "res/controllers/Stanton SCS.3m.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.3m.midi.xml",
+        "git_blob": "8cac9d45773cba4cd39812f52335ef3be1554838",
+        "sha256": "b32516ac22c7853c31690e0e017de4aefdbf7ad34fe2a80187a2fb4e209a06a5",
+        "bytes": 10256
+      },
+      {
+        "path": "res/controllers/Stanton-DJC-4-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-DJC-4-scripts.js",
+        "git_blob": "8d4b3447e5b257e30fb5e13dc0a2972eff8cc27d",
+        "sha256": "c0615669dd9f46cf92f46066ec00142d9b7e42dccb9a249abebcbc57bccb54d4",
+        "bytes": 12016
+      },
+      {
+        "path": "res/controllers/Stanton-DJC-4.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-DJC-4.midi.xml",
+        "git_blob": "fa56a0511284bd2af5e6e97175028e0d8bcb203d",
+        "sha256": "e7b4cca84354be02d3c627054e187d7e0b66cbfb51bbae6dced9b2b339c97f26",
+        "bytes": 92406
+      },
+      {
+        "path": "res/controllers/Stanton-SCS1d-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-SCS1d-scripts.js",
+        "git_blob": "5050a19f885ef503594ac4bee265243644e0bf95",
+        "sha256": "a35b9f00be54f2dd8815955198282bb574e0988cd30a590c51ba4a0258fdb93a",
+        "bytes": 97875
+      },
+      {
+        "path": "res/controllers/Stanton-SCS1m-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-SCS1m-scripts.js",
+        "git_blob": "ea24691d7828f0e3dec47fcb7a95040fda7df6c7",
+        "sha256": "af187579e96a41f11e6c8d273ed13aaddb4eabd3883aca00ee1b70164e5cbe4a",
+        "bytes": 35127
+      },
+      {
+        "path": "res/controllers/Stanton-SCS3d-alternate-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-SCS3d-alternate-scripts.js",
+        "git_blob": "a9cf9cd0de9efc13e69da8fbc8c4263eb12ad76b",
+        "sha256": "7b6fe821a7b6654c5f5603d2b42a327ea62e7e22926affe163a3d087d9034bbd",
+        "bytes": 64380
+      },
+      {
+        "path": "res/controllers/Stanton-SCS3d-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-SCS3d-scripts.js",
+        "git_blob": "b0c14bd5618a4f10fe2f640cb8f660afae8d95d4",
+        "sha256": "7909c6321000e29aaecdddc4d31337a67ee1e16ef7d2bf9d4562a2964cc6abce",
+        "bytes": 113073
+      },
+      {
+        "path": "res/controllers/Stanton-SCS3m-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-SCS3m-scripts.js",
+        "git_blob": "494b014de7971ea620152814f38760cb9118c082",
+        "sha256": "f4f3fcc33a16a862c1ea9c5eb971f4b8ee14886b716907c536a2cd9b73dffb42",
+        "bytes": 31322
+      },
+      {
+        "path": "res/controllers/TrakProDJ iPad.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/TrakProDJ%20iPad.midi.xml",
+        "git_blob": "a381378907e5b1f259a9edaab732c85b126a3963",
+        "sha256": "00bafd67b9e76575f90176019c323400b3a02cb5c9f5d7725bebcf6035a68e0b",
+        "bytes": 11617
+      },
+      {
+        "path": "res/controllers/TrakProDJ-iPad-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/TrakProDJ-iPad-scripts.js",
+        "git_blob": "13cb1af770582d3a44a5217922f7afded2bddaed",
+        "sha256": "838c3133ba4e0add7d48325f64e837cae67aab2bfe7e7c43ee883ac8272cb40c",
+        "bytes": 9916
+      },
+      {
+        "path": "res/controllers/Traktor Kontrol F1.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor%20Kontrol%20F1.hid.xml",
+        "git_blob": "617daa741c38cd7a9d139abaec6e215446ee9752",
+        "sha256": "3fd02c831eca92e5a15bdc6557f523943f2335d9aab47e06dbf3b3331341464f",
+        "bytes": 931
+      },
+      {
+        "path": "res/controllers/Traktor Kontrol S2 MK3.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor%20Kontrol%20S2%20MK3.hid.xml",
+        "git_blob": "185bfd026f9a898730e1bca4486cffacd9cfadc4",
+        "sha256": "27c106fa3c8a3f39a94c0c2584a65f2d035aa6d8f4acf456ca1a9677814b4655",
+        "bytes": 839
+      },
+      {
+        "path": "res/controllers/Traktor Kontrol S2 Mk1.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor%20Kontrol%20S2%20Mk1.hid.xml",
+        "git_blob": "3ef428b8bdfa16831fc7cec9db2e33b9adad6f4b",
+        "sha256": "ee197b3d1a0c1e063063e57549c53452bfe41e06c85dc95d49849a425ea335d0",
+        "bytes": 761
+      },
+      {
+        "path": "res/controllers/Traktor Kontrol S2 Mk2.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor%20Kontrol%20S2%20Mk2.hid.xml",
+        "git_blob": "07984438dc8b8bacbd0906b238046232458cf68c",
+        "sha256": "3da49be37182c7189a4e90eb20001ae953d32e9fbe712820401da58d67691c09",
+        "bytes": 829
+      },
+      {
+        "path": "res/controllers/Traktor Kontrol S3.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor%20Kontrol%20S3.hid.xml",
+        "git_blob": "f069801950f79273d6ee0d2333f772b5d270db9d",
+        "sha256": "fc9f2b2c1cdb0cdb52baba759ace0088209d78d88e83819ecc84aabb86fe2815",
+        "bytes": 8997
+      },
+      {
+        "path": "res/controllers/Traktor Kontrol S4 MK2.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor%20Kontrol%20S4%20MK2.hid.xml",
+        "git_blob": "411e6a0d9385869fbc9e144d0e2d3eecd254a659",
+        "sha256": "b8880bc4c36bc067bb8a78aba8aeda36745901e29fcfa906c1514fc7f1c17de1",
+        "bytes": 1407
+      },
+      {
+        "path": "res/controllers/Traktor Kontrol S4 MK3.bulk.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor%20Kontrol%20S4%20MK3.bulk.xml",
+        "git_blob": "9ff54933609910107bfa2d0c68780c213a43654c",
+        "sha256": "95d1a761b106b665ac258eb24d26061d4cb30a96283dec60386e1ae742b98437",
+        "bytes": 27572
+      },
+      {
+        "path": "res/controllers/Traktor Kontrol S4 MK3.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor%20Kontrol%20S4%20MK3.hid.xml",
+        "git_blob": "8df3d6a7cc710cb1a5e74d3a0628b29f4bda9596",
+        "sha256": "b2b215546f396c3e79e1228ef7e8d35460e80941de4d885b07e46f8010db7660",
+        "bytes": 46081
+      },
+      {
+        "path": "res/controllers/Traktor Kontrol X1.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor%20Kontrol%20X1.midi.xml",
+        "git_blob": "d856f8257824e237f0451a6d19f58bed763a22dc",
+        "sha256": "e902b7e10c6d45886c712ac51c57c2352af87d7f1ab610f07e9d33d328f49834",
+        "bytes": 14242
+      },
+      {
+        "path": "res/controllers/Traktor Kontrol Z1.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor%20Kontrol%20Z1.hid.xml",
+        "git_blob": "843adc9fd659bef0ffdbb0212ad39ed5f1fecf52",
+        "sha256": "3c860df3906e14acfc7b3b0a592bdcfeef096aababac7086397a456355e7c205",
+        "bytes": 886
+      },
+      {
+        "path": "res/controllers/Traktor MX2.hid.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor%20MX2.hid.xml",
+        "git_blob": "9695039143b1940ec1f857fae090d49e70c68688",
+        "sha256": "93ec372a1e0b59eb2d7c93353a5c8a135776f3c7ffd11c3acfc42010cc13bbee",
+        "bytes": 1029
+      },
+      {
+        "path": "res/controllers/Traktor-Kontrol-F1-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor-Kontrol-F1-scripts.js",
+        "git_blob": "7c004cf3b4de550bcc5b0e4f04cbf4a5d08667e0",
+        "sha256": "87ab59ad93fa10edf86ac0e34f31e569f10a784448244bbe45d6db838ab78313",
+        "bytes": 34498
+      },
+      {
+        "path": "res/controllers/Traktor-Kontrol-S2-MK1-hid-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor-Kontrol-S2-MK1-hid-scripts.js",
+        "git_blob": "ef26c168887b63e4c77001dc736ddbbe9900920a",
+        "sha256": "a23416c572d0657dcd2a8dab45a78f0585eb4078351c980ccdf197b255d07aee",
+        "bytes": 71121
+      },
+      {
+        "path": "res/controllers/Traktor-Kontrol-S2-MK2-hid-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor-Kontrol-S2-MK2-hid-scripts.js",
+        "git_blob": "93b3657153ed9c5587baae0e84221ac40173a818",
+        "sha256": "05b1d255815229ecc7d98d9cdbeef73f2e524b69e06b92cbe3ae995cf0654784",
+        "bytes": 62444
+      },
+      {
+        "path": "res/controllers/Traktor-Kontrol-S2-MK3-hid-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor-Kontrol-S2-MK3-hid-scripts.js",
+        "git_blob": "f1d6bec4ef6be867e239bbd68bb073cf79433b9e",
+        "sha256": "40cafdcd40ce8cdf3e9f228c695445b98a2fba9eafe10bf4ac490038c293b48b",
+        "bytes": 54395
+      },
+      {
+        "path": "res/controllers/Traktor-Kontrol-S3-hid-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor-Kontrol-S3-hid-scripts.js",
+        "git_blob": "4c69fbca9299af826bd099b52e60733d4256841f",
+        "sha256": "bb2a392513067fb4e423d2d73b839182e0b2605aca44b0986f93bb30863fc89a",
+        "bytes": 110538
+      },
+      {
+        "path": "res/controllers/Traktor-Kontrol-S4-MK2-hid-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor-Kontrol-S4-MK2-hid-scripts.js",
+        "git_blob": "0cbcb12ebf10ebe40dae2d73ce45b9c188f5af87",
+        "sha256": "e706a32bfd0153c42f00857e46c1dfd5b6eaa6a027719033ab929b8c88e9c5af",
+        "bytes": 81586
+      },
+      {
+        "path": "res/controllers/Traktor-Kontrol-S4-MK3.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor-Kontrol-S4-MK3.js",
+        "git_blob": "9135b16849103444cb1f2a50392a8bda431ea7b8",
+        "sha256": "c058a168d537ccaf0374701004755af344c62a395d55e7d9f5aa668e9a8597c8",
+        "bytes": 157016
+      },
+      {
+        "path": "res/controllers/Traktor-Kontrol-X1.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor-Kontrol-X1.js",
+        "git_blob": "d317d0a7e29a106eacdc47c49fda47bf1ce77f0c",
+        "sha256": "3e6c83ef863bfe3800ca48a9c2cdfd607caeaa04d95478bca4a6c065f68617c9",
+        "bytes": 15520
+      },
+      {
+        "path": "res/controllers/Traktor-Kontrol-Z1-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor-Kontrol-Z1-scripts.js",
+        "git_blob": "d561e30f897cf9143ffe0d20c7cac171ed4e188b",
+        "sha256": "fc8adbb78a370830413509b4f8343743d0b2bdbb3c10e15414c3313300b46e69",
+        "bytes": 13314
+      },
+      {
+        "path": "res/controllers/Traktor-MX2-hid-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Traktor-MX2-hid-scripts.js",
+        "git_blob": "70316a0c4ec26c054434c7789221385cfaedf904",
+        "sha256": "f6afc9bc9956f561744c8e6bfe5c24e5e4bb11f7b4fbe89b1b312f8a1ccbdd67",
+        "bytes": 87608
+      },
+      {
+        "path": "res/controllers/Vestax Spin.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20Spin.midi.xml",
+        "git_blob": "41530679ac70a839d52d3fdc3124f39ead4294e0",
+        "sha256": "dcd8a576a5ddcdb29c8b8527725fa633a330b68b9bbda505a41f10f12c6c40ff",
+        "bytes": 15998
+      },
+      {
+        "path": "res/controllers/Vestax Typhoon Enhanced.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20Typhoon%20Enhanced.midi.xml",
+        "git_blob": "39df12d46fcdeb45ccf93f57d1423e5387d99aab",
+        "sha256": "387dcc01cd4947827c623686aeabdd4b6d550bf61e36d0ebf5372902d6113e60",
+        "bytes": 15596
+      },
+      {
+        "path": "res/controllers/Vestax Typhoon.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20Typhoon.midi.xml",
+        "git_blob": "72f612dc717765af781b50ec8c80c9f75528c835",
+        "sha256": "2c2655736d616d78f7de16c481c137e2a93c530f25da1a8db242a015171f8950",
+        "bytes": 14566
+      },
+      {
+        "path": "res/controllers/Vestax VCI-100-3DEX.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100-3DEX.midi.xml",
+        "git_blob": "3ec8b09fdc3f2dcc94511cd8a434b05e8aa30e66",
+        "sha256": "3df1b756defe47787b9d4e5aec69c5b8434c7075a65ac82f46efe86c0b0c6939",
+        "bytes": 24597
+      },
+      {
+        "path": "res/controllers/Vestax VCI-100-hile.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100-hile.midi.xml",
+        "git_blob": "59a29e063f49bf8abe5ea8897906c48d823808e3",
+        "sha256": "bee20acdf95233566777a2dcaa58448ade62d604ccae957cad6dcc0428e25796",
+        "bytes": 12459
+      },
+      {
+        "path": "res/controllers/Vestax VCI-100.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100.midi.xml",
+        "git_blob": "b76bc265222fbece6e3d92da95bbc9c7376eeea8",
+        "sha256": "3e18272c9b3ec6dfd823cc80f9c2762e81612aa071e95f752b1a6df5c4fc668f",
+        "bytes": 17053
+      },
+      {
+        "path": "res/controllers/Vestax VCI-100MKII.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100MKII.midi.xml",
+        "git_blob": "499c54e97061ef5d230e02d7f2ef3dd69c954526",
+        "sha256": "ca8cd77428b7cf6133158b048a002e77f5db43a3aa27ab7e8195c71df35b9677",
+        "bytes": 54523
+      },
+      {
+        "path": "res/controllers/Vestax VCI-300.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-300.midi.xml",
+        "git_blob": "b092dca974e6d90b77a26b5eba1471534a8423a1",
+        "sha256": "f6efbd83c4bfc47c68fbb7eba594951357b906e627c2d920a9e32fe88035b54c",
+        "bytes": 27494
+      },
+      {
+        "path": "res/controllers/Vestax VCI-400.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-400.midi.xml",
+        "git_blob": "cebe07e28956bffaefbb225eecc6d71ffdc97786",
+        "sha256": "2ef6df3e503b96811382d71e11b7010569eca084ba6efbe6d1fa2911f9387450",
+        "bytes": 86440
+      },
+      {
+        "path": "res/controllers/Vestax-Spin-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax-Spin-scripts.js",
+        "git_blob": "ce3a91eecb80dd29242f1697f60fffd31d6c58d8",
+        "sha256": "4af354475ddd419c033a6ad4682940b364b746271658b31f3c3b66920b6077b4",
+        "bytes": 11979
+      },
+      {
+        "path": "res/controllers/Vestax-Typhoon-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax-Typhoon-scripts.js",
+        "git_blob": "30d15f28353522b3c00a50dac894d78b742caf82",
+        "sha256": "d71be6b5cecbb1c7b678b2617451801105ce64cd06ccb7b5f8cc484aaceb2d84",
+        "bytes": 26561
+      },
+      {
+        "path": "res/controllers/Vestax-VCI-100-3DEX-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax-VCI-100-3DEX-scripts.js",
+        "git_blob": "60159312190466da49f854998a08c11903931c54",
+        "sha256": "86bc9cc8ed88329093d3421b0101bd8d55c33ead4e33886df477c02a657e6504",
+        "bytes": 24324
+      },
+      {
+        "path": "res/controllers/Vestax-VCI-100-hile.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax-VCI-100-hile.js",
+        "git_blob": "c24493a23771e75309357fa43152980b4b4a337a",
+        "sha256": "5ef722bbc614f0472e6669d1887134cb1e6835860f90dea79ae89a4e6a34351a",
+        "bytes": 18857
+      },
+      {
+        "path": "res/controllers/Vestax-VCI-100-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax-VCI-100-scripts.js",
+        "git_blob": "8480ff430d73934806723aed82cb8ab7757e4c0d",
+        "sha256": "0d7e9682fd37e8db31e18611f065ad22f151f31cd6b43f0ceb078ea9b29b799e",
+        "bytes": 6385
+      },
+      {
+        "path": "res/controllers/Vestax-VCI-100MKII-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax-VCI-100MKII-scripts.js",
+        "git_blob": "9fd2b540949f13167b639c404ab52f92eab78913",
+        "sha256": "ac8e4211219dabb7b653514b4ea7e0d174082ac6595dadb20d12d388f670ece4",
+        "bytes": 15394
+      },
+      {
+        "path": "res/controllers/Vestax-VCI-300-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax-VCI-300-scripts.js",
+        "git_blob": "15ea0a23334268fd6c4fe7adc1891f35fe4e9730",
+        "sha256": "36150baffe7f4d8b047fa84b8b361452ff318626a8f61cb42882410070fc18e2",
+        "bytes": 47362
+      },
+      {
+        "path": "res/controllers/Vestax-VCI-400-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax-VCI-400-scripts.js",
+        "git_blob": "05358b2cff0d96559bfadb6865ee19f59fcc452f",
+        "sha256": "2b44136e2949374bafcf47d7a887d337cb01007aade8b7af07a2407282b7f19e",
+        "bytes": 40479
+      },
+      {
+        "path": "res/controllers/Wireless DJ App.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Wireless%20DJ%20App.midi.xml",
+        "git_blob": "a1d32ae0a5263418978d83e273d7b324612d1530",
+        "sha256": "71e14ae3a28298aa8741e7f9b8d7a5b5a3679c46c8357702a9ad93b83c61195d",
+        "bytes": 12202
+      },
+      {
+        "path": "res/controllers/Wireless-DJ-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Wireless-DJ-scripts.js",
+        "git_blob": "08ac513d49cc8cdbbc5d61480335d8a2afd9f1bf",
+        "sha256": "498d55a7ce013c9e86c0b55916692e7a026cde5bcbdd9f45cb28c1614e5013af",
+        "bytes": 10558
+      },
+      {
+        "path": "res/controllers/Yaeltex MiniMixxx.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Yaeltex%20MiniMixxx.midi.xml",
+        "git_blob": "0c10443cfa6a9594aff6424610164bc80f1761bf",
+        "sha256": "de713ac539efd124102769d91e11cabd9766abb3e145f8e18465047d6178f538",
+        "bytes": 11000
+      },
+      {
+        "path": "res/controllers/Yaeltex-MiniMixxx-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Yaeltex-MiniMixxx-scripts.js",
+        "git_blob": "221d5029c50a7091f560dd54da10f03b5f5fde55",
+        "sha256": "357c41c8d31e1888a549f655bc0ed922ddfd5258ee996d2a0246cd1c975c0173",
+        "bytes": 54839
+      },
+      {
+        "path": "res/controllers/common-bulk-midi.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/common-bulk-midi.js",
+        "git_blob": "af9f3f8ef3f908f8c649c019e985593bb2a16ecb",
+        "sha256": "097f0b6ff48746bc068b4fd37a91e319d5b9989051783c5d518fd07ba44ead69",
+        "bytes": 109
+      },
+      {
+        "path": "res/controllers/common-controller-scripts.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/common-controller-scripts.js",
+        "git_blob": "bcf2c317f1477fbc24510daf5c5f19d3176ae5b6",
+        "sha256": "27bad1799146932e2184995d4ab5eb7c1c2a09e0e909284249d6030f7edccdf3",
+        "bytes": 24367
+      },
+      {
+        "path": "res/controllers/common-hid-packet-parser.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/common-hid-packet-parser.js",
+        "git_blob": "f651b933a51b9f846803ba953aa602b6d11515c3",
+        "sha256": "45918923fd963da310736221146ac9707f28e3d3d89778bdda553c982202d8b7",
+        "bytes": 90388
+      },
+      {
+        "path": "res/controllers/lodash.mixxx.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/lodash.mixxx.js",
+        "git_blob": "2d5b3f2d4774253e15ebe47081cf3c9bff5bbf24",
+        "sha256": "3f6a1c2a3e28b5e92bf2209dc8b055eb234993adaa2361e736c18af8203e9216",
+        "bytes": 539182
+      },
+      {
+        "path": "res/controllers/midi-components-0.0.js",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/midi-components-0.0.js",
+        "git_blob": "7776efe7981e3f1d65bbbb49ed180c45df8d5ddc",
+        "sha256": "f15845d0b3fa10609aedc2fb74a9067d0f1d89387f011de72c3301799003f026",
+        "bytes": 54636
+      },
+      {
+        "path": "res/controllers/us428.midi.xml",
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/us428.midi.xml",
+        "git_blob": "d20fd7d5f1b5d0e73ebe2cbea7b94a25d158d1a0",
+        "sha256": "09343bcf6e32be2b0ed81e9a228144815237042f88f7941236a80295b6c152ec",
+        "bytes": 8852
+      }
+    ]
+  },
+  "benchmark": {
+    "url": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+    "sha256": "ff3d21d107507b25bce64d21200048d6637d54a737fce0f135c8911b02daa2d6",
+    "rows": [
+      {
+        "name": "Akai Pro AFX",
+        "manufacturer": "Akai",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Allen & Heath Xone:K1",
+        "manufacturer": "Allen & Heath",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "AlphaTheta DDJ-FLX2",
+        "manufacturer": "AlphaTheta",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "AlphaTheta DDJ-GRV6",
+        "manufacturer": "AlphaTheta",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "AlphaTheta DJM-V5",
+        "manufacturer": "AlphaTheta",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "AlphaTheta Euphonia",
+        "manufacturer": "AlphaTheta",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "AlphaTheta OMNIS-DUO",
+        "manufacturer": "AlphaTheta",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "AlphaTheta SLAB",
+        "manufacturer": "AlphaTheta",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "AlphaTheta XDJ-AZ",
+        "manufacturer": "AlphaTheta",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Denon DJ DS1",
+        "manufacturer": "Denon",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Denon DJ LC6000 PRIME",
+        "manufacturer": "Denon",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Denon DJ MC2000",
+        "manufacturer": "Denon",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Denon DJ MC4000",
+        "manufacturer": "Denon",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Denon DJ MC6000MK2",
+        "manufacturer": "Denon",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Denon DJ MC7000",
+        "manufacturer": "Denon",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Denon DJ MCX8000",
+        "manufacturer": "Denon",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Denon DJ PRIME 4",
+        "manufacturer": "Denon",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Denon DJ PRIME 4+",
+        "manufacturer": "Denon",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Denon DJ SC Live 2",
+        "manufacturer": "Denon",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Denon DJ SC Live 4",
+        "manufacturer": "Denon",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Denon DJ X1800 PRIME",
+        "manufacturer": "Denon",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Denon DJ X1850 PRIME",
+        "manufacturer": "Denon",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Gemini Slate",
+        "manufacturer": "Gemini",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Gemini Slate 4",
+        "manufacturer": "Gemini",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Hercules DJControl Inpulse 200",
+        "manufacturer": "Hercules",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Hercules DJControl Inpulse 200 MK2",
+        "manufacturer": "Hercules",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Hercules DJControl Inpulse 200 MK3",
+        "manufacturer": "Hercules",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Hercules DJControl Inpulse 300",
+        "manufacturer": "Hercules",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Hercules DJControl Inpulse 300 MK2",
+        "manufacturer": "Hercules",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Hercules DJControl Inpulse 500",
+        "manufacturer": "Hercules",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Hercules DJControl Inpulse T7",
+        "manufacturer": "Hercules",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Hercules DJControl Starlight",
+        "manufacturer": "Hercules",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Hercules DJControl T10",
+        "manufacturer": "Hercules",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Mixars DUO (incl. MKII)",
+        "manufacturer": "Mixars",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Mixars PRIMO",
+        "manufacturer": "Mixars",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Novation Dicers",
+        "manufacturer": "Novation",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Dashboard",
+        "manufacturer": "Numark",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark DJ2GO2",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark DJ2GO2 Touch",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark MixDeck Express",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark MixDeck Quad",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Mixstream Pro",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Mixstream Pro +",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Mixstream Pro Go",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark MixTrack Go",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Mixtrack Platinum",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Mixtrack Platinum FX",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Mixtrack Pro",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Mixtrack Pro II",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Mixtrack Pro 3",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Mixtrack Pro FX",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Mixtrack Quad",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark N4",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark NDX500",
+        "manufacturer": "Numark",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark NS4FX",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark NS6II",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark NSFX",
+        "manufacturer": "Numark",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark NV",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark NVII",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Party Mix",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Party Mix II",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Party Mix III",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Party Mix Live",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Party Mix Pro",
+        "manufacturer": "Numark",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Numark Scratch",
+        "manufacturer": "Numark",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-200",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-400",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-ERGO",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-FLX4",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-FLX6",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-FLX10",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-REV1",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-REV5",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-REV7",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-S1",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-SB",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-SB2",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-SB3",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-SP1",
+        "manufacturer": "Pioneer DJ",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-SR",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-SX",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-SX2",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-WeGO",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-WeGO3",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DDJ-XP2",
+        "manufacturer": "Pioneer DJ",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DJM-A9",
+        "manufacturer": "Pioneer DJ",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DJM-S5",
+        "manufacturer": "Pioneer DJ",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DJM-S7",
+        "manufacturer": "Pioneer DJ",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ DJM-S11",
+        "manufacturer": "Pioneer DJ",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ OPUS-QUAD",
+        "manufacturer": "Pioneer DJ",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Pioneer DJ PLX-CRSS12",
+        "manufacturer": "Pioneer DJ",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Rane MP2015",
+        "manufacturer": "RANE",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Rane ONE",
+        "manufacturer": "RANE",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Rane ONE MKII",
+        "manufacturer": "RANE",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Rane SEVENTY",
+        "manufacturer": "RANE",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Rane SEVENTY A-Trak Edition",
+        "manufacturer": "RANE",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Rane SEVENTY-TWO",
+        "manufacturer": "RANE",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Rane SEVENTY-TWO MKII",
+        "manufacturer": "RANE",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Rane SYSTEM ONE",
+        "manufacturer": "RANE",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Rane TWELVE",
+        "manufacturer": "RANE",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Rane TWELVE MKII",
+        "manufacturer": "RANE",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Reloop Beatmix 2",
+        "manufacturer": "Reloop",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Reloop Beatmix 4",
+        "manufacturer": "Reloop",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Reloop ELITE",
+        "manufacturer": "Reloop",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Reloop Flux",
+        "manufacturer": "Reloop",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Reloop Flux Go",
+        "manufacturer": "Reloop",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Reloop Mixon 4",
+        "manufacturer": "Reloop",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Reloop Mixon 8 Pro",
+        "manufacturer": "Reloop",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Reloop NEON",
+        "manufacturer": "Reloop",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Reloop Ready",
+        "manufacturer": "Reloop",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Reloop RMX-90 DVS",
+        "manufacturer": "Reloop",
+        "role": "dvs-only",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Reloop RP-8000",
+        "manufacturer": "Reloop",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Reloop RP8000 MK2",
+        "manufacturer": "Reloop",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Reloop Terminal Mix 2",
+        "manufacturer": "Reloop",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Reloop Terminal Mix 4",
+        "manufacturer": "Reloop",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Reloop Terminal Mix 8",
+        "manufacturer": "Reloop",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Roland SP-404MKII",
+        "manufacturer": "Roland",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Vestax Typhoon",
+        "manufacturer": "Vestax",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Vestax VCI-100 mk II",
+        "manufacturer": "Vestax",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Vestax VCI-300",
+        "manufacturer": "Vestax",
+        "role": "primary",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      },
+      {
+        "name": "Vestax VFX-1",
+        "manufacturer": "Vestax",
+        "role": "accessory",
+        "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      }
+    ]
+  },
+  "prioritySources": [
+    "https://www.coolblue.be/en/dj-controller/top-10",
+    "https://www.digitaldjtips.com/5-facts-about-djs-2026-census/"
+  ],
+  "conversionSemantics": [
+    {
+      "path": "src/controllers/midi/midioutputhandler.cpp",
+      "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/src/controllers/midi/midioutputhandler.cpp",
+      "git_blob": "2dfad758b4ca7a702b95030ac2cf03160cdb77d3",
+      "sha256": "1bbb6f8f372df5114733add9dd7851381709511988a9d90845315f44646ae6f6"
+    },
+    {
+      "path": "src/controllers/midi/legacymidicontrollermappingfilehandler.cpp",
+      "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/src/controllers/midi/legacymidicontrollermappingfilehandler.cpp",
+      "git_blob": "4003763d595633acb554efb832cb7c630e10d57a",
+      "sha256": "a766917f1c0cb36d0c694c348a641600d28efa2c0f21363ddb8fc8baf07e30b7"
+    }
+  ]
+}

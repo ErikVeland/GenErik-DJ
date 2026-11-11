@@ -42,6 +42,9 @@ extension PlaybackSnapshot {
         let state = self[deck]
         guard state.synced, state.phase != .empty else { return false }
         guard state.timing != nil else { return true }
+        if let groove = state.grooveSync {
+            return groove == .acquiring || groove == .limited
+        }
         return state.phase == .playing
             && syncPhaseError(deck).map { abs($0) > Self.syncPhaseToleranceBeats } == true
     }

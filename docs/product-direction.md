@@ -6,17 +6,23 @@ Build the most intuitive, fluid, multi-touch digital DJ app. Preserve the feel a
 
 1. **Clean, continuous audio.** Keep the output clear and at the intended speed throughout the set. Any crackle, dropout, unintended pause, slowdown or stop blocks acceptance.
 2. **Immediate, fluid control.** Keep every performance control responsive. Track simultaneous touches so one gesture can continue while another starts. A missed touch, delayed control, visible stutter or UI stall blocks acceptance.
-3. **Clarity.** Make the next mixing decision readable at a glance. Beats, bars, kick and bass come first. Preserve strong kick and snare attack frequencies. Separate each attack from its preceding decay.
+3. **Clarity.** Make the rhythm, groove and next mixing decision readable at a glance. Show individual hits and their hitting frequencies. Separate attacks from preceding decay. Preserve the musical pattern, accents and swing.
 
 Verify sound and touch together on Erik’s 2017 A10X iPad Pro during a representative live set. Use the [performance acceptance gates](coordination/release-gates.md).
 
 ## Read the music at a glance
 
-Readability takes priority over exact waveform amplitude. The waveform is a map for mixing, rather than a level meter.
+The waveform is a performance map of individual hits, rhythm and groove.
+A DJ or drummer should read the pattern and feel where each hit lands.
+Musical readability takes priority over a literal trace of the mastered signal.
+
 Use its bands like performance stems. Keep kick, bass and snare attacks strong. Taper preceding decay in the same frequency bands.
 Keep TDJ1's readable peaks, beat/bar hierarchy and space between attacks. Avoid a dense, uniform waveform sausage.
 
-Judge clarity from the attack against its surrounding decay. Preserve useful inner peaks and their contrast.
+Show accents, quieter ghost notes, syncopation and swing. Keep their real spacing against the beat grid.
+Shape envelopes, contrast and visual weight to expose those musical events.
+Reduce sustained fill and decay when they obscure individual hits. Keep bass notes and phrase changes readable as context.
+Exact sample amplitude is not an acceptance target.
 
 Preserve useful timing and musical changes while adjusting contrast and visual weight.
 Keep the same band meanings across zoom levels, section colours and deck sizes.

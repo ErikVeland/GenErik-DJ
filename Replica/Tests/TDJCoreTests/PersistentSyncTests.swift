@@ -11,7 +11,7 @@ private func persistentSyncRig(adaptive: Bool = false) throws -> (SampleTranspor
         anchors: [.init(beat: 0, frame: 500), .init(beat: 8, frame: 30500), .init(beat: 24, frame: 94500)],
         sampleRate: 8000)
     let b = try core.load(
-        audio, deck: .b, grid: BeatGrid(bpm: 128, anchorFrame: 500, sampleRate: 8000),
+        audio, deck: .b, grid: BeatGrid(bpm: adaptive ? 124 : 128, anchorFrame: 500, sampleRate: 8000),
         adaptiveMap: adaptive ? map : nil)
     try core.submit(.play(.a, a))
     core.processControlsWhileIdle()
@@ -31,7 +31,11 @@ private func persistentSyncRig(adaptive: Bool = false) throws -> (SampleTranspor
     #expect(core.snapshot()?.b.synced == true)
     #expect(abs(try #require(core.snapshot()?.syncPhaseError(.b))) < 0.001)
     _ = core.renderOffline(frames: 4096)
-    #expect(abs(try #require(core.snapshot()?.syncPhaseError(.b))) < 0.001)
+    let acquiring = try #require(core.snapshot())
+    let nextBar = (floor(acquiring.masterBeat / 4) + 1) * 4
+    _ = core.renderOffline(frames: Int(ceil((nextBar - acquiring.masterBeat) * 4000)) + 1)
+    #expect(core.snapshot()?.b.grooveSync == .aligned)
+    #expect(abs(try #require(core.snapshot()?.syncPhaseError(.b))) < 0.01)
     #expect(core.acknowledgements().allSatisfy { $0.error == nil })
 }
 

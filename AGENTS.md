@@ -8,6 +8,8 @@ Treat any audio crackle, dropout, unintended pause, slowdown or stop as a blocki
 
 Clarity is a north star alongside simplicity. Waveform readability takes priority over exact amplitude. Emphasise beats, bars, kick and bass first. Keep peaks distinct and quiet gaps visible.
 
+Treat the waveform as a performance map of individual hits, rhythm and groove. Let a DJ or drummer read the pattern and feel where each hit lands. Shape or suppress signal detail when it hides the music. Preserve actual hit spacing, accents, swing and quieter ghost notes.
+
 Preserve strong kick and snare attack frequencies. Separate each attack from the preceding decay in those bands. Judge the actual shapes against the accepted reference.
 
 Preserve the three-layer workspace and reuse prepared stem data when available. Do not start live separation for display detail. Follow the [waveform clarity contract](ARCHITECTURE.md#waveform-clarity).

@@ -17,6 +17,7 @@
 #include "TDJPattern.h"
 #include "TDJTimecode.h"
 #include "TDJMk2Position.h"
+#include "TDJGroove.h"
 
 #define COMMAND_CAPACITY 128u
 #define MESSAGE_CAPACITY 512u
@@ -42,6 +43,7 @@ typedef struct {
     uint64_t generation, last_start;
     int32_t state;
     bool synced, keylock;
+    groove_sync groove;
     tdj_beatgrid_map map;
     bool map_dirty;
     double position, bpm, anchor, downbeat, target, queued_origin, free_rate;
@@ -69,7 +71,7 @@ typedef struct {
 // Atomic fields make the snapshot race-free under the C memory model.
 typedef struct {
     _Atomic uint64_t generation, last_start;
-    _Atomic int32_t state, synced, keylock;
+    _Atomic int32_t state, synced, keylock, groove_sync;
     _Atomic double position, bpm, local_bpm, target, rate, lead;
     _Atomic double source_sample_rate, grid_anchor;
     _Atomic int32_t grid_downbeat;
@@ -392,6 +394,16 @@ static double deck_bpm_at(deck *d, double frame) {
 static double deck_bpm(deck *d) {
     return deck_bpm_at(d, d->position);
 }
+/**
+ * Measures bar phase without straightening the internal beats.
+ */
+static double groove_bar_phase(deck *d, double position) {
+    double beat = deck_beat(d, position) - d->map.downbeat;
+    double bar = floor(beat / 4) * 4;
+    double first = deck_frame(d, bar + d->map.downbeat);
+    double last = deck_frame(d, bar + d->map.downbeat + 4);
+    return bar + 4 * (position - first) / (last - first);
+}
 static double ticks_now(tdj_engine *e) {
     return e->epoch_ticks + (e->running ? (double)(e->frame - e->epoch_frame) * e->bpm : 0);
 }
@@ -399,11 +411,105 @@ static double beat_now(tdj_engine *e) {
     return ticks_now(e) / (60 * e->rate);
 }
 static double source_rate(tdj_engine *e, deck *d) {
+    if (!d->braking && d->synced && d->groove.mode)
+        return d->groove.rate;
     return !d->braking && d->synced && d->bpm > 0 ? e->bpm / deck_bpm(d) : d->free_rate;
+}
+
+/**
+ * Keeps auxiliary performances on their existing clock phase.
+ */
+static bool groove_clock_in_use(tdj_engine *e) {
+    loop_recorder *r = atomic_load_explicit(&e->loop_recorder_buffer, memory_order_acquire);
+    if (r && (r->armed || r->recording || r->playing))
+        return true;
+    for (unsigned i = 0; i < TDJ_PATTERN_UNITS; ++i)
+        if ((atomic_load_explicit(&e->pattern_settings[i], memory_order_relaxed) & 0x1f0000) > 0x100000)
+            return true;
+    return false;
+}
+
+/**
+ * Updates a bounded bar target without seeking or quantising internal beats.
+ */
+static void groove_update(tdj_engine *e, deck *d, bool advance, bool auxiliary_clock) {
+    groove_sync *g = &d->groove;
+    if (!d->synced || d->bpm <= 0 || !d->map.count || d->state != TDJ_PLAYING ||
+        d->touch_active || d->braking || d->performance_rate != 1 || d->loop_enabled || d->stream_starved) {
+        if (g->mode || g->position_valid)
+            *g = (groove_sync){0};
+        return;
+    }
+    bool paired = auxiliary_clock;
+    for (int i = 0; i < e->deck_count && !paired; ++i) {
+        deck *other = &e->decks[i];
+        paired = other != d && other->synced && other->bpm > 0 && deck_active(other);
+    }
+    double nominal = e->bpm / d->bpm, beat = beat_now(e);
+    bool moved = g->position_valid && (fabs(d->position - g->expected_position) > 0.001 || beat < g->last_beat);
+    if (!g->mode)
+        g->rate = nominal;
+    else if (g->master_bpm > 0 && g->master_bpm != e->bpm)
+        g->rate *= e->bpm / g->master_bpm;
+    g->master_bpm = e->bpm;
+    if (!paired) {
+        if (g->mode != TDJ_GROOVE_SOLO)
+            g->solo_ratio = g->rate / e->bpm;
+        g->rate = g->solo_ratio * e->bpm;
+        g->mode = TDJ_GROOVE_SOLO;
+        g->target_valid = g->aligned = false;
+    } else {
+        if (g->mode == TDJ_GROOVE_SOLO || moved) {
+            g->target_valid = g->aligned = false;
+        }
+        if (!g->target_valid) {
+            double source_beat = deck_beat(d, d->position) - d->map.downbeat;
+            double next_source_bar = (floor(source_beat / TDJ_GROOVE_INTERVAL_BEATS) + 1)
+                * TDJ_GROOVE_INTERVAL_BEATS + d->map.downbeat;
+            g->target_beat = (floor(beat / TDJ_GROOVE_INTERVAL_BEATS) + 1) * TDJ_GROOVE_INTERVAL_BEATS;
+            for (unsigned attempt = 0; attempt < 2; ++attempt) {
+                double predicted = d->position + nominal * d->asset->rate * (g->target_beat - beat) * 60 / e->bpm;
+                double projected_beat = deck_beat(d, predicted) - d->map.downbeat;
+                g->target_source_beat = floor(projected_beat / TDJ_GROOVE_INTERVAL_BEATS + 0.5)
+                    * TDJ_GROOVE_INTERVAL_BEATS + d->map.downbeat;
+                if (deck_frame(d, g->target_source_beat) > d->position)
+                    break;
+                g->target_beat += TDJ_GROOVE_INTERVAL_BEATS;
+            }
+            g->target_source_beat = fmax(next_source_bar, g->target_source_beat);
+            g->target_frame = deck_frame(d, g->target_source_beat);
+            g->target_valid = true;
+        }
+        if (beat >= g->target_beat - 1e-9) {
+            double tolerance = fmax(2, 0.01 * 60 * d->asset->rate * g->rate / e->bpm);
+            g->aligned = fabs(d->position - g->target_frame) <= tolerance;
+            double bars = floor(fmax(0, beat - g->target_beat) / TDJ_GROOVE_INTERVAL_BEATS) + 1;
+            g->target_beat += bars * TDJ_GROOVE_INTERVAL_BEATS;
+            g->target_source_beat += bars * TDJ_GROOVE_INTERVAL_BEATS;
+            g->target_frame = deck_frame(d, g->target_source_beat);
+        }
+        double seconds = (g->target_beat - beat) * 60 / e->bpm;
+        double requested = (g->target_frame - d->position) / (seconds * d->asset->rate);
+        bool limited;
+        double rate = groove_correct_rate(g->rate, requested, nominal, e->rate, d->keylock, &limited);
+        if (advance)
+            g->rate = rate;
+        if (limited)
+            g->aligned = false;
+        g->mode = limited ? TDJ_GROOVE_LIMITED : g->aligned ? TDJ_GROOVE_ALIGNED : TDJ_GROOVE_ACQUIRING;
+    }
+    g->position_valid = true;
+    g->last_beat = beat;
+    g->expected_position = d->position + (advance ? d->asset->rate / e->rate * g->rate : 0);
 }
 // Effects follow the master clock when synced, otherwise the deck's own grid.
 static void effect_clock(tdj_engine *e, int index, double *bpm, double *beat) {
     deck *d = &e->decks[index];
+    if (d->groove.mode == TDJ_GROOVE_SOLO) {
+        *bpm = deck_bpm(d) * d->groove.rate;
+        *beat = deck_beat(d, d->position) - d->map.downbeat;
+        return;
+    }
     double tempo = d->asset && !d->synced && d->bpm > 0 ? d->bpm * d->free_rate : 0;
     if (!(isfinite(tempo) && tempo > 0) || !isfinite(d->position)) {
         *bpm = e->bpm;
@@ -585,6 +691,10 @@ static double maximum_source_rate(deck *d, double master) {
                          (d->map.frames[k] - d->map.frames[k - 1]);
             rate = fmax(rate, master / bpm);
         }
+    if (d->synced && d->map.count) {
+        double envelope = master / d->bpm * (1 + TDJ_GROOVE_CORRECTION_PERCENT / 100.0);
+        rate = fmax(rate, fmax(d->groove.rate, d->keylock ? fmin(8, envelope) : envelope));
+    }
     if (d->braking)
         rate = fmax(rate, d->free_rate);
     return rate;
@@ -799,6 +909,9 @@ static bool supported_keylock_rate(double speed) {
 static bool supported_deck_keylock(deck *d, double master) {
     if (!d->synced || !d->map.count)
         return supported_keylock_rate(d->synced && d->bpm > 0 ? master / deck_bpm(d) : d->free_rate);
+    if (!supported_keylock_rate(master / d->bpm) ||
+        (d->groove.mode && !supported_keylock_rate(d->groove.rate * master / d->groove.master_bpm)))
+        return false;
     for (unsigned k = 1; k < d->map.count; k++) {
         double bpm = 60 * d->map.sample_rate * (d->map.beats[k] - d->map.beats[k - 1]) /
                      (d->map.frames[k] - d->map.frames[k - 1]);
@@ -822,13 +935,19 @@ static double reference_beats(deck *d, tdj_engine *e) {
 }
 static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64_t generation) {
     double reference = -1;
+    deck *solo = NULL;
+    unsigned references = 0;
     if (d->synced && d->bpm > 0)
         for (int i = 0; i < e->deck_count; ++i) {
             deck *candidate = &e->decks[i];
-            if (i != index && candidate->state == TDJ_PLAYING && candidate->synced && candidate->bpm > 0)
+            if (i != index && candidate->state == TDJ_PLAYING && candidate->synced && candidate->bpm > 0) {
                 reference = fmax(reference, reference_beats(candidate, e));
+                solo = candidate;
+                references++;
+            } else if (i != index && candidate->state == TDJ_QUEUED)
+                references++;
         }
-    double proposed_bpm = (!e->running && !e->master_chosen && d->bpm > 0) ? deck_bpm(d) : e->bpm;
+    double proposed_bpm = (!e->running && !e->master_chosen && d->bpm > 0) ? d->bpm : e->bpm;
     if (d->keylock && !supported_deck_keylock(d, proposed_bpm))
         return TDJ_KEYLOCK_RANGE;
     deck starting = *d;
@@ -840,20 +959,30 @@ static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64
     if (stream_status != TDJ_OK)
         return stream_status;
     if (starting.state == TDJ_QUEUED) {
+        if (references == 1 && solo->groove.mode == TDJ_GROOVE_SOLO && !groove_clock_in_use(e)) {
+            double phase = groove_bar_phase(solo, solo->position);
+            anchor_clock(e, phase + 4 * round((beat_now(e) - phase) / 4));
+        }
         d->queued_origin = d->position;
         d->position = starting.position;
         double beat = beat_now(e);
-        double bar = (floor(beat / 4) + 1) * 4;
-        // Join on a bar if a reference can reach it. Otherwise use the next beat.
+        double phase = starting.map.count && !starting.touch_active && !starting.braking &&
+                               starting.performance_rate == 1 && !starting.loop_enabled
+                           ? groove_bar_phase(&starting, starting.position) : 0;
+        double bar = (floor((beat - phase) / 4) + 1) * 4 + phase;
+        /**
+         * Retains the prepared bar phase. Short references use the existing next-beat fallback.
+         */
         d->target = bar - beat <= reference + 1e-9 ? bar : floor(beat) + 1;
         d->state = TDJ_QUEUED;
     } else {
         if (!e->running) {
             if (!e->master_chosen && d->bpm > 0) {
-                e->bpm = deck_bpm(d);
+                e->bpm = d->bpm;
                 e->master_chosen = true;
             }
-            double origin = d->bpm > 0 ? deck_beat(d, d->position) - (d->map.count ? d->map.downbeat : d->downbeat) : 0;
+            double origin = d->map.count ? groove_bar_phase(d, d->position)
+                : d->bpm > 0 ? deck_beat(d, d->position) - d->downbeat : 0;
             anchor_clock(e, origin);
             e->running = true;
         }
@@ -929,6 +1058,7 @@ static void publish(tdj_engine *e) {
         atomic_store(&p->last_start, d->last_start);
         atomic_store(&p->state, d->state);
         atomic_store(&p->synced, d->synced);
+        atomic_store(&p->groove_sync, d->groove.mode);
         atomic_store(&p->keylock, d->keylock);
         atomic_store(&p->braking, d->braking);
         atomic_store(&p->brake_rate, d->brake_rate);
@@ -1034,6 +1164,7 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
         atomic_init(&p->last_start, 0);
         atomic_init(&p->state, 0);
         atomic_init(&p->synced, 0);
+        atomic_init(&p->groove_sync, 0);
         atomic_init(&p->position, 0);
         atomic_init(&p->bpm, 0);
         atomic_init(&p->local_bpm, 0);
@@ -1617,7 +1748,7 @@ static int apply(tdj_engine *e, tdj_command c) {
                 reset_tempo = false;
         }
         if (proposed.keylock) {
-            double master = reset_tempo ? proposed.bpm : choose_on_play ? deck_bpm(&proposed) : e->bpm;
+            double master = reset_tempo || choose_on_play ? proposed.bpm : e->bpm;
             if (!supported_deck_keylock(&proposed, master) ||
                 (!reset_tempo && !choose_on_play && proposed.synced && proposed.bpm > 0 &&
                  !supported_keylock_rate(master / proposed.bpm)))
@@ -2744,6 +2875,9 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
         atomic_exchange_explicit(&e->loop_recorder_reset, false, memory_order_acquire))
         loop_recorder_clear(loop);
     controls(e);
+    bool groove_auxiliary_clock = groove_clock_in_use(e);
+    for (int i = 0; i < e->deck_count; ++i)
+        groove_update(e, &e->decks[i], false, groove_auxiliary_clock);
     if (!atomic_load_explicit(&e->loop_recorder_enabled, memory_order_acquire))
         loop = NULL;
     if (export_state == LOOP_EXPORT_WAITING) {
@@ -2952,6 +3086,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 d->state = TDJ_ENDED;
             if (d->braking && d->state != TDJ_PLAYING)
                 brake_clear(e, i);
+            groove_update(e, d, true, groove_auxiliary_clock);
             bool playing = d->state == TDJ_PLAYING;
             if (playing != transition->playing)
                 transition_request(e, i, 0);
@@ -3131,7 +3266,7 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
             }
             double step = d->asset->rate / e->rate * source_rate(e, d);
             if ((d->touch_active && d->touch_was_playing) || (d->loop_enabled && !d->touch_active))
-                d->continuing += d->map.count && d->synced
+                d->continuing += d->map.count && d->synced && !d->groove.mode
                                      ? d->asset->rate / e->rate * e->bpm / deck_bpm_at(d, d->continuing)
                                      : step;
             else if (!d->touch_active)
@@ -3317,6 +3452,8 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
     }
     if (recording && count)
         tdj_recording_push_decks(recording, count, left, right, recorded_generations, recorded_offsets, (unsigned)e->deck_count);
+    for (int i = 0; i < e->deck_count; ++i)
+        groove_update(e, &e->decks[i], false, groove_auxiliary_clock);
     publish(e);
     atomic_flag_clear_explicit(&e->render_busy, memory_order_release);
     return true;
@@ -3355,6 +3492,7 @@ static tdj_deck_snapshot read_deck(atomic_deck *p) {
                                 .last_start_frame = atomic_load(&p->last_start),
                                 .state = atomic_load(&p->state),
                                 .synced = atomic_load(&p->synced),
+                                .groove_sync = atomic_load(&p->groove_sync),
                                 .keylock = atomic_load(&p->keylock),
                                 .volume = atomic_load(&p->volume),
                                 .gain = atomic_load(&p->gain),

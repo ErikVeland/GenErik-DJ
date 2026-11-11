@@ -30,12 +30,21 @@ Use the existing [acceptance gates](docs/coordination/release-gates.md) and [tes
 
 ## Waveform clarity
 
-Clarity is a north star alongside simplicity. Readability takes priority over literal amplitude accuracy.
-The waveform must help a DJ choose and execute the next mix within a short glance.
+Clarity is a north star alongside simplicity.
+The waveform is a performance map of individual hits, rhythm and groove.
+A DJ or drummer should read the pattern and feel where each hit lands.
+It must help a DJ choose and execute the next mix within a short glance.
 TDJ1 remains the reference for readable peaks, beat/bar emphasis and an uncluttered surface.
+
+Musical readability takes priority over a literal trace of the mastered signal.
+The display may exaggerate, compress or suppress signal detail when this reveals the rhythm and preserves the musical pattern.
+Treat sustained energy and decay as supporting context. They must not merge distinct hits into a continuous filled body.
+Preserve real event spacing, accents, swing, syncopation and quieter ghost notes.
+Exact sample amplitude and raw peak-height equality are not acceptance targets.
 
 | Read first | What the DJ needs | Display rule |
 | --- | --- | --- |
+| Individual hits and groove | Read the pattern and feel where its hits land | Show distinct musical attacks and readable gaps. Preserve real event spacing and relative accents. |
 | Beats and bars | Align the incoming phrase and recognise the next beat one | Keep bar lines stronger than ordinary beats. Use the accepted grid, independently of waveform level. |
 | Kick, snare and bass | Identify alternating or overlapping drum hits and choose the bass handover | Keep their hitting frequencies strong and separate. Taper preceding decay within each band. |
 | Phrase changes and vocal-range content | Choose an entry that supports the outgoing track | Keep harmonic and vocal-range texture readable inside the primary shape. Use existing phrase context and verified preparation. |
@@ -44,7 +53,7 @@ TDJ1 remains the reference for readable peaks, beat/bar emphasis and an unclutte
 
 Read the bands like performance stems. Their visual weight can serve a mixing task rather than match their physical amplitude.
 Use shape, relative width, brightness and contrast consistently.
-Keep kick and snare attack frequencies strong. Improve local separation by tapering the preceding decay, while retaining peak height and timing.
+Keep kick and snare hitting frequencies strong. Improve separation by shaping surrounding decay while preserving musical timing and relative emphasis.
 Retain stable scaling across the track. Do not amplify each screenful until it fills the pane.
 Do not fabricate attacks or flatten a real transient pattern to make the display look uniform.
 
@@ -67,6 +76,8 @@ A short visual fade reduces the preceding decay within a band before a strong at
 Stereo content remains visible without cancellation.
 It preserves the three layers, palette, headroom, beat/bar drawing and gesture routes.
 The waveform keeps its current level summaries and drawing paths. Extra preparation remains outside active playback.
+The local fade is one mechanism toward the performance map.
+Its numeric checks do not establish that dense real music reads as individual hits.
 
 ### Acceptance in a real mix
 
@@ -74,14 +85,15 @@ Use a bass-heavy dance track, human-played disco, a sparse vocal passage and a b
 Include a dense mastered track and a stereo-wide recording.
 Check the normal deck view, a reduced deck pane, the overview and a zoom change.
 
-1. Find the next beat one and the bass handover with a short glance.
-2. Read the kick attacks and quiet gaps without relying on labels.
-3. Distinguish primary bass from supporting texture when section colours change.
-4. Check that kick and snare remain distinct in alternating and overlapping patterns.
-5. Keep waveform touches and another performance control active together.
-6. Check audio, scrolling and touch on the A10X before accepting the display.
+1. Read and tap the kick/snare pattern from the display while listening.
+2. Recognise alternating hits, overlapping hits, accents and quieter ghost notes.
+3. Check that swing and syncopation remain visible against the grid.
+4. Read individual hits in dense, mastered music without a continuous filled body.
+5. Keep bass handovers, phrase changes and waveform gestures readable while another performance control remains active.
+6. Check musical feel, audio, scrolling and touch on the A10X before accepting the display.
 
 Synthetic checks and rendered fixtures establish geometry and regressions. They do not establish superiority to TDJ1 or physical A10X acceptance.
+Matching the raw waveform does not prove performance readability. Erik's judgement of the musical pattern remains the acceptance test.
 
 ## Base feature set versus expanded feature set
 

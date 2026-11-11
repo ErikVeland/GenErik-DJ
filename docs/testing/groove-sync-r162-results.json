@@ -1,0 +1,47 @@
+{
+  "format": "generik.groove-sync-results/v1",
+  "request": "R162",
+  "date": "2026-11-11",
+  "branch": "feature/r162-lock-on-second-deck",
+  "baseCommit": "dec70c0828066c5169d42065cf9c9907f835e9ab",
+  "applicationSourceSHA256": "87366b356ab1c68b925284ade30f7834a81eff34cc260ae9ca0d4db7304c2ed5",
+  "focusedTestSourceSHA256": "cefc2273910826160f608cf1236f9cb045e445bbde6c8244a8007913e73da7a1",
+  "nativeInputManifestSHA256": "cfa2a2939f59795046d3ed9ad1c769bbfd6422f17a75f48d20a18f84d529c7f2",
+  "nativeBinarySHA256": "f7566c7e0f17770217db3b590126d53f5d4df405aa7a6bc9d45c50b6387ebe6f",
+  "policy": {
+    "intervalBeats": 4,
+    "maximumCorrectionPercent": 6,
+    "maximumSlewPercentOfNominalPerSecond": 6,
+    "boundaryToleranceBeats": 0.01
+  },
+  "checks": {
+    "swiftCoreTests": 32,
+    "swiftInterfaceTests": 4,
+    "nativeScenarios": 13,
+    "mapPublication": "passed",
+    "streamedResidentSamples": "identical",
+    "streamedOutputFrames": 358400,
+    "sourceReadMisses": 0,
+    "missingOutputFrames": 0,
+    "historicalFixedJumpProbe": "passed",
+    "diffWhitespace": "passed",
+    "repositoryLinks": {
+      "status": "existing missing references",
+      "count": 12
+    }
+  },
+  "device": {
+    "signedBuild": "blocked before compilation",
+    "reason": "Missing local signing configuration and project signing identity. A10X is not connected.",
+    "buildNumber": null,
+    "installation": "not attempted",
+    "musicalAcceptance": "open"
+  },
+  "limits": [
+    "Synthetic fixtures only.",
+    "6% limits are engineering defaults pending listening review.",
+    "No actual-remix or sustained A10X acceptance.",
+    "8/16/32-beat selector is not implemented.",
+    "Review branch is not a consolidated main test source."
+  ]
+}

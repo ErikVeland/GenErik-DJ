@@ -2,6 +2,10 @@
 
 ## Clarity comes first
 
+Show individual hits, rhythm and groove as a performance map.
+Let a DJ or drummer read the pattern and feel where each hit lands.
+Use shaped envelopes and contrast to expose attacks, accents, swing and quieter ghost notes.
+Sustained fill and decay must support that reading rather than hide it.
 Readability takes priority over exact amplitude. Read the bands like performance stems, with kick and bass as the primary shape.
 Use the middle layer for harmonic and vocal-range texture. Keep snare attacks clear through the middle and upper layers.
 The current bands describe frequency content. They do not isolate drums, bass, instruments or vocals.
@@ -18,6 +22,8 @@ Source audio, beat positions, colours, layer count and gestures stay unchanged.
 The display retains track-wide scaling, 64-frame bins, four summary levels and the existing headroom.
 The contrast pass prepares in place before the level summaries. It adds no drawing pass, stem processing or performance control.
 Band preparation still yields to playback and touch through the existing idle and cancellation guards.
+The local fade remains a candidate mechanism. Its numeric tests do not establish musical readability on dense real tracks.
+Judge the resulting pattern, groove and mixing usefulness. Raw peak-height equality is not the acceptance target.
 Use the [clarity contract](../ARCHITECTURE.md#waveform-clarity) for DJ priorities and physical acceptance.
 
 ## Current workspace

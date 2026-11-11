@@ -42,6 +42,13 @@ uint64_t tdj_timecode_read(tdj_engine *engine, unsigned side);
 bool tdj_timecode_speed(const float *left, const float *right, unsigned count, double sample_rate, double *speed);
 
 #define TDJ_DECK_COUNT 4
+#define TDJ_GROOVE_INTERVAL_BEATS 4
+#define TDJ_GROOVE_CORRECTION_PERCENT 6
+#define TDJ_GROOVE_SLEW_PERCENT_PER_SECOND 6
+#define TDJ_GROOVE_SOLO 1
+#define TDJ_GROOVE_ACQUIRING 2
+#define TDJ_GROOVE_ALIGNED 3
+#define TDJ_GROOVE_LIMITED 4
 #define TDJ_LOAD 1
 #define TDJ_LOAD_RESET_IDLE_TEMPO 16
 #define TDJ_PLAY 2
@@ -161,7 +168,7 @@ typedef struct {
 
 typedef struct {
     uint64_t generation, last_start_frame;
-    int32_t state, synced, keylock;
+    int32_t state, synced, keylock, groove_sync;
     double source_frame, source_bpm, local_bpm, target_beat, source_rate, lead_in_source_frame;
     double source_sample_rate, grid_anchor;
     tdj_beatgrid_map beatgrid;

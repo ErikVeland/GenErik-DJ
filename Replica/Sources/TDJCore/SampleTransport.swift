@@ -218,6 +218,10 @@ public enum PerformanceAction: Int32, Sendable {
     case loopRoll = 27
 }
 
+public enum GrooveSyncState: Int32, Codable, Sendable {
+    case solo = 1, acquiring, aligned, limited
+}
+
 public struct DeckPlaybackSnapshot: Codable, Equatable, Sendable {
     public let recoveryArmed: Bool
     public let recoveryActive: Bool
@@ -252,6 +256,7 @@ public struct DeckPlaybackSnapshot: Codable, Equatable, Sendable {
     public let mixer: DeckMixerSnapshot
     public let phase: PlaybackPhase
     public let synced: Bool
+    public let grooveSync: GrooveSyncState?
     public let keylock: Bool
     public let sourceFrame: Double
     public let sourceBPM: Double
@@ -295,6 +300,7 @@ public struct DeckPlaybackSnapshot: Codable, Equatable, Sendable {
         generation = value.generation
         phase = PlaybackPhase(rawValue: value.state) ?? .empty
         synced = value.synced != 0
+        grooveSync = GrooveSyncState(rawValue: value.groove_sync)
         keylock = value.keylock != 0
         adaptiveMap = BeatGridMap(native: value.beatgrid)
         grid = try? BeatGrid(

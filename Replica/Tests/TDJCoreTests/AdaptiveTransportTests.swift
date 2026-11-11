@@ -50,15 +50,16 @@ import Testing
 }
 
 extension AdaptiveTransportTests {
-    @Test func syncFollowsLocalTempoAndFixedFallbackRemainsExact() throws {
+    @Test func soloSyncPreservesAdaptiveTimingAndFixedFallbackRemainsExact() throws {
         let core = try SampleTransport()
         let asset = try PCMAsset(interleavedStereo: [Float](repeating: 0, count: 960_000), sampleRate: 48_000)
         let fixed = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48_000)
         let a = try core.load(asset, deck: .a, grid: fixed, adaptiveMap: map)
         try core.play(deck: .a, generation: a)
         _ = core.renderOffline(frames: 192_000)
-        #expect(abs((core.snapshot()?.a.sourceFrame ?? 0) - 211_200) < 2)
-        #expect(abs((core.snapshot()?.a.speed ?? 0) - 1.2) < 1e-9)
+        #expect(abs((core.snapshot()?.a.sourceFrame ?? 0) - 192_000) < 2)
+        #expect(abs((core.snapshot()?.a.speed ?? 0) - 1) < 1e-9)
+        #expect(core.snapshot()?.a.grooveSync == .solo)
         try core.play(deck: .a, generation: a)
         core.processControlsWhileIdle()
         let position = core.snapshot()?.a.sourceFrame
@@ -155,8 +156,9 @@ extension AdaptiveTransportTests {
         let state = try #require(core.snapshot())
         #expect(state.b.phase == .playing)
         #expect(state.b.lastStartOutputFrame == 96_000)
-        #expect(abs(state.a.sourceFrame - 96_001.2) < 2)
-        #expect(abs(state.b.sourceFrame - 1.2) < 1e-9)
+        #expect(abs(state.a.sourceFrame - 96_001) < 2)
+        #expect(abs(state.b.sourceFrame - 1) < 0.00001)
+        #expect(state.b.grooveSync == .limited)
         #expect(state.a.adaptiveMap == map)
         #expect(state.b.adaptiveMap == other)
     }
