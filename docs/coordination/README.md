@@ -4,7 +4,11 @@ Use `main` in `/Users/veland/GenErik DJ` for every test build. Work serially on 
 
 The [project north star](../product-direction.md) guides every feature. Clean, continuous audio comes first. Immediate, fluid multi-touch control comes second. TDJ1 sets the standard for both. Features, analysis, polish and repository cleanup are subordinate to these priorities. Background work must yield before it compromises performance. [Performance acceptance](release-gates.md) requires actual A10X evidence and Erik's listening and touch checks.
 
+**R169 controller catalogue:** The pinned source set produces 107 MIDI data recipes. Offline generation reproduced both JSON files. Source-reuse review, model checks and A10X acceptance remain open. [Catalogue and release gaps](controller-coverage.md#r169-complete-source-catalogue).
+
 **R165 grid downbeat:** Tap the intended beat to move the live playhead and mark beat one. Done saves the downbeat and any phase change. No build or device check has run. [Interaction and remaining checks](grid-downbeat-r165.md).
+
+**R162 review candidate:** Solo adaptive playback retains human timing. Starting the second synced deck uses one-bar correction without cursor jumps. Thirty-six focused Swift checks and 13 native scenarios passed in the isolated candidate. The A10X build and acceptance remain open. [Design and results](groove-sync-r162.md). The original candidate is in [draft PR 4](https://github.com/ErikVeland/GenErik-DJ/pull/4).
 
 **Build 225 (R160)** installed on the A10X, and iPadOS accepted launch. Interrupted analysis retains completed jobs, track matches and review warnings per pass during the app session. Ten focused tests passed, including resume after 3402 jobs. Check continued progress during Mac transfers, audio and touch. Full app restarts still check saved results again. Physical acceptance remains open. [Build record](../testing/builds/225.json).
 

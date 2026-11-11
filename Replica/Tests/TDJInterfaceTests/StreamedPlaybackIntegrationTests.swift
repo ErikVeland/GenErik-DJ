@@ -722,7 +722,7 @@ import Testing
         #expect(summary.bytesRead < 16 * 1024 * 1024)
         #expect(!summary.continuityFailed)
     }
-    @Test(.timeLimit(.minutes(1))) @MainActor func streamedSyncRestorationMatchesResidentSamplesAndKeepsTheClock()
+    @Test(.timeLimit(.minutes(1))) @MainActor func streamedSyncRestorationAfterAQuantisedJumpKeepsSamplesAndTheClock()
         async throws
     {
         let (streamed, reference, root, _, _) = try await fixture()
@@ -747,7 +747,8 @@ import Testing
             _ = controller.snapshotAndMessages()
         }
         let before = try #require(streamed.core.snapshot())
-        #expect(before.syncNeedsAlignment(.a))
+        #expect(!before.syncNeedsAlignment(.a))
+        #expect(abs(before.a.sourceFrame - aligned) < 0.000001)
         let targets = SourceControl.restoreSync(.a, before.a.generation).preparationTargets(
             snapshot: before, deck: .a, frames: 705600)
         #expect(targets.first?.position == aligned)

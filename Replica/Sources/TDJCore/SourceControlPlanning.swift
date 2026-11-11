@@ -195,6 +195,9 @@ extension SourceControl {
         if proposedSynced, let map = state.adaptiveMap {
             let master: Double
             if case .tempo(let bpm, _, _) = self { master = bpm } else { master = snapshot.masterBPM }
+            let nominal = state.grid?.bpm ?? state.sourceBPM
+            let envelope = master / nominal * (1 + Double(TDJ_GROOVE_CORRECTION_PERCENT) / 100)
+            target.speed = max(target.speed, target.keylock ? min(8, envelope) : envelope)
             for pair in zip(map.anchors, map.anchors.dropFirst()) {
                 let bpm = 60 * map.sampleRate * (pair.1.beat - pair.0.beat) / (pair.1.frame - pair.0.frame)
                 target.speed = max(target.speed, master / bpm)

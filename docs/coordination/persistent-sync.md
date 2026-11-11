@@ -89,7 +89,7 @@ Erik selected second-deck start as the trigger. He confirmed intervals of 4, 8, 
 - Return to solo playback without a position jump when the other deck stops.
 - Keep missing or unaccepted grids visible as unresolved. Do not claim alignment without usable timing evidence.
 
-This changes the intended adaptive Sync behaviour described above. It does not change musical references or approve automatic adaptive-grid adoption. The current implementation still follows local adaptive tempo continuously. R162 currently defines requirements only. Transport changes and device checks remain open.
+R162 implements the adaptive Sync behaviour above on its review branch. It does not change musical references or approve automatic adaptive-grid adoption. See the [detailed design, DJ benefits and verification](groove-sync-r162.md). Physical acceptance remains open.
 
 ### Implementation and acceptance scope
 
@@ -106,4 +106,4 @@ Use the same drifting Norwegian disco remix and steady modern remix throughout t
 7. Verify streamed-source preparation, recording, clock-dependent effects and recovery on the exact test source.
 8. On the A10X with the original Z1, check sound, touch and heat through the combined workload.
 
-Implementation, correction limits, focused transport checks and physical acceptance remain open. This specification does not include a device build or installation.
+The one-bar implementation and focused host checks are complete. The 6% correction and slew limits remain provisional. Signing configuration and identity are missing, and the A10X is unavailable. No signed build or installation is claimed. Musical, sound and touch acceptance remain open.
