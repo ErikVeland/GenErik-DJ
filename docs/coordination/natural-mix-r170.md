@@ -126,7 +126,10 @@ The native check retains an existing integer-conversion warning in `TDJLoopRecor
 
 ### Delivery boundary
 
-The feature branch still requires its final merge before the iPad helper runs.
+The implementation was committed as `039decc` and merged into main before the iPad helper ran.
+All 14 changed source, test and check files match the hashes retained with the verification results.
+The standard `tools/ipad_test.py run` command stopped because the signing team/device configuration is absent.
+It stopped before compilation and did not allocate a build number or change a device.
 This Mac reports no valid signing identity. The iPad signing configuration is absent.
 CoreDevice device discovery timed out. No signed build, installation or A10X acceptance is established.
 Do not enable assistance by default or describe this candidate as gig-ready.
