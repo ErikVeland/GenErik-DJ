@@ -2,6 +2,27 @@
 
 Request R23. Updated 11 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R174 theoretical support and separate physical evidence
+
+Erik clarified the completion target on 12 November 2026. Implement documented theoretical support across the catalogue.
+Physical verification is a separate confidence state. Owning or testing every controller is not a completion requirement.
+Missing protocols, mappings, modes and audio routes still require implementation. An inventory entry does not establish support.
+
+The catalogue now records separate theoretical criteria for protocol implementation, complete documented controls, lifecycle, audio routing and complete automated fixtures.
+Its theoretical gate excludes physical test status. The shared A10X audio and touch baseline remains required by the project standards.
+Use representative available hardware to check assumptions, rather than a universal device-ownership requirement.
+
+This increment closes documented core lifecycle and jog gaps for Hercules Inpulse 200, Inpulse 300 and Starlight.
+They select their existing core mappings automatically and send hash-locked startup/shutdown messages to the paired output.
+Explicit translations route documented touch and signed relative jog messages through native actions. No upstream script executes.
+Unresolved handlers and advanced modes remain listed. These three profiles remain partial theoretical implementations.
+
+Seventeen factory profiles now select core controls automatically. The catalogue still contains 107 data profiles plus seven existing code profiles.
+All 43 focused Swift checks and 13 importer checks passed. Simulated MIDI covers startup, Play, touch release and reconnect for all three additions.
+Native iPad compilation passed. No app installation or physical-controller test forms part of this increment.
+Full theoretical coverage remains unfinished because implementation and complete protocol-fixture gaps remain.
+Source: branch `feature/controller-support`, based on `c457916`. Evidence: `TestBuilds/r174/`.
+
 ## R169 complete source catalogue
 
 The [complete catalogue](controller-catalogue.md) covers the published Serato iOS list, every pinned Mixxx definition, all existing NI variants and Beatpad.

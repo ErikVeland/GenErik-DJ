@@ -12,7 +12,7 @@ def report(catalogue, runtime):
     counts = Counter(model["implementation"] for model in models)
     source_definitions = [item for item in catalogue["definitions"] if not item["id"].startswith("manufacturer:")]
     profiles = runtime["profiles"]
-    lines = ["# Controller catalogue — R169", "", "Reviewed 11 November 2026. This catalogue is complete for the defined source boundary. Controller feature parity remains a release blocker.", "",
+    lines = ["# Controller catalogue — R169", "", "Reviewed 12 November 2026. This catalogue is complete for the defined source boundary. Controller feature parity remains a release blocker.", "",
              "## Boundary and counts", "",
              f"- {len(catalogue['benchmarkRows'])} published Serato iOS rows, expanded to {sum(model['benchmark'] for model in models)} distinct model records.",
              f"- All {len(source_definitions)} Mixxx definitions at `{catalogue['upstreamRevision']}`, including alternative MIDI, HID and bulk mappings.",
@@ -23,6 +23,11 @@ def report(catalogue, runtime):
              f"- Every one of the {sum(item['sourceInputCount'] for item in source_definitions):,} source input rows and {sum(item['sourceOutputCount'] for item in source_definitions):,} output rows has a conversion disposition.", "",
              "These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.",
              "Serato’s advertised total includes controllers, mixers, turntables, standalone units and accessories. It is not a count of full-feature controller mappings.", "",
+             "## Completion rule — R174", "",
+             "Theoretical support is the implementation target for every physical model. Physical verification has a separate status.",
+             "Complete the documented protocol, controls, modes, lifecycle, feedback and audio routing. Verify them with automated protocol fixtures.",
+             "A missing physical test does not block theoretical completion. Unsupported protocols and missing functions still require implementation.",
+             "Keep the A10X audio and touch baseline. Test representative connected controllers when they are available.", "",
              "## Priority", "",
              "The first five models in the reviewed Coolblue regional sales list have automatic core-control profiles: FLX4, FLX2, XDJ-RR, OMNIS-DUO and DDJ-GRV6.",
              "Pioneer/AlphaTheta remains the first brand tier, based on the 2026 Digital DJ Tips census. The survey is not a global model-sales ranking.",
@@ -40,10 +45,11 @@ def report(catalogue, runtime):
     lines += ["", "## Release blockers", "",
               "1. Finish the protocol-needed and adapter-needed rows. Translate the listed script behaviours through explicit, tested app contracts.",
               "2. Complete shifted controls, pad modes, FX, stems, meters, screens and motors where the model provides them.",
-              "3. Verify iPad USB access, model identity, hardware mode selection, power, audio channels and reconnection for each model.",
-              "4. Verify simultaneous input, feedback, continuous audio and touch on the A10X. Keep the existing performance limits.",
+              "3. Implement documented iPad or bridge access, model matching, hardware mode selection, audio channels and reconnection. Test these contracts with fixtures.",
+              "4. Verify the shared A10X audio and touch baseline, then sample representative connected hardware. Keep the existing performance limits.",
               "5. Complete source-reuse and distribution review before release. Retain upstream provenance and applicable notices.", "",
-              "The machine-readable release gate remains false for feature parity, source-reuse acceptance and A10X acceptance. No catalogue row passes the release gate.", "",
+              "The theoretical support gate depends on implementation and automated fixtures. It does not require physical verification for every model.",
+              "Hardware evidence and source-reuse review retain separate states. Current implementation gaps still prevent full theoretical support.", "",
               "## Benchmark models", "",
               "Automatic means core control selection. Manual means a partial data recipe. Unknown routing requires verification.",
               "Detailed actions, source hashes, row dispositions, connection routes and remaining gaps are in [the JSON catalogue](controller-catalogue.json).", "",
@@ -62,7 +68,7 @@ def report(catalogue, runtime):
                 source = "../../" + source
             lines.append(f"| {model['name']} | {model['role']} | {model['implementation']} | [Reference]({source}) |")
     lines += ["", "## Provenance and reproduction", "",
-              "The importer reads XML protocol facts. It never executes downloaded controller JavaScript. Script-dependent controls remain unresolved.",
+              "The importer reads XML protocol facts and explicit, hash-locked handler translations. It never executes downloaded controller JavaScript. Untranslated handlers remain unresolved.",
               "Mixxx source files use GPL-2.0-or-later. The app bundles independently normalised protocol tables, not the upstream scripts. This does not settle distribution obligations.",
               "Manufacturer MIDI tables retain their owners’ rights. Their hashes and URLs identify the reviewed versions.",
               "See [the importer procedure](../../tools/controller_profiles/README.md) and [the R169 delivery note](controller-coverage.md#r169-complete-source-catalogue).", ""]

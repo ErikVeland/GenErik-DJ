@@ -11,6 +11,8 @@ from convert import control_record, convert_xml
 from curated import curated_profiles
 from fetch_reference import fetch, git_blob_hash
 from sources import canonical, split_models
+from reviewed import REVIEWED
+from support import theoretical_support, theoretical_gate
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -92,6 +94,33 @@ class ConversionTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 fetch({"tree": [{**entry, "path": "res/controllers/../../../../escape.xml"}]}, "a" * 40, Path(directory), lambda _: data)
 
+    def test_reviewed_handler_uses_native_target_and_encoding_without_execution(self):
+        record, reason = control_record(self.control("DJCi200.scratchWheel", "[Channel2]",
+            "<options><script-binding/></options>", "0xB2", "10"), REVIEWED["Hercules_DJControl_Inpulse_200.midi.xml"]["handlers"])
+        self.assertIsNone(reason)
+        self.assertEqual((record["action"], record["targetDeck"], record["encoding"]), ("jogB", "b", "twosComplement"))
+        record, reason = control_record(self.control("DJCi200.scratchPad", extra="<options><script-binding/></options>"),
+            REVIEWED["Hercules_DJControl_Inpulse_200.midi.xml"]["handlers"])
+        self.assertIsNone(record)
+        self.assertEqual(reason, "script-behaviour")
+
+    def test_theoretical_completion_does_not_require_physical_evidence(self):
+        definition = {"sourceInputCount": 1, "sourceOutputCount": 0, "inputRecords": [{"disposition": "mapped"}], "outputRecords": [], "unresolved": []}
+        support = theoretical_support("automatic-core-profile", True, [definition], lifecycle_reviewed=True,
+            audio_routing_implemented=True, protocol_fixture_complete=True)
+        model = {"isPhysicalModel": True, "hardwareAcceptance": "not-verified", "theoreticalSupport": support}
+        self.assertTrue(support["complete"])
+        self.assertTrue(theoretical_gate([model])["complete"])
+        self.assertFalse(support["completionRequiresPhysicalTest"])
+        self.assertFalse(theoretical_gate([model])["requiresPhysicalTestForEveryModel"])
+
+    def test_theoretical_completion_requires_actual_implementation_and_fixtures(self):
+        support = theoretical_support("partial-midi-profile", True, [{"sourceInputCount": 1,
+            "inputRecords": [{"disposition": "script-behaviour"}], "outputRecords": []}], lifecycle_reviewed=True,
+            audio_routing_implemented=True, protocol_fixture_complete=True)
+        self.assertFalse(support["complete"])
+        self.assertIn("documentedControlsComplete", support["remainingWork"])
+
 
 class GeneratedCatalogueTests(unittest.TestCase):
     def test_source_inventory_and_generated_data(self):
@@ -112,6 +141,12 @@ class GeneratedCatalogueTests(unittest.TestCase):
         self.assertTrue(catalogue["releaseGate"]["catalogueComplete"])
         self.assertFalse(catalogue["releaseGate"]["hardwareParityAccepted"])
         self.assertTrue(all(not model["releaseReady"] for model in catalogue["models"]))
+        self.assertFalse(catalogue["releaseGate"]["theoreticalSupport"]["requiresPhysicalTestForEveryModel"])
+        profiles = {profile["id"]: profile for profile in runtime["profiles"]}
+        for model in ["Hercules DJControl Inpulse 200", "Hercules DJControl Inpulse 300", "Hercules DJControl Starlight"]:
+            self.assertTrue(profiles[model]["autoSelect"])
+            self.assertIn([0xB0, 127, 127], profiles[model]["startup"])
+            self.assertTrue(any(item["action"] == "jogTouchB" for item in profiles[model]["inputs"]))
 
 
 if __name__ == "__main__":

@@ -9,6 +9,8 @@ from pathlib import Path
 from convert import convert_xml
 from curated import curated_profiles, REFERENCES
 from sources import canonical, manufacturer, read_serato, split_models
+from reviewed import REVIEWED
+from support import theoretical_support, theoretical_gate
 
 LEGACY = {"Pioneer DDJ-FLX4": "DDJ-FLX4", "AlphaTheta DDJ-FLX2": "DDJ-FLX2",
           "Pioneer DDJ-400": "DDJ-400", "Pioneer DDJ-FLX10": "DDJ-FLX10",
@@ -92,7 +94,12 @@ def build(cache, serato_html):
         data = path.read_bytes()
         if hashlib.sha256(data).hexdigest() != reference["sha256"]:
             raise ValueError(f"The reference changed: {path.name}")
-        result = convert_xml(path)
+        review = REVIEWED.get(path.name)
+        if review:
+            script = refs[review["script"]]
+            if hashlib.sha256((cache / script["path"]).read_bytes()).hexdigest() != script["sha256"]:
+                raise ValueError(f"The reviewed script changed: {review['script']}")
+        result = convert_xml(path, review["handlers"] if review else None)
         definition_id = path.name
         transport = "midi" if path.name.endswith(".midi.xml") else "hid" if path.name.endswith(".hid.xml") else "bulk"
         definitions.append({"id": definition_id, "name": result["name"], "transport": transport,
@@ -116,10 +123,11 @@ def build(cache, serato_html):
         outputs = [entry for entry in result["outputs"] if entry["action"] in FEEDBACK]
         profile = {"id": result["name"], "aliases": aliases(result["name"], result["identifiers"]),
                    "definition": definition_id,
-                   "inputs": result["inputs"], "outputs": outputs, "startup": [], "shutdown": [],
+                   "inputs": result["inputs"], "outputs": outputs,
+                   "startup": review["startup"] if review else [], "shutdown": review["shutdown"] if review else [],
                    "autoSelect": CORE <= {entry["action"] for entry in result["inputs"] if entry.get("targetDeck")
                        in {None, "a" if entry["action"].endswith("A") else "b" if entry["action"].endswith("B") else None}}
-                   and manufacturer(result["name"]) in DJ_BRANDS and not result["scripts"],
+                   and manufacturer(result["name"]) in DJ_BRANDS and (bool(review) or not result["scripts"]),
                    "scope": "Partial mapping. Hardware verification is open.", "source": reference["url"]}
         profiles.append(profile)
     for item in reviewed:
@@ -131,7 +139,7 @@ def build(cache, serato_html):
                             "source": {"url": item["source"], "sha256": reference[1] if reference else "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"},
                             "implementedInputCount": len(item["inputs"]), "implementedOutputCount": len(item["outputs"]),
                             "sourceInputCount": None, "sourceOutputCount": None,
-                            "unresolved": [{"reason": "Additional modes, FX, displays, audio routing and physical acceptance remain open."}]})
+                            "unresolved": [{"reason": "Additional modes, FX, displays and audio routing remain unimplemented."}]})
     profiles.extend(reviewed)
     # Alternative mappings stay in the source inventory. One deterministic recipe serves each model.
     choices = {}
@@ -156,7 +164,14 @@ def build(cache, serato_html):
         model["zeroConfig"] = {"automaticControls": automatic or bool(profile and profile["autoSelect"]),
                                "completeFeatureParity": False, "acceptedOnA10X": False}
         model["isPhysicalModel"] = model["role"] not in {"virtual", "protocol-family"}
-        model["gaps"] = ["Physical input, feedback, audio and performance acceptance remain open."]
+        model["theoreticalSupport"] = theoretical_support(model["implementation"], model["zeroConfig"]["automaticControls"],
+            [definition for definition in definitions if definition["id"] == profile["definition"]] if profile else [],
+            lifecycle_reviewed=bool(profile and (profile["definition"] in REVIEWED or profile["definition"].startswith("manufacturer:")
+                or not next(item for item in definitions if item["id"] == profile["definition"]).get("scripts"))),
+            audio_routing_implemented=model["audioRouting"].startswith(("Automatic", "Existing native")))
+        model["zeroConfig"]["completeFeatureParity"] = model["theoreticalSupport"]["complete"]
+        model["gaps"] = [] if model["theoreticalSupport"]["complete"] else [
+            "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."]
         if model["implementation"] == "protocol-needed":
             model["gaps"].append("No implemented protocol is present in the pinned references. Manufacturer protocol work is required.")
         elif model["implementation"] == "adapter-needed":
@@ -168,7 +183,7 @@ def build(cache, serato_html):
                              "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."}
     ordered = sorted(models.values(), key=lambda model: (model["priority"]["regionalSalesRank"] or 100,
                      model["priority"]["brandTier"], model["manufacturer"], model["name"]))
-    catalogue = {"schemaVersion": 1, "reviewed": "2026-11-11", "upstreamRevision": manifest["revision"],
+    catalogue = {"schemaVersion": 1, "reviewed": "2026-11-12", "upstreamRevision": manifest["revision"],
                  "benchmarkSource": {"url": locked["benchmark"]["url"],
                                      "sha256": locked["benchmark"]["sha256"], "rowCount": len(benchmark)},
                  "benchmarkRows": benchmark, "models": ordered, "definitions": definitions,
@@ -176,7 +191,8 @@ def build(cache, serato_html):
                      and {item["id"] for item in definitions if not item["id"].startswith("manufacturer:")}
                      == {Path(item["path"]).name for item in locked["mixxx"]["files"] if item["path"].endswith(".xml")}, "hardwareParityAccepted": False,
                                  "sourceReuseReviewAccepted": False,
-                                 "reason": "The source inventory is complete. Protocol, control, source-reuse review and physical acceptance gaps block release parity."}}
+                                 "theoreticalSupport": theoretical_gate(ordered),
+                                 "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."}}
     if not catalogue["releaseGate"]["catalogueComplete"]:
         raise ValueError("The cache does not contain every locked mapping definition.")
     return catalogue, {"schemaVersion": 1, "profiles": profiles}

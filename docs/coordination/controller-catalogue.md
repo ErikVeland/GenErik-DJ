@@ -1,6 +1,6 @@
 # Controller catalogue — R169
 
-Reviewed 11 November 2026. This catalogue is complete for the defined source boundary. Controller feature parity remains a release blocker.
+Reviewed 12 November 2026. This catalogue is complete for the defined source boundary. Controller feature parity remains a release blocker.
 
 ## Boundary and counts
 
@@ -9,11 +9,18 @@ Reviewed 11 November 2026. This catalogue is complete for the defined source bou
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - 256 total catalogue records. 249 name physical models. The remainder identify software endpoints or protocol families.
 - 107 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
-- 14 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+- 17 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
 Serato’s advertised total includes controllers, mixers, turntables, standalone units and accessories. It is not a count of full-feature controller mappings.
+
+## Completion rule — R174
+
+Theoretical support is the implementation target for every physical model. Physical verification has a separate status.
+Complete the documented protocol, controls, modes, lifecycle, feedback and audio routing. Verify them with automated protocol fixtures.
+A missing physical test does not block theoretical completion. Unsupported protocols and missing functions still require implementation.
+Keep the A10X audio and touch baseline. Test representative connected controllers when they are available.
 
 ## Priority
 
@@ -38,11 +45,12 @@ Other models have no claimed popularity rank. Within that tier, finish documente
 
 1. Finish the protocol-needed and adapter-needed rows. Translate the listed script behaviours through explicit, tested app contracts.
 2. Complete shifted controls, pad modes, FX, stems, meters, screens and motors where the model provides them.
-3. Verify iPad USB access, model identity, hardware mode selection, power, audio channels and reconnection for each model.
-4. Verify simultaneous input, feedback, continuous audio and touch on the A10X. Keep the existing performance limits.
+3. Implement documented iPad or bridge access, model matching, hardware mode selection, audio channels and reconnection. Test these contracts with fixtures.
+4. Verify the shared A10X audio and touch baseline, then sample representative connected hardware. Keep the existing performance limits.
 5. Complete source-reuse and distribution review before release. Retain upstream provenance and applicable notices.
 
-The machine-readable release gate remains false for feature parity, source-reuse acceptance and A10X acceptance. No catalogue row passes the release gate.
+The theoretical support gate depends on implementation and automated fixtures. It does not require physical verification for every model.
+Hardware evidence and source-reuse review retain separate states. Current implementation gaps still prevent full theoretical support.
 
 ## Benchmark models
 
@@ -101,14 +109,14 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Denon DJ X1850 PRIME | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Gemini Slate | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Gemini Slate 4 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Hercules DJControl Inpulse 200 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Hercules DJControl Inpulse 200 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Hercules DJControl Inpulse 200 MK2 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Hercules DJControl Inpulse 200 MK3 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Hercules DJControl Inpulse 300 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Hercules DJControl Inpulse 300 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Hercules DJControl Inpulse 300 MK2 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Hercules DJControl Inpulse 500 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Hercules DJControl Inpulse T7 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Hercules DJControl Starlight | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Hercules DJControl Starlight | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Hercules DJControl T10 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Mixars DUO | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Mixars DUO MKII | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
@@ -315,7 +323,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 
 ## Provenance and reproduction
 
-The importer reads XML protocol facts. It never executes downloaded controller JavaScript. Script-dependent controls remain unresolved.
+The importer reads XML protocol facts and explicit, hash-locked handler translations. It never executes downloaded controller JavaScript. Untranslated handlers remain unresolved.
 Mixxx source files use GPL-2.0-or-later. The app bundles independently normalised protocol tables, not the upstream scripts. This does not settle distribution obligations.
 Manufacturer MIDI tables retain their owners’ rights. Their hashes and URLs identify the reviewed versions.
 See [the importer procedure](../../tools/controller_profiles/README.md) and [the R169 delivery note](controller-coverage.md#r169-complete-source-catalogue).

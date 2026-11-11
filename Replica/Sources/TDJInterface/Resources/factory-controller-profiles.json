@@ -12094,6 +12094,15 @@
           "targetDeck": "a"
         },
         {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 1,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
           "action": "loopA",
           "kind": "note",
           "channel": 1,
@@ -12148,6 +12157,15 @@
           "targetDeck": "b"
         },
         {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 2,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
           "action": "loopB",
           "kind": "note",
           "channel": 2,
@@ -12155,6 +12173,15 @@
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 4,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
         },
         {
           "action": "loopDownA",
@@ -12173,6 +12200,15 @@
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 5,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
         },
         {
           "action": "loopDownB",
@@ -12335,6 +12371,24 @@
           "targetDeck": "a"
         },
         {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 1,
+          "number": 10,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 1,
+          "number": 9,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
           "action": "levelB",
           "kind": "control",
           "channel": 2,
@@ -12385,6 +12439,42 @@
           "channel": 2,
           "number": 8,
           "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 2,
+          "number": 10,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "wheelJogB",
+          "kind": "control",
+          "channel": 2,
+          "number": 9,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 4,
+          "number": 10,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 5,
+          "number": 10,
+          "encoding": "twosComplement",
           "inverted": false,
           "targetDeck": "b"
         }
@@ -12611,9 +12701,41 @@
           "targetDeck": "b"
         }
       ],
-      "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
+      "startup": [
+        [
+          145,
+          3,
+          127
+        ],
+        [
+          146,
+          3,
+          127
+        ],
+        [
+          144,
+          4,
+          5
+        ],
+        [
+          176,
+          127,
+          127
+        ]
+      ],
+      "shutdown": [
+        [
+          176,
+          127,
+          126
+        ],
+        [
+          144,
+          4,
+          0
+        ]
+      ],
+      "autoSelect": true,
       "scope": "Partial mapping. Hardware verification is open.",
       "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_200.midi.xml"
     },
@@ -12679,6 +12801,15 @@
           "targetDeck": "a"
         },
         {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 1,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
           "action": "playB",
           "kind": "note",
           "channel": 2,
@@ -12724,6 +12855,24 @@
           "targetDeck": "b"
         },
         {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 2,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 4,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
           "action": "loopDownA",
           "kind": "note",
           "channel": 4,
@@ -12740,6 +12889,15 @@
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 5,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
         },
         {
           "action": "loopDownB",
@@ -12983,6 +13141,24 @@
           "targetDeck": "a"
         },
         {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 1,
+          "number": 10,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 1,
+          "number": 9,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
           "action": "levelB",
           "kind": "control",
           "channel": 2,
@@ -13042,6 +13218,60 @@
           "channel": 2,
           "number": 8,
           "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 2,
+          "number": 10,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 2,
+          "number": 9,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 4,
+          "number": 9,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 4,
+          "number": 10,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 5,
+          "number": 9,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 5,
+          "number": 10,
+          "encoding": "twosComplement",
           "inverted": false,
           "targetDeck": "b"
         }
@@ -13108,9 +13338,36 @@
           "targetDeck": "b"
         }
       ],
-      "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
+      "startup": [
+        [
+          145,
+          3,
+          127
+        ],
+        [
+          146,
+          3,
+          127
+        ],
+        [
+          144,
+          4,
+          5
+        ],
+        [
+          176,
+          127,
+          127
+        ]
+      ],
+      "shutdown": [
+        [
+          176,
+          127,
+          0
+        ]
+      ],
+      "autoSelect": true,
       "scope": "Partial mapping. Hardware verification is open.",
       "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_300.midi.xml"
     },
@@ -15091,6 +15348,15 @@
           "targetDeck": "a"
         },
         {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 1,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
           "action": "playB",
           "kind": "note",
           "channel": 2,
@@ -15122,6 +15388,33 @@
           "kind": "note",
           "channel": 2,
           "number": 12,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 2,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 4,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 5,
+          "number": 8,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
@@ -15243,6 +15536,24 @@
           "targetDeck": "a"
         },
         {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 1,
+          "number": 10,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 1,
+          "number": 9,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
           "action": "levelB",
           "kind": "control",
           "channel": 2,
@@ -15275,6 +15586,24 @@
           "channel": 2,
           "number": 8,
           "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 2,
+          "number": 10,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "wheelJogB",
+          "kind": "control",
+          "channel": 2,
+          "number": 9,
+          "encoding": "twosComplement",
           "inverted": false,
           "targetDeck": "b"
         }
@@ -15501,9 +15830,31 @@
           "targetDeck": "b"
         }
       ],
-      "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
+      "startup": [
+        [
+          144,
+          36,
+          0
+        ],
+        [
+          145,
+          3,
+          127
+        ],
+        [
+          176,
+          127,
+          127
+        ]
+      ],
+      "shutdown": [
+        [
+          144,
+          36,
+          127
+        ]
+      ],
+      "autoSelect": true,
       "scope": "Partial mapping. Hardware verification is open.",
       "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Starlight.midi.xml"
     },

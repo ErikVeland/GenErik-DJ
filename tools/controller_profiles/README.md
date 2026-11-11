@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source catalogue and bounded MIDI data recipes.
+These tools reproduce the R169 source inventory, R174 completion states and bounded MIDI data recipes.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -44,14 +44,27 @@ Preserve earlier snapshots and failed validation evidence.
 - Require a matching group, key, channel and low byte for each high-resolution CC pair.
 - Reject conflicting physical addresses and unknown encodings.
 - Retain a disposition for every source input and output row.
-- Leave script-dependent behaviour unresolved. Never execute controller JavaScript.
-- Select an imported recipe automatically only when it has the required core controls and no script lifecycle dependency.
-- Keep all physical acceptance and complete-feature release gates open until evidence closes them.
+- Translate only explicitly reviewed script handlers, then verify the hash-locked source before generation. Never execute controller JavaScript.
+- Select an imported recipe automatically only when it has the required core controls and a reviewed lifecycle.
+- Track complete theoretical implementation separately from physical verification.
 
 Manufacturer adapters can select reviewed core controls automatically.
 Their extra pad modes, displays, FX, motors, audio routing and hardware acceptance remain separate work.
-Only the reviewed Inpulse 500 adapter sends a startup/shutdown mode message in this batch.
-It requires one paired physical output. A failed startup leaves its controls inactive.
+Inpulse 200, Inpulse 300, Starlight and the existing Inpulse 500 adapter send reviewed startup/shutdown messages.
+They require one paired physical output. A failed startup leaves their controls inactive.
+`reviewed.py` translates their documented jog and touch handlers through existing native actions.
+Unknown handlers, including the unresolved Inpulse 200 `scratchPad` reference, stay unmapped.
+
+## Theoretical completion
+
+The target is documented software support for every physical model in the catalogue.
+A model needs complete protocol, control, lifecycle, feedback and audio-routing implementation, with automated fixtures for that scope.
+Partial mappings stay partial until those criteria pass.
+
+Physical verification has a separate status. It is not required for theoretical completion of every controller.
+An implemented controller can remain physically unverified.
+The shared A10X audio and touch baseline still requires actual device evidence.
+Use representative connected controllers to check hardware assumptions when they are available.
 
 ## Reuse and distribution review
 

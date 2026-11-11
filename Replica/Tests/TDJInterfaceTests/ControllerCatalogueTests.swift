@@ -4,6 +4,62 @@ import Testing
 
 @testable import TDJInterface
 
+@Test @MainActor func controllerCatalogueHerculesCoreProfilesStartAndDispatchWithoutHardware() throws {
+    for name in ["Hercules DJControl Inpulse 200", "Hercules DJControl Inpulse 300", "Hercules DJControl Starlight"] {
+        let suite = "hercules-theoretical-\(UUID().uuidString)"
+        let preferences = UserDefaults(suiteName: suite)!
+        defer { preferences.removePersistentDomain(forName: suite) }
+        var packets: [[UInt8]] = []
+        let controller = ControllerMIDIConnection(
+            preferences: preferences,
+            factoryPacketSender: { bytes, id in
+                #expect(id == 20)
+                packets.append(bytes)
+                return true
+            })
+        let source = ControllerMIDIConnection.Source(
+            id: 10, reference: 100, name: name,
+            identity: .init(id: 10, device: 1, names: [name]))
+        controller.sources = [source]
+        controller.destinations = [
+            .init(
+                id: 20, reference: 200, name: name,
+                identity: .init(id: 20, device: 1, names: [name]))
+        ]
+        controller.reconcileFactoryProfiles()
+        #expect(controller.isInputActive(10))
+        #expect(packets.last == [0xB0, 127, 127])
+        let profile = try #require(ControllerFactoryProfile.matching([name], automaticOnly: true))
+        let jog = try #require(profile.bindings(source: 10).first { $0.action == .jogA && $0.channel == 1 })
+        var state = ControllerMIDIValueState()
+        var jogDecoder = ControllerMIDIDecoder()
+        let forward = try #require(jogDecoder.append([0xB1, jog.number, 1]).first)
+        let backward = try #require(jogDecoder.append([0xB1, jog.number, 127]).first)
+        #expect(state.decode(forward, encoding: jog.mode, number: jog.number) == .relative(1))
+        #expect(state.decode(backward, encoding: jog.mode, number: jog.number) == .relative(-1))
+        var targets: [ControllerActionTarget] = []
+        var values: [Double] = []
+        controller.onTargetAction = { target, value in
+            targets.append(target); values.append(value)
+        }
+        var decoder = ControllerMIDIDecoder()
+        for message in decoder.append([0x91, 7, 127, 8, 127, 0x94, 8, 0]) {
+            controller.receive(message, source: 10)
+        }
+        #expect(targets == [.init(.playA, deck: .a), .init(.jogTouchA, deck: .a), .init(.jogTouchA, deck: .a)])
+        #expect(values == [1, 1, 0])
+        controller.sources = []
+        controller.reconcileFactoryProfiles()
+        #expect(!controller.isInputActive(10))
+        let beforeReconnect = packets.count
+        controller.sources = [source]
+        controller.reconcileFactoryProfiles()
+        #expect(controller.isInputActive(10))
+        #expect(packets.count > beforeReconnect)
+        #expect(packets.last == [0xB0, 127, 127])
+    }
+}
+
 @Test func controllerCatalogueLoadsAllBoundedProfiles() {
     #expect(ControllerProfileCatalogue.loadFailure == nil)
     #expect(ControllerProfileCatalogue.shared.profiles.count >= 100)

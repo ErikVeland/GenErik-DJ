@@ -53,12 +53,22 @@ def options(control):
     return {child.tag.lower() for child in parent} if parent is not None else set()
 
 
-def control_record(control):
+def control_record(control, reviewed_handlers=None):
     group, key = control.findtext("group", ""), control.findtext("key", "")
     opts = options(control)
+    fact = None
     if "script-binding" in opts:
-        return None, "script-behaviour"
-    action, reason = operation(group, key)
+        fact = (reviewed_handlers or {}).get(key)
+        if not fact:
+            return None, "script-behaviour"
+        opts = opts - {"script-binding"}
+    if fact:
+        deck = re.fullmatch(r"\[Channel([1-4])\]", group)
+        if not deck:
+            return None, "unsupported-script-target"
+        action, reason = fact[0] + ("A" if int(deck[1]) % 2 else "B"), None
+    else:
+        action, reason = operation(group, key)
     if action is None:
         return None, reason
     unknown = opts - SAFE_OPTIONS - RELATIVE_OPTIONS.keys()
@@ -76,7 +86,7 @@ def control_record(control):
         return None, "invalid-address"
     if "fourteen-bit-lsb" in opts:
         return None, "paired-low-byte"
-    encoding = next((value for option, value in RELATIVE_OPTIONS.items() if option in opts), "absolute")
+    encoding = fact[1] if fact else next((value for option, value in RELATIVE_OPTIONS.items() if option in opts), "absolute")
     if "fourteen-bit-msb" in opts:
         encoding = "paired14Bit"
         if kind != "control" or address >= 32:
@@ -93,7 +103,7 @@ def control_record(control):
     return record, None
 
 
-def convert_xml(path):
+def convert_xml(path, reviewed_handlers=None):
     root = ET.parse(path).getroot()
     controls = root.findall(".//control")
     inputs, unresolved, input_records = [], [], []
@@ -102,7 +112,7 @@ def convert_xml(path):
                  for control in controls if "fourteen-bit-lsb" in options(control)
                  or control.findtext("key", "").endswith(".inputLSB")}
     for control in controls:
-        binding, reason = control_record(control)
+        binding, reason = control_record(control, reviewed_handlers)
         if binding and binding["encoding"] == "paired14Bit":
             status = 0xB0 | binding["channel"]
             pair_key = control.findtext("key", "").replace(".inputLSB", "").replace(".inputMSB", "")
