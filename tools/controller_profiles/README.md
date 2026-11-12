@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R174 completion states and bounded MIDI data recipes.
+These tools reproduce the R169 source inventory, R175 completion states and R176 club-player MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -9,8 +9,11 @@ The repository has no controller-generation script in `package.json`, so these t
 `sources.lock.json` pins all 317 Mixxx reference files by Git revision, Git blob hash and SHA-256.
 It also retains the 121 reviewed Serato iOS model rows and their source-page hash.
 `curated.py` records independently checked manufacturer MIDI facts for the next popular models.
+`cdj.py` records factory MIDI facts for six club players, with separate tables for each generation.
+Four downloaded references have SHA-256 hashes. Two older manuals were reviewed through web text and retain null hashes.
+Their records state this evidence limit. A document URL is not a content hash.
 
-The source boundary includes every shipped Mixxx definition at the pinned revision, the published Serato iOS list, existing NI adapters and Beatpad.
+The source boundary includes every pinned Mixxx definition, the published Serato iOS list, reviewed manufacturer additions, existing NI adapters and Beatpad.
 It does not assert coverage of every controller ever sold.
 Virtual endpoints, protocol families, accessory models and DVS-only models retain separate roles.
 
@@ -54,6 +57,29 @@ Inpulse 200, Inpulse 300, Starlight and the existing Inpulse 500 adapter send re
 They require one paired physical output. A failed startup leaves their controls inactive.
 `reviewed.py` translates their documented jog and touch handlers through existing native actions.
 Unknown handlers, including the unresolved Inpulse 200 `scratchPad` reference, stay unmapped.
+
+## Club players
+
+CDJ-3000, CDJ-3000X, CDJ-2000NXS2, CDJ-1500X, CDJ-2000NXS and CDJ-900NXS have automatic MIDI core profiles.
+The order balances established models and recent releases. It does not claim measured global sales ranks.
+The hardware must enter Software Control / USB-MIDI mode. The app does not select that hardware mode.
+
+Player inputs accept all 16 MIDI channels on their own physical endpoint.
+Two players receive separate A/B assignments, even when their MIDI channel settings match.
+The app retains connected assignments, then restores saved endpoint identities, then allocates free decks.
+Deck selection swaps occupied assignments. It releases held touches and clears input state before rebinding.
+Player enable choices and learned mappings remain specific to each endpoint identity.
+Changed endpoint identities receive available assignments. The app does not infer a physical unit from its model name alone.
+C/D require the existing four-deck trial. Extra players remain outside automatic assignment when both base decks are occupied.
+
+The decoder treats published jog speeds as speeds. It keeps their exact stop and direction values.
+Needle position zero is a release message. It must not seek to the file start.
+Fixed loop and jump buttons retain their own beat counts. They use the app's existing timing and Sync rules.
+Variable-size jump buttons use the app's selected beat size because their MIDI messages do not report the hardware selection.
+Tempo uses the app's existing ±8% range. Hardware tempo-range switching remains open.
+
+These tables specify MIDI input. They do not establish HID authentication, screen output, lighting or audio aggregation.
+Those functions and unimplemented modes remain explicit gaps in the catalogue.
 
 ## Theoretical completion
 

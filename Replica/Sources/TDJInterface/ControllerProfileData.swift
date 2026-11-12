@@ -10,12 +10,15 @@ struct ControllerProfileData: Decodable, Sendable {
         let encoding: ControllerMIDIEncoding
         let inverted: Bool
         let targetDeck: DeckID?
+        let anyChannel: Bool?
+        let argument: Double?
 
         func binding(source: Int32) -> ControllerBinding {
             .init(
                 source: source, group: 0, channel: channel, kind: kind, number: number,
                 parameter: nil, noteNumber: nil, action: action, encoding: encoding,
-                inverted: inverted, shifted: false, targetDeck: targetDeck, layerIndependent: true)
+                inverted: inverted, shifted: false, targetDeck: targetDeck, layerIndependent: true,
+                anyChannel: anyChannel, argument: argument)
         }
     }
 
@@ -45,14 +48,19 @@ struct ControllerProfileData: Decodable, Sendable {
     let autoSelect: Bool
     let scope: String
     let source: String
+    let role: String?
 
     var isValid: Bool {
-        !id.isEmpty && id.count <= 128 && !aliases.isEmpty && aliases.count <= 24
+        (role == nil || role == "player") && !id.isEmpty && id.count <= 128 && !aliases.isEmpty && aliases.count <= 24
             && aliases.allSatisfy { !$0.isEmpty && $0.count <= 128 }
             && !inputs.isEmpty && inputs.count <= 512 && outputs.count <= 128
             && inputs.allSatisfy {
                 $0.channel < 16 && $0.number < 128
                     && ($0.encoding != .paired14Bit || ($0.kind == .control && $0.number < 32))
+                    && ($0.anyChannel != true || role == "player")
+                    && Self.validArgument($0)
+                    && (![.cdjPlatterSpeed, .cdjRingSpeed, .cdjTempo, .needlePosition].contains($0.encoding)
+                        || $0.kind == .control)
             }
             && outputs.allSatisfy {
                 $0.channel < 16 && $0.number < 128 && $0.onValue < 128 && $0.offValue < 128
@@ -63,6 +71,16 @@ struct ControllerProfileData: Decodable, Sendable {
                 $0.count == 3 && (0x80...0xEF).contains($0[0])
                     && $0[1] < 128 && $0[2] < 128
             }
+    }
+
+    private static func validArgument(_ input: Input) -> Bool {
+        switch input.action {
+        case .fixedLoopA, .fixedLoopB:
+            return input.argument.map { PerformancePreparation.loopSizes.contains($0) } ?? false
+        case .fixedJumpA, .fixedJumpB:
+            return input.argument.map { $0.isFinite && $0 != 0 && abs($0) <= 64 } ?? false
+        default: return input.argument == nil
+        }
     }
 }
 

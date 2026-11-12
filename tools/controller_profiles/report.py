@@ -23,7 +23,7 @@ def report(catalogue, runtime):
              f"- Every one of the {sum(item['sourceInputCount'] for item in source_definitions):,} source input rows and {sum(item['sourceOutputCount'] for item in source_definitions):,} output rows has a conversion disposition.", "",
              "These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.",
              "Serato’s advertised total includes controllers, mixers, turntables, standalone units and accessories. It is not a count of full-feature controller mappings.", "",
-             "## Completion rule — R174", "",
+             "## Completion rule — R175", "",
              "Theoretical support is the implementation target for every physical model. Physical verification has a separate status.",
              "Complete the documented protocol, controls, modes, lifecycle, feedback and audio routing. Verify them with automated protocol fixtures.",
              "A missing physical test does not block theoretical completion. Unsupported protocols and missing functions still require implementation.",
@@ -32,7 +32,17 @@ def report(catalogue, runtime):
              "The first five models in the reviewed Coolblue regional sales list have automatic core-control profiles: FLX4, FLX2, XDJ-RR, OMNIS-DUO and DDJ-GRV6.",
              "Pioneer/AlphaTheta remains the first brand tier, based on the 2026 Digital DJ Tips census. The survey is not a global model-sales ranking.",
              "Other models have no claimed popularity rank. Within that tier, finish documented protocols and startup messages before unknown proprietary protocols.", "",
-             "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
+             "## Club players — R176", "",
+             "The club-player order balances established models and recent releases. It is an implementation order, not a measured global sales ranking.",
+             "All six players select core controls automatically after the hardware enters Software Control / USB-MIDI mode.",
+             "Connected players receive separate A/B assignments. Saved endpoint identities retain their assignments. C/D require the existing four-deck trial.",
+             "HID, screens, lights and automatic routing across multiple player audio interfaces remain unimplemented.", "",
+             "| Order | Player | MIDI core | HID and screens |", "| ---: | --- | --- | --- |"]
+    club = sorted((model for model in models if model["priority"].get("clubImplementationOrder")),
+                  key=lambda model: model["priority"]["clubImplementationOrder"])
+    lines.extend(f"| {model['priority']['clubImplementationOrder']} | {model['name']} | Automatic | Open |" for model in club)
+    lines += ["", "See [the R176 scope and evidence](controller-coverage.md#r176-club-player-midi-controls).", "",
+              "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",
                 "partial-midi-profile": "Explicit XML controls are available. Script-dependent behaviour is unresolved.",

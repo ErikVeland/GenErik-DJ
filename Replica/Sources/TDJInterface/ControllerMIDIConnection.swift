@@ -14,6 +14,9 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case jogA, jogB, jogTouchA, jogTouchB, wheelJogA, wheelJogB
     case browse, browseGroups, openGroup, loadA, loadB
     case filterKnobA, filterKnobB
+    case fixedLoopA, fixedLoopB, fixedJumpA, fixedJumpB, loopInA, loopInB, loopOutA, loopOutB
+    case seekA, seekB, tempoResetA, tempoResetB
+    case reloopA, reloopB
     case hotcue1A, hotcue2A, hotcue3A, hotcue4A, hotcue5A, hotcue6A, hotcue7A, hotcue8A
     case hotcue1B, hotcue2B, hotcue3B, hotcue4B, hotcue5B, hotcue6B, hotcue7B, hotcue8B
     var id: String { rawValue }
@@ -39,6 +42,9 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
             "tempo": "Tempo ±8%", "loop": "Loop on / off", "loopUp": "Larger loop", "loopDown": "Smaller loop",
             "jumpBack": "Beat jump back", "jumpForward": "Beat jump forward", "cueReturn": "Cue return / set",
             "freeze": "Freeze", "jog": "Platter jog", "jogTouch": "Platter touch", "wheelJog": "Wheel-side jog",
+            "fixedLoop": "Fixed beat loop", "fixedJump": "Fixed beat jump", "loopIn": "Loop in", "loopOut": "Loop out",
+            "seek": "Waveform position", "tempoReset": "Tempo reset",
+            "reloop": "Reloop / exit",
         ]
         return "\(deck.rawValue.uppercased()) · \(labels[String(rawValue.dropLast())] ?? rawValue)"
     }
@@ -46,7 +52,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         switch self {
         case .levelA, .levelB, .gainA, .gainB, .lowA, .lowB, .midA, .midB, .highA, .highB, .filterA, .filterB, .fxA,
             .fxB, .crossfader, .cueMix, .master, .monitor, .tempoA, .tempoB, .jogA, .jogB, .wheelJogA, .wheelJogB,
-            .browse, .browseGroups, .filterKnobA, .filterKnobB:
+            .browse, .browseGroups, .filterKnobA, .filterKnobB, .seekA, .seekB:
             false
         default: true
         }
@@ -58,6 +64,10 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         }
     }
     var isJog: Bool { self == .jogA || self == .jogB || self == .wheelJogA || self == .wheelJogB }
+    var isLearnable: Bool { ![.fixedLoopA, .fixedLoopB, .fixedJumpA, .fixedJumpB].contains(self) }
+    func assigned(to deck: DeckID) -> Self {
+        Self(rawValue: String(rawValue.dropLast()) + (deck.leftSide ? "A" : "B")) ?? self
+    }
     var isBrowserEncoder: Bool { self == .browse || self == .browseGroups }
     var hotcueSlot: Int? {
         guard rawValue.hasPrefix("hotcue"), let value = Int(rawValue.dropFirst(6).dropLast()) else { return nil }
@@ -84,13 +94,15 @@ struct ControllerBinding: Codable {
     let number: UInt8
     let parameter: UInt16?
     let noteNumber: UInt8?
-    let action: ControllerAction
+    var action: ControllerAction
     let encoding: ControllerMIDIEncoding?
     let inverted: Bool?
     let shifted: Bool?
     var targetDeck: DeckID? = nil
     var layerIndependent: Bool? = nil
-    var target: ControllerActionTarget { .init(action, deck: targetDeck) }
+    var anyChannel: Bool? = nil
+    var argument: Double? = nil
+    var target: ControllerActionTarget { .init(action, deck: targetDeck, argument: argument) }
     var mode: ControllerMIDIEncoding { encoding ?? .absolute }
     var isShifted: Bool { shifted ?? false }
     var umpGroup: UInt8 { group ?? 0 }
@@ -321,9 +333,11 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var lastFactoryOutputTime = 0.0
     @ObservationIgnored private var factorySetupFailure: String?
     @ObservationIgnored private var disabledFactoryProfiles: Set<ControllerFactoryProfile> = []
+    @ObservationIgnored private var disabledPlayerSources: Set<Int32> = []
     @ObservationIgnored private var disabledFactoryFeedback: Set<ControllerFactoryProfile> = []
     @ObservationIgnored private var customFactoryInputs: [String: [ControllerBinding]] = [:]
     @ObservationIgnored private var customFactoryFeedback: [String: [ControllerFeedbackBinding]] = [:]
+    @ObservationIgnored private var savedPlayerDecks: [Int32: DeckID] = [:]
     private static let storageKey = "controllers.midiBindings.v1"
     private static let activeInputsStorageKey = "controllers.midiActiveInputs.v1"
     private static let feedbackStorageKey = "controllers.midiFeedback.v1"
@@ -331,10 +345,22 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     init(preferences: UserDefaults = .standard, factoryPacketSender: (([UInt8], Int32) -> Bool)? = nil) {
         self.preferences = preferences
         self.factoryPacketSender = factoryPacketSender
-        disabledFactoryProfiles = Set((preferences.stringArray(forKey: "controllers.factory.disabled") ?? [])
-            .compactMap(ControllerFactoryProfile.init(rawValue:)))
-        disabledFactoryFeedback = Set((preferences.stringArray(forKey: "controllers.factory.feedbackDisabled") ?? [])
-            .compactMap(ControllerFactoryProfile.init(rawValue:)))
+        if let data = preferences.data(forKey: "controllers.factory.disabledPlayers"),
+            let saved = try? JSONDecoder().decode(Set<Int32>.self, from: data)
+        {
+            disabledPlayerSources = saved
+        }
+        if let data = preferences.data(forKey: "controllers.factory.playerDecks"),
+            let saved = try? JSONDecoder().decode([Int32: DeckID].self, from: data)
+        {
+            savedPlayerDecks = saved
+        }
+        disabledFactoryProfiles = Set(
+            (preferences.stringArray(forKey: "controllers.factory.disabled") ?? [])
+                .compactMap(ControllerFactoryProfile.init(rawValue:)))
+        disabledFactoryFeedback = Set(
+            (preferences.stringArray(forKey: "controllers.factory.feedbackDisabled") ?? [])
+                .compactMap(ControllerFactoryProfile.init(rawValue:)))
         if let data = preferences.data(forKey: "controllers.factory.customInputs"),
             let saved = try? JSONDecoder().decode([String: [ControllerBinding]].self, from: data)
         { customFactoryInputs = saved }
@@ -563,11 +589,27 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         updatePollingInterval()
     }
 
-    func reconcileFactoryProfiles() {
+    func reconcileFactoryProfiles(reassigning: Set<Int32> = []) {
         factorySetupFailure = nil
-        let candidates = ControllerFactorySession.discover(
+        let discovered = ControllerFactorySession.discover(
             sources: sources.compactMap(\.identity), destinations: destinations.compactMap(\.identity),
-            disabled: disabledFactoryProfiles)
+            disabled: disabledFactoryProfiles
+        ).filter { !$0.profile.isPlayer || !disabledPlayerSources.contains($0.source) }
+        let current = Dictionary(
+            uniqueKeysWithValues: factorySessions.compactMap { session -> (Int32, DeckID)? in
+                guard let deck = session.playerDeck, !reassigning.contains(session.source) else { return nil }
+                return (session.source, deck)
+            })
+        let allocated = ControllerPlayerAssignment.allocate(
+            sources: discovered.filter { $0.profile.isPlayer }.map(\.source), current: current,
+            saved: savedPlayerDecks, available: availablePlayerDecks)
+        let candidates = discovered.compactMap { session -> ControllerFactorySession? in
+            guard session.profile.isPlayer else { return session }
+            guard let deck = allocated[session.source] else { return nil }
+            var assigned = session
+            assigned.playerDeck = deck
+            return assigned
+        }
         for old in factorySessions where !candidates.contains(old) {
             sendFactorySetup(old, starting: false)
             disconnectInput(old.source)
@@ -576,28 +618,60 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         let sessions = candidates.filter { factorySessions.contains($0) || sendFactorySetup($0, starting: true) }
         guard sessions != factorySessions else { return }
         factorySessions = sessions
-        rememberFactoryOverrides()
-        factoryBindings = Dictionary(uniqueKeysWithValues: sessions.map { session in
-            let profile = customFactoryInputs[session.profile.rawValue]?.map { binding in
-                ControllerBinding(source: session.source, group: binding.group, channel: binding.channel,
-                    kind: binding.kind, number: binding.number, parameter: binding.parameter,
-                    noteNumber: binding.noteNumber, action: binding.action, encoding: binding.encoding,
-                    inverted: binding.inverted, shifted: binding.shifted,
-                    targetDeck: binding.targetDeck, layerIndependent: binding.layerIndependent)
-            } ?? session.profile.bindings(source: session.source)
-            return (session.source, profile)
-        })
-        factoryFeedback = Dictionary(uniqueKeysWithValues: sessions.compactMap { session in
-            guard let destination = session.destination else {
-                return nil
+        for (id, deck) in allocated { savedPlayerDecks[id] = deck }
+        let oldAssignments = savedPlayerDecks.filter { allocated[$0.key] == nil }.sorted { $0.key < $1.key }
+        savedPlayerDecks = allocated
+        for (id, deck) in oldAssignments.prefix(max(0, 64 - allocated.count)) { savedPlayerDecks[id] = deck }
+        preferences.set(try? JSONEncoder().encode(savedPlayerDecks), forKey: "controllers.factory.playerDecks")
+        var rebound = false
+        for index in bindings.indices {
+            guard bindings[index].targetDeck != nil,
+                let deck = sessions.first(where: { $0.source == bindings[index].source })?.playerDeck
+            else { continue }
+            let action = bindings[index].action.assigned(to: deck)
+            if bindings[index].targetDeck != deck || bindings[index].action != action {
+                bindings[index].targetDeck = deck
+                bindings[index].action = action
+                rebound = true
             }
-            let profile = customFactoryFeedback[session.profile.rawValue]?.map { binding in
-                ControllerFeedbackBinding(destination: destination, action: binding.action, kind: binding.kind,
-                    channel: binding.channel, number: binding.number, offValue: binding.offValue,
-                    onValue: binding.onValue, offUsesNoteOn: binding.offUsesNoteOn, targetDeck: binding.targetDeck)
-            } ?? session.profile.feedback(destination: destination)
-            return (destination, profile)
-        })
+        }
+        if rebound { preferences.set(try? JSONEncoder().encode(bindings), forKey: Self.storageKey) }
+        rememberFactoryOverrides()
+        factoryBindings = Dictionary(
+            uniqueKeysWithValues: sessions.map { session in
+                let profile =
+                    customFactoryInputs[factoryInputKey(session)]?.map { binding in
+                        ControllerBinding(
+                            source: session.source, group: binding.group, channel: binding.channel,
+                            kind: binding.kind, number: binding.number, parameter: binding.parameter,
+                            noteNumber: binding.noteNumber,
+                            action: session.playerDeck.map {
+                                binding.targetDeck != nil ? binding.action.assigned(to: $0) : binding.action
+                            } ?? binding.action,
+                            encoding: binding.encoding,
+                            inverted: binding.inverted, shifted: binding.shifted,
+                            targetDeck: session.playerDeck != nil && binding.targetDeck != nil
+                                ? session.playerDeck : binding.targetDeck,
+                            layerIndependent: binding.layerIndependent, anyChannel: binding.anyChannel,
+                            argument: binding.argument)
+                    } ?? session.profile.bindings(source: session.source, playerDeck: session.playerDeck)
+                return (session.source, profile)
+            })
+        factoryFeedback = Dictionary(
+            uniqueKeysWithValues: sessions.compactMap { session in
+                guard let destination = session.destination else {
+                    return nil
+                }
+                let profile =
+                    customFactoryFeedback[session.profile.rawValue]?.map { binding in
+                        ControllerFeedbackBinding(
+                            destination: destination, action: binding.action, kind: binding.kind,
+                            channel: binding.channel, number: binding.number, offValue: binding.offValue,
+                            onValue: binding.onValue, offUsesNoteOn: binding.offUsesNoteOn,
+                            targetDeck: binding.targetDeck)
+                    } ?? session.profile.feedback(destination: destination)
+                return (destination, profile)
+            })
         for session in sessions { connectInput(session.source) }
     }
 
@@ -622,11 +696,30 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         return true
     }
 
+    var availablePlayerDecks: [DeckID] {
+        FourDeckTrial.isAvailable && preferences.bool(forKey: FourDeckTrial.preferenceKey)
+            ? DeckID.allCases : DeckID.primary
+    }
+
+    func playerDeck(source: Int32) -> DeckID? { factorySessions.first { $0.source == source }?.playerDeck }
+
+    func setPlayerDeck(_ deck: DeckID, source: Int32) {
+        guard availablePlayerDecks.contains(deck), let old = playerDeck(source: source), old != deck else { return }
+        var changed: Set<Int32> = [source]
+        if let other = factorySessions.first(where: { $0.playerDeck == deck }) {
+            savedPlayerDecks[other.source] = old
+            changed.insert(other.source)
+        }
+        savedPlayerDecks[source] = deck
+        reconcileFactoryProfiles(reassigning: changed)
+    }
+
     func factoryProfileName(source: Int32) -> String? {
         guard !bindings.contains(where: { $0.source == source }) else { return nil }
         guard let session = factorySessions.first(where: { $0.source == source }),
-            customFactoryInputs[session.profile.rawValue] == nil else { return nil }
-        return session.profile.rawValue
+            customFactoryInputs[factoryInputKey(session)] == nil
+        else { return nil }
+        return session.profile.rawValue + (session.playerDeck.map { " · Deck " + $0.rawValue.uppercased() } ?? "")
     }
 
     private func inputBindings(source: Int32) -> [ControllerBinding] {
@@ -644,7 +737,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         guard !originalZ1Bridge, let selected else { return }
         releaseMomentaryActions(source: selected)
         bindings.removeAll { $0.source == selected }
-        bindings.append(contentsOf: profile.bindings(source: selected))
+        bindings.append(contentsOf: profile.bindings(source: selected, playerDeck: playerDeck(source: selected)))
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
         pendingValues.removeAll()
@@ -704,8 +797,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         if let identity = sources.first(where: { $0.id == id })?.identity,
             let profile = ControllerFactoryProfile.matching(identity.names)
         {
-            if active { disabledFactoryProfiles.remove(profile) } else { disabledFactoryProfiles.insert(profile) }
-            preferences.set(disabledFactoryProfiles.map(\.rawValue).sorted(), forKey: "controllers.factory.disabled")
+            setFactoryDisabled(!active, profile: profile, source: id)
             reconcileFactoryProfiles()
         }
         if active {
@@ -722,6 +814,24 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
     }
     func isInputActive(_ id: Int32) -> Bool { activeInputIDs.contains(id) || factoryBindings[id] != nil }
+    private func setFactoryDisabled(_ disabled: Bool, profile: ControllerFactoryProfile, source: Int32) {
+        if profile.isPlayer {
+            if disabled {
+                disabledPlayerSources.insert(source)
+            } else {
+                disabledPlayerSources.remove(source)
+                disabledFactoryProfiles.remove(profile)
+            }
+            preferences.set(
+                try? JSONEncoder().encode(disabledPlayerSources.sorted()), forKey: "controllers.factory.disabledPlayers"
+            )
+        } else if disabled {
+            disabledFactoryProfiles.insert(profile)
+        } else {
+            disabledFactoryProfiles.remove(profile)
+        }
+        preferences.set(disabledFactoryProfiles.map(\.rawValue).sorted(), forKey: "controllers.factory.disabled")
+    }
     private func persistActiveInputs() {
         let data = try? JSONEncoder().encode(activeInputIDs.sorted())
         preferences.set(data, forKey: Self.activeInputsStorageKey)
@@ -749,11 +859,13 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         updatePollingInterval()
     }
     private func disconnectInput(_ id: Int32) {
-        guard let endpoint = connectedEndpoints.removeValue(forKey: id) else { return }
-        if let connectedPort = connectedPorts.removeValue(forKey: id) {
-            MIDIPortDisconnectSource(connectedPort, endpoint)
+        let endpoint = connectedEndpoints.removeValue(forKey: id)
+        if let endpoint {
+            if let connectedPort = connectedPorts.removeValue(forKey: id) {
+                MIDIPortDisconnectSource(connectedPort, endpoint)
+            }
+            sourceIDsByEndpoint[endpoint] = nil
         }
-        sourceIDsByEndpoint[endpoint] = nil
         decoders[id] = nil
         bridgeDecoders[id] = nil
         shiftLayers[id] = nil
@@ -761,7 +873,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(id)-") }
         takeoverStates = takeoverStates.filter { !$0.key.hasPrefix("\(id)-") }
         pendingValues.removeAll()
-        releaseMomentaryActions(source: id)
+        releaseMomentaryActions(source: id, resetJogs: endpoint != nil || playerDeck(source: id) != nil)
         updatePollingInterval()
     }
     private func reconnectInputs() {
@@ -1250,10 +1362,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     func clearBindings() {
         guard let selected else { return }
         if let session = factorySessions.first(where: { $0.source == selected }) {
-            customFactoryInputs[session.profile.rawValue] = nil
+            customFactoryInputs[factoryInputKey(session)] = nil
             preferences.set(try? JSONEncoder().encode(customFactoryInputs), forKey: "controllers.factory.customInputs")
-            disabledFactoryProfiles.insert(session.profile)
-            preferences.set(disabledFactoryProfiles.map(\.rawValue).sorted(), forKey: "controllers.factory.disabled")
+            setFactoryDisabled(true, profile: session.profile, source: selected)
             reconcileFactoryProfiles()
         }
         bindings.removeAll { $0.source == selected }
@@ -1637,7 +1748,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         if let data = try? JSONEncoder().encode(bindings) { preferences.set(data, forKey: Self.storageKey) }
         rememberFactoryOverrides()
     }
-    private func releaseMomentaryActions(source: Int32? = nil) {
+    private func releaseMomentaryActions(source: Int32? = nil, resetJogs: Bool = true) {
         for target in Array(activeMomentaryInputs.keys) {
             guard var inputs = activeMomentaryInputs[target] else { continue }
             let wasActive = !inputs.isEmpty
@@ -1645,6 +1756,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             activeMomentaryInputs[target] = inputs.isEmpty ? nil : inputs
             if wasActive && inputs.isEmpty { sendAction(target, value: 0) }
         }
+        guard resetJogs else { return }
         let mapped = source.map { inputBindings(source: $0).filter { $0.action.isJog }.map(\.target) } ?? []
         let targets: Set<ControllerActionTarget> = source == nil
             ? Set(DeckID.allCases.map { .init($0.leftSide ? .wheelJogA : .wheelJogB, deck: $0) })
@@ -1664,7 +1776,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     private func rememberFactoryOverrides() {
         for session in factorySessions {
             let input = bindings.filter { $0.source == session.source }
-            if !input.isEmpty { customFactoryInputs[session.profile.rawValue] = input }
+            if !input.isEmpty { customFactoryInputs[factoryInputKey(session)] = input }
             if let destination = session.destination {
                 let output = feedbackBindings.filter { $0.destination == destination }
                 if !output.isEmpty { customFactoryFeedback[session.profile.rawValue] = output }
@@ -1672,6 +1784,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         preferences.set(try? JSONEncoder().encode(customFactoryInputs), forKey: "controllers.factory.customInputs")
         preferences.set(try? JSONEncoder().encode(customFactoryFeedback), forKey: "controllers.factory.customFeedback")
+    }
+
+    private func factoryInputKey(_ session: ControllerFactorySession) -> String {
+        session.profile.rawValue + (session.profile.isPlayer ? "#\(session.source)" : "")
     }
     private func drain() {
         let (frames, overflow, refresh) = inbox.take()
@@ -1764,7 +1880,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let bindingIsShifted = learning == .shift ? false : learningShifted
             let sameInput: (ControllerBinding) -> Bool = { binding in
                 binding.source == sourceID && binding.umpGroup == message.group && binding.kind == message.kind
-                    && binding.channel == message.channel && binding.parameter == message.parameter
+                    && (binding.anyChannel == true || binding.channel == message.channel)
+                    && binding.parameter == message.parameter
                     && binding.noteNumber == message.noteNumber
                     && (binding.number == number
                         || (self.learningEncoding == .paired14Bit && binding.number == number + 32)
@@ -1815,7 +1932,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         let matches = inputBindings(source: sourceID).filter {
             $0.source == sourceID && $0.umpGroup == message.group && $0.kind == message.kind
-                && $0.channel == message.channel && $0.parameter == message.parameter
+                && ($0.anyChannel == true || $0.channel == message.channel) && $0.parameter == message.parameter
                 && $0.noteNumber == message.noteNumber
                 && ($0.number == message.number
                     || ($0.mode == .paired14Bit && $0.number < 32 && $0.number + 32 == message.number))
@@ -1882,8 +1999,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 guard value > 0, (previous ?? 0) == 0 else { continue }
                 emitButton(binding.target, value: value)
             } else {
-                if !binding.action.isJog && !binding.action.isBrowserEncoder && !message.kind.isRelativeController
-                    && (binding.mode == .absolute || binding.mode == .paired14Bit)
+                if !binding.action.isJog && !binding.action.isBrowserEncoder && binding.mode != .needlePosition
+                    && !message.kind.isRelativeController
+                    && (binding.mode == .absolute || binding.mode == .paired14Bit || binding.mode == .cdjTempo)
                 {
                     let takeoverKey = bindingTakeoverKey(binding)
                     var takeover = takeoverStates[takeoverKey, default: .init()]

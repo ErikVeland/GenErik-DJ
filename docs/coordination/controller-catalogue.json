@@ -737,6 +737,567 @@
   ],
   "models": [
     {
+      "id": "pioneercdj3000",
+      "name": "Pioneer CDJ-3000",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://downloads.support.alphatheta.com/software_info/dj-players/CDJ-3000/CDJ3000_MIDI_Message_List_E108.pdf"
+      ],
+      "definitions": [
+        "manufacturer:pioneercdj3000"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer CDJ-3000",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueReturnA:a",
+        "fixedJumpA:a",
+        "fixedLoopA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "hotcue4A:a",
+        "hotcue5A:a",
+        "hotcue6A:a",
+        "hotcue7A:a",
+        "hotcue8A:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "playA:a",
+        "reloopA:a",
+        "seekA:a",
+        "syncA:a",
+        "tempoA:a",
+        "tempoResetA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 52,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "Software Control / USB-MIDI",
+        "midiInputImplemented": true,
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
+        "clubImplementationOrder": 1
+      }
+    },
+    {
+      "id": "pioneercdj3000x",
+      "name": "AlphaTheta CDJ-3000X",
+      "manufacturer": "AlphaTheta",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://downloads.support.alphatheta.com/software_info/dj-players/CDJ-3000X/CDJ3000X_MIDI_Message_List_En.pdf"
+      ],
+      "definitions": [
+        "manufacturer:pioneercdj3000x"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "AlphaTheta CDJ-3000X",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueReturnA:a",
+        "fixedJumpA:a",
+        "fixedLoopA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "hotcue4A:a",
+        "hotcue5A:a",
+        "hotcue6A:a",
+        "hotcue7A:a",
+        "hotcue8A:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "jumpBackA:a",
+        "jumpForwardA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "playA:a",
+        "reloopA:a",
+        "seekA:a",
+        "syncA:a",
+        "tempoA:a",
+        "tempoResetA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 50,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "Software Control / USB-MIDI",
+        "midiInputImplemented": true,
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
+        "clubImplementationOrder": 2
+      }
+    },
+    {
+      "id": "pioneercdj2000nxs2",
+      "name": "Pioneer CDJ-2000NXS2",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://manuals.plus/m/787a668a0d6bc06e184a4e451d34905d65311bad6c128215e91bf56c6e74e6b3_optim.pdf"
+      ],
+      "definitions": [
+        "manufacturer:pioneercdj2000nxs2"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer CDJ-2000NXS2",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueReturnA:a",
+        "fixedLoopA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "hotcue4A:a",
+        "hotcue5A:a",
+        "hotcue6A:a",
+        "hotcue7A:a",
+        "hotcue8A:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "jumpBackA:a",
+        "jumpForwardA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "playA:a",
+        "reloopA:a",
+        "seekA:a",
+        "syncA:a",
+        "tempoA:a",
+        "tempoResetA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 36,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "Software Control / USB-MIDI",
+        "midiInputImplemented": true,
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
+        "clubImplementationOrder": 3
+      }
+    },
+    {
+      "id": "pioneercdj1500x",
+      "name": "AlphaTheta CDJ-1500X",
+      "manufacturer": "AlphaTheta",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://downloads.support.alphatheta.com/software_info/dj-players/CDJ-1500X/CDJ-1500X_MIDI_Message_List_E1.pdf"
+      ],
+      "definitions": [
+        "manufacturer:pioneercdj1500x"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "AlphaTheta CDJ-1500X",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueReturnA:a",
+        "fixedJumpA:a",
+        "fixedLoopA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "hotcue4A:a",
+        "hotcue5A:a",
+        "hotcue6A:a",
+        "hotcue7A:a",
+        "hotcue8A:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "playA:a",
+        "reloopA:a",
+        "seekA:a",
+        "syncA:a",
+        "tempoA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 47,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "Software Control / USB-MIDI",
+        "midiInputImplemented": true,
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
+        "clubImplementationOrder": 4
+      }
+    },
+    {
+      "id": "pioneercdj2000nxs",
+      "name": "Pioneer CDJ-2000NXS",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://www.manualslib.com/manual/712075/Pioneer-Cdj-2000nxs.html?page=42"
+      ],
+      "definitions": [
+        "manufacturer:pioneercdj2000nxs"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer CDJ-2000NXS",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueReturnA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "playA:a",
+        "reloopA:a",
+        "seekA:a",
+        "syncA:a",
+        "tempoA:a",
+        "tempoResetA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 19,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "Software Control / USB-MIDI",
+        "midiInputImplemented": true,
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
+        "clubImplementationOrder": 5
+      }
+    },
+    {
+      "id": "pioneercdj900nxs",
+      "name": "Pioneer CDJ-900NXS",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://warehousesound.com/r/pioneerCDJ900NXSmanual.pdf"
+      ],
+      "definitions": [
+        "manufacturer:pioneercdj900nxs"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer CDJ-900NXS",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueReturnA:a",
+        "fixedLoopA:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "playA:a",
+        "reloopA:a",
+        "syncA:a",
+        "tempoA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 15,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "Software Control / USB-MIDI",
+        "midiInputImplemented": true,
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
+        "clubImplementationOrder": 6
+      }
+    },
+    {
       "id": "pioneerddjflx4",
       "name": "Pioneer DJ DDJ-FLX4",
       "manufacturer": "Pioneer",
@@ -789,7 +1350,8 @@
       "priority": {
         "regionalSalesRank": 1,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -843,7 +1405,8 @@
       "priority": {
         "regionalSalesRank": 2,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -989,7 +1552,8 @@
       "priority": {
         "regionalSalesRank": 3,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -1152,7 +1716,8 @@
       "priority": {
         "regionalSalesRank": 4,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -1311,7 +1876,8 @@
       "priority": {
         "regionalSalesRank": 5,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -1365,7 +1931,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -1419,7 +1986,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -1473,7 +2041,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -1527,7 +2096,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -1583,7 +2153,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -1665,7 +2236,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -1733,7 +2305,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -1811,7 +2384,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -1864,7 +2438,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -1924,7 +2499,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -1980,7 +2556,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -2034,7 +2611,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -2088,7 +2666,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -2142,7 +2721,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -2196,7 +2776,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -2250,7 +2831,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -2304,7 +2886,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -2358,7 +2941,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -2419,7 +3003,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -2480,7 +3065,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -2590,7 +3176,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -2644,7 +3231,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -2796,7 +3384,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -2853,7 +3442,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -2907,7 +3497,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -2961,7 +3552,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3015,7 +3607,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3069,7 +3662,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3123,7 +3717,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3177,7 +3772,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3231,7 +3827,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3285,7 +3882,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3339,7 +3937,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3393,7 +3992,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3453,7 +4053,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3532,7 +4133,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3586,7 +4188,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3643,7 +4246,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3699,7 +4303,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3755,7 +4360,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3825,7 +4431,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -3910,7 +4517,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -4005,7 +4613,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -4100,7 +4709,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -4156,7 +4766,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -4230,7 +4841,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -4313,7 +4925,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -4369,7 +4982,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -4425,7 +5039,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -4501,7 +5116,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -4612,7 +5228,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -4668,7 +5285,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -4724,7 +5342,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -4780,7 +5399,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -4836,7 +5456,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -4892,7 +5513,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -4966,7 +5588,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -5022,7 +5645,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -5097,7 +5721,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -5183,7 +5808,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -5266,7 +5892,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -5320,7 +5947,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -5374,7 +6002,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -5428,7 +6057,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -5532,7 +6162,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -5618,7 +6249,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -5732,7 +6364,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -5786,7 +6419,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -5840,7 +6474,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -5894,7 +6529,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -5948,7 +6584,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6002,7 +6639,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6056,7 +6694,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6110,7 +6749,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6170,7 +6810,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6241,7 +6882,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6338,7 +6980,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6394,7 +7037,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6453,7 +7097,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6532,7 +7177,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6596,7 +7242,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6660,7 +7307,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6738,7 +7386,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6792,7 +7441,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6846,7 +7496,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6906,7 +7557,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -6962,7 +7614,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -7030,7 +7683,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -7098,7 +7752,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -7174,7 +7829,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -7234,7 +7890,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -7318,7 +7975,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -7397,7 +8055,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -7457,7 +8116,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -7542,7 +8202,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -7610,7 +8271,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -7670,7 +8332,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -7730,7 +8393,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -7786,7 +8450,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -7871,7 +8536,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -7974,7 +8640,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -8028,7 +8695,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -8082,7 +8750,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -8191,7 +8860,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -8245,7 +8915,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -8355,7 +9026,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -8409,7 +9081,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -8504,7 +9177,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -8589,7 +9263,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -8678,7 +9353,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -8732,7 +9408,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -8791,7 +9468,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -8847,7 +9525,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -8903,7 +9582,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -8965,7 +9645,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -9038,7 +9719,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -9122,7 +9804,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -9193,7 +9876,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -9272,7 +9956,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -9363,7 +10048,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -9436,7 +10122,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -9498,7 +10185,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -9560,7 +10248,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -9639,7 +10328,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -9695,7 +10385,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -9751,7 +10442,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -9821,7 +10513,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -9919,7 +10612,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10013,7 +10707,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10067,7 +10762,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10121,7 +10817,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10175,7 +10872,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10228,7 +10926,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10284,7 +10983,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10340,7 +11040,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10395,7 +11096,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10450,7 +11152,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10505,7 +11208,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10558,7 +11262,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10613,7 +11318,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10671,7 +11377,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10724,7 +11431,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10777,7 +11485,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10833,7 +11542,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10886,7 +11596,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10939,7 +11650,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -10994,7 +11706,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11047,7 +11760,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11100,7 +11814,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11156,7 +11871,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11227,7 +11943,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11283,7 +12000,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11339,7 +12057,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11395,7 +12114,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11451,7 +12171,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11505,7 +12226,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11567,7 +12289,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11632,7 +12355,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11686,7 +12410,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11768,7 +12493,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11822,7 +12548,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11876,7 +12603,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -11930,7 +12658,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12011,7 +12740,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12065,7 +12795,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12119,7 +12850,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12181,7 +12913,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12261,7 +12994,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12327,7 +13061,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12388,7 +13123,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12463,7 +13199,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12526,7 +13263,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12586,7 +13324,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12667,7 +13406,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12721,7 +13461,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12785,7 +13526,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12839,7 +13581,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12904,7 +13647,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -12961,7 +13705,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13035,7 +13780,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13089,7 +13835,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13143,7 +13890,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13197,7 +13945,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13281,7 +14030,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13344,7 +14094,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13398,7 +14149,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13452,7 +14204,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13506,7 +14259,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13560,7 +14314,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13620,7 +14375,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13704,7 +14460,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13763,7 +14520,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13836,7 +14594,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13892,7 +14651,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -13969,7 +14729,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14031,7 +14792,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14087,7 +14849,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14171,7 +14934,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14227,7 +14991,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14283,7 +15048,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14342,7 +15108,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14415,7 +15182,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14488,7 +15256,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14542,7 +15311,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14596,7 +15366,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14650,7 +15421,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14704,7 +15476,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14758,7 +15531,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14812,7 +15586,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14866,7 +15641,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14920,7 +15696,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -14974,7 +15751,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -15028,7 +15806,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -15082,7 +15861,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -15207,7 +15987,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -15261,7 +16042,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -15386,7 +16168,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -15441,7 +16224,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -15519,7 +16303,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -15599,7 +16384,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -15653,7 +16439,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -15707,7 +16494,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -15761,7 +16549,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -15856,7 +16645,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -15944,7 +16734,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -15998,7 +16789,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -16052,7 +16844,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -16106,7 +16899,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -16160,7 +16954,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -16214,7 +17009,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -16268,7 +17064,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -16322,7 +17119,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -16458,7 +17256,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -16594,7 +17393,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -16648,7 +17448,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -16704,7 +17505,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -16758,7 +17560,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -16899,7 +17702,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -16955,7 +17759,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -17033,7 +17838,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -17091,7 +17897,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -17147,7 +17954,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -17221,7 +18029,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -17300,7 +18109,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -17386,7 +18196,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -17472,7 +18283,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -17586,7 +18398,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -17657,7 +18470,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -17764,7 +18578,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -17818,7 +18633,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     },
     {
@@ -17886,7 +18702,8 @@
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
       }
     }
   ],
@@ -301995,6 +302812,192 @@
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         }
       ]
+    },
+    {
+      "id": "manufacturer:pioneercdj3000",
+      "name": "Pioneer CDJ-3000",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/dj-players/CDJ-3000/CDJ3000_MIDI_Message_List_E108.pdf",
+        "sha256": "44b7d91661fe4b219ab3ee05719ba7ccf4521b78aa7ee09358b4ec53de98c1aa",
+        "pages": [
+          3,
+          4,
+          5
+        ]
+      },
+      "implementedInputCount": 52,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneercdj3000x",
+      "name": "AlphaTheta CDJ-3000X",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/dj-players/CDJ-3000X/CDJ3000X_MIDI_Message_List_En.pdf",
+        "sha256": "e42a4b576d24543bbf80c0798b75b27490925510a28beb7beead7e48aac1a429",
+        "pages": [
+          3,
+          4
+        ]
+      },
+      "implementedInputCount": 50,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneercdj2000nxs2",
+      "name": "Pioneer CDJ-2000NXS2",
+      "transport": "midi",
+      "source": {
+        "url": "https://manuals.plus/m/787a668a0d6bc06e184a4e451d34905d65311bad6c128215e91bf56c6e74e6b3_optim.pdf",
+        "sha256": null,
+        "pages": [
+          38
+        ],
+        "review": "Factory operating manual, web text. Local download unavailable."
+      },
+      "implementedInputCount": 36,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneercdj1500x",
+      "name": "AlphaTheta CDJ-1500X",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/dj-players/CDJ-1500X/CDJ-1500X_MIDI_Message_List_E1.pdf",
+        "sha256": "64581d4eda2ded25baa2d3187e682f19bed7de09078a580cf7dabb418727d017",
+        "pages": [
+          3,
+          4
+        ]
+      },
+      "implementedInputCount": 47,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneercdj2000nxs",
+      "name": "Pioneer CDJ-2000NXS",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.manualslib.com/manual/712075/Pioneer-Cdj-2000nxs.html?page=42",
+        "sha256": null,
+        "pages": [
+          42
+        ],
+        "review": "Factory operating manual, web text. Local PDF unavailable."
+      },
+      "implementedInputCount": 19,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneercdj900nxs",
+      "name": "Pioneer CDJ-900NXS",
+      "transport": "midi",
+      "source": {
+        "url": "https://warehousesound.com/r/pioneerCDJ900NXSmanual.pdf",
+        "sha256": "54049f095083848e833fddb39142ade205780bea3620d864fe1ee33ec969f97b",
+        "pages": [
+          36
+        ]
+      },
+      "implementedInputCount": 15,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
     }
   ],
   "releaseGate": {
@@ -302004,7 +303007,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 249,
+      "targetModels": 255,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

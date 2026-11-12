@@ -2,7 +2,8 @@ import Foundation
 
 public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     case absolute, paired14Bit, twosComplement, binaryOffset, signedBit
-    public var isRelative: Bool { self != .absolute && self != .paired14Bit }
+    case cdjPlatterSpeed, cdjRingSpeed, cdjTempo, needlePosition
+    public var isRelative: Bool { [.twosComplement, .binaryOffset, .signedBit].contains(self) }
     public var title: String {
         switch self {
         case .absolute: "Knob / fader"
@@ -10,6 +11,10 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         case .twosComplement: "Encoder: 1 / 127"
         case .binaryOffset: "Encoder: 65 / 63"
         case .signedBit: "Encoder: 1 / 65"
+        case .cdjPlatterSpeed: "CDJ platter speed"
+        case .cdjRingSpeed: "CDJ wheel-side speed"
+        case .cdjTempo: "CDJ tempo slider"
+        case .needlePosition: "Waveform position"
         }
     }
 }
@@ -46,6 +51,24 @@ public struct ControllerMIDIValueState: Sendable {
         guard message.number == number else { return nil }
         if encoding == .absolute { return .absolute(message.normalized) }
         guard message.kind == .control, message.maximum <= 127 else { return nil }
+        if encoding == .cdjTempo {
+            let delta = message.value - 64
+            return .absolute(0.5 + Double(delta) / (delta > 0 ? 126 : 128))
+        }
+        if encoding == .needlePosition {
+            return message.value == 0 ? nil : .absolute(Double(message.value - 1) / 126)
+        }
+        if encoding == .cdjPlatterSpeed || encoding == .cdjRingSpeed {
+            let delta = message.value - 64
+            guard delta != 0 else { return .absolute(0.5) }
+            let magnitude = abs(delta)
+            let maximum = delta > 0 ? 63 : 64
+            let speed =
+                encoding == .cdjPlatterSpeed
+                ? Double(magnitude) * 4 / Double(maximum)
+                : 0.5 + Double(magnitude - 1) * 3.5 / Double(maximum - 1)
+            return .absolute(0.5 + (delta > 0 ? speed : -speed) / 8)
+        }
         switch encoding {
         case .twosComplement: return .relative(Double(message.value < 64 ? message.value : message.value - 128))
         case .binaryOffset: return .relative(Double(message.value - 64))

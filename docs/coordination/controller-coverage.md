@@ -1,8 +1,65 @@
 # Controller coverage
 
-Request R23. Updated 11 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
+Request R23. Updated 12 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
-## R174 theoretical support and separate physical evidence
+## R176 club-player MIDI controls
+
+Six club players now have automatic core MIDI profiles in the requested controller worktree.
+The order balances established models and recent releases. It is an implementation order, not a measured global sales ranking.
+
+| Order | Model | Hot Cues | Fixed beat loops | Beat Jump |
+| ---: | --- | ---: | --- | --- |
+| 1 | CDJ-3000 | 8 | 1/16–32 beats | GUI 1/2–64 beats. Physical buttons send 16 beats. |
+| 2 | CDJ-3000X | 8 | 1/4–32 beats | GUI 1/2–64 beats. Physical buttons use the app's selected size. |
+| 3 | CDJ-2000NXS2 | 8 | 1/16–32 beats | GUI buttons use the app's selected size. |
+| 4 | CDJ-1500X | 8 | 1/2–16 beats | GUI 1/2–64 beats. |
+| 5 | CDJ-2000NXS | 3 | Not mapped | Not mapped |
+| 6 | CDJ-900NXS | 0 | 4 beats | Not mapped |
+
+All six profiles cover Play, Cue, Sync, Master Tempo, platter touch/speed, wheel-side jog, tempo, browse/load and loop in/out/exit.
+Reloop restores the existing loop points. Cue retains the app's existing set/return behaviour.
+Needle position is available where the factory table specifies it. Its release message does not seek to the start.
+Tempo Reset is available on the 3000, 3000X, NXS2 and original 2000NXS.
+Tempo retains the app's existing ±8% range. Hardware range selection remains open.
+
+The hardware must enter Software Control / USB-MIDI mode. The app then selects its profile without a mapping choice.
+Two players receive separate A/B assignments, even when both use the same MIDI channel.
+Connected assignments take priority over saved identities and newly connected players.
+Saved endpoint identities retain their deck choices. New identities receive an available deck.
+The deck picker swaps occupied assignments and releases held touches before rebinding.
+Enable choices and learned mappings remain specific to each player identity.
+Default controls follow a deck swap. An explicitly learned A/B target retains that choice.
+C/D require the existing four-deck trial. The base mode does not assign extra players to hidden decks.
+
+### Remaining club-player scope
+
+These profiles implement MIDI input. HID, player screens, lighting and automatic routing across multiple audio interfaces remain open.
+The factory MIDI input tables do not define those output protocols.
+The pinned Mixxx HID definition names older CDJ-850/900/2000 devices. It does not establish modern CDJ HID support.
+Full theoretical support also requires the remaining hardware modes, shifted controls, tempo ranges, memory cues and complete protocol fixtures.
+Slip loops, triplet loops and hot-cue editing remain outside this core scope.
+Variable-size jump messages do not report their hardware size. They use the app's selected beat size.
+
+The catalogue now contains 262 records and 113 data recipes, alongside seven code profiles.
+Twenty-three factory profiles select core controls automatically. The larger recipe count includes partial manual mappings.
+These counts do not establish Serato feature parity or full zero-config support.
+
+Factory references and reviewed pages are in [`cdj.py`](../../tools/controller_profiles/cdj.py) and the [JSON catalogue](controller-catalogue.json).
+Four downloaded documents have content hashes. The two older web-reviewed manuals retain null hashes and explicit evidence notes.
+The app bundles normalised MIDI facts and does not execute downloaded scripts.
+Source base: `682e108` on `feature/controller-support`. Validation evidence: `TestBuilds/r175/`.
+
+### Verification
+
+All 56 focused Swift checks and 14 importer checks passed.
+Fixtures cover each generation, all MIDI channels, two-player assignment, disconnect, reconnect, deck swaps, held touches and learned mappings.
+The track fixture verifies fixed loop/jump sizes, needle seek, loop in/out, Reloop and the saved Sync choice.
+Native iPad compilation passed. The bundled profile resource matches the source hash.
+All 107 existing data recipes remain unchanged. This increment adds six profiles.
+The repository check retains 12 existing historical link failures.
+No signed app, installation, connected-controller check or A10X performance acceptance forms part of this increment.
+
+## R175 theoretical support and separate physical evidence
 
 Erik clarified the completion target on 12 November 2026. Implement documented theoretical support across the catalogue.
 Physical verification is a separate confidence state. Owning or testing every controller is not a completion requirement.
@@ -22,6 +79,10 @@ All 43 focused Swift checks and 13 importer checks passed. Simulated MIDI covers
 Native iPad compilation passed. No app installation or physical-controller test forms part of this increment.
 Full theoretical coverage remains unfinished because implementation and complete protocol-fixture gaps remain.
 Source: branch `feature/controller-support`, based on `c457916`. Evidence: `TestBuilds/r174/`.
+
+This request first used R174 in isolated commit `682e108`.
+Main later allocated R174 to artwork work. This worktree now uses R175 for theoretical support and R176 for club players.
+The evidence folders retain their original names.
 
 ## R169 complete source catalogue
 

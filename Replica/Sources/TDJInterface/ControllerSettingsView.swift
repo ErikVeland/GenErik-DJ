@@ -174,6 +174,18 @@ struct ControllerSettingsView: View {
                                 }))
                     }
                     if input.isInputActive(source.id), !input.originalZ1Bridge {
+                        if let deck = input.playerDeck(source: source.id) {
+                            Picker(
+                                "Deck",
+                                selection: Binding(
+                                    get: { input.playerDeck(source: source.id) ?? deck },
+                                    set: { input.setPlayerDeck($0, source: source.id) })
+                            ) {
+                                ForEach(input.availablePlayerDecks, id: \.self) { deck in
+                                    Text(deck.rawValue.uppercased()).tag(deck)
+                                }
+                            }
+                        }
                         if let profile = ControllerFactoryProfile.matching([source.name]) {
                             Button("Load \(profile.rawValue) controls") { confirmation = .controls(profile) }
                             if let scope = profile.definition?.scope {
@@ -242,7 +254,7 @@ struct ControllerSettingsView: View {
                 .accessibilityLabel("Find a MIDI control")
             ForEach(
                 ControllerAction.allCases.filter {
-                    learnSearch.isEmpty || $0.title.localizedCaseInsensitiveContains(learnSearch)
+                    $0.isLearnable && (learnSearch.isEmpty || $0.title.localizedCaseInsensitiveContains(learnSearch))
                 }
             ) { action in
                 HStack {

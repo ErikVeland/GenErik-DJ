@@ -1,4 +1,5 @@
 import Foundation
+import TDJCore
 
 struct ControllerFactoryProfile: RawRepresentable, Hashable, CaseIterable, Codable, Sendable {
     let rawValue: String
@@ -48,6 +49,7 @@ struct ControllerFactoryProfile: RawRepresentable, Hashable, CaseIterable, Codab
 
     var definition: ControllerProfileData? { Self.data[rawValue] }
     var selectsAutomatically: Bool { definition?.autoSelect ?? true }
+    var isPlayer: Bool { definition?.role == "player" }
 
     /**
      * Exact names retain model boundaries. Shared aliases remain ambiguous.
@@ -65,7 +67,7 @@ struct ControllerFactoryProfile: RawRepresentable, Hashable, CaseIterable, Codab
         name.lowercased().filter { $0.isLetter || $0.isNumber }
     }
 
-    @MainActor func bindings(source: Int32) -> [ControllerBinding] {
+    @MainActor func bindings(source: Int32, playerDeck: DeckID? = nil) -> [ControllerBinding] {
         switch self {
         case .flx4: return ControllerMIDIConnection.ddjFLX4Bindings(source: source)
         case .flx2: return ControllerMIDIConnection.ddjFLX2Bindings(source: source)
@@ -74,7 +76,15 @@ struct ControllerFactoryProfile: RawRepresentable, Hashable, CaseIterable, Codab
         case .rev1: return ControllerMIDIConnection.ddjREV1Bindings(source: source)
         case .rev5: return ControllerMIDIConnection.ddjREV5Bindings(source: source)
         case .ddj1000: return ControllerMIDIConnection.ddj1000Bindings(source: source)
-        default: return definition?.inputs.map { $0.binding(source: source) } ?? []
+        default:
+            return definition?.inputs.map { input in
+                var binding = input.binding(source: source)
+                if isPlayer, let playerDeck, binding.targetDeck != nil {
+                    binding.targetDeck = playerDeck
+                    binding.action = binding.action.assigned(to: playerDeck)
+                }
+                return binding
+            } ?? []
         }
     }
     @MainActor func feedback(destination: Int32) -> [ControllerFeedbackBinding] {
@@ -104,6 +114,7 @@ struct ControllerFactorySession: Equatable, Sendable {
     let destination: Int32?
     let sourceReference: UInt32?
     let destinationReference: UInt32?
+    var playerDeck: DeckID? = nil
 
     /**
      * Pairs one input and output on the same physical device. Ambiguous ports remain unpaired.

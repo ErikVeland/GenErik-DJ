@@ -11,6 +11,7 @@ from curated import curated_profiles, REFERENCES
 from sources import canonical, manufacturer, read_serato, split_models
 from reviewed import REVIEWED
 from support import theoretical_support, theoretical_gate
+from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY, CDJ_GAPS
 
 LEGACY = {"Pioneer DDJ-FLX4": "DDJ-FLX4", "AlphaTheta DDJ-FLX2": "DDJ-FLX2",
           "Pioneer DDJ-400": "DDJ-400", "Pioneer DDJ-FLX10": "DDJ-FLX10",
@@ -87,7 +88,7 @@ def build(cache, serato_html):
                      profile=name, role="accessory" if name.startswith(("X1", "F1", "D2")) else "primary")
     add_model("Reloop Beatpad", "docs/coordination/beatpad-native.md").update(implementation="native-midi", profile="Beatpad")
 
-    reviewed = curated_profiles()
+    reviewed = curated_profiles() + cdj_profiles()
     reviewed_ids = {canonical(item["id"]) for item in reviewed}
     for path in sorted((cache / "res/controllers").glob("*.xml")):
         reference = refs[path.name]
@@ -135,11 +136,14 @@ def build(cache, serato_html):
         model.update(implementation="automatic-core-profile", profile=item["id"], automaticControls=True)
         model["definitions"].append(item["definition"])
         reference = REFERENCES.get(item["id"])
+        source = CDJ_REFERENCES.get(item["id"]) or {"url": item["source"],
+            "sha256": reference[1] if reference else "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"}
         definitions.append({"id": item["definition"], "name": item["id"], "transport": "midi",
-                            "source": {"url": item["source"], "sha256": reference[1] if reference else "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"},
+                            "source": source,
                             "implementedInputCount": len(item["inputs"]), "implementedOutputCount": len(item["outputs"]),
                             "sourceInputCount": None, "sourceOutputCount": None,
-                            "unresolved": [{"reason": "Additional modes, FX, displays and audio routing remain unimplemented."}]})
+                            "unresolved": [{"reason": gap} for gap in CDJ_GAPS] if item.get("role") == "player" else
+                            [{"reason": "Additional modes, FX, displays and audio routing remain unimplemented."}]})
     profiles.extend(reviewed)
     # Alternative mappings stay in the source inventory. One deterministic recipe serves each model.
     choices = {}
@@ -178,10 +182,20 @@ def build(cache, serato_html):
             model["gaps"].append("A controller-specific protocol adapter is required.")
         elif model["implementation"] == "partial-midi-profile":
             model["gaps"].append("Untranslated controls and script behaviour remain in the linked definition records.")
+        if profile and profile.get("role") == "player":
+            model["playerSupport"] = {"requiredHardwareMode": "Software Control / USB-MIDI", "midiInputImplemented": True,
+                                      "automaticDeckAssignment": True, "hidImplemented": False, "displayFeedbackImplemented": False,
+                                      "ledFeedbackImplemented": False, "automaticMultiDeviceAudioImplemented": False}
+            model["gaps"].extend(CDJ_GAPS)
         model["priority"] = {"regionalSalesRank": SALES.get(model["id"]),
                              "brandTier": 0 if model["manufacturer"] in {"Pioneer", "AlphaTheta"} else 1,
                              "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown."}
-    ordered = sorted(models.values(), key=lambda model: (model["priority"]["regionalSalesRank"] or 100,
+        priorities = [canonical(name) for name in CLUB_PRIORITY]
+        model["priority"]["clubImplementationOrder"] = priorities.index(model["id"]) + 1 if model["id"] in priorities else None
+        if model["priority"]["clubImplementationOrder"]:
+            model["priority"]["basis"] = "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown."
+    ordered = sorted(models.values(), key=lambda model: (model["priority"]["clubImplementationOrder"] or 1000,
+                     model["priority"]["regionalSalesRank"] or 100,
                      model["priority"]["brandTier"], model["manufacturer"], model["name"]))
     catalogue = {"schemaVersion": 1, "reviewed": "2026-11-12", "upstreamRevision": manifest["revision"],
                  "benchmarkSource": {"url": locked["benchmark"]["url"],

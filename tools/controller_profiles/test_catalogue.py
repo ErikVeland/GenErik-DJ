@@ -13,6 +13,8 @@ from fetch_reference import fetch, git_blob_hash
 from sources import canonical, split_models
 from reviewed import REVIEWED
 from support import theoretical_support, theoretical_gate
+from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
+from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -67,11 +69,25 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles():
+        for profile in curated_profiles() + cdj_profiles():
             addresses = [(item["kind"], item["channel"], item["number"]) for item in profile["inputs"]]
             self.assertEqual(len(addresses), len(set(addresses)), profile["id"])
             self.assertLessEqual(len(profile["inputs"]), 512)
             self.assertLessEqual(len(profile["outputs"]), 128)
+
+    def test_club_players_use_only_reviewed_model_facts(self):
+        profiles = {item["id"]: item for item in cdj_profiles()}
+        self.assertEqual(set(profiles), set(CDJ_REFERENCES))
+        for name, item in profiles.items():
+            self.assertEqual(item["role"], "player")
+            self.assertTrue(item["autoSelect"])
+            self.assertTrue(all(binding["anyChannel"] for binding in item["inputs"]))
+            self.assertEqual(item["outputs"], [])
+        nxs = profiles["Pioneer CDJ-2000NXS"]
+        self.assertEqual(len([item for item in nxs["inputs"] if item["action"].startswith("hotcue")]), 3)
+        compact = profiles["Pioneer CDJ-900NXS"]
+        self.assertFalse(any(item["action"].startswith(("hotcue", "seek", "tempoReset")) for item in compact["inputs"]))
+        self.assertIsNone(CDJ_REFERENCES["Pioneer CDJ-2000NXS2"]["sha256"])
 
     def test_feedback_range_preserves_reverse_polarity_and_cc_lights(self):
         output = "<output><group>[Channel1]</group><key>play</key><status>0xB0</status><midino>11</midino><minimum>0</minimum><maximum>0.1</maximum><on>127</on><off>1</off></output>"
@@ -130,6 +146,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
         catalogue, runtime = build(cache, None)
         self.assertEqual(catalogue, json.loads((ROOT / "docs/coordination/controller-catalogue.json").read_text()))
         self.assertEqual(runtime, json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text()))
+        self.assertEqual(report(catalogue, runtime), (ROOT / "docs/coordination/controller-catalogue.md").read_text())
         model_ids = {model["id"] for model in catalogue["models"]}
         for row in catalogue["benchmarkRows"]:
             for name in split_models(row["name"]):
@@ -142,6 +159,12 @@ class GeneratedCatalogueTests(unittest.TestCase):
         self.assertFalse(catalogue["releaseGate"]["hardwareParityAccepted"])
         self.assertTrue(all(not model["releaseReady"] for model in catalogue["models"]))
         self.assertFalse(catalogue["releaseGate"]["theoreticalSupport"]["requiresPhysicalTestForEveryModel"])
+        club = sorted((model for model in catalogue["models"] if model["priority"]["clubImplementationOrder"]),
+                      key=lambda model: model["priority"]["clubImplementationOrder"])
+        self.assertEqual([model["id"] for model in club], [canonical(name) for name in CLUB_PRIORITY])
+        self.assertTrue(all(model["playerSupport"]["automaticDeckAssignment"] for model in club))
+        self.assertTrue(all(not model["playerSupport"]["hidImplemented"] for model in club))
+        self.assertTrue(all(not model["theoreticalSupport"]["complete"] for model in club))
         profiles = {profile["id"]: profile for profile in runtime["profiles"]}
         for model in ["Hercules DJControl Inpulse 200", "Hercules DJControl Inpulse 300", "Hercules DJControl Starlight"]:
             self.assertTrue(profiles[model]["autoSelect"])

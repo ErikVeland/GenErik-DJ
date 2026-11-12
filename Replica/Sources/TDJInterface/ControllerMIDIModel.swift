@@ -4,7 +4,7 @@ import TDJCore
 extension ReplicaModel {
     func configureControllerMIDI() {
         controllerInput.onTargetAction = { [weak self] target, value in
-            self?.applyController(target.action, value: value, targetDeck: target.deck)
+            self?.applyController(target.action, value: value, targetDeck: target.deck, argument: target.argument)
         }
         controllerInput.currentTargetValue = { [weak self] target in
             self?.controllerValue(target.action, targetDeck: target.deck)
@@ -86,7 +86,8 @@ extension ReplicaModel {
         }
     }
     func applyController(
-        _ action: ControllerAction, value: Double, refreshMixer: Bool = true, targetDeck: DeckID? = nil
+        _ action: ControllerAction, value: Double, refreshMixer: Bool = true, targetDeck: DeckID? = nil,
+        argument: Double? = nil
     ) {
         guard value.isFinite, (0...1).contains(value) else { return }
         let deck = targetDeck ?? action.deck
@@ -117,6 +118,32 @@ extension ReplicaModel {
         case .master: mix(.master, value: value)
         case .monitor: mix(.monitor, value: value)
         case .tempoA, .tempoB: setDeckTempo(percent: value * 16 - 8, deck: deck)
+        case .tempoResetA, .tempoResetB: setDeckTempo(percent: 0, deck: deck)
+        case .seekA, .seekB:
+            if let track = track(deck) { jump(value * max(0, Double(track.analysis.frameCount) - 1), deck: deck) }
+        case .fixedJumpA, .fixedJumpB:
+            if let argument, argument.isFinite, abs(argument) <= 64 { beatJump(beats: argument, deck: deck) }
+        case .fixedLoopA, .fixedLoopB:
+            if let argument, PerformancePreparation.loopSizes.contains(argument) {
+                setLoopSize(argument, deck: deck)
+                if playbackSnapshot?[deck].loopEnabled != true { toggleLoop(deck: deck) }
+            }
+        case .loopInA, .loopInB:
+            if let state = playbackSnapshot?[deck], state.generation != 0 {
+                controllerLoopStarts[deck] = (state.generation, snappedFrame(state.sourceFrame, deck: deck))
+            }
+        case .loopOutA, .loopOutB:
+            if let state = playbackSnapshot?[deck], let start = controllerLoopStarts[deck],
+                state.generation == start.generation
+            {
+                let end = snappedFrame(state.sourceFrame, deck: deck)
+                if end > start.frame { setLoop(start: start.frame, end: end, deck: deck) }
+            }
+        case .reloopA, .reloopB:
+            if let state = playbackSnapshot?[deck] {
+                if state.loopEnabled { perform(.loop, deck: deck, enabled: false) }
+                else if state.loopEnd > state.loopStart { setLoop(start: state.loopStart, end: state.loopEnd, deck: deck) }
+            }
         case .loopA, .loopB: toggleLoop(deck: deck)
         case .loopUpA, .loopUpB: stepLoopSize(direction: 1, deck: deck)
         case .loopDownA, .loopDownB: stepLoopSize(direction: -1, deck: deck)
