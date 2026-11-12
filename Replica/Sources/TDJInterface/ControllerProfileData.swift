@@ -59,7 +59,7 @@ struct ControllerProfileData: Decodable, Sendable {
                     && ($0.encoding != .paired14Bit || ($0.kind == .control && $0.number < 32))
                     && ($0.anyChannel != true || role == "player")
                     && Self.validArgument($0)
-                    && (![.cdjPlatterSpeed, .cdjRingSpeed, .cdjTempo, .needlePosition].contains($0.encoding)
+                    && (![.cdjPlatterSpeed, .cdjRingSpeed, .cdj350PlatterSpeed, .cdjTempo, .needlePosition].contains($0.encoding)
                         || $0.kind == .control)
             }
             && outputs.allSatisfy {

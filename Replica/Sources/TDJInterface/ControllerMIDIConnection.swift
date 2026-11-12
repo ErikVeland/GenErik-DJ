@@ -17,6 +17,8 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case fixedLoopA, fixedLoopB, fixedJumpA, fixedJumpB, loopInA, loopInB, loopOutA, loopOutB
     case seekA, seekB, tempoResetA, tempoResetB
     case reloopA, reloopB
+    case loopDivideA, loopDivideB, loopRestoreA, loopRestoreB
+    case reloopOriginalA, reloopOriginalB
     case hotcue1A, hotcue2A, hotcue3A, hotcue4A, hotcue5A, hotcue6A, hotcue7A, hotcue8A
     case hotcue1B, hotcue2B, hotcue3B, hotcue4B, hotcue5B, hotcue6B, hotcue7B, hotcue8B
     var id: String { rawValue }
@@ -45,6 +47,8 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
             "fixedLoop": "Fixed beat loop", "fixedJump": "Fixed beat jump", "loopIn": "Loop in", "loopOut": "Loop out",
             "seek": "Waveform position", "tempoReset": "Tempo reset",
             "reloop": "Reloop / exit",
+            "loopDivide": "Divide loop", "loopRestore": "Restore loop length",
+            "reloopOriginal": "Reloop original / exit",
         ]
         return "\(deck.rawValue.uppercased()) · \(labels[String(rawValue.dropLast())] ?? rawValue)"
     }
@@ -1956,7 +1960,13 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 } else if binding.action.isBrowserEncoder {
                     let previousDelta = ((pendingValues[binding.target] ?? 0.5) - 0.5) * 126
                     let signedDelta = binding.inverted == true ? -delta : delta
-                    value = 0.5 + min(63, max(-63, previousDelta + signedDelta)) / 126
+                    var accumulated = previousDelta + signedDelta
+                    while abs(accumulated) > 63 {
+                        let chunk = min(63, max(-63, accumulated))
+                        sendAction(binding.target, value: 0.5 + chunk / 126)
+                        accumulated -= chunk
+                    }
+                    value = 0.5 + accumulated / 126
                 } else if let target = pendingValues[binding.target] ?? lookupValue(binding.target) {
                     guard target.isFinite else { continue }
                     value = min(1, max(0, target + (binding.inverted == true ? -delta : delta) / 127))

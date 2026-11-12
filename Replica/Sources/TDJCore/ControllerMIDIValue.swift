@@ -2,7 +2,7 @@ import Foundation
 
 public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     case absolute, paired14Bit, twosComplement, binaryOffset, signedBit
-    case cdjPlatterSpeed, cdjRingSpeed, cdjTempo, needlePosition
+    case cdjPlatterSpeed, cdjRingSpeed, cdj350PlatterSpeed, cdjTempo, needlePosition
     public var isRelative: Bool { [.twosComplement, .binaryOffset, .signedBit].contains(self) }
     public var title: String {
         switch self {
@@ -13,6 +13,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         case .signedBit: "Encoder: 1 / 65"
         case .cdjPlatterSpeed: "CDJ platter speed"
         case .cdjRingSpeed: "CDJ wheel-side speed"
+        case .cdj350PlatterSpeed: "CDJ-350 platter speed"
         case .cdjTempo: "CDJ tempo slider"
         case .needlePosition: "Waveform position"
         }
@@ -58,13 +59,13 @@ public struct ControllerMIDIValueState: Sendable {
         if encoding == .needlePosition {
             return message.value == 0 ? nil : .absolute(Double(message.value - 1) / 126)
         }
-        if encoding == .cdjPlatterSpeed || encoding == .cdjRingSpeed {
+        if encoding == .cdjPlatterSpeed || encoding == .cdjRingSpeed || encoding == .cdj350PlatterSpeed {
             let delta = message.value - 64
             guard delta != 0 else { return .absolute(0.5) }
             let magnitude = abs(delta)
             let maximum = delta > 0 ? 63 : 64
             let speed =
-                encoding == .cdjPlatterSpeed
+                encoding == .cdjPlatterSpeed || (encoding == .cdj350PlatterSpeed && delta > 0)
                 ? Double(magnitude) * 4 / Double(maximum)
                 : 0.5 + Double(magnitude - 1) * 3.5 / Double(maximum - 1)
             return .absolute(0.5 + (delta > 0 ? speed : -speed) / 8)

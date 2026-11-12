@@ -7,9 +7,9 @@ Reviewed 12 November 2026. This catalogue is complete for the defined source bou
 - 121 published Serato iOS rows, expanded to 122 distinct model records.
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
-- 262 total catalogue records. 255 name physical models. The remainder identify software endpoints or protocol families.
-- 113 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
-- 23 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+- 268 total catalogue records. 261 name physical models. The remainder identify software endpoints or protocol families.
+- 119 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
+- 32 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -28,10 +28,10 @@ The first five models in the reviewed Coolblue regional sales list have automati
 Pioneer/AlphaTheta remains the first brand tier, based on the 2026 Digital DJ Tips census. The survey is not a global model-sales ranking.
 Other models have no claimed popularity rank. Within that tier, finish documented protocols and startup messages before unknown proprietary protocols.
 
-## Club players — R176
+## Club and XDJ players — R176/R177
 
 The club-player order balances established models and recent releases. It is an implementation order, not a measured global sales ranking.
-All six players select core controls automatically after the hardware enters Software Control / USB-MIDI mode.
+All 15 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
 Connected players receive separate A/B assignments. Saved endpoint identities retain their assignments. C/D require the existing four-deck trial.
 HID, screens, lights and automatic routing across multiple player audio interfaces remain unimplemented.
 
@@ -43,20 +43,29 @@ HID, screens, lights and automatic routing across multiple player audio interfac
 | 4 | AlphaTheta CDJ-1500X | Automatic | Open |
 | 5 | Pioneer CDJ-2000NXS | Automatic | Open |
 | 6 | Pioneer CDJ-900NXS | Automatic | Open |
+| 7 | Pioneer XDJ-1000MK2 | Automatic | Open |
+| 8 | Pioneer XDJ-700 | Automatic | Open |
+| 9 | Pioneer XDJ-1000 | Automatic | Open |
+| 10 | Pioneer CDJ-2000 | Automatic | Open |
+| 11 | Pioneer CDJ-900 | Automatic | Open |
+| 12 | Pioneer CDJ-850 | Automatic | Open |
+| 13 | Pioneer CDJ-350 | Automatic | Open |
+| 14 | Pioneer CDJ-400 | Automatic | Open |
+| 15 | Pioneer CDJ-TOUR1 | Automatic | Open |
 
-See [the R176 scope and evidence](controller-coverage.md#r176-club-player-midi-controls).
+See [R176 club-player controls](controller-coverage.md#r176-club-player-midi-controls) and [R177 earlier-player controls](controller-coverage.md#r177-xdj-and-earlier-cdj-controls).
 
 ## Implementation states
 
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 40 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 11 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 20 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 7 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 104 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| partial-midi-profile | 101 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
 | protocol-needed | 81 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
@@ -206,15 +215,21 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | --- | --- | --- | --- |
 | Pioneer CDJ-3000 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-players/CDJ-3000/CDJ3000_MIDI_Message_List_E108.pdf) |
 | AlphaTheta CDJ-3000X | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-players/CDJ-3000X/CDJ3000X_MIDI_Message_List_En.pdf) |
-| Pioneer CDJ-2000NXS2 | primary | automatic-core-profile | [Reference](https://manuals.plus/m/787a668a0d6bc06e184a4e451d34905d65311bad6c128215e91bf56c6e74e6b3_optim.pdf) |
+| Pioneer CDJ-2000NXS2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/manuals/dj-players/CDJ-2000NXS2/CDJ-2000NXS2_DRI1290A_manual.pdf) |
 | AlphaTheta CDJ-1500X | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-players/CDJ-1500X/CDJ-1500X_MIDI_Message_List_E1.pdf) |
-| Pioneer CDJ-2000NXS | primary | automatic-core-profile | [Reference](https://www.manualslib.com/manual/712075/Pioneer-Cdj-2000nxs.html?page=42) |
+| Pioneer CDJ-2000NXS | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/manuals/CDJ_2000NXS_DRI1052_manual.pdf) |
 | Pioneer CDJ-900NXS | primary | automatic-core-profile | [Reference](https://warehousesound.com/r/pioneerCDJ900NXSmanual.pdf) |
+| Pioneer XDJ-1000MK2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/manuals/dj-players/XDJ-1000MK2/XDJ-1000MK2_DRI1396B_manual.pdf) |
+| Pioneer XDJ-700 | primary | automatic-core-profile | [Reference](https://manualsfile.com/product/zq8xt8y56.html) |
+| Pioneer XDJ-1000 | primary | automatic-core-profile | [Reference](https://www.allfordj.ru/upload/iblock/e25/rukovodstvo_polzovatelya_pioneer_xdj_1000_usb.pdf) |
+| Pioneer CDJ-2000 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-2000.midi.xml) |
+| Pioneer CDJ-900 | primary | automatic-core-profile | [Reference](https://c7.zzounds.com/media/CDJ-900_OperatingInstructions1006-5d13ba1bdb7b74a71c99d9e7e959040f.pdf) |
+| Pioneer CDJ-850 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-850.midi.xml) |
+| Pioneer CDJ-350 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-350%20Ch1.midi.xml) |
+| Pioneer CDJ-400 | primary | automatic-core-profile | [Reference](https://www.m3-eventtechnik.at/sites/default/files/dateien/verleih/cdj-400_manual_en_fr_de_nl_it_es_rupdf.pdf) |
+| Pioneer CDJ-TOUR1 | primary | automatic-core-profile | [Reference](https://www.l-e.sk/amfile/file/download/file/7038/product/14628/) |
 | Pioneer XDJ-RR | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RR/XDJ-RR_List_of_MIDI_Message_ver101_e.pdf) |
 | Pioneer CDJ HID | protocol-family | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ%20HID.hid.xml) |
-| Pioneer CDJ-2000 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-2000.midi.xml) |
-| Pioneer CDJ-350 CH1 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-350%20Ch1.midi.xml) |
-| Pioneer CDJ-850 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-850.midi.xml) |
 | Pioneer DDJ-1000 | primary | automatic-profile | [Reference](../../Replica/Sources/TDJInterface/ControllerPioneerProfiles.swift) |
 | Akai LPD8 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai-LPD8-RK.midi.xml) |
 | Akai MPD24 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai%20MPD24.midi.xml) |

@@ -819,6 +819,11 @@
       "playerSupport": {
         "requiredHardwareMode": "Software Control / USB-MIDI",
         "midiInputImplemented": true,
+        "recognisedNames": [
+          "Pioneer CDJ-3000",
+          "CDJ-3000",
+          "Pioneer DJ CDJ-3000"
+        ],
         "automaticDeckAssignment": true,
         "hidImplemented": false,
         "displayFeedbackImplemented": false,
@@ -917,6 +922,10 @@
       "playerSupport": {
         "requiredHardwareMode": "Software Control / USB-MIDI",
         "midiInputImplemented": true,
+        "recognisedNames": [
+          "AlphaTheta CDJ-3000X",
+          "CDJ-3000X"
+        ],
         "automaticDeckAssignment": true,
         "hidImplemented": false,
         "displayFeedbackImplemented": false,
@@ -937,7 +946,7 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://manuals.plus/m/787a668a0d6bc06e184a4e451d34905d65311bad6c128215e91bf56c6e74e6b3_optim.pdf"
+        "https://downloads.support.alphatheta.com/manuals/dj-players/CDJ-2000NXS2/CDJ-2000NXS2_DRI1290A_manual.pdf"
       ],
       "definitions": [
         "manufacturer:pioneercdj2000nxs2"
@@ -1014,6 +1023,11 @@
       "playerSupport": {
         "requiredHardwareMode": "Software Control / USB-MIDI",
         "midiInputImplemented": true,
+        "recognisedNames": [
+          "Pioneer CDJ-2000NXS2",
+          "CDJ-2000NXS2",
+          "Pioneer DJ CDJ-2000NXS2"
+        ],
         "automaticDeckAssignment": true,
         "hidImplemented": false,
         "displayFeedbackImplemented": false,
@@ -1110,6 +1124,10 @@
       "playerSupport": {
         "requiredHardwareMode": "Software Control / USB-MIDI",
         "midiInputImplemented": true,
+        "recognisedNames": [
+          "AlphaTheta CDJ-1500X",
+          "CDJ-1500X"
+        ],
         "automaticDeckAssignment": true,
         "hidImplemented": false,
         "displayFeedbackImplemented": false,
@@ -1130,7 +1148,7 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://www.manualslib.com/manual/712075/Pioneer-Cdj-2000nxs.html?page=42"
+        "https://downloads.support.alphatheta.com/manuals/CDJ_2000NXS_DRI1052_manual.pdf"
       ],
       "definitions": [
         "manufacturer:pioneercdj2000nxs"
@@ -1199,6 +1217,14 @@
       "playerSupport": {
         "requiredHardwareMode": "Software Control / USB-MIDI",
         "midiInputImplemented": true,
+        "recognisedNames": [
+          "Pioneer CDJ-2000NXS",
+          "CDJ-2000NXS",
+          "Pioneer DJ CDJ-2000NXS",
+          "Pioneer CDJ-2000nexus",
+          "CDJ-2000nexus",
+          "Pioneer DJ CDJ-2000nexus"
+        ],
         "automaticDeckAssignment": true,
         "hidImplemented": false,
         "displayFeedbackImplemented": false,
@@ -1284,6 +1310,14 @@
       "playerSupport": {
         "requiredHardwareMode": "Software Control / USB-MIDI",
         "midiInputImplemented": true,
+        "recognisedNames": [
+          "Pioneer CDJ-900NXS",
+          "CDJ-900NXS",
+          "Pioneer DJ CDJ-900NXS",
+          "Pioneer CDJ-900nexus",
+          "CDJ-900nexus",
+          "Pioneer DJ CDJ-900nexus"
+        ],
         "automaticDeckAssignment": true,
         "hidImplemented": false,
         "displayFeedbackImplemented": false,
@@ -1295,6 +1329,861 @@
         "brandTier": 0,
         "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
         "clubImplementationOrder": 6
+      }
+    },
+    {
+      "id": "pioneerxdj1000mk2",
+      "name": "Pioneer XDJ-1000MK2",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://downloads.support.alphatheta.com/manuals/dj-players/XDJ-1000MK2/XDJ-1000MK2_DRI1396B_manual.pdf"
+      ],
+      "definitions": [
+        "manufacturer:pioneerxdj1000mk2"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer XDJ-1000MK2",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueReturnA:a",
+        "fixedJumpA:a",
+        "fixedLoopA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "hotcue4A:a",
+        "hotcue5A:a",
+        "hotcue6A:a",
+        "hotcue7A:a",
+        "hotcue8A:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "playA:a",
+        "reloopA:a",
+        "seekA:a",
+        "syncA:a",
+        "tempoA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 41,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "Control Mode / USB-MIDI",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Pioneer XDJ-1000MK2",
+          "XDJ-1000MK2",
+          "Pioneer DJ XDJ-1000MK2"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
+        "clubImplementationOrder": 7
+      }
+    },
+    {
+      "id": "pioneerxdj700",
+      "name": "Pioneer XDJ-700",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://manualsfile.com/product/zq8xt8y56.html"
+      ],
+      "definitions": [
+        "manufacturer:pioneerxdj700"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer XDJ-700",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueReturnA:a",
+        "fixedLoopA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "playA:a",
+        "reloopA:a",
+        "seekA:a",
+        "syncA:a",
+        "tempoA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 24,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "Control Mode / USB-MIDI",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Pioneer XDJ-700",
+          "XDJ-700",
+          "Pioneer DJ XDJ-700"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
+        "clubImplementationOrder": 8
+      }
+    },
+    {
+      "id": "pioneerxdj1000",
+      "name": "Pioneer XDJ-1000",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://www.allfordj.ru/upload/iblock/e25/rukovodstvo_polzovatelya_pioneer_xdj_1000_usb.pdf"
+      ],
+      "definitions": [
+        "manufacturer:pioneerxdj1000"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer XDJ-1000",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueReturnA:a",
+        "fixedJumpA:a",
+        "fixedLoopA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "playA:a",
+        "reloopA:a",
+        "seekA:a",
+        "syncA:a",
+        "tempoA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 30,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "Control Mode / USB-MIDI",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Pioneer XDJ-1000",
+          "XDJ-1000",
+          "Pioneer DJ XDJ-1000"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
+        "clubImplementationOrder": 9
+      }
+    },
+    {
+      "id": "pioneercdj2000",
+      "name": "Pioneer CDJ-2000",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-2000.midi.xml",
+        "https://www.av-projektering.se/av_projektering/pdf/CDJ2000manual.pdf"
+      ],
+      "definitions": [
+        "Pioneer CDJ-2000.midi.xml",
+        "manufacturer:pioneercdj2000"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer CDJ-2000",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueReturnA:a",
+        "fixedLoopA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "playA:a",
+        "reloopA:a",
+        "seekA:a",
+        "tempoA:a",
+        "tempoResetA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 19,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "Control Mode / USB-MIDI",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Pioneer CDJ-2000",
+          "CDJ-2000",
+          "Pioneer DJ CDJ-2000"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
+        "clubImplementationOrder": 10
+      }
+    },
+    {
+      "id": "pioneercdj900",
+      "name": "Pioneer CDJ-900",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://c7.zzounds.com/media/CDJ-900_OperatingInstructions1006-5d13ba1bdb7b74a71c99d9e7e959040f.pdf"
+      ],
+      "definitions": [
+        "manufacturer:pioneercdj900"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer CDJ-900",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueReturnA:a",
+        "fixedLoopA:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "playA:a",
+        "reloopA:a",
+        "tempoA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 17,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "Control Mode / USB-MIDI",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Pioneer CDJ-900",
+          "CDJ-900",
+          "Pioneer DJ CDJ-900"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
+        "clubImplementationOrder": 11
+      }
+    },
+    {
+      "id": "pioneercdj850",
+      "name": "Pioneer CDJ-850",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-850.midi.xml",
+        "https://media.djmania.net/manuales/pdf/Manual_Pioneer_CDJ_850_Negro_.pdf"
+      ],
+      "definitions": [
+        "Pioneer CDJ-850.midi.xml",
+        "manufacturer:pioneercdj850"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer CDJ-850",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueReturnA:a",
+        "fixedLoopA:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "playA:a",
+        "reloopA:a",
+        "tempoA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 17,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "PC / USB-MIDI",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Pioneer CDJ-850",
+          "CDJ-850",
+          "Pioneer DJ CDJ-850"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
+        "clubImplementationOrder": 12
+      }
+    },
+    {
+      "id": "pioneercdj350",
+      "name": "Pioneer CDJ-350",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-350%20Ch1.midi.xml",
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-350%20Ch2.midi.xml",
+        "https://luxpro.ua/files/2ae4e956d41c7e1c858901fc1dfac1ca.pdf"
+      ],
+      "definitions": [
+        "Pioneer CDJ-350 Ch1.midi.xml",
+        "Pioneer CDJ-350 Ch2.midi.xml",
+        "manufacturer:pioneercdj350"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer CDJ-350",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueReturnA:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopDivideA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "loopRestoreA:a",
+        "openGroup",
+        "playA:a",
+        "reloopA:a",
+        "syncA:a",
+        "tempoA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 16,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "PC / USB-MIDI",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Pioneer CDJ-350",
+          "CDJ-350",
+          "Pioneer DJ CDJ-350"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
+        "clubImplementationOrder": 13
+      }
+    },
+    {
+      "id": "pioneercdj400",
+      "name": "Pioneer CDJ-400",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://www.m3-eventtechnik.at/sites/default/files/dateien/verleih/cdj-400_manual_en_fr_de_nl_it_es_rupdf.pdf"
+      ],
+      "definitions": [
+        "manufacturer:pioneercdj400"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer CDJ-400",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueReturnA:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopDivideA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "loopRestoreA:a",
+        "openGroup",
+        "playA:a",
+        "reloopOriginalA:a",
+        "tempoA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 15,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "PC / USB-MIDI",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Pioneer CDJ-400",
+          "CDJ-400",
+          "Pioneer DJ CDJ-400",
+          "CDJ-400-K",
+          "Pioneer CDJ-400-K",
+          "Pioneer DJ CDJ-400-K"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
+        "clubImplementationOrder": 14
+      }
+    },
+    {
+      "id": "pioneercdjtour1",
+      "name": "Pioneer CDJ-TOUR1",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://www.l-e.sk/amfile/file/download/file/7038/product/14628/"
+      ],
+      "definitions": [
+        "manufacturer:pioneercdjtour1"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer CDJ-TOUR1",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueReturnA:a",
+        "fixedLoopA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "hotcue4A:a",
+        "hotcue5A:a",
+        "hotcue6A:a",
+        "hotcue7A:a",
+        "hotcue8A:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "jumpBackA:a",
+        "jumpForwardA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "playA:a",
+        "reloopA:a",
+        "seekA:a",
+        "syncA:a",
+        "tempoA:a",
+        "tempoResetA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 36,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "Control Mode / USB-MIDI",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Pioneer CDJ-TOUR1",
+          "CDJ-TOUR1",
+          "Pioneer DJ CDJ-TOUR1"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Club-player implementation order balances established models and recent releases. Global model sales ranks are unknown.",
+        "clubImplementationOrder": 15
       }
     },
     {
@@ -2149,237 +3038,6 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "A controller-specific protocol adapter is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "pioneercdj2000",
-      "name": "Pioneer CDJ-2000",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-2000.midi.xml"
-      ],
-      "definitions": [
-        "Pioneer CDJ-2000.midi.xml"
-      ],
-      "implementation": "partial-midi-profile",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "profile": "Pioneer CDJ-2000",
-      "automaticControls": false,
-      "controlActions": [
-        "cueReturnA:a",
-        "cueReturnB:b",
-        "hotcue1A:a",
-        "hotcue1B:b",
-        "hotcue2A:a",
-        "hotcue2B:b",
-        "hotcue3A:a",
-        "hotcue3B:b",
-        "hotcue4A:a",
-        "hotcue4B:b",
-        "keylockA:a",
-        "keylockB:b",
-        "loadA:a",
-        "loadB:b",
-        "loopA:a",
-        "loopB:b",
-        "loopDownA:a",
-        "loopDownB:b",
-        "loopUpA:a",
-        "loopUpB:b",
-        "playA:a",
-        "playB:b",
-        "tempoA:a",
-        "tempoB:b"
-      ],
-      "inputBindingCount": 32,
-      "feedbackBindingCount": 0,
-      "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "partial",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": true,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 32,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "pioneercdj350",
-      "name": "Pioneer CDJ-350 CH1",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-350%20Ch1.midi.xml",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-350%20Ch2.midi.xml"
-      ],
-      "definitions": [
-        "Pioneer CDJ-350 Ch1.midi.xml",
-        "Pioneer CDJ-350 Ch2.midi.xml"
-      ],
-      "implementation": "partial-midi-profile",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "profile": "Pioneer CDJ-350 CH1",
-      "automaticControls": false,
-      "controlActions": [
-        "cueReturnA:a",
-        "keylockA:a",
-        "loopA:a",
-        "loopDownA:a",
-        "loopUpA:a",
-        "playA:a",
-        "syncA:a",
-        "tempoA:a"
-      ],
-      "inputBindingCount": 8,
-      "feedbackBindingCount": 0,
-      "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "partial",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": true,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 17,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "pioneercdj850",
-      "name": "Pioneer CDJ-850",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-850.midi.xml"
-      ],
-      "definitions": [
-        "Pioneer CDJ-850.midi.xml"
-      ],
-      "implementation": "partial-midi-profile",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "profile": "Pioneer CDJ-850",
-      "automaticControls": false,
-      "controlActions": [
-        "cueReturnA:a",
-        "cueReturnB:b",
-        "gainA:a",
-        "gainB:b",
-        "keylockA:a",
-        "keylockB:b",
-        "loadA:a",
-        "loadB:b",
-        "loopA:a",
-        "loopB:b",
-        "loopDownA:a",
-        "loopDownB:b",
-        "loopUpA:a",
-        "loopUpB:b",
-        "playA:a",
-        "playB:b",
-        "syncA:a",
-        "syncB:b",
-        "tempoA:a",
-        "tempoB:b"
-      ],
-      "inputBindingCount": 20,
-      "feedbackBindingCount": 0,
-      "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "partial",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": true,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 50,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -302881,12 +303539,11 @@
       "name": "Pioneer CDJ-2000NXS2",
       "transport": "midi",
       "source": {
-        "url": "https://manuals.plus/m/787a668a0d6bc06e184a4e451d34905d65311bad6c128215e91bf56c6e74e6b3_optim.pdf",
-        "sha256": null,
+        "url": "https://downloads.support.alphatheta.com/manuals/dj-players/CDJ-2000NXS2/CDJ-2000NXS2_DRI1290A_manual.pdf",
+        "sha256": "ee3d2e7132103df64562506973f78e8c2d631a55fb3389438be1f23740ed9c66",
         "pages": [
           38
-        ],
-        "review": "Factory operating manual, web text. Local download unavailable."
+        ]
       },
       "implementedInputCount": 36,
       "implementedOutputCount": 0,
@@ -302943,12 +303600,11 @@
       "name": "Pioneer CDJ-2000NXS",
       "transport": "midi",
       "source": {
-        "url": "https://www.manualslib.com/manual/712075/Pioneer-Cdj-2000nxs.html?page=42",
-        "sha256": null,
+        "url": "https://downloads.support.alphatheta.com/manuals/CDJ_2000NXS_DRI1052_manual.pdf",
+        "sha256": "d2bad905fddb44ab041c3af9aa49e3c98329c4d5fa7a5ec2c8995289aa837b51",
         "pages": [
           42
-        ],
-        "review": "Factory operating manual, web text. Local PDF unavailable."
+        ]
       },
       "implementedInputCount": 19,
       "implementedOutputCount": 0,
@@ -302998,6 +303654,283 @@
           "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
         }
       ]
+    },
+    {
+      "id": "manufacturer:pioneerxdj1000mk2",
+      "name": "Pioneer XDJ-1000MK2",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/manuals/dj-players/XDJ-1000MK2/XDJ-1000MK2_DRI1396B_manual.pdf",
+        "sha256": "631f9aefb8656a07be4421de2a757b21d4d0ef8e2655a71554e6ea8a45a70e5c",
+        "pages": [
+          38
+        ]
+      },
+      "implementedInputCount": 41,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerxdj700",
+      "name": "Pioneer XDJ-700",
+      "transport": "midi",
+      "source": {
+        "url": "https://manualsfile.com/product/zq8xt8y56.html",
+        "sha256": null,
+        "pages": [
+          33,
+          34
+        ],
+        "review": "Factory operating manual, web text. PDF download unavailable."
+      },
+      "implementedInputCount": 24,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerxdj1000",
+      "name": "Pioneer XDJ-1000",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.allfordj.ru/upload/iblock/e25/rukovodstvo_polzovatelya_pioneer_xdj_1000_usb.pdf",
+        "sha256": "795f31b1ce2811102783cc70c56702627f1dfed056651ddea6dfce7ecc6320af",
+        "pages": [
+          32,
+          33
+        ]
+      },
+      "implementedInputCount": 30,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneercdj2000",
+      "name": "Pioneer CDJ-2000",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.av-projektering.se/av_projektering/pdf/CDJ2000manual.pdf",
+        "sha256": "279e967f31fcdc97819cdaf36aaf41bf449a60ad59ddaa512e1d6d7034ef6507",
+        "pages": [
+          27
+        ]
+      },
+      "implementedInputCount": 19,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneercdj900",
+      "name": "Pioneer CDJ-900",
+      "transport": "midi",
+      "source": {
+        "url": "https://c7.zzounds.com/media/CDJ-900_OperatingInstructions1006-5d13ba1bdb7b74a71c99d9e7e959040f.pdf",
+        "sha256": null,
+        "pages": [
+          26
+        ],
+        "review": "Factory operating manual, web text. Local download unavailable."
+      },
+      "implementedInputCount": 17,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneercdj850",
+      "name": "Pioneer CDJ-850",
+      "transport": "midi",
+      "source": {
+        "url": "https://media.djmania.net/manuales/pdf/Manual_Pioneer_CDJ_850_Negro_.pdf",
+        "sha256": "d9924c7447e9e80b6975f407f8b5a41d0044f93d6df8b60788c3c46f7541f847",
+        "pages": [
+          26
+        ]
+      },
+      "implementedInputCount": 17,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneercdj350",
+      "name": "Pioneer CDJ-350",
+      "transport": "midi",
+      "source": {
+        "url": "https://luxpro.ua/files/2ae4e956d41c7e1c858901fc1dfac1ca.pdf",
+        "sha256": "41b4b040c3808488ba1200b613bdd89e4651158db8455a03525427b2b7b4d33b",
+        "pages": [
+          25
+        ]
+      },
+      "implementedInputCount": 16,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneercdj400",
+      "name": "Pioneer CDJ-400",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.m3-eventtechnik.at/sites/default/files/dateien/verleih/cdj-400_manual_en_fr_de_nl_it_es_rupdf.pdf",
+        "sha256": "f29767dae3b3cdacddfba91e26ac3d757924852e2834a676d813a6ab2fcd994e",
+        "pages": [
+          20
+        ],
+        "compatibilitySources": [
+          "https://jpn.pioneer/ja/support/download/dj-e/cdj-400/firm_download.html"
+        ]
+      },
+      "implementedInputCount": 15,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneercdjtour1",
+      "name": "Pioneer CDJ-TOUR1",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.l-e.sk/amfile/file/download/file/7038/product/14628/",
+        "sha256": "40141248633d64b0bcb1eb68716c55ecea30535457df1d0787ede7fe7987fbe6",
+        "pages": [
+          45
+        ]
+      },
+      "implementedInputCount": 36,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
     }
   ],
   "releaseGate": {
@@ -303007,7 +303940,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 255,
+      "targetModels": 261,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

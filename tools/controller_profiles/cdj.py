@@ -9,14 +9,14 @@ CDJ_REFERENCES = {
         "url": "https://downloads.support.alphatheta.com/software_info/dj-players/CDJ-3000X/CDJ3000X_MIDI_Message_List_En.pdf",
         "sha256": "e42a4b576d24543bbf80c0798b75b27490925510a28beb7beead7e48aac1a429", "pages": [3, 4]},
     "Pioneer CDJ-2000NXS2": {
-        "url": "https://manuals.plus/m/787a668a0d6bc06e184a4e451d34905d65311bad6c128215e91bf56c6e74e6b3_optim.pdf",
-        "sha256": None, "pages": [38], "review": "Factory operating manual, web text. Local download unavailable."},
+        "url": "https://downloads.support.alphatheta.com/manuals/dj-players/CDJ-2000NXS2/CDJ-2000NXS2_DRI1290A_manual.pdf",
+        "sha256": "ee3d2e7132103df64562506973f78e8c2d631a55fb3389438be1f23740ed9c66", "pages": [38]},
     "AlphaTheta CDJ-1500X": {
         "url": "https://downloads.support.alphatheta.com/software_info/dj-players/CDJ-1500X/CDJ-1500X_MIDI_Message_List_E1.pdf",
         "sha256": "64581d4eda2ded25baa2d3187e682f19bed7de09078a580cf7dabb418727d017", "pages": [3, 4]},
     "Pioneer CDJ-2000NXS": {
-        "url": "https://www.manualslib.com/manual/712075/Pioneer-Cdj-2000nxs.html?page=42",
-        "sha256": None, "pages": [42], "review": "Factory operating manual, web text. Local PDF unavailable."},
+        "url": "https://downloads.support.alphatheta.com/manuals/CDJ_2000NXS_DRI1052_manual.pdf",
+        "sha256": "d2bad905fddb44ab041c3af9aa49e3c98329c4d5fa7a5ec2c8995289aa837b51", "pages": [42]},
     "Pioneer CDJ-900NXS": {
         "url": "https://warehousesound.com/r/pioneerCDJ900NXSmanual.pdf",
         "sha256": "54049f095083848e833fddb39142ade205780bea3620d864fe1ee33ec969f97b", "pages": [36]},

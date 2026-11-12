@@ -22,6 +22,7 @@ import TDJCore
     public var frozen: Set<DeckID> = []
     @ObservationIgnored var controllerJogTouched: Set<DeckID> = []
     @ObservationIgnored var controllerLoopStarts: [DeckID: (generation: UInt64, frame: Double)] = [:]
+    @ObservationIgnored var controllerLoopDivisions: [DeckID: ControllerLoopDivision] = [:]
     @ObservationIgnored var controllerJogBendOffsets: [DeckID: Double] = [:]
     @ObservationIgnored var controllerJogBendTasks: [DeckID: Task<Void, Never>] = [:]
     @ObservationIgnored var controllerJogBendTokens: [DeckID: UUID] = [:]

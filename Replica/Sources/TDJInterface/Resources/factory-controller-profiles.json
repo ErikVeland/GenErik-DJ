@@ -23172,20 +23172,21 @@
     {
       "id": "Pioneer CDJ-2000",
       "aliases": [
+        "Pioneer CDJ-2000",
         "CDJ-2000",
-        "PIONEER CDJ-2000",
-        "Pioneer CDJ-2000"
+        "Pioneer DJ CDJ-2000"
       ],
-      "definition": "Pioneer CDJ-2000.midi.xml",
+      "definition": "manufacturer:pioneercdj2000",
       "inputs": [
         {
-          "action": "loadA",
+          "action": "playA",
           "kind": "note",
           "channel": 0,
-          "number": 51,
-          "encoding": "twosComplement",
-          "inverted": true,
-          "targetDeck": "a"
+          "number": 0,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
           "action": "cueReturnA",
@@ -23194,79 +23195,8 @@
           "number": 1,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "hotcue1A",
-          "kind": "note",
-          "channel": 0,
-          "number": 40,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "hotcue1A",
-          "kind": "note",
-          "channel": 0,
-          "number": 24,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "hotcue2A",
-          "kind": "note",
-          "channel": 0,
-          "number": 41,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "hotcue2A",
-          "kind": "note",
-          "channel": 0,
-          "number": 25,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "hotcue3A",
-          "kind": "note",
-          "channel": 0,
-          "number": 42,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "hotcue3A",
-          "kind": "note",
-          "channel": 0,
-          "number": 26,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "hotcue3A",
-          "kind": "note",
-          "channel": 0,
-          "number": 43,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "hotcue4A",
-          "kind": "note",
-          "channel": 0,
-          "number": 28,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
           "action": "keylockA",
@@ -23275,204 +23205,177 @@
           "number": 17,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
-          "action": "loopUpA",
+          "action": "jogTouchA",
           "kind": "note",
           "channel": 0,
-          "number": 11,
+          "number": 32,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
-          "action": "loopDownA",
+          "action": "loopInA",
           "kind": "note",
           "channel": 0,
-          "number": 12,
+          "number": 6,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
-          "action": "playA",
+          "action": "loopOutA",
           "kind": "note",
           "channel": 0,
-          "number": 0,
+          "number": 7,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 51,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 50,
+          "encoding": "absolute",
+          "inverted": false,
+          "anyChannel": true
         },
         {
           "action": "tempoA",
           "kind": "control",
           "channel": 0,
           "number": 29,
-          "encoding": "absolute",
-          "inverted": true,
-          "targetDeck": "a"
+          "encoding": "cdjTempo",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
-          "action": "loopA",
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 16,
+          "encoding": "cdjPlatterSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 48,
+          "encoding": "cdjRingSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 79,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "anyChannel": true
+        },
+        {
+          "action": "seekA",
+          "kind": "control",
+          "channel": 0,
+          "number": 28,
+          "encoding": "needlePosition",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue1A",
           "kind": "note",
           "channel": 0,
-          "number": 8,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "loadB",
-          "kind": "note",
-          "channel": 1,
-          "number": 51,
-          "encoding": "twosComplement",
-          "inverted": true,
-          "targetDeck": "b"
-        },
-        {
-          "action": "cueReturnB",
-          "kind": "note",
-          "channel": 1,
-          "number": 1,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "hotcue1B",
-          "kind": "note",
-          "channel": 1,
-          "number": 40,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "hotcue1B",
-          "kind": "note",
-          "channel": 1,
           "number": 24,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
-          "action": "hotcue2B",
+          "action": "hotcue2A",
           "kind": "note",
-          "channel": 1,
-          "number": 41,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "hotcue2B",
-          "kind": "note",
-          "channel": 1,
+          "channel": 0,
           "number": 25,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
-          "action": "hotcue3B",
+          "action": "hotcue3A",
           "kind": "note",
-          "channel": 1,
-          "number": 42,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "hotcue3B",
-          "kind": "note",
-          "channel": 1,
+          "channel": 0,
           "number": 26,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
-          "action": "hotcue3B",
+          "action": "tempoResetA",
           "kind": "note",
-          "channel": 1,
-          "number": 43,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "hotcue4B",
-          "kind": "note",
-          "channel": 1,
-          "number": 28,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "keylockB",
-          "kind": "note",
-          "channel": 1,
-          "number": 17,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "loopUpB",
-          "kind": "note",
-          "channel": 1,
-          "number": 11,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "loopDownB",
-          "kind": "note",
-          "channel": 1,
-          "number": 12,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "playB",
-          "kind": "note",
-          "channel": 1,
-          "number": 0,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "tempoB",
-          "kind": "control",
-          "channel": 1,
+          "channel": 0,
           "number": 29,
           "encoding": "absolute",
-          "inverted": true,
-          "targetDeck": "b"
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
-          "action": "loopB",
+          "action": "fixedLoopA",
           "kind": "note",
-          "channel": 1,
-          "number": 8,
+          "channel": 0,
+          "number": 42,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "a",
+          "argument": 4,
+          "anyChannel": true
         }
       ],
       "outputs": [],
       "startup": [],
       "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-2000.midi.xml"
+      "autoSelect": true,
+      "scope": "Automatic player controls in PC / USB-MIDI mode. HID, lights and audio routing remain open.",
+      "source": "https://www.av-projektering.se/av_projektering/pdf/CDJ2000manual.pdf",
+      "role": "player",
+      "hardwareMode": "Control Mode / USB-MIDI"
     },
     {
       "id": "Pioneer CDJ-2000NXS",
@@ -23680,7 +23583,7 @@
       "shutdown": [],
       "autoSelect": true,
       "scope": "Automatic player controls in USB-MIDI mode. HID screens, lights and audio routing remain open.",
-      "source": "https://www.manualslib.com/manual/712075/Pioneer-Cdj-2000nxs.html?page=42",
+      "source": "https://downloads.support.alphatheta.com/manuals/CDJ_2000NXS_DRI1052_manual.pdf",
       "role": "player"
     },
     {
@@ -24066,7 +23969,7 @@
       "shutdown": [],
       "autoSelect": true,
       "scope": "Automatic player controls in USB-MIDI mode. HID screens, lights and audio routing remain open.",
-      "source": "https://manuals.plus/m/787a668a0d6bc06e184a4e451d34905d65311bad6c128215e91bf56c6e74e6b3_optim.pdf",
+      "source": "https://downloads.support.alphatheta.com/manuals/dj-players/CDJ-2000NXS2/CDJ-2000NXS2_DRI1290A_manual.pdf",
       "role": "player"
     },
     {
@@ -24634,31 +24537,14 @@
       "role": "player"
     },
     {
-      "id": "Pioneer CDJ-350 CH1",
+      "id": "Pioneer CDJ-350",
       "aliases": [
-        "CDJ-350 CH1",
-        "Pioneer CDJ-350 CH1"
+        "Pioneer CDJ-350",
+        "CDJ-350",
+        "Pioneer DJ CDJ-350"
       ],
-      "definition": "Pioneer CDJ-350 Ch1.midi.xml",
+      "definition": "manufacturer:pioneercdj350",
       "inputs": [
-        {
-          "action": "loopUpA",
-          "kind": "note",
-          "channel": 0,
-          "number": 22,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "loopDownA",
-          "kind": "note",
-          "channel": 0,
-          "number": 23,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
         {
           "action": "playA",
           "kind": "note",
@@ -24666,7 +24552,8 @@
           "number": 0,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
           "action": "cueReturnA",
@@ -24675,7 +24562,116 @@
           "number": 1,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "keylockA",
+          "kind": "note",
+          "channel": 0,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 32,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loopInA",
+          "kind": "note",
+          "channel": 0,
+          "number": 6,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loopOutA",
+          "kind": "note",
+          "channel": 0,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 51,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 50,
+          "encoding": "absolute",
+          "inverted": false,
+          "anyChannel": true
+        },
+        {
+          "action": "tempoA",
+          "kind": "control",
+          "channel": 0,
+          "number": 29,
+          "encoding": "cdjTempo",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 16,
+          "encoding": "cdj350PlatterSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 48,
+          "encoding": "cdjRingSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 79,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "anyChannel": true
         },
         {
           "action": "syncA",
@@ -24684,69 +24680,60 @@
           "number": 38,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
-          "action": "tempoA",
-          "kind": "control",
-          "channel": 0,
-          "number": 29,
-          "encoding": "absolute",
-          "inverted": true,
-          "targetDeck": "a"
-        },
-        {
-          "action": "loopA",
+          "action": "loopRestoreA",
           "kind": "note",
           "channel": 0,
-          "number": 8,
+          "number": 22,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
-          "action": "keylockA",
+          "action": "loopDivideA",
           "kind": "note",
           "channel": 0,
-          "number": 17,
+          "number": 23,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
         }
       ],
       "outputs": [],
       "startup": [],
       "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-350%20Ch1.midi.xml"
+      "autoSelect": true,
+      "scope": "Automatic player controls in PC / USB-MIDI mode. HID, lights and audio routing remain open.",
+      "source": "https://luxpro.ua/files/2ae4e956d41c7e1c858901fc1dfac1ca.pdf",
+      "role": "player",
+      "hardwareMode": "PC / USB-MIDI"
     },
     {
-      "id": "Pioneer CDJ-850",
+      "id": "Pioneer CDJ-400",
       "aliases": [
-        "CDJ-850",
-        "PIONEER CDJ-850",
-        "Pioneer CDJ-850"
+        "Pioneer CDJ-400",
+        "CDJ-400",
+        "Pioneer DJ CDJ-400",
+        "CDJ-400-K",
+        "Pioneer CDJ-400-K",
+        "Pioneer DJ CDJ-400-K"
       ],
-      "definition": "Pioneer CDJ-850.midi.xml",
+      "definition": "manufacturer:pioneercdj400",
       "inputs": [
         {
-          "action": "loadA",
+          "action": "playA",
           "kind": "note",
           "channel": 0,
-          "number": 51,
-          "encoding": "twosComplement",
-          "inverted": true,
-          "targetDeck": "a"
-        },
-        {
-          "action": "syncA",
-          "kind": "note",
-          "channel": 0,
-          "number": 10,
+          "number": 0,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
           "action": "cueReturnA",
@@ -24755,7 +24742,8 @@
           "number": 1,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
           "action": "keylockA",
@@ -24764,26 +24752,146 @@
           "number": 17,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
-          "action": "loopUpA",
+          "action": "jogTouchA",
           "kind": "note",
           "channel": 0,
-          "number": 11,
+          "number": 32,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
-          "action": "loopDownA",
+          "action": "loopInA",
           "kind": "note",
           "channel": 0,
-          "number": 12,
+          "number": 6,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
         },
+        {
+          "action": "loopOutA",
+          "kind": "note",
+          "channel": 0,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "reloopOriginalA",
+          "kind": "note",
+          "channel": 0,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 51,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 50,
+          "encoding": "absolute",
+          "inverted": false,
+          "anyChannel": true
+        },
+        {
+          "action": "tempoA",
+          "kind": "control",
+          "channel": 0,
+          "number": 29,
+          "encoding": "cdjTempo",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 16,
+          "encoding": "cdjPlatterSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 48,
+          "encoding": "cdjRingSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 79,
+          "encoding": "binaryOffset",
+          "inverted": false,
+          "anyChannel": true
+        },
+        {
+          "action": "loopRestoreA",
+          "kind": "note",
+          "channel": 0,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loopDivideA",
+          "kind": "note",
+          "channel": 0,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        }
+      ],
+      "outputs": [],
+      "startup": [],
+      "shutdown": [],
+      "autoSelect": true,
+      "scope": "Automatic player controls in PC / USB-MIDI mode. HID, lights and audio routing remain open.",
+      "source": "https://www.m3-eventtechnik.at/sites/default/files/dateien/verleih/cdj-400_manual_en_fr_de_nl_it_es_rupdf.pdf",
+      "role": "player",
+      "hardwareMode": "PC / USB-MIDI"
+    },
+    {
+      "id": "Pioneer CDJ-850",
+      "aliases": [
+        "Pioneer CDJ-850",
+        "CDJ-850",
+        "Pioneer DJ CDJ-850"
+      ],
+      "definition": "manufacturer:pioneercdj850",
+      "inputs": [
         {
           "action": "playA",
           "kind": "note",
@@ -24791,132 +24899,371 @@
           "number": 0,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
-          "action": "gainA",
-          "kind": "control",
+          "action": "cueReturnA",
+          "kind": "note",
           "channel": 0,
-          "number": 30,
+          "number": 1,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "keylockA",
+          "kind": "note",
+          "channel": 0,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 32,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loopInA",
+          "kind": "note",
+          "channel": 0,
+          "number": 6,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loopOutA",
+          "kind": "note",
+          "channel": 0,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 51,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 50,
+          "encoding": "absolute",
+          "inverted": false,
+          "anyChannel": true
         },
         {
           "action": "tempoA",
           "kind": "control",
           "channel": 0,
           "number": 29,
-          "encoding": "absolute",
-          "inverted": true,
-          "targetDeck": "a"
+          "encoding": "cdjTempo",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
         },
         {
-          "action": "loopA",
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 16,
+          "encoding": "cdjPlatterSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 48,
+          "encoding": "cdjRingSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 79,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
           "kind": "note",
           "channel": 0,
-          "number": 8,
+          "number": 40,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "argument": 1,
+          "anyChannel": true
         },
         {
-          "action": "loadB",
+          "action": "fixedLoopA",
           "kind": "note",
-          "channel": 1,
-          "number": 51,
-          "encoding": "twosComplement",
-          "inverted": true,
-          "targetDeck": "b"
+          "channel": 0,
+          "number": 41,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 2,
+          "anyChannel": true
         },
         {
-          "action": "syncB",
+          "action": "fixedLoopA",
           "kind": "note",
-          "channel": 1,
-          "number": 10,
+          "channel": 0,
+          "number": 42,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "a",
+          "argument": 4,
+          "anyChannel": true
         },
         {
-          "action": "cueReturnB",
+          "action": "fixedLoopA",
           "kind": "note",
-          "channel": 1,
-          "number": 1,
+          "channel": 0,
+          "number": 43,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "keylockB",
-          "kind": "note",
-          "channel": 1,
-          "number": 17,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "loopUpB",
-          "kind": "note",
-          "channel": 1,
-          "number": 11,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "loopDownB",
-          "kind": "note",
-          "channel": 1,
-          "number": 12,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "playB",
-          "kind": "note",
-          "channel": 1,
-          "number": 0,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "gainB",
-          "kind": "control",
-          "channel": 1,
-          "number": 30,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "tempoB",
-          "kind": "control",
-          "channel": 1,
-          "number": 29,
-          "encoding": "absolute",
-          "inverted": true,
-          "targetDeck": "b"
-        },
-        {
-          "action": "loopB",
-          "kind": "note",
-          "channel": 1,
-          "number": 8,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "a",
+          "argument": 8,
+          "anyChannel": true
         }
       ],
       "outputs": [],
       "startup": [],
       "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ-850.midi.xml"
+      "autoSelect": true,
+      "scope": "Automatic player controls in PC / USB-MIDI mode. HID, lights and audio routing remain open.",
+      "source": "https://media.djmania.net/manuales/pdf/Manual_Pioneer_CDJ_850_Negro_.pdf",
+      "role": "player",
+      "hardwareMode": "PC / USB-MIDI"
+    },
+    {
+      "id": "Pioneer CDJ-900",
+      "aliases": [
+        "Pioneer CDJ-900",
+        "CDJ-900",
+        "Pioneer DJ CDJ-900"
+      ],
+      "definition": "manufacturer:pioneercdj900",
+      "inputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 0,
+          "number": 0,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "cueReturnA",
+          "kind": "note",
+          "channel": 0,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "keylockA",
+          "kind": "note",
+          "channel": 0,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 32,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loopInA",
+          "kind": "note",
+          "channel": 0,
+          "number": 6,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loopOutA",
+          "kind": "note",
+          "channel": 0,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 51,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 50,
+          "encoding": "absolute",
+          "inverted": false,
+          "anyChannel": true
+        },
+        {
+          "action": "tempoA",
+          "kind": "control",
+          "channel": 0,
+          "number": 29,
+          "encoding": "cdjTempo",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 16,
+          "encoding": "cdjPlatterSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 48,
+          "encoding": "cdjRingSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 79,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 40,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 1,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 41,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 2,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 42,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 4,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 43,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 8,
+          "anyChannel": true
+        }
+      ],
+      "outputs": [],
+      "startup": [],
+      "shutdown": [],
+      "autoSelect": true,
+      "scope": "Automatic player controls in PC / USB-MIDI mode. HID, lights and audio routing remain open.",
+      "source": "https://c7.zzounds.com/media/CDJ-900_OperatingInstructions1006-5d13ba1bdb7b74a71c99d9e7e959040f.pdf",
+      "role": "player",
+      "hardwareMode": "Control Mode / USB-MIDI"
     },
     {
       "id": "Pioneer CDJ-900NXS",
@@ -25087,6 +25434,393 @@
       "scope": "Automatic player controls in USB-MIDI mode. HID screens, lights and audio routing remain open.",
       "source": "https://warehousesound.com/r/pioneerCDJ900NXSmanual.pdf",
       "role": "player"
+    },
+    {
+      "id": "Pioneer CDJ-TOUR1",
+      "aliases": [
+        "Pioneer CDJ-TOUR1",
+        "CDJ-TOUR1",
+        "Pioneer DJ CDJ-TOUR1"
+      ],
+      "definition": "manufacturer:pioneercdjtour1",
+      "inputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 0,
+          "number": 0,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "cueReturnA",
+          "kind": "note",
+          "channel": 0,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "keylockA",
+          "kind": "note",
+          "channel": 0,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 32,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loopInA",
+          "kind": "note",
+          "channel": 0,
+          "number": 6,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loopOutA",
+          "kind": "note",
+          "channel": 0,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 51,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 50,
+          "encoding": "absolute",
+          "inverted": false,
+          "anyChannel": true
+        },
+        {
+          "action": "tempoA",
+          "kind": "control",
+          "channel": 0,
+          "number": 29,
+          "encoding": "cdjTempo",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 16,
+          "encoding": "cdjPlatterSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 48,
+          "encoding": "cdjRingSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 79,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "anyChannel": true
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 0,
+          "number": 31,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "seekA",
+          "kind": "control",
+          "channel": 0,
+          "number": 28,
+          "encoding": "needlePosition",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue1A",
+          "kind": "note",
+          "channel": 0,
+          "number": 24,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue2A",
+          "kind": "note",
+          "channel": 0,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue3A",
+          "kind": "note",
+          "channel": 0,
+          "number": 26,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue4A",
+          "kind": "note",
+          "channel": 0,
+          "number": 27,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue5A",
+          "kind": "note",
+          "channel": 0,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue6A",
+          "kind": "note",
+          "channel": 0,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue7A",
+          "kind": "note",
+          "channel": 0,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue8A",
+          "kind": "note",
+          "channel": 0,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "tempoResetA",
+          "kind": "note",
+          "channel": 0,
+          "number": 15,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 36,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 0.0625,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 37,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 0.125,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 38,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 0.25,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 39,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 0.5,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 40,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 1,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 41,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 2,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 42,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 4,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 43,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 8,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 44,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 16,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 45,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 32,
+          "anyChannel": true
+        },
+        {
+          "action": "jumpForwardA",
+          "kind": "note",
+          "channel": 0,
+          "number": 56,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "jumpBackA",
+          "kind": "note",
+          "channel": 0,
+          "number": 57,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        }
+      ],
+      "outputs": [],
+      "startup": [],
+      "shutdown": [],
+      "autoSelect": true,
+      "scope": "Automatic player controls in PC / USB-MIDI mode. HID, lights and audio routing remain open.",
+      "source": "https://www.l-e.sk/amfile/file/download/file/7038/product/14628/",
+      "role": "player",
+      "hardwareMode": "Control Mode / USB-MIDI"
     },
     {
       "id": "Pioneer DDJ-200",
@@ -26957,6 +27691,1043 @@
       "autoSelect": true,
       "scope": "Core controls. Additional hardware modes and physical acceptance remain open.",
       "source": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SR/DDJ-SR_List_of_MIDI_Messages_E.pdf"
+    },
+    {
+      "id": "Pioneer XDJ-1000",
+      "aliases": [
+        "Pioneer XDJ-1000",
+        "XDJ-1000",
+        "Pioneer DJ XDJ-1000"
+      ],
+      "definition": "manufacturer:pioneerxdj1000",
+      "inputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 0,
+          "number": 0,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "cueReturnA",
+          "kind": "note",
+          "channel": 0,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "keylockA",
+          "kind": "note",
+          "channel": 0,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 32,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loopInA",
+          "kind": "note",
+          "channel": 0,
+          "number": 6,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loopOutA",
+          "kind": "note",
+          "channel": 0,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 51,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 50,
+          "encoding": "absolute",
+          "inverted": false,
+          "anyChannel": true
+        },
+        {
+          "action": "tempoA",
+          "kind": "control",
+          "channel": 0,
+          "number": 29,
+          "encoding": "cdjTempo",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 16,
+          "encoding": "cdjPlatterSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 48,
+          "encoding": "cdjRingSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 79,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "anyChannel": true
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 0,
+          "number": 31,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "seekA",
+          "kind": "control",
+          "channel": 0,
+          "number": 28,
+          "encoding": "needlePosition",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue1A",
+          "kind": "note",
+          "channel": 0,
+          "number": 24,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue2A",
+          "kind": "note",
+          "channel": 0,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue3A",
+          "kind": "note",
+          "channel": 0,
+          "number": 26,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 39,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 0.5,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 40,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 1,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 41,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 2,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 42,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 4,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 43,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 8,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 44,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 16,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 56,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 1,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 57,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 2,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 58,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 4,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 59,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": -1,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 60,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": -2,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 61,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": -4,
+          "anyChannel": true
+        }
+      ],
+      "outputs": [],
+      "startup": [],
+      "shutdown": [],
+      "autoSelect": true,
+      "scope": "Automatic player controls in PC / USB-MIDI mode. HID, lights and audio routing remain open.",
+      "source": "https://www.allfordj.ru/upload/iblock/e25/rukovodstvo_polzovatelya_pioneer_xdj_1000_usb.pdf",
+      "role": "player",
+      "hardwareMode": "Control Mode / USB-MIDI"
+    },
+    {
+      "id": "Pioneer XDJ-1000MK2",
+      "aliases": [
+        "Pioneer XDJ-1000MK2",
+        "XDJ-1000MK2",
+        "Pioneer DJ XDJ-1000MK2"
+      ],
+      "definition": "manufacturer:pioneerxdj1000mk2",
+      "inputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 0,
+          "number": 0,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "cueReturnA",
+          "kind": "note",
+          "channel": 0,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "keylockA",
+          "kind": "note",
+          "channel": 0,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 32,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loopInA",
+          "kind": "note",
+          "channel": 0,
+          "number": 6,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loopOutA",
+          "kind": "note",
+          "channel": 0,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 51,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 50,
+          "encoding": "absolute",
+          "inverted": false,
+          "anyChannel": true
+        },
+        {
+          "action": "tempoA",
+          "kind": "control",
+          "channel": 0,
+          "number": 29,
+          "encoding": "cdjTempo",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 16,
+          "encoding": "cdjPlatterSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 48,
+          "encoding": "cdjRingSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 79,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "anyChannel": true
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 0,
+          "number": 31,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "seekA",
+          "kind": "control",
+          "channel": 0,
+          "number": 28,
+          "encoding": "needlePosition",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue1A",
+          "kind": "note",
+          "channel": 0,
+          "number": 24,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue2A",
+          "kind": "note",
+          "channel": 0,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue3A",
+          "kind": "note",
+          "channel": 0,
+          "number": 26,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue4A",
+          "kind": "note",
+          "channel": 0,
+          "number": 27,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue5A",
+          "kind": "note",
+          "channel": 0,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue6A",
+          "kind": "note",
+          "channel": 0,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue7A",
+          "kind": "note",
+          "channel": 0,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue8A",
+          "kind": "note",
+          "channel": 0,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 39,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 0.5,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 40,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 1,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 41,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 2,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 42,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 4,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 43,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 8,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 44,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 16,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 56,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 1,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 57,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": -1,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 60,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 2,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 61,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": -2,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 62,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 4,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 63,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": -4,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 64,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 8,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 65,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": -8,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 66,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 16,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 67,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": -16,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 68,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 32,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedJumpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 69,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": -32,
+          "anyChannel": true
+        }
+      ],
+      "outputs": [],
+      "startup": [],
+      "shutdown": [],
+      "autoSelect": true,
+      "scope": "Automatic player controls in PC / USB-MIDI mode. HID, lights and audio routing remain open.",
+      "source": "https://downloads.support.alphatheta.com/manuals/dj-players/XDJ-1000MK2/XDJ-1000MK2_DRI1396B_manual.pdf",
+      "role": "player",
+      "hardwareMode": "Control Mode / USB-MIDI"
+    },
+    {
+      "id": "Pioneer XDJ-700",
+      "aliases": [
+        "Pioneer XDJ-700",
+        "XDJ-700",
+        "Pioneer DJ XDJ-700"
+      ],
+      "definition": "manufacturer:pioneerxdj700",
+      "inputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 0,
+          "number": 0,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "cueReturnA",
+          "kind": "note",
+          "channel": 0,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "keylockA",
+          "kind": "note",
+          "channel": 0,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 32,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loopInA",
+          "kind": "note",
+          "channel": 0,
+          "number": 6,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loopOutA",
+          "kind": "note",
+          "channel": 0,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 51,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 50,
+          "encoding": "absolute",
+          "inverted": false,
+          "anyChannel": true
+        },
+        {
+          "action": "tempoA",
+          "kind": "control",
+          "channel": 0,
+          "number": 29,
+          "encoding": "cdjTempo",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 16,
+          "encoding": "cdjPlatterSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 48,
+          "encoding": "cdjRingSpeed",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 79,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "anyChannel": true
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 0,
+          "number": 31,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "seekA",
+          "kind": "control",
+          "channel": 0,
+          "number": 28,
+          "encoding": "needlePosition",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue1A",
+          "kind": "note",
+          "channel": 0,
+          "number": 24,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue2A",
+          "kind": "note",
+          "channel": 0,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "hotcue3A",
+          "kind": "note",
+          "channel": 0,
+          "number": 26,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 39,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 0.5,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 40,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 1,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 41,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 2,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 42,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 4,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 43,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 8,
+          "anyChannel": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 44,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 16,
+          "anyChannel": true
+        }
+      ],
+      "outputs": [],
+      "startup": [],
+      "shutdown": [],
+      "autoSelect": true,
+      "scope": "Automatic player controls in PC / USB-MIDI mode. HID, lights and audio routing remain open.",
+      "source": "https://manualsfile.com/product/zq8xt8y56.html",
+      "role": "player",
+      "hardwareMode": "Control Mode / USB-MIDI"
     },
     {
       "id": "Pioneer XDJ-RR",

@@ -2,6 +2,61 @@
 
 Request R23. Updated 12 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R177 XDJ and earlier CDJ controls
+
+Nine more players have automatic core MIDI profiles. The first three extend the XDJ range, followed by earlier CDJs and the specialist TOUR1.
+The order balances likely use, recency and documented reuse. Global model-sales ranks remain unknown.
+
+| Model | Hot Cues | Fixed beat loops | Beat Jump |
+| --- | ---: | --- | --- |
+| XDJ-1000MK2 | 8 | 1/2–16 beats | 1–32 beats, with explicit direction and size. |
+| XDJ-700 | 3 | 1/2–16 beats | No mapped button. |
+| XDJ-1000 | 3 | 1/2–16 beats | 1, 2 and 4 beats, with separate forward/reverse ranges. |
+| CDJ-2000 | 3 | 4 beats | No mapped button. |
+| CDJ-900 | 0 | 1–8 beats | No mapped button. |
+| CDJ-850 | 0 | 1–8 beats | No mapped button. |
+| CDJ-350 | 0 | Uses the app's selected size. Divide/restore buttons are mapped. | No mapped button. |
+| CDJ-400 | 0 | Uses the app's selected size. Divide/restore buttons are mapped. | No mapped button. |
+| CDJ-TOUR1 | 8 | 1/16–32 beats | Uses the app's selected size. |
+
+Each profile covers Play, Cue, Master Tempo, platter touch/speed, wheel-side jog, tempo, browse/load and loop in/out/exit.
+The XDJ models and TOUR1 map their Sync buttons. CDJ-350 maps BPM LOCK to the app's Sync action.
+The original CDJ-2000, CDJ-900, CDJ-850 and CDJ-400 have no mapped Sync button.
+They retain the app's saved Sync choice. Needle seek and Tempo Reset appear only where the model's table specifies them.
+CDJ-400-K uses the CDJ-400 profile. Pioneer publishes shared firmware and software support for both variants.
+
+The CDJ-350 decoder follows the asymmetric reverse-speed range in its reviewed factory table.
+This remains a documented hardware assumption until a connected unit confirms it.
+CDJ-400 browse uses a centre-64 encoder. The other additions use signed count messages.
+Fast encoder turns retain their full count through bounded messages before Load.
+The first XDJ-1000 and its MK2 have different jump addresses. The MK2 Slip button does not become a jump command.
+
+On the 350/400, the minus button halves an active loop. The plus button restores its original length after repeated divisions.
+With no active loop, either button starts a loop at the app's selected size.
+The CDJ-400 Reloop action also restores that original length.
+Changed loop points and track generations invalidate the saved division range.
+These controls use native loop commands and preserve the saved Sync choice.
+
+This increment replaces three partial recipes: CDJ-2000, CDJ-850 and CDJ-350 CH1.
+The CH1/CH2 source definitions remain in the catalogue. Their shared physical model now uses one profile with automatic deck assignment.
+The reviewed factory mappings omit earlier remaps such as Gain on the 850 brake knob and a fourth Hot Cue on the original 2000.
+Explicit learned mappings retain their separate state.
+
+The catalogue now contains 268 records and 119 data recipes, alongside seven code profiles.
+Thirty-two factory profiles select core controls automatically, including 15 player profiles.
+The two previously web-reviewed NXS manuals now have downloaded factory editions and content hashes.
+XDJ-700 and CDJ-900 retain web-reviewed manual text with null document hashes.
+All source definitions remain available. See [`players.py`](../../tools/controller_profiles/players.py) for references and reviewed pages.
+
+Hardware PC or USB-MIDI mode is required. HID, screens, lights, remaining modes and automatic multi-device audio routing remain open.
+No signed app, installation or physical acceptance forms part of this increment.
+Source base: `12a7c06` on `feature/controller-support`. Evidence: `TestBuilds/r177/`.
+
+All 66 focused Swift checks and 15 importer checks passed. Native iPad compilation passed.
+Mixed-player fixtures cover every MIDI channel, exact matching, missing controls, browse direction and model-specific jump sizes.
+The track fixture verifies repeated loop division, original-length restoration, Reloop and the saved Sync choice.
+The native resource matches the generated profile file. The repository check retains 12 historical link failures.
+
 ## R176 club-player MIDI controls
 
 Six club players now have automatic core MIDI profiles in the requested controller worktree.

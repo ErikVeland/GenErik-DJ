@@ -14,6 +14,7 @@ from sources import canonical, split_models
 from reviewed import REVIEWED
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
+from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -69,7 +70,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles():
             addresses = [(item["kind"], item["channel"], item["number"]) for item in profile["inputs"]]
             self.assertEqual(len(addresses), len(set(addresses)), profile["id"])
             self.assertLessEqual(len(profile["inputs"]), 512)
@@ -87,7 +88,26 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len([item for item in nxs["inputs"] if item["action"].startswith("hotcue")]), 3)
         compact = profiles["Pioneer CDJ-900NXS"]
         self.assertFalse(any(item["action"].startswith(("hotcue", "seek", "tempoReset")) for item in compact["inputs"]))
-        self.assertIsNone(CDJ_REFERENCES["Pioneer CDJ-2000NXS2"]["sha256"])
+        self.assertEqual(len(CDJ_REFERENCES["Pioneer CDJ-2000NXS2"]["sha256"]), 64)
+
+    def test_earlier_players_retain_generation_specific_controls(self):
+        profiles = {item["id"]: item for item in player_profiles()}
+        self.assertEqual(set(profiles), set(PLAYER_REFERENCES))
+        for name, item in profiles.items():
+            self.assertTrue(item["autoSelect"])
+            self.assertEqual(item["role"], "player")
+            self.assertTrue(all(binding["anyChannel"] for binding in item["inputs"]))
+        for model in ["CDJ-2000", "CDJ-900", "CDJ-850", "CDJ-400"]:
+            self.assertFalse(any(item["action"] == "syncA" for item in profiles["Pioneer " + model]["inputs"]))
+        cdj400 = profiles["Pioneer CDJ-400"]["inputs"]
+        self.assertEqual(next(item["encoding"] for item in cdj400 if item["action"] == "browse"), "binaryOffset")
+        cdj350 = profiles["Pioneer CDJ-350"]["inputs"]
+        self.assertEqual(next(item["encoding"] for item in cdj350 if item["action"] == "jogA"), "cdj350PlatterSpeed")
+        old = profiles["Pioneer XDJ-1000"]["inputs"]
+        mk2 = profiles["Pioneer XDJ-1000MK2"]["inputs"]
+        self.assertEqual(next(item["argument"] for item in old if item["number"] == 0x39), 2)
+        self.assertEqual(next(item["argument"] for item in mk2 if item["number"] == 0x39), -1)
+        self.assertFalse(any(item["number"] == 0x3A for item in mk2))
 
     def test_feedback_range_preserves_reverse_polarity_and_cc_lights(self):
         output = "<output><group>[Channel1]</group><key>play</key><status>0xB0</status><midino>11</midino><minimum>0</minimum><maximum>0.1</maximum><on>127</on><off>1</off></output>"
@@ -161,7 +181,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
         self.assertFalse(catalogue["releaseGate"]["theoreticalSupport"]["requiresPhysicalTestForEveryModel"])
         club = sorted((model for model in catalogue["models"] if model["priority"]["clubImplementationOrder"]),
                       key=lambda model: model["priority"]["clubImplementationOrder"])
-        self.assertEqual([model["id"] for model in club], [canonical(name) for name in CLUB_PRIORITY])
+        self.assertEqual([model["id"] for model in club], [canonical(name) for name in CLUB_PRIORITY + PLAYER_PRIORITY])
         self.assertTrue(all(model["playerSupport"]["automaticDeckAssignment"] for model in club))
         self.assertTrue(all(not model["playerSupport"]["hidImplemented"] for model in club))
         self.assertTrue(all(not model["theoreticalSupport"]["complete"] for model in club))

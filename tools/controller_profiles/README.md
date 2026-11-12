@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176 club-player MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176/R177 player MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -10,7 +10,8 @@ The repository has no controller-generation script in `package.json`, so these t
 It also retains the 121 reviewed Serato iOS model rows and their source-page hash.
 `curated.py` records independently checked manufacturer MIDI facts for the next popular models.
 `cdj.py` records factory MIDI facts for six club players, with separate tables for each generation.
-Four downloaded references have SHA-256 hashes. Two older manuals were reviewed through web text and retain null hashes.
+`players.py` adds nine XDJ and earlier CDJ profiles. It also records the shared CDJ-400/CDJ-400-K variant reference.
+The downloaded references have SHA-256 hashes. Two manuals retain web-reviewed text and null document hashes.
 Their records state this evidence limit. A document URL is not a content hash.
 
 The source boundary includes every pinned Mixxx definition, the published Serato iOS list, reviewed manufacturer additions, existing NI adapters and Beatpad.
@@ -61,6 +62,7 @@ Unknown handlers, including the unresolved Inpulse 200 `scratchPad` reference, s
 ## Club players
 
 CDJ-3000, CDJ-3000X, CDJ-2000NXS2, CDJ-1500X, CDJ-2000NXS and CDJ-900NXS have automatic MIDI core profiles.
+XDJ-1000MK2, XDJ-700, XDJ-1000, CDJ-2000, CDJ-900, CDJ-850, CDJ-350, CDJ-400 and CDJ-TOUR1 also have automatic core profiles.
 The order balances established models and recent releases. It does not claim measured global sales ranks.
 The hardware must enter Software Control / USB-MIDI mode. The app does not select that hardware mode.
 
@@ -77,6 +79,10 @@ Needle position zero is a release message. It must not seek to the file start.
 Fixed loop and jump buttons retain their own beat counts. They use the app's existing timing and Sync rules.
 Variable-size jump buttons use the app's selected beat size because their MIDI messages do not report the hardware selection.
 Tempo uses the app's existing ±8% range. Hardware tempo-range switching remains open.
+The CDJ-350 reverse platter follows its published asymmetric range. Physical verification of that assumption remains open.
+CDJ-400 uses a centre-64 browse encoder. XDJ-1000 and XDJ-1000MK2 keep separate jump-address tables.
+The 350/400 loop buttons divide and restore the original loop length. Their inactive-loop action starts the app's selected loop size.
+CDJ-400 Reloop also restores the original length. Track changes and replaced loops invalidate the saved division state.
 
 These tables specify MIDI input. They do not establish HID authentication, screen output, lighting or audio aggregation.
 Those functions and unimplemented modes remain explicit gaps in the catalogue.

@@ -139,12 +139,31 @@ extension ReplicaModel {
                 let end = snappedFrame(state.sourceFrame, deck: deck)
                 if end > start.frame { setLoop(start: start.frame, end: end, deck: deck) }
             }
-        case .reloopA, .reloopB:
+        case .reloopA, .reloopB, .reloopOriginalA, .reloopOriginalB:
             if let state = playbackSnapshot?[deck] {
                 if state.loopEnabled { perform(.loop, deck: deck, enabled: false) }
-                else if state.loopEnd > state.loopStart { setLoop(start: state.loopStart, end: state.loopEnd, deck: deck) }
+                else if state.loopEnd > state.loopStart {
+                    var division = controllerLoopDivisions[deck, default: .init()]
+                    let original = action == .reloopOriginalA || action == .reloopOriginalB
+                        ? division.restore(generation: state.generation, start: state.loopStart, end: state.loopEnd) : nil
+                    controllerLoopDivisions[deck] = division
+                    setLoop(start: state.loopStart, end: original ?? state.loopEnd, deck: deck)
+                }
             }
         case .loopA, .loopB: toggleLoop(deck: deck)
+        case .loopDivideA, .loopDivideB, .loopRestoreA, .loopRestoreB:
+            guard let state = playbackSnapshot?[deck] else { return }
+            guard state.loopEnabled else {
+                controllerLoopDivisions[deck] = nil
+                toggleLoop(deck: deck)
+                return
+            }
+            var division = controllerLoopDivisions[deck, default: .init()]
+            let end = action == .loopDivideA || action == .loopDivideB
+                ? division.divide(generation: state.generation, start: state.loopStart, end: state.loopEnd)
+                : division.restore(generation: state.generation, start: state.loopStart, end: state.loopEnd)
+            controllerLoopDivisions[deck] = division
+            if let end { setLoop(start: state.loopStart, end: end, deck: deck) }
         case .loopUpA, .loopUpB: stepLoopSize(direction: 1, deck: deck)
         case .loopDownA, .loopDownB: stepLoopSize(direction: -1, deck: deck)
         case .jumpBackA, .jumpBackB: beatJump(beats: -performance.loopBeats(for: deck), deck: deck)
