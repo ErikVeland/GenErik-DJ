@@ -1,21 +1,9 @@
 # GenErik DJ branding
 
-`GenErik-Source.ai` preserves Erik's supplied artwork. The wordmark, font licence
-and minimal master remain here. The current iPad Icon Composer document is
-`../iPad/AppIcon.icon/`. Required app resources remain with their targets.
+`GenErik-Source.ai` preserves Erik's supplied artwork. The interface uses
+`../Sources/TDJInterface/Resources/HeaderArtwork/GenErikHeaderMark.png` and
+the system-font wordmark in `GenErikBrandLockup`.
 
-## Export icons
-
-From the `Replica` directory, run:
-
-```sh
-swift Scripts/export-branding.swift
-iconutil -c icns Branding/GenErikDJ.iconset -o Branding/GenErikDJ.icns
-```
-
-The script regenerates fallback icon sizes and previews. These outputs are
-ignored. Earlier icon iterations and duplicate exports remain in the
-[archive](../../docs/history.md). The iPad project compiles its current icon.
-
-`Scripts/package-mac.sh` exports the Mac icon set with `--mac-only` and embeds
-`GenErikDJ.icns` in `Build/GenErik DJ.app`. This mode leaves the iPad assets unchanged.
+`../iPad/AppIcon.icon/` is the shared Icon Composer source for iPad and Mac.
+Both Mac Xcode targets use it. The Mac development package compiles it with
+`actool` when `Scripts/package-mac.sh` runs.
