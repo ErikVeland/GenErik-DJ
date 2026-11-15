@@ -10,8 +10,9 @@ private let ddjFamilyNames = ["DDJ-SX3", "DDJ-SX2", "DDJ-SX", "DDJ-RX", "DDJ-RZ"
     let suite = "ddj-family-\(UUID().uuidString)"
     let preferences = UserDefaults(suiteName: suite)!
     defer { preferences.removePersistentDomain(forName: suite) }
-    let input = ControllerMIDIConnection(preferences: preferences, deckAvailability: { DeckID.allCases })
+    let input = ControllerMIDIConnection(preferences: preferences, factoryPacketSender: { _, _ in true }, deckAvailability: { DeckID.allCases })
     input.sources = [.init(id: 10, reference: 100, name: name, identity: .init(id: 10, device: 1, names: [name]))]
+    input.destinations = [.init(id: 20, reference: 200, name: name, identity: .init(id: 20, device: 1, names: [name]))]
     input.reconcileFactoryProfiles()
     try body(input)
 }
@@ -26,7 +27,7 @@ private let ddjFamilyNames = ["DDJ-SX3", "DDJ-SX2", "DDJ-SX", "DDJ-RX", "DDJ-RZ"
         let profile = try #require(ControllerFactoryProfile.matching([name], automaticOnly: true))
         #expect(profile.rawValue == "Pioneer " + name)
         #expect(!profile.isPlayer)
-        #expect(profile.definition?.startup.isEmpty == true)
+        #expect(profile.definition?.startup.isEmpty == (name == "DDJ-SX3"))
         let inputs = profile.bindings(source: 10)
         if ["DDJ-SX", "DDJ-SX2", "DDJ-SX3", "DDJ-RX"].contains(name) {
             #expect(!inputs.contains { [.master, .monitor, .cueMix].contains($0.action) })

@@ -45,6 +45,8 @@ def ddj_profiles():
         sz = model in {"DDJ-SZ", "DDJ-SZ2"}
         result["hardwareMode"] = "General MIDI / other DJ software mode. Select PC or USB mixer inputs."
         result["scope"] = "Automatic core MIDI controls. Hardware modes, advanced functions, colour pads, screens and audio routing remain open."
+        if model in {"DDJ-SX", "DDJ-SX2", "DDJ-RX", "DDJ-RZ", "DDJ-RZX", "DDJ-SZ", "DDJ-SZ2"}:
+            result["startup"] = [[0x9B, 9, 127]]
         if original:
             result["gaps"] = ["Deck D filter is unmapped. The factory CC32/64 pair conflicts with browser CC64. Clarify the protocol before enabling it."]
         for channel, deck in enumerate("abcd"):

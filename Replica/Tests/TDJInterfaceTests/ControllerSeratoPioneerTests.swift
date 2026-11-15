@@ -10,8 +10,9 @@ private let seratoPioneerNames = ["DDJ-1000SRT", "DDJ-SZ2", "DDJ-SZ", "XDJ-RX2"]
     let suite = "serato-pioneer-\(UUID().uuidString)"
     let preferences = UserDefaults(suiteName: suite)!
     defer { preferences.removePersistentDomain(forName: suite) }
-    let input = ControllerMIDIConnection(preferences: preferences, deckAvailability: { DeckID.allCases })
+    let input = ControllerMIDIConnection(preferences: preferences, factoryPacketSender: { _, _ in true }, deckAvailability: { DeckID.allCases })
     input.sources = [.init(id: 10, reference: 100, name: name, identity: .init(id: 10, device: 1, names: [name]))]
+    input.destinations = [.init(id: 20, reference: 200, name: name, identity: .init(id: 20, device: 1, names: [name]))]
     input.reconcileFactoryProfiles()
     try body(input)
 }

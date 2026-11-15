@@ -2,6 +2,25 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R182 published DDJ application-connect messages
+
+SX, SX2, RX, RZ, RZX, SZ and SZ2 now send their documented application-connect packet to the paired MIDI output.
+Each factory table specifies channel 12, Note 9, with any data value indicating connection. The profiles send `9B 09 7F`.
+The packet runs once when the session starts and again after a reconnect.
+The tables define no disconnect value. The shutdown lists remain empty.
+
+Failed startup keeps the factory controls inactive and reports the setup failure.
+Fixtures cover all seven models, unrelated output ports, repeated discovery and reconnects.
+The negative fixtures retain empty startup lists for models without that documented command.
+XDJ PC Control messages remain hardware-to-host reports. Their hardware mode still requires selection on the unit.
+
+All control, feedback, alias and deck facts remain unchanged. Only seven startup lists changed.
+The catalogue remains at 284 records, 138 data recipes and seven code profiles. Fifty-four factory profiles select core controls automatically.
+All 94 focused Swift checks, 20 importer checks and native iPad compilation passed. The compiled resource matches the source.
+The repository check retains 12 historical broken links across 1,509 files.
+Source base: `1961189` on `feature/controller-support`. Evidence: `TestBuilds/r182/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R181 entry-level Pioneer systems
 
 DDJ-SB2, SB, RB, RR, 200 and WeGO4 now select documented core controls automatically.

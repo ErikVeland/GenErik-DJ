@@ -63,6 +63,10 @@ def report(catalogue, runtime):
               "The profiles retain two/four-deck limits, actual pad layouts, SB Vinyl Off releases and published application-connect messages.",
               "Missing physical controls stay in the app. Remaining modes, complete feedback and audio routing remain open.",
               "See [R181 entry-level systems](controller-coverage.md#r181-entry-level-pioneer-systems).", "",
+              "## Published DDJ startup packets — R182", "",
+              "SX, SX2, RX, RZ, RZX, SZ and SZ2 now send their documented application-connect packet once per session and after reconnects.",
+              "Paired-output and failure fixtures retain the existing control facts. Full lifecycle and feature parity remain open.",
+              "See [R182 startup messages](controller-coverage.md#r182-published-ddj-application-connect-messages).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

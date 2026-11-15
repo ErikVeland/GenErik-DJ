@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R181 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R182 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -20,6 +20,7 @@ The RX recipe remains manual because the factory table has no Load message. The 
 REV7 retains a web-reviewed source record. Motor, platter, display and lifecycle work remains open.
 `entry.py` adds SB2, SB, RB, RR, 200 and WeGO4 facts. It retains their deck, pad and mixer differences.
 SB, SB2 and RR send their documented application-connect message. SB Vinyl Off touches can release a scratch without starting one.
+SX, SX2, RX, RZ, RZX, SZ and SZ2 also send the published application-connect packet. Each session sends it once and repeats it after reconnects.
 The downloaded references have SHA-256 hashes. Two manuals retain web-reviewed text and null document hashes.
 Their records state this evidence limit. A document URL is not a content hash.
 

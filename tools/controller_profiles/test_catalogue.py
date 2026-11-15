@@ -187,6 +187,13 @@ class ConversionTests(unittest.TestCase):
             if document.exists():
                 self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), source["sha256"])
 
+    def test_ddj_application_connect_is_limited_to_reviewed_tables(self):
+        expected = {"DDJ-SX", "DDJ-SX2", "DDJ-RX", "DDJ-RZ", "DDJ-RZX", "DDJ-SZ", "DDJ-SZ2"}
+        for item in ddj_profiles():
+            self.assertEqual(item["startup"], [[0x9B, 9, 127]] if item["id"].split(" ", 1)[1] in expected else [])
+            self.assertEqual(item["shutdown"], [])
+        self.assertTrue(all(not item["startup"] for item in controller_profiles()))
+
     def test_feedback_range_preserves_reverse_polarity_and_cc_lights(self):
         output = "<output><group>[Channel1]</group><key>play</key><status>0xB0</status><midino>11</midino><minimum>0</minimum><maximum>0.1</maximum><on>127</on><off>1</off></output>"
         with tempfile.TemporaryDirectory() as directory:

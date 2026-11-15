@@ -36091,7 +36091,13 @@
           "offUsesNoteOn": true
         }
       ],
-      "startup": [],
+      "startup": [
+        [
+          155,
+          9,
+          127
+        ]
+      ],
       "shutdown": [],
       "autoSelect": true,
       "scope": "Automatic core MIDI controls. Hardware modes, advanced functions, colour pads, screens and audio routing remain open.",
@@ -37690,7 +37696,13 @@
           "offUsesNoteOn": true
         }
       ],
-      "startup": [],
+      "startup": [
+        [
+          155,
+          9,
+          127
+        ]
+      ],
       "shutdown": [],
       "autoSelect": true,
       "scope": "Automatic core MIDI controls. Hardware modes, advanced functions, colour pads, screens and audio routing remain open.",
@@ -39273,7 +39285,13 @@
           "offUsesNoteOn": true
         }
       ],
-      "startup": [],
+      "startup": [
+        [
+          155,
+          9,
+          127
+        ]
+      ],
       "shutdown": [],
       "autoSelect": true,
       "scope": "Automatic core MIDI controls. Hardware modes, advanced functions, colour pads, screens and audio routing remain open.",
@@ -46573,7 +46591,13 @@
           "offUsesNoteOn": true
         }
       ],
-      "startup": [],
+      "startup": [
+        [
+          155,
+          9,
+          127
+        ]
+      ],
       "shutdown": [],
       "autoSelect": true,
       "scope": "Automatic core MIDI controls. Hardware modes, advanced functions, colour pads, screens and audio routing remain open.",
@@ -48091,7 +48115,13 @@
           "offUsesNoteOn": true
         }
       ],
-      "startup": [],
+      "startup": [
+        [
+          155,
+          9,
+          127
+        ]
+      ],
       "shutdown": [],
       "autoSelect": true,
       "scope": "Automatic core MIDI controls. Hardware modes, advanced functions, colour pads, screens and audio routing remain open.",
@@ -51169,7 +51199,13 @@
           "offUsesNoteOn": true
         }
       ],
-      "startup": [],
+      "startup": [
+        [
+          155,
+          9,
+          127
+        ]
+      ],
       "shutdown": [],
       "autoSelect": true,
       "scope": "Automatic core MIDI controls. Hardware modes, advanced functions, colour pads, screens and audio routing remain open.",
@@ -52736,7 +52772,13 @@
           "offUsesNoteOn": true
         }
       ],
-      "startup": [],
+      "startup": [
+        [
+          155,
+          9,
+          127
+        ]
+      ],
       "shutdown": [],
       "autoSelect": true,
       "scope": "Automatic core MIDI controls. Hardware modes, advanced functions, colour pads, screens and audio routing remain open.",
