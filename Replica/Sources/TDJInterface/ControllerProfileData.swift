@@ -12,13 +12,14 @@ struct ControllerProfileData: Decodable, Sendable {
         let targetDeck: DeckID?
         let anyChannel: Bool?
         let argument: Double?
+        let releaseOnly: Bool?
 
         func binding(source: Int32) -> ControllerBinding {
             .init(
                 source: source, group: 0, channel: channel, kind: kind, number: number,
                 parameter: nil, noteNumber: nil, action: action, encoding: encoding,
                 inverted: inverted, shifted: false, targetDeck: targetDeck, layerIndependent: true,
-                anyChannel: anyChannel, argument: argument)
+                anyChannel: anyChannel, argument: argument, releaseOnly: releaseOnly)
         }
     }
 
@@ -58,6 +59,7 @@ struct ControllerProfileData: Decodable, Sendable {
                 $0.channel < 16 && $0.number < 128
                     && ($0.encoding != .paired14Bit || ($0.kind == .control && $0.number < 32))
                     && ($0.anyChannel != true || role == "player")
+                    && ($0.releaseOnly != true || ($0.kind == .note && $0.action.isMomentary))
                     && Self.validArgument($0)
                     && (![.cdjPlatterSpeed, .cdjRingSpeed, .cdj350PlatterSpeed, .cdjTempo, .needlePosition].contains($0.encoding)
                         || $0.kind == .control)

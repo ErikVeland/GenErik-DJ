@@ -58,6 +58,11 @@ def report(catalogue, runtime):
               "The original RX has a separate manual recipe. Its speed jogs, four Hot Cues and absent Load/output messages retain their factory-table limits.",
               "REV7 motorised-platter, display and lifecycle protocols remain unimplemented. Its published relative JOG entry does not establish platter support.",
               "See [R180 controller systems](controller-coverage.md#r180-serato-oriented-ddj-and-xdj-rx-models).", "",
+              "## Common entry-level Pioneer systems — R181", "",
+              "DDJ-SB2, SB, RB, RR, 200 and WeGO4 select documented core controls automatically.",
+              "The profiles retain two/four-deck limits, actual pad layouts, SB Vinyl Off releases and published application-connect messages.",
+              "Missing physical controls stay in the app. Remaining modes, complete feedback and audio routing remain open.",
+              "See [R181 entry-level systems](controller-coverage.md#r181-entry-level-pioneer-systems).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

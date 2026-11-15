@@ -2,6 +2,41 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R181 entry-level Pioneer systems
+
+DDJ-SB2, SB, RB, RR, 200 and WeGO4 now select documented core controls automatically.
+SB, SB2 and 200 replace earlier partial recipes. The catalogue retains their original source definitions.
+
+| Model | Deck targets | Pads and controls |
+| --- | ---: | --- |
+| DDJ-SB2 | 4 | Four physical pads address Hot Cues 1–4 and 5–8 in separate modes. Manual Loop pads keep their own messages. |
+| DDJ-SB | 2 | The same two Hot Cue banks and separate Manual Loop messages. No gain knob is mapped. |
+| DDJ-RB | 2 | Eight Hot Cues, loop in/out, four-beat long press and the documented mixer controls. No guessed Keylock button. |
+| DDJ-RR | 4 | Eight Hot Cues, manual/automatic loops, needle position and the documented software mixer controls. |
+| DDJ-200 | 2 | Eight generic pads use native Hot Cues. Transport, jog, tempo and the documented mixer controls are mapped. |
+| DDJ-WeGO4 | 2 | Four Hot Cues, loops and a two-band mixer. Mixer messages use the global channel. Loop lights use separate output addresses. |
+
+The SB, SB2 and RR profiles send their published application-connect message once to the paired output.
+The table defines any value as connected. It defines no shutdown value, so these profiles send no invented disconnect message.
+RR Back uses the table's explicit hexadecimal status byte, `96`, on the global channel.
+
+SB Vinyl Off touch messages must not start a scratch. A release-only binding can end a touch that began in Vinyl On mode.
+Only momentary note actions can use this binding flag. Invalid catalogue records fail validation.
+The packet fixture checks that a Vinyl Off press cannot start another touch.
+
+DDJ-200 has no hardware browser, Load, loop or Keylock buttons. Those functions use the existing app controls.
+Its Bluetooth connection and pairing flow retain a separate verification scope.
+WeGO4 has no mapped gain or mid-EQ knob. SB master/headphone-level controls remain hardware controls where the table specifies no MIDI message.
+Remaining pad/FX modes, complete feedback, lifecycle details and audio routing remain release work.
+
+The catalogue contains 284 records, 138 data recipes and seven code profiles. Fifty-four factory profiles select core controls automatically.
+Three partial recipes changed. The other 132 earlier data recipes retain their control facts.
+References and content hashes are in [`entry.py`](../../tools/controller_profiles/entry.py).
+Source base: `ec6d566` on `feature/controller-support`. Evidence: `TestBuilds/r181/`.
+All 91 focused Swift checks and 19 importer checks passed. Native iPad compilation passed and its resource matches the source.
+The repository check retains 12 historical link failures.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R180 Serato-oriented DDJ and XDJ-RX models
 
 DDJ-1000SRT, DDJ-SZ2, DDJ-SZ and XDJ-RX2 now select core MIDI controls automatically.

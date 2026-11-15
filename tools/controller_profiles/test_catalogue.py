@@ -18,6 +18,7 @@ from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
 from controllers import controller_profiles, controller_references
 from ddj_family import ddj_profiles, ddj_references, PENDING_DDJ
 from legacy_xdj import legacy_xdj_profiles, LEGACY_XDJ_REFERENCES
+from entry import entry_profiles, entry_references
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -73,7 +74,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles():
             addresses = [(item["kind"], item["channel"], item["number"]) for item in profile["inputs"]]
             self.assertEqual(len(addresses), len(set(addresses)), profile["id"])
             self.assertLessEqual(len(profile["inputs"]), 512)
@@ -169,6 +170,22 @@ class ConversionTests(unittest.TestCase):
             document = ROOT / "TestBuilds/r180/manufacturer" / (name + ".pdf")
             if document.exists():
                 self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), references["Pioneer " + name]["sha256"])
+
+    def test_entry_models_keep_deck_counts_initialisation_and_release_messages(self):
+        profiles = {item["id"]: item for item in entry_profiles()}
+        for name, item in profiles.items():
+            decks = {entry["targetDeck"] for entry in item["inputs"] if "targetDeck" in entry}
+            self.assertEqual(decks, set("abcd") if name.endswith(("DDJ-SB2", "DDJ-RR")) else set("ab"))
+            self.assertEqual(item["startup"], [[0x9B, 9, 127]] if name.endswith(("DDJ-SB", "DDJ-SB2", "DDJ-RR")) else [])
+            self.assertEqual(sum(entry.get("releaseOnly", False) for entry in item["inputs"]), len(decks) if name.endswith(("DDJ-SB", "DDJ-SB2")) else 0)
+        small = profiles["Pioneer DDJ-200"]
+        self.assertFalse(any(entry["action"].startswith(("load", "browse", "loop", "keylock", "gain")) for entry in small["inputs"]))
+        wego = profiles["Pioneer DDJ-WeGO4"]
+        self.assertFalse(any(entry["action"].startswith(("mid", "gain", "keylock")) for entry in wego["inputs"]))
+        for name, source in entry_references().items():
+            document = ROOT / "TestBuilds/r181/manufacturer" / (name.split(" ", 1)[1] + ".pdf")
+            if document.exists():
+                self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), source["sha256"])
 
     def test_feedback_range_preserves_reverse_polarity_and_cc_lights(self):
         output = "<output><group>[Channel1]</group><key>play</key><status>0xB0</status><midino>11</midino><minimum>0</minimum><maximum>0.1</maximum><on>127</on><off>1</off></output>"

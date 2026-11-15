@@ -106,6 +106,7 @@ struct ControllerBinding: Codable {
     var layerIndependent: Bool? = nil
     var anyChannel: Bool? = nil
     var argument: Double? = nil
+    var releaseOnly: Bool? = nil
     var target: ControllerActionTarget { .init(action, deck: targetDeck, argument: argument) }
     var mode: ControllerMIDIEncoding { encoding ?? .absolute }
     var isShifted: Bool { shifted ?? false }
@@ -1949,6 +1950,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         let matches = inputBindings(source: sourceID).filter {
             $0.source == sourceID && $0.umpGroup == message.group && $0.kind == message.kind
+                && ($0.releaseOnly != true || message.isNoteOff)
                 && ($0.anyChannel == true || $0.channel == message.channel) && $0.parameter == message.parameter
                 && $0.noteNumber == message.noteNumber
                 && ($0.number == message.number

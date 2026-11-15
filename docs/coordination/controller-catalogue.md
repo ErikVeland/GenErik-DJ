@@ -7,9 +7,9 @@ Reviewed 16 November 2026. This catalogue is complete for the defined source bou
 - 121 published Serato iOS rows, expanded to 122 distinct model records.
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
-- 281 total catalogue records. 274 name physical models. The remainder identify software endpoints or protocol families.
-- 135 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
-- 48 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+- 284 total catalogue records. 277 name physical models. The remainder identify software endpoints or protocol families.
+- 138 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
+- 54 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -76,17 +76,24 @@ The original RX has a separate manual recipe. Its speed jogs, four Hot Cues and 
 REV7 motorised-platter, display and lifecycle protocols remain unimplemented. Its published relative JOG entry does not establish platter support.
 See [R180 controller systems](controller-coverage.md#r180-serato-oriented-ddj-and-xdj-rx-models).
 
+## Common entry-level Pioneer systems — R181
+
+DDJ-SB2, SB, RB, RR, 200 and WeGO4 select documented core controls automatically.
+The profiles retain two/four-deck limits, actual pad layouts, SB Vinyl Off releases and published application-connect messages.
+Missing physical controls stay in the app. Remaining modes, complete feedback and audio routing remain open.
+See [R181 entry-level systems](controller-coverage.md#r181-entry-level-pioneer-systems).
+
 ## Implementation states
 
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 40 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 36 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 42 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 7 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 101 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| partial-midi-profile | 98 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
 | protocol-needed | 78 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
@@ -115,7 +122,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | AlphaTheta Euphonia | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | AlphaTheta SLAB | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | AlphaTheta XDJ-AZ | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Pioneer DJ DDJ-200 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Pioneer DJ DDJ-200 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-400 | primary | Automatic core | Automatic split | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-ERGO | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-FLX10 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
@@ -124,8 +131,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DJ DDJ-REV5 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-REV7 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-S1 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Pioneer DJ DDJ-SB | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Pioneer DJ DDJ-SB2 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Pioneer DJ DDJ-SB | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Pioneer DJ DDJ-SB2 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-SB3 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-SP1 | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-SR | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
@@ -254,6 +261,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DDJ-1000 | primary | automatic-profile | [Reference](../../Replica/Sources/TDJInterface/ControllerPioneerProfiles.swift) |
 | Pioneer DDJ-1000SRT | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/firmwares/dj-controllers/DDJ-1000SRT/DDJ-1000SRT_MIDI_Message_List_E1.pdf) |
 | Pioneer DDJ-800 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-800/DDJ-800_MIDI_Message_List_E1.pdf) |
+| Pioneer DDJ-RB | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RB/DDJ-RB_MIDI_Message_List_E.pdf) |
+| Pioneer DDJ-RR | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RR/DDJ-RR_MIDI_Message_List_E.pdf) |
 | Pioneer DDJ-RX | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RX/DDJ-RX_List_of_MIDI_Message_E.pdf) |
 | Pioneer DDJ-RZ | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RZ/DDJ-RZ_MIDI_Message_List_E.pdf) |
 | Pioneer DDJ-RZX | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RZX/DDJ-RZX_MIDI_Message_List_E.pdf) |
@@ -261,6 +270,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DDJ-SX3 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SX3/DDJ-SX3_MIDI_Message_List_E1.pdf) |
 | Pioneer DDJ-SZ | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SZ/DDJ-SZ_MIDI_Message_List_E.pdf) |
 | Pioneer DDJ-SZ2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SZ2/DDJ-SZ2_MIDI_Message_v100_E.pdf) |
+| Pioneer DDJ-WeGO4 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-WeGO4/DDJ-WeGO4_List_of_MIDI_Message_E.pdf) |
 | Pioneer XDJ-RX | primary | partial-midi-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX/XDJ-RX_List_of_MIDI_Message_E.pdf) |
 | Pioneer XDJ-RX2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX2/XDJ-RX2_List_of_MIDI_Message_E3.pdf) |
 | Pioneer XDJ-RX3 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX3/XDJ-RX3_MIDI_Message_List_E1.pdf) |
