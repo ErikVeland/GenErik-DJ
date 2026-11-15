@@ -75,6 +75,8 @@ struct ControllerProfileData: Decodable, Sendable {
 
     private static func validArgument(_ input: Input) -> Bool {
         switch input.action {
+        case .loopA, .loopB:
+            return input.argument.map { PerformancePreparation.loopSizes.contains($0) } ?? true
         case .fixedLoopA, .fixedLoopB:
             return input.argument.map { PerformancePreparation.loopSizes.contains($0) } ?? false
         case .fixedJumpA, .fixedJumpB:

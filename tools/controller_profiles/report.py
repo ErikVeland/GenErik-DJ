@@ -53,6 +53,11 @@ def report(catalogue, runtime):
               "The original SX deck-D filter stays unmapped because its published pair conflicts with Browse. SR2 banked Load routing remains unimplemented.",
               "Hardware mode selection, advanced functions, complete feedback and audio routing remain open.",
               "See [R179 DDJ families](controller-coverage.md#r179-sx-and-rx-family-controllers).", "",
+              "## Serato-oriented DDJ and XDJ-RX models — R180", "",
+              "DDJ-1000SRT, DDJ-SZ2, DDJ-SZ and XDJ-RX2 now select core MIDI profiles automatically.",
+              "The original RX has a separate manual recipe. Its speed jogs, four Hot Cues and absent Load/output messages retain their factory-table limits.",
+              "REV7 motorised-platter, display and lifecycle protocols remain unimplemented. Its published relative JOG entry does not establish platter support.",
+              "See [R180 controller systems](controller-coverage.md#r180-serato-oriented-ddj-and-xdj-rx-models).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

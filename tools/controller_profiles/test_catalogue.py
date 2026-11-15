@@ -17,6 +17,7 @@ from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
 from controllers import controller_profiles, controller_references
 from ddj_family import ddj_profiles, ddj_references, PENDING_DDJ
+from legacy_xdj import legacy_xdj_profiles, LEGACY_XDJ_REFERENCES
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -72,7 +73,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles():
             addresses = [(item["kind"], item["channel"], item["number"]) for item in profile["inputs"]]
             self.assertEqual(len(addresses), len(set(addresses)), profile["id"])
             self.assertLessEqual(len(profile["inputs"]), 512)
@@ -140,9 +141,9 @@ class ConversionTests(unittest.TestCase):
         for name, item in profiles.items():
             self.assertTrue(item["autoSelect"])
             self.assertEqual({entry["channel"] for entry in item["inputs"] if entry["action"] == "openGroup" and entry["number"] == 65},
-                             set(range(4)) if name.endswith(("DDJ-RZ", "DDJ-RZX")) else {6})
-            self.assertEqual(any(entry["action"] == "seekA" for entry in item["inputs"]), not name.endswith("RZX"))
-            self.assertEqual(any(entry["action"] == "fixedLoopA" for entry in item["inputs"]), not name.endswith(("DDJ-SX", "DDJ-RZX")))
+                             set(range(4)) if name.endswith(("DDJ-RZ", "DDJ-RZX")) else set() if name.endswith(("DDJ-SZ", "DDJ-SZ2", "1000SRT")) else {6})
+            self.assertEqual(any(entry["action"] == "seekA" for entry in item["inputs"]), not name.endswith(("RZX", "1000SRT")))
+            self.assertEqual(any(entry["action"] == "fixedLoopA" for entry in item["inputs"]), not name.endswith(("DDJ-SX", "DDJ-RZX", "DDJ-SZ", "1000SRT")))
         for name, source in ddj_references().items():
             document = ROOT / "TestBuilds/r179/manufacturer" / (name.split(" ", 1)[1] + ".pdf")
             if document.exists():
@@ -153,6 +154,21 @@ class ConversionTests(unittest.TestCase):
         document = ROOT / "TestBuilds/r179/manufacturer/DDJ-SR2.pdf"
         if document.exists():
             self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), pending["source"]["sha256"])
+
+    def test_serato_and_rx_models_keep_generation_specific_facts(self):
+        srt = next(item for item in ddj_profiles() if item["id"].endswith("1000SRT"))
+        self.assertEqual([item["argument"] for item in srt["inputs"] if item["action"] in {"loopA", "loopB"}], [4] * 4)
+        old = legacy_xdj_profiles()[0]
+        self.assertFalse(old["autoSelect"])
+        self.assertFalse(old["outputs"])
+        self.assertFalse(any(item["action"].startswith("load") for item in old["inputs"]))
+        self.assertEqual(next(item["encoding"] for item in old["inputs"] if item["action"] == "jogA"), "cdjPlatterSpeed")
+        self.assertEqual(sum(item["action"].startswith("hotcue") for item in old["inputs"]), 16)
+        references = {**ddj_references(), **controller_references(), **LEGACY_XDJ_REFERENCES}
+        for name in ["DDJ-1000SRT", "DDJ-SZ", "DDJ-SZ2", "XDJ-RX", "XDJ-RX2"]:
+            document = ROOT / "TestBuilds/r180/manufacturer" / (name + ".pdf")
+            if document.exists():
+                self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), references["Pioneer " + name]["sha256"])
 
     def test_feedback_range_preserves_reverse_polarity_and_cc_lights(self):
         output = "<output><group>[Channel1]</group><key>play</key><status>0xB0</status><midino>11</midino><minimum>0</minimum><maximum>0.1</maximum><on>127</on><off>1</off></output>"

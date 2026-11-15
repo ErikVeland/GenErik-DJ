@@ -15,6 +15,7 @@ from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY, CDJ_GAPS
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
 from controllers import controller_profiles, controller_references
 from ddj_family import ddj_profiles, ddj_references, PENDING_DDJ
+from legacy_xdj import legacy_xdj_profiles, LEGACY_XDJ_REFERENCES
 
 LEGACY = {"Pioneer DDJ-FLX4": "DDJ-FLX4", "AlphaTheta DDJ-FLX2": "DDJ-FLX2",
           "Pioneer DDJ-400": "DDJ-400", "Pioneer DDJ-FLX10": "DDJ-FLX10",
@@ -91,7 +92,7 @@ def build(cache, serato_html):
                      profile=name, role="accessory" if name.startswith(("X1", "F1", "D2")) else "primary")
     add_model("Reloop Beatpad", "docs/coordination/beatpad-native.md").update(implementation="native-midi", profile="Beatpad")
 
-    reviewed = curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles()
+    reviewed = curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles()
     reviewed_ids = {canonical(item["id"]) for item in reviewed}
     for path in sorted((cache / "res/controllers").glob("*.xml")):
         reference = refs[path.name]
@@ -138,10 +139,11 @@ def build(cache, serato_html):
         model = add_model(item["id"], item["source"])
         if item["id"] in PLAYER_REFERENCES:
             model["name"] = item["id"]
-        model.update(implementation="automatic-core-profile", profile=item["id"], automaticControls=True)
+        model.update(implementation="automatic-core-profile" if item["autoSelect"] else "partial-midi-profile",
+                     profile=item["id"], automaticControls=item["autoSelect"])
         model["definitions"].append(item["definition"])
         reference = REFERENCES.get(item["id"])
-        source = CDJ_REFERENCES.get(item["id"]) or PLAYER_REFERENCES.get(item["id"]) or controller_references().get(item["id"]) or ddj_references().get(item["id"]) or {"url": item["source"],
+        source = CDJ_REFERENCES.get(item["id"]) or PLAYER_REFERENCES.get(item["id"]) or controller_references().get(item["id"]) or ddj_references().get(item["id"]) or LEGACY_XDJ_REFERENCES.get(item["id"]) or {"url": item["source"],
             "sha256": reference[1] if reference else "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"}
         definitions.append({"id": item["definition"], "name": item["id"], "transport": "midi",
                             "source": source,
@@ -152,7 +154,7 @@ def build(cache, serato_html):
     for name, pending in PENDING_DDJ.items():
         definition = "manufacturer:" + canonical(name)
         model = add_model(name, pending["source"]["url"])
-        model["implementation"] = "adapter-needed"
+        model["implementation"] = pending.get("implementation", "adapter-needed")
         model["definitions"].append(definition)
         definitions.append({"id": definition, "name": name, "transport": "midi", "source": pending["source"],
                             "implementedInputCount": 0, "implementedOutputCount": 0,
@@ -193,8 +195,9 @@ def build(cache, serato_html):
         model["gaps"] = [] if model["theoreticalSupport"]["complete"] else [
             "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."]
         model["gaps"].extend(profile.get("gaps", []) if profile else [])
-        if model["name"] in PENDING_DDJ:
-            model["gaps"].append(PENDING_DDJ[model["name"]]["gap"])
+        for name, pending in PENDING_DDJ.items():
+            if model["id"] == canonical(name):
+                model["gaps"].append(pending["gap"])
         if model["implementation"] == "protocol-needed":
             model["gaps"].append("No implemented protocol is present in the pinned references. Manufacturer protocol work is required.")
         elif model["implementation"] == "adapter-needed":

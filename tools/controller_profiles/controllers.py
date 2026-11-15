@@ -8,6 +8,7 @@ CONTROLLER_REFERENCES = {
     "Pioneer DDJ-FLX6": ("dj-controllers/DDJ-FLX6/DDJ-FLX6_MIDI_message_List_E1.pdf", "a12861c81f1550c35ae446a311951ade2a51cecfc2fd07081f5c405a4f3cfbc2", 10),
     "Pioneer DDJ-800": ("dj-controllers/DDJ-800/DDJ-800_MIDI_Message_List_E1.pdf", "1a9ff6d4cb4db440e572cc2736c5c7b20eca054ca2a5ace58065744507a97a3a", 8),
     "Pioneer DDJ-SB3": ("dj-controllers/DDJ-SB3/DDJ-SB3_MIDI_Message_List_E1.pdf", "7dcc8c30cea39597e6b1f9bdd79ec7105a58382bc8e7e89982001bf7714556da", 3),
+    "Pioneer XDJ-RX2": ("all-in-one-dj-systems/XDJ-RX2/XDJ-RX2_List_of_MIDI_Message_E3.pdf", "a4a4711cb419052ec93eb06e9ea3573d5c355c15fa555d730a71ae4058ecd497", 7),
 }
 
 
@@ -22,6 +23,7 @@ def controller_profiles():
         result = profile(name, reference["url"])
         club = "XDJ-" in name
         az, rx3, sb3, flx6 = (name.endswith(model) for model in ["XDJ-AZ", "XDJ-RX3", "DDJ-SB3", "DDJ-FLX6"])
+        rx2 = name.endswith("XDJ-RX2")
         result["scope"] = "Automatic core MIDI controls. Hardware control mode, advanced modes, displays and audio routing remain open."
         if club:
             result["hardwareMode"] = "PC control / MIDI. Select MIDI mixer control where required."
@@ -31,7 +33,7 @@ def controller_profiles():
                 add(result, action, channel, number, deck=deck, feedback=action in {"play", "sync"})
             if not flx6:
                 add(result, "keylock", channel, 17 if club else 26, deck=deck, feedback=True)
-            if club and not rx3:
+            if az or name.endswith("XDJ-XZ"):
                 add(result, "tempoReset", channel, 19, deck=deck)
             add(result, "tempo", channel, 0, "control", "paired14Bit", deck)
             add(result, "jogTouch", channel, 32 if club else 54, deck=deck)
@@ -48,7 +50,7 @@ def controller_profiles():
                 for action, number in [("loopIn", 6 if club else 16), ("loopOut", 7 if club else 17),
                                        ("reloop", 8 if club else 77)]:
                     add(result, action, channel, number, deck=deck)
-                if club and not rx3:
+                if az or name.endswith("XDJ-XZ"):
                     for number, beats in [(67, 4), (68, 8)]:
                         add(result, "fixedLoop", channel, number, deck=deck)
                         result["inputs"][-1]["argument"] = beats
@@ -72,7 +74,7 @@ def controller_profiles():
                     add(result, action, 4, numbers[channel], "control", deck=deck)
                     if action == "level" and az:
                         result["inputs"][-1]["inverted"] = True
-                add(result, "cue", 4, 70 + channel, "control", deck=deck, feedback=rx3)
+                add(result, "cue", 4, 70 + channel, "control", deck=deck, feedback=rx3 or rx2)
             else:
                 for action, number in [("level", 19), ("gain", 4), ("high", 7), ("mid", 11), ("low", 15)]:
                     add(result, action, channel, number, "control", "paired14Bit", deck)

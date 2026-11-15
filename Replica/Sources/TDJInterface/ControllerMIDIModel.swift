@@ -150,7 +150,12 @@ extension ReplicaModel {
                     setLoop(start: state.loopStart, end: original ?? state.loopEnd, deck: deck)
                 }
             }
-        case .loopA, .loopB: toggleLoop(deck: deck)
+        case .loopA, .loopB:
+            if let argument {
+                guard PerformancePreparation.loopSizes.contains(argument) else { return }
+                setLoopSize(argument, deck: deck)
+            }
+            toggleLoop(deck: deck)
         case .loopDivideA, .loopDivideB, .loopRestoreA, .loopRestoreB:
             guard let state = playbackSnapshot?[deck] else { return }
             guard state.loopEnabled else {

@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R179 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R180 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -15,6 +15,9 @@ It also retains the 121 reviewed Serato iOS model rows and their source-page has
 It keeps their pad channels, loop messages, mixer direction and feedback differences explicit.
 `ddj_family.py` adds SX3, SX2, SX, RX, RZ and RZX core profiles. SR2 retains a source record and an explicit bank-routing gap.
 The original SX deck-D filter stays unmapped because its published CC32/64 pair conflicts with Browse.
+R180 extends those tables to DDJ-1000SRT, SZ2, SZ and XDJ-RX2. `legacy_xdj.py` keeps the original RX separate.
+The RX recipe remains manual because the factory table has no Load message. The table also specifies no MIDI output.
+REV7 retains a web-reviewed source record. Motor, platter, display and lifecycle work remains open.
 The downloaded references have SHA-256 hashes. Two manuals retain web-reviewed text and null document hashes.
 Their records state this evidence limit. A document URL is not a content hash.
 

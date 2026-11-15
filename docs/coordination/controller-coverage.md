@@ -2,6 +2,39 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R180 Serato-oriented DDJ and XDJ-RX models
+
+DDJ-1000SRT, DDJ-SZ2, DDJ-SZ and XDJ-RX2 now select core MIDI controls automatically.
+The original XDJ-RX has a separate manual recipe. The newer RX2 does not inherit its older speed protocol.
+
+| Model | Implemented differences | Open functions |
+| --- | --- | --- |
+| DDJ-1000SRT | Four deck targets, separate pad channels, four-beat loop toggle and dedicated Beat Jump buttons. | Jog screens, remaining modes and audio routing. The unit has no mapped needle strip. |
+| DDJ-SZ2 | Four deck targets, eight Hot Cues, linear needle strip, loops and software mixer controls. | Remaining key/pad modes, complete feedback, displays and audio routing. |
+| DDJ-SZ | Four deck targets, eight Hot Cues, linear needle strip, loops and software mixer controls. | Remaining modes, complete feedback, displays and audio routing. |
+| XDJ-RX2 | Four documented MIDI deck addresses, eight Hot Cues, relative jogs, manual/four-beat loops and mixer controls. | Hardware MIDI mixer mode, remaining modes, displays and audio routing. |
+| XDJ-RX | Four documented MIDI deck addresses, four Hot Cues, absolute jog speeds and seven-bit tempo/mixer controls. | The table has no Load message or MIDI output. The recipe stays outside automatic selection. |
+
+The 1000SRT loop button sets four beats and toggles the loop. A second press exits.
+It preserves the saved Sync choice. Other Auto Loop buttons retain the app's selected loop size.
+Invalid fixed-size arguments cannot toggle a loop.
+The RX2 profile uses its documented relative jog stream. It ignores the alternative absolute stream to avoid duplicate motion.
+The original RX wheel-side stream uses the published platter-speed curve, including its low-speed range.
+Factory tables supply URLs, reviewed pages and content hashes in the generator modules.
+
+REV7 remains outside automatic selection.
+The 2024 factory MIDI table is available as web text. Local download attempts returned missing-file or access errors.
+The table's relative JOG entry alone does not establish motorised-platter support.
+Motor, platter, display and lifecycle protocols need review and implementation before automatic selection.
+
+The catalogue contains 281 records, 135 data recipes and seven code profiles. Forty-eight factory profiles select core controls automatically.
+All 130 earlier data recipes retain their control facts.
+Source base: `8443be0` on `feature/controller-support`. Evidence: `TestBuilds/r180/`.
+The first Swift run retained two old tests that excluded newly implemented models. Their model-boundary assertions now cover the new profiles.
+All 84 focused Swift checks and 18 importer checks passed. Native iPad compilation passed and its resource matches the source.
+The repository check retains 12 historical link failures.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R179 SX and RX-family controllers
 
 Six earlier DDJ systems now select core MIDI controls automatically: SX3, SX2, SX, RX, RZ and RZX.
