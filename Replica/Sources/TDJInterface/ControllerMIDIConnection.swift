@@ -19,6 +19,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case reloopA, reloopB
     case loopDivideA, loopDivideB, loopRestoreA, loopRestoreB
     case reloopOriginalA, reloopOriginalB
+    case loopSizeA, loopSizeB
     case hotcue1A, hotcue2A, hotcue3A, hotcue4A, hotcue5A, hotcue6A, hotcue7A, hotcue8A
     case hotcue1B, hotcue2B, hotcue3B, hotcue4B, hotcue5B, hotcue6B, hotcue7B, hotcue8B
     var id: String { rawValue }
@@ -48,7 +49,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
             "seek": "Waveform position", "tempoReset": "Tempo reset",
             "reloop": "Reloop / exit",
             "loopDivide": "Divide loop", "loopRestore": "Restore loop length",
-            "reloopOriginal": "Reloop original / exit",
+            "reloopOriginal": "Reloop original / exit", "loopSize": "Loop size encoder",
         ]
         return "\(deck.rawValue.uppercased()) · \(labels[String(rawValue.dropLast())] ?? rawValue)"
     }
@@ -56,7 +57,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         switch self {
         case .levelA, .levelB, .gainA, .gainB, .lowA, .lowB, .midA, .midB, .highA, .highB, .filterA, .filterB, .fxA,
             .fxB, .crossfader, .cueMix, .master, .monitor, .tempoA, .tempoB, .jogA, .jogB, .wheelJogA, .wheelJogB,
-            .browse, .browseGroups, .filterKnobA, .filterKnobB, .seekA, .seekB:
+            .browse, .browseGroups, .filterKnobA, .filterKnobB, .seekA, .seekB, .loopSizeA, .loopSizeB:
             false
         default: true
         }
@@ -68,10 +69,11 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         }
     }
     var isJog: Bool { self == .jogA || self == .jogB || self == .wheelJogA || self == .wheelJogB }
-    var isLearnable: Bool { ![.fixedLoopA, .fixedLoopB, .fixedJumpA, .fixedJumpB].contains(self) }
+    var isLearnable: Bool { ![.fixedLoopA, .fixedLoopB, .fixedJumpA, .fixedJumpB, .loopSizeA, .loopSizeB].contains(self) }
     func assigned(to deck: DeckID) -> Self {
         Self(rawValue: String(rawValue.dropLast()) + (deck.leftSide ? "A" : "B")) ?? self
     }
+    var isLoopSizeEncoder: Bool { self == .loopSizeA || self == .loopSizeB }
     var isBrowserEncoder: Bool { self == .browse || self == .browseGroups }
     var hotcueSlot: Int? {
         guard rawValue.hasPrefix("hotcue"), let value = Int(rawValue.dropFirst(6).dropLast()) else { return nil }
@@ -1968,7 +1970,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 value = binding.inverted == true && !binding.action.isButton ? 1 - absolute : absolute
             case .relative(let delta):
                 guard !binding.action.isButton, delta != 0 else { continue }
-                if binding.action.isJog {
+                if binding.action.isLoopSizeEncoder {
+                    value = 0.5 + min(63, max(-63, binding.inverted == true ? -delta : delta)) / 126
+                } else if binding.action.isJog {
                     let previousDelta = ((pendingValues[binding.target] ?? 0.5) - 0.5) * 8
                     let signedDelta = binding.inverted == true ? -delta : delta
                     value = 0.5 + min(4, max(-4, previousDelta + signedDelta)) / 8
@@ -2005,6 +2009,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             }
             guard binding.layerIndependent == true || binding.isShifted == (shiftLayers[sourceID]?.isActive ?? false)
                 || (binding.action.isMomentary && value == 0) else { continue }
+            if binding.action.isLoopSizeEncoder {
+                sendAction(binding.target, value: value)
+                continue
+            }
             if binding.action.isMomentary {
                 guard previous != value else { continue }
                 var inputs = activeMomentaryInputs[binding.target, default: []]

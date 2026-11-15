@@ -67,6 +67,10 @@ def report(catalogue, runtime):
               "SX, SX2, RX, RZ, RZX, SZ and SZ2 now send their documented application-connect packet once per session and after reconnects.",
               "Paired-output and failure fixtures retain the existing control facts. Full lifecycle and feature parity remain open.",
               "See [R182 startup messages](controller-coverage.md#r182-published-ddj-application-connect-messages).", "",
+              "## OPUS-QUAD core controls — R183", "",
+              "OPUS-QUAD selects core MIDI controls automatically, with its own Hot Cue layout, shifted jog and signed loop-size encoder.",
+              "Screens, complete feedback, advanced modes and audio routing remain open.",
+              "See [R183 OPUS-QUAD](controller-coverage.md#r183-opus-quad-core-midi-controls).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

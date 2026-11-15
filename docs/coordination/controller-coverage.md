@@ -2,6 +2,31 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R183 OPUS-QUAD core MIDI controls
+
+OPUS-QUAD now selects its documented core MIDI profile automatically.
+The factory table supplies four deck channels, eight irregular Hot Cue addresses and a separate software mixer channel.
+The profile retains shifted jog CC 41, signed loop-size CC 46 and Needle Position zero-release handling.
+The loop encoder applies each packet before the next button. Each packet changes the loop size once, within the existing bounds.
+Loop press toggles the current size. Shift press restores the last loop. Long IN selects four beats.
+The native loop path preserves the saved Sync choice.
+
+The profile includes transport, Load, manual loops, beat jumps, tempo, jog touch, EQ, gain, filter and headphone controls.
+Play, Sync and Master Tempo use documented binary feedback. Colour-coded Cue/Hot Cue lights and jog indicators remain open.
+Screens, FX, input/crossfader assignment, booth/zone audio and complete audio routing remain release work.
+PC Control CC 100 remains a hardware-to-host report. It is not a startup command.
+Select MIDI / PC control on the unit. Hardware mode selection remains outside the automatic profile.
+
+Source: [factory MIDI table](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/OPUS-QUAD/OPUS-QUAD_MIDI_Message_List_E1.pdf), pages 2–3.
+SHA-256: `cc65740ff56d1610ea8daa553559cb3d4e4d181754fe424973a2495507f5d695`.
+[Factory hardware diagram](https://cdn.rekordbox.com/files/20230307164217/OPUS-QUAD_HardwareDiagram_en.pdf) confirms Beat Loop and shifted Reloop functions.
+The catalogue retains 284 records and now contains 139 data recipes plus seven code profiles.
+Fifty-five factory profiles select core controls automatically. All 138 earlier data recipes remain unchanged.
+All 100 focused Swift checks, 21 importer checks and native iPad compilation passed. The compiled resource matches the source.
+The repository check retains 12 historical broken links across 1,511 files.
+Source base: `3389c36`. Evidence: `TestBuilds/r183/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R182 published DDJ application-connect messages
 
 SX, SX2, RX, RZ, RZX, SZ and SZ2 now send their documented application-connect packet to the paired MIDI output.

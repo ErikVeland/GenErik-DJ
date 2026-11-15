@@ -19,6 +19,7 @@ from controllers import controller_profiles, controller_references
 from ddj_family import ddj_profiles, ddj_references, PENDING_DDJ
 from legacy_xdj import legacy_xdj_profiles, LEGACY_XDJ_REFERENCES
 from entry import entry_profiles, entry_references
+from opus import opus_profiles, OPUS_REFERENCES
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -74,7 +75,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles():
             addresses = [(item["kind"], item["channel"], item["number"]) for item in profile["inputs"]]
             self.assertEqual(len(addresses), len(set(addresses)), profile["id"])
             self.assertLessEqual(len(profile["inputs"]), 512)
@@ -186,6 +187,19 @@ class ConversionTests(unittest.TestCase):
             document = ROOT / "TestBuilds/r181/manufacturer" / (name.split(" ", 1)[1] + ".pdf")
             if document.exists():
                 self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), source["sha256"])
+
+    def test_opus_quad_retains_its_distinct_controls_and_source(self):
+        item = opus_profiles()[0]
+        self.assertEqual(item["startup"], [])
+        self.assertEqual(item["shutdown"], [])
+        for deck in "abcd":
+            inputs = [binding for binding in item["inputs"] if binding.get("targetDeck") == deck]
+            self.assertEqual([binding["number"] for binding in inputs if binding["action"].startswith("hotcue")], [8, 11, 13, 15, 21, 23, 25, 27])
+            encoder = next(binding for binding in inputs if binding["action"].startswith("loopSize"))
+            self.assertEqual((encoder["number"], encoder["encoding"]), (46, "twosComplement"))
+        document = ROOT / "TestBuilds/r183/manufacturer/OPUS-QUAD.pdf"
+        if document.exists():
+            self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), OPUS_REFERENCES[item["id"]]["sha256"])
 
     def test_ddj_application_connect_is_limited_to_reviewed_tables(self):
         expected = {"DDJ-SX", "DDJ-SX2", "DDJ-RX", "DDJ-RZ", "DDJ-RZX", "DDJ-SZ", "DDJ-SZ2"}

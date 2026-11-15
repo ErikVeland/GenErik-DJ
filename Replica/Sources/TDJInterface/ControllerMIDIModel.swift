@@ -169,6 +169,13 @@ extension ReplicaModel {
                 : division.restore(generation: state.generation, start: state.loopStart, end: state.loopEnd)
             controllerLoopDivisions[deck] = division
             if let end { setLoop(start: state.loopStart, end: end, deck: deck) }
+        case .loopSizeA, .loopSizeB:
+            let steps = Int(((value - 0.5) * 126).rounded())
+            let sizes = PerformancePreparation.loopSizes
+            let current = performance.loopBeats(for: deck)
+            let index = sizes.firstIndex(of: current) ?? sizes.firstIndex(of: 4)!
+            let next = sizes[min(sizes.count - 1, max(0, index + steps))]
+            if steps != 0 && next != current { setLoopSize(next, deck: deck) }
         case .loopUpA, .loopUpB: stepLoopSize(direction: 1, deck: deck)
         case .loopDownA, .loopDownB: stepLoopSize(direction: -1, deck: deck)
         case .jumpBackA, .jumpBackB: beatJump(beats: -performance.loopBeats(for: deck), deck: deck)

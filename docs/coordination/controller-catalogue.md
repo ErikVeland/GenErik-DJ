@@ -8,8 +8,8 @@ Reviewed 16 November 2026. This catalogue is complete for the defined source bou
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - 284 total catalogue records. 277 name physical models. The remainder identify software endpoints or protocol families.
-- 138 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
-- 54 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+- 139 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
+- 55 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -89,18 +89,24 @@ SX, SX2, RX, RZ, RZX, SZ and SZ2 now send their documented application-connect p
 Paired-output and failure fixtures retain the existing control facts. Full lifecycle and feature parity remain open.
 See [R182 startup messages](controller-coverage.md#r182-published-ddj-application-connect-messages).
 
+## OPUS-QUAD core controls — R183
+
+OPUS-QUAD selects core MIDI controls automatically, with its own Hot Cue layout, shifted jog and signed loop-size encoder.
+Screens, complete feedback, advanced modes and audio routing remain open.
+See [R183 OPUS-QUAD](controller-coverage.md#r183-opus-quad-core-midi-controls).
+
 ## Implementation states
 
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 40 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 42 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 43 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 7 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 98 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 78 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 77 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -151,7 +157,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DJ DJM-S11 | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DJM-S5 | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DJM-S7 | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Pioneer DJ OPUS-QUAD | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Pioneer DJ OPUS-QUAD | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ PLX-CRSS12 | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Akai Pro AFX | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Allen & Heath Xone:K1 | accessory | adapter-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |

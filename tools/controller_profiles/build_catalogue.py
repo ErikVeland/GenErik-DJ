@@ -17,6 +17,7 @@ from controllers import controller_profiles, controller_references
 from ddj_family import ddj_profiles, ddj_references, PENDING_DDJ
 from legacy_xdj import legacy_xdj_profiles, LEGACY_XDJ_REFERENCES
 from entry import entry_profiles, entry_references
+from opus import opus_profiles, OPUS_REFERENCES
 
 LEGACY = {"Pioneer DDJ-FLX4": "DDJ-FLX4", "AlphaTheta DDJ-FLX2": "DDJ-FLX2",
           "Pioneer DDJ-400": "DDJ-400", "Pioneer DDJ-FLX10": "DDJ-FLX10",
@@ -93,7 +94,7 @@ def build(cache, serato_html):
                      profile=name, role="accessory" if name.startswith(("X1", "F1", "D2")) else "primary")
     add_model("Reloop Beatpad", "docs/coordination/beatpad-native.md").update(implementation="native-midi", profile="Beatpad")
 
-    reviewed = curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles()
+    reviewed = curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles()
     reviewed_ids = {canonical(item["id"]) for item in reviewed}
     for path in sorted((cache / "res/controllers").glob("*.xml")):
         reference = refs[path.name]
@@ -144,7 +145,7 @@ def build(cache, serato_html):
                      profile=item["id"], automaticControls=item["autoSelect"])
         model["definitions"].append(item["definition"])
         reference = REFERENCES.get(item["id"])
-        source = CDJ_REFERENCES.get(item["id"]) or PLAYER_REFERENCES.get(item["id"]) or controller_references().get(item["id"]) or ddj_references().get(item["id"]) or LEGACY_XDJ_REFERENCES.get(item["id"]) or entry_references().get(item["id"]) or {"url": item["source"],
+        source = CDJ_REFERENCES.get(item["id"]) or PLAYER_REFERENCES.get(item["id"]) or controller_references().get(item["id"]) or ddj_references().get(item["id"]) or LEGACY_XDJ_REFERENCES.get(item["id"]) or entry_references().get(item["id"]) or OPUS_REFERENCES.get(item["id"]) or {"url": item["source"],
             "sha256": reference[1] if reference else "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"}
         definitions.append({"id": item["definition"], "name": item["id"], "transport": "midi",
                             "source": source,
