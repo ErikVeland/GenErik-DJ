@@ -35,7 +35,7 @@
 
 ## Remaining release work
 
-App Store Connect needs these products, prices, localised metadata, subscription groups, privacy and terms links, and review notes. The privacy page needs the publisher name and contact details, human review, a public deployment and the requested custom domain. The 1.0 release also needs a signed build with these purchases. Verify the purchase and time-limit paths before submission. Physical controller testing is not a release blocker.
+App Store Connect needs these products, prices, localised metadata, subscription groups, privacy and terms links, and review notes. The privacy draft names Erik Veland and erik@veland.au. It still needs human review, a public deployment and the requested custom domain. The 1.0 release also needs a signed build with these purchases. Verify the purchase and time-limit paths before submission. Physical controller testing is not a release blocker.
 
 ## Implementation notes
 
