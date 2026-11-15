@@ -48,6 +48,11 @@ def report(catalogue, runtime):
               "Factory tables retain separate pad channels, fader direction, loop controls and documented feedback. Inactive C/D targets cannot control hidden decks.",
               "Hardware modes, advanced functions, screens and audio routing remain open. This increment does not claim full feature parity.",
               "See [R178 controller systems](controller-coverage.md#r178-popular-xdj-and-ddj-systems).", "",
+              "## SX and RX-family systems — R179", "",
+              "DDJ-SX3, SX2, SX, RX, RZ and RZX select core MIDI profiles automatically. Their factory tables retain model-specific controls.",
+              "The original SX deck-D filter stays unmapped because its published pair conflicts with Browse. SR2 banked Load routing remains unimplemented.",
+              "Hardware mode selection, advanced functions, complete feedback and audio routing remain open.",
+              "See [R179 DDJ families](controller-coverage.md#r179-sx-and-rx-family-controllers).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

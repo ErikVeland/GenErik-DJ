@@ -16,6 +16,7 @@ from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
 from controllers import controller_profiles, controller_references
+from ddj_family import ddj_profiles, ddj_references, PENDING_DDJ
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -71,7 +72,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles():
             addresses = [(item["kind"], item["channel"], item["number"]) for item in profile["inputs"]]
             self.assertEqual(len(addresses), len(set(addresses)), profile["id"])
             self.assertLessEqual(len(profile["inputs"]), 512)
@@ -129,6 +130,29 @@ class ConversionTests(unittest.TestCase):
             document = ROOT / "TestBuilds/r178/manufacturer" / (name.split(" ", 1)[1] + ".pdf")
             if document.exists():
                 self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), reference["sha256"])
+
+    def test_ddj_family_preserves_factory_differences_and_ambiguous_controls(self):
+        profiles = {item["id"]: item for item in ddj_profiles()}
+        self.assertEqual(set(profiles), set(ddj_references()))
+        original = profiles["Pioneer DDJ-SX"]
+        self.assertFalse(any(item["action"] == "filterKnobB" and item["targetDeck"] == "d" for item in original["inputs"]))
+        self.assertIn("CC32/64", original["gaps"][0])
+        for name, item in profiles.items():
+            self.assertTrue(item["autoSelect"])
+            self.assertEqual({entry["channel"] for entry in item["inputs"] if entry["action"] == "openGroup" and entry["number"] == 65},
+                             set(range(4)) if name.endswith(("DDJ-RZ", "DDJ-RZX")) else {6})
+            self.assertEqual(any(entry["action"] == "seekA" for entry in item["inputs"]), not name.endswith("RZX"))
+            self.assertEqual(any(entry["action"] == "fixedLoopA" for entry in item["inputs"]), not name.endswith(("DDJ-SX", "DDJ-RZX")))
+        for name, source in ddj_references().items():
+            document = ROOT / "TestBuilds/r179/manufacturer" / (name.split(" ", 1)[1] + ".pdf")
+            if document.exists():
+                self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), source["sha256"])
+        self.assertNotIn("Pioneer DDJ-SR2", profiles)
+        pending = PENDING_DDJ["Pioneer DDJ-SR2"]
+        self.assertIn("bank", pending["gap"])
+        document = ROOT / "TestBuilds/r179/manufacturer/DDJ-SR2.pdf"
+        if document.exists():
+            self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), pending["source"]["sha256"])
 
     def test_feedback_range_preserves_reverse_polarity_and_cc_lights(self):
         output = "<output><group>[Channel1]</group><key>play</key><status>0xB0</status><midino>11</midino><minimum>0</minimum><maximum>0.1</maximum><on>127</on><off>1</off></output>"

@@ -2,6 +2,41 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R179 SX and RX-family controllers
+
+Six earlier DDJ systems now select core MIDI controls automatically: SX3, SX2, SX, RX, RZ and RZX.
+They use hashed factory tables and the existing native control actions. The order groups common models before larger specialist systems.
+Global model-sales ranks remain unknown.
+
+All six profiles cover four documented MIDI decks, Play, Cue, Sync, Keylock/Master Tempo, mixer controls, eight Hot Cues and browse/load.
+Platter Vinyl On and Vinyl Off messages retain separate addresses. Both use the documented centre-64 relative encoding.
+Tempo, EQ, gain and channel faders retain their 14-bit pairs.
+Auto Loop, loop size, loop in/out and Reloop retain separate messages.
+The RZX also maps its documented Tempo Reset button.
+
+The five models with a needle strip use a linear zero-to-127 position. Zero means the file start, unlike the CDJ release sentinel.
+Needle position now bypasses soft takeover. Its packet fixtures verify both endpoints against an app value at the centre.
+RZX touch-screen gestures remain unmapped. They do not imply a needle strip.
+
+The original SX factory table specifies CC32/64 for the deck-D filter. Its browser also uses CC64 on the same MIDI channel.
+That filter remains unmapped until the source conflict is resolved. SX2 and later filter addresses do not inherit this pair.
+No new decoder extension or guessed replacement address forms part of this increment.
+
+Hardware-only master and headphone knobs remain hardware controls. RZ and RZX retain their documented software mixer messages.
+Colour-pad feedback stays open except for the original SX's documented on/off lights. Other mapped button lights use published addresses.
+Factory hardware modes, full lifecycle handling, advanced pad modes, displays and automatic audio routing remain release work.
+
+SR2 now has a source record, without an automatic profile.
+Its Load buttons use shared left/right packets. They do not name the selected deck.
+Implement bank selection, safe initial state and bank-specific Load fixtures before automatic selection.
+The reviewed SR2 factory table and its content hash remain in [`ddj_family.py`](../../tools/controller_profiles/ddj_family.py).
+
+The catalogue contains 276 records, 130 data recipes and seven code profiles. Forty-four factory profiles select core controls automatically.
+All 124 earlier data recipes retain their control facts. Hardware-mode metadata is now visible in the catalogue where documented.
+Source base: `d8eef22` on `feature/controller-support`. Evidence: `TestBuilds/r179/`.
+All 78 focused Swift checks, 17 importer checks and native iPad compilation passed.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R178 popular XDJ and DDJ systems
 
 Six more systems now select core MIDI controls automatically in the requested controller worktree.
