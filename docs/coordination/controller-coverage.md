@@ -1,6 +1,43 @@
 # Controller coverage
 
-Request R23. Updated 12 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
+Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
+
+## R178 popular XDJ and DDJ systems
+
+Six more systems now select core MIDI controls automatically in the requested controller worktree.
+The order favours recent all-in-one systems and common DDJ models. It does not claim measured global model-sales ranks.
+
+| Model | Core controls | Specific limits |
+| --- | --- | --- |
+| XDJ-AZ | Four documented decks, mixer, eight Hot Cues, manual/fixed loops, tempo reset, Beat Jump and needle position. | Pads 5–8 use separate channels. Faders follow the factory table's upper-zero direction. |
+| XDJ-RX3 | Four documented MIDI deck addresses, mixer, eight Hot Cues, manual loops and needle position. | The hardware has two physical mixer channels. Select its MIDI mixer mode where required. |
+| XDJ-XZ | Four documented decks, mixer, eight Hot Cues, manual/fixed loops, tempo reset and needle position. | Hardware PC/MIDI mode remains necessary. |
+| DDJ-FLX6 | Four decks, mixer, eight Hot Cues, platter touch/jog and manual loops. | Merge FX, Jog Cutter, pad modes and displays remain open. No guessed Master Tempo button. |
+| DDJ-800 | Four documented MIDI deck addresses, mixer, eight Hot Cues, Master Tempo and manual loops. | The hardware has two physical mixer channels. Displays and remaining modes stay open. |
+| DDJ-SB3 | Four decks, mixer, eight Hot Cues, Keylock, Auto Loop and loop size controls. | FX Fade, Pad Scratch and remaining pad modes stay open. |
+
+All six profiles map Play, Cue, Sync, tempo, platter touch/jog, wheel-side jog, browse/load, channel cue and documented mixer controls.
+Tempo and DDJ mixer controls retain their published 14-bit pairs. XDJ mixer controls use seven-bit values.
+Browse direction reaches the app before a subsequent Load press.
+Only documented button lights are mapped. Colour-pad feedback remains open except for the SB3's documented on/off lights.
+Long IN presses retain their separate four-beat message after the short IN message.
+Tempo-range changes, shifted functions and full hardware feature parity remain open.
+
+All factory and learned MIDI bindings now respect the existing four-deck trial capacity.
+C/D inputs cannot control hidden decks in the base workspace. Pending controls also respect the capacity when they leave the queue.
+Button releases still clear stored state. Held platter touches can release after the capacity changes.
+
+Factory MIDI tables supply all six recipes. Their URLs, reviewed pages and SHA-256 hashes are in [`controllers.py`](../../tools/controller_profiles/controllers.py).
+The new SB3 recipe replaces its partial imported recipe. The other 118 existing data recipes retain their control facts.
+The catalogue now contains 271 records, 124 data recipes and seven code profiles. Thirty-eight factory profiles select core controls automatically.
+Hardware mode selection, full lifecycle handshakes, advanced modes, complete feedback and audio routing remain theoretical-support work.
+No model becomes fully supported from this core increment alone.
+
+Source base: `5cae857` on `feature/controller-support`. Evidence: `TestBuilds/r178/`.
+All 73 focused Swift checks and 16 importer checks passed. Native iPad compilation passed and its resource matches the source.
+The repository check retains 12 historical link failures.
+The first Swift run exposed an incorrect fixture expectation about the existing 14-bit decoder. The corrected fixture checks both bytes.
+No signed app, installation, controller hardware test or A10X audio/touch acceptance forms part of this increment.
 
 ## R177 XDJ and earlier CDJ controls
 

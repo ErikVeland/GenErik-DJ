@@ -88,7 +88,7 @@ import Testing
     let name = "controller-catalogue-\(UUID().uuidString)"
     let preferences = UserDefaults(suiteName: name)!
     defer { preferences.removePersistentDomain(forName: name) }
-    let controller = ControllerMIDIConnection(preferences: preferences)
+    let controller = ControllerMIDIConnection(preferences: preferences, deckAvailability: { DeckID.allCases })
     controller.sources = [
         .init(
             id: 10, reference: 100, name: "DDJ-GRV6",
@@ -218,7 +218,7 @@ import Testing
     let name = "controller-deck-edit-\(UUID().uuidString)"
     let preferences = UserDefaults(suiteName: name)!
     defer { preferences.removePersistentDomain(forName: name) }
-    let controller = ControllerMIDIConnection(preferences: preferences)
+    let controller = ControllerMIDIConnection(preferences: preferences, deckAvailability: { DeckID.allCases })
     controller.sources = [
         .init(
             id: 10, reference: 100, name: "DDJ-GRV6",

@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176/R177 player MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R178 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -11,6 +11,8 @@ It also retains the 121 reviewed Serato iOS model rows and their source-page has
 `curated.py` records independently checked manufacturer MIDI facts for the next popular models.
 `cdj.py` records factory MIDI facts for six club players, with separate tables for each generation.
 `players.py` adds nine XDJ and earlier CDJ profiles. It also records the shared CDJ-400/CDJ-400-K variant reference.
+`controllers.py` adds XDJ-AZ, RX3, XZ, DDJ-FLX6, DDJ-800 and DDJ-SB3 core profiles from hashed factory tables.
+It keeps their pad channels, loop messages, mixer direction and feedback differences explicit.
 The downloaded references have SHA-256 hashes. Two manuals retain web-reviewed text and null document hashes.
 Their records state this evidence limit. A document URL is not a content hash.
 

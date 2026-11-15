@@ -330,6 +330,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private let inbox = ControllerMIDIInbox()
     @ObservationIgnored private let preferences: UserDefaults
     @ObservationIgnored private let factoryPacketSender: (([UInt8], Int32) -> Bool)?
+    @ObservationIgnored private let deckAvailability: (() -> [DeckID])?
     @ObservationIgnored private var factorySessions: [ControllerFactorySession] = []
     @ObservationIgnored private var factoryBindings: [Int32: [ControllerBinding]] = [:]
     @ObservationIgnored private var factoryFeedback: [Int32: [ControllerFeedbackBinding]] = [:]
@@ -346,9 +347,13 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     private static let activeInputsStorageKey = "controllers.midiActiveInputs.v1"
     private static let feedbackStorageKey = "controllers.midiFeedback.v1"
 
-    init(preferences: UserDefaults = .standard, factoryPacketSender: (([UInt8], Int32) -> Bool)? = nil) {
+    init(
+        preferences: UserDefaults = .standard, factoryPacketSender: (([UInt8], Int32) -> Bool)? = nil,
+        deckAvailability: (() -> [DeckID])? = nil
+    ) {
         self.preferences = preferences
         self.factoryPacketSender = factoryPacketSender
+        self.deckAvailability = deckAvailability
         if let data = preferences.data(forKey: "controllers.factory.disabledPlayers"),
             let saved = try? JSONDecoder().decode(Set<Int32>.self, from: data)
         {
@@ -701,7 +706,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
 
     var availablePlayerDecks: [DeckID] {
-        FourDeckTrial.isAvailable && preferences.bool(forKey: FourDeckTrial.preferenceKey)
+        if let deckAvailability { return deckAvailability() }
+        return FourDeckTrial.isAvailable && preferences.bool(forKey: FourDeckTrial.preferenceKey)
             ? DeckID.allCases : DeckID.primary
     }
 
@@ -1834,11 +1840,18 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             }
             for message in messages { receive(message, source: sourceID) }
         }
+        flushPendingActions()
+        sendFeedback()
+        sendFactoryFeedback()
+    }
+
+    /**
+     * Applies the latest coalesced controls within the current deck capacity.
+     */
+    func flushPendingActions() {
         let pending = pendingValues
         pendingValues.removeAll(keepingCapacity: true)
         for (target, value) in pending { sendAction(target, value: value) }
-        sendFeedback()
-        sendFactoryFeedback()
     }
     func receive(_ message: ControllerMIDIMessage, source sourceID: Int32) {
         let parameterLabel = message.kind == .program ? " bank" : " parameter"
@@ -1975,6 +1988,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 }
             }
             if binding.action.isButton, message.kind == .note, !message.isNoteOff, value == 0 { value = 1 }
+            if let deck = binding.targetDeck, !availablePlayerDecks.contains(deck),
+                !(binding.action.isButton && value == 0)
+            { continue }
             let previous = values.updateValue(value, forKey: key)
             if binding.action == .shift {
                 let inputKey =
@@ -2035,6 +2051,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
 
     private func sendAction(_ target: ControllerActionTarget, value: Double) {
+        if let deck = target.deck, !availablePlayerDecks.contains(deck),
+            !(target.action.isMomentary && value == 0), !(target.action.isJog && value == 0.5)
+        { return }
         if let onTargetAction { onTargetAction(target, value) }
         else { onAction?(target.action, value) }
     }

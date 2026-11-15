@@ -15,6 +15,7 @@ from reviewed import REVIEWED
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
+from controllers import controller_profiles, controller_references
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -70,7 +71,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles():
             addresses = [(item["kind"], item["channel"], item["number"]) for item in profile["inputs"]]
             self.assertEqual(len(addresses), len(set(addresses)), profile["id"])
             self.assertLessEqual(len(profile["inputs"]), 512)
@@ -108,6 +109,26 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(next(item["argument"] for item in old if item["number"] == 0x39), 2)
         self.assertEqual(next(item["argument"] for item in mk2 if item["number"] == 0x39), -1)
         self.assertFalse(any(item["number"] == 0x3A for item in mk2))
+
+    def test_controller_systems_keep_model_specific_pad_and_mixer_facts(self):
+        profiles = {item["id"]: item for item in controller_profiles()}
+        self.assertEqual(set(profiles), set(controller_references()))
+        for item in profiles.values():
+            self.assertTrue(item["autoSelect"])
+            self.assertFalse(item["startup"])
+            self.assertEqual({entry["targetDeck"] for entry in item["inputs"] if "targetDeck" in entry}, set("abcd"))
+        az = profiles["AlphaTheta XDJ-AZ"]["inputs"]
+        self.assertEqual([(item["channel"], item["number"]) for item in az if item["action"] == "hotcue8A"], [(9, 57), (11, 57)])
+        self.assertTrue(all(item["inverted"] for item in az if item["action"] in {"levelA", "levelB"}))
+        rx3 = profiles["Pioneer XDJ-RX3"]["inputs"]
+        self.assertFalse(any(item["action"].startswith(("tempoReset", "jump")) for item in rx3))
+        flx6 = profiles["Pioneer DDJ-FLX6"]["inputs"]
+        self.assertFalse(any(item["action"].startswith("keylock") for item in flx6))
+        for name, reference in controller_references().items():
+            self.assertEqual(len(reference["sha256"]), 64)
+            document = ROOT / "TestBuilds/r178/manufacturer" / (name.split(" ", 1)[1] + ".pdf")
+            if document.exists():
+                self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), reference["sha256"])
 
     def test_feedback_range_preserves_reverse_polarity_and_cc_lights(self):
         output = "<output><group>[Channel1]</group><key>play</key><status>0xB0</status><midino>11</midino><minimum>0</minimum><maximum>0.1</maximum><on>127</on><off>1</off></output>"

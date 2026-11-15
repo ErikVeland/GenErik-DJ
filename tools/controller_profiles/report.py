@@ -13,7 +13,7 @@ def report(catalogue, runtime):
     source_definitions = [item for item in catalogue["definitions"] if not item["id"].startswith("manufacturer:")]
     profiles = runtime["profiles"]
     player_count = sum("playerSupport" in model for model in models)
-    lines = ["# Controller catalogue — R169", "", "Reviewed 12 November 2026. This catalogue is complete for the defined source boundary. Controller feature parity remains a release blocker.", "",
+    lines = ["# Controller catalogue — R169", "", "Reviewed 16 November 2026. This catalogue is complete for the defined source boundary. Controller feature parity remains a release blocker.", "",
              "## Boundary and counts", "",
              f"- {len(catalogue['benchmarkRows'])} published Serato iOS rows, expanded to {sum(model['benchmark'] for model in models)} distinct model records.",
              f"- All {len(source_definitions)} Mixxx definitions at `{catalogue['upstreamRevision']}`, including alternative MIDI, HID and bulk mappings.",
@@ -43,6 +43,11 @@ def report(catalogue, runtime):
                   key=lambda model: model["priority"]["clubImplementationOrder"])
     lines.extend(f"| {model['priority']['clubImplementationOrder']} | {model['name']} | Automatic | Open |" for model in club)
     lines += ["", "See [R176 club-player controls](controller-coverage.md#r176-club-player-midi-controls) and [R177 earlier-player controls](controller-coverage.md#r177-xdj-and-earlier-cdj-controls).", "",
+              "## Popular controller systems — R178", "",
+              "XDJ-AZ, XDJ-RX3, XDJ-XZ, DDJ-FLX6, DDJ-800 and DDJ-SB3 now select reviewed core MIDI profiles automatically.",
+              "Factory tables retain separate pad channels, fader direction, loop controls and documented feedback. Inactive C/D targets cannot control hidden decks.",
+              "Hardware modes, advanced functions, screens and audio routing remain open. This increment does not claim full feature parity.",
+              "See [R178 controller systems](controller-coverage.md#r178-popular-xdj-and-ddj-systems).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",
