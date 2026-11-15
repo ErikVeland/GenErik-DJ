@@ -20,6 +20,7 @@
         }
 
         func applyNativeTraktorEvent(_ event: NativeTraktorEvent, isS3: Bool) {
+            guard acceptControllerInput() else { return }
             switch event {
             case .action(let action, let value):
                 applyTraktorDeckAction(action, deck: action.deck, value: value, quantized: isS3 || s2Quantize)
@@ -56,7 +57,9 @@
                 if !browserVisible { showLibrary(fullyExpanded: true) }
             case .park(let deck, let atCue):
                 guard loaded[deck] != nil, !preparingTrack.contains(deck) else { return }
-                if playbackSnapshot?[deck].phase.active == true { pressPlay(deck: deck, vinylStop: false) }
+                if playbackSnapshot?[deck].phase.active == true {
+                    pressPlay(deck: deck, vinylStop: false, source: .controller)
+                }
                 jump(atCue ? cuePoints[deck] ?? 0 : 0, deck: deck, quantized: false)
             case .browserView:
                 if browserVisible && browserPresentationExpands {

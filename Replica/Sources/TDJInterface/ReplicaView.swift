@@ -1160,7 +1160,7 @@ extension ReplicaView {
     }
     private func toolbarRow(showClock: Bool, showsWordmark: Bool) -> some View {
         HStack(spacing: 8) {
-            GenErikBrandLockup(showsWordmark: showsWordmark)
+            GenErikBrandLockup(model: model, showsWordmark: showsWordmark)
             Spacer(minLength: 8)
             HStack(spacing: 0) {
                 if showClock {

@@ -89,12 +89,13 @@ extension ReplicaModel {
         _ action: ControllerAction, value: Double, refreshMixer: Bool = true, targetDeck: DeckID? = nil
     ) {
         guard value.isFinite, (0...1).contains(value) else { return }
+        guard acceptControllerInput() else { return }
         let deck = targetDeck ?? action.deck
         func mix(_ parameter: MixerParameter, value: Double, deck: DeckID = .a) {
             if submitMixer(parameter, value: value, deck: deck), refreshMixer { refreshPlayback() }
         }
         switch action {
-        case .playA, .playB: pressPlay(deck: deck)
+        case .playA, .playB: pressPlay(deck: deck, source: .controller)
         case .syncA, .syncB: toggleSync(deck: deck)
         case .keylockA, .keylockB: toggleKeylock(deck: deck)
         case .cueA, .cueB: mix(.cue, value: playbackSnapshot?[deck].mixer.cue == true ? 0 : 1, deck: deck)
@@ -161,5 +162,14 @@ extension ReplicaModel {
             if let slot = action.hotcueSlot { cue(slot: slot, deck: deck) }
         case .shift: break
         }
+    }
+
+    func acceptControllerInput() -> Bool {
+        guard !storeAccess.controllerLimitReached else {
+            status = "The free controller limit has been reached. Use touch or choose a Controller Support purchase."
+            return false
+        }
+        storeAccess.beginControllerUse()
+        return true
     }
 }

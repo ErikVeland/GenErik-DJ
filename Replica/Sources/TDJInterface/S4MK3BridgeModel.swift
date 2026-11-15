@@ -22,6 +22,7 @@
         }
 
         private func applyS4MK3Event(_ event: S4MK2Event) {
+            guard acceptControllerInput() else { return }
             switch event {
             case .native(.s3Preview(let held)):
                 if held {
