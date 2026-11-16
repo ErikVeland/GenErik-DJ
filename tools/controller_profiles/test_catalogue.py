@@ -25,6 +25,7 @@ from inpulse300mk2 import inpulse300mk2_profiles, MK2_REFERENCES, MK2_SOURCES
 from inpulse200mk2 import inpulse200mk2_profiles, INPULSE200_REFERENCES, INPULSE200_SOURCES
 from beatmix import beatmix_profiles, BEATMIX_REFERENCES
 from mc2000 import mc2000_profiles, MC2000_REFERENCES
+from mixon4 import mixon4_profiles, MIXON4_REFERENCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -57,6 +58,19 @@ ROOT = Path(__file__).resolve().parents[2]
 class ConversionTests(unittest.TestCase):
     def control(self, key="play", group="[Channel3]", extra="", status="0x92", address="11"):
         return ET.fromstring(f"<control><group>{group}</group><key>{key}</key><status>{status}</status><midino>{address}</midino>{extra}</control>")
+
+    def test_mixon4_uses_separate_factory_channels_and_rgb_values(self):
+        result = mixon4_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (154, 52))
+        self.assertEqual(result["startup"], [[240, 0, 32, 127, 3, 1, 247]])
+        self.assertEqual(len(result["bankChanges"]), 4)
+        self.assertEqual({row["channel"] for row in result["inputs"] if row["action"] == "loadA"}, {4, 6})
+        self.assertTrue(all(row["channel"] in {0, 1, 2, 3} and row["onValue"] == 3 and row["offValue"] == 67 for row in result["outputs"] if row["action"].startswith("hotcue")))
+        self.assertFalse(any(row["action"] == "master" for row in result["inputs"]))
+        self.assertTrue(all(row["encoding"] == "binaryStep" for row in result["inputs"] if row["action"] in {"loopSizeA", "loopSizeB"}))
+        table = ROOT / "TestBuilds/r223/manufacturer/Mixon4-MIDI.pdf"
+        if table.exists():
+            self.assertEqual(hashlib.sha256(table.read_bytes()).hexdigest(), MIXON4_REFERENCES[result["id"]]["sha256"])
 
     def test_mc2000_factory_table_overrides_conflicting_community_entries(self):
         result = mc2000_profiles()[0]

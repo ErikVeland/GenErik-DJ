@@ -2,6 +2,32 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R223 Mixon 4 native core controls
+
+Mixon 4 now has its own automatic four-target recipe from the factory MIDI table and published Traktor mapping.
+The factory documents and mapping archive have recorded hashes. The extracted TSI member has its own hash.
+A reviewed external TSI reader confirms the normal jog/touch addresses and four unflipped absolute pitch inputs.
+That reader stays in the evidence cache. It is not an app dependency or a runtime script.
+
+Deck and mixer controls use channels 4–7. Hot Cue pages use 0–3. Global controls use channel 10.
+The recipe maps held Cue, Play, Sync, Keylock, Load, PFL, mixer/EQ/filter, native pitch, loops, browsing and eight Hot Cues.
+Other pad pages cannot trigger those cues. Shift releases rearm pads and normal buttons without firing unsupported alternatives.
+The RGB table supplies full blue value 3 and dim blue value 67. Master and booth remain physical hardware controls.
+
+Factory bank reports release contacts and rearm pickup only on their physical side. Global Shift survives those reports.
+Shift guards unsupported alternatives and rearms affected pitch pickup. Normal contact releases can finish while Shift is active.
+The documented initial-state query leaves deck restrictions and firmware settings unchanged. C/D retain the app's existing opt-in.
+The recipe does not infer Mixon 8 Pro compatibility. Jog sensitivity uses the native default pending calibration.
+FX, other pad modes, macro controls, assignments, complete feedback, cleanup, routing and physical direction/calibration remain open.
+
+The first protocol run rejected an invalid loop-encoder encoding through the existing catalogue validator.
+The recipe now uses the native single-step decoder for the factory's 65/63 loop encoder.
+All 25 targeted controller checks, 57 importer/report checks and native iPad compilation pass.
+The catalogue retains 302 records and now contains 159 data recipes. Factory coverage reaches 93 profiles for 97 physical models.
+Six other models retain automatic native adapters. All 158 previous recipes remain unchanged.
+Validation results and source identity appear in `TestBuilds/r223/validation.json`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R222 MC2000 factory core controls
 
 MC2000 now has an automatic two-deck core recipe from the manufacturer's MIDI table and channel-range diagram.

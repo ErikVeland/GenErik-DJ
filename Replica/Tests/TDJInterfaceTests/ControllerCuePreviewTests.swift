@@ -349,3 +349,18 @@ import Testing
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueMixon4NativeJogUsesItsDeckChannelAndPreservesSync() async throws {
+    try await withControllerCuePlayback("Mixon 4") { model, input in
+        cuePreviewPacket([0x94, 7, 127, 0xB4, 6, 65], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - sampleRate * 1.8 / 1024) <= 1)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x84, 7, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}
