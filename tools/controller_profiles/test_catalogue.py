@@ -29,6 +29,7 @@ from mixtrack3 import mixtrack3_profiles, mixtrack3_references, MIXTRACK3_SOURCE
 from platinum import platinum_profiles, PLATINUM_REFERENCES, PLATINUM_SOURCES
 from mixtrack2 import mixtrack2_profiles, mixtrack2_references, MIXTRACK2_SOURCES
 from denon import denon_profiles, denon_references, MC4000_SOURCES
+from mc6000 import mc6000_profiles, MC6000_REFERENCES, MC6000_SOURCES
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -94,7 +95,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles():
             for left, right in combinations(profile["inputs"], 2):
                 address = lambda item: (item["kind"], item["channel"], item["number"])
                 if address(left) != address(right):
@@ -334,6 +335,18 @@ class ConversionTests(unittest.TestCase):
         self.assertIn("LSB/MSB", denon_references()["Denon MC4000"]["review"])
         self.assertEqual(item["startup"][0], [240, 0, 2, 11, 127, 1, 96, 0, 4, 4, 1, 0, 0, 247])
         for path, digest in MC4000_SOURCES:
+            source = ROOT / "TestBuilds/r169/upstream/res/controllers" / path
+            if source.exists():
+                self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)
+
+    def test_mc6000_keeps_banked_channels_and_trigger_leds(self):
+        item = mc6000_profiles()[0]
+        self.assertEqual([(x["channel"], x["targetDeck"]) for x in item["inputs"] if x["action"] in {"playA", "playB"}], [(0, "a"), (1, "c"), (2, "b"), (3, "d")])
+        self.assertEqual([x["shiftInput"] for x in item["inputs"] if x["action"] == "shift"], [0, 0, 1, 1])
+        self.assertTrue(all(x["kind"] == "pitch" and x["inverted"] for x in item["inputs"] if x["action"] in {"tempoA", "tempoB"}))
+        self.assertTrue(all(x["offNumber"] != x["number"] and x["onValue"] == x["offValue"] for x in item["outputs"]))
+        self.assertEqual(item["startup"], [[176 + n, 74, 6] for n in range(4)])
+        for path, digest in MC6000_SOURCES:
             source = ROOT / "TestBuilds/r169/upstream/res/controllers" / path
             if source.exists():
                 self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)

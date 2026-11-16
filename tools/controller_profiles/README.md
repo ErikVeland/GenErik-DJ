@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R193 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R194 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -122,3 +122,9 @@ Python checks verify identity, source completeness, row accounting, address conf
 Focused Swift checks verify catalogue decoding, automatic matching, four-deck targets, learning, feedback edits and device lifecycle messages.
 Native iPad compilation checks the active target without simulator packaging.
 These checks do not replace a signed app, physical-controller tests or A10X audio and touch acceptance.
+
+MC6000MK2 uses factory A/C/B/D transport channels and native MIDI pitch-bend tempo.
+Its side-wide Shift identifiers survive bank changes. The identifiers apply only to declared Shift note inputs.
+The zero/127 browser encoder rejects other counts. Its jog decoder treats zero as neutral.
+Optional feedback `offNumber` selects a separate CC trigger for binary lights. The LED identifier stays in the value byte.
+Existing outputs without this field retain their previous packets. Invalid fields cannot enter the catalogue.

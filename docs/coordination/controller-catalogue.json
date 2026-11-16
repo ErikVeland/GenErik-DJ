@@ -11201,19 +11201,30 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC6000MK2.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC6000MK2.midi.xml",
+        "https://cdn.inmusicbrands.com/denondj/MC6000Mk2/MC6000MK2_MIDI_Command_List.zip"
       ],
       "definitions": [
-        "Denon-MC6000MK2.midi.xml"
+        "Denon-MC6000MK2.midi.xml",
+        "reviewed:denonmc6000mk2"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Denon MC6000MK2",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browse",
         "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
         "cueMix",
+        "cueReturnA:a",
+        "cueReturnA:c",
+        "cueReturnB:b",
+        "cueReturnB:d",
         "gainA:a",
         "gainA:c",
         "gainB:b",
@@ -11222,56 +11233,105 @@
         "highA:c",
         "highB:b",
         "highB:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
         "levelA:a",
         "levelA:c",
         "levelB:b",
         "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
         "lowA:a",
         "lowA:c",
         "lowB:b",
         "lowB:d",
+        "master",
         "midA:a",
         "midA:c",
         "midB:b",
         "midB:d",
         "monitor",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
         "tempoA:a",
         "tempoA:c",
         "tempoB:b",
-        "tempoB:d"
+        "tempoB:d",
+        "wheelJogA:a",
+        "wheelJogA:c",
+        "wheelJogB:b",
+        "wheelJogB:d"
       ],
-      "inputBindingCount": 28,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 93,
+      "feedbackBindingCount": 20,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 283,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Hot Cue/sample banks, side-selected filters, browser buttons, Vinyl toggle, additional shifted functions, FX, meters and full audio routing remain unimplemented. Jog calibration and source reuse/distribution review remain open. The command workbook corrects filter input addresses in the older manual; filters stay unmapped until side routing is implemented."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -309718,6 +309778,42 @@
         },
         {
           "reason": "The factory table reverses pitch byte labels compared with the pinned working mapping. Pads and advanced pad modes, Vinyl toggle, additional shifted functions, pitch-bend buttons, FX, meters and complete audio routing remain unimplemented. Jog calibration and source reuse/distribution review remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:denonmc6000mk2",
+      "name": "Denon MC6000MK2",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/denondj/MC6000Mk2/MC6000MK2_MIDI_Command_List.zip",
+        "sha256": "a5feb276ac1050b93dc598622b7a197b02a63241f66a43d0e2bb385062e4ab72",
+        "archiveMember": {
+          "path": "MC6000MK2 MIDI COMMAND LIST.xlsx",
+          "sha256": "22da751c9328ffb6ca41c85e199d408bbba10029016ba6e1d6ed88f2dfe1c09c"
+        },
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC6000MK2.midi.xml",
+            "sha256": "09dcf2480361a4ba4c4a209535ef388e02cf3897e5b25cbe2786495035e062d0"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC6000MK2-scripts.js",
+            "sha256": "efdfda0fe1ad915725d0c46b791c9e81d9bb11879a90532d6390c4819c1fdd3f"
+          }
+        ],
+        "review": "Factory sheet MC6000MK2 rows 6–174 specify inputs; rows 182–240 specify LED trigger controllers and identifiers. The pinned script confirms side-wide Shift, zero/127 browser counts and jog zero as neutral. Filters, pad banks, FX and meters remain open."
+      },
+      "implementedInputCount": 93,
+      "implementedOutputCount": 20,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Hot Cue/sample banks, side-selected filters, browser buttons, Vinyl toggle, additional shifted functions, FX, meters and full audio routing remain unimplemented. Jog calibration and source reuse/distribution review remain open. The command workbook corrects filter input addresses in the older manual; filters stay unmapped until side routing is implemented."
         }
       ]
     },

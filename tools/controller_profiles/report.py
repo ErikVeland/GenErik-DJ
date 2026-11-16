@@ -111,6 +111,10 @@ def report(catalogue, runtime):
               "MC4000 selects a native core profile. Factory addresses and the pinned working tempo order have fixtures.",
               "The factory pitch-byte label conflict stays explicit. Pad modes, additional functions and audio routing remain open.",
               "See [R193 MC4000](controller-coverage.md#r193-denon-mc4000-core-controls).", "",
+              "## Denon MC6000MK2 — R194", "",
+              "MC6000MK2 selects a native core profile with A/C/B/D deck channels, side-wide Shift and separate LED trigger commands.",
+              "Factory pitch-bend tempo and zero/127 browser counts have fixtures. Pad banks, filters, advanced functions and audio routing remain open.",
+              "See [R194 MC6000MK2](controller-coverage.md#r194-denon-mc6000mk2-core-controls).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

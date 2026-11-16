@@ -111,6 +111,7 @@ struct ControllerBinding: Codable {
     var releaseOnly: Bool? = nil
     var requiredMode: UInt8? = nil
     var shiftChannel: UInt8? = nil
+    var shiftInput: UInt8? = nil
     var lowNumber: UInt8? = nil
     var lowControllerNumber: UInt8? { mode.isPairedCC ? lowNumber ?? (number < 32 ? number + 32 : nil) : nil }
     var target: ControllerActionTarget { .init(action, deck: targetDeck, argument: argument) }
@@ -163,12 +164,13 @@ struct ControllerFeedbackBinding: Codable, Identifiable, Equatable {
     let offValue: UInt8
     let onValue: UInt8
     let offUsesNoteOn: Bool?
+    let offNumber: UInt8?
     let targetDeck: DeckID?
     var target: ControllerActionTarget { .init(action, deck: targetDeck) }
 
     init(
         destination: Int32, action: ControllerAction, kind: ControllerFeedbackKind, channel: UInt8, number: UInt8,
-        offValue: UInt8, onValue: UInt8, offUsesNoteOn: Bool? = nil, targetDeck: DeckID? = nil
+        offValue: UInt8, onValue: UInt8, offUsesNoteOn: Bool? = nil, targetDeck: DeckID? = nil, offNumber: UInt8? = nil
     ) {
         self.destination = destination
         self.action = action
@@ -178,7 +180,26 @@ struct ControllerFeedbackBinding: Codable, Identifiable, Equatable {
         self.offValue = offValue
         self.onValue = onValue
         self.offUsesNoteOn = offUsesNoteOn
+        self.offNumber = offNumber
         self.targetDeck = targetDeck
+    }
+
+    var isValid: Bool {
+        channel < 16 && number < 128 && offValue < 128 && onValue < 128
+            && action.supportsFeedback && (kind == .control || action.isButton)
+            && (offNumber == nil || (kind == .control && action.isButton && offNumber! < 128))
+    }
+
+    /**
+     * Encodes a feedback value, including separate controller numbers for on/off triggers.
+     */
+    func message(value: Double) -> [UInt8]? {
+        guard isValid, value.isFinite else { return nil }
+        let bounded = min(1, max(0, value))
+        let output = action.isButton ? (bounded > 0 ? onValue : offValue) : UInt8((bounded * 127).rounded())
+        let status: UInt8 = kind == .control ? 0xB0 | channel
+            : (bounded > 0 || offUsesNoteOn == true ? 0x90 : 0x80) | channel
+        return [status, bounded > 0 ? number : offNumber ?? number, output]
     }
 }
 
@@ -398,8 +419,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         if let data = preferences.data(forKey: Self.feedbackStorageKey),
             let saved = try? JSONDecoder().decode([ControllerFeedbackBinding].self, from: data), saved.count <= 128,
             saved.allSatisfy({
-                $0.channel < 16 && $0.number < 128 && $0.offValue < 128 && $0.onValue < 128
-                    && $0.action.supportsFeedback && ($0.kind == .control || $0.action.isButton)
+                $0.isValid
             }), Set(saved.map(\.id)).count == saved.count
         {
             feedbackBindings = saved
@@ -695,7 +715,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                             destination: destination, action: binding.action, kind: binding.kind,
                             channel: binding.channel, number: binding.number, offValue: binding.offValue,
                             onValue: binding.onValue, offUsesNoteOn: binding.offUsesNoteOn,
-                            targetDeck: binding.targetDeck)
+                            targetDeck: binding.targetDeck, offNumber: binding.offNumber)
                     } ?? session.profile.feedback(destination: destination)
                 return (destination, profile)
             })
@@ -942,7 +962,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let profile = customFactoryFeedback[session.profile.rawValue]?.map { binding in
                 ControllerFeedbackBinding(destination: destination, action: binding.action, kind: binding.kind,
                     channel: binding.channel, number: binding.number, offValue: binding.offValue,
-                    onValue: binding.onValue, offUsesNoteOn: binding.offUsesNoteOn, targetDeck: binding.targetDeck)
+                    onValue: binding.onValue, offUsesNoteOn: binding.offUsesNoteOn, targetDeck: binding.targetDeck, offNumber: binding.offNumber)
             } ?? session.profile.feedback(destination: destination)
             factoryFeedback[destination] = profile
             sentFactoryValues[destination] = nil
@@ -1338,17 +1358,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         guard midiFeedbackEnabled, now - lastMIDIOutputTime >= 1.0 / 30 else { return }
         lastMIDIOutputTime = now
         for binding in selectedFeedbackBindings {
-            guard let value = lookupValue(binding.target), value.isFinite else { continue }
-            let bounded = min(1, max(0, value))
-            let outputValue =
-                binding.action.isButton
-                ? (bounded > 0 ? binding.onValue : binding.offValue) : UInt8((bounded * 127).rounded())
-            let status: UInt8
-            switch binding.kind {
-            case .control: status = 0xB0 | binding.channel
-            case .note: status = (bounded > 0 || binding.offUsesNoteOn == true ? 0x90 : 0x80) | binding.channel
-            }
-            let message = [status, binding.number, outputValue]
+            guard let value = lookupValue(binding.target), let message = binding.message(value: value) else { continue }
             guard sentMIDIValues[binding.id] != message else { continue }
             guard sendMIDIMessage(message, destination: destination) else { return }
             sentMIDIValues[binding.id] = message
@@ -1365,13 +1375,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 let destination = destinations.first(where: { $0.id == id })
             else { continue }
             for binding in profile {
-                guard let value = lookupValue(binding.target), value.isFinite else { continue }
-                let bounded = min(1, max(0, value))
-                let outputValue = binding.action.isButton
-                    ? (bounded > 0 ? binding.onValue : binding.offValue) : UInt8((bounded * 127).rounded())
-                let status: UInt8 = binding.kind == .control ? 0xB0 | binding.channel
-                    : (bounded > 0 || binding.offUsesNoteOn == true ? 0x90 : 0x80) | binding.channel
-                let message = [status, binding.number, outputValue]
+                guard let value = lookupValue(binding.target), let message = binding.message(value: value) else { continue }
                 guard sentFactoryValues[id]?[binding.id] != message else { continue }
                 guard sendMIDIMessage(message, destination: destination.reference) else { break }
                 sentFactoryValues[id, default: [:]][binding.id] = message
@@ -2027,8 +2031,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             { continue }
             let previous = values.updateValue(value, forKey: key)
             if binding.action == .shift {
-                let inputKey =
-                    "\(binding.source)-\(binding.umpGroup)-\(binding.channel)-\(binding.kind.rawValue)-\(binding.number)-\(binding.parameter ?? 0)-\(binding.noteNumber ?? 0)"
+                let inputKey = binding.shiftInput.map { "\(binding.source)-\(binding.umpGroup)-shift-\($0)" }
+                    ?? "\(binding.source)-\(binding.umpGroup)-\(binding.channel)-\(binding.kind.rawValue)-\(binding.number)-\(binding.parameter ?? 0)-\(binding.noteNumber ?? 0)"
                 var shiftLayer = binding.shiftChannel.map { channelShiftLayers[sourceID]?[$0] ?? .init() }
                     ?? shiftLayers[sourceID, default: .init()]
                 shiftLayer.update(input: inputKey, isPressed: value > 0)

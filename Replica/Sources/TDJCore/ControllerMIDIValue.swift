@@ -2,15 +2,18 @@ import Foundation
 
 public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     case absolute, paired14Bit, paired14BitRelative, twosComplement, binaryOffset, signedBit
-    case numarkPlatinumJog
+    case numarkPlatinumJog, denonJog, zeroForward
     case cdjPlatterSpeed, cdjRingSpeed, cdj350PlatterSpeed, cdjTempo, needlePosition
     public var isRelative: Bool {
-        [.twosComplement, .binaryOffset, .signedBit, .paired14BitRelative, .numarkPlatinumJog].contains(self)
+        [.twosComplement, .binaryOffset, .signedBit, .paired14BitRelative, .numarkPlatinumJog, .denonJog, .zeroForward]
+            .contains(self)
     }
     public var isPairedCC: Bool { self == .paired14Bit || self == .paired14BitRelative }
     public var title: String {
         switch self {
         case .absolute: "Knob / fader"
+        case .denonJog: "Denon jog"
+        case .zeroForward: "Encoder: 0 / 127"
         case .numarkPlatinumJog: "Mixtrack Platinum jog"
         case .paired14Bit: "High-resolution CC pair"
         case .paired14BitRelative: "Relative high-resolution CC pair"
@@ -107,6 +110,9 @@ public struct ControllerMIDIValueState: Sendable {
             return .absolute(0.5 + (delta > 0 ? speed : -speed) / 8)
         }
         switch encoding {
+        case .zeroForward:
+            return message.value == 0 ? .relative(1) : message.value == 127 ? .relative(-1) : nil
+        case .denonJog: return .relative(Double(message.value == 0 ? 0 : message.value - 64))
         case .twosComplement: return .relative(Double(message.value < 64 ? message.value : message.value - 128))
         case .binaryOffset: return .relative(Double(message.value - 64))
         case .signedBit: return .relative(Double(message.value & 64 == 0 ? message.value : -(message.value & 63)))

@@ -15,6 +15,7 @@ struct ControllerProfileData: Decodable, Sendable {
         let releaseOnly: Bool?
         let requiredMode: UInt8?
         let shifted: Bool?
+        let shiftInput: UInt8?
         let shiftChannel: UInt8?
         let lowNumber: UInt8?
 
@@ -23,7 +24,8 @@ struct ControllerProfileData: Decodable, Sendable {
                 source: source, group: 0, channel: channel, kind: kind, number: number,
                 parameter: nil, noteNumber: nil, action: action, encoding: encoding,
                 inverted: inverted, shifted: shifted ?? false, targetDeck: targetDeck, layerIndependent: shifted == nil,
-                anyChannel: anyChannel, argument: argument, releaseOnly: releaseOnly, requiredMode: requiredMode, shiftChannel: shiftChannel, lowNumber: lowNumber)
+                anyChannel: anyChannel, argument: argument, releaseOnly: releaseOnly, requiredMode: requiredMode,
+                shiftChannel: shiftChannel, shiftInput: shiftInput, lowNumber: lowNumber)
         }
     }
 
@@ -49,12 +51,14 @@ struct ControllerProfileData: Decodable, Sendable {
         let onValue: UInt8
         let offValue: UInt8
         let offUsesNoteOn: Bool
+        let offNumber: UInt8?
         let targetDeck: DeckID?
 
         func binding(destination: Int32) -> ControllerFeedbackBinding {
             .init(
                 destination: destination, action: action, kind: kind, channel: channel, number: number,
-                offValue: offValue, onValue: onValue, offUsesNoteOn: offUsesNoteOn, targetDeck: targetDeck)
+                offValue: offValue, onValue: onValue, offUsesNoteOn: offUsesNoteOn, targetDeck: targetDeck,
+                offNumber: offNumber)
         }
     }
 
@@ -82,17 +86,22 @@ struct ControllerProfileData: Decodable, Sendable {
             && inputs.allSatisfy {
                 $0.channel < 16 && $0.number < 128
                     && ($0.encoding.isPairedCC
-                        ? $0.kind == .control && ($0.lowNumber.map { $0 < 128 } ?? ($0.number < 32)) && $0.lowNumber != $0.number
+                        ? $0.kind == .control && ($0.lowNumber.map { $0 < 128 } ?? ($0.number < 32))
+                            && $0.lowNumber != $0.number
                         : $0.lowNumber == nil)
                     && ($0.anyChannel != true || role == "player")
                     && ($0.releaseOnly != true || ($0.kind == .note && $0.action.isMomentary))
+                    && ($0.shiftInput == nil
+                        || ($0.shiftInput! < 16 && $0.action == .shift && $0.kind == .note && $0.shiftChannel != nil))
                     && Self.validArgument($0)
-                    && (![.numarkPlatinumJog, .cdjPlatterSpeed, .cdjRingSpeed, .cdj350PlatterSpeed, .cdjTempo, .needlePosition].contains($0.encoding)
+                    && (![
+                        .denonJog, .zeroForward, .numarkPlatinumJog, .cdjPlatterSpeed, .cdjRingSpeed,
+                        .cdj350PlatterSpeed, .cdjTempo, .needlePosition,
+                    ].contains($0.encoding)
                         || $0.kind == .control)
             }
             && outputs.allSatisfy {
-                $0.channel < 16 && $0.number < 128 && $0.onValue < 128 && $0.offValue < 128
-                    && $0.action.supportsFeedback && ($0.kind == .control || $0.action.isButton)
+                $0.binding(destination: 0).isValid
             }
             && (startup + shutdown).count <= 16
             && (startup + shutdown).allSatisfy(Self.validSetupMessage)

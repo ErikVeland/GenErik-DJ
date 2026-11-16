@@ -2,6 +2,32 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R194 Denon MC6000MK2 core controls
+
+MC6000MK2 now selects a native core profile automatically. Its transport channel order is A/C/B/D.
+The profile includes transport, deck-local Load, gain, EQ, level, headphone cue, loops, signed jogs and fourteen-bit pitch-bend tempo.
+Mixer addresses remain on the global channel. C/D still require the existing four-deck opt-in.
+Each physical side shares Shift state across its two deck banks. A bank change cannot leave that Shift button held.
+The browser encoder uses zero for forward and 127 for reverse. Other counts do not move the browser.
+The jog decoder treats zero as neutral, as the pinned script requires. Touch-off messages cannot start a scratch.
+
+Factory LED commands use a trigger controller and a separate LED identifier. They do not echo input notes.
+Optional `offNumber` metadata retains different on/off trigger controllers with the same LED identifier.
+Feedback covers Play, Sync, Key Lock, Auto Loop and headphone cue. Setup and shutdown set the four native Scratch indicators.
+Existing feedback outputs retain their previous packet encoding. Invalid Shift identifiers and feedback trigger fields fail validation.
+
+The dedicated factory command workbook corrects filter input addresses in the older manual.
+Side-selected filters, Hot Cue/sample banks, browser buttons, Vinyl toggle, additional shifted functions, FX, meters and audio routing remain open.
+Jog calibration and source reuse/distribution review remain open.
+Source: [factory command archive](https://cdn.inmusicbrands.com/denondj/MC6000Mk2/MC6000MK2_MIDI_Command_List.zip), sheet `MC6000MK2`, input rows 6–174 and output rows 182–240.
+Pinned [XML](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC6000MK2.midi.xml) and [script](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC6000MK2-scripts.js) confirm routing and decoder behaviour.
+Archive, workbook and pinned source SHA-256 identities are recorded in `tools/controller_profiles/mc6000.py` and the catalogue.
+The catalogue retains 287 records and 148 data recipes plus seven code profiles. Seventy-one profiles select core controls automatically.
+All 160 focused Swift checks, 32 importer checks and native iPad compilation passed. The compiled resource matches the source.
+The other 147 data recipes remain unchanged. Twelve historical broken links remain.
+Source base: `7c9f4a5`. Evidence: `TestBuilds/r194/`. The first test compile failure remains recorded with the corrected run.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R193 Denon MC4000 core controls
 
 MC4000 now selects a native core profile automatically. Exact aliases include Denon DJ MC4000.
