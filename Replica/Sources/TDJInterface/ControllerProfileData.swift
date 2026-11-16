@@ -132,6 +132,9 @@ struct ControllerProfileData: Decodable, Sendable {
 
     private static func validArgument(_ input: Input) -> Bool {
         switch input.action {
+        case .jogA, .jogB, .wheelJogA, .wheelJogB:
+            return input.argument.map { input.encoding.isRelative && ControllerCountJogMotion.validResolution($0) }
+                ?? true
         case .loopSizeA, .loopSizeB:
             return input.kind == .control && [.twosComplement, .binaryStep].contains(input.encoding)
                 && input.argument == nil

@@ -31,6 +31,7 @@ def terminal_mix_profiles():
             add(result, "loopSize", channel, 11, "control", "binaryStep", deck)
             for number in [39, 40]:
                 add(result, "jog", channel, number, "control", "binaryOffset", deck)
+                result["inputs"][-1]["argument"] = 800
             add(result, "tempo", channel, 0, "pitch", "centredPitch", deck)
             for action, number in [("gain", 43), ("high", 44), ("mid", 45), ("low", 46), ("level", 49)]:
                 add(result, action, channel, number, "control", deck=deck)

@@ -31030,7 +31030,8 @@
           "number": 6,
           "encoding": "twosComplement",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "argument": 340
         },
         {
           "action": "hotcue1A",
@@ -31213,7 +31214,8 @@
           "number": 6,
           "encoding": "twosComplement",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "b",
+          "argument": 340
         },
         {
           "action": "hotcue1B",
@@ -31638,7 +31640,8 @@
           "number": 6,
           "encoding": "twosComplement",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "argument": 340
         },
         {
           "action": "hotcue1A",
@@ -31781,7 +31784,8 @@
           "number": 6,
           "encoding": "twosComplement",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "b",
+          "argument": 340
         },
         {
           "action": "hotcue1B",
@@ -63506,7 +63510,8 @@
           "number": 1,
           "encoding": "paired14BitRelative",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "argument": 2430
         },
         {
           "action": "jogA",
@@ -63515,7 +63520,8 @@
           "number": 6,
           "encoding": "paired14BitRelative",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "argument": 2430
         },
         {
           "action": "jogTouchA",
@@ -63731,7 +63737,8 @@
           "number": 1,
           "encoding": "paired14BitRelative",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "b",
+          "argument": 2430
         },
         {
           "action": "jogB",
@@ -63740,7 +63747,8 @@
           "number": 6,
           "encoding": "paired14BitRelative",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "b",
+          "argument": 2430
         },
         {
           "action": "jogTouchB",
@@ -63956,7 +63964,8 @@
           "number": 1,
           "encoding": "paired14BitRelative",
           "inverted": false,
-          "targetDeck": "c"
+          "targetDeck": "c",
+          "argument": 2430
         },
         {
           "action": "jogA",
@@ -63965,7 +63974,8 @@
           "number": 6,
           "encoding": "paired14BitRelative",
           "inverted": false,
-          "targetDeck": "c"
+          "targetDeck": "c",
+          "argument": 2430
         },
         {
           "action": "jogTouchA",
@@ -64181,7 +64191,8 @@
           "number": 1,
           "encoding": "paired14BitRelative",
           "inverted": false,
-          "targetDeck": "d"
+          "targetDeck": "d",
+          "argument": 2430
         },
         {
           "action": "jogB",
@@ -64190,7 +64201,8 @@
           "number": 6,
           "encoding": "paired14BitRelative",
           "inverted": false,
-          "targetDeck": "d"
+          "targetDeck": "d",
+          "argument": 2430
         },
         {
           "action": "jogTouchB",
@@ -83337,7 +83349,8 @@
           "number": 39,
           "encoding": "binaryOffset",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "argument": 800
         },
         {
           "action": "jogA",
@@ -83346,7 +83359,8 @@
           "number": 40,
           "encoding": "binaryOffset",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "argument": 800
         },
         {
           "action": "tempoA",
@@ -83589,7 +83603,8 @@
           "number": 39,
           "encoding": "binaryOffset",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "b",
+          "argument": 800
         },
         {
           "action": "jogB",
@@ -83598,7 +83613,8 @@
           "number": 40,
           "encoding": "binaryOffset",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "b",
+          "argument": 800
         },
         {
           "action": "tempoB",
@@ -83841,7 +83857,8 @@
           "number": 39,
           "encoding": "binaryOffset",
           "inverted": false,
-          "targetDeck": "c"
+          "targetDeck": "c",
+          "argument": 800
         },
         {
           "action": "jogA",
@@ -83850,7 +83867,8 @@
           "number": 40,
           "encoding": "binaryOffset",
           "inverted": false,
-          "targetDeck": "c"
+          "targetDeck": "c",
+          "argument": 800
         },
         {
           "action": "tempoA",
@@ -84093,7 +84111,8 @@
           "number": 39,
           "encoding": "binaryOffset",
           "inverted": false,
-          "targetDeck": "d"
+          "targetDeck": "d",
+          "argument": 800
         },
         {
           "action": "jogB",
@@ -84102,7 +84121,8 @@
           "number": 40,
           "encoding": "binaryOffset",
           "inverted": false,
-          "targetDeck": "d"
+          "targetDeck": "d",
+          "argument": 800
         },
         {
           "action": "tempoB",

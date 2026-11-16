@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R202 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R203 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -156,3 +156,11 @@ Party Mix generations keep different loop modes and beat sizes. Pro FX shifted r
 Terminal Mix 2/4 retains its shared profile ID and separate physical-model records. Saved family settings keep their key.
 Its loop encoder accepts only 65/63. Pitch and crossfader centre rules follow the pinned common helper.
 Reviewed shared names use the existing model splitter. Do not invent a physical model for a combined source name.
+
+## Relative jog calibration
+
+A relative jog input can specify counts per revolution in `argument` (16–65536).
+Absolute speed reports cannot specify this value. Missing values use the generic 1024-count sensitivity.
+R203 records published DDJ-T1, Terminal Mix and Party Mix counts. Other profiles require calibration review.
+The player retains raw counts, flushes movement before touch release or Load, and stops idle movement after 50 milliseconds.
+Physical calibration and A10X acceptance remain open.

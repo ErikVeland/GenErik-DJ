@@ -85,8 +85,8 @@ import Testing
         s1Packet([0x91, 104, 127, 0xB1, 7, 0, 39, 1, 0x81, 104, 0], to: input)
         input.flushPendingActions()
         #expect(
-            received.map(\.0) == [.init(.jogTouchB, deck: .b), .init(.jogTouchB, deck: .b), .init(.jogB, deck: .b)])
-        #expect(received.map(\.1) == [1, 0, 0.625])
+            received.map(\.0) == [.init(.jogTouchB, deck: .b), .init(.jogB, deck: .b), .init(.jogTouchB, deck: .b)])
+        #expect(received.map(\.1) == [1, 0.625, 0])
         received = []
         s1Packet([0xB4, 9, 127, 0x94, 85, 127], to: input)
         input.flushPendingActions()

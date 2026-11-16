@@ -2,6 +2,29 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R203 relative jog movement and idle stop
+
+Relative jog packets now retain their signed counts until the native player receives them.
+A touched wheel follows its accumulated position and stops after 50 milliseconds without movement.
+The final queued movement arrives before touch release or Load. A cancelled timer cannot reapply an old gesture.
+Generation checks prevent an old timer from touching a replacement track.
+Paused decks can seek with sensorless wheels under the existing Sync grid rule. Playing decks retain the existing temporary bend and saved Sync choice.
+CDJ speed reports retain their existing continuous-rate path.
+
+Published counts per revolution now calibrate DDJ-T1 (2430), Terminal Mix (800) and both Party Mix generations (340).
+The factory manual and pinned scripts supply these values. Other relative profiles retain the generic 1024-count sensitivity.
+That fallback requires model-specific calibration. It is not a measured hardware value.
+The movement policy reuses the native waveform gesture contract and runs outside the audio callback.
+
+Two offline reproductions failed before the fix: continued motion while held still, and no movement while paused.
+The focused run covers 215 Swift checks, including eight new jog checks. The 40 importer checks and native iPad compilation pass.
+An existing S1 assertion now expects the corrected movement-before-release order.
+The compiled resource matches the source. Four data recipes gain calibration. The other 149 recipes remain unchanged.
+Counts remain 289 catalogue records, 81 automatic core profiles and 88 physical models with automatic controls.
+Twelve historical broken links remain. Earlier failing logs remain in the evidence directory.
+Source base: `6949532`. Evidence: `TestBuilds/r203/`.
+No signed app, installation, physical jog calibration or A10X acceptance forms part of this increment.
+
 ## R202 Terminal Mix 2 and 4 core controls
 
 Terminal Mix 2 and 4 now share reviewed native core controls under their existing profile ID.

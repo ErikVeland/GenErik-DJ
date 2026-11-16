@@ -3,6 +3,7 @@ import TDJCore
 
 extension ReplicaModel {
     func configureControllerMIDI() {
+        controllerInput.onJogAction = { [weak self] target, motion in self?.applyControllerJog(target, motion: motion) }
         controllerInput.onTargetAction = { [weak self] target, value in
             self?.applyController(target.action, value: value, targetDeck: target.deck, argument: target.argument)
         }
@@ -14,6 +15,70 @@ extension ReplicaModel {
         controllerInput.onZ1Report = { [weak self] report in self?.receiveZ1(report) }
         controllerInput.onZ1Calibration = { [weak self] calibration in self?.configureZ1Bridge(calibration) }
         controllerInput.onBridgeReset = { [weak self] in self?.configureZ1Bridge(nil) }
+    }
+
+    func applyControllerJog(_ target: ControllerActionTarget, motion: ControllerMIDIValue) {
+        let deck = target.deck ?? target.action.deck
+        guard target.action.isJog else { return }
+        if [.wheelJogA, .wheelJogB].contains(target.action), controllerJogTouched.contains(deck) { return }
+        switch motion {
+        case .absolute(let value):
+            resetControllerCountJog(deck, stop: false)
+            applyController(target.action, value: value, targetDeck: deck)
+        case .relative(let counts):
+            guard counts.isFinite, counts != 0, let track = track(deck), let state = playbackSnapshot?[deck] else {
+                return
+            }
+            let resolution = target.argument ?? ControllerCountJogMotion.defaultResolution
+            guard ControllerCountJogMotion.validResolution(resolution) else { return }
+            if controllerJogTouched.contains(deck) {
+                let now = ProcessInfo.processInfo.systemUptime
+                var motion = controllerCountJogs[deck]
+                if motion?.generation != state.generation || motion?.resolution != resolution {
+                    motion = .init(
+                        frame: state.sourceFrame, generation: state.generation, sampleRate: track.analysis.sampleRate,
+                        limit: max(0, Double(track.analysis.frameCount) - 1), resolution: resolution, time: now)
+                }
+                guard var motion else { return }
+                motion.move(counts: counts, time: now)
+                controllerCountJogs[deck] = motion
+                applyControllerCountJog(motion, deck: deck, stopped: false)
+                controllerCountJogTasks[deck]?.cancel()
+                let token = UUID()
+                controllerCountJogTokens[deck] = token
+                controllerCountJogTasks[deck] = Task { [weak self] in
+                    do { try await Task.sleep(nanoseconds: ControllerCountJogMotion.idleNanoseconds) } catch { return }
+                    guard let self, self.controllerCountJogTokens[deck] == token,
+                        self.controllerJogTouched.contains(deck), let motion = self.controllerCountJogs[deck],
+                        self.playbackSnapshot?[deck].generation == motion.generation
+                    else { return }
+                    self.applyControllerCountJog(motion, deck: deck, stopped: true)
+                }
+            } else if !state.phase.active, !state.touchActive {
+                let delta = counts * track.analysis.sampleRate * 1.8 / resolution
+                guard delta.isFinite else { return }
+                jump(state.sourceFrame + delta, deck: deck, quantized: false)
+            } else {
+                applyControllerWheelJog(0.5 + min(4, max(-4, counts)) / 8, deck: deck)
+            }
+        }
+    }
+
+    private func applyControllerCountJog(_ motion: ControllerCountJogMotion, deck: DeckID, stopped: Bool) {
+        guard let track = track(deck), playbackSnapshot?[deck].generation == motion.generation else { return }
+        let speed = playbackSnapshot?[deck].speed ?? 1
+        let rate = stopped ? 0 : min(4, max(-4, motion.velocity / (track.analysis.sampleRate * max(0.001, speed))))
+        perform(.touch, deck: deck, value: motion.frame, touchRate: rate, followsPosition: true)
+    }
+
+    private func resetControllerCountJog(_ deck: DeckID, stop: Bool) {
+        controllerCountJogTasks[deck]?.cancel()
+        controllerCountJogTasks[deck] = nil
+        controllerCountJogTokens[deck] = nil
+        if stop, let motion = controllerCountJogs[deck], controllerJogTouched.contains(deck) {
+            applyControllerCountJog(motion, deck: deck, stopped: true)
+        }
+        controllerCountJogs[deck] = nil
     }
 
     func applyControllerWheelJog(_ value: Double, deck: DeckID) {
@@ -200,6 +265,7 @@ extension ReplicaModel {
         case .cueReturnA, .cueReturnB: pressCue(deck: deck)
         case .freezeA, .freezeB: toggleFreeze(deck: deck)
         case .jogTouchA, .jogTouchB:
+            resetControllerCountJog(deck, stop: value == 0)
             if value > 0 {
                 resetControllerWheelJog(deck, restoreRate: false)
                 controllerJogTouched.insert(deck)

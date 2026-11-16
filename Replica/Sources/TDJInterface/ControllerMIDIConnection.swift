@@ -326,6 +326,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored var onAction: ((ControllerAction, Double) -> Void)?
     @ObservationIgnored var currentValue: ((ControllerAction) -> Double?)?
     @ObservationIgnored var onTargetAction: ((ControllerActionTarget, Double) -> Void)?
+    @ObservationIgnored var onJogAction: ((ControllerActionTarget, ControllerMIDIValue) -> Void)?
     @ObservationIgnored var currentTargetValue: ((ControllerActionTarget) -> Double?)?
     @ObservationIgnored var onZ1Report: ((Z1InputReport) -> Void)?
     @ObservationIgnored var onZ1Calibration: ((Z1CrossfaderCalibration) -> Void)?
@@ -352,6 +353,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var valueStates: [String: ControllerMIDIValueState] = [:]
     @ObservationIgnored private var takeoverStates: [String: ControllerMIDITakeoverState] = [:]
     @ObservationIgnored private var pendingValues: [ControllerActionTarget: Double] = [:]
+    @ObservationIgnored private var pendingJogValues: [ControllerActionTarget: ControllerMIDIValue] = [:]
     @ObservationIgnored private var channelShiftLayers: [Int32: [UInt8: ControllerShiftLayerState]] = [:]
     @ObservationIgnored private var shiftLayers: [Int32: ControllerShiftLayerState] = [:]
     @ObservationIgnored private var bindings: [ControllerBinding] = []
@@ -538,6 +540,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         valueStates.removeAll()
         takeoverStates.removeAll()
         pendingValues.removeAll()
+        pendingJogValues.removeAll()
         _ = inbox.take()
         sentMIDIValues.removeAll()
         factorySessions.removeAll()
@@ -790,6 +793,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
         pendingValues.removeAll()
+        pendingJogValues.removeAll()
         learning = nil
         learningShifted = false
         shiftLayers[selected] = nil
@@ -924,6 +928,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(id)-") }
         takeoverStates = takeoverStates.filter { !$0.key.hasPrefix("\(id)-") }
         pendingValues.removeAll()
+        pendingJogValues.removeAll()
         releaseMomentaryActions(source: id, resetJogs: endpoint != nil || playerDeck(source: id) != nil)
         updatePollingInterval()
     }
@@ -1407,6 +1412,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         values.removeAll()
         valueStates.removeAll()
         pendingValues.removeAll()
+        pendingJogValues.removeAll()
         learning = nil
         learningShifted = false
         shiftLayers[selected] = nil
@@ -1425,6 +1431,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
         pendingValues.removeAll()
+        pendingJogValues.removeAll()
         learning = nil
         learningShifted = false
         shiftLayers[selected] = nil
@@ -1445,6 +1452,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
         pendingValues.removeAll()
+        pendingJogValues.removeAll()
         learning = nil
         learningShifted = false
         shiftLayers[selected] = nil
@@ -1464,6 +1472,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
         pendingValues.removeAll()
+        pendingJogValues.removeAll()
         learning = nil
         learningShifted = false
         shiftLayers[selected] = nil
@@ -1615,6 +1624,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
         pendingValues.removeAll()
+        pendingJogValues.removeAll()
         learning = nil
         learningShifted = false
         shiftLayers[selected] = nil
@@ -1635,6 +1645,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
         pendingValues.removeAll()
+        pendingJogValues.removeAll()
         learning = nil
         learningShifted = false
         shiftLayers[selected] = nil
@@ -1882,8 +1893,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
      */
     func flushPendingActions() {
         let pending = pendingValues
+        let jogs = pendingJogValues
         pendingValues.removeAll(keepingCapacity: true)
-        for (target, value) in pending { sendAction(target, value: value) }
+        pendingJogValues.removeAll(keepingCapacity: true)
+        for (target, value) in pending { sendAction(target, value: value, jog: jogs[target]) }
     }
     func receive(_ message: ControllerMIDIMessage, source sourceID: Int32) {
         let parameterLabel = message.kind == .program ? " bank" : " parameter"
@@ -2086,6 +2099,18 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     }
                     if wasPending { status = "MIDI control took over." }
                 }
+                if binding.action.isJog {
+                    switch decoded {
+                    case .relative(let delta):
+                        let previous: Double
+                        if case .relative(let counts) = pendingJogValues[binding.target] { previous = counts }
+                        else { previous = 0 }
+                        let total = previous + (binding.inverted == true ? -delta : delta)
+                        pendingJogValues[binding.target] = .relative(total)
+                    case .absolute:
+                        pendingJogValues[binding.target] = .absolute(value)
+                    }
+                }
                 pendingValues[binding.target] = value
             }
         }
@@ -2116,11 +2141,21 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         return currentValue?(target.action)
     }
 
-    private func sendAction(_ target: ControllerActionTarget, value: Double) {
+    private func sendAction(_ target: ControllerActionTarget, value: Double, jog: ControllerMIDIValue? = nil) {
         if let deck = target.deck, !availablePlayerDecks.contains(deck),
             !(target.action.isMomentary && value == 0), !(target.action.isJog && value == 0.5)
         { return }
-        if let onTargetAction { onTargetAction(target, value) }
+        if [.jogTouchA, .jogTouchB, .loadA, .loadB].contains(target.action) {
+            let deck = target.deck ?? target.action.deck
+            let jogs = pendingValues.keys.filter { $0.action.isJog && ($0.deck ?? $0.action.deck) == deck }
+            for key in jogs {
+                if let pending = pendingValues.removeValue(forKey: key) {
+                    sendAction(key, value: pending, jog: pendingJogValues.removeValue(forKey: key))
+                }
+            }
+        }
+        if target.action.isJog, let jog, let onJogAction { onJogAction(target, jog) }
+        else if let onTargetAction { onTargetAction(target, value) }
         else { onAction?(target.action, value) }
     }
 

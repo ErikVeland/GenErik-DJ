@@ -27,6 +27,7 @@ def party_mix_profiles():
             if action == "tempo":
                 result["inputs"][-1]["inverted"] = True
         add(result, "wheelJog", channel, 6, "control", "twosComplement", deck)
+        result["inputs"][-1]["argument"] = 340
         result["startup"].append([0x90 + channel, 7, 1])
         numbers = [0, 11, 14, 24]
         result.setdefault("inputModes", []).append({"channel": 4 + channel, "initial": 0,

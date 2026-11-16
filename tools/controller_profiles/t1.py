@@ -18,6 +18,7 @@ def t1_profiles():
         add(result, "loopSize", channel, 19, "control", "twosComplement", deck)
         for number in [1, 6]:
             add(result, "jog", channel, number, "control", "paired14BitRelative", deck)
+            result["inputs"][-1]["argument"] = 2430
         for number in [54, 103]:
             add(result, "jogTouch", channel, number, deck=deck)
         for number in [0, 5]:
