@@ -2,6 +2,30 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R222 MC2000 factory core controls
+
+MC2000 now has an automatic two-deck core recipe from the manufacturer's MIDI table and channel-range diagram.
+The recipe maps transport, held Cue, Load, PFL, mixer/EQ, native 14-bit pitch, browsing, preset loops and four Hot Cues.
+The community mapping revision and factory manual have recorded hashes. No downloaded script runs in the app.
+
+Factory facts resolve several community conflicts. The right gain uses channel 1 CC 12, and jog touch uses Note 81.
+The factory's hexadecimal master and Play LED addresses take precedence over its inconsistent decimal columns.
+Feedback uses separate on/off trigger controllers. PFL retains its separate trigger family and channel-specific identifier.
+Startup lights the Vinyl indicator and requests current control values on both channels. Shutdown clears that indicator.
+
+Global Shift guards unsupported transport, pad and jog alternatives. Mixer controls remain independent.
+Factory touch reports for Vinyl Off and jog lock can release an existing contact without starting a scratch.
+Separate sample notes cannot trigger Hot Cues. Native 14-bit pitch retains exact centre and pickup protection.
+Jog direction follows the factory table. Sensitivity uses the native default instead of the source's arbitrary 125-count tuning.
+The source's gain-as-filter, Shift lock, crossfader Sync, forced PFL and startup mixer-level resets remain unmapped.
+Manual loop boundaries, extra modes, full feedback, cleanup, routing and physical calibration remain open.
+
+The catalogue retains 302 records and now contains 158 data recipes. Factory coverage reaches 92 profiles for 96 physical models.
+Six other models retain automatic native adapters. All 157 previous recipes remain unchanged.
+All 25 targeted controller checks, 56 importer/report checks and native iPad compilation pass.
+Validation results and source identity appear in `TestBuilds/r222/validation.json`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R221 Beatmix 2/4 factory core and bank protection
 
 The existing Beatmix 2/4 MK2 recipe now selects automatically for both original and MK2 models.

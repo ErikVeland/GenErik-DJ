@@ -24,6 +24,7 @@ from jogvision import jogvision_profiles, JOGVISION_REFERENCES, JOGVISION_SOURCE
 from inpulse300mk2 import inpulse300mk2_profiles, MK2_REFERENCES, MK2_SOURCES
 from inpulse200mk2 import inpulse200mk2_profiles, INPULSE200_REFERENCES, INPULSE200_SOURCES
 from beatmix import beatmix_profiles, BEATMIX_REFERENCES
+from mc2000 import mc2000_profiles, MC2000_REFERENCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -56,6 +57,19 @@ ROOT = Path(__file__).resolve().parents[2]
 class ConversionTests(unittest.TestCase):
     def control(self, key="play", group="[Channel3]", extra="", status="0x92", address="11"):
         return ET.fromstring(f"<control><group>{group}</group><key>{key}</key><status>{status}</status><midino>{address}</midino>{extra}</control>")
+
+    def test_mc2000_factory_table_overrides_conflicting_community_entries(self):
+        result = mc2000_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (55, 18))
+        gain = next(row for row in result["inputs"] if row["action"] == "gainB")
+        self.assertEqual((gain["channel"], gain["number"]), (1, 12))
+        play = next(row for row in result["outputs"] if row["action"] == "playA")
+        self.assertEqual((play["number"], play["offNumber"], play["onValue"], play["offValue"]), (74, 75, 39, 39))
+        self.assertFalse(any(row["kind"] == "note" and row["number"] == 82 for row in result["inputs"]))
+        self.assertTrue(all(row["encoding"] == "centredPitch" and row["inverted"] for row in result["inputs"] if row["action"] in {"tempoA", "tempoB"}))
+        table = ROOT / "TestBuilds/r222/manufacturer/MC2000.pdf"
+        if table.exists():
+            self.assertEqual(hashlib.sha256(table.read_bytes()).hexdigest(), MC2000_REFERENCES[result["id"]]["sha256"])
 
     def test_beatmix_factory_facts_resolve_script_jog_and_led_address_differences(self):
         result = beatmix_profiles()[0]

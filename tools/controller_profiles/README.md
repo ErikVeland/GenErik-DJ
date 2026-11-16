@@ -280,3 +280,7 @@ The separate recipe uses a published iOS mapping and pinned controller definitio
 ## Beatmix 2/4 factory facts
 
 The shared factory table covers original Beatmix 2/4 hardware and appears on the MK2 product page. Keep the stored family profile ID and exact model aliases. Use factory 1/127 jog counts and 800-count resolution. The pinned script's value-minus-64 handler conflicts with that table. Play and Sync feedback addresses differ from input addresses. Native pad functions retain four cues and four fixed loops. Separate sample pages stay unmapped. Bank events rearm shared pitch pickup and release contacts on their own side. Physical Shift survives bank changes. Shifted releases rearm normal buttons without executing unsupported alternatives. The optional delayed query, full cleanup, remaining modes, routing and physical calibration remain open.
+
+## MC2000 factory facts
+
+Use the factory command table and channel-range diagram for this separate two-deck recipe. The right gain uses channel 1 CC 12. Jog touch uses Note 81. Use hexadecimal addresses when a decimal column conflicts. LED messages have separate trigger controllers and identifiers. Keep native fourteen-bit pitch, centre pickup and standard held Cue. Do not copy the source's gain-as-filter, arbitrary jog sensitivity, Shift lock, crossfader Sync, forced PFL or startup mixer-level resets. Manual and adjustable loop boundaries, remaining modes, complete feedback, cleanup, routing and physical calibration stay open.
