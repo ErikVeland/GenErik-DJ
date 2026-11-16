@@ -5115,6 +5115,154 @@
       }
     },
     {
+      "id": "pioneerddjt1",
+      "name": "Pioneer DDJ-T1",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://jpn.pioneer/ja/support/manual/manual_pdf.php?m_id=5799"
+      ],
+      "definitions": [
+        "manufacturer:pioneerddjt1"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DDJ-T1",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "cueReturnA:a",
+        "cueReturnA:c",
+        "cueReturnB:b",
+        "cueReturnB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "filterToggleA:a",
+        "filterToggleA:c",
+        "filterToggleB:b",
+        "filterToggleB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopSizeA:a",
+        "loopSizeA:c",
+        "loopSizeB:b",
+        "loopSizeB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 107,
+      "feedbackBindingCount": 8,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Move/Hot Cue/Delete modes, shifted alternate functions, needle position, mixer feedback channel, full loop/transport feedback, FX and audio routing remain unimplemented. The needle table gives 1–127 but labels its right endpoint 27. Mixer LED output uses 9n without resolving n for that block. These ambiguous facts stay unmapped. No application-connect packet is documented. Jog calibration and physical acceptance remain open."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "pioneerddjwego2",
       "name": "Pioneer DDJ-WeGO2",
       "manufacturer": "Pioneer",
@@ -310051,6 +310199,34 @@
       ]
     },
     {
+      "id": "manufacturer:pioneerddjt1",
+      "name": "Pioneer DDJ-T1",
+      "transport": "midi",
+      "source": {
+        "url": "https://jpn.pioneer/ja/support/manual/manual_pdf.php?m_id=5799",
+        "sha256": "143d6f700323457b7acec969de1467d6b9783e64efe33e0fba49e362e41ca9b2",
+        "pages": [
+          28,
+          29,
+          30,
+          31
+        ],
+        "review": "Original Japanese manual. Deck channels 1–4, global mixer/browser channel 7. Jog uses signed CC 1/33 or shifted 6/38 pairs, not DDJ-S1 platter CC 2/34. Deck/Shift buttons emit no MIDI. The needle table contradicts its own endpoint range, and mixer LED output uses an unresolved channel variable; those outputs remain unmapped."
+      },
+      "implementedInputCount": 107,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Move/Hot Cue/Delete modes, shifted alternate functions, needle position, mixer feedback channel, full loop/transport feedback, FX and audio routing remain unimplemented. The needle table gives 1–127 but labels its right endpoint 27. Mixer LED output uses 9n without resolving n for that block. These ambiguous facts stay unmapped. No application-connect packet is documented. Jog calibration and physical acceptance remain open."
+        }
+      ]
+    },
+    {
       "id": "manufacturer:pioneerddjrev7",
       "name": "Pioneer DDJ-REV7",
       "transport": "midi",
@@ -310103,7 +310279,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 280,
+      "targetModels": 281,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

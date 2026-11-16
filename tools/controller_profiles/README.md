@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R197 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R198 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -137,3 +137,6 @@ The original model requires the qualified name `Numark MIXTRACK`. A generic `MIX
 
 The original Party Mix has sensorless wheels. Its core profile maps native wheel-side jogging and leaves timed Scratch open.
 Four Hot Cues per deck require the Hot Cue pad mode. Other modes block those actions. Pad lights remain open.
+
+DDJ-T1 uses the original factory manual and its own signed jog pairs. The S1 platter addresses do not apply.
+Ambiguous needle endpoints and mixer LED channel variables remain unmapped. Deck/Shift buttons emit no MIDI.

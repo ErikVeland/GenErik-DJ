@@ -2,6 +2,28 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R198 DDJ-T1 core MIDI controls
+
+DDJ-T1 now has a catalogue record and an automatic native core profile from Pioneer’s original manual.
+Four deck channels retain transport, touch, paired tempo and signed high-resolution jogs. Global channel 7 carries mixer, Sync, headphone cue and Load.
+The T1 uses jog pairs 1/33 and shifted 6/38. It does not use the S1 platter pair 2/34.
+Normal and shifted tempo pairs remain separate. The loop encoder changes native size before the next loop button.
+Gain, EQ, level, master, headphone mix/level, crossfader, filter and browsing retain their documented seven-bit addresses.
+Deck and Shift buttons emit no MIDI. Shifted alternate addresses stay separate from normal inputs.
+
+The needle table gives a range of 1–127 but labels its right endpoint 27. Needle position remains unmapped.
+The mixer LED table uses an unresolved channel variable. Those feedback commands also remain unmapped.
+Play and Key Lock feedback use the clear deck-channel table. No application-connect packet is documented or invented.
+Move/Hot Cue/Delete modes, remaining shifted functions, complete loop/transport feedback, FX and audio routing remain open.
+Jog calibration and physical acceptance remain open.
+Source: [Pioneer Japanese manual](https://jpn.pioneer/ja/support/manual/manual_pdf.php?m_id=5799), printed pages 28–31.
+SHA-256: `143d6f700323457b7acec969de1467d6b9783e64efe33e0fba49e362e41ca9b2`.
+The catalogue now has 288 records and 149 data recipes plus seven code profiles. Seventy-six profiles select core controls automatically.
+All 182 focused Swift checks, 36 importer checks and native iPad compilation passed. The compiled resource matches the source.
+All 148 previous data recipes remain unchanged. Twelve historical broken links remain.
+Source base: `ac8899a`. Evidence: `TestBuilds/r198/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R197 original Party Mix core controls
 
 The original Party Mix now selects native core controls and four Hot Cues per deck automatically.

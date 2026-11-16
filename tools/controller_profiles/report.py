@@ -127,6 +127,10 @@ def report(catalogue, runtime):
               "The original Party Mix selects native core controls and four mode-gated Hot Cues per deck. Sensorless wheels use native pitch bend.",
               "Other pad modes cannot trigger cues. Timed Scratch, remaining modes, full feedback cleanup and audio routing remain open.",
               "See [R197 Party Mix](controller-coverage.md#r197-original-party-mix-core-controls).", "",
+              "## Pioneer DDJ-T1 — R198", "",
+              "DDJ-T1 adds a catalogue record and an automatic native core profile from the original factory manual.",
+              "Distinct relative jog pairs and global mixer controls have fixtures. Ambiguous needle and mixer LED facts remain unmapped.",
+              "See [R198 DDJ-T1](controller-coverage.md#r198-ddj-t1-core-midi-controls).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

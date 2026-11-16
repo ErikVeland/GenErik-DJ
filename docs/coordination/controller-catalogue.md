@@ -7,9 +7,9 @@ Reviewed 16 November 2026. This catalogue is complete for the defined source bou
 - 121 published Serato iOS rows, expanded to 122 distinct model records.
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
-- 287 total catalogue records. 280 name physical models. The remainder identify software endpoints or protocol families.
-- 148 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
-- 75 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+- 288 total catalogue records. 281 name physical models. The remainder identify software endpoints or protocol families.
+- 149 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
+- 76 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -179,12 +179,18 @@ The original Party Mix selects native core controls and four mode-gated Hot Cues
 Other pad modes cannot trigger cues. Timed Scratch, remaining modes, full feedback cleanup and audio routing remain open.
 See [R197 Party Mix](controller-coverage.md#r197-original-party-mix-core-controls).
 
+## Pioneer DDJ-T1 — R198
+
+DDJ-T1 adds a catalogue record and an automatic native core profile from the original factory manual.
+Distinct relative jog pairs and global mixer controls have fixtures. Ambiguous needle and mixer LED facts remain unmapped.
+See [R198 DDJ-T1](controller-coverage.md#r198-ddj-t1-core-midi-controls).
+
 ## Implementation states
 
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 40 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 63 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 64 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 7 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
@@ -366,6 +372,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DDJ-SX3 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SX3/DDJ-SX3_MIDI_Message_List_E1.pdf) |
 | Pioneer DDJ-SZ | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SZ/DDJ-SZ_MIDI_Message_List_E.pdf) |
 | Pioneer DDJ-SZ2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SZ2/DDJ-SZ2_MIDI_Message_v100_E.pdf) |
+| Pioneer DDJ-T1 | primary | automatic-core-profile | [Reference](https://jpn.pioneer/ja/support/manual/manual_pdf.php?m_id=5799) |
 | Pioneer DDJ-WeGO2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-WeGO2/DDJWeGO2ListofMIDIMessageVirtualDJE.pdf) |
 | Pioneer DDJ-WeGO4 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-WeGO4/DDJ-WeGO4_List_of_MIDI_Message_E.pdf) |
 | Pioneer XDJ-AERO | primary | automatic-core-profile | [Reference](https://www.recordcase.de/media/94/f5/e0/1745829305/Pioneer-XDJ-AERO-Manual-EN.pdf) |

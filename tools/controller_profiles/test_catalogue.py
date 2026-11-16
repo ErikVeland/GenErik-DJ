@@ -33,6 +33,7 @@ from mc6000 import mc6000_profiles, MC6000_REFERENCES, MC6000_SOURCES
 from mc7000 import mc7000_profiles, MC7000_REFERENCES, MC7000_SOURCES
 from original_mixtrack import original_mixtrack_profiles, original_mixtrack_references, ORIGINAL_MIXTRACK_SOURCES
 from party_mix import party_mix_profiles, PARTY_MIX_REFERENCES, PARTY_MIX_SOURCES
+from t1 import t1_profiles, T1_REFERENCES
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -98,7 +99,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles() + mc7000_profiles() + original_mixtrack_profiles() + party_mix_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles() + mc7000_profiles() + original_mixtrack_profiles() + party_mix_profiles() + t1_profiles():
             for left, right in combinations(profile["inputs"], 2):
                 address = lambda item: (item["kind"], item["channel"], item["number"])
                 if address(left) != address(right):
@@ -394,6 +395,17 @@ class ConversionTests(unittest.TestCase):
             source = ROOT / "TestBuilds/r169/upstream/res/controllers" / path
             if source.exists():
                 self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)
+
+    def test_t1_retains_its_factory_jog_and_global_mixer_channels(self):
+        item = t1_profiles()[0]
+        self.assertEqual([x["number"] for x in item["inputs"] if x["action"] == "jogA"], [1, 6, 1, 6])
+        self.assertTrue(all(x["channel"] == 6 for x in item["inputs"] if x["action"] in {"syncA", "syncB", "loadA", "loadB", "cueA", "cueB"}))
+        self.assertFalse(any(x["action"].startswith(("seek", "hotcue")) for x in item["inputs"]))
+        self.assertTrue(all(x["channel"] < 4 for x in item["outputs"]))
+        self.assertEqual(item["startup"], [])
+        source = ROOT / "TestBuilds/r198/manufacturer/DDJ-T1.pdf"
+        if source.exists():
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), T1_REFERENCES["Pioneer DDJ-T1"]["sha256"])
 
     def test_ddj_application_connect_is_limited_to_reviewed_tables(self):
         expected = {"DDJ-SX", "DDJ-SX2", "DDJ-RX", "DDJ-RZ", "DDJ-RZX", "DDJ-SZ", "DDJ-SZ2"}
