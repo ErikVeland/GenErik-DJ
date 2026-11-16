@@ -23,6 +23,7 @@ from opus import opus_profiles, OPUS_REFERENCES
 from legacy_ddj import legacy_ddj_profiles, legacy_ddj_references
 from s1 import s1_profiles, S1_REFERENCES
 from legacy_systems import legacy_system_profiles, LEGACY_SYSTEM_REFERENCES
+from numark import numark_profiles, numark_references, NUMARK_SOURCES
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -78,7 +79,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles():
             addresses = [(item["kind"], item["channel"], item["number"]) for item in profile["inputs"]]
             self.assertEqual(len(addresses), len(set(addresses)), profile["id"])
             self.assertLessEqual(len(profile["inputs"]), 512)
@@ -239,6 +240,19 @@ class ConversionTests(unittest.TestCase):
             document = ROOT / "TestBuilds/r186/manufacturer" / (name.split(" ", 1)[1] + ".pdf")
             if document.exists():
                 self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), LEGACY_SYSTEM_REFERENCES[name]["sha256"])
+
+    def test_numark_fx_retains_model_specific_setup_and_source_hashes(self):
+        for item in numark_profiles():
+            platinum = "Platinum" in item["id"]
+            self.assertTrue(item["definition"].startswith("reviewed:"))
+            self.assertEqual(item["startup"][1][-2], 0x13 if platinum else 3)
+            self.assertEqual(item["shutdown"], [[0xF0, 0, 0x20, 0x7F, 2, 0xF7]])
+            self.assertEqual({binding["targetDeck"] for binding in item["inputs"] if "targetDeck" in binding}, set("abcd" if platinum else "ab"))
+            self.assertFalse(any(binding["action"].startswith("hotcue") for binding in item["inputs"]))
+            for path, digest in NUMARK_SOURCES[item["id"]]:
+                source = ROOT / "TestBuilds/r169/upstream/res/controllers" / path
+                if source.exists():
+                    self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)
 
     def test_ddj_application_connect_is_limited_to_reviewed_tables(self):
         expected = {"DDJ-SX", "DDJ-SX2", "DDJ-RX", "DDJ-RZ", "DDJ-RZX", "DDJ-SZ", "DDJ-SZ2"}

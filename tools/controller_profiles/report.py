@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def report(catalogue, runtime):
     models = catalogue["models"]
     counts = Counter(model["implementation"] for model in models)
-    source_definitions = [item for item in catalogue["definitions"] if not item["id"].startswith("manufacturer:")]
+    source_definitions = [item for item in catalogue["definitions"] if item["id"].endswith(".xml")]
     profiles = runtime["profiles"]
     player_count = sum("playerSupport" in model for model in models)
     lines = ["# Controller catalogue — R169", "", "Reviewed 16 November 2026. This catalogue is complete for the defined source boundary. Controller feature parity remains a release blocker.", "",
@@ -83,6 +83,10 @@ def report(catalogue, runtime):
               "XDJ-AERO and XDJ-R1 select core MIDI profiles automatically. Their deck-local browsers load the intended deck.",
               "R1 retains three Hot Cues per deck. AERO sample controls do not become invented Hot Cues. Hardware modes and full audio routing remain open.",
               "See [R186 earlier XDJ systems](controller-coverage.md#r186-xdj-aero-and-xdj-r1-core-controls).", "",
+              "## Mixtrack FX core controls — R187", "",
+              "Mixtrack Pro FX and Platinum FX select native core controls with model-specific, bounded SysEx setup.",
+              "The profiles reuse pinned Mixxx protocol facts. Scripts do not run in the app. Unresolved pads, modes, displays and audio routing remain explicit.",
+              "See [R187 Mixtrack FX](controller-coverage.md#r187-mixtrack-fx-core-controls-and-bounded-sysex-setup).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

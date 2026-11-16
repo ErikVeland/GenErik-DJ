@@ -80,7 +80,7 @@ import Testing
     }
     #expect(ControllerFactoryProfile.matching(["DDJ-GRV6 clone"]) == nil)
     #expect(ControllerFactoryProfile.matching(["Numark"]) == nil)
-    #expect(ControllerFactoryProfile.matching(["Numark Mixtrack Pro FX"], automaticOnly: true) == nil)
+    #expect(ControllerFactoryProfile.matching(["Numark Mixtrack Pro FX"], automaticOnly: true) != nil)
 }
 
 @Test @MainActor func controllerCatalogueKeepsFourDeckTargetsSeparate() throws {

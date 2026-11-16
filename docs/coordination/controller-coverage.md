@@ -2,6 +2,34 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R187 Mixtrack FX core controls and bounded SysEx setup
+
+Mixtrack Pro FX and Mixtrack Platinum FX now select reviewed native core profiles automatically.
+The profiles use MIDI addresses and protocol facts from the pinned Mixxx XML and scripts. The app does not execute those scripts.
+Pro FX has two deck targets. Platinum FX has four. Existing deck-capacity guards still block inactive C/D inputs.
+
+Startup sends the source demo-exit, model-specific pad-layout and status-request packets to the paired physical output.
+Disconnect sends the documented shutdown packet. Reconnect repeats startup. Failed setup keeps core controls inactive.
+Setup accepts complete SysEx packets of 4–128 bytes, with seven-bit payload bytes and a final `F7`.
+The sender rejects malformed or oversized setup packets. Existing short-message setup remains valid.
+
+Core controls include transport, Load, signed jogs, touch, inverted high-resolution tempo, loops, EQ, filter and mixing.
+Pro FX headphone level/blend use channel 15. Platinum FX uses channel 16 and separate controller numbers.
+Binary feedback retains the source dim value of 1. Normal Scratch mode follows native platter-touch behaviour.
+Pad modes, Scratch toggle, shifted functions, FX, meters, screens and complete audio routing remain unimplemented.
+Pads stay unmapped until the app can track their modes. Jog response still needs physical calibration.
+Source reuse and distribution review remain release work.
+
+Sources: [Pro FX script](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Pro-FX-scripts.js) and [Platinum FX script](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Platinum-FX-scripts.js).
+XML and script SHA-256 identities are recorded in `tools/controller_profiles/numark.py` and the generated catalogue.
+The source inventory still contains every locked XML definition. Reviewed native recipes remain separate records.
+The catalogue retains 287 records and 146 data recipes plus seven code profiles. Sixty-four factory profiles select core controls automatically.
+Two reviewed recipes replace earlier partial FX recipes. All 144 other data recipes remain unchanged.
+All 124 focused Swift checks, 25 importer checks and native iPad compilation passed. The compiled resource matches the source.
+Twelve historical broken links remain across 1,520 files.
+Source base: `151dee5`. Evidence: `TestBuilds/r187/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R186 XDJ-AERO and XDJ-R1 core controls
 
 XDJ-AERO and XDJ-R1 now select core MIDI profiles automatically.

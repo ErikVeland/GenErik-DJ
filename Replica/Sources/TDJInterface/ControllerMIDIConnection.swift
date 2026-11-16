@@ -1362,6 +1362,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
     }
     private func sendMIDIMessage(_ bytes: [UInt8], destination: MIDIEndpointRef) -> Bool {
+        guard ControllerProfileData.validSetupMessage(bytes) else { return false }
         var list = MIDIPacketList()
         let start = MIDIPacketListInit(&list)
         _ = bytes.withUnsafeBufferPointer {

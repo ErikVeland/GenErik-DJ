@@ -69,10 +69,15 @@ struct ControllerProfileData: Decodable, Sendable {
                     && $0.action.supportsFeedback && ($0.kind == .control || $0.action.isButton)
             }
             && (startup + shutdown).count <= 16
-            && (startup + shutdown).allSatisfy {
-                $0.count == 3 && (0x80...0xEF).contains($0[0])
-                    && $0[1] < 128 && $0[2] < 128
-            }
+            && (startup + shutdown).allSatisfy(Self.validSetupMessage)
+    }
+
+    static func validSetupMessage(_ bytes: [UInt8]) -> Bool {
+        if bytes.count == 3 {
+            return (0x80...0xEF).contains(bytes[0]) && bytes[1] < 128 && bytes[2] < 128
+        }
+        return (4...128).contains(bytes.count) && bytes.first == 0xF0 && bytes.last == 0xF7
+            && bytes.dropFirst().dropLast().allSatisfy { $0 < 128 }
     }
 
     private static func validArgument(_ input: Input) -> Bool {
