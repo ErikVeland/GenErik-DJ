@@ -268,3 +268,7 @@ The original 1000 retains its profile ID in a separate factory-table recipe. Nor
 ## Jogvision factory commands
 
 Jogvision uses a separately reviewed recipe. CC 126 sets Scratch mode and CC 127 requests current analogue and keypad-mode reports. The pinned script's LED-clear comment for CC 127 is inaccurate. Do not copy its shutdown track-eject side effect. Modifier guards cover both Shift and Mode. The factory separates Hot Cue, sample and delete note ranges. The native jog path uses the pinned 400-count resolution. AIR filtering, extra modes, rings, complete feedback, cleanup, routing and physical calibration remain open.
+
+## Inpulse 300 MK2 source boundaries
+
+The MK2 recipe reuses hardware facts from the pinned community revision and the separate manufacturer guide. It does not copy the fork's software four-deck bank or stem/FX code. Conflicting pad address zero and the fork's custom IN action remain unmapped. Normal/shifted touch channels stay separate. A held jog retains its intended frame when its count resolution changes. Momentary edge detection uses active source ownership across alternate release addresses. Full modes, feedback, cleanup, routing and physical calibration remain open.

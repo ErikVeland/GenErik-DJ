@@ -21,6 +21,7 @@ from flx10 import flx10_profiles, FLX10_REFERENCES
 from ddj1000 import ddj1000_profiles, DDJ1000_REFERENCES
 from manufacturer_inventory import MODELS as MANUFACTURER_MODELS
 from jogvision import jogvision_profiles, JOGVISION_REFERENCES, JOGVISION_SOURCES
+from inpulse300mk2 import inpulse300mk2_profiles, MK2_REFERENCES, MK2_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -69,6 +70,21 @@ class ConversionTests(unittest.TestCase):
         self.assertIn("plus 1 existing code profiles", text)
         self.assertIn("2 factory profiles select core controls automatically for 2 physical models", text)
         self.assertIn("Existing native adapters provide automatic core controls for 1 other models", text)
+
+    def test_inpulse300mk2_preserves_core_facts_without_ambiguous_pad_assignments(self):
+        result = inpulse300mk2_profiles()[0]
+        self.assertEqual(len(result["inputs"]), 47)
+        self.assertEqual(len(result["outputs"]), 10)
+        self.assertTrue(all(row.get("targetDeck") in {None, "a", "b"} for row in result["inputs"]))
+        self.assertFalse(any(row["channel"] in {6, 7} for row in result["inputs"]))
+        self.assertEqual([row["argument"] for row in result["inputs"] if row["action"] == "jogA"], [248, 62])
+        cache = ROOT / "TestBuilds/r219/upstream"
+        for name, (_, digest) in zip(["inpulse300mk2.xml", "inpulse300mk2.js"], MK2_SOURCES):
+            if (cache / name).exists():
+                self.assertEqual(hashlib.sha256((cache / name).read_bytes()).hexdigest(), digest)
+        table = ROOT / "TestBuilds/r219/manufacturer/Inpulse-300-MK2.pdf"
+        if table.exists():
+            self.assertEqual(hashlib.sha256(table.read_bytes()).hexdigest(), MK2_REFERENCES[result["id"]]["relatedSources"][-1]["sha256"])
 
     def test_jogvision_uses_factory_setup_and_source_derived_jog_resolution(self):
         result = jogvision_profiles()[0]

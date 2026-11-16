@@ -2,6 +2,37 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R219 Inpulse 300 MK2 core and Shift contact continuity
+
+Inpulse 300 MK2 now has its own automatic two-deck core recipe. It does not inherit the original 300 profile.
+The source mapping revision, XML, script and manufacturer guide have recorded hashes.
+Only reviewed hardware-address facts and count scales enter the runtime recipe. No downloaded script runs in the app.
+
+Normal deck messages use channels 1/2. Hardware shifted messages use 4/5.
+The recipe maps transport, held Cue, Load, PFL, mixer/EQ/filter, paired tempo, browsing and native preset-loop controls.
+The native recipe omits the fork's Assistant-controlled software banks and stem/FX code.
+The guide's manual IN/OUT and active-loop adjustment do not match the fork's IN-to-four-beat customisation. Those buttons remain unmapped.
+
+The source assigns pad address zero on channel 6 to three unrelated actions. All pads remain unmapped until those facts are resolved.
+This avoids a Hot Cue press also changing an effect or jumping the track.
+
+The source's scratch resolution is 248 counts. Shift increases movement fourfold, represented by 62 native counts per revolution.
+A reproduction found that changing resolution could replace the intended frame with an extrapolated playback frame.
+The held motion ledger now keeps its original frame basis and scales incoming counts to that basis.
+Normal and shifted movement remain continuous. Idle stop and Sync restoration retain their existing rules.
+
+A second reproduction found that an alternate Cue release could suppress the next normal press.
+Momentary contacts now use the existing active-source set for edge detection instead of stale per-address byte values.
+Duplicate presses and orphan releases still cannot create extra contacts. A fresh press works after an alternate-address release.
+
+The catalogue retains 302 records and now contains 156 data recipes. Factory coverage rises to 89 profiles for 90 physical models.
+Six other models retain automatic native adapters. Full pads, boundary adjustment, extra modes, feedback, cleanup, routing and calibration remain open.
+All 301 focused controller/NI checks, 53 importer/report checks and native iPad compilation pass.
+Both failing reproductions remain in the evidence directory. All 155 earlier data recipes remain unchanged.
+The compiled resource matches the source. Twelve historical broken links remain.
+Source base: `ab207c2`. Evidence: `TestBuilds/r219/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R218 Jogvision factory setup and native core controls
 
 Jogvision now selects an automatic core recipe on its default MIDI channels.

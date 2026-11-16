@@ -93,3 +93,12 @@ import Testing
         #expect(events.suffix(4).allSatisfy { $0.deck == .b })
     }
 }
+
+@Test @MainActor func controllerCatalogueJogvisionCanPressCueAgainAfterItsShiftedRelease() {
+    withJogvision { input, _ in
+        var values: [Double] = []
+        input.onTargetAction = { target, value in if target.action == .cuePreviewA { values.append(value) } }
+        jogvisionPacket([0x80, 54, 0, 0x90, 49, 127, 86, 127, 54, 0, 0x80, 86, 0, 0x90, 49, 127, 49, 0], to: input)
+        #expect(values == [1, 0, 1, 0])
+    }
+}

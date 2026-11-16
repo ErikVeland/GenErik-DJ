@@ -35,13 +35,13 @@ extension ReplicaModel {
                 controllerPausedJogs[deck] = nil
                 let now = ProcessInfo.processInfo.systemUptime
                 var motion = controllerCountJogs[deck]
-                if motion?.generation != state.generation || motion?.resolution != resolution {
+                if motion?.generation != state.generation {
                     motion = .init(
                         frame: state.sourceFrame, generation: state.generation, sampleRate: track.analysis.sampleRate,
                         limit: max(0, Double(track.analysis.frameCount) - 1), resolution: resolution, time: now)
                 }
                 guard var motion else { return }
-                motion.move(counts: counts, time: now)
+                motion.move(counts: counts * motion.resolution / resolution, time: now)
                 controllerCountJogs[deck] = motion
                 applyControllerCountJog(motion, deck: deck, stopped: false)
                 controllerCountJogTasks[deck]?.cancel()

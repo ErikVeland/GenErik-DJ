@@ -1883,7 +1883,6 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 continue
             }
             if binding.action.isMomentary {
-                guard previous != value else { continue }
                 var inputs = activeMomentaryInputs[binding.target, default: []]
                 let wasActive = !inputs.isEmpty
                 if value > 0 { inputs.insert(sourceID) } else { inputs.remove(sourceID) }

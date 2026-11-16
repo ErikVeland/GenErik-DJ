@@ -285,3 +285,22 @@ import Testing
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueInpulse300MK2RetainsJogIntentAcrossShiftResolutionChange() async throws {
+    try await withControllerCuePlayback("DJControl Inpulse 300 MK2") { model, input in
+        cuePreviewPacket([0x91, 8, 127, 0xB1, 10, 1], to: input)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        cuePreviewPacket([0x94, 8, 127, 0xB4, 10, 1], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        let expected = sampleRate * 1.8 * 5 / 248
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - expected) <= 1)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x84, 8, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}
