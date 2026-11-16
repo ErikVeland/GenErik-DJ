@@ -2,6 +2,31 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R184 ERGO and earlier WeGO systems
+
+DDJ-WeGO3, WeGO2, WeGO and ERGO now select their documented core MIDI profiles automatically.
+WeGO3 has two deck targets. The earlier WeGO models and ERGO have four published deck channels.
+WeGO2 adds a separate catalogue record. The original benchmark names retain their source definitions.
+
+WeGO3 Play uses Note 8. Earlier WeGO and ERGO Play use Note 11.
+WeGO jogs use binary-offset counts. ERGO jogs use signed two’s-complement counts.
+Shifted jogs use CC 39. ERGO Vinyl Off releases cannot start a scratch.
+The earlier loop knobs use the signed native loop-size action from R183. WeGO3 has separate half/double buttons.
+All four models have four Hot Cues per deck. Their mixers use global channel 7 and documented 14-bit pairs.
+ERGO retains its separate gain, filter, master and headphone controls. No equivalent WeGO controls are invented.
+
+The profiles retain empty startup lists. The tables do not document application-connect packets.
+The earlier WeGO profiles use the factory VirtualDJ message tables. Other hardware message modes remain separate work.
+Shifted delete/sample modes, FX, jog illumination, complete feedback and audio routing remain release work.
+The DDJ-S1 source is cached for the next increment. Its paired relative jog needs a separate decoder contract.
+
+Factory sources and hashes are recorded in `tools/controller_profiles/legacy_ddj.py` and the generated catalogue.
+The catalogue now has 285 records and 143 data recipes plus seven code profiles. Fifty-nine factory profiles select core controls automatically.
+All 139 earlier data recipes remain unchanged. All 106 focused Swift checks, 22 importer checks and native iPad compilation passed.
+The compiled resource matches the source. The repository check retains 12 historical broken links across 1,513 files.
+Source base: `1fc9af5`. Evidence: `TestBuilds/r184/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R183 OPUS-QUAD core MIDI controls
 
 OPUS-QUAD now selects its documented core MIDI profile automatically.

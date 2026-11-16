@@ -71,6 +71,10 @@ def report(catalogue, runtime):
               "OPUS-QUAD selects core MIDI controls automatically, with its own Hot Cue layout, shifted jog and signed loop-size encoder.",
               "Screens, complete feedback, advanced modes and audio routing remain open.",
               "See [R183 OPUS-QUAD](controller-coverage.md#r183-opus-quad-core-midi-controls).", "",
+              "## ERGO and earlier WeGO systems — R184", "",
+              "WeGO3, WeGO2, WeGO and ERGO select separate core MIDI profiles automatically.",
+              "Their deck counts, Play messages, jog encodings, loop controls and global mixer pairs retain each generation’s factory facts.",
+              "See [R184 legacy Pioneer](controller-coverage.md#r184-ergo-and-earlier-wego-systems).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

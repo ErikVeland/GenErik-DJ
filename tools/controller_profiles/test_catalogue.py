@@ -20,6 +20,7 @@ from ddj_family import ddj_profiles, ddj_references, PENDING_DDJ
 from legacy_xdj import legacy_xdj_profiles, LEGACY_XDJ_REFERENCES
 from entry import entry_profiles, entry_references
 from opus import opus_profiles, OPUS_REFERENCES
+from legacy_ddj import legacy_ddj_profiles, legacy_ddj_references
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -75,7 +76,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles():
             addresses = [(item["kind"], item["channel"], item["number"]) for item in profile["inputs"]]
             self.assertEqual(len(addresses), len(set(addresses)), profile["id"])
             self.assertLessEqual(len(profile["inputs"]), 512)
@@ -200,6 +201,21 @@ class ConversionTests(unittest.TestCase):
         document = ROOT / "TestBuilds/r183/manufacturer/OPUS-QUAD.pdf"
         if document.exists():
             self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), OPUS_REFERENCES[item["id"]]["sha256"])
+
+    def test_legacy_ddj_profiles_keep_generation_specific_controls(self):
+        profiles = {item["id"]: item for item in legacy_ddj_profiles()}
+        self.assertEqual(set(profiles), set(legacy_ddj_references()))
+        for name, item in profiles.items():
+            ergo, wego3 = name.endswith("ERGO"), name.endswith("WeGO3")
+            self.assertEqual(item["startup"], [])
+            self.assertEqual({binding["targetDeck"] for binding in item["inputs"] if "targetDeck" in binding}, set("ab" if wego3 else "abcd"))
+            plays = [binding for binding in item["inputs"] if binding["action"].startswith("play")]
+            self.assertTrue(all(binding["number"] == (8 if wego3 else 11) for binding in plays))
+            jogs = [binding for binding in item["inputs"] if binding["action"] in {"jogA", "jogB"}]
+            self.assertTrue(all(binding["encoding"] == ("twosComplement" if ergo else "binaryOffset") for binding in jogs))
+            document = ROOT / "TestBuilds/r184/manufacturer" / (("DDJ-ERGO-V" if ergo else name.split(" ", 1)[1]) + ".pdf")
+            if document.exists():
+                self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), legacy_ddj_references()[name]["sha256"])
 
     def test_ddj_application_connect_is_limited_to_reviewed_tables(self):
         expected = {"DDJ-SX", "DDJ-SX2", "DDJ-RX", "DDJ-RZ", "DDJ-RZX", "DDJ-SZ", "DDJ-SZ2"}
