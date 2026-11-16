@@ -79,6 +79,10 @@ def report(catalogue, runtime):
               "DDJ-S1 selects core MIDI controls automatically. Its signed 14-bit jog decoder emits once per complete pair and clears pending pairs on reconnect.",
               "Orphan/repeated low bytes cannot move the deck. Jog calibration, remaining modes, complete feedback and audio routing remain open.",
               "See [R185 DDJ-S1](controller-coverage.md#r185-ddj-s1-and-paired-relative-jog-messages).", "",
+              "## XDJ-AERO and XDJ-R1 — R186", "",
+              "XDJ-AERO and XDJ-R1 select core MIDI profiles automatically. Their deck-local browsers load the intended deck.",
+              "R1 retains three Hot Cues per deck. AERO sample controls do not become invented Hot Cues. Hardware modes and full audio routing remain open.",
+              "See [R186 earlier XDJ systems](controller-coverage.md#r186-xdj-aero-and-xdj-r1-core-controls).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

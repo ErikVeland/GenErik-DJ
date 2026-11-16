@@ -2,6 +2,30 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R186 XDJ-AERO and XDJ-R1 core controls
+
+XDJ-AERO and XDJ-R1 now select core MIDI profiles automatically.
+Their factory manuals publish four deck channels and a separate channel-7 mixer.
+Each deck has a browser encoder. Pressing its rotary selector loads the selected track into that deck.
+The receiver applies pending Browse counts before Load. Global mixer buttons cannot trigger Load.
+
+Both profiles include transport, tempo, binary-offset jogs, signed loop sizing, EQ, gain, filter and headphone controls.
+R1 has three Hot Cues per deck. AERO has no mapped Hot Cues because its table provides sample controls instead.
+The profiles retain documented binary lights and empty startup/shutdown lists.
+MIDI control and MIXER MODE PC still require hardware selection. Complete audio routing remains open.
+Shifted modes, FX/samples, deck-bank display feedback, screens and physical jog calibration remain release work.
+
+The source documents are Pioneer factory operating manuals hosted by public mirrors. Their MIDI tables remain separate from app recipes.
+AERO: [factory manual](https://www.recordcase.de/media/94/f5/e0/1745829305/Pioneer-XDJ-AERO-Manual-EN.pdf), pages 23, 26 and 29–32.
+SHA-256: `72e14c9420b09e81fdc790bb00a609ad1f8d197890b4416205c4f98b84d171b3`.
+R1: [factory manual](https://www.uns.nu/pdf/Pioneer_XDJ-R1_Manual.pdf), pages 22 and 27–34.
+SHA-256: `5f41454ad19ac54527dd6f32c9e5e6e4d9812a53be7f6a82829042dbc02ec183`.
+The catalogue now has 287 records and 146 data recipes plus seven code profiles. Sixty-two factory profiles select core controls automatically.
+All 144 earlier data recipes remain unchanged. All 119 focused Swift checks, 24 importer checks and native iPad compilation passed.
+The compiled resource matches the source. Twelve historical broken links remain across 1,518 files.
+Source base: `8bf9d81`. Evidence: `TestBuilds/r186/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R185 DDJ-S1 and paired relative jog messages
 
 DDJ-S1 now selects its documented core MIDI profile automatically.

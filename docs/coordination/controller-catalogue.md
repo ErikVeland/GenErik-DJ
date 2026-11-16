@@ -7,9 +7,9 @@ Reviewed 16 November 2026. This catalogue is complete for the defined source bou
 - 121 published Serato iOS rows, expanded to 122 distinct model records.
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
-- 285 total catalogue records. 278 name physical models. The remainder identify software endpoints or protocol families.
-- 144 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
-- 60 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+- 287 total catalogue records. 280 name physical models. The remainder identify software endpoints or protocol families.
+- 146 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
+- 62 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -107,12 +107,18 @@ DDJ-S1 selects core MIDI controls automatically. Its signed 14-bit jog decoder e
 Orphan/repeated low bytes cannot move the deck. Jog calibration, remaining modes, complete feedback and audio routing remain open.
 See [R185 DDJ-S1](controller-coverage.md#r185-ddj-s1-and-paired-relative-jog-messages).
 
+## XDJ-AERO and XDJ-R1 — R186
+
+XDJ-AERO and XDJ-R1 select core MIDI profiles automatically. Their deck-local browsers load the intended deck.
+R1 retains three Hot Cues per deck. AERO sample controls do not become invented Hot Cues. Hardware modes and full audio routing remain open.
+See [R186 earlier XDJ systems](controller-coverage.md#r186-xdj-aero-and-xdj-r1-core-controls).
+
 ## Implementation states
 
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 40 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 48 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 50 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 7 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
@@ -296,6 +302,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DDJ-SZ2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SZ2/DDJ-SZ2_MIDI_Message_v100_E.pdf) |
 | Pioneer DDJ-WeGO2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-WeGO2/DDJWeGO2ListofMIDIMessageVirtualDJE.pdf) |
 | Pioneer DDJ-WeGO4 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-WeGO4/DDJ-WeGO4_List_of_MIDI_Message_E.pdf) |
+| Pioneer XDJ-AERO | primary | automatic-core-profile | [Reference](https://www.recordcase.de/media/94/f5/e0/1745829305/Pioneer-XDJ-AERO-Manual-EN.pdf) |
+| Pioneer XDJ-R1 | primary | automatic-core-profile | [Reference](https://www.uns.nu/pdf/Pioneer_XDJ-R1_Manual.pdf) |
 | Pioneer XDJ-RX | primary | partial-midi-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX/XDJ-RX_List_of_MIDI_Message_E.pdf) |
 | Pioneer XDJ-RX2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX2/XDJ-RX2_List_of_MIDI_Message_E3.pdf) |
 | Pioneer XDJ-RX3 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX3/XDJ-RX3_MIDI_Message_List_E1.pdf) |
