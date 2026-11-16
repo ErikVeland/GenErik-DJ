@@ -34,6 +34,7 @@ from mc7000 import mc7000_profiles, MC7000_REFERENCES, MC7000_SOURCES
 from original_mixtrack import original_mixtrack_profiles, original_mixtrack_references, ORIGINAL_MIXTRACK_SOURCES
 from party_mix import party_mix_profiles, PARTY_MIX_REFERENCES, PARTY_MIX_SOURCES
 from t1 import t1_profiles, T1_REFERENCES
+from pad_accessories import pad_accessory_profiles, PAD_REFERENCES
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -99,7 +100,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles() + mc7000_profiles() + original_mixtrack_profiles() + party_mix_profiles() + t1_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles() + mc7000_profiles() + original_mixtrack_profiles() + party_mix_profiles() + t1_profiles() + pad_accessory_profiles():
             for left, right in combinations(profile["inputs"], 2):
                 address = lambda item: (item["kind"], item["channel"], item["number"])
                 if address(left) != address(right):
@@ -406,6 +407,22 @@ class ConversionTests(unittest.TestCase):
         source = ROOT / "TestBuilds/r198/manufacturer/DDJ-T1.pdf"
         if source.exists():
             self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), T1_REFERENCES["Pioneer DDJ-T1"]["sha256"])
+
+    def test_pad_accessories_preserve_distinct_pad_layouts_and_source_roles(self):
+        profiles = pad_accessory_profiles()
+        self.assertEqual([x["role"] for x in profiles], ["accessory"] * 3)
+        for item in profiles:
+            cues = [x for x in item["inputs"] if x["action"].startswith("hotcue")]
+            self.assertEqual(len(cues), 32)
+            self.assertEqual([x["number"] for x in cues[:8]], [12, 13, 14, 15, 8, 9, 10, 11] if item["id"].endswith("XP2") else list(range(8)))
+            self.assertEqual([cues[i * 8]["channel"] for i in range(4)], [7, 8, 9, 10] if item["id"].endswith("SP1") else [7, 9, 11, 13])
+            self.assertFalse(any(x["action"].startswith(("play", "tempo", "level")) for x in item["inputs"]))
+            self.assertEqual(item["startup"], [[155, 9, 127]] if item["id"].endswith("SP1") else [])
+        for name, reference in PAD_REFERENCES.items():
+            suffix = "-new" if name.endswith("XP2") else ""
+            source = ROOT / "TestBuilds/r199/manufacturer" / (name.split(" ", 1)[1] + suffix + ".pdf")
+            if source.exists():
+                self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), reference["sha256"])
 
     def test_ddj_application_connect_is_limited_to_reviewed_tables(self):
         expected = {"DDJ-SX", "DDJ-SX2", "DDJ-RX", "DDJ-RZ", "DDJ-RZX", "DDJ-SZ", "DDJ-SZ2"}

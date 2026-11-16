@@ -5508,6 +5508,124 @@
       }
     },
     {
+      "id": "pioneerddjxp1",
+      "name": "Pioneer DDJ-XP1",
+      "manufacturer": "Pioneer",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-XP1/DDJ-XP1_List_of_MIDI_Message_E1.pdf"
+      ],
+      "definitions": [
+        "manufacturer:pioneerddjxp1"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DDJ-XP1",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "openGroup",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 59,
+      "feedbackBindingCount": 12,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "MIDI controller mode for other DJ software; automatic mode selection is not implemented."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Accessory controls complement the app or another controller. Remaining pad modes, cue deletion, pad lights, full mode feedback, shifted alternate functions, key controls, slip/censor, FX and lifecycle cleanup remain unimplemented. The app currently exposes eight Hot Cues per deck. XP1 lower pads and XP2 sampler pads are not remapped to unrelated actions. Physical mode selection and acceptance remain open.",
+        "XP automatic software-mode negotiation is not implemented. Use the published MIDI controller mode for other DJ software. No undocumented connect packet is sent. XP1 IN/OUT buttons retain manual loop actions; contextual half/double behaviour remains open."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "pioneerddj200",
       "name": "Pioneer DJ DDJ-200",
       "manufacturer": "Pioneer",
@@ -6815,46 +6933,100 @@
       "role": "accessory",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SP1/DDJ-SP1_List_of_MIDI_Messages_E.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:pioneerddjsp1"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Pioneer DDJ-SP1",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopSizeA:a",
+        "loopSizeA:c",
+        "loopSizeB:b",
+        "loopSizeB:d",
+        "openGroup",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 51,
+      "feedbackBindingCount": 4,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Accessory controls complement the app or another controller. Remaining pad modes, cue deletion, pad lights, full mode feedback, shifted alternate functions, key controls, slip/censor, FX and lifecycle cleanup remain unimplemented. The app currently exposes eight Hot Cues per deck. XP1 lower pads and XP2 sampler pads are not remapped to unrelated actions. Physical mode selection and acceptance remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -7649,46 +7821,110 @@
       "role": "accessory",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-XP2/DDJ-XP2_MIDI_Message_List_E1.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:pioneerddjxp2"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Pioneer DDJ-XP2",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "openGroup",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 59,
+      "feedbackBindingCount": 12,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "MIDI controller mode for other DJ software; automatic mode selection is not implemented."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Accessory controls complement the app or another controller. Remaining pad modes, cue deletion, pad lights, full mode feedback, shifted alternate functions, key controls, slip/censor, FX and lifecycle cleanup remain unimplemented. The app currently exposes eight Hot Cues per deck. XP1 lower pads and XP2 sampler pads are not remapped to unrelated actions. Physical mode selection and acceptance remain open.",
+        "XP automatic software-mode negotiation is not implemented. Use the published MIDI controller mode for other DJ software. No undocumented connect packet is sent. XP1 IN/OUT buttons retain manual loop actions; contextual half/double behaviour remains open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -310227,6 +310463,95 @@
       ]
     },
     {
+      "id": "manufacturer:pioneerddjxp2",
+      "name": "Pioneer DDJ-XP2",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-XP2/DDJ-XP2_MIDI_Message_List_E1.pdf",
+        "sha256": "d637c3f5206a475988e6fb98dadbf7bec4abb7ee59b2654671ea3a6aebeb8be6",
+        "pages": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "implementedInputCount": 59,
+      "implementedOutputCount": 12,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Accessory controls complement the app or another controller. Remaining pad modes, cue deletion, pad lights, full mode feedback, shifted alternate functions, key controls, slip/censor, FX and lifecycle cleanup remain unimplemented. The app currently exposes eight Hot Cues per deck. XP1 lower pads and XP2 sampler pads are not remapped to unrelated actions. Physical mode selection and acceptance remain open."
+        },
+        {
+          "reason": "XP automatic software-mode negotiation is not implemented. Use the published MIDI controller mode for other DJ software. No undocumented connect packet is sent. XP1 IN/OUT buttons retain manual loop actions; contextual half/double behaviour remains open."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerddjxp1",
+      "name": "Pioneer DDJ-XP1",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-XP1/DDJ-XP1_List_of_MIDI_Message_E1.pdf",
+        "sha256": "ff0e7c6f5a28a729036f959336bbb583739fb5fad7a92def07ffb0b29a136dfa",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "implementedInputCount": 59,
+      "implementedOutputCount": 12,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Accessory controls complement the app or another controller. Remaining pad modes, cue deletion, pad lights, full mode feedback, shifted alternate functions, key controls, slip/censor, FX and lifecycle cleanup remain unimplemented. The app currently exposes eight Hot Cues per deck. XP1 lower pads and XP2 sampler pads are not remapped to unrelated actions. Physical mode selection and acceptance remain open."
+        },
+        {
+          "reason": "XP automatic software-mode negotiation is not implemented. Use the published MIDI controller mode for other DJ software. No undocumented connect packet is sent. XP1 IN/OUT buttons retain manual loop actions; contextual half/double behaviour remains open."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerddjsp1",
+      "name": "Pioneer DDJ-SP1",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SP1/DDJ-SP1_List_of_MIDI_Messages_E.pdf",
+        "sha256": "97e2eae5bc98467bfaf19a131fd99df3086f770c84c6ff841145ad08e2d9b3fe",
+        "pages": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "implementedInputCount": 51,
+      "implementedOutputCount": 4,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Accessory controls complement the app or another controller. Remaining pad modes, cue deletion, pad lights, full mode feedback, shifted alternate functions, key controls, slip/censor, FX and lifecycle cleanup remain unimplemented. The app currently exposes eight Hot Cues per deck. XP1 lower pads and XP2 sampler pads are not remapped to unrelated actions. Physical mode selection and acceptance remain open."
+        }
+      ]
+    },
+    {
       "id": "manufacturer:pioneerddjrev7",
       "name": "Pioneer DDJ-REV7",
       "transport": "midi",
@@ -310279,7 +310604,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 281,
+      "targetModels": 282,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

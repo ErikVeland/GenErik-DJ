@@ -75,7 +75,8 @@ struct ControllerProfileData: Decodable, Sendable {
     let inputModes: [InputMode]?
 
     var isValid: Bool {
-        (role == nil || role == "player") && !id.isEmpty && id.count <= 128 && !aliases.isEmpty && aliases.count <= 24
+        (role == nil || role == "player" || role == "accessory") && !id.isEmpty && id.count <= 128 && !aliases.isEmpty
+            && aliases.count <= 24
             && aliases.allSatisfy { !$0.isEmpty && $0.count <= 128 }
             && validInputModes
             && inputs.allSatisfy { input in

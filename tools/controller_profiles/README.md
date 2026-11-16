@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R198 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R199 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -140,3 +140,7 @@ Four Hot Cues per deck require the Hot Cue pad mode. Other modes block those act
 
 DDJ-T1 uses the original factory manual and its own signed jog pairs. The S1 platter addresses do not apply.
 Ambiguous needle endpoints and mixer LED channel variables remain unmapped. Deck/Shift buttons emit no MIDI.
+
+Pioneer pad accessories retain the `accessory` role and do not consume club-player deck allocation.
+XP1/XP2 use alternating pad channels. SP1 uses consecutive pad channels and separate mode note ranges.
+XP software-mode negotiation remains open. Only SP1 sends its published application-connect packet.

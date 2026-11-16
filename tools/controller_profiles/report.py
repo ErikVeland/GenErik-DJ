@@ -131,6 +131,10 @@ def report(catalogue, runtime):
               "DDJ-T1 adds a catalogue record and an automatic native core profile from the original factory manual.",
               "Distinct relative jog pairs and global mixer controls have fixtures. Ambiguous needle and mixer LED facts remain unmapped.",
               "See [R198 DDJ-T1](controller-coverage.md#r198-ddj-t1-core-midi-controls).", "",
+              "## Pioneer pad accessories — R199", "",
+              "XP2, XP1 and SP1 select accessory profiles with their distinct pad addresses, loop controls, Sync, Load and browsing.",
+              "XP software-mode negotiation, remaining modes, pad lights, FX and physical acceptance remain open.",
+              "See [R199 pad accessories](controller-coverage.md#r199-pioneer-pad-accessory-core-controls).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

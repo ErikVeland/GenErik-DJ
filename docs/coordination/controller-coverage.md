@@ -2,6 +2,33 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R199 Pioneer pad accessory core controls
+
+XP2, XP1 and SP1 now select native accessory profiles. XP1 also gains a missing catalogue record.
+These controls complement the app or another controller. The profiles do not invent Play, Tempo or mixer faders.
+Each profile provides eight Hot Cues per deck, Sync, Load, browsing and its documented loop controls.
+C/D retain the existing four-deck opt-in. Accessories do not consume the club-player deck allocation.
+
+XP1 and XP2 use alternating pad channels for normal and shifted commands. SP1 uses consecutive deck pad channels and separate note ranges.
+XP2 maps its upper eight pads in the factory row order. XP1 and SP1 retain ascending cue addresses.
+Other pad modes and shifted delete messages cannot trigger those Hot Cues. Cue deletion and pad lights remain open.
+The existing app capacity is eight Hot Cues per deck. XP1 lower pads and XP2 sampler pads stay unmapped.
+XP loops use the labelled four-beat action. XP2 has dedicated half/double buttons.
+XP1 retains manual Loop In/Out. Its contextual half/double behaviour remains open.
+SP1 retains its signed loop-size encoder and current-size loop button.
+
+SP1 sends the published application-connect packet. XP profiles send no undocumented connect packet.
+XP automatic software-mode negotiation remains unimplemented. The catalogue records the required MIDI controller mode for other DJ software.
+Core feedback retains each table’s Note Off or normal Note On behaviour. Complete pad/mode feedback and shutdown cleanup remain open.
+Other pad modes, key controls, slip/censor, shifted functions, FX and physical acceptance remain open.
+Factory tables: [XP2](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-XP2/DDJ-XP2_MIDI_Message_List_E1.pdf), [XP1](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-XP1/DDJ-XP1_List_of_MIDI_Message_E1.pdf) and [SP1](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SP1/DDJ-SP1_List_of_MIDI_Messages_E.pdf).
+SHA-256 identities are recorded in `tools/controller_profiles/pad_accessories.py` and the generated catalogue.
+The catalogue now has 289 records and 152 data recipes plus seven code profiles. Seventy-nine profiles select core controls automatically, including accessories.
+All 190 focused Swift checks, 37 importer checks and native iPad compilation passed. The compiled resource matches the source.
+All 149 previous data recipes remain unchanged. Twelve historical broken links remain.
+Source base: `d59310e`. Evidence: `TestBuilds/r199/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R198 DDJ-T1 core MIDI controls
 
 DDJ-T1 now has a catalogue record and an automatic native core profile from Pioneer’s original manual.
