@@ -248,11 +248,22 @@ class ConversionTests(unittest.TestCase):
             self.assertEqual(item["startup"][1][-2], 0x13 if platinum else 3)
             self.assertEqual(item["shutdown"], [[0xF0, 0, 0x20, 0x7F, 2, 0xF7]])
             self.assertEqual({binding["targetDeck"] for binding in item["inputs"] if "targetDeck" in binding}, set("abcd" if platinum else "ab"))
-            self.assertFalse(any(binding["action"].startswith("hotcue") for binding in item["inputs"]))
+            self.assertEqual(sum(binding["action"].startswith("hotcue") for binding in item["inputs"]), 0 if platinum else 16)
             for path, digest in NUMARK_SOURCES[item["id"]]:
                 source = ROOT / "TestBuilds/r169/upstream/res/controllers" / path
                 if source.exists():
                     self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)
+
+    def test_pro_fx_hot_cues_require_the_initial_mode_and_bounded_selectors(self):
+        item = next(item for item in numark_profiles() if "Pro FX" in item["id"])
+        self.assertEqual(len(item["startup"]), 15)
+        self.assertEqual(len(item["inputModes"]), 2)
+        for mode in item["inputModes"]:
+            self.assertEqual((mode["initial"], mode["numbers"]), (0, [0, 13, 7, 11, 2, 15]))
+            cues = [binding for binding in item["inputs"] if binding["channel"] == mode["channel"] and binding["action"].startswith("hotcue")]
+            self.assertEqual([binding["number"] for binding in cues], list(range(20, 28)))
+            self.assertTrue(all(binding["requiredMode"] == 0 for binding in cues))
+        self.assertNotIn("inputModes", next(item for item in numark_profiles() if "Platinum" in item["id"]))
 
     def test_ddj_application_connect_is_limited_to_reviewed_tables(self):
         expected = {"DDJ-SX", "DDJ-SX2", "DDJ-RX", "DDJ-RZ", "DDJ-RZX", "DDJ-SZ", "DDJ-SZ2"}

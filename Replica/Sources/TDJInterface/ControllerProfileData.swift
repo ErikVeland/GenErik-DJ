@@ -13,13 +13,28 @@ struct ControllerProfileData: Decodable, Sendable {
         let anyChannel: Bool?
         let argument: Double?
         let releaseOnly: Bool?
+        let requiredMode: UInt8?
 
         func binding(source: Int32) -> ControllerBinding {
             .init(
                 source: source, group: 0, channel: channel, kind: kind, number: number,
                 parameter: nil, noteNumber: nil, action: action, encoding: encoding,
                 inverted: inverted, shifted: false, targetDeck: targetDeck, layerIndependent: true,
-                anyChannel: anyChannel, argument: argument, releaseOnly: releaseOnly)
+                anyChannel: anyChannel, argument: argument, releaseOnly: releaseOnly, requiredMode: requiredMode)
+        }
+    }
+
+    struct InputMode: Decodable, Sendable {
+        let channel: UInt8
+        let initial: UInt8
+        let numbers: [UInt8]
+        let onValue: UInt8
+        let offValue: UInt8
+
+        var isValid: Bool {
+            channel < 16 && !numbers.isEmpty && numbers.count <= 16
+                && numbers.allSatisfy { $0 < 128 } && Set(numbers).count == numbers.count
+                && numbers.contains(initial) && onValue < 128 && offValue < 128
         }
     }
 
@@ -50,10 +65,12 @@ struct ControllerProfileData: Decodable, Sendable {
     let scope: String
     let source: String
     let role: String?
+    let inputModes: [InputMode]?
 
     var isValid: Bool {
         (role == nil || role == "player") && !id.isEmpty && id.count <= 128 && !aliases.isEmpty && aliases.count <= 24
             && aliases.allSatisfy { !$0.isEmpty && $0.count <= 128 }
+            && validInputModes
             && !inputs.isEmpty && inputs.count <= 512 && outputs.count <= 128
             && inputs.allSatisfy {
                 $0.channel < 16 && $0.number < 128
@@ -70,6 +87,18 @@ struct ControllerProfileData: Decodable, Sendable {
             }
             && (startup + shutdown).count <= 16
             && (startup + shutdown).allSatisfy(Self.validSetupMessage)
+    }
+
+    private var validInputModes: Bool {
+        let modes = inputModes ?? []
+        return modes.count <= 16 && modes.allSatisfy { $0.isValid }
+            && Set(modes.map(\.channel)).count == modes.count
+            && inputs.allSatisfy { input in
+                guard let required = input.requiredMode else { return true }
+                return input.kind == .note && input.action.isButton && !input.action.isMomentary
+                    && input.anyChannel != true
+                    && modes.contains { $0.channel == input.channel && $0.numbers.contains(required) }
+            }
     }
 
     static func validSetupMessage(_ bytes: [UInt8]) -> Bool {

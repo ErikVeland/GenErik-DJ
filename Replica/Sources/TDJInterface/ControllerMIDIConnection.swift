@@ -109,6 +109,7 @@ struct ControllerBinding: Codable {
     var anyChannel: Bool? = nil
     var argument: Double? = nil
     var releaseOnly: Bool? = nil
+    var requiredMode: UInt8? = nil
     var target: ControllerActionTarget { .init(action, deck: targetDeck, argument: argument) }
     var mode: ControllerMIDIEncoding { encoding ?? .absolute }
     var isShifted: Bool { shifted ?? false }
@@ -335,6 +336,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private let factoryPacketSender: (([UInt8], Int32) -> Bool)?
     @ObservationIgnored private let deckAvailability: (() -> [DeckID])?
     @ObservationIgnored private var factorySessions: [ControllerFactorySession] = []
+    @ObservationIgnored private var factoryPadModes: [Int32: ControllerPadModeState] = [:]
     @ObservationIgnored private var factoryBindings: [Int32: [ControllerBinding]] = [:]
     @ObservationIgnored private var factoryFeedback: [Int32: [ControllerFeedbackBinding]] = [:]
     @ObservationIgnored private var sentFactoryValues: [Int32: [String: [UInt8]]] = [:]
@@ -514,6 +516,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sentMIDIValues.removeAll()
         factorySessions.removeAll()
         factoryBindings.removeAll()
+        factoryPadModes.removeAll()
         factoryFeedback.removeAll()
         sentFactoryValues.removeAll()
         resetBridge()
@@ -629,6 +632,13 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         let sessions = candidates.filter { factorySessions.contains($0) || sendFactorySetup($0, starting: true) }
         guard sessions != factorySessions else { return }
+        var padModes: [Int32: ControllerPadModeState] = [:]
+        for session in sessions {
+            guard let modes = session.profile.definition?.inputModes else { continue }
+            padModes[session.source] = factorySessions.contains(session)
+                ? factoryPadModes[session.source] ?? .init(modes: modes) : .init(modes: modes)
+        }
+        factoryPadModes = padModes
         factorySessions = sessions
         for (id, deck) in allocated { savedPlayerDecks[id] = deck }
         let oldAssignments = savedPlayerDecks.filter { allocated[$0.key] == nil }.sorted { $0.key < $1.key }
@@ -1951,9 +1961,11 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 ? "Saved \(learning.title). The old Shift mapping was removed." : "Saved \(learning.title)."
             return
         }
+        receiveFactoryPadMode(message, source: sourceID)
         let matches = inputBindings(source: sourceID).filter {
             $0.source == sourceID && $0.umpGroup == message.group && $0.kind == message.kind
                 && ($0.releaseOnly != true || message.isNoteOff)
+                && (message.isNoteOff || $0.requiredMode == nil || factoryPadModes[sourceID]?.allows($0) == true)
                 && ($0.anyChannel == true || $0.channel == message.channel) && $0.parameter == message.parameter
                 && $0.noteNumber == message.noteNumber
                 && ($0.number == message.number
@@ -2054,6 +2066,21 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     if wasPending { status = "MIDI control took over." }
                 }
                 pendingValues[binding.target] = value
+            }
+        }
+    }
+
+    private func receiveFactoryPadMode(_ message: ControllerMIDIMessage, source: Int32) {
+        guard let mode = factoryPadModes[source]?.receive(message),
+            let session = factorySessions.first(where: { $0.source == source }),
+            let id = session.destination, let destination = destinations.first(where: { $0.id == id }) else { return }
+        for number in mode.numbers {
+            let packet = [0x90 | mode.channel, number, number == message.number ? mode.onValue : mode.offValue]
+            let sent = factoryPacketSender?(packet, id)
+                ?? (outputPort != 0 && sendMIDIMessage(packet, destination: destination.reference))
+            if !sent {
+                feedbackStatus = "Controller pad lights could not update."
+                break
             }
         }
     }

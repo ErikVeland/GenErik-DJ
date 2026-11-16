@@ -67,7 +67,7 @@ private let numarkFXNames = ["Mixtrack Pro FX", "Mixtrack Platinum FX"]
             #expect(packets.last == [0xF0, 0, 0x20, 0x7F, 2, 0xF7])
             input.sources = sources
             input.reconcileFactoryProfiles()
-            #expect(Array(packets.suffix(3)) == startup)
+            #expect(Array(packets.suffix(startup.count)) == startup)
         }
     }
 }
@@ -96,7 +96,9 @@ private let numarkFXNames = ["Mixtrack Pro FX", "Mixtrack Platinum FX"]
         let profile = try #require(ControllerFactoryProfile.matching([name], automaticOnly: true))
         let decks = name == "Mixtrack Platinum FX" ? DeckID.allCases : DeckID.primary
         #expect(Set(profile.bindings(source: 10).compactMap(\.targetDeck)) == Set(decks))
-        #expect(!profile.bindings(source: 10).contains { $0.action.hotcueSlot != nil })
+        #expect(
+            profile.bindings(source: 10).filter { $0.action.hotcueSlot != nil }.count
+                == (name == "Mixtrack Pro FX" ? 16 : 0))
         withNumarkFX(name) { input in
             var received: [ControllerActionTarget] = []
             input.onTargetAction = { target, _ in received.append(target) }

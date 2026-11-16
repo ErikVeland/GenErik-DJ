@@ -87,6 +87,10 @@ def report(catalogue, runtime):
               "Mixtrack Pro FX and Platinum FX select native core controls with model-specific, bounded SysEx setup.",
               "The profiles reuse pinned Mixxx protocol facts. Scripts do not run in the app. Unresolved pads, modes, displays and audio routing remain explicit.",
               "See [R187 Mixtrack FX](controller-coverage.md#r187-mixtrack-fx-core-controls-and-bounded-sysex-setup).", "",
+              "## Mode-gated Pro FX Hot Cues — R188", "",
+              "Mixtrack Pro FX has eight native Hot Cues per deck in Hot Cue mode. Other pad modes cannot trigger them.",
+              "Independent mode state, paired indicators, releases and reconnects have fixtures. Platinum FX pad bank/hold behaviour remains open.",
+              "See [R188 Pro FX pads](controller-coverage.md#r188-mode-gated-mixtrack-pro-fx-hot-cues).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

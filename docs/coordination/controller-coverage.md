@@ -2,6 +2,30 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R188 mode-gated Mixtrack Pro FX Hot Cues
+
+Mixtrack Pro FX now has eight native Hot Cues per deck in its documented Hot Cue mode.
+Each deck tracks its own mode. Auto Loop, Fader Cuts, Sample, Beat Jump and second Sample selections block Hot Cues.
+Shifted delete-pad messages stay unmapped. Switching modes cannot turn those messages into cue triggers.
+Pad releases still clear input state after a mode change.
+
+Startup restores the source Hot Cue mode and its six mode indicators on each deck.
+Mode presses update only the paired physical controller’s indicators. Repeated discovery preserves the active mode.
+Reconnects reset the mode to the documented initial state. Other sources and UMP groups cannot change it.
+Bounded profile data validates selector channels, initial modes, note lists and indicator values.
+A mode-gated button must reference a valid selector on the same channel.
+
+Pro FX non-Hot-Cue pad actions, cue lights, Scratch toggle, shifted functions, FX, meters and audio routing remain release work.
+Platinum FX pads remain unmapped. Its additional bank and hold behaviour needs separate review.
+The input-mode contract is optional. Earlier profiles and saved bindings keep their existing behaviour.
+Source facts remain the pinned Pro FX XML and script recorded in R187.
+Counts remain at 287 records, 146 data recipes plus seven code profiles, and 64 profiles that select core controls automatically.
+Only the Pro FX data recipe changed. All 145 other recipes remain unchanged.
+All 129 focused Swift checks, 26 importer checks and native iPad compilation passed. The compiled resource matches the source.
+Twelve historical broken links remain across 1,522 files.
+Source base: `3136dbc`. Evidence: `TestBuilds/r188/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R187 Mixtrack FX core controls and bounded SysEx setup
 
 Mixtrack Pro FX and Mixtrack Platinum FX now select reviewed native core profiles automatically.

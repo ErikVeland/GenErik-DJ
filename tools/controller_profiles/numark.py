@@ -42,6 +42,14 @@ def numark_profiles():
             result["inputs"][-1]["inverted"] = True
             for action, number in [("gain", 22), ("high", 23), ("mid", 24), ("low", 25), ("filterKnob", 26), ("level", 28)]:
                 add(result, action, channel, number, "control", deck=deck)
+            if not platinum:
+                numbers = [0, 13, 7, 11, 2, 15]
+                result.setdefault("inputModes", []).append({"channel": 4 + channel, "initial": 0,
+                                                           "numbers": numbers, "onValue": 127, "offValue": 1})
+                result["startup"].extend([[0x94 + channel, number, 127 if number == 0 else 1] for number in numbers])
+                for slot in range(8):
+                    add(result, f"hotcue{slot + 1}", 4 + channel, 20 + slot, deck=deck)
+                    result["inputs"][-1]["requiredMode"] = 0
             add(result, "load", 15, 2 + channel, deck=deck)
             for action, number in [("loop", 64), ("loopDown", 52), ("loopUp", 53), ("loopIn", 54), ("loopOut", 55)]:
                 add(result, action, 4 + channel, number, deck=deck, feedback=action == "loop")
@@ -54,5 +62,8 @@ def numark_profiles():
         for output in result["outputs"]:
             output["offValue"] = 1
         result["gaps"] = ["Pad modes, Scratch toggle, shifted functions, FX, meters, screens and full audio routing remain unimplemented. Jog response needs physical calibration. Source reuse and distribution review remain open."]
+        if not platinum:
+            result["scope"] = "Automatic native core controls and mode-gated Hot Cues. Other pad modes, Scratch toggle, complete feedback and audio routing remain open."
+            result["gaps"] = ["Non-Hot-Cue pad modes, cue lights, Scratch toggle, shifted functions, FX, meters and full audio routing remain unimplemented. Other pad modes block Hot Cues. Jog calibration and source reuse/distribution review remain open."]
         results.append(result)
     return results

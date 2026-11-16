@@ -24533,6 +24533,86 @@
           "targetDeck": "a"
         },
         {
+          "action": "hotcue1A",
+          "kind": "note",
+          "channel": 4,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 0
+        },
+        {
+          "action": "hotcue2A",
+          "kind": "note",
+          "channel": 4,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 0
+        },
+        {
+          "action": "hotcue3A",
+          "kind": "note",
+          "channel": 4,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 0
+        },
+        {
+          "action": "hotcue4A",
+          "kind": "note",
+          "channel": 4,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 0
+        },
+        {
+          "action": "hotcue5A",
+          "kind": "note",
+          "channel": 4,
+          "number": 24,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 0
+        },
+        {
+          "action": "hotcue6A",
+          "kind": "note",
+          "channel": 4,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 0
+        },
+        {
+          "action": "hotcue7A",
+          "kind": "note",
+          "channel": 4,
+          "number": 26,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 0
+        },
+        {
+          "action": "hotcue8A",
+          "kind": "note",
+          "channel": 4,
+          "number": 27,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 0
+        },
+        {
           "action": "loadA",
           "kind": "note",
           "channel": 15,
@@ -24702,6 +24782,86 @@
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
+        },
+        {
+          "action": "hotcue1B",
+          "kind": "note",
+          "channel": 5,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 0
+        },
+        {
+          "action": "hotcue2B",
+          "kind": "note",
+          "channel": 5,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 0
+        },
+        {
+          "action": "hotcue3B",
+          "kind": "note",
+          "channel": 5,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 0
+        },
+        {
+          "action": "hotcue4B",
+          "kind": "note",
+          "channel": 5,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 0
+        },
+        {
+          "action": "hotcue5B",
+          "kind": "note",
+          "channel": 5,
+          "number": 24,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 0
+        },
+        {
+          "action": "hotcue6B",
+          "kind": "note",
+          "channel": 5,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 0
+        },
+        {
+          "action": "hotcue7B",
+          "kind": "note",
+          "channel": 5,
+          "number": 26,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 0
+        },
+        {
+          "action": "hotcue8B",
+          "kind": "note",
+          "channel": 5,
+          "number": 27,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 0
         },
         {
           "action": "loadB",
@@ -24913,6 +25073,66 @@
           3,
           1,
           247
+        ],
+        [
+          148,
+          0,
+          127
+        ],
+        [
+          148,
+          13,
+          1
+        ],
+        [
+          148,
+          7,
+          1
+        ],
+        [
+          148,
+          11,
+          1
+        ],
+        [
+          148,
+          2,
+          1
+        ],
+        [
+          148,
+          15,
+          1
+        ],
+        [
+          149,
+          0,
+          127
+        ],
+        [
+          149,
+          13,
+          1
+        ],
+        [
+          149,
+          7,
+          1
+        ],
+        [
+          149,
+          11,
+          1
+        ],
+        [
+          149,
+          2,
+          1
+        ],
+        [
+          149,
+          15,
+          1
         ]
       ],
       "shutdown": [
@@ -24926,10 +25146,40 @@
         ]
       ],
       "autoSelect": true,
-      "scope": "Automatic native core controls from pinned Mixxx facts. Pad modes, Scratch toggle, FX, screens and audio routing remain open.",
+      "scope": "Automatic native core controls and mode-gated Hot Cues. Other pad modes, Scratch toggle, complete feedback and audio routing remain open.",
       "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Pro-FX-scripts.js",
+      "inputModes": [
+        {
+          "channel": 4,
+          "initial": 0,
+          "numbers": [
+            0,
+            13,
+            7,
+            11,
+            2,
+            15
+          ],
+          "onValue": 127,
+          "offValue": 1
+        },
+        {
+          "channel": 5,
+          "initial": 0,
+          "numbers": [
+            0,
+            13,
+            7,
+            11,
+            2,
+            15
+          ],
+          "onValue": 127,
+          "offValue": 1
+        }
+      ],
       "gaps": [
-        "Pad modes, Scratch toggle, shifted functions, FX, meters, screens and full audio routing remain unimplemented. Jog response needs physical calibration. Source reuse and distribution review remain open."
+        "Non-Hot-Cue pad modes, cue lights, Scratch toggle, shifted functions, FX, meters and full audio routing remain unimplemented. Other pad modes block Hot Cues. Jog calibration and source reuse/distribution review remain open."
       ]
     },
     {

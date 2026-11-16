@@ -18405,6 +18405,22 @@
         "gainB:b",
         "highA:a",
         "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
         "jogA:a",
         "jogB:b",
         "jogTouchA:a",
@@ -18437,7 +18453,7 @@
         "tempoA:a",
         "tempoB:b"
       ],
-      "inputBindingCount": 44,
+      "inputBindingCount": 60,
       "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -18467,7 +18483,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Pad modes, Scratch toggle, shifted functions, FX, meters, screens and full audio routing remain unimplemented. Jog response needs physical calibration. Source reuse and distribution review remain open."
+        "Non-Hot-Cue pad modes, cue lights, Scratch toggle, shifted functions, FX, meters and full audio routing remain unimplemented. Other pad modes block Hot Cues. Jog calibration and source reuse/distribution review remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -309267,7 +309283,7 @@
         ],
         "review": "MIDI addresses and protocol facts reviewed in the pinned Mixxx XML and script. Native app actions replace script execution."
       },
-      "implementedInputCount": 44,
+      "implementedInputCount": 60,
       "implementedOutputCount": 8,
       "sourceInputCount": null,
       "sourceOutputCount": null,
@@ -309276,7 +309292,7 @@
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         },
         {
-          "reason": "Pad modes, Scratch toggle, shifted functions, FX, meters, screens and full audio routing remain unimplemented. Jog response needs physical calibration. Source reuse and distribution review remain open."
+          "reason": "Non-Hot-Cue pad modes, cue lights, Scratch toggle, shifted functions, FX, meters and full audio routing remain unimplemented. Other pad modes block Hot Cues. Jog calibration and source reuse/distribution review remain open."
         }
       ]
     },
