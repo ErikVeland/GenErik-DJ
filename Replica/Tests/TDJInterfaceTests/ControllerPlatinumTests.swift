@@ -64,7 +64,7 @@ import Testing
         #expect(values.count == 1)
         originalPlatinumPacket([0xB3, 119, 127], to: input)
         input.flushPendingActions()
-        #expect(values.last == 0)
+        #expect(values.last == 1)
         #expect(values.count == 2)
     }
 }

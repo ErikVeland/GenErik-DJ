@@ -31,7 +31,7 @@ def mixtrack3_profiles():
             add(result, "jogTouch", channel, 12, deck=deck)
             add(result, "jog", channel, 17, "control", "twosComplement", deck)
             add(result, "tempo", channel, 24, "control", "paired14Bit", deck)
-            result["inputs"][-1]["inverted"] = True
+            result["inputs"][-1]["inverted"] = False
             for action, number in [("high", 1), ("mid", 2), ("low", 3), ("filterKnob", 4), ("level", 5)]:
                 add(result, action, channel, number, "control", deck=deck)
             add(result, "load", 0, 16 + index, deck=deck)

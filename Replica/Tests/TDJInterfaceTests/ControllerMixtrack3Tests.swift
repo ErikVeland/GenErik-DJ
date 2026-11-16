@@ -74,7 +74,7 @@ private let mixtrack3Names = ["Mixtrack Pro 3", "Mixtrack 3"]
     }
 }
 
-@Test @MainActor func controllerCatalogueMixtrack3KeepsSignedJogInvertedTempoAndGlobalMixerControls() {
+@Test @MainActor func controllerCatalogueMixtrack3KeepsSignedJogNativeTempoDirectionAndGlobalMixerControls() {
     for name in mixtrack3Names {
         withMixtrack3(name) { input in
             var received: [(ControllerActionTarget, Double)] = []
@@ -82,7 +82,7 @@ private let mixtrack3Names = ["Mixtrack Pro 3", "Mixtrack 3"]
             mixtrack3Packet([0xB2, 17, 127, 24, 127, 56, 127, 1, 127, 0xB0, 7, 127], to: input)
             input.flushPendingActions()
             #expect(received.first { $0.0.action == .jogB }?.1 == 0.375)
-            #expect(received.first { $0.0.action == .tempoB }?.1 == 0)
+            #expect(received.first { $0.0.action == .tempoB }?.1 == 1)
             #expect(received.first { $0.0.action == .highB }?.1 == 1)
             #expect(received.first { $0.0.action == .crossfader }?.1 == 1)
         }

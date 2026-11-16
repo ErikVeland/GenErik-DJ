@@ -96,7 +96,7 @@ def control_record(control, reviewed_handlers=None):
     if "button" in opts or "switch" in opts:
         return None, "nonstandard-button-semantics"
     record = {"action": action, "kind": kind, "channel": status & 15, "number": address,
-              "encoding": encoding, "inverted": "invert" in opts}
+              "encoding": encoding, "inverted": ("invert" not in opts) if action in {"tempoA", "tempoB"} else "invert" in opts}
     target = re.search(r"\[Channel([1-4])\]", group)
     if target:
         record["targetDeck"] = "abcd"[int(target[1]) - 1]

@@ -120,7 +120,7 @@ private let numarkFXNames = ["Mixtrack Pro FX", "Mixtrack Platinum FX"]
     #expect(ControllerFactoryProfile.matching(["Mixtrack Pro FX clone"], automaticOnly: true) == nil)
 }
 
-@Test @MainActor func controllerCatalogueNumarkFXRetainsSignedJogsInvertedTempoAndDistinctHeadphoneAddresses() {
+@Test @MainActor func controllerCatalogueNumarkFXRetainsSignedJogsNativeTempoDirectionAndDistinctHeadphoneAddresses() {
     for name in numarkFXNames {
         withNumarkFX(name) { input in
             var received: [(ControllerActionTarget, Double)] = []
@@ -133,7 +133,7 @@ private let numarkFXNames = ["Mixtrack Pro FX", "Mixtrack Platinum FX"]
             }
             input.flushPendingActions()
             #expect(received.first { $0.0.action == .jogB }?.1 == 0.375)
-            #expect(received.first { $0.0.action == .tempoB }?.1 == 0)
+            #expect(received.first { $0.0.action == .tempoB }?.1 == 1)
             #expect(received.first { $0.0.action == .monitor }?.1 == 1)
         }
     }

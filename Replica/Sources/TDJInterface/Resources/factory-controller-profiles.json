@@ -146,7 +146,7 @@
           "channel": 0,
           "number": 2,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -227,7 +227,7 @@
           "channel": 0,
           "number": 5,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -5656,7 +5656,7 @@
           "channel": 0,
           "number": 70,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -6900,7 +6900,7 @@
           "channel": 0,
           "number": 11,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -6909,7 +6909,7 @@
           "channel": 0,
           "number": 12,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -7171,7 +7171,7 @@
           "channel": 0,
           "number": 11,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -7180,7 +7180,7 @@
           "channel": 0,
           "number": 12,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -7387,7 +7387,7 @@
           "channel": 0,
           "number": 16,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -7404,7 +7404,7 @@
           "channel": 0,
           "number": 32,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         }
       ],
@@ -7874,7 +7874,7 @@
           "channel": 0,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -7883,7 +7883,7 @@
           "channel": 1,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -7892,7 +7892,7 @@
           "channel": 2,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "c"
         },
         {
@@ -7901,7 +7901,7 @@
           "channel": 3,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "d"
         },
         {
@@ -8440,7 +8440,7 @@
           "channel": 0,
           "number": 95,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -8449,7 +8449,7 @@
           "channel": 1,
           "number": 95,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         }
       ],
@@ -8511,7 +8511,7 @@
           "channel": 0,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -8520,7 +8520,7 @@
           "channel": 1,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -9365,7 +9365,7 @@
           "channel": 0,
           "number": 9,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -9374,7 +9374,7 @@
           "channel": 1,
           "number": 9,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         }
       ],
@@ -9710,7 +9710,7 @@
           "channel": 0,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -9719,7 +9719,7 @@
           "channel": 1,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "c"
         },
         {
@@ -9728,7 +9728,7 @@
           "channel": 2,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -9737,7 +9737,7 @@
           "channel": 3,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "d"
         },
         {
@@ -10738,7 +10738,7 @@
           "channel": 0,
           "number": 69,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -10781,7 +10781,7 @@
           "channel": 0,
           "number": 75,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -11510,7 +11510,7 @@
           "channel": 0,
           "number": 25,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -11591,7 +11591,7 @@
           "channel": 0,
           "number": 17,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -11909,7 +11909,7 @@
           "channel": 0,
           "number": 33,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -11990,7 +11990,7 @@
           "channel": 0,
           "number": 33,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -12435,7 +12435,7 @@
           "channel": 1,
           "number": 41,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -12516,7 +12516,7 @@
           "channel": 1,
           "number": 42,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -13314,7 +13314,7 @@
           "channel": 0,
           "number": 52,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -13323,7 +13323,7 @@
           "channel": 0,
           "number": 53,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -14915,7 +14915,7 @@
           "channel": 1,
           "number": 8,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -14987,7 +14987,7 @@
           "channel": 2,
           "number": 8,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -15685,7 +15685,7 @@
           "channel": 1,
           "number": 8,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -15766,7 +15766,7 @@
           "channel": 2,
           "number": 8,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -16917,7 +16917,7 @@
           "channel": 0,
           "number": 2,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -16962,7 +16962,7 @@
           "channel": 1,
           "number": 2,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         }
       ],
@@ -17583,7 +17583,7 @@
           "channel": 1,
           "number": 8,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -17619,7 +17619,7 @@
           "channel": 2,
           "number": 8,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         }
       ],
@@ -18080,7 +18080,7 @@
           "channel": 1,
           "number": 8,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -18134,7 +18134,7 @@
           "channel": 2,
           "number": 8,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -18758,7 +18758,7 @@
           "channel": 0,
           "number": 13,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -18866,7 +18866,7 @@
           "channel": 0,
           "number": 14,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         }
       ],
@@ -19268,7 +19268,7 @@
           "channel": 0,
           "number": 9,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -19277,7 +19277,7 @@
           "channel": 0,
           "number": 10,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -19463,7 +19463,7 @@
           "channel": 7,
           "number": 25,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -19472,7 +19472,7 @@
           "channel": 8,
           "number": 25,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -19841,7 +19841,7 @@
           "channel": 0,
           "number": 2,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -19894,7 +19894,7 @@
           "channel": 0,
           "number": 13,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         }
       ],
@@ -20075,7 +20075,7 @@
           "channel": 0,
           "number": 12,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -20156,7 +20156,7 @@
           "channel": 0,
           "number": 15,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -20340,7 +20340,7 @@
           "channel": 0,
           "number": 15,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -20394,7 +20394,7 @@
           "channel": 0,
           "number": 21,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -20479,7 +20479,7 @@
           "channel": 0,
           "number": 22,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -20533,7 +20533,7 @@
           "channel": 0,
           "number": 38,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -20895,7 +20895,7 @@
           "channel": 0,
           "number": 107,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -20904,7 +20904,7 @@
           "channel": 1,
           "number": 67,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -21247,7 +21247,7 @@
           "channel": 0,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -21256,7 +21256,7 @@
           "channel": 1,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -21880,7 +21880,7 @@
           "channel": 0,
           "number": 13,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -21898,7 +21898,7 @@
           "channel": 0,
           "number": 14,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         }
       ],
@@ -22535,7 +22535,7 @@
           "channel": 0,
           "number": 13,
           "encoding": "absolute",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "a"
         },
         {
@@ -22625,7 +22625,7 @@
           "channel": 0,
           "number": 14,
           "encoding": "absolute",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "b"
         }
       ],
@@ -22849,7 +22849,7 @@
           "channel": 0,
           "number": 14,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -22867,7 +22867,7 @@
           "channel": 0,
           "number": 13,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -23145,7 +23145,7 @@
           "channel": 1,
           "number": 24,
           "encoding": "paired14Bit",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "a",
           "shifted": false,
           "shiftChannel": 1
@@ -23341,7 +23341,7 @@
           "channel": 2,
           "number": 24,
           "encoding": "paired14Bit",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "b",
           "shifted": false,
           "shiftChannel": 2
@@ -23658,7 +23658,7 @@
           "channel": 0,
           "number": 9,
           "encoding": "paired14Bit",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "a",
           "lowNumber": 119,
           "shifted": false
@@ -23849,7 +23849,7 @@
           "channel": 1,
           "number": 9,
           "encoding": "paired14Bit",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "b",
           "lowNumber": 119,
           "shifted": false
@@ -24040,7 +24040,7 @@
           "channel": 2,
           "number": 9,
           "encoding": "paired14Bit",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "c",
           "lowNumber": 119,
           "shifted": false
@@ -24231,7 +24231,7 @@
           "channel": 3,
           "number": 9,
           "encoding": "paired14Bit",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "d",
           "lowNumber": 119,
           "shifted": false
@@ -24691,7 +24691,7 @@
           "channel": 0,
           "number": 9,
           "encoding": "paired14Bit",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "a"
         },
         {
@@ -24862,7 +24862,7 @@
           "channel": 1,
           "number": 9,
           "encoding": "paired14Bit",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "b"
         },
         {
@@ -25033,7 +25033,7 @@
           "channel": 2,
           "number": 9,
           "encoding": "paired14Bit",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "c"
         },
         {
@@ -25204,7 +25204,7 @@
           "channel": 3,
           "number": 9,
           "encoding": "paired14Bit",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "d"
         },
         {
@@ -25941,7 +25941,7 @@
           "channel": 1,
           "number": 24,
           "encoding": "paired14Bit",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "a",
           "shifted": false,
           "shiftChannel": 1
@@ -26137,7 +26137,7 @@
           "channel": 2,
           "number": 24,
           "encoding": "paired14Bit",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "b",
           "shifted": false,
           "shiftChannel": 2
@@ -26438,7 +26438,7 @@
           "channel": 0,
           "number": 9,
           "encoding": "paired14Bit",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "a"
         },
         {
@@ -26689,7 +26689,7 @@
           "channel": 1,
           "number": 9,
           "encoding": "paired14Bit",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "b"
         },
         {
@@ -27348,7 +27348,7 @@
           "channel": 0,
           "number": 4,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -27357,7 +27357,7 @@
           "channel": 0,
           "number": 5,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -27635,7 +27635,7 @@
           "channel": 0,
           "number": 11,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -27644,7 +27644,7 @@
           "channel": 0,
           "number": 12,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -28049,7 +28049,7 @@
           "channel": 0,
           "number": 11,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -28058,7 +28058,7 @@
           "channel": 0,
           "number": 12,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -74315,7 +74315,7 @@
           "channel": 0,
           "number": 32,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -74333,7 +74333,7 @@
           "channel": 1,
           "number": 16,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -74576,7 +74576,7 @@
           "channel": 0,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -74657,7 +74657,7 @@
           "channel": 1,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -74812,7 +74812,7 @@
           "channel": 0,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -74893,7 +74893,7 @@
           "channel": 1,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -74974,7 +74974,7 @@
           "channel": 2,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "c"
         },
         {
@@ -75055,7 +75055,7 @@
           "channel": 3,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "d"
         },
         {
@@ -75628,7 +75628,7 @@
           "channel": 0,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -75637,7 +75637,7 @@
           "channel": 2,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -75808,7 +75808,7 @@
           "channel": 1,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -75817,7 +75817,7 @@
           "channel": 3,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -78248,7 +78248,7 @@
           "channel": 0,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -78257,7 +78257,7 @@
           "channel": 1,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -78266,7 +78266,7 @@
           "channel": 2,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "c"
         },
         {
@@ -78275,7 +78275,7 @@
           "channel": 3,
           "number": 0,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "d"
         }
       ],
@@ -78727,7 +78727,7 @@
           "channel": 0,
           "number": 4,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -78754,7 +78754,7 @@
           "channel": 0,
           "number": 7,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -79007,7 +79007,7 @@
           "channel": 0,
           "number": 72,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -79079,7 +79079,7 @@
           "channel": 0,
           "number": 73,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -79211,7 +79211,7 @@
           "channel": 0,
           "number": 5,
           "encoding": "absolute",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "a"
         },
         {
@@ -79220,7 +79220,7 @@
           "channel": 1,
           "number": 5,
           "encoding": "absolute",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "b"
         },
         {
@@ -79269,7 +79269,7 @@
           "channel": 0,
           "number": 14,
           "encoding": "absolute",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "a"
         },
         {
@@ -79350,7 +79350,7 @@
           "channel": 1,
           "number": 14,
           "encoding": "absolute",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "b"
         },
         {
@@ -79550,7 +79550,7 @@
           "channel": 0,
           "number": 14,
           "encoding": "absolute",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "a"
         },
         {
@@ -79559,7 +79559,7 @@
           "channel": 1,
           "number": 14,
           "encoding": "absolute",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "b"
         },
         {
@@ -79852,7 +79852,7 @@
           "channel": 0,
           "number": 14,
           "encoding": "absolute",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "a"
         },
         {
@@ -79942,7 +79942,7 @@
           "channel": 0,
           "number": 15,
           "encoding": "absolute",
-          "inverted": true,
+          "inverted": false,
           "targetDeck": "b"
         },
         {
@@ -81321,7 +81321,7 @@
           "channel": 2,
           "number": 18,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -81330,7 +81330,7 @@
           "channel": 3,
           "number": 18,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {
@@ -81339,7 +81339,7 @@
           "channel": 4,
           "number": 18,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "c"
         },
         {
@@ -81348,7 +81348,7 @@
           "channel": 5,
           "number": 18,
           "encoding": "paired14Bit",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "d"
         },
         {
@@ -81700,7 +81700,7 @@
           "channel": 0,
           "number": 20,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "a"
         },
         {
@@ -81763,7 +81763,7 @@
           "channel": 1,
           "number": 20,
           "encoding": "absolute",
-          "inverted": false,
+          "inverted": true,
           "targetDeck": "b"
         },
         {

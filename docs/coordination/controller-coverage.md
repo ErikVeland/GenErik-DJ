@@ -2,6 +2,31 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R191 native tempo direction for Mixxx-derived controls
+
+The tempo audit found a translation error in the reviewed Numark profiles and converted XML rate controls.
+The first translation copied the slider’s inversion without the engine’s direction multiplier.
+Mixxx defaults to `rate_dir = -1`. Its rate ratio is `1 + rate_dir * rateRange * rate`.
+GenErik tempo percentages increase with speed. The conversion now applies the engine direction once.
+A source slider inversion therefore cancels that multiplier. A normal XML rate slider retains the multiplier.
+
+The correction changes only tempo polarity in 54 runtime recipes and 121 tempo inputs.
+The five reviewed Numark recipes now map raw minimum/maximum to native minimum/maximum tempo.
+Converted normal XML rate controls use the opposite polarity, as the pinned Mixxx default requires.
+Manufacturer-table profiles keep their existing raw MIDI interpretation. Other controls, lifecycle packets, feedback and aliases remain unchanged.
+Receiver fixtures cover both fader endpoints across reviewed Numark profiles and a converted Hercules profile.
+Earlier R187, R189 and R190 references to inverted Numark tempo pairs are superseded by this correction.
+Physical controller verification remains open. These fixtures verify the source-to-native control contract.
+
+Pinned engine sources: [rate calculation](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/src/engine/controls/ratecontrol.cpp) and [default direction](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/src/preferences/dialog/dlgprefdeck.cpp).
+SHA-256: rate control `e15d822d3f2a9ff5307257a20b20db063b3ca75798e1cca1be5ae36886bbc0c0`.
+SHA-256: deck preferences `f6109765b31bc1626daf858df7a9ea349fa04aaa2b65ac5e22041f6f52445169`.
+Counts remain at 287 records, 147 data recipes plus seven code profiles, and 67 profiles that select core controls automatically.
+All 143 focused Swift checks, 29 importer checks and native iPad compilation passed. The compiled resource matches the source.
+Ninety-three data recipes remain unchanged. Twelve historical broken links remain across 1,528 files.
+Source base: `4fc2c73`. Evidence: `TestBuilds/r191/`. Mixtrack II additions remain saved for the next increment.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R190 original Mixtrack Platinum core controls
 
 The original Mixtrack Platinum now selects a native core profile automatically. Its profile remains separate from Platinum FX.

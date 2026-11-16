@@ -99,6 +99,10 @@ def report(catalogue, runtime):
               "The original Platinum selects a separate native core profile. Its explicit low-byte CC 119 and wrapped-jog rule retain the pinned protocol facts.",
               "Four-deck routing and global Shift have fixtures. Pads, advanced modes, screens, physical calibration and full audio routing remain open.",
               "See [R190 original Platinum](controller-coverage.md#r190-original-mixtrack-platinum-core-controls).", "",
+              "## Native tempo direction correction — R191", "",
+              "Mixxx-derived tempo controls now account for its default engine direction once. Only tempo polarity changes in 54 runtime recipes.",
+              "Manufacturer-table controls retain their interpretation. Endpoint fixtures cover reviewed Numark and converted Hercules controls.",
+              "See [R191 tempo direction](controller-coverage.md#r191-native-tempo-direction-for-mixxx-derived-controls).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

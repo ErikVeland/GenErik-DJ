@@ -35,6 +35,16 @@ class ConversionTests(unittest.TestCase):
     def control(self, key="play", group="[Channel3]", extra="", status="0x92", address="11"):
         return ET.fromstring(f"<control><group>{group}</group><key>{key}</key><status>{status}</status><midino>{address}</midino>{extra}</control>")
 
+    def test_mixxx_rate_controls_translate_default_engine_direction_once(self):
+        for extra, inverted in [("", True), ("<options><invert/></options>", False)]:
+            record, reason = control_record(self.control("rate", "[Channel1]", extra, "0xB0", "13"))
+            self.assertIsNone(reason)
+            self.assertEqual(record["inverted"], inverted)
+        for item in numark_profiles() + mixtrack3_profiles() + platinum_profiles():
+            tempos = [binding for binding in item["inputs"] if binding["action"] in {"tempoA", "tempoB"}]
+            self.assertTrue(tempos)
+            self.assertTrue(all(not binding["inverted"] for binding in tempos))
+
     def test_four_deck_target(self):
         record, reason = control_record(self.control())
         self.assertIsNone(reason)
@@ -286,7 +296,7 @@ class ConversionTests(unittest.TestCase):
         item = platinum_profiles()[0]
         tempos = [binding for binding in item["inputs"] if binding["action"].startswith("tempo")]
         self.assertEqual(len(tempos), 4)
-        self.assertTrue(all((binding["number"], binding["lowNumber"], binding["inverted"]) == (9, 119, True) for binding in tempos))
+        self.assertTrue(all((binding["number"], binding["lowNumber"], binding["inverted"]) == (9, 119, False) for binding in tempos))
         self.assertEqual(sum(binding["encoding"] == "numarkPlatinumJog" for binding in item["inputs"]), 4)
         self.assertFalse(any(binding["action"].startswith("hotcue") for binding in item["inputs"]))
         for path, digest in PLATINUM_SOURCES:

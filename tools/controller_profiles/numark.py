@@ -39,7 +39,7 @@ def numark_profiles():
             add(result, "jogTouch", channel, 6, deck=deck)
             add(result, "jog", channel, 6, "control", "twosComplement", deck)
             add(result, "tempo", channel, 9, "control", "paired14Bit", deck)
-            result["inputs"][-1]["inverted"] = True
+            result["inputs"][-1]["inverted"] = False
             for action, number in [("gain", 22), ("high", 23), ("mid", 24), ("low", 25), ("filterKnob", 26), ("level", 28)]:
                 add(result, action, channel, number, "control", deck=deck)
             if not platinum:

@@ -28,7 +28,7 @@ def platinum_profiles():
         add(result, "jogTouch", channel, 6, deck=deck)
         add(result, "jog", channel, 6, "control", "numarkPlatinumJog", deck)
         add(result, "tempo", channel, 9, "control", "paired14Bit", deck)
-        result["inputs"][-1].update(lowNumber=119, inverted=True)
+        result["inputs"][-1].update(lowNumber=119, inverted=False)
         for action, number in [("gain", 22), ("high", 23), ("mid", 24), ("low", 25), ("filterKnob", 26), ("level", 28)]:
             add(result, action, channel, number, "control", deck=deck)
         for action, number in [("loop", 50), ("loopDown", 52), ("loopUp", 53)]:
