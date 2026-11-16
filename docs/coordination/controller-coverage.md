@@ -2,6 +2,28 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R185 DDJ-S1 and paired relative jog messages
+
+DDJ-S1 now selects its documented core MIDI profile automatically.
+Its platter and wheel-side jogs send signed 14-bit pairs. The decoder emits one count after a complete pair.
+Orphan and repeated low bytes cannot move the deck. Reconnects clear incomplete pairs. Deck and control state remain separate.
+Existing absolute pairs still emit their coarse high-byte value and refined low-byte value.
+
+The S1 profile retains Sync Note 27, Load Note 61, five Hot Cues, shifted touch Note 104 and its channel-5 mixer.
+It includes the native signed loop encoder, manual loops, tempo, waveform position, headphone cue and documented binary lights.
+Shifted delete/mode functions, FX, hardware audio controls, jog/position illumination and complete audio routing remain release work.
+Jog response still needs physical calibration. The paired count fixtures do not establish physical feel.
+The table documents no application-connect packet. Startup and shutdown remain empty.
+
+Source: [DDJ-S1 factory MIDI table](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-S1/DDJ-S1_MIDI_Messages_2.pdf), pages 2–3.
+SHA-256: `61f299828b2abfa5cdc1b09a3b4253d4b99b9c17c53b2f387293754448a1ad7b`.
+The catalogue retains 285 records and now has 144 data recipes plus seven code profiles. Sixty factory profiles select core controls automatically.
+All 143 earlier data recipes remain unchanged. All 114 focused Swift checks, 23 importer checks and native iPad compilation passed.
+The compiled resource matches the source. Twelve historical broken links remain across 1,516 files.
+The first input run exposed discarded incomplete decoder state. The receiver now retains that state before waiting for another byte.
+Source base: `c4e9265`. Evidence: `TestBuilds/r185/`. The source PDF remains in `TestBuilds/r184/manufacturer/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R184 ERGO and earlier WeGO systems
 
 DDJ-WeGO3, WeGO2, WeGO and ERGO now select their documented core MIDI profiles automatically.

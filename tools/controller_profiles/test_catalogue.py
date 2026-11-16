@@ -21,6 +21,7 @@ from legacy_xdj import legacy_xdj_profiles, LEGACY_XDJ_REFERENCES
 from entry import entry_profiles, entry_references
 from opus import opus_profiles, OPUS_REFERENCES
 from legacy_ddj import legacy_ddj_profiles, legacy_ddj_references
+from s1 import s1_profiles, S1_REFERENCES
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -76,7 +77,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles():
             addresses = [(item["kind"], item["channel"], item["number"]) for item in profile["inputs"]]
             self.assertEqual(len(addresses), len(set(addresses)), profile["id"])
             self.assertLessEqual(len(profile["inputs"]), 512)
@@ -216,6 +217,16 @@ class ConversionTests(unittest.TestCase):
             document = ROOT / "TestBuilds/r184/manufacturer" / (("DDJ-ERGO-V" if ergo else name.split(" ", 1)[1]) + ".pdf")
             if document.exists():
                 self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), legacy_ddj_references()[name]["sha256"])
+
+    def test_s1_preserves_paired_relative_jogs_and_distinct_global_channel(self):
+        item = s1_profiles()[0]
+        self.assertEqual(item["startup"], [])
+        self.assertEqual(sum(binding["encoding"] == "paired14BitRelative" for binding in item["inputs"]), 8)
+        self.assertEqual(sum(binding["action"].startswith("hotcue") for binding in item["inputs"]), 10)
+        self.assertEqual({binding["channel"] for binding in item["inputs"] if binding["action"].startswith("gain")}, {4})
+        document = ROOT / "TestBuilds/r184/manufacturer/DDJ-S1.pdf"
+        if document.exists():
+            self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), S1_REFERENCES[item["id"]]["sha256"])
 
     def test_ddj_application_connect_is_limited_to_reviewed_tables(self):
         expected = {"DDJ-SX", "DDJ-SX2", "DDJ-RX", "DDJ-RZ", "DDJ-RZX", "DDJ-SZ", "DDJ-SZ2"}

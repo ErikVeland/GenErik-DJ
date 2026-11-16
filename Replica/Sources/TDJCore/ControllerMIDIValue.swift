@@ -1,13 +1,15 @@
 import Foundation
 
 public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
-    case absolute, paired14Bit, twosComplement, binaryOffset, signedBit
+    case absolute, paired14Bit, paired14BitRelative, twosComplement, binaryOffset, signedBit
     case cdjPlatterSpeed, cdjRingSpeed, cdj350PlatterSpeed, cdjTempo, needlePosition
-    public var isRelative: Bool { [.twosComplement, .binaryOffset, .signedBit].contains(self) }
+    public var isRelative: Bool { [.twosComplement, .binaryOffset, .signedBit, .paired14BitRelative].contains(self) }
+    public var isPairedCC: Bool { self == .paired14Bit || self == .paired14BitRelative }
     public var title: String {
         switch self {
         case .absolute: "Knob / fader"
         case .paired14Bit: "High-resolution CC pair"
+        case .paired14BitRelative: "Relative high-resolution CC pair"
         case .twosComplement: "Encoder: 1 / 127"
         case .binaryOffset: "Encoder: 65 / 63"
         case .signedBit: "Encoder: 1 / 65"
@@ -28,6 +30,7 @@ public enum ControllerMIDIValue: Equatable, Sendable {
 public struct ControllerMIDIValueState: Sendable {
     private var msb: UInt8?
     private var lsb: UInt8 = 0
+    private var relativeMSB: UInt8?
     public init() {}
     public mutating func decode(_ message: ControllerMIDIMessage, encoding: ControllerMIDIEncoding, number: UInt8)
         -> ControllerMIDIValue?
@@ -35,6 +38,18 @@ public struct ControllerMIDIValueState: Sendable {
         if message.kind.isRelativeController {
             guard message.number == number, encoding == .absolute else { return nil }
             return .relative(Double(max(-127, min(127, message.value))))
+        }
+        if encoding == .paired14BitRelative {
+            guard message.kind == .control, message.maximum <= 127, (0...127).contains(message.value), number < 32
+            else { return nil }
+            if message.number == number {
+                relativeMSB = UInt8(message.value)
+                return nil
+            }
+            guard message.number == number + 32, let high = relativeMSB else { return nil }
+            relativeMSB = nil
+            let raw = Int(high) << 7 | message.value
+            return .relative(Double(raw < 8192 ? raw : raw - 16384))
         }
         if encoding == .paired14Bit {
             guard message.kind == .control, message.maximum <= 127, number < 32 else { return nil }

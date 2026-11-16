@@ -75,6 +75,10 @@ def report(catalogue, runtime):
               "WeGO3, WeGO2, WeGO and ERGO select separate core MIDI profiles automatically.",
               "Their deck counts, Play messages, jog encodings, loop controls and global mixer pairs retain each generation’s factory facts.",
               "See [R184 legacy Pioneer](controller-coverage.md#r184-ergo-and-earlier-wego-systems).", "",
+              "## DDJ-S1 paired relative jogs — R185", "",
+              "DDJ-S1 selects core MIDI controls automatically. Its signed 14-bit jog decoder emits once per complete pair and clears pending pairs on reconnect.",
+              "Orphan/repeated low bytes cannot move the deck. Jog calibration, remaining modes, complete feedback and audio routing remain open.",
+              "See [R185 DDJ-S1](controller-coverage.md#r185-ddj-s1-and-paired-relative-jog-messages).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

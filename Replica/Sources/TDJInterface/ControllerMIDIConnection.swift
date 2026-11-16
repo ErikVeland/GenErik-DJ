@@ -1883,12 +1883,12 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 status = "Use a CC knob/encoder for this mode, or choose Knob / fader for buttons."
                 return
             }
-            guard learningEncoding != .paired14Bit || message.maximum <= 127 else {
+            guard !learningEncoding.isPairedCC || message.maximum <= 127 else {
                 status = "MIDI 2.0 controls already use full resolution. Choose Knob / fader encoding."
                 return
             }
             let number: UInt8
-            if learningEncoding == .paired14Bit {
+            if learningEncoding.isPairedCC {
                 guard message.number < 64 else {
                     status = "A paired high-resolution CC uses controllers 0–31 and their low bytes 32–63."
                     return
@@ -1904,8 +1904,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     && binding.parameter == message.parameter
                     && binding.noteNumber == message.noteNumber
                     && (binding.number == number
-                        || (self.learningEncoding == .paired14Bit && binding.number == number + 32)
-                        || (binding.mode == .paired14Bit && binding.number < 32 && binding.number + 32 == number))
+                        || (self.learningEncoding.isPairedCC && binding.number == number + 32)
+                        || (binding.mode.isPairedCC && binding.number < 32 && binding.number + 32 == number))
             }
             let replacesShift = learning != .shift && inputBindings(source: sourceID).contains(where: {
                 $0.action == .shift && sameInput($0)
@@ -1956,14 +1956,15 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 && ($0.anyChannel == true || $0.channel == message.channel) && $0.parameter == message.parameter
                 && $0.noteNumber == message.noteNumber
                 && ($0.number == message.number
-                    || ($0.mode == .paired14Bit && $0.number < 32 && $0.number + 32 == message.number))
+                    || ($0.mode.isPairedCC && $0.number < 32 && $0.number + 32 == message.number))
         }
         for binding in matches {
             let key = bindingStateKey(
                 source: binding.source, action: binding.action, shifted: binding.isShifted, group: binding.umpGroup, deck: binding.targetDeck) + "-" + bindingTakeoverKey(binding)
             var state = valueStates[key, default: .init()]
-            guard let decoded = state.decode(message, encoding: binding.mode, number: binding.number) else { continue }
+            let decoded = state.decode(message, encoding: binding.mode, number: binding.number)
             valueStates[key] = state
+            guard let decoded else { continue }
             var value: Double
             switch decoded {
             case .absolute(let absolute):

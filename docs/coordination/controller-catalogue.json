@@ -6088,46 +6088,105 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-S1/DDJ-S1_MIDI_Messages_2.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:pioneerddjs1"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Pioneer DDJ-S1",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueReturnA:a",
+        "cueReturnB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "seekA:a",
+        "seekB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
+      ],
+      "inputBindingCount": 62,
+      "feedbackBindingCount": 18,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Shifted delete/mode functions, FX, hardware audio controls and jog/position illumination remain unimplemented. Jog response needs physical calibration. No application-connect packet is documented."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -308677,6 +308736,33 @@
         },
         {
           "reason": "Remaining shifted controls, delete/sample modes, jog illumination and complete audio routing remain unimplemented. No application-connect command is documented in this table."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerddjs1",
+      "name": "Pioneer DDJ-S1",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-S1/DDJ-S1_MIDI_Messages_2.pdf",
+        "sha256": "61f299828b2abfa5cdc1b09a3b4253d4b99b9c17c53b2f387293754448a1ad7b",
+        "pages": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "implementedInputCount": 62,
+      "implementedOutputCount": 18,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Shifted delete/mode functions, FX, hardware audio controls and jog/position illumination remain unimplemented. Jog response needs physical calibration. No application-connect packet is documented."
         }
       ]
     },

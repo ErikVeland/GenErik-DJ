@@ -57,7 +57,7 @@ struct ControllerProfileData: Decodable, Sendable {
             && !inputs.isEmpty && inputs.count <= 512 && outputs.count <= 128
             && inputs.allSatisfy {
                 $0.channel < 16 && $0.number < 128
-                    && ($0.encoding != .paired14Bit || ($0.kind == .control && $0.number < 32))
+                    && (!$0.encoding.isPairedCC || ($0.kind == .control && $0.number < 32))
                     && ($0.anyChannel != true || role == "player")
                     && ($0.releaseOnly != true || ($0.kind == .note && $0.action.isMomentary))
                     && Self.validArgument($0)

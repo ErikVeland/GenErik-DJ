@@ -8,8 +8,8 @@ Reviewed 16 November 2026. This catalogue is complete for the defined source bou
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - 285 total catalogue records. 278 name physical models. The remainder identify software endpoints or protocol families.
-- 143 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
-- 59 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+- 144 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
+- 60 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -101,18 +101,24 @@ WeGO3, WeGO2, WeGO and ERGO select separate core MIDI profiles automatically.
 Their deck counts, Play messages, jog encodings, loop controls and global mixer pairs retain each generation’s factory facts.
 See [R184 legacy Pioneer](controller-coverage.md#r184-ergo-and-earlier-wego-systems).
 
+## DDJ-S1 paired relative jogs — R185
+
+DDJ-S1 selects core MIDI controls automatically. Its signed 14-bit jog decoder emits once per complete pair and clears pending pairs on reconnect.
+Orphan/repeated low bytes cannot move the deck. Jog calibration, remaining modes, complete feedback and audio routing remain open.
+See [R185 DDJ-S1](controller-coverage.md#r185-ddj-s1-and-paired-relative-jog-messages).
+
 ## Implementation states
 
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 40 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 47 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 48 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 7 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 98 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 74 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 73 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -148,7 +154,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DJ DDJ-REV1 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-REV5 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-REV7 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Pioneer DJ DDJ-S1 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Pioneer DJ DDJ-S1 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-SB | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-SB2 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-SB3 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
