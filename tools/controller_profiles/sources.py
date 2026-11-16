@@ -70,7 +70,7 @@ def split_models(name):
         "Numark MixTrack (Pro) II": ["Numark Mixtrack II", "Numark Mixtrack Pro II"],
         "Numark Mixtrack (Pro) 3": ["Numark Mixtrack 3", "Numark Mixtrack Pro 3"],
         "Reloop Terminal Mix 2/4": ["Reloop Terminal Mix 2", "Reloop Terminal Mix 4"],
-        "Reloop Beatmix 2/4 MK2": ["Reloop Beatmix 2 MK2", "Reloop Beatmix 4 MK2"],
+        "Reloop Beatmix 2/4 MK2": ["Reloop Beatmix 2", "Reloop Beatmix 4", "Reloop Beatmix 2 MK2", "Reloop Beatmix 4 MK2"],
         "Mixars DUO (incl. MKII)": ["Mixars DUO", "Mixars DUO MKII"],
     }
     return shared.get(name, [name])

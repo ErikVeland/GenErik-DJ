@@ -23,6 +23,7 @@ from manufacturer_inventory import MODELS as MANUFACTURER_MODELS
 from jogvision import jogvision_profiles, JOGVISION_REFERENCES, JOGVISION_SOURCES
 from inpulse300mk2 import inpulse300mk2_profiles, MK2_REFERENCES, MK2_SOURCES
 from inpulse200mk2 import inpulse200mk2_profiles, INPULSE200_REFERENCES, INPULSE200_SOURCES
+from beatmix import beatmix_profiles, BEATMIX_REFERENCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -55,6 +56,20 @@ ROOT = Path(__file__).resolve().parents[2]
 class ConversionTests(unittest.TestCase):
     def control(self, key="play", group="[Channel3]", extra="", status="0x92", address="11"):
         return ET.fromstring(f"<control><group>{group}</group><key>{key}</key><status>{status}</status><midino>{address}</midino>{extra}</control>")
+
+    def test_beatmix_factory_facts_resolve_script_jog_and_led_address_differences(self):
+        result = beatmix_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (148, 28))
+        self.assertEqual(len(result["bankChanges"]), 4)
+        jogs = [row for row in result["inputs"] if row["action"] in {"jogA", "jogB"}]
+        self.assertTrue(all(row["encoding"] == "twosComplement" and row["argument"] == 800 for row in jogs))
+        self.assertEqual({row["number"] for row in result["outputs"] if row["action"] in {"playA", "playB"}}, {35})
+        self.assertEqual({row["number"] for row in result["inputs"] if row["action"] in {"playA", "playB"} and not row.get("releaseOnly")}, {36})
+        self.assertEqual({row["number"] for row in result["outputs"] if row["action"] in {"syncA", "syncB"}}, {32})
+        table = ROOT / "TestBuilds/r221/manufacturer/Beatmix-2-4-MIDI.pdf"
+        if table.exists():
+            self.assertEqual(hashlib.sha256(table.read_bytes()).hexdigest(), BEATMIX_REFERENCES[result["id"]]["sha256"])
+        self.assertTrue(all(canonical(name) in {canonical(alias) for alias in result["aliases"]} for name in split_models(result["id"])))
 
     def test_inpulse200mk2_preserves_published_pad_pages_and_physical_two_band_eq(self):
         result = inpulse200mk2_profiles()[0]

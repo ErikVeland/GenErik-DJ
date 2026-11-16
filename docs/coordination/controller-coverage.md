@@ -2,6 +2,31 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R221 Beatmix 2/4 factory core and bank protection
+
+The existing Beatmix 2/4 MK2 recipe now selects automatically for both original and MK2 models.
+Reloop publishes the same family MIDI table on its MK2 product page. The stored recipe ID remains unchanged.
+The catalogue links all four physical models to this reviewed definition.
+
+The recipe maps four deck targets, held Cue, Load, mixer/EQ, pitch, browsing and the pinned mapping's four-cue/four-loop pad layout.
+C/D retain the app's existing opt-in. Sample pages cannot trigger cues or loop pads.
+Bank reports release old contacts and reset pickup only on that physical side. Held Shift keeps its physical-side identity.
+Centred pitch now uses the existing pickup guard. Shift release rearms affected controls.
+Release-only aliases allow normal pads and buttons to respond after a shifted release without firing unsupported alternatives.
+
+The factory table specifies signed 1/127 jog counts and 800 counts per revolution.
+Those facts take precedence over the pinned script's conflicting value-minus-64 handler.
+The recipe also uses the factory's distinct Play and Sync LED addresses. Hot Cue lights use the documented blue value.
+No downloaded script runs in the app. The source's long-press eject, fader-start and software FX modes remain unmapped.
+The optional delayed state query and complete LED cleanup remain open. No immediate substitute query is sent.
+Remaining modes, audio routing and physical calibration remain open.
+
+Factory coverage reaches 91 profiles for 95 physical models. Six other models retain automatic native adapters.
+The catalogue retains 302 records and 157 data recipes. All 156 other recipes remain unchanged.
+All 314 focused controller checks, 55 importer/report checks and native iPad compilation pass.
+Validation results and source identity appear in `TestBuilds/r221/validation.json`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R220 Inpulse 200 MK2 core controls and shifted pad releases
 
 Inpulse 200 MK2 now has its own automatic two-deck recipe from a published iOS mapping and separate controller definitions.

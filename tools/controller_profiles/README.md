@@ -276,3 +276,7 @@ The MK2 recipe reuses hardware facts from the pinned community revision and the 
 ## Inpulse 200 MK2 source boundaries
 
 The separate recipe uses a published iOS mapping and pinned controller definitions. Keep its physical two-band EQ and gain assignments. The second author's custom three-band EQ, software banks and jog packet throttling do not enter the runtime. Seven-bit tempo retains exact centre and pickup protection. Shift guards tempo repositioning. Separate delete-page releases rearm the corresponding Hot Cue without firing a cue or delete action. Other pad pages remain separate. Do not infer the 300 MK2's tempo LSB, jog resolution or startup packets. Full modes, feedback, cleanup, routing and physical calibration remain open.
+
+## Beatmix 2/4 factory facts
+
+The shared factory table covers original Beatmix 2/4 hardware and appears on the MK2 product page. Keep the stored family profile ID and exact model aliases. Use factory 1/127 jog counts and 800-count resolution. The pinned script's value-minus-64 handler conflicts with that table. Play and Sync feedback addresses differ from input addresses. Native pad functions retain four cues and four fixed loops. Separate sample pages stay unmapped. Bank events rearm shared pitch pickup and release contacts on their own side. Physical Shift survives bank changes. Shifted releases rearm normal buttons without executing unsupported alternatives. The optional delayed query, full cleanup, remaining modes, routing and physical calibration remain open.
