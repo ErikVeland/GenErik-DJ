@@ -2,6 +2,33 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R195 Denon MC7000 core controls
+
+MC7000 now selects a native core profile automatically from the pinned working mapping.
+Its four sequential deck channels retain transport, global Load, gain, EQ, filter, level, headphone cue, loops and platter touch.
+Tempo pairs controller 9 with low controller 119. Decoder state stays separate for each deck during interleaved messages.
+Native tempo direction accounts for the source inversion and the R191 engine direction once.
+Per-deck Shift blocks unsupported combinations and enables manual Loop In/Out and Reloop. Touch release still works during Shift.
+C/D retain the existing four-deck opt-in. Reconnects clear Shift state.
+
+The source jog rule uses `value < 0x64 ? value : value - 128`.
+The native decoder preserves that unusual threshold exactly. It does not substitute the usual signed midpoint.
+Fixtures cover raw values 0, 1, 63, 64, 99, 100 and 127. Other jog encodings keep their existing boundaries.
+Independent byte-range confirmation and physical calibration remain open.
+The official Traktor download was inspected, but it does not provide a readable jog-byte table.
+
+Startup sends the pinned status request, initial deck indicators and native Scratch indicators. Shutdown dims the four Scratch indicators.
+Core feedback retains the source dim value of 1. Pad modes, Vinyl toggle, deck-selection feedback, platter rings and screens remain open.
+Other shifted functions, FX, meters, full lifecycle reset, hardware audio and source reuse/distribution review remain open.
+Shift follows the pinned per-deck mapping. Bank changes while Shift is held need physical verification.
+Sources: pinned [XML](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC7000.midi.xml) and [script](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC7000-scripts.js).
+SHA-256 identities are recorded in `tools/controller_profiles/mc7000.py` and the generated catalogue.
+The catalogue retains 287 records and 148 data recipes plus seven code profiles. Seventy-two profiles select core controls automatically.
+All 166 focused Swift checks, 33 importer checks and native iPad compilation passed. The compiled resource matches the source.
+The 147 other data recipes remain unchanged. Twelve historical broken links remain.
+Source base: `3268049`. Evidence: `TestBuilds/r195/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R194 Denon MC6000MK2 core controls
 
 MC6000MK2 now selects a native core profile automatically. Its transport channel order is A/C/B/D.

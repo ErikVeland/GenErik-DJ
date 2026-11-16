@@ -95,7 +95,7 @@ struct ControllerProfileData: Decodable, Sendable {
                         || ($0.shiftInput! < 16 && $0.action == .shift && $0.kind == .note && $0.shiftChannel != nil))
                     && Self.validArgument($0)
                     && (![
-                        .denonJog, .zeroForward, .numarkPlatinumJog, .cdjPlatterSpeed, .cdjRingSpeed,
+                        .mc7000Jog, .denonJog, .zeroForward, .numarkPlatinumJog, .cdjPlatterSpeed, .cdjRingSpeed,
                         .cdj350PlatterSpeed, .cdjTempo, .needlePosition,
                     ].contains($0.encoding)
                         || $0.kind == .control)

@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R194 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R195 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -128,3 +128,6 @@ Its side-wide Shift identifiers survive bank changes. The identifiers apply only
 The zero/127 browser encoder rejects other counts. Its jog decoder treats zero as neutral.
 Optional feedback `offNumber` selects a separate CC trigger for binary lights. The LED identifier stays in the value byte.
 Existing outputs without this field retain their previous packets. Invalid fields cannot enter the catalogue.
+
+MC7000 keeps the pinned jog threshold `0x64` in a dedicated decoder. Do not substitute another controller’s signed midpoint.
+Its tempo inputs use explicit low controller 119 and independent decoder state per deck. Physical calibration remains open.

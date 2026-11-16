@@ -30,6 +30,7 @@ from platinum import platinum_profiles, PLATINUM_REFERENCES, PLATINUM_SOURCES
 from mixtrack2 import mixtrack2_profiles, mixtrack2_references, MIXTRACK2_SOURCES
 from denon import denon_profiles, denon_references, MC4000_SOURCES
 from mc6000 import mc6000_profiles, MC6000_REFERENCES, MC6000_SOURCES
+from mc7000 import mc7000_profiles, MC7000_REFERENCES, MC7000_SOURCES
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -95,7 +96,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles() + mc7000_profiles():
             for left, right in combinations(profile["inputs"], 2):
                 address = lambda item: (item["kind"], item["channel"], item["number"])
                 if address(left) != address(right):
@@ -347,6 +348,17 @@ class ConversionTests(unittest.TestCase):
         self.assertTrue(all(x["offNumber"] != x["number"] and x["onValue"] == x["offValue"] for x in item["outputs"]))
         self.assertEqual(item["startup"], [[176 + n, 74, 6] for n in range(4)])
         for path, digest in MC6000_SOURCES:
+            source = ROOT / "TestBuilds/r169/upstream/res/controllers" / path
+            if source.exists():
+                self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)
+
+    def test_mc7000_retains_the_pinned_jog_rule_and_explicit_tempo_pair(self):
+        item = mc7000_profiles()[0]
+        self.assertEqual([x["encoding"] for x in item["inputs"] if x["action"] in {"jogA", "jogB"}], ["mc7000Jog"] * 4)
+        self.assertTrue(all(x["number"] == 9 and x["lowNumber"] == 119 and not x["inverted"] for x in item["inputs"] if x["action"] in {"tempoA", "tempoB"}))
+        self.assertIn("0x64", MC7000_REFERENCES["Denon MC7000"]["review"])
+        self.assertTrue(all(x["offValue"] == 1 for x in item["outputs"]))
+        for path, digest in MC7000_SOURCES:
             source = ROOT / "TestBuilds/r169/upstream/res/controllers" / path
             if source.exists():
                 self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)

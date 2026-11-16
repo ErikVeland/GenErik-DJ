@@ -115,6 +115,10 @@ def report(catalogue, runtime):
               "MC6000MK2 selects a native core profile with A/C/B/D deck channels, side-wide Shift and separate LED trigger commands.",
               "Factory pitch-bend tempo and zero/127 browser counts have fixtures. Pad banks, filters, advanced functions and audio routing remain open.",
               "See [R194 MC6000MK2](controller-coverage.md#r194-denon-mc6000mk2-core-controls).", "",
+              "## Denon MC7000 — R195", "",
+              "MC7000 selects a native core profile. Its jog decoder retains the pinned script boundary exactly.",
+              "Explicit tempo pairs and per-deck Shift have fixtures. Calibration, pad modes, screens and audio routing remain open.",
+              "See [R195 MC7000](controller-coverage.md#r195-denon-mc7000-core-controls).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",
