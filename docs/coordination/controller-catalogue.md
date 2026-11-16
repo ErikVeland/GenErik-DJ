@@ -9,7 +9,7 @@ Reviewed 16 November 2026. This catalogue is complete for the defined source bou
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - 287 total catalogue records. 280 name physical models. The remainder identify software endpoints or protocol families.
 - 148 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
-- 69 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+- 70 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -149,17 +149,23 @@ Mixtrack II and Pro II select separate native core profiles. One physical channe
 Shifted Keylock/loop sizing and seven-bit tempo have fixtures. Pads, additional modes and full audio routing remain open.
 See [R192 Mixtrack II](controller-coverage.md#r192-mixtrack-ii-and-mixtrack-pro-ii-core-controls).
 
+## Denon MC4000 — R193
+
+MC4000 selects a native core profile. Factory addresses and the pinned working tempo order have fixtures.
+The factory pitch-byte label conflict stays explicit. Pad modes, additional functions and audio routing remain open.
+See [R193 MC4000](controller-coverage.md#r193-denon-mc4000-core-controls).
+
 ## Implementation states
 
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 40 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 57 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 58 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 7 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 91 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| partial-midi-profile | 90 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
 | protocol-needed | 73 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
@@ -218,7 +224,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Denon DJ DS1 | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ LC6000 PRIME | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ MC2000 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Denon DJ MC4000 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Denon DJ MC4000 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ MC6000MK2 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ MC7000 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ MCX8000 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |

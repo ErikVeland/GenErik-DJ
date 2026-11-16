@@ -2,6 +2,30 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R193 Denon MC4000 core controls
+
+MC4000 now selects a native core profile automatically. Exact aliases include Denon DJ MC4000.
+The profile includes transport, Load, headphone cue, signed jogs, gain, EQ, filter, level, loops and browser controls.
+Global Shift blocks unsupported deck combinations. Shift plus loop-size buttons sets manual Loop In/Out.
+Touch release still works during Shift. Reconnects clear modifier state.
+
+Factory pages 30–31 specify the MIDI addresses and LED echo commands.
+The pitch table labels CC 9/41 as LSB/MSB. The pinned working mapping uses MSB 9 and LSB 41.
+This recipe follows that working order and its explicit `rate_dir = -1`. The source conflict remains recorded in the catalogue.
+Startup sends the pinned status request and lights native Scratch mode. Shutdown clears the owned jog indicators.
+The factory assigns Key Lock to note 13 and Pitch Bend Up to note 11. The profile maps only Key Lock.
+
+Pads and advanced pad modes, Vinyl toggle, other shifted functions, pitch-bend buttons, FX, meters and full audio routing remain open.
+The master and booth controls operate hardware audio. This profile does not invent software Master messages.
+Jog calibration, physical tempo direction and source reuse/distribution review remain open.
+Sources: [factory manual](https://cdn.inmusicbrands.com/denondj/MC4000/MC4000-User-Guide-v1.2_00.pdf), pinned [XML](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20MC4000.midi.xml) and [script](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC4000-scripts.js).
+SHA-256 identities are recorded in `tools/controller_profiles/denon.py` and the generated catalogue.
+The catalogue retains 287 records and 148 data recipes plus seven code profiles. Seventy profiles select core controls automatically.
+All 152 focused Swift checks, 31 importer checks and native iPad compilation passed. The compiled resource matches the source.
+The 147 other data recipes remain unchanged. Twelve historical broken links remain.
+Source base: `8fee3ca`. Evidence: `TestBuilds/r193/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R192 Mixtrack II and Mixtrack Pro II core controls
 
 Mixtrack II and Mixtrack Pro II now select separate native core profiles from the pinned shared mapping.

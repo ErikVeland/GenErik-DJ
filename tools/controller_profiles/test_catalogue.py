@@ -28,6 +28,7 @@ from numark import numark_profiles, numark_references, NUMARK_SOURCES
 from mixtrack3 import mixtrack3_profiles, mixtrack3_references, MIXTRACK3_SOURCES
 from platinum import platinum_profiles, PLATINUM_REFERENCES, PLATINUM_SOURCES
 from mixtrack2 import mixtrack2_profiles, mixtrack2_references, MIXTRACK2_SOURCES
+from denon import denon_profiles, denon_references, MC4000_SOURCES
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -93,7 +94,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles():
             for left, right in combinations(profile["inputs"], 2):
                 address = lambda item: (item["kind"], item["channel"], item["number"])
                 if address(left) != address(right):
@@ -321,6 +322,18 @@ class ConversionTests(unittest.TestCase):
             self.assertTrue(all(binding["inverted"] for binding in item["inputs"] if binding["action"] in {"tempoA", "tempoB"}))
             self.assertLessEqual(len(item["startup"] + item["shutdown"]), 16)
         for path, digest in MIXTRACK2_SOURCES:
+            source = ROOT / "TestBuilds/r169/upstream/res/controllers" / path
+            if source.exists():
+                self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)
+
+    def test_mc4000_retains_factory_addresses_and_records_the_pitch_conflict(self):
+        item = denon_profiles()[0]
+        self.assertEqual(item["aliases"], ["Denon MC4000", "MC4000", "Denon DJ MC4000"])
+        self.assertTrue(all(binding["inverted"] for binding in item["inputs"] if binding["action"] in {"tempoA", "tempoB"}))
+        self.assertFalse(any(binding["action"].startswith("hotcue") for binding in item["inputs"]))
+        self.assertIn("LSB/MSB", denon_references()["Denon MC4000"]["review"])
+        self.assertEqual(item["startup"][0], [240, 0, 2, 11, 127, 1, 96, 0, 4, 4, 1, 0, 0, 247])
+        for path, digest in MC4000_SOURCES:
             source = ROOT / "TestBuilds/r169/upstream/res/controllers" / path
             if source.exists():
                 self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)

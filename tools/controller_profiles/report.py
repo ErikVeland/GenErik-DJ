@@ -107,6 +107,10 @@ def report(catalogue, runtime):
               "Mixtrack II and Pro II select separate native core profiles. One physical channel retains independent deck and Shift routing.",
               "Shifted Keylock/loop sizing and seven-bit tempo have fixtures. Pads, additional modes and full audio routing remain open.",
               "See [R192 Mixtrack II](controller-coverage.md#r192-mixtrack-ii-and-mixtrack-pro-ii-core-controls).", "",
+              "## Denon MC4000 — R193", "",
+              "MC4000 selects a native core profile. Factory addresses and the pinned working tempo order have fixtures.",
+              "The factory pitch-byte label conflict stays explicit. Pad modes, additional functions and audio routing remain open.",
+              "See [R193 MC4000](controller-coverage.md#r193-denon-mc4000-core-controls).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

@@ -11092,16 +11092,18 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20MC4000.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20MC4000.midi.xml",
+        "https://cdn.inmusicbrands.com/denondj/MC4000/MC4000-User-Guide-v1.2_00.pdf"
       ],
       "definitions": [
-        "Denon MC4000.midi.xml"
+        "Denon MC4000.midi.xml",
+        "reviewed:denonmc4000"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Denon MC4000",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "browse",
         "crossfader",
@@ -11116,14 +11118,10 @@
         "gainB:b",
         "highA:a",
         "highB:b",
-        "hotcue1A:a",
-        "hotcue1B:b",
-        "hotcue2A:a",
-        "hotcue2B:b",
-        "hotcue3A:a",
-        "hotcue3B:b",
-        "hotcue4A:a",
-        "hotcue4B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "keylockA:a",
         "keylockB:b",
         "levelA:a",
@@ -11134,6 +11132,10 @@
         "loopB:b",
         "loopDownA:a",
         "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
         "loopUpA:a",
         "loopUpB:b",
         "lowA:a",
@@ -11144,43 +11146,45 @@
         "openGroup",
         "playA:a",
         "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "shift",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
         "tempoB:b"
       ],
-      "inputBindingCount": 46,
-      "feedbackBindingCount": 16,
+      "inputBindingCount": 49,
+      "feedbackBindingCount": 10,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 90,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "The factory table reverses pitch byte labels compared with the pinned working mapping. Pads and advanced pad modes, Vinyl toggle, additional shifted functions, pitch-bend buttons, FX, meters and complete audio routing remain unimplemented. Jog calibration and source reuse/distribution review remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -309682,6 +309686,38 @@
         },
         {
           "reason": "Pad/delete modes, Scratch toggle, pitch-bend buttons, additional shifted functions, FX and full audio routing remain unimplemented. Platter touch uses native Scratch mode and the source jog indicators. Calibration and source reuse/distribution review remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:denonmc4000",
+      "name": "Denon MC4000",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/denondj/MC4000/MC4000-User-Guide-v1.2_00.pdf",
+        "sha256": "afe48b9f4f71be813dd233985375a4405cd284b0ce225d644ba56735664847d6",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20MC4000.midi.xml",
+            "sha256": "c3e48e924916e3bd982b70f755853385f400e4c4e77c035432c93f83c7cab570"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC4000-scripts.js",
+            "sha256": "dbfbd0f0307e891e0f4a8f93eae93ff445c5aa7a97c5ff58670331c663127e70"
+          }
+        ],
+        "review": "Factory pages 30–31 specify controls and LED echo. The table labels pitch CC 9/41 as LSB/MSB. The pinned working XML instead pairs MSB 9 with LSB 41; this recipe follows that working order and rate_dir -1. Physical verification remains open."
+      },
+      "implementedInputCount": 49,
+      "implementedOutputCount": 10,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "The factory table reverses pitch byte labels compared with the pinned working mapping. Pads and advanced pad modes, Vinyl toggle, additional shifted functions, pitch-bend buttons, FX, meters and complete audio routing remain unimplemented. Jog calibration and source reuse/distribution review remain open."
         }
       ]
     },
