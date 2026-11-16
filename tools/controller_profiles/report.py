@@ -21,7 +21,7 @@ def report(catalogue, runtime):
              f"- {len(catalogue['benchmarkRows'])} published Serato iOS rows, expanded to {sum(model['benchmark'] for model in models)} distinct model records.",
              f"- All {len(source_definitions)} Mixxx definitions at `{catalogue['upstreamRevision']}`, including alternative MIDI, HID and bulk mappings.",
              "- All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.",
-             "- Manufacturer-confirmed additions include RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone players and systems.",
+        "- Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.",
              f"- {len(models)} total catalogue records. {sum(model['isPhysicalModel'] for model in models)} name physical models. The remainder identify software endpoints or protocol families.",
              f"- {len(profiles)} bundled data recipes, plus {code_profiles} existing code profiles. Most data recipes cover only part of the hardware.",
              f"- {sum(item['autoSelect'] for item in profiles) + code_profiles} factory profiles select core controls automatically for {len(automatic_models) - native_models} physical models.",

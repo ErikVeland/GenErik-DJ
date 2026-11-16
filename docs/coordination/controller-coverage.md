@@ -2,6 +2,16 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R226 current AlphaTheta inventory additions
+
+The manufacturer catalogue confirms three further models: DJM-A7, XDJ-AN and RMX-IGNITE.
+Each has its own source-linked record. Product existence alone does not enable a runtime mapping.
+CDJ-1500X already has a reviewed automatic MIDI core recipe and does not need another record.
+The catalogue now contains 305 records for 298 physical models. The wider manufacturer audit remains open.
+All 160 runtime recipes remain unchanged. All 59 importer/report checks pass.
+Source identities and validation results appear in `TestBuilds/r226/validation.json`.
+This inventory change adds no controller hardware or A10X acceptance claim.
+
 ## R225 NS6II native core and USB handover release
 
 NS6II now has an automatic four-target recipe from the pinned XML, component helpers and script facts.

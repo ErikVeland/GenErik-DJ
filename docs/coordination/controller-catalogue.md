@@ -7,8 +7,8 @@ Reviewed 17 November 2026. The pinned software inventory is complete. The wider 
 - 121 published Serato iOS rows, expanded to 122 distinct model records.
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
-- Manufacturer-confirmed additions include RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone players and systems.
-- 302 total catalogue records. 295 name physical models. The remainder identify software endpoints or protocol families.
+- Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
+- 305 total catalogue records. 298 name physical models. The remainder identify software endpoints or protocol families.
 - 160 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 95 factory profiles select core controls automatically for 99 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
@@ -225,7 +225,7 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 76 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 77 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 80 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -388,6 +388,9 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer CDJ-400 | primary | automatic-core-profile | [Reference](https://www.m3-eventtechnik.at/sites/default/files/dateien/verleih/cdj-400_manual_en_fr_de_nl_it_es_rupdf.pdf) |
 | Pioneer CDJ-TOUR1 | primary | automatic-core-profile | [Reference](https://www.l-e.sk/amfile/file/download/file/7038/product/14628/) |
 | Pioneer XDJ-RR | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RR/XDJ-RR_List_of_MIDI_Message_ver101_e.pdf) |
+| AlphaTheta DJM-A7 | primary | protocol-needed | [Reference](https://alphatheta.com/en/product/dj-mixer/djm-a7/black/) |
+| AlphaTheta RMX-IGNITE | primary | protocol-needed | [Reference](https://alphatheta.com/en/product/effector/rmx-ignite/black/) |
+| AlphaTheta XDJ-AN | primary | protocol-needed | [Reference](https://alphatheta.com/en/product/all-in-one-dj-system/xdj-an/black/) |
 | Pioneer CDJ HID | protocol-family | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ%20HID.hid.xml) |
 | Pioneer DDJ-1000 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-1000/DDJ-1000_MIDI_Message_List_E1.pdf) |
 | Pioneer DDJ-1000SRT | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/firmwares/dj-controllers/DDJ-1000SRT/DDJ-1000SRT_MIDI_Message_List_E1.pdf) |
