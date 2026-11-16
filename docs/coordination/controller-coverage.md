@@ -2,6 +2,31 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R207 native Cue preview and gesture ownership
+
+DJ2GO2 Touch, Total Control and Omni Control now use a momentary Cue preview action.
+A paused deck plays while Cue is held. Release returns to its Cue point without changing the saved Sync choice.
+Play while Cue is held keeps playback running. Cue on a playing deck stops at its saved Cue point.
+The native path reuses the existing NI playback contact contract and generation checks.
+The existing Cue return/set action and saved custom mappings retain their meaning.
+
+Disconnect releases a held preview. An old release cannot change a replacement track.
+Platter and waveform takeover clear the Cue contact, so a later Cue release cannot end the newer touch.
+Cue ignores an existing waveform touch. Preview on deck B remains available while deck A plays.
+An existing NI Cue guard incorrectly rejected all actions whenever either primary deck played.
+That guard now permits the shared NI Cue action during playback. Track-preparation and editing guards remain.
+The NI source change compiles for iPad. Physical NI acceptance remains open.
+
+Two offline reproductions failed before the change. Native preview now produces PCM audio while held.
+The controller checks cover return, Play latch, disconnect, playing Cue, cross-deck preview, takeover and stale-generation release.
+All 236 focused controller/NI contract checks and 44 importer checks pass. Two waveform checks cover the shared touch entry point.
+Native iPad compilation passes, and the compiled resource matches the source.
+Only the three reviewed Numark data recipes change. The other 150 recipes remain unchanged.
+Counts remain 289 catalogue records, 85 automatic core profiles and 92 physical models with automatic controls.
+Twelve historical broken links remain. Earlier failed and diagnostic runs remain in the evidence directory.
+Source base: `e78a5c7`. Evidence: `TestBuilds/r207/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R206 DJ2GO2 Touch core controls and pads
 
 DJ2GO2 Touch now has an automatic native recipe under its existing ID. The non-Touch DJ2GO2 remains separate.

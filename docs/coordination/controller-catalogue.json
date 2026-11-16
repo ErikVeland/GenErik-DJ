@@ -17765,8 +17765,8 @@
         "crossfader",
         "cueA:a",
         "cueB:b",
-        "cueReturnA:a",
-        "cueReturnB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
         "gainA:a",
         "gainB:b",
         "hotcue1A:a",
@@ -19896,6 +19896,8 @@
         "cueA:a",
         "cueB:b",
         "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
         "gainA:a",
         "gainB:b",
         "highA:a",
@@ -19921,7 +19923,7 @@
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 29,
+      "inputBindingCount": 31,
       "feedbackBindingCount": 6,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -19941,7 +19943,7 @@
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 52,
+        "untranslatedSourceRows": 50,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
@@ -20408,6 +20410,8 @@
         "cueA:a",
         "cueB:b",
         "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
         "gainA:a",
         "gainB:b",
         "highA:a",
@@ -20433,7 +20437,7 @@
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 29,
+      "inputBindingCount": 31,
       "feedbackBindingCount": 6,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -20453,7 +20457,7 @@
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 52,
+        "untranslatedSourceRows": 50,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
@@ -193244,7 +193248,7 @@
       "scripts": [
         "Numark-Omni-Control-scripts.js"
       ],
-      "implementedInputCount": 29,
+      "implementedInputCount": 31,
       "sourceInputCount": 65,
       "implementedOutputCount": 6,
       "sourceOutputCount": 22,
@@ -193291,7 +193295,16 @@
           "key": "NumarkTotalControl.playFromCue",
           "status": "0x90",
           "number": "0x3c",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "cuePreviewB",
+            "kind": "note",
+            "channel": 0,
+            "number": 60,
+            "encoding": "absolute",
+            "inverted": false,
+            "targetDeck": "b"
+          }
         },
         {
           "group": "[Channel2]",
@@ -193914,7 +193927,16 @@
           "key": "NumarkTotalControl.playFromCue",
           "status": "0x90",
           "number": "0x33",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "cuePreviewA",
+            "kind": "note",
+            "channel": 0,
+            "number": 51,
+            "encoding": "absolute",
+            "inverted": false,
+            "targetDeck": "a"
+          }
         },
         {
           "group": "[Channel2]",
@@ -194291,13 +194313,6 @@
         },
         {
           "group": "[Channel2]",
-          "key": "NumarkTotalControl.playFromCue",
-          "status": "0x90",
-          "number": "0x3c",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Channel2]",
           "key": "flanger",
           "status": "0x90",
           "number": "0x3d",
@@ -194500,13 +194515,6 @@
           "reason": "script-behaviour"
         },
         {
-          "group": "[Channel1]",
-          "key": "NumarkTotalControl.playFromCue",
-          "status": "0x90",
-          "number": "0x33",
-          "reason": "script-behaviour"
-        },
-        {
           "group": "[Master]",
           "key": "NumarkTotalControl.toggleExtendedLooping",
           "status": "0x90",
@@ -194536,7 +194544,7 @@
       "scripts": [
         "Numark-Total-Control-scripts.js"
       ],
-      "implementedInputCount": 29,
+      "implementedInputCount": 31,
       "sourceInputCount": 65,
       "implementedOutputCount": 6,
       "sourceOutputCount": 22,
@@ -194840,14 +194848,32 @@
           "key": "NumarkTotalControl.playFromCue",
           "status": "0x90",
           "number": "0x33",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "cuePreviewA",
+            "kind": "note",
+            "channel": 0,
+            "number": 51,
+            "encoding": "absolute",
+            "inverted": false,
+            "targetDeck": "a"
+          }
         },
         {
           "group": "[Channel2]",
           "key": "NumarkTotalControl.playFromCue",
           "status": "0x90",
           "number": "0x3c",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "cuePreviewB",
+            "kind": "note",
+            "channel": 0,
+            "number": 60,
+            "encoding": "absolute",
+            "inverted": false,
+            "targetDeck": "b"
+          }
         },
         {
           "group": "[Channel1]",
@@ -195649,20 +195675,6 @@
           "key": "NumarkTotalControl.setCue",
           "status": "0x90",
           "number": "0x44",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Channel1]",
-          "key": "NumarkTotalControl.playFromCue",
-          "status": "0x90",
-          "number": "0x33",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Channel2]",
-          "key": "NumarkTotalControl.playFromCue",
-          "status": "0x90",
-          "number": "0x3c",
           "reason": "script-behaviour"
         },
         {

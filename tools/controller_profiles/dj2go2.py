@@ -20,10 +20,10 @@ def dj2go2_profiles():
     result = profile("Numark DJ2GO2 Touch", DJ2GO2_REFERENCES["Numark DJ2GO2 Touch"]["url"])
     result["definition"] = "reviewed:numark-dj2go2-touch"
     result["aliases"].extend(["DJ2GO2 Touch MIDI", "Numark DJ2GO2 Touch MIDI"])
-    result["scope"] = "Automatic native core controls, four Hot Cues, automatic loop pads and basic manual loops. Factory Gain and Browse meanings replace source customisations. Cue preview/deletion, reloop-and-stop, sampler, full feedback and audio routing remain open."
+    result["scope"] = "Automatic native core controls, four Hot Cues, automatic loop pads and basic manual loops. Factory Gain and Browse meanings replace source customisations. Cue deletion, reloop-and-stop, sampler, full feedback and audio routing remain open."
     result["startup"] = [[0xF0, 0, 1, 0x3F, 0x3C, 0x48, 0xF7]]
     for channel, deck in enumerate("ab"):
-        for action, number in [("play", 0), ("cueReturn", 1), ("sync", 2), ("cue", 27), ("jogTouch", 6)]:
+        for action, number in [("play", 0), ("cuePreview", 1), ("sync", 2), ("cue", 27), ("jogTouch", 6)]:
             add(result, action, channel, number, deck=deck, feedback=action in {"play", "sync", "cue"})
         add(result, "jog", channel, 6, "control", "dj2go2Jog", deck)
         result["inputs"][-1]["argument"] = 236

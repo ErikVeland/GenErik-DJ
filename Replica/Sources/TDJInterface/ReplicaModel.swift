@@ -21,6 +21,7 @@ import TDJCore
     let recoveryState = RecoveryState()
     public var frozen: Set<DeckID> = []
     @ObservationIgnored var controllerJogTouched: Set<DeckID> = []
+    @ObservationIgnored var controllerCueContacts: [DeckID: ControllerCueContact] = [:]
     @ObservationIgnored var controllerCountJogs: [DeckID: ControllerCountJogMotion] = [:]
     @ObservationIgnored var controllerCountJogTasks: [DeckID: Task<Void, Never>] = [:]
     @ObservationIgnored var controllerCountJogTokens: [DeckID: UUID] = [:]

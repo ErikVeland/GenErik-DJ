@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R206 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R207 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -187,3 +187,10 @@ Published note ranges separate Hot Cues, automatic loops and manual loops withou
 Manufacturer labels assign Gain and Browse press. The source script instead assigns filter and preview functions.
 The official indexed guide supports the labels, but direct PDF downloads failed. The related source records a null hash.
 The non-Touch model receives no inherited controls. Remaining Cue preview, deletion, sampler and audio routing work stays explicit.
+
+## Momentary Cue preview
+
+R207 uses `cuePreviewA/B` for the three reviewed Numark mappings with standard press/release Cue messages.
+The native player reuses the existing NI Cue contact contract. Play latches a preview, and release or disconnect returns to Cue.
+Generation and gesture ownership checks protect replacement tracks and newer touches. Saved Sync remains unchanged.
+`cueReturnA/B` retains its existing return/set behaviour for custom bindings and profiles awaiting review.

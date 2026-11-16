@@ -548,7 +548,7 @@ class ConversionTests(unittest.TestCase):
             self.assertTrue(all(i["argument"] == 128 and i["encoding"] == "twosComplement" for i in jogs))
             unresolved = {r["key"] for r in result["inputRecords"] if r["disposition"] != "mapped"}
             self.assertIn("NumarkTotalControl.toggleScratchMode", unresolved)
-            self.assertIn("NumarkTotalControl.playFromCue", unresolved)
+            self.assertNotIn("NumarkTotalControl.playFromCue", unresolved)
 
 
     def test_mix_shifted_wheel_uses_script_channel_routing_and_resolution(self):

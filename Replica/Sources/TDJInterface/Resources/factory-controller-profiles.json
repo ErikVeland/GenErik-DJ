@@ -23615,7 +23615,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 1,
@@ -23800,7 +23800,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 1,
@@ -24242,7 +24242,7 @@
         ]
       ],
       "autoSelect": true,
-      "scope": "Automatic native core controls, four Hot Cues, automatic loop pads and basic manual loops. Factory Gain and Browse meanings replace source customisations. Cue preview/deletion, reloop-and-stop, sampler, full feedback and audio routing remain open.",
+      "scope": "Automatic native core controls, four Hot Cues, automatic loop pads and basic manual loops. Factory Gain and Browse meanings replace source customisations. Cue deletion, reloop-and-stop, sampler, full feedback and audio routing remain open.",
       "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark_DJ2GO2_Touch_scripts.js"
     },
     {
@@ -31359,6 +31359,15 @@
           "targetDeck": "a"
         },
         {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 0,
+          "number": 60,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
           "action": "keylockB",
           "kind": "note",
           "channel": 0,
@@ -31590,6 +31599,15 @@
           "targetDeck": "a"
         },
         {
+          "action": "cuePreviewA",
+          "kind": "note",
+          "channel": 0,
+          "number": 51,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
           "action": "loadB",
           "kind": "note",
           "channel": 0,
@@ -31704,7 +31722,7 @@
         ]
       ],
       "autoSelect": true,
-      "scope": "Automatic native core controls from pinned XML and reviewed normal-mode jog/browser handlers. Scratch/directory modes, cue preview, extended/manual loop script semantics, fine pitch, FX, remaining feedback and audio routing remain open.",
+      "scope": "Automatic native core controls from pinned XML and reviewed normal-mode jog/browser handlers. Scratch/directory modes, extended/manual loop script semantics, fine pitch, FX, remaining feedback and audio routing remain open.",
       "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Omni%20Control.midi.xml"
     },
     {
@@ -33109,6 +33127,24 @@
           "targetDeck": "b"
         },
         {
+          "action": "cuePreviewA",
+          "kind": "note",
+          "channel": 0,
+          "number": 51,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 0,
+          "number": 60,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
           "action": "syncA",
           "kind": "note",
           "channel": 0,
@@ -33351,7 +33387,7 @@
         ]
       ],
       "autoSelect": true,
-      "scope": "Automatic native core controls from pinned XML and reviewed normal-mode jog/browser handlers. Scratch/directory modes, cue preview, extended/manual loop script semantics, fine pitch, FX, remaining feedback and audio routing remain open.",
+      "scope": "Automatic native core controls from pinned XML and reviewed normal-mode jog/browser handlers. Scratch/directory modes, extended/manual loop script semantics, fine pitch, FX, remaining feedback and audio routing remain open.",
       "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Total%20Control.midi.xml"
     },
     {

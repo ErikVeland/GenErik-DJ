@@ -34,6 +34,7 @@ extension ReplicaModel {
             try playback.perform(
                 action, deck: deck, value: value, end: end, enabled: enabled, quantum: quantum, touchRate: touchRate,
                 followsPosition: followsPosition)
+            if action == .touch { controllerCueContacts[deck] = nil }
             refreshPlayback()
         } catch { status = error.localizedDescription }
     }

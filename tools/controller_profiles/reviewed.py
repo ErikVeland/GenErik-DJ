@@ -38,10 +38,11 @@ def numark_classic_review(model):
         "handlers": {
             "NumarkTotalControl.jogWheel": ("wheelJog", "twosComplement", 128),
             "NumarkTotalControl.selectKnob": ("browse", "twosComplement"),
+            "NumarkTotalControl.playFromCue": ("cuePreview", "absolute"),
         },
         "startup": [],
         "shutdown": [[0x90, number, 0] for number in [53, 64, 62, 78, 54, 65]],
-        "scope": "Automatic native core controls from pinned XML and reviewed normal-mode jog/browser handlers. Scratch/directory modes, cue preview, extended/manual loop script semantics, fine pitch, FX, remaining feedback and audio routing remain open.",
+        "scope": "Automatic native core controls from pinned XML and reviewed normal-mode jog/browser handlers. Scratch/directory modes, extended/manual loop script semantics, fine pitch, FX, remaining feedback and audio routing remain open.",
     }
 
 

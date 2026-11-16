@@ -160,7 +160,8 @@ extension ReplicaModel {
             if submitMixer(parameter, value: value, deck: deck), refreshMixer { refreshPlayback() }
         }
         switch action {
-        case .playA, .playB: pressPlay(deck: deck)
+        case .playA, .playB:
+            if !finishControllerCue(deck, continuePlaying: true) { pressPlay(deck: deck) }
         case .syncA, .syncB: toggleSync(deck: deck)
         case .keylockA, .keylockB: toggleKeylock(deck: deck)
         case .cueA, .cueB: mix(.cue, value: playbackSnapshot?[deck].mixer.cue == true ? 0 : 1, deck: deck)
@@ -263,10 +264,13 @@ extension ReplicaModel {
         case .jumpBackA, .jumpBackB: beatJump(beats: -performance.loopBeats(for: deck), deck: deck)
         case .jumpForwardA, .jumpForwardB: beatJump(beats: performance.loopBeats(for: deck), deck: deck)
         case .cueReturnA, .cueReturnB: pressCue(deck: deck)
+        case .cuePreviewA, .cuePreviewB:
+            if value > 0 { pressControllerCue(deck) } else { finishControllerCue(deck, continuePlaying: false) }
         case .freezeA, .freezeB: toggleFreeze(deck: deck)
         case .jogTouchA, .jogTouchB:
             resetControllerCountJog(deck, stop: value == 0)
             if value > 0 {
+                finishControllerCue(deck, continuePlaying: false)
                 resetControllerWheelJog(deck, restoreRate: false)
                 controllerJogTouched.insert(deck)
                 guard let frame = playbackSnapshot?[deck].sourceFrame else { return }

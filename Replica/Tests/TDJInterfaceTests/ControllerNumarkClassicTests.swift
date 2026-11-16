@@ -25,7 +25,7 @@ import Testing
         let name = "Numark \(model) Control"
         let profile = try #require(ControllerFactoryProfile.matching([name], automaticOnly: true))
         let data = try #require(profile.definition)
-        #expect(data.inputs.count == 29)
+        #expect(data.inputs.count == 31)
         #expect(data.startup.isEmpty)
         #expect(data.shutdown.count == 6)
         #expect(!data.inputs.contains { $0.action == .jogTouchA || $0.action == .cueReturnA })
@@ -72,7 +72,7 @@ import Testing
             #expect(values.first { $0.0 == .browse }?.1 == 0.5 - 1.0 / 126)
             #expect(values.first { $0.0 == .tempoA }?.1 == 1)
             values.removeAll()
-            classicNumarkPacket([0x90, 50, 127, 72, 127, 51, 127, 49, 127, 73, 127, 74, 127], to: input)
+            classicNumarkPacket([0x90, 50, 127, 72, 127, 49, 127, 73, 127, 74, 127], to: input)
             input.flushPendingActions()
             #expect(values.isEmpty)
         }
@@ -87,5 +87,17 @@ import Testing
         #expect(play.message(value: 0) == [0x90, 62, 0])
         #expect(profile.definition?.shutdown.contains([0x90, 62, 0]) == true)
         #expect(profile.definition?.shutdown.allSatisfy { $0.count == 3 && $0[0] == 0x90 && $0[2] == 0 } == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueClassicNumarkCuePreviewRetainsPressAndReleaseEdges() {
+    for model in ["Total", "Omni"] {
+        withClassicNumark(model) { input in
+            var events: [(ControllerAction, Double)] = []
+            input.onAction = { action, value in events.append((action, value)) }
+            classicNumarkPacket([0x90, 51, 127, 60, 127, 0x80, 51, 0, 60, 0], to: input)
+            #expect(events.map(\.0) == [.cuePreviewA, .cuePreviewB, .cuePreviewA, .cuePreviewB])
+            #expect(events.map(\.1) == [1, 1, 0, 0])
+        }
     }
 }
