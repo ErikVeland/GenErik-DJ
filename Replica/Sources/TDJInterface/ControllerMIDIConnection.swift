@@ -1792,6 +1792,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     private func bindingStateKey(source: Int32, action: ControllerAction, shifted: Bool, group: UInt8 = 0, deck: DeckID? = nil) -> String {
         "\(source)-\(group)-\(action.rawValue)-\(shifted ? 1 : 0)-\(deck?.rawValue ?? "default")"
     }
+    private func bindingValueKey(_ binding: ControllerBinding) -> String {
+        bindingStateKey(source: binding.source, action: binding.action, shifted: binding.isShifted,
+            group: binding.umpGroup, deck: binding.targetDeck) + "-" + bindingTakeoverKey(binding)
+    }
     private func bindingTakeoverKey(_ binding: ControllerBinding) -> String {
         "\(binding.source)-\(binding.umpGroup)-\(binding.channel)-\(binding.kind.rawValue)-\(binding.number)-\(binding.parameter ?? 0)-\(binding.noteNumber ?? 0)-\(binding.isShifted ? 1 : 0)" + (binding.lowNumber.map { "-\($0)" } ?? "")
     }
@@ -1801,8 +1805,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         if let data = try? JSONEncoder().encode(bindings) { preferences.set(data, forKey: Self.storageKey) }
         rememberFactoryOverrides()
     }
-    private func releaseMomentaryActions(source: Int32? = nil, resetJogs: Bool = true) {
+    private func releaseMomentaryActions(source: Int32? = nil, resetJogs: Bool = true, decks: Set<DeckID>? = nil) {
         for target in Array(activeMomentaryInputs.keys) {
+            if let decks, !decks.contains(target.deck ?? target.action.deck) { continue }
             guard var inputs = activeMomentaryInputs[target] else { continue }
             let wasActive = !inputs.isEmpty
             if let source { inputs.remove(source) } else { inputs.removeAll() }
@@ -1817,7 +1822,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 let deck = target.deck ?? target.action.deck
                 return .init(deck.leftSide ? .wheelJogA : .wheelJogB, deck: deck)
             })
-        for target in targets { sendAction(target, value: 0.5) }
+        for target in targets where decks?.contains(target.deck ?? target.action.deck) ?? true {
+            sendAction(target, value: 0.5)
+        }
     }
     private func persistFeedbackBindings() {
         if let data = try? JSONEncoder().encode(feedbackBindings) {
@@ -1994,6 +2001,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             return
         }
         receiveFactoryPadMode(message, source: sourceID)
+        receiveFactoryBankChange(message, source: sourceID)
         let matches = inputBindings(source: sourceID).filter {
             $0.source == sourceID && $0.umpGroup == message.group && $0.kind == message.kind
                 && ($0.releaseOnly != true || message.isNoteOff)
@@ -2004,8 +2012,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     || ($0.lowControllerNumber == message.number))
         }
         for binding in matches {
-            let key = bindingStateKey(
-                source: binding.source, action: binding.action, shifted: binding.isShifted, group: binding.umpGroup, deck: binding.targetDeck) + "-" + bindingTakeoverKey(binding)
+            let key = bindingValueKey(binding)
             var state = valueStates[key, default: .init()]
             let decoded = state.decode(message, encoding: binding.mode, number: binding.number, lowNumber: binding.lowNumber)
             valueStates[key] = state
@@ -2045,6 +2052,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             { continue }
             let previous = values.updateValue(value, forKey: key)
             if binding.action == .shift {
+                let layered = inputBindings(source: sourceID).filter { !$0.action.isButton && $0.layerIndependent != true }
+                    .map { ($0, isShiftActive($0)) }
+                flushPendingActions()
                 let inputKey = binding.shiftInput.map { "\(binding.source)-\(binding.umpGroup)-shift-\($0)" }
                     ?? "\(binding.source)-\(binding.umpGroup)-\(binding.channel)-\(binding.kind.rawValue)-\(binding.number)-\(binding.parameter ?? 0)-\(binding.noteNumber ?? 0)"
                 var shiftLayer = binding.shiftChannel.map { channelShiftLayers[sourceID]?[$0] ?? .init() }
@@ -2052,6 +2062,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 shiftLayer.update(input: inputKey, isPressed: value > 0)
                 if let channel = binding.shiftChannel { channelShiftLayers[sourceID, default: [:]][channel] = shiftLayer }
                 else { shiftLayers[sourceID] = shiftLayer }
+                resetInputValueStates(layered.filter { isShiftActive($0.0) != $0.1 }.map { $0.0 })
                 status = shiftLayer.isActive ? "Shift layer active." : "Base layer active."
                 continue
             }
@@ -2069,7 +2080,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 activeMomentaryInputs[binding.target] = inputs.isEmpty ? nil : inputs
                 if value > 0 && !wasActive {
                     sendAction(binding.target, value: value)
-                } else if value == 0 && inputs.isEmpty {
+                } else if value == 0 && wasActive && inputs.isEmpty {
                     sendAction(binding.target, value: 0)
                 }
                 continue
@@ -2134,6 +2145,36 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 break
             }
         }
+    }
+
+    /**
+     * Resets pickup and held contacts only on the side selected by a bank report.
+     */
+    private func receiveFactoryBankChange(_ message: ControllerMIDIMessage, source: Int32) {
+        guard message.group == 0, message.kind == .note, !message.isNoteOff, message.maximum <= 127,
+            let session = factorySessions.first(where: { $0.source == source }),
+            let change = session.profile.definition?.bankChanges?.first(where: {
+                $0.channel == message.channel && $0.number == message.number && Int($0.onValue) == message.value
+            })
+        else { return }
+        let decks = Set(change.decks)
+        flushPendingActions()
+        releaseMomentaryActions(source: source, decks: decks)
+        let scoped = inputBindings(source: source).filter { binding in
+            if let deck = binding.targetDeck { return decks.contains(deck) }
+            return (binding.action.rawValue.hasSuffix("A") || binding.action.rawValue.hasSuffix("B"))
+                && decks.contains(binding.action.deck)
+        }
+        resetInputValueStates(scoped)
+    }
+
+    private func resetInputValueStates(_ scoped: [ControllerBinding]) {
+        guard !scoped.isEmpty else { return }
+        let valueKeys = Set(scoped.map { bindingValueKey($0) })
+        let takeoverKeys = Set(scoped.map { bindingTakeoverKey($0) })
+        values = values.filter { !valueKeys.contains($0.key) }
+        valueStates = valueStates.filter { !valueKeys.contains($0.key) }
+        takeoverStates = takeoverStates.filter { !takeoverKeys.contains($0.key) }
     }
 
     private func lookupValue(_ target: ControllerActionTarget) -> Double? {

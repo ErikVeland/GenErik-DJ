@@ -43,6 +43,18 @@ struct ControllerProfileData: Decodable, Sendable {
         }
     }
 
+    struct BankChange: Decodable, Sendable {
+        let channel: UInt8
+        let number: UInt8
+        let onValue: UInt8
+        let decks: [DeckID]
+
+        var isValid: Bool {
+            channel < 16 && number < 128 && onValue > 0 && onValue < 128
+                && !decks.isEmpty && decks.count <= 4 && Set(decks).count == decks.count
+        }
+    }
+
     struct Output: Decodable, Sendable {
         let action: ControllerAction
         let kind: ControllerFeedbackKind
@@ -73,12 +85,13 @@ struct ControllerProfileData: Decodable, Sendable {
     let source: String
     let role: String?
     let inputModes: [InputMode]?
+    let bankChanges: [BankChange]?
 
     var isValid: Bool {
         (role == nil || role == "player" || role == "accessory") && !id.isEmpty && id.count <= 128 && !aliases.isEmpty
             && aliases.count <= 24
             && aliases.allSatisfy { !$0.isEmpty && $0.count <= 128 }
-            && validInputModes
+            && validInputModes && validBankChanges
             && inputs.allSatisfy { input in
                 guard let channel = input.shiftChannel else { return true }
                 return channel < 16 && inputs.contains { $0.action == .shift && $0.shiftChannel == channel }
@@ -109,6 +122,13 @@ struct ControllerProfileData: Decodable, Sendable {
             }
             && (startup + shutdown).count <= 16
             && (startup + shutdown).allSatisfy(Self.validSetupMessage)
+    }
+
+    private var validBankChanges: Bool {
+        let changes = bankChanges ?? []
+        return changes.count <= 16 && (changes.isEmpty || role != "player")
+            && changes.allSatisfy { $0.isValid }
+            && Set(changes.map { "\($0.channel):\($0.number)" }).count == changes.count
     }
 
     private var validInputModes: Bool {

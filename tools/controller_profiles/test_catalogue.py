@@ -14,6 +14,7 @@ from fetch_reference import fetch, git_blob_hash
 from sources import canonical, split_models
 from reviewed import REVIEWED
 from dj2go2 import dj2go2_profiles, DJ2GO2_SOURCES
+from ns4fx import ns4fx_profiles, NS4FX_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -588,6 +589,20 @@ class ConversionTests(unittest.TestCase):
             record, reason = control_record(self.control("cue_default", "[Channel1]", opts, status, "1"))
             self.assertIsNone(reason)
             self.assertEqual(record["action"], expected)
+
+
+    def test_ns4fx_core_keeps_bank_scopes_and_pinned_facts(self):
+        cache = ROOT / "TestBuilds/r169/upstream/res/controllers"
+        if not cache.exists():
+            self.skipTest("Fetch the locked public reference cache before checking sources.")
+        for path, digest in NS4FX_SOURCES:
+            self.assertEqual(hashlib.sha256((cache / path).read_bytes()).hexdigest(), digest)
+        profile = ns4fx_profiles()[0]
+        self.assertEqual([i["decks"] for i in profile["bankChanges"]], [["a", "c"], ["b", "d"], ["a", "c"], ["b", "d"]])
+        self.assertEqual(len(profile["inputs"]), 64)
+        self.assertEqual(len(profile["startup"]) + len(profile["shutdown"]), 9)
+        self.assertTrue(all(i["argument"] == 1240 for i in profile["inputs"] if i["action"] in {"jogA", "jogB"}))
+        self.assertFalse(any(i["action"].startswith("hotcue") for i in profile["inputs"]))
 
 
 class GeneratedCatalogueTests(unittest.TestCase):

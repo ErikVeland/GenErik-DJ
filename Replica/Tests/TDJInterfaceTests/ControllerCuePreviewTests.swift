@@ -193,3 +193,36 @@ import Testing
         #expect(model.playbackSnapshot?.a.synced == sync)
     }
 }
+
+@Test @MainActor func controllerCatalogueOrphanControllerTouchReleaseDoesNotEndWaveform() async throws {
+    try await withControllerCuePlayback("NS4FX") { model, input in
+        model.perform(.touch, deck: .a, value: 0, touchRate: 0, followsPosition: true)
+        cuePreviewPacket([0x80, 6, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        model.perform(.touch, deck: .a, enabled: false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueNS4FXBankReleaseKeepsTheOtherCueAndNewWaveformTouch() async throws {
+    try await withControllerCuePlayback("NS4FX") { model, input in
+        model.load(trackID: try #require(model.library.tracks.first).id, deck: .b)
+        await model.flushWrites()
+        cuePreviewPacket([0x91, 1, 127, 0x90, 6, 127, 0xB0, 6, 1], to: input)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let otherFrame = try #require(model.playbackSnapshot?.b.sourceFrame)
+        cuePreviewPacket([0x92, 8, 127], to: input)
+        _ = model.playback.core.renderOffline(frames: 512)
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.b.touchActive == true)
+        #expect(model.playbackSnapshot?.b.sourceFrame ?? 0 > otherFrame)
+        model.perform(.touch, deck: .a, value: 0, touchRate: 0, followsPosition: true)
+        cuePreviewPacket([0x80, 6, 0], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        #expect(model.playbackSnapshot?.b.touchActive == true)
+        cuePreviewPacket([0x81, 1, 0], to: input)
+        model.perform(.touch, deck: .a, enabled: false)
+    }
+}

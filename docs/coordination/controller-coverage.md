@@ -2,6 +2,45 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R210 NS4FX core controls and bank pickup protection
+
+NS4FX now selects its native core recipe automatically. Its existing profile ID and exact model alias remain stable.
+Four published MIDI channels target decks A/B/C/D. The app retains its existing four deck opt-in.
+
+The source supplies transport, held Cue, Load, headphone cue, mixer controls, browsing and the 1240-count jog resolution.
+The jog decoder reuses the reviewed Numark wrap logic. Tempo uses the labelled CC 9/41 pair and native direction.
+The native recipe corrects source gain-group labels and the high-byte input/inputMSB routing error in the script.
+
+Active bank reports rearm pickup and clear incomplete input pairs only on that side.
+They finish held Cue and platter contacts on that side before the next bank receives movement.
+Queued controls finish before the bank change. The other side retains its Cue, pickup state and decoder state.
+
+Learned tempo mappings retain this protection. Unrelated notes and bank release packets cannot reset a side.
+Bank metadata has bounded addresses and deck scopes. Player profiles cannot use this controller-bank contract.
+
+Logical Shift changes rearm pickup only for affected controls. Independent mixer controls keep their state.
+Unsupported shifted Load, rate range, search and headphone alternatives cannot change normal controls.
+An unpaired touch release now needs an active controller contact before it can release touch.
+This prevents a stale or initial hardware release from ending a waveform gesture.
+The native checks preserve Cue on the second deck and a newer waveform touch after a bank switch.
+
+Startup exits demo mode and enables Vinyl. Shutdown dims the four Vinyl lights within the setup bound.
+Twelve core light bindings retain the published bright/dim values. Full light cleanup remains open.
+
+Pads, pitch/key buttons, Vinyl toggle, screens, FX, other modes and audio routing also remain open.
+The app does not copy sampler allocation, FX initialisation or automatic four deck activation from the script.
+Physical response, calibration and A10X performance require acceptance on hardware.
+
+Five failing reproductions remain in the evidence directory. All 253 focused controller/NI checks and 46 importer checks now pass.
+Native iPad compilation passes, and the compiled resource matches the source.
+Only the existing NS4FX recipe changes. The other 152 data recipes remain unchanged.
+
+Counts remain 289 catalogue records. Eighty-six factory profiles now select core controls automatically, covering 93 physical models.
+The release blocker remains open. Full theoretical mappings and physical acceptance remain separate gates.
+
+Twelve historical broken links remain. Source base: `33c721f`. Evidence: `TestBuilds/r210/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R209 standard Cue preview across the factory catalogue
 
 The remaining reviewed Denon, Numark, Hercules and Reloop note-based Cue bindings now use native held preview.

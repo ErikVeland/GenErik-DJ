@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R209 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R210 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -210,3 +210,19 @@ The importer requires ordinary, non-inverted note semantics. It preserves Contro
 All 81 automatic factory profiles with standard Cue notes have both note-release forms in the native fixture.
 Hercules DJ Console Mac Edition keeps its existing Control Change Cue action until release behaviour is verified.
 The three Pioneer pad accessories have no transport Cue. This migration changes no setup, feedback or input addresses.
+
+## NS4FX banks and modifier pickup
+
+R210 reuses the pinned NS4FX XML, script and component helper facts. It executes no controller script.
+The native recipe uses the labelled 9/41 tempo pair and component deck channels, with source inconsistencies recorded in its reference.
+The wrapped jog decoder retains the source's 1240-count resolution. Physical calibration remains open.
+
+Optional `bankChanges` entries identify a positive note report with `channel`, `number`, `onValue` and `decks`.
+The schema permits at most 16 unique addresses and one to four unique decks per scope.
+Each report flushes pending controls, releases that side's contacts and resets its pickup and decoder state.
+The other side retains its state. Learned deck actions keep the same bank protection.
+Player profiles cannot use this metadata because player assignment already has its own lifecycle.
+
+Shift changes reset pickup only for affected layer controls. Independent controls retain their state.
+A release without a matching held controller contact cannot end a waveform gesture.
+Core protocol fixtures, native transport checks and iPad compilation cover these rules. Hardware acceptance remains open.
