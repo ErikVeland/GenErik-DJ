@@ -1914,6 +1914,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         if let selected, selected == sourceID, activeInputIDs.contains(sourceID), let learning,
             message.kind != .note || !message.isNoteOff
         {
+            guard learningEncoding.supportsLearning else {
+                status = "Use the factory profile for this encoding."
+                return
+            }
             if learning == .shift {
                 guard learningEncoding == .absolute, message.kind == .note || message.kind == .control else {
                     status = "Shift uses a momentary note or absolute Control Change button."

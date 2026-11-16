@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R211 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R212 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -235,3 +235,16 @@ Each side keeps its logical scope when a held button changes MIDI channel.
 Bank reports reset pickup and contacts on that side through the shared contract.
 The source MIDI addresses, tempo pair, unusual jog threshold, setup and feedback remain unchanged.
 Saved custom bindings retain their stored fields. Physical acceptance remains open.
+
+## Mixstream Pro counter and model boundaries
+
+R212 adds the original Mixstream Pro after Computer Mode selection, supported by the hashed manufacturer guide.
+Transport channels 2/3 differ from mixer channels 0/1. Tempo uses the explicit 31/75 pair.
+Jog 55/77 is an absolute counter. It primes, combines boundary changes and rejects jumps above 45 counts before emitting relative movement.
+The source scale is 10 milliseconds per count. Native movement uses the equivalent 180-count resolution, pending physical calibration.
+The structured format requires an explicit low byte and stays outside partial MIDI learning.
+
+Profile names now retain plus characters. Optional `excludedAliases` bounds a profile against known, unverified model variants.
+The schema permits at most 24 non-empty names with at most 128 characters each.
+The original Pro excludes Pro+ and Go even when a generic base port name also appears.
+No pads, screen or variant compatibility is inferred from the shared family user guide.

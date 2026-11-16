@@ -3,16 +3,17 @@ import Foundation
 public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     case absolute, paired14Bit, paired14BitRelative, twosComplement, binaryOffset, signedBit
     case numarkPlatinumJog, denonJog, zeroForward, mc7000Jog, dj2go2Jog, signedStep
-    case binaryStep, centreDetent, centredPitch
+    case binaryStep, centreDetent, centredPitch, mixstreamJog
     case cdjPlatterSpeed, cdjRingSpeed, cdj350PlatterSpeed, cdjTempo, needlePosition
     public var isRelative: Bool {
         [
             .twosComplement, .binaryOffset, .signedBit, .paired14BitRelative, .numarkPlatinumJog, .denonJog,
-            .zeroForward, .mc7000Jog, .dj2go2Jog, .signedStep, .binaryStep,
+            .zeroForward, .mc7000Jog, .dj2go2Jog, .signedStep, .binaryStep, .mixstreamJog,
         ]
         .contains(self)
     }
-    public var isPairedCC: Bool { self == .paired14Bit || self == .paired14BitRelative }
+    public var isPairedCC: Bool { self == .paired14Bit || self == .paired14BitRelative || self == .mixstreamJog }
+    public var supportsLearning: Bool { self != .mixstreamJog }
     public var title: String {
         switch self {
         case .absolute: "Knob / fader"
@@ -20,6 +21,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         case .centredPitch: "Pitch fader: centre 8192"
         case .binaryStep: "Encoder: 65 / 63, single step"
         case .mc7000Jog: "MC7000 jog"
+        case .mixstreamJog: "Mixstream Pro jog counter"
         case .dj2go2Jog: "DJ2GO2 Touch jog"
         case .signedStep: "Encoder: 1 / 127, single step"
         case .denonJog: "Denon jog"
@@ -48,6 +50,7 @@ public struct ControllerMIDIValueState: Sendable {
     private var msb: UInt8?
     private var lsb: UInt8 = 0
     private var relativeMSB: UInt8?
+    private var mixstreamPosition: Int?
     private var platinumTick: (value: Int, forward: Bool)?
     public init() {}
     public mutating func decode(
@@ -64,6 +67,28 @@ public struct ControllerMIDIValueState: Sendable {
             return .absolute(min(1, max(0, Double(message.value - 1) / 16382)))
         }
         let low = lowNumber ?? (number < 32 ? number + 32 : nil)
+        if encoding == .mixstreamJog {
+            guard message.kind == .control, message.maximum == 127, number < 128, (0...127).contains(message.value),
+                let low = lowNumber, low < 128, low != number
+            else { return nil }
+            if message.number == number {
+                let previous = Int(msb ?? 0)
+                guard message.value != previous else { return nil }
+                lsb = message.value < previous ? 127 : 0
+                msb = UInt8(message.value)
+            } else if message.number == low {
+                lsb = UInt8(message.value)
+            } else {
+                return nil
+            }
+            let position = Int(msb ?? 0) << 7 | Int(lsb)
+            let previous = mixstreamPosition
+            mixstreamPosition = position
+            guard let previous else { return nil }
+            let delta = position - previous
+            guard delta != 0, abs(delta) <= 45 else { return nil }
+            return .relative(Double(delta))
+        }
         if encoding == .paired14BitRelative {
             guard message.kind == .control, message.maximum <= 127, number < 128, (0...127).contains(message.value),
                 let low, low < 128, low != number

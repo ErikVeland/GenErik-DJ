@@ -76,6 +76,7 @@ struct ControllerProfileData: Decodable, Sendable {
 
     let id: String
     let aliases: [String]
+    let excludedAliases: [String]?
     let inputs: [Input]
     let outputs: [Output]
     let startup: [[UInt8]]
@@ -91,6 +92,8 @@ struct ControllerProfileData: Decodable, Sendable {
         (role == nil || role == "player" || role == "accessory") && !id.isEmpty && id.count <= 128 && !aliases.isEmpty
             && aliases.count <= 24
             && aliases.allSatisfy { !$0.isEmpty && $0.count <= 128 }
+            && (excludedAliases?.count ?? 0) <= 24
+            && (excludedAliases ?? []).allSatisfy { !$0.isEmpty && $0.count <= 128 }
             && validInputModes && validBankChanges
             && inputs.allSatisfy { input in
                 guard let channel = input.shiftChannel else { return true }
@@ -108,6 +111,7 @@ struct ControllerProfileData: Decodable, Sendable {
                     && ($0.shiftInput == nil
                         || ($0.shiftInput! < 16 && $0.action == .shift && $0.kind == .note && $0.shiftChannel != nil))
                     && ($0.encoding != .centredPitch || ($0.kind == .pitch && $0.number == 0))
+                    && ($0.encoding != .mixstreamJog || $0.lowNumber != nil)
                     && Self.validArgument($0)
                     && (![
                         .centreDetent, .binaryStep, .signedStep, .dj2go2Jog, .mc7000Jog, .denonJog, .zeroForward,

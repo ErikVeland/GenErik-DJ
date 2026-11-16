@@ -18231,30 +18231,40 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixstream-Pro.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixstream-Pro.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixstream-Pro.scripts.js"
       ],
       "definitions": [
-        "Numark-Mixstream-Pro.midi.xml"
+        "Numark-Mixstream-Pro.midi.xml",
+        "reviewed:numark-mixstream-pro"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Numark Mixstream Pro",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "browse",
         "crossfader",
         "cueA:a",
         "cueB:b",
         "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
         "filterKnobA:a",
         "filterKnobB:b",
         "gainA:a",
         "gainB:b",
         "highA:a",
         "highB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "levelA:a",
         "levelB:b",
+        "loadA:a",
+        "loadB:b",
         "lowA:a",
         "lowB:b",
         "master",
@@ -18262,41 +18272,45 @@
         "midB:b",
         "monitor",
         "openGroup",
+        "playA:a",
+        "playB:b",
+        "shift",
         "syncA:a",
-        "syncB:b"
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b"
       ],
-      "inputBindingCount": 22,
+      "inputBindingCount": 36,
       "feedbackBindingCount": 6,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select Computer Mode on the controller."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 56,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -310973,6 +310987,46 @@
       },
       "implementedInputCount": 64,
       "implementedOutputCount": 12,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numark-mixstream-pro",
+      "name": "Numark Mixstream Pro",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixstream-Pro.scripts.js",
+        "sha256": "02da45d00c1b18f1ebbb0e30350add0f771dec74cafd51faa2251a0995255a72",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixstream-Pro.midi.xml",
+            "sha256": "34140ee6b96defaa382cd6e8523da0ebd9279d2c802d879c1c3c96974dce3054"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixstream-Pro.scripts.js",
+            "sha256": "02da45d00c1b18f1ebbb0e30350add0f771dec74cafd51faa2251a0995255a72"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/midi-components-0.0.js",
+            "sha256": "f15845d0b3fa10609aedc2fb74a9067d0f1d89387f011de72c3301799003f026"
+          },
+          {
+            "url": "https://cdn.inmusicbrands.com/Software/ENDJ5/Mixstream%20Pro%2C%20Mixstream%20Pro%2B%2C%20Mixstream%20Pro%20Go%20-%20User%20Guide%20-%20v5.0.0.pdf",
+            "sha256": "2f0b1c9c20a53bb0444d2c3cd0f87de636274fcf358cbce73d3930ac0cdded61",
+            "pages": [
+              28
+            ]
+          }
+        ],
+        "review": "Computer Mode is required. The original Pro alone has reviewed MIDI addresses; the family user guide does not prove byte compatibility for Pro+ or Go. Mixer channels 0/1 differ from transport channels 2/3. Jog CC 55/77 is an absolute counter: the source adjusts its low byte at high-byte boundaries, ignores jumps over 45, then uses interval/dt*10 with milliseconds. This implies 10 ms per count, represented as 180 counts per 1.8-second revolution in the native movement contract; physical calibration remains open. Tempo is CC 31/75 with normal source rate scaling and native inversion. The LED animation is not a required handshake. Pads, scratch modes, backspin, full feedback, screens, auxiliary inputs and audio routing remain open."
+      },
+      "implementedInputCount": 36,
+      "implementedOutputCount": 6,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

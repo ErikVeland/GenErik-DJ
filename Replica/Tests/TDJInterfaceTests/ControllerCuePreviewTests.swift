@@ -226,3 +226,20 @@ import Testing
         model.perform(.touch, deck: .a, enabled: false)
     }
 }
+
+@Test @MainActor func controllerCatalogueMixstreamCounterMovesOnlyByDecodedCountsAndStopsHeld() async throws {
+    try await withControllerCuePlayback("MixstreamPro") { model, input in
+        cuePreviewPacket([0x92, 33, 127, 0xB2, 77, 100, 77, 101, 77, 102], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        _ = model.playback.core.renderOffline(frames: 512)
+        model.refreshPlayback()
+        let expected = (model.track(.a)?.analysis.sampleRate ?? 0) * 0.02
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - expected) <= 1)
+        cuePreviewPacket([0x82, 33, 0], to: input)
+        _ = model.playback.core.renderOffline(frames: 512)
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.phase.active == false)
+    }
+}

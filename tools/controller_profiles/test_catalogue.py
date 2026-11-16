@@ -15,6 +15,7 @@ from sources import canonical, split_models
 from reviewed import REVIEWED
 from dj2go2 import dj2go2_profiles, DJ2GO2_SOURCES
 from ns4fx import ns4fx_profiles, NS4FX_SOURCES
+from mixstream import mixstream_profiles, MIXSTREAM_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -612,6 +613,21 @@ class ConversionTests(unittest.TestCase):
                          [(0, 0, 0), (1, 1, 1), (2, 0, 0), (3, 1, 1)])
         self.assertEqual([b["decks"] for b in item["bankChanges"]], [["a", "c"], ["b", "d"], ["a", "c"], ["b", "d"]])
         self.assertTrue(all(b["number"] == 8 and b["onValue"] == 127 for b in item["bankChanges"]))
+
+
+    def test_mixstream_pro_uses_explicit_counter_and_pitch_pairs(self):
+        cache = ROOT / "TestBuilds/r169/upstream/res/controllers"
+        if not cache.exists():
+            self.skipTest("Fetch the locked public reference cache before checking sources.")
+        for path, digest in MIXSTREAM_SOURCES:
+            self.assertEqual(hashlib.sha256((cache / path).read_bytes()).hexdigest(), digest)
+        item = mixstream_profiles()[0]
+        self.assertEqual(len(item["inputs"]), 36)
+        self.assertEqual([(i["channel"], i["number"], i["lowNumber"], i["argument"]) for i in item["inputs"] if i["action"] in {"jogA", "jogB"}],
+                         [(2, 55, 77, 180), (3, 55, 77, 180)])
+        self.assertTrue(all(i["number"] == 31 and i["lowNumber"] == 75 and i["inverted"] for i in item["inputs"] if i["action"] in {"tempoA", "tempoB"}))
+        self.assertEqual(item["startup"], [])
+        self.assertFalse(any("Pro+" in alias or "Go" in alias for alias in item["aliases"]))
 
 
 class GeneratedCatalogueTests(unittest.TestCase):

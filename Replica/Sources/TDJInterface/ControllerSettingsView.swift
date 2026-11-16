@@ -238,7 +238,9 @@ struct ControllerSettingsView: View {
                     selection: Binding(
                         get: { input.learningEncoding }, set: { input.learningEncoding = $0 })
                 ) {
-                    ForEach(ControllerMIDIEncoding.allCases, id: \.self) { mode in Text(mode.title).tag(mode) }
+                    ForEach(ControllerMIDIEncoding.allCases.filter(\.supportsLearning), id: \.self) { mode in
+                        Text(mode.title).tag(mode)
+                    }
                 }
                 Toggle(
                     "Reverse direction",

@@ -2,6 +2,41 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R212 Mixstream Pro core controls and jog counter
+
+The original Mixstream Pro now selects its native core recipe after Computer Mode selection.
+The manufacturer guide confirms that this mode sends and receives MIDI. Its PDF hash and page remain in the source record.
+Pro+ and Go retain separate model boundaries. The family guide does not prove matching MIDI bytes for those models.
+
+Transport and jog controls use channels 2/3. Mixer controls use 0/1. Global controls use channel 15.
+The recipe maps Play, held Cue, Sync, Load, headphone cue, EQ, gain, filter, level and browsing.
+Tempo retains its explicit CC 31/75 pair and native direction.
+
+The source LED animation adds no required handshake, so the native profile skips it.
+Six core light bindings retain the bright/dim values. Shutdown clears those lights.
+
+Jog CC 55/77 reports an absolute counter. The decoder primes its reference before emitting movement.
+It retains the source high-byte boundary rule, ignores duplicates and rebases after jumps above 45 counts.
+
+The script scale implies 10 milliseconds per count. The native movement contract represents this as 180 counts per 1.8-second revolution.
+This scale is a source-derived calculation. Physical calibration remains open.
+A native playback fixture confirms 20 milliseconds of movement from two counts and an idle stop while held.
+
+The structured counter requires an explicit low-byte address. Partial MIDI learning cannot create an incomplete mapping.
+The name matcher now preserves the distinguishing plus character.
+Explicit excluded aliases prevent Pro+ or Go from matching through a generic original-Pro port name.
+The schema bounds those names. Shared positive aliases still fail closed when they identify more than one profile.
+
+All 266 focused controller/NI checks, 48 importer checks and native iPad compilation pass.
+The compiled resource matches the source. Only the existing Mixstream Pro data recipe changes.
+The other 152 recipes remain unchanged. Counts remain 289 catalogue records.
+
+Eighty-seven factory profiles now select core controls automatically, covering 94 physical models.
+Pads, scratch mode selection, backspin, full feedback, screen, auxiliary inputs and audio routing remain open.
+
+Twelve historical broken links remain. Source base: `078a637`. Evidence: `TestBuilds/r212/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R211 MC7000 bank pickup and held Shift
 
 MC7000 now uses the existing bank protection for its published active Note 8 reports.

@@ -61,10 +61,12 @@ struct ControllerFactoryProfile: RawRepresentable, Hashable, CaseIterable, Codab
         guard matches.count == 1, let profile = matches.first,
             !automaticOnly || profile.selectsAutomatically
         else { return nil }
+        let excluded = Set((profile.definition?.excludedAliases ?? []).map(normalise))
+        guard !names.contains(where: { excluded.contains(normalise($0)) }) else { return nil }
         return profile
     }
     private static func normalise(_ name: String) -> String {
-        name.lowercased().filter { $0.isLetter || $0.isNumber }
+        name.lowercased().filter { $0.isLetter || $0.isNumber || $0 == "+" }
     }
 
     @MainActor func bindings(source: Int32, playerDeck: DeckID? = nil) -> [ControllerBinding] {
