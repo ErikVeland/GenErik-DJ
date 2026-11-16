@@ -2,6 +2,34 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R225 NS6II native core and USB handover release
+
+NS6II now has an automatic four-target recipe from the pinned XML, component helpers and script facts.
+The recipe keeps actual XML dispatch addresses where constructor properties differ.
+Native controls include transport, held Cue, mixer/EQ/filter, Load, paired tempo, eight cues and guarded loop pages.
+The jog path retains the published 1,000-count scale. C/D retain the app's existing opt-in.
+
+Physical Shift controls the corresponding deck side. Both Shift buttons also guard shared Load and browser alternatives.
+Bank reports preserve held Shift while releasing old contacts and resetting pickup on that side.
+Explicit USB selector reports also act on their own side. A loss report releases Cue and scratch contacts and clears that side's Shift inputs.
+A held modifier on the other side remains active. Ordinary bank-release packets keep their previous behaviour.
+Only profiles with explicit release metadata accept those loss reports.
+
+The shared pad addresses require a selected native page. Cue pages expose eight cues, with alternate delete releases that only rearm the pads.
+The Auto page provides fixed loops from one to 32 beats. The Loop page provides core loop and jump controls.
+Unsupported sample, key, grid and alternate pages cannot trigger cues or loop pads.
+Pad lights remain unmapped because their shared addresses require mode-aware output handling.
+The recipe sends the published state query and lights the native Scratch and Cue-page indicators.
+
+The source's software page cycling, roll variants, 64/128-beat loops, FX, screens and full cleanup remain open.
+Hardware headphone mixing retains its own controls. Complete headphone/audio routing and physical calibration remain open.
+The previous receiver fails the USB loss fixture. The fixed receiver passes all 340 focused controller checks.
+All 59 importer/report checks and native iPad compilation pass. The bundled resource matches the source.
+Factory coverage reaches 95 profiles for 99 physical models. Six other models retain automatic native adapters.
+The catalogue retains 302 records and now contains 160 data recipes. All 159 earlier recipes remain unchanged.
+No downloaded script runs in the app. Source identities and validation results appear in `TestBuilds/r225/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R224 Dicer native accessory core
 
 The existing Dicer recipe now selects automatically as an accessory. Its stored ID and original endpoint aliases remain valid.

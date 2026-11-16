@@ -48,10 +48,14 @@ struct ControllerProfileData: Decodable, Sendable {
         let number: UInt8
         let onValue: UInt8
         let decks: [DeckID]
+        let releaseShiftChannels: [UInt8]?
 
         var isValid: Bool {
             channel < 16 && number < 128 && onValue > 0 && onValue < 128
                 && !decks.isEmpty && decks.count <= 4 && Set(decks).count == decks.count
+                && (releaseShiftChannels.map {
+                    $0.count <= 16 && $0.allSatisfy { $0 < 16 } && Set($0).count == $0.count
+                } ?? true)
         }
     }
 
@@ -132,6 +136,11 @@ struct ControllerProfileData: Decodable, Sendable {
         let changes = bankChanges ?? []
         return changes.count <= 16 && (changes.isEmpty || role != "player")
             && changes.allSatisfy { $0.isValid }
+            && changes.allSatisfy { change in
+                (change.releaseShiftChannels ?? []).allSatisfy { channel in
+                    inputs.contains { $0.action == .shift && $0.shiftChannel == channel }
+                }
+            }
             && Set(changes.map { "\($0.channel):\($0.number)" }).count == changes.count
     }
 

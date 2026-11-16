@@ -27,6 +27,7 @@ from beatmix import beatmix_profiles, BEATMIX_REFERENCES
 from mc2000 import mc2000_profiles, MC2000_REFERENCES
 from mixon4 import mixon4_profiles, MIXON4_REFERENCES
 from dicer import dicer_profiles, DICER_SOURCES
+from ns6ii import ns6ii_profiles, NS6II_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -59,6 +60,20 @@ ROOT = Path(__file__).resolve().parents[2]
 class ConversionTests(unittest.TestCase):
     def control(self, key="play", group="[Channel3]", extra="", status="0x92", address="11"):
         return ET.fromstring(f"<control><group>{group}</group><key>{key}</key><status>{status}</status><midino>{address}</midino>{extra}</control>")
+
+    def test_ns6ii_preserves_source_pairs_resolution_and_usb_release_scopes(self):
+        result = ns6ii_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (247, 12))
+        self.assertEqual(len(result["bankChanges"]), 6)
+        self.assertEqual([x.get("releaseShiftChannels") for x in result["bankChanges"][-2:]], [[0], [1]])
+        self.assertTrue(all(row["encoding"] == "twosComplement" and row["argument"] == 1000 for row in result["inputs"] if row["action"] in {"jogA", "jogB"}))
+        self.assertTrue(all(row["encoding"] == "paired14Bit" and row["number"] == 9 and not row["inverted"] for row in result["inputs"] if row["action"] in {"tempoA", "tempoB"}))
+        self.assertTrue(all(row["requiredMode"] == 0 for row in result["inputs"] if row["action"].startswith("hotcue")))
+        self.assertFalse(any(row["action"].startswith("hotcue") for row in result["outputs"]))
+        for name, digest in NS6II_SOURCES:
+            p = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if p.exists():
+                self.assertEqual(hashlib.sha256(p.read_bytes()).hexdigest(), digest)
 
     def test_dicer_reuses_accessory_addresses_without_the_source_audio_effects(self):
         result = dicer_profiles()[0]

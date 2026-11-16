@@ -1865,8 +1865,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 let layered = inputBindings(source: sourceID).filter { !$0.action.isButton && $0.layerIndependent != true }
                     .map { ($0, isShiftActive($0)) }
                 flushPendingActions()
-                let inputKey = binding.shiftInput.map { "\(binding.source)-\(binding.umpGroup)-shift-\($0)" }
-                    ?? "\(binding.source)-\(binding.umpGroup)-\(binding.channel)-\(binding.kind.rawValue)-\(binding.number)-\(binding.parameter ?? 0)-\(binding.noteNumber ?? 0)"
+                let inputKey = shiftInputKey(binding)
                 var shiftLayer = binding.shiftChannel.map { channelShiftLayers[sourceID]?[$0] ?? .init() }
                     ?? shiftLayers[sourceID, default: .init()]
                 shiftLayer.update(input: inputKey, isPressed: value > 0)
@@ -1946,6 +1945,11 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         return shiftLayers[binding.source]?.isActive ?? false
     }
 
+    private func shiftInputKey(_ binding: ControllerBinding) -> String {
+        binding.shiftInput.map { "\(binding.source)-\(binding.umpGroup)-shift-\($0)" }
+            ?? "\(binding.source)-\(binding.umpGroup)-\(binding.channel)-\(binding.kind.rawValue)-\(binding.number)-\(binding.parameter ?? 0)-\(binding.noteNumber ?? 0)"
+    }
+
     private func receiveFactoryPadMode(_ message: ControllerMIDIMessage, source: Int32) {
         guard let mode = factoryPadModes[source]?.receive(message),
             let session = factorySessions.first(where: { $0.source == source }),
@@ -1962,24 +1966,39 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
 
     /**
-     * Resets pickup and held contacts only on the side selected by a bank report.
+     * Resets contacts and pickup on a reported side. Explicit USB release reports also clear its Shift inputs.
      */
     private func receiveFactoryBankChange(_ message: ControllerMIDIMessage, source: Int32) {
-        guard message.group == 0, message.kind == .note, !message.isNoteOff, message.maximum <= 127,
+        guard message.group == 0, message.kind == .note, message.maximum <= 127,
             let session = factorySessions.first(where: { $0.source == source }),
             let change = session.profile.definition?.bankChanges?.first(where: {
-                $0.channel == message.channel && $0.number == message.number && Int($0.onValue) == message.value
+                $0.channel == message.channel && $0.number == message.number
+                    && (message.isNoteOff ? $0.releaseShiftChannels != nil : Int($0.onValue) == message.value)
             })
         else { return }
         let decks = Set(change.decks)
         flushPendingActions()
         releaseMomentaryActions(source: source, decks: decks)
-        let scoped = inputBindings(source: source).filter { binding in
+        let bindings = inputBindings(source: source)
+        let layered = bindings.map { ($0, isShiftActive($0)) }
+        if message.isNoteOff, let channels = change.releaseShiftChannels {
+            for binding in bindings where binding.action == .shift
+                && channels.contains(binding.shiftChannel ?? binding.channel)
+            {
+                let key = shiftInputKey(binding)
+                if let channel = binding.shiftChannel {
+                    channelShiftLayers[source]?[channel]?.update(input: key, isPressed: false)
+                } else {
+                    shiftLayers[source]?.update(input: key, isPressed: false)
+                }
+            }
+        }
+        let scoped = bindings.filter { binding in
             if let deck = binding.targetDeck { return decks.contains(deck) }
             return (binding.action.rawValue.hasSuffix("A") || binding.action.rawValue.hasSuffix("B"))
                 && decks.contains(binding.action.deck)
         }
-        resetInputValueStates(scoped)
+        resetInputValueStates(scoped + layered.filter { isShiftActive($0.0) != $0.1 }.map { $0.0 })
     }
 
     private func resetInputValueStates(_ scoped: [ControllerBinding]) {

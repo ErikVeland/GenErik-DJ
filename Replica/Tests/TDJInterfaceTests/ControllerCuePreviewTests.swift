@@ -378,3 +378,24 @@ import Testing
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueNS6IIUSBReleaseFinishesNativeCueAndScratchWithoutChangingSync() async throws {
+    try await withControllerCuePlayback("NS6II") { model, input in
+        cuePreviewPacket([0x90, 1, 127], to: input)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect((model.playbackSnapshot?.a.sourceFrame ?? 0) > 0)
+        cuePreviewPacket([0x9F, 60, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.sourceFrame == 0)
+        cuePreviewPacket([0x9F, 60, 127, 0x90, 6, 127, 0xB0, 6, 1], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - sampleRate * 1.8 / 1000) <= 1)
+        cuePreviewPacket([0x9F, 60, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

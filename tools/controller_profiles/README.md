@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R212 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and reviewed factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -292,3 +292,9 @@ Keep separate deck/mixer channels 4–7, pad channels 0–3 and global channel 1
 ## Dicer source boundaries
 
 The native accessory recipe retains the stored ID, five cues and separate cue/loop/orange channels. Shifted delete releases rearm normal pads. Shifted green pads select fixed loops. Orange Cue uses native held preview. The source reset packet covers startup and shutdown. Do not copy the old script's roll implementation, transformer timers, forced gain changes or rewind effects. Its own notes describe loop erasure, timing drift and an audio pause. Default rolls, browser step buttons, extra effects, complete feedback and physical acceptance remain open.
+
+## NS6II core and USB release reports
+
+Use XML dispatch for actual input addresses and the pinned script for scales and source behaviour. NS6II has paired tempo, 1,000-count jogs and shared pad addresses. Native pad pages require explicit mode guards. Leave shared pad lights unmapped until output mode guards exist. Physical Shift also contributes to a shared modifier for Load/browser alternatives.
+
+Bank records keep their existing positive-event behaviour. Optional `releaseShiftChannels` explicitly enables an ownership-loss release on that report address. The array names declared physical Shift scopes. A release clears contacts on the recorded decks and removes only those Shift inputs from local and shared layers. Other held modifiers remain active. Empty arrays enable contact-only release. Ordinary bank note releases stay ignored. Bounds, duplicates and undeclared Shift scopes fail catalogue validation.
