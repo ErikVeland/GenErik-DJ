@@ -31,11 +31,11 @@ import Testing
     for message in decoder.append(bytes) { input.receive(message, source: source) }
 }
 
-@Test @MainActor func controllerCataloguePadModesKeepDecksSeparateAndBlockEveryOtherProFXMode() {
+@Test @MainActor func controllerCataloguePadModesKeepDecksSeparateAndBlockUnsupportedProFXModes() {
     withProFXPads { input in
         var received: [ControllerActionTarget] = []
         input.onTargetAction = { target, _ in received.append(target) }
-        for mode: UInt8 in [13, 7, 11, 2, 15] {
+        for mode: UInt8 in [7, 11, 2, 15] {
             proFXPadPacket([0x94, mode, 127, 20, 127, 0x84, 20, 0, mode, 0], to: input)
             #expect(received.isEmpty)
         }
@@ -55,9 +55,9 @@ import Testing
         proFXPadPacket([0x94, 20, 127, 13, 127], to: input)
         input.reconcileFactoryProfiles()
         proFXPadPacket([0x84, 20, 0, 0x94, 21, 127], to: input)
-        #expect(received == [.hotcue1A])
+        #expect(received == [.hotcue1A, .toggleFixedLoopA])
         proFXPadPacket([0x94, 0, 127, 20, 127], to: input)
-        #expect(received == [.hotcue1A, .hotcue1A])
+        #expect(received == [.hotcue1A, .toggleFixedLoopA, .hotcue1A])
     }
 }
 

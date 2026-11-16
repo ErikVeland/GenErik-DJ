@@ -123,6 +123,19 @@ extension ReplicaModel {
             if let track = track(deck) { jump(value * max(0, Double(track.analysis.frameCount) - 1), deck: deck) }
         case .fixedJumpA, .fixedJumpB:
             if let argument, argument.isFinite, abs(argument) <= 64 { beatJump(beats: argument, deck: deck) }
+        case .toggleFixedLoopA, .toggleFixedLoopB:
+            guard let argument, PerformancePreparation.loopSizes.contains(argument) else { return }
+            guard let state = playbackSnapshot?[deck], let grid = timing(deck) else {
+                setLoopSize(argument, deck: deck)
+                return
+            }
+            let requestedSpan = grid.span(beats: argument, from: state.loopStart)
+            if state.loopEnabled && abs(state.loopEnd - state.loopStart - requestedSpan) <= 1 {
+                toggleLoop(deck: deck)
+            } else {
+                setLoopSize(argument, deck: deck)
+                if !state.loopEnabled { toggleLoop(deck: deck) }
+            }
         case .fixedLoopA, .fixedLoopB:
             if let argument, PerformancePreparation.loopSizes.contains(argument) {
                 setLoopSize(argument, deck: deck)
@@ -141,11 +154,14 @@ extension ReplicaModel {
             }
         case .reloopA, .reloopB, .reloopOriginalA, .reloopOriginalB:
             if let state = playbackSnapshot?[deck] {
-                if state.loopEnabled { perform(.loop, deck: deck, enabled: false) }
-                else if state.loopEnd > state.loopStart {
+                if state.loopEnabled {
+                    perform(.loop, deck: deck, enabled: false)
+                } else if state.loopEnd > state.loopStart {
                     var division = controllerLoopDivisions[deck, default: .init()]
-                    let original = action == .reloopOriginalA || action == .reloopOriginalB
-                        ? division.restore(generation: state.generation, start: state.loopStart, end: state.loopEnd) : nil
+                    let original =
+                        action == .reloopOriginalA || action == .reloopOriginalB
+                        ? division.restore(generation: state.generation, start: state.loopStart, end: state.loopEnd)
+                        : nil
                     controllerLoopDivisions[deck] = division
                     setLoop(start: state.loopStart, end: original ?? state.loopEnd, deck: deck)
                 }
@@ -164,7 +180,8 @@ extension ReplicaModel {
                 return
             }
             var division = controllerLoopDivisions[deck, default: .init()]
-            let end = action == .loopDivideA || action == .loopDivideB
+            let end =
+                action == .loopDivideA || action == .loopDivideB
                 ? division.divide(generation: state.generation, start: state.loopStart, end: state.loopEnd)
                 : division.restore(generation: state.generation, start: state.loopStart, end: state.loopEnd)
             controllerLoopDivisions[deck] = division

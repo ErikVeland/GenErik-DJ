@@ -50,6 +50,9 @@ def numark_profiles():
                 for slot in range(8):
                     add(result, f"hotcue{slot + 1}", 4 + channel, 20 + slot, deck=deck)
                     result["inputs"][-1]["requiredMode"] = 0
+                for slot, beats in enumerate([0.0625, 0.125, 0.25, 0.5, 1, 2, 4, 8]):
+                    add(result, "toggleFixedLoop", 4 + channel, 20 + slot, deck=deck)
+                    result["inputs"][-1].update(argument=beats, requiredMode=13)
             add(result, "load", 15, 2 + channel, deck=deck)
             for action, number in [("loop", 64), ("loopDown", 52), ("loopUp", 53), ("loopIn", 54), ("loopOut", 55)]:
                 add(result, action, 4 + channel, number, deck=deck, feedback=action == "loop")
@@ -63,7 +66,7 @@ def numark_profiles():
             output["offValue"] = 1
         result["gaps"] = ["Pad modes, Scratch toggle, shifted functions, FX, meters, screens and full audio routing remain unimplemented. Jog response needs physical calibration. Source reuse and distribution review remain open."]
         if not platinum:
-            result["scope"] = "Automatic native core controls and mode-gated Hot Cues. Other pad modes, Scratch toggle, complete feedback and audio routing remain open."
-            result["gaps"] = ["Non-Hot-Cue pad modes, cue lights, Scratch toggle, shifted functions, FX, meters and full audio routing remain unimplemented. Other pad modes block Hot Cues. Jog calibration and source reuse/distribution review remain open."]
+            result["scope"] = "Automatic native core controls and mode-gated Hot Cues/loops. Other pad modes, Scratch toggle, complete feedback and audio routing remain open."
+            result["gaps"] = ["Sampler/cuts/beat-jump and shifted roll modes, pad lights, Scratch toggle, shifted functions, FX, meters and full audio routing remain unimplemented. Other pad modes block Hot Cues and loop pads. Jog calibration and source reuse/distribution review remain open."]
         results.append(result)
     return results

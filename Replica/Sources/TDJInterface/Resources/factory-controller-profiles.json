@@ -28854,6 +28854,94 @@
           "requiredMode": 0
         },
         {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 0.0625,
+          "requiredMode": 13
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 0.125,
+          "requiredMode": 13
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 0.25,
+          "requiredMode": 13
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 0.5,
+          "requiredMode": 13
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 24,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 1,
+          "requiredMode": 13
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 2,
+          "requiredMode": 13
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 26,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 4,
+          "requiredMode": 13
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 27,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 8,
+          "requiredMode": 13
+        },
+        {
           "action": "loadA",
           "kind": "note",
           "channel": 15,
@@ -29103,6 +29191,94 @@
           "inverted": false,
           "targetDeck": "b",
           "requiredMode": 0
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 0.0625,
+          "requiredMode": 13
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 0.125,
+          "requiredMode": 13
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 0.25,
+          "requiredMode": 13
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 0.5,
+          "requiredMode": 13
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 24,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 1,
+          "requiredMode": 13
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 2,
+          "requiredMode": 13
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 26,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 4,
+          "requiredMode": 13
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 27,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 8,
+          "requiredMode": 13
         },
         {
           "action": "loadB",
@@ -29387,7 +29563,7 @@
         ]
       ],
       "autoSelect": true,
-      "scope": "Automatic native core controls and mode-gated Hot Cues. Other pad modes, Scratch toggle, complete feedback and audio routing remain open.",
+      "scope": "Automatic native core controls and mode-gated Hot Cues/loops. Other pad modes, Scratch toggle, complete feedback and audio routing remain open.",
       "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Pro-FX-scripts.js",
       "inputModes": [
         {
@@ -29420,7 +29596,7 @@
         }
       ],
       "gaps": [
-        "Non-Hot-Cue pad modes, cue lights, Scratch toggle, shifted functions, FX, meters and full audio routing remain unimplemented. Other pad modes block Hot Cues. Jog calibration and source reuse/distribution review remain open."
+        "Sampler/cuts/beat-jump and shifted roll modes, pad lights, Scratch toggle, shifted functions, FX, meters and full audio routing remain unimplemented. Other pad modes block Hot Cues and loop pads. Jog calibration and source reuse/distribution review remain open."
       ]
     },
     {
@@ -30897,6 +31073,50 @@
           "requiredMode": 0
         },
         {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 4,
+          "requiredMode": 11
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 8,
+          "requiredMode": 11
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 16,
+          "requiredMode": 11
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 32,
+          "requiredMode": 11
+        },
+        {
           "action": "playB",
           "kind": "note",
           "channel": 1,
@@ -31034,6 +31254,50 @@
           "inverted": false,
           "targetDeck": "b",
           "requiredMode": 0
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 4,
+          "requiredMode": 11
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 8,
+          "requiredMode": 11
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 16,
+          "requiredMode": 11
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 32,
+          "requiredMode": 11
         },
         {
           "action": "master",
@@ -31235,7 +31499,7 @@
         ]
       ],
       "autoSelect": true,
-      "scope": "Automatic native core controls and mode-gated Hot Cues. Wheels use native pitch bend. Timed Scratch, remaining pad modes, full shutdown feedback and audio routing remain open.",
+      "scope": "Automatic native core controls and mode-gated Hot Cues and loop pads. Wheels use native pitch bend. Timed Scratch, remaining pad modes, full shutdown feedback and audio routing remain open.",
       "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Party-Mix.scripts.js",
       "inputModes": [
         {
@@ -31264,7 +31528,7 @@
         }
       ],
       "gaps": [
-        "Hot Cue pad lights, timed sensorless Scratch, Loop/Sampler/FX pad modes, browser hold/focus gestures, party-light animation, full shutdown LED cleanup and audio routing remain unimplemented. Other pad modes block Hot Cues. Native wheel-side jogging keeps signed counts; physical response and source reuse/distribution review remain open. This recipe applies only to the original Party Mix, not II, III, Live or Pro."
+        "Hot Cue pad lights, timed sensorless Scratch, Sampler/FX pad modes, browser hold/focus gestures, party-light animation, full shutdown LED cleanup and audio routing remain unimplemented. Other pad modes block Hot Cues. Native wheel-side jogging keeps signed counts; physical response and source reuse/distribution review remain open. This recipe applies only to the original Party Mix, not II, III, Live or Pro."
       ]
     },
     {
@@ -31621,6 +31885,54 @@
           "targetDeck": "a"
         },
         {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 2,
+          "requiredMode": 14,
+          "shifted": false
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 4,
+          "requiredMode": 14,
+          "shifted": false
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 8,
+          "requiredMode": 14,
+          "shifted": false
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 16,
+          "requiredMode": 14,
+          "shifted": false
+        },
+        {
           "action": "jogTouchB",
           "kind": "note",
           "channel": 1,
@@ -31628,6 +31940,54 @@
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 2,
+          "requiredMode": 14,
+          "shifted": false
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 4,
+          "requiredMode": 14,
+          "shifted": false
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 8,
+          "requiredMode": 14,
+          "shifted": false
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 16,
+          "requiredMode": 14,
+          "shifted": false
         },
         {
           "action": "shift",
@@ -31784,7 +32144,7 @@
         ]
       ],
       "autoSelect": true,
-      "scope": "Automatic native core controls, touch jogs and mode-gated Hot Cues. Pad Mode hold blocks unsupported delete actions. Other pad modes, lights, advanced lifecycle and audio routing remain open.",
+      "scope": "Automatic native core controls, touch jogs and mode-gated Hot Cues/loops. Pad Mode hold blocks unsupported delete actions. Other pad modes, lights, advanced lifecycle and audio routing remain open.",
       "source": "https://github.com/JakeDucati/mixxx_numark-party-mix-ii-mappings/blob/f020c34fa1b682ac4a862d0daa9621b958465525/Numark-Party-Mix-ii.scripts.js",
       "inputModes": [
         {
@@ -31813,7 +32173,7 @@
         }
       ],
       "gaps": [
-        "Loop/Sampler/FX pad actions, cue deletion and pad lights, browser hold gestures, rear-lamp control, advanced lamp/jog setup, heartbeat handling and full audio routing remain unimplemented. Core setup uses only the older published status request and mode indicators. The secondary source declares AI-assisted development; its Pad Mode hold address and all physical behaviour remain unverified. Source reuse/distribution review remains open. Live, III and Pro require separate source review."
+        "Sampler/FX pad actions, cue deletion and pad lights, browser hold gestures, rear-lamp control, advanced lamp/jog setup, heartbeat handling and full audio routing remain unimplemented. Core setup uses only the older published status request and mode indicators. The secondary source declares AI-assisted development; its Pad Mode hold address and all physical behaviour remain unverified. Source reuse/distribution review remains open. Live, III and Pro require separate source review."
       ]
     },
     {

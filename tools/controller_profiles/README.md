@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R200 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R201 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -148,3 +148,7 @@ XP software-mode negotiation remains open. Only SP1 sends its published applicat
 Party Mix II uses separately pinned community references. It has actual touch messages and different Browse/mode addresses.
 The newer secondary source declares AI-assisted development. Advanced lamp/jog setup and heartbeat commands remain outside the native recipe.
 The original Party Mix profile remains unchanged. Live, III and Pro need separate source review.
+
+Loop-pad modes use a bounded beat argument and a separate native action. Changing pad size keeps an active loop.
+Reselecting its actual grid length exits it. Existing fixed-loop and loop-toggle actions retain their behaviour.
+Party Mix generations keep different loop modes and beat sizes. Pro FX shifted roll notes remain unmapped.

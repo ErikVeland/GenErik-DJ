@@ -19146,9 +19146,11 @@
         "syncA:a",
         "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
       ],
-      "inputBindingCount": 60,
+      "inputBindingCount": 76,
       "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -19178,7 +19180,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Non-Hot-Cue pad modes, cue lights, Scratch toggle, shifted functions, FX, meters and full audio routing remain unimplemented. Other pad modes block Hot Cues. Jog calibration and source reuse/distribution review remain open."
+        "Sampler/cuts/beat-jump and shifted roll modes, pad lights, Scratch toggle, shifted functions, FX, meters and full audio routing remain unimplemented. Other pad modes block Hot Cues and loop pads. Jog calibration and source reuse/distribution review remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -19970,10 +19972,12 @@
         "syncB:b",
         "tempoA:a",
         "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b",
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 36,
+      "inputBindingCount": 44,
       "feedbackBindingCount": 6,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -20003,7 +20007,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Hot Cue pad lights, timed sensorless Scratch, Loop/Sampler/FX pad modes, browser hold/focus gestures, party-light animation, full shutdown LED cleanup and audio routing remain unimplemented. Other pad modes block Hot Cues. Native wheel-side jogging keeps signed counts; physical response and source reuse/distribution review remain open. This recipe applies only to the original Party Mix, not II, III, Live or Pro."
+        "Hot Cue pad lights, timed sensorless Scratch, Sampler/FX pad modes, browser hold/focus gestures, party-light animation, full shutdown LED cleanup and audio routing remain unimplemented. Other pad modes block Hot Cues. Native wheel-side jogging keeps signed counts; physical response and source reuse/distribution review remain open. This recipe applies only to the original Party Mix, not II, III, Live or Pro."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -20069,9 +20073,11 @@
         "syncA:a",
         "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
       ],
-      "inputBindingCount": 39,
+      "inputBindingCount": 47,
       "feedbackBindingCount": 6,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -20101,7 +20107,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Loop/Sampler/FX pad actions, cue deletion and pad lights, browser hold gestures, rear-lamp control, advanced lamp/jog setup, heartbeat handling and full audio routing remain unimplemented. Core setup uses only the older published status request and mode indicators. The secondary source declares AI-assisted development; its Pad Mode hold address and all physical behaviour remain unverified. Source reuse/distribution review remains open. Live, III and Pro require separate source review."
+        "Sampler/FX pad actions, cue deletion and pad lights, browser hold gestures, rear-lamp control, advanced lamp/jog setup, heartbeat handling and full audio routing remain unimplemented. Core setup uses only the older published status request and mode indicators. The secondary source declares AI-assisted development; its Pad Mode hold address and all physical behaviour remain unverified. Source reuse/distribution review remains open. Live, III and Pro require separate source review."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -310076,7 +310082,7 @@
         ],
         "review": "MIDI addresses and protocol facts reviewed in the pinned Mixxx XML and script. Native app actions replace script execution."
       },
-      "implementedInputCount": 60,
+      "implementedInputCount": 76,
       "implementedOutputCount": 8,
       "sourceInputCount": null,
       "sourceOutputCount": null,
@@ -310085,7 +310091,7 @@
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         },
         {
-          "reason": "Non-Hot-Cue pad modes, cue lights, Scratch toggle, shifted functions, FX, meters and full audio routing remain unimplemented. Other pad modes block Hot Cues. Jog calibration and source reuse/distribution review remain open."
+          "reason": "Sampler/cuts/beat-jump and shifted roll modes, pad lights, Scratch toggle, shifted functions, FX, meters and full audio routing remain unimplemented. Other pad modes block Hot Cues and loop pads. Jog calibration and source reuse/distribution review remain open."
         }
       ]
     },
@@ -310464,7 +310470,7 @@
         ],
         "review": "The original model has no platter touch sensor. Native wheel-side jogging replaces the source default pitch-bend mode. Timed Scratch remains unimplemented. Hot Cues follow the source mode latch; other pad modes block cue actions. XML Load notes 2/3 govern input, not the component constructor output addresses. Tempo uses the non-inverted source rate Pot and rate_dir -1."
       },
-      "implementedInputCount": 36,
+      "implementedInputCount": 44,
       "implementedOutputCount": 6,
       "sourceInputCount": null,
       "sourceOutputCount": null,
@@ -310473,7 +310479,7 @@
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         },
         {
-          "reason": "Hot Cue pad lights, timed sensorless Scratch, Loop/Sampler/FX pad modes, browser hold/focus gestures, party-light animation, full shutdown LED cleanup and audio routing remain unimplemented. Other pad modes block Hot Cues. Native wheel-side jogging keeps signed counts; physical response and source reuse/distribution review remain open. This recipe applies only to the original Party Mix, not II, III, Live or Pro."
+          "reason": "Hot Cue pad lights, timed sensorless Scratch, Sampler/FX pad modes, browser hold/focus gestures, party-light animation, full shutdown LED cleanup and audio routing remain unimplemented. Other pad modes block Hot Cues. Native wheel-side jogging keeps signed counts; physical response and source reuse/distribution review remain open. This recipe applies only to the original Party Mix, not II, III, Live or Pro."
         }
       ]
     },
@@ -310629,7 +310635,7 @@
         ],
         "review": "Native actions replace the scripts. Both revisions identify the model as Party Mix II/MK2 and agree on core controller facts. The newer XML explicitly handles touch release and Browse note 7; the older XML retains obsolete Browse/Scratch entries. The secondary mapping declares AI-assisted development. Its advanced lamp, jog-setup and heartbeat commands are not used. Pad Mode hold note 50 comes from that secondary mapping and remains physically unverified. Original Party Mix facts remain separate; Live/III/Pro do not inherit this recipe."
       },
-      "implementedInputCount": 39,
+      "implementedInputCount": 47,
       "implementedOutputCount": 6,
       "sourceInputCount": null,
       "sourceOutputCount": null,
@@ -310638,7 +310644,7 @@
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         },
         {
-          "reason": "Loop/Sampler/FX pad actions, cue deletion and pad lights, browser hold gestures, rear-lamp control, advanced lamp/jog setup, heartbeat handling and full audio routing remain unimplemented. Core setup uses only the older published status request and mode indicators. The secondary source declares AI-assisted development; its Pad Mode hold address and all physical behaviour remain unverified. Source reuse/distribution review remains open. Live, III and Pro require separate source review."
+          "reason": "Sampler/FX pad actions, cue deletion and pad lights, browser hold gestures, rear-lamp control, advanced lamp/jog setup, heartbeat handling and full audio routing remain unimplemented. Core setup uses only the older published status request and mode indicators. The secondary source declares AI-assisted development; its Pad Mode hold address and all physical behaviour remain unverified. Source reuse/distribution review remains open. Live, III and Pro require separate source review."
         }
       ]
     },

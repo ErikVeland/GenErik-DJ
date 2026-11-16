@@ -134,7 +134,7 @@ struct ControllerProfileData: Decodable, Sendable {
             return input.kind == .control && input.encoding == .twosComplement && input.argument == nil
         case .loopA, .loopB:
             return input.argument.map { PerformancePreparation.loopSizes.contains($0) } ?? true
-        case .fixedLoopA, .fixedLoopB:
+        case .toggleFixedLoopA, .toggleFixedLoopB, .fixedLoopA, .fixedLoopB:
             return input.argument.map { PerformancePreparation.loopSizes.contains($0) } ?? false
         case .fixedJumpA, .fixedJumpB:
             return input.argument.map { $0.isFinite && $0 != 0 && abs($0) <= 64 } ?? false

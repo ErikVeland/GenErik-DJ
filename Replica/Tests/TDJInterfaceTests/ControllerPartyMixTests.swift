@@ -50,7 +50,8 @@ import Testing
         for mode: UInt8 in [11, 14, 24] {
             partyMixPacket([0x94, mode, 127, 0x84, 20, 0, 0x94, 20, 127], to: input)
         }
-        #expect(targets.count == 3)
+        #expect(targets.count == 4)
+        #expect(targets[3] == .init(.toggleFixedLoopA, deck: .a, argument: 4))
         partyMixPacket([0x85, 23, 0, 0x95, 23, 127, 0x94, 0, 127, 0x84, 20, 0, 0x94, 20, 127], to: input)
         #expect(targets.suffix(2) == [.init(.hotcue4B, deck: .b), .init(.hotcue1A, deck: .a)])
     }
@@ -61,14 +62,14 @@ import Testing
         var actions: [ControllerAction] = []
         input.onAction = { action, _ in actions.append(action) }
         partyMixPacket([0x94, 11, 127, 20, 127], to: input)
-        #expect(actions.isEmpty)
+        #expect(actions == [.toggleFixedLoopA])
         let sources = input.sources
         input.sources = []
         input.reconcileFactoryProfiles()
         input.sources = sources
         input.reconcileFactoryProfiles()
         partyMixPacket([0x94, 20, 127], to: input)
-        #expect(actions == [.hotcue1A])
+        #expect(actions == [.toggleFixedLoopA, .hotcue1A])
     }
 }
 

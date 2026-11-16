@@ -139,6 +139,10 @@ def report(catalogue, runtime):
               "Party Mix II selects a separate native core profile with real touch jog messages, updated mode addresses and Browse note 7.",
               "Pinned community references remain distinct from factory evidence. Advanced setup, remaining pad modes, lights and hardware acceptance stay open.",
               "See [R200 Party Mix II](controller-coverage.md#r200-party-mix-ii-core-controls).", "",
+              "## Native loop-pad modes — R201", "",
+              "Original Party Mix, Party Mix II and Mixtrack Pro FX add their published loop-pad modes and distinct beat sizes.",
+              "Changing pad size preserves an active loop. Pressing the matching active size exits it. Hot Cues and unsupported modes stay separate.",
+              "See [R201 loop pads](controller-coverage.md#r201-native-loop-pad-modes).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

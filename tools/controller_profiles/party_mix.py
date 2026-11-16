@@ -15,7 +15,7 @@ PARTY_MIX_REFERENCES = {"Numark Party Mix": {
 def party_mix_profiles():
     result = profile("Numark Party Mix", PARTY_MIX_REFERENCES["Numark Party Mix"]["url"])
     result["definition"] = result["definition"].replace("manufacturer:", "reviewed:")
-    result["scope"] = "Automatic native core controls and mode-gated Hot Cues. Wheels use native pitch bend. Timed Scratch, remaining pad modes, full shutdown feedback and audio routing remain open."
+    result["scope"] = "Automatic native core controls and mode-gated Hot Cues and loop pads. Wheels use native pitch bend. Timed Scratch, remaining pad modes, full shutdown feedback and audio routing remain open."
     result["startup"] = [[0xB0, number, 0] for number in [64, 66, 67]] + [[0xF0, 0, 1, 63, 56, 72, 0xF7]]
     result["shutdown"] = [[0x80 + channel, 7, 0] for channel in range(2)]
     for channel, deck in enumerate("ab"):
@@ -35,6 +35,9 @@ def party_mix_profiles():
         for slot in range(4):
             add(result, f"hotcue{slot + 1}", 4 + channel, 20 + slot, deck=deck)
             result["inputs"][-1]["requiredMode"] = 0
+        for slot, beats in enumerate([4, 8, 16, 32]):
+            add(result, "toggleFixedLoop", 4 + channel, 20 + slot, deck=deck)
+            result["inputs"][-1].update(argument=beats, requiredMode=11)
     for action, number in [("master", 10), ("cueMix", 13), ("monitor", 12), ("crossfader", 8)]:
         add(result, action, 15, number, "control")
     add(result, "browse", 15, 0, "control", "twosComplement")
@@ -43,5 +46,5 @@ def party_mix_profiles():
         output["offValue"] = 1
         if output["action"] in {"cueA", "cueB"}:
             output["offUsesNoteOn"] = False
-    result["gaps"] = ["Hot Cue pad lights, timed sensorless Scratch, Loop/Sampler/FX pad modes, browser hold/focus gestures, party-light animation, full shutdown LED cleanup and audio routing remain unimplemented. Other pad modes block Hot Cues. Native wheel-side jogging keeps signed counts; physical response and source reuse/distribution review remain open. This recipe applies only to the original Party Mix, not II, III, Live or Pro."]
+    result["gaps"] = ["Hot Cue pad lights, timed sensorless Scratch, Sampler/FX pad modes, browser hold/focus gestures, party-light animation, full shutdown LED cleanup and audio routing remain unimplemented. Other pad modes block Hot Cues. Native wheel-side jogging keeps signed counts; physical response and source reuse/distribution review remain open. This recipe applies only to the original Party Mix, not II, III, Live or Pro."]
     return [result]

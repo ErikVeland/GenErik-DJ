@@ -14,6 +14,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case jogA, jogB, jogTouchA, jogTouchB, wheelJogA, wheelJogB
     case browse, browseGroups, openGroup, loadA, loadB
     case filterKnobA, filterKnobB
+    case toggleFixedLoopA, toggleFixedLoopB
     case fixedLoopA, fixedLoopB, fixedJumpA, fixedJumpB, loopInA, loopInB, loopOutA, loopOutB
     case seekA, seekB, tempoResetA, tempoResetB
     case reloopA, reloopB
@@ -45,7 +46,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
             "tempo": "Tempo ±8%", "loop": "Loop on / off", "loopUp": "Larger loop", "loopDown": "Smaller loop",
             "jumpBack": "Beat jump back", "jumpForward": "Beat jump forward", "cueReturn": "Cue return / set",
             "freeze": "Freeze", "jog": "Platter jog", "jogTouch": "Platter touch", "wheelJog": "Wheel-side jog",
-            "fixedLoop": "Fixed beat loop", "fixedJump": "Fixed beat jump", "loopIn": "Loop in", "loopOut": "Loop out",
+            "toggleFixedLoop": "Loop pad", "fixedLoop": "Fixed beat loop", "fixedJump": "Fixed beat jump", "loopIn": "Loop in", "loopOut": "Loop out",
             "seek": "Waveform position", "tempoReset": "Tempo reset",
             "reloop": "Reloop / exit",
             "loopDivide": "Divide loop", "loopRestore": "Restore loop length",
@@ -69,7 +70,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         }
     }
     var isJog: Bool { self == .jogA || self == .jogB || self == .wheelJogA || self == .wheelJogB }
-    var isLearnable: Bool { ![.fixedLoopA, .fixedLoopB, .fixedJumpA, .fixedJumpB, .loopSizeA, .loopSizeB].contains(self) }
+    var isLearnable: Bool { ![.toggleFixedLoopA, .toggleFixedLoopB, .fixedLoopA, .fixedLoopB, .fixedJumpA, .fixedJumpB, .loopSizeA, .loopSizeB].contains(self) }
     func assigned(to deck: DeckID) -> Self {
         Self(rawValue: String(rawValue.dropLast()) + (deck.leftSide ? "A" : "B")) ?? self
     }

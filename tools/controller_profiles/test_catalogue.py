@@ -440,6 +440,18 @@ class ConversionTests(unittest.TestCase):
             if source.exists():
                 self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)
 
+    def test_native_loop_pads_keep_model_specific_modes_and_sizes(self):
+        cases = [(party_mix_profiles()[0], 11, [4, 8, 16, 32]),
+                 (party_mix2_profiles()[0], 14, [2, 4, 8, 16]),
+                 (next(p for p in numark_profiles() if p["id"] == "Numark Mixtrack Pro FX"), 13, [0.0625, 0.125, 0.25, 0.5, 1, 2, 4, 8])]
+        for item, mode, sizes in cases:
+            for channel in [4, 5]:
+                loops = [x for x in item["inputs"] if x["action"].startswith("toggleFixedLoop") and x["channel"] == channel]
+                self.assertEqual([x["argument"] for x in loops], sizes)
+                self.assertEqual([x["requiredMode"] for x in loops], [mode] * len(sizes))
+                self.assertEqual([x["number"] for x in loops], list(range(20, 20 + len(sizes))))
+        self.assertFalse(any(x["action"].startswith("toggleFixedLoop") for x in next(p for p in numark_profiles() if p["id"] == "Numark Mixtrack Platinum FX")["inputs"]))
+
     def test_ddj_application_connect_is_limited_to_reviewed_tables(self):
         expected = {"DDJ-SX", "DDJ-SX2", "DDJ-RX", "DDJ-RZ", "DDJ-RZX", "DDJ-SZ", "DDJ-SZ2"}
         for item in ddj_profiles():

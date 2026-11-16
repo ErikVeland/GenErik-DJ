@@ -2,6 +2,26 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R201 native loop-pad modes
+
+Original Party Mix, Party Mix II and Mixtrack Pro FX now implement their published loop-pad modes.
+Their sizes are 4/8/16/32 beats, 2/4/8/16 beats and 1/16 through 8 beats, respectively.
+Mode guards keep these actions separate from Hot Cues and unsupported Sampler/FX modes.
+Party Mix II Pad Mode hold and Pro FX shifted roll notes cannot trigger loop pads.
+
+A new bounded loop-pad action changes size without stopping an active loop.
+Pressing a pad that matches the actual active loop length exits that loop.
+The comparison uses the beat grid and actual loop range. A manually set loop does not inherit a stale size choice.
+The existing fixed-loop and loop-toggle actions retain their behaviour. The saved Sync choice remains unchanged.
+Receiver fixtures cover all three mode maps. An offline playback fixture covers size changes, repeated presses, manual loops and invalid arguments.
+Pad lights, remaining modes, advanced lifecycle, audio routing and physical acceptance remain open.
+Sources remain the pinned original Party Mix, Party Mix II and Pro FX references recorded in their generator modules.
+Counts remain at 289 records, 153 data recipes plus seven code profiles, and 80 automatic core profiles including accessories.
+All 200 focused Swift checks, 39 importer checks and native iPad compilation passed. The compiled resource matches the source.
+Only these three recipes change. The other 150 recipes remain unchanged. Twelve historical broken links remain.
+Source base: `ab91aad`. Evidence: `TestBuilds/r201/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R200 Party Mix II core controls
 
 Party Mix II now selects a separate native core profile from pinned community mappings.

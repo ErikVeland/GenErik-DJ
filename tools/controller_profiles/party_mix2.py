@@ -22,7 +22,8 @@ def party_mix2_profiles():
     result = party_mix_profiles()[0]
     result.update(id="Numark Party Mix II", aliases=["Numark Party Mix II", "Party Mix II", "Numark Party Mix MK2", "Party Mix MK2"],
                   definition="reviewed:numark-party-mix-ii", source=PARTY2_REFERENCES["Numark Party Mix II"]["url"],
-                  scope="Automatic native core controls, touch jogs and mode-gated Hot Cues. Pad Mode hold blocks unsupported delete actions. Other pad modes, lights, advanced lifecycle and audio routing remain open.")
+                  scope="Automatic native core controls, touch jogs and mode-gated Hot Cues/loops. Pad Mode hold blocks unsupported delete actions. Other pad modes, lights, advanced lifecycle and audio routing remain open.")
+    result["inputs"] = [binding for binding in result["inputs"] if not binding["action"].startswith("toggleFixedLoop")]
     for binding in result["inputs"]:
         if binding["action"] in {"wheelJogA", "wheelJogB"}:
             binding["action"] = binding["action"].replace("wheelJog", "jog")
@@ -32,6 +33,9 @@ def party_mix2_profiles():
             binding["shifted"] = False
     for channel, deck in enumerate("ab"):
         add(result, "jogTouch", channel, 6, deck=deck)
+        for slot, beats in enumerate([2, 4, 8, 16]):
+            add(result, "toggleFixedLoop", 4 + channel, 20 + slot, deck=deck)
+            result["inputs"][-1].update(argument=beats, requiredMode=14, shifted=False)
     add(result, "shift", 15, 50)
     for mode in result["inputModes"]:
         mode["numbers"] = [0, 11, 14, 15]
@@ -39,5 +43,5 @@ def party_mix2_profiles():
     for channel in range(2):
         result["startup"].extend([[0x94 + channel, number, 127 if number == 0 else 1] for number in [0, 11, 14, 15]])
     result["shutdown"] = [[0x80 + channel, number, 0] for channel in range(2) for number in [0, 2, 27]]
-    result["gaps"] = ["Loop/Sampler/FX pad actions, cue deletion and pad lights, browser hold gestures, rear-lamp control, advanced lamp/jog setup, heartbeat handling and full audio routing remain unimplemented. Core setup uses only the older published status request and mode indicators. The secondary source declares AI-assisted development; its Pad Mode hold address and all physical behaviour remain unverified. Source reuse/distribution review remains open. Live, III and Pro require separate source review."]
+    result["gaps"] = ["Sampler/FX pad actions, cue deletion and pad lights, browser hold gestures, rear-lamp control, advanced lamp/jog setup, heartbeat handling and full audio routing remain unimplemented. Core setup uses only the older published status request and mode indicators. The secondary source declares AI-assisted development; its Pad Mode hold address and all physical behaviour remain unverified. Source reuse/distribution review remains open. Live, III and Pro require separate source review."]
     return [result]
