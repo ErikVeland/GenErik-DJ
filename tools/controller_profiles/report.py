@@ -103,6 +103,10 @@ def report(catalogue, runtime):
               "Mixxx-derived tempo controls now account for its default engine direction once. Only tempo polarity changes in 54 runtime recipes.",
               "Manufacturer-table controls retain their interpretation. Endpoint fixtures cover reviewed Numark and converted Hercules controls.",
               "See [R191 tempo direction](controller-coverage.md#r191-native-tempo-direction-for-mixxx-derived-controls).", "",
+              "## Mixtrack II and Pro II — R192", "",
+              "Mixtrack II and Pro II select separate native core profiles. One physical channel retains independent deck and Shift routing.",
+              "Shifted Keylock/loop sizing and seven-bit tempo have fixtures. Pads, additional modes and full audio routing remain open.",
+              "See [R192 Mixtrack II](controller-coverage.md#r192-mixtrack-ii-and-mixtrack-pro-ii-core-controls).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

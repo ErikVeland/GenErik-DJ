@@ -2,6 +2,29 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R192 Mixtrack II and Mixtrack Pro II core controls
+
+Mixtrack II and Mixtrack Pro II now select separate native core profiles from the pinned shared mapping.
+Both decks use physical MIDI channel 1. Distinct note/controller addresses keep their targets separate.
+Independent Shift state still follows each deck. The shared physical channel does not merge those modifier states.
+
+The profiles include transport, Load, headphone cue, signed jogs, EQ, level, manual loops and seven-bit tempo.
+Shift changes Loop Half into Loop Double. Shift plus Pitch Bend Down toggles Keylock.
+The receiver dispatches one loop action per press. Touch release still works during Shift, and reconnects clear Shift state.
+Normal XML rate controls follow the corrected R191 tempo direction.
+Published LEDs use an on value of 100. Setup lights native Scratch mode; shutdown clears the owned indicator addresses.
+
+Pads/delete modes, Scratch toggle, pitch-bend buttons, other shifted functions, FX and full audio routing remain release work.
+Platter response, source reuse and distribution review still require acceptance.
+Sources: pinned [XML](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml) and [script](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-2-scripts.js).
+SHA-256 identities are recorded in `tools/controller_profiles/mixtrack2.py` and the generated catalogue.
+The catalogue retains 287 records and now has 148 data recipes plus seven code profiles. Sixty-nine factory profiles select core controls automatically.
+Two exact recipes replace one combined partial recipe. All 146 other recipes remain unchanged.
+All 148 focused Swift checks, 30 importer checks and native iPad compilation passed. The compiled resource matches the source.
+Twelve historical broken links remain across 1,530 files.
+Source base: `7be2c77`. Evidence: `TestBuilds/r192/`. The saved R191 candidate supplied the reviewed facts.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R191 native tempo direction for Mixxx-derived controls
 
 The tempo audit found a translation error in the reviewed Numark profiles and converted XML rate controls.

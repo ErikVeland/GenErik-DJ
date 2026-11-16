@@ -8,8 +8,8 @@ Reviewed 16 November 2026. This catalogue is complete for the defined source bou
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - 287 total catalogue records. 280 name physical models. The remainder identify software endpoints or protocol families.
-- 147 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
-- 67 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+- 148 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
+- 69 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -143,17 +143,23 @@ Mixxx-derived tempo controls now account for its default engine direction once. 
 Manufacturer-table controls retain their interpretation. Endpoint fixtures cover reviewed Numark and converted Hercules controls.
 See [R191 tempo direction](controller-coverage.md#r191-native-tempo-direction-for-mixxx-derived-controls).
 
+## Mixtrack II and Pro II — R192
+
+Mixtrack II and Pro II select separate native core profiles. One physical channel retains independent deck and Shift routing.
+Shifted Keylock/loop sizing and seven-bit tempo have fixtures. Pads, additional modes and full audio routing remain open.
+See [R192 Mixtrack II](controller-coverage.md#r192-mixtrack-ii-and-mixtrack-pro-ii-core-controls).
+
 ## Implementation states
 
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 40 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 55 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 57 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 7 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 93 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| partial-midi-profile | 91 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
 | protocol-needed | 73 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
@@ -251,7 +257,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Numark Mixtrack Pro | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixtrack Pro 3 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixtrack Pro FX | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Numark Mixtrack Pro II | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Numark Mixtrack Pro II | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixtrack Quad | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark N4 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark NDX500 | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
@@ -432,7 +438,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Numark DJ2Go | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20DJ2Go.midi.xml) |
 | Numark MIXTRACK | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20MIXTRACK.midi.xml) |
 | Numark Mixtrack 3 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-3.midi.xml) |
-| Numark Mixtrack II | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml) |
+| Numark Mixtrack II | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml) |
 | Numark NS7 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20NS7.midi.xml) |
 | Numark Omni Control | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Omni%20Control.midi.xml) |
 | Numark Total Control | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Total%20Control.midi.xml) |

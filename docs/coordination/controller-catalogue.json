@@ -17985,72 +17985,94 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-2-scripts.js"
       ],
       "definitions": [
-        "Numark Mixtrack 2.midi.xml"
+        "Numark Mixtrack 2.midi.xml",
+        "reviewed:numarkmixtrackii"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "profile": "Numark MixTrack (Pro) II",
-      "automaticControls": false,
+      "profile": "Numark Mixtrack II",
+      "automaticControls": true,
       "controlActions": [
+        "browse",
         "crossfader",
         "cueA:a",
         "cueB:b",
         "cueMix",
+        "cueReturnA:a",
+        "cueReturnB:b",
         "highA:a",
         "highB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "keylockA:a",
+        "keylockB:b",
         "levelA:a",
         "levelB:b",
         "loadA:a",
         "loadB:b",
-        "loopA:a",
-        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopUpA:a",
+        "loopUpB:b",
         "lowA:a",
         "lowB:b",
         "master",
         "midA:a",
         "midB:b",
         "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "shift",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
         "tempoB:b"
       ],
-      "inputBindingCount": 22,
-      "feedbackBindingCount": 12,
+      "inputBindingCount": 45,
+      "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 85,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Pad/delete modes, Scratch toggle, pitch-bend buttons, additional shifted functions, FX and full audio routing remain unimplemented. Platter touch uses native Scratch mode and the source jog indicators. Calibration and source reuse/distribution review remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -18653,72 +18675,94 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-2-scripts.js"
       ],
       "definitions": [
-        "Numark Mixtrack 2.midi.xml"
+        "Numark Mixtrack 2.midi.xml",
+        "reviewed:numarkmixtrackproii"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "profile": "Numark MixTrack (Pro) II",
-      "automaticControls": false,
+      "profile": "Numark Mixtrack Pro II",
+      "automaticControls": true,
       "controlActions": [
+        "browse",
         "crossfader",
         "cueA:a",
         "cueB:b",
         "cueMix",
+        "cueReturnA:a",
+        "cueReturnB:b",
         "highA:a",
         "highB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "keylockA:a",
+        "keylockB:b",
         "levelA:a",
         "levelB:b",
         "loadA:a",
         "loadB:b",
-        "loopA:a",
-        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopUpA:a",
+        "loopUpB:b",
         "lowA:a",
         "lowB:b",
         "master",
         "midA:a",
         "midB:b",
         "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "shift",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
         "tempoB:b"
       ],
-      "inputBindingCount": 22,
-      "feedbackBindingCount": 12,
+      "inputBindingCount": 45,
+      "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 85,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Pad/delete modes, Scratch toggle, pitch-bend buttons, additional shifted functions, FX and full audio routing remain unimplemented. Platter touch uses native Scratch mode and the source jog indicators. Calibration and source reuse/distribution review remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -309574,6 +309618,70 @@
         },
         {
           "reason": "Pad/sample modes, Scratch toggle, advanced shifted functions, FX, meters, screens and full audio routing remain unimplemented. The wrapped-jog rule follows the pinned script and still needs physical calibration. Source reuse/distribution review remains open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numarkmixtrackproii",
+      "name": "Numark Mixtrack Pro II",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-2-scripts.js",
+        "sha256": "f09ef1d27db619a79eb2e889221b58e56855c5f6ff8a27004d4b5d03e00ee354",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml",
+            "sha256": "7550d413ea9c7e17ec0de63bdae4642759552ae2f25b69404feb6e0bae524d4f"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-2-scripts.js",
+            "sha256": "f09ef1d27db619a79eb2e889221b58e56855c5f6ff8a27004d4b5d03e00ee354"
+          }
+        ],
+        "review": "The pinned XML names MixTrack (Pro) II. Native actions replace the script. Audio hardware and routing remain model-specific."
+      },
+      "implementedInputCount": 45,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Pad/delete modes, Scratch toggle, pitch-bend buttons, additional shifted functions, FX and full audio routing remain unimplemented. Platter touch uses native Scratch mode and the source jog indicators. Calibration and source reuse/distribution review remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numarkmixtrackii",
+      "name": "Numark Mixtrack II",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-2-scripts.js",
+        "sha256": "f09ef1d27db619a79eb2e889221b58e56855c5f6ff8a27004d4b5d03e00ee354",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml",
+            "sha256": "7550d413ea9c7e17ec0de63bdae4642759552ae2f25b69404feb6e0bae524d4f"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-2-scripts.js",
+            "sha256": "f09ef1d27db619a79eb2e889221b58e56855c5f6ff8a27004d4b5d03e00ee354"
+          }
+        ],
+        "review": "The pinned XML names MixTrack (Pro) II. Native actions replace the script. Audio hardware and routing remain model-specific."
+      },
+      "implementedInputCount": 45,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Pad/delete modes, Scratch toggle, pitch-bend buttons, additional shifted functions, FX and full audio routing remain unimplemented. Platter touch uses native Scratch mode and the source jog indicators. Calibration and source reuse/distribution review remain open."
         }
       ]
     },
