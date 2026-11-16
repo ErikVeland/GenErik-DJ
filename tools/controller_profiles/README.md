@@ -248,3 +248,7 @@ Profile names now retain plus characters. Optional `excludedAliases` bounds a pr
 The schema permits at most 24 non-empty names with at most 128 characters each.
 The original Pro excludes Pro+ and Go even when a generic base port name also appears.
 No pads, screen or variant compatibility is inferred from the shared family user guide.
+
+## Paused count jogs and Sync
+
+Relative jog packets retain fractional intent on a paused deck. Native transport timing still aligns each requested seek when Sync is enabled. Other transport actions, track generations and resolution changes reset the saved intent. This prevents small movements from rounding away indefinitely. Physical platter calibration remains separate.

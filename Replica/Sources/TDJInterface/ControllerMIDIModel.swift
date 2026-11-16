@@ -32,6 +32,7 @@ extension ReplicaModel {
             let resolution = target.argument ?? ControllerCountJogMotion.defaultResolution
             guard ControllerCountJogMotion.validResolution(resolution) else { return }
             if controllerJogTouched.contains(deck) {
+                controllerPausedJogs[deck] = nil
                 let now = ProcessInfo.processInfo.systemUptime
                 var motion = controllerCountJogs[deck]
                 if motion?.generation != state.generation || motion?.resolution != resolution {
@@ -57,7 +58,17 @@ extension ReplicaModel {
             } else if !state.phase.active, !state.touchActive {
                 let delta = counts * track.analysis.sampleRate * 1.8 / resolution
                 guard delta.isFinite else { return }
-                jump(state.sourceFrame + delta, deck: deck, quantized: false)
+                guard !preparingPlayback.contains(deck) else { return }
+                let previous = controllerPausedJogs[deck]
+                let frame: Double
+                if let previous, previous.generation == state.generation, previous.resolution == resolution {
+                    frame = previous.frame
+                } else {
+                    frame = state.sourceFrame
+                }
+                let position = boundedFrame(frame + delta, deck: deck)
+                jump(position, deck: deck, quantized: false)
+                controllerPausedJogs[deck] = (state.generation, resolution, position)
             } else {
                 applyControllerWheelJog(0.5 + min(4, max(-4, counts)) / 8, deck: deck)
             }
@@ -72,6 +83,7 @@ extension ReplicaModel {
     }
 
     private func resetControllerCountJog(_ deck: DeckID, stop: Bool) {
+        controllerPausedJogs[deck] = nil
         controllerCountJogTasks[deck]?.cancel()
         controllerCountJogTasks[deck] = nil
         controllerCountJogTokens[deck] = nil
@@ -82,6 +94,7 @@ extension ReplicaModel {
     }
 
     func applyControllerWheelJog(_ value: Double, deck: DeckID) {
+        controllerPausedJogs[deck] = nil
         guard loaded[deck] != nil else {
             resetControllerWheelJog(deck, restoreRate: false)
             return

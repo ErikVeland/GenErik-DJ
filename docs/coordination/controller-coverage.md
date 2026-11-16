@@ -2,6 +2,25 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R213 paused count jogs with persistent Sync
+
+A reproduction found that individual small jog packets could round back to the same grid position indefinitely.
+Paused relative jogs now retain the requested position between packets. The native transport still aligns each seek to the beat grid.
+The saved Sync choice remains unchanged. No extra touch contact or background task is required.
+
+The requested position stays within the track bounds, so reversal works after movement reaches the start or end.
+Other performance actions, Play, explicit Sync changes, absolute jogs and touch takeover clear the fractional position.
+A changed track generation or jog resolution starts from the current playhead.
+
+Focused fixtures cover repeated small packets, reversal, track bounds, external jumps, touch takeover, Play, replacement tracks and resolution changes.
+The Sync-off fixture retains fine movement. This shared correction applies across count-based factory jogs.
+Catalogue recipes, addresses, aliases, setup packets and feedback remain unchanged.
+
+All 270 focused controller/NI checks, 48 importer checks and native iPad compilation pass.
+The compiled profile resource remains unchanged and matches the source. Twelve historical link failures remain.
+Source base: `5de5edc`. Evidence: `TestBuilds/r213/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R212 Mixstream Pro core controls and jog counter
 
 The original Mixstream Pro now selects its native core recipe after Computer Mode selection.

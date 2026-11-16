@@ -191,3 +191,84 @@ import Testing
         }
     }
 }
+
+@Test @MainActor func controllerCatalogueCountJogKeepsSmallPausedStepsWithSyncEnabled() async throws {
+    try await withCountJogPlayback { model in
+        let first = try #require(model.playbackSnapshot?.a.sourceFrame)
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        #expect(model.playbackSnapshot?.a.synced == true)
+        for _ in 0..<400 {
+            countJogPacket([0xB0, 1, 0, 33, 1], model: model)
+            _ = model.playback.core.renderOffline(frames: 1)
+            model.refreshPlayback()
+        }
+        let expected = model.snappedFrame(first + 400 * sampleRate * 1.8 / 2430, deck: .a)
+        #expect(expected > first)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - expected) <= 1)
+        #expect(model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.phase.active == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueCountJogRetainsSmallReverseStepsAndClampsIntent() async throws {
+    try await withCountJogPlayback { model in
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        let target = ControllerActionTarget(.jogA, argument: 2430)
+        for _ in 0..<400 { model.applyControllerJog(target, motion: .relative(1)) }
+        for _ in 0..<100 { model.applyControllerJog(target, motion: .relative(-1)) }
+        let expected = model.snappedFrame(300 * sampleRate * 1.8 / 2430, deck: .a)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - expected) <= 1)
+        model.applyControllerJog(target, motion: .relative(-1_000_000))
+        model.applyControllerJog(target, motion: .relative(400))
+        let fromStart = model.snappedFrame(400 * sampleRate * 1.8 / 2430, deck: .a)
+        #expect(fromStart > 0)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - fromStart) <= 1)
+    }
+}
+
+@Test @MainActor func controllerCatalogueCountJogDiscardsFractionalIntentAfterOtherTransportActions() async throws {
+    try await withCountJogPlayback { model in
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        let target = ControllerActionTarget(.jogA, argument: 2430)
+        model.applyControllerJog(target, motion: .relative(300))
+        model.jump(sampleRate, deck: .a, quantized: false)
+        model.applyControllerJog(target, motion: .relative(100))
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - sampleRate) <= 1)
+        model.jump(0, deck: .a, quantized: false)
+        model.applyControllerJog(target, motion: .relative(300))
+        model.applyController(.jogTouchA, value: 1)
+        model.applyController(.jogTouchA, value: 0)
+        model.applyControllerJog(target, motion: .relative(100))
+        #expect(abs(model.playbackSnapshot?.a.sourceFrame ?? -1) <= 1)
+        model.applyControllerJog(target, motion: .relative(200))
+        model.pressPlay(deck: .a)
+        model.pressPlay(deck: .a)
+        model.applyControllerJog(target, motion: .relative(100))
+        #expect(abs(model.playbackSnapshot?.a.sourceFrame ?? -1) <= 1)
+        #expect(model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.phase.active == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueCountJogResetsForResolutionGenerationAndSyncChanges() async throws {
+    try await withCountJogPlayback { model in
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        let target = ControllerActionTarget(.jogA, argument: 2430)
+        model.applyControllerJog(target, motion: .relative(300))
+        model.applyControllerJog(.init(.jogA, argument: 180), motion: .relative(10))
+        #expect(abs(model.playbackSnapshot?.a.sourceFrame ?? -1) <= 1)
+        model.applyControllerJog(target, motion: .relative(300))
+        let track = try #require(model.library.tracks.first)
+        let generation = model.playbackSnapshot?.a.generation
+        model.load(trackID: track.id, deck: .a)
+        await model.flushWrites()
+        #expect(model.playbackSnapshot?.a.generation != generation)
+        model.applyControllerJog(target, motion: .relative(100))
+        #expect(abs(model.playbackSnapshot?.a.sourceFrame ?? -1) <= 1)
+        model.toggleSync(deck: .a)
+        model.applyControllerJog(target, motion: .relative(100))
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - 100 * sampleRate * 1.8 / 2430) <= 1)
+        #expect(model.playbackSnapshot?.a.synced == false)
+    }
+}

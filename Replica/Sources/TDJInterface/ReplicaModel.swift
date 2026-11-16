@@ -22,6 +22,7 @@ import TDJCore
     public var frozen: Set<DeckID> = []
     @ObservationIgnored var controllerJogTouched: Set<DeckID> = []
     @ObservationIgnored var controllerCueContacts: [DeckID: ControllerCueContact] = [:]
+    @ObservationIgnored var controllerPausedJogs: [DeckID: (generation: UInt64, resolution: Double, frame: Double)] = [:]
     @ObservationIgnored var controllerCountJogs: [DeckID: ControllerCountJogMotion] = [:]
     @ObservationIgnored var controllerCountJogTasks: [DeckID: Task<Void, Never>] = [:]
     @ObservationIgnored var controllerCountJogTokens: [DeckID: UUID] = [:]
@@ -1855,6 +1856,7 @@ import TDJCore
             ), lighting: lightOptions(for: "Z1"))
     }
     public func pressPlay(deck: DeckID, vinylStop: Bool? = nil) {
+        controllerPausedJogs[deck] = nil
         cancelCloudSyncForPlayback()
         if preparingTrack.contains(deck) {
             guard let owner = nativeMusic.loadOwners[deck] ?? loadTokens[deck] else { return }
@@ -1929,6 +1931,7 @@ import TDJCore
         do {
             let enabled = !state.synced
             try playback.setSync(enabled, deck: deck)
+            controllerPausedJogs[deck] = nil
             switch deck {
             case .a: mixerPreferences.syncA = enabled
             case .b: mixerPreferences.syncB = enabled
