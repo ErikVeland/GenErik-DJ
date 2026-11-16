@@ -41,7 +41,7 @@ def pioneer_profiles():
         # Four target channels are explicitly specified in each factory table.
         for channel, deck in enumerate("abcd"):
             add(result, "play", channel, 0 if club else 11, deck=deck, feedback=True)
-            add(result, "cueReturn", channel, 1 if club else 12, deck=deck)
+            add(result, "cuePreview", channel, 1 if club else 12, deck=deck)
             add(result, "sync", channel, 31 if club else 88, deck=deck, feedback=not name.endswith("OMNIS-DUO"))
             if club or grv:
                 add(result, "keylock", channel, 17 if club else 26, deck=deck, feedback=grv)

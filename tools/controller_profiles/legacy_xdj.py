@@ -15,7 +15,7 @@ def legacy_xdj_profiles():
                   gaps=["Load buttons have no published MIDI message. Complete a documented loading route before automatic selection.",
                         "The factory table specifies no MIDI output. Screens and feedback need another documented protocol."])
     for channel, deck in enumerate("abcd"):
-        for action, number in [("play", 0), ("cueReturn", 1), ("sync", 31), ("keylock", 17),
+        for action, number in [("play", 0), ("cuePreview", 1), ("sync", 31), ("keylock", 17),
                                ("jogTouch", 32), ("jogTouch", 72), ("loopIn", 6), ("loopOut", 7), ("reloop", 8)]:
             add(result, action, channel, number, deck=deck)
         add(result, "tempo", channel, 29, "control", "cdjTempo", deck)

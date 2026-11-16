@@ -25,7 +25,7 @@ def legacy_system_profiles():
         result["scope"] = "Automatic core MIDI controls. Hardware modes, remaining functions, screens and audio routing remain open."
         result["hardwareMode"] = "Select MIDI control and MIXER MODE PC for software mixing."
         for channel, deck in enumerate("abcd"):
-            for action, number in [("play", 11), ("cueReturn", 12), ("sync", 88), ("keylock", 26), ("loop", 20), ("reloop", 80), ("load", 66)]:
+            for action, number in [("play", 11), ("cuePreview", 12), ("sync", 88), ("keylock", 26), ("loop", 20), ("reloop", 80), ("load", 66)]:
                 add(result, action, channel, number, deck=deck, feedback=action in {"play", "sync", "keylock", "loop"})
             add(result, "loopSize", channel, 19, "control", "twosComplement", deck)
             for number in [2, 7]:

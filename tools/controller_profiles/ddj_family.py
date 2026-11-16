@@ -50,9 +50,9 @@ def ddj_profiles():
         if original:
             result["gaps"] = ["Deck D filter is unmapped. The factory CC32/64 pair conflicts with browser CC64. Clarify the protocol before enabling it."]
         for channel, deck in enumerate("abcd"):
-            for action, number in [("play", 11), ("cueReturn", 12), ("sync", 88), ("keylock", 26),
+            for action, number in [("play", 11), ("cuePreview", 12), ("sync", 88), ("keylock", 26),
                                    ("cue", 84), ("loop", 20)]:
-                add(result, action, channel, number, deck=deck, feedback=action != "cueReturn")
+                add(result, action, channel, number, deck=deck, feedback=action != "cuePreview")
             if srt:
                 result["inputs"][-1]["argument"] = 4
             for action, number in [("loopIn", 16), ("loopOut", 17), ("loopDown", 18), ("loopUp", 19)]:

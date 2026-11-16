@@ -1492,14 +1492,14 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         var profile: [ControllerBinding] = []
         for (channel, padChannel, deck) in [(UInt8(0), UInt8(7), "A"), (UInt8(1), UInt8(9), "B")] {
             let play: ControllerAction = deck == "A" ? .playA : .playB
-            let cueReturn: ControllerAction = deck == "A" ? .cueReturnA : .cueReturnB
+            let cuePreview: ControllerAction = deck == "A" ? .cuePreviewA : .cuePreviewB
             let headphoneCue: ControllerAction = deck == "A" ? .cueA : .cueB
             let sync: ControllerAction = deck == "A" ? .syncA : .syncB
             let loop: ControllerAction = deck == "A" ? .loopA : .loopB
             let tempo: ControllerAction = deck == "A" ? .tempoA : .tempoB
             profile += [
                 binding(play, kind: .note, channel: channel, number: 11),
-                binding(cueReturn, kind: .note, channel: channel, number: 12),
+                binding(cuePreview, kind: .note, channel: channel, number: 12),
                 binding(headphoneCue, kind: .note, channel: channel, number: 84),
                 binding(sync, kind: .note, channel: channel, number: 92),
                 binding(loop, kind: .note, channel: channel, number: 80),
@@ -1550,7 +1550,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         var profile: [ControllerBinding] = []
         for (channel, padChannel, deck) in [(UInt8(0), UInt8(7), "A"), (UInt8(1), UInt8(9), "B")] {
             let play: ControllerAction = deck == "A" ? .playA : .playB
-            let cueReturn: ControllerAction = deck == "A" ? .cueReturnA : .cueReturnB
+            let cuePreview: ControllerAction = deck == "A" ? .cuePreviewA : .cuePreviewB
             let headphoneCue: ControllerAction = deck == "A" ? .cueA : .cueB
             let sync: ControllerAction = deck == "A" ? .syncA : .syncB
             let loop: ControllerAction = deck == "A" ? .loopA : .loopB
@@ -1561,7 +1561,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let tempo: ControllerAction = deck == "A" ? .tempoA : .tempoB
             profile += [
                 binding(play, kind: .note, channel: channel, number: 11),
-                binding(cueReturn, kind: .note, channel: channel, number: 12),
+                binding(cuePreview, kind: .note, channel: channel, number: 12),
                 binding(headphoneCue, kind: .note, channel: channel, number: 84),
                 binding(headphoneCue, kind: .note, channel: channel, number: 57, shifted: true),
                 binding(sync, kind: .note, channel: channel, number: 88),
@@ -1666,12 +1666,12 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         var profile: [ControllerBinding] = []
         for (channel, deck) in [(UInt8(0), "A"), (UInt8(1), "B")] {
             let play: ControllerAction = deck == "A" ? .playA : .playB
-            let cueReturn: ControllerAction = deck == "A" ? .cueReturnA : .cueReturnB
+            let cuePreview: ControllerAction = deck == "A" ? .cuePreviewA : .cuePreviewB
             let headphoneCue: ControllerAction = deck == "A" ? .cueA : .cueB
             let sync: ControllerAction = deck == "A" ? .syncA : .syncB
             profile += [
                 binding(play, kind: .note, channel: channel, number: 11),
-                binding(cueReturn, kind: .note, channel: channel, number: 27),
+                binding(cuePreview, kind: .note, channel: channel, number: 27),
                 binding(headphoneCue, kind: .note, channel: channel, number: 7),
                 binding(sync, kind: .note, channel: channel, number: 9),
                 binding(deck == "A" ? .keylockA : .keylockB, kind: .note, channel: channel, number: 24, shifted: true),
@@ -1729,12 +1729,12 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         var profile: [ControllerBinding] = []
         for (channel, deck) in [(UInt8(0), "A"), (UInt8(1), "B")] {
             let play: ControllerAction = deck == "A" ? .playA : .playB
-            let cueReturn: ControllerAction = deck == "A" ? .cueReturnA : .cueReturnB
+            let cuePreview: ControllerAction = deck == "A" ? .cuePreviewA : .cuePreviewB
             let headphoneCue: ControllerAction = deck == "A" ? .cueA : .cueB
             let sync: ControllerAction = deck == "A" ? .syncA : .syncB
             profile += [
                 binding(play, kind: .note, channel: channel, number: 11),
-                binding(cueReturn, kind: .note, channel: channel, number: 12),
+                binding(cuePreview, kind: .note, channel: channel, number: 12),
                 binding(headphoneCue, kind: .note, channel: channel, number: 84),
                 binding(sync, kind: .note, channel: channel, number: 88),
                 binding(deck == "A" ? .loopA : .loopB, kind: .note, channel: channel, number: 20),

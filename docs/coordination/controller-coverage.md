@@ -2,6 +2,28 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R208 conventional Cue preview across reviewed Pioneer profiles
+
+The reviewed Pioneer/AlphaTheta controller, all-in-one and player recipes now use native held Cue preview.
+This includes the seven code profiles and 50 automatic data profiles with a Cue control.
+The three pad accessories have no Cue transport button. XDJ-RX retains its existing manual-selection boundary.
+The original note addresses, channels, setup messages, feedback and profile identities remain unchanged.
+Saved custom mappings retain their existing Cue return/set action.
+
+All 57 automatic profiles accept Note Off and zero-velocity Note On releases.
+The player assignment check releases the old deck before assigning a CDJ Cue button to deck C.
+A FLX4 offline check produces Cue preview audio and returns to pause while preserving Sync.
+The factory DDJ-T1 table explicitly states OFF=0 and ON=127. The other reviewed recipes use the same release-capable note contract.
+These are protocol and offline checks, not physical tests of the listed hardware.
+
+All 239 focused controller/NI contract checks, 44 importer checks and native iPad compilation pass.
+The compiled resource matches the source. Fifty-one data recipes change only their Cue input action.
+The other 102 data recipes remain unchanged. No hardware mode, startup packet, feedback binding or source reference changes.
+Counts remain 289 catalogue records, 85 automatic core profiles and 92 physical models with automatic controls.
+Other manufacturers still require a Cue migration review. Full mappings, remaining protocols, audio routing and physical acceptance remain release work.
+Twelve historical broken links remain. Source base: `4cb14af`. Evidence: `TestBuilds/r208/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R207 native Cue preview and gesture ownership
 
 DJ2GO2 Touch, Total Control and Omni Control now use a momentary Cue preview action.

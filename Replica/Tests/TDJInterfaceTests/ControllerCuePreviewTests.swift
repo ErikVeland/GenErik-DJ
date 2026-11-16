@@ -4,7 +4,9 @@ import Testing
 
 @testable import TDJInterface
 
-@MainActor private func withControllerCuePlayback(_ body: (ReplicaModel, ControllerMIDIConnection) async throws -> Void)
+@MainActor private func withControllerCuePlayback(
+    _ name: String = "DJ2GO2 Touch", _ body: (ReplicaModel, ControllerMIDIConnection) async throws -> Void
+)
     async throws
 {
     var base = URL(fileURLWithPath: #filePath)
@@ -23,13 +25,13 @@ import Testing
     let input = ControllerMIDIConnection(preferences: preferences, factoryPacketSender: { _, _ in true })
     input.sources = [
         .init(
-            id: 10, reference: 100, name: "DJ2GO2 Touch",
-            identity: .init(id: 10, device: 1, names: ["DJ2GO2 Touch"]))
+            id: 10, reference: 100, name: name,
+            identity: .init(id: 10, device: 1, names: [name]))
     ]
     input.destinations = [
         .init(
-            id: 20, reference: 200, name: "DJ2GO2 Touch",
-            identity: .init(id: 20, device: 1, names: ["DJ2GO2 Touch"]))
+            id: 20, reference: 200, name: name,
+            identity: .init(id: 20, device: 1, names: [name]))
     ]
     input.onTargetAction = model.controllerInput.onTargetAction
     input.onJogAction = model.controllerInput.onJogAction
@@ -173,5 +175,21 @@ import Testing
         #expect(model.playbackSnapshot?.b.touchActive == false)
         #expect(model.playbackSnapshot?.b.phase.active == false)
         #expect(model.playbackSnapshot?.a.phase.active == true)
+    }
+}
+
+@Test @MainActor func controllerCataloguePioneerFLX4CuePreviewUsesTheNativePlayer() async throws {
+    try await withControllerCuePlayback("DDJ-FLX4") { model, input in
+        let sync = model.playbackSnapshot?.a.synced
+        cuePreviewPacket([0x90, 12, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        #expect(audio.left.contains { abs($0) > 0.001 } || audio.right.contains { abs($0) > 0.001 })
+        cuePreviewPacket([0x90, 12, 0], to: input)
+        _ = model.playback.core.renderOffline(frames: 512)
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.phase.active == false)
+        #expect(model.playbackSnapshot?.a.synced == sync)
     }
 }

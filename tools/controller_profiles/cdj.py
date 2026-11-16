@@ -45,7 +45,7 @@ def cdj_profiles():
             nexus = name.replace("NXS", "nexus")
             result["aliases"].extend([nexus, nexus.removeprefix("Pioneer "), nexus.replace("Pioneer ", "Pioneer DJ ")])
         add(result, "play", 0, 0, deck="a")
-        add(result, "cueReturn", 0, 1, deck="a")
+        add(result, "cuePreview", 0, 1, deck="a")
         for action, address in [("keylock", 0x11 if nxs else 0x0B), ("sync", 0x1F if nxs else 0x16),
                                 ("jogTouch", 0x20 if nxs else 0x17), ("reloop", 8 if nxs else 0x25),
                                 ("loopIn", 6 if nxs else 0x23), ("loopOut", 7 if nxs else 0x24),

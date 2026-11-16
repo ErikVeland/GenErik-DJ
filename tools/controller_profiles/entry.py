@@ -33,8 +33,8 @@ def entry_profiles():
         if small:
             result["gaps"] = ["The hardware has no browser, Load, loop or Keylock buttons. Use the existing app controls. Bluetooth pairing and audio routing remain separate work."]
         for channel, deck in enumerate(decks):
-            for action, number in [("play", 11), ("cueReturn", 12), ("sync", 88)]:
-                add(result, action, channel, number, deck=deck, feedback=action != "cueReturn")
+            for action, number in [("play", 11), ("cuePreview", 12), ("sync", 88)]:
+                add(result, action, channel, number, deck=deck, feedback=action != "cuePreview")
             if sb or rr:
                 add(result, "keylock", channel, 26, deck=deck, feedback=True)
             for number in [54, 103]:

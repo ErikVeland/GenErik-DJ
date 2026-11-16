@@ -14,7 +14,7 @@ def s1_profiles():
     result = profile("Pioneer DDJ-S1", S1_REFERENCES["Pioneer DDJ-S1"]["url"])
     result["scope"] = "Automatic core MIDI controls. Remaining shifted modes, FX, jog illumination and audio routing remain open."
     for channel, deck in enumerate("ab"):
-        for action, number in [("play", 11), ("cueReturn", 12), ("sync", 27), ("keylock", 26),
+        for action, number in [("play", 11), ("cuePreview", 12), ("sync", 27), ("keylock", 26),
                                ("load", 61), ("loop", 20), ("loopIn", 16), ("loopOut", 17), ("reloop", 18)]:
             add(result, action, channel, number, deck=deck, feedback=action in {"play", "sync", "keylock"})
         add(result, "loopSize", channel, 19, "control", "twosComplement", deck)

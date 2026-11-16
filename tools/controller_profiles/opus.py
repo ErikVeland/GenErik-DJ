@@ -16,7 +16,7 @@ def opus_profiles():
     result["scope"] = "Automatic core MIDI controls. Screens, complete feedback, advanced modes and audio routing remain open."
     result["gaps"] = ["Colour-coded Cue/Hot Cue lights, jog indicators, FX, input/crossfader assignment, zone/booth audio and screens remain unimplemented."]
     for channel, deck in enumerate("abcd"):
-        for action, number in [("play", 0), ("cueReturn", 1), ("sync", 31), ("keylock", 17),
+        for action, number in [("play", 0), ("cuePreview", 1), ("sync", 31), ("keylock", 17),
                                ("tempoReset", 19), ("load", 81), ("loopIn", 6), ("loopOut", 7),
                                ("loop", 67), ("reloop", 68), ("jumpForward", 44), ("jumpBack", 45)]:
             add(result, action, channel, number, deck=deck, feedback=action in {"play", "sync", "keylock"})

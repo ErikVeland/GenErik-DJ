@@ -47,7 +47,7 @@ def player_profiles():
             result["aliases"].extend(["CDJ-400-K", "Pioneer CDJ-400-K", "Pioneer DJ CDJ-400-K"])
         tour = name.endswith("TOUR1")
         result["hardwareMode"] = "Control Mode / USB-MIDI" if xdj or tour or name.endswith(("CDJ-2000", "CDJ-900")) else "PC / USB-MIDI"
-        for action, address in [("play", 0), ("cueReturn", 1), ("keylock", 0x11), ("jogTouch", 0x20),
+        for action, address in [("play", 0), ("cuePreview", 1), ("keylock", 0x11), ("jogTouch", 0x20),
                                 ("loopIn", 6), ("loopOut", 7), ("reloopOriginal" if cdj400 else "reloop", 8), ("load", 0x33)]:
             add(result, action, 0, address, deck="a")
         add(result, "openGroup", 0, 0x32)

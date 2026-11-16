@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R207 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R208 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -194,3 +194,11 @@ R207 uses `cuePreviewA/B` for the three reviewed Numark mappings with standard p
 The native player reuses the existing NI Cue contact contract. Play latches a preview, and release or disconnect returns to Cue.
 Generation and gesture ownership checks protect replacement tracks and newer touches. Saved Sync remains unchanged.
 `cueReturnA/B` retains its existing return/set behaviour for custom bindings and profiles awaiting review.
+
+## Reviewed Pioneer Cue migration
+
+R208 changes release-capable Cue note bindings to `cuePreviewA/B` in the reviewed Pioneer data and code profiles.
+It preserves every address, channel, setup message, feedback binding and profile ID.
+The automatic-profile fixture checks both standard release forms across all 57 profiles with a Cue control.
+Player reassignment releases the old Cue contact. Existing saved custom mappings retain their explicit action.
+Pioneer pad accessories have no transport Cue. XDJ-RX remains a manually selected partial recipe.

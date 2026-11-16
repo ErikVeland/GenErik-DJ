@@ -25,7 +25,7 @@ def legacy_ddj_profiles():
         if ergo:
             result["aliases"] += ["DDJ-ERGO-V", "Pioneer DDJ-ERGO-V", "Pioneer DJ DDJ-ERGO-V"]
         for channel, deck in enumerate("ab" if wego3 else "abcd"):
-            for action, number in [("play", 8 if wego3 else 11), ("cueReturn", 12), ("sync", 88), ("loop", 20)]:
+            for action, number in [("play", 8 if wego3 else 11), ("cuePreview", 12), ("sync", 88), ("loop", 20)]:
                 add(result, action, channel, number, deck=deck, feedback=action in {"play", "sync"} or (wego3 and action == "loop"))
             add(result, "reloop", channel, 80, deck=deck)
             if wego3:

@@ -12,7 +12,7 @@ def t1_profiles():
     result = profile("Pioneer DDJ-T1", T1_REFERENCES["Pioneer DDJ-T1"]["url"])
     result["scope"] = "Automatic native core MIDI controls from the factory manual. Move/Hot Cue modes, needle position, full feedback, FX and audio routing remain open."
     for channel, deck in enumerate("abcd"):
-        for action, number in [("play", 11), ("cueReturn", 12), ("keylock", 26),
+        for action, number in [("play", 11), ("cuePreview", 12), ("keylock", 26),
                                ("loop", 20), ("loopIn", 16), ("loopOut", 17), ("reloop", 18), ("filterToggle", 69)]:
             add(result, action, channel, number, deck=deck, feedback=action in {"play", "keylock"})
         add(result, "loopSize", channel, 19, "control", "twosComplement", deck)

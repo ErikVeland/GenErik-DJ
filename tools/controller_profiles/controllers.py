@@ -28,7 +28,7 @@ def controller_profiles():
         if club:
             result["hardwareMode"] = "PC control / MIDI. Select MIDI mixer control where required."
         for channel, deck in enumerate("abcd"):
-            for action, number in [("play", 0 if club else 11), ("cueReturn", 1 if club else 12),
+            for action, number in [("play", 0 if club else 11), ("cuePreview", 1 if club else 12),
                                    ("sync", 31 if club else 88)]:
                 add(result, action, channel, number, deck=deck, feedback=action in {"play", "sync"})
             if not flx6:
