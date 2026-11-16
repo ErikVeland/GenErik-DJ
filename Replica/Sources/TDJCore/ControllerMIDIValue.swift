@@ -3,11 +3,12 @@ import Foundation
 public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     case absolute, paired14Bit, paired14BitRelative, twosComplement, binaryOffset, signedBit
     case numarkPlatinumJog, denonJog, zeroForward, mc7000Jog
+    case binaryStep, centreDetent, centredPitch
     case cdjPlatterSpeed, cdjRingSpeed, cdj350PlatterSpeed, cdjTempo, needlePosition
     public var isRelative: Bool {
         [
             .twosComplement, .binaryOffset, .signedBit, .paired14BitRelative, .numarkPlatinumJog, .denonJog,
-            .zeroForward, .mc7000Jog,
+            .zeroForward, .mc7000Jog, .binaryStep,
         ]
         .contains(self)
     }
@@ -15,6 +16,9 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     public var title: String {
         switch self {
         case .absolute: "Knob / fader"
+        case .centreDetent: "Knob / fader: centre detent"
+        case .centredPitch: "Pitch fader: centre 8192"
+        case .binaryStep: "Encoder: 65 / 63, single step"
         case .mc7000Jog: "MC7000 jog"
         case .denonJog: "Denon jog"
         case .zeroForward: "Encoder: 0 / 127"
@@ -53,6 +57,10 @@ public struct ControllerMIDIValueState: Sendable {
             guard message.number == number, encoding == .absolute else { return nil }
             return .relative(Double(max(-127, min(127, message.value))))
         }
+        if encoding == .centredPitch {
+            guard message.kind == .pitch, message.maximum == 16383, message.number == number else { return nil }
+            return .absolute(min(1, max(0, Double(message.value - 1) / 16382)))
+        }
         let low = lowNumber ?? (number < 32 ? number + 32 : nil)
         if encoding == .paired14BitRelative {
             guard message.kind == .control, message.maximum <= 127, number < 128, (0...127).contains(message.value),
@@ -84,6 +92,7 @@ public struct ControllerMIDIValueState: Sendable {
         guard message.number == number else { return nil }
         if encoding == .absolute { return .absolute(message.normalized) }
         guard message.kind == .control, message.maximum <= 127 else { return nil }
+        if encoding == .centreDetent { return .absolute(message.value == 64 ? 0.5 : message.normalized) }
         if encoding == .numarkPlatinumJog {
             let rawForward = message.value < 64
             let forward: Bool
@@ -114,6 +123,7 @@ public struct ControllerMIDIValueState: Sendable {
             return .absolute(0.5 + (delta > 0 ? speed : -speed) / 8)
         }
         switch encoding {
+        case .binaryStep: return message.value == 65 ? .relative(1) : message.value == 63 ? .relative(-1) : nil
         case .zeroForward:
             return message.value == 0 ? .relative(1) : message.value == 127 ? .relative(-1) : nil
         case .mc7000Jog: return .relative(Double(message.value < 100 ? message.value : message.value - 128))

@@ -94,9 +94,11 @@ struct ControllerProfileData: Decodable, Sendable {
                     && ($0.releaseOnly != true || ($0.kind == .note && $0.action.isMomentary))
                     && ($0.shiftInput == nil
                         || ($0.shiftInput! < 16 && $0.action == .shift && $0.kind == .note && $0.shiftChannel != nil))
+                    && ($0.encoding != .centredPitch || ($0.kind == .pitch && $0.number == 0))
                     && Self.validArgument($0)
                     && (![
-                        .mc7000Jog, .denonJog, .zeroForward, .numarkPlatinumJog, .cdjPlatterSpeed, .cdjRingSpeed,
+                        .centreDetent, .binaryStep, .mc7000Jog, .denonJog, .zeroForward, .numarkPlatinumJog,
+                        .cdjPlatterSpeed, .cdjRingSpeed,
                         .cdj350PlatterSpeed, .cdjTempo, .needlePosition,
                     ].contains($0.encoding)
                         || $0.kind == .control)
@@ -131,7 +133,8 @@ struct ControllerProfileData: Decodable, Sendable {
     private static func validArgument(_ input: Input) -> Bool {
         switch input.action {
         case .loopSizeA, .loopSizeB:
-            return input.kind == .control && input.encoding == .twosComplement && input.argument == nil
+            return input.kind == .control && [.twosComplement, .binaryStep].contains(input.encoding)
+                && input.argument == nil
         case .loopA, .loopB:
             return input.argument.map { PerformancePreparation.loopSizes.contains($0) } ?? true
         case .toggleFixedLoopA, .toggleFixedLoopB, .fixedLoopA, .fixedLoopB:

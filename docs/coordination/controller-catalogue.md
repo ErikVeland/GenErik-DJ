@@ -9,7 +9,7 @@ Reviewed 16 November 2026. This catalogue is complete for the defined source bou
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - 289 total catalogue records. 282 name physical models. The remainder identify software endpoints or protocol families.
 - 153 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
-- 80 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+- 81 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -203,17 +203,23 @@ Original Party Mix, Party Mix II and Mixtrack Pro FX add their published loop-pa
 Changing pad size preserves an active loop. Pressing the matching active size exits it. Hot Cues and unsupported modes stay separate.
 See [R201 loop pads](controller-coverage.md#r201-native-loop-pad-modes).
 
+## Terminal Mix 2 and 4 — R202
+
+Terminal Mix 2 and 4 retain their shared profile ID, with exact source encoder and centre rules.
+Four-deck controls retain the app opt-in. FX, fader start, mode functions and full audio routing remain open.
+See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-controls).
+
 ## Implementation states
 
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 40 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 68 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 70 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 7 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 85 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| partial-midi-profile | 83 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
 | protocol-needed | 70 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
@@ -348,8 +354,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Reloop RP-8000 | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Reloop RP8000 MK2 | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Reloop Ready | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Reloop Terminal Mix 2 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Reloop Terminal Mix 4 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Reloop Terminal Mix 2 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Reloop Terminal Mix 4 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Reloop Terminal Mix 8 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Roland SP-404MKII | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Vestax Typhoon | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |

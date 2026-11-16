@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R201 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R202 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -152,3 +152,7 @@ The original Party Mix profile remains unchanged. Live, III and Pro need separat
 Loop-pad modes use a bounded beat argument and a separate native action. Changing pad size keeps an active loop.
 Reselecting its actual grid length exits it. Existing fixed-loop and loop-toggle actions retain their behaviour.
 Party Mix generations keep different loop modes and beat sizes. Pro FX shifted roll notes remain unmapped.
+
+Terminal Mix 2/4 retains its shared profile ID and separate physical-model records. Saved family settings keep their key.
+Its loop encoder accepts only 65/63. Pitch and crossfader centre rules follow the pinned common helper.
+Reviewed shared names use the existing model splitter. Do not invent a physical model for a combined source name.

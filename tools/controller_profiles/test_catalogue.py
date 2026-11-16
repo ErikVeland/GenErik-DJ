@@ -36,6 +36,7 @@ from party_mix import party_mix_profiles, PARTY_MIX_REFERENCES, PARTY_MIX_SOURCE
 from t1 import t1_profiles, T1_REFERENCES
 from pad_accessories import pad_accessory_profiles, PAD_REFERENCES
 from party_mix2 import party_mix2_profiles, PARTY2_REFERENCES, PARTY2_SOURCES
+from terminal_mix import terminal_mix_profiles, terminal_mix_references, TERMINAL_MIX_SOURCES
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -101,7 +102,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles() + mc7000_profiles() + original_mixtrack_profiles() + party_mix_profiles() + t1_profiles() + pad_accessory_profiles() + party_mix2_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles() + mc7000_profiles() + original_mixtrack_profiles() + party_mix_profiles() + t1_profiles() + pad_accessory_profiles() + party_mix2_profiles() + terminal_mix_profiles():
             for left, right in combinations(profile["inputs"], 2):
                 address = lambda item: (item["kind"], item["channel"], item["number"])
                 if address(left) != address(right):
@@ -451,6 +452,19 @@ class ConversionTests(unittest.TestCase):
                 self.assertEqual([x["requiredMode"] for x in loops], [mode] * len(sizes))
                 self.assertEqual([x["number"] for x in loops], list(range(20, 20 + len(sizes))))
         self.assertFalse(any(x["action"].startswith("toggleFixedLoop") for x in next(p for p in numark_profiles() if p["id"] == "Numark Mixtrack Platinum FX")["inputs"]))
+
+    def test_terminal_mix_replaces_the_shared_recipe_and_retains_exact_source_helpers(self):
+        profiles = terminal_mix_profiles()
+        self.assertEqual({p["id"] for p in profiles}, set(terminal_mix_references()))
+        for item in profiles:
+            self.assertEqual([x["encoding"] for x in item["inputs"] if x["action"].startswith("tempo")], ["centredPitch"] * 4)
+            self.assertEqual(len([x for x in item["inputs"] if x["action"].startswith("hotcue")]), 32)
+            self.assertEqual([x["encoding"] for x in item["inputs"] if x["action"].startswith("loopSize")], ["binaryStep"] * 4)
+            self.assertEqual(len(item["shutdown"]), 16)
+        for path, digest in TERMINAL_MIX_SOURCES:
+            source = ROOT / "TestBuilds/r169/upstream/res/controllers" / path
+            if source.exists():
+                self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)
 
     def test_ddj_application_connect_is_limited_to_reviewed_tables(self):
         expected = {"DDJ-SX", "DDJ-SX2", "DDJ-RX", "DDJ-RZ", "DDJ-RZX", "DDJ-SZ", "DDJ-SZ2"}

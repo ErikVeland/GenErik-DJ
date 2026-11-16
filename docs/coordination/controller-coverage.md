@@ -2,6 +2,27 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R202 Terminal Mix 2 and 4 core controls
+
+Terminal Mix 2 and 4 now share reviewed native core controls under their existing profile ID.
+The catalogue retains separate physical-model records. Saved family disable settings and custom mappings retain their key.
+Both models have four-deck source mappings. The native app keeps its existing four-deck opt-in.
+Transport, Load, EQ, gain, level, headphone cue, eight Hot Cues, manual loops and signed jogs retain the pinned addresses.
+
+The loop encoder accepts only the published 65/63 steps. Other values do not resize the loop.
+Browsing retains full offset counts. Pitch retains the common helper’s exact 8192 centre and engine direction.
+The crossfader retains its raw-64 centre detent. Other encoder and fader decoders retain their behaviour.
+Core shutdown clears transport and headphone lights. Full pad cleanup, FX, sampler/scissor modes, cue deletion and advanced navigation remain open.
+Fader/crossfader start, assignment/curve controls, remaining shifted functions, audio routing and physical acceptance also remain open.
+The native profile does not copy the source 480-message LED sweep or enable four decks automatically.
+Sources and helper SHA-256 identities are recorded in `tools/controller_profiles/terminal_mix.py` and the generated catalogue.
+Counts remain at 289 records and 153 data recipes plus seven code profiles. Eighty-one profiles select core controls automatically, including accessories.
+The catalogue records 88 physical models with automatic controls. This is core coverage, not complete feature parity.
+All 207 focused Swift checks, 40 importer checks and native iPad compilation passed. The compiled resource matches the source.
+Only the existing Terminal Mix family recipe changes. The other 152 recipes remain unchanged. Twelve historical broken links remain.
+Source base: `aa85c90`. Evidence: `TestBuilds/r202/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R201 native loop-pad modes
 
 Original Party Mix, Party Mix II and Mixtrack Pro FX now implement their published loop-pad modes.

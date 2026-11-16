@@ -143,6 +143,10 @@ def report(catalogue, runtime):
               "Original Party Mix, Party Mix II and Mixtrack Pro FX add their published loop-pad modes and distinct beat sizes.",
               "Changing pad size preserves an active loop. Pressing the matching active size exits it. Hot Cues and unsupported modes stay separate.",
               "See [R201 loop pads](controller-coverage.md#r201-native-loop-pad-modes).", "",
+              "## Terminal Mix 2 and 4 — R202", "",
+              "Terminal Mix 2 and 4 retain their shared profile ID, with exact source encoder and centre rules.",
+              "Four-deck controls retain the app opt-in. FX, fader start, mode functions and full audio routing remain open.",
+              "See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-controls).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",
