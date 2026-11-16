@@ -2,6 +2,36 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R218 Jogvision factory setup and native core controls
+
+Jogvision now selects an automatic core recipe on its default MIDI channels.
+The recipe combines the hashed factory command list with the pinned XML and script facts.
+It retains both existing aliases and the stored profile ID.
+
+The recipe maps transport, held Cue, Load, mixer faders/EQ, paired tempo, browsing, loops and eight Hot Cues per deck.
+The manufacturer uses distinct note ranges for cue pages, samples and shifted delete pages. Unsupported pages cannot trigger cues.
+Shift and Mode jointly guard unsupported alternatives on each deck. Their releases remain independent.
+A shifted Cue release can finish a normal held Cue. It cannot start an audition.
+
+The native jog path retains the source-derived 400-count resolution. Platter and rim addresses remain separate.
+The loop encoder uses native loop sizing. Modifier alternatives cannot trigger normal loop controls.
+The source's Shift+Browse gain customisation remains unmapped. It is not a dedicated physical gain knob.
+
+Startup sets Scratch mode, lights its indicator and requests current analogue and keypad-mode reports.
+Factory CC 127 requests those reports. The source comment that calls it an LED clear is not followed.
+Shutdown restores jog mode and clears the Scratch indicator. It never copies the source's track-eject side effect.
+
+Native playback fixtures cover shifted Cue release, count movement, idle stop and Sync preservation.
+The first protocol run found only an invalid test assumption about independent pending-control order. The fixture now compares deck-targeted results.
+The catalogue retains 302 records and 155 data recipes. One partial recipe becomes an automatic core recipe.
+Factory coverage rises to 88 profiles for 89 physical models. Six other models retain existing native adapters.
+AIR filter, remaining modes, rings, full feedback, cleanup, routing and physical jog calibration remain open.
+
+All 296 focused controller/NI checks, 52 importer/report checks and native iPad compilation pass.
+The compiled resource matches the source. All 154 other data recipes remain unchanged.
+Twelve historical broken links remain. Source base: `6a395a3`. Evidence: `TestBuilds/r218/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R217 manufacturer inventory omissions and completion scope
 
 The catalogue now includes thirteen manufacturer-confirmed models omitted by the pinned software inventories.

@@ -15213,17 +15213,20 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Jogvision.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Jogvision.midi.xml",
+        "https://ts.hercules.com/download/sound/manuals/DJC_Jogvision/DJCJogvision_MIDI_Commands.pdf"
       ],
       "definitions": [
-        "Hercules_DJControl_Jogvision.midi.xml"
+        "Hercules_DJControl_Jogvision.midi.xml",
+        "reviewed:hercules-jogvision"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Hercules DJControl Jogvision",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browse",
         "crossfader",
         "cueA:a",
         "cueB:b",
@@ -15247,53 +15250,69 @@
         "hotcue7B:b",
         "hotcue8A:a",
         "hotcue8B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "keylockA:a",
         "keylockB:b",
         "levelA:a",
         "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "loopUpA:a",
+        "loopUpB:b",
         "lowA:a",
         "lowB:b",
         "midA:a",
         "midB:b",
+        "openGroup",
         "playA:a",
         "playB:b",
+        "shift",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 37,
-      "feedbackBindingCount": 40,
+      "inputBindingCount": 61,
+      "feedbackBindingCount": 26,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 133,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -312046,6 +312065,55 @@
       },
       "implementedInputCount": 125,
       "implementedOutputCount": 48,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:hercules-jogvision",
+      "name": "Hercules DJControl Jogvision",
+      "transport": "midi",
+      "source": {
+        "url": "https://ts.hercules.com/download/sound/manuals/DJC_Jogvision/DJCJogvision_MIDI_Commands.pdf",
+        "sha256": "a9ecc66294baaa6492ed812109335318bec386dabd4977d9c4ebfa7345f9baf7",
+        "pages": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          10,
+          11,
+          12,
+          14,
+          15,
+          16,
+          26,
+          27,
+          28,
+          29,
+          35,
+          36,
+          37
+        ],
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Jogvision.midi.xml",
+            "sha256": "8e0499c69c0b91494b8af06da6c722d80c39efc978d7f56c8536c47fc226c7fe"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Jogvision-scripts.js",
+            "sha256": "5cc5b31d7ad135a30762c6c6e55c82d0e26fd8b645306068ccef98a5ffb5384a"
+          }
+        ],
+        "review": "Normal deck channels 0/1. The native recipe combines Shift and Mode as guards for unsupported alternatives, without copying script backspin, slip, eject or quantise changes. The pinned scratch resolution is 400. Normal platter/rim CCs are 65/64 and shifted CCs are 67/66. Factory pad pages have distinct note ranges for cues and samples. CC 126 controls Scratch mode; CC 127 requests analogue and keypad-mode reports. The source's LED-clear comments for CC 127 are not followed. Shutdown does not eject tracks. Shift+Browse is a relative encoder used for custom gain by the source; the device has no dedicated gain knob, so that customisation is not imported. AIR filter, remaining modes, rings, full feedback, cleanup, routing and physical calibration remain open."
+      },
+      "implementedInputCount": 61,
+      "implementedOutputCount": 26,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

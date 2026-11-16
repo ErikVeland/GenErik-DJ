@@ -20,6 +20,7 @@ from mixstream import mixstream_profiles, MIXSTREAM_SOURCES
 from flx10 import flx10_profiles, FLX10_REFERENCES
 from ddj1000 import ddj1000_profiles, DDJ1000_REFERENCES
 from manufacturer_inventory import MODELS as MANUFACTURER_MODELS
+from jogvision import jogvision_profiles, JOGVISION_REFERENCES, JOGVISION_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -68,6 +69,22 @@ class ConversionTests(unittest.TestCase):
         self.assertIn("plus 1 existing code profiles", text)
         self.assertIn("2 factory profiles select core controls automatically for 2 physical models", text)
         self.assertIn("Existing native adapters provide automatic core controls for 1 other models", text)
+
+    def test_jogvision_uses_factory_setup_and_source_derived_jog_resolution(self):
+        result = jogvision_profiles()[0]
+        self.assertEqual(len(result["inputs"]), 61)
+        self.assertEqual(len(result["outputs"]), 26)
+        self.assertEqual(result["startup"], [[0xB0, 126, 127], [0x90, 70, 127], [0xB0, 127, 127]])
+        self.assertEqual(result["shutdown"], [[0xB0, 126, 0], [0x90, 70, 0]])
+        self.assertEqual([row["number"] for row in result["inputs"] if row["action"] == "shift"], [86, 87, 86, 87])
+        self.assertTrue(all(row["argument"] == 400 for row in result["inputs"] if row["action"] in {"jogA", "jogB", "wheelJogA", "wheelJogB"}))
+        cache = ROOT / "TestBuilds/r169/upstream/res/controllers"
+        for name, digest in JOGVISION_SOURCES:
+            if (cache / name).exists():
+                self.assertEqual(hashlib.sha256((cache / name).read_bytes()).hexdigest(), digest)
+        table = ROOT / "TestBuilds/r218/manufacturer/Jogvision-MIDI.pdf"
+        if table.exists():
+            self.assertEqual(hashlib.sha256(table.read_bytes()).hexdigest(), JOGVISION_REFERENCES[result["id"]]["sha256"])
 
     def test_original_ddj1000_uses_its_own_factory_addresses_and_bank_events(self):
         result = ddj1000_profiles()[0]

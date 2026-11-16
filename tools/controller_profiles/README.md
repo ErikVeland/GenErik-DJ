@@ -264,3 +264,7 @@ The original 1000 retains its profile ID in a separate factory-table recipe. Nor
 ## Manufacturer inventory additions
 
 `manufacturer_inventory.py` records manufacturer-confirmed products outside the pinned software inventories. These records establish model existence only. They do not create runtime recipes or imply protocol compatibility. Keep the wider market-audit flag separate from the bounded source-inventory completion flag. Catalogue additions must retain incomplete implementation and acceptance states until their own protocol work passes.
+
+## Jogvision factory commands
+
+Jogvision uses a separately reviewed recipe. CC 126 sets Scratch mode and CC 127 requests current analogue and keypad-mode reports. The pinned script's LED-clear comment for CC 127 is inaccurate. Do not copy its shutdown track-eject side effect. Modifier guards cover both Shift and Mode. The factory separates Hot Cue, sample and delete note ranges. The native jog path uses the pinned 400-count resolution. AIR filtering, extra modes, rings, complete feedback, cleanup, routing and physical calibration remain open.
