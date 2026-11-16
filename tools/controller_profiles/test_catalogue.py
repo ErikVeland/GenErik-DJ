@@ -35,6 +35,7 @@ from original_mixtrack import original_mixtrack_profiles, original_mixtrack_refe
 from party_mix import party_mix_profiles, PARTY_MIX_REFERENCES, PARTY_MIX_SOURCES
 from t1 import t1_profiles, T1_REFERENCES
 from pad_accessories import pad_accessory_profiles, PAD_REFERENCES
+from party_mix2 import party_mix2_profiles, PARTY2_REFERENCES, PARTY2_SOURCES
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -100,7 +101,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles() + mc7000_profiles() + original_mixtrack_profiles() + party_mix_profiles() + t1_profiles() + pad_accessory_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles() + mc7000_profiles() + original_mixtrack_profiles() + party_mix_profiles() + t1_profiles() + pad_accessory_profiles() + party_mix2_profiles():
             for left, right in combinations(profile["inputs"], 2):
                 address = lambda item: (item["kind"], item["channel"], item["number"])
                 if address(left) != address(right):
@@ -423,6 +424,21 @@ class ConversionTests(unittest.TestCase):
             source = ROOT / "TestBuilds/r199/manufacturer" / (name.split(" ", 1)[1] + suffix + ".pdf")
             if source.exists():
                 self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), reference["sha256"])
+
+    def test_party_mix2_separates_original_facts_and_pins_external_protocol_sources(self):
+        original = party_mix_profiles()[0]
+        item = party_mix2_profiles()[0]
+        self.assertEqual(original["inputModes"][0]["numbers"], [0, 11, 14, 24])
+        self.assertEqual(item["inputModes"][0]["numbers"], [0, 11, 14, 15])
+        self.assertEqual([x["number"] for x in item["inputs"] if x["action"] == "openGroup"], [7])
+        self.assertEqual([x["number"] for x in item["inputs"] if x["action"].startswith("jogTouch")], [6, 6])
+        self.assertTrue(all(x["shifted"] is False for x in item["inputs"] if x["action"].startswith("hotcue")))
+        self.assertEqual(len(item["startup"] + item["shutdown"]), 15)
+        self.assertIn("AI-assisted", PARTY2_REFERENCES["Numark Party Mix II"]["review"])
+        for path, _, digest in PARTY2_SOURCES:
+            source = ROOT / "TestBuilds/r200/upstream" / path
+            if source.exists():
+                self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)
 
     def test_ddj_application_connect_is_limited_to_reviewed_tables(self):
         expected = {"DDJ-SX", "DDJ-SX2", "DDJ-RX", "DDJ-RZ", "DDJ-RZX", "DDJ-SZ", "DDJ-SZ2"}

@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R199 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R200 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -144,3 +144,7 @@ Ambiguous needle endpoints and mixer LED channel variables remain unmapped. Deck
 Pioneer pad accessories retain the `accessory` role and do not consume club-player deck allocation.
 XP1/XP2 use alternating pad channels. SP1 uses consecutive pad channels and separate mode note ranges.
 XP software-mode negotiation remains open. Only SP1 sends its published application-connect packet.
+
+Party Mix II uses separately pinned community references. It has actual touch messages and different Browse/mode addresses.
+The newer secondary source declares AI-assisted development. Advanced lamp/jog setup and heartbeat commands remain outside the native recipe.
+The original Party Mix profile remains unchanged. Live, III and Pro need separate source review.

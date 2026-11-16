@@ -20019,46 +20019,89 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://github.com/JakeDucati/mixxx_numark-party-mix-ii-mappings/blob/f020c34fa1b682ac4a862d0daa9621b958465525/Numark-Party-Mix-ii.scripts.js"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:numark-party-mix-ii"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Numark Party Mix II",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cueReturnA:a",
+        "cueReturnB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 39,
+      "feedbackBindingCount": 6,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Loop/Sampler/FX pad actions, cue deletion and pad lights, browser hold gestures, rear-lamp control, advanced lamp/jog setup, heartbeat handling and full audio routing remain unimplemented. Core setup uses only the older published status request and mode indicators. The secondary source declares AI-assisted development; its Pad Mode hold address and all physical behaviour remain unverified. Source reuse/distribution review remains open. Live, III and Pro require separate source review."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -310548,6 +310591,54 @@
         },
         {
           "reason": "Accessory controls complement the app or another controller. Remaining pad modes, cue deletion, pad lights, full mode feedback, shifted alternate functions, key controls, slip/censor, FX and lifecycle cleanup remain unimplemented. The app currently exposes eight Hot Cues per deck. XP1 lower pads and XP2 sampler pads are not remapped to unrelated actions. Physical mode selection and acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numark-party-mix-ii",
+      "name": "Numark Party Mix II",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/JakeDucati/mixxx_numark-party-mix-ii-mappings/blob/f020c34fa1b682ac4a862d0daa9621b958465525/Numark-Party-Mix-ii.scripts.js",
+        "sha256": "ed38574f615320c1d6457d1a94dd81a1d69bc73541e54e8f7a2b5eaa3ed82a41",
+        "relatedSources": [
+          {
+            "url": "https://github.com/JakeDucati/mixxx_numark-party-mix-ii-mappings/blob/f020c34fa1b682ac4a862d0daa9621b958465525/Numark%20Party%20Mix%20ii.midi.xml",
+            "sha256": "38615ae6f30cb2159856b4926fbc1734781a1a9e9c0b6f2ce19880528bd71e84"
+          },
+          {
+            "url": "https://github.com/JakeDucati/mixxx_numark-party-mix-ii-mappings/blob/f020c34fa1b682ac4a862d0daa9621b958465525/Numark-Party-Mix-ii.scripts.js",
+            "sha256": "ed38574f615320c1d6457d1a94dd81a1d69bc73541e54e8f7a2b5eaa3ed82a41"
+          },
+          {
+            "url": "https://github.com/JakeDucati/mixxx_numark-party-mix-ii-mappings/blob/f020c34fa1b682ac4a862d0daa9621b958465525/README.md",
+            "sha256": "0c80ef20b0dd0640005e8ca5cb916364e4b12c7df54f9a843189ffa394227d73"
+          },
+          {
+            "url": "https://github.com/cokeramirez/Party-Mix-MK2-MIXXX-advanced-mapping/blob/c06e36112728592bad996c51ed416f4af6d053eb/Numark%20Party%20Mix%20MK2%20new%20jog.midi.xml",
+            "sha256": "917f09196f60b0b7abc610c145f026f3c116b1f871053e0bd37f755ee27f0e62"
+          },
+          {
+            "url": "https://github.com/cokeramirez/Party-Mix-MK2-MIXXX-advanced-mapping/blob/c06e36112728592bad996c51ed416f4af6d053eb/Numark-Party-Mix-MK2-newjog.js",
+            "sha256": "e31613074c4aaa7c24faa124b0c4a713a27039036d684be795b9635a2c5811f4"
+          },
+          {
+            "url": "https://github.com/cokeramirez/Party-Mix-MK2-MIXXX-advanced-mapping/blob/c06e36112728592bad996c51ed416f4af6d053eb/README.md",
+            "sha256": "4ea82ffdf81b2bf185e068f941398ce99aad77839598529f7146373465c646d2"
+          }
+        ],
+        "review": "Native actions replace the scripts. Both revisions identify the model as Party Mix II/MK2 and agree on core controller facts. The newer XML explicitly handles touch release and Browse note 7; the older XML retains obsolete Browse/Scratch entries. The secondary mapping declares AI-assisted development. Its advanced lamp, jog-setup and heartbeat commands are not used. Pad Mode hold note 50 comes from that secondary mapping and remains physically unverified. Original Party Mix facts remain separate; Live/III/Pro do not inherit this recipe."
+      },
+      "implementedInputCount": 39,
+      "implementedOutputCount": 6,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Loop/Sampler/FX pad actions, cue deletion and pad lights, browser hold gestures, rear-lamp control, advanced lamp/jog setup, heartbeat handling and full audio routing remain unimplemented. Core setup uses only the older published status request and mode indicators. The secondary source declares AI-assisted development; its Pad Mode hold address and all physical behaviour remain unverified. Source reuse/distribution review remains open. Live, III and Pro require separate source review."
         }
       ]
     },

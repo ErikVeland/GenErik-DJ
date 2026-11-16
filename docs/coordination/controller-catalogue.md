@@ -8,8 +8,8 @@ Reviewed 16 November 2026. This catalogue is complete for the defined source bou
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - 289 total catalogue records. 282 name physical models. The remainder identify software endpoints or protocol families.
-- 152 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
-- 79 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+- 153 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
+- 80 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -191,18 +191,24 @@ XP2, XP1 and SP1 select accessory profiles with their distinct pad addresses, lo
 XP software-mode negotiation, remaining modes, pad lights, FX and physical acceptance remain open.
 See [R199 pad accessories](controller-coverage.md#r199-pioneer-pad-accessory-core-controls).
 
+## Party Mix II — R200
+
+Party Mix II selects a separate native core profile with real touch jog messages, updated mode addresses and Browse note 7.
+Pinned community references remain distinct from factory evidence. Advanced setup, remaining pad modes, lights and hardware acceptance stay open.
+See [R200 Party Mix II](controller-coverage.md#r200-party-mix-ii-core-controls).
+
 ## Implementation states
 
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 40 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 67 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 68 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 7 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 85 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 71 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 70 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -309,7 +315,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Numark NV | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark NVII | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Party Mix | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Numark Party Mix II | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Numark Party Mix II | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Party Mix III | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Party Mix Live | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Party Mix Pro | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |

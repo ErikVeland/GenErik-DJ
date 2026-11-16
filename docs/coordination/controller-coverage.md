@@ -2,6 +2,33 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R200 Party Mix II core controls
+
+Party Mix II now selects a separate native core profile from pinned community mappings.
+Touch note 6 controls native Scratch. Both Note Off and zero-velocity Note On release the touch.
+The original sensorless Party Mix profile remains separate. Live, III and Pro do not inherit the II recipe.
+Core transport, Load, seven-bit tempo, gain, two-band EQ, levels and headphone controls retain their published addresses.
+Browse press uses note 7. The older mapping retains an obsolete note 0 entry and a missing Scratch-button handler.
+The native profile does not execute those scripts or inherit that handler.
+
+Four Hot Cues per deck require Hot Cue mode. Other mode messages cannot trigger cues.
+The newer FX mode address is 15. Pad Mode hold blocks unsupported delete gestures, and reconnects clear the hold state.
+The hold address comes from the newer secondary mapping and remains physically unverified.
+Setup sends the older published status request and mode indicators. Shutdown clears core Play, Sync and headphone lights.
+Original-generation rear-lamp and Scratch-indicator writes are not part of this profile.
+
+The secondary mapping declares AI-assisted development. Its advanced lamp/jog setup and heartbeat commands remain unimplemented.
+Loop/Sampler/FX pad actions, cue deletion and pad lights, browser hold gestures, advanced lifecycle and full audio routing remain open.
+All physical behaviour and source reuse/distribution review remain open.
+Primary references: [mapping at f020c34](https://github.com/JakeDucati/mixxx_numark-party-mix-ii-mappings/tree/f020c34fa1b682ac4a862d0daa9621b958465525).
+Secondary corroboration: [mapping at c06e361](https://github.com/cokeramirez/Party-Mix-MK2-MIXXX-advanced-mapping/tree/c06e36112728592bad996c51ed416f4af6d053eb).
+Source revisions and individual SHA-256 identities are recorded in `tools/controller_profiles/party_mix2.py` and the generated catalogue.
+The catalogue retains 289 records and now has 153 data recipes plus seven code profiles. Eighty profiles select core controls automatically, including accessories.
+All 196 focused Swift checks, 38 importer checks and native iPad compilation passed. The compiled resource matches the source.
+All 152 previous data recipes remain unchanged. Twelve historical broken links remain.
+Source base: `27412ed`. Evidence: `TestBuilds/r200/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R199 Pioneer pad accessory core controls
 
 XP2, XP1 and SP1 now select native accessory profiles. XP1 also gains a missing catalogue record.
