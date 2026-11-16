@@ -79,7 +79,30 @@ extension ReplicaModel {
         guard let track = track(deck), playbackSnapshot?[deck].generation == motion.generation else { return }
         let speed = playbackSnapshot?[deck].speed ?? 1
         let rate = stopped ? 0 : min(4, max(-4, motion.velocity / (track.analysis.sampleRate * max(0.001, speed))))
-        perform(.touch, deck: deck, value: motion.frame, touchRate: rate, followsPosition: true)
+        performControllerJogTouch(deck, frame: motion.frame, touchRate: rate, followsPosition: true)
+    }
+
+    /**
+     * Retires hardware ownership after a later touch command succeeds.
+     */
+    func relinquishControllerJogForTouch(_ deck: DeckID) {
+        guard controllerJogTouchCommandDeck != deck else { return }
+        controllerJogTouched.remove(deck)
+        resetControllerCountJog(deck, stop: false)
+    }
+
+    /**
+     * Marks synchronous hardware touch commands without changing the public touch contract.
+     */
+    private func performControllerJogTouch(
+        _ deck: DeckID, frame: Double = 0, enabled: Bool = true, touchRate: Double? = nil,
+        followsPosition: Bool = false
+    ) {
+        let previous = controllerJogTouchCommandDeck
+        controllerJogTouchCommandDeck = deck
+        defer { controllerJogTouchCommandDeck = previous }
+        perform(
+            .touch, deck: deck, value: frame, enabled: enabled, touchRate: touchRate, followsPosition: followsPosition)
     }
 
     private func resetControllerCountJog(_ deck: DeckID, stop: Bool) {
@@ -291,16 +314,17 @@ extension ReplicaModel {
             if value > 0 { pressControllerCue(deck) } else { finishControllerCue(deck, continuePlaying: false) }
         case .freezeA, .freezeB: toggleFreeze(deck: deck)
         case .jogTouchA, .jogTouchB:
+            guard value > 0 || controllerJogTouched.contains(deck) else { return }
             resetControllerCountJog(deck, stop: value == 0)
             if value > 0 {
                 finishControllerCue(deck, continuePlaying: false)
                 resetControllerWheelJog(deck, restoreRate: false)
                 controllerJogTouched.insert(deck)
                 guard let frame = playbackSnapshot?[deck].sourceFrame else { return }
-                perform(.touch, deck: deck, value: frame, touchRate: 0)
+                performControllerJogTouch(deck, frame: frame, touchRate: 0)
             } else {
                 controllerJogTouched.remove(deck)
-                perform(.touch, deck: deck, enabled: false)
+                performControllerJogTouch(deck, enabled: false)
             }
         case .jogA, .jogB:
             let rate = min(4, max(-4, (value - 0.5) * 8))
@@ -309,7 +333,7 @@ extension ReplicaModel {
                 return
             }
             guard let frame = playbackSnapshot?[deck].sourceFrame else { return }
-            perform(.touch, deck: deck, value: frame, touchRate: rate)
+            performControllerJogTouch(deck, frame: frame, touchRate: rate)
         case .wheelJogA, .wheelJogB: applyControllerWheelJog(value, deck: deck)
         case .browse, .browseGroups:
             #if os(iOS)

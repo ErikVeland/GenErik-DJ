@@ -272,3 +272,71 @@ import Testing
         #expect(model.playbackSnapshot?.a.synced == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueCountJogCannotOverrideLaterWaveformTouchOrReleaseIt() async throws {
+    try await withCountJogPlayback { model in
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        countJogPacket([0x90, 54, 127, 0xB0, 1, 0, 33, 1], model: model)
+        #expect(model.controllerJogTouched.contains(.a))
+        model.perform(.touch, deck: .a, value: sampleRate, touchRate: 0, followsPosition: true)
+        #expect(!model.controllerJogTouched.contains(.a))
+        #expect(model.controllerCountJogs[.a] == nil)
+        #expect(model.controllerCountJogTasks[.a] == nil)
+        try await Task.sleep(for: .milliseconds(80))
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - sampleRate) <= 1)
+        countJogPacket([0x80, 54, 0], model: model)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        model.perform(.touch, deck: .a, enabled: false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueCountJogCanAcquireANewContactAfterWaveformTakeover() async throws {
+    try await withCountJogPlayback { model in
+        countJogPacket([0x90, 54, 127], model: model)
+        model.perform(.touch, deck: .a, value: 1000, touchRate: 0, followsPosition: true)
+        model.applyControllerJog(.init(.jogA), motion: .absolute(0.75))
+        #expect(!model.controllerJogTouched.contains(.a))
+        countJogPacket([0x80, 54, 0], model: model)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        model.perform(.touch, deck: .a, enabled: false)
+        countJogPacket([0x90, 54, 127, 0xB0, 1, 0, 33, 1], model: model)
+        #expect(model.controllerJogTouched.contains(.a))
+        #expect(model.controllerCountJogs[.a] != nil)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        countJogPacket([0x80, 54, 0], model: model)
+        #expect(!model.controllerJogTouched.contains(.a))
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueCountJogKeepsOwnershipAfterABlockedDirectTouch() async throws {
+    try await withCountJogPlayback { model in
+        countJogPacket([0x90, 54, 127, 0xB0, 1, 0, 33, 1], model: model)
+        model.preparingPlayback.insert(.a)
+        model.perform(.touch, deck: .a, value: 1000, touchRate: 0)
+        #expect(model.controllerJogTouched.contains(.a))
+        #expect(model.controllerCountJogs[.a] != nil)
+        model.preparingPlayback.remove(.a)
+        countJogPacket([0x80, 54, 0], model: model)
+    }
+}
+
+@Test @MainActor func controllerCatalogueCountJogKeepsTheOtherDecksTouchOwnership() async throws {
+    try await withCountJogPlayback { model in
+        let track = try #require(model.library.tracks.first)
+        model.load(trackID: track.id, deck: .b)
+        await model.flushWrites()
+        countJogPacket([0x90, 54, 127, 0xB0, 1, 0, 33, 1], model: model)
+        model.perform(.touch, deck: .b, value: 1000, touchRate: 0, followsPosition: true)
+        #expect(model.controllerJogTouched.contains(.a))
+        #expect(model.controllerCountJogs[.a] != nil)
+        #expect(model.playbackSnapshot?.b.touchActive == true)
+        countJogPacket([0x80, 54, 0], model: model)
+        #expect(model.playbackSnapshot?.b.touchActive == true)
+        model.perform(.touch, deck: .b, enabled: false)
+    }
+}

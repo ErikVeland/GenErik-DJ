@@ -2,6 +2,26 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R216 waveform touch takeover from a held MIDI jog
+
+A native reproduction found that the old jog idle task could overwrite a later waveform touch.
+The old physical release could also end that waveform contact.
+
+A successful direct touch command now retires MIDI jog ownership on that deck.
+It cancels the count-motion idle task and clears its saved motion. A stale controller release cannot end the new touch.
+Synchronous hardware touch commands retain their ownership. A failed or blocked touch command cannot take ownership.
+The controller can start a new contact after a fresh platter press.
+
+This change uses the existing public touch contract and runs outside the audio callback.
+It adds no timer, mode, mapping address or UI control. Other decks retain their ownership.
+All catalogue recipes, setup packets, feedback and aliases remain unchanged.
+
+All 291 focused controller/NI checks, 51 importer/report checks and native iPad compilation pass.
+The original reproduction failed five assertions. Fresh-contact, blocked-command and independent-deck fixtures also pass.
+All 155 data recipes remain unchanged. The compiled resource matches the source. Twelve historical broken links remain.
+Source base: `105b4fd`. Evidence: `TestBuilds/r216/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R215 original DDJ-1000 normal controls and four-deck core
 
 The original DDJ-1000 now uses a recipe from its own hashed MIDI list and control-function diagram.
