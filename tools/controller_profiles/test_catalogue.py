@@ -18,6 +18,7 @@ from dj2go2 import dj2go2_profiles, DJ2GO2_SOURCES
 from ns4fx import ns4fx_profiles, NS4FX_SOURCES
 from mixstream import mixstream_profiles, MIXSTREAM_SOURCES
 from flx10 import flx10_profiles, FLX10_REFERENCES
+from ddj1000 import ddj1000_profiles, DDJ1000_REFERENCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -66,6 +67,22 @@ class ConversionTests(unittest.TestCase):
         self.assertIn("plus 1 existing code profiles", text)
         self.assertIn("2 factory profiles select core controls automatically for 2 physical models", text)
         self.assertIn("Existing native adapters provide automatic core controls for 1 other models", text)
+
+    def test_original_ddj1000_uses_its_own_factory_addresses_and_bank_events(self):
+        result = ddj1000_profiles()[0]
+        self.assertEqual(result["id"], "DDJ-1000")
+        self.assertEqual(len(result["inputs"]), 125)
+        self.assertEqual(len(result["outputs"]), 48)
+        self.assertEqual([(row["channel"], row["number"]) for row in result["bankChanges"]], [(2, 114), (3, 114)])
+        for action, number in [("syncA", 88), ("tempoA", 0), ("toggleFixedLoopA", 20)]:
+            self.assertTrue(any(row["action"] == action and row["number"] == number
+                                and row["targetDeck"] == "a" and row["shifted"] is False for row in result["inputs"]))
+        self.assertNotIn("DDJ-1000SRT", result["aliases"])
+        root = Path(__file__).resolve().parents[2] / "TestBuilds/r215/manufacturer"
+        for name, reference in [("DDJ-1000.pdf", DDJ1000_REFERENCES["DDJ-1000"]),
+                                ("DDJ-1000-diagram.pdf", DDJ1000_REFERENCES["DDJ-1000"]["relatedSources"][0])]:
+            if (root / name).exists():
+                self.assertEqual(hashlib.sha256((root / name).read_bytes()).hexdigest(), reference["sha256"])
 
     def test_flx10_migration_preserves_identity_and_tracks_the_factory_tables(self):
         result = flx10_profiles()[0]

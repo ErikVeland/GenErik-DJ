@@ -2,6 +2,38 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R215 original DDJ-1000 normal controls and four-deck core
+
+The original DDJ-1000 now uses a recipe from its own hashed MIDI list and control-function diagram.
+The SRT retains a separate recipe. The existing profile ID, aliases and saved custom mappings remain stable.
+
+The earlier code used shifted addresses for normal Sync, tempo and the four-beat loop button.
+Normal Sync now uses Note 88. Normal tempo uses CC 0/32. The four-beat loop button uses Note 20.
+The shifted tempo pair remains CC 5/37. Shifted master and tempo-range buttons cannot trigger unrelated normal actions.
+
+Four transport channels target A/B/C/D. The recipe adds keylock, Load, browsing and C/D Hot Cues.
+Loop In/Out set boundaries without an active loop. They halve/double the actual active span during a loop.
+The four-beat button uses the native fixed-loop toggle. Four decks retain the app opt-in.
+
+Unlike FLX10, the original 1000 reports either left-bank change as Note 114 on channel 2.
+Channel 3 reports either right-bank change. Those switch events protect the corresponding physical side.
+The recipe does not infer a cold active-deck state. Stable Shift identities survive a bank change and clear on release.
+
+Vinyl On uses platter CC 34. Wheel CC 33 and Vinyl Off CC 35 use pitch bend.
+Shifted CC 31/38 edit the grid and remain unmapped. A shifted touch release can end an existing contact.
+Core light feedback now includes all four decks, normal Sync and keylock.
+Screens, remaining pad modes, FX, grid editing, full feedback, cleanup, routing and jog calibration remain open.
+
+The catalogue retains 289 records and now contains 155 data recipes plus five code profiles.
+The 87 factory profiles cover 88 physical models. Six other models retain automatic controls through existing native adapters.
+All 287 focused controller/NI checks, 51 importer/report checks and native iPad compilation pass.
+Native playback confirms normal Sync, keylock, positive tempo direction and the four-beat loop.
+All 154 earlier data recipes remain unchanged. The compiled resource matches the source.
+The REV5 feedback helper matches the source base after correction of an intermediate migration error.
+Failed reproductions and intermediate failures remain in the evidence directory. Twelve historical broken links remain.
+Source base: `59985a7`. Evidence: `TestBuilds/r215/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R214 FLX10 four-deck core and published control functions
 
 FLX10 now uses a data recipe from the hashed factory MIDI list and the official control-function diagram.

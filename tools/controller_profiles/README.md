@@ -256,3 +256,7 @@ Relative jog packets retain fractional intent on a paused deck. Native transport
 ## FLX10 factory-table migration
 
 FLX10 retains its original profile ID and aliases in a generated data recipe. The catalogue name stays separate from that stored ID. Four deck targets, bank reports, physical Shift identities, Load and core feedback use the factory MIDI list. The official function diagram supplies context-dependent loop buttons and four/sixteen-beat jumps. Shifted jog reports edit the grid and remain unmapped. Saved custom mappings keep their stored actions. Full modes, stems, screens, remaining feedback, cleanup, routing and jog calibration remain open.
+
+## Original DDJ-1000 factory-table migration
+
+The original 1000 retains its profile ID in a separate factory-table recipe. Normal Sync, tempo and four-beat loop use Note 88, CC 0/32 and Note 20. The earlier code used shifted addresses. Note 114 on channel 2 reports either left-bank change. Channel 3 reports either right-bank change. These switch events protect pickup and contacts without inferring the initial active bank. The SRT and FLX10 retain separate recipes and source hashes. Context-dependent loops reuse the native loop contract. Screens, remaining modes, feedback, cleanup, routing and calibration remain open.

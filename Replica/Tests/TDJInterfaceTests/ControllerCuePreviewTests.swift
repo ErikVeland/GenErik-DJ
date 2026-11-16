@@ -243,3 +243,26 @@ import Testing
         #expect(model.playbackSnapshot?.a.phase.active == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueDDJ1000NormalSyncAndLoopReachNativePlayback() async throws {
+    try await withControllerCuePlayback("DDJ-1000") { model, input in
+        #expect(model.playbackSnapshot?.a.synced == true)
+        cuePreviewPacket([0x90, 88, 127], to: input)
+        #expect(model.playbackSnapshot?.a.synced == false)
+        cuePreviewPacket([0xB0, 0, 64, 32, 0], to: input)
+        cuePreviewPacket([0xB0, 0, 95, 32, 127], to: input)
+        #expect(abs(model.deckTempoPercent(deck: .a) - 4) < 0.01)
+        cuePreviewPacket([0x90, 88, 0, 88, 127], to: input)
+        #expect(model.playbackSnapshot?.a.synced == true)
+        let keylock = model.playbackSnapshot?.a.keylock
+        cuePreviewPacket([0x90, 26, 127], to: input)
+        #expect(model.playbackSnapshot?.a.keylock != keylock)
+        cuePreviewPacket([0x90, 20, 127], to: input)
+        let state = try #require(model.playbackSnapshot?.a)
+        let grid = try #require(model.timing(.a))
+        #expect(state.loopEnabled)
+        #expect(abs(state.loopEnd - state.loopStart - grid.span(beats: 4, from: state.loopStart)) <= 1)
+        #expect(state.synced)
+        #expect(!state.phase.active)
+    }
+}

@@ -10,7 +10,7 @@ struct ControllerFactoryProfile: RawRepresentable, Hashable, CaseIterable, Codab
     static let rev1 = Self(unchecked: "DDJ-REV1")
     static let rev5 = Self(unchecked: "DDJ-REV5")
     static let ddj1000 = Self(unchecked: "DDJ-1000")
-    private static let existing: [Self] = [.flx4, .flx2, .ddj400, .rev1, .rev5, .ddj1000]
+    private static let existing: [Self] = [.flx4, .flx2, .ddj400, .rev1, .rev5]
     private static let data = Dictionary(
         uniqueKeysWithValues: ControllerProfileCatalogue.shared.profiles.map { ($0.id, $0) })
     static let allCases: [Self] = existing + ControllerProfileCatalogue.shared.profiles.map { Self(unchecked: $0.id) }
@@ -76,7 +76,6 @@ struct ControllerFactoryProfile: RawRepresentable, Hashable, CaseIterable, Codab
         case .ddj400: return ControllerMIDIConnection.ddj400Bindings(source: source)
         case .rev1: return ControllerMIDIConnection.ddjREV1Bindings(source: source)
         case .rev5: return ControllerMIDIConnection.ddjREV5Bindings(source: source)
-        case .ddj1000: return ControllerMIDIConnection.ddj1000Bindings(source: source)
         default:
             return definition?.inputs.map { input in
                 var binding = input.binding(source: source)
@@ -94,7 +93,6 @@ struct ControllerFactoryProfile: RawRepresentable, Hashable, CaseIterable, Codab
         case .flx2: return ControllerMIDIConnection.ddjFLX2FeedbackBindings(destination: destination)
         case .rev1: return ControllerMIDIConnection.ddjREV1FeedbackBindings(destination: destination)
         case .rev5: return ControllerMIDIConnection.ddjREV5FeedbackBindings(destination: destination)
-        case .ddj1000: return ControllerMIDIConnection.ddj1000FeedbackBindings(destination: destination)
         default: return definition?.outputs.map { $0.binding(destination: destination) } ?? []
         }
     }

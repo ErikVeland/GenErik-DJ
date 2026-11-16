@@ -38,11 +38,11 @@ from dj2go2 import dj2go2_profiles, DJ2GO2_REFERENCES
 from ns4fx import ns4fx_profiles, NS4FX_REFERENCES
 from mixstream import mixstream_profiles, MIXSTREAM_REFERENCES
 from flx10 import flx10_profiles, FLX10_REFERENCES
+from ddj1000 import ddj1000_profiles, DDJ1000_REFERENCES
 
 LEGACY = {"Pioneer DDJ-FLX4": "DDJ-FLX4", "AlphaTheta DDJ-FLX2": "DDJ-FLX2",
           "Pioneer DDJ-400": "DDJ-400",
-          "Pioneer DDJ-REV1": "DDJ-REV1", "Pioneer DDJ-REV5": "DDJ-REV5",
-          "Pioneer DDJ-1000": "DDJ-1000"}
+          "Pioneer DDJ-REV1": "DDJ-REV1", "Pioneer DDJ-REV5": "DDJ-REV5"}
 NI_MODELS = ["S2 Mk1", "S2 Mk2", "S2 Mk3", "S3", "S4 Mk1", "S4 Mk2", "S4 Mk3", "S5", "S8",
              "X1 Mk1", "X1 Mk2", "X1 Mk3", "Z1", "Z1 Mk2", "F1", "D2", "Z2", "MX2"]
 NATIVE = {"S2 Mk2", "S2 Mk3", "S3", "S4 Mk2", "Z1"}
@@ -114,7 +114,7 @@ def build(cache, serato_html):
                      profile=name, role="accessory" if name.startswith(("X1", "F1", "D2")) else "primary")
     add_model("Reloop Beatpad", "docs/coordination/beatpad-native.md").update(implementation="native-midi", profile="Beatpad")
 
-    reviewed = curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles() + mc7000_profiles() + original_mixtrack_profiles() + party_mix_profiles() + t1_profiles() + pad_accessory_profiles() + party_mix2_profiles() + terminal_mix_profiles() + dj2go2_profiles() + ns4fx_profiles() + mixstream_profiles() + flx10_profiles()
+    reviewed = curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles() + mc7000_profiles() + original_mixtrack_profiles() + party_mix_profiles() + t1_profiles() + pad_accessory_profiles() + party_mix2_profiles() + terminal_mix_profiles() + dj2go2_profiles() + ns4fx_profiles() + mixstream_profiles() + flx10_profiles() + ddj1000_profiles()
     reviewed_ids = {canonical(item.get("catalogueName", item["id"])) for item in reviewed}
     for path in sorted((cache / "res/controllers").glob("*.xml")):
         reference = refs[path.name]
@@ -166,7 +166,7 @@ def build(cache, serato_html):
                          profile=item["id"], automaticControls=item["autoSelect"])
             model["definitions"].append(item["definition"])
         reference = REFERENCES.get(item["id"])
-        source = CDJ_REFERENCES.get(item["id"]) or PLAYER_REFERENCES.get(item["id"]) or controller_references().get(item["id"]) or ddj_references().get(item["id"]) or LEGACY_XDJ_REFERENCES.get(item["id"]) or entry_references().get(item["id"]) or OPUS_REFERENCES.get(item["id"]) or legacy_ddj_references().get(item["id"]) or S1_REFERENCES.get(item["id"]) or LEGACY_SYSTEM_REFERENCES.get(item["id"]) or numark_references().get(item["id"]) or mixtrack3_references().get(item["id"]) or PLATINUM_REFERENCES.get(item["id"]) or mixtrack2_references().get(item["id"]) or denon_references().get(item["id"]) or MC6000_REFERENCES.get(item["id"]) or MC7000_REFERENCES.get(item["id"]) or original_mixtrack_references().get(item["id"]) or PARTY_MIX_REFERENCES.get(item["id"]) or T1_REFERENCES.get(item["id"]) or PAD_REFERENCES.get(item["id"]) or PARTY2_REFERENCES.get(item["id"]) or terminal_mix_references().get(item["id"]) or DJ2GO2_REFERENCES.get(item["id"]) or NS4FX_REFERENCES.get(item["id"]) or MIXSTREAM_REFERENCES.get(item["id"]) or FLX10_REFERENCES.get(item["id"]) or {"url": item["source"],
+        source = CDJ_REFERENCES.get(item["id"]) or PLAYER_REFERENCES.get(item["id"]) or controller_references().get(item["id"]) or ddj_references().get(item["id"]) or LEGACY_XDJ_REFERENCES.get(item["id"]) or entry_references().get(item["id"]) or OPUS_REFERENCES.get(item["id"]) or legacy_ddj_references().get(item["id"]) or S1_REFERENCES.get(item["id"]) or LEGACY_SYSTEM_REFERENCES.get(item["id"]) or numark_references().get(item["id"]) or mixtrack3_references().get(item["id"]) or PLATINUM_REFERENCES.get(item["id"]) or mixtrack2_references().get(item["id"]) or denon_references().get(item["id"]) or MC6000_REFERENCES.get(item["id"]) or MC7000_REFERENCES.get(item["id"]) or original_mixtrack_references().get(item["id"]) or PARTY_MIX_REFERENCES.get(item["id"]) or T1_REFERENCES.get(item["id"]) or PAD_REFERENCES.get(item["id"]) or PARTY2_REFERENCES.get(item["id"]) or terminal_mix_references().get(item["id"]) or DJ2GO2_REFERENCES.get(item["id"]) or NS4FX_REFERENCES.get(item["id"]) or MIXSTREAM_REFERENCES.get(item["id"]) or FLX10_REFERENCES.get(item["id"]) or DDJ1000_REFERENCES.get(item["id"]) or {"url": item["source"],
             "sha256": reference[1] if reference else "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"}
         definitions.append({"id": item["definition"], "name": item["id"], "transport": "midi",
                             "source": source,
