@@ -26,6 +26,7 @@ from inpulse200mk2 import inpulse200mk2_profiles, INPULSE200_REFERENCES, INPULSE
 from beatmix import beatmix_profiles, BEATMIX_REFERENCES
 from mc2000 import mc2000_profiles, MC2000_REFERENCES
 from mixon4 import mixon4_profiles, MIXON4_REFERENCES
+from dicer import dicer_profiles, DICER_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -58,6 +59,19 @@ ROOT = Path(__file__).resolve().parents[2]
 class ConversionTests(unittest.TestCase):
     def control(self, key="play", group="[Channel3]", extra="", status="0x92", address="11"):
         return ET.fromstring(f"<control><group>{group}</group><key>{key}</key><status>{status}</status><midino>{address}</midino>{extra}</control>")
+
+    def test_dicer_reuses_accessory_addresses_without_the_source_audio_effects(self):
+        result = dicer_profiles()[0]
+        self.assertEqual(result["role"], "accessory")
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (34, 20))
+        self.assertEqual(result["startup"], [[186, 0, 0]])
+        self.assertEqual(result["shutdown"], [[186, 0, 0]])
+        self.assertEqual(sum(row.get("releaseOnly", False) for row in result["inputs"]), 10)
+        self.assertFalse(any(row["channel"] in {11, 14} and row["number"] in range(60, 65) for row in result["inputs"]))
+        for name, digest in DICER_SOURCES:
+            p = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if p.exists():
+                self.assertEqual(hashlib.sha256(p.read_bytes()).hexdigest(), digest)
 
     def test_mixon4_uses_separate_factory_channels_and_rgb_values(self):
         result = mixon4_profiles()[0]

@@ -288,3 +288,7 @@ Use the factory command table and channel-range diagram for this separate two-de
 ## Mixon 4 factory facts
 
 Keep separate deck/mixer channels 4–7, pad channels 0–3 and global channel 10. The published TSI confirms normal jog/touch addresses and unflipped absolute pitch inputs. The reviewed TSI reader remains a local evidence tool. The app receives only protocol facts. Use the factory single-step 65/63 loop decoder and RGB values 3/67 for full/dim blue Hot Cues. Preserve the app's C/D opt-in and existing hardware deck restrictions. Factory bank reports protect pickup and contacts on their own side. Do not infer Mixon 8 Pro support. Extra modes, assignments, complete feedback, cleanup, routing and physical direction/calibration remain open.
+
+## Dicer source boundaries
+
+The native accessory recipe retains the stored ID, five cues and separate cue/loop/orange channels. Shifted delete releases rearm normal pads. Shifted green pads select fixed loops. Orange Cue uses native held preview. The source reset packet covers startup and shutdown. Do not copy the old script's roll implementation, transformer timers, forced gain changes or rewind effects. Its own notes describe loop erasure, timing drift and an audio pause. Default rolls, browser step buttons, extra effects, complete feedback and physical acceptance remain open.

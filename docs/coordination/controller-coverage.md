@@ -2,6 +2,25 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R224 Dicer native accessory core
+
+The existing Dicer recipe now selects automatically as an accessory. Its stored ID and original endpoint aliases remain valid.
+The pinned XML and script have recorded hashes. No downloaded script runs in the app.
+The recipe maps five Hot Cues, shifted fixed loops, orange-page held Cue and Load on each Dicer.
+Normal and delete-page lights retain the source addresses and values. Alternate delete releases rearm normal pads without deleting a cue.
+Startup and shutdown use the source reset packet.
+
+The old roll script warns of loop erasure, timing drift and a brief audio pause.
+Those roll functions, transformer timers, gain changes and rewind effects do not enter the native recipe.
+Default green-page rolls, browser step buttons, extra effects and complete feedback remain open.
+A native playback fixture covers held Cue, release-to-return and saved Sync.
+
+All 24 targeted controller checks, 58 importer/report checks and native iPad compilation pass.
+The catalogue retains 302 records and 159 data recipes. Factory coverage reaches 94 profiles for 98 physical models.
+Six other models retain automatic native adapters. All 158 other recipes remain unchanged.
+Validation results and source identity appear in `TestBuilds/r224/validation.json`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R223 Mixon 4 native core controls
 
 Mixon 4 now has its own automatic four-target recipe from the factory MIDI table and published Traktor mapping.

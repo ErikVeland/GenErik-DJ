@@ -18177,17 +18177,21 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Dicer.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Dicer.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Dicer.midi.xml"
       ],
       "definitions": [
-        "Novation Dicer.midi.xml"
+        "Novation Dicer.midi.xml",
+        "reviewed:novation-dicer"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Novation Dicer",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "cuePreviewA:a",
+        "cuePreviewB:b",
         "hotcue1A:a",
         "hotcue1B:b",
         "hotcue2A:a",
@@ -18199,40 +18203,40 @@
         "hotcue5A:a",
         "hotcue5B:b",
         "loadA:a",
-        "loadB:b"
+        "loadB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
       ],
-      "inputBindingCount": 12,
+      "inputBindingCount": 34,
       "feedbackBindingCount": 20,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 60,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -312767,6 +312771,35 @@
       },
       "implementedInputCount": 154,
       "implementedOutputCount": 52,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:novation-dicer",
+      "name": "Novation Dicer",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Dicer.midi.xml",
+        "sha256": "1ebe1d435a086e02e819b57f2ca6e61993269ed9971c5748f01726189baf5f46",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Dicer.midi.xml",
+            "sha256": "1ebe1d435a086e02e819b57f2ca6e61993269ed9971c5748f01726189baf5f46"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Dicer-scripts.js",
+            "sha256": "18846f299c05e02b305fce81f72cedc1deaaa245cc06d3920d96d6bbedd58aa3"
+          }
+        ],
+        "review": "The native accessory recipe retains the stored ID and five Hot Cues on channels 10/13. Alternate clear-note releases rearm those pads without firing or deleting cues. Shifted green-page notes select native fixed loop lengths. Orange-page Cue uses native held preview and Load retains the XML address. The source reset packet enters startup and shutdown. No downloaded script runs. The source warns that its custom roll implementation erases loops, drifts and can pause audio. That roll code, transformer timers, forced gain changes and rewind effects are not copied. Default green-page rolls, browser step buttons, extra effects, full lights and physical acceptance remain open."
+      },
+      "implementedInputCount": 34,
+      "implementedOutputCount": 20,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

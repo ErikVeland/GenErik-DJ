@@ -364,3 +364,17 @@ import Testing
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueDicerOrangeCueUsesNativePlaybackWithoutScriptTimers() async throws {
+    try await withControllerCuePlayback("Novation Dicer") { model, input in
+        cuePreviewPacket([0x9C, 61, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect((model.playbackSnapshot?.a.sourceFrame ?? 0) > 0)
+        cuePreviewPacket([0x8C, 61, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.sourceFrame == 0)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}
