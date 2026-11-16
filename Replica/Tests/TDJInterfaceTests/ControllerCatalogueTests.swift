@@ -64,7 +64,7 @@ import Testing
     #expect(ControllerProfileCatalogue.loadFailure == nil)
     #expect(ControllerProfileCatalogue.shared.profiles.count >= 100)
     #expect(ControllerProfileCatalogue.shared.profiles.allSatisfy { $0.isValid })
-    #expect(ControllerFactoryProfile.allCases.count == ControllerProfileCatalogue.shared.profiles.count + 7)
+    #expect(ControllerFactoryProfile.allCases.count == ControllerProfileCatalogue.shared.profiles.count + 6)
 }
 
 @Test func controllerCatalogueRejectsInvalidData() throws {

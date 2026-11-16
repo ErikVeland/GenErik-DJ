@@ -252,3 +252,7 @@ No pads, screen or variant compatibility is inferred from the shared family user
 ## Paused count jogs and Sync
 
 Relative jog packets retain fractional intent on a paused deck. Native transport timing still aligns each requested seek when Sync is enabled. Other transport actions, track generations and resolution changes reset the saved intent. This prevents small movements from rounding away indefinitely. Physical platter calibration remains separate.
+
+## FLX10 factory-table migration
+
+FLX10 retains its original profile ID and aliases in a generated data recipe. The catalogue name stays separate from that stored ID. Four deck targets, bank reports, physical Shift identities, Load and core feedback use the factory MIDI list. The official function diagram supplies context-dependent loop buttons and four/sixteen-beat jumps. Shifted jog reports edit the grid and remain unmapped. Saved custom mappings keep their stored actions. Full modes, stems, screens, remaining feedback, cleanup, routing and jog calibration remain open.

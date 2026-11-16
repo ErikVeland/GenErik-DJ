@@ -8,8 +8,9 @@ Reviewed 16 November 2026. This catalogue is complete for the defined source bou
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - 289 total catalogue records. 282 name physical models. The remainder identify software endpoints or protocol families.
-- 153 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
-- 87 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+- 154 bundled data recipes, plus 6 existing code profiles. Most data recipes cover only part of the hardware.
+- 87 factory profiles select core controls automatically for 88 physical models.
+- Existing native adapters provide automatic core controls for 6 other models.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -214,8 +215,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 40 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 73 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
-| automatic-profile | 7 | Existing factory controls and lights. Physical acceptance remains open. |
+| automatic-core-profile | 74 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-profile | 6 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |

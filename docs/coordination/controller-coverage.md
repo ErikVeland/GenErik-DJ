@@ -2,6 +2,38 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R214 FLX10 four-deck core and published control functions
+
+FLX10 now uses a data recipe from the hashed factory MIDI list and the official control-function diagram.
+Its existing profile ID, exact aliases and saved custom mappings remain stable. There is one factory entry for this model.
+
+Transport channels 0/1/2/3 target A/B/C/D. Normal Hot Cue channels are 7/9/11/13.
+The recipe adds C/D, Load and browsing. Four decks retain the existing app opt-in.
+Active bank reports release held contacts and rearm pickup only on that physical side.
+Stable physical Shift identities work across the A/C and B/D banks.
+
+The native loop buttons set In/Out when no loop is active. They halve/double the actual active loop span.
+The four-beat button toggles a four-beat loop. Beat Jump moves four beats, or sixteen with Shift, independently of the selected loop size.
+Tempo retains normal and shifted fourteen-bit pairs. Mixer controls remain independent of deck Shift.
+
+Shifted jog messages edit the beat grid on the original software. They cannot scratch or bend in the native recipe.
+A shifted touch release can end an existing contact. Shifted presses cannot start one. Vinyl Off motion uses the wheel-bend action.
+Unimplemented shifted loop-adjustment gestures remain unmapped.
+
+The recipe retains the published core light messages and adds corresponding C/D lights.
+Full pad modes, stem controls, grid editing, screens, remaining feedback, lifecycle cleanup and audio routing remain open.
+The manufacturer table gives relative counts without a revolution scale. Physical jog calibration remains open.
+
+The catalogue still contains 289 records. It now contains 154 data recipes and six code profiles.
+The 87 factory profiles cover 88 physical models. Six other models have automatic controls through existing native adapters.
+The combined automatic-control total is 94 models. Earlier counts of 93/94 included those six native routes.
+This corrects the earlier factory-coverage wording. FLX10 gains functions without adding a new supported model.
+All 280 focused controller/NI checks, 50 importer/report checks and native iPad compilation pass.
+The compiled resource matches the source. All 153 earlier data recipes remain unchanged.
+Two failing reproductions and intermediate test failures remain in the evidence directory.
+Twelve historical broken links remain. Source base: `ef67a80`. Evidence: `TestBuilds/r214/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R213 paused count jogs with persistent Sync
 
 A reproduction found that individual small jog packets could round back to the same grid position indefinitely.

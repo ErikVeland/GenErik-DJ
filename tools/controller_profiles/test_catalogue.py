@@ -8,6 +8,7 @@ import unittest
 import xml.etree.ElementTree as ET
 
 from build_catalogue import build
+from report import report
 from convert import control_record, convert_xml
 from curated import curated_profiles
 from fetch_reference import fetch, git_blob_hash
@@ -16,6 +17,7 @@ from reviewed import REVIEWED
 from dj2go2 import dj2go2_profiles, DJ2GO2_SOURCES
 from ns4fx import ns4fx_profiles, NS4FX_SOURCES
 from mixstream import mixstream_profiles, MIXSTREAM_SOURCES
+from flx10 import flx10_profiles, FLX10_REFERENCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -48,6 +50,37 @@ ROOT = Path(__file__).resolve().parents[2]
 class ConversionTests(unittest.TestCase):
     def control(self, key="play", group="[Channel3]", extra="", status="0x92", address="11"):
         return ET.fromstring(f"<control><group>{group}</group><key>{key}</key><status>{status}</status><midino>{address}</midino>{extra}</control>")
+
+    def test_report_separates_factory_models_from_native_adapters(self):
+        models = []
+        for route, physical, automatic in [("automatic-profile", True, True),
+                                            ("automatic-core-profile", True, True),
+                                            ("native-accessory", True, True),
+                                            ("partial-midi-profile", True, False),
+                                            ("protocol-needed", False, True)]:
+            models.append({"name": route, "implementation": route, "isPhysicalModel": physical,
+                           "zeroConfig": {"automaticControls": automatic}, "priority": {},
+                           "benchmark": False, "role": "primary", "sources": ["fixture"]})
+        text = report({"models": models, "definitions": [], "benchmarkRows": [], "upstreamRevision": "fixture"},
+                      {"profiles": [{"autoSelect": True}, {"autoSelect": False}]})
+        self.assertIn("plus 1 existing code profiles", text)
+        self.assertIn("2 factory profiles select core controls automatically for 2 physical models", text)
+        self.assertIn("Existing native adapters provide automatic core controls for 1 other models", text)
+
+    def test_flx10_migration_preserves_identity_and_tracks_the_factory_tables(self):
+        result = flx10_profiles()[0]
+        self.assertEqual(result["id"], "DDJ-FLX10")
+        self.assertEqual(result["catalogueName"], "Pioneer DDJ-FLX10")
+        self.assertEqual(len(result["inputs"]), 145)
+        self.assertEqual(len(result["outputs"]), 44)
+        self.assertEqual([row["channel"] for row in result["bankChanges"]], [0, 1, 2, 3])
+        self.assertEqual([row["shiftInput"] for row in result["inputs"] if row["action"] == "shift"], [0, 1, 0, 1])
+        self.assertEqual({row["argument"] for row in result["inputs"] if row["action"].startswith("fixedJump")}, {-16, -4, 4, 16})
+        root = Path(__file__).resolve().parents[2] / "TestBuilds/r214/manufacturer"
+        for name, reference in [("DDJ-FLX10.pdf", FLX10_REFERENCES["DDJ-FLX10"]),
+                                ("DDJ-FLX10-diagram.pdf", FLX10_REFERENCES["DDJ-FLX10"]["relatedSources"][0])]:
+            if (root / name).exists():
+                self.assertEqual(hashlib.sha256((root / name).read_bytes()).hexdigest(), reference["sha256"])
 
     def test_mixxx_rate_controls_translate_default_engine_direction_once(self):
         for extra, inverted in [("", True), ("<options><invert/></options>", False)]:

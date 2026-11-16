@@ -220,6 +220,16 @@ extension ReplicaModel {
                 setLoopSize(argument, deck: deck)
                 if playbackSnapshot?[deck].loopEnabled != true { toggleLoop(deck: deck) }
             }
+        case .loopInOrHalveA, .loopInOrHalveB, .loopOutOrDoubleA, .loopOutOrDoubleB:
+            let isIn = action == .loopInOrHalveA || action == .loopInOrHalveB
+            guard let state = playbackSnapshot?[deck] else { return }
+            if state.loopEnabled {
+                let span = state.loopEnd - state.loopStart
+                guard span > 0 else { return }
+                setLoop(start: state.loopStart, end: state.loopStart + span * (isIn ? 0.5 : 2), deck: deck)
+            } else {
+                applyController(isIn ? .loopInA : .loopOutA, value: value, targetDeck: deck)
+            }
         case .loopInA, .loopInB:
             if let state = playbackSnapshot?[deck], state.generation != 0 {
                 controllerLoopStarts[deck] = (state.generation, snappedFrame(state.sourceFrame, deck: deck))
