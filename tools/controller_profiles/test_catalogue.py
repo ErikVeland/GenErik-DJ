@@ -522,6 +522,34 @@ class ConversionTests(unittest.TestCase):
         self.assertIn("documentedControlsComplete", support["remainingWork"])
 
 
+    def test_reviewed_numark_browser_rejects_non_library_groups(self):
+        handlers = REVIEWED["Numark Total Control.midi.xml"]["handlers"]
+        record, reason = control_record(self.control("NumarkTotalControl.selectKnob", "[Playlist]",
+            "<options><script-binding/></options>", "0xB0", "26"), handlers)
+        self.assertIsNone(reason)
+        self.assertEqual(record["action"], "browse")
+        self.assertEqual(record["encoding"], "twosComplement")
+        for group in ["[Master]", "[Channel1]"]:
+            record, reason = control_record(self.control("NumarkTotalControl.selectKnob", group,
+                "<options><script-binding/></options>", "0xB0", "26"), handlers)
+            self.assertIsNone(record)
+            self.assertEqual(reason, "unsupported-script-target")
+
+    def test_reviewed_numark_models_retain_opposite_jog_addresses(self):
+        cache = ROOT / "TestBuilds/r169/upstream/res/controllers"
+        if not cache.exists():
+            self.skipTest("Fetch the locked public reference cache before checking mappings.")
+        for model, numbers in [("Total", [25, 24]), ("Omni", [24, 25])]:
+            filename = f"Numark {model} Control.midi.xml"
+            result = convert_xml(cache / filename, REVIEWED[filename]["handlers"])
+            jogs = sorted((i for i in result["inputs"] if i["action"].startswith("wheelJog")), key=lambda i: i["action"])
+            self.assertEqual([i["number"] for i in jogs], numbers)
+            self.assertTrue(all(i["argument"] == 128 and i["encoding"] == "twosComplement" for i in jogs))
+            unresolved = {r["key"] for r in result["inputRecords"] if r["disposition"] != "mapped"}
+            self.assertIn("NumarkTotalControl.toggleScratchMode", unresolved)
+            self.assertIn("NumarkTotalControl.playFromCue", unresolved)
+
+
 class GeneratedCatalogueTests(unittest.TestCase):
     def test_source_inventory_and_generated_data(self):
         cache = ROOT / "TestBuilds/r169/upstream"

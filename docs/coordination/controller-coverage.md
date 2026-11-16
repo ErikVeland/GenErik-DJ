@@ -2,6 +2,28 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R204 Total Control and Omni Control core mappings
+
+Both Numark models now select their existing core recipes automatically.
+The pinned XML supplies Play, Sync, Keylock, Load, headphone cue, mixer and seven-bit tempo controls.
+The reviewed scripts supply normal-mode signed jog counts and track browsing.
+Total Control uses left/right CC 25/24. Omni Control uses 24/25. Their mappings remain separate.
+The script's 128-count scratch reference supplies the relative sensitivity. Physical calibration remains open.
+Browser handlers require a Library or Playlist group. A deck or Master group cannot acquire a browser action.
+
+Neither source requires an application-connect handshake. The native profiles do not send unconditional zero-tempo LEDs.
+Shutdown clears the six implemented output addresses. Feedback retains the XML's separate input/output addresses and value 100.
+Directory mode, timed Scratch mode, cue preview, fine pitch, extended/manual loop semantics, FX and full feedback remain open.
+The native player retains its Sync rules and bend policy. It does not reproduce the source's jog response curve.
+Audio routing and physical acceptance remain open.
+
+The defined catalogue remains 289 records and 153 data recipes plus seven code profiles.
+Eighty-three factory profiles now select core controls automatically, covering 90 physical models.
+All 219 focused Swift checks, 42 importer checks and native iPad compilation passed. The compiled resource matches the source.
+Only the two existing Numark recipes change. The other 151 recipes remain unchanged. Twelve historical broken links remain.
+Source base: `1a3b5f9`. Evidence: `TestBuilds/r204/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R203 relative jog movement and idle stop
 
 Relative jog packets now retain their signed counts until the native player receives them.

@@ -151,7 +151,7 @@ def build(cache, serato_html):
                    "autoSelect": CORE <= {entry["action"] for entry in result["inputs"] if entry.get("targetDeck")
                        in {None, "a" if entry["action"].endswith("A") else "b" if entry["action"].endswith("B") else None}}
                    and manufacturer(result["name"]) in DJ_BRANDS and (bool(review) or not result["scripts"]),
-                   "scope": "Partial mapping. Hardware verification is open.", "source": reference["url"]}
+                   "scope": review.get("scope", "Partial mapping. Hardware verification is open.") if review else "Partial mapping. Hardware verification is open.", "source": reference["url"]}
         profiles.append(profile)
     for item in reviewed:
         for name in split_models(item["id"]):

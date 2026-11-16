@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R203 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R204 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -164,3 +164,10 @@ Absolute speed reports cannot specify this value. Missing values use the generic
 R203 records published DDJ-T1, Terminal Mix and Party Mix counts. Other profiles require calibration review.
 The player retains raw counts, flushes movement before touch release or Load, and stops idle movement after 50 milliseconds.
 Physical calibration and A10X acceptance remain open.
+
+## Reviewed classic Numark scripts
+
+Total Control and Omni Control reuse the pinned XML and reviewed normal-mode jog/browser facts.
+Their jog addresses differ. Both source scripts use the `NumarkTotalControl` namespace.
+Global browser facts require a Library or Playlist group. Relative jog facts can retain a published resolution.
+The recipes leave unsupported script modes unmapped and record the remaining work in their scope.

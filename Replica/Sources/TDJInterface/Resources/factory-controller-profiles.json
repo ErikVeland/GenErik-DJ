@@ -30830,6 +30830,34 @@
           "inverted": false
         },
         {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 24,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "argument": 128,
+          "targetDeck": "a"
+        },
+        {
+          "action": "wheelJogB",
+          "kind": "control",
+          "channel": 0,
+          "number": 25,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "argument": 128,
+          "targetDeck": "b"
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 26,
+          "encoding": "twosComplement",
+          "inverted": false
+        },
+        {
           "action": "cueA",
           "kind": "note",
           "channel": 0,
@@ -30920,9 +30948,40 @@
         }
       ],
       "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
+      "shutdown": [
+        [
+          144,
+          53,
+          0
+        ],
+        [
+          144,
+          64,
+          0
+        ],
+        [
+          144,
+          62,
+          0
+        ],
+        [
+          144,
+          78,
+          0
+        ],
+        [
+          144,
+          54,
+          0
+        ],
+        [
+          144,
+          65,
+          0
+        ]
+      ],
+      "autoSelect": true,
+      "scope": "Automatic native core controls from pinned XML and reviewed normal-mode jog/browser handlers. Scratch/directory modes, cue preview, extended/manual loop script semantics, fine pitch, FX, remaining feedback and audio routing remain open.",
       "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Omni%20Control.midi.xml"
     },
     {
@@ -32265,6 +32324,14 @@
           "targetDeck": "b"
         },
         {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 26,
+          "encoding": "twosComplement",
+          "inverted": false
+        },
+        {
           "action": "loadA",
           "kind": "note",
           "channel": 0,
@@ -32334,6 +32401,26 @@
           "number": 71,
           "encoding": "absolute",
           "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 25,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "argument": 128,
+          "targetDeck": "a"
+        },
+        {
+          "action": "wheelJogB",
+          "kind": "control",
+          "channel": 0,
+          "number": 24,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "argument": 128,
           "targetDeck": "b"
         },
         {
@@ -32508,9 +32595,40 @@
         }
       ],
       "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
+      "shutdown": [
+        [
+          144,
+          53,
+          0
+        ],
+        [
+          144,
+          64,
+          0
+        ],
+        [
+          144,
+          62,
+          0
+        ],
+        [
+          144,
+          78,
+          0
+        ],
+        [
+          144,
+          54,
+          0
+        ],
+        [
+          144,
+          65,
+          0
+        ]
+      ],
+      "autoSelect": true,
+      "scope": "Automatic native core controls from pinned XML and reviewed normal-mode jog/browser handlers. Scratch/directory modes, cue preview, extended/manual loop script semantics, fine pitch, FX, remaining feedback and audio routing remain open.",
       "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Total%20Control.midi.xml"
     },
     {

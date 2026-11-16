@@ -64,9 +64,14 @@ def control_record(control, reviewed_handlers=None):
         opts = opts - {"script-binding"}
     if fact:
         deck = re.fullmatch(r"\[Channel([1-4])\]", group)
-        if not deck:
+        if fact[0] in LIBRARY_KEYS.values():
+            if group not in {"[Library]", "[Playlist]"}:
+                return None, "unsupported-script-target"
+            action, reason = fact[0], None
+        elif deck:
+            action, reason = fact[0] + ("A" if int(deck[1]) % 2 else "B"), None
+        else:
             return None, "unsupported-script-target"
-        action, reason = fact[0] + ("A" if int(deck[1]) % 2 else "B"), None
     else:
         action, reason = operation(group, key)
     if action is None:
@@ -97,6 +102,8 @@ def control_record(control, reviewed_handlers=None):
         return None, "nonstandard-button-semantics"
     record = {"action": action, "kind": kind, "channel": status & 15, "number": address,
               "encoding": encoding, "inverted": ("invert" not in opts) if action in {"tempoA", "tempoB"} else "invert" in opts}
+    if fact and len(fact) > 2:
+        record["argument"] = fact[2]
     target = re.search(r"\[Channel([1-4])\]", group)
     if target:
         record["targetDeck"] = "abcd"[int(target[1]) - 1]

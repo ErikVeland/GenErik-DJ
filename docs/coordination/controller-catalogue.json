@@ -19848,8 +19848,9 @@
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Numark Omni Control",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browse",
         "crossfader",
         "cueA:a",
         "cueB:b",
@@ -19875,33 +19876,34 @@
         "syncA:a",
         "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 26,
+      "inputBindingCount": 29,
       "feedbackBindingCount": 6,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 55,
+        "untranslatedSourceRows": 52,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
@@ -20358,8 +20360,9 @@
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Numark Total Control",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browse",
         "crossfader",
         "cueA:a",
         "cueB:b",
@@ -20385,33 +20388,34 @@
         "syncA:a",
         "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 26,
+      "inputBindingCount": 29,
       "feedbackBindingCount": 6,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 55,
+        "untranslatedSourceRows": 52,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
@@ -193173,7 +193177,7 @@
       "scripts": [
         "Numark-Omni-Control-scripts.js"
       ],
-      "implementedInputCount": 26,
+      "implementedInputCount": 29,
       "sourceInputCount": 65,
       "implementedOutputCount": 6,
       "sourceOutputCount": 22,
@@ -193764,21 +193768,49 @@
           "key": "NumarkTotalControl.jogWheel",
           "status": "0xb0",
           "number": "0x18",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "wheelJogA",
+            "kind": "control",
+            "channel": 0,
+            "number": 24,
+            "encoding": "twosComplement",
+            "inverted": false,
+            "argument": 128,
+            "targetDeck": "a"
+          }
         },
         {
           "group": "[Channel2]",
           "key": "NumarkTotalControl.jogWheel",
           "status": "0xb0",
           "number": "0x19",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "wheelJogB",
+            "kind": "control",
+            "channel": 0,
+            "number": 25,
+            "encoding": "twosComplement",
+            "inverted": false,
+            "argument": 128,
+            "targetDeck": "b"
+          }
         },
         {
           "group": "[Playlist]",
           "key": "NumarkTotalControl.selectKnob",
           "status": "0xb0",
           "number": "0x1a",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "browse",
+            "kind": "control",
+            "channel": 0,
+            "number": 26,
+            "encoding": "twosComplement",
+            "inverted": false
+          }
         },
         {
           "group": "[Channel1]",
@@ -194387,27 +194419,6 @@
           "reason": "script-behaviour"
         },
         {
-          "group": "[Channel1]",
-          "key": "NumarkTotalControl.jogWheel",
-          "status": "0xb0",
-          "number": "0x18",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Channel2]",
-          "key": "NumarkTotalControl.jogWheel",
-          "status": "0xb0",
-          "number": "0x19",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Playlist]",
-          "key": "NumarkTotalControl.selectKnob",
-          "status": "0xb0",
-          "number": "0x1a",
-          "reason": "script-behaviour"
-        },
-        {
           "group": "[Master]",
           "key": "NumarkTotalControl.toggleSimpleCue",
           "status": "0x90",
@@ -194458,7 +194469,7 @@
       "scripts": [
         "Numark-Total-Control-scripts.js"
       ],
-      "implementedInputCount": 26,
+      "implementedInputCount": 29,
       "sourceInputCount": 65,
       "implementedOutputCount": 6,
       "sourceOutputCount": 22,
@@ -194623,7 +194634,15 @@
           "key": "NumarkTotalControl.selectKnob",
           "status": "0xb0",
           "number": "0x1a",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "browse",
+            "kind": "control",
+            "channel": 0,
+            "number": 26,
+            "encoding": "twosComplement",
+            "inverted": false
+          }
         },
         {
           "group": "[Playlist]",
@@ -194863,14 +194882,34 @@
           "key": "NumarkTotalControl.jogWheel",
           "status": "0xb0",
           "number": "0x19",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "wheelJogA",
+            "kind": "control",
+            "channel": 0,
+            "number": 25,
+            "encoding": "twosComplement",
+            "inverted": false,
+            "argument": 128,
+            "targetDeck": "a"
+          }
         },
         {
           "group": "[Channel2]",
           "key": "NumarkTotalControl.jogWheel",
           "status": "0xb0",
           "number": "0x18",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "wheelJogB",
+            "kind": "control",
+            "channel": 0,
+            "number": 24,
+            "encoding": "twosComplement",
+            "inverted": false,
+            "argument": 128,
+            "targetDeck": "b"
+          }
         },
         {
           "group": "[Channel1]",
@@ -195519,13 +195558,6 @@
         },
         {
           "group": "[Playlist]",
-          "key": "NumarkTotalControl.selectKnob",
-          "status": "0xb0",
-          "number": "0x1a",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Playlist]",
           "key": "LoadSelectedIntoFirstStopped",
           "status": "0x90",
           "number": "0x4f",
@@ -195627,20 +195659,6 @@
           "key": "NumarkTotalControl.toggleScratchMode",
           "status": "0x90",
           "number": "0x32",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Channel1]",
-          "key": "NumarkTotalControl.jogWheel",
-          "status": "0xb0",
-          "number": "0x19",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Channel2]",
-          "key": "NumarkTotalControl.jogWheel",
-          "status": "0xb0",
-          "number": "0x18",
           "reason": "script-behaviour"
         },
         {
