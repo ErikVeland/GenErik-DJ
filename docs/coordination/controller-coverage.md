@@ -2,6 +2,27 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R205 Hercules DJControl MIX core controls
+
+DJControl MIX now selects its existing core recipe automatically. MIX ULTRA retains a separate model boundary.
+Pinned script facts add normal and shifted touch/jog controls, rim bending and application setup.
+The native mapping retains the published 248-count sensitivity. Shifted motion uses 62 counts for the source's fourfold seek multiplier.
+The source XML labels both shifted jog rows as Channel1. The script routes channels 4/5 to decks A/B.
+The native binding follows that explicit script routing. Unsupported channels cannot acquire a deck override.
+
+Startup lights Vinyl and requests the current control values. Shutdown uses the source's all-LED-off message.
+Reconnect repeats startup once. Core transport, four Hot Cues, faders and the 22 existing feedback bindings retain their addresses.
+Vinyl remains enabled. Its toggle, cue/master modes, pad loops, samplers, FX, full feedback and audio routing remain open.
+Bluetooth pairing, physical response and A10X performance require acceptance on hardware.
+The app does not copy the source's unrelated sampler allocation or FX parameter changes.
+
+The catalogue remains 289 records and 153 data recipes plus seven code profiles.
+Eighty-four factory profiles now select core controls automatically, covering 91 physical models.
+All 222 focused Swift checks, 43 importer checks and native iPad compilation passed. The compiled resource matches the source.
+Only the existing MIX recipe changes. The other 152 recipes remain unchanged. Twelve historical broken links remain.
+Source base: `6acc64a`. Evidence: `TestBuilds/r205/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R204 Total Control and Omni Control core mappings
 
 Both Numark models now select their existing core recipes automatically.

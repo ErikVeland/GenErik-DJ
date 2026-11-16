@@ -107,6 +107,12 @@ def control_record(control, reviewed_handlers=None):
     target = re.search(r"\[Channel([1-4])\]", group)
     if target:
         record["targetDeck"] = "abcd"[int(target[1]) - 1]
+    if fact and len(fact) > 3:
+        deck = fact[3].get(status & 15)
+        if deck not in {"a", "b", "c", "d"}:
+            return None, "unsupported-script-target"
+        record["targetDeck"] = deck
+        record["action"] = fact[0] + ("A" if deck in {"a", "c"} else "B")
     return record, None
 
 

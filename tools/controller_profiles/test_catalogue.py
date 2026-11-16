@@ -550,6 +550,21 @@ class ConversionTests(unittest.TestCase):
             self.assertIn("NumarkTotalControl.playFromCue", unresolved)
 
 
+    def test_mix_shifted_wheel_uses_script_channel_routing_and_resolution(self):
+        handlers = REVIEWED["Hercules DJControl MIX.midi.xml"]["handlers"]
+        for status, deck, action in [("0xB4", "a", "jogA"), ("0xB5", "b", "jogB")]:
+            record, reason = control_record(self.control("DJCMIX.scratchWheelShift", "[Channel1]",
+                "<options><script-binding/></options>", status, "10"), handlers)
+            self.assertIsNone(reason)
+            self.assertEqual(record["targetDeck"], deck)
+            self.assertEqual(record["action"], action)
+            self.assertEqual(record["argument"], 62)
+        record, reason = control_record(self.control("DJCMIX.scratchWheelShift", "[Channel1]",
+            "<options><script-binding/></options>", "0xB3", "10"), handlers)
+        self.assertIsNone(record)
+        self.assertEqual(reason, "unsupported-script-target")
+
+
 class GeneratedCatalogueTests(unittest.TestCase):
     def test_source_inventory_and_generated_data(self):
         cache = ROOT / "TestBuilds/r169/upstream"

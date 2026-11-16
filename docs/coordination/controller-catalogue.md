@@ -9,7 +9,7 @@ Reviewed 16 November 2026. This catalogue is complete for the defined source bou
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - 289 total catalogue records. 282 name physical models. The remainder identify software endpoints or protocol families.
 - 153 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
-- 83 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+- 84 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.

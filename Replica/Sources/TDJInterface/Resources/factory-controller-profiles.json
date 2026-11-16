@@ -18992,6 +18992,15 @@
           "targetDeck": "a"
         },
         {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 1,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
           "action": "playB",
           "kind": "note",
           "channel": 2,
@@ -19023,6 +19032,33 @@
           "kind": "note",
           "channel": 2,
           "number": 12,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 2,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 4,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 5,
+          "number": 8,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
@@ -19160,6 +19196,36 @@
           "targetDeck": "a"
         },
         {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 1,
+          "number": 10,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "argument": 248,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 4,
+          "number": 10,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "argument": 62,
+          "targetDeck": "a"
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 1,
+          "number": 9,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "argument": 248,
+          "targetDeck": "a"
+        },
+        {
           "action": "levelB",
           "kind": "control",
           "channel": 2,
@@ -19193,6 +19259,36 @@
           "number": 8,
           "encoding": "paired14Bit",
           "inverted": true,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 2,
+          "number": 10,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "argument": 248,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 5,
+          "number": 10,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "argument": 62,
+          "targetDeck": "b"
+        },
+        {
+          "action": "wheelJogB",
+          "kind": "control",
+          "channel": 2,
+          "number": 9,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "argument": 248,
           "targetDeck": "b"
         }
       ],
@@ -19418,10 +19514,27 @@
           "targetDeck": "b"
         }
       ],
-      "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
+      "startup": [
+        [
+          145,
+          3,
+          127
+        ],
+        [
+          176,
+          127,
+          127
+        ]
+      ],
+      "shutdown": [
+        [
+          176,
+          127,
+          0
+        ]
+      ],
+      "autoSelect": true,
+      "scope": "Automatic native core controls from pinned XML and reviewed jog/lifecycle facts. Shifted jog channel 5 follows the script's right deck despite the XML group typo. Vinyl remains enabled. Cue/master modes, pad loops, samplers, FX, full feedback and audio routing remain open.",
       "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20MIX.midi.xml"
     },
     {

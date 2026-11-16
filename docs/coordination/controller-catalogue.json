@@ -14702,7 +14702,7 @@
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Hercules DJControl MIX",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "crossfader",
         "cueA:a",
@@ -14719,6 +14719,10 @@
         "hotcue3B:b",
         "hotcue4A:a",
         "hotcue4B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "levelA:a",
         "levelB:b",
         "lowA:a",
@@ -14730,33 +14734,34 @@
         "syncA:a",
         "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 27,
+      "inputBindingCount": 37,
       "feedbackBindingCount": 22,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 86,
+        "untranslatedSourceRows": 76,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
@@ -105986,7 +105991,7 @@
         "midi-components-0.0.js",
         "Hercules-DJControl-MIX-scripts.js"
       ],
-      "implementedInputCount": 27,
+      "implementedInputCount": 37,
       "sourceInputCount": 87,
       "implementedOutputCount": 22,
       "sourceOutputCount": 50,
@@ -106074,7 +106079,16 @@
           "key": "DJCMIX.wheelTouch",
           "status": "0x91",
           "number": "0x08",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "jogTouchA",
+            "kind": "note",
+            "channel": 1,
+            "number": 8,
+            "encoding": "absolute",
+            "inverted": false,
+            "targetDeck": "a"
+          }
         },
         {
           "group": "[Channel2]",
@@ -106145,7 +106159,16 @@
           "key": "DJCMIX.wheelTouch",
           "status": "0x92",
           "number": "0x08",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "jogTouchB",
+            "kind": "note",
+            "channel": 2,
+            "number": 8,
+            "encoding": "absolute",
+            "inverted": false,
+            "targetDeck": "b"
+          }
         },
         {
           "group": "[Channel1]",
@@ -106180,7 +106203,16 @@
           "key": "DJCMIX.wheelTouchShift",
           "status": "0x94",
           "number": "0x08",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "jogTouchA",
+            "kind": "note",
+            "channel": 4,
+            "number": 8,
+            "encoding": "absolute",
+            "inverted": false,
+            "targetDeck": "a"
+          }
         },
         {
           "group": "[Channel2]",
@@ -106215,7 +106247,16 @@
           "key": "DJCMIX.wheelTouchShift",
           "status": "0x95",
           "number": "0x08",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "jogTouchB",
+            "kind": "note",
+            "channel": 5,
+            "number": 8,
+            "encoding": "absolute",
+            "inverted": false,
+            "targetDeck": "b"
+          }
         },
         {
           "group": "[Channel1]",
@@ -106732,21 +106773,51 @@
           "key": "DJCMIX.scratchWheel",
           "status": "0xB1",
           "number": "0x0A",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "jogA",
+            "kind": "control",
+            "channel": 1,
+            "number": 10,
+            "encoding": "twosComplement",
+            "inverted": false,
+            "argument": 248,
+            "targetDeck": "a"
+          }
         },
         {
           "group": "[Channel1]",
           "key": "DJCMIX.scratchWheelShift",
           "status": "0xB4",
           "number": "0x0A",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "jogA",
+            "kind": "control",
+            "channel": 4,
+            "number": 10,
+            "encoding": "twosComplement",
+            "inverted": false,
+            "argument": 62,
+            "targetDeck": "a"
+          }
         },
         {
           "group": "[Channel1]",
           "key": "DJCMIX.bendWheel",
           "status": "0xB1",
           "number": "0x09",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "wheelJogA",
+            "kind": "control",
+            "channel": 1,
+            "number": 9,
+            "encoding": "twosComplement",
+            "inverted": false,
+            "argument": 248,
+            "targetDeck": "a"
+          }
         },
         {
           "group": "[Channel2]",
@@ -106824,21 +106895,51 @@
           "key": "DJCMIX.scratchWheel",
           "status": "0xB2",
           "number": "0x0A",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "jogB",
+            "kind": "control",
+            "channel": 2,
+            "number": 10,
+            "encoding": "twosComplement",
+            "inverted": false,
+            "argument": 248,
+            "targetDeck": "b"
+          }
         },
         {
           "group": "[Channel1]",
           "key": "DJCMIX.scratchWheelShift",
           "status": "0xB5",
           "number": "0x0A",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "jogB",
+            "kind": "control",
+            "channel": 5,
+            "number": 10,
+            "encoding": "twosComplement",
+            "inverted": false,
+            "argument": 62,
+            "targetDeck": "b"
+          }
         },
         {
           "group": "[Channel2]",
           "key": "DJCMIX.bendWheel",
           "status": "0xB2",
           "number": "0x09",
-          "disposition": "script-behaviour"
+          "disposition": "mapped",
+          "binding": {
+            "action": "wheelJogB",
+            "kind": "control",
+            "channel": 2,
+            "number": 9,
+            "encoding": "twosComplement",
+            "inverted": false,
+            "argument": 248,
+            "targetDeck": "b"
+          }
         }
       ],
       "outputRecords": [
@@ -107630,20 +107731,6 @@
         },
         {
           "group": "[Channel1]",
-          "key": "DJCMIX.wheelTouch",
-          "status": "0x91",
-          "number": "0x08",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Channel2]",
-          "key": "DJCMIX.wheelTouch",
-          "status": "0x92",
-          "number": "0x08",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Channel1]",
           "key": "play_stutter",
           "status": "0x94",
           "number": "0x07",
@@ -107668,13 +107755,6 @@
           "key": "DJCMIX.cueMaster",
           "status": "0x94",
           "number": "0x0C",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Channel1]",
-          "key": "DJCMIX.wheelTouchShift",
-          "status": "0x94",
-          "number": "0x08",
           "reason": "script-behaviour"
         },
         {
@@ -107703,13 +107783,6 @@
           "key": "DJCMIX.cueMix",
           "status": "0x95",
           "number": "0x0C",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Channel2]",
-          "key": "DJCMIX.wheelTouchShift",
-          "status": "0x95",
-          "number": "0x08",
           "reason": "script-behaviour"
         },
         {
@@ -107977,48 +108050,6 @@
           "status": "0x97",
           "number": "0x13",
           "reason": "unsupported-operation"
-        },
-        {
-          "group": "[Channel1]",
-          "key": "DJCMIX.scratchWheel",
-          "status": "0xB1",
-          "number": "0x0A",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Channel1]",
-          "key": "DJCMIX.scratchWheelShift",
-          "status": "0xB4",
-          "number": "0x0A",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Channel1]",
-          "key": "DJCMIX.bendWheel",
-          "status": "0xB1",
-          "number": "0x09",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Channel2]",
-          "key": "DJCMIX.scratchWheel",
-          "status": "0xB2",
-          "number": "0x0A",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Channel1]",
-          "key": "DJCMIX.scratchWheelShift",
-          "status": "0xB5",
-          "number": "0x0A",
-          "reason": "script-behaviour"
-        },
-        {
-          "group": "[Channel2]",
-          "key": "DJCMIX.bendWheel",
-          "status": "0xB2",
-          "number": "0x09",
-          "reason": "script-behaviour"
         }
       ]
     },

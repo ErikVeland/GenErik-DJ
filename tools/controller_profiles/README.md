@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R204 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R205 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -171,3 +171,10 @@ Total Control and Omni Control reuse the pinned XML and reviewed normal-mode jog
 Their jog addresses differ. Both source scripts use the `NumarkTotalControl` namespace.
 Global browser facts require a Library or Playlist group. Relative jog facts can retain a published resolution.
 The recipes leave unsupported script modes unmapped and record the remaining work in their scope.
+
+## Reviewed MIX channel correction
+
+The MIX shifted-wheel script routes MIDI channels 4 and 5 to decks A and B.
+Its XML incorrectly labels both groups as Channel1. The reviewed handler includes the exact channel-to-deck table.
+The importer rejects channels outside that table and retains the original source row beside the corrected binding.
+The shifted resolution retains the source's fourfold seek multiplier. MIX ULTRA receives no inherited recipe.

@@ -47,3 +47,18 @@ def numark_classic_review(model):
 
 for model in ["Total", "Omni"]:
     REVIEWED[f"Numark {model} Control.midi.xml"] = numark_classic_review(model)
+
+
+REVIEWED["Hercules DJControl MIX.midi.xml"] = {
+    "script": "Hercules-DJControl-MIX-scripts.js",
+    "handlers": {
+        "DJCMIX.wheelTouch": ("jogTouch", "absolute"),
+        "DJCMIX.wheelTouchShift": ("jogTouch", "absolute"),
+        "DJCMIX.scratchWheel": ("jog", "twosComplement", 248),
+        "DJCMIX.scratchWheelShift": ("jog", "twosComplement", 62, {4: "a", 5: "b"}),
+        "DJCMIX.bendWheel": ("wheelJog", "twosComplement", 248),
+    },
+    "startup": [[0x91, 3, 127], [0xB0, 127, 127]],
+    "shutdown": [[0xB0, 127, 0]],
+    "scope": "Automatic native core controls from pinned XML and reviewed jog/lifecycle facts. Shifted jog channel 5 follows the script's right deck despite the XML group typo. Vinyl remains enabled. Cue/master modes, pad loops, samplers, FX, full feedback and audio routing remain open.",
+}
