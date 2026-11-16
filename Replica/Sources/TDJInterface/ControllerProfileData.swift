@@ -14,13 +14,15 @@ struct ControllerProfileData: Decodable, Sendable {
         let argument: Double?
         let releaseOnly: Bool?
         let requiredMode: UInt8?
+        let shifted: Bool?
+        let shiftChannel: UInt8?
 
         func binding(source: Int32) -> ControllerBinding {
             .init(
                 source: source, group: 0, channel: channel, kind: kind, number: number,
                 parameter: nil, noteNumber: nil, action: action, encoding: encoding,
-                inverted: inverted, shifted: false, targetDeck: targetDeck, layerIndependent: true,
-                anyChannel: anyChannel, argument: argument, releaseOnly: releaseOnly, requiredMode: requiredMode)
+                inverted: inverted, shifted: shifted ?? false, targetDeck: targetDeck, layerIndependent: shifted == nil,
+                anyChannel: anyChannel, argument: argument, releaseOnly: releaseOnly, requiredMode: requiredMode, shiftChannel: shiftChannel)
         }
     }
 
@@ -71,6 +73,10 @@ struct ControllerProfileData: Decodable, Sendable {
         (role == nil || role == "player") && !id.isEmpty && id.count <= 128 && !aliases.isEmpty && aliases.count <= 24
             && aliases.allSatisfy { !$0.isEmpty && $0.count <= 128 }
             && validInputModes
+            && inputs.allSatisfy { input in
+                guard let channel = input.shiftChannel else { return true }
+                return channel < 16 && inputs.contains { $0.action == .shift && $0.shiftChannel == channel }
+            }
             && !inputs.isEmpty && inputs.count <= 512 && outputs.count <= 128
             && inputs.allSatisfy {
                 $0.channel < 16 && $0.number < 128

@@ -2,6 +2,30 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R189 Mixtrack 3 and Mixtrack Pro 3 core controls
+
+Mixtrack 3 and Mixtrack Pro 3 now select separate native core profiles automatically.
+The pinned XML explicitly documents their shared MIDI controls. The Pro adds audio hardware.
+The profiles retain deck channels 2/3, global browser/mixer channel 1 and inverted high-resolution tempo pairs.
+They include transport, Load, headphone cue, signed jogs, EQ, filter, level and manual loop controls.
+
+Each deck has its own Shift state. Holding left Shift blocks unsupported left-deck combinations and preserves right-deck controls.
+Holding right Shift has the matching behaviour. Global controls retain their normal path.
+Jog touch release still works during Shift. Disconnects clear both modifier states.
+Optional profile fields define this scope. Earlier profiles and saved global Shift bindings keep their existing behaviour.
+
+Platter touch uses the native Scratch path. Setup lights the published jog indicators and shutdown clears them.
+Pad/sample modes, shifted functions, deck switching, Scratch toggle, FX and complete audio routing remain unimplemented.
+Physical jog calibration and source reuse/distribution review remain release work.
+Sources: pinned [XML](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-3.midi.xml) and [script](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-3-scripts.js).
+SHA-256 identities are recorded in `tools/controller_profiles/mixtrack3.py` and the generated catalogue.
+The catalogue retains 287 records and now has 147 data recipes plus seven code profiles. Sixty-six factory profiles select core controls automatically.
+Two exact model recipes replace one combined partial recipe. All 145 other recipes remain unchanged.
+All 134 focused profile checks, four Shift/takeover regression checks, 27 importer checks and native iPad compilation passed.
+The compiled resource matches the source. Twelve historical broken links remain across 1,524 files.
+Source base: `548fb78`. Evidence: `TestBuilds/r189/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R188 mode-gated Mixtrack Pro FX Hot Cues
 
 Mixtrack Pro FX now has eight native Hot Cues per deck in its documented Hot Cue mode.

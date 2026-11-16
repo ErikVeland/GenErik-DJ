@@ -110,6 +110,7 @@ struct ControllerBinding: Codable {
     var argument: Double? = nil
     var releaseOnly: Bool? = nil
     var requiredMode: UInt8? = nil
+    var shiftChannel: UInt8? = nil
     var target: ControllerActionTarget { .init(action, deck: targetDeck, argument: argument) }
     var mode: ControllerMIDIEncoding { encoding ?? .absolute }
     var isShifted: Bool { shifted ?? false }
@@ -327,6 +328,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var valueStates: [String: ControllerMIDIValueState] = [:]
     @ObservationIgnored private var takeoverStates: [String: ControllerMIDITakeoverState] = [:]
     @ObservationIgnored private var pendingValues: [ControllerActionTarget: Double] = [:]
+    @ObservationIgnored private var channelShiftLayers: [Int32: [UInt8: ControllerShiftLayerState]] = [:]
     @ObservationIgnored private var shiftLayers: [Int32: ControllerShiftLayerState] = [:]
     @ObservationIgnored private var bindings: [ControllerBinding] = []
     @ObservationIgnored private var timer: Timer?
@@ -502,6 +504,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         decoders.removeAll()
         bridgeDecoders.removeAll()
         shiftLayers.removeAll()
+        channelShiftLayers.removeAll()
         selected = nil
         enabled = false
         learning = nil
@@ -767,6 +770,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         learning = nil
         learningShifted = false
         shiftLayers[selected] = nil
+        channelShiftLayers[selected] = nil
         persist()
         status = "Loaded the \(profile.rawValue) factory profile."
     }
@@ -892,6 +896,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         decoders[id] = nil
         bridgeDecoders[id] = nil
         shiftLayers[id] = nil
+        channelShiftLayers[id] = nil
         values = values.filter { !$0.key.hasPrefix("\(id)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(id)-") }
         takeoverStates = takeoverStates.filter { !$0.key.hasPrefix("\(id)-") }
@@ -1398,6 +1403,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         learning = nil
         learningShifted = false
         shiftLayers[selected] = nil
+        channelShiftLayers[selected] = nil
         persist()
     }
     func applyDDJFLX4Profile() {
@@ -1415,6 +1421,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         learning = nil
         learningShifted = false
         shiftLayers[selected] = nil
+        channelShiftLayers[selected] = nil
         persist()
         status =
             "Loaded the DDJ-FLX4 transport, mixer, Hot Cue, platter and wheel-side jog profile. Other lights are not mapped."
@@ -1434,6 +1441,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         learning = nil
         learningShifted = false
         shiftLayers[selected] = nil
+        channelShiftLayers[selected] = nil
         persist()
         status = "Loaded the DDJ-FLX10 two-deck transport, mixer, loops, Beat Jump, Hot Cue and jog profile."
     }
@@ -1452,6 +1460,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         learning = nil
         learningShifted = false
         shiftLayers[selected] = nil
+        channelShiftLayers[selected] = nil
         persist()
         status = "Loaded the DDJ-1000 two-deck transport, mixer, Hot Cue, jog and Shift profile."
     }
@@ -1602,6 +1611,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         learning = nil
         learningShifted = false
         shiftLayers[selected] = nil
+        channelShiftLayers[selected] = nil
         persist()
         status =
             "Loaded the DDJ-REV1 transport, mixer, Hot Cue, loop and jog profile. Set the performance pads to Hot Cue mode."
@@ -1621,6 +1631,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         learning = nil
         learningShifted = false
         shiftLayers[selected] = nil
+        channelShiftLayers[selected] = nil
         persist()
         status =
             "Loaded the DDJ-REV5 two-deck transport, mixer, Hot Cue, jog and Shift profile. Set both pad banks to Hot Cue mode."
@@ -1953,6 +1964,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             values[key] = message.normalized
             valueStates[key] = .init()
             shiftLayers[sourceID] = nil
+            channelShiftLayers[sourceID] = nil
             self.learning = nil
             self.learningShifted = false
             persist()
@@ -2015,13 +2027,15 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             if binding.action == .shift {
                 let inputKey =
                     "\(binding.source)-\(binding.umpGroup)-\(binding.channel)-\(binding.kind.rawValue)-\(binding.number)-\(binding.parameter ?? 0)-\(binding.noteNumber ?? 0)"
-                var shiftLayer = shiftLayers[sourceID, default: .init()]
+                var shiftLayer = binding.shiftChannel.map { channelShiftLayers[sourceID]?[$0] ?? .init() }
+                    ?? shiftLayers[sourceID, default: .init()]
                 shiftLayer.update(input: inputKey, isPressed: value > 0)
-                shiftLayers[sourceID] = shiftLayer
+                if let channel = binding.shiftChannel { channelShiftLayers[sourceID, default: [:]][channel] = shiftLayer }
+                else { shiftLayers[sourceID] = shiftLayer }
                 status = shiftLayer.isActive ? "Shift layer active." : "Base layer active."
                 continue
             }
-            guard binding.layerIndependent == true || binding.isShifted == (shiftLayers[sourceID]?.isActive ?? false)
+            guard binding.layerIndependent == true || binding.isShifted == isShiftActive(binding)
                 || (binding.action.isMomentary && value == 0) else { continue }
             if binding.action.isLoopSizeEncoder {
                 sendAction(binding.target, value: value)
@@ -2068,6 +2082,11 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 pendingValues[binding.target] = value
             }
         }
+    }
+
+    private func isShiftActive(_ binding: ControllerBinding) -> Bool {
+        if let channel = binding.shiftChannel { return channelShiftLayers[binding.source]?[channel]?.isActive ?? false }
+        return shiftLayers[binding.source]?.isActive ?? false
     }
 
     private func receiveFactoryPadMode(_ message: ControllerMIDIMessage, source: Int32) {

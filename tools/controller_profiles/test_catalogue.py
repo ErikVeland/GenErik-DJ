@@ -24,6 +24,7 @@ from legacy_ddj import legacy_ddj_profiles, legacy_ddj_references
 from s1 import s1_profiles, S1_REFERENCES
 from legacy_systems import legacy_system_profiles, LEGACY_SYSTEM_REFERENCES
 from numark import numark_profiles, numark_references, NUMARK_SOURCES
+from mixtrack3 import mixtrack3_profiles, mixtrack3_references, MIXTRACK3_SOURCES
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -79,7 +80,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles():
             addresses = [(item["kind"], item["channel"], item["number"]) for item in profile["inputs"]]
             self.assertEqual(len(addresses), len(set(addresses)), profile["id"])
             self.assertLessEqual(len(profile["inputs"]), 512)
@@ -264,6 +265,21 @@ class ConversionTests(unittest.TestCase):
             self.assertEqual([binding["number"] for binding in cues], list(range(20, 28)))
             self.assertTrue(all(binding["requiredMode"] == 0 for binding in cues))
         self.assertNotIn("inputModes", next(item for item in numark_profiles() if "Platinum" in item["id"]))
+
+    def test_mixtrack3_models_keep_shared_facts_and_independent_shift_channels(self):
+        profiles = mixtrack3_profiles()
+        self.assertEqual({item["id"] for item in profiles}, set(mixtrack3_references()))
+        self.assertEqual(profiles[0]["inputs"], profiles[1]["inputs"])
+        for item in profiles:
+            self.assertEqual(item["startup"], [[0x91, 6, 127], [0x92, 6, 127]])
+            for binding in item["inputs"]:
+                if "targetDeck" in binding:
+                    self.assertFalse(binding["shifted"])
+                    self.assertEqual(binding["shiftChannel"], 1 if binding["targetDeck"] == "a" else 2)
+        for path, digest in MIXTRACK3_SOURCES:
+            source = ROOT / "TestBuilds/r169/upstream/res/controllers" / path
+            if source.exists():
+                self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)
 
     def test_ddj_application_connect_is_limited_to_reviewed_tables(self):
         expected = {"DDJ-SX", "DDJ-SX2", "DDJ-RX", "DDJ-RZ", "DDJ-RZX", "DDJ-SZ", "DDJ-SZ2"}

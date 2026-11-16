@@ -91,6 +91,10 @@ def report(catalogue, runtime):
               "Mixtrack Pro FX has eight native Hot Cues per deck in Hot Cue mode. Other pad modes cannot trigger them.",
               "Independent mode state, paired indicators, releases and reconnects have fixtures. Platinum FX pad bank/hold behaviour remains open.",
               "See [R188 Pro FX pads](controller-coverage.md#r188-mode-gated-mixtrack-pro-fx-hot-cues).", "",
+              "## Mixtrack 3 and Pro 3 — R189", "",
+              "Mixtrack 3 and Pro 3 select separate native core profiles from their shared pinned mapping.",
+              "Shift state remains independent per deck. Unsupported shifted combinations cannot change base controls on that deck.",
+              "See [R189 Mixtrack 3](controller-coverage.md#r189-mixtrack-3-and-mixtrack-pro-3-core-controls).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

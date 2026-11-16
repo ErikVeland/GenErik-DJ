@@ -22698,59 +22698,6 @@
       "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20MIXTRACK.midi.xml"
     },
     {
-      "id": "Numark Mixtrack (Pro) 3",
-      "aliases": [
-        "Mixtrack (Pro) 3",
-        "Mixtrack 3",
-        "Mixtrack Pro 3",
-        "Mixtrack3",
-        "Numark Mixtrack (Pro) 3",
-        "Numark Mixtrack 3",
-        "Numark Mixtrack Pro 3"
-      ],
-      "definition": "Numark-Mixtrack-3.midi.xml",
-      "inputs": [
-        {
-          "action": "crossfader",
-          "kind": "control",
-          "channel": 0,
-          "number": 7,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "master",
-          "kind": "control",
-          "channel": 0,
-          "number": 10,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "cueMix",
-          "kind": "control",
-          "channel": 0,
-          "number": 9,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "monitor",
-          "kind": "control",
-          "channel": 0,
-          "number": 8,
-          "encoding": "absolute",
-          "inverted": false
-        }
-      ],
-      "outputs": [],
-      "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-3.midi.xml"
-    },
-    {
       "id": "Numark MixTrack (Pro) II",
       "aliases": [
         "MixTrack (Pro) II",
@@ -23084,6 +23031,548 @@
       "autoSelect": false,
       "scope": "Partial mapping. Hardware verification is open.",
       "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml"
+    },
+    {
+      "id": "Numark Mixtrack 3",
+      "aliases": [
+        "Numark Mixtrack 3",
+        "Mixtrack 3"
+      ],
+      "definition": "reviewed:numarkmixtrack3",
+      "inputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 1,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "cueReturnA",
+          "kind": "note",
+          "channel": 1,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 1,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "loopInA",
+          "kind": "note",
+          "channel": 1,
+          "number": 19,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "loopOutA",
+          "kind": "note",
+          "channel": 1,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 1,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "loopDownA",
+          "kind": "note",
+          "channel": 1,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 1,
+          "number": 12,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 1,
+          "number": 17,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "tempoA",
+          "kind": "control",
+          "channel": 1,
+          "number": 24,
+          "encoding": "paired14Bit",
+          "inverted": true,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "highA",
+          "kind": "control",
+          "channel": 1,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "midA",
+          "kind": "control",
+          "channel": 1,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "lowA",
+          "kind": "control",
+          "channel": 1,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "filterKnobA",
+          "kind": "control",
+          "channel": 1,
+          "number": 4,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "levelA",
+          "kind": "control",
+          "channel": 1,
+          "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 16,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "cueA",
+          "kind": "note",
+          "channel": 0,
+          "number": 14,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "shift",
+          "kind": "note",
+          "channel": 1,
+          "number": 11,
+          "encoding": "absolute",
+          "inverted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 2,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "cueReturnB",
+          "kind": "note",
+          "channel": 2,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 2,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "loopInB",
+          "kind": "note",
+          "channel": 2,
+          "number": 19,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "loopOutB",
+          "kind": "note",
+          "channel": 2,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "reloopB",
+          "kind": "note",
+          "channel": 2,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "loopDownB",
+          "kind": "note",
+          "channel": 2,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 2,
+          "number": 12,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 2,
+          "number": 17,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "tempoB",
+          "kind": "control",
+          "channel": 2,
+          "number": 24,
+          "encoding": "paired14Bit",
+          "inverted": true,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "highB",
+          "kind": "control",
+          "channel": 2,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "midB",
+          "kind": "control",
+          "channel": 2,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "lowB",
+          "kind": "control",
+          "channel": 2,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "filterKnobB",
+          "kind": "control",
+          "channel": 2,
+          "number": 4,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "levelB",
+          "kind": "control",
+          "channel": 2,
+          "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 0,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 0,
+          "number": 15,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "shift",
+          "kind": "note",
+          "channel": 2,
+          "number": 11,
+          "encoding": "absolute",
+          "inverted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "crossfader",
+          "kind": "control",
+          "channel": 0,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "master",
+          "kind": "control",
+          "channel": 0,
+          "number": 10,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "monitor",
+          "kind": "control",
+          "channel": 0,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "cueMix",
+          "kind": "control",
+          "channel": 0,
+          "number": 9,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 23,
+          "encoding": "twosComplement",
+          "inverted": false
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 18,
+          "encoding": "absolute",
+          "inverted": false
+        }
+      ],
+      "outputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 1,
+          "number": 1,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": false
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 1,
+          "number": 2,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": false
+        },
+        {
+          "action": "cueA",
+          "kind": "note",
+          "channel": 0,
+          "number": 14,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": false
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 2,
+          "number": 1,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": false
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 2,
+          "number": 2,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": false
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 0,
+          "number": 15,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": false
+        }
+      ],
+      "startup": [
+        [
+          145,
+          6,
+          127
+        ],
+        [
+          146,
+          6,
+          127
+        ]
+      ],
+      "shutdown": [
+        [
+          129,
+          6,
+          0
+        ],
+        [
+          130,
+          6,
+          0
+        ]
+      ],
+      "autoSelect": true,
+      "scope": "Automatic native core controls. Per-deck Shift blocks unsupported combinations. Pad modes, Scratch toggle, FX and audio routing remain open.",
+      "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-3-scripts.js",
+      "gaps": [
+        "Pad/sample modes, shifted functions, deck switching, Scratch toggle, FX and complete audio routing remain unimplemented. Platter touch uses native Scratch mode and lights the published jog indicator. Physical calibration and source reuse/distribution review remain open."
+      ]
     },
     {
       "id": "Numark Mixtrack Platinum",
@@ -24406,6 +24895,548 @@
       "autoSelect": false,
       "scope": "Partial mapping. Hardware verification is open.",
       "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%20Pro.midi.xml"
+    },
+    {
+      "id": "Numark Mixtrack Pro 3",
+      "aliases": [
+        "Numark Mixtrack Pro 3",
+        "Mixtrack Pro 3"
+      ],
+      "definition": "reviewed:numarkmixtrackpro3",
+      "inputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 1,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "cueReturnA",
+          "kind": "note",
+          "channel": 1,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 1,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "loopInA",
+          "kind": "note",
+          "channel": 1,
+          "number": 19,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "loopOutA",
+          "kind": "note",
+          "channel": 1,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 1,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "loopDownA",
+          "kind": "note",
+          "channel": 1,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 1,
+          "number": 12,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 1,
+          "number": 17,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "tempoA",
+          "kind": "control",
+          "channel": 1,
+          "number": 24,
+          "encoding": "paired14Bit",
+          "inverted": true,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "highA",
+          "kind": "control",
+          "channel": 1,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "midA",
+          "kind": "control",
+          "channel": 1,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "lowA",
+          "kind": "control",
+          "channel": 1,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "filterKnobA",
+          "kind": "control",
+          "channel": 1,
+          "number": 4,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "levelA",
+          "kind": "control",
+          "channel": 1,
+          "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 16,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "cueA",
+          "kind": "note",
+          "channel": 0,
+          "number": 14,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "shift",
+          "kind": "note",
+          "channel": 1,
+          "number": 11,
+          "encoding": "absolute",
+          "inverted": false,
+          "shiftChannel": 1
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 2,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "cueReturnB",
+          "kind": "note",
+          "channel": 2,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 2,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "loopInB",
+          "kind": "note",
+          "channel": 2,
+          "number": 19,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "loopOutB",
+          "kind": "note",
+          "channel": 2,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "reloopB",
+          "kind": "note",
+          "channel": 2,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "loopDownB",
+          "kind": "note",
+          "channel": 2,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 2,
+          "number": 12,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 2,
+          "number": 17,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "tempoB",
+          "kind": "control",
+          "channel": 2,
+          "number": 24,
+          "encoding": "paired14Bit",
+          "inverted": true,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "highB",
+          "kind": "control",
+          "channel": 2,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "midB",
+          "kind": "control",
+          "channel": 2,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "lowB",
+          "kind": "control",
+          "channel": 2,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "filterKnobB",
+          "kind": "control",
+          "channel": 2,
+          "number": 4,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "levelB",
+          "kind": "control",
+          "channel": 2,
+          "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 0,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 0,
+          "number": 15,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "shift",
+          "kind": "note",
+          "channel": 2,
+          "number": 11,
+          "encoding": "absolute",
+          "inverted": false,
+          "shiftChannel": 2
+        },
+        {
+          "action": "crossfader",
+          "kind": "control",
+          "channel": 0,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "master",
+          "kind": "control",
+          "channel": 0,
+          "number": 10,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "monitor",
+          "kind": "control",
+          "channel": 0,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "cueMix",
+          "kind": "control",
+          "channel": 0,
+          "number": 9,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 23,
+          "encoding": "twosComplement",
+          "inverted": false
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 18,
+          "encoding": "absolute",
+          "inverted": false
+        }
+      ],
+      "outputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 1,
+          "number": 1,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": false
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 1,
+          "number": 2,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": false
+        },
+        {
+          "action": "cueA",
+          "kind": "note",
+          "channel": 0,
+          "number": 14,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": false
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 2,
+          "number": 1,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": false
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 2,
+          "number": 2,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": false
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 0,
+          "number": 15,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": false
+        }
+      ],
+      "startup": [
+        [
+          145,
+          6,
+          127
+        ],
+        [
+          146,
+          6,
+          127
+        ]
+      ],
+      "shutdown": [
+        [
+          129,
+          6,
+          0
+        ],
+        [
+          130,
+          6,
+          0
+        ]
+      ],
+      "autoSelect": true,
+      "scope": "Automatic native core controls. Per-deck Shift blocks unsupported combinations. Pad modes, Scratch toggle, FX and audio routing remain open.",
+      "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-3-scripts.js",
+      "gaps": [
+        "Pad/sample modes, shifted functions, deck switching, Scratch toggle, FX and complete audio routing remain unimplemented. Platter touch uses native Scratch mode and lights the published jog indicator. Physical calibration and source reuse/distribution review remain open."
+      ]
     },
     {
       "id": "Numark Mixtrack Pro FX",
