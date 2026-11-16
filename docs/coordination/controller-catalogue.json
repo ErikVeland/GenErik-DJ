@@ -14772,46 +14772,97 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://community.algoriddim.com/uploads/short-url/daBCK3nvI2D88xIu8YCbdp2Culv.djayMidiMa"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:hercules-inpulse-200-mk2"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Hercules DJControl Inpulse 200 MK2",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
+      ],
+      "inputBindingCount": 57,
+      "feedbackBindingCount": 16,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -312199,6 +312250,58 @@
       },
       "implementedInputCount": 47,
       "implementedOutputCount": 10,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:hercules-inpulse-200-mk2",
+      "name": "Hercules DJControl Inpulse 200 MK2",
+      "transport": "midi",
+      "source": {
+        "url": "https://community.algoriddim.com/uploads/short-url/daBCK3nvI2D88xIu8YCbdp2Culv.djayMidiMa",
+        "sha256": "4e2005fa6c7d53df1eb70d728f9e6d84d7c7269f2169023ee1a3b0a07a0d7ddd",
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/CyrilGendarme/DJControl-Inpulse-200-Mk2-to-Rekordbox/bc57e5500ac19f203cee140bb007424661be821d/djcontrol_specific/controller_notes.py",
+            "sha256": "ba763bac95e975bdd4c1d4b0a18b8c16d9ecff0215401e98f8369535af74b028",
+            "revision": "bc57e5500ac19f203cee140bb007424661be821d"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/CyrilGendarme/DJControl-Inpulse-200-Mk2-to-Rekordbox/bc57e5500ac19f203cee140bb007424661be821d/functions/jog_incremental.py",
+            "sha256": "64b657740fb343939061dbcc066b61660fc0aba198fc2d707f568b46b5fb9e2b",
+            "revision": "bc57e5500ac19f203cee140bb007424661be821d"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/CyrilGendarme/DJControl-Inpulse-200-Mk2-to-Rekordbox/bc57e5500ac19f203cee140bb007424661be821d/functions/tempo_reverse.py",
+            "sha256": "0e19c2ed18a4d47acf3ff484dd76526a3a40de752e27bc43ed1def24809e2a54",
+            "revision": "bc57e5500ac19f203cee140bb007424661be821d"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/CyrilGendarme/DJControl-Inpulse-200-Mk2-to-Rekordbox/bc57e5500ac19f203cee140bb007424661be821d/pioneer_mappings/parts/main%20buttons.csv",
+            "sha256": "11dc16e4526ad7dee43bc1a1c13d849ff026440ec9571aa2e746dfd78417783a",
+            "revision": "bc57e5500ac19f203cee140bb007424661be821d"
+          },
+          {
+            "url": "https://ts.hercules.com/download/sound/manuals/DJC_Inpulse_200_MK2/DJControl_Inpulse_200_MK2_User_Manual_EN.pdf",
+            "sha256": "f5d762172bc4a158888296c6fcca2cc7e63d15972fbb8011ff154bee84447c55",
+            "pages": [
+              9,
+              10,
+              11,
+              12,
+              44
+            ]
+          }
+        ],
+        "review": "Only hardware-address facts are reused. The published iOS mapping supplies normal controls, two-band EQ, pad pages and flipped seven-bit tempo. The second author's definitions confirm normal transport, Shift and 1/127 jog direction. Its custom three-band EQ, software banks, packet throttling and jog gain are not copied. Shift guards normal controls and tempo. Shifted delete releases rearm Hot Cues without deleting or firing a cue. Manual and adjustable loop boundaries, shifted seek scale, jog calibration, high-resolution tempo, remaining modes, full feedback, cleanup and audio routing remain open. No required startup exchange is established. Source reuse review remains open."
+      },
+      "implementedInputCount": 57,
+      "implementedOutputCount": 16,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

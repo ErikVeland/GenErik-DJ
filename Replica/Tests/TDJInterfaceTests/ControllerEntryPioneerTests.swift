@@ -124,7 +124,7 @@ private let entryPioneerNames = ["DDJ-SB2", "DDJ-SB", "DDJ-RB", "DDJ-RR", "DDJ-2
     }
 }
 
-@Test func controllerEntryPioneerRejectsReleaseOnlyOnNonMomentaryControls() throws {
+@Test func controllerEntryPioneerAcceptsButtonReleaseAliasesAndRejectsInvalidKinds() throws {
     let base: [String: Any] = [
         "action": "jogTouchA", "kind": "note", "channel": 0, "number": 53, "encoding": "absolute", "inverted": false,
         "releaseOnly": true,
@@ -142,7 +142,11 @@ private let entryPioneerNames = ["DDJ-SB2", "DDJ-SB", "DDJ-RB", "DDJ-RR", "DDJ-2
         ])
     }
     #expect(try ControllerProfileCatalogue.decode(data(base)).profiles.count == 1)
-    for mutation in [["action": "playA"], ["kind": "control"]] {
+    for action in ["playA", "hotcue1A"] {
+        let button = base.merging(["action": action]) { _, value in value }
+        #expect(try ControllerProfileCatalogue.decode(data(button)).profiles.count == 1)
+    }
+    for mutation in [["action": "levelA"], ["action": "shift"], ["kind": "control"]] {
         let invalid = base.merging(mutation) { _, value in value }
         #expect(throws: (any Error).self) { try ControllerProfileCatalogue.decode(data(invalid)) }
     }

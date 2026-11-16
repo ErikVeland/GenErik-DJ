@@ -1,6 +1,32 @@
 # Controller coverage
 
-Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
+Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
+
+## R220 Inpulse 200 MK2 core controls and shifted pad releases
+
+Inpulse 200 MK2 now has its own automatic two-deck recipe from a published iOS mapping and separate controller definitions.
+The source files and manufacturer guide have recorded hashes. Downloaded scripts never run in the app.
+The recipe maps transport, held Cue, Load, two-band EQ, filter, seven-bit tempo, browsing and four Hot Cues per deck.
+It retains the physical gain knob. The second author's custom three-band EQ and software banks stay unmapped.
+
+Per-deck Shift guards normal buttons, jogs, pads and tempo. Mixer controls remain independent.
+The manufacturer describes Shift+tempo as a physical reposition without a software tempo change. Pickup rearms after Shift release.
+Centred seven-bit controls now use the existing pickup guard. The centre value remains exactly neutral.
+Normal Cue and touch releases can finish held contacts while Shift is active.
+
+The delete pad page uses separate notes. Its positive messages remain unmapped because native cue deletion is outside this increment.
+Release-only aliases clear stale normal-pad edge state without firing or deleting a cue.
+Fixtures cover duplicate presses, both note-release forms and either Shift-release order.
+Other pad pages, Assistant and the source's custom Automix action cannot trigger the mapped cues or transport.
+
+Jog direction follows the published 1/127 definition. Sensitivity uses the native default until a controller-specific scale is established.
+The recipe does not borrow the 300 MK2's 248-count scale, high-resolution tempo pair or startup exchange.
+Manual loop boundaries, shifted seeking, full feedback, cleanup, audio routing and physical calibration remain open.
+
+The catalogue retains 302 records and now contains 157 data recipes. Factory coverage reaches 90 profiles for 91 physical models.
+Six other models retain automatic native adapters. All 156 previous data recipes remain unchanged.
+Validation results and source identity appear in `TestBuilds/r220/validation.json`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
 
 ## R219 Inpulse 300 MK2 core and Shift contact continuity
 

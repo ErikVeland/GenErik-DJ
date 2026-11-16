@@ -1877,7 +1877,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 continue
             }
             guard binding.layerIndependent == true || binding.isShifted == isShiftActive(binding)
-                || (binding.action.isMomentary && value == 0) else { continue }
+                || ((binding.action.isMomentary || binding.releaseOnly == true) && value == 0) else { continue }
             if binding.action.isLoopSizeEncoder {
                 sendAction(binding.target, value: value)
                 continue
@@ -1895,6 +1895,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 continue
             }
             if binding.action.isButton {
+                if binding.releaseOnly == true {
+                    resetInputValueStates(inputBindings(source: sourceID).filter { $0.target == binding.target })
+                    continue
+                }
                 if message.kind == .program {
                     emitButton(binding.target, value: 1)
                     continue
@@ -1906,7 +1910,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 if !binding.action.isJog && !binding.action.isBrowserEncoder && binding.mode != .needlePosition
                     && binding.action != .seekA && binding.action != .seekB
                     && !message.kind.isRelativeController
-                    && (binding.mode == .absolute || binding.mode == .paired14Bit || binding.mode == .cdjTempo)
+                    && (binding.mode == .absolute || binding.mode == .paired14Bit || binding.mode == .cdjTempo
+                        || binding.mode == .centreDetent)
                 {
                     let takeoverKey = bindingTakeoverKey(binding)
                     var takeover = takeoverStates[takeoverKey, default: .init()]

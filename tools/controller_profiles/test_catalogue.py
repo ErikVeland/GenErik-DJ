@@ -22,6 +22,7 @@ from ddj1000 import ddj1000_profiles, DDJ1000_REFERENCES
 from manufacturer_inventory import MODELS as MANUFACTURER_MODELS
 from jogvision import jogvision_profiles, JOGVISION_REFERENCES, JOGVISION_SOURCES
 from inpulse300mk2 import inpulse300mk2_profiles, MK2_REFERENCES, MK2_SOURCES
+from inpulse200mk2 import inpulse200mk2_profiles, INPULSE200_REFERENCES, INPULSE200_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -54,6 +55,27 @@ ROOT = Path(__file__).resolve().parents[2]
 class ConversionTests(unittest.TestCase):
     def control(self, key="play", group="[Channel3]", extra="", status="0x92", address="11"):
         return ET.fromstring(f"<control><group>{group}</group><key>{key}</key><status>{status}</status><midino>{address}</midino>{extra}</control>")
+
+    def test_inpulse200mk2_preserves_published_pad_pages_and_physical_two_band_eq(self):
+        result = inpulse200mk2_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (57, 16))
+        self.assertEqual(result["startup"], [])
+        self.assertFalse(any(row["action"] in {"midA", "midB"} for row in result["inputs"]))
+        self.assertEqual(sum(row.get("releaseOnly", False) for row in result["inputs"]), 8)
+        tempos = [row for row in result["inputs"] if row["action"] in {"tempoA", "tempoB"}]
+        self.assertTrue(all(row["encoding"] == "centreDetent" and row["inverted"] and row["shifted"] is False for row in tempos))
+        self.assertTrue(all("argument" not in row for row in result["inputs"] if row["action"] in {"jogA", "jogB"}))
+        cache = ROOT / "TestBuilds/r220/upstream"
+        for name, (_, digest) in zip(["controller_notes.py", "jog_incremental.py", "tempo_reverse.py", "main-buttons.csv"], INPULSE200_SOURCES):
+            if (cache / name).exists():
+                self.assertEqual(hashlib.sha256((cache / name).read_bytes()).hexdigest(), digest)
+        mapping = cache / "Inpulse-200-MK2.djayMidiMapping"
+        if mapping.exists():
+            import plistlib
+            self.assertEqual(hashlib.sha256(mapping.read_bytes()).hexdigest(), INPULSE200_REFERENCES[result["id"]]["sha256"])
+            controls = plistlib.loads(mapping.read_bytes())["controls"]
+            self.assertTrue(any(row["keyPath"] == "turntable1.speed" and row["midiChannel"] == 1 and row["midiData"] == 8 and row["flipped"] for row in controls))
+            self.assertTrue(any(row["keyPath"] == "turntable1.clearCuePoint1" and row["midiChannel"] == 6 and row["midiData"] == 8 for row in controls))
 
     def test_report_separates_factory_models_from_native_adapters(self):
         models = []

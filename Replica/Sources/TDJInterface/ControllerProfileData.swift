@@ -107,7 +107,7 @@ struct ControllerProfileData: Decodable, Sendable {
                             && $0.lowNumber != $0.number
                         : $0.lowNumber == nil)
                     && ($0.anyChannel != true || role == "player")
-                    && ($0.releaseOnly != true || ($0.kind == .note && $0.action.isMomentary))
+                    && ($0.releaseOnly != true || ($0.kind == .note && $0.action.isButton && $0.action != .shift))
                     && ($0.shiftInput == nil
                         || ($0.shiftInput! < 16 && $0.action == .shift && $0.kind == .note && $0.shiftChannel != nil))
                     && ($0.encoding != .centredPitch || ($0.kind == .pitch && $0.number == 0))

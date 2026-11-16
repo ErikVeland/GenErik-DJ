@@ -272,3 +272,7 @@ Jogvision uses a separately reviewed recipe. CC 126 sets Scratch mode and CC 127
 ## Inpulse 300 MK2 source boundaries
 
 The MK2 recipe reuses hardware facts from the pinned community revision and the separate manufacturer guide. It does not copy the fork's software four-deck bank or stem/FX code. Conflicting pad address zero and the fork's custom IN action remain unmapped. Normal/shifted touch channels stay separate. A held jog retains its intended frame when its count resolution changes. Momentary edge detection uses active source ownership across alternate release addresses. Full modes, feedback, cleanup, routing and physical calibration remain open.
+
+## Inpulse 200 MK2 source boundaries
+
+The separate recipe uses a published iOS mapping and pinned controller definitions. Keep its physical two-band EQ and gain assignments. The second author's custom three-band EQ, software banks and jog packet throttling do not enter the runtime. Seven-bit tempo retains exact centre and pickup protection. Shift guards tempo repositioning. Separate delete-page releases rearm the corresponding Hot Cue without firing a cue or delete action. Other pad pages remain separate. Do not infer the 300 MK2's tempo LSB, jog resolution or startup packets. Full modes, feedback, cleanup, routing and physical calibration remain open.
