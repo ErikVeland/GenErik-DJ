@@ -17542,17 +17542,20 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20MIXTRACK.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20MIXTRACK.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-MixTrack-scripts.js"
       ],
       "definitions": [
-        "Numark MIXTRACK.midi.xml"
+        "Numark MIXTRACK.midi.xml",
+        "reviewed:numarkmixtrack"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Numark MIXTRACK",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browse",
         "crossfader",
         "cueA:a",
         "cueB:b",
@@ -17561,55 +17564,67 @@
         "cueReturnB:b",
         "highA:a",
         "highB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "keylockA:a",
+        "keylockB:b",
         "levelA:a",
         "levelB:b",
         "loadA:a",
         "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
         "lowA:a",
         "lowB:b",
         "master",
         "midA:a",
         "midB:b",
         "monitor",
+        "openGroup",
         "playA:a",
         "playB:b",
+        "reloopA:a",
+        "reloopB:b",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
         "tempoB:b"
       ],
-      "inputBindingCount": 24,
-      "feedbackBindingCount": 6,
+      "inputBindingCount": 38,
+      "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 52,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Native core transport and fixed manual loops replace source script modes. Manual/auto loop toggles, directory latch, Delete/Hot Cue or EQ-kill modes, Scratch toggle, pitch-bend buttons, FX and full audio routing remain unimplemented. Native Scratch lights use the published LED addresses. Source-specific tempo direction, jog calibration, complete shutdown feedback and source reuse/distribution review remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -18474,66 +18489,89 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%20Pro.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%20Pro.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Pro-scripts.js"
       ],
       "definitions": [
-        "Numark Mixtrack Pro.midi.xml"
+        "Numark Mixtrack Pro.midi.xml",
+        "reviewed:numarkmixtrackpro"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "profile": "Numark MixTrack Pro",
-      "automaticControls": false,
+      "profile": "Numark Mixtrack Pro",
+      "automaticControls": true,
       "controlActions": [
+        "browse",
         "crossfader",
         "cueA:a",
         "cueB:b",
         "cueMix",
+        "cueReturnA:a",
+        "cueReturnB:b",
         "highA:a",
         "highB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "keylockA:a",
         "keylockB:b",
         "levelA:a",
         "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
         "lowA:a",
         "lowB:b",
         "master",
         "midA:a",
         "midB:b",
-        "monitor"
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b"
       ],
-      "inputBindingCount": 16,
-      "feedbackBindingCount": 10,
+      "inputBindingCount": 38,
+      "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 55,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Native core transport and fixed manual loops replace source script modes. Manual/auto loop toggles, directory latch, Delete/Hot Cue or EQ-kill modes, Scratch toggle, pitch-bend buttons, FX and full audio routing remain unimplemented. Native Scratch lights use the published LED addresses. Source-specific tempo direction, jog calibration, complete shutdown feedback and source reuse/distribution review remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -309880,6 +309918,70 @@
         },
         {
           "reason": "The pinned jog threshold is 0x64, not the usual signed midpoint. This implementation preserves that published rule; independent byte-range confirmation and physical calibration remain open. Pad modes, Vinyl toggle, deck-selection LEDs, platter rings, extra shifted functions, FX, meters, screens, full lifecycle reset and audio routing remain unimplemented. Shift state follows the pinned per-deck mapping; bank changes while held need physical verification. Source reuse/distribution review remains open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numarkmixtrack",
+      "name": "Numark MIXTRACK",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-MixTrack-scripts.js",
+        "sha256": "a8c5ad998b4cc87674bc939173183b603b0dc036663796dbf7526adebe3d24c8",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20MIXTRACK.midi.xml",
+            "sha256": "027be45a6c6f33dc9169ea963ca8f50b552bd1091ec76cdb3af7b08795a4f88d"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-MixTrack-scripts.js",
+            "sha256": "a8c5ad998b4cc87674bc939173183b603b0dc036663796dbf7526adebe3d24c8"
+          }
+        ],
+        "review": "Separate pinned mappings retain original-generation levels and touch notes. Native core transport and fixed manual loops replace script modes. Original XML rate inversion and Pro centred script rate have distinct polarities; neither borrows Mixtrack II tempo behaviour. Physical direction and calibration remain open."
+      },
+      "implementedInputCount": 38,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Native core transport and fixed manual loops replace source script modes. Manual/auto loop toggles, directory latch, Delete/Hot Cue or EQ-kill modes, Scratch toggle, pitch-bend buttons, FX and full audio routing remain unimplemented. Native Scratch lights use the published LED addresses. Source-specific tempo direction, jog calibration, complete shutdown feedback and source reuse/distribution review remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numarkmixtrackpro",
+      "name": "Numark Mixtrack Pro",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Pro-scripts.js",
+        "sha256": "80e19306ce9bc88f369bca5424ac56288119044504723baab2a04b73d57d24cc",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%20Pro.midi.xml",
+            "sha256": "bd1947f6dc97ce042250d044f3009ca6435d5124aba6c522d64656c9a7c4e879"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Pro-scripts.js",
+            "sha256": "80e19306ce9bc88f369bca5424ac56288119044504723baab2a04b73d57d24cc"
+          }
+        ],
+        "review": "Separate pinned mappings retain original-generation levels and touch notes. Native core transport and fixed manual loops replace script modes. Original XML rate inversion and Pro centred script rate have distinct polarities; neither borrows Mixtrack II tempo behaviour. Physical direction and calibration remain open."
+      },
+      "implementedInputCount": 38,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Native core transport and fixed manual loops replace source script modes. Manual/auto loop toggles, directory latch, Delete/Hot Cue or EQ-kill modes, Scratch toggle, pitch-bend buttons, FX and full audio routing remain unimplemented. Native Scratch lights use the published LED addresses. Source-specific tempo direction, jog calibration, complete shutdown feedback and source reuse/distribution review remain open."
         }
       ]
     },

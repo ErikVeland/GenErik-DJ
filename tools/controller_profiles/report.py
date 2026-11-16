@@ -119,6 +119,10 @@ def report(catalogue, runtime):
               "MC7000 selects a native core profile. Its jog decoder retains the pinned script boundary exactly.",
               "Explicit tempo pairs and per-deck Shift have fixtures. Calibration, pad modes, screens and audio routing remain open.",
               "See [R195 MC7000](controller-coverage.md#r195-denon-mc7000-core-controls).", "",
+              "## Original Mixtrack and Pro — R196", "",
+              "The original Mixtrack and Pro select separate native core profiles. Original mixer/touch addresses and source-specific tempo direction have fixtures.",
+              "Fixed manual loops and native Scratch replace script modes. Mode toggles, advanced functions and full audio routing remain open.",
+              "See [R196 original Mixtrack](controller-coverage.md#r196-original-mixtrack-and-pro-core-controls).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

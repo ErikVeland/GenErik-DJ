@@ -9,7 +9,7 @@ Reviewed 16 November 2026. This catalogue is complete for the defined source bou
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - 287 total catalogue records. 280 name physical models. The remainder identify software endpoints or protocol families.
 - 148 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
-- 72 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+- 74 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -167,17 +167,23 @@ MC7000 selects a native core profile. Its jog decoder retains the pinned script 
 Explicit tempo pairs and per-deck Shift have fixtures. Calibration, pad modes, screens and audio routing remain open.
 See [R195 MC7000](controller-coverage.md#r195-denon-mc7000-core-controls).
 
+## Original Mixtrack and Pro — R196
+
+The original Mixtrack and Pro select separate native core profiles. Original mixer/touch addresses and source-specific tempo direction have fixtures.
+Fixed manual loops and native Scratch replace script modes. Mode toggles, advanced functions and full audio routing remain open.
+See [R196 original Mixtrack](controller-coverage.md#r196-original-mixtrack-and-pro-core-controls).
+
 ## Implementation states
 
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 40 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 60 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 62 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 7 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 88 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| partial-midi-profile | 86 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
 | protocol-needed | 73 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
@@ -272,7 +278,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Numark Mixstream Pro Go | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixtrack Platinum | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixtrack Platinum FX | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Numark Mixtrack Pro | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Numark Mixtrack Pro | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixtrack Pro 3 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixtrack Pro FX | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixtrack Pro II | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
@@ -454,7 +460,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Novation Launchpad Mini | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad-Mini.midi.xml) |
 | Novation Launchpad Mini MK3 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20Mini%20MK3.midi.xml) |
 | Numark DJ2Go | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20DJ2Go.midi.xml) |
-| Numark MIXTRACK | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20MIXTRACK.midi.xml) |
+| Numark MIXTRACK | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20MIXTRACK.midi.xml) |
 | Numark Mixtrack 3 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-3.midi.xml) |
 | Numark Mixtrack II | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml) |
 | Numark NS7 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20NS7.midi.xml) |

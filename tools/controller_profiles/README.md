@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R195 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R196 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -131,3 +131,6 @@ Existing outputs without this field retain their previous packets. Invalid field
 
 MC7000 keeps the pinned jog threshold `0x64` in a dedicated decoder. Do not substitute another controller’s signed midpoint.
 Its tempo inputs use explicit low controller 119 and independent decoder state per deck. Physical calibration remains open.
+
+The original Mixtrack and Pro retain their separate source tempo curves and original-generation mixer/touch addresses.
+The original model requires the qualified name `Numark MIXTRACK`. A generic `MIXTRACK` endpoint cannot select it automatically.

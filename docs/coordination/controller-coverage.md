@@ -2,6 +2,32 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R196 original Mixtrack and Pro core controls
+
+The original Mixtrack and Mixtrack Pro now select separate native core profiles.
+They retain original-generation level controllers 8/9 and platter touch notes 78/77 on one shared MIDI channel.
+They do not borrow Mixtrack II addresses. Transport, Load, headphone cue, EQ, signed jogs and fixed manual loops use native actions.
+The crossfader retains the source inversion. Published LEDs use an on value of 100.
+Startup lights native Scratch and file browsing, then clears the manual-mode indicators. Full indicator cleanup remains open.
+
+The original XML rate input is inverted. The Pro script instead uses an asymmetric rate curve centred at raw 64.
+Native profiles retain those separate source choices after the R191 engine-direction conversion.
+The Pro reuses the existing centred-tempo decoder because its source formula has the same numeric contract.
+Fixtures cover minimum, centre and maximum for both models. Physical tempo direction and jog calibration remain open.
+Automatic detection requires the qualified name `Numark MIXTRACK` for the original model.
+The generic `MIXTRACK` alias stays unmatched to avoid a wrong model selection.
+
+Manual/auto loop toggles, directory latch, Delete/Hot Cue or EQ-kill modes, Scratch toggle, pitch-bend buttons and FX remain open.
+Native transport and fixed manual loops do not reproduce the custom source scripts’ extra functions.
+Complete feedback cleanup, audio routing and source reuse/distribution review remain open.
+Pinned source identities are recorded in `tools/controller_profiles/original_mixtrack.py` and the generated catalogue.
+Sources: original [XML](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20MIXTRACK.midi.xml), original [script](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-MixTrack-scripts.js), Pro [XML](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%20Pro.midi.xml) and Pro [script](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Pro-scripts.js).
+The catalogue retains 287 records and 148 data recipes plus seven code profiles. Seventy-four profiles select core controls automatically.
+All 171 focused Swift checks, 34 importer checks and native iPad compilation passed. The compiled resource matches the source.
+The other 146 data recipes remain unchanged. Twelve historical broken links remain.
+Source base: `6b4d025`. Evidence: `TestBuilds/r196/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R195 Denon MC7000 core controls
 
 MC7000 now selects a native core profile automatically from the pinned working mapping.
