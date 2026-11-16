@@ -13,6 +13,7 @@ from curated import curated_profiles
 from fetch_reference import fetch, git_blob_hash
 from sources import canonical, split_models
 from reviewed import REVIEWED
+from dj2go2 import dj2go2_profiles, DJ2GO2_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -563,6 +564,22 @@ class ConversionTests(unittest.TestCase):
             "<options><script-binding/></options>", "0xB3", "10"), handlers)
         self.assertIsNone(record)
         self.assertEqual(reason, "unsupported-script-target")
+
+
+    def test_dj2go2_touch_retains_sources_and_disjoint_pad_ranges(self):
+        cache = ROOT / "TestBuilds/r169/upstream/res/controllers"
+        if not cache.exists():
+            self.skipTest("Fetch the locked public reference cache before checking sources.")
+        for path, digest in DJ2GO2_SOURCES:
+            self.assertEqual(hashlib.sha256((cache / path).read_bytes()).hexdigest(), digest)
+        profile = dj2go2_profiles()[0]
+        self.assertEqual(len(profile["startup"]) + len(profile["shutdown"]), 15)
+        self.assertFalse(any(i["action"] in {"levelA", "levelB", "filterKnobA", "filterKnobB"} for i in profile["inputs"]))
+        for deck in "ab":
+            inputs = [i for i in profile["inputs"] if i.get("targetDeck") == deck]
+            self.assertEqual([i["number"] for i in inputs if i["action"].startswith("hotcue")], [1, 2, 3, 4])
+            self.assertEqual([i["argument"] for i in inputs if i["action"].startswith("toggleFixedLoop")], [1, 2, 4, 8])
+            self.assertFalse(any(i["channel"] in {4, 5} and i["number"] in {9, 10, 11, 12, 36} for i in inputs))
 
 
 class GeneratedCatalogueTests(unittest.TestCase):

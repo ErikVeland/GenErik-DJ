@@ -17748,53 +17748,89 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark_DJ2GO2_Touch.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark_DJ2GO2_Touch.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark_DJ2GO2_Touch_scripts.js"
       ],
       "definitions": [
-        "Numark_DJ2GO2_Touch.midi.xml"
+        "Numark_DJ2GO2_Touch.midi.xml",
+        "reviewed:numark-dj2go2-touch"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Numark DJ2GO2 Touch",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browse",
         "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueReturnA:a",
+        "cueReturnB:b",
+        "gainA:a",
+        "gainB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
         "master",
-        "monitor"
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
       ],
-      "inputBindingCount": 3,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 45,
+      "feedbackBindingCount": 14,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 113,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -310802,6 +310838,44 @@
         },
         {
           "reason": "FX, sampler/scissor modes, cue deletion, needle navigation, loop-move/size modifiers, fader/crossfader start, assignment and curve controls, remaining shifted functions, full LED cleanup and audio routing remain unimplemented. Core setup does not copy the source 480-message LED sweep or enable four decks automatically. Jog response and source reuse/distribution review remain open. Generic family-only endpoint names cannot select a model automatically."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numark-dj2go2-touch",
+      "name": "Numark DJ2GO2 Touch",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark_DJ2GO2_Touch_scripts.js",
+        "sha256": "8c39e503fcd2c1c6be23c997d7c092b58ee91aec22d32fa1fa7392e1f1fd900f",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark_DJ2GO2_Touch.midi.xml",
+            "sha256": "30807f8e574e857149c4e5b3f79e2d07ab8a841e159c040852a8c5d7b1641990"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark_DJ2GO2_Touch_scripts.js",
+            "sha256": "8c39e503fcd2c1c6be23c997d7c092b58ee91aec22d32fa1fa7392e1f1fd900f"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/midi-components-0.0.js",
+            "sha256": "f15845d0b3fa10609aedc2fb74a9067d0f1d89387f011de72c3301799003f026"
+          },
+          {
+            "url": "https://www.numark.com/images/product_downloads/DJ2GO2Touch-UserGuide-v1.0.pdf",
+            "sha256": null,
+            "evidence": "Official indexed Features text reviewed 16 November 2026. Gain controls channel audio, and Browse press enters folders. Direct original and newer CDN guide downloads returned 404; no PDF content hash is available."
+          }
+        ],
+        "review": "Native controls reuse exact MIDI addresses, 236 jog counts, raw-64-positive jog decoding, 1/127-only browser steps and status query. Factory labels replace the source's Gain-to-filter and Browse-to-preview choices. Pot invert and native tempo direction agree. Distinct pad note ranges separate cues, automatic loops and manual loops. Cue deletion, reloop-and-stop, samplers, preview mode, full feedback and audio routing remain open. The non-Touch DJ2GO2 does not inherit this recipe."
+      },
+      "implementedInputCount": 45,
+      "implementedOutputCount": 14,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         }
       ]
     },

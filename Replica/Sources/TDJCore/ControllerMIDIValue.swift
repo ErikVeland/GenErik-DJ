@@ -2,13 +2,13 @@ import Foundation
 
 public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     case absolute, paired14Bit, paired14BitRelative, twosComplement, binaryOffset, signedBit
-    case numarkPlatinumJog, denonJog, zeroForward, mc7000Jog
+    case numarkPlatinumJog, denonJog, zeroForward, mc7000Jog, dj2go2Jog, signedStep
     case binaryStep, centreDetent, centredPitch
     case cdjPlatterSpeed, cdjRingSpeed, cdj350PlatterSpeed, cdjTempo, needlePosition
     public var isRelative: Bool {
         [
             .twosComplement, .binaryOffset, .signedBit, .paired14BitRelative, .numarkPlatinumJog, .denonJog,
-            .zeroForward, .mc7000Jog, .binaryStep,
+            .zeroForward, .mc7000Jog, .dj2go2Jog, .signedStep, .binaryStep,
         ]
         .contains(self)
     }
@@ -20,6 +20,8 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         case .centredPitch: "Pitch fader: centre 8192"
         case .binaryStep: "Encoder: 65 / 63, single step"
         case .mc7000Jog: "MC7000 jog"
+        case .dj2go2Jog: "DJ2GO2 Touch jog"
+        case .signedStep: "Encoder: 1 / 127, single step"
         case .denonJog: "Denon jog"
         case .zeroForward: "Encoder: 0 / 127"
         case .numarkPlatinumJog: "Mixtrack Platinum jog"
@@ -126,6 +128,9 @@ public struct ControllerMIDIValueState: Sendable {
         case .binaryStep: return message.value == 65 ? .relative(1) : message.value == 63 ? .relative(-1) : nil
         case .zeroForward:
             return message.value == 0 ? .relative(1) : message.value == 127 ? .relative(-1) : nil
+        case .signedStep:
+            return message.value == 1 ? .relative(1) : message.value == 127 ? .relative(-1) : nil
+        case .dj2go2Jog: return .relative(Double(message.value <= 64 ? message.value : message.value - 128))
         case .mc7000Jog: return .relative(Double(message.value < 100 ? message.value : message.value - 128))
         case .denonJog: return .relative(Double(message.value == 0 ? 0 : message.value - 64))
         case .twosComplement: return .relative(Double(message.value < 64 ? message.value : message.value - 128))

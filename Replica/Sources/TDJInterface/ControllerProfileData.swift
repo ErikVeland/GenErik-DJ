@@ -97,7 +97,8 @@ struct ControllerProfileData: Decodable, Sendable {
                     && ($0.encoding != .centredPitch || ($0.kind == .pitch && $0.number == 0))
                     && Self.validArgument($0)
                     && (![
-                        .centreDetent, .binaryStep, .mc7000Jog, .denonJog, .zeroForward, .numarkPlatinumJog,
+                        .centreDetent, .binaryStep, .signedStep, .dj2go2Jog, .mc7000Jog, .denonJog, .zeroForward,
+                        .numarkPlatinumJog,
                         .cdjPlatterSpeed, .cdjRingSpeed,
                         .cdj350PlatterSpeed, .cdjTempo, .needlePosition,
                     ].contains($0.encoding)

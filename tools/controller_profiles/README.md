@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R205 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R206 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -178,3 +178,12 @@ The MIX shifted-wheel script routes MIDI channels 4 and 5 to decks A and B.
 Its XML incorrectly labels both groups as Channel1. The reviewed handler includes the exact channel-to-deck table.
 The importer rejects channels outside that table and retains the original source row beside the corrected binding.
 The shifted resolution retains the source's fourfold seek multiplier. MIX ULTRA receives no inherited recipe.
+
+## DJ2GO2 Touch source differences
+
+The Touch recipe preserves its own exact identity, MIDI addresses, status query and component-helper tempo direction.
+Its jog decoder keeps raw 64 positive. The browser accepts only single 1/127 steps.
+Published note ranges separate Hot Cues, automatic loops and manual loops without a software pad-mode guess.
+Manufacturer labels assign Gain and Browse press. The source script instead assigns filter and preview functions.
+The official indexed guide supports the labels, but direct PDF downloads failed. The related source records a null hash.
+The non-Touch model receives no inherited controls. Remaining Cue preview, deletion, sampler and audio routing work stays explicit.

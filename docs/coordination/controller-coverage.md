@@ -2,6 +2,30 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R206 DJ2GO2 Touch core controls and pads
+
+DJ2GO2 Touch now has an automatic native recipe under its existing ID. The non-Touch DJ2GO2 remains separate.
+Pinned XML, script and component helpers supply transport, Load, touch, MIDI addresses, tempo direction and setup.
+The jog decoder retains the source's positive raw-64 boundary and 236-count sensitivity.
+The browser accepts only 1/127 steps. Other values do not move the selection.
+Manufacturer control labels set the Gain knobs to native Gain and Browse press to folder entry.
+These replace the source's filter and preview customisations. The hardware has no channel level faders.
+
+Each deck has four Hot Cues, four 1/2/4/8-beat toggle loop pads, manual In/Out and reloop.
+Their published note ranges remain separate. Cue-delete and sampler notes cannot activate other pad functions.
+Cue hold-preview, cue deletion, reloop-and-stop, samplers, preview mode, full feedback and audio routing remain open.
+The existing native Cue action retains its current behaviour.
+Startup sends the published status query. Shutdown clears 14 implemented lights within the existing setup bound.
+
+The official guide's indexed Features text supports the control labels. Direct original and newer guide downloads returned 404.
+Its source record has a null PDF hash and states that evidence limit. MIDI sources retain their pinned hashes.
+The catalogue remains 289 records and 153 data recipes plus seven code profiles.
+Eighty-five factory profiles now select core controls automatically, covering 92 physical models.
+All 227 focused Swift checks, 44 importer checks and native iPad compilation passed. The compiled resource matches the source.
+Only the existing Touch recipe changes. The other 152 recipes remain unchanged. Twelve historical broken links remain.
+Source base: `5c4c34c`. Evidence: `TestBuilds/r206/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R205 Hercules DJControl MIX core controls
 
 DJControl MIX now selects its existing core recipe automatically. MIX ULTRA retains a separate model boundary.
