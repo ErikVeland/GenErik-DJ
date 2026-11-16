@@ -24,7 +24,7 @@ def mixtrack2_profiles():
         result["startup"] = [[0x90, 72, 100], [0x90, 73, 100]]
         for index, deck in enumerate("ab"):
             start = len(result["inputs"])
-            for action, numbers in {"play": [59, 66], "cueReturn": [51, 60], "sync": [64, 71],
+            for action, numbers in {"play": [59, 66], "cuePreview": [51, 60], "sync": [64, 71],
                                     "load": [75, 52], "cue": [81, 82], "jogTouch": [77, 78],
                                     "loopIn": [83, 86], "loopOut": [84, 87], "reloop": [85, 88],
                                     "loopDown": [99, 100]}.items():

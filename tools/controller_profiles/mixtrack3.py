@@ -26,7 +26,7 @@ def mixtrack3_profiles():
         for index, deck in enumerate("ab"):
             channel = index + 1
             start = len(result["inputs"])
-            for action, number in [("play", 1), ("cueReturn", 3), ("sync", 2), ("loopIn", 19), ("loopOut", 20), ("reloop", 21), ("loopDown", 22)]:
+            for action, number in [("play", 1), ("cuePreview", 3), ("sync", 2), ("loopIn", 19), ("loopOut", 20), ("reloop", 21), ("loopDown", 22)]:
                 add(result, action, channel, number, deck=deck, feedback=action in {"play", "sync"})
             add(result, "jogTouch", channel, 12, deck=deck)
             add(result, "jog", channel, 17, "control", "twosComplement", deck)

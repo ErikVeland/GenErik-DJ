@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R208 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R209 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -202,3 +202,11 @@ It preserves every address, channel, setup message, feedback binding and profile
 The automatic-profile fixture checks both standard release forms across all 57 profiles with a Cue control.
 Player reassignment releases the old Cue contact. Existing saved custom mappings retain their explicit action.
 Pioneer pad accessories have no transport Cue. XDJ-RX remains a manually selected partial recipe.
+
+## Standard Cue note contract
+
+R209 extends native preview to the remaining reviewed factory Cue notes and imported `cue_default` note bindings.
+The importer requires ordinary, non-inverted note semantics. It preserves Control Change and inverted bindings as Cue return/set.
+All 81 automatic factory profiles with standard Cue notes have both note-release forms in the native fixture.
+Hercules DJ Console Mac Edition keeps its existing Control Change Cue action until release behaviour is verified.
+The three Pioneer pad accessories have no transport Cue. This migration changes no setup, feedback or input addresses.

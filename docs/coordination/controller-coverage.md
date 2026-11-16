@@ -2,6 +2,30 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R209 standard Cue preview across the factory catalogue
+
+The remaining reviewed Denon, Numark, Hercules and Reloop note-based Cue bindings now use native held preview.
+The XML importer also translates standard, non-inverted `cue_default` note bindings to this action.
+Control Change and inverted bindings retain Cue return/set. The importer does not assume that these controls emit a release.
+Hercules DJ Console Mac Edition retains its two Control Change Cue bindings until we verify their release behaviour.
+The three Pioneer pad accessories have no transport Cue button.
+
+The automatic-profile fixture now exercises both standard note-release forms across 81 factory profiles.
+It covers normal controls on every available deck and preserves exact targets and message addresses.
+Existing native checks cover preview audio, Play latch, return, disconnect, cross-deck playback, generation changes and gesture takeover.
+Saved custom actions retain their meaning. Native NI and Beatpad connection routes remain separate.
+
+All 240 focused controller/NI contract checks, 45 importer checks and native iPad compilation pass.
+The compiled resource matches the source. Fifty-five data recipes change only their standard Cue input action.
+The other 98 recipes remain unchanged. Setup, feedback, addresses, profile identities and source references remain unchanged.
+Counts remain 289 catalogue records, 85 automatic core profiles and 92 physical models with automatic controls.
+
+This completes the standard note-based factory Cue migration. It does not close full controller feature parity or the release blocker.
+The remaining hardware modes, lifecycle gaps, screens, motor protocols, feedback and audio routing stay recorded in the catalogue.
+
+Twelve historical broken links remain. Source base: `5f2f2a4`. Evidence: `TestBuilds/r209/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R208 conventional Cue preview across reviewed Pioneer profiles
 
 The reviewed Pioneer/AlphaTheta controller, all-in-one and player recipes now use native held Cue preview.

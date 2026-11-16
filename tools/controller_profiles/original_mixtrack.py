@@ -33,7 +33,7 @@ def original_mixtrack_profiles():
         result["startup"] = [[0x90, 114, 100], [0x90, 72, 100], [0x90, 80, 100], [0x90, 97, 0], [0x90, 98, 0]]
         result["shutdown"] = [[0x90, number, 0] for number in [114, 72, 80]]
         for index, deck in enumerate("ab"):
-            for action, numbers in {"play": [59, 66], "cueReturn": [51, 60], "sync": [64, 71], "keylock": [81, 82],
+            for action, numbers in {"play": [59, 66], "cuePreview": [51, 60], "sync": [64, 71], "keylock": [81, 82],
                                     "cue": [101, 102], "load": [75, 52], "jogTouch": [78, 77],
                                     "loopIn": [83, 86], "loopOut": [84, 87], "reloop": [85, 88]}.items():
                 add(result, action, 0, numbers[index], deck=deck, feedback=action in {"play", "sync", "keylock", "cue"})

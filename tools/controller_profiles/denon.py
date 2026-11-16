@@ -26,7 +26,7 @@ def denon_profiles():
     result["shutdown"] = [[0x90, 7, 0], [0x91, 7, 0]]
     for channel, deck in enumerate("ab"):
         start = len(result["inputs"])
-        for action, number in [("play", 0), ("cueReturn", 1), ("sync", 2), ("keylock", 13), ("cue", 27), ("jogTouch", 6)]:
+        for action, number in [("play", 0), ("cuePreview", 1), ("sync", 2), ("keylock", 13), ("cue", 27), ("jogTouch", 6)]:
             add(result, action, channel, number, deck=deck, feedback=action in {"play", "sync", "keylock", "cue"})
         add(result, "load", 15, 2 + channel, deck=deck)
         add(result, "jog", channel, 6, "control", "twosComplement", deck)

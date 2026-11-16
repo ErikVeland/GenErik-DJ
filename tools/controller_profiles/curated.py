@@ -90,7 +90,7 @@ def hercules_profile():
     result["shutdown"] = [[0xB0, 0x7F, 0x7E]]
     result["aliases"].append("DJControl Inpulse 500")
     for channel, deck in [(1, "a"), (2, "b")]:
-        for action, address in [("play", 7), ("cueReturn", 6), ("sync", 5), ("cue", 12), ("load", 13), ("loop", 44), ("jogTouch", 8)]:
+        for action, address in [("play", 7), ("cuePreview", 6), ("sync", 5), ("cue", 12), ("load", 13), ("loop", 44), ("jogTouch", 8)]:
             add(result, action, channel, address, deck=deck, feedback=action in {"play", "sync", "cue"})
         for action, address in [("level", 0), ("filterKnob", 1), ("low", 2), ("mid", 3), ("high", 4), ("gain", 5), ("tempo", 8)]:
             add(result, action, channel, address, "control", "paired14Bit", deck)

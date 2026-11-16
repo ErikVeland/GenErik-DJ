@@ -23,7 +23,7 @@ def platinum_profiles():
     result["shutdown"] = [[0xF0, 0, 0x20, 0x7F, 2, 0xF7]]
     for channel, deck in enumerate("abcd"):
         start = len(result["inputs"])
-        for action, number in [("play", 0), ("cueReturn", 1), ("sync", 2), ("cue", 27), ("load", 16)]:
+        for action, number in [("play", 0), ("cuePreview", 1), ("sync", 2), ("cue", 27), ("load", 16)]:
             add(result, action, channel, number, deck=deck, feedback=action in {"play", "sync", "cue"})
         add(result, "jogTouch", channel, 6, deck=deck)
         add(result, "jog", channel, 6, "control", "numarkPlatinumJog", deck)

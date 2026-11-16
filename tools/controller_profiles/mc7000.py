@@ -22,7 +22,7 @@ def mc7000_profiles():
     result["shutdown"] = [[0x90 + channel, 7, 1] for channel in range(4)]
     for channel, deck in enumerate("abcd"):
         start = len(result["inputs"])
-        for action, number in [("play", 0), ("cueReturn", 1), ("sync", 2), ("keylock", 13), ("jogTouch", 6)]:
+        for action, number in [("play", 0), ("cuePreview", 1), ("sync", 2), ("keylock", 13), ("jogTouch", 6)]:
             add(result, action, channel, number, deck=deck, feedback=action in {"play", "sync", "keylock"})
         add(result, "load", 15, 2 + channel, deck=deck)
         add(result, "jog", channel, 6, "control", "mc7000Jog", deck)

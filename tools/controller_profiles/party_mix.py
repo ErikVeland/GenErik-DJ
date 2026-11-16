@@ -19,7 +19,7 @@ def party_mix_profiles():
     result["startup"] = [[0xB0, number, 0] for number in [64, 66, 67]] + [[0xF0, 0, 1, 63, 56, 72, 0xF7]]
     result["shutdown"] = [[0x80 + channel, 7, 0] for channel in range(2)]
     for channel, deck in enumerate("ab"):
-        for action, number in [("play", 0), ("cueReturn", 1), ("sync", 2), ("cue", 27)]:
+        for action, number in [("play", 0), ("cuePreview", 1), ("sync", 2), ("cue", 27)]:
             add(result, action, channel, number, deck=deck, feedback=action in {"play", "sync", "cue"})
         add(result, "load", 15, 2 + channel, deck=deck)
         for action, number in [("gain", 23), ("high", 24), ("low", 25), ("level", 28), ("tempo", 9)]:

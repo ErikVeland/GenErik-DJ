@@ -100,6 +100,8 @@ def control_record(control, reviewed_handlers=None):
         return None, "unspecified-relative-encoding"
     if "button" in opts or "switch" in opts:
         return None, "nonstandard-button-semantics"
+    if kind == "note" and "invert" not in opts and action in {"cueReturnA", "cueReturnB"}:
+        action = action.replace("cueReturn", "cuePreview")
     record = {"action": action, "kind": kind, "channel": status & 15, "number": address,
               "encoding": encoding, "inverted": ("invert" not in opts) if action in {"tempoA", "tempoB"} else "invert" in opts}
     if fact and len(fact) > 2:

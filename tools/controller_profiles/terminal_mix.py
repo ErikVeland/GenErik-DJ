@@ -24,7 +24,7 @@ def terminal_mix_profiles():
         result["definition"] = result["definition"].replace("manufacturer:", "reviewed:")
         result["scope"] = "Automatic native core controls and eight Hot Cues per deck. Four decks retain the app opt-in. FX, fader start, shifted modes and full audio routing remain open."
         for channel, deck in enumerate("abcd"):
-            for action, number in [("play", 37), ("cueReturn", 36), ("sync", 34), ("keylock", 2),
+            for action, number in [("play", 37), ("cuePreview", 36), ("sync", 34), ("keylock", 2),
                                    ("cue", 48), ("load", 50), ("jogTouch", 40), ("loop", 11),
                                    ("reloop", 81), ("loopIn", 12), ("loopOut", 13)]:
                 add(result, action, channel, number, deck=deck, feedback=action in {"play", "sync", "keylock", "cue"})

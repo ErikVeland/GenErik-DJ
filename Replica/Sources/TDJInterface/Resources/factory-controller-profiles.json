@@ -159,7 +159,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 49,
@@ -240,7 +240,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 51,
@@ -5748,7 +5748,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 12,
@@ -5811,7 +5811,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 46,
@@ -6169,7 +6169,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 12,
@@ -6232,7 +6232,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 46,
@@ -7014,7 +7014,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 19,
@@ -7041,7 +7041,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 27,
@@ -7356,7 +7356,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 24,
@@ -7373,7 +7373,7 @@
           "inverted": false
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 40,
@@ -8981,7 +8981,7 @@
           "shifted": false
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 1,
@@ -9191,7 +9191,7 @@
           "shifted": false
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 1,
@@ -9617,7 +9617,7 @@
           "shiftChannel": 0
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 66,
@@ -9793,7 +9793,7 @@
           "shiftChannel": 0
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 1,
           "number": 66,
@@ -9969,7 +9969,7 @@
           "shiftChannel": 1
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 2,
           "number": 66,
@@ -10145,7 +10145,7 @@
           "shiftChannel": 1
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 3,
           "number": 66,
@@ -10860,7 +10860,7 @@
           "shiftChannel": 0
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 1,
@@ -11085,7 +11085,7 @@
           "shiftChannel": 1
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 1,
@@ -11310,7 +11310,7 @@
           "shiftChannel": 2
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 2,
           "number": 1,
@@ -11535,7 +11535,7 @@
           "shiftChannel": 3
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 3,
           "number": 1,
@@ -12226,7 +12226,7 @@
       "definition": "DJ-Tech i-Mix Reload.midi.xml",
       "inputs": [
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 11,
@@ -12394,7 +12394,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 41,
@@ -12491,7 +12491,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 3,
@@ -12500,7 +12500,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 4,
@@ -13096,7 +13096,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 58,
@@ -13177,7 +13177,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 59,
@@ -13290,7 +13290,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 25,
@@ -13380,7 +13380,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 55,
@@ -13486,7 +13486,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 1,
@@ -13567,7 +13567,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 1,
@@ -13613,7 +13613,7 @@
       "definition": "Gemini FirstMix.midi.xml",
       "inputs": [
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 66,
@@ -13622,7 +13622,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 59,
@@ -14544,7 +14544,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 34,
@@ -14553,7 +14553,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 51,
@@ -15007,7 +15007,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 17,
@@ -15052,7 +15052,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 39,
@@ -15184,7 +15184,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 21,
@@ -15354,7 +15354,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 47,
@@ -15700,7 +15700,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 34,
@@ -15799,7 +15799,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 82,
@@ -16179,7 +16179,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 1,
           "number": 6,
@@ -16242,7 +16242,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 2,
           "number": 6,
@@ -16886,7 +16886,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 1,
           "number": 6,
@@ -16940,7 +16940,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 2,
           "number": 6,
@@ -17511,7 +17511,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 1,
           "number": 6,
@@ -17727,7 +17727,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 2,
           "number": 6,
@@ -18216,7 +18216,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 49,
@@ -18333,7 +18333,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 49,
@@ -18965,7 +18965,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 1,
           "number": 6,
@@ -19010,7 +19010,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 2,
           "number": 6,
@@ -19555,7 +19555,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 1,
           "number": 6,
@@ -19600,7 +19600,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 2,
           "number": 6,
@@ -20134,7 +20134,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 33,
@@ -20152,7 +20152,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 35,
@@ -20195,7 +20195,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 66,
@@ -20231,7 +20231,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 59,
@@ -20367,7 +20367,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 51,
@@ -20475,7 +20475,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 60,
@@ -20699,7 +20699,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 1,
           "number": 15,
@@ -20717,7 +20717,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 19,
@@ -20805,7 +20805,7 @@
       "definition": "Kontrol Dj KDJ500.midi.xml",
       "inputs": [
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 36,
@@ -20850,7 +20850,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 14,
@@ -21270,7 +21270,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 7,
           "number": 30,
@@ -21279,7 +21279,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 8,
           "number": 30,
@@ -21774,7 +21774,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 58,
@@ -21855,7 +21855,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 59,
@@ -21933,7 +21933,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 47,
@@ -21951,7 +21951,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 71,
@@ -22169,7 +22169,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 59,
@@ -22223,7 +22223,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 58,
@@ -22351,7 +22351,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 1,
@@ -22414,7 +22414,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 1,
@@ -22874,7 +22874,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 1,
@@ -22883,7 +22883,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 1,
@@ -24721,7 +24721,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 51,
@@ -24865,7 +24865,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 60,
@@ -25201,7 +25201,7 @@
           "shiftChannel": 1
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 1,
           "number": 3,
@@ -25397,7 +25397,7 @@
           "shiftChannel": 2
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 2,
           "number": 3,
@@ -25743,7 +25743,7 @@
           "shiftChannel": 1
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 51,
@@ -25950,7 +25950,7 @@
           "shiftChannel": 2
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 60,
@@ -26374,7 +26374,7 @@
           "shifted": false
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 1,
@@ -26565,7 +26565,7 @@
           "shifted": false
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 1,
@@ -26756,7 +26756,7 @@
           "shifted": false
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 2,
           "number": 1,
@@ -26947,7 +26947,7 @@
           "shifted": false
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 3,
           "number": 1,
@@ -27422,7 +27422,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 1,
@@ -27593,7 +27593,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 1,
@@ -27764,7 +27764,7 @@
           "targetDeck": "c"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 2,
           "number": 1,
@@ -27935,7 +27935,7 @@
           "targetDeck": "d"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 3,
           "number": 1,
@@ -28369,7 +28369,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 51,
@@ -28513,7 +28513,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 60,
@@ -28849,7 +28849,7 @@
           "shiftChannel": 1
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 1,
           "number": 3,
@@ -29045,7 +29045,7 @@
           "shiftChannel": 2
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 2,
           "number": 3,
@@ -29389,7 +29389,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 1,
@@ -29728,7 +29728,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 1,
@@ -30342,7 +30342,7 @@
           "shiftChannel": 1
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 51,
@@ -30549,7 +30549,7 @@
           "shiftChannel": 2
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 60,
@@ -31743,7 +31743,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 1,
@@ -31927,7 +31927,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 1,
@@ -32353,7 +32353,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 1,
@@ -32497,7 +32497,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 1,
@@ -81554,7 +81554,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 1,
           "number": 35,
@@ -81698,7 +81698,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 2,
           "number": 35,
@@ -81842,7 +81842,7 @@
           "targetDeck": "c"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 3,
           "number": 35,
@@ -81986,7 +81986,7 @@
           "targetDeck": "d"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 4,
           "number": 35,
@@ -82855,7 +82855,7 @@
           "inverted": false
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 25,
@@ -82936,7 +82936,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 25,
@@ -83017,7 +83017,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 2,
           "number": 25,
@@ -83098,7 +83098,7 @@
           "targetDeck": "c"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 3,
           "number": 25,
@@ -83788,7 +83788,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 11,
@@ -83968,7 +83968,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
           "number": 25,
@@ -84121,7 +84121,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 36,
@@ -84375,7 +84375,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 36,
@@ -84629,7 +84629,7 @@
           "targetDeck": "c"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 2,
           "number": 36,
@@ -84883,7 +84883,7 @@
           "targetDeck": "d"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 3,
           "number": 36,
@@ -86302,7 +86302,7 @@
           "inverted": false
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 23,
@@ -86311,7 +86311,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 23,
@@ -86320,7 +86320,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 2,
           "number": 23,
@@ -86329,7 +86329,7 @@
           "targetDeck": "c"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 3,
           "number": 23,
@@ -87756,7 +87756,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 53,
@@ -87774,7 +87774,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 53,
@@ -88440,7 +88440,7 @@
           "targetDeck": "d"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 35,
@@ -88449,7 +88449,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 35,
@@ -88458,7 +88458,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 2,
           "number": 35,
@@ -88467,7 +88467,7 @@
           "targetDeck": "c"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 3,
           "number": 35,
@@ -89634,7 +89634,7 @@
           "inverted": false
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 2,
           "number": 25,
@@ -89643,7 +89643,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 3,
           "number": 25,
@@ -89652,7 +89652,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 2,
           "number": 27,
@@ -89661,7 +89661,7 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 3,
           "number": 27,
@@ -89670,7 +89670,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 4,
           "number": 28,
@@ -89679,7 +89679,7 @@
           "targetDeck": "c"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 5,
           "number": 28,
@@ -89688,7 +89688,7 @@
           "targetDeck": "d"
         },
         {
-          "action": "cueReturnA",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 4,
           "number": 32,
@@ -89697,7 +89697,7 @@
           "targetDeck": "c"
         },
         {
-          "action": "cueReturnB",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 5,
           "number": 32,

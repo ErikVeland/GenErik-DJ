@@ -582,6 +582,14 @@ class ConversionTests(unittest.TestCase):
             self.assertFalse(any(i["channel"] in {4, 5} and i["number"] in {9, 10, 11, 12, 36} for i in inputs))
 
 
+    def test_standard_cue_preview_requires_note_release_semantics(self):
+        for status, opts, expected in [("0x90", "", "cuePreviewA"), ("0x80", "", "cuePreviewA"),
+                ("0xB0", "", "cueReturnA"), ("0x90", "<options><invert/></options>", "cueReturnA")]:
+            record, reason = control_record(self.control("cue_default", "[Channel1]", opts, status, "1"))
+            self.assertIsNone(reason)
+            self.assertEqual(record["action"], expected)
+
+
 class GeneratedCatalogueTests(unittest.TestCase):
     def test_source_inventory_and_generated_data(self):
         cache = ROOT / "TestBuilds/r169/upstream"

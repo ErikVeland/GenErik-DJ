@@ -25,7 +25,7 @@ def mc6000_profiles():
     for channel, deck in enumerate("acbd"):
         side = 0 if deck in "ac" else 1
         start = len(result["inputs"])
-        for action, number in [("play", 67), ("cueReturn", 66), ("sync", 107), ("keylock", 6),
+        for action, number in [("play", 67), ("cuePreview", 66), ("sync", 107), ("keylock", 6),
                                ("loop", 29), ("loopIn", 55), ("loopOut", 57), ("loopDown", 105), ("loopUp", 106)]:
             add(result, action, channel, number, deck=deck)
         add(result, "load", channel, 98 + side, deck=deck)
