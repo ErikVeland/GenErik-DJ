@@ -16,11 +16,12 @@ def report(catalogue, runtime):
     automatic_models = [model for model in models if model["isPhysicalModel"] and model["zeroConfig"]["automaticControls"]]
     native_models = sum(model["implementation"] in {"native-accessory", "native-midi"} for model in automatic_models)
     player_count = sum("playerSupport" in model for model in models)
-    lines = ["# Controller catalogue — R169", "", "Reviewed 16 November 2026. This catalogue is complete for the defined source boundary. Controller feature parity remains a release blocker.", "",
+    lines = ["# Controller catalogue — R169", "", "Reviewed 17 November 2026. The pinned software inventory is complete. The wider market audit and controller feature parity remain open.", "",
              "## Boundary and counts", "",
              f"- {len(catalogue['benchmarkRows'])} published Serato iOS rows, expanded to {sum(model['benchmark'] for model in models)} distinct model records.",
              f"- All {len(source_definitions)} Mixxx definitions at `{catalogue['upstreamRevision']}`, including alternative MIDI, HID and bulk mappings.",
              "- All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.",
+             "- Manufacturer-confirmed additions include RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone players and systems.",
              f"- {len(models)} total catalogue records. {sum(model['isPhysicalModel'] for model in models)} name physical models. The remainder identify software endpoints or protocol families.",
              f"- {len(profiles)} bundled data recipes, plus {code_profiles} existing code profiles. Most data recipes cover only part of the hardware.",
              f"- {sum(item['autoSelect'] for item in profiles) + code_profiles} factory profiles select core controls automatically for {len(automatic_models) - native_models} physical models.",
@@ -29,6 +30,8 @@ def report(catalogue, runtime):
              "These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.",
              "Serato’s advertised total includes controllers, mixers, turntables, standalone units and accessories. It is not a count of full-feature controller mappings.", "",
              "## Completion rule — R175", "",
+             "The catalogue-complete flag covers the pinned software sources. It does not establish a complete market inventory.",
+             "The manufacturer market audit has a separate incomplete flag. Product-page records do not add runtime mappings.", "",
              "Theoretical support is the implementation target for every physical model. Physical verification has a separate status.",
              "Complete the documented protocol, controls, modes, lifecycle, feedback and audio routing. Verify them with automated protocol fixtures.",
              "A missing physical test does not block theoretical completion. Unsupported protocols and missing functions still require implementation.",

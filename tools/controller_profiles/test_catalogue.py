@@ -19,6 +19,7 @@ from ns4fx import ns4fx_profiles, NS4FX_SOURCES
 from mixstream import mixstream_profiles, MIXSTREAM_SOURCES
 from flx10 import flx10_profiles, FLX10_REFERENCES
 from ddj1000 import ddj1000_profiles, DDJ1000_REFERENCES
+from manufacturer_inventory import MODELS as MANUFACTURER_MODELS
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -689,6 +690,12 @@ class GeneratedCatalogueTests(unittest.TestCase):
         self.assertEqual(catalogue, json.loads((ROOT / "docs/coordination/controller-catalogue.json").read_text()))
         self.assertEqual(runtime, json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text()))
         self.assertEqual(report(catalogue, runtime), (ROOT / "docs/coordination/controller-catalogue.md").read_text())
+        self.assertFalse(catalogue["releaseGate"]["manufacturerAuditComplete"])
+        for name, source in MANUFACTURER_MODELS:
+            model = next(item for item in catalogue["models"] if item["id"] == canonical(name))
+            self.assertIn(source, model["sources"])
+            self.assertFalse(model["zeroConfig"]["automaticControls"])
+            self.assertFalse(model["theoreticalSupport"]["complete"])
         model_ids = {model["id"] for model in catalogue["models"]}
         for row in catalogue["benchmarkRows"]:
             for name in split_models(row["name"]):

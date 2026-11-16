@@ -1,13 +1,14 @@
 # Controller catalogue — R169
 
-Reviewed 16 November 2026. This catalogue is complete for the defined source boundary. Controller feature parity remains a release blocker.
+Reviewed 17 November 2026. The pinned software inventory is complete. The wider market audit and controller feature parity remain open.
 
 ## Boundary and counts
 
 - 121 published Serato iOS rows, expanded to 122 distinct model records.
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
-- 289 total catalogue records. 282 name physical models. The remainder identify software endpoints or protocol families.
+- Manufacturer-confirmed additions include RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone players and systems.
+- 302 total catalogue records. 295 name physical models. The remainder identify software endpoints or protocol families.
 - 155 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 87 factory profiles select core controls automatically for 88 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
@@ -17,6 +18,9 @@ These counts do not establish hardware acceptance, complete pad modes, motor sup
 Serato’s advertised total includes controllers, mixers, turntables, standalone units and accessories. It is not a count of full-feature controller mappings.
 
 ## Completion rule — R175
+
+The catalogue-complete flag covers the pinned software sources. It does not establish a complete market inventory.
+The manufacturer market audit has a separate incomplete flag. Product-page records do not add runtime mappings.
 
 Theoretical support is the implementation target for every physical model. Physical verification has a separate status.
 Complete the documented protocol, controls, modes, lifecycle, feedback and audio routing. Verify them with automated protocol fixtures.
@@ -221,7 +225,7 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 80 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 70 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 83 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -432,6 +436,13 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | DJ-Tech MIX-101 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mix-101.midi.xml) |
 | DJ-Tech Mixer One | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mixer%20One.midi.xml) |
 | DJ-Tech i-Mix Reload | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20i-Mix%20Reload.midi.xml) |
+| Denon DJ PRIME 2 | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ PRIME GO | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ PRIME GO+ | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ SC5000 PRIME | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ SC5000M PRIME | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ SC6000 PRIME | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ SC6000M PRIME | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DN SC2000 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20DN%20SC2000.midi.xml) |
 | Denon HS5500 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20DN%20HS5500.midi.xml) |
 | Denon MC3000 v0.995 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20MC3000.midi.xml) |
@@ -517,13 +528,19 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Soundless joyMIDI | virtual | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Soundless_joyMIDI.midi.xml) |
 | TrakProDJ iPad | virtual | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/TrakProDJ%20iPad.midi.xml) |
 | Wireless DJ App | virtual | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Wireless%20DJ%20App.midi.xml) |
+| Rane FOUR | primary | protocol-needed | [Reference](https://support.rane.com/en/support/solutions/articles/69000828752-rane-four-frequently-asked-questions) |
+| Rane PERFORMER | primary | protocol-needed | [Reference](https://www.rane.com/downloads/?product=Rane+Performer) |
 | Reloop Beatmix 2 MK2 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml) |
 | Reloop Beatmix 4 MK2 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml) |
 | Reloop Beatpad | primary | native-midi | [Reference](../../docs/coordination/beatpad-native.md) |
+| Reloop Beatpad 2 | primary | protocol-needed | [Reference](https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart) |
+| Reloop Buddy | primary | protocol-needed | [Reference](https://www.reloop.com/reloop-buddy) |
 | Reloop Digital Jockey 2 Controller | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Digital%20Jockey%202%20Controller%20Edition.midi.xml) |
 | Reloop Digital Jockey 2 Interface Edition | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey-2-IE.midi.xml) |
 | Reloop Jockey 3 ME | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Jockey%203%20ME.midi.xml) |
 | Reloop Mixage | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Mixage.midi.xml) |
+| Reloop Mixtour | primary | protocol-needed | [Reference](https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart) |
+| Reloop Mixtour Pro | primary | protocol-needed | [Reference](https://www.reloop.com/reloop-mixtour-pro) |
 | Roland DJ-505 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Roland_DJ-505.midi.xml) |
 | Stanton DJC.4 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-DJC-4.midi.xml) |
 | Stanton SCS.1d (unfinished) | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.1d.midi.xml) |

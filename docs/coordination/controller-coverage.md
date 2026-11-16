@@ -2,6 +2,26 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R217 manufacturer inventory omissions and completion scope
+
+The catalogue now includes thirteen manufacturer-confirmed models omitted by the pinned software inventories.
+They are RANE PERFORMER and FOUR, Reloop Buddy, Mixtour Pro, Mixtour and Beatpad 2, plus seven Denon systems and players.
+Denon additions cover PRIME 2, PRIME GO/GO+, SC5000/SC5000M PRIME and SC6000/SC6000M PRIME.
+Each record links to its reviewed manufacturer source. None inherits another model's mapping or gains an automatic-support claim.
+
+There are now 302 records for 295 physical models. Factory MIDI core coverage remains 88 physical models through 87 profiles.
+Six other models retain existing automatic native adapters. The 155 runtime data recipes remain unchanged.
+The Serato source comparison remains 44 of 122 model records with automatic core controls.
+
+The source-inventory completion flag retains its bounded meaning. A separate manufacturer-audit flag remains false.
+The report now states that the wider market inventory and feature parity remain open.
+The generator checks the new entries and their incomplete implementation state during regeneration.
+
+All 51 importer/report checks pass. Runtime code and resource bytes remain unchanged, so no Swift rebuild forms part of this increment.
+Pioneer SR2 initial Load-bank routing remains unresolved. Both attempted REV7 factory-table downloads returned missing-file responses.
+Twelve historical broken links remain. Source base: `ab7eba2`. Evidence: `TestBuilds/r217/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R216 waveform touch takeover from a held MIDI jog
 
 A native reproduction found that the old jog idle task could overwrite a later waveform touch.

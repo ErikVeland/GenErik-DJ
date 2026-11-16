@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "reviewed": "2026-11-16",
+  "reviewed": "2026-11-17",
   "upstreamRevision": "20f2c218ae1b762ac39fd76ff408c8428056f4f7",
   "benchmarkSource": {
     "url": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
@@ -735,6 +735,7 @@
       "source": "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
     }
   ],
+  "manufacturerInventoryReviewed": "2026-11-17",
   "models": [
     {
       "id": "pioneercdj3000",
@@ -12159,6 +12160,61 @@
       }
     },
     {
+      "id": "denonprime2",
+      "name": "Denon DJ PRIME 2",
+      "manufacturer": "Denon",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Protocol and iPad connection route require review",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "denonprime4",
       "name": "Denon DJ PRIME 4",
       "manufacturer": "Denon",
@@ -12269,6 +12325,116 @@
       }
     },
     {
+      "id": "denonprimego",
+      "name": "Denon DJ PRIME GO",
+      "manufacturer": "Denon",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Protocol and iPad connection route require review",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "denonprimegoplus",
+      "name": "Denon DJ PRIME GO+",
+      "manufacturer": "Denon",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Protocol and iPad connection route require review",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "denonsclive2",
       "name": "Denon DJ SC Live 2",
       "manufacturer": "Denon",
@@ -12331,6 +12497,226 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Protocol and iPad connection route require review",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "denonsc5000prime",
+      "name": "Denon DJ SC5000 PRIME",
+      "manufacturer": "Denon",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Protocol and iPad connection route require review",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "denonsc5000mprime",
+      "name": "Denon DJ SC5000M PRIME",
+      "manufacturer": "Denon",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Protocol and iPad connection route require review",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "denonsc6000prime",
+      "name": "Denon DJ SC6000 PRIME",
+      "manufacturer": "Denon",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Protocol and iPad connection route require review",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "denonsc6000mprime",
+      "name": "Denon DJ SC6000M PRIME",
+      "manufacturer": "Denon",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
       ],
       "definitions": [],
       "implementation": "protocol-needed",
@@ -21574,6 +21960,61 @@
       }
     },
     {
+      "id": "ranefour",
+      "name": "Rane FOUR",
+      "manufacturer": "RANE",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://support.rane.com/en/support/solutions/articles/69000828752-rane-four-frequently-asked-questions"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Protocol and iPad connection route require review",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "ranemp2015",
       "name": "Rane MP2015",
       "manufacturer": "RANE",
@@ -21691,6 +22132,61 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Protocol and iPad connection route require review",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "raneperformer",
+      "name": "Rane PERFORMER",
+      "manufacturer": "RANE",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://www.rane.com/downloads/?product=Rane+Performer"
       ],
       "definitions": [],
       "implementation": "protocol-needed",
@@ -22542,6 +23038,116 @@
       }
     },
     {
+      "id": "reloopbeatpad2",
+      "name": "Reloop Beatpad 2",
+      "manufacturer": "Reloop",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Protocol and iPad connection route require review",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "reloopbuddy",
+      "name": "Reloop Buddy",
+      "manufacturer": "Reloop",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://www.reloop.com/reloop-buddy"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Protocol and iPad connection route require review",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "reloopdigitaljockey2controller",
       "name": "Reloop Digital Jockey 2 Controller",
       "manufacturer": "Reloop",
@@ -23114,6 +23720,116 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Protocol and iPad connection route require review",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "reloopmixtour",
+      "name": "Reloop Mixtour",
+      "manufacturer": "Reloop",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Protocol and iPad connection route require review",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "reloopmixtourpro",
+      "name": "Reloop Mixtour Pro",
+      "manufacturer": "Reloop",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://www.reloop.com/reloop-mixtour-pro"
       ],
       "definitions": [],
       "implementation": "protocol-needed",
@@ -311385,13 +312101,15 @@
     }
   ],
   "releaseGate": {
+    "catalogueCompletionScope": "Pinned software sources and the listed manufacturer additions. The market audit remains open.",
+    "manufacturerAuditComplete": false,
     "catalogueComplete": true,
     "hardwareParityAccepted": false,
     "sourceReuseReviewAccepted": false,
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 282,
+      "targetModels": 295,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

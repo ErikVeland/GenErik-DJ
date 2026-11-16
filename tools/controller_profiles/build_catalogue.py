@@ -39,6 +39,7 @@ from ns4fx import ns4fx_profiles, NS4FX_REFERENCES
 from mixstream import mixstream_profiles, MIXSTREAM_REFERENCES
 from flx10 import flx10_profiles, FLX10_REFERENCES
 from ddj1000 import ddj1000_profiles, DDJ1000_REFERENCES
+from manufacturer_inventory import MODELS as MANUFACTURER_MODELS, REVIEWED as INVENTORY_REVIEWED
 
 LEGACY = {"Pioneer DDJ-FLX4": "DDJ-FLX4", "AlphaTheta DDJ-FLX2": "DDJ-FLX2",
           "Pioneer DDJ-400": "DDJ-400",
@@ -104,6 +105,8 @@ def build(cache, serato_html):
     for entry in benchmark:
         for name in split_models(entry["name"]):
             add_model(name, entry["source"], entry["role"], True)
+    for name, source in MANUFACTURER_MODELS:
+        add_model(name, source)
     for name, profile in LEGACY.items():
         model = add_model(name, "Replica/Sources/TDJInterface/ControllerPioneerProfiles.swift")
         model.update(implementation="automatic-profile", profile=profile)
@@ -243,11 +246,12 @@ def build(cache, serato_html):
     ordered = sorted(models.values(), key=lambda model: (model["priority"]["clubImplementationOrder"] or 1000,
                      model["priority"]["regionalSalesRank"] or 100,
                      model["priority"]["brandTier"], model["manufacturer"], model["name"]))
-    catalogue = {"schemaVersion": 1, "reviewed": "2026-11-16", "upstreamRevision": manifest["revision"],
+    catalogue = {"schemaVersion": 1, "reviewed": "2026-11-17", "upstreamRevision": manifest["revision"],
                  "benchmarkSource": {"url": locked["benchmark"]["url"],
                                      "sha256": locked["benchmark"]["sha256"], "rowCount": len(benchmark)},
-                 "benchmarkRows": benchmark, "models": ordered, "definitions": definitions,
-                 "releaseGate": {"catalogueComplete": all(all(canonical(name) in models for name in split_models(row["name"])) for row in benchmark)
+                 "benchmarkRows": benchmark, "manufacturerInventoryReviewed": INVENTORY_REVIEWED, "models": ordered, "definitions": definitions,
+                 "releaseGate": {"catalogueCompletionScope": "Pinned software sources and the listed manufacturer additions. The market audit remains open.",
+                                 "manufacturerAuditComplete": False, "catalogueComplete": all(all(canonical(name) in models for name in split_models(row["name"])) for row in benchmark)
                      and {item["id"] for item in definitions if item["id"].endswith(".xml")}
                      == {Path(item["path"]).name for item in locked["mixxx"]["files"] if item["path"].endswith(".xml")}, "hardwareParityAccepted": False,
                                  "sourceReuseReviewAccepted": False,

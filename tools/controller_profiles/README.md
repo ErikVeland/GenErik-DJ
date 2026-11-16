@@ -260,3 +260,7 @@ FLX10 retains its original profile ID and aliases in a generated data recipe. Th
 ## Original DDJ-1000 factory-table migration
 
 The original 1000 retains its profile ID in a separate factory-table recipe. Normal Sync, tempo and four-beat loop use Note 88, CC 0/32 and Note 20. The earlier code used shifted addresses. Note 114 on channel 2 reports either left-bank change. Channel 3 reports either right-bank change. These switch events protect pickup and contacts without inferring the initial active bank. The SRT and FLX10 retain separate recipes and source hashes. Context-dependent loops reuse the native loop contract. Screens, remaining modes, feedback, cleanup, routing and calibration remain open.
+
+## Manufacturer inventory additions
+
+`manufacturer_inventory.py` records manufacturer-confirmed products outside the pinned software inventories. These records establish model existence only. They do not create runtime recipes or imply protocol compatibility. Keep the wider market-audit flag separate from the bounded source-inventory completion flag. Catalogue additions must retain incomplete implementation and acceptance states until their own protocol work passes.
