@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R210 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R211 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -226,3 +226,12 @@ Player profiles cannot use this metadata because player assignment already has i
 Shift changes reset pickup only for affected layer controls. Independent controls retain their state.
 A release without a matching held controller contact cannot end a waveform gesture.
 Core protocol fixtures, native transport checks and iPad compilation cover these rules. Hardware acceptance remains open.
+
+## MC7000 physical Shift identities
+
+R211 adds published active Note 8 bank reports to the existing MC7000 recipe.
+Shift input 0 spans channels 0/2 and decks A/C. Input 1 spans channels 1/3 and decks B/D.
+Each side keeps its logical scope when a held button changes MIDI channel.
+Bank reports reset pickup and contacts on that side through the shared contract.
+The source MIDI addresses, tempo pair, unusual jog threshold, setup and feedback remain unchanged.
+Saved custom bindings retain their stored fields. Physical acceptance remains open.

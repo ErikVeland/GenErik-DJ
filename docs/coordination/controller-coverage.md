@@ -2,6 +2,29 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R211 MC7000 bank pickup and held Shift
+
+MC7000 now uses the existing bank protection for its published active Note 8 reports.
+Left reports protect decks A/C. Right reports protect decks B/D.
+A bank change releases old contacts and rearms pickup on that side. The other side retains its state.
+
+The two physical Shift buttons now have stable identities across their virtual deck channels.
+A held modifier follows the selected bank. Release on the new bank clears it before the player returns to the old bank.
+The pinned source explicitly transfers this state because the hardware switches channels immediately.
+The native mapping uses the existing shared button contract instead of copying script state.
+Saved custom mappings retain their stored fields.
+
+Two reproductions failed before the change. The native fixtures now cover held Shift, shifted manual loops, bank return and side-specific pickup.
+All 255 focused controller/NI checks and 47 importer checks pass. Native iPad compilation also passes.
+The compiled resource matches the source. Only the existing MC7000 data recipe changes.
+
+The other 152 recipes, MIDI addresses, tempo pair, jog decoder, setup packets and feedback remain unchanged.
+Counts remain 289 catalogue records, 86 automatic core profiles and 93 physical models with automatic controls.
+
+Jog calibration, pad modes, full feedback, lifecycle details and audio routing remain open.
+Twelve historical broken links remain. Source base: `e55377e`. Evidence: `TestBuilds/r211/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R210 NS4FX core controls and bank pickup protection
 
 NS4FX now selects its native core recipe automatically. Its existing profile ID and exact model alias remain stable.

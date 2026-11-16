@@ -9,17 +9,20 @@ MC7000_SOURCES = [
 MC7000_REFERENCES = {"Denon MC7000": {
     "url": UPSTREAM + MC7000_SOURCES[1][0], "sha256": MC7000_SOURCES[1][1],
     "relatedSources": [{"url": UPSTREAM + path, "sha256": digest} for path, digest in MC7000_SOURCES],
-    "review": "Native actions replace script execution. The jog rule is exactly value < 0x64 ? value : value - 128. Its unusual threshold remains explicit and needs physical calibration. Tempo pairs MSB 9 with LSB 119; source rate inversion cancels rate_dir -1. Shift follows the source per-deck state. Advanced modes, full feedback and audio routing remain open."}}
+    "review": "Native actions replace script execution. The jog rule is exactly value < 0x64 ? value : value - 128. Its unusual threshold remains explicit and needs physical calibration. Tempo pairs MSB 9 with LSB 119; source rate inversion cancels rate_dir -1. Shift follows the physical side across bank channels, using stable input identities. Active Note 8 reports rearm pickup and release old contacts on that side. Advanced modes, full feedback and audio routing remain open."}}
 
 
 def mc7000_profiles():
     result = profile("Denon MC7000", MC7000_REFERENCES["Denon MC7000"]["url"])
     result["definition"] = result["definition"].replace("manufacturer:", "reviewed:")
     result["aliases"].append("Denon DJ MC7000")
-    result["scope"] = "Automatic native core controls from pinned source facts. Per-deck Shift guards unsupported functions. Jog calibration, pad modes, screens and audio routing remain open."
+    result["scope"] = "Automatic native core controls from pinned source facts. Shared Shift identities and active bank reports protect each physical side. Jog calibration, pad modes, screens and audio routing remain open."
     result["startup"] = [[0xF0, 0, 32, 127, 3, 1, 0xF7], [0x90, 8, 127], [0x91, 8, 127]]
     result["startup"] += [[0x90 + channel, 7, 127] for channel in range(4)]
     result["shutdown"] = [[0x90 + channel, 7, 1] for channel in range(4)]
+    result["bankChanges"] = [{"channel": channel, "number": 8, "onValue": 127,
+                              "decks": ["a", "c"] if channel % 2 == 0 else ["b", "d"]}
+                             for channel in range(4)]
     for channel, deck in enumerate("abcd"):
         start = len(result["inputs"])
         for action, number in [("play", 0), ("cuePreview", 1), ("sync", 2), ("keylock", 13), ("jogTouch", 6)]:
@@ -29,12 +32,12 @@ def mc7000_profiles():
         for action, number in [("loop", 50), ("loopDown", 52), ("loopUp", 53)]:
             add(result, action, channel + 4, number, deck=deck, feedback=action == "loop")
         for binding in result["inputs"][start:]:
-            binding.update(shifted=False, shiftChannel=channel)
+            binding.update(shifted=False, shiftChannel=channel % 2)
         for action, number in [("loopIn", 56), ("loopOut", 57), ("reloop", 51)]:
             add(result, action, channel + 4, number, deck=deck)
-            result["inputs"][-1].update(shifted=True, shiftChannel=channel)
+            result["inputs"][-1].update(shifted=True, shiftChannel=channel % 2)
         add(result, "shift", channel, 50)
-        result["inputs"][-1]["shiftChannel"] = channel
+        result["inputs"][-1].update(shiftChannel=channel % 2, shiftInput=channel % 2)
         add(result, "tempo", channel, 9, "control", "paired14Bit", deck)
         result["inputs"][-1]["lowNumber"] = 119
         for action, number in [("gain", 22), ("high", 23), ("mid", 24), ("low", 25), ("filterKnob", 26), ("level", 28)]:
@@ -46,5 +49,5 @@ def mc7000_profiles():
         add(result, "openGroup", 15, number)
     for output in result["outputs"]:
         output["offValue"] = 1
-    result["gaps"] = ["The pinned jog threshold is 0x64, not the usual signed midpoint. This implementation preserves that published rule; independent byte-range confirmation and physical calibration remain open. Pad modes, Vinyl toggle, deck-selection LEDs, platter rings, extra shifted functions, FX, meters, screens, full lifecycle reset and audio routing remain unimplemented. Shift state follows the pinned per-deck mapping; bank changes while held need physical verification. Source reuse/distribution review remains open."]
+    result["gaps"] = ["The pinned jog threshold is 0x64, not the usual signed midpoint. This implementation preserves that published rule; independent byte-range confirmation and physical calibration remain open. Pad modes, Vinyl toggle, deck-selection LEDs, platter rings, extra shifted functions, FX, meters, screens, full lifecycle reset and audio routing remain unimplemented. Shared Shift identities and active bank reports have native fixtures; physical acceptance remains open. Source reuse/distribution review remains open."]
     return [result]

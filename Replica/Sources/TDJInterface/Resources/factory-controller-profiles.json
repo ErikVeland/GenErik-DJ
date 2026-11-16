@@ -10998,7 +10998,8 @@
           "number": 50,
           "encoding": "absolute",
           "inverted": false,
-          "shiftChannel": 0
+          "shiftChannel": 0,
+          "shiftInput": 0
         },
         {
           "action": "tempoA",
@@ -11223,7 +11224,8 @@
           "number": 50,
           "encoding": "absolute",
           "inverted": false,
-          "shiftChannel": 1
+          "shiftChannel": 1,
+          "shiftInput": 1
         },
         {
           "action": "tempoB",
@@ -11307,7 +11309,7 @@
           "inverted": false,
           "targetDeck": "c",
           "shifted": false,
-          "shiftChannel": 2
+          "shiftChannel": 0
         },
         {
           "action": "cuePreviewA",
@@ -11318,7 +11320,7 @@
           "inverted": false,
           "targetDeck": "c",
           "shifted": false,
-          "shiftChannel": 2
+          "shiftChannel": 0
         },
         {
           "action": "syncA",
@@ -11329,7 +11331,7 @@
           "inverted": false,
           "targetDeck": "c",
           "shifted": false,
-          "shiftChannel": 2
+          "shiftChannel": 0
         },
         {
           "action": "keylockA",
@@ -11340,7 +11342,7 @@
           "inverted": false,
           "targetDeck": "c",
           "shifted": false,
-          "shiftChannel": 2
+          "shiftChannel": 0
         },
         {
           "action": "jogTouchA",
@@ -11351,7 +11353,7 @@
           "inverted": false,
           "targetDeck": "c",
           "shifted": false,
-          "shiftChannel": 2
+          "shiftChannel": 0
         },
         {
           "action": "loadA",
@@ -11362,7 +11364,7 @@
           "inverted": false,
           "targetDeck": "c",
           "shifted": false,
-          "shiftChannel": 2
+          "shiftChannel": 0
         },
         {
           "action": "jogA",
@@ -11373,7 +11375,7 @@
           "inverted": false,
           "targetDeck": "c",
           "shifted": false,
-          "shiftChannel": 2
+          "shiftChannel": 0
         },
         {
           "action": "loopA",
@@ -11384,7 +11386,7 @@
           "inverted": false,
           "targetDeck": "c",
           "shifted": false,
-          "shiftChannel": 2
+          "shiftChannel": 0
         },
         {
           "action": "loopDownA",
@@ -11395,7 +11397,7 @@
           "inverted": false,
           "targetDeck": "c",
           "shifted": false,
-          "shiftChannel": 2
+          "shiftChannel": 0
         },
         {
           "action": "loopUpA",
@@ -11406,7 +11408,7 @@
           "inverted": false,
           "targetDeck": "c",
           "shifted": false,
-          "shiftChannel": 2
+          "shiftChannel": 0
         },
         {
           "action": "loopInA",
@@ -11417,7 +11419,7 @@
           "inverted": false,
           "targetDeck": "c",
           "shifted": true,
-          "shiftChannel": 2
+          "shiftChannel": 0
         },
         {
           "action": "loopOutA",
@@ -11428,7 +11430,7 @@
           "inverted": false,
           "targetDeck": "c",
           "shifted": true,
-          "shiftChannel": 2
+          "shiftChannel": 0
         },
         {
           "action": "reloopA",
@@ -11439,7 +11441,7 @@
           "inverted": false,
           "targetDeck": "c",
           "shifted": true,
-          "shiftChannel": 2
+          "shiftChannel": 0
         },
         {
           "action": "shift",
@@ -11448,7 +11450,8 @@
           "number": 50,
           "encoding": "absolute",
           "inverted": false,
-          "shiftChannel": 2
+          "shiftChannel": 0,
+          "shiftInput": 0
         },
         {
           "action": "tempoA",
@@ -11532,7 +11535,7 @@
           "inverted": false,
           "targetDeck": "d",
           "shifted": false,
-          "shiftChannel": 3
+          "shiftChannel": 1
         },
         {
           "action": "cuePreviewB",
@@ -11543,7 +11546,7 @@
           "inverted": false,
           "targetDeck": "d",
           "shifted": false,
-          "shiftChannel": 3
+          "shiftChannel": 1
         },
         {
           "action": "syncB",
@@ -11554,7 +11557,7 @@
           "inverted": false,
           "targetDeck": "d",
           "shifted": false,
-          "shiftChannel": 3
+          "shiftChannel": 1
         },
         {
           "action": "keylockB",
@@ -11565,7 +11568,7 @@
           "inverted": false,
           "targetDeck": "d",
           "shifted": false,
-          "shiftChannel": 3
+          "shiftChannel": 1
         },
         {
           "action": "jogTouchB",
@@ -11576,7 +11579,7 @@
           "inverted": false,
           "targetDeck": "d",
           "shifted": false,
-          "shiftChannel": 3
+          "shiftChannel": 1
         },
         {
           "action": "loadB",
@@ -11587,7 +11590,7 @@
           "inverted": false,
           "targetDeck": "d",
           "shifted": false,
-          "shiftChannel": 3
+          "shiftChannel": 1
         },
         {
           "action": "jogB",
@@ -11598,7 +11601,7 @@
           "inverted": false,
           "targetDeck": "d",
           "shifted": false,
-          "shiftChannel": 3
+          "shiftChannel": 1
         },
         {
           "action": "loopB",
@@ -11609,7 +11612,7 @@
           "inverted": false,
           "targetDeck": "d",
           "shifted": false,
-          "shiftChannel": 3
+          "shiftChannel": 1
         },
         {
           "action": "loopDownB",
@@ -11620,7 +11623,7 @@
           "inverted": false,
           "targetDeck": "d",
           "shifted": false,
-          "shiftChannel": 3
+          "shiftChannel": 1
         },
         {
           "action": "loopUpB",
@@ -11631,7 +11634,7 @@
           "inverted": false,
           "targetDeck": "d",
           "shifted": false,
-          "shiftChannel": 3
+          "shiftChannel": 1
         },
         {
           "action": "loopInB",
@@ -11642,7 +11645,7 @@
           "inverted": false,
           "targetDeck": "d",
           "shifted": true,
-          "shiftChannel": 3
+          "shiftChannel": 1
         },
         {
           "action": "loopOutB",
@@ -11653,7 +11656,7 @@
           "inverted": false,
           "targetDeck": "d",
           "shifted": true,
-          "shiftChannel": 3
+          "shiftChannel": 1
         },
         {
           "action": "reloopB",
@@ -11664,7 +11667,7 @@
           "inverted": false,
           "targetDeck": "d",
           "shifted": true,
-          "shiftChannel": 3
+          "shiftChannel": 1
         },
         {
           "action": "shift",
@@ -11673,7 +11676,8 @@
           "number": 50,
           "encoding": "absolute",
           "inverted": false,
-          "shiftChannel": 3
+          "shiftChannel": 1,
+          "shiftInput": 1
         },
         {
           "action": "tempoB",
@@ -12055,10 +12059,48 @@
         ]
       ],
       "autoSelect": true,
-      "scope": "Automatic native core controls from pinned source facts. Per-deck Shift guards unsupported functions. Jog calibration, pad modes, screens and audio routing remain open.",
+      "scope": "Automatic native core controls from pinned source facts. Shared Shift identities and active bank reports protect each physical side. Jog calibration, pad modes, screens and audio routing remain open.",
       "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC7000-scripts.js",
+      "bankChanges": [
+        {
+          "channel": 0,
+          "number": 8,
+          "onValue": 127,
+          "decks": [
+            "a",
+            "c"
+          ]
+        },
+        {
+          "channel": 1,
+          "number": 8,
+          "onValue": 127,
+          "decks": [
+            "b",
+            "d"
+          ]
+        },
+        {
+          "channel": 2,
+          "number": 8,
+          "onValue": 127,
+          "decks": [
+            "a",
+            "c"
+          ]
+        },
+        {
+          "channel": 3,
+          "number": 8,
+          "onValue": 127,
+          "decks": [
+            "b",
+            "d"
+          ]
+        }
+      ],
       "gaps": [
-        "The pinned jog threshold is 0x64, not the usual signed midpoint. This implementation preserves that published rule; independent byte-range confirmation and physical calibration remain open. Pad modes, Vinyl toggle, deck-selection LEDs, platter rings, extra shifted functions, FX, meters, screens, full lifecycle reset and audio routing remain unimplemented. Shift state follows the pinned per-deck mapping; bank changes while held need physical verification. Source reuse/distribution review remains open."
+        "The pinned jog threshold is 0x64, not the usual signed midpoint. This implementation preserves that published rule; independent byte-range confirmation and physical calibration remain open. Pad modes, Vinyl toggle, deck-selection LEDs, platter rings, extra shifted functions, FX, meters, screens, full lifecycle reset and audio routing remain unimplemented. Shared Shift identities and active bank reports have native fixtures; physical acceptance remains open. Source reuse/distribution review remains open."
       ]
     },
     {

@@ -605,6 +605,15 @@ class ConversionTests(unittest.TestCase):
         self.assertFalse(any(i["action"].startswith("hotcue") for i in profile["inputs"]))
 
 
+    def test_mc7000_bank_reports_and_shift_aliases_follow_physical_sides(self):
+        item = mc7000_profiles()[0]
+        shifts = [i for i in item["inputs"] if i["action"] == "shift"]
+        self.assertEqual([(i["channel"], i["shiftChannel"], i["shiftInput"]) for i in shifts],
+                         [(0, 0, 0), (1, 1, 1), (2, 0, 0), (3, 1, 1)])
+        self.assertEqual([b["decks"] for b in item["bankChanges"]], [["a", "c"], ["b", "d"], ["a", "c"], ["b", "d"]])
+        self.assertTrue(all(b["number"] == 8 and b["onValue"] == 127 for b in item["bankChanges"]))
+
+
 class GeneratedCatalogueTests(unittest.TestCase):
     def test_source_inventory_and_generated_data(self):
         cache = ROOT / "TestBuilds/r169/upstream"

@@ -11864,7 +11864,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "The pinned jog threshold is 0x64, not the usual signed midpoint. This implementation preserves that published rule; independent byte-range confirmation and physical calibration remain open. Pad modes, Vinyl toggle, deck-selection LEDs, platter rings, extra shifted functions, FX, meters, screens, full lifecycle reset and audio routing remain unimplemented. Shift state follows the pinned per-deck mapping; bank changes while held need physical verification. Source reuse/distribution review remains open."
+        "The pinned jog threshold is 0x64, not the usual signed midpoint. This implementation preserves that published rule; independent byte-range confirmation and physical calibration remain open. Pad modes, Vinyl toggle, deck-selection LEDs, platter rings, extra shifted functions, FX, meters, screens, full lifecycle reset and audio routing remain unimplemented. Shared Shift identities and active bank reports have native fixtures; physical acceptance remains open. Source reuse/distribution review remains open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -310598,7 +310598,7 @@
             "sha256": "5d2b24a7c36a3e5e7886e43b7e4fd83378ca5857c48beb7ba99b47ef26bda2a3"
           }
         ],
-        "review": "Native actions replace script execution. The jog rule is exactly value < 0x64 ? value : value - 128. Its unusual threshold remains explicit and needs physical calibration. Tempo pairs MSB 9 with LSB 119; source rate inversion cancels rate_dir -1. Shift follows the source per-deck state. Advanced modes, full feedback and audio routing remain open."
+        "review": "Native actions replace script execution. The jog rule is exactly value < 0x64 ? value : value - 128. Its unusual threshold remains explicit and needs physical calibration. Tempo pairs MSB 9 with LSB 119; source rate inversion cancels rate_dir -1. Shift follows the physical side across bank channels, using stable input identities. Active Note 8 reports rearm pickup and release old contacts on that side. Advanced modes, full feedback and audio routing remain open."
       },
       "implementedInputCount": 93,
       "implementedOutputCount": 20,
@@ -310609,7 +310609,7 @@
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         },
         {
-          "reason": "The pinned jog threshold is 0x64, not the usual signed midpoint. This implementation preserves that published rule; independent byte-range confirmation and physical calibration remain open. Pad modes, Vinyl toggle, deck-selection LEDs, platter rings, extra shifted functions, FX, meters, screens, full lifecycle reset and audio routing remain unimplemented. Shift state follows the pinned per-deck mapping; bank changes while held need physical verification. Source reuse/distribution review remains open."
+          "reason": "The pinned jog threshold is 0x64, not the usual signed midpoint. This implementation preserves that published rule; independent byte-range confirmation and physical calibration remain open. Pad modes, Vinyl toggle, deck-selection LEDs, platter rings, extra shifted functions, FX, meters, screens, full lifecycle reset and audio routing remain unimplemented. Shared Shift identities and active bank reports have native fixtures; physical acceptance remains open. Source reuse/distribution review remains open."
         }
       ]
     },
