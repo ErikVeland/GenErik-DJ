@@ -2,6 +2,28 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R197 original Party Mix core controls
+
+The original Party Mix now selects native core controls and four Hot Cues per deck automatically.
+Each deck has an independent pad-mode latch. Loop, Sampler and FX modes cannot trigger Hot Cues.
+Reconnects restore the source Hot Cue mode and clear old button edges. Hot Cue pad lights remain open.
+Transport, XML Load notes 2/3, headphone cue, seven-bit tempo, two-band EQ, gain and levels retain their source addresses.
+There is no invented Mid EQ control. Tempo accounts for the source non-inverted rate Pot and engine direction.
+
+The source has no platter touch input. Native wheel-side jogging provides pitch bend without a false touch action.
+The source’s timed sensorless Scratch mode remains unimplemented.
+Startup disables the three party-light channels, sends the source manufacturer packet, dims Scratch and selects Hot Cue mode indicators.
+Headphone cue feedback retains the source Note Off command and dim value. Other core lights use the source dim value of 1.
+Loop/Sampler/FX pad actions, browser hold/focus gestures, party-light animation, full shutdown LED cleanup and audio routing remain open.
+Physical response and source reuse/distribution review remain open. This profile does not select Party Mix II, III, Live or Pro.
+Sources: pinned [XML](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Party-Mix.midi.xml) and [script](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Party-Mix.scripts.js).
+SHA-256 identities are recorded in `tools/controller_profiles/party_mix.py` and the generated catalogue.
+The catalogue retains 287 records and 148 data recipes plus seven code profiles. Seventy-five profiles select core controls automatically.
+All 177 focused Swift checks, 35 importer checks and native iPad compilation passed. The compiled resource matches the source.
+The other 147 data recipes remain unchanged. Twelve historical broken links remain.
+Source base: `6540678`. Evidence: `TestBuilds/r197/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R196 original Mixtrack and Pro core controls
 
 The original Mixtrack and Mixtrack Pro now select separate native core profiles.

@@ -19539,54 +19539,87 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Party-Mix.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Party-Mix.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Party-Mix.scripts.js"
       ],
       "definitions": [
-        "Numark-Party-Mix.midi.xml"
+        "Numark-Party-Mix.midi.xml",
+        "reviewed:numarkpartymix"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Numark Party Mix",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browse",
         "crossfader",
+        "cueA:a",
+        "cueB:b",
         "cueMix",
+        "cueReturnA:a",
+        "cueReturnB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
         "master",
-        "monitor"
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 4,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 36,
+      "feedbackBindingCount": 6,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 59,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Hot Cue pad lights, timed sensorless Scratch, Loop/Sampler/FX pad modes, browser hold/focus gestures, party-light animation, full shutdown LED cleanup and audio routing remain unimplemented. Other pad modes block Hot Cues. Native wheel-side jogging keeps signed counts; physical response and source reuse/distribution review remain open. This recipe applies only to the original Party Mix, not II, III, Live or Pro."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -309982,6 +310015,38 @@
         },
         {
           "reason": "Native core transport and fixed manual loops replace source script modes. Manual/auto loop toggles, directory latch, Delete/Hot Cue or EQ-kill modes, Scratch toggle, pitch-bend buttons, FX and full audio routing remain unimplemented. Native Scratch lights use the published LED addresses. Source-specific tempo direction, jog calibration, complete shutdown feedback and source reuse/distribution review remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numarkpartymix",
+      "name": "Numark Party Mix",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Party-Mix.scripts.js",
+        "sha256": "f6a918228964c90105a47a9faa109a0dc80935cb269d0495054ab04712997132",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Party-Mix.midi.xml",
+            "sha256": "8745faac533e58e2a23699bfb365442564876226aee98ab12570b01efe84136b"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Party-Mix.scripts.js",
+            "sha256": "f6a918228964c90105a47a9faa109a0dc80935cb269d0495054ab04712997132"
+          }
+        ],
+        "review": "The original model has no platter touch sensor. Native wheel-side jogging replaces the source default pitch-bend mode. Timed Scratch remains unimplemented. Hot Cues follow the source mode latch; other pad modes block cue actions. XML Load notes 2/3 govern input, not the component constructor output addresses. Tempo uses the non-inverted source rate Pot and rate_dir -1."
+      },
+      "implementedInputCount": 36,
+      "implementedOutputCount": 6,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Hot Cue pad lights, timed sensorless Scratch, Loop/Sampler/FX pad modes, browser hold/focus gestures, party-light animation, full shutdown LED cleanup and audio routing remain unimplemented. Other pad modes block Hot Cues. Native wheel-side jogging keeps signed counts; physical response and source reuse/distribution review remain open. This recipe applies only to the original Party Mix, not II, III, Live or Pro."
         }
       ]
     },

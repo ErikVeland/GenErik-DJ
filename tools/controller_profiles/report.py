@@ -123,6 +123,10 @@ def report(catalogue, runtime):
               "The original Mixtrack and Pro select separate native core profiles. Original mixer/touch addresses and source-specific tempo direction have fixtures.",
               "Fixed manual loops and native Scratch replace script modes. Mode toggles, advanced functions and full audio routing remain open.",
               "See [R196 original Mixtrack](controller-coverage.md#r196-original-mixtrack-and-pro-core-controls).", "",
+              "## Original Party Mix — R197", "",
+              "The original Party Mix selects native core controls and four mode-gated Hot Cues per deck. Sensorless wheels use native pitch bend.",
+              "Other pad modes cannot trigger cues. Timed Scratch, remaining modes, full feedback cleanup and audio routing remain open.",
+              "See [R197 Party Mix](controller-coverage.md#r197-original-party-mix-core-controls).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

@@ -1,6 +1,6 @@
 # Controller catalogue tools
 
-These tools reproduce the R169 source inventory, R175 completion states and R176–R196 factory MIDI profiles.
+These tools reproduce the R169 source inventory, R175 completion states and R176–R197 factory MIDI profiles.
 They use Python 3.9 or later and the standard library. No package installation is required.
 The repository has no controller-generation script in `package.json`, so these tools run directly.
 
@@ -134,3 +134,6 @@ Its tempo inputs use explicit low controller 119 and independent decoder state p
 
 The original Mixtrack and Pro retain their separate source tempo curves and original-generation mixer/touch addresses.
 The original model requires the qualified name `Numark MIXTRACK`. A generic `MIXTRACK` endpoint cannot select it automatically.
+
+The original Party Mix has sensorless wheels. Its core profile maps native wheel-side jogging and leaves timed Scratch open.
+Four Hot Cues per deck require the Hot Cue pad mode. Other modes block those actions. Pad lights remain open.
