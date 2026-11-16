@@ -2,12 +2,16 @@ import Foundation
 
 public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     case absolute, paired14Bit, paired14BitRelative, twosComplement, binaryOffset, signedBit
+    case numarkPlatinumJog
     case cdjPlatterSpeed, cdjRingSpeed, cdj350PlatterSpeed, cdjTempo, needlePosition
-    public var isRelative: Bool { [.twosComplement, .binaryOffset, .signedBit, .paired14BitRelative].contains(self) }
+    public var isRelative: Bool {
+        [.twosComplement, .binaryOffset, .signedBit, .paired14BitRelative, .numarkPlatinumJog].contains(self)
+    }
     public var isPairedCC: Bool { self == .paired14Bit || self == .paired14BitRelative }
     public var title: String {
         switch self {
         case .absolute: "Knob / fader"
+        case .numarkPlatinumJog: "Mixtrack Platinum jog"
         case .paired14Bit: "High-resolution CC pair"
         case .paired14BitRelative: "Relative high-resolution CC pair"
         case .twosComplement: "Encoder: 1 / 127"
@@ -31,32 +35,38 @@ public struct ControllerMIDIValueState: Sendable {
     private var msb: UInt8?
     private var lsb: UInt8 = 0
     private var relativeMSB: UInt8?
+    private var platinumTick: (value: Int, forward: Bool)?
     public init() {}
-    public mutating func decode(_ message: ControllerMIDIMessage, encoding: ControllerMIDIEncoding, number: UInt8)
+    public mutating func decode(
+        _ message: ControllerMIDIMessage, encoding: ControllerMIDIEncoding, number: UInt8, lowNumber: UInt8? = nil
+    )
         -> ControllerMIDIValue?
     {
         if message.kind.isRelativeController {
             guard message.number == number, encoding == .absolute else { return nil }
             return .relative(Double(max(-127, min(127, message.value))))
         }
+        let low = lowNumber ?? (number < 32 ? number + 32 : nil)
         if encoding == .paired14BitRelative {
-            guard message.kind == .control, message.maximum <= 127, (0...127).contains(message.value), number < 32
+            guard message.kind == .control, message.maximum <= 127, number < 128, (0...127).contains(message.value),
+                let low, low < 128, low != number
             else { return nil }
             if message.number == number {
                 relativeMSB = UInt8(message.value)
                 return nil
             }
-            guard message.number == number + 32, let high = relativeMSB else { return nil }
+            guard message.number == low, let high = relativeMSB else { return nil }
             relativeMSB = nil
             let raw = Int(high) << 7 | message.value
             return .relative(Double(raw < 8192 ? raw : raw - 16384))
         }
         if encoding == .paired14Bit {
-            guard message.kind == .control, message.maximum <= 127, number < 32 else { return nil }
+            guard message.kind == .control, message.maximum <= 127, number < 128, let low, low < 128, low != number
+            else { return nil }
             if message.number == number {
                 msb = UInt8(message.value)
                 lsb = 0
-            } else if message.number == number + 32 {
+            } else if message.number == low {
                 lsb = UInt8(message.value)
             } else {
                 return nil
@@ -67,6 +77,17 @@ public struct ControllerMIDIValueState: Sendable {
         guard message.number == number else { return nil }
         if encoding == .absolute { return .absolute(message.normalized) }
         guard message.kind == .control, message.maximum <= 127 else { return nil }
+        if encoding == .numarkPlatinumJog {
+            let rawForward = message.value < 64
+            let forward: Bool
+            if let previous = platinumTick, previous.forward != rawForward, abs(previous.value - message.value) < 64 {
+                forward = previous.forward
+            } else {
+                forward = rawForward
+            }
+            platinumTick = (message.value, forward)
+            return .relative(Double(forward ? message.value : message.value - 128))
+        }
         if encoding == .cdjTempo {
             let delta = message.value - 64
             return .absolute(0.5 + Double(delta) / (delta > 0 ? 126 : 128))

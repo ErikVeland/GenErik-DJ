@@ -95,6 +95,10 @@ def report(catalogue, runtime):
               "Mixtrack 3 and Pro 3 select separate native core profiles from their shared pinned mapping.",
               "Shift state remains independent per deck. Unsupported shifted combinations cannot change base controls on that deck.",
               "See [R189 Mixtrack 3](controller-coverage.md#r189-mixtrack-3-and-mixtrack-pro-3-core-controls).", "",
+              "## Original Mixtrack Platinum — R190", "",
+              "The original Platinum selects a separate native core profile. Its explicit low-byte CC 119 and wrapped-jog rule retain the pinned protocol facts.",
+              "Four-deck routing and global Shift have fixtures. Pads, advanced modes, screens, physical calibration and full audio routing remain open.",
+              "See [R190 original Platinum](controller-coverage.md#r190-original-mixtrack-platinum-core-controls).", "",
               "## Implementation states", "", "| State | Records | Meaning |", "| --- | ---: | --- |"]
     meanings = {"automatic-profile": "Existing factory controls and lights. Physical acceptance remains open.",
                 "automatic-core-profile": "Reviewed core MIDI controls. Additional modes and acceptance remain open.",

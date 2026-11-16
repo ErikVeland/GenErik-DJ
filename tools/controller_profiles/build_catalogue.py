@@ -23,6 +23,7 @@ from s1 import s1_profiles, S1_REFERENCES
 from legacy_systems import legacy_system_profiles, LEGACY_SYSTEM_REFERENCES
 from numark import numark_profiles, numark_references
 from mixtrack3 import mixtrack3_profiles, mixtrack3_references, MIXTRACK3_SOURCES
+from platinum import platinum_profiles, PLATINUM_REFERENCES, PLATINUM_SOURCES
 
 LEGACY = {"Pioneer DDJ-FLX4": "DDJ-FLX4", "AlphaTheta DDJ-FLX2": "DDJ-FLX2",
           "Pioneer DDJ-400": "DDJ-400", "Pioneer DDJ-FLX10": "DDJ-FLX10",
@@ -99,7 +100,7 @@ def build(cache, serato_html):
                      profile=name, role="accessory" if name.startswith(("X1", "F1", "D2")) else "primary")
     add_model("Reloop Beatpad", "docs/coordination/beatpad-native.md").update(implementation="native-midi", profile="Beatpad")
 
-    reviewed = curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles()
+    reviewed = curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles()
     reviewed_ids = {canonical(item["id"]) for item in reviewed}
     for path in sorted((cache / "res/controllers").glob("*.xml")):
         reference = refs[path.name]
@@ -150,7 +151,7 @@ def build(cache, serato_html):
                      profile=item["id"], automaticControls=item["autoSelect"])
         model["definitions"].append(item["definition"])
         reference = REFERENCES.get(item["id"])
-        source = CDJ_REFERENCES.get(item["id"]) or PLAYER_REFERENCES.get(item["id"]) or controller_references().get(item["id"]) or ddj_references().get(item["id"]) or LEGACY_XDJ_REFERENCES.get(item["id"]) or entry_references().get(item["id"]) or OPUS_REFERENCES.get(item["id"]) or legacy_ddj_references().get(item["id"]) or S1_REFERENCES.get(item["id"]) or LEGACY_SYSTEM_REFERENCES.get(item["id"]) or numark_references().get(item["id"]) or mixtrack3_references().get(item["id"]) or {"url": item["source"],
+        source = CDJ_REFERENCES.get(item["id"]) or PLAYER_REFERENCES.get(item["id"]) or controller_references().get(item["id"]) or ddj_references().get(item["id"]) or LEGACY_XDJ_REFERENCES.get(item["id"]) or entry_references().get(item["id"]) or OPUS_REFERENCES.get(item["id"]) or legacy_ddj_references().get(item["id"]) or S1_REFERENCES.get(item["id"]) or LEGACY_SYSTEM_REFERENCES.get(item["id"]) or numark_references().get(item["id"]) or mixtrack3_references().get(item["id"]) or PLATINUM_REFERENCES.get(item["id"]) or {"url": item["source"],
             "sha256": reference[1] if reference else "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"}
         definitions.append({"id": item["definition"], "name": item["id"], "transport": "midi",
                             "source": source,

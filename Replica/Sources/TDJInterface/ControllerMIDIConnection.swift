@@ -111,6 +111,8 @@ struct ControllerBinding: Codable {
     var releaseOnly: Bool? = nil
     var requiredMode: UInt8? = nil
     var shiftChannel: UInt8? = nil
+    var lowNumber: UInt8? = nil
+    var lowControllerNumber: UInt8? { mode.isPairedCC ? lowNumber ?? (number < 32 ? number + 32 : nil) : nil }
     var target: ControllerActionTarget { .init(action, deck: targetDeck, argument: argument) }
     var mode: ControllerMIDIEncoding { encoding ?? .absolute }
     var isShifted: Bool { shifted ?? false }
@@ -1775,7 +1777,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         "\(source)-\(group)-\(action.rawValue)-\(shifted ? 1 : 0)-\(deck?.rawValue ?? "default")"
     }
     private func bindingTakeoverKey(_ binding: ControllerBinding) -> String {
-        "\(binding.source)-\(binding.umpGroup)-\(binding.channel)-\(binding.kind.rawValue)-\(binding.number)-\(binding.parameter ?? 0)-\(binding.noteNumber ?? 0)-\(binding.isShifted ? 1 : 0)"
+        "\(binding.source)-\(binding.umpGroup)-\(binding.channel)-\(binding.kind.rawValue)-\(binding.number)-\(binding.parameter ?? 0)-\(binding.noteNumber ?? 0)-\(binding.isShifted ? 1 : 0)" + (binding.lowNumber.map { "-\($0)" } ?? "")
     }
     private func persist() {
         bindingCount = bindings.count
@@ -1927,7 +1929,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     && binding.noteNumber == message.noteNumber
                     && (binding.number == number
                         || (self.learningEncoding.isPairedCC && binding.number == number + 32)
-                        || (binding.mode.isPairedCC && binding.number < 32 && binding.number + 32 == number))
+                        || (binding.lowControllerNumber == number))
             }
             let replacesShift = learning != .shift && inputBindings(source: sourceID).contains(where: {
                 $0.action == .shift && sameInput($0)
@@ -1981,13 +1983,13 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 && ($0.anyChannel == true || $0.channel == message.channel) && $0.parameter == message.parameter
                 && $0.noteNumber == message.noteNumber
                 && ($0.number == message.number
-                    || ($0.mode.isPairedCC && $0.number < 32 && $0.number + 32 == message.number))
+                    || ($0.lowControllerNumber == message.number))
         }
         for binding in matches {
             let key = bindingStateKey(
                 source: binding.source, action: binding.action, shifted: binding.isShifted, group: binding.umpGroup, deck: binding.targetDeck) + "-" + bindingTakeoverKey(binding)
             var state = valueStates[key, default: .init()]
-            let decoded = state.decode(message, encoding: binding.mode, number: binding.number)
+            let decoded = state.decode(message, encoding: binding.mode, number: binding.number, lowNumber: binding.lowNumber)
             valueStates[key] = state
             guard let decoded else { continue }
             var value: Double

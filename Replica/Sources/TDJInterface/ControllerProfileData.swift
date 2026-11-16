@@ -16,13 +16,14 @@ struct ControllerProfileData: Decodable, Sendable {
         let requiredMode: UInt8?
         let shifted: Bool?
         let shiftChannel: UInt8?
+        let lowNumber: UInt8?
 
         func binding(source: Int32) -> ControllerBinding {
             .init(
                 source: source, group: 0, channel: channel, kind: kind, number: number,
                 parameter: nil, noteNumber: nil, action: action, encoding: encoding,
                 inverted: inverted, shifted: shifted ?? false, targetDeck: targetDeck, layerIndependent: shifted == nil,
-                anyChannel: anyChannel, argument: argument, releaseOnly: releaseOnly, requiredMode: requiredMode, shiftChannel: shiftChannel)
+                anyChannel: anyChannel, argument: argument, releaseOnly: releaseOnly, requiredMode: requiredMode, shiftChannel: shiftChannel, lowNumber: lowNumber)
         }
     }
 
@@ -80,11 +81,13 @@ struct ControllerProfileData: Decodable, Sendable {
             && !inputs.isEmpty && inputs.count <= 512 && outputs.count <= 128
             && inputs.allSatisfy {
                 $0.channel < 16 && $0.number < 128
-                    && (!$0.encoding.isPairedCC || ($0.kind == .control && $0.number < 32))
+                    && ($0.encoding.isPairedCC
+                        ? $0.kind == .control && ($0.lowNumber.map { $0 < 128 } ?? ($0.number < 32)) && $0.lowNumber != $0.number
+                        : $0.lowNumber == nil)
                     && ($0.anyChannel != true || role == "player")
                     && ($0.releaseOnly != true || ($0.kind == .note && $0.action.isMomentary))
                     && Self.validArgument($0)
-                    && (![.cdjPlatterSpeed, .cdjRingSpeed, .cdj350PlatterSpeed, .cdjTempo, .needlePosition].contains($0.encoding)
+                    && (![.numarkPlatinumJog, .cdjPlatterSpeed, .cdjRingSpeed, .cdj350PlatterSpeed, .cdjTempo, .needlePosition].contains($0.encoding)
                         || $0.kind == .control)
             }
             && outputs.allSatisfy {

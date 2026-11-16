@@ -2,6 +2,31 @@
 
 Request R23. Updated 16 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R190 original Mixtrack Platinum core controls
+
+The original Mixtrack Platinum now selects a native core profile automatically. Its profile remains separate from Platinum FX.
+The four deck channels retain transport, deck-local Load, mixer, filter, headphone, loop and jog controls.
+The tempo fader pairs high controller 9 with low controller 119. It does not use the standard low controller 41.
+Optional pair metadata supports that published address and rejects identical or invalid controller pairs.
+Existing standard pairs keep their decoding behaviour.
+
+The jog decoder retains direction across a small raw-count change at the signed midpoint.
+A large count jump can indicate an actual reversal. Per-deck histories remain separate and reconnects clear them.
+This follows the pinned script’s wrap rule. Fixtures do not establish physical feel or calibration.
+
+Startup sends the source demo-exit packet and lights the four jog indicators. Shutdown sends the source mode-reset packet.
+Global Shift blocks unsupported base combinations while permitting the documented shifted Loop In/Out controls.
+Touch release still clears a held platter. Pads, Scratch toggle, advanced shifted functions, FX, meters, screens and audio routing remain open.
+Source reuse and distribution review remain release work.
+Sources: pinned [XML](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%20Platinum.midi.xml) and [script](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Platinum-scripts.js).
+SHA-256 identities are recorded in `tools/controller_profiles/platinum.py` and the generated catalogue.
+The catalogue retains 287 records and 147 data recipes plus seven code profiles. Sixty-seven factory profiles select core controls automatically.
+The reviewed original Platinum recipe replaces its partial recipe. All 146 other data recipes remain unchanged.
+All 141 focused Swift checks, one explicit-pair validation check, 28 importer checks and native iPad compilation passed.
+The compiled resource matches the source. Twelve historical broken links remain across 1,527 files.
+Source base: `27755cf`. Evidence: `TestBuilds/r190/`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R189 Mixtrack 3 and Mixtrack Pro 3 core controls
 
 Mixtrack 3 and Mixtrack Pro 3 now select separate native core profiles automatically.

@@ -25,6 +25,7 @@ from s1 import s1_profiles, S1_REFERENCES
 from legacy_systems import legacy_system_profiles, LEGACY_SYSTEM_REFERENCES
 from numark import numark_profiles, numark_references, NUMARK_SOURCES
 from mixtrack3 import mixtrack3_profiles, mixtrack3_references, MIXTRACK3_SOURCES
+from platinum import platinum_profiles, PLATINUM_REFERENCES, PLATINUM_SOURCES
 from report import report
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -80,7 +81,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
     def test_curated_addresses_have_no_conflicts(self):
-        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles():
+        for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles():
             addresses = [(item["kind"], item["channel"], item["number"]) for item in profile["inputs"]]
             self.assertEqual(len(addresses), len(set(addresses)), profile["id"])
             self.assertLessEqual(len(profile["inputs"]), 512)
@@ -277,6 +278,18 @@ class ConversionTests(unittest.TestCase):
                     self.assertFalse(binding["shifted"])
                     self.assertEqual(binding["shiftChannel"], 1 if binding["targetDeck"] == "a" else 2)
         for path, digest in MIXTRACK3_SOURCES:
+            source = ROOT / "TestBuilds/r169/upstream/res/controllers" / path
+            if source.exists():
+                self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)
+
+    def test_original_platinum_keeps_its_explicit_tempo_pair_and_jog_contract(self):
+        item = platinum_profiles()[0]
+        tempos = [binding for binding in item["inputs"] if binding["action"].startswith("tempo")]
+        self.assertEqual(len(tempos), 4)
+        self.assertTrue(all((binding["number"], binding["lowNumber"], binding["inverted"]) == (9, 119, True) for binding in tempos))
+        self.assertEqual(sum(binding["encoding"] == "numarkPlatinumJog" for binding in item["inputs"]), 4)
+        self.assertFalse(any(binding["action"].startswith("hotcue") for binding in item["inputs"]))
+        for path, digest in PLATINUM_SOURCES:
             source = ROOT / "TestBuilds/r169/upstream/res/controllers" / path
             if source.exists():
                 self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)

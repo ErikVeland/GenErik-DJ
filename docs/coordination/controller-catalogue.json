@@ -18067,57 +18067,134 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%20Platinum.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%20Platinum.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Platinum-scripts.js"
       ],
       "definitions": [
-        "Numark Mixtrack Platinum.midi.xml"
+        "Numark Mixtrack Platinum.midi.xml",
+        "reviewed:numarkmixtrackplatinum"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Numark Mixtrack Platinum",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browse",
         "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
         "cueMix",
+        "cueReturnA:a",
+        "cueReturnA:c",
+        "cueReturnB:b",
+        "cueReturnB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
         "levelA:a",
         "levelA:c",
         "levelB:b",
         "levelB:d",
-        "master"
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
       ],
-      "inputBindingCount": 7,
-      "feedbackBindingCount": 4,
+      "inputBindingCount": 83,
+      "feedbackBindingCount": 16,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 242,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Pad/sample modes, Scratch toggle, advanced shifted functions, FX, meters, screens and full audio routing remain unimplemented. The wrapped-jog rule follows the pinned script and still needs physical calibration. Source reuse/distribution review remains open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -309465,6 +309542,38 @@
         },
         {
           "reason": "Pad/sample modes, shifted functions, deck switching, Scratch toggle, FX and complete audio routing remain unimplemented. Platter touch uses native Scratch mode and lights the published jog indicator. Physical calibration and source reuse/distribution review remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numarkmixtrackplatinum",
+      "name": "Numark Mixtrack Platinum",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Platinum-scripts.js",
+        "sha256": "937259197d877cba7b921cc4ca6cae89ad9e93911e7b54d3ad72cb9c441e358a",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%20Platinum.midi.xml",
+            "sha256": "22155364f8a6f981d38198b4b67e929f517057c38745586de7087e34b7f8840a"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-Platinum-scripts.js",
+            "sha256": "937259197d877cba7b921cc4ca6cae89ad9e93911e7b54d3ad72cb9c441e358a"
+          }
+        ],
+        "review": "Pinned Mixxx MIDI and script facts. Native controls replace script execution. This is the original Platinum, not Platinum FX."
+      },
+      "implementedInputCount": 83,
+      "implementedOutputCount": 16,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Pad/sample modes, Scratch toggle, advanced shifted functions, FX, meters, screens and full audio routing remain unimplemented. The wrapped-jog rule follows the pinned script and still needs physical calibration. Source reuse/distribution review remains open."
         }
       ]
     },

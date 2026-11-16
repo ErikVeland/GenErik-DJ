@@ -9,7 +9,7 @@ Reviewed 16 November 2026. This catalogue is complete for the defined source bou
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - 287 total catalogue records. 280 name physical models. The remainder identify software endpoints or protocol families.
 - 147 bundled data recipes, plus seven existing code profiles. Most data recipes cover only part of the hardware.
-- 66 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
+- 67 factory profiles select core controls automatically. Existing NI and Beatpad adapters retain their separate connection routes.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -131,17 +131,23 @@ Mixtrack 3 and Pro 3 select separate native core profiles from their shared pinn
 Shift state remains independent per deck. Unsupported shifted combinations cannot change base controls on that deck.
 See [R189 Mixtrack 3](controller-coverage.md#r189-mixtrack-3-and-mixtrack-pro-3-core-controls).
 
+## Original Mixtrack Platinum — R190
+
+The original Platinum selects a separate native core profile. Its explicit low-byte CC 119 and wrapped-jog rule retain the pinned protocol facts.
+Four-deck routing and global Shift have fixtures. Pads, advanced modes, screens, physical calibration and full audio routing remain open.
+See [R190 original Platinum](controller-coverage.md#r190-original-mixtrack-platinum-core-controls).
+
 ## Implementation states
 
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 40 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 54 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 55 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 7 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 94 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| partial-midi-profile | 93 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
 | protocol-needed | 73 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
@@ -234,7 +240,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Numark Mixstream Pro | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixstream Pro + | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixstream Pro Go | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Numark Mixtrack Platinum | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Numark Mixtrack Platinum | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixtrack Platinum FX | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixtrack Pro | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixtrack Pro 3 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
