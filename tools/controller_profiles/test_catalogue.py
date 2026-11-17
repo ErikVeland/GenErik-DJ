@@ -59,6 +59,7 @@ from xsession_pro import xsession_pro_profiles, XSESSION_SOURCES
 from cmd_studio4a import studio4a_profiles, STUDIO4A_SOURCES
 from stanton_djc4 import djc4_profiles, DJC4_SOURCES
 from mc3000 import mc3000_profiles, MC3000_SOURCES
+from rmx2 import rmx2_profiles, RMX2_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -859,6 +860,22 @@ class GeneratedCatalogueTests(unittest.TestCase):
             ("Stealth-Control.pdf", "ddbe4bdc1c973ba7b5df170767ce0831d19a7659ffa85719b3620ace5f3af8a0"),
         ]:
             path = factory / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
+    def test_rmx2_keeps_adjacent_pairs_and_shift_cc_releases_separate_from_other_modes(self):
+        result = rmx2_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (77, 16))
+        pairs = [r for r in result["inputs"] if r["encoding"] == "paired14Bit"]
+        self.assertEqual(len(pairs), 15)
+        self.assertTrue(all(r["lowNumber"] == r["number"] + 1 for r in pairs))
+        self.assertEqual(len([r for r in result["inputs"] if r.get("releaseOnly") and r["kind"] == "control"]), 16)
+        self.assertEqual([r["argument"] for r in result["inputs"] if r["action"] == "toggleFixedLoopA" and not r.get("releaseOnly")], [4, 2, 1, 0.5])
+        self.assertEqual(len(result["startup"]) + len(result["shutdown"]), 39)
+        self.assertEqual(result["startup"][-1], [0xB0, 127, 127])
+        self.assertFalse(any(r["action"] == "monitor" for r in result["inputs"]))
+        for name, digest in RMX2_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 

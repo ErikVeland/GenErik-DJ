@@ -14677,19 +14677,27 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20RMX%202.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20RMX%202.midi.xml",
+        "https://ts.hercules.com/download/sound/manuals/Rmx2/RMX2_MIDI_Commands.pdf"
       ],
       "definitions": [
-        "Hercules DJ Console RMX 2.midi.xml"
+        "Hercules DJ Console RMX 2.midi.xml",
+        "manufacturer:herculesdjconsolermx2"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Hercules DJ Console RMX2",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "crossfader",
         "cueA:a",
         "cueB:b",
+        "cueMix",
         "cuePreviewA:a",
         "cuePreviewB:b",
         "gainA:a",
@@ -14704,49 +14712,66 @@
         "hotcue3B:b",
         "hotcue4A:a",
         "hotcue4B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "levelA:a",
+        "levelB:b",
         "loadA:a",
         "loadB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
         "lowA:a",
         "lowB:b",
+        "master",
         "midA:a",
         "midB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
         "playA:a",
         "playB:b",
         "syncA:a",
-        "syncB:b"
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 26,
-      "feedbackBindingCount": 14,
+      "inputBindingCount": 77,
+      "feedbackBindingCount": 16,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 116,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -315704,6 +315729,50 @@
         },
         {
           "reason": "Manual profile selection does not run factory lifecycle or bank-change metadata. Full cleanup, audio routing and physical acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:herculesdjconsolermx2",
+      "name": "Hercules DJ Console RMX2",
+      "transport": "midi",
+      "source": {
+        "url": "https://ts.hercules.com/download/sound/manuals/Rmx2/RMX2_MIDI_Commands.pdf",
+        "sha256": "941d120d7e4d9d85ec760e5e8efe4589c33f5f1602fc42df9c58a0069c586d67",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20RMX%202.midi.xml",
+            "sha256": "fc81916d9b3fb2e6df22c17ca5949149fe61df12b03957cd3c36d6c8c6640c32"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Console-RMX-2-scripts.js",
+            "sha256": "a891020eac028edfce238d9815f8cefbad8349b12de5d91baad013b02507ac11"
+          }
+        ],
+        "review": "Factory default-channel table qualifies adjacent MSB/LSB pairs for pitch, levels, gain, EQ, main gain, cue mix and crossfader. Explicit low-controller numbers correct coarse legacy gain/EQ. Native pitch inversion retains source rate polarity; EQ rotation retains working source polarity pending calibration. Separate factory normal48/49 and scratch50/51 streams use signed magnitude including negative64, correcting the script's64-forward boundary. Native fixed pressure scratch retains 256 counts and requires full-value physical contact 47/64 on the scratch stream, without source delayed releases or inertia timers. Factory Loop-mode encoder controls native loop size. Native Cue stays separate from PFL. Factory shifted bend notes84/85/88/89 only release existing native holds. Four Cue pads per side and source4/2/1/half-beat loops use distinct hardware mode addresses. Shifted pads report CC releases: only exact zero seven-bit absolute CC rearms the native button; positive shifted delete/roll/pressure values stay inactive. Native feedback uses factory normal-page Cue and transport/PFL LED addresses. Startup clears unsupported loop/kill/source/contact/browser indicators, enables fixed Scratch and requests analogue state with factoryB0/7F; shutdown clears native outputs and Scratch. Hardware headphone gain, microphone, held search, other modes/FX/samplers, full meters/cleanup/routing, calibration and physical acceptance remain open. Original RMX is not an alias."
+      },
+      "implementedInputCount": 77,
+      "implementedOutputCount": 16,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         }
       ]
     },

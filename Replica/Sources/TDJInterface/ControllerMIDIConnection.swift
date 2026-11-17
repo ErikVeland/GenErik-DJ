@@ -1865,7 +1865,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         receiveFactoryBankChange(message, source: sourceID)
         let matches = inputBindings(source: sourceID).filter {
             $0.source == sourceID && $0.umpGroup == message.group && $0.kind == message.kind
-                && ($0.releaseOnly != true || message.isNoteOff)
+                && ($0.releaseOnly != true || message.isNoteOff
+                    || (message.kind == .control && message.maximum == 127 && message.value == 0))
                 && (message.isNoteOff || $0.requiredMode == nil || factoryPadModes[sourceID]?.allows($0) == true)
                 && ($0.anyChannel == true || $0.channel == message.channel) && $0.parameter == message.parameter
                 && $0.noteNumber == message.noteNumber

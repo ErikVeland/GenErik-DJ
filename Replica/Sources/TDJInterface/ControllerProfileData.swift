@@ -139,7 +139,9 @@ struct ControllerProfileData: Decodable, Sendable {
                     && ($0.encoding != .airTempo || [.tempoA, .tempoB].contains($0.action))
                     && (![.compactTempo, .fineTempo512].contains($0.encoding)
                         || ($0.kind == .control && [.tempoA, .tempoB].contains($0.action)))
-                    && ($0.releaseOnly != true || ($0.kind == .note && $0.action.isButton && $0.action != .shift))
+                    && ($0.releaseOnly != true
+                        || (($0.kind == .note || ($0.kind == .control && $0.encoding == .absolute))
+                            && $0.action.isButton && $0.action != .shift))
                     && ($0.pulse != true
                         || ($0.kind == .note && $0.encoding == .absolute && $0.action.isButton
                             && !$0.action.isMomentary && $0.action != .shift && $0.releaseOnly != true))

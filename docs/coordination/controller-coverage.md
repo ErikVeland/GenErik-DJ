@@ -2610,3 +2610,31 @@ All 164 other recipes remain unchanged. The renamed MC3000 recipe replaces its o
 Automatic core counts remain 122 factory profiles for 130 models, plus six other native models. Benchmark coverage remains 62/122.
 Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
 Exact logs, source hashes and factory pages are in ignored `TestBuilds/r261/validation.json`.
+
+## R262 RMX2 factory pairs and shifted CC releases
+
+The [factory command table](https://ts.hercules.com/download/sound/manuals/Rmx2/RMX2_MIDI_Commands.pdf) supplies explicit adjacent high/low controller pairs.
+Pitch, level, gain, EQ, master gain, cue mix and crossfader now keep fourteen-bit values. Gain/EQ replace coarse imported assignments.
+Pitch retains pickup and source polarity. EQ direction retains the working source convention pending calibration.
+Separate normal wheel and pressure-scratch streams keep factory signed magnitude and the source 256-count scale.
+Factory raw 64 is negative, correcting the script's boundary. Pressure scratching requires full-value physical contact.
+Native releases replace source inertia/delay timers. Original RMX retains its separate identity.
+
+Four Cue pads per side and source 4/2/1/half-beat loop pads use distinct hardware mode addresses.
+The factory Loop-mode encoder adjusts native loop size. Other knob modes stay inactive.
+Shifted pad releases arrive as controller messages. The shared contract now accepts exact zero seven-bit absolute controller reports as release-only bindings.
+Positive shifted delete/roll/pressure values cannot trigger native cues or loops. Wrong sources, groups and expanded values cannot rearm them.
+Profile validation rejects relative encodings, continuous actions, Shift and other message kinds for controller release-only bindings.
+Existing note-release handling stays covered, as do copied profile metadata and native Shift/deck guards.
+Factory shifted bend release notes release existing holds without invoking alternate actions. Native held Cue stays separate from PFL.
+
+Startup clears unsupported loop/kill/source/contact/browser indicators, enables fixed Scratch and requests analogue positions.
+Shutdown clears sixteen native outputs and Scratch. The lifecycle total is 39 messages.
+No source JS, microphone mutation or timer runs in the app. Headphone gain stays a hardware control.
+Held search, other pad modes/FX/samplers, full meters/cleanup/routing, calibration and physical acceptance remain open.
+
+All 32 focused Swift checks, 95 importer checks and native iPad framework compilation pass.
+All 164 other recipes remain unchanged. The bundled resource matches the source. The shared Cue fixture covers 114 automatic profiles.
+Automatic core coverage reaches 123 factory profiles for 131 models, plus six other native models. Benchmark coverage remains 62/122.
+Repository checks retain twelve existing historical-link failures. Full feature parity remains open. No signed app or installation occurred.
+Exact logs, source hashes and the factory table are in ignored `TestBuilds/r262/validation.json`.
