@@ -11060,24 +11060,32 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMDStudio4a.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMDStudio4a.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMDStudio4a.midi.xml"
       ],
       "definitions": [
-        "Behringer CMDStudio4a.midi.xml"
+        "Behringer CMDStudio4a.midi.xml",
+        "manufacturer:behringercmdstudio4a"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Behringer CMD STUDIO 4a",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "browse",
+        "browseNextGroup",
+        "browsePreviousGroup",
         "crossfader",
         "cueA:a",
         "cueA:c",
         "cueB:b",
         "cueB:d",
         "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
         "filterKnobA:a",
         "filterKnobA:c",
         "filterKnobB:b",
@@ -11090,6 +11098,46 @@
         "highA:c",
         "highB:b",
         "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
         "keylockA:a",
         "keylockA:c",
         "keylockB:b",
@@ -11102,10 +11150,14 @@
         "loadA:c",
         "loadB:b",
         "loadB:d",
-        "loopA:a",
-        "loopA:c",
-        "loopB:b",
-        "loopB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
         "lowA:a",
         "lowA:c",
         "lowB:b",
@@ -11116,6 +11168,24 @@
         "midB:b",
         "midB:d",
         "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "shift",
         "syncA:a",
         "syncA:c",
         "syncB:b",
@@ -11125,38 +11195,35 @@
         "tempoB:b",
         "tempoB:d"
       ],
-      "inputBindingCount": 53,
-      "feedbackBindingCount": 48,
+      "inputBindingCount": 124,
+      "feedbackBindingCount": 24,
       "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "audioRouting": "Automatic master 1–2 / headphones 3–4",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": true,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 255,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -315411,6 +315478,34 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:behringercmdstudio4a",
+      "name": "Behringer CMD STUDIO 4a",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMDStudio4a.midi.xml",
+        "sha256": "75c69da47993bef18003ae79ccbb21cd0860dcdbbbada64571f1319c25351cf4",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-CMDStudio4a-scripts.js",
+            "sha256": "84adc04600502c0dc5691db8c4f7e95eaaac77ef991c9581a6cfe4cc7105ccd1"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.4/en_gb/hardware/controllers/behringer_cmd_studio_4a"
+          }
+        ],
+        "review": "Pinned XML and script document four deck channels, centre64 jogs, physical touch and600-count scratch. Native fixed touch scratch replaces the software scratch toggle. Right manual loop In/Out retain the XML's reversed37/38 order. Full pitch messages apply native source-rate inversion and pickup. Native held bend replaces source permanent rate steps and optional key-shift mode. DEL is a source-local physical-side hold guard across A/C and B/D channels: unsupported alternate presses stay inactive, while old Cue/contact/bend releases remain valid. Source latched DEL mode, reverse/slip/autoloops, cue deletion, held Hot Cue previews, scratch toggle and bank-contact qualification remain open. Mixer and quick-filter controls retain source software assignments. Native six transport/PFL/loop states per deck use source on1/off0 values. Eight mode indicators initialise fixed Scratch on and DEL off; shutdown clears those and24 native outputs. Pad LEDs, live meters, EQ kill, FX, full browser/mode cleanup, calibration and physical acceptance stay open. The mapping author's manual specifies master1/2 and headphones3/4. No JS, timers or beatgrid mutation run in the app."
+      },
+      "implementedInputCount": 124,
+      "implementedOutputCount": 24,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
         }
       ]
     },

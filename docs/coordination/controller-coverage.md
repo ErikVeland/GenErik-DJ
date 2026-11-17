@@ -2536,3 +2536,27 @@ The catalogue remains 308 records for 301 physical models. Automatic core covera
 Benchmark coverage remains 62/122. Full search/balance behaviour, custom presets, calibration and physical acceptance remain open.
 Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
 Exact logs, source hashes and the factory guide are in ignored `TestBuilds/r258/validation.json`.
+
+## R259 CMD STUDIO 4a four-channel native core
+
+The pinned working XML/script and [mapping author's manual](https://manual.mixxx.org/2.4/en_gb/hardware/controllers/behringer_cmd_studio_4a) qualify four deck channels.
+C/D retain the app's existing opt-in. Native fixed touch scratch uses centre-64 jog values and the source 600-count scale.
+Full pitch keeps pickup and source polarity. Right-deck Loop In 56/Out 55 retain the source's reversed addresses.
+Native held Cue and bend, eight cues per deck, mixer/filter, Load and browsing use shared contracts.
+DEL guards unsupported alternate presses on its physical side across A/C and B/D. Old Cue/contact/bend releases remain valid.
+Latched DEL mode, cue deletion, reverse/slip loops, scratch toggle and full bank-contact qualification remain open.
+Source gain/filter assignments remain software assignments. No beatgrid mutation, timers or JS run in the app.
+
+Six native transport/PFL/loop states per deck use source on 1/off 0 values.
+Startup sets fixed Scratch indicators and clears DEL indicators. Shutdown clears these and all native-owned outputs, within 40 lifecycle messages.
+Pad LEDs, live meters, EQ kill, FX, full browser/mode cleanup and calibration remain open.
+The author's documented master 1–2/headphones 3–4 layout uses the existing automatic audio route.
+Shared offline fixtures retain samples, transport and saved Sync during repeated detection and route recovery.
+
+All nine focused Swift tests, including parameterised audio cases, 92 importer checks and native iPad framework compilation pass.
+The initial importer expected audio-profile set was updated. Initial Swift fixtures lacked the required startup destination and expected separate jog callbacks instead of the receiver's accumulated movement.
+Corrected fixtures pass without a runtime receiver change. Earlier failures remain in the evidence logs.
+All 164 other recipes remain unchanged. The bundled resource matches the source.
+Automatic core coverage reaches 121 factory profiles for 129 models, plus six other native models. Benchmark coverage remains 62/122.
+Repository checks retain twelve existing historical-link failures. Full feature parity and physical acceptance remain open. No signed app or installation occurred.
+Exact logs and source hashes are in ignored `TestBuilds/r259/validation.json`.
