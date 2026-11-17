@@ -3086,3 +3086,25 @@ All 169 other recipes remain unchanged. The bundled resource matches the source.
 Automatic core coverage stays at 150 physical models, including 65/122 benchmark models. Complete theoretical parity remains open.
 Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
 Exact source identities and results are in ignored `TestBuilds/r281/validation.json`.
+
+## R282 MCX8000 factory-addressed manual controls
+
+The [factory command list](https://cdn.inmusicbrands.com/denondj/MCX8000/Denon_DJ_MCX8000_MIDI_Command_List_v1.0.pdf) supplies separate transport/mixer, loop and global addresses.
+The manual recipe retains four explicit Load targets, held Cue/bend, native loops, gain/EQ/filter/level and crossfader.
+Release-only shifted aliases end owned Cue/bend contacts. Positive shifted commands cannot trigger their normal actions.
+Other deck targets remain isolated. C/D require app deck availability.
+Twenty-four normal button feedback outputs use 48 bounded lifecycle messages. Manual apply does not activate an input or run lifecycle.
+
+The chart gives jog and browser addresses without their value encoding.
+Its pitch LSB/MSB labels also need independent confirmation because working mappings for related Denon models reverse factory labels.
+Those controls remain inactive. Shared pad addresses need mode state before they can safely become native cue pads.
+Shift/bank/source-selector ownership, FX, meters, rings, screens, complete feedback/reset, connection/audio routing and full parity remain open.
+No sibling jog encoding, pitch order or application-connect packet is copied.
+Automatic selection remains disabled. This subset does not add an automatic benchmark model.
+
+All seven focused Swift tests, 113 importer checks and native iPad framework compilation pass.
+The real-file fixture verifies Cue release, shifted bend release, continuing loop playback, finite audio and saved Sync.
+All 170 existing recipes remain unchanged. The bundled resource matches the source.
+Automatic core coverage stays at 150 physical models, including 65/122 benchmark models.
+Repository checks retain twelve historical-link failures. No signed app, installation or physical acceptance occurred.
+Exact source identities and results are in ignored `TestBuilds/r282/validation.json`.

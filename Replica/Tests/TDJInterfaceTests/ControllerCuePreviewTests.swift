@@ -892,3 +892,24 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueMCX8000NativeCueLoopAndShiftedBendReleaseKeepSync() async throws {
+    try await withControllerCuePlayback("Denon DJ MCX8000", manual: true) { model, input in
+        cuePreviewPacket([0x90, 1, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90, 5, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        model.pressPlay(deck: .a, vinylStop: false)
+        cuePreviewPacket([0x90, 12, 127], to: input)
+        #expect(model.playbackSnapshot?.a.performanceRate == 0.96)
+        cuePreviewPacket([0x80, 44, 127], to: input)
+        #expect(model.playbackSnapshot?.a.performanceRate == 1)
+        cuePreviewPacket([0x94, 50, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

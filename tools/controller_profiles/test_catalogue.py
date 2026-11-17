@@ -73,6 +73,7 @@ from original_dj2go2 import original_dj2go2_profiles, ORIGINAL_DJ2GO2_ZIP_SHA, O
 from terminal_mix8 import terminal_mix8_profiles, TM8_SOURCES
 from mixtrack_quad import quad_profiles, QUAD_SOURCES
 from imix_reload import imix_profiles, IMIX_SOURCES
+from mcx8000 import mcx_profiles, MCX_SHA
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -854,6 +855,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_mcx8000_factory_subset_keeps_unqualified_encoders_pads_and_connection_manual(self):
+        item, = mcx_profiles()
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (99, 24))
+        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 48)
+        self.assertNotIn("audioOutput", item)
+        self.assertFalse(any(r["action"].startswith(("jog", "wheelJog", "tempo", "hotcue", "browse")) for r in item["inputs"]))
+        self.assertEqual(sum(r.get("releaseOnly", False) for r in item["inputs"]), 12)
+        self.assertEqual([r["targetDeck"] for r in item["inputs"] if r["action"].startswith("load")], list("abcd"))
+        path = ROOT / "TestBuilds/r282/manufacturer/mcx8000-midi-v1.pdf"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), MCX_SHA)
+
     def test_imix_source_variant_stays_manual_with_strict_note_encoder_contract(self):
         item, = imix_profiles()
         self.assertFalse(item["autoSelect"])

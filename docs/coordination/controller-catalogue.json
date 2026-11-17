@@ -12824,46 +12824,138 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://cdn.inmusicbrands.com/denondj/MCX8000/Denon_DJ_MCX8000_MIDI_Command_List_v1.0.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:denonmcx8000"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Denon DJ MCX8000",
+      "automaticControls": false,
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "syncDisableA:a",
+        "syncDisableA:c",
+        "syncDisableB:b",
+        "syncDisableB:d"
+      ],
+      "inputBindingCount": 99,
+      "feedbackBindingCount": 24,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "PC input selector. Manual MIDI transport/mixer subset. Direct iPad connection remains unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Jog/browser values, pitch byte order/polarity, Shift input, bank/source-selector ownership, pads and all modes, FX, meters/rings/screens, full feedback/lifecycle, direct iPad connection/audio and physical acceptance remain open. Manual apply does not activate the input or run lifecycle. No automatic support is claimed.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -317033,6 +317125,33 @@
         },
         {
           "reason": "Factory chart and pinned source disagree on touch and Load addresses. Automatic variant selection is not implemented. Manual apply does not run automatic lifecycle. Search mode, first-stopped Load, downbeat, EQ kill, FX, full feedback/reset, centre CC qualification and physical acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:denonmcx8000",
+      "name": "Denon DJ MCX8000",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/denondj/MCX8000/Denon_DJ_MCX8000_MIDI_Command_List_v1.0.pdf",
+        "sha256": "be117c5df66a5fcea5cc9a7cd97dc10115b8ca5feae63dcaf6f3410370248eef",
+        "pages": [
+          1,
+          2,
+          3
+        ],
+        "review": "Factory-addressed manual transport/mixer/loop subset only. Four explicit deck channels and separate other-function channels retain native deck targets. Shift has different command addresses, so normal Cue/bend ownership accepts only releases at the corresponding shifted address. Positive shifted reports cannot trigger normal actions. The factory calls pitch CC9 LSB and119 MSB, while related working Denon mappings reverse factory labels. No sibling encoding, pitch polarity, Shift wire, browser/jog values, pad mode, application-connect packet, display or iPad connection route is inferred. Same-pad addresses span all hardware modes, so pads stay inactive. Feedback echoes reviewed normal button addresses. Manual apply does not activate the input or run lifecycle. Automatic selection, physical acceptance and complete parity remain open."
+      },
+      "implementedInputCount": 99,
+      "implementedOutputCount": 24,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Jog/browser values, pitch byte order/polarity, Shift input, bank/source-selector ownership, pads and all modes, FX, meters/rings/screens, full feedback/lifecycle, direct iPad connection/audio and physical acceptance remain open. Manual apply does not activate the input or run lifecycle. No automatic support is claimed."
         }
       ]
     },
