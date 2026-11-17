@@ -2877,3 +2877,18 @@ There are now 167 data recipes. Automatic core coverage reaches 144 physical mod
 Full theoretical parity and physical acceptance remain open. Repository checks retain twelve existing historical-link failures.
 The seven-page factory table has SHA256 `b51d2a0d32ba16d841fd35130d0a9cabb318ce927ea4cfb2023347298832a4d3`.
 No signed app or installation occurred. Exact source hashes and logs are in ignored `TestBuilds/r272/validation.json`.
+
+## R273 Reloop Master Edition driver boundary
+
+The mapping authors identify [Jockey 3 ME](https://manual.mixxx.org/2.5/en/hardware/controllers/reloop_jockey_3_master_edition) and [Digital Jockey 2 Master Edition](https://manual.mixxx.org/2.5/en/hardware/controllers/reloop_digital_jockey_2_master_edition) as non-class-compliant devices.
+Their desktop drivers translate controls to MIDI. A stored virtual-MIDI recipe does not provide direct iPad USB control.
+The catalogue now states that driver and bridge requirement. The bridge and direct USB protocol remain unimplemented.
+Added the missing Digital Jockey 2 Master Edition record with its [manufacturer source](https://www.reloop.com/reloop-digital-jockey-2-master-edition).
+It does not inherit the separate Interface Edition mapping.
+
+The [Interface Edition author guide](https://manual.mixxx.org/2.5/en/hardware/controllers/reloop_digital_jockey_2_interface_edition) documents driver-free operation and master 1–2/headphones 3–4.
+That model retains its separate connection record and mapping work.
+All 105 importer/catalogue checks pass. All 167 runtime recipes are byte-for-byte unchanged, so no runtime build was required.
+The catalogue contains 312 records for 305 physical models. Automatic core counts remain unchanged. The wider market audit remains open.
+Repository checks retain twelve existing historical-link failures. Full theoretical parity and physical acceptance remain open.
+Exact source hashes and logs are in ignored `TestBuilds/r273/validation.json`.

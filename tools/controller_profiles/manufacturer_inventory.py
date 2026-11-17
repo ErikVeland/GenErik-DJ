@@ -3,7 +3,11 @@
 REVIEWED = "2026-11-17"
 DENON_ENGINE = "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
 RELOOP_COMPARISON = "https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart"
+DRIVER_REQUIRED = {"Reloop Jockey 3 ME", "Reloop Digital Jockey 2 Master Edition"}
 MODELS = [
+    ("Reloop Jockey 3 ME", "https://manual.mixxx.org/2.5/en/hardware/controllers/reloop_jockey_3_master_edition"),
+    ("Reloop Digital Jockey 2 Master Edition", "https://www.reloop.com/reloop-digital-jockey-2-master-edition"),
+    ("Reloop Digital Jockey 2 Master Edition", "https://manual.mixxx.org/2.5/en/hardware/controllers/reloop_digital_jockey_2_master_edition"),
     ("DJ-Tech VTT-101", "https://asset.conrad.com/media10/add/160267/c1/-/gl/000092385ML01/mode-demploi-092385-mini-controleur-usb-dj-tech-vtt101.pdf"),
     ("American Audio VMS2", "https://cdn-docs.av-iq.com/other/VMS2_User%20Manual.pdf"),
     ("American Audio VMS4", "https://manual.mixxx.org/2.5/en/hardware/controllers/american_audio_vms4"),

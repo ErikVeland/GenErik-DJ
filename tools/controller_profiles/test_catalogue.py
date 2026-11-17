@@ -847,6 +847,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_reloop_master_editions_keep_driver_connection_separate_from_interface_edition(self):
+        cache = ROOT / "TestBuilds/r169/upstream"
+        if not cache.exists():
+            self.skipTest("Pinned source cache is unavailable")
+        catalogue, _ = build(cache, None)
+        for name in ["Reloop Jockey 3 ME", "Reloop Digital Jockey 2 Master Edition"]:
+            model = next(m for m in catalogue["models"] if m["id"] == canonical(name))
+            self.assertIn("desktop bridge", model["connection"])
+            self.assertFalse(model["zeroConfig"]["automaticControls"])
+            self.assertFalse(model["theoreticalSupport"]["complete"])
+        interface = next(m for m in catalogue["models"] if m["id"] == canonical("Reloop Digital Jockey 2 Interface Edition"))
+        self.assertNotIn("Non-class-compliant", interface["connection"])
+
     def test_rx221_resolves_load_pitch_and_feedback_without_changing_legacy_wire_recipe(self):
         legacy, current = legacy_xdj_profiles()
         self.assertFalse(legacy["autoSelect"])

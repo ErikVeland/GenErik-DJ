@@ -25043,6 +25043,63 @@
       }
     },
     {
+      "id": "reloopdigitaljockey2masteredition",
+      "name": "Reloop Digital Jockey 2 Master Edition",
+      "manufacturer": "Reloop",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://www.reloop.com/reloop-digital-jockey-2-master-edition",
+        "https://manual.mixxx.org/2.5/en/hardware/controllers/reloop_digital_jockey_2_master_edition"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Non-class-compliant USB. Windows/macOS drivers translate controls to MIDI. A desktop bridge is required for iPad; direct USB control is not implemented.",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Implement and qualify a driver-backed desktop MIDI bridge. A stored virtual-MIDI recipe does not provide direct iPad USB support.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "reloopelite",
       "name": "Reloop ELITE",
       "manufacturer": "Reloop",
@@ -25214,6 +25271,7 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://manual.mixxx.org/2.5/en/hardware/controllers/reloop_jockey_3_master_edition",
         "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Jockey%203%20ME.midi.xml"
       ],
       "definitions": [
@@ -25265,7 +25323,7 @@
       ],
       "inputBindingCount": 37,
       "feedbackBindingCount": 52,
-      "connection": "USB MIDI",
+      "connection": "Non-class-compliant USB. Windows/macOS drivers translate controls to MIDI. A desktop bridge is required for iPad; direct USB control is not implemented.",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
@@ -25294,6 +25352,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Implement and qualify a driver-backed desktop MIDI bridge. A stored virtual-MIDI recipe does not provide direct iPad USB support.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -316411,7 +316470,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 304,
+      "targetModels": 305,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

@@ -39,7 +39,7 @@ from ns4fx import ns4fx_profiles, NS4FX_REFERENCES
 from mixstream import mixstream_profiles, MIXSTREAM_REFERENCES
 from flx10 import flx10_profiles, FLX10_REFERENCES
 from ddj1000 import ddj1000_profiles, DDJ1000_REFERENCES
-from manufacturer_inventory import MODELS as MANUFACTURER_MODELS, REVIEWED as INVENTORY_REVIEWED
+from manufacturer_inventory import MODELS as MANUFACTURER_MODELS, REVIEWED as INVENTORY_REVIEWED, DRIVER_REQUIRED
 from jogvision import jogvision_profiles, JOGVISION_REFERENCES
 from inpulse300mk2 import inpulse300mk2_profiles, MK2_REFERENCES
 from inpulse200mk2 import inpulse200mk2_profiles, INPULSE200_REFERENCES
@@ -264,6 +264,8 @@ def build(cache, serato_html):
         model["connection"] = "Linux USB bridge" if model["implementation"] == "linux-bridge" else "USB MIDI" if profile or model["implementation"] == "automatic-profile" else "Existing native adapter" if automatic else "Protocol and iPad connection route require review"
         if model["id"] == canonical("Behringer BCD2000"):
             model["connection"] = "Non-class-compliant USB. Separate driver or MIDI bridge required."
+        if model["id"] in {canonical(name) for name in DRIVER_REQUIRED}:
+            model["connection"] = "Non-class-compliant USB. Windows/macOS drivers translate controls to MIDI. A desktop bridge is required for iPad; direct USB control is not implemented."
         model["audioRouting"] = "Automatic master 1–2 / headphones 3–4" if model["id"] in {canonical("Pioneer DDJ-FLX4"), canonical("Pioneer DDJ-400")} or bool(profile and profile.get("audioOutput") == "masterAndHeadphones") else "Existing native routing. Physical acceptance is open." if model["implementation"] in {"native-accessory", "native-midi"} else "Unverified. Automatic channel assignment is not enabled."
         if model["id"] in VMS_MODELS:
             model["audioRouting"] = VMS_AUDIO_GAP
@@ -281,6 +283,8 @@ def build(cache, serato_html):
         model["gaps"] = [] if model["theoreticalSupport"]["complete"] else [
             "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."]
         model["gaps"].extend(profile.get("gaps", []) if profile else [])
+        if model["id"] in {canonical(name) for name in DRIVER_REQUIRED}:
+            model["gaps"].append("Implement and qualify a driver-backed desktop MIDI bridge. A stored virtual-MIDI recipe does not provide direct iPad USB support.")
         for name, pending in PENDING_DDJ.items():
             if model["id"] == canonical(name):
                 model["gaps"].append(pending["gap"])
