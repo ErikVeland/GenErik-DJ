@@ -2,6 +2,27 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R230 original RP-8000 MIDI accessory core
+
+The original RP-8000 now selects a native MIDI accessory recipe automatically. MK2 and Straight variants do not inherit it.
+The factory manual, Scratch Live archive, Traktor archive and extracted mapping members have recorded hashes.
+The manual's MIDI table supplies eight cue inputs. The published mappings confirm loop lengths, encoder encoding and five cue-light pairs.
+The native recipe provides eight cues, quarter-beat through 32-beat loops, browsing and Load on four hardware channel targets.
+Held mode-button releases rearm their pads. Sample and User messages cannot invoke native cues or loops.
+
+The hardware CH-1–4 selection maps to A/B/C/D. TT Link assigns those channels automatically, as the factory manual describes.
+Independently connected turntables on the same channel need distinct hardware channel selections. Automatic endpoint-based deck assignment remains open.
+The app's deck availability still guards C/D. Source fixtures cover both note-release forms, presets, feedback addresses and browse-before-Load order.
+
+This increment covers the MIDI accessory section. Optional motor and analogue-control messages remain unmapped.
+It adds no platter tracking, motor control or DVS/audio routing. Sample/Slicer/User modes, displays and remaining cue lights remain open.
+All 30 targeted Swift checks, 63 importer/report checks and native iPad compilation pass.
+Native offline playback covers cues, loop sizing, exit and persistent Sync. The bundled resource matches the source.
+The catalogue retains 305 records and now contains 162 data recipes. All 161 previous recipes remain unchanged.
+Factory coverage reaches 100 profiles for 104 physical models. Six other models retain automatic native adapters.
+Source identities and validation results appear in `TestBuilds/r230/validation.json`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R229 compact Vestax cores and single-step browser buttons
 
 Typhoon and Spin now select separate native core recipes automatically. Their stored IDs and endpoint aliases remain valid.

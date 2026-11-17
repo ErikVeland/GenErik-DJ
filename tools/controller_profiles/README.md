@@ -344,3 +344,16 @@ Use explicit `browsePrevious/Next` and `browsePreviousGroup/NextGroup` for momen
 Each press queues exactly one signed step through the existing browser queue.
 Do not interpret a positive note velocity as an absolute encoder position.
 Dicer now uses the same contract for its orange-page track and group buttons.
+
+## Original RP-8000 MIDI accessory — R230
+
+`rp8000.py` uses the original factory manual and published Scratch Live/Traktor mappings.
+The manual supplies all eight cue addresses. The mappings confirm loop lengths, centre-64 browsing and five cue-light pairs.
+CH-1–4 maps to A/B/C/D. Hardware TT Link assigns those channels automatically.
+Independent units on the same channel need different hardware channel selections. Automatic endpoint assignment remains open.
+The app's deck availability still guards C/D.
+
+Distinct pad addresses keep Sample and User modes separate. Held mode-button releases only rearm pads.
+Do not map optional analogue/motor MIDI messages as native transport or platter input.
+Do not infer MK2 or Straight support from the original table.
+Remaining modes, three cue-light pairs, displays, full cleanup and DVS/audio routing remain open.

@@ -31,6 +31,7 @@ from ns6ii import ns6ii_profiles, NS6II_SOURCES
 from n4 import n4_profiles, N4_SOURCES
 from neon import neon_profiles, NEON_REFERENCES
 from vestax_compact import compact_profiles, COMPACT_SOURCES
+from rp8000 import rp8000_profiles, RP8000_REFERENCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -812,6 +813,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_original_rp8000_retains_factory_channels_loop_sizes_and_source_members(self):
+        result = rp8000_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (136, 40))
+        self.assertEqual(result["role"], "accessory")
+        self.assertEqual(result["startup"], [])
+        self.assertTrue(all(row["number"] == 64 and row["encoding"] == "binaryOffset" for row in result["inputs"] if row["action"] == "browse"))
+        self.assertEqual([row["argument"] for row in result["inputs"] if row["action"] == "toggleFixedLoopA" and row["targetDeck"] == "a" and not row.get("releaseOnly")], [0.25, 0.5, 1, 2, 4, 8, 16, 32])
+        refs = RP8000_REFERENCES[result["id"]]
+        for name, digest in [("RP-8000.pdf", refs["sha256"]), ("RP-8000-Mapping.zip", refs["relatedSources"][0]["sha256"]), ("RP-8000-Serato.xml", refs["relatedSources"][0]["memberSHA256"]), ("RP-8000-Traktor.zip", refs["relatedSources"][1]["sha256"]), ("RP-8000.tsi", refs["relatedSources"][1]["memberSHA256"])]:
+            path = ROOT / "TestBuilds/r230/manufacturer" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_compact_vestax_profiles_keep_distinct_loops_and_dispatch(self):
         typhoon, spin = compact_profiles()
         self.assertEqual((len(typhoon["inputs"]), len(spin["inputs"])), (42, 36))

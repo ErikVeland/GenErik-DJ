@@ -470,3 +470,18 @@ import Testing
         }
     }
 }
+
+@Test @MainActor func controllerCatalogueRP8000MIDIOnlyCueAndLoopPadsReachNativePlayback() async throws {
+    try await withControllerCuePlayback("RP-8000") { model, input in
+        cuePreviewPacket([0x90, 0, 127, 7, 127, 8, 127], to: input)
+        #expect(model.controllerValue(.hotcue1A) == 1 && model.controllerValue(.hotcue8A) == 1)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        #expect(model.performance.loopBeats(for: .a) == 0.25)
+        cuePreviewPacket([0x90, 8, 0, 15, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        #expect(model.performance.loopBeats(for: .a) == 32)
+        cuePreviewPacket([0x90, 15, 0, 15, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

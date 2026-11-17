@@ -24908,46 +24908,90 @@
       "role": "accessory",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://www.reloop.com/media/catalog/product/pdf/2/2/8/228337_Reloop_IM.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:relooprp8000"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Reloop RP-8000",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopA:c",
+        "toggleFixedLoopB:b",
+        "toggleFixedLoopB:d"
+      ],
+      "inputBindingCount": 136,
+      "feedbackBindingCount": 40,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -313425,6 +313469,43 @@
       },
       "implementedInputCount": 36,
       "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:relooprp8000",
+      "name": "Reloop RP-8000",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.reloop.com/media/catalog/product/pdf/2/2/8/228337_Reloop_IM.pdf",
+        "sha256": "8eb0b60ccb1c6d10ac93577b129a938bfbac889fdb461902d354afc8d19b78dd",
+        "pages": [
+          10,
+          11
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.reloop.com/media/custom/upload/228337/228337%20Mapping%206%202D%20ScratchLive%202.5%2B%20FW%200.06%2B%20Uni.zip",
+            "sha256": "69089f0374ff09494e1ba94a4900acfc27f51dec06cd4c58b9526b58661731d3",
+            "member": "Reloop_RP8000_V6.xml",
+            "memberSHA256": "dc882b34fcc3992704cea1595d3838374845787a1d7849334c4f493757dbc067"
+          },
+          {
+            "url": "https://www.reloop.com/media/custom/upload/228337/228337%20Mapping%201%202S%20TraktorPro%202.6%2B%20FW%200.06%2B%20Uni.zip",
+            "sha256": "f506e3a429e5e66bac7cf293974e46ee73defd049bb9b010b0edc09201feb29d",
+            "member": "RP-8000_Traktor_PRO_V1.tsi",
+            "memberSHA256": "8023682e8466d5706c4c2361c024da5890eeb4a88229b54a12e642b623aea3fe"
+          }
+        ],
+        "review": "The original factory table gives eight cue inputs, distinct Loop/Sample/User address ranges and centre-64 Trax CC64. The published Scratch Live mapping gives fixed loop sizes and 127/0 cue lights for the first five cues, including their alternate delete addresses. The Traktor mapping confirms Ch01/Ch02 MIDI bindings. Hardware CH-1 through CH-4 select A/B/C/D. TT Link assigns those channels automatically. Independently connected units on the same channel need different hardware channel selections. Native pads provide eight cues and fixed loops from 1/4 to 32 beats. Held mode-button release aliases only rearm their pads. Optional analogue/motor controls, User/Sample/Slicer pages, remaining cue lights, displays, full cleanup and DVS/audio routing remain open. MK2 and Straight variants do not inherit this protocol."
+      },
+      "implementedInputCount": 136,
+      "implementedOutputCount": 40,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
