@@ -2978,3 +2978,27 @@ All 166 other recipes remain unchanged. The bundled resource matches the source.
 Automatic core coverage reaches 147 physical models. Benchmark coverage remains 62/122; complete theoretical parity remains open.
 Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
 Exact source identities and results are in ignored `TestBuilds/r277/validation.json`.
+
+## R278 original DJ2GO2 core
+
+The original DJ2GO2 now has a separate automatic core from [Numark's published Traktor mapping](https://www.numark.com/images/product_downloads/Numark_DJ2GO2_Performance_Map.tsi.zip).
+Its device comment and ports identify the original model. The [factory guide](https://www.numark.com/images/product_downloads/DJ2GO2_UserGuide_v1.2.pdf), page 4, documents class-compliant USB and the physical control/pad meanings.
+Touch keeps its own profile. The original gains no touch contact, Touch status query, inferred wheel-count scale or automatic numbered audio layout.
+
+Factory input definitions set both wheel encoders and Browse to signed 7Fh/01h format.
+The [pinned TSI binary template](https://raw.githubusercontent.com/ivanz/TraktorMappingFileFormat/df5f544d10e3293b72b829841e654da0db71c4b0/Tools/TSI%20Mapping%20Template.bt) defines the stored encoder-mode value.
+Native wheel seek/nudge uses that format. Physical wheel sensitivity and pitch/gain response remain open for calibration.
+Play, held Cue, Sync, PFL, seven-bit pitch and direct Load retain published addresses. Channel Gain and Browse press follow factory labels through native gain and group entry.
+Native master/headphone levels use their existing ranges instead of Traktor's stored output scaling.
+
+Distinct pad addresses provide four cues, automatic 1/2/4/8-beat loops and manual In/Out/On-Off.
+These restore the factory guide's meanings in place of the Traktor file's custom loop-size and FX assignments.
+Manual Retrigger and sampler pads stay inactive. Latched browser and wheel-FX modifiers do not run.
+Sixteen steady transport/PFL/cue states use source output addresses and 32 lifecycle messages. Full animations and firmware-driven light cleanup remain open.
+All twelve focused Swift tests, 109 importer checks and native iPad framework compilation pass.
+The real-file fixture checks non-touch wheel motion, held Cue release, automatic/manual loops and saved Sync.
+Touch identity, setup and its distinct positive-64 jog rule remain covered separately.
+All 167 existing recipes remain unchanged. The bundled resource matches the source.
+Automatic core coverage reaches 148 physical models, including 63/122 benchmark models. Complete theoretical parity remains open.
+Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
+Exact source hashes, parsed wire facts and results are in ignored `TestBuilds/r278/validation.json`.

@@ -69,6 +69,7 @@ from djm101 import djm101_profiles, DJM101_SOURCES
 from rdj2_ie import rdj2_ie_profiles, RDJ2_IE_SOURCES
 from rdj2_controller import rdj2_controller_profiles, RDJ2_CONTROLLER_SOURCES
 from radius2000 import radius_profiles, RADIUS_SOURCES, RADIUS_REFERENCES
+from original_dj2go2 import original_dj2go2_profiles, ORIGINAL_DJ2GO2_ZIP_SHA, ORIGINAL_DJ2GO2_TSI_SHA
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -850,6 +851,20 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_original_dj2go2_uses_its_factory_signed_format_without_touch_or_audio_alias(self):
+        item, = original_dj2go2_profiles()
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (43, 16))
+        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 32)
+        self.assertNotIn("audioOutput", item)
+        self.assertFalse(any(r["action"].startswith(("jogTouch", "level", "high", "mid", "low")) for r in item["inputs"]))
+        self.assertEqual([(r["channel"], r["number"], r["encoding"]) for r in item["inputs"] if r["action"].startswith("wheelJog")], [(0, 6, "twosComplement"), (1, 6, "twosComplement")])
+        self.assertTrue(all(not r["inverted"] for r in item["inputs"] if r["action"].startswith("tempo")))
+        for name, digest in [("dj2go2-traktor.zip", ORIGINAL_DJ2GO2_ZIP_SHA), ("Numark DJ2GO2 Performance Map.tsi", ORIGINAL_DJ2GO2_TSI_SHA)]:
+            path = ROOT / "TestBuilds/r278/manufacturer" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_radius_player_preserves_factory_default_channel_and_tap_releases(self):
         item, = radius_profiles()
         self.assertTrue(item["autoSelect"])

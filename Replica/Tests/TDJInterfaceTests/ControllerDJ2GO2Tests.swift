@@ -33,7 +33,7 @@ import Testing
     #expect(profile.rawValue == "Numark DJ2GO2 Touch")
     #expect(profile.definition?.inputs.count == 45)
     #expect(profile.feedback(destination: 20).count == 14)
-    #expect(ControllerFactoryProfile.matching(["DJ2GO2"], automaticOnly: true) == nil)
+    #expect(ControllerFactoryProfile.matching(["DJ2GO2"], automaticOnly: true)?.rawValue == "Numark DJ2GO2")
     #expect(ControllerFactoryProfile.matching(["DJ2GO Touch"], automaticOnly: true) == nil)
     withDJ2GO2Touch { input, packets in
         #expect(input.isInputActive(10))

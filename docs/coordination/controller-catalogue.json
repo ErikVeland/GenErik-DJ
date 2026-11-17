@@ -19513,46 +19513,86 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://www.numark.com/images/product_downloads/Numark_DJ2GO2_Performance_Map.tsi.zip"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:numarkdj2go2"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Numark DJ2GO2",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "master",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
+      ],
+      "inputBindingCount": 43,
+      "feedbackBindingCount": 16,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -316603,6 +316643,36 @@
       "unresolved": [
         {
           "reason": "Rings, displays, secondary cue lights, full feedback/modes/reset, other hardware channel settings, scratch/nudge calibration and audio routing remain open."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:numarkdj2go2",
+      "name": "Numark DJ2GO2",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.numark.com/images/product_downloads/Numark_DJ2GO2_Performance_Map.tsi.zip",
+        "sha256": "06755935952d6ff6b7ce646b72b05128c92ba2368950d13a89a77d06a67cb8ae",
+        "relatedSources": [
+          {
+            "url": "https://www.numark.com/images/product_downloads/DJ2GO2_UserGuide_v1.2.pdf"
+          },
+          {
+            "url": "https://www.numark.com/product/dj2go2"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/ivanz/TraktorMappingFileFormat/df5f544d10e3293b72b829841e654da0db71c4b0/Tools/TSI%20Mapping%20Template.bt"
+          }
+        ],
+        "review": "Manufacturer product links the original DJ2GO2 Traktor archive. Its Generic MIDI device comment DJ2Go2 and ports DJ2GO2 (DJ2GO2) identify the original model; extracted TSI SHA256 is 3c56ed71e93de3dac1b157b40cc42137b7fb702991e04e111c5514fb354f2143. DCDT input definitions set wheel CC6 on channels1/2 and browse CC0/channel16 to encoder mode1 (7Fh/01h), as defined by the pinned TSI binary template. Native signed wheel seek/nudge has no physical touch or inferred236-count Touch calibration. The guide documents class-compliant USB, Channel Gain, Browse press and distinct cue/auto/manual/sampler pad pages. Native gain and group entry follow these labels instead of the TSI volume and latched-tree customisation. Normal transport, full-range seven-bit pitch, direct Load and output addresses retain factory wire facts. Native automatic loops restore labelled1/2/4/8 lengths instead of TSI loop-size/FX remaps. Manual pads use In/Out/On-Off; the fourth Retrigger and sampler page remain inactive. Sixteen steady Play/Cue/Sync/PFL/cue-pad outputs use source0..127 ranges; no Touch status SysEx is copied. Source modifiers, latched browse, wheel FX modes, full animations/cleanup, gain/tempo/wheel calibration, numbered audio layout and physical acceptance remain open. No EQ, level faders, Key Lock or touch sensor is inferred."
+      },
+      "implementedInputCount": 43,
+      "implementedOutputCount": 16,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         }
       ]
     },
