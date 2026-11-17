@@ -218,6 +218,17 @@ struct ControllerFeedbackBinding: Codable, Identifiable, Equatable {
         self.targetDeck = targetDeck
     }
 
+    /**
+     * Follows the assigned player deck while preserving its physical output address.
+     */
+    func assigned(to deck: DeckID?) -> Self {
+        guard let deck, targetDeck != nil else { return self }
+        return .init(
+            destination: destination, action: action.assigned(to: deck), kind: kind,
+            channel: channel, number: number, offValue: offValue, onValue: onValue,
+            offUsesNoteOn: offUsesNoteOn, targetDeck: deck, offNumber: offNumber)
+    }
+
     var isValid: Bool {
         channel < 16 && number < 128 && offValue < 128 && onValue < 128
             && action.supportsFeedback && (kind == .control || action.isButton)
@@ -728,6 +739,14 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             }
         }
         if rebound { preferences.set(try? JSONEncoder().encode(bindings), forKey: Self.storageKey) }
+        let previousFeedback = feedbackBindings
+        for index in feedbackBindings.indices {
+            guard let deck = sessions.first(where: { $0.destination == feedbackBindings[index].destination })?.playerDeck else { continue }
+            feedbackBindings[index] = feedbackBindings[index].assigned(to: deck)
+        }
+        if feedbackBindings != previousFeedback {
+            preferences.set(try? JSONEncoder().encode(feedbackBindings), forKey: Self.feedbackStorageKey)
+        }
         rememberFactoryOverrides()
         factoryBindings = Dictionary(
             uniqueKeysWithValues: sessions.map { session in
@@ -764,7 +783,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                             channel: binding.channel, number: binding.number, offValue: binding.offValue,
                             onValue: binding.onValue, offUsesNoteOn: binding.offUsesNoteOn,
                             targetDeck: binding.targetDeck, offNumber: binding.offNumber)
-                    } ?? session.profile.feedback(destination: destination)
+                    }.map { $0.assigned(to: session.playerDeck) } ?? session.profile.feedback(destination: destination, playerDeck: session.playerDeck)
                 return (destination, profile)
             })
         for session in sessions {
@@ -860,7 +879,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     func applyFactoryFeedbackProfile(_ profile: ControllerFactoryProfile) {
         guard let destination = feedbackSelected else { return }
         feedbackBindings.removeAll { $0.destination == destination }
-        feedbackBindings.append(contentsOf: profile.feedback(destination: destination))
+        feedbackBindings.append(contentsOf: profile.feedback(destination: destination, playerDeck: factorySessions.first(where: { $0.destination == destination })?.playerDeck))
         sentMIDIValues.removeAll()
         midiFeedbackEnabled = false
         persistFeedbackBindings()
@@ -1026,7 +1045,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 ControllerFeedbackBinding(destination: destination, action: binding.action, kind: binding.kind,
                     channel: binding.channel, number: binding.number, offValue: binding.offValue,
                     onValue: binding.onValue, offUsesNoteOn: binding.offUsesNoteOn, targetDeck: binding.targetDeck, offNumber: binding.offNumber)
-            } ?? session.profile.feedback(destination: destination)
+            }.map { $0.assigned(to: session.playerDeck) } ?? session.profile.feedback(destination: destination, playerDeck: session.playerDeck)
             factoryFeedback[destination] = profile
             sentFactoryValues[destination] = nil
         }

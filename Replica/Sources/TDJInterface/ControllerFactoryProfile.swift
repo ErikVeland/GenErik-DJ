@@ -90,13 +90,16 @@ struct ControllerFactoryProfile: RawRepresentable, Hashable, CaseIterable, Codab
             } ?? []
         }
     }
-    @MainActor func feedback(destination: Int32) -> [ControllerFeedbackBinding] {
+    @MainActor func feedback(destination: Int32, playerDeck: DeckID? = nil) -> [ControllerFeedbackBinding] {
         switch self {
         case .flx4, .ddj400: return ControllerMIDIConnection.ddjFLX4FeedbackBindings(destination: destination)
         case .flx2: return ControllerMIDIConnection.ddjFLX2FeedbackBindings(destination: destination)
         case .rev1: return ControllerMIDIConnection.ddjREV1FeedbackBindings(destination: destination)
         case .rev5: return ControllerMIDIConnection.ddjREV5FeedbackBindings(destination: destination)
-        default: return definition?.outputs.map { $0.binding(destination: destination) } ?? []
+        default:
+            return definition?.outputs.map {
+                $0.binding(destination: destination).assigned(to: isPlayer ? playerDeck : nil)
+            } ?? []
         }
     }
 }

@@ -10288,62 +10288,95 @@
       "benchmark": false,
       "sources": [
         "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20RADIUS%202000%20CH1.midi.xml",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20RADIUS%202000%20CH2.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20RADIUS%202000%20CH2.midi.xml",
+        "https://www.adj.eu/mwdownloads/download/link/id/49"
       ],
       "definitions": [
         "American Audio RADIUS 2000 CH1.midi.xml",
-        "American Audio RADIUS 2000 CH2.midi.xml"
+        "American Audio RADIUS 2000 CH2.midi.xml",
+        "manufacturer:americanaudioradius2000"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "American Audio Radius 2000 CH1",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browse",
+        "browseGroups",
+        "cuePreviewA:a",
+        "fixedLoopA:a",
         "hotcue1A:a",
         "hotcue2A:a",
         "hotcue3A:a",
         "hotcue4A:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "keylockA:a",
         "loadA:a",
-        "loopA:a",
         "loopDownA:a",
+        "loopInA:a",
+        "loopOutA:a",
         "loopUpA:a",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a",
         "syncA:a",
         "tempoA:a"
       ],
-      "inputBindingCount": 11,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 41,
+      "feedbackBindingCount": 7,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "MIDI mode; factory channel1, relative CC and pitch-bend pitch. Fixed native Scratch."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 21,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Rings, displays, secondary cue lights, full feedback/modes/reset, other hardware channel settings, scratch/nudge calibration and audio routing remain open.",
+        "Rings, displays, secondary cue lights, full feedback/modes/reset, other hardware channel settings, scratch/nudge calibration and audio routing remain open."
       ],
+      "playerSupport": {
+        "requiredHardwareMode": "MIDI mode; factory channel1, relative CC and pitch-bend pitch. Fixed native Scratch.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "American Audio Radius 2000 CH1",
+          "Audio Radius 2000 CH1",
+          "American Audio Radius 2000",
+          "Radius 2000",
+          "Radius 2000 MIDI 1",
+          "American Audio Radius 2000 CH2"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": true,
+        "automaticMultiDeviceAudioImplemented": false
+      },
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
@@ -12232,7 +12265,7 @@
         "automaticDeckAssignment": true,
         "hidImplemented": false,
         "displayFeedbackImplemented": false,
-        "ledFeedbackImplemented": false,
+        "ledFeedbackImplemented": true,
         "automaticMultiDeviceAudioImplemented": false
       },
       "priority": {
@@ -316532,6 +316565,44 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:americanaudioradius2000",
+      "name": "American Audio Radius 2000 CH1",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.adj.eu/mwdownloads/download/link/id/49",
+        "sha256": "5568fd27da6157d2e546e785768887374bd23897f509de937bf9268f1cfe68ef",
+        "pages": [
+          20,
+          35,
+          36
+        ],
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20RADIUS%202000%20CH1.midi.xml",
+            "sha256": "d9ad4e954b96723daeb9add18222b54dad0d66a5872f34f62d197c01aed9c079"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20RADIUS%202000%20CH2.midi.xml",
+            "sha256": "817c72207fbc863251f26bbda46915a90701081432879b5eaca8bb8ffdb03fec"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American-Audio-RADIUS-2000-scripts.js",
+            "sha256": "e316793c0c91378ff31d87a60ba495fb38b7f25d2c04dd9ddfc27deceee367e9"
+          }
+        ],
+        "review": "Factory default is MIDI channel1, relative CC encoders and pitch-bend pitch. CH1/CH2 source variants use the same wire channel; native player assignment replaces their hard-coded deck groups. Normal chart and TAP alternative addresses provide release aliases without invoking alternate presses. Source raw-minus64 wheel decoding uses binaryOffset. Fixed native physical-touch scratch preserves the source100-count/330RPM time response through effective990 native counts; factory sensor1024/512 pulse settings do not prove that response and require calibration. Native Play acts on press rather than the source's release. The chart's Track encoder press is direct Load; source USB Source Select Load alias is omitted. Folder press enters a native group. Source BPM button remains native Sync, and source sample-loop button enables a four-beat native loop. Normal In/Out/Reloop and Halve/Double retain published addresses. Seven steady states use factory primary light addresses, with all31 primary SW/LED addresses cleared and fixed Scratch/Pitch indication. Secondary cue lights, rings, display, full FX/modes/feedback/reset, source nudge sensitivity, other hardware channel/encoder settings, audio routing and physical acceptance remain open."
+      },
+      "implementedInputCount": 41,
+      "implementedOutputCount": 7,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Rings, displays, secondary cue lights, full feedback/modes/reset, other hardware channel settings, scratch/nudge calibration and audio routing remain open."
         }
       ]
     },

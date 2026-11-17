@@ -68,6 +68,7 @@ from ion_discover_pro import discover_pro_profiles, DISCOVER_PRO_SOURCES
 from djm101 import djm101_profiles, DJM101_SOURCES
 from rdj2_ie import rdj2_ie_profiles, RDJ2_IE_SOURCES
 from rdj2_controller import rdj2_controller_profiles, RDJ2_CONTROLLER_SOURCES
+from radius2000 import radius_profiles, RADIUS_SOURCES, RADIUS_REFERENCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -849,6 +850,25 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_radius_player_preserves_factory_default_channel_and_tap_releases(self):
+        item, = radius_profiles()
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(item["role"], "player")
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (41, 7))
+        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 62)
+        self.assertTrue(all(r["channel"] == 0 and not r.get("anyChannel") for r in item["inputs"]))
+        self.assertEqual(sum(r.get("releaseOnly", False) for r in item["inputs"]), 18)
+        jog, = [r for r in item["inputs"] if r["action"] == "jogA"]
+        self.assertEqual((jog["encoding"], jog["argument"]), ("binaryOffset", 990))
+        self.assertFalse(any(r["number"] == 19 and r["kind"] == "note" for r in item["inputs"]))
+        for name, digest in RADIUS_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+        factory = ROOT / "TestBuilds/r277/manufacturer/radius2000.pdf"
+        if factory.exists():
+            self.assertEqual(hashlib.sha256(factory.read_bytes()).hexdigest(), RADIUS_REFERENCES[item["id"]]["sha256"])
+
     def test_rdj2_controller_keeps_native_wheel_separate_from_touch_and_audio(self):
         item, = rdj2_controller_profiles()
         self.assertEqual(item["id"], "Reloop Digital Jockey 2 Controller")

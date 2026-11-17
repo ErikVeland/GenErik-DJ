@@ -6447,64 +6447,70 @@
       "id": "American Audio Radius 2000 CH1",
       "aliases": [
         "American Audio Radius 2000 CH1",
-        "Radius 2000 CH1",
-        "Radius 2000 MIDI 1"
+        "Audio Radius 2000 CH1",
+        "American Audio Radius 2000",
+        "Radius 2000",
+        "Radius 2000 MIDI 1",
+        "American Audio Radius 2000 CH2"
       ],
-      "definition": "American Audio RADIUS 2000 CH1.midi.xml",
+      "definition": "manufacturer:americanaudioradius2000",
       "inputs": [
         {
-          "action": "loopUpA",
+          "action": "playA",
           "kind": "note",
           "channel": 0,
-          "number": 8,
+          "number": 42,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
         },
         {
-          "action": "loadA",
+          "action": "playA",
           "kind": "note",
           "channel": 0,
-          "number": 31,
+          "number": 105,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "cuePreviewA",
+          "kind": "note",
+          "channel": 0,
+          "number": 48,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
         },
         {
-          "action": "hotcue3A",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
-          "number": 10,
+          "number": 111,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "keylockA",
+          "kind": "note",
+          "channel": 0,
+          "number": 6,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
         },
         {
-          "action": "tempoA",
-          "kind": "pitch",
-          "channel": 0,
-          "number": 70,
-          "encoding": "absolute",
-          "inverted": true,
-          "targetDeck": "a"
-        },
-        {
-          "action": "loopDownA",
+          "action": "keylockA",
           "kind": "note",
           "channel": 0,
-          "number": 14,
+          "number": 69,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "hotcue2A",
-          "kind": "note",
-          "channel": 0,
-          "number": 16,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "releaseOnly": true
         },
         {
           "action": "syncA",
@@ -6516,13 +6522,206 @@
           "targetDeck": "a"
         },
         {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 0,
+          "number": 81,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
           "action": "loadA",
           "kind": "note",
           "channel": 0,
-          "number": 19,
+          "number": 31,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 94,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "pitchBendDownA",
+          "kind": "note",
+          "channel": 0,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "pitchBendDownA",
+          "kind": "note",
+          "channel": 0,
+          "number": 70,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "pitchBendUpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 13,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "pitchBendUpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 76,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "loopInA",
+          "kind": "note",
+          "channel": 0,
+          "number": 11,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopInA",
+          "kind": "note",
+          "channel": 0,
+          "number": 74,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "loopOutA",
+          "kind": "note",
+          "channel": 0,
+          "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopOutA",
+          "kind": "note",
+          "channel": 0,
+          "number": 68,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 86,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "loopDownA",
+          "kind": "note",
+          "channel": 0,
+          "number": 14,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopDownA",
+          "kind": "note",
+          "channel": 0,
+          "number": 77,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "loopUpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopUpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 71,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 4
+        },
+        {
+          "action": "fixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 65,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 4,
+          "releaseOnly": true
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 38,
+          "encoding": "fullVelocityGate",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 101,
+          "encoding": "fullVelocityGate",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
         },
         {
           "action": "hotcue1A",
@@ -6534,13 +6733,52 @@
           "targetDeck": "a"
         },
         {
-          "action": "loopA",
+          "action": "hotcue1A",
           "kind": "note",
           "channel": 0,
-          "number": 23,
+          "number": 85,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue2A",
+          "kind": "note",
+          "channel": 0,
+          "number": 16,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
+        },
+        {
+          "action": "hotcue2A",
+          "kind": "note",
+          "channel": 0,
+          "number": 79,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue3A",
+          "kind": "note",
+          "channel": 0,
+          "number": 10,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "hotcue3A",
+          "kind": "note",
+          "channel": 0,
+          "number": 73,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
         },
         {
           "action": "hotcue4A",
@@ -6550,14 +6788,461 @@
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
+        },
+        {
+          "action": "hotcue4A",
+          "kind": "note",
+          "channel": 0,
+          "number": 97,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 53,
+          "encoding": "binaryOffset",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 990
+        },
+        {
+          "action": "tempoA",
+          "kind": "pitch",
+          "channel": 0,
+          "number": 0,
+          "encoding": "absolute",
+          "inverted": true,
+          "targetDeck": "a"
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 56,
+          "encoding": "binaryStep",
+          "inverted": false
+        },
+        {
+          "action": "browseGroups",
+          "kind": "control",
+          "channel": 0,
+          "number": 54,
+          "encoding": "binaryStep",
+          "inverted": false
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false
         }
       ],
-      "outputs": [],
-      "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20RADIUS%202000%20CH1.midi.xml"
+      "outputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 0,
+          "number": 42,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cuePreviewA",
+          "kind": "note",
+          "channel": 0,
+          "number": 48,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "keylockA",
+          "kind": "note",
+          "channel": 0,
+          "number": 6,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue1A",
+          "kind": "note",
+          "channel": 0,
+          "number": 22,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue2A",
+          "kind": "note",
+          "channel": 0,
+          "number": 16,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue3A",
+          "kind": "note",
+          "channel": 0,
+          "number": 10,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue4A",
+          "kind": "note",
+          "channel": 0,
+          "number": 34,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        }
+      ],
+      "startup": [
+        [
+          144,
+          25,
+          0
+        ],
+        [
+          144,
+          31,
+          0
+        ],
+        [
+          144,
+          11,
+          0
+        ],
+        [
+          144,
+          5,
+          0
+        ],
+        [
+          144,
+          48,
+          0
+        ],
+        [
+          144,
+          42,
+          0
+        ],
+        [
+          144,
+          47,
+          0
+        ],
+        [
+          144,
+          27,
+          0
+        ],
+        [
+          144,
+          21,
+          0
+        ],
+        [
+          144,
+          15,
+          0
+        ],
+        [
+          144,
+          9,
+          0
+        ],
+        [
+          144,
+          33,
+          0
+        ],
+        [
+          144,
+          39,
+          0
+        ],
+        [
+          144,
+          45,
+          0
+        ],
+        [
+          144,
+          3,
+          0
+        ],
+        [
+          144,
+          4,
+          0
+        ],
+        [
+          144,
+          2,
+          0
+        ],
+        [
+          144,
+          28,
+          0
+        ],
+        [
+          144,
+          1,
+          127
+        ],
+        [
+          144,
+          6,
+          0
+        ],
+        [
+          144,
+          12,
+          0
+        ],
+        [
+          144,
+          46,
+          0
+        ],
+        [
+          144,
+          40,
+          0
+        ],
+        [
+          144,
+          36,
+          0
+        ],
+        [
+          144,
+          30,
+          127
+        ],
+        [
+          144,
+          24,
+          0
+        ],
+        [
+          144,
+          19,
+          0
+        ],
+        [
+          144,
+          22,
+          0
+        ],
+        [
+          144,
+          16,
+          0
+        ],
+        [
+          144,
+          10,
+          0
+        ],
+        [
+          144,
+          34,
+          0
+        ]
+      ],
+      "shutdown": [
+        [
+          144,
+          25,
+          0
+        ],
+        [
+          144,
+          31,
+          0
+        ],
+        [
+          144,
+          11,
+          0
+        ],
+        [
+          144,
+          5,
+          0
+        ],
+        [
+          144,
+          48,
+          0
+        ],
+        [
+          144,
+          42,
+          0
+        ],
+        [
+          144,
+          47,
+          0
+        ],
+        [
+          144,
+          27,
+          0
+        ],
+        [
+          144,
+          21,
+          0
+        ],
+        [
+          144,
+          15,
+          0
+        ],
+        [
+          144,
+          9,
+          0
+        ],
+        [
+          144,
+          33,
+          0
+        ],
+        [
+          144,
+          39,
+          0
+        ],
+        [
+          144,
+          45,
+          0
+        ],
+        [
+          144,
+          3,
+          0
+        ],
+        [
+          144,
+          4,
+          0
+        ],
+        [
+          144,
+          2,
+          0
+        ],
+        [
+          144,
+          28,
+          0
+        ],
+        [
+          144,
+          1,
+          0
+        ],
+        [
+          144,
+          6,
+          0
+        ],
+        [
+          144,
+          12,
+          0
+        ],
+        [
+          144,
+          46,
+          0
+        ],
+        [
+          144,
+          40,
+          0
+        ],
+        [
+          144,
+          36,
+          0
+        ],
+        [
+          144,
+          30,
+          0
+        ],
+        [
+          144,
+          24,
+          0
+        ],
+        [
+          144,
+          19,
+          0
+        ],
+        [
+          144,
+          22,
+          0
+        ],
+        [
+          144,
+          16,
+          0
+        ],
+        [
+          144,
+          10,
+          0
+        ],
+        [
+          144,
+          34,
+          0
+        ]
+      ],
+      "autoSelect": true,
+      "scope": "Automatic default-channel player core with separate native deck assignment, fixed physical-touch scratch, full pitch, held Cue/bend, four cues, loops, browse/Load and seven steady lights. Other settings, full feedback/modes, calibration and audio remain open.",
+      "source": "https://www.adj.eu/mwdownloads/download/link/id/49",
+      "excludedAliases": [
+        "Radius 1000",
+        "American Audio Radius 1000",
+        "Radius 3000",
+        "American Audio Radius 3000"
+      ],
+      "role": "player",
+      "gaps": [
+        "Rings, displays, secondary cue lights, full feedback/modes/reset, other hardware channel settings, scratch/nudge calibration and audio routing remain open."
+      ],
+      "hardwareMode": "MIDI mode; factory channel1, relative CC and pitch-bend pitch. Fixed native Scratch."
     },
     {
       "id": "American Audio VMS2",

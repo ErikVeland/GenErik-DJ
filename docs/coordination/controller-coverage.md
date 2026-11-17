@@ -2951,3 +2951,30 @@ The remaining unsupported-address check still rejects the two inactive mode keys
 All five focused Swift tests pass. The runtime resource remains byte-for-byte unchanged.
 This resolves the older Numark fixture failure seen during R275. It adds no controller coverage or physical acceptance claim.
 Source hashes and the exact log are in ignored `TestBuilds/r276/validation.json`.
+
+## R277 Radius 2000 player core
+
+The [factory manual](https://www.adj.eu/mwdownloads/download/link/id/49), pages 20 and 35–36, documents default MIDI channel 1, relative encoders and full pitch-bend pitch.
+The automatic core uses those defaults. Other hardware channels and encoder modes remain open.
+The earlier CH1 profile identity stays unchanged. Native player assignment replaces the pinned CH1/CH2 variants' hard-coded deck groups, so two units can control separate decks.
+Radius 1000 and 3000 remain separate models.
+
+Native held Cue, bend, full pitch, four cues, manual loops, Reloop and loop size controls retain published addresses.
+The source BPM key remains native Sync; its sample-loop key enables a native four-beat loop.
+Native Play acts on press. Track encoder press loads once; the source's physical USB Source Select Load alias stays inactive.
+Folder press enters a native group. The factory TAP addresses release old held controls and rearm normal cues without invoking alternate presses.
+Fixed physical-touch scratch uses full-value contact and signed raw-minus-64 motion.
+Effective 990 native counts preserve the source's unusual 100-count/330-RPM time response. This does not establish physical calibration for the factory 1024/512 sensor settings.
+The source half-strength unheld nudge response remains a separate calibration gap.
+
+Seven steady lights use factory primary addresses. Thirty-one primary light addresses use 62 lifecycle messages, with fixed Scratch and pitch indication.
+Player light targets now follow automatic deck assignment, reassignment and reconnect. Physical output addresses and global targets stay unchanged.
+Secondary cue lights, rings, displays, full FX/modes/feedback/reset, audio routing and physical acceptance remain open.
+All eight focused Swift tests, four existing player/feedback checks, 108 importer checks and native iPad framework compilation pass.
+Fixtures cover two physical players, default-channel isolation, TAP releases, full pitch, source-scaled scratch, saved Sync and light reassignment.
+Manual light mapping follows the destination device when another input is selected. Custom mappings survive reassignment and reconnect.
+The first host compile caught two incorrect action names in the new recipe and fixture; these now use the existing Loop Down/Up contracts. The failed compile log remains preserved.
+All 166 other recipes remain unchanged. The bundled resource matches the source.
+Automatic core coverage reaches 147 physical models. Benchmark coverage remains 62/122; complete theoretical parity remains open.
+Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
+Exact source identities and results are in ignored `TestBuilds/r277/validation.json`.
