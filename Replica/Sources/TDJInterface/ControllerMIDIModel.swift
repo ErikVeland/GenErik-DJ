@@ -170,6 +170,9 @@ extension ReplicaModel {
             return controllerPitchBendButtons[deck]?.isPressed(
                 action == .pitchBendUpA || action == .pitchBendUpB ? .up : .down,
                 generation: snapshot[deck].generation) == true ? 1 : 0
+        case .cuePreviewA, .cuePreviewB:
+            return controllerCueContacts[deck]?.generation == snapshot[deck].generation
+                && snapshot[deck].generation != 0 && snapshot[deck].touchActive ? 1 : 0
         case .cueA, .cueB, .cueStateA, .cueStateB: return mixer.cue ? 1 : 0
         case .filterToggleA, .filterToggleB: return mixer.filterEnabled ? 1 : 0
         case .loopA, .loopB: return snapshot[deck].loopEnabled ? 1 : 0

@@ -510,3 +510,23 @@ import Testing
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueOriginalDJ2GoCueFeedbackTracksOwnedContactAndGeneration() async throws {
+    try await withControllerCuePlayback("Numark DJ2GO") { model, input in
+        #expect(model.controllerValue(.cuePreviewA) == 0)
+        let sync = model.playbackSnapshot?.a.synced
+        let generation = try #require(model.playbackSnapshot?.a.generation)
+        cuePreviewPacket([0x90, 0x33, 127], to: input)
+        #expect(model.controllerValue(.cuePreviewA) == 1)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(audio.left.contains { abs($0) > 0.001 } || audio.right.contains { abs($0) > 0.001 })
+        model.refreshPlayback()
+        model.controllerCueContacts[.a] = .init(generation: generation &+ 1, frame: 0)
+        #expect(model.controllerValue(.cuePreviewA) == 0)
+        model.controllerCueContacts[.a] = .init(generation: generation, frame: 0)
+        cuePreviewPacket([0x80, 0x33, 127], to: input)
+        #expect(model.controllerValue(.cuePreviewA) == 0)
+        #expect(model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.synced == sync)
+    }
+}

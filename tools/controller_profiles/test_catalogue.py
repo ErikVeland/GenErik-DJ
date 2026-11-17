@@ -49,6 +49,7 @@ from umix_pro2 import umix_pro2_profiles, UMIX_PRO2_SOURCES
 from instinct import instinct_profiles, INSTINCT_SOURCES
 from hercules_compact import hercules_compact_profiles, HERCULES_COMPACT_SOURCES
 from bcd3000 import bcd3000_profiles, BCD3000_SOURCES
+from original_dj2go import original_dj2go_profiles, ORIGINAL_DJ2GO_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -830,6 +831,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_original_dj2go_uses_factory_magnitude_and_direct_load(self):
+        result = original_dj2go_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (26, 8))
+        self.assertTrue(all(r["encoding"] == "twosComplement" for r in result["inputs"] if r["action"] in {"wheelJogA", "wheelJogB", "browse"}))
+        self.assertFalse(any(r["action"] in {"jogTouchA", "jogTouchB", "loopInA", "loopInB"} for r in result["inputs"]))
+        self.assertEqual([r["number"] for r in result["inputs"] if r["action"] in {"loadA", "loadB"}], [0x4B, 0x34])
+        self.assertEqual(result["startup"], result["shutdown"])
+        self.assertEqual(len(result["startup"]), 8)
+        for name, digest in ORIGINAL_DJ2GO_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_bcd3000_standard_mode_preserves_factory_leds_and_avoids_data4_master(self):
         result = bcd3000_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (32, 8))

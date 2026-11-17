@@ -599,3 +599,13 @@ DATA4 stays unmapped. It is neither Master nor Balance. Physical output gains st
 The factory standard/Core Audio master/headphone layout uses shared route/sample/recovery checks.
 Windows Advanced mode, latched scratch, Set Loop hold/release, remaining controls and physical acceptance stay open.
 BCD2000 is a separate non-class-compliant USB device. Its catalogue connection requires a driver or MIDI bridge, which this work does not implement.
+
+## Original DJ2GO factory core — R251
+
+`original_dj2go.py` follows Numark Rev B, retaining signed relative magnitude and stationary zero for both wheels and Browse.
+Native wheel nudge/paused seek uses 60 physical counts. No touch sensor, source scratch timers or custom 85RPM response is invented.
+Load acts on press. Pitch buttons retain the factory held-bend meaning. Native tempo preserves the centre detent, polarity and pickup.
+Factory volume, Master, Headphone gain and all eight LED addresses remain distinct.
+Cue preview feedback reads the generation-owned native contact and active touch. It is independent of PFL.
+Back uses previous native group and Enter uses Open Group. Full hierarchy semantics and source alternate layers/flashes stay open.
+DJ2GO2/Touch remain separate. No audio interface or extra startup protocol is assumed.

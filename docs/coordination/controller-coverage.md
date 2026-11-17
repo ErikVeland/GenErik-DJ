@@ -2353,3 +2353,24 @@ Benchmark coverage remains 62/122. Core counts do not establish complete feature
 Repository checks retain twelve existing historical-link failures.
 Set Loop hold/release, Search, EQ kill, common Key, FX, latched scratch, full feedback/passthrough, calibration and physical acceptance remain open.
 No hardware test, signed app or installation occurred. Exact logs and source hashes are in ignored `TestBuilds/r250/validation.json`.
+
+## R251 Original DJ2GO factory core and owned Cue feedback
+
+The original DJ2GO recipe uses Numark's [Rev B MIDI specification](https://www.numark.com/images/product_downloads/dj2go___software_definition_and_midi_spec_v1.0.pdf).
+Factory signed jog/browse magnitudes replace the source's direction-only handling. Zero means stationary.
+Native wheel nudge/paused seek uses the source's 60 physical counts. Its synthetic scratch timer and custom 85RPM response stay unmapped.
+Direct Load acts on press. Physical pitch buttons use owned held bend, rather than the source's extra loop layer.
+Pitch retains the physical centre detent and native pickup. Deck volume, crossfader, Master and Headphone gain use factory addresses.
+Native Back selects the previous library group. Enter uses Open Group. Full folder hierarchy semantics remain open.
+No audio interface or extra setup is invented. DJ2GO2 and Touch keep their separate identities.
+
+All eight factory LEDs have native outputs. Cue preview feedback checks the owned contact, current generation and active touch.
+It stays independent of headphone PFL. A real native-audio fixture verifies hold/release, stale-generation rejection and saved Sync.
+Source exclusive-PFL, alternate layers and timer-driven flashes stay open.
+
+All 43 focused Swift checks, 84 importer checks and native iPad framework compilation pass.
+All 164 other recipes remain unchanged. The bundled iPad resource matches the source.
+Automatic core coverage is now 116 factory profiles for 122 physical models, plus six other native models.
+Benchmark coverage remains 62/122. This is not complete feature parity or hardware acceptance.
+Repository checks retain twelve existing historical-link failures.
+No signed app or installation occurred. Exact logs, source hashes and factory PDF are in ignored `TestBuilds/r251/validation.json`.

@@ -108,7 +108,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     }
     var supportsFeedback: Bool {
         switch self {
-        case .pitchBendDownA, .pitchBendDownB, .pitchBendUpA, .pitchBendUpB: true
+        case .pitchBendDownA, .pitchBendDownB, .pitchBendUpA, .pitchBendUpB, .cuePreviewA, .cuePreviewB: true
         case .playA, .playB, .syncA, .syncB, .keylockA, .keylockB, .cueA, .cueB, .levelA, .levelB, .gainA, .gainB,
             .lowA, .lowB, .midA, .midB, .highA, .highB, .filterA, .filterB, .fxA, .fxB, .fxToggleA, .fxToggleB,
             .crossfader, .cueMix, .filterToggleA, .filterToggleB, .master, .monitor, .tempoA, .tempoB, .loopA, .loopB,
