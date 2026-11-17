@@ -11773,47 +11773,100 @@
       "role": "accessory",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://cdn.inmusicbrands.com/denondj/lc6000/LC6000-PRIME-MIDI-Specification-v1.0.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:denonlc6000prime"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Denon LC6000 PRIME",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "browseNext",
+        "browsePrevious",
+        "cuePreviewA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "hotcue4A:a",
+        "hotcue5A:a",
+        "hotcue6A:a",
+        "hotcue7A:a",
+        "hotcue8A:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "jumpBackA:a",
+        "jumpForwardA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "loopSizeA:a",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "shift",
+        "syncA:a",
+        "tempoA:a",
+        "toggleFixedLoopA:a"
+      ],
+      "inputBindingCount": 52,
+      "feedbackBindingCount": 4,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "HID transport, authentication, displays and lighting are not implemented by these MIDI tables.",
+        "Automatic routing across multiple player audio interfaces is not implemented.",
+        "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts.",
+        "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
       ],
+      "playerSupport": {
+        "requiredHardwareMode": "Software Control / USB-MIDI",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Denon LC6000 PRIME",
+          "LC6000 PRIME",
+          "Denon DJ LC6000 PRIME",
+          "LC6000",
+          "LC6000 PR",
+          "Denon DJ LC6000 PRIME LC6000 PR"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
@@ -314002,6 +314055,53 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:denonlc6000prime",
+      "name": "Denon LC6000 PRIME",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/denondj/lc6000/LC6000-PRIME-MIDI-Specification-v1.0.pdf",
+        "sha256": "9fde4d92bc3fa604236678d9d72833dbf669383e7427f33d490c05f872962112",
+        "pages": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/schmic/mixxx-denon-lc6000/8dad996b82adac5283b0ed496e8fda58781f1892/Denon-LC6000-Prime.midi.xml",
+            "sha256": "38078c2e5b8d63d04d343741c8b3ce9c4bf8402c1ff063f3885c078131461954",
+            "revision": "8dad996b82adac5283b0ed496e8fda58781f1892"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/schmic/mixxx-denon-lc6000/8dad996b82adac5283b0ed496e8fda58781f1892/Denon-LC6000-Prime-scripts.js",
+            "sha256": "79349ce9ec26e9360d7404598e81631226e1fb22dcfaff4305962b21aafa4928",
+            "revision": "8dad996b82adac5283b0ed496e8fda58781f1892"
+          }
+        ],
+        "review": "Factory messages establish controls on MIDI channel zero, paired pitch 8/40, jog 55/54 and separate display SysEx. Pinned XML dispatch resolves the table's ambiguous jog wording: CC55 selects direction; CC54 carries forward value or reverse value minus 127. CC17/49 handlers are explicit no-ops and remain unmapped. Native scratch retains the source's 1024-count calibration. Explicit PR port matching isolates control from WD display, with existing player allocation for independent units. Hot Cue and fixed-loop pages retain mode guards; Roll/Slicer remain blocked. Shared pad feedback, display SysEx, strip, software vinyl/zoom/range modes, full lights/cleanup and physical qualification remain open."
+      },
+      "implementedInputCount": 52,
+      "implementedOutputCount": 4,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "HID transport, authentication, displays and lighting are not implemented by these MIDI tables."
+        },
+        {
+          "reason": "Automatic routing across multiple player audio interfaces is not implemented."
+        },
+        {
+          "reason": "Tempo range, vinyl mode, brake, Slip, reverse and memory-cue modes need separate native contracts."
+        },
+        {
+          "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
         }
       ]
     },

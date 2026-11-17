@@ -609,7 +609,12 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     return value?.takeRetainedValue() as String?
                 }
             }
-            identity = .init(id: id, device: device, names: names, reference: reference)
+            let portNames: [String] = [kMIDIPropertyName, kMIDIPropertyDisplayName].compactMap { property in
+                var value: Unmanaged<CFString>?
+                guard MIDIObjectGetStringProperty(reference, property, &value) == noErr else { return nil }
+                return value?.takeRetainedValue() as String?
+            }
+            identity = .init(id: id, device: device, names: names, reference: reference, portNames: portNames)
         }
         return .init(id: id, reference: reference, name: displayName, identity: identity)
     }

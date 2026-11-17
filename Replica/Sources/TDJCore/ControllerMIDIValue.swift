@@ -4,22 +4,23 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     case absolute, touchGate, paired14Bit, paired14BitRelative, twosComplement, binaryOffset, signedBit
     case numarkPlatinumJog, denonJog, zeroForward, mc7000Jog, dj2go2Jog, signedStep
     case binaryStep, binaryDirection, centreDetent, centredPitch, mixstreamJog, cyclic14BitJog, vci300Tempo,
-        vci100MK2Tempo
+        vci100MK2Tempo, lc6000Jog
     case cdjPlatterSpeed, cdjRingSpeed, cdj350PlatterSpeed, cdjTempo, needlePosition
     public var isRelative: Bool {
         [
             .twosComplement, .binaryOffset, .signedBit, .paired14BitRelative, .numarkPlatinumJog, .denonJog,
             .zeroForward, .mc7000Jog, .dj2go2Jog, .signedStep, .binaryStep, .binaryDirection, .mixstreamJog,
-            .cyclic14BitJog,
+            .cyclic14BitJog, .lc6000Jog,
         ]
         .contains(self)
     }
     public var isPairedCC: Bool {
         self == .paired14Bit || self == .paired14BitRelative || self == .mixstreamJog || self == .cyclic14BitJog
-            || self == .vci300Tempo || self == .vci100MK2Tempo
+            || self == .vci300Tempo || self == .vci100MK2Tempo || self == .lc6000Jog
     }
     public var supportsLearning: Bool {
         self != .touchGate && self != .mixstreamJog && self != .cyclic14BitJog && self != .vci100MK2Tempo
+            && self != .lc6000Jog
     }
     public var title: String {
         switch self {
@@ -34,6 +35,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         case .cyclic14BitJog: "Cyclic high-resolution jog counter"
         case .vci300Tempo: "VCI-300 tempo fader"
         case .vci100MK2Tempo: "VCI-100MKII tempo fader"
+        case .lc6000Jog: "LC6000 direction and jog movement"
         case .dj2go2Jog: "DJ2GO2 Touch jog"
         case .signedStep: "Encoder: 1 / 127, single step"
         case .denonJog: "Denon jog"
@@ -86,6 +88,17 @@ public struct ControllerMIDIValueState: Sendable {
             return .absolute(min(1, max(0, Double(message.value - 1) / 16382)))
         }
         let low = lowNumber ?? (number < 32 ? number + 32 : nil)
+        if encoding == .lc6000Jog {
+            guard message.kind == .control, message.maximum == 127, (0...127).contains(message.value),
+                let low, low < 128, low != number
+            else { return nil }
+            if message.number == number {
+                msb = UInt8(message.value)
+                return nil
+            }
+            guard message.number == low, let direction = msb else { return nil }
+            return .relative(Double(direction == 0 ? message.value : message.value - 127))
+        }
         if encoding == .cyclic14BitJog || encoding == .vci300Tempo || encoding == .vci100MK2Tempo {
             guard message.kind == .control, message.maximum == 127, number < 128,
                 (0...127).contains(message.value), let low, low < 128, low != number

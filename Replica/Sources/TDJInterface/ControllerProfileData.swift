@@ -103,11 +103,14 @@ struct ControllerProfileData: Decodable, Sendable {
     let inputModes: [InputMode]?
     let bankChanges: [BankChange]?
     let audioOutput: AudioOutput?
+    let portAliases: [String]?
 
     var isValid: Bool {
         (role == nil || role == "player" || role == "accessory") && !id.isEmpty && id.count <= 128 && !aliases.isEmpty
             && aliases.count <= 24
             && aliases.allSatisfy { !$0.isEmpty && $0.count <= 128 }
+            && (portAliases.map { !$0.isEmpty && $0.count <= 16 && $0.allSatisfy { !$0.isEmpty && $0.count <= 128 } }
+                ?? true)
             && (excludedAliases?.count ?? 0) <= 24
             && (excludedAliases ?? []).allSatisfy { !$0.isEmpty && $0.count <= 128 }
             && validInputModes && validBankChanges && (audioOutput == nil || autoSelect)
@@ -131,6 +134,7 @@ struct ControllerProfileData: Decodable, Sendable {
                     && ($0.requiresTouch != true || ($0.action.isJog && $0.encoding.isRelative))
                     && ($0.encoding != .touchGate
                         || ($0.kind == .note && [.jogTouchA, .jogTouchB].contains($0.action)))
+                    && ($0.encoding != .lc6000Jog || $0.action.isJog)
                     && ($0.releaseOnly != true || ($0.kind == .note && $0.action.isButton && $0.action != .shift))
                     && ($0.pulse != true
                         || ($0.kind == .note && $0.encoding == .absolute && $0.action.isButton
@@ -138,7 +142,8 @@ struct ControllerProfileData: Decodable, Sendable {
                     && ($0.shiftInput == nil
                         || ($0.shiftInput! < 16 && $0.action == .shift && $0.kind == .note))
                     && ($0.encoding != .centredPitch || ($0.kind == .pitch && $0.number == 0))
-                    && (![.mixstreamJog, .cyclic14BitJog, .vci100MK2Tempo].contains($0.encoding) || $0.lowNumber != nil)
+                    && (![.mixstreamJog, .cyclic14BitJog, .vci100MK2Tempo, .lc6000Jog].contains($0.encoding)
+                        || $0.lowNumber != nil)
                     && Self.validArgument($0)
                     && (![
                         .centreDetent, .binaryStep, .binaryDirection, .signedStep, .dj2go2Jog, .mc7000Jog, .denonJog,

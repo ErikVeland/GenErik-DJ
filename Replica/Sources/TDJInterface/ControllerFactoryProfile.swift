@@ -68,7 +68,7 @@ struct ControllerFactoryProfile: RawRepresentable, Hashable, CaseIterable, Codab
         guard !names.contains(where: { excluded.contains(normalise($0)) }) else { return nil }
         return profile
     }
-    private static func normalise(_ name: String) -> String {
+    static func normalise(_ name: String) -> String {
         name.lowercased().filter { $0.isLetter || $0.isNumber || $0 == "+" }
     }
 
@@ -106,6 +106,7 @@ struct ControllerFactoryEndpoint: Equatable, Sendable {
     let device: UInt32
     let names: [String]
     var reference: UInt32? = nil
+    var portNames: [String] = []
 }
 
 struct ControllerFactorySession: Equatable, Sendable {
@@ -127,11 +128,23 @@ struct ControllerFactorySession: Equatable, Sendable {
         guard Set(sources.map(\.id)).count == sources.count else { return [] }
         let devices = Dictionary(grouping: sources.filter { $0.device != 0 }, by: \.device)
         return devices.keys.sorted().prefix(16).compactMap { device in
-            guard let inputs = devices[device], inputs.count == 1, let input = inputs.first,
-                let profile = ControllerFactoryProfile.matching(input.names, automaticOnly: true),
-                !disabled.contains(profile)
-            else { return nil }
-            let outputs = destinations.filter { $0.device == device }
+            guard let inputs = devices[device] else { return nil }
+            let candidates = inputs.compactMap { input -> (ControllerFactoryEndpoint, ControllerFactoryProfile)? in
+                guard let profile = ControllerFactoryProfile.matching(input.names, automaticOnly: true),
+                    !disabled.contains(profile)
+                else { return nil }
+                if let aliases = profile.definition?.portAliases {
+                    guard matchesPort(input, aliases: aliases) else { return nil }
+                } else if inputs.count != 1 {
+                    return nil
+                }
+                return (input, profile)
+            }
+            guard candidates.count == 1, let (input, profile) = candidates.first else { return nil }
+            let outputs = destinations.filter { endpoint in
+                guard endpoint.device == device else { return false }
+                return profile.definition?.portAliases.map { matchesPort(endpoint, aliases: $0) } ?? true
+            }
             let destination = outputs.count == 1 ? outputs.first : nil
             guard profile.definition?.startup.isEmpty != false || destination != nil else { return nil }
             if let destination,
@@ -143,5 +156,10 @@ struct ControllerFactorySession: Equatable, Sendable {
                 device: device, profile: profile, source: input.id, destination: destination?.id,
                 sourceReference: input.reference, destinationReference: destination?.reference)
         }
+    }
+
+    private static func matchesPort(_ endpoint: ControllerFactoryEndpoint, aliases: [String]) -> Bool {
+        let names = Set(endpoint.portNames.map(ControllerFactoryProfile.normalise))
+        return aliases.contains { names.contains(ControllerFactoryProfile.normalise($0)) }
     }
 }

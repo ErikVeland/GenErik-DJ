@@ -490,3 +490,17 @@ Typed Cue Set and Cue Goto keep distinct physical button functions. Goto preserv
 Held pitch buttons reuse R239 ownership and release handling. Crossfader inversion follows XML.
 Only published Play/Sync feedback is mapped. Shutdown clears those indicators and the fixed Scratch indicator.
 Original iDJ Live/Pro, software scratch-mode toggle, library expansion, full feedback, routing and hardware acceptance remain open.
+
+## LC6000 control ports and direction-first jogs — R241
+
+`lc6000.py` links the factory MIDI specification and a pinned source mapping.
+`portAliases` allows reviewed profiles to select one exact control port from a device with several MIDI ports.
+Matching uses endpoint port names separately from the common device name. Duplicate or unknown ports remain unresolved.
+Profiles without this declaration retain the single-input discovery rule. Player allocation and reassignment remain shared.
+
+`lc6000Jog` retains direction from CC 55 and decodes each CC 54 movement as forward value or reverse value minus 127.
+Movement before direction is ignored. CC 17/49 stay unmapped because their published handlers do nothing.
+Native scratching retains 1,024 counts per revolution, pending physical calibration.
+Paired pitch keeps explicit low CC 40. Hot Cue and fixed-loop pads have separate mode guards; Shift release aliases rearm edges.
+Startup and shutdown use fourteen bounded messages in total. The WD display protocol does not receive control feedback.
+Source JS and timers do not run in the app. Display/strip, software Vinyl/zoom/range modes, full feedback/cleanup and physical acceptance remain open.

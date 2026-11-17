@@ -2,6 +2,34 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R241 LC6000 PR-port native player core
+
+LC6000 PRIME gains a native player recipe from Denon's factory table and a pinned published mapping.
+Each physical control port uses the existing player allocator. Two connected players can control A and B independently.
+Only exact PR port names qualify. WD display ports, duplicate PR inputs and ambiguous PR outputs remain inactive.
+Other profiles retain their existing single-input rule. Startup reaches the paired PR output on the same device.
+
+Factory CC 55/54 wording does not fully describe jog dispatch. The pinned script uses CC 55 as direction state and CC 54 as movement.
+Forward movement uses the received value; reverse movement subtracts 127. Native decoding waits for direction before applying movement.
+Direction persists across ticks and remains separate for each source. The source's CC 17/49 handlers are no-ops and remain unmapped.
+Native touch scratching retains the published mapping's 1,024-count calibration. Physical calibration remains open.
+
+The recipe retains paired pitch, held pitch bend, Cue, direct Load, Play, Sync, Key Lock, manual loops, loop size and browsing.
+Native Load acts on the button press. Held-Select waveform zoom and preview loading remain outside this core.
+Hot Cue pads and 1/8-to-16-beat toggle loops require their own mode. Roll and Slicer cannot trigger either page.
+Shift guards unsupported alternatives. Release aliases rearm ordinary button edges after a shifted release.
+Startup clears other pad-mode lights and enables Hot Cue and fixed Vinyl indicators. Shutdown clears the nine declared indicators.
+Pad feedback remains unmapped because it changes with mode. Display SysEx, needle strip, software Vinyl/range modes and full feedback/cleanup remain open.
+
+All 56 final targeted Swift checks, 74 importer/report checks and native iPad compilation pass.
+The bundled resource matches the source. All 162 earlier recipes remain unchanged.
+Factory coverage reaches 107 profiles for 111 physical models, plus six other native models.
+Automatic core coverage reaches 60 of the 122 pinned Serato benchmark models.
+The repository check retains twelve existing historical-link failures.
+Validation results and source identities appear in `TestBuilds/r241/validation.json`.
+The player has no automatic audio-output declaration. Physical USB naming, routing and A10X acceptance remain open.
+No signed app or installation was produced.
+
 ## R240 iDJ Live II touch-gated native core
 
 iDJ Live II gains an automatic two-deck core from pinned XML and its companion script.

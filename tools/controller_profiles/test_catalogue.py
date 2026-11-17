@@ -40,6 +40,7 @@ from inpulse200 import original200_profiles, ORIGINAL200_SOURCES
 from vci400 import vci400_profiles, VCI400_SOURCES
 from cmd_micro import cmd_micro_profiles, CMD_MICRO_SOURCES
 from idj_live2 import idj_live2_profiles, IDJ2_SOURCES
+from lc6000 import lc6000_profiles, LC6000_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -821,6 +822,21 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_lc6000_separates_control_port_and_direction_from_rotation(self):
+        result = lc6000_profiles()[0]
+        self.assertEqual(result["role"], "player")
+        self.assertIn("LC6000 PR", result["portAliases"])
+        self.assertFalse(any("WD" in name for name in result["portAliases"]))
+        jog = next(r for r in result["inputs"] if r["action"] == "jogA")
+        self.assertEqual((jog["number"], jog["lowNumber"], jog["encoding"], jog["argument"]), (55, 54, "lc6000Jog", 1024))
+        self.assertFalse(any(r["number"] in {17, 49} and r["kind"] == "control" for r in result["inputs"]))
+        self.assertEqual([r["argument"] for r in result["inputs"] if r["action"] == "toggleFixedLoopA"], [0.125, 0.25, 0.5, 1, 2, 4, 8, 16])
+        self.assertEqual(len(result["startup"]) + len(result["shutdown"]), 14)
+        for name, digest in LC6000_SOURCES:
+            path = ROOT / "TestBuilds/r241" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_idj_live2_keeps_contact_threshold_and_distinct_cue_buttons(self):
         result = idj_live2_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (27, 4))

@@ -11,8 +11,13 @@ import Testing
     let input = ControllerMIDIConnection(
         preferences: preferences, factoryPacketSender: { _, _ in true },
         deckAvailability: { DeckID.allCases })
-    input.sources = [.init(id: 10, reference: 100, name: name, identity: .init(id: 10, device: 1, names: [name]))]
-    input.destinations = [.init(id: 20, reference: 200, name: name, identity: .init(id: 20, device: 1, names: [name]))]
+    let ports = ControllerFactoryProfile.matching([name])?.definition?.portAliases?.prefix(1).map { $0 } ?? []
+    input.sources = [
+        .init(id: 10, reference: 100, name: name, identity: .init(id: 10, device: 1, names: [name], portNames: ports))
+    ]
+    input.destinations = [
+        .init(id: 20, reference: 200, name: name, identity: .init(id: 20, device: 1, names: [name], portNames: ports))
+    ]
     input.reconcileFactoryProfiles()
     try body(input)
 }
@@ -50,7 +55,7 @@ import Testing
             }
         }
     }
-    #expect(covered == 98)
+    #expect(covered == 99)
 }
 
 @Test @MainActor func controllerCataloguePioneerPlayerCueReassignmentReleasesThePreviousDeck() throws {
