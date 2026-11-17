@@ -32,6 +32,7 @@ from n4 import n4_profiles, N4_SOURCES
 from neon import neon_profiles, NEON_REFERENCES
 from vestax_compact import compact_profiles, COMPACT_SOURCES
 from rp8000 import rp8000_profiles, RP8000_REFERENCES
+from scratch import scratch_profiles, SCRATCH_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -813,6 +814,22 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
+        result = scratch_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (45, 0))
+        pulses = [row for row in result["inputs"] if row.get("pulse")]
+        self.assertEqual(len(pulses), 8)
+        self.assertEqual({row["action"] for row in result["inputs"] if row["number"] == 27}, {"cueStateA", "cueStateB"})
+        self.assertEqual({row["action"] for row in result["inputs"] if row["number"] == 63 and not row["shifted"]}, {"loopA", "loopB"})
+        self.assertTrue(all(row["kind"] == "note" and row["number"] in {52, 53} for row in pulses))
+        self.assertTrue(all(row["requiredMode"] == 0 for row in result["inputs"] if row["action"].startswith("hotcue")))
+        self.assertEqual(result["bankChanges"], [{"channel": 15, "number": 87, "onValue": 2, "decks": ["a"], "releaseShiftChannels": []}, {"channel": 15, "number": 96, "onValue": 2, "decks": ["b"], "releaseShiftChannels": []}])
+        self.assertFalse(any(row["action"] in {"master", "monitor"} for row in result["inputs"]))
+        for name, digest in SCRATCH_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_original_rp8000_retains_factory_channels_loop_sizes_and_source_members(self):
         result = rp8000_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (136, 40))

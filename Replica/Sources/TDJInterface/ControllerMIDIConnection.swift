@@ -135,6 +135,7 @@ struct ControllerBinding: Codable {
     var shiftChannel: UInt8? = nil
     var shiftInput: UInt8? = nil
     var lowNumber: UInt8? = nil
+    var pulse: Bool? = nil
     var lowControllerNumber: UInt8? { mode.isPairedCC ? lowNumber ?? (number < 32 ? number + 32 : nil) : nil }
     var target: ControllerActionTarget { .init(action, deck: targetDeck, argument: argument) }
     var mode: ControllerMIDIEncoding { encoding ?? .absolute }
@@ -383,6 +384,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private let inbox = ControllerMIDIInbox()
     @ObservationIgnored private let preferences: UserDefaults
     @ObservationIgnored private let factoryPacketSender: (([UInt8], Int32) -> Bool)?
+    @ObservationIgnored private let factoryInputConnector: ((Int32) -> Bool)?
     @ObservationIgnored private let deckAvailability: (() -> [DeckID])?
     @ObservationIgnored private var factorySessions: [ControllerFactorySession] = []
     @ObservationIgnored private var factoryPadModes: [Int32: ControllerPadModeState] = [:]
@@ -403,10 +405,11 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
 
     init(
         preferences: UserDefaults = .standard, factoryPacketSender: (([UInt8], Int32) -> Bool)? = nil,
-        deckAvailability: (() -> [DeckID])? = nil
+        deckAvailability: (() -> [DeckID])? = nil, factoryInputConnector: ((Int32) -> Bool)? = nil
     ) {
         self.preferences = preferences
         self.factoryPacketSender = factoryPacketSender
+        self.factoryInputConnector = factoryInputConnector
         self.deckAvailability = deckAvailability
         if let data = preferences.data(forKey: "controllers.factory.disabledPlayers"),
             let saved = try? JSONDecoder().decode(Set<Int32>.self, from: data)
@@ -680,7 +683,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             disconnectInput(old.source)
             if let destination = old.destination { sentFactoryValues[destination] = nil }
         }
-        let sessions = candidates.filter { factorySessions.contains($0) || sendFactorySetup($0, starting: true) }
+        let starting = candidates.filter { !factorySessions.contains($0) }
+        let sessions = candidates
         guard sessions != factorySessions else { return }
         var padModes: [Int32: ControllerPadModeState] = [:]
         for session in sessions {
@@ -725,7 +729,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                             targetDeck: session.playerDeck != nil && binding.targetDeck != nil
                                 ? session.playerDeck : binding.targetDeck,
                             layerIndependent: binding.layerIndependent, anyChannel: binding.anyChannel,
-                            argument: binding.argument)
+                            argument: binding.argument, releaseOnly: binding.releaseOnly,
+                            requiredMode: binding.requiredMode, shiftChannel: binding.shiftChannel,
+                            shiftInput: binding.shiftInput, lowNumber: binding.lowNumber, pulse: binding.pulse)
                     } ?? session.profile.bindings(source: session.source, playerDeck: session.playerDeck)
                 return (session.source, profile)
             })
@@ -744,7 +750,18 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     } ?? session.profile.feedback(destination: destination)
                 return (destination, profile)
             })
-        for session in sessions { connectInput(session.source) }
+        for session in sessions {
+            let connected = factoryInputConnector?(session.source) ?? (!enabled || connectInput(session.source))
+            if !connected { factorySetupFailure = "The controller input could not connect. Check the connection." }
+            guard connected && (!starting.contains(session) || sendFactorySetup(session, starting: true)) else {
+                disconnectInput(session.source)
+                factoryBindings[session.source] = nil
+                factoryPadModes[session.source] = nil
+                factorySessions.removeAll { $0 == session }
+                if let destination = session.destination { factoryFeedback[destination] = nil }
+                continue
+            }
+        }
     }
 
     /**
@@ -915,16 +932,17 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         if factoryBindings[id] != nil || (originalZ1Bridge && id == selected) { return port }
         return protocolPort != 0 ? protocolPort : port
     }
-    private func connectInput(_ id: Int32) {
-        guard enabled, isInputActive(id), connectedEndpoints[id] == nil,
+    @discardableResult private func connectInput(_ id: Int32) -> Bool {
+        if connectedEndpoints[id] != nil { return true }
+        guard enabled, isInputActive(id),
             let source = sources.first(where: { $0.id == id })
-        else { return }
+        else { return false }
         let inputPort = inputPort(for: id)
         let result = MIDIPortConnectSource(
             inputPort, source.reference, UnsafeMutableRawPointer(bitPattern: Int(source.reference)))
         guard result == noErr else {
             if id == selected { status = "The controller input could not connect (\(result))." }
-            return
+            return false
         }
         connectedEndpoints[id] = source.reference
         connectedPorts[id] = inputPort
@@ -932,6 +950,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         decoders[id] = .init()
         bridgeDecoders[id] = .init()
         updatePollingInterval()
+        return true
     }
     private func disconnectInput(_ id: Int32) {
         let endpoint = connectedEndpoints.removeValue(forKey: id)
@@ -1923,6 +1942,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 }
                 if message.kind == .program {
                     emitButton(binding.target, value: 1)
+                    continue
+                }
+                if binding.pulse == true {
+                    if value > 0 { emitButton(binding.target, value: value) }
                     continue
                 }
                 if previous == nil && message.kind != .note && binding.layerIndependent != true { continue }

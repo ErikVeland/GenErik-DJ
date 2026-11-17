@@ -2,6 +2,42 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R231 Scratch native core, pulse inputs and safe startup/reconnect
+
+Numark Scratch now selects a native mixer/accessory core automatically. The pinned XML, script, shared component helper and factory guide have recorded hashes.
+The recipe retains actual XML mixer and pad channels where constructor properties differ.
+Native controls include gain/EQ/filter/faders, headphone cue state, Cue Mix, guarded cue pads and loop/browse controls.
+
+The factory guide confirms loop on/off for the encoder press. This takes precedence over the community enable-only key.
+Received headphone on/off reports set native cue state directly. Conflicting PFL output channels remain unmapped.
+
+Loop direction notes are encoder pulses. An explicit pulse flag accepts each positive note without a release edge.
+Only absolute, non-momentary note buttons may use that flag. Ordinary buttons retain their existing edge handling.
+Physical Shift selects single-step browsing and Load. Sampler and Roll pages cannot trigger cues.
+Alternate delete releases only rearm pads. Selector reports reset pickup on their own side without clearing physical Shift.
+
+The shared startup path now prepares bindings and connects input before requesting controller state.
+Failed input connection sends no setup packets and leaves no active factory session. A later discovery can retry.
+CoreMIDI replies still enter the bounded inbox. The app drains them after startup completes.
+The recipe omits the delay that the source comment ties to Mixxx engine initialisation. Physical cold-start timing remains unverified.
+
+Saved custom mappings now retain mode, release, Shift, explicit low-byte and pulse metadata when an endpoint ID changes.
+Reconnect fixtures cover Scratch pad guards and pulses, Platinum's CC 9/119 pair and MC7000's physical Shift scopes and stable identities.
+These shared fixes also protect earlier reviewed profiles. No downloaded script or source timer runs in the app.
+
+All 384 focused checks pass for the shared runtime changes.
+The factory-aligned Scratch PFL/Loop recipe then passes all 46 confirmation checks. No other recipe changes between those runs.
+All 64 importer/report checks and native iPad compilation pass.
+Native offline playback covers mixer changes, cue state, loop toggling, repeated encoder pulses and persistent Sync.
+The bundled resource matches the source.
+
+
+Factory coverage reaches 101 profiles for 105 physical models. Six other models retain automatic native adapters.
+The catalogue retains 305 records and 162 data recipes. Only the existing Scratch recipe changes.
+FX, rolls, sampler, complete lights, reverse/curve controls, cleanup, DVS, passthrough and audio routing remain open.
+Source identities and validation results appear in `TestBuilds/r231/validation.json`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R230 original RP-8000 MIDI accessory core
 
 The original RP-8000 now selects a native MIDI accessory recipe automatically. MK2 and Straight variants do not inherit it.

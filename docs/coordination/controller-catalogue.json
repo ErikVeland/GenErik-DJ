@@ -21583,51 +21583,85 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Scratch.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Scratch.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Scratch.midi.xml"
       ],
       "definitions": [
-        "Numark-Scratch.midi.xml"
+        "Numark-Scratch.midi.xml",
+        "manufacturer:numarkscratch"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Numark Scratch",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
-        "cueMix"
+        "browseNext",
+        "browsePrevious",
+        "crossfader",
+        "cueMix",
+        "cueStateA:a",
+        "cueStateB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "shift"
       ],
-      "inputBindingCount": 1,
+      "inputBindingCount": 45,
       "feedbackBindingCount": 0,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 94,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -313506,6 +313540,47 @@
       },
       "implementedInputCount": 136,
       "implementedOutputCount": 40,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:numarkscratch",
+      "name": "Numark Scratch",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Scratch.midi.xml",
+        "sha256": "faeb3d79ff98c46ce6ae2a3a5f00f2af74692bcd141d38d5d427b6459f4efd35",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Scratch.midi.xml",
+            "sha256": "faeb3d79ff98c46ce6ae2a3a5f00f2af74692bcd141d38d5d427b6459f4efd35"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Scratch-scripts.js",
+            "sha256": "e00bf9d265bee9131cad79ce4ab52fb8b736cbced8f2783cbae2921f4034d3a1"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/midi-components-0.0.js",
+            "sha256": "f15845d0b3fa10609aedc2fb74a9067d0f1d89387f011de72c3301799003f026"
+          },
+          {
+            "url": "https://www.numark.com/images/product_downloads/Scratch_-_User_Guide_-_v1.2.pdf",
+            "sha256": "5b491b405ad730643d40927275415cbb57f6e5c6475555c13bfc2589cbb40f81",
+            "pages": [
+              5,
+              6
+            ]
+          }
+        ],
+        "review": "XML dispatch establishes mixer channels 0/1 and pad/loop channels 4/5. The shared push handler applies received PFL on/off state directly. Native cue-state actions preserve it. Constructor PFL output channels differ, so headphone lights remain unmapped. The factory guide confirms that the Loop knob toggles on/off. That factory behaviour replaces the community script's enable-only key. Loop direction notes 52/53 have Note On dispatch only and represent encoder pulses. Every positive pulse applies once, without a release edge. Physical Shift on channel 15 note 50 selects one-step browsing and Load; unshifted controls resize or toggle the native loop. The shared four-pad addresses require explicit Cue/Sampler/Roll mode state. Alternate delete releases only rearm cues. Pad lights remain unmapped pending output mode guards. Selector reports 0/2 reset only that side's pickup. The published status/unlock and shutdown packets remain bounded. The source comment ties its ten-second delay to Mixxx initialisation. Native startup connects input before sending the request. Physical cold-start timing remains unverified. MIDI-only source fixtures do not establish DVS, passthrough or audio-routing support."
+      },
+      "implementedInputCount": 45,
+      "implementedOutputCount": 0,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

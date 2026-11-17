@@ -357,3 +357,22 @@ Distinct pad addresses keep Sample and User modes separate. Held mode-button rel
 Do not map optional analogue/motor MIDI messages as native transport or platter input.
 Do not infer MK2 or Straight support from the original table.
 Remaining modes, three cue-light pairs, displays, full cleanup and DVS/audio routing remain open.
+
+## Scratch pulses, startup and saved metadata — R231
+
+`scratch.py` retains actual XML dispatch and hashed script/component/factory-guide sources.
+The factory guide confirms loop on/off. The shared push handler applies received PFL on/off state directly.
+Native cue-state actions preserve it. Conflicting PFL output channels remain unmapped.
+Shared pad addresses need Cue/Sampler/Roll mode guards. Pad lights need separate output mode guards.
+Hardware master and headphone gain controls remain outside the software mixer.
+
+Only explicit `pulse: true` note buttons bypass rising-edge suppression.
+Pulse inputs must use absolute encoding and cannot be momentary, Shift or release-only bindings.
+Each positive encoder note applies once. Standard note releases never invoke a pulse action.
+Physical Shift selects single-step browsing and Load. Unshifted presses toggle the loop.
+
+Factory startup prepares bindings, connects input and then sends bounded setup packets.
+A failed connection sends no setup and removes the failed factory session. Later discovery can retry.
+CoreMIDI replies enter the inbox and drain after startup completes.
+Preserve mode, release, Shift, explicit low-byte and pulse metadata when restoring custom mappings to a new endpoint ID.
+FX, rolls, sampler, complete lights, curve/reverse, cleanup, DVS, passthrough and audio routing remain open.

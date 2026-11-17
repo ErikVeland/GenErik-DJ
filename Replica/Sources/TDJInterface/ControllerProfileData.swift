@@ -18,6 +18,7 @@ struct ControllerProfileData: Decodable, Sendable {
         let shiftInput: UInt8?
         let shiftChannel: UInt8?
         let lowNumber: UInt8?
+        let pulse: Bool?
 
         func binding(source: Int32) -> ControllerBinding {
             .init(
@@ -25,7 +26,7 @@ struct ControllerProfileData: Decodable, Sendable {
                 parameter: nil, noteNumber: nil, action: action, encoding: encoding,
                 inverted: inverted, shifted: shifted ?? false, targetDeck: targetDeck, layerIndependent: shifted == nil,
                 anyChannel: anyChannel, argument: argument, releaseOnly: releaseOnly, requiredMode: requiredMode,
-                shiftChannel: shiftChannel, shiftInput: shiftInput, lowNumber: lowNumber)
+                shiftChannel: shiftChannel, shiftInput: shiftInput, lowNumber: lowNumber, pulse: pulse)
         }
     }
 
@@ -116,6 +117,9 @@ struct ControllerProfileData: Decodable, Sendable {
                         : $0.lowNumber == nil)
                     && ($0.anyChannel != true || role == "player")
                     && ($0.releaseOnly != true || ($0.kind == .note && $0.action.isButton && $0.action != .shift))
+                    && ($0.pulse != true
+                        || ($0.kind == .note && $0.encoding == .absolute && $0.action.isButton
+                            && !$0.action.isMomentary && $0.action != .shift && $0.releaseOnly != true))
                     && ($0.shiftInput == nil
                         || ($0.shiftInput! < 16 && $0.action == .shift && $0.kind == .note))
                     && ($0.encoding != .centredPitch || ($0.kind == .pitch && $0.number == 0))

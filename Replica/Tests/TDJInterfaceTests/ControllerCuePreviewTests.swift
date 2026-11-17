@@ -485,3 +485,28 @@ import Testing
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueScratchNativeMixerPadsAndPulseLoopsPreserveSync() async throws {
+    try await withControllerCuePlayback("Numark Scratch") { model, input in
+        cuePreviewPacket([0x94, 20, 127, 63, 127], to: input)
+        #expect(model.controllerValue(.hotcue1A) == 1)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        cuePreviewPacket([0x94, 63, 0, 63, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == false)
+        cuePreviewPacket([0x94, 63, 0, 63, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        cuePreviewPacket([0x90, 27, 127, 27, 127], to: input)
+        #expect(model.controllerValue(.cueStateA) == 1)
+        cuePreviewPacket([0x80, 27, 127], to: input)
+        #expect(model.controllerValue(.cueStateA) == 0)
+        let size = model.performance.loopBeats(for: .a)
+        cuePreviewPacket([0x94, 53, 1, 53, 1], to: input)
+        #expect(model.performance.loopBeats(for: .a) == size * 4)
+        cuePreviewPacket([0x94, 7, 127, 23, 127], to: input)
+        #expect(model.controllerValue(.hotcue4A) == 0)
+        cuePreviewPacket([0xB0, 23, 0], to: input)
+        cuePreviewPacket([0xB0, 23, 127], to: input)
+        #expect(model.playbackSnapshot?.a.mixer.high == 2)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}
