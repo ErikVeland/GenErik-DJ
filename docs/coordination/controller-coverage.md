@@ -2,6 +2,33 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R237 original Inpulse 200 factory-backed native core
+
+The original Inpulse 200 retains its identity and gains a reviewed native recipe. Its earlier partial recipe already selected automatically.
+The factory table adds physical Shift reports and high-resolution mixer pairs. The pinned script supplies its scratch scale and lifecycle packets.
+
+The official DJUCED guide confirms manual In, Out/Exit and long-In four-beat activation.
+A typed Out/Exit action uses the existing native loop engine. Long In enables a four-beat loop without toggling an active loop off.
+Release aliases preserve normal and shifted loop-button edges. Native scratching retains 248 counts per revolution and four-times shifted search.
+Factory signed jog magnitudes replace the community script's single-step clamp.
+
+Normal gain, two-band EQ, filter, levels, tempo and crossfader retain paired precision.
+Per-deck Shift rearms pickup and protects normal controls. Four cues remain separate from roll, sample and effect pages.
+The manufacturer table contains conflicting shifted PFL/Load/long-press rows. Those rows remain unmapped.
+XML dispatch and channel-based handlers retain confirmed right-deck addresses where the factory shifted table repeats the left channel.
+
+The official guide documents master outputs 1–2 and headphones 3–4. The recipe declares that automatic layout explicitly.
+Master/headphone knobs remain hardware-driven. Their MIDI messages do not apply another software gain stage.
+Other models receive no inferred audio flag.
+
+All 17 targeted Swift checks, 70 importer/report checks and native iPad compilation pass.
+Native fixtures verify manual loop activation/exit, repeated long-In activation, wheel stop and preserved Sync.
+Offline route/transport and sample-continuity fixtures now include the original Inpulse 200 alongside Z1 and Scratch.
+The bundled resource matches the source. All 161 other recipes remain unchanged.
+Factory counts remain 103 profiles for 107 physical models, plus six other models through native adapters.
+Other modes, conflicting shifted rows, full feedback, cleanup, firmware capture, calibration and physical acceptance remain open.
+Source identities and validation results appear in `TestBuilds/r237/validation.json`. No signed app or installation was produced.
+
 ## R236 MC3000 factory protocol audit
 
 The catalogue now links Denon's original MC3000 manual to the existing model.

@@ -14889,12 +14889,14 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_200.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_200.midi.xml",
+        "https://ts.hercules.com/download/sound/manuals/DJC_Inpulse200/DJControlInpulse200_MIDI_Commands_V_1_0.pdf"
       ],
       "definitions": [
-        "Hercules_DJControl_Inpulse_200.midi.xml"
+        "Hercules_DJControl_Inpulse_200.midi.xml",
+        "manufacturer:herculesdjcontrolinpulse200"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Hercules DJControl Inpulse 200",
@@ -14908,6 +14910,8 @@
         "cuePreviewB:b",
         "filterKnobA:a",
         "filterKnobB:b",
+        "fixedLoopA:a",
+        "fixedLoopB:b",
         "gainA:a",
         "gainB:b",
         "highA:a",
@@ -14928,10 +14932,12 @@
         "levelB:b",
         "loadA:a",
         "loadB:b",
-        "loopA:a",
-        "loopB:b",
         "loopDownA:a",
         "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutOrExitA:a",
+        "loopOutOrExitB:b",
         "loopUpA:a",
         "loopUpB:b",
         "lowA:a",
@@ -14939,6 +14945,7 @@
         "openGroup",
         "playA:a",
         "playB:b",
+        "shift",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
@@ -14946,10 +14953,10 @@
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 49,
+      "inputBindingCount": 81,
       "feedbackBindingCount": 22,
       "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "audioRouting": "Automatic master 1–2 / headphones 3–4",
       "zeroConfig": {
         "automaticControls": true,
         "completeFeatureParity": false,
@@ -14963,20 +14970,18 @@
           "protocolImplemented": true,
           "documentedControlsComplete": false,
           "lifecycleReviewed": true,
-          "audioRoutingImplemented": false,
+          "audioRoutingImplemented": true,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 101,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -313786,6 +313791,55 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:herculesdjcontrolinpulse200",
+      "name": "Hercules DJControl Inpulse 200",
+      "transport": "midi",
+      "source": {
+        "url": "https://ts.hercules.com/download/sound/manuals/DJC_Inpulse200/DJControlInpulse200_MIDI_Commands_V_1_0.pdf",
+        "sha256": "7be2dd081f87210ec86a80e632748f527b81fe681770a8ccfe020b2c4e6470fb",
+        "pages": [
+          3,
+          4,
+          5,
+          8,
+          9,
+          10,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          27
+        ],
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_200.midi.xml",
+            "sha256": "c0927a1bbc75c1c1727034d2bd0f0f01d018ee264c1c63c203d3f9d8e06b6587"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJControl-Inpulse-200-script.js",
+            "sha256": "67b2a81ee4a0e9a9bb88de2f6ce61f0fb078d5f8d1e446e148b2cef5f921553d"
+          },
+          {
+            "url": "https://www.djuced.com/kb/hercules-djcontrol-inpulse-200-mapping-and-manual/",
+            "reviewed": "2026-11-17",
+            "sha256": "ee1005af7d6099bae30042476a323eac69d066391932f0716c9c6528d2879362"
+          }
+        ],
+        "review": "The factory table supplies physical Shift, separate pad pages and paired mixer controls. The official DJUCED guide supplies manual loop In, Out/Exit, long-In four-beat activation and master 1/2/headphones 3/4. Master and headphone knobs are hardware-driven, so their MIDI messages do not also change software gain. The script supplies 248-count scratch scale and four-times shifted search. Factory relative jog magnitudes take precedence over the script's single-step clamp. The factory shifted B note rows repeat A's channel and contain conflicting PFL/Load/long-press numbers. Existing XML dispatch and channel-based handlers retain confirmed right-channel controls. Conflicting shifted PFL/Load/long-press rows remain unmapped. Cue delete, rolls, effects, Assistant, guide lights, full feedback, cleanup, firmware capture and physical calibration remain open."
+      },
+      "implementedInputCount": 81,
+      "implementedOutputCount": 22,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
         }
       ]
     },

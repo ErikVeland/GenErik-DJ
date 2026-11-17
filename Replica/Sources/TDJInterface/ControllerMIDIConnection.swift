@@ -25,6 +25,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case reloopOriginalA, reloopOriginalB
     case loopSizeA, loopSizeB
     case loopEnableA, loopEnableB
+    case loopOutOrExitA, loopOutOrExitB
     case hotcue1A, hotcue2A, hotcue3A, hotcue4A, hotcue5A, hotcue6A, hotcue7A, hotcue8A
     case hotcue1B, hotcue2B, hotcue3B, hotcue4B, hotcue5B, hotcue6B, hotcue7B, hotcue8B
     var id: String { rawValue }
@@ -49,7 +50,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         if let hotcueSlot { return "\(deck.rawValue.uppercased()) · Hotcue \(hotcueSlot + 1)" }
         let labels = [
             "play": "Play / Pause", "sync": "Sync", "keylock": "Key lock", "cue": "Headphone cue", "level": "Volume",
-            "cueState": "Headphone cue state", "loopEnable": "Enable loop",
+            "cueState": "Headphone cue state", "loopEnable": "Enable loop", "loopOutOrExit": "Loop out / exit",
             "gain": "Gain", "low": "Low EQ", "mid": "Mid EQ", "high": "High EQ", "filter": "Filter",
             "filterToggle": "Filter on / off", "fx": "Effect amount", "fxToggle": "Effect on / off",
             "tempo": "Tempo ±8%", "loop": "Loop on / off", "loopUp": "Larger loop", "loopDown": "Smaller loop",

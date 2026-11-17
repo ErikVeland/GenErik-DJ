@@ -432,3 +432,17 @@ Both retain four cues and source-defined bass/filter controls. Only MIX adds mas
 No Load or browsing input is invented. These functions remain available through app touch controls.
 Starlight restores its base light behaviour on shutdown. MIX retains its separate all-lights-off command.
 The existing automatic recipes gain reviewed native behaviour. Automatic model counts remain unchanged.
+
+## Original Inpulse 200 native core — R237
+
+`inpulse200.py` uses the original factory table, pinned Mixxx dispatch/script and the official DJUCED guide.
+Its normal loop buttons use native manual In and Out/Exit. The long-In report enables a four-beat loop idempotently.
+The typed Out/Exit action reuses existing native loop methods. Ordinary Out bindings on other controllers keep their existing behaviour.
+Factory paired mixer controls preserve low bytes. Factory signed jog magnitudes take precedence over the source's single-step clamp.
+Native resolution retains 248 counts, with 62 for four-times shifted search.
+
+Physical Shift scopes protect normal controls and pickup. Distinct pad pages cannot trigger cues in sample, roll or effect modes.
+Confirmed right-deck dispatch follows XML and channel-based handlers where the factory shifted B note table repeats A's channel.
+Conflicting shifted PFL/Load/long-press rows remain unmapped.
+The explicit master/headphone layout follows the official guide. Hardware master/headphone knobs do not change software gain again.
+Remaining modes, complete feedback, cleanup, firmware capture and physical calibration stay open.

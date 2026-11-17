@@ -51,11 +51,11 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     #expect(controller.outputRoute == .masterAndHeadphones)
 }
 
-@Test(arguments: ["Traktor Kontrol Z1", "Numark Scratch"])
+@Test(arguments: ["Traktor Kontrol Z1", "Numark Scratch", "Hercules DJControl Inpulse 200"])
 @MainActor func documentedControllerAudioRoutingRecoveryPreservesTransportWithoutSpeakerLeak(deviceName: String) throws
 {
     let device = AudioOutputDevice(name: deviceName, wired: true)
-    let expectedName = deviceName == "Traktor Kontrol Z1" ? "Z1" : "Numark Scratch"
+    let expectedName = deviceName == "Traktor Kontrol Z1" ? "Z1" : deviceName
     let controller = try PlaybackController(offline: true)
     let core = controller.core
     let asset = try PCMAsset(interleavedStereo: Array(repeating: 0.25, count: 192000), sampleRate: 48000)
@@ -97,7 +97,7 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     controller.stopAudio()
 }
 
-@Test(arguments: ["Traktor Kontrol Z1", "Numark Scratch"])
+@Test(arguments: ["Traktor Kontrol Z1", "Numark Scratch", "Hercules DJControl Inpulse 200"])
 @MainActor func documentedControllerAudioRoutingRepeatedDetectionDoesNotAlterSamples(deviceName: String) throws {
     let device = AudioOutputDevice(name: deviceName, wired: true)
     let controller = try PlaybackController(offline: true)

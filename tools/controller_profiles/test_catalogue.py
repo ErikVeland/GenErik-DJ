@@ -36,6 +36,7 @@ from scratch import scratch_profiles, SCRATCH_SOURCES
 from vci300 import vci300_profiles, VCI300_SOURCES
 from vci100mk2 import vci100mk2_profiles, VCI100MK2_SOURCES
 from hercules_portable import portable_profiles, PORTABLE_SOURCES
+from inpulse200 import original200_profiles, ORIGINAL200_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -817,6 +818,18 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_original_inpulse200_uses_factory_pairs_and_native_loop_controls(self):
+        result = original200_profiles()[0]
+        self.assertEqual(result["audioOutput"], "masterAndHeadphones")
+        self.assertFalse(any(r["action"] in {"master", "monitor", "midA", "midB"} for r in result["inputs"]))
+        self.assertEqual([r["argument"] for r in result["inputs"] if r["action"] in {"fixedLoopA", "fixedLoopB"}], [4, 4])
+        self.assertTrue(all(r["encoding"] == "paired14Bit" for r in result["inputs"] if r["action"] in {"levelA", "levelB", "gainA", "gainB", "crossfader"}))
+        self.assertEqual([r["argument"] for r in result["inputs"] if r["action"] == "jogA"], [248, 62])
+        for name, digest in ORIGINAL200_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_mc3000_factory_audit_keeps_automatic_selection_disabled(self):
         cache = ROOT / "TestBuilds/r169/upstream"
         if not cache.exists():
@@ -880,7 +893,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
             self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertFalse(model["theoreticalSupport"]["complete"])
-            self.assertEqual([p["id"] for p in runtime["profiles"] if p.get("audioOutput")], ["Numark Scratch"])
+            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200"})
 
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]

@@ -258,6 +258,12 @@ extension ReplicaModel {
             if let state = playbackSnapshot?[deck], state.generation != 0 {
                 controllerLoopStarts[deck] = (state.generation, snappedFrame(state.sourceFrame, deck: deck))
             }
+        case .loopOutOrExitA, .loopOutOrExitB:
+            if playbackSnapshot?[deck].loopEnabled == true {
+                toggleLoop(deck: deck)
+            } else {
+                applyController(.loopOutA, value: value, targetDeck: deck)
+            }
         case .loopOutA, .loopOutB:
             if let state = playbackSnapshot?[deck], let start = controllerLoopStarts[deck],
                 state.generation == start.generation
