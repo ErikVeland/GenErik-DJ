@@ -3,7 +3,7 @@ import Foundation
 public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     case absolute, touchGate, fullVelocityGate, paired14Bit, paired14BitRelative, twosComplement, binaryOffset,
         signedBit
-    case numarkPlatinumJog, denonJog, zeroForward, mc7000Jog, dj2go2Jog, signedStep
+    case numarkPlatinumJog, denonJog, zeroForward, mc7000Jog, dj2go2Jog, signedStep, noteStep
     case binaryStep, binaryDirection, centreDetent, centredPitch, mixstreamJog, cyclic14BitJog, vci300Tempo,
         vci100MK2Tempo, lc6000Jog, readyTempo, compactTempo, airTempo, fineTempo512
     case cdjPlatterSpeed, cdjRingSpeed, cdj350PlatterSpeed, cdjTempo, needlePosition
@@ -11,7 +11,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         [
             .twosComplement, .binaryOffset, .signedBit, .paired14BitRelative, .numarkPlatinumJog, .denonJog,
             .zeroForward, .mc7000Jog, .dj2go2Jog, .signedStep, .binaryStep, .binaryDirection, .mixstreamJog,
-            .cyclic14BitJog, .lc6000Jog, .compactTempo, .fineTempo512,
+            .cyclic14BitJog, .lc6000Jog, .compactTempo, .fineTempo512, .noteStep,
         ]
         .contains(self)
     }
@@ -23,7 +23,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     public var supportsLearning: Bool {
         !isContactGate && self != .mixstreamJog && self != .cyclic14BitJog && self != .vci100MK2Tempo
             && self != .lc6000Jog && self != .readyTempo && self != .compactTempo && self != .airTempo
-            && self != .fineTempo512
+            && self != .fineTempo512 && self != .noteStep
     }
     public var isContactGate: Bool { self == .touchGate || self == .fullVelocityGate }
     public var title: String {
@@ -47,6 +47,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         case .fineTempo512: "Encoder: fine tempo steps"
         case .dj2go2Jog: "DJ2GO2 Touch jog"
         case .signedStep: "Encoder: 1 / 127, single step"
+        case .noteStep: "Note encoder step"
         case .denonJog: "Denon jog"
         case .zeroForward: "Encoder: 0 / 127"
         case .numarkPlatinumJog: "Mixtrack Platinum jog"
@@ -82,6 +83,12 @@ public struct ControllerMIDIValueState: Sendable {
     )
         -> ControllerMIDIValue?
     {
+        if encoding == .noteStep {
+            guard message.kind == .note, message.number == number, message.maximum == 127,
+                !message.isNoteOff, (1...127).contains(message.value)
+            else { return nil }
+            return .relative(1)
+        }
         if encoding.isContactGate {
             guard message.kind == .note, message.number == number, message.maximum > 0,
                 (0...message.maximum).contains(message.value)

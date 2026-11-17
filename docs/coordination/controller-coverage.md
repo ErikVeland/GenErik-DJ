@@ -3063,3 +3063,26 @@ All 169 existing recipes remain unchanged. The bundled resource matches the sour
 Automatic core coverage reaches 150 physical models, including 65/122 benchmark models. Complete theoretical parity remains open.
 Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
 Exact source identities and results are in ignored `TestBuilds/r280/validation.json`.
+
+## R281 Original i-Mix Reload core
+
+The [factory manual](https://asset.conrad.com/media10/add/160267/c1/-/gl/000060106ML01/mode-demploi-060106-console-de-mixage-mp3-dj-tech-imix-reload.pdf) and pinned Mixxx mapping disagree on touch and Load addresses.
+The factory table also omits two key rows and repeats a Hot Cue/EQ-kill address.
+This recipe stays manual and names the published source variant. MKII remains separate.
+Manual application loads bindings. It does not activate an input or run automatic setup/shutdown.
+
+The native decoder accepts one count per positive direction note. It ignores Note-Off, zero velocity, malformed values and expanded MIDI values.
+Touched direction notes require that deck's source contact. Untouched wheel notes remain separate from Search notes.
+The source's 148-count scale controls native scratch, wheel nudge and paused seek. Release callbacks cannot add motion.
+Native held Cue, three guarded cues, direct source-variant Load, gain/EQ/level, inverse tempo and browser steps retain the reviewed addresses.
+Loop-size buttons follow physical minus/plus labels. Source sampler buttons do not become invented cue pads.
+Sixteen steady feedback outputs and 54 bounded lifecycle messages retain source addresses.
+Full modes, Search, first-stopped Load, FX, EQ kills, complete feedback/reset and physical acceptance remain open.
+Factory/source identity conflict blocks automatic selection. This increment does not add an automatic model.
+All ten focused Swift tests, 112 importer checks and native iPad framework compilation pass.
+The real-file fixture checks count-scaled motion, ignored release reports, touch cleanup, held Cue and saved Sync.
+The first test compile used a private fixture property. The corrected fixture uses the public application path. The failed log remains preserved.
+All 169 other recipes remain unchanged. The bundled resource matches the source.
+Automatic core coverage stays at 150 physical models, including 65/122 benchmark models. Complete theoretical parity remains open.
+Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
+Exact source identities and results are in ignored `TestBuilds/r281/validation.json`.

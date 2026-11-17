@@ -12035,10 +12035,12 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20i-Mix%20Reload.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20i-Mix%20Reload.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20i-Mix%20Reload.midi.xml"
       ],
       "definitions": [
-        "DJ-Tech i-Mix Reload.midi.xml"
+        "DJ-Tech i-Mix Reload.midi.xml",
+        "manufacturer:djtechimixreload"
       ],
       "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
@@ -12046,6 +12048,8 @@
       "profile": "DJ-Tech i-Mix Reload",
       "automaticControls": false,
       "controlActions": [
+        "browseNext",
+        "browsePrevious",
         "crossfader",
         "cueA:a",
         "cueB:b",
@@ -12056,12 +12060,28 @@
         "gainB:b",
         "highA:a",
         "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "keylockA:a",
+        "keylockB:b",
         "levelA:a",
         "levelB:b",
         "loadA:a",
         "loadB:b",
         "loopA:a",
         "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopUpA:a",
+        "loopUpB:b",
         "lowA:a",
         "lowB:b",
         "midA:a",
@@ -12069,17 +12089,25 @@
         "monitor",
         "playA:a",
         "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 25,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 55,
+      "feedbackBindingCount": 16,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual pinned Mixxx variant: touch50/49 and Load40/46. Factory chart conflicts remain unresolved."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
@@ -12088,21 +12116,21 @@
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 44,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Factory chart and pinned source disagree on touch and Load addresses. Automatic variant selection is not implemented. Manual apply does not run automatic lifecycle. Search mode, first-stopped Load, downbeat, EQ kill, FX, full feedback/reset, centre CC qualification and physical acceptance remain open.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -316965,6 +316993,46 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:djtechimixreload",
+      "name": "DJ-Tech i-Mix Reload",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20i-Mix%20Reload.midi.xml",
+        "sha256": "f036d54b4ce670f40ef6e4f91ef47c899a9160e9bcf9677f69e772094f731b39",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20i-Mix%20Reload.midi.xml",
+            "sha256": "f036d54b4ce670f40ef6e4f91ef47c899a9160e9bcf9677f69e772094f731b39"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech-i-Mix-Reload-scripts.js",
+            "sha256": "7a25b07233c2eba9ca667e1ec51510dd9635fcfde7bdd4c890c1cd4f29ee59d8"
+          },
+          {
+            "url": "https://asset.conrad.com/media10/add/160267/c1/-/gl/000060106ML01/mode-demploi-060106-console-de-mixage-mp3-dj-tech-imix-reload.pdf",
+            "sha256": "1a5ad646cff8bd310d470f750d8df33aa382bca165bca589831d032caa2ae166",
+            "pages": [
+              10,
+              11
+            ]
+          }
+        ],
+        "review": "Manual pinned-source variant only. Source touch50/49 and Load40/46 conflict with the factory chart's touch/Load rows; its header also omits keys44/45 and duplicates a hot-cue/kill address. Automatic identity/variant selection remains unqualified. Source148-count scratch uses direction notes96/97 and98/99, with strict positive Note-On steps and physical-touch gating. Note-Off, zero velocity, malformed/expanded values and foreign kinds cannot move the platter; source handler counts every callback, which is not copied. Factory encoder table corroborates normal unheld CW/CCW114/115 and118/119; native wheel nudge/paused seek uses the same148-count encoder scale, while Search112/113 and116/117 remain inactive. Factory labels and source dictionary corroborate Sync5/35 and Loop1/25; native loop-size buttons follow physical minus/plus rather than source manual In/Out remaps. Side Set guards cues without importing deletion. Native held Cue, wheel bend, three cues, gain/EQ/level, inverse tempo, direct source-variant Load and explicit browser step buttons retain wire facts. Factory centre-control CCs, source timers/debug prints, first-stopped Load, held Search, downbeat, EQ kills, FX, full feedback/cleanup and acceptance remain open. No audio interface is inferred. Lifecycle messages are bounded but the existing manual-apply path does not run automatic setup/shutdown."
+      },
+      "implementedInputCount": 55,
+      "implementedOutputCount": 16,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Factory chart and pinned source disagree on touch and Load addresses. Automatic variant selection is not implemented. Manual apply does not run automatic lifecycle. Search mode, first-stopped Load, downbeat, EQ kill, FX, full feedback/reset, centre CC qualification and physical acceptance remain open."
         }
       ]
     },

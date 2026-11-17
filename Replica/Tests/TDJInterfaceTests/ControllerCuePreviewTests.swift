@@ -5,7 +5,8 @@ import Testing
 @testable import TDJInterface
 
 @MainActor private func withControllerCuePlayback(
-    _ name: String = "DJ2GO2 Touch", _ body: (ReplicaModel, ControllerMIDIConnection) async throws -> Void
+    _ name: String = "DJ2GO2 Touch", manual: Bool = false,
+    _ body: (ReplicaModel, ControllerMIDIConnection) async throws -> Void
 )
     async throws
 {
@@ -36,7 +37,12 @@ import Testing
     input.onTargetAction = model.controllerInput.onTargetAction
     input.onJogAction = model.controllerInput.onJogAction
     input.reconcileFactoryProfiles()
-    #expect(input.isInputActive(10))
+    if manual {
+        input.select(10)
+        input.applyFactoryProfile(try #require(ControllerFactoryProfile.matching([name])))
+    } else {
+        #expect(input.isInputActive(10))
+    }
     try await body(model, input)
 }
 
@@ -863,6 +869,26 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         cuePreviewPacket([0x90, 78, 127], to: input)
         #expect(model.playbackSnapshot?.a.performanceRate == 1)
         #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueIMixNativeNoteScratchReleaseAndCueKeepSync() async throws {
+    try await withControllerCuePlayback("DJ-Tech i-Mix Reload", manual: true) { model, input in
+        cuePreviewPacket([0x90, 50, 127, 96, 127, 96, 127, 96, 0, 0x80, 97, 127], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - sampleRate * 1.8 * 2 / 148) <= 1)
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        cuePreviewPacket([0x90, 50, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(!model.controllerJogTouched.contains(.a))
+        cuePreviewPacket([0x90, 11, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80, 11, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }

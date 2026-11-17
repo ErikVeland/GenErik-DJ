@@ -72,6 +72,7 @@ from radius2000 import radius_profiles, RADIUS_SOURCES, RADIUS_REFERENCES
 from original_dj2go2 import original_dj2go2_profiles, ORIGINAL_DJ2GO2_ZIP_SHA, ORIGINAL_DJ2GO2_TSI_SHA
 from terminal_mix8 import terminal_mix8_profiles, TM8_SOURCES
 from mixtrack_quad import quad_profiles, QUAD_SOURCES
+from imix_reload import imix_profiles, IMIX_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -853,6 +854,22 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_imix_source_variant_stays_manual_with_strict_note_encoder_contract(self):
+        item, = imix_profiles()
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (55, 16))
+        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 54)
+        self.assertNotIn("audioOutput", item)
+        self.assertEqual([r["number"] for r in item["inputs"] if r["action"] in {"loadA", "loadB"}], [40, 46])
+        steps = [r for r in item["inputs"] if r["encoding"] == "noteStep"]
+        self.assertEqual(len(steps), 8)
+        self.assertTrue(all(r["kind"] == "note" and r["argument"] == 148 for r in steps))
+        self.assertEqual(sum(r.get("requiresTouch", False) for r in steps), 4)
+        for name, digest in IMIX_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_mixtrack_quad_uses_four_factory_channels_and_source600_count_calibration(self):
         item, = quad_profiles()
         self.assertTrue(item["autoSelect"])
