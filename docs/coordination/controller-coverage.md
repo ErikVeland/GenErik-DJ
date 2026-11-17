@@ -2,6 +2,26 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R236 MC3000 factory protocol audit
+
+The catalogue now links Denon's original MC3000 manual to the existing model.
+Factory pages 14–17 resolve several community-source conflicts:
+
+- Master, microphone, headphone and monitor-pan controls do not send MIDI.
+- Community assignments for those functions overlap factory effect-knob messages and must not enter the native recipe.
+- Positive button reports use value 64. Deck-change notes are A 3, B 8, C 9 and D 10.
+- The pitch slider sends standard fourteen-bit Pitch Bend messages.
+- The factory state request is CC74/value57. Its documented scope covers sliders, volumes and faders.
+
+The community mapping defines Load and tempo only for A/B despite other C/D controls.
+The manual documents bank-dependent loading. Its channel diagram places shared Load controls on the first channel.
+Cold-start bank reporting and shared Load dispatch still need qualification.
+Automatic MC3000 selection remains disabled. No runtime recipe changes in this audit.
+The source's 100 scratch ticks at 330 RPM must not become 100 ticks at native 33⅓ RPM.
+
+The manual hash, rendered tables and source-bound audit evidence appear in `TestBuilds/r236/validation.json`.
+All 69 importer/report checks pass. The existing 305 records, 162 recipes and automatic counts remain unchanged. Physical acceptance remains open.
+
 ## R235 separate Starlight and DJControl MIX native cores
 
 Starlight and DJControl MIX now have reviewed native recipes for their distinct physical dispatch.

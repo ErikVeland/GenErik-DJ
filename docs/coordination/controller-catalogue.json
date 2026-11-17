@@ -13228,11 +13228,12 @@
     },
     {
       "id": "denonmc3000",
-      "name": "Denon MC3000 v0.995",
+      "name": "Denon MC3000",
       "manufacturer": "Denon",
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://cdn.inmusicbrands.com/denondj/legacy/mc3000/MC3000EM_ENG_IM_v00.pdf",
         "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20MC3000.midi.xml"
       ],
       "definitions": [

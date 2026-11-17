@@ -448,7 +448,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Denon DJ SC6000M PRIME | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DN SC2000 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20DN%20SC2000.midi.xml) |
 | Denon HS5500 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20DN%20HS5500.midi.xml) |
-| Denon MC3000 v0.995 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20MC3000.midi.xml) |
+| Denon MC3000 | primary | partial-midi-profile | [Reference](https://cdn.inmusicbrands.com/denondj/legacy/mc3000/MC3000EM_ENG_IM_v00.pdf) |
 | EKS Otus HID | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/EKS%20Otus.hid.xml) |
 | Electrix Tweaker | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Electrix%20Tweaker.midi.xml) |
 | FaderFox DJ2 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/FaderFoxDJ2.midi.xml) |

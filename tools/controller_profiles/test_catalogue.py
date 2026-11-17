@@ -817,6 +817,17 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_mc3000_factory_audit_keeps_automatic_selection_disabled(self):
+        cache = ROOT / "TestBuilds/r169/upstream"
+        if not cache.exists():
+            self.skipTest("Pinned source cache is unavailable.")
+        catalogue, runtime = build(cache, None)
+        model = next(m for m in catalogue["models"] if m["id"] == canonical("Denon MC3000"))
+        self.assertIn("https://cdn.inmusicbrands.com/denondj/legacy/mc3000/MC3000EM_ENG_IM_v00.pdf", model["sources"])
+        recipe = next(p for p in runtime["profiles"] if p["id"] == model["profile"])
+        self.assertFalse(recipe["autoSelect"])
+        self.assertFalse(model["theoreticalSupport"]["complete"])
+
     def test_portable_hercules_keep_distinct_loop_pages_and_lifecycle(self):
         star, mix = portable_profiles()
         self.assertEqual((len(star["inputs"]), len(mix["inputs"])), (58, 60))
