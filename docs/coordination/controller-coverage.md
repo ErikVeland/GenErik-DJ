@@ -3190,3 +3190,29 @@ All 170 other recipes remain unchanged. The bundled resource matches the source.
 Automatic core coverage stays at 150 physical models, including 65/122 benchmark models. Complete theoretical parity remains open.
 Repository checks retain twelve historical-link failures. No signed app, installation or physical acceptance occurred.
 Exact source identities, new research files and results are in ignored `TestBuilds/r286/validation.json`.
+
+## R287 Original U-Mix Control Pro core
+
+The [factory hardware guide](https://media.djmania.net/manuales/pdf/U-MIX_CONTROL_PRO_1.5.1_user_manual_0.pdf) identifies the original Pro and documents its internal-mixer audio route.
+The [factory MIDI appendix](https://manuals.plus/m/534f13fed15e77a7709306d246918757539a81c8a352f65475210943d6a927f9.pdf) distinguishes its touch and rim reports from non-Pro Control 2.
+The catalogue now includes this separate physical model. Pro 2 remains a separate identity.
+Native fixed scratch uses full-value touch and default 1024-count calibration. No original-Pro sensor count is published.
+
+This recipe follows the factory CC 5 Load A row. It accepts the first positive CC press and rejects repeated held reports.
+Control 2 retains its published working Note 5. The conflicting Load formats remain explicit.
+Shared shifted-release mappings now rearm all normal buttons, including Play and Load, on both original models.
+Positive shifted reports cannot trigger the normal actions.
+The original Pro adds its documented monitor-blend control. Hardware headphone volume stays separate.
+Factory Dual Stereo routing supplies master 1–2 and headphones 3–4. Mac installation needs no separate driver in the guide.
+Only this internal route is declared. External mixing, capture/input switching and physical USB/audio acceptance remain open.
+
+Both original models retain six cues, native loops, bounded steady feedback and 62 lifecycle messages.
+Full Pitch Mode/Vinyl/FX/EQ-kill modes, held cue-pad preview, animation, complete reset and jog calibration remain open.
+All fifteen focused Swift tests, including 26 parameterised audio cases, 118 importer checks and native iPad framework compilation pass.
+Real-file fixtures verify count-scaled touch motion, rim suppression, Shift cleanup, loops and saved Sync on both original models.
+Audio fixtures verify repeated detection, unchanged samples and recovery without speaker fallback.
+The first Python run counted new release-only Load aliases as new press bindings. The corrected assertion checks normal press bindings. The failed log remains preserved.
+All 170 other recipes remain unchanged. The bundled resource matches the source.
+Automatic core coverage reaches 151 physical models, including 65/122 benchmark models. Complete theoretical parity remains open.
+Repository checks retain twelve historical-link failures. No signed app, installation or physical acceptance occurred.
+Exact source identities and results are in ignored `TestBuilds/r287/validation.json`.

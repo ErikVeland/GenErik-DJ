@@ -29,7 +29,7 @@ import Testing
     #expect(profile != ControllerFactoryProfile.matching(["U-Mix Control Pro"]))
     #expect(!profile.hasAutomaticSplitOutput)
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 71 && data.outputs.count == 28)
+    #expect(data.inputs.count == 84 && data.outputs.count == 28)
     #expect(data.startup.count == 31 && data.shutdown.count == 31)
     #expect(!data.inputs.contains { [.jogTouchA, .jogTouchB, .jogA, .jogB, .monitor, .cueMix].contains($0.action) })
     #expect(data.inputs.filter { $0.action.isJog }.allSatisfy { $0.argument == nil })
@@ -97,5 +97,16 @@ import Testing
         input.receive(.init(kind: .note, channel: 0, number: 2, value: 127), source: 11)
         input.flushPendingActions()
         #expect(events == 0)
+    }
+}
+
+@Test @MainActor func controllerCatalogueUMixControl2ShiftedButtonReleasesRearmPlayAndGlobalLoad() {
+    withUMixControl2 { input in
+        var actions: [ControllerAction] = []
+        input.onTargetAction = { target, _ in actions.append(target.action) }
+        umixControl2Packet([0x90, 2, 127, 0x92, 5, 127, 2, 127], to: input)
+        umixControl2Packet([0x83, 2, 127, 0x85, 5, 127, 0x92, 2, 0], to: input)
+        umixControl2Packet([0x90, 2, 127, 0x92, 5, 127], to: input)
+        #expect(actions == [.playA, .loadA, .playA, .loadA])
     }
 }

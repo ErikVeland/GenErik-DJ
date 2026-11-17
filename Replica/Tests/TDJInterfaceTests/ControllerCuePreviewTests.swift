@@ -990,3 +990,24 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueOriginalUMixProNativeTouchRimAndShiftReleaseKeepSync() async throws {
+    try await withControllerCuePlayback("U-MIX CONTROL PRO") { model, input in
+        cuePreviewPacket([0x90, 22, 127, 0xB0, 22, 66, 23, 127], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        #expect(
+            abs(
+                (model.playbackSnapshot?.a.sourceFrame ?? -1) - sampleRate * 1.8 * 2
+                    / ControllerCountJogMotion.defaultResolution) <= 1)
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        cuePreviewPacket([0x92, 2, 127, 0x83, 22, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(!model.controllerJogTouched.contains(.a))
+        cuePreviewPacket([0x92, 2, 0, 0x90, 1, 127, 0x80, 1, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

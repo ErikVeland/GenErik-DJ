@@ -9,7 +9,7 @@ UMIX2_GUIDE = "https://manuals.plus/m/534f13fed15e77a7709306d246918757539a81c8a3
 UMIX2_REFERENCES = {"MixVibes U-Mix Control 2": {
     "url": UPSTREAM + UMIX2_XML.replace(" ", "%20"), "sha256": UMIX2_SHA,
     "relatedSources": [{"url": UMIX2_GUIDE, "pages": [121, 122, 123, 124, 125, 126]}],
-    "review": "Factory guide explicitly distinguishes non-touch Control2 from original touch Pro; Pro2 is another model. Control2 wheels are centre64 CC22, with no contact or rim messages. Native unheld wheel behaviour uses default calibration. Factory relative loop/browser encoding is signed127/1 with64 negative. Published six cue addresses, direct source Note Load5/6, native held Cue/bend, source keylock on PitchMode8, inverse centred pitch, mixer and loop controls retain source facts. Factory table calls LoadA CC5 while the pinned mapping uses Note5; this recipe follows the working Note form and leaves CC5 inactive. Factory Loop push Note13 and rotation CC13 correct the source's incomplete/asymmetric loop mapping. Global Shift2 on mixer channel2 blocks unsupported layers; shifted release-only contacts cannot trigger normal actions. Feedback uses steady127/0, not source beat/clip animation. Setup/shutdown own62 messages. Full three-state pitch/Vinyl/FX/EQ-kill modes, held Hot Cue preview, complete feedback/reset and physical calibration remain open. No audio interface, Pro touch or Pro2 340-count scale is inferred.",
+    "review": "Factory guide explicitly distinguishes non-touch Control2 from original touch Pro; Pro2 is another model. Control2 wheels are centre64 CC22, with no contact or rim messages. Native unheld wheel behaviour uses default calibration. Factory relative loop/browser encoding is signed127/1 with64 negative. Published six cue addresses, direct source Note Load5/6, native held Cue/bend, source keylock on PitchMode8, inverse centred pitch, mixer and loop controls retain source facts. Factory table calls LoadA CC5 while the pinned mapping uses Note5; this recipe follows the working Note form and leaves CC5 inactive. Factory Loop push Note13 and rotation CC13 correct the source's incomplete/asymmetric loop mapping. Global Shift2 on mixer channel2 blocks unsupported layers; shifted release-only contacts cannot trigger normal actions and rearm every normal button. Feedback uses steady127/0, not source beat/clip animation. Setup/shutdown own62 messages. Full three-state pitch/Vinyl/FX/EQ-kill modes, held Hot Cue preview, complete feedback/reset and physical calibration remain open. No audio interface, Pro touch or Pro2 340-count scale is inferred.",
 }}
 
 
@@ -39,7 +39,7 @@ def umix2_profiles():
     normal = list(result["inputs"])
     for row in normal:
         row["shifted"] = False
-        if row["action"].startswith(("cuePreview", "pitchBend", "hotcue")):
+        if row["kind"] == "note":
             release = deepcopy(row)
             release.update(channel=row["channel"] + 3, releaseOnly=True)
             release.pop("shifted")

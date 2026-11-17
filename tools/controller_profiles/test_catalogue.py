@@ -78,6 +78,7 @@ from mix101 import mix101_profiles
 from tek2 import tek2_profiles, TEK2_SOURCES
 from kdj500 import kdj_profiles, KDJ_SOURCES
 from umix_control2 import umix2_profiles, UMIX2_SHA
+from original_umix_pro import original_umix_profiles, ORIGINAL_UMIX_SHA
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -859,13 +860,26 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_original_umix_pro_retains_factory_touch_rim_load_and_split_audio(self):
+        item, = original_umix_profiles()
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (91, 28))
+        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 62)
+        self.assertEqual(item["audioOutput"], "masterAndHeadphones")
+        self.assertEqual(next((r["kind"], r["number"]) for r in item["inputs"] if r["action"] == "loadA"), ("control", 5))
+        self.assertEqual([r["number"] for r in item["inputs"] if r["action"].startswith("wheelJog")], [23, 23])
+        self.assertTrue(all(r.get("requiresTouch") and "argument" not in r for r in item["inputs"] if r["action"] in {"jogA", "jogB"}))
+        path = ROOT / "TestBuilds/r286/manufacturer/umix-pro-hardware-guide.pdf"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), ORIGINAL_UMIX_SHA)
+
     def test_umix_control2_non_touch_core_uses_factory_loop_and_separate_source_load(self):
         item, = umix2_profiles()
         self.assertTrue(item["autoSelect"])
-        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (71, 28))
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (84, 28))
         self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 62)
         self.assertFalse(any(r["action"].startswith("jogTouch") for r in item["inputs"]))
-        self.assertEqual([(r["kind"], r["number"]) for r in item["inputs"] if r["action"].startswith("load")], [("note", 5), ("note", 6)])
+        self.assertEqual([(r["kind"], r["number"]) for r in item["inputs"] if r["action"].startswith("load") and not r.get("releaseOnly")], [("note", 5), ("note", 6)])
         self.assertEqual([r["number"] for r in item["inputs"] if r["action"].startswith("hotcue6")], [26, 26, 26, 127, 26, 127])
         self.assertNotIn("audioOutput", item)
         path = ROOT / "TestBuilds/r169/upstream/res/controllers/MixVibes U-Mix Control 2.midi.xml"
@@ -1618,7 +1632,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
             self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertFalse(model["theoreticalSupport"]["complete"])
-            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad"})
+            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad", "MixVibes U-Mix Control Pro"})
 
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]
