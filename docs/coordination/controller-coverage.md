@@ -2560,3 +2560,28 @@ All 164 other recipes remain unchanged. The bundled resource matches the source.
 Automatic core coverage reaches 121 factory profiles for 129 models, plus six other native models. Benchmark coverage remains 62/122.
 Repository checks retain twelve existing historical-link failures. Full feature parity and physical acceptance remain open. No signed app or installation occurred.
 Exact logs and source hashes are in ignored `TestBuilds/r259/validation.json`.
+
+## R260 Stanton DJC.4 default-bank native core
+
+The pinned working XML/script provide four deck channels, normal/Shift addresses and the 128-count jog scale.
+The mirrored [factory guide](https://manualzz.com/doc/4156007/stanton-djc.4-controller-user-manual) confirms default channels 1–4 and HOLD Shift.
+Its [structured MIDI table](https://www.scribd.com/document/361336662/DJC-4ManualV1-1) confirms shifted bend release notes 69/70, absent from the working XML.
+The PDF download returned a web challenge; the original manufacturer URL returned 404. No downloaded factory PDF is claimed.
+
+Native fixed touch scratch replaces source RPM mode changes and its undefined strip-search scale.
+Physical Shift preserves alternate Cue/contact/bend releases and rearms ordinary buttons.
+Deck selection releases contacts and rearms pickup on the physical A/C or B/D side while retaining held Shift.
+C/D keep the app's existing opt-in. Other MIDI channel banks and custom hardware settings stay separate.
+Native four-cue layout, separate shifted Cue Set, full pitch, mixer/filter, manual loops and loop-size buttons retain explicit source addresses.
+Browsing accepts only source values 65/63. Full folder focus/page semantics, held loop adjustment, roll, source Cue-stop and shifted search remain open.
+
+Forty native cue/transport/PFL/key/loop outputs and four fixed Scratch indicators fit 48 lifecycle messages.
+The source full factory reset exceeds the lifecycle budget and is not copied. Remaining LED/meter cleanup, EQ kill, FX and samplers stay open.
+Master/microphone hardware gain is not duplicated in software.
+The [mapping author](https://manual.mixxx.org/2.5/en/hardware/controllers/stanton_djc_4) documents master 1–2/headphones 3–4, now using the shared automatic route and recovery fixtures.
+
+All eleven focused Swift tests, including parameterised audio cases, 93 importer checks and native iPad framework compilation pass.
+All 164 other recipes remain unchanged. The bundled resource matches the source.
+Automatic core coverage reaches 122 factory profiles for 130 models, plus six other native models. Benchmark coverage remains 62/122.
+Repository checks retain twelve existing historical-link failures. Full feature parity, calibration and physical acceptance remain open. No signed app or installation occurred.
+Exact logs, source hashes and download failures are in ignored `TestBuilds/r260/validation.json`.

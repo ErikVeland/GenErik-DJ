@@ -26554,17 +26554,22 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-DJC-4.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-DJC-4.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-DJC-4.midi.xml"
       ],
       "definitions": [
-        "Stanton-DJC-4.midi.xml"
+        "Stanton-DJC-4.midi.xml",
+        "manufacturer:stantondjc4"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Stanton DJC.4",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browse",
+        "browseNextGroup",
+        "browsePreviousGroup",
         "crossfader",
         "cueA:a",
         "cueA:c",
@@ -26575,6 +26580,10 @@
         "cuePreviewA:c",
         "cuePreviewB:b",
         "cuePreviewB:d",
+        "cueSetA:a",
+        "cueSetA:c",
+        "cueSetB:b",
+        "cueSetB:d",
         "filterKnobA:a",
         "filterKnobA:c",
         "filterKnobB:b",
@@ -26603,6 +26612,14 @@
         "hotcue4A:c",
         "hotcue4B:b",
         "hotcue4B:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
         "keylockA:a",
         "keylockA:c",
         "keylockB:b",
@@ -26612,6 +26629,7 @@
         "levelB:b",
         "levelB:d",
         "loadA:a",
+        "loadA:c",
         "loadB:b",
         "loadB:d",
         "loopA:a",
@@ -26622,6 +26640,18 @@
         "loopDownA:c",
         "loopDownB:b",
         "loopDownB:d",
+        "loopEnableA:a",
+        "loopEnableA:c",
+        "loopEnableB:b",
+        "loopEnableB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
         "loopUpA:a",
         "loopUpA:c",
         "loopUpB:b",
@@ -26635,11 +26665,19 @@
         "midB:b",
         "midB:d",
         "monitor",
-        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
         "playA:a",
         "playA:c",
         "playB:b",
         "playB:d",
+        "shift",
         "syncA:a",
         "syncA:c",
         "syncB:b",
@@ -26649,38 +26687,36 @@
         "tempoB:b",
         "tempoB:d"
       ],
-      "inputBindingCount": 83,
+      "inputBindingCount": 202,
       "feedbackBindingCount": 40,
       "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "audioRouting": "Automatic master 1–2 / headphones 3–4",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Factory MIDI channels1–4 and HOLD Shift. Other channel banks/custom settings require separate profiles."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": true,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 263,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -315501,6 +315537,40 @@
       },
       "implementedInputCount": 124,
       "implementedOutputCount": 24,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:stantondjc4",
+      "name": "Stanton DJC.4",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-DJC-4.midi.xml",
+        "sha256": "e7b4cca84354be02d3c627054e187d7e0b66cbfb51bbae6dced9b2b339c97f26",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-DJC-4-scripts.js",
+            "sha256": "c0615669dd9f46cf92f46066ec00142d9b7e42dccb9a249abebcbc57bccb54d4"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/stanton_djc_4"
+          },
+          {
+            "url": "https://manualzz.com/doc/4156007/stanton-djc.4-controller-user-manual"
+          },
+          {
+            "url": "https://www.scribd.com/document/361336662/DJC-4ManualV1-1"
+          }
+        ],
+        "review": "Pinned working XML/script qualify four deck channels, source128-count centre64 jogs and explicit normal/Shift touch addresses. Native fixed scratch omits source playing/paused RPM changes and undefined stripSearchScaling. Physical Shift stays source-local; alternate releases retain Cue/contact/bend ownership and rearm buttons. Factory guide confirms default channels1..4/HOLD Shift and distinct shifted bend releases69/70. Deck notes17/67 release physical-side contacts and rearm pickup without dropping global Shift. Full pitch, five mixer controls, shifted filter and separate shifted Cue Set use native contracts. Loop buttons keep native current-size enable, toggle, In/Out and halve/double; source held adjustment, loop movement, roll, Cue-stop and Shift fast search remain open. Strict65/63 browsing omits source page/focus semantics. Native transport/PFL/key/loop and four cue LEDs per deck use on127/off0, with fixed Scratch indicators and48 lifecycle messages. Full factory reset exceeds the lifecycle budget and is not copied. Source master/microphone are hardware gain, not duplicated in software. The mapping author documents master1/2/headphones3/4. Source modes, alternate channel banks, EQ kill, FX/samplers, remaining feedback, calibration and physical acceptance remain open."
+      },
+      "implementedInputCount": 202,
+      "implementedOutputCount": 40,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

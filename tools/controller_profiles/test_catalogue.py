@@ -57,6 +57,7 @@ from original300 import original300_profiles, ORIGINAL300_SOURCES
 from total_omni import total_omni_profiles, TOTAL_OMNI_SOURCES
 from xsession_pro import xsession_pro_profiles, XSESSION_SOURCES
 from cmd_studio4a import studio4a_profiles, STUDIO4A_SOURCES
+from stanton_djc4 import djc4_profiles, DJC4_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -860,6 +861,20 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
+    def test_djc4_uses_default_bank_explicit_shift_releases_and_safe_lifecycle(self):
+        result = djc4_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (202, 40))
+        self.assertEqual(len(result["startup"]) + len(result["shutdown"]), 48)
+        self.assertEqual(len(result["bankChanges"]), 8)
+        self.assertTrue(all(r["releaseShiftChannels"] == [] for r in result["bankChanges"]))
+        self.assertTrue(all(r["number"] == 69 and r["releaseOnly"] for r in result["inputs"] if r["action"] in {"pitchBendDownA", "pitchBendDownB"} and r["shifted"]))
+        self.assertFalse(any(r["action"] == "master" for r in result["inputs"]))
+        self.assertEqual(result["audioOutput"], "masterAndHeadphones")
+        for name, digest in DJC4_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_studio4a_retains_source_deck_channels_and_reversed_right_loop_buttons(self):
         result = studio4a_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (124, 24))
@@ -1217,7 +1232,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
             self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertFalse(model["theoreticalSupport"]["complete"])
-            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a"})
+            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4"})
 
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]
