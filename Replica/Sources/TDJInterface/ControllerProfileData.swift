@@ -136,6 +136,8 @@ struct ControllerProfileData: Decodable, Sendable {
                         || ($0.kind == .note && [.jogTouchA, .jogTouchB].contains($0.action)))
                     && ($0.encoding != .lc6000Jog || $0.action.isJog)
                     && ($0.encoding != .readyTempo || [.tempoA, .tempoB].contains($0.action))
+                    && ($0.encoding != .compactTempo
+                        || ($0.kind == .control && [.tempoA, .tempoB].contains($0.action)))
                     && ($0.releaseOnly != true || ($0.kind == .note && $0.action.isButton && $0.action != .shift))
                     && ($0.pulse != true
                         || ($0.kind == .note && $0.encoding == .absolute && $0.action.isButton

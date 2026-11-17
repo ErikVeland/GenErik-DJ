@@ -576,3 +576,14 @@ The documented master1/2/headphones3/4 layout uses the shared known-device route
 Full factory startup clear and native-owned shutdown total 51 messages. The validated lifecycle limit is now 64, with a 65-message rejection fixture.
 This work runs at discovery/disconnect, without source JS, timers or new audio-render work.
 P8/iPad variants, other controls/modes, pressure/EQ calibration, firmware-specific light behaviour and physical acceptance remain open.
+
+## Compact factory volume and Shift tempo — R249
+
+`hercules_compact.py` uses factory deck level and two-band EQ, correcting the source pregain assignment.
+`compactTempo` preserves signed-square Shift jog response and inverse Mixxx rate polarity through existing native relative tempo handling.
+The factory-only codec requires seven-bit CC input and tempo actions. Zero leaves the saved tempo unchanged.
+The source's tempo-corrupting state query and forced default-rate reset are omitted. Physical knobs retain pickup.
+Normal wheels use native nudge/paused seek. No fabricated touch contact, source timers or JS run in the app.
+Hardware pages use distinct pad addresses. Alternate releases preserve Cue and rearm one-press controls.
+Transport LEDs use explicit normal/shift addresses. Only reviewed feedback/Auto/Record addresses receive lifecycle clears.
+Synthetic scratch, advanced functions, full feedback/cleanup, EQ calibration and physical acceptance remain open.

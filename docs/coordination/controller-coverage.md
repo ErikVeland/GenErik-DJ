@@ -2310,3 +2310,23 @@ The exporter reads factory one-shots and preset beat positions from a local Appl
 The app saves imported kits and adds them to the existing kit selector. It keeps the original preset timing, including hits between steps. Editing the MX2 pads switches that pattern to the 16-step grid. The two X1 Mk3 FX OLEDs show the kit, sample and pattern, with a cursor while the clock runs. The app sends display updates through the existing bridge. [NI X1 Mk3 controls](https://docs.native-instruments.com/ni-tech-manuals/traktor-x1-mk3-manual/en/using-the-pattern-player) · [OLED report layout](https://github.com/RufusIbiza/Encdr/blob/main/docs/hardware/ni_kontrol_x1_mk3.md).
 
 The off-device checks exported 16 kits from the signed Traktor Pro 4.0.0 installer. The app imported and reopened the library, skipped duplicate kits and played the exported 808 kick. The synthetic timing check retained an off-grid hit. The bridge tests checked the OLED report IDs, length, pattern bits and cursor. [Build 212](../testing/builds/212.json) passed signing and runtime checks. Physical OLED response and A10X performance remain open.
+
+## R249 Compact factory volume and accelerated Shift tempo
+
+The Compact recipe follows the [factory MIDI table](https://ts.hercules.com/download/sound/manuals/DJC_Compact/DJC_Compact_MIDI_Mapping.pdf) and pinned Mixxx source.
+Factory VOL controls deck level, correcting the old source's pregain choice. Mid and Low retain the physical two-band layout.
+Normal jogs use native wheel nudge and paused seek. Shift jog preserves the source's signed-square tempo response and rate polarity.
+A factory-only codec rejects other message kinds. Zero steps preserve saved tempo.
+The source state query corrupts pitch and then resets both decks. Native startup omits that query and retains pickup.
+Cue release aliases cover hardware Shift changes. Distinct cue/loop addresses keep FX, samples and unsupported shifted presses inactive.
+The four-cue page, eight-beat loop, reloop and half/double use reviewed addresses.
+Play/Sync feedback uses both normal/shift factory LED addresses. Lifecycle clear covers only these and known Auto/Record indicators.
+
+All 36 focused Swift checks, 82 importer checks and native iPad framework compilation pass.
+All 164 other recipes remain unchanged. The bundled iPad resource matches the source.
+The catalogue has 114 automatic factory profiles for 120 physical models, plus six other automatic native models.
+The pinned benchmark remains 62/122 models. Automatic core coverage does not establish complete feature parity.
+Repository checks retain twelve existing historical-link failures.
+Synthetic scratch, shifted start/stop, held cue previews, recording, AutoDJ, FX/samples, rolls, pad feedback and full cleanup remain open.
+Factory EQ direction wording needs calibration. No hardware test, signed app or installation occurred.
+Exact logs, source hashes and factory PDF are in ignored `TestBuilds/r249/validation.json`.

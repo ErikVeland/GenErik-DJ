@@ -47,6 +47,7 @@ from ready import ready_profiles, READY_SOURCES
 from mixer_one import mixer_one_profiles, MIXER_ONE_SOURCES
 from umix_pro2 import umix_pro2_profiles, UMIX_PRO2_SOURCES
 from instinct import instinct_profiles, INSTINCT_SOURCES
+from hercules_compact import hercules_compact_profiles, HERCULES_COMPACT_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -828,6 +829,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_hercules_compact_keeps_factory_volume_and_skips_destructive_query(self):
+        result = hercules_compact_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (55, 8))
+        self.assertEqual([r["number"] for r in result["inputs"] if r["action"] in {"levelA", "levelB"}], [0x39, 0x3D])
+        self.assertFalse(any(r["action"] in {"gainA", "gainB", "highA", "highB", "jogTouchA", "jogTouchB"} for r in result["inputs"]))
+        self.assertTrue(all(r["encoding"] == "compactTempo" and r["inverted"] for r in result["inputs"] if r["action"] in {"tempoA", "tempoB"}))
+        self.assertTrue(all(packet[0] == 0x90 for packet in result["startup"] + result["shutdown"]))
+        self.assertEqual(result["startup"], result["shutdown"])
+        for name, digest in HERCULES_COMPACT_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_instinct_factory_rows_override_conflicting_legacy_jog_and_led_data(self):
         result = instinct_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (51, 6))

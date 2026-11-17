@@ -14998,22 +14998,22 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Compact.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Compact.midi.xml",
+        "https://ts.hercules.com/download/sound/manuals/DJC_Compact/DJC_Compact_MIDI_Mapping.pdf"
       ],
       "definitions": [
-        "Hercules DJControl Compact.midi.xml"
+        "Hercules DJControl Compact.midi.xml",
+        "manufacturer:herculesdjcontrolcompact"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Hercules DJControl Compact",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "crossfader",
         "cuePreviewA:a",
         "cuePreviewB:b",
-        "gainA:a",
-        "gainB:b",
         "hotcue1A:a",
         "hotcue1B:b",
         "hotcue2A:a",
@@ -15022,8 +15022,8 @@
         "hotcue3B:b",
         "hotcue4A:a",
         "hotcue4B:b",
-        "loopA:a",
-        "loopB:b",
+        "levelA:a",
+        "levelB:b",
         "loopDownA:a",
         "loopDownB:b",
         "loopUpA:a",
@@ -15034,41 +15034,47 @@
         "midB:b",
         "playA:a",
         "playB:b",
+        "reloopA:a",
+        "reloopB:b",
         "syncA:a",
-        "syncB:b"
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 27,
-      "feedbackBindingCount": 23,
+      "inputBindingCount": 55,
+      "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 101,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -314554,6 +314560,42 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:herculesdjcontrolcompact",
+      "name": "Hercules DJControl Compact",
+      "transport": "midi",
+      "source": {
+        "url": "https://ts.hercules.com/download/sound/manuals/DJC_Compact/DJC_Compact_MIDI_Mapping.pdf",
+        "sha256": "3c42f8172aac1568a95df90cfba998180131dd0e888113a2592ad28ce1c887c2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Compact.midi.xml",
+            "sha256": "a598e43feda6b1d48efda26e33a41fa258e88bc15b4100ec6fae399dac1374dd"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJControl-Compact-scripts.js",
+            "sha256": "17ba587adeccad7d91f13bede5c97a50dde8514ed45156277319d0407efe9bd0"
+          }
+        ],
+        "review": "Factory channel-zero layout uses distinct hardware pad/mode and Shift addresses. Factory VOL controls deck level, correcting the community pregain assignment. Two-band Mid/Low remains physical, without an invented High control. Normal jogs use native wheel nudge/paused seek, without a fabricated touch sensor or source scratch timers. Shift jog preserves source signed-square tempo increments and inverse Mixxx rate polarity through a factory-only codec. The source state query explicitly corrupts tempo and resets both decks, so native startup omits it and keeps pickup. Cue and shifted cue releases share momentary ownership. Cue pads, eight-beat loop, reloop/half/double follow the pinned source. Play/Sync feedback has distinct normal/shift LED addresses. Native startup/shutdown clears only reviewed feedback plus unsupported Auto/Record indicators. Source synthetic scratch, shifted start/stop, recording, AutoDJ, rolls, FX/samples, full feedback/cleanup, EQ direction calibration and physical acceptance remain open. No Load/browser/PFL or audio interface is invented."
+      },
+      "implementedInputCount": 55,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         }
       ]
     },

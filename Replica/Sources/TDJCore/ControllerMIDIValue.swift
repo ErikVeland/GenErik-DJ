@@ -5,13 +5,13 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         signedBit
     case numarkPlatinumJog, denonJog, zeroForward, mc7000Jog, dj2go2Jog, signedStep
     case binaryStep, binaryDirection, centreDetent, centredPitch, mixstreamJog, cyclic14BitJog, vci300Tempo,
-        vci100MK2Tempo, lc6000Jog, readyTempo
+        vci100MK2Tempo, lc6000Jog, readyTempo, compactTempo
     case cdjPlatterSpeed, cdjRingSpeed, cdj350PlatterSpeed, cdjTempo, needlePosition
     public var isRelative: Bool {
         [
             .twosComplement, .binaryOffset, .signedBit, .paired14BitRelative, .numarkPlatinumJog, .denonJog,
             .zeroForward, .mc7000Jog, .dj2go2Jog, .signedStep, .binaryStep, .binaryDirection, .mixstreamJog,
-            .cyclic14BitJog, .lc6000Jog,
+            .cyclic14BitJog, .lc6000Jog, .compactTempo,
         ]
         .contains(self)
     }
@@ -21,7 +21,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     }
     public var supportsLearning: Bool {
         !isContactGate && self != .mixstreamJog && self != .cyclic14BitJog && self != .vci100MK2Tempo
-            && self != .lc6000Jog && self != .readyTempo
+            && self != .lc6000Jog && self != .readyTempo && self != .compactTempo
     }
     public var isContactGate: Bool { self == .touchGate || self == .fullVelocityGate }
     public var title: String {
@@ -40,6 +40,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         case .vci100MK2Tempo: "VCI-100MKII tempo fader"
         case .lc6000Jog: "LC6000 direction and jog movement"
         case .readyTempo: "Ready ten-bit tempo fader"
+        case .compactTempo: "Compact accelerated tempo steps"
         case .dj2go2Jog: "DJ2GO2 Touch jog"
         case .signedStep: "Encoder: 1 / 127, single step"
         case .denonJog: "Denon jog"
@@ -87,6 +88,13 @@ public struct ControllerMIDIValueState: Sendable {
         if message.kind.isRelativeController {
             guard message.number == number, encoding == .absolute else { return nil }
             return .relative(Double(max(-127, min(127, message.value))))
+        }
+        if encoding == .compactTempo {
+            guard message.kind == .control, message.maximum == 127, message.number == number,
+                (0...127).contains(message.value)
+            else { return nil }
+            let steps = message.value < 64 ? message.value : message.value - 128
+            return .relative(Double(steps * abs(steps)) * 127 / 2000)
         }
         if encoding == .centredPitch {
             guard message.kind == .pitch, message.maximum == 16383, message.number == number else { return nil }
