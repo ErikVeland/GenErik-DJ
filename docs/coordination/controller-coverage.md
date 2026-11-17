@@ -2,6 +2,27 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R246 Mixer One four-target native mixer core
+
+Mixer One gains an automatic mixer/accessory core. Published XML gives each target its own wire channel from 0xB5 through 0xB8.
+Each physical side uses its documented gain/EQ/level/PFL addresses. C/D retain the app's deck-availability limits.
+The global master/headphone/cue-mix/crossfader strip retains both published channel-5/channel-7 address sets.
+PFL feedback uses the XML's own note addresses and on/off values.
+
+Native pickup protects continuous controls. Published Clear Meter reports rearm all four deck targets without inferring a new deck.
+Startup clears the twelve unsupported EQ-kill indicators and eight meter addresses.
+Shutdown clears all declared PFL and meter indicators. The lifecycle total is exactly 32 messages.
+Live VU feedback remains open. Fader position is not used as an audio-level measurement.
+The source's inverse master-mute restore, EQ-kill actions and crossfader curve/balance control remain unmapped.
+These controls need native ownership/state contracts before they can safely change a live mix.
+
+All 36 targeted Swift checks, 79 importer/report checks and native iPad compilation pass.
+The bundled resource matches the source. All 164 other recipes remain unchanged.
+Factory coverage reaches 111 profiles for 117 physical models, plus six other native models.
+The repository check retains twelve existing historical-link failures.
+Source identities and results appear in `TestBuilds/r246/validation.json`.
+Audio routing, full control/feedback coverage and physical acceptance remain open. No signed app or installation was produced.
+
 ## R245 RANE FOUR experimental-source audit
 
 The existing RANE FOUR record now links a pinned community mapping and its source history.

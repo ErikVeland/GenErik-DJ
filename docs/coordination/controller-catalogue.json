@@ -11655,16 +11655,18 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mixer%20One.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mixer%20One.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mixer%20One.midi.xml"
       ],
       "definitions": [
-        "DJ-Tech Mixer One.midi.xml"
+        "DJ-Tech Mixer One.midi.xml",
+        "manufacturer:djtechmixerone"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "DJ-Tech Mixer One",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "crossfader",
         "cueA:a",
@@ -11700,33 +11702,31 @@
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 30,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -314420,6 +314420,35 @@
       },
       "implementedInputCount": 138,
       "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:djtechmixerone",
+      "name": "DJ-Tech Mixer One",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mixer%20One.midi.xml",
+        "sha256": "c895e5904a8de34494f2b74cbeca06fbd835c879683d968cc150b485331ccbc8",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mixer%20One.midi.xml",
+            "sha256": "c895e5904a8de34494f2b74cbeca06fbd835c879683d968cc150b485331ccbc8"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech-Mixer-One-scripts.js",
+            "sha256": "5a08166293187281e59bcea4cf646f6d987a107c0c17d9ee754089420e964b21"
+          }
+        ],
+        "review": "Published XML gives four explicit mixer targets on wire channels 5,6,7,8, with different address sets on each physical side. Global controls are duplicated only on channels 5 and 7. Native pickup protects levels and EQ. Published Clear Meter events rearm pickup without guessing a target from bank state. PFL feedback follows XML. Startup clears twelve unsupported EQ-kill indicators and eight source meter addresses; shutdown clears declared PFL and meter outputs. Total lifecycle packets are exactly 32. Meters are not mapped to fader positions. Source master-mute restore, crossfader curve/balance, EQ-kill controls, live VU feedback, routing and physical acceptance remain open."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 4,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

@@ -540,3 +540,12 @@ Hot Cue, Auto Loop and manual-loop pages have independent per-deck guards. Other
 Native cues retain existing one-press behaviour. Source held previews and mode-dependent pad feedback remain open.
 Startup clears sixteen RGB pads; MODE indicators are firmware-owned. Lifecycle setup totals 28 messages.
 Buddy, source Vinyl/search modes, full pads/FX/feedback/cleanup, audio routing, calibration and physical acceptance remain open.
+
+## Mixer One explicit mixer targets — R246
+
+`mixer_one.py` retains all four published mixer channels and side-specific gain/EQ/level/PFL addresses.
+Global controls use both source address sets. C/D honour existing app availability.
+Clear Meter reports rearm deck pickup without inferring a bank target.
+Startup clears unsupported EQ-kill lights and known meter addresses. Shutdown clears PFL and meters.
+The lifecycle total is 32 messages. Live meter values, inverse mute restore, EQ kill and crossfader curve/balance remain open.
+No source JS, timers, guessed meter values or audio-routing declarations run in the app.

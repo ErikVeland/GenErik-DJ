@@ -44,6 +44,7 @@ from lc6000 import lc6000_profiles, LC6000_SOURCES
 from vci100 import vci100_profiles, VCI100_SOURCES
 from xone_k import xone_k_profiles, XONE_SOURCES
 from ready import ready_profiles, READY_SOURCES
+from mixer_one import mixer_one_profiles, MIXER_ONE_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -825,6 +826,18 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_mixer_one_keeps_four_explicit_targets_and_source_meter_cleanup(self):
+        result = mixer_one_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (32, 4))
+        self.assertEqual([(r["channel"], r["targetDeck"], r["number"]) for r in result["inputs"] if r["action"] in {"levelA", "levelB"}], [(5, "a", 20), (6, "b", 25), (7, "c", 20), (8, "d", 25)])
+        self.assertEqual({r["channel"] for r in result["inputs"] if r["action"] == "master"}, {5, 7})
+        self.assertEqual(len(result["startup"]) + len(result["shutdown"]), 32)
+        self.assertFalse(any(r["kind"] == "control" for r in result["outputs"]))
+        for name, digest in MIXER_ONE_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_ready_keeps_measured_ten_bit_travel_and_hardware_layer_addresses(self):
         result = ready_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (138, 8))

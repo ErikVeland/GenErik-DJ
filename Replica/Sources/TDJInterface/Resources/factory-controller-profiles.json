@@ -19085,76 +19085,12 @@
       "id": "DJ-Tech Mixer One",
       "aliases": [
         "DJ-Tech Mixer One",
-        "MIXER1",
-        "Mixer One"
+        "Mixer One",
+        "MIXER1"
       ],
-      "definition": "DJ-Tech Mixer One.midi.xml",
+      "definition": "manufacturer:djtechmixerone",
       "inputs": [
         {
-          "action": "master",
-          "kind": "control",
-          "channel": 5,
-          "number": 11,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "master",
-          "kind": "control",
-          "channel": 7,
-          "number": 11,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "monitor",
-          "kind": "control",
-          "channel": 5,
-          "number": 12,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "monitor",
-          "kind": "control",
-          "channel": 7,
-          "number": 12,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "cueMix",
-          "kind": "control",
-          "channel": 5,
-          "number": 13,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "cueMix",
-          "kind": "control",
-          "channel": 7,
-          "number": 13,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "crossfader",
-          "kind": "control",
-          "channel": 5,
-          "number": 15,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "crossfader",
-          "kind": "control",
-          "channel": 7,
-          "number": 15,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
           "action": "gainA",
           "kind": "control",
           "channel": 5,
@@ -19191,15 +19127,6 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueA",
-          "kind": "note",
-          "channel": 5,
-          "number": 7,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
           "action": "levelA",
           "kind": "control",
           "channel": 5,
@@ -19209,58 +19136,13 @@
           "targetDeck": "a"
         },
         {
-          "action": "gainA",
-          "kind": "control",
-          "channel": 7,
-          "number": 16,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "c"
-        },
-        {
-          "action": "highA",
-          "kind": "control",
-          "channel": 7,
-          "number": 17,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "c"
-        },
-        {
-          "action": "midA",
-          "kind": "control",
-          "channel": 7,
-          "number": 18,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "c"
-        },
-        {
-          "action": "lowA",
-          "kind": "control",
-          "channel": 7,
-          "number": 19,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "c"
-        },
-        {
           "action": "cueA",
           "kind": "note",
-          "channel": 7,
+          "channel": 5,
           "number": 7,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "c"
-        },
-        {
-          "action": "levelA",
-          "kind": "control",
-          "channel": 7,
-          "number": 20,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "c"
+          "targetDeck": "a"
         },
         {
           "action": "gainB",
@@ -19299,6 +19181,15 @@
           "targetDeck": "b"
         },
         {
+          "action": "levelB",
+          "kind": "control",
+          "channel": 6,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
           "action": "cueB",
           "kind": "note",
           "channel": 6,
@@ -19308,13 +19199,58 @@
           "targetDeck": "b"
         },
         {
-          "action": "levelB",
+          "action": "gainA",
           "kind": "control",
-          "channel": 6,
-          "number": 25,
+          "channel": 7,
+          "number": 16,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "c"
+        },
+        {
+          "action": "highA",
+          "kind": "control",
+          "channel": 7,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "c"
+        },
+        {
+          "action": "midA",
+          "kind": "control",
+          "channel": 7,
+          "number": 18,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "c"
+        },
+        {
+          "action": "lowA",
+          "kind": "control",
+          "channel": 7,
+          "number": 19,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "c"
+        },
+        {
+          "action": "levelA",
+          "kind": "control",
+          "channel": 7,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "c"
+        },
+        {
+          "action": "cueA",
+          "kind": "note",
+          "channel": 7,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "c"
         },
         {
           "action": "gainB",
@@ -19353,6 +19289,15 @@
           "targetDeck": "d"
         },
         {
+          "action": "levelB",
+          "kind": "control",
+          "channel": 8,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "d"
+        },
+        {
           "action": "cueB",
           "kind": "note",
           "channel": 8,
@@ -19362,13 +19307,68 @@
           "targetDeck": "d"
         },
         {
-          "action": "levelB",
+          "action": "master",
           "kind": "control",
-          "channel": 8,
-          "number": 25,
+          "channel": 5,
+          "number": 11,
           "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "d"
+          "inverted": false
+        },
+        {
+          "action": "monitor",
+          "kind": "control",
+          "channel": 5,
+          "number": 12,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "cueMix",
+          "kind": "control",
+          "channel": 5,
+          "number": 13,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "crossfader",
+          "kind": "control",
+          "channel": 5,
+          "number": 15,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "master",
+          "kind": "control",
+          "channel": 7,
+          "number": 11,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "monitor",
+          "kind": "control",
+          "channel": 7,
+          "number": 12,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "cueMix",
+          "kind": "control",
+          "channel": 7,
+          "number": 13,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "crossfader",
+          "kind": "control",
+          "channel": 7,
+          "number": 15,
+          "encoding": "absolute",
+          "inverted": false
         }
       ],
       "outputs": [
@@ -19377,47 +19377,234 @@
           "kind": "note",
           "channel": 5,
           "number": 7,
+          "targetDeck": "a",
           "onValue": 127,
           "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "a"
-        },
-        {
-          "action": "cueA",
-          "kind": "note",
-          "channel": 7,
-          "number": 7,
-          "onValue": 127,
-          "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "c"
+          "offUsesNoteOn": true
         },
         {
           "action": "cueB",
           "kind": "note",
           "channel": 6,
           "number": 3,
+          "targetDeck": "b",
           "onValue": 127,
           "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "b"
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cueA",
+          "kind": "note",
+          "channel": 7,
+          "number": 7,
+          "targetDeck": "c",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
         },
         {
           "action": "cueB",
           "kind": "note",
           "channel": 8,
           "number": 3,
+          "targetDeck": "d",
           "onValue": 127,
           "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "d"
+          "offUsesNoteOn": true
         }
       ],
-      "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mixer%20One.midi.xml"
+      "startup": [
+        [
+          149,
+          8,
+          0
+        ],
+        [
+          149,
+          9,
+          0
+        ],
+        [
+          149,
+          6,
+          0
+        ],
+        [
+          150,
+          4,
+          0
+        ],
+        [
+          150,
+          1,
+          0
+        ],
+        [
+          150,
+          2,
+          0
+        ],
+        [
+          151,
+          8,
+          0
+        ],
+        [
+          151,
+          9,
+          0
+        ],
+        [
+          151,
+          6,
+          0
+        ],
+        [
+          152,
+          4,
+          0
+        ],
+        [
+          152,
+          1,
+          0
+        ],
+        [
+          152,
+          2,
+          0
+        ],
+        [
+          181,
+          31,
+          0
+        ],
+        [
+          183,
+          31,
+          0
+        ],
+        [
+          181,
+          32,
+          0
+        ],
+        [
+          183,
+          32,
+          0
+        ],
+        [
+          181,
+          34,
+          0
+        ],
+        [
+          182,
+          35,
+          0
+        ],
+        [
+          183,
+          34,
+          0
+        ],
+        [
+          184,
+          35,
+          0
+        ]
+      ],
+      "shutdown": [
+        [
+          181,
+          31,
+          0
+        ],
+        [
+          183,
+          31,
+          0
+        ],
+        [
+          181,
+          32,
+          0
+        ],
+        [
+          183,
+          32,
+          0
+        ],
+        [
+          181,
+          34,
+          0
+        ],
+        [
+          182,
+          35,
+          0
+        ],
+        [
+          183,
+          34,
+          0
+        ],
+        [
+          184,
+          35,
+          0
+        ],
+        [
+          149,
+          7,
+          0
+        ],
+        [
+          150,
+          3,
+          0
+        ],
+        [
+          151,
+          7,
+          0
+        ],
+        [
+          152,
+          3,
+          0
+        ]
+      ],
+      "autoSelect": true,
+      "scope": "Automatic four-target MIDI mixer core with explicit side-specific gain/EQ/level/PFL, duplicated global strip, pickup and bounded indicator cleanup. C/D retain app availability limits. EQ kill, inverse mute, crossfader curve/balance, live meters, routing and physical acceptance remain open.",
+      "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mixer%20One.midi.xml",
+      "role": "accessory",
+      "bankChanges": [
+        {
+          "channel": 5,
+          "number": 10,
+          "onValue": 127,
+          "decks": [
+            "a",
+            "b",
+            "c",
+            "d"
+          ]
+        },
+        {
+          "channel": 7,
+          "number": 10,
+          "onValue": 127,
+          "decks": [
+            "a",
+            "b",
+            "c",
+            "d"
+          ]
+        }
+      ]
     },
     {
       "id": "Electrix Tweaker",
