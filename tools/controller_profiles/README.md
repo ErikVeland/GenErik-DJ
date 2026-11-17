@@ -329,3 +329,18 @@ Do not infer C/D Sync addresses from the conflicting factory rows.
 Do not map shared Load/encoder messages without the Sampler context.
 The setup packet enables hardware C/D selection. App deck availability remains authoritative.
 NEON is an accessory with no audio interface. Other modes, colours and full cleanup remain open.
+
+## Compact Vestax controls and browser buttons — R229
+
+`vestax_compact.py` keeps separate Spin and Typhoon XML/script source hashes.
+Both native recipes use fixed touch scratching with 300 counts per revolution.
+Typhoon accepts both published jog/touch addresses. Spin uses only the addresses its script handles.
+The Typhoon Filter hold guards its jogs. It does not enable an unimplemented filter mode.
+Typhoon retains four-beat loop/halve/double buttons. Spin retains manual In/Out and Reloop/Exit.
+Seven-bit tempo preserves the source polarity and uses an exact native centre at 64.
+Alternative modes, complete lights, cleanup, routing and physical calibration remain open.
+
+Use explicit `browsePrevious/Next` and `browsePreviousGroup/NextGroup` for momentary browser buttons.
+Each press queues exactly one signed step through the existing browser queue.
+Do not interpret a positive note velocity as an absolute encoder position.
+Dicer now uses the same contract for its orange-page track and group buttons.

@@ -18355,6 +18355,10 @@
       "profile": "Novation Dicer",
       "automaticControls": true,
       "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
         "cuePreviewA:a",
         "cuePreviewB:b",
         "hotcue1A:a",
@@ -18372,7 +18376,7 @@
         "toggleFixedLoopA:a",
         "toggleFixedLoopB:b"
       ],
-      "inputBindingCount": 34,
+      "inputBindingCount": 42,
       "feedbackBindingCount": 20,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -26051,71 +26055,86 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20Spin.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20Spin.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20Spin.midi.xml"
       ],
       "definitions": [
-        "Vestax Spin.midi.xml"
+        "Vestax Spin.midi.xml",
+        "manufacturer:vestaxspin"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Vestax Spin",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
         "crossfader",
         "cueA:a",
         "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
         "gainA:a",
         "gainB:b",
         "highA:a",
         "highB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "levelA:a",
         "levelB:b",
         "loadA:a",
         "loadB:b",
-        "loopA:a",
-        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
         "lowA:a",
         "lowB:b",
         "midA:a",
         "midB:b",
         "playA:a",
         "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "syncA:a",
+        "syncB:b",
         "tempoA:a",
         "tempoB:b"
       ],
-      "inputBindingCount": 21,
-      "feedbackBindingCount": 4,
+      "inputBindingCount": 36,
+      "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 51,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -26133,18 +26152,23 @@
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
         "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20Typhoon%20Enhanced.midi.xml",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20Typhoon.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20Typhoon.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20Typhoon.midi.xml"
       ],
       "definitions": [
         "Vestax Typhoon Enhanced.midi.xml",
-        "Vestax Typhoon.midi.xml"
+        "Vestax Typhoon.midi.xml",
+        "manufacturer:vestaxtyphoon"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Vestax Typhoon",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
         "crossfader",
         "cueA:a",
         "cueB:b",
@@ -26154,10 +26178,16 @@
         "gainB:b",
         "highA:a",
         "highB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "levelA:a",
         "levelB:b",
         "loadA:a",
         "loadB:b",
+        "loopA:a",
+        "loopB:b",
         "loopDownA:a",
         "loopDownB:b",
         "loopUpA:a",
@@ -26168,41 +26198,42 @@
         "midB:b",
         "playA:a",
         "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
         "tempoA:a",
         "tempoB:b"
       ],
-      "inputBindingCount": 25,
-      "feedbackBindingCount": 2,
+      "inputBindingCount": 42,
+      "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 37,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -313233,9 +313264,9 @@
             "sha256": "18846f299c05e02b305fce81f72cedc1deaaa245cc06d3920d96d6bbedd58aa3"
           }
         ],
-        "review": "The native accessory recipe retains the stored ID and five Hot Cues on channels 10/13. Alternate clear-note releases rearm those pads without firing or deleting cues. Shifted green-page notes select native fixed loop lengths. Orange-page Cue uses native held preview and Load retains the XML address. The source reset packet enters startup and shutdown. No downloaded script runs. The source warns that its custom roll implementation erases loops, drifts and can pause audio. That roll code, transformer timers, forced gain changes and rewind effects are not copied. Default green-page rolls, browser step buttons, extra effects, full lights and physical acceptance remain open."
+        "review": "The native accessory recipe retains the stored ID and five Hot Cues on channels 10/13. Alternate clear-note releases rearm those pads without firing or deleting cues. Shifted green-page notes select native fixed loop lengths. Orange-page Cue uses native held preview and Load retains the XML address. The source reset packet enters startup and shutdown. No downloaded script runs. The source warns that its custom roll implementation erases loops, drifts and can pause audio. That roll code, transformer timers, forced gain changes and rewind effects are not copied. Default green-page rolls, extra effects, full lights and physical acceptance remain open."
       },
-      "implementedInputCount": 34,
+      "implementedInputCount": 42,
       "implementedOutputCount": 20,
       "sourceInputCount": null,
       "sourceOutputCount": null,
@@ -313336,6 +313367,64 @@
       },
       "implementedInputCount": 96,
       "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:vestaxtyphoon",
+      "name": "Vestax Typhoon",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20Typhoon.midi.xml",
+        "sha256": "2c2655736d616d78f7de16c481c137e2a93c530f25da1a8db242a015171f8950",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20Typhoon.midi.xml",
+            "sha256": "2c2655736d616d78f7de16c481c137e2a93c530f25da1a8db242a015171f8950"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax-Typhoon-scripts.js",
+            "sha256": "d71be6b5cecbb1c7b678b2617451801105ce64cd06ccb7b5f8cc484aaceb2d84"
+          }
+        ],
+        "review": "XML dispatch retains each model's actual addresses. Both scripts use centre-64 jog counts and 300 counts per revolution. Typhoon receives both touch notes 46/47 and jog CC16/17. Spin's handler uses only touch 46 and jog CC16 despite additional XML dispatch entries. Native fixed touch scratching replaces software Scratch mode. Typhoon's held Filter button guards its jogs rather than changing audio. Typhoon loop buttons toggle a fixed four-beat loop and halve/double it. Spin uses manual In/Out and Reloop/Exit. Seven-bit tempo retains XML inversion and accounts for Mixxx rate_dir once, with exact native centre at 64. Explicit browser buttons move one track or group per press. Source timers, busy waits, alternate transport functions, full feedback, cleanup, routing and physical calibration remain open."
+      },
+      "implementedInputCount": 42,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:vestaxspin",
+      "name": "Vestax Spin",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20Spin.midi.xml",
+        "sha256": "dcd8a576a5ddcdb29c8b8527725fa633a330b68b9bbda505a41f10f12c6c40ff",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20Spin.midi.xml",
+            "sha256": "dcd8a576a5ddcdb29c8b8527725fa633a330b68b9bbda505a41f10f12c6c40ff"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax-Spin-scripts.js",
+            "sha256": "4af354475ddd419c033a6ad4682940b364b746271658b31f3c3b66920b6077b4"
+          }
+        ],
+        "review": "XML dispatch retains each model's actual addresses. Both scripts use centre-64 jog counts and 300 counts per revolution. Typhoon receives both touch notes 46/47 and jog CC16/17. Spin's handler uses only touch 46 and jog CC16 despite additional XML dispatch entries. Native fixed touch scratching replaces software Scratch mode. Typhoon's held Filter button guards its jogs rather than changing audio. Typhoon loop buttons toggle a fixed four-beat loop and halve/double it. Spin uses manual In/Out and Reloop/Exit. Seven-bit tempo retains XML inversion and accounts for Mixxx rate_dir once, with exact native centre at 64. Explicit browser buttons move one track or group per press. Source timers, busy waits, alternate transport functions, full feedback, cleanup, routing and physical calibration remain open."
+      },
+      "implementedInputCount": 36,
+      "implementedOutputCount": 8,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

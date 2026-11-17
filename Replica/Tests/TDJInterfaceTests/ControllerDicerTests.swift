@@ -42,7 +42,7 @@ import Testing
         let profile = try #require(ControllerFactoryProfile.matching(["Novation Dicers"], automaticOnly: true))
         #expect(profile.rawValue == "Novation Dicer")
         let data = try #require(profile.definition)
-        #expect(data.role == "accessory" && data.inputs.count == 34 && data.outputs.count == 20)
+        #expect(data.role == "accessory" && data.inputs.count == 42 && data.outputs.count == 20)
         #expect(data.shutdown == [[0xBA, 0, 0]])
         #expect(ControllerFactoryProfile.matching(["Dicer 2"]) == nil)
         #expect(data.outputs.allSatisfy { $0.onValue == 14 && $0.offValue == 0 })
@@ -92,5 +92,16 @@ import Testing
                 .init(.cuePreviewB, deck: .b),
             ])
         #expect(events.map(\.1) == [1, 0, 1, 0])
+    }
+}
+
+@Test @MainActor func controllerCatalogueDicerOrangeBrowserButtonsRetainSingleStepsAndOrdering() {
+    withDicer { input, _ in
+        var actions: [ControllerAction] = []
+        input.onTargetAction = { target, _ in actions.append(target.action) }
+        dicerPacket([0x9C, 65, 127, 66, 127, 66, 127, 68, 127, 69, 127, 67, 127], to: input)
+        #expect(actions == [.browsePreviousGroup, .browsePrevious, .browseNext, .browseNextGroup, .loadA])
+        dicerPacket([0x8C, 66, 127, 0x9C, 66, 127], to: input)
+        #expect(actions.last == .browsePrevious)
     }
 }

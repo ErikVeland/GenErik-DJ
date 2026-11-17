@@ -30,6 +30,7 @@ from dicer import dicer_profiles, DICER_SOURCES
 from ns6ii import ns6ii_profiles, NS6II_SOURCES
 from n4 import n4_profiles, N4_SOURCES
 from neon import neon_profiles, NEON_REFERENCES
+from vestax_compact import compact_profiles, COMPACT_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -80,7 +81,7 @@ class ConversionTests(unittest.TestCase):
     def test_dicer_reuses_accessory_addresses_without_the_source_audio_effects(self):
         result = dicer_profiles()[0]
         self.assertEqual(result["role"], "accessory")
-        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (34, 20))
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (42, 20))
         self.assertEqual(result["startup"], [[186, 0, 0]])
         self.assertEqual(result["shutdown"], [[186, 0, 0]])
         self.assertEqual(sum(row.get("releaseOnly", False) for row in result["inputs"]), 10)
@@ -811,6 +812,21 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_compact_vestax_profiles_keep_distinct_loops_and_dispatch(self):
+        typhoon, spin = compact_profiles()
+        self.assertEqual((len(typhoon["inputs"]), len(spin["inputs"])), (42, 36))
+        self.assertTrue(all(row["encoding"] == "binaryOffset" and row["argument"] == 300 for p in [typhoon, spin] for row in p["inputs"] if row["action"] in {"jogA", "jogB"}))
+        self.assertEqual({row["number"] for row in typhoon["inputs"] if row["action"] == "jogTouchA"}, {46, 47})
+        self.assertEqual({row["number"] for row in spin["inputs"] if row["action"] == "jogTouchA"}, {46})
+        self.assertEqual({row["action"] for row in typhoon["inputs"] if row["number"] == 33}, {"loopDownA", "loopDownB"})
+        self.assertEqual({row["action"] for row in spin["inputs"] if row["number"] == 33}, {"loopInA", "loopInB"})
+        for p in [typhoon, spin]:
+            self.assertTrue(all(row["encoding"] == "centreDetent" and not row["inverted"] for row in p["inputs"] if row["action"] in {"tempoA", "tempoB"}))
+            for name, digest in COMPACT_SOURCES[p["id"]]:
+                path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+                if path.exists():
+                    self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_neon_uses_distinct_factory_pages_without_context_free_encoders(self):
         result = neon_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (96, 0))

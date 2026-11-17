@@ -447,3 +447,26 @@ import Testing
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueCompactVestaxCueAnd300CountScratchReachNativePlayback() async throws {
+    for name in ["Typhoon", "Spin"] {
+        try await withControllerCuePlayback(name) { model, input in
+            cuePreviewPacket([0x90, 53, 127], to: input)
+            _ = model.playback.core.renderOffline(frames: 4096)
+            model.refreshPlayback()
+            #expect(model.playbackSnapshot?.a.sourceFrame ?? 0 > 0)
+            cuePreviewPacket([0x80, 53, 99], to: input)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+            #expect(model.playbackSnapshot?.a.sourceFrame == 0)
+            cuePreviewPacket([0x90, 46, 127, 0xB0, 16, 65], to: input)
+            try await Task.sleep(for: .milliseconds(80))
+            _ = model.playback.core.renderOffline(frames: 4096)
+            model.refreshPlayback()
+            let rate = try #require(model.track(.a)?.analysis.sampleRate)
+            #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - rate * 1.8 / 300) <= 1)
+            cuePreviewPacket([0x80, 46, 127], to: input)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+            #expect(model.playbackSnapshot?.a.synced == true)
+        }
+    }
+}

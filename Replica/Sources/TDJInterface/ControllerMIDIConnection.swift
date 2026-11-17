@@ -14,6 +14,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case cueReturnA, cueReturnB, cuePreviewA, cuePreviewB, freezeA, freezeB
     case jogA, jogB, jogTouchA, jogTouchB, wheelJogA, wheelJogB
     case browse, browseGroups, openGroup, loadA, loadB
+    case browsePrevious, browseNext, browsePreviousGroup, browseNextGroup
     case filterKnobA, filterKnobB
     case toggleFixedLoopA, toggleFixedLoopB
     case fixedLoopA, fixedLoopB, fixedJumpA, fixedJumpB, loopInA, loopInB, loopOutA, loopOutB
@@ -36,6 +37,10 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         if self == .monitor { return "Headphone level" }
         if self == .browse { return "Browse tracks" }
         if self == .browseGroups { return "Browse groups" }
+        if self == .browsePrevious { return "Previous library track" }
+        if self == .browseNext { return "Next library track" }
+        if self == .browsePreviousGroup { return "Previous library group" }
+        if self == .browseNextGroup { return "Next library group" }
         if self == .openGroup { return "Open group" }
         if self == .loadA || self == .loadB { return "\(deck.rawValue.uppercased()) · Load selected track" }
         if self == .filterKnobA || self == .filterKnobB {
@@ -83,6 +88,15 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     }
     var isLoopSizeEncoder: Bool { self == .loopSizeA || self == .loopSizeB }
     var isBrowserEncoder: Bool { self == .browse || self == .browseGroups }
+    var browserStep: (detents: Int, groups: Bool)? {
+        switch self {
+        case .browsePrevious: (-1, false)
+        case .browseNext: (1, false)
+        case .browsePreviousGroup: (-1, true)
+        case .browseNextGroup: (1, true)
+        default: nil
+        }
+    }
     var hotcueSlot: Int? {
         guard rawValue.hasPrefix("hotcue"), let value = Int(rawValue.dropFirst(6).dropLast()) else { return nil }
         return value - 1

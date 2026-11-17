@@ -9,7 +9,7 @@ DICER_SOURCES = [
 DICER_REFERENCES = {"Novation Dicer": {
     "url": UPSTREAM + "Novation%20Dicer.midi.xml", "sha256": DICER_SOURCES[0][1],
     "relatedSources": [{"url": UPSTREAM + name.replace(" ", "%20"), "sha256": digest} for name, digest in DICER_SOURCES],
-    "review": "The native accessory recipe retains the stored ID and five Hot Cues on channels 10/13. Alternate clear-note releases rearm those pads without firing or deleting cues. Shifted green-page notes select native fixed loop lengths. Orange-page Cue uses native held preview and Load retains the XML address. The source reset packet enters startup and shutdown. No downloaded script runs. The source warns that its custom roll implementation erases loops, drifts and can pause audio. That roll code, transformer timers, forced gain changes and rewind effects are not copied. Default green-page rolls, browser step buttons, extra effects, full lights and physical acceptance remain open.",
+    "review": "The native accessory recipe retains the stored ID and five Hot Cues on channels 10/13. Alternate clear-note releases rearm those pads without firing or deleting cues. Shifted green-page notes select native fixed loop lengths. Orange-page Cue uses native held preview and Load retains the XML address. The source reset packet enters startup and shutdown. No downloaded script runs. The source warns that its custom roll implementation erases loops, drifts and can pause audio. That roll code, transformer timers, forced gain changes and rewind effects are not copied. Default green-page rolls, extra effects, full lights and physical acceptance remain open.",
 }}
 
 
@@ -18,7 +18,7 @@ def dicer_profiles():
     result["aliases"] = ["Novation Dicer", "Dicer Novation Dicer", "Novation Dicers", "Dicer"]
     result["role"] = "accessory"
     result["definition"] = "reviewed:novation-dicer"
-    result["scope"] = "Automatic native accessory core with five Hot Cues, shifted fixed-loop pads, held Cue and Load per deck. Default roll pads, browser step buttons, extra effects, full lights and physical acceptance remain open."
+    result["scope"] = "Automatic native accessory core with five Hot Cues, shifted fixed-loop pads, held Cue and Load per deck. Default roll pads, extra effects, full lights and physical acceptance remain open."
     result["startup"] = [[0xBA, 0, 0]]
     result["shutdown"] = [[0xBA, 0, 0]]
     for index, deck in enumerate("ab"):
@@ -36,4 +36,6 @@ def dicer_profiles():
             result["inputs"][-1]["argument"] = beats
         add(result, "cuePreview", orange_channel, 61, deck=deck)
         add(result, "load", orange_channel, 67, deck=deck)
+        for action, number in [("browsePreviousGroup", 65), ("browsePrevious", 66), ("browseNext", 68), ("browseNextGroup", 69)]:
+            add(result, action, orange_channel, number)
     return [result]

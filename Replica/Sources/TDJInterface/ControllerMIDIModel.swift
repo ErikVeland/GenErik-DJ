@@ -339,6 +339,10 @@ extension ReplicaModel {
             guard let frame = playbackSnapshot?[deck].sourceFrame else { return }
             performControllerJogTouch(deck, frame: frame, touchRate: rate)
         case .wheelJogA, .wheelJogB: applyControllerWheelJog(value, deck: deck)
+        case .browsePrevious, .browseNext, .browsePreviousGroup, .browseNextGroup:
+            #if os(iOS)
+                if let step = action.browserStep { queueS2Browser(.move(step.detents, groups: step.groups)) }
+            #endif
         case .browse, .browseGroups:
             #if os(iOS)
                 let detents = Int(((value - 0.5) * 126).rounded())

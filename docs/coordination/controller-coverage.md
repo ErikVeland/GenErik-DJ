@@ -2,6 +2,28 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R229 compact Vestax cores and single-step browser buttons
+
+Typhoon and Spin now select separate native core recipes automatically. Their stored IDs and endpoint aliases remain valid.
+Both retain transport, held Cue, mixer/EQ, Load, exact-centre seven-bit tempo and 300-count jogs.
+The native recipes use fixed touch scratching. Spin lights its Scratch indicator and clears the wheel-disable indicator.
+Typhoon accepts both published touch and jog addresses. Its held Filter button guards that deck's jogs without changing the filter.
+Spin uses only the touch and jog addresses handled by its pinned script. Unhandled XML aliases remain unmapped.
+
+Typhoon toggles a four-beat loop and retains separate halve/double buttons. Spin uses manual In/Out and Reloop/Exit.
+Both use explicit single-step browser actions for track and group buttons. A held or repeated MIDI press cannot jump 63 tracks.
+The same actions now connect Dicer's orange-page track and group buttons. Browser movement reaches the existing queue before Load.
+No downloaded script, busy wait or source timer runs in the app.
+
+All 62 targeted Swift checks, 62 importer/report checks and native iPad compilation pass.
+Tests cover release forms, button order, pickup and model-specific messages. The bundled resource matches the source.
+Native offline playback covers held Cue, jog scale, release and persistent Sync on both Vestax models.
+Alternative Scratch/filter modes, transport functions, complete lights, cleanup, routing and physical calibration remain open.
+The catalogue retains 305 records and 161 data recipes. Only Typhoon, Spin and Dicer change their recipes.
+Factory coverage reaches 99 profiles for 103 physical models. Six other models retain automatic native adapters.
+Source identities and validation results appear in `TestBuilds/r229/validation.json`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R228 NEON native accessory core
 
 NEON now selects its own accessory recipe automatically. It can provide eight Hot Cues on each of four deck targets.
