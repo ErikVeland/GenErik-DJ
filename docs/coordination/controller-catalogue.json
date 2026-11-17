@@ -13587,19 +13587,27 @@
         "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20MC3000.midi.xml"
       ],
       "definitions": [
-        "Denon MC3000.midi.xml"
+        "Denon MC3000.midi.xml",
+        "manufacturer:denonmc3000"
       ],
       "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "profile": "Denon MC3000 v0.995",
+      "profile": "Denon MC3000",
       "automaticControls": false,
       "controlActions": [
+        "browse",
+        "browseNextGroup",
+        "browsePreviousGroup",
         "crossfader",
         "cueA:a",
         "cueA:c",
         "cueB:b",
         "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
         "gainA:a",
         "gainA:c",
         "gainB:b",
@@ -13608,6 +13616,46 @@
         "highA:c",
         "highB:b",
         "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
         "keylockA:a",
         "keylockA:c",
         "keylockB:b",
@@ -13616,8 +13664,30 @@
         "levelA:c",
         "levelB:b",
         "levelB:d",
-        "loadA:a",
-        "loadB:b",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopDisableA:a",
+        "loopDisableA:c",
+        "loopDisableB:b",
+        "loopDisableB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutOrExitA:a",
+        "loopOutOrExitA:c",
+        "loopOutOrExitB:b",
+        "loopOutOrExitB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
         "lowA:a",
         "lowA:c",
         "lowB:b",
@@ -13626,23 +13696,37 @@
         "midA:c",
         "midB:b",
         "midB:d",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
         "playA:a",
         "playA:c",
         "playB:b",
         "playB:d",
+        "shift",
         "syncA:a",
         "syncA:c",
         "syncB:b",
-        "syncB:d"
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
       ],
-      "inputBindingCount": 39,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 124,
+      "feedbackBindingCount": 56,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual profile; default MIDI channels1–4. Shared Load target and cold-state recovery remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
@@ -13651,21 +13735,22 @@
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 119,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Qualify shared Load target ownership and cold-state recovery before automatic selection.",
+        "Manual profile selection does not run factory lifecycle or bank-change metadata. Full cleanup, audio routing and physical acceptance remain open.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -315576,6 +315661,49 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:denonmc3000",
+      "name": "Denon MC3000",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/denondj/legacy/mc3000/MC3000EM_ENG_IM_v00.pdf",
+        "sha256": "8282c1eec2f4e597491f700b9163831e626e88ecfae87ab48782a478a1e38ce8",
+        "pages": [
+          20,
+          21,
+          22,
+          23,
+          26,
+          27
+        ],
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20MC3000.midi.xml",
+            "sha256": "0cf80d155f2573c4b01467649a7fbb1de85d2586f6aff4fb90f91f3bf75601bd"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC3000-scripts.js",
+            "sha256": "fb06584b939abc39c46961aa0e67d1e951c0aaf82143b3bdad164627a70b0352"
+          }
+        ],
+        "review": "Factory MIDI table and pinned XML establish A/C/B/D channel order and per-deck mixer addresses. Factory64-on/0-off buttons use native held Cue/bend; jog zero is outside the documented movement range and stays stationary. Native jog calibration uses the shared default, not the old script's arbitrary100-count330RPM combination. Full pitch messages retain centre pickup and inverse source rate. Physical-side Shift identity spans its two deck channels; unsupported alternate presses stay inactive while old holds release. Factory eight cue addresses, normal loop toggle/size, source compound In and Out/Exit use native contracts on each documented deck channel. Native Play/Cue/Sync/Key/loop/cue feedback uses factory74-on/75-off ID triggers; PFL uses80/81 and separate IDs. Factory states master/headphone/microphone gains are hardware controls: old script CC88..92 assignments actually target FX knobs and are removed. Software gain/balance and arbitrary startup resets are not inferred. Shared Load A/C and B/D need qualified target ownership and cold-state recovery. Automatic selection, lifecycle, bank-contact cleanup, audio routing, source modes/LED animations, Shift search, complete feedback, calibration and physical acceptance remain open."
+      },
+      "implementedInputCount": 124,
+      "implementedOutputCount": 56,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Qualify shared Load target ownership and cold-state recovery before automatic selection."
+        },
+        {
+          "reason": "Manual profile selection does not run factory lifecycle or bank-change metadata. Full cleanup, audio routing and physical acceptance remain open."
         }
       ]
     },

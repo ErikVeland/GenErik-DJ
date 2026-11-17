@@ -58,6 +58,7 @@ from total_omni import total_omni_profiles, TOTAL_OMNI_SOURCES
 from xsession_pro import xsession_pro_profiles, XSESSION_SOURCES
 from cmd_studio4a import studio4a_profiles, STUDIO4A_SOURCES
 from stanton_djc4 import djc4_profiles, DJC4_SOURCES
+from mc3000 import mc3000_profiles, MC3000_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -858,6 +859,19 @@ class GeneratedCatalogueTests(unittest.TestCase):
             ("Stealth-Control.pdf", "ddbe4bdc1c973ba7b5df170767ce0831d19a7659ffa85719b3620ace5f3af8a0"),
         ]:
             path = factory / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
+    def test_mc3000_omits_phantom_hardware_gain_assignments_and_unqualified_load(self):
+        result = mc3000_profiles()[0]
+        self.assertFalse(result["autoSelect"])
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (124, 56))
+        self.assertEqual(result["startup"] + result["shutdown"], [])
+        self.assertFalse(any(r["action"] in {"master", "monitor", "cueMix", "loadA", "loadB"} for r in result["inputs"]))
+        self.assertFalse(any(r["number"] in range(88, 93) for r in result["inputs"] if r["kind"] == "control"))
+        self.assertEqual([r["targetDeck"] for r in result["inputs"] if r["kind"] == "pitch"], list("acbd"))
+        for name, digest in MC3000_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 

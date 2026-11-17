@@ -2585,3 +2585,28 @@ All 164 other recipes remain unchanged. The bundled resource matches the source.
 Automatic core coverage reaches 122 factory profiles for 130 models, plus six other native models. Benchmark coverage remains 62/122.
 Repository checks retain twelve existing historical-link failures. Full feature parity, calibration and physical acceptance remain open. No signed app or installation occurred.
 Exact logs, source hashes and download failures are in ignored `TestBuilds/r260/validation.json`.
+
+## R261 MC3000 factory corrections and expanded manual core
+
+The [original Denon guide](https://cdn.inmusicbrands.com/denondj/legacy/mc3000/MC3000EM_ENG_IM_v00.pdf), PDF pages 20–23, corrects the old software assignments.
+Master, headphone and microphone gain knobs are hardware controls. Old assignments on CC 88–92 actually address FX knobs and are removed.
+The reviewed manual recipe replaces 39 imported inputs with 124 native bindings and 56 factory-addressed outputs.
+A/C/B/D retain channels 1/2/3/4. Full pitch ignores the old XML's incidental note-number field and keeps centre pickup.
+Factory button velocity 64 works with native Cue and bend. Physical Shift identity spans the two channels on each side.
+Eight distinct cue addresses, per-deck level/gain/EQ, native manual loops and loop-size buttons use documented messages.
+Source compound In disables an old loop before recording its new boundary. Out sets the end or exits an active loop.
+Native jog uses the shared default pending calibration, without the old script's arbitrary 100-count/330-RPM combination.
+
+Factory LED commands use separate on/off trigger controllers and IDs. PFL retains its separate 80/81 command pair.
+Manual selection needs explicit feedback enablement. No factory lifecycle, analogue query or bank cleanup is implied.
+Shared Load target ownership and cold-state recovery remain unqualified. Load stays inactive, and automatic selection stays disabled.
+Complete bank cleanup, hardware channel variants, filters, source modes, full feedback/routing, calibration and physical acceptance remain open.
+A newer public mapping proposal was inspected as a research lead; its custom shared-Load workflow was not imported.
+
+All nine focused Swift tests, 94 importer checks and native iPad framework compilation pass.
+Initial fixtures assumed full-value button reports and immediate continuous callbacks; corrected fixtures retain velocity 64 and queued delivery.
+A Swift assertion exceeded type-checking time; a typed expected value resolved that compile failure. Earlier failed logs remain preserved.
+All 164 other recipes remain unchanged. The renamed MC3000 recipe replaces its old version-labelled ID. The bundled resource matches the source.
+Automatic core counts remain 122 factory profiles for 130 models, plus six other native models. Benchmark coverage remains 62/122.
+Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
+Exact logs, source hashes and factory pages are in ignored `TestBuilds/r261/validation.json`.
