@@ -17011,20 +17011,28 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-KAOSS-DJ.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-KAOSS-DJ.midi.xml",
+        "https://cdn.korg.com/us/support/download/files/9015867d23596afc1635ec139a8cdfb4.txt"
       ],
       "definitions": [
-        "Korg-KAOSS-DJ.midi.xml"
+        "Korg-KAOSS-DJ.midi.xml",
+        "manufacturer:korgkaossdjaudioless",
+        "manufacturer:korgkaossdj"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Korg KAOSS DJ",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browse",
+        "browseGroups",
+        "browseNextGroup",
+        "browsePreviousGroup",
         "crossfader",
         "cueA:a",
         "cueB:b",
+        "cueMix",
         "cuePreviewA:a",
         "cuePreviewB:b",
         "gainA:a",
@@ -17037,57 +17045,78 @@
         "hotcue2B:b",
         "hotcue3A:a",
         "hotcue3B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "keylockA:a",
+        "keylockB:b",
         "levelA:a",
         "levelB:b",
+        "loadA:a",
+        "loadB:b",
         "loopA:a",
         "loopB:b",
         "loopDownA:a",
         "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
         "loopUpA:a",
         "loopUpB:b",
         "lowA:a",
         "lowB:b",
+        "master",
         "midA:a",
         "midB:b",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
         "playA:a",
         "playB:b",
+        "seekA:a",
+        "seekB:b",
+        "shift",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
         "tempoB:b"
       ],
-      "inputBindingCount": 33,
-      "feedbackBindingCount": 12,
+      "inputBindingCount": 87,
+      "feedbackBindingCount": 20,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual profile for Audioless startup mode; external audio interface required."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 52,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -315861,6 +315890,96 @@
       },
       "implementedInputCount": 105,
       "implementedOutputCount": 58,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:korgkaossdjaudioless",
+      "name": "Korg KAOSS DJ (Audioless)",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.korg.com/us/support/download/files/9015867d23596afc1635ec139a8cdfb4.txt",
+        "sha256": "f03b44a51510f6ec6a9788d65aa7a96ebdcebeb9b219e59c5514e98d63ff4ca7",
+        "relatedSources": [
+          {
+            "url": "https://cdn.korg.com/us/support/download/files/3712d559e956c0edb50a9c9e8b1e1d4e.pdf",
+            "sha256": "ec8da87bf0b36037d536a572fcc6f820c501b934a6aeba7eb56a7630864e301c",
+            "pages": [
+              2,
+              5,
+              6,
+              7,
+              9,
+              10,
+              11
+            ]
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/korg_kaoss_dj"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-KAOSS-DJ.midi.xml",
+            "sha256": "85d2555f1ff54adee404f0443df3f2af4363090f1cde762371d11413c8aa6285"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-KAOSS-DJ-scripts.js",
+            "sha256": "e67f4d1af9e0f73d760425d9cf207738c64d662ffeca2ca79faf3676dcf2fb00"
+          }
+        ],
+        "review": "Factory MIDI1.0 table establishes fixed channels6 global/7 A/8 B, full-value contact, separate normal14/scratch16/Shift15 jog streams, distinct three-cue/loop-page buttons, seven-bit pitch/mixer controls and separate note/CC LED commands. Pinned working source supplies signed jog magnitude,128-count scale and4x Shift scratch; native fixed scratch also handles the normal stream while contact is held. Shift scratch needs contact and uses32-count resolution. Local physical-side Shift guards performance alternatives; both physical Shift inputs also feed a source-local global layer for shared Load/browser routing. Native Shift+Play toggles Key Lock, Shift strip uses native seek, three cues retain shifted delete-release aliases and loop pads retain source manual In/Out/toggle alternatives. Native held bend retains ownership. Factory main/headphone/balance inputs exist only in Audioless mode, so the automatic normal recipe omits them. A separate manually selected Audioless recipe adds software gain/blend without claiming audio output or factory lifecycle. Normal audio uses the mapping author's master1/2/headphones3/4 layout; selecting the output wakes the hardware from standby. Native outputs use factory on127/off0. Startup enables eight deck-knob lamps and fixed Scratch indicators, clears unsupported loop-side lamps; shutdown clears these and20 owned outputs within48messages. The copied Serato proprietary status SysEx is not in the published implementation and is omitted. Identity inquiry is not an analogue query. Scratch toggle, Shift Sync cancel, complete browser/mode/FX/sampler/meter/reset behaviour, Audio Return routing, calibration and physical acceptance remain open."
+      },
+      "implementedInputCount": 87,
+      "implementedOutputCount": 20,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:korgkaossdj",
+      "name": "Korg KAOSS DJ",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.korg.com/us/support/download/files/9015867d23596afc1635ec139a8cdfb4.txt",
+        "sha256": "f03b44a51510f6ec6a9788d65aa7a96ebdcebeb9b219e59c5514e98d63ff4ca7",
+        "relatedSources": [
+          {
+            "url": "https://cdn.korg.com/us/support/download/files/3712d559e956c0edb50a9c9e8b1e1d4e.pdf",
+            "sha256": "ec8da87bf0b36037d536a572fcc6f820c501b934a6aeba7eb56a7630864e301c",
+            "pages": [
+              2,
+              5,
+              6,
+              7,
+              9,
+              10,
+              11
+            ]
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/korg_kaoss_dj"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-KAOSS-DJ.midi.xml",
+            "sha256": "85d2555f1ff54adee404f0443df3f2af4363090f1cde762371d11413c8aa6285"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-KAOSS-DJ-scripts.js",
+            "sha256": "e67f4d1af9e0f73d760425d9cf207738c64d662ffeca2ca79faf3676dcf2fb00"
+          }
+        ],
+        "review": "Factory MIDI1.0 table establishes fixed channels6 global/7 A/8 B, full-value contact, separate normal14/scratch16/Shift15 jog streams, distinct three-cue/loop-page buttons, seven-bit pitch/mixer controls and separate note/CC LED commands. Pinned working source supplies signed jog magnitude,128-count scale and4x Shift scratch; native fixed scratch also handles the normal stream while contact is held. Shift scratch needs contact and uses32-count resolution. Local physical-side Shift guards performance alternatives; both physical Shift inputs also feed a source-local global layer for shared Load/browser routing. Native Shift+Play toggles Key Lock, Shift strip uses native seek, three cues retain shifted delete-release aliases and loop pads retain source manual In/Out/toggle alternatives. Native held bend retains ownership. Factory main/headphone/balance inputs exist only in Audioless mode, so the automatic normal recipe omits them. A separate manually selected Audioless recipe adds software gain/blend without claiming audio output or factory lifecycle. Normal audio uses the mapping author's master1/2/headphones3/4 layout; selecting the output wakes the hardware from standby. Native outputs use factory on127/off0. Startup enables eight deck-knob lamps and fixed Scratch indicators, clears unsupported loop-side lamps; shutdown clears these and20 owned outputs within48messages. The copied Serato proprietary status SysEx is not in the published implementation and is omitted. Identity inquiry is not an analogue query. Scratch toggle, Shift Sync cancel, complete browser/mode/FX/sampler/meter/reset behaviour, Audio Return routing, calibration and physical acceptance remain open."
+      },
+      "implementedInputCount": 84,
+      "implementedOutputCount": 20,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

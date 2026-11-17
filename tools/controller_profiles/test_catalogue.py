@@ -61,6 +61,7 @@ from stanton_djc4 import djc4_profiles, DJC4_SOURCES
 from mc3000 import mc3000_profiles, MC3000_SOURCES
 from rmx2 import rmx2_profiles, RMX2_SOURCES
 from p32 import p32_profiles, P32_SOURCES
+from kaoss_dj import kaoss_profiles, KAOSS_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -864,6 +865,24 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
+    def test_kaoss_keeps_normal_hardware_gain_separate_from_manual_audioless_controls(self):
+        audioless, normal = kaoss_profiles()
+        self.assertEqual((len(normal["inputs"]), len(normal["outputs"])), (84, 20))
+        self.assertEqual(len(audioless["inputs"]), 87)
+        self.assertTrue(normal["autoSelect"])
+        self.assertFalse(audioless["autoSelect"])
+        self.assertEqual(audioless["catalogueName"], normal["id"])
+        self.assertEqual(len(normal["startup"]) + len(normal["shutdown"]), 48)
+        self.assertTrue(all(len(p) == 3 for p in normal["startup"] + normal["shutdown"]))
+        self.assertFalse(any(r["action"] in {"master", "monitor", "cueMix"} for r in normal["inputs"]))
+        self.assertTrue({"master", "monitor", "cueMix"} <= {r["action"] for r in audioless["inputs"]})
+        self.assertNotIn("audioOutput", audioless)
+        self.assertEqual(audioless["startup"] + audioless["shutdown"], [])
+        for name, digest in KAOSS_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_p32_keeps_native_cue_limit_source_steps_and_bounded_feedback(self):
         result = p32_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (105, 58))
@@ -1278,7 +1297,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
             self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertFalse(model["theoreticalSupport"]["complete"])
-            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ"})
+            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ"})
 
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]

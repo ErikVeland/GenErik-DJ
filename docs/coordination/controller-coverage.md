@@ -2669,3 +2669,32 @@ All 164 other recipes remain unchanged. The bundled resource matches the source.
 Automatic core coverage reaches 124 factory profiles for 132 models, plus six other native models. Benchmark coverage remains 62/122.
 Repository checks retain twelve existing historical-link failures. Full feature parity remains open. No signed app or installation occurred.
 Exact logs, source hashes and the factory guide are in ignored `TestBuilds/r263/validation.json`.
+
+## R264 KAOSS DJ normal core and separate Audioless profile
+
+Korg's [MIDI implementation](https://cdn.korg.com/us/support/download/files/9015867d23596afc1635ec139a8cdfb4.txt) fixes global channel 7 and deck channels 8/9.
+The [operation guide](https://cdn.korg.com/us/support/download/files/3712d559e956c0edb50a9c9e8b1e1d4e.pdf) separates normal Controller mode from Audioless and Audio Return startup modes.
+Main, headphone and balance knob messages exist only in Audioless mode. The automatic normal recipe leaves these hardware controls alone.
+A separate manual Audioless recipe adds software master/headphone gain and cue blend. It claims no audio interface or factory lifecycle.
+Both recipes belong to one physical model. The extra recipe does not add a controller to the model count.
+
+Native fixed touch scratch uses the working source's 128-count scale. Both normal and scratch streams work with contact; scratch reports require full-value touch.
+The source's four-times Shift scratch uses 32-count resolution and requires contact. Free Shift search remains open.
+Physical-side Shift guards local alternatives. Both Shift inputs also feed a global layer for shared Load and browsing.
+Opposite-side transport remains available. Shared Load changes to native group navigation while either Shift is held.
+Native three-cue pages, manual loop alternatives, held bend, Shift strip seek and Shift+Play Key Lock retain published dispatch.
+Shifted delete releases rearm cues. Shift Sync cancel, scratch toggling and complete browser behaviour remain open.
+
+Korg documents knob-lamp and button-light commands. Twenty native output states and bounded lamp setup/cleanup fit 48 lifecycle messages.
+The source's proprietary Serato status SysEx is absent from the published implementation and is omitted. Identity inquiry is not treated as an analogue query.
+The [mapping author](https://manual.mixxx.org/2.5/en/hardware/controllers/korg_kaoss_dj) specifies master 1–2/headphones 3–4 and says audio output selection wakes standby.
+The normal recipe uses the shared automatic split route. Offline fixtures preserve samples, transport and saved Sync through detection and recovery.
+Software XY effects/samplers, full meters/reset, Audio Return routing, calibration and physical acceptance remain open. Hardware KAOSS effects stay hardware-owned.
+
+All thirteen focused Swift tests, including 20 parameterised audio cases, 97 importer checks and native iPad framework compilation pass.
+The first manual-mode fixture included expected jog-neutral cleanup from profile replacement. The corrected fixture separates cleanup from knob dispatch; no runtime change was needed.
+The earlier failure and diagnostic output remain preserved. All 164 unrelated recipes remain unchanged. The bundled resource matches the source.
+The catalogue remains 308 records for 301 physical models, with 166 data recipes and five code profiles.
+Automatic core coverage reaches 125 factory profiles for 133 models, plus six other native models. Benchmark coverage remains 62/122.
+Repository checks retain twelve existing historical-link failures. Full feature parity remains open. No signed app or installation occurred.
+Exact logs, source hashes and Korg originals are in ignored `TestBuilds/r264/validation.json`.
