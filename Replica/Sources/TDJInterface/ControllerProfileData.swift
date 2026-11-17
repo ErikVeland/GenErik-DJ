@@ -131,7 +131,8 @@ struct ControllerProfileData: Decodable, Sendable {
                     && (![.mixstreamJog, .cyclic14BitJog, .vci100MK2Tempo].contains($0.encoding) || $0.lowNumber != nil)
                     && Self.validArgument($0)
                     && (![
-                        .centreDetent, .binaryStep, .signedStep, .dj2go2Jog, .mc7000Jog, .denonJog, .zeroForward,
+                        .centreDetent, .binaryStep, .binaryDirection, .signedStep, .dj2go2Jog, .mc7000Jog, .denonJog,
+                        .zeroForward,
                         .numarkPlatinumJog,
                         .cdjPlatterSpeed, .cdjRingSpeed,
                         .cdj350PlatterSpeed, .cdjTempo, .needlePosition,
@@ -141,7 +142,7 @@ struct ControllerProfileData: Decodable, Sendable {
             && outputs.allSatisfy {
                 $0.binding(destination: 0).isValid
             }
-            && (startup + shutdown).count <= 16
+            && (startup + shutdown).count <= 32
             && (startup + shutdown).allSatisfy(Self.validSetupMessage)
     }
 
@@ -183,7 +184,7 @@ struct ControllerProfileData: Decodable, Sendable {
             return input.argument.map { input.encoding.isRelative && ControllerCountJogMotion.validResolution($0) }
                 ?? true
         case .loopSizeA, .loopSizeB:
-            return input.kind == .control && [.twosComplement, .binaryStep].contains(input.encoding)
+            return input.kind == .control && [.twosComplement, .binaryStep, .binaryDirection].contains(input.encoding)
                 && input.argument == nil
         case .loopA, .loopB:
             return input.argument.map { PerformancePreparation.loopSizes.contains($0) } ?? true

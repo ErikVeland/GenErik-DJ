@@ -26685,16 +26685,18 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-400.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-400.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-400.midi.xml"
       ],
       "definitions": [
-        "Vestax VCI-400.midi.xml"
+        "Vestax VCI-400.midi.xml",
+        "manufacturer:vestaxvci400"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Vestax VCI-400",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "browse",
         "crossfader",
@@ -26702,15 +26704,14 @@
         "cueA:c",
         "cueB:b",
         "cueB:d",
-        "cueMix",
         "cuePreviewA:a",
         "cuePreviewA:c",
         "cuePreviewB:b",
         "cuePreviewB:d",
-        "filterKnobA:a",
-        "filterKnobA:c",
-        "filterKnobB:b",
-        "filterKnobB:d",
+        "fixedLoopA:a",
+        "fixedLoopA:c",
+        "fixedLoopB:b",
+        "fixedLoopB:d",
         "gainA:a",
         "gainA:c",
         "gainB:b",
@@ -26719,24 +26720,76 @@
         "highA:c",
         "highB:b",
         "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
         "levelA:a",
         "levelA:c",
         "levelB:b",
         "levelB:d",
-        "loopA:a",
-        "loopA:c",
-        "loopB:b",
-        "loopB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopSizeA:a",
+        "loopSizeA:c",
+        "loopSizeB:b",
+        "loopSizeB:d",
         "lowA:a",
         "lowA:c",
         "lowB:b",
         "lowB:d",
-        "master",
         "midA:a",
         "midA:c",
         "midB:b",
         "midB:d",
         "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "shift",
         "syncA:a",
         "syncA:c",
         "syncB:b",
@@ -26746,38 +26799,36 @@
         "tempoB:b",
         "tempoB:d"
       ],
-      "inputBindingCount": 55,
+      "inputBindingCount": 136,
       "feedbackBindingCount": 16,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 180,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -313840,6 +313891,35 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:vestaxvci400",
+      "name": "Vestax VCI-400",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-400.midi.xml",
+        "sha256": "2ef6df3e503b96811382d71e11b7010569eca084ba6efbe6d1fa2911f9387450",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-400.midi.xml",
+            "sha256": "2ef6df3e503b96811382d71e11b7010569eca084ba6efbe6d1fa2911f9387450"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax-VCI-400-scripts.js",
+            "sha256": "2b44136e2949374bafcf47d7a887d337cb01007aade8b7af07a2407282b7f19e"
+          }
+        ],
+        "review": "XML supplies direct A/B/C/D Load and transport channels two through five. Script handlers supply 4096-count centre-64 jogs, pad modes and fixed Loop sizes 1/8 through 16 beats. Native startup selects Hot Cue rather than the source's unsupported initial Roll page. Mode guards block shared pads in Roll/Sampler modes. Loop pads enable fixed sizes without toggling off. Positive loop-encoder packets halve once and negative packets double once, regardless of magnitude. Native loop-size preselection also works before activation. Note34 bank loss/selection resets only that physical side and retains global Shift. Known transport-note variants retain held Cue releases. Undefined beatLoop, CC transport aliases, shared bank-dependent Key Lock, scratch-button contact, source brake/inertia code, full feedback, cleanup, EGE firmware, master/headphone controls, audio routing and physical calibration remain open."
+      },
+      "implementedInputCount": 136,
+      "implementedOutputCount": 16,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         }
       ]
     },

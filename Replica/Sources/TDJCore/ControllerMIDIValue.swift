@@ -3,12 +3,14 @@ import Foundation
 public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     case absolute, paired14Bit, paired14BitRelative, twosComplement, binaryOffset, signedBit
     case numarkPlatinumJog, denonJog, zeroForward, mc7000Jog, dj2go2Jog, signedStep
-    case binaryStep, centreDetent, centredPitch, mixstreamJog, cyclic14BitJog, vci300Tempo, vci100MK2Tempo
+    case binaryStep, binaryDirection, centreDetent, centredPitch, mixstreamJog, cyclic14BitJog, vci300Tempo,
+        vci100MK2Tempo
     case cdjPlatterSpeed, cdjRingSpeed, cdj350PlatterSpeed, cdjTempo, needlePosition
     public var isRelative: Bool {
         [
             .twosComplement, .binaryOffset, .signedBit, .paired14BitRelative, .numarkPlatinumJog, .denonJog,
-            .zeroForward, .mc7000Jog, .dj2go2Jog, .signedStep, .binaryStep, .mixstreamJog, .cyclic14BitJog,
+            .zeroForward, .mc7000Jog, .dj2go2Jog, .signedStep, .binaryStep, .binaryDirection, .mixstreamJog,
+            .cyclic14BitJog,
         ]
         .contains(self)
     }
@@ -23,6 +25,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         case .centreDetent: "Knob / fader: centre detent"
         case .centredPitch: "Pitch fader: centre 8192"
         case .binaryStep: "Encoder: 65 / 63, single step"
+        case .binaryDirection: "Encoder: centre 64, single step"
         case .mc7000Jog: "MC7000 jog"
         case .mixstreamJog: "Mixstream Pro jog counter"
         case .cyclic14BitJog: "Cyclic high-resolution jog counter"
@@ -183,6 +186,9 @@ public struct ControllerMIDIValueState: Sendable {
             return .absolute(0.5 + (delta > 0 ? speed : -speed) / 8)
         }
         switch encoding {
+        case .binaryDirection:
+            guard message.maximum == 127, (0...127).contains(message.value) else { return nil }
+            return message.value > 64 ? .relative(1) : message.value < 64 ? .relative(-1) : nil
         case .binaryStep: return message.value == 65 ? .relative(1) : message.value == 63 ? .relative(-1) : nil
         case .zeroForward:
             return message.value == 0 ? .relative(1) : message.value == 127 ? .relative(-1) : nil

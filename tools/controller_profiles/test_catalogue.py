@@ -37,6 +37,7 @@ from vci300 import vci300_profiles, VCI300_SOURCES
 from vci100mk2 import vci100mk2_profiles, VCI100MK2_SOURCES
 from hercules_portable import portable_profiles, PORTABLE_SOURCES
 from inpulse200 import original200_profiles, ORIGINAL200_SOURCES
+from vci400 import vci400_profiles, VCI400_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -818,6 +819,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_vci400_guards_shared_pad_modes_and_retains_direct_load_channels(self):
+        result = vci400_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (136, 16))
+        self.assertEqual(len(result["startup"]) + len(result["shutdown"]), 32)
+        self.assertEqual({r["channel"] for r in result["inputs"] if r["action"] in {"loadA", "loadB"}}, {2, 3, 4, 5})
+        self.assertTrue(all(r["requiredMode"] == 21 for r in result["inputs"] if r["action"].startswith("hotcue")))
+        self.assertEqual([r["argument"] for r in result["inputs"] if r["action"] == "fixedLoopA" and r["targetDeck"] == "a"], [0.125, 0.25, 0.5, 1, 2, 4, 8, 16])
+        self.assertFalse(any(r["action"].startswith("hotcue") for r in result["outputs"]))
+        for name, digest in VCI400_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_original_inpulse200_uses_factory_pairs_and_native_loop_controls(self):
         result = original200_profiles()[0]
         self.assertEqual(result["audioOutput"], "masterAndHeadphones")

@@ -446,3 +446,20 @@ Confirmed right-deck dispatch follows XML and channel-based handlers where the f
 Conflicting shifted PFL/Load/long-press rows remain unmapped.
 The explicit master/headphone layout follows the official guide. Hardware master/headphone knobs do not change software gain again.
 Remaining modes, complete feedback, cleanup, firmware capture and physical calibration stay open.
+
+## VCI-400 mode guards and lifecycle — R238
+
+`vci400.py` retains direct four-target Load dispatch and 4,096-count touch jogs from pinned XML and script facts.
+Native mode starts at Hot Cue rather than the source's unsupported Roll page.
+Cue and fixed-loop pads require their own per-deck mode. Pads remain inactive in unimplemented modes.
+Deck D's eighth pad follows published XML dispatch despite the script's missing constructor entry.
+Pad LEDs remain unmapped until feedback can respect mode context.
+
+`binaryDirection` emits one signed step for any seven-bit displacement from centre 64.
+The inverted loop-size input retains source halve/double direction. Native preselection also works before loop activation.
+Bank loss/selection releases only its physical side and preserves global Shift.
+
+Exact startup clears three inactive mode lights and lights Hot Cue on each of four decks.
+Shutdown clears every mode light. The total setup budget is thirty-two validated messages.
+A fixture accepts that total and rejects thirty-three messages. No source timers or scripts run in the app.
+EGE, CC transport aliases, shared bank-dependent controls, full feedback/cleanup, audio routing and physical calibration remain open.

@@ -2,6 +2,39 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R238 VCI-400 four-target native core
+
+VCI-400 now selects a reviewed four-target native core automatically. EGE firmware retains a separate, unsupported identity.
+Pinned XML gives each deck a direct Load input, avoiding a shared cold-start Load target.
+Known transport-note variants retain Play and held Cue. C/D retain the existing app deck limits.
+
+Native touch scratching retains 4,096 counts per revolution. Paired tempo and level controls keep their low bytes.
+Bank loss and selection reports release Cue/platter contacts and reset pickup only on their own physical side.
+These reports retain held global Shift. Shift guards source eject/brake alternatives and rearms tempo pickup.
+
+Native pad mode starts at Hot Cue. Eight cues and fixed loops from 1/8 to 16 beats have explicit per-deck mode guards.
+Roll and Sampler pages cannot trigger either action. Fixed-loop presses enable their size without toggling an active loop off.
+The native recipe retains deck D's eighth published pad dispatch, which the script constructor omits.
+Pad feedback remains unmapped because the source changes its meaning with the selected mode.
+
+A centred direction encoding converts each non-zero loop-knob packet into one step, regardless of its magnitude.
+Source positive direction halves the loop. Native loop-size preselection also works before activation.
+The encoder ignores its centre and malformed values.
+
+Startup clears all previous mode indicators before lighting Hot Cue on each deck. Shutdown clears all sixteen mode lights.
+The setup budget increases from sixteen to thirty-two validated messages across startup and shutdown to fit these exact sequences.
+Only discovery/disconnect uses these messages. The audio render path receives no new work.
+
+All 62 final targeted Swift checks, 71 importer/report checks and native iPad compilation pass.
+Fixtures cover mode isolation, all deck targets, held Shift, bank release, pickup, the setup bound and native scratch/loop behaviour.
+The bundled resource matches the source. All 161 other recipes remain unchanged.
+Factory coverage reaches 104 profiles for 108 physical models, plus six other models through native adapters.
+The catalogue retains 305 records and 162 data recipes. Automatic core coverage reaches 59 of the 122 pinned Serato benchmark models.
+
+CC transport aliases, shared bank-dependent Key Lock, scratch-button contact, brake/inertia code, other modes and full lights remain open.
+Master/headphone controls, complete cleanup, audio routing, calibration and physical acceptance also remain open.
+Source identities and validation results appear in `TestBuilds/r238/validation.json`. No signed app or installation was produced.
+
 ## R237 original Inpulse 200 factory-backed native core
 
 The original Inpulse 200 retains its identity and gains a reviewed native recipe. Its earlier partial recipe already selected automatically.
