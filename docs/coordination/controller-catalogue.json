@@ -17982,12 +17982,14 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%202.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%202.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%202.midi.xml"
       ],
       "definitions": [
-        "MixVibes U-Mix Control 2.midi.xml"
+        "MixVibes U-Mix Control 2.midi.xml",
+        "manufacturer:mixvibesumixcontrol2"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "MixVibes U-Mix Control 2",
@@ -18023,20 +18025,30 @@
         "loadB:b",
         "loopA:a",
         "loopB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
         "lowA:a",
         "lowB:b",
         "master",
         "midA:a",
         "midB:b",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
         "playA:a",
         "playB:b",
+        "shift",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 41,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 71,
+      "feedbackBindingCount": 28,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
@@ -18055,7 +18067,7 @@
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 32,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
@@ -18065,7 +18077,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Factory LoadA CC5 conflicts with the working Note5 mapping; CC5 stays inactive. Full three-state PitchMode/Vinyl/FX/EQ-kill modes, Tap, held Hot Cue preview, clip/end animation, complete feedback/reset and calibration remain open. No audio interface, Pro touch/rim or Pro2 sensor scale is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -317281,6 +317293,41 @@
         },
         {
           "reason": "USB drivers and Konverter translate native USB reports. Direct iPad USB and a qualified bridge remain unimplemented. Physical Shift/banks, other controls, LED feedback/full lifecycle and calibration remain open. No automatic selection or integrated audio is claimed. Manual apply does not activate an input."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:mixvibesumixcontrol2",
+      "name": "MixVibes U-Mix Control 2",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%202.midi.xml",
+        "sha256": "89a62e4ba79ded920dca67e16b2632b1e9020bdd7a79d78cb5f2feecdefa7b0a",
+        "relatedSources": [
+          {
+            "url": "https://manuals.plus/m/534f13fed15e77a7709306d246918757539a81c8a352f65475210943d6a927f9.pdf",
+            "pages": [
+              121,
+              122,
+              123,
+              124,
+              125,
+              126
+            ]
+          }
+        ],
+        "review": "Factory guide explicitly distinguishes non-touch Control2 from original touch Pro; Pro2 is another model. Control2 wheels are centre64 CC22, with no contact or rim messages. Native unheld wheel behaviour uses default calibration. Factory relative loop/browser encoding is signed127/1 with64 negative. Published six cue addresses, direct source Note Load5/6, native held Cue/bend, source keylock on PitchMode8, inverse centred pitch, mixer and loop controls retain source facts. Factory table calls LoadA CC5 while the pinned mapping uses Note5; this recipe follows the working Note form and leaves CC5 inactive. Factory Loop push Note13 and rotation CC13 correct the source's incomplete/asymmetric loop mapping. Global Shift2 on mixer channel2 blocks unsupported layers; shifted release-only contacts cannot trigger normal actions. Feedback uses steady127/0, not source beat/clip animation. Setup/shutdown own62 messages. Full three-state pitch/Vinyl/FX/EQ-kill modes, held Hot Cue preview, complete feedback/reset and physical calibration remain open. No audio interface, Pro touch or Pro2 340-count scale is inferred."
+      },
+      "implementedInputCount": 71,
+      "implementedOutputCount": 28,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Factory LoadA CC5 conflicts with the working Note5 mapping; CC5 stays inactive. Full three-state PitchMode/Vinyl/FX/EQ-kill modes, Tap, held Hot Cue preview, clip/end animation, complete feedback/reset and calibration remain open. No audio interface, Pro touch/rim or Pro2 sensor scale is inferred."
         }
       ]
     },

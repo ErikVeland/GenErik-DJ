@@ -77,6 +77,7 @@ from mcx8000 import mcx_profiles, MCX_SHA
 from mix101 import mix101_profiles
 from tek2 import tek2_profiles, TEK2_SOURCES
 from kdj500 import kdj_profiles, KDJ_SOURCES
+from umix_control2 import umix2_profiles, UMIX2_SHA
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -858,6 +859,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_umix_control2_non_touch_core_uses_factory_loop_and_separate_source_load(self):
+        item, = umix2_profiles()
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (71, 28))
+        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 62)
+        self.assertFalse(any(r["action"].startswith("jogTouch") for r in item["inputs"]))
+        self.assertEqual([(r["kind"], r["number"]) for r in item["inputs"] if r["action"].startswith("load")], [("note", 5), ("note", 6)])
+        self.assertEqual([r["number"] for r in item["inputs"] if r["action"].startswith("hotcue6")], [26, 26, 26, 127, 26, 127])
+        self.assertNotIn("audioOutput", item)
+        path = ROOT / "TestBuilds/r169/upstream/res/controllers/MixVibes U-Mix Control 2.midi.xml"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), UMIX2_SHA)
+
     def test_kdj500_translated_midi_core_preserves_strict_inverted_encoder_rule(self):
         item, = kdj_profiles()
         self.assertFalse(item["autoSelect"])

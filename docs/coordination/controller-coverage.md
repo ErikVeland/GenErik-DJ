@@ -3170,3 +3170,23 @@ All 170 other recipes remain unchanged. The bundled resource matches the source.
 Automatic core coverage stays at 150 physical models, including 65/122 benchmark models. Complete theoretical parity remains open.
 Repository checks retain twelve historical-link failures. No signed app, installation or physical acceptance occurred.
 Exact factory file identities and results are in ignored `TestBuilds/r285/validation.json`.
+
+## R286 Non-Pro U-Mix Control 2 core
+
+The [factory MIDI tables](https://manuals.plus/m/534f13fed15e77a7709306d246918757539a81c8a352f65475210943d6a927f9.pdf) distinguish the non-touch Control 2 from the original touch-sensitive Pro.
+The reviewed core retains non-touch wheels, centred pitch, six cues, source Load, mixer, loop push/rotation and browser controls.
+Shift blocks unsupported layers. Release-only aliases end owned Cue/bend contacts without triggering normal or delete actions.
+Factory feedback uses steady values 127/0. Setup/shutdown use 62 bounded messages.
+
+The pinned source supplies Load A as Note 5. The factory table labels it CC 5. This recipe retains the working source form.
+The separate factory loop push and signed rotation correct the source's incomplete loop rows.
+No Pro touch/rim, Pro 2 sensor scale, audio interface or headphone knob is inferred.
+Full pitch/Vinyl/FX/EQ-kill modes, held cue-pad preview, animation, full reset and calibration remain open.
+All seven focused Swift tests, 117 importer checks and native iPad framework compilation pass.
+The real-file fixture verifies shifted Cue/bend release, native loop size, continuing playback, finite audio and saved Sync.
+The first generic fixture expected another automatic profile. Inspection showed that the earlier partial recipe already selected automatically.
+Its coverage expectation stays unchanged. The failed log remains preserved.
+All 170 other recipes remain unchanged. The bundled resource matches the source.
+Automatic core coverage stays at 150 physical models, including 65/122 benchmark models. Complete theoretical parity remains open.
+Repository checks retain twelve historical-link failures. No signed app, installation or physical acceptance occurred.
+Exact source identities, new research files and results are in ignored `TestBuilds/r286/validation.json`.

@@ -969,3 +969,24 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueUMixControl2NativeShiftReleaseAndFactoryLoopKeepSync() async throws {
+    try await withControllerCuePlayback("U-MIX CONTROL 2") { model, input in
+        cuePreviewPacket([0x90, 1, 127, 0x92, 2, 127, 0x83, 1, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(!model.controllerJogTouched.contains(.a))
+        cuePreviewPacket([0x92, 2, 0], to: input)
+        model.setLoopSize(8, deck: .a)
+        cuePreviewPacket([0x90, 13, 127, 0xB0, 13, 127], to: input)
+        #expect(model.performance.loopBeats(for: .a) == 4)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        model.pressPlay(deck: .a, vinylStop: false)
+        cuePreviewPacket([0x90, 4, 127, 0x92, 2, 127, 0x83, 4, 127], to: input)
+        #expect(model.playbackSnapshot?.a.performanceRate == 1)
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

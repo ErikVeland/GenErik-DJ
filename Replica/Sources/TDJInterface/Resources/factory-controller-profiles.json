@@ -46955,20 +46955,20 @@
     {
       "id": "MixVibes U-Mix Control 2",
       "aliases": [
-        "MixVibes U-MIX CONTROL 2 MIDI 1",
         "MixVibes U-Mix Control 2",
-        "U-Mix Control 2"
+        "U-MIX CONTROL 2"
       ],
-      "definition": "MixVibes U-Mix Control 2.midi.xml",
+      "definition": "manufacturer:mixvibesumixcontrol2",
       "inputs": [
         {
-          "action": "levelA",
-          "kind": "control",
+          "action": "playA",
+          "kind": "note",
           "channel": 0,
-          "number": 21,
+          "number": 2,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "shifted": false
         },
         {
           "action": "cuePreviewA",
@@ -46977,16 +46977,8 @@
           "number": 1,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "playA",
-          "kind": "note",
-          "channel": 0,
-          "number": 2,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "shifted": false
         },
         {
           "action": "syncA",
@@ -46995,16 +46987,8 @@
           "number": 3,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "keylockA",
-          "kind": "note",
-          "channel": 0,
-          "number": 8,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "shifted": false
         },
         {
           "action": "cueA",
@@ -47013,7 +46997,38 @@
           "number": 16,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "shifted": false
+        },
+        {
+          "action": "keylockA",
+          "kind": "note",
+          "channel": 0,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false
+        },
+        {
+          "action": "pitchBendUpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false
+        },
+        {
+          "action": "pitchBendDownA",
+          "kind": "note",
+          "channel": 0,
+          "number": 4,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false
         },
         {
           "action": "loadA",
@@ -47022,274 +47037,28 @@
           "number": 5,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "shifted": false
         },
         {
-          "action": "loadB",
-          "kind": "note",
-          "channel": 2,
-          "number": 6,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "cuePreviewB",
-          "kind": "note",
-          "channel": 1,
-          "number": 1,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "playB",
-          "kind": "note",
-          "channel": 1,
-          "number": 2,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "syncB",
-          "kind": "note",
-          "channel": 1,
-          "number": 3,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "keylockB",
-          "kind": "note",
-          "channel": 1,
-          "number": 8,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "hotcue1B",
-          "kind": "note",
-          "channel": 1,
-          "number": 10,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "hotcue2B",
-          "kind": "note",
-          "channel": 1,
-          "number": 11,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "hotcue3B",
-          "kind": "note",
-          "channel": 1,
-          "number": 12,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "loopB",
-          "kind": "note",
-          "channel": 1,
-          "number": 13,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "cueB",
-          "kind": "note",
-          "channel": 1,
-          "number": 16,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "hotcue1A",
-          "kind": "note",
+          "action": "wheelJogA",
+          "kind": "control",
           "channel": 0,
-          "number": 10,
-          "encoding": "absolute",
+          "number": 22,
+          "encoding": "binaryOffset",
           "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "hotcue2A",
-          "kind": "note",
-          "channel": 0,
-          "number": 11,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "hotcue3A",
-          "kind": "note",
-          "channel": 0,
-          "number": 12,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "hotcue4B",
-          "kind": "note",
-          "channel": 1,
-          "number": 24,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "hotcue5B",
-          "kind": "note",
-          "channel": 1,
-          "number": 25,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "hotcue6B",
-          "kind": "note",
-          "channel": 1,
-          "number": 26,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "hotcue4A",
-          "kind": "note",
-          "channel": 0,
-          "number": 24,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "hotcue5A",
-          "kind": "note",
-          "channel": 0,
-          "number": 25,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "hotcue6A",
-          "kind": "note",
-          "channel": 0,
-          "number": 26,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "shifted": false
         },
         {
           "action": "tempoA",
           "kind": "pitch",
           "channel": 0,
-          "number": 107,
-          "encoding": "absolute",
+          "number": 0,
+          "encoding": "centredPitch",
           "inverted": true,
-          "targetDeck": "a"
-        },
-        {
-          "action": "tempoB",
-          "kind": "pitch",
-          "channel": 1,
-          "number": 67,
-          "encoding": "absolute",
-          "inverted": true,
-          "targetDeck": "b"
-        },
-        {
-          "action": "crossfader",
-          "kind": "control",
-          "channel": 2,
-          "number": 1,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "master",
-          "kind": "control",
-          "channel": 2,
-          "number": 3,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "browse",
-          "kind": "control",
-          "channel": 2,
-          "number": 4,
-          "encoding": "twosComplement",
-          "inverted": false
-        },
-        {
-          "action": "gainB",
-          "kind": "control",
-          "channel": 1,
-          "number": 17,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "highB",
-          "kind": "control",
-          "channel": 1,
-          "number": 18,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "midB",
-          "kind": "control",
-          "channel": 1,
-          "number": 19,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "loopA",
-          "kind": "control",
-          "channel": 0,
-          "number": 13,
-          "encoding": "twosComplement",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "lowB",
-          "kind": "control",
-          "channel": 1,
-          "number": 20,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "levelB",
-          "kind": "control",
-          "channel": 1,
-          "number": 21,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "a",
+          "shifted": false
         },
         {
           "action": "gainA",
@@ -47298,7 +47067,8 @@
           "number": 17,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "shifted": false
         },
         {
           "action": "highA",
@@ -47307,7 +47077,8 @@
           "number": 18,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "shifted": false
         },
         {
           "action": "midA",
@@ -47316,7 +47087,8 @@
           "number": 19,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "shifted": false
         },
         {
           "action": "lowA",
@@ -47325,15 +47097,1176 @@
           "number": 20,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "shifted": false
+        },
+        {
+          "action": "levelA",
+          "kind": "control",
+          "channel": 0,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false
+        },
+        {
+          "action": "loopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 13,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false
+        },
+        {
+          "action": "loopSizeA",
+          "kind": "control",
+          "channel": 0,
+          "number": 13,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false
+        },
+        {
+          "action": "hotcue1A",
+          "kind": "note",
+          "channel": 0,
+          "number": 10,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false
+        },
+        {
+          "action": "hotcue2A",
+          "kind": "note",
+          "channel": 0,
+          "number": 11,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false
+        },
+        {
+          "action": "hotcue3A",
+          "kind": "note",
+          "channel": 0,
+          "number": 12,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false
+        },
+        {
+          "action": "hotcue4A",
+          "kind": "note",
+          "channel": 0,
+          "number": 24,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false
+        },
+        {
+          "action": "hotcue5A",
+          "kind": "note",
+          "channel": 0,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false
+        },
+        {
+          "action": "hotcue6A",
+          "kind": "note",
+          "channel": 0,
+          "number": 26,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": false
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 1,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 1,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 1,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 1,
+          "number": 16,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "keylockB",
+          "kind": "note",
+          "channel": 1,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "pitchBendUpB",
+          "kind": "note",
+          "channel": 1,
+          "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "pitchBendDownB",
+          "kind": "note",
+          "channel": 1,
+          "number": 4,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 2,
+          "number": 6,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "wheelJogB",
+          "kind": "control",
+          "channel": 1,
+          "number": 22,
+          "encoding": "binaryOffset",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "tempoB",
+          "kind": "pitch",
+          "channel": 1,
+          "number": 0,
+          "encoding": "centredPitch",
+          "inverted": true,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "gainB",
+          "kind": "control",
+          "channel": 1,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "highB",
+          "kind": "control",
+          "channel": 1,
+          "number": 18,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "midB",
+          "kind": "control",
+          "channel": 1,
+          "number": 19,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "lowB",
+          "kind": "control",
+          "channel": 1,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "levelB",
+          "kind": "control",
+          "channel": 1,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "loopB",
+          "kind": "note",
+          "channel": 1,
+          "number": 13,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "loopSizeB",
+          "kind": "control",
+          "channel": 1,
+          "number": 13,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "hotcue1B",
+          "kind": "note",
+          "channel": 1,
+          "number": 10,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "hotcue2B",
+          "kind": "note",
+          "channel": 1,
+          "number": 11,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "hotcue3B",
+          "kind": "note",
+          "channel": 1,
+          "number": 12,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "hotcue4B",
+          "kind": "note",
+          "channel": 1,
+          "number": 24,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "hotcue5B",
+          "kind": "note",
+          "channel": 1,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "hotcue6B",
+          "kind": "note",
+          "channel": 1,
+          "number": 26,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": false
+        },
+        {
+          "action": "crossfader",
+          "kind": "control",
+          "channel": 2,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "shifted": false
+        },
+        {
+          "action": "master",
+          "kind": "control",
+          "channel": 2,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "shifted": false
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 2,
+          "number": 4,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "shifted": false
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 2,
+          "number": 4,
+          "encoding": "absolute",
+          "inverted": false,
+          "shifted": false
+        },
+        {
+          "action": "cuePreviewA",
+          "kind": "note",
+          "channel": 3,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "pitchBendUpA",
+          "kind": "note",
+          "channel": 3,
+          "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "pitchBendDownA",
+          "kind": "note",
+          "channel": 3,
+          "number": 4,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue1A",
+          "kind": "note",
+          "channel": 3,
+          "number": 10,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue2A",
+          "kind": "note",
+          "channel": 3,
+          "number": 11,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue3A",
+          "kind": "note",
+          "channel": 3,
+          "number": 12,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue4A",
+          "kind": "note",
+          "channel": 3,
+          "number": 24,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue5A",
+          "kind": "note",
+          "channel": 3,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue6A",
+          "kind": "note",
+          "channel": 3,
+          "number": 26,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue6A",
+          "kind": "note",
+          "channel": 3,
+          "number": 127,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 4,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
+          "action": "pitchBendUpB",
+          "kind": "note",
+          "channel": 4,
+          "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
+          "action": "pitchBendDownB",
+          "kind": "note",
+          "channel": 4,
+          "number": 4,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue1B",
+          "kind": "note",
+          "channel": 4,
+          "number": 10,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue2B",
+          "kind": "note",
+          "channel": 4,
+          "number": 11,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue3B",
+          "kind": "note",
+          "channel": 4,
+          "number": 12,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue4B",
+          "kind": "note",
+          "channel": 4,
+          "number": 24,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue5B",
+          "kind": "note",
+          "channel": 4,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue6B",
+          "kind": "note",
+          "channel": 4,
+          "number": 26,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
+          "action": "hotcue6B",
+          "kind": "note",
+          "channel": 4,
+          "number": 127,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
+          "action": "shift",
+          "kind": "note",
+          "channel": 2,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false
         }
       ],
-      "outputs": [],
-      "startup": [],
-      "shutdown": [],
+      "outputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 0,
+          "number": 2,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cuePreviewA",
+          "kind": "note",
+          "channel": 0,
+          "number": 1,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 0,
+          "number": 3,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cueA",
+          "kind": "note",
+          "channel": 0,
+          "number": 16,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "keylockA",
+          "kind": "note",
+          "channel": 0,
+          "number": 8,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "pitchBendUpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 5,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "pitchBendDownA",
+          "kind": "note",
+          "channel": 0,
+          "number": 4,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "loopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 13,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue1A",
+          "kind": "note",
+          "channel": 0,
+          "number": 10,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue2A",
+          "kind": "note",
+          "channel": 0,
+          "number": 11,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue3A",
+          "kind": "note",
+          "channel": 0,
+          "number": 12,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue4A",
+          "kind": "note",
+          "channel": 0,
+          "number": 24,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue5A",
+          "kind": "note",
+          "channel": 0,
+          "number": 25,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue6A",
+          "kind": "note",
+          "channel": 0,
+          "number": 26,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 1,
+          "number": 2,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 1,
+          "number": 1,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 1,
+          "number": 3,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 1,
+          "number": 16,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "keylockB",
+          "kind": "note",
+          "channel": 1,
+          "number": 8,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "pitchBendUpB",
+          "kind": "note",
+          "channel": 1,
+          "number": 5,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "pitchBendDownB",
+          "kind": "note",
+          "channel": 1,
+          "number": 4,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "loopB",
+          "kind": "note",
+          "channel": 1,
+          "number": 13,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue1B",
+          "kind": "note",
+          "channel": 1,
+          "number": 10,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue2B",
+          "kind": "note",
+          "channel": 1,
+          "number": 11,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue3B",
+          "kind": "note",
+          "channel": 1,
+          "number": 12,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue4B",
+          "kind": "note",
+          "channel": 1,
+          "number": 24,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue5B",
+          "kind": "note",
+          "channel": 1,
+          "number": 25,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "hotcue6B",
+          "kind": "note",
+          "channel": 1,
+          "number": 26,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        }
+      ],
+      "startup": [
+        [
+          144,
+          2,
+          0
+        ],
+        [
+          144,
+          1,
+          0
+        ],
+        [
+          144,
+          3,
+          0
+        ],
+        [
+          144,
+          16,
+          0
+        ],
+        [
+          144,
+          8,
+          0
+        ],
+        [
+          144,
+          5,
+          0
+        ],
+        [
+          144,
+          4,
+          0
+        ],
+        [
+          144,
+          13,
+          0
+        ],
+        [
+          144,
+          10,
+          0
+        ],
+        [
+          144,
+          11,
+          0
+        ],
+        [
+          144,
+          12,
+          0
+        ],
+        [
+          144,
+          24,
+          0
+        ],
+        [
+          144,
+          25,
+          0
+        ],
+        [
+          144,
+          26,
+          0
+        ],
+        [
+          145,
+          2,
+          0
+        ],
+        [
+          145,
+          1,
+          0
+        ],
+        [
+          145,
+          3,
+          0
+        ],
+        [
+          145,
+          16,
+          0
+        ],
+        [
+          145,
+          8,
+          0
+        ],
+        [
+          145,
+          5,
+          0
+        ],
+        [
+          145,
+          4,
+          0
+        ],
+        [
+          145,
+          13,
+          0
+        ],
+        [
+          145,
+          10,
+          0
+        ],
+        [
+          145,
+          11,
+          0
+        ],
+        [
+          145,
+          12,
+          0
+        ],
+        [
+          145,
+          24,
+          0
+        ],
+        [
+          145,
+          25,
+          0
+        ],
+        [
+          145,
+          26,
+          0
+        ],
+        [
+          146,
+          3,
+          0
+        ],
+        [
+          144,
+          7,
+          0
+        ],
+        [
+          145,
+          7,
+          0
+        ]
+      ],
+      "shutdown": [
+        [
+          144,
+          2,
+          0
+        ],
+        [
+          144,
+          1,
+          0
+        ],
+        [
+          144,
+          3,
+          0
+        ],
+        [
+          144,
+          16,
+          0
+        ],
+        [
+          144,
+          8,
+          0
+        ],
+        [
+          144,
+          5,
+          0
+        ],
+        [
+          144,
+          4,
+          0
+        ],
+        [
+          144,
+          13,
+          0
+        ],
+        [
+          144,
+          10,
+          0
+        ],
+        [
+          144,
+          11,
+          0
+        ],
+        [
+          144,
+          12,
+          0
+        ],
+        [
+          144,
+          24,
+          0
+        ],
+        [
+          144,
+          25,
+          0
+        ],
+        [
+          144,
+          26,
+          0
+        ],
+        [
+          145,
+          2,
+          0
+        ],
+        [
+          145,
+          1,
+          0
+        ],
+        [
+          145,
+          3,
+          0
+        ],
+        [
+          145,
+          16,
+          0
+        ],
+        [
+          145,
+          8,
+          0
+        ],
+        [
+          145,
+          5,
+          0
+        ],
+        [
+          145,
+          4,
+          0
+        ],
+        [
+          145,
+          13,
+          0
+        ],
+        [
+          145,
+          10,
+          0
+        ],
+        [
+          145,
+          11,
+          0
+        ],
+        [
+          145,
+          12,
+          0
+        ],
+        [
+          145,
+          24,
+          0
+        ],
+        [
+          145,
+          25,
+          0
+        ],
+        [
+          145,
+          26,
+          0
+        ],
+        [
+          146,
+          3,
+          0
+        ],
+        [
+          144,
+          7,
+          0
+        ],
+        [
+          145,
+          7,
+          0
+        ]
+      ],
       "autoSelect": true,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%202.midi.xml"
+      "scope": "Automatic non-Pro two-deck core: unheld wheels, centred pitch, six cues, held Cue/bend, source Load, mixer, signed loop/browser and steady feedback. Full modes/feedback, default jog calibration and physical acceptance remain open.",
+      "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%202.midi.xml",
+      "gaps": [
+        "Factory LoadA CC5 conflicts with the working Note5 mapping; CC5 stays inactive. Full three-state PitchMode/Vinyl/FX/EQ-kill modes, Tap, held Hot Cue preview, clip/end animation, complete feedback/reset and calibration remain open. No audio interface, Pro touch/rim or Pro2 sensor scale is inferred."
+      ]
     },
     {
       "id": "MixVibes U-Mix Control Pro 2",
