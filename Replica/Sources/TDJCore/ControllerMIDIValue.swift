@@ -3,7 +3,7 @@ import Foundation
 public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     case absolute, paired14Bit, paired14BitRelative, twosComplement, binaryOffset, signedBit
     case numarkPlatinumJog, denonJog, zeroForward, mc7000Jog, dj2go2Jog, signedStep
-    case binaryStep, centreDetent, centredPitch, mixstreamJog, cyclic14BitJog, vci300Tempo
+    case binaryStep, centreDetent, centredPitch, mixstreamJog, cyclic14BitJog, vci300Tempo, vci100MK2Tempo
     case cdjPlatterSpeed, cdjRingSpeed, cdj350PlatterSpeed, cdjTempo, needlePosition
     public var isRelative: Bool {
         [
@@ -14,9 +14,9 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     }
     public var isPairedCC: Bool {
         self == .paired14Bit || self == .paired14BitRelative || self == .mixstreamJog || self == .cyclic14BitJog
-            || self == .vci300Tempo
+            || self == .vci300Tempo || self == .vci100MK2Tempo
     }
-    public var supportsLearning: Bool { self != .mixstreamJog && self != .cyclic14BitJog }
+    public var supportsLearning: Bool { self != .mixstreamJog && self != .cyclic14BitJog && self != .vci100MK2Tempo }
     public var title: String {
         switch self {
         case .absolute: "Knob / fader"
@@ -27,6 +27,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         case .mixstreamJog: "Mixstream Pro jog counter"
         case .cyclic14BitJog: "Cyclic high-resolution jog counter"
         case .vci300Tempo: "VCI-300 tempo fader"
+        case .vci100MK2Tempo: "VCI-100MKII tempo fader"
         case .dj2go2Jog: "DJ2GO2 Touch jog"
         case .signedStep: "Encoder: 1 / 127, single step"
         case .denonJog: "Denon jog"
@@ -73,7 +74,7 @@ public struct ControllerMIDIValueState: Sendable {
             return .absolute(min(1, max(0, Double(message.value - 1) / 16382)))
         }
         let low = lowNumber ?? (number < 32 ? number + 32 : nil)
-        if encoding == .cyclic14BitJog || encoding == .vci300Tempo {
+        if encoding == .cyclic14BitJog || encoding == .vci300Tempo || encoding == .vci100MK2Tempo {
             guard message.kind == .control, message.maximum == 127, number < 128,
                 (0...127).contains(message.value), let low, low < 128, low != number
             else { return nil }
@@ -83,6 +84,9 @@ public struct ControllerMIDIValueState: Sendable {
             }
             guard message.number == low, let high = relativeMSB else { return nil }
             relativeMSB = nil
+            if encoding == .vci100MK2Tempo {
+                return .absolute(Double(Int(high) << 7 | message.value) / 16384)
+            }
             if encoding == .vci300Tempo {
                 let pitch = Int(high) << 2 | (message.value >> 5)
                 let delta = pitch - 256

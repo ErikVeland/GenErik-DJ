@@ -404,3 +404,18 @@ This blocks unsupported search/scroll gestures until every relevant hold release
 Shift rearms tempo pickup as a native safety policy. The source pitch handler does not guard Shift.
 Scroll/PFL loading retains native cue policy rather than changing exclusive PFL.
 Source scopes, remaining functions and physical limits appear in the catalogue and coverage record.
+
+## VCI-100MKII four-target core — R234
+
+`vci100mk2.py` retains the pinned XML dispatch and script-defined 2,400-count jog resolution.
+Its fourteen-bit pitch, level and crossfader low bytes sit sixteen controller numbers above their high bytes.
+The explicit low-byte contract already supports these pairs.
+`vci100MK2Tempo` consumes a fresh pair and returns `raw / 16384`.
+This preserves the source centre and endpoint asymmetry after translating Mixxx rate direction once.
+Factory-only selection prevents automatic learning from assuming the standard low-byte offset.
+
+Fixed global-channel Shift notes populate independent physical-side scopes and one combined loop-size guard.
+Bank reports reset contacts and pickup without clearing physical Shift.
+Alternate release aliases preserve normal button edges and held Cue, including releases after a bank change.
+The native core omits source library-focus changes, quantised pitch, brake/slip timers and unsupported alternate functions.
+Bounded shutdown clears reviewed Play, Sync, Key Lock and PFL lights. Complete cleanup and routing remain open.

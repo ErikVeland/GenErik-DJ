@@ -128,7 +128,7 @@ struct ControllerProfileData: Decodable, Sendable {
                     && ($0.shiftInput == nil
                         || ($0.shiftInput! < 16 && $0.action == .shift && $0.kind == .note))
                     && ($0.encoding != .centredPitch || ($0.kind == .pitch && $0.number == 0))
-                    && (![.mixstreamJog, .cyclic14BitJog].contains($0.encoding) || $0.lowNumber != nil)
+                    && (![.mixstreamJog, .cyclic14BitJog, .vci100MK2Tempo].contains($0.encoding) || $0.lowNumber != nil)
                     && Self.validArgument($0)
                     && (![
                         .centreDetent, .binaryStep, .signedStep, .dj2go2Jog, .mc7000Jog, .denonJog, .zeroForward,

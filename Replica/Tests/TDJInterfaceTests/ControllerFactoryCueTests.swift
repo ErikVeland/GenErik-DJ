@@ -28,7 +28,7 @@ import Testing
     var covered = 0
     for profile in profiles {
         let cues = profile.bindings(source: 10, playerDeck: profile.isPlayer ? .a : nil).filter {
-            [.cuePreviewA, .cuePreviewB].contains($0.action) && !$0.isShifted
+            [.cuePreviewA, .cuePreviewB].contains($0.action) && !$0.isShifted && $0.releaseOnly != true
         }
         if cues.isEmpty { continue }
         covered += 1
@@ -50,7 +50,7 @@ import Testing
             }
         }
     }
-    #expect(covered == 95)
+    #expect(covered == 96)
 }
 
 @Test @MainActor func controllerCataloguePioneerPlayerCueReassignmentReleasesThePreviousDeck() throws {

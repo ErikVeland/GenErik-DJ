@@ -34,6 +34,7 @@ from vestax_compact import compact_profiles, COMPACT_SOURCES
 from rp8000 import rp8000_profiles, RP8000_REFERENCES
 from scratch import scratch_profiles, SCRATCH_SOURCES
 from vci300 import vci300_profiles, VCI300_SOURCES
+from vci100mk2 import vci100mk2_profiles, VCI100MK2_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -815,6 +816,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_vci100mk2_keeps_four_targets_physical_shift_and_nonstandard_pairs(self):
+        result = vci100mk2_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (126, 28))
+        self.assertEqual(len(result["bankChanges"]), 4)
+        self.assertEqual(len(result["shutdown"]), 16)
+        self.assertEqual(len([r for r in result["inputs"] if r.get("releaseOnly")]), 40)
+        self.assertTrue(all(r["lowNumber"] - r["number"] == 16 for r in result["inputs"] if r["encoding"] in {"paired14Bit", "vci100MK2Tempo"}))
+        self.assertTrue(all(r["argument"] == 2400 for r in result["inputs"] if r["action"] in {"jogA", "jogB"}))
+        for name, digest in VCI100MK2_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_vci300_uses_cyclic_counts_nine_bit_pitch_and_composed_modifiers(self):
         result = vci300_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (61, 24))

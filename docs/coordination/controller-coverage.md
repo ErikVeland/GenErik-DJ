@@ -2,6 +2,38 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R234 VCI-100MKII four-target native core
+
+The existing VCI-100MKII recipe now selects its own four-target core automatically.
+Pinned XML and script handlers define A/B/C/D channels and physical A/C and B/D bank reports.
+The original VCI-100 retains its separate record and implementation status.
+
+A dedicated tempo decoder preserves fourteen-bit raw values, exact centre 8192 and the source endpoint asymmetry.
+Every result requires a fresh high/low pair. Pitch, level and crossfader pairs declare their unusual sixteen-controller offset explicitly.
+This prevents the standard thirty-two-controller assumption from pairing unrelated controls.
+The tempo encoding requires the factory profile. Native pickup protects tempo across Shift and bank changes.
+
+Physical Shift uses fixed notes on the global channel. Its scopes survive deck-bank changes.
+Each bank report releases held Cue and platter contacts only on its own physical side.
+Shifted release aliases rearm ordinary buttons and finish held Cue without executing unsupported alternate actions.
+Both Shift keys guard loop-size buttons because the source changes their meaning under either hold.
+
+Native fixed touch scratching retains 2,400 counts per revolution.
+Other core controls include gain, three-band EQ, paired levels, crossfader, master/headphone amounts and Cue Mix.
+Play, held Cue, Sync, Key Lock, two Hot Cues, native loops, browsing and Shift/Load retain reviewed dispatch.
+C/D keep the existing app deck limits. Source focus movement, quantised pitch, pitch adjustment and brake/slip timers remain unmapped.
+Feedback retains reviewed core addresses. Bounded cleanup clears Play, Sync, Key Lock and PFL, with remaining lights still open.
+
+Factory coverage reaches 103 profiles for 107 physical models. Six other models retain automatic native adapters.
+The catalogue retains 305 records and 162 recipes. All 161 other recipes remain unchanged.
+Full modes, feedback, cleanup, audio routing, physical calibration and A10X acceptance remain open.
+All 38 targeted Swift checks, 67 importer/report checks and native iPad compilation pass.
+The tempo fixture checks every fourteen-bit value. Mixer fixtures reject unrelated standard-offset low bytes.
+The exhaustive Cue check now selects press bindings, while dedicated fixtures verify release-only aliases.
+The first run's fixture failures remain recorded. The bundled resource matches the source.
+Source identities and validation results appear in `TestBuilds/r234/validation.json`.
+No signed app or installation forms part of this increment.
+
 ## R233 VCI-300 cyclic jogs and nine-bit tempo
 
 The existing VCI-300 record now selects a reviewed two-deck native core automatically.

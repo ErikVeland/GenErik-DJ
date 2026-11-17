@@ -26414,17 +26414,22 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100MKII.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100MKII.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100MKII.midi.xml"
       ],
       "definitions": [
-        "Vestax VCI-100MKII.midi.xml"
+        "Vestax VCI-100MKII.midi.xml",
+        "manufacturer:vestaxvci100mk2"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Vestax VCI-100MKII",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browseNext",
+        "browsePrevious",
+        "crossfader",
         "cueA:a",
         "cueA:c",
         "cueB:b",
@@ -26450,18 +26455,38 @@
         "hotcue2A:c",
         "hotcue2B:b",
         "hotcue2B:d",
-        "jumpBackA:a",
-        "jumpBackA:c",
-        "jumpBackB:b",
-        "jumpBackB:d",
-        "jumpForwardA:a",
-        "jumpForwardA:c",
-        "jumpForwardB:b",
-        "jumpForwardB:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
         "keylockA:a",
         "keylockA:c",
         "keylockB:b",
         "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
         "lowA:a",
         "lowA:c",
         "lowB:b",
@@ -26476,43 +26501,46 @@
         "playA:c",
         "playB:b",
         "playB:d",
+        "shift",
         "syncA:a",
         "syncA:c",
         "syncB:b",
-        "syncB:d"
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
       ],
-      "inputBindingCount": 55,
-      "feedbackBindingCount": 20,
+      "inputBindingCount": 126,
+      "feedbackBindingCount": 28,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 194,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -313657,6 +313685,35 @@
       },
       "implementedInputCount": 61,
       "implementedOutputCount": 24,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:vestaxvci100mk2",
+      "name": "Vestax VCI-100MKII",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100MKII.midi.xml",
+        "sha256": "ca8cd77428b7cf6133158b048a002e77f5db43a3aa27ab7e8195c71df35b9677",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100MKII.midi.xml",
+            "sha256": "ca8cd77428b7cf6133158b048a002e77f5db43a3aa27ab7e8195c71df35b9677"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax-VCI-100MKII-scripts.js",
+            "sha256": "ac8e4211219dabb7b653514b4ea7e0d174082ac6595dadb20d12d388f670ece4"
+          }
+        ],
+        "review": "XML dispatch defines four target channels, fixed physical Shift notes and explicit A/C and B/D bank reports. Normal pitch high/low addresses differ by sixteen, not the MIDI standard thirty-two. The source rate expression is centred at raw 8192 and translates once through Mixxx rate_dir. A fresh pair produces native raw/16384, retaining exact centre and source endpoint asymmetry. Native fixed touch scratching retains 2400 counts per revolution. Shifted release aliases preserve ordinary buttons and held Cue. Both physical Shift keys guard loop-size functions because the source changes their meaning under either hold. Shift plus the navigation/load button loads. Source library focus changes, brake/slip timers, quantised pitch, pitch adjustment, alternate functions, full lights, cleanup, routing and physical calibration remain open."
+      },
+      "implementedInputCount": 126,
+      "implementedOutputCount": 28,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
