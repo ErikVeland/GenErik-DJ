@@ -4,6 +4,11 @@ REVIEWED = "2026-11-17"
 DENON_ENGINE = "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
 RELOOP_COMPARISON = "https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart"
 MODELS = [
+    ("American Audio VMS2", "https://cdn-docs.av-iq.com/other/VMS2_User%20Manual.pdf"),
+    ("American Audio VMS4", "https://manual.mixxx.org/2.5/en/hardware/controllers/american_audio_vms4"),
+    ("American Audio VMS4.1", "https://manual.mixxx.org/2.5/en/hardware/controllers/american_audio_vms4"),
+    ("American Audio VMS4.1 Traktor", "https://www.adj.eu/vms4-1-traktor"),
+    ("American Audio VMS5", "https://www.adj.com/products/vms5"),
     ("Numark Stealth Control", "https://www.numark.com/product/stealthcontrol"),
     ("Numark Stealth Control", "https://www.numark.com/images/product_downloads/numark_stealth_control_xml_file_for_cue_5_and_virtual_vinyl_5.zip"),
     ("Numark Stealth Control", "https://www.numark.com/images/product_downloads/stealth_control___quickstart_manual___v1.4.pdf"),

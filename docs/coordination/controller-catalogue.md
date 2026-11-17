@@ -8,7 +8,7 @@ Reviewed 17 November 2026. The pinned software inventory is complete. The wider 
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
-- 308 total catalogue records. 301 name physical models. The remainder identify software endpoints or protocol families.
+- 310 total catalogue records. 303 name physical models. The remainder identify software endpoints or protocol families.
 - 166 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 125 factory profiles select core controls automatically for 133 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
@@ -225,7 +225,7 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 45 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 77 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 79 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -419,9 +419,11 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Allen & Heath Xone:K2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Allen%20and%20Heath%20Xone%20K2.midi.xml) |
 | Allen & Heath Xone:K3 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Allen%20and%20Heath%20Xone%20K2.midi.xml) |
 | American Audio Radius 2000 CH1 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20RADIUS%202000%20CH1.midi.xml) |
-| American Audio VMS2 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20VMS2.midi.xml) |
-| American Audio VMS4 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20VMS4.midi.xml) |
-| American Audio VMS4.1 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20VMS4.midi.xml) |
+| American Audio VMS2 | primary | partial-midi-profile | [Reference](https://cdn-docs.av-iq.com/other/VMS2_User%20Manual.pdf) |
+| American Audio VMS4 | primary | partial-midi-profile | [Reference](https://manual.mixxx.org/2.5/en/hardware/controllers/american_audio_vms4) |
+| American Audio VMS4.1 | primary | partial-midi-profile | [Reference](https://manual.mixxx.org/2.5/en/hardware/controllers/american_audio_vms4) |
+| American Audio VMS4.1 Traktor | primary | protocol-needed | [Reference](https://www.adj.eu/vms4-1-traktor) |
+| American Audio VMS5 | primary | protocol-needed | [Reference](https://www.adj.com/products/vms5) |
 | Arturia KeyLab Mk 1 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/ArturiaKeyLab.midi.xml) |
 | Behringer BCD2000 | primary | partial-midi-profile | [Reference](https://github.com/anyc/snd-bcd2000) |
 | Behringer BCD3000 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD3000%20Advanced.midi.xml) |

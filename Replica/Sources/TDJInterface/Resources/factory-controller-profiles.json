@@ -6973,8 +6973,13 @@
       "startup": [],
       "shutdown": [],
       "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20VMS2.midi.xml"
+      "scope": "Manual controls only. Integrated hardware mixing needs separate deck outputs. This audio route is not implemented. The factory Pre EQ mode applies hardware EQ. Software EQ requires Post EQ mode to avoid applying EQ twice.",
+      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20VMS2.midi.xml",
+      "hardwareMode": "Post EQ for software EQ controls",
+      "gaps": [
+        "Integrated hardware mixing needs separate deck outputs. This audio route is not implemented.",
+        "The factory Pre EQ mode applies hardware EQ. Software EQ requires Post EQ mode to avoid applying EQ twice."
+      ]
     },
     {
       "id": "American Audio VMS4/4.1",
@@ -7604,8 +7609,13 @@
       "startup": [],
       "shutdown": [],
       "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20VMS4.midi.xml"
+      "scope": "Manual controls only. Integrated hardware mixing needs separate deck outputs. This audio route is not implemented. The factory Pre EQ mode applies hardware EQ. Software EQ requires Post EQ mode to avoid applying EQ twice.",
+      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20VMS4.midi.xml",
+      "hardwareMode": "Post EQ for software EQ controls",
+      "gaps": [
+        "Integrated hardware mixing needs separate deck outputs. This audio route is not implemented.",
+        "The factory Pre EQ mode applies hardware EQ. Software EQ requires Post EQ mode to avoid applying EQ twice."
+      ]
     },
     {
       "id": "Behringer BCD2000",

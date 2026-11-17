@@ -2729,3 +2729,23 @@ The larger manual Audioless recipe remains available separately. Full feature pa
 All 98 importer/catalogue checks pass. All 166 runtime recipes are byte-for-byte unchanged, so no runtime build was required.
 Catalogue and automatic core counts stay unchanged. Repository checks retain twelve existing historical-link failures.
 Exact logs and source hashes are in ignored `TestBuilds/r266/validation.json`.
+
+## R267 VMS external mixer route and missing variants
+
+Added separate manufacturer records for [VMS5](https://www.adj.com/products/vms5) and [VMS4.1 Traktor](https://www.adj.eu/vms4-1-traktor).
+Neither inherits a VMS4 mapping. Published control counts, wheel resolution and Traktor control layout differ.
+The catalogue now contains 310 records for 303 physical models. The wider manufacturer audit remains open.
+
+The [VMS2 factory guide](https://cdn-docs.av-iq.com/other/VMS2_User%20Manual.pdf), pages 16–18, documents separate USB deck outputs and factory Pre EQ processing.
+The [VMS4 mapping author](https://manual.mixxx.org/2.5/en/hardware/controllers/american_audio_vms4) specifies external hardware mixing and Post EQ.
+The app currently provides stereo master or master/headphones. It does not provide separate deck outputs for external mixing.
+The existing VMS2 and VMS4/4.1 partial recipes now state this routing gap and their Post EQ requirement explicitly.
+Applying software EQ in factory Pre EQ mode would process EQ twice. Automatic selection stays disabled.
+Control bindings, feedback and lifecycle packets remain unchanged. No audio renderer change or substitute PFL route was added.
+
+All 99 importer checks, the bundled-profile loading check and native iPad framework compilation pass.
+All 164 unrelated recipes remain unchanged. The bundled resource matches the source.
+Automatic core counts remain 139 physical models, including 62/122 benchmark models. Full theoretical parity remains open.
+Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
+The cached 26-page factory guide has SHA256 `262cd2ae7b62cd48c6f7cf5124823c35ffa1d549fe01d828f3737bb0359e6948`.
+Exact logs and source hashes are in ignored `TestBuilds/r267/validation.json`.

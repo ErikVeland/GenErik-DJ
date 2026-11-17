@@ -83,6 +83,10 @@ from rmx2 import rmx2_profiles, RMX2_REFERENCES
 from p32 import p32_profiles, P32_REFERENCES
 from kaoss_dj import kaoss_profiles, KAOSS_REFERENCES
 
+VMS_MODELS = {canonical("American Audio " + name) for name in ["VMS2", "VMS4", "VMS4.1", "VMS4.1 Traktor", "VMS5"]}
+VMS_AUDIO_GAP = "Integrated hardware mixing needs separate deck outputs. This audio route is not implemented."
+VMS_EQ_GAP = "The factory Pre EQ mode applies hardware EQ. Software EQ requires Post EQ mode to avoid applying EQ twice."
+
 LEGACY = {"Pioneer DDJ-FLX4": "DDJ-FLX4", "AlphaTheta DDJ-FLX2": "DDJ-FLX2",
           "Pioneer DDJ-400": "DDJ-400",
           "Pioneer DDJ-REV1": "DDJ-REV1", "Pioneer DDJ-REV5": "DDJ-REV5"}
@@ -201,6 +205,10 @@ def build(cache, serato_html):
                        in {None, "a" if entry["action"].endswith("A") else "b" if entry["action"].endswith("B") else None}}
                    and manufacturer(result["name"]) in DJ_BRANDS and (bool(review) or not result["scripts"]),
                    "scope": review.get("scope", "Partial mapping. Hardware verification is open.") if review else "Partial mapping. Hardware verification is open.", "source": reference["url"]}
+        if definition_id in {"American Audio VMS2.midi.xml", "American Audio VMS4.midi.xml"}:
+            profile.update(autoSelect=False, hardwareMode="Post EQ for software EQ controls",
+                           scope="Manual controls only. " + VMS_AUDIO_GAP + " " + VMS_EQ_GAP,
+                           gaps=[VMS_AUDIO_GAP, VMS_EQ_GAP])
         profiles.append(profile)
     for item in reviewed:
         for name in split_models(item.get("catalogueName", item["id"])):
@@ -253,6 +261,8 @@ def build(cache, serato_html):
         if model["id"] == canonical("Behringer BCD2000"):
             model["connection"] = "Non-class-compliant USB. Separate driver or MIDI bridge required."
         model["audioRouting"] = "Automatic master 1–2 / headphones 3–4" if model["id"] in {canonical("Pioneer DDJ-FLX4"), canonical("Pioneer DDJ-400")} or bool(profile and profile.get("audioOutput") == "masterAndHeadphones") else "Existing native routing. Physical acceptance is open." if model["implementation"] in {"native-accessory", "native-midi"} else "Unverified. Automatic channel assignment is not enabled."
+        if model["id"] in VMS_MODELS:
+            model["audioRouting"] = VMS_AUDIO_GAP
         model["zeroConfig"] = {"automaticControls": automatic or bool(profile and profile["autoSelect"]),
                                "completeFeatureParity": False, "acceptedOnA10X": False}
         if profile and profile.get("hardwareMode"):

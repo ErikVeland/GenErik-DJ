@@ -843,6 +843,27 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_vms_external_mixer_audio_and_distinct_variants_remain_explicit(self):
+        cache = ROOT / "TestBuilds/r169/upstream"
+        if not cache.exists():
+            self.skipTest("Pinned source cache is unavailable")
+        catalogue, runtime = build(cache, None)
+        for name in ["VMS2", "VMS4", "VMS4.1", "VMS4.1 Traktor", "VMS5"]:
+            model = next(m for m in catalogue["models"] if m["id"] == canonical("American Audio " + name))
+            self.assertFalse(model["zeroConfig"]["automaticControls"])
+            self.assertFalse(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
+            self.assertIn("separate deck outputs", model["audioRouting"])
+            if name in {"VMS4.1 Traktor", "VMS5"}:
+                self.assertEqual(model["implementation"], "protocol-needed")
+                self.assertNotIn("profile", model)
+        for name in ["American Audio VMS2", "American Audio VMS4/4.1"]:
+            profile = next(p for p in runtime["profiles"] if p["id"] == name)
+            self.assertFalse(profile["autoSelect"])
+            self.assertNotIn("audioOutput", profile)
+            self.assertIn("Post EQ", profile["hardwareMode"])
+            self.assertIn("Pre EQ", profile["scope"])
+            self.assertFalse(any("Traktor" in alias or "VMS5" in alias for alias in profile["aliases"]))
+
     def test_stealth_factory_inventory_does_not_infer_omni_runtime_compatibility(self):
         references = [url for name, url in MANUFACTURER_MODELS if name == "Numark Stealth Control"]
         self.assertEqual(len(references), 3)
