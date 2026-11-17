@@ -109522,42 +109522,130 @@
     {
       "id": "Vestax VCI-100",
       "aliases": [
-        "VCI-100",
-        "Vestax VCI-100"
+        "Vestax VCI-100",
+        "VCI-100"
       ],
-      "definition": "Vestax VCI-100.midi.xml",
+      "definition": "manufacturer:vestaxvci100",
       "inputs": [
         {
-          "action": "crossfader",
-          "kind": "control",
+          "action": "playA",
+          "kind": "note",
           "channel": 0,
-          "number": 8,
+          "number": 50,
           "encoding": "absolute",
-          "inverted": false
+          "inverted": false,
+          "targetDeck": "a"
         },
         {
-          "action": "master",
-          "kind": "control",
+          "action": "cueGotoA",
+          "kind": "note",
           "channel": 0,
-          "number": 7,
+          "number": 51,
           "encoding": "absolute",
-          "inverted": false
+          "inverted": false,
+          "targetDeck": "a"
         },
         {
-          "action": "monitor",
-          "kind": "control",
+          "action": "cuePreviewA",
+          "kind": "note",
           "channel": 0,
-          "number": 88,
+          "number": 52,
           "encoding": "absolute",
-          "inverted": false
+          "inverted": false,
+          "targetDeck": "a"
         },
         {
-          "action": "cueMix",
+          "action": "cueSetA",
+          "kind": "note",
+          "channel": 0,
+          "number": 53,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 0,
+          "number": 70,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "cueA",
+          "kind": "note",
+          "channel": 0,
+          "number": 72,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 96,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "pitchBendUpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 58,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "pitchBendDownA",
+          "kind": "note",
+          "channel": 0,
+          "number": 59,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 48,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogA",
           "kind": "control",
           "channel": 0,
-          "number": 89,
-          "encoding": "absolute",
-          "inverted": false
+          "number": 16,
+          "encoding": "binaryOffset",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 518.4,
+          "requiresTouch": true
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 18,
+          "encoding": "binaryOffset",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 518.4
+        },
+        {
+          "action": "tempoA",
+          "kind": "control",
+          "channel": 0,
+          "number": 14,
+          "encoding": "centreDetent",
+          "inverted": false,
+          "targetDeck": "a"
         },
         {
           "action": "levelA",
@@ -109605,49 +109693,124 @@
           "targetDeck": "a"
         },
         {
-          "action": "tempoA",
+          "action": "playB",
+          "kind": "note",
+          "channel": 0,
+          "number": 54,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cueGotoB",
+          "kind": "note",
+          "channel": 0,
+          "number": 55,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 0,
+          "number": 56,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cueSetB",
+          "kind": "note",
+          "channel": 0,
+          "number": 57,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 0,
+          "number": 71,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 0,
+          "number": 73,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 0,
+          "number": 97,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "pitchBendUpB",
+          "kind": "note",
+          "channel": 0,
+          "number": 60,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "pitchBendDownB",
+          "kind": "note",
+          "channel": 0,
+          "number": 61,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 0,
+          "number": 49,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogB",
           "kind": "control",
           "channel": 0,
-          "number": 14,
-          "encoding": "absolute",
+          "number": 17,
+          "encoding": "binaryOffset",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "b",
+          "argument": 518.4,
+          "requiresTouch": true
         },
         {
-          "action": "playA",
-          "kind": "note",
+          "action": "wheelJogB",
+          "kind": "control",
           "channel": 0,
-          "number": 50,
-          "encoding": "absolute",
+          "number": 19,
+          "encoding": "binaryOffset",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "b",
+          "argument": 518.4
         },
         {
-          "action": "cueA",
-          "kind": "note",
+          "action": "tempoB",
+          "kind": "control",
           "channel": 0,
-          "number": 72,
-          "encoding": "absolute",
+          "number": 15,
+          "encoding": "centreDetent",
           "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "syncA",
-          "kind": "note",
-          "channel": 0,
-          "number": 70,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "loadA",
-          "kind": "note",
-          "channel": 0,
-          "number": 96,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "b"
         },
         {
           "action": "levelB",
@@ -109695,57 +109858,67 @@
           "targetDeck": "b"
         },
         {
-          "action": "tempoB",
+          "action": "crossfader",
           "kind": "control",
           "channel": 0,
-          "number": 15,
+          "number": 8,
           "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
+          "inverted": false
         },
         {
-          "action": "playB",
-          "kind": "note",
+          "action": "master",
+          "kind": "control",
           "channel": 0,
-          "number": 54,
+          "number": 7,
           "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
+          "inverted": false
         },
         {
-          "action": "cueB",
-          "kind": "note",
+          "action": "monitor",
+          "kind": "control",
           "channel": 0,
-          "number": 73,
+          "number": 88,
           "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
+          "inverted": false
         },
         {
-          "action": "syncB",
-          "kind": "note",
+          "action": "cueMix",
+          "kind": "control",
           "channel": 0,
-          "number": 71,
+          "number": 89,
           "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
+          "inverted": false
         },
         {
-          "action": "loadB",
+          "action": "browsePrevious",
           "kind": "note",
           "channel": 0,
-          "number": 97,
+          "number": 92,
           "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
+          "inverted": false
+        },
+        {
+          "action": "browseNext",
+          "kind": "note",
+          "channel": 0,
+          "number": 93,
+          "encoding": "absolute",
+          "inverted": false
         }
       ],
       "outputs": [],
       "startup": [],
       "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100.midi.xml"
+      "autoSelect": true,
+      "scope": "Automatic original VCI-100 two-deck core with fixed touch scratch, separate Cue Set/Goto/Preview and held pitch buttons. Shared loop/hotcue selectors, FX, lights/cleanup, audio routing and physical calibration remain open.",
+      "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100.midi.xml",
+      "excludedAliases": [
+        "VCI-100 3DEX",
+        "VCI-100-hile",
+        "Vestax VCI-100 Hile Mod",
+        "Vestax VCI-100 (MixVibes 3DEX Editon)",
+        "Vestax VCI-100 (MixVibes 3DEX Edition)"
+      ]
     },
     {
       "id": "Vestax VCI-100MKII",

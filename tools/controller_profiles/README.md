@@ -504,3 +504,13 @@ Native scratching retains 1,024 counts per revolution, pending physical calibrat
 Paired pitch keeps explicit low CC 40. Hot Cue and fixed-loop pads have separate mode guards; Shift release aliases rearm edges.
 Startup and shutdown use fourteen bounded messages in total. The WD display protocol does not receive control feedback.
 Source JS and timers do not run in the app. Display/strip, software Vinyl/zoom/range modes, full feedback/cleanup and physical acceptance remain open.
+
+## Original VCI-100 scratch time scale — R242
+
+`vci100.py` keeps original-model dispatch separate from Hile, 3DEX and MKII.
+Separate Cue Set/Goto/Preview and held pitch buttons reuse the native typed actions.
+The contact-gated platter and independent ring retain distinct CC addresses.
+Source scratch calibration is 384 counts at 45 RPM. Native resolution is 518.4 at its 33⅓-RPM reference.
+The motion fixture checks 4/3 seconds of source movement for 384 input counts.
+Tempo applies Mixxx rate inversion once and keeps exact centre/pickup.
+Shared selector keys, FX, balance, lights/cleanup, routing and physical calibration remain open.

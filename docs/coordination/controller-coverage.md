@@ -2,6 +2,29 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R242 original VCI-100 native core
+
+The original VCI-100 gains an automatic two-deck native core. Hile, MixVibes 3DEX and MKII retain separate identities.
+The catalogue now names the reviewed original rather than inheriting the first alternative mapping's 3DEX label.
+Cue Goto, held Preview and Set remain three separate physical buttons per deck.
+Play, Sync, PFL, direct Load, held pitch buttons, three-band EQ, levels and browser buttons retain published dispatch.
+Tempo accounts for source inversion once, with exact centre and pickup.
+
+Platter CC 16/17 requires physical contact. Ring CC 18/19 keeps a separate native nudge action.
+The source calibrates scratch at 384 ticks per revolution and 45 RPM. Native 33⅓-RPM motion therefore uses 518.4 counts.
+A direct motion check verifies that 384 counts cover 4/3 seconds of source audio rather than 1.8 seconds.
+Native nudge response replaces the source's arbitrary three-times jog multiplier. Physical feel remains unverified.
+
+Shared loop/hotcue selector keys, source acceleration, FX, balance, lights/cleanup and audio routing remain open.
+The recipe sends no guessed feedback or setup packets.
+All 24 final targeted Swift checks, 75 importer/report checks and native iPad compilation pass.
+An initial check assumed an order for independent jog callbacks; the corrected fixture compares their actions.
+The bundled resource matches the source. All 162 other recipes remain unchanged.
+Factory coverage reaches 108 profiles for 112 physical models, plus six other native models.
+The repository check retains twelve existing historical-link failures.
+Validation results and source identities appear in `TestBuilds/r242/validation.json`.
+No signed app, installation or physical acceptance was produced.
+
 ## R241 LC6000 PR-port native player core
 
 LC6000 PRIME gains a native player recipe from Denon's factory table and a pinned published mapping.

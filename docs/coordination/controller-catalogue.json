@@ -26412,34 +26412,48 @@
     },
     {
       "id": "vestaxvci100",
-      "name": "Vestax VCI-100 (MixVibes 3DEX Editon)",
+      "name": "Vestax VCI-100",
       "manufacturer": "Vestax",
       "role": "primary",
       "benchmark": false,
       "sources": [
         "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100-3DEX.midi.xml",
         "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100-hile.midi.xml",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100.midi.xml"
       ],
       "definitions": [
         "Vestax VCI-100-3DEX.midi.xml",
         "Vestax VCI-100-hile.midi.xml",
-        "Vestax VCI-100.midi.xml"
+        "Vestax VCI-100.midi.xml",
+        "manufacturer:vestaxvci100"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Vestax VCI-100",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browseNext",
+        "browsePrevious",
         "crossfader",
         "cueA:a",
         "cueB:b",
+        "cueGotoA:a",
+        "cueGotoB:b",
         "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "cueSetA:a",
+        "cueSetB:b",
         "gainA:a",
         "gainB:b",
         "highA:a",
         "highB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "levelA:a",
         "levelB:b",
         "loadA:a",
@@ -26450,45 +26464,49 @@
         "midA:a",
         "midB:b",
         "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
         "playA:a",
         "playB:b",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 24,
+      "inputBindingCount": 42,
       "feedbackBindingCount": 0,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 63,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -314102,6 +314120,35 @@
         },
         {
           "reason": "Shifted controls, alternate loop modes, hot-cue editing and remaining browser functions are incomplete."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:vestaxvci100",
+      "name": "Vestax VCI-100",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100.midi.xml",
+        "sha256": "3e18272c9b3ec6dfd823cc80f9c2762e81612aa071e95f752b1a6df5c4fc668f",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100.midi.xml",
+            "sha256": "3e18272c9b3ec6dfd823cc80f9c2762e81612aa071e95f752b1a6df5c4fc668f"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax-VCI-100-scripts.js",
+            "sha256": "0d7e9682fd37e8db31e18611f065ad22f151f31cd6b43f0ceb078ea9b29b799e"
+          }
+        ],
+        "review": "Original XML separates Cue Goto, Preview and Set, direct Load, held pitch buttons, platter CC16/17 and ring CC18/19. Script scratch calibration is 384 ticks at 45 RPM, equivalent to 518.4 ticks at the native 33 1/3 RPM reference. Native fixed touch scratching keeps that time scale; the ring uses native nudging. Source rate inversion is applied once with exact centre. Shared loop/hotcue selector keys, source jog acceleration, FX, balance, lights/cleanup, routing and physical calibration remain open. Hile, 3DEX and MKII are not aliases for this recipe."
+      },
+      "implementedInputCount": 42,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         }
       ]
     },

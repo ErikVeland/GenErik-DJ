@@ -41,6 +41,7 @@ from vci400 import vci400_profiles, VCI400_SOURCES
 from cmd_micro import cmd_micro_profiles, CMD_MICRO_SOURCES
 from idj_live2 import idj_live2_profiles, IDJ2_SOURCES
 from lc6000 import lc6000_profiles, LC6000_SOURCES
+from vci100 import vci100_profiles, VCI100_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -822,6 +823,18 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_original_vci100_keeps_cue_buttons_and_45rpm_scratch_time_scale(self):
+        result = vci100_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (42, 0))
+        self.assertEqual([r["number"] for r in result["inputs"] if r["action"] in {"cueGotoA", "cueGotoB"}], [51, 55])
+        self.assertTrue(all(r["argument"] == 384 * 45 / (100 / 3) and r["requiresTouch"] for r in result["inputs"] if r["action"] in {"jogA", "jogB"}))
+        self.assertTrue(all(not r["inverted"] for r in result["inputs"] if r["action"] in {"tempoA", "tempoB"}))
+        self.assertFalse(any(r["number"] in {98, 99, 100} for r in result["inputs"]))
+        for name, digest in VCI100_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_lc6000_separates_control_port_and_direction_from_rotation(self):
         result = lc6000_profiles()[0]
         self.assertEqual(result["role"], "player")
