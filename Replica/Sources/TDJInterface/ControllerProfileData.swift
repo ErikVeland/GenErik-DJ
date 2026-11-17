@@ -23,6 +23,7 @@ struct ControllerProfileData: Decodable, Sendable {
         let shiftChannel: UInt8?
         let lowNumber: UInt8?
         let pulse: Bool?
+        let requiresTouch: Bool?
 
         func binding(source: Int32) -> ControllerBinding {
             .init(
@@ -30,7 +31,8 @@ struct ControllerProfileData: Decodable, Sendable {
                 parameter: nil, noteNumber: nil, action: action, encoding: encoding,
                 inverted: inverted, shifted: shifted ?? false, targetDeck: targetDeck, layerIndependent: shifted == nil,
                 anyChannel: anyChannel, argument: argument, releaseOnly: releaseOnly, requiredMode: requiredMode,
-                shiftChannel: shiftChannel, shiftInput: shiftInput, lowNumber: lowNumber, pulse: pulse)
+                shiftChannel: shiftChannel, shiftInput: shiftInput, lowNumber: lowNumber, pulse: pulse,
+                requiresTouch: requiresTouch)
         }
     }
 
@@ -113,6 +115,11 @@ struct ControllerProfileData: Decodable, Sendable {
                 guard let channel = input.shiftChannel else { return true }
                 return channel < 16 && inputs.contains { $0.action == .shift && $0.shiftChannel == channel }
             }
+            && inputs.allSatisfy { input in
+                guard input.requiresTouch == true else { return true }
+                let touch: ControllerAction = input.action.deck == .a ? .jogTouchA : .jogTouchB
+                return inputs.contains { $0.action == touch && $0.targetDeck == input.targetDeck }
+            }
             && !inputs.isEmpty && inputs.count <= 512 && outputs.count <= 128
             && inputs.allSatisfy {
                 $0.channel < 16 && $0.number < 128
@@ -121,6 +128,9 @@ struct ControllerProfileData: Decodable, Sendable {
                             && $0.lowNumber != $0.number
                         : $0.lowNumber == nil)
                     && ($0.anyChannel != true || role == "player")
+                    && ($0.requiresTouch != true || ($0.action.isJog && $0.encoding.isRelative))
+                    && ($0.encoding != .touchGate
+                        || ($0.kind == .note && [.jogTouchA, .jogTouchB].contains($0.action)))
                     && ($0.releaseOnly != true || ($0.kind == .note && $0.action.isButton && $0.action != .shift))
                     && ($0.pulse != true
                         || ($0.kind == .note && $0.encoding == .absolute && $0.action.isButton

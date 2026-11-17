@@ -1,7 +1,7 @@
 import Foundation
 
 public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
-    case absolute, paired14Bit, paired14BitRelative, twosComplement, binaryOffset, signedBit
+    case absolute, touchGate, paired14Bit, paired14BitRelative, twosComplement, binaryOffset, signedBit
     case numarkPlatinumJog, denonJog, zeroForward, mc7000Jog, dj2go2Jog, signedStep
     case binaryStep, binaryDirection, centreDetent, centredPitch, mixstreamJog, cyclic14BitJog, vci300Tempo,
         vci100MK2Tempo
@@ -18,10 +18,13 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         self == .paired14Bit || self == .paired14BitRelative || self == .mixstreamJog || self == .cyclic14BitJog
             || self == .vci300Tempo || self == .vci100MK2Tempo
     }
-    public var supportsLearning: Bool { self != .mixstreamJog && self != .cyclic14BitJog && self != .vci100MK2Tempo }
+    public var supportsLearning: Bool {
+        self != .touchGate && self != .mixstreamJog && self != .cyclic14BitJog && self != .vci100MK2Tempo
+    }
     public var title: String {
         switch self {
         case .absolute: "Knob / fader"
+        case .touchGate: "Platter contact: midpoint threshold"
         case .centreDetent: "Knob / fader: centre detent"
         case .centredPitch: "Pitch fader: centre 8192"
         case .binaryStep: "Encoder: 65 / 63, single step"
@@ -68,6 +71,12 @@ public struct ControllerMIDIValueState: Sendable {
     )
         -> ControllerMIDIValue?
     {
+        if encoding == .touchGate {
+            guard message.kind == .note, message.number == number, message.maximum > 0,
+                (0...message.maximum).contains(message.value)
+            else { return nil }
+            return .absolute(!message.isNoteOff && message.normalized >= 0.5 ? 1 : 0)
+        }
         if message.kind.isRelativeController {
             guard message.number == number, encoding == .absolute else { return nil }
             return .relative(Double(max(-127, min(127, message.value))))

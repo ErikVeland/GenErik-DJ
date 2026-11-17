@@ -21851,21 +21851,31 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20iDJ%20Live%20II.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20iDJ%20Live%20II.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20iDJ%20Live%20II.midi.xml"
       ],
       "definitions": [
-        "Numark iDJ Live II.midi.xml"
+        "Numark iDJ Live II.midi.xml",
+        "manufacturer:numarkidjliveii"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Numark iDJ Live II",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "browse",
         "crossfader",
+        "cueGotoA:a",
+        "cueGotoB:b",
+        "cueSetA:a",
+        "cueSetB:b",
         "highA:a",
         "highB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "levelA:a",
         "levelB:b",
         "loadA:a",
@@ -21873,43 +21883,45 @@
         "lowA:a",
         "lowB:b",
         "master",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
         "playA:a",
         "playB:b",
         "syncA:a",
         "syncB:b"
       ],
-      "inputBindingCount": 15,
+      "inputBindingCount": 27,
       "feedbackBindingCount": 4,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 24,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -313955,6 +313967,35 @@
         "review": "XML dispatch and script handlers give fixed two-deck addresses on channel zero, physical jog touch, 128-count centre-64 jogs, 4/8-beat toggle pads and held temporary pitch buttons. Native fixed 4-percent bend retains saved Sync and restores the rate on final release/disconnect. Later touch/rate commands supersede old holds. Tempo accounts for Mixxx rate_dir once and retains exact centre 64. The XML's inverted indicator condition resolves to native LED on 1/off 0. Only published Play and PFL lights are mapped. Source optional key-bend mode is not copied. Cue/Sync lights, remaining modes, full cleanup, audio routing, physical calibration and acceptance remain open."
       },
       "implementedInputCount": 32,
+      "implementedOutputCount": 4,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:numarkidjliveii",
+      "name": "Numark iDJ Live II",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20iDJ%20Live%20II.midi.xml",
+        "sha256": "ff382e3e7b227ce8aa5639f0ec21df82de1ebed2d7dc6569a4fa8312b4624c34",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20iDJ%20Live%20II.midi.xml",
+            "sha256": "ff382e3e7b227ce8aa5639f0ec21df82de1ebed2d7dc6569a4fa8312b4624c34"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-iDJ-Live-II-scripts.js",
+            "sha256": "2474aa5e02de51744cd9ccf7fbea53f9f5f6ce338479da16d0a8369bbb9c0166"
+          }
+        ],
+        "review": "Published dispatch separates Cue Set from Cue Goto, has held pitch buttons and requires physical touch for every jog tick. Native fixed scratching retains 640 counts per revolution. Touch uses the script's midpoint threshold, including low-velocity release. Startup retains the exact state-query SysEx and scratch indicator. Play/Sync feedback and shutdown follow script bytes. Scratch-mode toggle, skin-only library expansion, remaining feedback, routing and physical acceptance remain open. Original iDJ Live and iDJ Pro are separate identities."
+      },
+      "implementedInputCount": 27,
       "implementedOutputCount": 4,
       "sourceInputCount": null,
       "sourceOutputCount": null,

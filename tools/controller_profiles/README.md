@@ -476,3 +476,17 @@ Later touch/rate commands retire the hold. New presses are ignored while a deck 
 Normal-speed restoration alone is allowed through the queued performance gate, with existing validation and Sync alignment.
 Source timers and optional key-bend mode do not run in the app.
 Full lights, cleanup, routing, calibration and physical acceptance remain open.
+
+## iDJ Live II contact gate and separate Cue buttons — R240
+
+`idj_live2.py` retains the source's 640-count scratch resolution and exact state-query SysEx.
+Native scratch mode stays fixed. `requiresTouch` limits relative jogs to contact held by that source and target deck.
+The profile validator requires a matching contact input and rejects this flag on non-jog actions.
+`touchGate` uses the source's midpoint threshold for note velocity; Note Off always releases it.
+It is a factory encoding and cannot be selected by automatic MIDI learning.
+Custom mapping reconnect preserves the gate, threshold encoding and resolution.
+
+Typed Cue Set and Cue Goto keep distinct physical button functions. Goto preserves transport state through the native jump path.
+Held pitch buttons reuse R239 ownership and release handling. Crossfader inversion follows XML.
+Only published Play/Sync feedback is mapped. Shutdown clears those indicators and the fixed Scratch indicator.
+Original iDJ Live/Pro, software scratch-mode toggle, library expansion, full feedback, routing and hardware acceptance remain open.

@@ -324,6 +324,13 @@ extension ReplicaModel {
         case .jumpBackA, .jumpBackB: beatJump(beats: -performance.loopBeats(for: deck), deck: deck)
         case .jumpForwardA, .jumpForwardB: beatJump(beats: performance.loopBeats(for: deck), deck: deck)
         case .cueReturnA, .cueReturnB: pressCue(deck: deck)
+        case .cueSetA, .cueSetB:
+            refreshPlayback()
+            if loaded[deck] != nil, let state = playbackSnapshot?[deck], state.generation != 0 {
+                cuePoints[deck] = state.sourceFrame
+            }
+        case .cueGotoA, .cueGotoB:
+            if let frame = cuePoints[deck] { jump(frame, deck: deck, quantized: false) }
         case .cuePreviewA, .cuePreviewB:
             if value > 0 { pressControllerCue(deck) } else { finishControllerCue(deck, continuePlaying: false) }
         case .freezeA, .freezeB: toggleFreeze(deck: deck)

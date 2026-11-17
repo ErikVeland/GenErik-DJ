@@ -6,6 +6,7 @@ import TDJCore
 enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case playA, playB, syncA, syncB, keylockA, keylockB, cueA, cueB
     case cueStateA, cueStateB
+    case cueSetA, cueSetB, cueGotoA, cueGotoB
     case pitchBendDownA, pitchBendDownB, pitchBendUpA, pitchBendUpB
     case shift
     case levelA, levelB, gainA, gainB, lowA, lowB, midA, midB, highA, highB
@@ -53,6 +54,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
             "play": "Play / Pause", "sync": "Sync", "keylock": "Key lock", "cue": "Headphone cue", "level": "Volume",
             "pitchBendDown": "Pitch bend down (hold)", "pitchBendUp": "Pitch bend up (hold)",
             "cueState": "Headphone cue state", "loopEnable": "Enable loop", "loopOutOrExit": "Loop out / exit",
+            "cueSet": "Set Cue point", "cueGoto": "Go to Cue point",
             "gain": "Gain", "low": "Low EQ", "mid": "Mid EQ", "high": "High EQ", "filter": "Filter",
             "filterToggle": "Filter on / off", "fx": "Effect amount", "fxToggle": "Effect on / off",
             "tempo": "Tempo ±8%", "loop": "Loop on / off", "loopUp": "Larger loop", "loopDown": "Smaller loop",
@@ -139,6 +141,7 @@ struct ControllerBinding: Codable {
     var shiftInput: UInt8? = nil
     var lowNumber: UInt8? = nil
     var pulse: Bool? = nil
+    var requiresTouch: Bool? = nil
     var lowControllerNumber: UInt8? { mode.isPairedCC ? lowNumber ?? (number < 32 ? number + 32 : nil) : nil }
     var target: ControllerActionTarget { .init(action, deck: targetDeck, argument: argument) }
     var mode: ControllerMIDIEncoding { encoding ?? .absolute }
@@ -734,7 +737,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                             layerIndependent: binding.layerIndependent, anyChannel: binding.anyChannel,
                             argument: binding.argument, releaseOnly: binding.releaseOnly,
                             requiredMode: binding.requiredMode, shiftChannel: binding.shiftChannel,
-                            shiftInput: binding.shiftInput, lowNumber: binding.lowNumber, pulse: binding.pulse)
+                            shiftInput: binding.shiftInput, lowNumber: binding.lowNumber, pulse: binding.pulse,
+                            requiresTouch: binding.requiresTouch)
                     } ?? session.profile.bindings(source: session.source, playerDeck: session.playerDeck)
                 return (session.source, profile)
             })
@@ -1868,6 +1872,11 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let decoded = state.decode(message, encoding: binding.mode, number: binding.number, lowNumber: binding.lowNumber)
             valueStates[key] = state
             guard let decoded else { continue }
+            if binding.requiresTouch == true {
+                let touch = ControllerActionTarget(
+                    binding.action.deck == .a ? .jogTouchA : .jogTouchB, deck: binding.targetDeck)
+                guard activeMomentaryInputs[touch]?.contains(sourceID) == true else { continue }
+            }
             var value: Double
             switch decoded {
             case .absolute(let absolute):
@@ -1897,7 +1906,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     continue
                 }
             }
-            if binding.action.isButton, message.kind == .note, !message.isNoteOff, value == 0 { value = 1 }
+            if binding.action.isButton, binding.mode != .touchGate, message.kind == .note, !message.isNoteOff, value == 0 { value = 1 }
             if let deck = binding.targetDeck, !availablePlayerDecks.contains(deck),
                 !(binding.action.isButton && value == 0)
             { continue }

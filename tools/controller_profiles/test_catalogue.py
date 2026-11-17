@@ -39,6 +39,7 @@ from hercules_portable import portable_profiles, PORTABLE_SOURCES
 from inpulse200 import original200_profiles, ORIGINAL200_SOURCES
 from vci400 import vci400_profiles, VCI400_SOURCES
 from cmd_micro import cmd_micro_profiles, CMD_MICRO_SOURCES
+from idj_live2 import idj_live2_profiles, IDJ2_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -820,6 +821,20 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_idj_live2_keeps_contact_threshold_and_distinct_cue_buttons(self):
+        result = idj_live2_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (27, 4))
+        self.assertEqual([r["number"] for r in result["inputs"] if r["action"].startswith("cueSet")], [51, 60])
+        self.assertEqual([r["number"] for r in result["inputs"] if r["action"].startswith("cueGoto")], [59, 66])
+        jogs = [r for r in result["inputs"] if r["action"] in {"jogA", "jogB"}]
+        self.assertTrue(all(r["argument"] == 640 and r["requiresTouch"] for r in jogs))
+        self.assertEqual(result["startup"][0], [240, 0, 1, 63, 127, 46, 96, 0, 1, 1, 247])
+        self.assertEqual(len(result["shutdown"]), 5)
+        for name, digest in IDJ2_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_cmd_micro_keeps_published_touch_loop_and_one_bit_led_facts(self):
         result = cmd_micro_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (32, 4))

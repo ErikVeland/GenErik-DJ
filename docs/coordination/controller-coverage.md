@@ -2,6 +2,29 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R240 iDJ Live II touch-gated native core
+
+iDJ Live II gains an automatic two-deck core from pinned XML and its companion script.
+The original iDJ Live and iDJ Pro keep separate identities. Their protocols are not inferred from this recipe.
+Native fixed scratching retains 640 counts per revolution. Every jog tick requires contact from the same physical MIDI source.
+The published contact threshold is 64/127. Lower positive velocities release contact rather than acting as new presses.
+The same midpoint rule handles CoreMIDI's expanded note values. Explicit Note Off always releases contact.
+Saved custom mappings retain the contact gate, encoding and resolution after endpoint changes.
+
+Cue Set records the playhead. Cue Goto recalls that point without changing play/pause.
+These actions reuse the existing main Cue point and native jump path, including the saved Sync choice.
+The recipe also retains direct Load, Play, Sync, held pitch buttons, two-band EQ, levels, browsing and inverted crossfader.
+Startup sends the exact state-query SysEx and enables the fixed scratch indicator. Shutdown clears Play, Sync and Scratch lights.
+The source's software scratch-mode toggle and skin-only library expansion remain unmapped.
+
+All 56 final targeted Swift checks, 73 importer/report checks and native iPad compilation pass.
+The bundled resource matches the source. All 161 other recipes remain unchanged.
+Factory coverage reaches 106 profiles for 110 physical models, plus six other native models.
+The repository check retains twelve existing historical-link failures.
+Validation results and source identities appear in `TestBuilds/r240/validation.json`.
+Remaining modes, full feedback, audio routing, calibration and physical acceptance remain open.
+No signed app or installation was produced.
+
 ## R239 CMD Micro core and held pitch bend
 
 CMD Micro gains an automatic two-deck native core from pinned XML and script dispatch.

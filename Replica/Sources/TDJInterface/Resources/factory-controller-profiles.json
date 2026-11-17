@@ -32038,31 +32038,25 @@
         "Numark iDJ Live II",
         "iDJ Live II"
       ],
-      "definition": "Numark iDJ Live II.midi.xml",
+      "definition": "manufacturer:numarkidjliveii",
       "inputs": [
         {
-          "action": "master",
-          "kind": "control",
+          "action": "playA",
+          "kind": "note",
           "channel": 0,
-          "number": 23,
+          "number": 74,
           "encoding": "absolute",
-          "inverted": false
+          "inverted": false,
+          "targetDeck": "a"
         },
         {
-          "action": "crossfader",
-          "kind": "control",
+          "action": "syncA",
+          "kind": "note",
           "channel": 0,
-          "number": 10,
+          "number": 64,
           "encoding": "absolute",
-          "inverted": true
-        },
-        {
-          "action": "browse",
-          "kind": "control",
-          "channel": 0,
-          "number": 26,
-          "encoding": "twosComplement",
-          "inverted": false
+          "inverted": false,
+          "targetDeck": "a"
         },
         {
           "action": "loadA",
@@ -32074,13 +32068,60 @@
           "targetDeck": "a"
         },
         {
-          "action": "loadB",
+          "action": "cueGotoA",
           "kind": "note",
           "channel": 0,
-          "number": 52,
+          "number": 59,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "a"
+        },
+        {
+          "action": "cueSetA",
+          "kind": "note",
+          "channel": 0,
+          "number": 51,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "pitchBendUpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 67,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "pitchBendDownA",
+          "kind": "note",
+          "channel": 0,
+          "number": 68,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 77,
+          "encoding": "touchGate",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 25,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 640,
+          "requiresTouch": true
         },
         {
           "action": "levelA",
@@ -32110,22 +32151,87 @@
           "targetDeck": "a"
         },
         {
-          "action": "playA",
+          "action": "playB",
           "kind": "note",
           "channel": 0,
-          "number": 74,
+          "number": 76,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "b"
         },
         {
-          "action": "syncA",
+          "action": "syncB",
           "kind": "note",
           "channel": 0,
-          "number": 64,
+          "number": 71,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "b"
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 0,
+          "number": 52,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cueGotoB",
+          "kind": "note",
+          "channel": 0,
+          "number": 66,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cueSetB",
+          "kind": "note",
+          "channel": 0,
+          "number": 60,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "pitchBendUpB",
+          "kind": "note",
+          "channel": 0,
+          "number": 69,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "pitchBendDownB",
+          "kind": "note",
+          "channel": 0,
+          "number": 70,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 0,
+          "number": 78,
+          "encoding": "touchGate",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 0,
+          "number": 24,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 640,
+          "requiresTouch": true
         },
         {
           "action": "levelB",
@@ -32155,22 +32261,28 @@
           "targetDeck": "b"
         },
         {
-          "action": "playB",
-          "kind": "note",
+          "action": "master",
+          "kind": "control",
           "channel": 0,
-          "number": 76,
+          "number": 23,
           "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
+          "inverted": false
         },
         {
-          "action": "syncB",
-          "kind": "note",
+          "action": "crossfader",
+          "kind": "control",
           "channel": 0,
-          "number": 71,
+          "number": 10,
           "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
+          "inverted": true
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 26,
+          "encoding": "twosComplement",
+          "inverted": false
         }
       ],
       "outputs": [
@@ -32179,47 +32291,92 @@
           "kind": "note",
           "channel": 0,
           "number": 74,
+          "targetDeck": "a",
           "onValue": 127,
           "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "a"
-        },
-        {
-          "action": "playB",
-          "kind": "note",
-          "channel": 0,
-          "number": 76,
-          "onValue": 127,
-          "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "b"
+          "offUsesNoteOn": true
         },
         {
           "action": "syncA",
           "kind": "note",
           "channel": 0,
           "number": 64,
+          "targetDeck": "a",
           "onValue": 127,
           "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "a"
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 0,
+          "number": 76,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
         },
         {
           "action": "syncB",
           "kind": "note",
           "channel": 0,
           "number": 71,
+          "targetDeck": "b",
           "onValue": 127,
           "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "b"
+          "offUsesNoteOn": true
         }
       ],
-      "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20iDJ%20Live%20II.midi.xml"
+      "startup": [
+        [
+          240,
+          0,
+          1,
+          63,
+          127,
+          46,
+          96,
+          0,
+          1,
+          1,
+          247
+        ],
+        [
+          144,
+          72,
+          127
+        ]
+      ],
+      "shutdown": [
+        [
+          144,
+          74,
+          0
+        ],
+        [
+          144,
+          64,
+          0
+        ],
+        [
+          144,
+          76,
+          0
+        ],
+        [
+          144,
+          71,
+          0
+        ],
+        [
+          144,
+          72,
+          0
+        ]
+      ],
+      "autoSelect": true,
+      "scope": "Automatic two-deck core with touch-gated 640-count jogs, separate Cue Set/Goto, held pitch buttons, browsing and Load. Native fixed scratch mode. Remaining modes, feedback, audio routing and physical acceptance remain open.",
+      "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20iDJ%20Live%20II.midi.xml"
     },
     {
       "id": "Numark Mixstream Pro",
