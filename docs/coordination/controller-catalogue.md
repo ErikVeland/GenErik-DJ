@@ -8,9 +8,9 @@ Reviewed 17 November 2026. The pinned software inventory is complete. The wider 
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
-- 310 total catalogue records. 303 name physical models. The remainder identify software endpoints or protocol families.
+- 311 total catalogue records. 304 name physical models. The remainder identify software endpoints or protocol families.
 - 166 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 128 factory profiles select core controls automatically for 136 physical models.
+- 129 factory profiles select core controls automatically for 137 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -219,13 +219,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 36 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 129 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 130 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 42 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 79 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 41 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 80 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -436,10 +436,11 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | DJ TechTools MIDI Fighter Spectra | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Spectra.midi.xml) |
 | DJ TechTools MIDI Fighter Twister | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Twister.midi.xml) |
 | DJ-Tech CDJ-101 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20CDJ-101.midi.xml) |
-| DJ-Tech DJM-101 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20DJM-101.midi.xml) |
+| DJ-Tech DJM-101 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20DJM-101.midi.xml) |
 | DJ-Tech Kontrol One | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Kontrol%20One.midi.xml) |
 | DJ-Tech MIX-101 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mix-101.midi.xml) |
 | DJ-Tech Mixer One | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mixer%20One.midi.xml) |
+| DJ-Tech VTT-101 | primary | protocol-needed | [Reference](https://asset.conrad.com/media10/add/160267/c1/-/gl/000092385ML01/mode-demploi-092385-mini-controleur-usb-dj-tech-vtt101.pdf) |
 | DJ-Tech i-Mix Reload | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20i-Mix%20Reload.midi.xml) |
 | Denon DJ PRIME 2 | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DJ PRIME GO | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |

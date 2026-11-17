@@ -65,6 +65,7 @@ from kaoss_dj import kaoss_profiles, KAOSS_SOURCES
 from firstmix import firstmix_profiles, FIRSTMIX_SOURCES
 from ion_discover import discover_profiles, DISCOVER_SOURCES
 from ion_discover_pro import discover_pro_profiles, DISCOVER_PRO_SOURCES
+from djm101 import djm101_profiles, DJM101_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -846,6 +847,30 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_djm101_retains_asymmetric_eq_and_does_not_infer_vtt_protocol(self):
+        item, = djm101_profiles()
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(item["role"], "accessory")
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (16, 2))
+        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 12)
+        self.assertTrue(all(all(0 <= v < 128 for v in p[1:]) for p in item["startup"] + item["shutdown"]))
+        controls = {r["action"]: r for r in item["inputs"]}
+        self.assertEqual([controls[a]["number"] for a in ["gainA", "highA", "midA", "lowA"]], [72, 74, 78, 76])
+        self.assertEqual([controls[a]["number"] for a in ["gainB", "highB", "midB", "lowB"]], [79, 77, 75, 73])
+        self.assertNotIn("audioOutput", item)
+        self.assertTrue(any(name == "DJ-Tech VTT-101" for name, _ in MANUFACTURER_MODELS))
+        cache = ROOT / "TestBuilds/r169/upstream"
+        if cache.exists():
+            catalogue, runtime = build(cache, None)
+            vtt = next(m for m in catalogue["models"] if m["id"] == canonical("DJ-Tech VTT-101"))
+            self.assertEqual(vtt["implementation"], "protocol-needed")
+            self.assertFalse(vtt["zeroConfig"]["automaticControls"])
+            self.assertFalse(any("VTT" in alias for p in runtime["profiles"] for alias in p["aliases"]))
+        for name, digest in DJM101_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_discover_pro_normal_core_keeps_broken_source_modes_inactive(self):
         item, = discover_pro_profiles()
         self.assertTrue(item["autoSelect"])

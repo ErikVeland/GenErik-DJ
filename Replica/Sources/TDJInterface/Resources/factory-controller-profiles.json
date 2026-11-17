@@ -23318,63 +23318,13 @@
         "DJ-Tech DJM-101",
         "DJM-101"
       ],
-      "definition": "DJ-Tech DJM-101.midi.xml",
+      "definition": "manufacturer:djtechdjm101",
       "inputs": [
-        {
-          "action": "monitor",
-          "kind": "control",
-          "channel": 0,
-          "number": 69,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "cueMix",
-          "kind": "control",
-          "channel": 0,
-          "number": 68,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "master",
-          "kind": "control",
-          "channel": 0,
-          "number": 67,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "crossfader",
-          "kind": "control",
-          "channel": 0,
-          "number": 64,
-          "encoding": "absolute",
-          "inverted": false
-        },
         {
           "action": "gainA",
           "kind": "control",
           "channel": 0,
           "number": 72,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "levelA",
-          "kind": "control",
-          "channel": 0,
-          "number": 65,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "cueA",
-          "kind": "note",
-          "channel": 0,
-          "number": 33,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
@@ -23407,28 +23357,28 @@
           "targetDeck": "a"
         },
         {
+          "action": "levelA",
+          "kind": "control",
+          "channel": 0,
+          "number": 65,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "cueA",
+          "kind": "note",
+          "channel": 0,
+          "number": 33,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
           "action": "gainB",
           "kind": "control",
           "channel": 0,
           "number": 79,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "levelB",
-          "kind": "control",
-          "channel": 0,
-          "number": 66,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "cueB",
-          "kind": "note",
-          "channel": 0,
-          "number": 34,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
@@ -23459,14 +23409,149 @@
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
+        },
+        {
+          "action": "levelB",
+          "kind": "control",
+          "channel": 0,
+          "number": 66,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 0,
+          "number": 34,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "crossfader",
+          "kind": "control",
+          "channel": 0,
+          "number": 64,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "master",
+          "kind": "control",
+          "channel": 0,
+          "number": 67,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "cueMix",
+          "kind": "control",
+          "channel": 0,
+          "number": 68,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "monitor",
+          "kind": "control",
+          "channel": 0,
+          "number": 69,
+          "encoding": "absolute",
+          "inverted": false
         }
       ],
-      "outputs": [],
-      "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20DJM-101.midi.xml"
+      "outputs": [
+        {
+          "action": "cueA",
+          "kind": "note",
+          "channel": 0,
+          "number": 33,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 0,
+          "number": 34,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        }
+      ],
+      "startup": [
+        [
+          176,
+          80,
+          0
+        ],
+        [
+          176,
+          81,
+          0
+        ],
+        [
+          176,
+          82,
+          0
+        ],
+        [
+          176,
+          83,
+          0
+        ],
+        [
+          144,
+          33,
+          0
+        ],
+        [
+          144,
+          34,
+          0
+        ]
+      ],
+      "shutdown": [
+        [
+          176,
+          80,
+          0
+        ],
+        [
+          176,
+          81,
+          0
+        ],
+        [
+          176,
+          82,
+          0
+        ],
+        [
+          176,
+          83,
+          0
+        ],
+        [
+          144,
+          33,
+          0
+        ],
+        [
+          144,
+          34,
+          0
+        ]
+      ],
+      "autoSelect": true,
+      "scope": "Automatic channel-one MIDI mixer core with physical gain/EQ/volume, PFL and global mixer controls. Live meters and source switch, curve behaviour, other channel selections and physical acceptance remain open.",
+      "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20DJM-101.midi.xml",
+      "role": "accessory",
+      "hardwareMode": "Hardware MIDI channel 1 for the published A/B mixer mapping."
     },
     {
       "id": "DJ-Tech i-Mix Reload",

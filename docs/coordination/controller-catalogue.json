@@ -11646,16 +11646,18 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20DJM-101.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20DJM-101.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20DJM-101.midi.xml"
       ],
       "definitions": [
-        "DJ-Tech DJM-101.midi.xml"
+        "DJ-Tech DJM-101.midi.xml",
+        "manufacturer:djtechdjm101"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "DJ-Tech DJM-101",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "crossfader",
         "cueA:a",
@@ -11675,37 +11677,36 @@
         "monitor"
       ],
       "inputBindingCount": 16,
-      "feedbackBindingCount": 0,
+      "feedbackBindingCount": 2,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Hardware MIDI channel 1 for the published A/B mixer mapping."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 2,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -11926,6 +11927,61 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "djtechvtt101",
+      "name": "DJ-Tech VTT-101",
+      "manufacturer": "DJ-Tech",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://asset.conrad.com/media10/add/160267/c1/-/gl/000092385ML01/mode-demploi-092385-mini-controleur-usb-dj-tech-vtt101.pdf"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Protocol and iPad connection route require review",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -316226,6 +316282,43 @@
       ]
     },
     {
+      "id": "manufacturer:djtechdjm101",
+      "name": "DJ-Tech DJM-101",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20DJM-101.midi.xml",
+        "sha256": "e6fd3dafde0b0044841208ce92021190e4f02caab4c042766122b5f97e99587c",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20DJM-101.midi.xml",
+            "sha256": "e6fd3dafde0b0044841208ce92021190e4f02caab4c042766122b5f97e99587c"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech-DJM-101-scripts.js",
+            "sha256": "fc98d0142c7265e67f7da8bcf0655811e19a25af8dfe40bba2688e03baeb1745"
+          },
+          {
+            "url": "https://asset.conrad.com/media10/add/160267/c1/-/gl/000090874ML01/mode-demploi-090874-table-de-mixage-dj-tech-djm101-1-pcs.pdf",
+            "sha256": "5c3159ccccd5fb41a2c9f7ee6f5c3f936d1b339646ed7ac959e089f055c09485",
+            "pages": [
+              4,
+              5
+            ]
+          }
+        ],
+        "review": "Factory guide documents a driver-free USB MIDI mixer, eleven pots, three faders, two PFL keys and a meter-source switch. Its channel-one A/B configuration matches pinned wire channel zero. XML supplies all sixteen native mixer inputs, including asymmetric Gain/High/Mid/Low addresses. Companion script supplies PFL note-on127/off0 feedback and four distinct master/deck meter CC addresses. Native lifecycle clears those meters and PFL lights with twelve total messages. The script's potential 0xF7 meter data exceeds seven-bit MIDI; no such live meter output is copied. Meter switch, live levels, hardware crossfader curve, other channel selections and physical acceptance remain open. Fader position is not a live level measurement. This is a MIDI accessory, not an integrated audio interface or a DJ-Tech MIX-101/Mixer One alias."
+      },
+      "implementedInputCount": 16,
+      "implementedOutputCount": 2,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
       "id": "manufacturer:pioneerddjrev7",
       "name": "Pioneer DDJ-REV7",
       "transport": "midi",
@@ -316280,7 +316373,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 303,
+      "targetModels": 304,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

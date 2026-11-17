@@ -155,6 +155,26 @@ import Testing
     }
 }
 
+@Test @MainActor func controllerCatalogueDJM101NativeMixerAndPFLKeepPlaybackAndSync() async throws {
+    try await withControllerCuePlayback("DJ-Tech DJM-101") { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let firstFrame = try #require(model.playbackSnapshot?.a.sourceFrame)
+        cuePreviewPacket([0xB0, 65, 127, 74, 64, 0x90, 33, 127], to: input)
+        #expect(model.playbackSnapshot?.a.mixer.volume == 1)
+        #expect(model.playbackSnapshot?.a.mixer.high == 128.0 / 127)
+        #expect(model.playbackSnapshot?.a.mixer.cue == true)
+        cuePreviewPacket([0x90, 33, 0, 33, 127, 0xB0, 65, 0], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.mixer.volume == 0 && model.playbackSnapshot?.a.mixer.cue == false)
+        #expect((model.playbackSnapshot?.a.sourceFrame ?? 0) > firstFrame)
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
 @Test @MainActor func controllerCatalogueCuePreviewPlaysWhileHeldThenReturnsWithoutChangingSync() async throws {
     try await withControllerCuePlayback { model, input in
         let origin = try #require(model.playbackSnapshot?.a.sourceFrame)

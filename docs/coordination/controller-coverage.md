@@ -2824,3 +2824,27 @@ All 165 other recipes remain unchanged. The bundled resource matches the source.
 Benchmark coverage stays 62/122. Full theoretical parity, physical calibration and acceptance remain open.
 Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
 Exact source hashes, earlier results and final logs are in ignored `TestBuilds/r270/validation.json`.
+
+## R271 DJM-101 MIDI mixer core and VTT-101 inventory
+
+DJ-Tech DJM-101 now selects an accessory recipe automatically on the published hardware MIDI channel 1 configuration.
+The factory guide confirms a USB MIDI mixer with gain, three-band EQ, channel faders, PFL and global mixer controls.
+Pinned XML retains asymmetric left/right EQ addresses. The script supplies PFL note-on 127/off 0 feedback.
+Native pickup protects continuous controls. No transport keys or integrated audio interface are inferred.
+
+Startup and shutdown clear both master/deck meter address pairs and PFL lights, using twelve messages in total.
+Live meter feedback and its source switch remain open. No fader-position substitute is used.
+The source script can produce meter data above 127; that output is not copied.
+Other hardware channel selections, curve behaviour and physical acceptance remain open.
+
+The factory VTT-101 guide also confirms a distinct missing model, now recorded without an inferred runtime protocol.
+Its physical touch wheel and crossfader do not establish the MIDI addresses or calibration.
+The catalogue contains 311 records for 304 physical models. The wider market audit remains open.
+The [DJM-101 guide](https://asset.conrad.com/media10/add/160267/c1/-/gl/000090874ML01/mode-demploi-090874-table-de-mixage-dj-tech-djm101-1-pcs.pdf) and [VTT-101 guide](https://asset.conrad.com/media10/add/160267/c1/-/gl/000092385ML01/mode-demploi-092385-mini-controleur-usb-dj-tech-vtt101.pdf) are cached with hashes and rendered control diagrams.
+
+All seven focused Swift tests, 103 importer checks and native iPad framework compilation pass.
+The real-file fixture checks mixer/PFL changes with continuing finite playback and saved Sync.
+All 165 other recipes remain unchanged. The bundled resource matches the source. Automatic core coverage reaches 143 physical models.
+Benchmark coverage stays 62/122. Full theoretical parity and physical acceptance remain open.
+Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
+Exact source hashes and logs are in ignored `TestBuilds/r271/validation.json`.
