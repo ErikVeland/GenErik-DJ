@@ -2,6 +2,35 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R248 original Instinct factory-backed core
+
+The original Instinct gains an automatic core and an explicit audio-layout declaration. P8 and iPad-specific variants remain separate.
+The factory specification gives master outputs 1–2 and headphone outputs 3–4.
+The existing known-device routing path applies that layout and preserves manual, ambiguous and unavailable-device handling.
+No hardware gain-button behaviour is inferred from the channel layout.
+
+Factory normal jogs use CC 48/49. The pinned pressure script adds CC 50/51 and a 128-count scratch scale.
+Pressure motion requires the factory contact notes 26/52 and cannot act as an unheld platter report.
+Both streams use native signed decoding. The pressure stream's signed boundary is inferred from the factory normal-wheel format.
+The script treats raw 64 inconsistently; a physical capture remains necessary to qualify that boundary and scratch calibration.
+Factory pitch-lever values are 1/127. Zero is ignored, avoiding the legacy handler's treatment of every other value as an upward step.
+Native tempo steps and four-percent held bends keep saved Sync and deck tempo ownership. Source fast/slow and opposing-button tempo reset remain open.
+
+The native cue page uses all four factory Cue keys per deck. Published manual-loop press addresses retain In, Out, Reloop and Halve.
+Native EQ polarity follows the pinned source while the factory's rotation wording remains a calibration question.
+Factory LED addresses and active-low values replace conflicting community rows: on 0, off 127.
+Pad/loop feedback, source held cue previews, headphone gain buttons, FX and samples remain open.
+Startup clears all 43 factory-listed light addresses, then enables fixed Scratch indication. Shutdown clears the seven native-owned indicators.
+The 51-message lifecycle requires a 64-message total bound. The validator accepts 64 and rejects 65; discovery/disconnect receives this work, with none added to audio rendering.
+
+All 39 targeted Swift checks, 81 importer/report checks and native iPad compilation pass.
+The audio fixtures include master/headphone samples, interruption/disconnect recovery and repeated detection without sample changes.
+The bundled resource matches the source. All 164 other recipes remain unchanged.
+Factory coverage reaches 113 profiles for 119 physical models, plus six other native models.
+The repository check retains twelve existing historical-link failures.
+Source identities and results appear in `TestBuilds/r248/validation.json`.
+Physical USB/audio proof, pressure/EQ calibration, firmware-driven light cleanup and A10X acceptance remain open. No signed app or installation was produced.
+
 ## R247 U-Mix Control Pro 2 core and owned pitch indicators
 
 Pro 2 gains an automatic two-deck core from pinned XML and its short companion script.

@@ -14641,17 +14641,23 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20Instinct.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20Instinct.midi.xml",
+        "https://ts.hercules.com/download/sound/manuals/DJ_Instinct/QSG/DJCInstinct_Technical_specifications.pdf"
       ],
       "definitions": [
-        "Hercules DJ Control Instinct.midi.xml"
+        "Hercules DJ Control Instinct.midi.xml",
+        "manufacturer:herculesdjcontrolinstinct"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Hercules DJ Control Instinct",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
         "crossfader",
         "cueA:a",
         "cueB:b",
@@ -14663,55 +14669,72 @@
         "hotcue1B:b",
         "hotcue2A:a",
         "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "levelA:a",
         "levelB:b",
         "loadA:a",
         "loadB:b",
-        "loopA:a",
-        "loopB:b",
         "loopDownA:a",
         "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
         "lowA:a",
         "lowB:b",
         "midA:a",
         "midB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
         "playA:a",
         "playB:b",
+        "reloopA:a",
+        "reloopB:b",
         "syncA:a",
-        "syncB:b"
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 29,
-      "feedbackBindingCount": 12,
+      "inputBindingCount": 51,
+      "feedbackBindingCount": 6,
       "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "audioRouting": "Automatic master 1–2 / headphones 3–4",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": true,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 74,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -314493,6 +314516,44 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:herculesdjcontrolinstinct",
+      "name": "Hercules DJ Control Instinct",
+      "transport": "midi",
+      "source": {
+        "url": "https://ts.hercules.com/download/sound/manuals/DJ_Instinct/QSG/DJCInstinct_Technical_specifications.pdf",
+        "sha256": "5189c7611d57b0a0aeba13ee4377456740f82689a8ccd8b3a9e3c61af5678a81",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20Instinct.midi.xml",
+            "sha256": "f9ea6b7e8bbb33b19695b1f2c830c4dff256e76424820cd21f1f8dce117a398f"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Control-Instinct-scripts.js",
+            "sha256": "18b48894cada26b755cbb5fe7057a4dfe0e1cdf9a93f20dc350580bb83acea2f"
+          }
+        ],
+        "review": "Factory table establishes normal jog CC48/49, pitch-lever 1/127 steps, four physical cue inputs per deck, same-address active-low LEDs and master1/2/headphones3/4 audio. Pinned script/XML add pressure jog CC50/51 and 128-count scratch scale. Pressure movement requires the factory contact notes26/52 and stays separate from normal-wheel reports. Native signed decoding keeps 64 negative on both streams; the pressure-stream format is inferred from the factory normal-wheel contract and needs capture, rather than copying the script's inconsistent 64-forward boundary. Native held bend is the shared four-percent rate without source fast/slow or opposing-button saved-tempo reset. Native four-cue layout uses all factory Cue keys instead of copying the source's two-cue/delete choice. Factory LED addresses/polarity replace conflicting community rows. Full factory LED clear plus native shutdown fits 51 messages in a new 64-message lifecycle bound. EQ polarity retains the source convention pending physical calibration. HP volume buttons, cue-held previews, loop/pad feedback, FX/samples, source speed modes, remaining cleanup and physical qualification stay open. P8 and iPad-specific variants are not aliases."
+      },
+      "implementedInputCount": 51,
+      "implementedOutputCount": 6,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
         }
       ]
     },

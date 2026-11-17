@@ -46,6 +46,7 @@ from xone_k import xone_k_profiles, XONE_SOURCES
 from ready import ready_profiles, READY_SOURCES
 from mixer_one import mixer_one_profiles, MIXER_ONE_SOURCES
 from umix_pro2 import umix_pro2_profiles, UMIX_PRO2_SOURCES
+from instinct import instinct_profiles, INSTINCT_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -827,6 +828,21 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_instinct_factory_rows_override_conflicting_legacy_jog_and_led_data(self):
+        result = instinct_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (51, 6))
+        self.assertEqual(result["audioOutput"], "masterAndHeadphones")
+        self.assertEqual([r["number"] for r in result["inputs"] if r["action"] in {"wheelJogA", "wheelJogB"}], [48, 49])
+        self.assertEqual([r["number"] for r in result["inputs"] if r["action"] in {"jogA", "jogB"}], [50, 51])
+        self.assertTrue(all(r["requiresTouch"] and r["argument"] == 128 for r in result["inputs"] if r["action"] in {"jogA", "jogB"}))
+        self.assertTrue(all(r["encoding"] == "signedStep" for r in result["inputs"] if r["action"] in {"tempoA", "tempoB"}))
+        self.assertTrue(all(r["onValue"] == 0 and r["offValue"] == 127 for r in result["outputs"]))
+        self.assertEqual(len(result["startup"]) + len(result["shutdown"]), 51)
+        for name, digest in INSTINCT_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_umix_pro2_keeps_touch_threshold_source_scale_and_sync_led_condition(self):
         result = umix_pro2_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (54, 20))
@@ -1032,7 +1048,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
             self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertFalse(model["theoreticalSupport"]["complete"])
-            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200"})
+            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct"})
 
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]

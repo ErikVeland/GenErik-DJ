@@ -159,7 +159,7 @@ struct ControllerProfileData: Decodable, Sendable {
             && outputs.allSatisfy {
                 $0.binding(destination: 0).isValid
             }
-            && (startup + shutdown).count <= 32
+            && (startup + shutdown).count <= 64
             && (startup + shutdown).allSatisfy(Self.validSetupMessage)
     }
 

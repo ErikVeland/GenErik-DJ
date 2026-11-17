@@ -562,3 +562,17 @@ Held pitch feedback reads the owned direction state for the current source gener
 Opposing holds remain independently visible. Later touch/rate ownership and new generations cannot leave old indicators active.
 The source's inverted Sync condition resolves to on 100/off 0. Native Play indication is steady.
 Startup/shutdown total 32 messages. Source beat pulses, quarter-nudge scaling, held cue previews, clip/end indicators, EQ kill, Tap, routing and physical acceptance remain open.
+
+## Original Instinct factory conflicts and audio layout — R248
+
+`instinct.py` uses the official MIDI/audio table before conflicting community rows.
+Normal jog CC48/49 stays separate from contact-gated pressure CC50/51, with source 128-count calibration.
+Native signed decoding at raw64 for the pressure stream is an explicit inference pending capture.
+Factory tempo steps are 1/127; zero is ignored. Native four-cue and manual-loop pages use explicit press addresses.
+The EQ rotation wording needs calibration; source polarity is retained.
+Factory LEDs use on0/off127 at the same control addresses. Native pad/loop feedback stays open.
+The documented master1/2/headphones3/4 layout uses the shared known-device route and sample/recovery fixtures.
+
+Full factory startup clear and native-owned shutdown total 51 messages. The validated lifecycle limit is now 64, with a 65-message rejection fixture.
+This work runs at discovery/disconnect, without source JS, timers or new audio-render work.
+P8/iPad variants, other controls/modes, pressure/EQ calibration, firmware-specific light behaviour and physical acceptance remain open.

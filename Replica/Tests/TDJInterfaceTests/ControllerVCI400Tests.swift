@@ -158,7 +158,7 @@ import Testing
 }
 
 @Test func controllerCatalogueVCI400LifecycleRemainsBoundedAcrossStartupAndShutdown() throws {
-    for (startup, shutdown, valid) in [(16, 16, true), (20, 13, false), (33, 0, false)] {
+    for (startup, shutdown, valid) in [(16, 16, true), (32, 32, true), (32, 33, false), (65, 0, false)] {
         let data = try JSONSerialization.data(withJSONObject: [
             "schemaVersion": 1,
             "profiles": [
