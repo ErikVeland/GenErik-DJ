@@ -2519,3 +2519,20 @@ The catalogue now has 308 records for 301 physical models. Automatic core counts
 Benchmark coverage remains 62/122. The wider manufacturer audit and full theoretical feature parity remain open.
 Repository checks retain twelve existing historical-link failures. No hardware test, signed app or installation occurred.
 Exact logs, source hashes and downloaded originals are in ignored `TestBuilds/r257/validation.json`.
+
+## R258 X-Session Pro factory-preset core
+
+The [factory guide](https://images.juno.co.uk/manual/334309-01U.pdf), Appendix A, confirms control numbers and simultaneous normal/inverted crossfader streams.
+The pinned working XML supplies channel 1 and software assignments for the six user knobs.
+The existing manual recipe now selects automatically for the factory preset. Enigma custom presets and Evolution UC-17 stay separate.
+Only normal crossfader CC 17 drives the native mixer. Inverted duplicate CC 20 and source balance CC 32 stay inactive.
+Source user-knob assignments retain gain, headphone mix/level and master level. They are software assignments, not factory labels.
+Native pitch has centre pickup and applies source polarity once. Held Cue remains separate from PFL.
+The four search buttons need a native held-search contract and stay inactive. No jog, Sync, Load, LED feedback or audio interface is inferred.
+
+All 32 focused Swift checks, 91 importer checks and native iPad framework compilation pass.
+The shared Cue fixture covers 111 automatic profiles. All 164 other recipes remain unchanged, and the bundled resource matches the source.
+The catalogue remains 308 records for 301 physical models. Automatic core coverage reaches 120 factory profiles for 128 models, plus six other native models.
+Benchmark coverage remains 62/122. Full search/balance behaviour, custom presets, calibration and physical acceptance remain open.
+Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
+Exact logs, source hashes and the factory guide are in ignored `TestBuilds/r258/validation.json`.

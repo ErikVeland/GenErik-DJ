@@ -34918,48 +34918,35 @@
       "id": "M-Audio X-Session Pro",
       "aliases": [
         "M-Audio X-Session Pro",
+        "X-Session Pro",
         "M-Audio Xsession pro",
-        "X-Session Pro"
+        "Xsession pro"
       ],
-      "definition": "M-Audio_Xsession_pro.midi.xml",
+      "definition": "manufacturer:maudioxsessionpro",
       "inputs": [
-        {
-          "action": "crossfader",
-          "kind": "control",
-          "channel": 0,
-          "number": 17,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "master",
-          "kind": "control",
-          "channel": 0,
-          "number": 33,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "monitor",
-          "kind": "control",
-          "channel": 0,
-          "number": 26,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "cueMix",
-          "kind": "control",
-          "channel": 0,
-          "number": 25,
-          "encoding": "absolute",
-          "inverted": false
-        },
         {
           "action": "playA",
           "kind": "note",
           "channel": 0,
           "number": 70,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "cuePreviewA",
+          "kind": "note",
+          "channel": 0,
+          "number": 58,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "cueA",
+          "kind": "note",
+          "channel": 0,
+          "number": 44,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
@@ -34978,42 +34965,15 @@
           "kind": "control",
           "channel": 0,
           "number": 12,
-          "encoding": "absolute",
+          "encoding": "centreDetent",
           "inverted": true,
           "targetDeck": "a"
         },
         {
-          "action": "cueA",
-          "kind": "note",
-          "channel": 0,
-          "number": 44,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "cuePreviewA",
-          "kind": "note",
-          "channel": 0,
-          "number": 58,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "lowA",
+          "action": "gainA",
           "kind": "control",
           "channel": 0,
-          "number": 29,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "midA",
-          "kind": "control",
-          "channel": 0,
-          "number": 28,
+          "number": 24,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
@@ -35028,10 +34988,19 @@
           "targetDeck": "a"
         },
         {
-          "action": "gainA",
+          "action": "midA",
           "kind": "control",
           "channel": 0,
-          "number": 24,
+          "number": 28,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "lowA",
+          "kind": "control",
+          "channel": 0,
+          "number": 29,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
@@ -35041,6 +35010,24 @@
           "kind": "note",
           "channel": 0,
           "number": 69,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 0,
+          "number": 59,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 0,
+          "number": 45,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
@@ -35059,42 +35046,15 @@
           "kind": "control",
           "channel": 0,
           "number": 15,
-          "encoding": "absolute",
+          "encoding": "centreDetent",
           "inverted": true,
           "targetDeck": "b"
         },
         {
-          "action": "cueB",
-          "kind": "note",
-          "channel": 0,
-          "number": 45,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "cuePreviewB",
-          "kind": "note",
-          "channel": 0,
-          "number": 59,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "lowB",
+          "action": "gainB",
           "kind": "control",
           "channel": 0,
-          "number": 36,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "midB",
-          "kind": "control",
-          "channel": 0,
-          "number": 35,
+          "number": 31,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
@@ -35109,21 +35069,68 @@
           "targetDeck": "b"
         },
         {
-          "action": "gainB",
+          "action": "midB",
           "kind": "control",
           "channel": 0,
-          "number": 31,
+          "number": 35,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
+        },
+        {
+          "action": "lowB",
+          "kind": "control",
+          "channel": 0,
+          "number": 36,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "crossfader",
+          "kind": "control",
+          "channel": 0,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "cueMix",
+          "kind": "control",
+          "channel": 0,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "monitor",
+          "kind": "control",
+          "channel": 0,
+          "number": 26,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "master",
+          "kind": "control",
+          "channel": 0,
+          "number": 33,
+          "encoding": "absolute",
+          "inverted": false
         }
       ],
       "outputs": [],
       "startup": [],
       "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/M-Audio_Xsession_pro.midi.xml"
+      "autoSelect": true,
+      "scope": "Automatic factory-preset mixer and transport core with held Cue, PFL, source user-knob assignments and pitch pickup. Search keys, balance, custom presets, calibration and physical acceptance remain open.",
+      "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/M-Audio_Xsession_pro.midi.xml",
+      "excludedAliases": [
+        "Evolution X-Session",
+        "X-Session UC-17",
+        "UC-17"
+      ],
+      "hardwareMode": "Factory preset; Enigma custom assignments require a separate user profile."
     },
     {
       "id": "MIDI Keyboard",

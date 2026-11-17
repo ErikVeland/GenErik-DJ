@@ -17074,16 +17074,18 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/M-Audio_Xsession_pro.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/M-Audio_Xsession_pro.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/M-Audio_Xsession_pro.midi.xml"
       ],
       "definitions": [
-        "M-Audio_Xsession_pro.midi.xml"
+        "M-Audio_Xsession_pro.midi.xml",
+        "manufacturer:maudioxsessionpro"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "M-Audio X-Session Pro",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "crossfader",
         "cueA:a",
@@ -17113,13 +17115,14 @@
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Factory preset; Enigma custom assignments require a separate user profile."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
@@ -17128,7 +17131,7 @@
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 9,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
@@ -17137,8 +17140,7 @@
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -315372,6 +315374,38 @@
       },
       "implementedInputCount": 46,
       "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:maudioxsessionpro",
+      "name": "M-Audio X-Session Pro",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/M-Audio_Xsession_pro.midi.xml",
+        "sha256": "68ee4b218f46d750423e6af0841b82f6e623bdf7a7fc8f7719acb67f6adf16ef",
+        "relatedSources": [
+          {
+            "url": "https://images.juno.co.uk/manual/334309-01U.pdf",
+            "sha256": "152c368910314565815c603fafd3d59731812b56e5eda4deb53e8c25169b9df3",
+            "pages": [
+              5,
+              6,
+              7,
+              8,
+              9
+            ]
+          }
+        ],
+        "review": "Factory guide Appendix A confirms all control numbers and simultaneous normal CC17/inverted CC20 crossfader reports. Pinned working XML supplies default channel0 and the software assignments for six user knobs. Only CC17 controls native crossfader. Native held Cue remains separate from PFL. Pitch retains source rate polarity through native inversion and exact centre pickup. Unlabelled user knobs retain source gain, cue mix, headphone level and master assignments; source balance CC32 has no native equivalent and stays unmapped. The four transport search keys need a native held-search contract and stay inactive. No source script, output LED, jog, Sync, Load or audio interface is inferred. Factory preset is required; Enigma customisation and Evolution UC-17 remain separate. Full search/balance behaviour, calibration and physical acceptance remain open."
+      },
+      "implementedInputCount": 22,
+      "implementedOutputCount": 0,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

@@ -55,6 +55,7 @@ from sc2000 import sc2000_profiles, SC2000_SOURCES
 from mixage import mixage_profiles, MIXAGE_SOURCES, MIXAGE_MODELS
 from original300 import original300_profiles, ORIGINAL300_SOURCES
 from total_omni import total_omni_profiles, TOTAL_OMNI_SOURCES
+from xsession_pro import xsession_pro_profiles, XSESSION_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -855,6 +856,20 @@ class GeneratedCatalogueTests(unittest.TestCase):
             ("Stealth-Control.pdf", "ddbe4bdc1c973ba7b5df170767ce0831d19a7659ffa85719b3620ace5f3af8a0"),
         ]:
             path = factory / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
+    def test_xsession_pro_uses_only_factory_normal_crossfader_and_qualified_controls(self):
+        result = xsession_pro_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (22, 0))
+        self.assertTrue(result["autoSelect"])
+        self.assertEqual(result["startup"] + result["shutdown"], [])
+        controls = {r["number"] for r in result["inputs"] if r["kind"] == "control"}
+        self.assertFalse(controls & {20, 32})
+        notes = {r["number"] for r in result["inputs"] if r["kind"] == "note"}
+        self.assertEqual(notes, {44, 45, 58, 59, 69, 70})
+        for name, digest in XSESSION_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
