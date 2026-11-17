@@ -2892,3 +2892,29 @@ All 105 importer/catalogue checks pass. All 167 runtime recipes are byte-for-byt
 The catalogue contains 312 records for 305 physical models. Automatic core counts remain unchanged. The wider market audit remains open.
 Repository checks retain twelve existing historical-link failures. Full theoretical parity and physical acceptance remain open.
 Exact source hashes and logs are in ignored `TestBuilds/r273/validation.json`.
+
+## R274 Digital Jockey 2 Interface Edition core
+
+Interface Edition now selects a reviewed two-deck core automatically, using the pinned `DIGITALJOCKEY2` identity.
+Controller Edition and the driver-dependent Master Edition remain separate. No C/D or Hot Cues are inferred.
+The [mapping author](https://manual.mixxx.org/2.5/en/hardware/controllers/reloop_digital_jockey_2_interface_edition) documents driver-free operation and master 1–2/headphones 3–4.
+That layout now uses the shared automatic split route. Source desktop scripts do not run in the app.
+
+Fixed native Scratch uses full-value physical contact and the author's measured/estimated 148-count scale.
+The existing Denon jog decoder matches source raw 0/64 neutral and raw-minus-64 motion. No new value codec or scratch timer was needed.
+Centred pitch retains source inversion and pickup. Native held Cue/bend, gain/EQ/level, PFL, direct Load, loops and shifted filter controls retain published addresses.
+Only source-listed Shift addresses get release aliases. Shifted eject, delete, roll and reloop-and-stop presses stay inactive.
+Auto Loop uses native idempotent loop enable. Loop Active toggles the loop. The shifted loop-size encoder retains direction-only steps.
+Native group navigation replaces desktop library focus/expansion commands. Latched jog/library-wheel modes and CUP release-to-play remain open.
+
+Twelve steady native output states and reviewed loop/kill/CUP/jog-mode cleanup use exactly 64 lifecycle messages.
+Fixed Scratch lamps remain on during the session. Full FX lights, mode feedback/reset, paused held search and calibration remain open.
+Native master/headphone level ranges are used for the source gain controls; their physical gain response still needs calibration.
+
+All ten focused Swift tests, including 22 parameterised audio cases, 106 importer checks and native iPad framework compilation pass.
+The real-file fixture checks count response, Cue release, idempotent loop enable and saved Sync.
+Audio fixtures check repeated detection, unchanged samples and recovery without falling back to speakers.
+All 166 other recipes remain unchanged. The bundled resource matches the source. Automatic core coverage reaches 145 physical models.
+Benchmark coverage stays 62/122. Full theoretical parity and physical acceptance remain open.
+Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
+Exact source hashes and logs are in ignored `TestBuilds/r274/validation.json`.

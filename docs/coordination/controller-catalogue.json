@@ -24968,72 +24968,102 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey-2-IE.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey-2-IE.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey-2-IE.midi.xml"
       ],
       "definitions": [
-        "Reloop-Digital-Jockey-2-IE.midi.xml"
+        "Reloop-Digital-Jockey-2-IE.midi.xml",
+        "manufacturer:reloopdigitaljockey2interfaceedition"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Reloop Digital Jockey 2 Interface Edition",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browse",
+        "browseGroups",
         "crossfader",
         "cueA:a",
         "cueB:b",
         "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
         "filterKnobA:a",
         "filterKnobB:b",
+        "filterToggleA:a",
+        "filterToggleB:b",
         "gainA:a",
         "gainB:b",
         "highA:a",
         "highB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "keylockA:a",
         "keylockB:b",
         "levelA:a",
         "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopEnableA:a",
+        "loopEnableB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
         "lowA:a",
         "lowB:b",
         "master",
         "midA:a",
         "midB:b",
         "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b",
         "tempoA:a",
         "tempoB:b"
       ],
-      "inputBindingCount": 22,
-      "feedbackBindingCount": 4,
+      "inputBindingCount": 77,
+      "feedbackBindingCount": 12,
       "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "audioRouting": "Automatic master 1–2 / headphones 3–4",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": true,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 114,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -316412,6 +316442,38 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:reloopdigitaljockey2interfaceedition",
+      "name": "Reloop Digital Jockey 2 Interface Edition",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey-2-IE.midi.xml",
+        "sha256": "aaf1eb35bccb967a9453cfdb36a6098c383f2cb0af11263add4c8794a33106a4",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey-2-IE.midi.xml",
+            "sha256": "aaf1eb35bccb967a9453cfdb36a6098c383f2cb0af11263add4c8794a33106a4"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey-2-IE.scripts.js",
+            "sha256": "69ee3a9c98af5e6081966f42c5464da201d576c436594712e8d4ced9a5b9e5f3"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/reloop_digital_jockey_2_interface_edition"
+          }
+        ],
+        "review": "Pinned XML gives channel-zero two-deck addresses with asymmetric right FX/loop encoder numbers and separate pitch E0/E1. The source forces rate_dir=-1; native centred pitch applies inversion once. Source normal jog delta returns zero for raw0 and raw64, otherwise raw-64; the existing Denon jog codec matches exactly. Native fixed physical-touch scratch uses the author's measured/estimated148-count scale. Only source-listed hardware Shift addresses get release aliases; positive shifted eject/delete/roll/reloop-and-stop operations remain inactive. Native Auto Loop enables the current loop idempotently; Loop Active toggles it. Normal In/Out and shifted loop-size controls retain physical intent. Source gain/headGain knobs use native master/headphone level ranges. Native group navigation replaces desktop library focus/expansion commands. The author guide documents driver-free Interface Edition and master1/2/headphones3/4; Master Edition requires a desktop driver and is not an alias. Fixed Scratch indication and reviewed output/unused loop/kill/CUP/mode cleanup fit exactly64 lifecycle messages. Source latched jog/library modes, CUP release-to-play, EQ kill, full FX/feedback/reset, paused held search, gain/calibration and physical acceptance remain open. No C/D or Hot Cues are inferred."
+      },
+      "implementedInputCount": 77,
+      "implementedOutputCount": 12,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
         }
       ]
     },

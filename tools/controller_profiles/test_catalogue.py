@@ -66,6 +66,7 @@ from firstmix import firstmix_profiles, FIRSTMIX_SOURCES
 from ion_discover import discover_profiles, DISCOVER_SOURCES
 from ion_discover_pro import discover_pro_profiles, DISCOVER_PRO_SOURCES
 from djm101 import djm101_profiles, DJM101_SOURCES
+from rdj2_ie import rdj2_ie_profiles, RDJ2_IE_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -847,6 +848,20 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_rdj2_interface_keeps_two_decks_source_jog_and_bounded_light_contract(self):
+        item, = rdj2_ie_profiles()
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (77, 12))
+        self.assertEqual({r["targetDeck"] for r in item["inputs"] if "targetDeck" in r}, {"a", "b"})
+        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 64)
+        self.assertEqual(item["audioOutput"], "masterAndHeadphones")
+        self.assertTrue(all(r["encoding"] == "denonJog" and r["argument"] == 148 for r in item["inputs"] if r["action"] in {"jogA", "jogB"}))
+        self.assertFalse(any(r["action"].startswith("hotcue") for r in item["inputs"]))
+        for name, digest in RDJ2_IE_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_reloop_master_editions_keep_driver_connection_separate_from_interface_edition(self):
         cache = ROOT / "TestBuilds/r169/upstream"
         if not cache.exists():
@@ -1436,7 +1451,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
             self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertFalse(model["theoreticalSupport"]["complete"])
-            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ"})
+            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition"})
 
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]

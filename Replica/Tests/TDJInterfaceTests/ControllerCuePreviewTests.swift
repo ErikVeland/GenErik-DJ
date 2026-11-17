@@ -194,6 +194,26 @@ import Testing
     }
 }
 
+@Test @MainActor func controllerCatalogueRDJ2IENativeScratchAndIdempotentLoopKeepSync() async throws {
+    try await withControllerCuePlayback("DIGITALJOCKEY2") { model, input in
+        cuePreviewPacket([0x90, 24, 127, 54, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x90, 29, 127, 0xB0, 11, 66], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - sampleRate * 1.8 * 2 / 148) <= 1)
+        cuePreviewPacket([0x80, 29, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x90, 17, 127, 17, 0, 17, 127, 17, 0], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        cuePreviewPacket([0x90, 18, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}
+
 @Test @MainActor func controllerCatalogueCuePreviewPlaysWhileHeldThenReturnsWithoutChangingSync() async throws {
     try await withControllerCuePlayback { model, input in
         let origin = try #require(model.playbackSnapshot?.a.sourceFrame)
