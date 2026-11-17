@@ -71,6 +71,7 @@ from rdj2_controller import rdj2_controller_profiles, RDJ2_CONTROLLER_SOURCES
 from radius2000 import radius_profiles, RADIUS_SOURCES, RADIUS_REFERENCES
 from original_dj2go2 import original_dj2go2_profiles, ORIGINAL_DJ2GO2_ZIP_SHA, ORIGINAL_DJ2GO2_TSI_SHA
 from terminal_mix8 import terminal_mix8_profiles, TM8_SOURCES
+from mixtrack_quad import quad_profiles, QUAD_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -852,6 +853,21 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_mixtrack_quad_uses_four_factory_channels_and_source600_count_calibration(self):
+        item, = quad_profiles()
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (106, 36))
+        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 61)
+        self.assertEqual(item["audioOutput"], "masterAndHeadphones")
+        self.assertEqual([(r["channel"], r["number"], r["argument"], r["encoding"]) for r in item["inputs"] if r["action"] in {"jogA", "jogB"}], [(i, 37, 600, "twosComplement") for i in range(1, 5)])
+        self.assertEqual({r["onValue"] for r in item["outputs"] if r["action"].startswith("hotcue")}, {5})
+        self.assertTrue(all(r["inverted"] for r in item["inputs"] if r["action"].startswith("tempo")))
+        self.assertFalse(any(r["action"].startswith("gain") for r in item["inputs"]))
+        for name, (_, digest) in zip(["mixtrack-quad-vdj.zip", "mixtrack-quad-traktor.zip"], QUAD_SOURCES):
+            path = ROOT / "TestBuilds/r280/manufacturer" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_tm8_keeps_factory_bank_pitch_rgb_and_bounded_pickup_contract(self):
         item, = terminal_mix8_profiles()
         self.assertTrue(item["autoSelect"])
@@ -1518,7 +1534,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
             self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertFalse(model["theoreticalSupport"]["complete"])
-            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition"})
+            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad"})
 
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]

@@ -3033,3 +3033,33 @@ All 168 existing recipes remain unchanged. The bundled resource matches the sour
 Automatic core coverage reaches 149 physical models, including 64/122 benchmark models. Complete theoretical parity remains open.
 Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
 Exact source identities, parsed wire facts and results are in ignored `TestBuilds/r279/validation.json`.
+
+## R280 Mixtrack Quad core
+
+Numark publishes both [VirtualDJ device/mapping XML](https://www.numark.com/images/product_downloads/Mixtrack_Quad_VDJ_Pro.zip) and a [Traktor mapping with guide](https://www.numark.com/images/product_downloads/MixTrack_Quad_Traktor_Pro_Map.zip).
+The device XML supplies four deck wire channels 1–4, separate Load addresses and a 600-count jog scale.
+Factory Traktor input definitions confirm signed 7Fh/01h wheel and browser reports.
+The native core retains those facts, inverse pitch/crossfader polarity and exact raw-64 EQ centre.
+It adds no gain knobs or automatic four-deck choice.
+
+Each side retains one physical Shift identity across its two deck banks. Bank presses clear that side's contacts and pickup; bank-key release cannot stop a later Cue.
+Normal held bend uses the shared native four-percent response. Shifted Pitch Bend Down toggles Key Lock; key range remains open.
+Shift blocks wheel and pad-mode/clear actions while dedicated mixer controls remain active.
+Fixed native Scratch replaces the software mode switch. Four cue pads and manual-loop addresses stay separate from sampler notes.
+Native Out-or-Exit follows the factory guide. Reloop creation fallback, colour selection, deletion latches, samples, rolls and FX stay open.
+
+Native cue lights use source value 5/off zero. The loop-state light uses source value 8/off zero.
+Published setup, fixed Scratch lamps and reviewed transport/jog cleanup use 61 lifecycle messages.
+The source's CC60 send strings include trailing padding; native setup sends the three complete MIDI bytes only.
+Full feedback, animation and firmware-driven cleanup remain open.
+The guide's first-page screenshots explicitly give Mac master 1–2/Front and headphones 3–4/Back, with matching numbered Windows routing.
+The [manufacturer](https://www.numark.com/product/mixtrack-quad) documents class-compliant operation. The shared automatic split route now applies to this model.
+Physical USB/audio acceptance and gain/pitch/jog calibration remain open.
+All ten focused Swift tests, including 24 parameterised audio cases, 111 importer checks and native iPad framework compilation pass.
+The first Python run found an older expected audio-device list that omitted Quad. The corrected list passes; the failed log remains preserved.
+The real-file fixture checks 600-count motion, bend release across Shift, continuing playback, bank cleanup and saved Sync.
+Audio fixtures check repeated detection, unchanged samples and recovery without falling back to speakers.
+All 169 existing recipes remain unchanged. The bundled resource matches the source.
+Automatic core coverage reaches 150 physical models, including 65/122 benchmark models. Complete theoretical parity remains open.
+Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
+Exact source identities and results are in ignored `TestBuilds/r280/validation.json`.

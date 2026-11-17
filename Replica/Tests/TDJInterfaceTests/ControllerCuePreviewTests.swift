@@ -839,3 +839,30 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueMixtrackQuadNativeScratchBendAndBankKeepSync() async throws {
+    try await withControllerCuePlayback("MixTrack Quad") { model, input in
+        cuePreviewPacket([0x91, 77, 127, 0xB1, 37, 2], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - sampleRate * 1.8 * 2 / 600) <= 1)
+        cuePreviewPacket([0x91, 77, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        model.pressPlay(deck: .a, vinylStop: false)
+        cuePreviewPacket([0x91, 67, 127], to: input)
+        #expect(model.playbackSnapshot?.a.performanceRate == 0.96)
+        cuePreviewPacket([0x91, 97, 127, 67, 0], to: input)
+        #expect(model.playbackSnapshot?.a.performanceRate == 1)
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+        cuePreviewPacket([0x90, 78, 127], to: input)
+        #expect(model.playbackSnapshot?.a.performanceRate == 1)
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}
