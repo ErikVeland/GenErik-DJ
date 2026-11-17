@@ -316,3 +316,16 @@ A bank definition defaults to Note and requires an explicit positive `onValue`.
 An explicit `kind: control` may omit `onValue` to accept every raw report at its own address.
 Control Change bank reports cannot declare note-release Shift cleanup.
 The receiver resets only the declared side. Ordinary Note release behaviour remains unchanged.
+
+## NEON accessory pages — R228
+
+`neon.py` uses the factory MIDI table and manufacturer-hosted Reloop/Serato guides.
+The first Hot Cue page has distinct pad addresses on channels 7–10. Other hardware modes cannot trigger those cues.
+Shifted delete releases only rearm the corresponding pad. Pressure messages do not retrigger cues.
+Manual Loop pad 1 toggles the loop. Pads 5/6 capture native boundaries, and pad 7 uses Reloop/Exit.
+The active-loop boundary-edit mode and shared encoders remain open.
+
+Do not infer C/D Sync addresses from the conflicting factory rows.
+Do not map shared Load/encoder messages without the Sampler context.
+The setup packet enables hardware C/D selection. App deck availability remains authoritative.
+NEON is an accessory with no audio interface. Other modes, colours and full cleanup remain open.

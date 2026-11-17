@@ -431,3 +431,19 @@ import Testing
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueNEONCuesAndManualLoopToggleReachNativePlayback() async throws {
+    try await withControllerCuePlayback("Reloop NEON") { model, input in
+        cuePreviewPacket([0x97, 16, 127, 23, 127], to: input)
+        #expect(model.controllerValue(.hotcue1A) == 1 && model.controllerValue(.hotcue8A) == 1)
+        cuePreviewPacket([0x97, 120, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        cuePreviewPacket([0x97, 120, 0, 120, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == false)
+        cuePreviewPacket([0x97, 126, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        cuePreviewPacket([0x97, 112, 127, 24, 127, 96, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

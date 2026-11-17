@@ -24743,46 +24743,97 @@
       "role": "accessory",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://www.reloop.com/media/custom/upload/Reloop-NEON_MIDI-Map.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:reloopneon"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Reloop NEON",
+      "automaticControls": true,
+      "controlActions": [
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d"
+      ],
+      "inputBindingCount": 96,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -313244,6 +313295,47 @@
       },
       "implementedInputCount": 99,
       "implementedOutputCount": 36,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:reloopneon",
+      "name": "Reloop NEON",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.reloop.com/media/custom/upload/Reloop-NEON_MIDI-Map.pdf",
+        "sha256": "41226da60587823b7eb1ee094180d1391a07006c688423f9196a9b2e61ed4059",
+        "pages": [
+          4,
+          7,
+          8
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.reloop.com/media/custom/upload/Reloop-232520_Reloop_IM.pdf",
+            "sha256": "95aeb6d508b13d051fd1df236621fe42b7f279e00069d4cf8ddcea3e73910699",
+            "pages": [
+              6,
+              7
+            ]
+          },
+          {
+            "url": "https://www.reloop.com/media/custom/upload/Reloop-Reloop_neon_quick_start_guide.pdf",
+            "sha256": "14f51859b621e00fcf9742fa23059fc8a92ccc1a855b007a04f288417bc74d84",
+            "pages": [
+              5
+            ]
+          }
+        ],
+        "review": "The factory table gives distinct channel/note ranges for each pad mode. Four targets use channels 7-10 and first-layer cue notes 16-23. Shifted cue-delete releases use notes 48-55 without deleting cues. Second-layer Hot Cue is Hot Flip and remains unmapped. Manual Loop pads use notes 120/124/125/126 for Loop on/off, In, Out and Reloop/Exit. The Serato guide confirms that the first manual pad toggles the loop. Active-loop boundary editing remains unmapped. Their shifted releases use notes 88/92/93/94. The setup packet enables the hardware's C/D buttons without changing app deck availability. Deck reports reset pad edges for the shared surface. C/D Sync entries conflict with Slip in the factory table. Common encoder and Load messages also occur in Sampler mode, so they remain unmapped until mode guards can retain their context. Stored loops, rolls, sampler, slicer, Flip, DVS switching, pressure, pad colours and full cleanup remain open."
+      },
+      "implementedInputCount": 96,
+      "implementedOutputCount": 0,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

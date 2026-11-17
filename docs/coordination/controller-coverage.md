@@ -2,6 +2,30 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R228 NEON native accessory core
+
+NEON now selects its own accessory recipe automatically. It can provide eight Hot Cues on each of four deck targets.
+The factory MIDI table, Reloop guide and Serato guide have recorded hashes and reviewed page images.
+Each pad mode has a distinct address range. Sampler, Slicer, stored-loop and Flip messages cannot trigger native cues.
+Velocity and aftertouch messages remain separate from pad presses. Shifted delete releases rearm pads without deleting or triggering a cue.
+
+The Manual Loop page provides native loop on/off, boundary capture and Reloop/Exit.
+The Serato guide confirms the on/off action for the first pad. It does not use the NS6II enable-only action.
+Native In/Out capture replaces the active-loop boundary-edit mode. Encoder editing remains open.
+Deck reports rearm the shared physical pad surface. Hardware C/D setup does not enable the app's four-deck trial.
+
+The factory C/D Sync rows conflict with Slip. Sync remains unmapped pending a resolved source.
+Common encoder and Load messages also occur in Sampler mode. Their context needs a separate mode guard before activation.
+Stored loops, rolls, sampler, Slicer, Flip, DVS switching, pressure, pad colours and full cleanup remain open.
+NEON has no built-in audio interface. It uses the app's existing audio configuration.
+
+All 28 targeted Swift checks, 61 importer/report checks and native iPad compilation pass.
+Native offline playback covers cue pads, loop toggling, Reloop and persistent Sync. The bundled resource matches the source.
+Factory coverage reaches 97 profiles for 101 physical models. Six other models retain automatic native adapters.
+The catalogue retains 305 records and now contains 161 data recipes. All 160 previous recipes remain unchanged.
+Source identities and validation results appear in `TestBuilds/r228/validation.json`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R227 N4 native core and explicit state controls
 
 The existing N4 recipe now selects automatically, including its original `N4 MIDI 1` endpoint alias.

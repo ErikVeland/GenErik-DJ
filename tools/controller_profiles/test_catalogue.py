@@ -29,6 +29,7 @@ from mixon4 import mixon4_profiles, MIXON4_REFERENCES
 from dicer import dicer_profiles, DICER_SOURCES
 from ns6ii import ns6ii_profiles, NS6II_SOURCES
 from n4 import n4_profiles, N4_SOURCES
+from neon import neon_profiles, NEON_REFERENCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -810,6 +811,22 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_neon_uses_distinct_factory_pages_without_context_free_encoders(self):
+        result = neon_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (96, 0))
+        self.assertEqual(result["role"], "accessory")
+        self.assertEqual(result["startup"], [[240, 10, 0, 247]])
+        cues = [row for row in result["inputs"] if row["action"].startswith("hotcue") and not row.get("releaseOnly")]
+        self.assertEqual({row["channel"] for row in cues}, {7, 8, 9, 10})
+        self.assertEqual({row["number"] for row in cues}, set(range(16, 24)))
+        self.assertFalse(any(row["kind"] != "note" for row in result["inputs"]))
+        self.assertEqual({row["number"] for row in result["inputs"] if row["action"] in {"loopA", "loopB"} and not row.get("releaseOnly")}, {120})
+        refs = NEON_REFERENCES[result["id"]]
+        for name, ref in [("NEON-MIDI.pdf", refs), ("NEON-Guide.pdf", refs["relatedSources"][0]), ("NEON-Serato.pdf", refs["relatedSources"][1])]:
+            path = ROOT / "TestBuilds/r228/manufacturer" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), ref["sha256"])
+
     def test_n4_keeps_dispatch_addresses_and_latched_headphone_state(self):
         result = n4_profiles()[0]
         self.assertIn("N4 MIDI 1", result["aliases"])
