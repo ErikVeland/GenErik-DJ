@@ -2435,7 +2435,7 @@ Four shifted cues retain native one-press behaviour. Shifted filter control reta
 Native Loop Enable is idempotent. Reloop, manual In/Out and sign-only loop-size rotation use reviewed addresses.
 Browsing uses separate track/group encoders and immediate Open Group. Source multi-click preview and complete folder semantics remain open.
 
-Startup/shutdown clear only 26known LED/meter addresses. They replace the source's 0–254 note clear, which exceeds MIDI's valid data range.
+Startup/shutdown clear only 26 known LED/meter addresses. They replace the source's 0–254 note clear, which exceeds MIDI's valid data range.
 The lifecycle total is 54 messages, including fixed scratch indicators. Native transport, held Cue, PFL, Sync and loop LEDs retain source addresses.
 Live meters, CUP, FX, full loop adjustment/removal, source held cue semantics, other hardware channel and physical calibration remain open.
 Family-specific audio routing remains open. The Controller Edition receives no inferred audio route.
@@ -2448,3 +2448,28 @@ The catalogue now has 307 records for 300 physical models. Automatic core covera
 Benchmark coverage remains 62/122. Full theoretical feature parity remains open.
 Repository checks retain twelve existing historical-link failures. No physical test, signed app or installation occurred.
 Exact logs and source hashes are in ignored `TestBuilds/r254/validation.json`.
+
+## R255 Original Inpulse 300 paired mixer and native loop layout
+
+The existing automatic original 300 recipe now uses the [factory MIDI format](https://ts.hercules.com/download/sound/manuals/DJC_Inpulse300/DJControlInpulse300_MIDI_Commands_V_1_2.pdf) and pinned working source.
+Paired crossfader, level, gain, EQ, filter and pitch retain fourteen-bit values on normal and Shift channels.
+Factory signed jog magnitude replaces direction-only handling. Native fixed scratching keeps the source 248-count scale and four-times Shift motion through 62counts.
+Physical Shift is separate per side. It rearms pickup and retains old Cue/contact releases.
+The shifted B contact follows working source channel 5, correcting a conflicting factory row. Disputed shifted PFL/Load alternatives stay unmapped.
+Eight Hot Cues use distinct hardware pad addresses. Shifted delete releases rearm native one-press cues without deleting them.
+Other pad pages, mode-aware pad feedback, FX and beatmatch guides stay open.
+
+The recipe retains the source's custom loop layout. In enables a four-beat loop. Out disables it.
+The new typed Loop Disable action is idempotent. It cannot enable a loop on a second press.
+Native playback fixtures verify both repeated In and repeated Out, with saved Sync intact.
+Original manual/adjustable loop behaviour and the source's backspin/Vinyl state machine remain open.
+Startup retains source Vinyl indicators, browser indicator and safe analogue query. No source timers or JS run in the app.
+Master/headphone gain, PFL Master, complete feedback/cleanup and audio routing remain open. MK2 stays separate.
+
+All 36 focused Swift checks, 88 importer checks and native iPad framework compilation pass.
+All 164 other recipes remain unchanged. The bundled iPad resource matches the source.
+Automatic core counts stay unchanged because the imported original 300 profile already selected automatically.
+The catalogue remains 307 records for 300 physical models, with 119 factory profiles for 127 automatic core models, plus six other native models.
+Benchmark coverage remains 62/122. Full theoretical feature parity and physical acceptance stay open.
+Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
+Exact logs, source hashes and factory PDF are in ignored `TestBuilds/r255/validation.json`.

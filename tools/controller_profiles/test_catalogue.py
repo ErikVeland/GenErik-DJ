@@ -53,6 +53,7 @@ from original_dj2go import original_dj2go_profiles, ORIGINAL_DJ2GO_SOURCES
 from hercules_air import air_profiles, AIR_SOURCES
 from sc2000 import sc2000_profiles, SC2000_SOURCES
 from mixage import mixage_profiles, MIXAGE_SOURCES, MIXAGE_MODELS
+from original300 import original300_profiles, ORIGINAL300_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -834,6 +835,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_original300_keeps_factory_pairs_and_source_loop_layout_separate_from_mk2(self):
+        result = original300_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (102, 8))
+        self.assertEqual([r["argument"] for r in result["inputs"] if r["action"] in {"jogA", "jogB"}], [248, 62, 248, 62])
+        self.assertEqual([r["number"] for r in result["inputs"] if r["action"] == "hotcue8A"], [7, 15])
+        self.assertEqual(len([r for r in result["inputs"] if r["encoding"] == "paired14Bit"]), 29)
+        self.assertEqual([r["argument"] for r in result["inputs"] if r["action"] in {"fixedLoopA", "fixedLoopB"}], [4, 4])
+        self.assertEqual(result["startup"][-1], [0xB0, 127, 127])
+        for name, digest in ORIGINAL300_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_mixage_family_keeps_qualified_models_and_bounded_known_lights(self):
         result = mixage_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (108, 12))

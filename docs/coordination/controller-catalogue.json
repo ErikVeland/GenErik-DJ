@@ -15492,18 +15492,21 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_300.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_300.midi.xml",
+        "https://ts.hercules.com/download/sound/manuals/DJC_Inpulse300/DJControlInpulse300_MIDI_Commands_V_1_2.pdf"
       ],
       "definitions": [
-        "Hercules_DJControl_Inpulse_300.midi.xml"
+        "Hercules_DJControl_Inpulse_300.midi.xml",
+        "manufacturer:herculesdjcontrolinpulse300"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Hercules DJControl Inpulse 300",
       "automaticControls": true,
       "controlActions": [
         "browse",
+        "browseGroups",
         "crossfader",
         "cueA:a",
         "cueB:b",
@@ -15511,6 +15514,8 @@
         "cuePreviewB:b",
         "filterKnobA:a",
         "filterKnobB:b",
+        "fixedLoopA:a",
+        "fixedLoopB:b",
         "gainA:a",
         "gainB:b",
         "highA:a",
@@ -15539,6 +15544,8 @@
         "levelB:b",
         "loadA:a",
         "loadB:b",
+        "loopDisableA:a",
+        "loopDisableB:b",
         "loopDownA:a",
         "loopDownB:b",
         "loopUpA:a",
@@ -15550,13 +15557,16 @@
         "openGroup",
         "playA:a",
         "playB:b",
+        "shift",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 59,
-      "feedbackBindingCount": 6,
+      "inputBindingCount": 102,
+      "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
@@ -15575,7 +15585,7 @@
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 365,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
@@ -15584,8 +15594,7 @@
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -315172,6 +315181,55 @@
       },
       "implementedInputCount": 108,
       "implementedOutputCount": 12,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:herculesdjcontrolinpulse300",
+      "name": "Hercules DJControl Inpulse 300",
+      "transport": "midi",
+      "source": {
+        "url": "https://ts.hercules.com/download/sound/manuals/DJC_Inpulse300/DJControlInpulse300_MIDI_Commands_V_1_2.pdf",
+        "sha256": "213e2aecc7cb39df99edb79f43f39519a58dfce9a9e44f54b6841d8cb79cb06c",
+        "pages": [
+          2,
+          3,
+          9,
+          10,
+          15,
+          21,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          43,
+          57,
+          58
+        ],
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_300.midi.xml",
+            "sha256": "43c8c84c8832af0c26d038851be8280ffb8b9a9c7c0e8b1d9811b520333114c4"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJControl-Inpulse-300-script.js",
+            "sha256": "bada98bf9c806879113612c10422d96c582473f67502fc14b9bafedc12c28af4"
+          }
+        ],
+        "review": "Factory wire formats supply paired crossfader/mixer/pitch and full signed normal/Shift jog magnitude. Pinned source supplies248-count scale, four-times Shift scratching, safe analogue query and the custom In-to-four-beat/Out-to-disable loop layout. Native loop disable is idempotent. Eight distinct Hot Cue input addresses retain native one-press behaviour and shifted-clear release aliases; other hardware pad pages remain inactive. Native fixed scratching ignores source Vinyl toggle, backspin inertia and Scratch2 callbacks. Physical Shift is source-local per deck, rearms paired pickup and preserves old contact/Cue releases. Shifted B contact follows the working source channel5, correcting the factory table's channel4 typo. The factory shifted PFL/Load A rows conflict with normal mode numbers; these disputed alternatives remain unmapped rather than inferring a byte layout. Shifted transport release aliases cover undisputed Cue/Play/Sync. Source-supported direct Load and source basic transport LEDs remain separate from native pad feedback. Master/headphone gain, PFL Master, beatmatch guide, FX, other pad modes, original manual/adjustable loops, complete feedback/cleanup, audio routing and physical calibration remain open. MK2 is a separate recipe."
+      },
+      "implementedInputCount": 102,
+      "implementedOutputCount": 8,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

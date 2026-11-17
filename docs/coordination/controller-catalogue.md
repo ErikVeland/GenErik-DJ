@@ -219,12 +219,12 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 36 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 117 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 118 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 54 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| partial-midi-profile | 53 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
 | protocol-needed | 76 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers

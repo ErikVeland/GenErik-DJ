@@ -530,3 +530,18 @@ import Testing
         #expect(model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.synced == sync)
     }
 }
+
+@Test @MainActor func controllerCatalogueOriginal300NativeLoopDisableIsIdempotentAndRetainsSync() async throws {
+    try await withControllerCuePlayback("Hercules DJControl Inpulse 300") { model, input in
+        let sync = model.playbackSnapshot?.a.synced
+        cuePreviewPacket([0x91, 9, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        let start = model.playbackSnapshot?.a.loopStart
+        cuePreviewPacket([0x81, 9, 127, 0x91, 9, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true && model.playbackSnapshot?.a.loopStart == start)
+        cuePreviewPacket([0x91, 10, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == false)
+        cuePreviewPacket([0x81, 10, 127, 0x91, 10, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == false && model.playbackSnapshot?.a.synced == sync)
+    }
+}

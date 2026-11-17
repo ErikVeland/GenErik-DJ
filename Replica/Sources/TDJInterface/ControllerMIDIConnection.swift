@@ -26,7 +26,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case loopDivideA, loopDivideB, loopRestoreA, loopRestoreB
     case reloopOriginalA, reloopOriginalB
     case loopSizeA, loopSizeB
-    case loopEnableA, loopEnableB
+    case loopEnableA, loopEnableB, loopDisableA, loopDisableB
     case loopOutOrExitA, loopOutOrExitB
     case hotcue1A, hotcue2A, hotcue3A, hotcue4A, hotcue5A, hotcue6A, hotcue7A, hotcue8A
     case hotcue1B, hotcue2B, hotcue3B, hotcue4B, hotcue5B, hotcue6B, hotcue7B, hotcue8B
@@ -53,7 +53,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         let labels = [
             "play": "Play / Pause", "sync": "Sync", "keylock": "Key lock", "cue": "Headphone cue", "level": "Volume",
             "pitchBendDown": "Pitch bend down (hold)", "pitchBendUp": "Pitch bend up (hold)",
-            "cueState": "Headphone cue state", "loopEnable": "Enable loop", "loopOutOrExit": "Loop out / exit",
+            "cueState": "Headphone cue state", "loopEnable": "Enable loop", "loopDisable": "Disable loop", "loopOutOrExit": "Loop out / exit",
             "cueSet": "Set Cue point", "cueGoto": "Go to Cue point",
             "gain": "Gain", "low": "Low EQ", "mid": "Mid EQ", "high": "High EQ", "filter": "Filter",
             "filterToggle": "Filter on / off", "fx": "Effect amount", "fxToggle": "Effect on / off",

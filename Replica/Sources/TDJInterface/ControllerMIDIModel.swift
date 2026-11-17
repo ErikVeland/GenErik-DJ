@@ -296,6 +296,8 @@ extension ReplicaModel {
                     setLoop(start: state.loopStart, end: original ?? state.loopEnd, deck: deck)
                 }
             }
+        case .loopDisableA, .loopDisableB:
+            if playbackSnapshot?[deck].loopEnabled == true { perform(.loop, deck: deck, enabled: false) }
         case .loopEnableA, .loopEnableB:
             guard let state = playbackSnapshot?[deck], !state.loopEnabled else { return }
             toggleLoop(deck: deck)

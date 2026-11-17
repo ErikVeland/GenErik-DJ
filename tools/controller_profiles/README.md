@@ -640,5 +640,15 @@ The shared default hardware channel 1 recipe retains full pitch messages, per-si
 Native fixed touch scratching uses both pressure/movement address sets. Alternate releases preserve Cue/bend and rearm one-press base controls.
 Four shifted cues, shifted filter pickup, idempotent Loop Enable, Reloop, manual In/Out and sign-only loop sizing use native actions.
 Separate browser encoders use immediate Open Group without source multi-click timers.
-Only26known LED/meter addresses receive lifecycle clears. The source's invalid 0–254 note loop is not copied.
+Only 26 known LED/meter addresses receive lifecycle clears. The source's invalid 0–254 note loop is not copied.
 Full modes, live meters, CUP, FX, source cue/loop customisations, alternate channel, family audio routing and physical acceptance stay open.
+
+## Original Inpulse 300 paired mixer and loop layout — R255
+
+`original300.py` completes core controls in an existing automatic profile without increasing automatic model counts.
+Factory paired crossfader/mixer/pitch retain fourteen-bit values on normal and Shift channels.
+Full signed jog values keep the source 248-count scale and 62-count Shift scale. Physical Shift rearms pickup and preserves held releases.
+Eight distinct Hot Cue addresses retain native one-press behaviour and shifted-clear release aliases.
+Working source channel 5 resolves the factory shifted B contact typo. Other disputed shifted PFL/Load rows stay unmapped.
+The source's custom loop layout uses native four-beat enable and a new typed idempotent Loop Disable action.
+Original manual/adjustable loops, Vinyl/inertia state, other modes, FX, pad/beatmatch feedback, full routing/cleanup and physical acceptance remain open.
