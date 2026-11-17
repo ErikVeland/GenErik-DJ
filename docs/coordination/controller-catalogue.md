@@ -8,9 +8,9 @@ Reviewed 17 November 2026. The pinned software inventory is complete. The wider 
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
-- 305 total catalogue records. 298 name physical models. The remainder identify software endpoints or protocol families.
+- 307 total catalogue records. 300 name physical models. The remainder identify software endpoints or protocol families.
 - 165 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 118 factory profiles select core controls automatically for 124 physical models.
+- 119 factory profiles select core controls automatically for 127 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -219,12 +219,12 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 36 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 114 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 117 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 55 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| partial-midi-profile | 54 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
 | protocol-needed | 76 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
@@ -541,7 +541,9 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Reloop Digital Jockey 2 Controller | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Digital%20Jockey%202%20Controller%20Edition.midi.xml) |
 | Reloop Digital Jockey 2 Interface Edition | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey-2-IE.midi.xml) |
 | Reloop Jockey 3 ME | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Jockey%203%20ME.midi.xml) |
-| Reloop Mixage | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Mixage.midi.xml) |
+| Reloop Mixage Controller Edition | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Mixage.midi.xml) |
+| Reloop Mixage Interface Edition | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Mixage.midi.xml) |
+| Reloop Mixage Interface Edition MK2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Mixage.midi.xml) |
 | Reloop Mixtour | primary | protocol-needed | [Reference](https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart) |
 | Reloop Mixtour Pro | primary | protocol-needed | [Reference](https://www.reloop.com/reloop-mixtour-pro) |
 | Roland DJ-505 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Roland_DJ-505.midi.xml) |

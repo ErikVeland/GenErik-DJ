@@ -52,6 +52,7 @@ from bcd3000 import bcd3000_profiles, BCD3000_SOURCES
 from original_dj2go import original_dj2go_profiles, ORIGINAL_DJ2GO_SOURCES
 from hercules_air import air_profiles, AIR_SOURCES
 from sc2000 import sc2000_profiles, SC2000_SOURCES
+from mixage import mixage_profiles, MIXAGE_SOURCES, MIXAGE_MODELS
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -833,6 +834,20 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_mixage_family_keeps_qualified_models_and_bounded_known_lights(self):
+        result = mixage_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (108, 12))
+        self.assertEqual(split_models("Reloop Mixage"), MIXAGE_MODELS)
+        self.assertEqual(len(result["startup"]), 28)
+        self.assertEqual(len(result["shutdown"]), 26)
+        self.assertTrue(all(0 <= b < 128 for p in result["startup"] + result["shutdown"] for b in p[1:]))
+        self.assertNotIn("audioOutput", result)
+        self.assertTrue(all(r["argument"] == 620 for r in result["inputs"] if r["action"] in {"jogA", "jogB"}))
+        for name, digest in MIXAGE_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_sc2000_keeps_factory_trigger_leds_and_source_local_physical_shift(self):
         result = sc2000_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (120, 52))

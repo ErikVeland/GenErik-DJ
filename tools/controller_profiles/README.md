@@ -628,6 +628,17 @@ One source-local physical Shift input spans all eight wire channels, preserving 
 Bank reports release contacts and rearm pickup without dropping held Shift. A blocked held button still needs release before a fresh press.
 Factory value64 contact, 2,048-count centre64 jogs and full pitch messages use existing native contracts.
 Native core retains eight cues, manual/automatic loops, size buttons, direct Load and a filter encoder that follows its factory label.
-Separate CC74/75 feedback carries factory LED identifiers. Shutdown clears52native-owned states. Initial feedback supplies their starting states.
+Separate CC74/75 feedback carries factory LED identifiers. Shutdown clears 52 native-owned states. Initial feedback supplies their starting states.
 No source deck-count mutation, timers, generic USB Audio Device alias or audio interface is invented.
 Other channels, full dimmer/FX/lifecycle coverage, source custom modes, calibration and physical acceptance stay open.
+
+## Mixage family core — R254
+
+`mixage.py` uses the pinned author's explicit three-model list and measured 620-count jog scale.
+`sources.py` expands the old family record into Interface Edition, Interface Edition MK2 and Controller Edition.
+The shared default hardware channel 1 recipe retains full pitch messages, per-side Shift and normal/Shift mixer addresses.
+Native fixed touch scratching uses both pressure/movement address sets. Alternate releases preserve Cue/bend and rearm one-press base controls.
+Four shifted cues, shifted filter pickup, idempotent Loop Enable, Reloop, manual In/Out and sign-only loop sizing use native actions.
+Separate browser encoders use immediate Open Group without source multi-click timers.
+Only26known LED/meter addresses receive lifecycle clears. The source's invalid 0–254 note loop is not copied.
+Full modes, live meters, CUP, FX, source cue/loop customisations, alternate channel, family audio routing and physical acceptance stay open.

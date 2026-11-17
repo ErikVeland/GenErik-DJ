@@ -2410,16 +2410,41 @@ The native layout keeps eight cues, manual In/Out, Auto Loop, beat-size buttons,
 Filter follows the factory label, instead of the source's loop-size customisation.
 
 LEDs use separate CC74-on/75-off triggers with factory LED identifiers. Native outputs cover Play, Cue preview, Sync, Key Lock, loop and eight cues per deck.
-Initial feedback sets owned states. Shutdown clears these52states within the existing lifecycle limit.
+Initial feedback sets owned states. Shutdown clears these 52 states within the existing lifecycle limit.
 Dimmer lights, FX, full reset/feedback, Shift alternatives and source cue/loop customisations stay open.
 No generic USB Audio Device alias, audio interface, source deck-count mutation or JS timers are invented.
 Endpoints that expose only a generic name still need manual profile selection.
 
 All 36 final focused Swift checks, 86 importer checks and native iPad framework compilation pass.
 The first check incorrectly expected a held Play press to retrigger after Shift release. The corrected fixture releases Play before a fresh press.
-A Python expected-count assertion was also corrected from116 to120bindings. Both original results remain saved.
+A Python expected-count assertion was also corrected from 116 to 120 bindings. Both original results remain saved.
 All 164 other recipes remain unchanged. The bundled iPad resource matches the source.
 Automatic core coverage is now 118 factory profiles for 124 physical models, plus six other native models.
 Benchmark coverage remains 62/122. Full feature parity, physical calibration and A10X acceptance remain open.
 Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
 Exact logs, source hashes and factory PDF are in ignored `TestBuilds/r253/validation.json`.
+
+## R254 Mixage family core and separate model records
+
+The pinned [Mixxx XML](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Mixage.midi.xml) explicitly covers Interface Edition MK1, Interface Edition MK2 and Controller Edition.
+The catalogue now names these three physical models separately. One reviewed recipe serves their documented default hardware MIDI channel 1 layout.
+Full pitch messages, normal/Shift mixer addresses and the author's measured 620-count jog scale use existing native contracts.
+Native fixed touch scratch keeps normal/Shift pressure and movement addresses. No source scratch/scroll toggles or brake timers run in the app.
+Each physical Shift controls its own side. Alternate Cue/bend releases preserve ownership, and transport release aliases rearm base buttons.
+Four shifted cues retain native one-press behaviour. Shifted filter control retains pickup.
+Native Loop Enable is idempotent. Reloop, manual In/Out and sign-only loop-size rotation use reviewed addresses.
+Browsing uses separate track/group encoders and immediate Open Group. Source multi-click preview and complete folder semantics remain open.
+
+Startup/shutdown clear only 26known LED/meter addresses. They replace the source's 0–254 note clear, which exceeds MIDI's valid data range.
+The lifecycle total is 54 messages, including fixed scratch indicators. Native transport, held Cue, PFL, Sync and loop LEDs retain source addresses.
+Live meters, CUP, FX, full loop adjustment/removal, source held cue semantics, other hardware channel and physical calibration remain open.
+Family-specific audio routing remains open. The Controller Edition receives no inferred audio route.
+The linked factory-manual download did not complete and was cancelled. This increment relies on the pinned source, without a new factory-manual claim.
+
+All 36 focused Swift checks, 87 importer checks and native iPad framework compilation pass.
+A Python expected-count assertion was corrected from 104 to 108 bindings. No runtime change was needed for that fixture correction.
+All 164 other recipes remain unchanged. The bundled iPad resource matches the source.
+The catalogue now has 307 records for 300 physical models. Automatic core coverage is 119 factory profiles for 127 models, plus six other native models.
+Benchmark coverage remains 62/122. Full theoretical feature parity remains open.
+Repository checks retain twelve existing historical-link failures. No physical test, signed app or installation occurred.
+Exact logs and source hashes are in ignored `TestBuilds/r254/validation.json`.
