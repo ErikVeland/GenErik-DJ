@@ -3,17 +3,20 @@ import Foundation
 public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     case absolute, paired14Bit, paired14BitRelative, twosComplement, binaryOffset, signedBit
     case numarkPlatinumJog, denonJog, zeroForward, mc7000Jog, dj2go2Jog, signedStep
-    case binaryStep, centreDetent, centredPitch, mixstreamJog
+    case binaryStep, centreDetent, centredPitch, mixstreamJog, cyclic14BitJog, vci300Tempo
     case cdjPlatterSpeed, cdjRingSpeed, cdj350PlatterSpeed, cdjTempo, needlePosition
     public var isRelative: Bool {
         [
             .twosComplement, .binaryOffset, .signedBit, .paired14BitRelative, .numarkPlatinumJog, .denonJog,
-            .zeroForward, .mc7000Jog, .dj2go2Jog, .signedStep, .binaryStep, .mixstreamJog,
+            .zeroForward, .mc7000Jog, .dj2go2Jog, .signedStep, .binaryStep, .mixstreamJog, .cyclic14BitJog,
         ]
         .contains(self)
     }
-    public var isPairedCC: Bool { self == .paired14Bit || self == .paired14BitRelative || self == .mixstreamJog }
-    public var supportsLearning: Bool { self != .mixstreamJog }
+    public var isPairedCC: Bool {
+        self == .paired14Bit || self == .paired14BitRelative || self == .mixstreamJog || self == .cyclic14BitJog
+            || self == .vci300Tempo
+    }
+    public var supportsLearning: Bool { self != .mixstreamJog && self != .cyclic14BitJog }
     public var title: String {
         switch self {
         case .absolute: "Knob / fader"
@@ -22,6 +25,8 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         case .binaryStep: "Encoder: 65 / 63, single step"
         case .mc7000Jog: "MC7000 jog"
         case .mixstreamJog: "Mixstream Pro jog counter"
+        case .cyclic14BitJog: "Cyclic high-resolution jog counter"
+        case .vci300Tempo: "VCI-300 tempo fader"
         case .dj2go2Jog: "DJ2GO2 Touch jog"
         case .signedStep: "Encoder: 1 / 127, single step"
         case .denonJog: "Denon jog"
@@ -51,6 +56,7 @@ public struct ControllerMIDIValueState: Sendable {
     private var lsb: UInt8 = 0
     private var relativeMSB: UInt8?
     private var mixstreamPosition: Int?
+    private var cyclicPosition: Int?
     private var platinumTick: (value: Int, forward: Bool)?
     public init() {}
     public mutating func decode(
@@ -67,6 +73,29 @@ public struct ControllerMIDIValueState: Sendable {
             return .absolute(min(1, max(0, Double(message.value - 1) / 16382)))
         }
         let low = lowNumber ?? (number < 32 ? number + 32 : nil)
+        if encoding == .cyclic14BitJog || encoding == .vci300Tempo {
+            guard message.kind == .control, message.maximum == 127, number < 128,
+                (0...127).contains(message.value), let low, low < 128, low != number
+            else { return nil }
+            if message.number == number {
+                relativeMSB = UInt8(message.value)
+                return nil
+            }
+            guard message.number == low, let high = relativeMSB else { return nil }
+            relativeMSB = nil
+            if encoding == .vci300Tempo {
+                let pitch = Int(high) << 2 | (message.value >> 5)
+                let delta = pitch - 256
+                return .absolute(0.5 + Double(delta) / (delta > 0 ? 510 : 512))
+            }
+            let position = Int(high) << 7 | message.value
+            let previous = cyclicPosition
+            cyclicPosition = position
+            guard let previous else { return nil }
+            var delta = position - previous
+            if delta >= 8192 { delta -= 16384 } else if delta < -8192 { delta += 16384 }
+            return .relative(Double(delta))
+        }
         if encoding == .mixstreamJog {
             guard message.kind == .control, message.maximum == 127, number < 128, (0...127).contains(message.value),
                 let low = lowNumber, low < 128, low != number

@@ -389,3 +389,18 @@ Scratch uses the master/headphone assignments in its cited Mixxx audio setup.
 This output declaration does not implement DVS, passthrough or input routing.
 Do not infer the declaration for other four-channel devices. Review hardware mixing, output order and connection requirements separately.
 Physical audio output and A10X acceptance remain open.
+
+## VCI-300 paired counters and nine-bit tempo — R233
+
+`vci300.py` retains original VCI-300 dispatch and direction-specific feedback from pinned XML and script sources.
+`cyclic14BitJog` consumes each fresh pair once, primes its first position and wraps signed differences at half range.
+Native fixed touch scratching uses 1,600 counts per revolution. It does not run downloaded source curves or timers.
+`vci300Tempo` extracts `(high << 2) | (low >> 5)` and normalises centre 256 exactly.
+Both decoders discard an orphan low byte. Each result requires a fresh high byte.
+This is stricter than the source tempo cache, which assumes complete hardware pairs.
+
+Seven Shift bindings populate five existing scopes. Local Shift and Scroll also contribute to a composed jog scope per side.
+This blocks unsupported search/scroll gestures until every relevant hold releases. No new modifier schema is needed.
+Shift rearms tempo pickup as a native safety policy. The source pitch handler does not guard Shift.
+Scroll/PFL loading retains native cue policy rather than changing exclusive PFL.
+Source scopes, remaining functions and physical limits appear in the catalogue and coverage record.

@@ -33,6 +33,7 @@ from neon import neon_profiles, NEON_REFERENCES
 from vestax_compact import compact_profiles, COMPACT_SOURCES
 from rp8000 import rp8000_profiles, RP8000_REFERENCES
 from scratch import scratch_profiles, SCRATCH_SOURCES
+from vci300 import vci300_profiles, VCI300_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -814,6 +815,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_vci300_uses_cyclic_counts_nine_bit_pitch_and_composed_modifiers(self):
+        result = vci300_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (61, 24))
+        self.assertEqual(len([r for r in result["inputs"] if r["action"] == "shift"]), 7)
+        self.assertEqual([(r["number"], r["lowNumber"], r["argument"], r["shiftChannel"])
+                          for r in result["inputs"] if r["encoding"] == "cyclic14BitJog"],
+                         [(28, 60, 1600, 3), (29, 61, 1600, 4)])
+        self.assertEqual([(r["number"], r["lowNumber"]) for r in result["inputs"] if r["encoding"] == "vci300Tempo"], [(13, 45), (19, 51)])
+        for name, digest in VCI300_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_scratch_audio_output_uses_the_cited_master_and_headphone_layout(self):
         result = scratch_profiles()[0]
         self.assertEqual(result["audioOutput"], "masterAndHeadphones")

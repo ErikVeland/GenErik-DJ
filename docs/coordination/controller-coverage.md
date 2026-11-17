@@ -2,6 +2,39 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R233 VCI-300 cyclic jogs and nine-bit tempo
+
+The existing VCI-300 record now selects a reviewed two-deck native core automatically.
+Pinned XML dispatch and script handlers retain distinct A/B addresses on MIDI channel zero.
+This review covers the original VCI-300. It does not alias the VCI-300MKII.
+
+A dedicated jog decoder consumes a fresh high/low pair and primes the first position without movement.
+It converts cyclic fourteen-bit positions into signed movement and preserves both wrap directions and the source half-range boundary.
+Native fixed touch scratching retains 1,600 counts per revolution. Source mode toggles, search and nonlinear curves remain outside this increment.
+The tempo decoder extracts nine bits, preserves centre 256 and reaches both endpoints through the source's unequal ranges.
+Soft takeover protects tempo. Shift rearms pickup and clears incomplete pairs and counter positions.
+
+Existing modifier scopes combine physical Shift and Scroll without new profile metadata.
+Releasing either hold cannot enable a jog while the other hold remains active.
+Deck Shift remains local. Held Cue and platter contacts retain physical release handling across modifier changes.
+Scroll plus PFL loads the selected track. Native PFL retains the app's existing cue policy.
+The source's exclusive PFL changes on Load are not reproduced.
+
+Core controls include gain, three-band EQ, level, crossfader, Cue Mix, held Cue, Play, Sync, Key Lock and shifted tempo reset.
+Three Hot Cues, manual loop boundaries, Reloop, four-beat loop toggle, loop size and track/group browsing retain reviewed addresses.
+Feedback uses separate output addresses for Play, Sync, PFL, Key Lock, cue pads and loop state.
+Bounded startup selects fixed scratch indicators and clears inactive modifier indicators. Complete dynamic lights and cleanup remain open.
+
+Factory coverage reaches 102 profiles for 106 physical models. Six other models retain automatic native adapters.
+The catalogue retains 305 records and 162 data recipes. All 161 other recipes remain unchanged.
+Other modes, full feedback, displays, routing, calibration and physical acceptance remain open.
+All 13 final targeted Swift checks, 66 importer/report checks and native iPad compilation pass.
+The 399-check broader run found four fixture issues. Corrected fixtures pass in the final targeted run.
+The broader run and its original test sources remain preserved. No broader all-pass result is claimed.
+An offline playback fixture verifies native touch, wheel stop and the saved Sync choice.
+The bundled resource matches the source. Source identities and verification results appear in `TestBuilds/r233/validation.json`.
+No signed app, installation or A10X acceptance forms part of this increment.
+
 ## R232 documented Scratch master/headphone output selection
 
 A connected Scratch audio device now selects master channels 1–2 and headphone channels 3–4 automatically.

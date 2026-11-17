@@ -26529,62 +26529,105 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-300.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-300.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-300.midi.xml"
       ],
       "definitions": [
-        "Vestax VCI-300.midi.xml"
+        "Vestax VCI-300.midi.xml",
+        "manufacturer:vestaxvci300"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Vestax VCI-300",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
         "crossfader",
+        "cueA:a",
+        "cueB:b",
         "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
         "gainA:a",
         "gainB:b",
         "highA:a",
         "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "keylockA:a",
+        "keylockB:b",
         "levelA:a",
         "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopUpA:a",
+        "loopUpB:b",
         "lowA:a",
         "lowB:b",
+        "midA:a",
+        "midB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "shift",
         "syncA:a",
-        "syncB:b"
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "tempoResetA:a",
+        "tempoResetB:b"
       ],
-      "inputBindingCount": 12,
-      "feedbackBindingCount": 18,
+      "inputBindingCount": 61,
+      "feedbackBindingCount": 24,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 97,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -313590,6 +313633,35 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:vestaxvci300",
+      "name": "Vestax VCI-300",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-300.midi.xml",
+        "sha256": "f6efbd83c4bfc47c68fbb7eba594951357b906e627c2d920a9e32fe88035b54c",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-300.midi.xml",
+            "sha256": "f6efbd83c4bfc47c68fbb7eba594951357b906e627c2d920a9e32fe88035b54c"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax-VCI-300-scripts.js",
+            "sha256": "36150baffe7f4d8b047fa84b8b361452ff318626a8f61cb42882410070fc18e2"
+          }
+        ],
+        "review": "XML dispatch and script handlers define distinct two-deck addresses on channel zero. Jogs consume a fresh high/low pair, prime a cyclic fourteen-bit counter, wrap at half range and retain 1600 counts per revolution. Tempo packs nine bits with exact centre 256 and unequal 256/255 endpoint ranges. Native fixed touch scratching replaces source mode toggles and nonlinear nudge curves. Scroll plus PFL loads. Composed Shift/Scroll scopes block unsupported jog search and browsing without changing transport on the other deck. Shift guards tempo and rearms native pickup. Core LEDs retain direction-specific output addresses. Other modes, full feedback, cleanup, routing and physical calibration remain open."
+      },
+      "implementedInputCount": 61,
+      "implementedOutputCount": 24,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         }
       ]
     },
