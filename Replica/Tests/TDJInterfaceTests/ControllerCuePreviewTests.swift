@@ -121,6 +121,40 @@ import Testing
     }
 }
 
+@Test @MainActor func controllerCatalogueDiscoverProNativeWheelAndHeldBendKeepPlaybackAndSync() async throws {
+    try await withControllerCuePlayback("Ion Discover DJ Pro") { model, input in
+        cuePreviewPacket([0xB0, 0x19, 1], to: input)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(abs(model.playbackSnapshot?.a.sourceFrame ?? -1) <= 1)
+        #expect(model.playbackSnapshot?.a.synced == true)
+        model.setSync(false, deck: .a)
+        cuePreviewPacket([0xB0, 0x19, 1], to: input)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - sampleRate * 1.8 / 128) <= 1)
+        cuePreviewPacket([0xB0, 0x4E, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        model.setSync(true, deck: .a)
+        model.pressPlay(deck: .a, vinylStop: false)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let firstFrame = try #require(model.playbackSnapshot?.a.sourceFrame)
+        let tempo = model.deckTempoPercent(deck: .a)
+        cuePreviewPacket([0x90, 0x44, 127], to: input)
+        #expect(model.playbackSnapshot?.a.performanceRate == 1.04)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect((model.playbackSnapshot?.a.sourceFrame ?? 0) > firstFrame)
+        cuePreviewPacket([0x80, 0x44, 0], to: input)
+        #expect(model.playbackSnapshot?.a.performanceRate == 1)
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true && model.deckTempoPercent(deck: .a) == tempo)
+    }
+}
+
 @Test @MainActor func controllerCatalogueCuePreviewPlaysWhileHeldThenReturnsWithoutChangingSync() async throws {
     try await withControllerCuePlayback { model, input in
         let origin = try #require(model.playbackSnapshot?.a.sourceFrame)

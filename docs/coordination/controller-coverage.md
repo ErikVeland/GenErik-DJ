@@ -2799,3 +2799,28 @@ Benchmark coverage stays 62/122. Full theoretical parity, physical calibration a
 Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
 The factory-guide mirror returned HTTP 403; no successful factory PDF review is claimed.
 Exact source hashes, earlier results and final logs are in ignored `TestBuilds/r269/validation.json`.
+
+## R270 Separate Discover Pro normal-mode core
+
+Discover Pro now selects its own normal-mode recipe automatically. It retains distinct Pro transport addresses, pitch sliders and three-band mixer.
+Native held Cue, PFL, Key Lock, direct Load and temporary bend retain their published assignments.
+Exact-centre pitch preserves pickup. Its polarity is applied once. Source normal wheels use native seek/nudge with a 128-count scale.
+Browser press opens a native group as labelled. The source's latched directory mode remains open.
+
+The [mapping author](https://manual.mixxx.org/2.5/en/hardware/controllers/ion_discover_dj_pro) lists AutoLoop, Stutter, All Mute and iPod support as unfinished.
+The pinned touch handler uses uninitialised state, a conflicting scratch scale and a misspelled setter.
+The recipe leaves those scratch/contact inputs inactive. It does not run the source's synthetic scratch timers.
+The source's three-button manual-loop remapping does not qualify a factory four-button AutoLoop layout. These buttons remain inactive.
+EQ kill, reverse, full mode behaviour and split audio channel assignment also remain open.
+
+Ten native output lights use the resolved source polarity: on 100, off 0. Thirty reviewed light addresses clear at setup and shutdown.
+This fits sixty lifecycle messages. The source's broad 68-address shutdown would exceed the existing bound and is not copied.
+No state query, analogue gain assignment or automatic split audio route is inferred beyond the published MIDI assignments.
+
+All eight focused Swift tests, 102 importer checks and native iPad framework compilation pass.
+The real-file fixture checks grid-aligned paused seeks with Sync on, precise counts with Sync off, inactive disputed contact and continuing finite playback through held bend.
+Earlier fixture results expected an off-grid seek while Sync was on. The corrected fixture separates those two states; no runtime change was needed.
+All 165 other recipes remain unchanged. The bundled resource matches the source. Automatic core coverage reaches 142 physical models.
+Benchmark coverage stays 62/122. Full theoretical parity, physical calibration and acceptance remain open.
+Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
+Exact source hashes, earlier results and final logs are in ignored `TestBuilds/r270/validation.json`.

@@ -64,6 +64,7 @@ from p32 import p32_profiles, P32_SOURCES
 from kaoss_dj import kaoss_profiles, KAOSS_SOURCES
 from firstmix import firstmix_profiles, FIRSTMIX_SOURCES
 from ion_discover import discover_profiles, DISCOVER_SOURCES
+from ion_discover_pro import discover_pro_profiles, DISCOVER_PRO_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -845,6 +846,20 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_discover_pro_normal_core_keeps_broken_source_modes_inactive(self):
+        item, = discover_pro_profiles()
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (34, 10))
+        self.assertEqual((len(item["startup"]), len(item["shutdown"])), (30, 30))
+        self.assertTrue(all(r["onValue"] == 100 and r["offValue"] == 0 for r in item["outputs"]))
+        self.assertFalse(any(r["action"] in {"jogTouchA", "jogTouchB", "jogA", "jogB"} for r in item["inputs"]))
+        self.assertFalse(any(r["action"].startswith(("loop", "tempoDown", "tempoUp")) for r in item["inputs"]))
+        self.assertNotIn("audioOutput", item)
+        for name, digest in DISCOVER_PRO_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_original_discover_has_physical_volume_two_band_eq_and_permanent_tempo(self):
         item, = discover_profiles()
         self.assertTrue(item["autoSelect"])
