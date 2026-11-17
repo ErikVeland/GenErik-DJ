@@ -609,3 +609,14 @@ Factory volume, Master, Headphone gain and all eight LED addresses remain distin
 Cue preview feedback reads the generation-owned native contact and active touch. It is independent of PFL.
 Back uses previous native group and Enter uses Open Group. Full hierarchy semantics and source alternate layers/flashes stay open.
 DJ2GO2/Touch remain separate. No audio interface or extra startup protocol is assumed.
+
+## Original AIR factory pitch and pressure jogs — R252
+
+`hercules_air.py` uses the original factory MIDI/audio tables before conflicting or incomplete source behaviour.
+`airTempo` consumes fresh seven-bit CC52/88 or53/89 pairs, with zero/nonzero low reports as one Boolean bit.
+The full eight-bit range keeps source polarity and native pickup. Automatic learning excludes this factory-only codec.
+Normal and pressure jogs retain full factory signed magnitudes and source 128-count calibration. Pressure requires factory full-value contact.
+Native fixed pressure scratch, held bend and manual Loop page use existing native actions. Pressure updates do not retrigger held pads.
+The factory all-LED clear replaces broken source startup/shutdown. No source timers or JS run in the app.
+Hardware headphone volume receives no duplicate software change. The cited master/headphone split uses native routing.
+Other modes, HP Cue/Mix selection, full feedback, Scratch toggle, EQ calibration and physical acceptance remain open.

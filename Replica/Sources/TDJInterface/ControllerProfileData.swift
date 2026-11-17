@@ -136,6 +136,7 @@ struct ControllerProfileData: Decodable, Sendable {
                         || ($0.kind == .note && [.jogTouchA, .jogTouchB].contains($0.action)))
                     && ($0.encoding != .lc6000Jog || $0.action.isJog)
                     && ($0.encoding != .readyTempo || [.tempoA, .tempoB].contains($0.action))
+                    && ($0.encoding != .airTempo || [.tempoA, .tempoB].contains($0.action))
                     && ($0.encoding != .compactTempo
                         || ($0.kind == .control && [.tempoA, .tempoB].contains($0.action)))
                     && ($0.releaseOnly != true || ($0.kind == .note && $0.action.isButton && $0.action != .shift))
@@ -145,7 +146,7 @@ struct ControllerProfileData: Decodable, Sendable {
                     && ($0.shiftInput == nil
                         || ($0.shiftInput! < 16 && $0.action == .shift && $0.kind == .note))
                     && ($0.encoding != .centredPitch || ($0.kind == .pitch && $0.number == 0))
-                    && (![.mixstreamJog, .cyclic14BitJog, .vci100MK2Tempo, .lc6000Jog, .readyTempo].contains(
+                    && (![.mixstreamJog, .cyclic14BitJog, .vci100MK2Tempo, .lc6000Jog, .readyTempo, .airTempo].contains(
                         $0.encoding)
                         || $0.lowNumber != nil)
                     && Self.validArgument($0)

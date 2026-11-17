@@ -2374,3 +2374,26 @@ Automatic core coverage is now 116 factory profiles for 122 physical models, plu
 Benchmark coverage remains 62/122. This is not complete feature parity or hardware acceptance.
 Repository checks retain twelve existing historical-link failures.
 No signed app or installation occurred. Exact logs, source hashes and factory PDF are in ignored `TestBuilds/r251/validation.json`.
+
+## R252 Original AIR factory pitch, pressure jogs and hardware gain
+
+The AIR recipe follows the [factory reference manual](https://ts.hercules.com/download/sound/manuals/DJ_AIR/DJUCED/DJUCED_Manual_v1_ENG.pdf), pages 28, 30 and 49–53.
+Its pitch fader sends eight bits. CC52/88 and53/89 use a seven-bit high value and a Boolean low bit.
+Fresh pairs map the full 0–255 travel. Any nonzero low report means one bit. Native pickup and source rate polarity remain intact.
+Factory signed jog magnitudes replace the script's direction-only treatment. Pressure motion requires full-value contact and retains the source 128-count scale.
+Native fixed pressure scratch and normal wheels remain separate. The Scratch toggle and source alternate behaviour stay open.
+Physical pitch buttons use native held bend. Loop pad pressure changes do not retrigger an active press.
+The manual loop page retains In/Out/Double/Reloop. Distinct FX/sample addresses stay inactive.
+
+Factory all-LED clear replaces the source's empty startup loop and undefined shutdown call.
+Transport/PFL/Cue feedback uses factory addresses. Full pad/beat animation and Magic functions stay open.
+The headphone volume buttons change the hardware preamp. They receive no second software gain change.
+The documented master1/2/headphones3/4 layout uses existing native routing and sample/recovery checks.
+Headphone Cue/Mix selection, factory EQ direction calibration and AIR Plus remain separate/open.
+
+All 38 focused Swift checks, 85 importer checks and native iPad framework compilation pass.
+All 164 other recipes remain unchanged. The bundled iPad resource matches the source.
+Automatic core coverage is now 117 factory profiles for 123 physical models, plus six other native models.
+Benchmark coverage remains 62/122. Core counts do not establish complete feature parity.
+Repository checks retain twelve existing historical-link failures. No physical test, signed app or installation occurred.
+Exact logs, source hashes and factory PDF are in ignored `TestBuilds/r252/validation.json`.

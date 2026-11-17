@@ -21856,38 +21856,115 @@
     {
       "id": "Hercules DJ Control AIR",
       "aliases": [
+        "Hercules DJ Control AIR",
         "DJ Control AIR",
-        "DJ Control Air",
-        "Hercules DJ Control AIR"
+        "Hercules DJControl AIR",
+        "DJControl AIR"
       ],
-      "definition": "Hercules DJ Control AIR.midi.xml",
+      "definition": "manufacturer:herculesdjcontrolair",
       "inputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 0,
+          "number": 18,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "cuePreviewA",
+          "kind": "note",
+          "channel": 0,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 0,
+          "number": 19,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "cueA",
+          "kind": "note",
+          "channel": 0,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "pitchBendDownA",
+          "kind": "note",
+          "channel": 0,
+          "number": 13,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "pitchBendUpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 14,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 22,
+          "encoding": "fullVelocityGate",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 50,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 128,
+          "requiresTouch": true
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 48,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 128
+        },
         {
           "action": "tempoA",
           "kind": "control",
           "channel": 0,
           "number": 52,
-          "encoding": "absolute",
+          "encoding": "airTempo",
           "inverted": true,
-          "targetDeck": "a"
-        },
-        {
-          "action": "tempoB",
-          "kind": "control",
-          "channel": 0,
-          "number": 53,
-          "encoding": "absolute",
-          "inverted": true,
-          "targetDeck": "b"
-        },
-        {
-          "action": "keylockA",
-          "kind": "note",
-          "channel": 0,
-          "number": 4,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "a",
+          "lowNumber": 88
         },
         {
           "action": "levelA",
@@ -21926,12 +22003,143 @@
           "targetDeck": "a"
         },
         {
-          "action": "crossfader",
+          "action": "loopInA",
+          "kind": "note",
+          "channel": 0,
+          "number": 9,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopOutA",
+          "kind": "note",
+          "channel": 0,
+          "number": 10,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopUpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 11,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 12,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 0,
+          "number": 40,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 0,
+          "number": 39,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 0,
+          "number": 41,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 0,
+          "number": 42,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 0,
+          "number": 43,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "pitchBendDownB",
+          "kind": "note",
+          "channel": 0,
+          "number": 35,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "pitchBendUpB",
+          "kind": "note",
+          "channel": 0,
+          "number": 36,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 0,
+          "number": 44,
+          "encoding": "fullVelocityGate",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogB",
           "kind": "control",
           "channel": 0,
-          "number": 58,
-          "encoding": "absolute",
-          "inverted": false
+          "number": 51,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 128,
+          "requiresTouch": true
+        },
+        {
+          "action": "wheelJogB",
+          "kind": "control",
+          "channel": 0,
+          "number": 49,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 128
+        },
+        {
+          "action": "tempoB",
+          "kind": "control",
+          "channel": 0,
+          "number": 53,
+          "encoding": "airTempo",
+          "inverted": true,
+          "targetDeck": "b",
+          "lowNumber": 89
         },
         {
           "action": "levelB",
@@ -21952,15 +22160,6 @@
           "targetDeck": "b"
         },
         {
-          "action": "loopUpA",
-          "kind": "note",
-          "channel": 0,
-          "number": 11,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
           "action": "midB",
           "kind": "control",
           "channel": 0,
@@ -21968,15 +22167,6 @@
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
-        },
-        {
-          "action": "loopA",
-          "kind": "note",
-          "channel": 0,
-          "number": 12,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
         },
         {
           "action": "lowB",
@@ -21988,28 +22178,19 @@
           "targetDeck": "b"
         },
         {
-          "action": "cuePreviewA",
+          "action": "loopInB",
           "kind": "note",
           "channel": 0,
-          "number": 17,
+          "number": 31,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "a"
+          "targetDeck": "b"
         },
         {
-          "action": "loadA",
+          "action": "loopOutB",
           "kind": "note",
           "channel": 0,
-          "number": 21,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "keylockB",
-          "kind": "note",
-          "channel": 0,
-          "number": 26,
+          "number": 32,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
@@ -22024,7 +22205,7 @@
           "targetDeck": "b"
         },
         {
-          "action": "loopB",
+          "action": "reloopB",
           "kind": "note",
           "channel": 0,
           "number": 34,
@@ -22033,91 +22214,167 @@
           "targetDeck": "b"
         },
         {
-          "action": "cuePreviewB",
-          "kind": "note",
+          "action": "crossfader",
+          "kind": "control",
           "channel": 0,
-          "number": 39,
+          "number": 58,
           "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
+          "inverted": false
         },
         {
-          "action": "loadB",
+          "action": "browsePrevious",
           "kind": "note",
           "channel": 0,
-          "number": 43,
+          "number": 51,
           "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
+          "inverted": false
+        },
+        {
+          "action": "browseNext",
+          "kind": "note",
+          "channel": 0,
+          "number": 52,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "browseNextGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 53,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "browsePreviousGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 54,
+          "encoding": "absolute",
+          "inverted": false
         }
       ],
       "outputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 0,
+          "number": 18,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cuePreviewA",
+          "kind": "note",
+          "channel": 0,
+          "number": 17,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 0,
+          "number": 19,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
         {
           "action": "cueA",
           "kind": "note",
           "channel": 0,
           "number": 20,
+          "targetDeck": "a",
           "onValue": 127,
           "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "a"
-        },
-        {
-          "action": "keylockB",
-          "kind": "note",
-          "channel": 0,
-          "number": 26,
-          "onValue": 127,
-          "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "b"
-        },
-        {
-          "action": "keylockA",
-          "kind": "note",
-          "channel": 0,
-          "number": 4,
-          "onValue": 127,
-          "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "a"
+          "offUsesNoteOn": true
         },
         {
           "action": "playB",
           "kind": "note",
           "channel": 0,
           "number": 40,
+          "targetDeck": "b",
           "onValue": 127,
           "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "b"
+          "offUsesNoteOn": true
         },
         {
-          "action": "playA",
+          "action": "cuePreviewB",
           "kind": "note",
           "channel": 0,
-          "number": 18,
+          "number": 39,
+          "targetDeck": "b",
           "onValue": 127,
           "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "a"
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 0,
+          "number": 41,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
         },
         {
           "action": "cueB",
           "kind": "note",
           "channel": 0,
           "number": 42,
+          "targetDeck": "b",
           "onValue": 127,
           "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "b"
+          "offUsesNoteOn": true
         }
       ],
-      "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20AIR.midi.xml"
+      "startup": [
+        [
+          176,
+          127,
+          0
+        ],
+        [
+          144,
+          59,
+          127
+        ],
+        [
+          144,
+          60,
+          127
+        ],
+        [
+          144,
+          45,
+          127
+        ]
+      ],
+      "shutdown": [
+        [
+          176,
+          127,
+          0
+        ]
+      ],
+      "autoSelect": true,
+      "scope": "Automatic original AIR core with factory eight-bit pitch, full signed normal/pressure jogs, native fixed128-count pressure scratch, held bends, manual loop page, transport feedback and documented split audio. Other modes, Cue/Mix selection, full lights, calibration and physical acceptance remain open.",
+      "source": "https://ts.hercules.com/download/sound/manuals/DJ_AIR/DJUCED/DJUCED_Manual_v1_ENG.pdf",
+      "excludedAliases": [
+        "DJControl AIR Plus",
+        "Hercules DJControl AIR Plus",
+        "DJControl AIR+",
+        "Hercules DJControl AIR+"
+      ],
+      "audioOutput": "masterAndHeadphones"
     },
     {
       "id": "Hercules DJ Control Instinct",

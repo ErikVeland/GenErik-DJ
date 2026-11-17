@@ -14510,71 +14510,92 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20AIR.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20AIR.midi.xml",
+        "https://ts.hercules.com/download/sound/manuals/DJ_AIR/DJUCED/DJUCED_Manual_v1_ENG.pdf"
       ],
       "definitions": [
-        "Hercules DJ Control AIR.midi.xml"
+        "Hercules DJ Control AIR.midi.xml",
+        "manufacturer:herculesdjcontrolair"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Hercules DJ Control AIR",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
         "crossfader",
+        "cueA:a",
+        "cueB:b",
         "cuePreviewA:a",
         "cuePreviewB:b",
         "highA:a",
         "highB:b",
-        "keylockA:a",
-        "keylockB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "levelA:a",
         "levelB:b",
         "loadA:a",
         "loadB:b",
-        "loopA:a",
-        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
         "loopUpA:a",
         "loopUpB:b",
         "lowA:a",
         "lowB:b",
         "midA:a",
         "midB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "syncA:a",
+        "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 21,
-      "feedbackBindingCount": 6,
+      "inputBindingCount": 43,
+      "feedbackBindingCount": 8,
       "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "audioRouting": "Automatic master 1–2 / headphones 3–4",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": true,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 65,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -314695,6 +314716,44 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:herculesdjcontrolair",
+      "name": "Hercules DJ Control AIR",
+      "transport": "midi",
+      "source": {
+        "url": "https://ts.hercules.com/download/sound/manuals/DJ_AIR/DJUCED/DJUCED_Manual_v1_ENG.pdf",
+        "sha256": "d3365da72de3b8c4b349a6f2a6e855cbc93b85935e8275787353bbd02823bf40",
+        "pages": [
+          28,
+          30,
+          49,
+          50,
+          51,
+          52,
+          53
+        ],
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20AIR.midi.xml",
+            "sha256": "a9f2441243b8645751b5c2a56e64adc0f0ba8cf10078a34829d0851beb5a1125"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJ-Control-AIR-scripts.js",
+            "sha256": "6cd67a03b59b1d17967e51585890cb06ccb62ca4ecf6d72df5e3ef67414ea8a2"
+          }
+        ],
+        "review": "Factory tables replace source direction-only jogs, seven-bit pitch and permanent tempo-button changes with full signed normal/pressure movement, explicit eight-bit CC52/88 and53/89 pairs and native owned held bends. The low report is a Boolean bit: zero0/nonzero1, not a seven-bit fraction. Fresh pitch pairs retain source inverse rate and pickup. Native fixed pressure scratch uses128counts, full-value contact notes22/44 and separate gated pressure CC50/51. Loop-page velocity reports trigger on first positive press only; native In/Out/Double/Reloop follows pinned source addresses. FX/sample pages stay separate and inactive. Factory all-LED clearCC127/0 replaces the script's empty startup loop and undefined resetLEDs shutdown. Source beat animation, Magic/FX/sample mappings, Scratch toggle and mode-aware pad lights stay open. Physical HP volume buttons change hardware preamp gain and receive no duplicate software change. Factory master1/2/headphones3/4 uses native route; HP Cue/Mix selection remains open. EQ polarity retains source convention pending calibration. AIR Plus, firmware/device checks and full physical qualification remain separate/open."
+      },
+      "implementedInputCount": 43,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
         }
       ]
     },

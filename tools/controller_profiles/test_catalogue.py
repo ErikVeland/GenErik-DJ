@@ -50,6 +50,7 @@ from instinct import instinct_profiles, INSTINCT_SOURCES
 from hercules_compact import hercules_compact_profiles, HERCULES_COMPACT_SOURCES
 from bcd3000 import bcd3000_profiles, BCD3000_SOURCES
 from original_dj2go import original_dj2go_profiles, ORIGINAL_DJ2GO_SOURCES
+from hercules_air import air_profiles, AIR_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -831,6 +832,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_air_uses_factory_eight_bit_pairs_and_hardware_headphone_gain(self):
+        result = air_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (43, 8))
+        self.assertEqual([(r["number"], r["lowNumber"]) for r in result["inputs"] if r["encoding"] == "airTempo"], [(52, 88), (53, 89)])
+        self.assertEqual(result["startup"][0], [0xB0, 127, 0])
+        self.assertEqual(result["shutdown"], [[0xB0, 127, 0]])
+        self.assertFalse(any(r["number"] in {59, 60} and r["kind"] == "note" for r in result["inputs"]))
+        self.assertEqual(result["audioOutput"], "masterAndHeadphones")
+        for name, digest in AIR_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_original_dj2go_uses_factory_magnitude_and_direct_load(self):
         result = original_dj2go_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (26, 8))
@@ -1092,7 +1106,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
             self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertFalse(model["theoreticalSupport"]["complete"])
-            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000"})
+            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR"})
 
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]

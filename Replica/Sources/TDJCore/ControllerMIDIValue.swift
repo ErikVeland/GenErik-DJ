@@ -5,7 +5,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         signedBit
     case numarkPlatinumJog, denonJog, zeroForward, mc7000Jog, dj2go2Jog, signedStep
     case binaryStep, binaryDirection, centreDetent, centredPitch, mixstreamJog, cyclic14BitJog, vci300Tempo,
-        vci100MK2Tempo, lc6000Jog, readyTempo, compactTempo
+        vci100MK2Tempo, lc6000Jog, readyTempo, compactTempo, airTempo
     case cdjPlatterSpeed, cdjRingSpeed, cdj350PlatterSpeed, cdjTempo, needlePosition
     public var isRelative: Bool {
         [
@@ -18,10 +18,11 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     public var isPairedCC: Bool {
         self == .paired14Bit || self == .paired14BitRelative || self == .mixstreamJog || self == .cyclic14BitJog
             || self == .vci300Tempo || self == .vci100MK2Tempo || self == .lc6000Jog || self == .readyTempo
+            || self == .airTempo
     }
     public var supportsLearning: Bool {
         !isContactGate && self != .mixstreamJog && self != .cyclic14BitJog && self != .vci100MK2Tempo
-            && self != .lc6000Jog && self != .readyTempo && self != .compactTempo
+            && self != .lc6000Jog && self != .readyTempo && self != .compactTempo && self != .airTempo
     }
     public var isContactGate: Bool { self == .touchGate || self == .fullVelocityGate }
     public var title: String {
@@ -41,6 +42,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         case .lc6000Jog: "LC6000 direction and jog movement"
         case .readyTempo: "Ready ten-bit tempo fader"
         case .compactTempo: "Compact accelerated tempo steps"
+        case .airTempo: "AIR eight-bit tempo fader"
         case .dj2go2Jog: "DJ2GO2 Touch jog"
         case .signedStep: "Encoder: 1 / 127, single step"
         case .denonJog: "Denon jog"
@@ -113,7 +115,7 @@ public struct ControllerMIDIValueState: Sendable {
             return .relative(Double(direction == 0 ? message.value : message.value - 127))
         }
         if encoding == .cyclic14BitJog || encoding == .vci300Tempo || encoding == .vci100MK2Tempo
-            || encoding == .readyTempo
+            || encoding == .readyTempo || encoding == .airTempo
         {
             guard message.kind == .control, message.maximum == 127, number < 128,
                 (0...127).contains(message.value), let low, low < 128, low != number
@@ -124,6 +126,9 @@ public struct ControllerMIDIValueState: Sendable {
             }
             guard message.number == low, let high = relativeMSB else { return nil }
             relativeMSB = nil
+            if encoding == .airTempo {
+                return .absolute(Double(Int(high) * 2 + (message.value == 0 ? 0 : 1)) / 255)
+            }
             if encoding == .readyTempo {
                 let raw = Int(high) << 7 | message.value
                 guard raw <= 1023 else { return nil }
