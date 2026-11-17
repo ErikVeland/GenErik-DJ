@@ -1930,9 +1930,11 @@ import TDJCore
     }
     public func toggleSync(deck: DeckID) {
         guard let snapshot = playbackSnapshot else { return }
-        let state = snapshot[deck]
+        setSync(!snapshot[deck].synced, deck: deck)
+    }
+    public func setSync(_ enabled: Bool, deck: DeckID) {
+        guard playbackSnapshot != nil else { return }
         do {
-            let enabled = !state.synced
             try playback.setSync(enabled, deck: deck)
             controllerPausedJogs[deck] = nil
             switch deck {

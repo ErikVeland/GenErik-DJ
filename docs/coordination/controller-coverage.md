@@ -2698,3 +2698,21 @@ The catalogue remains 308 records for 301 physical models, with 166 data recipes
 Automatic core coverage reaches 125 factory profiles for 133 models, plus six other native models. Benchmark coverage remains 62/122.
 Repository checks retain twelve existing historical-link failures. Full feature parity remains open. No signed app or installation occurred.
 Exact logs, source hashes and Korg originals are in ignored `TestBuilds/r264/validation.json`.
+
+## R265 Idempotent KAOSS Shift+Sync cancel
+
+The documented KAOSS Shift+Sync operation now uses a typed native Sync Disable action on each deck.
+Normal Sync keeps its toggle behaviour. Disable sets the loaded deck's saved choice to false and cannot enable Sync on a repeated press.
+The existing model Sync path is factored into an explicit setter. Transport submission still precedes preference persistence.
+The existing loaded-deck requirement remains. Other controller profiles receive no inferred Shift+Sync assignment.
+Native Sync feedback continues to reflect the resulting deck state; there is no competing Disable light mapping.
+
+A real-file native fixture verifies repeated cancel presses, unchanged playhead/phase, old Cue release and track reload.
+Each retains Sync off. The ordinary Sync button enables it again only on a later explicit press.
+Both normal and manual Audioless KAOSS recipes gain the documented operation. Held-button rearming remains covered.
+
+All twenty focused Swift tests, 97 importer checks and native iPad framework compilation pass.
+All 164 unrelated recipes remain unchanged. The bundled resource matches the source.
+Catalogue and automatic core counts stay unchanged. Full feature parity and physical acceptance remain open.
+Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
+Exact logs and source hashes are in ignored `TestBuilds/r265/validation.json`.

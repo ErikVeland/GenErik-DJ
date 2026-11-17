@@ -562,3 +562,27 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.loopEnabled == false && model.playbackSnapshot?.a.synced == sync)
     }
 }
+
+@Test @MainActor func controllerCatalogueKAOSSNativeSyncCancelIsIdempotentAndSurvivesCueReleaseAndReload() async throws
+{
+    try await withControllerCuePlayback("Korg KAOSS DJ") { model, input in
+        #expect(model.playbackSnapshot?.a.synced == true)
+        cuePreviewPacket([0x97, 30, 127, 26, 127, 29, 127], to: input)
+        #expect(model.playbackSnapshot?.a.synced == false)
+        let before = try #require(model.playbackSnapshot?.a)
+        cuePreviewPacket([0x97, 29, 0, 29, 127], to: input)
+        #expect(model.playbackSnapshot?.a.synced == false)
+        #expect(model.playbackSnapshot?.a.sourceFrame == before.sourceFrame)
+        #expect(model.playbackSnapshot?.a.phase == before.phase)
+        cuePreviewPacket([0x97, 30, 0, 29, 0, 26, 0], to: input)
+        #expect(model.playbackSnapshot?.a.synced == false && model.playbackSnapshot?.a.touchActive == false)
+        let track = try #require(model.library.tracks.first)
+        let generation = try #require(model.playbackSnapshot?.a.generation)
+        model.load(trackID: track.id, deck: .a)
+        await model.flushWrites()
+        #expect(model.playbackSnapshot?.a.generation != generation)
+        #expect(model.playbackSnapshot?.a.synced == false)
+        cuePreviewPacket([0x97, 29, 127], to: input)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

@@ -206,6 +206,7 @@ extension ReplicaModel {
         case .playA, .playB:
             if !finishControllerCue(deck, continuePlaying: true) { pressPlay(deck: deck) }
         case .syncA, .syncB: toggleSync(deck: deck)
+        case .syncDisableA, .syncDisableB: setSync(false, deck: deck)
         case .keylockA, .keylockB: toggleKeylock(deck: deck)
         case .cueA, .cueB: mix(.cue, value: playbackSnapshot?[deck].mixer.cue == true ? 0 : 1, deck: deck)
         case .cueStateA, .cueStateB: mix(.cue, value: value > 0 ? 1 : 0, deck: deck)

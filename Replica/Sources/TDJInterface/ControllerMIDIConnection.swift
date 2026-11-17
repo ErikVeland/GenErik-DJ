@@ -6,6 +6,7 @@ import TDJCore
 enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case playA, playB, syncA, syncB, keylockA, keylockB, cueA, cueB
     case cueStateA, cueStateB
+    case syncDisableA, syncDisableB
     case cueSetA, cueSetB, cueGotoA, cueGotoB
     case pitchBendDownA, pitchBendDownB, pitchBendUpA, pitchBendUpB
     case shift
@@ -53,7 +54,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         let labels = [
             "play": "Play / Pause", "sync": "Sync", "keylock": "Key lock", "cue": "Headphone cue", "level": "Volume",
             "pitchBendDown": "Pitch bend down (hold)", "pitchBendUp": "Pitch bend up (hold)",
-            "cueState": "Headphone cue state", "loopEnable": "Enable loop", "loopDisable": "Disable loop", "loopOutOrExit": "Loop out / exit",
+            "cueState": "Headphone cue state", "syncDisable": "Turn Sync off", "loopEnable": "Enable loop", "loopDisable": "Disable loop", "loopOutOrExit": "Loop out / exit",
             "cueSet": "Set Cue point", "cueGoto": "Go to Cue point",
             "gain": "Gain", "low": "Low EQ", "mid": "Mid EQ", "high": "High EQ", "filter": "Filter",
             "filterToggle": "Filter on / off", "fx": "Effect amount", "fxToggle": "Effect on / off",

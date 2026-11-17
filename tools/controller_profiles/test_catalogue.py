@@ -867,8 +867,8 @@ class GeneratedCatalogueTests(unittest.TestCase):
 
     def test_kaoss_keeps_normal_hardware_gain_separate_from_manual_audioless_controls(self):
         audioless, normal = kaoss_profiles()
-        self.assertEqual((len(normal["inputs"]), len(normal["outputs"])), (84, 20))
-        self.assertEqual(len(audioless["inputs"]), 87)
+        self.assertEqual((len(normal["inputs"]), len(normal["outputs"])), (86, 20))
+        self.assertEqual(len(audioless["inputs"]), 89)
         self.assertTrue(normal["autoSelect"])
         self.assertFalse(audioless["autoSelect"])
         self.assertEqual(audioless["catalogueName"], normal["id"])

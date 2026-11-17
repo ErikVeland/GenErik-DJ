@@ -28,7 +28,7 @@ import Testing
     let manual = try #require(ControllerFactoryProfile.matching(["KAOSS DJ Audioless"]))
     #expect(ControllerFactoryProfile.matching(["KAOSS DJ Audioless"], automaticOnly: true) == nil)
     let data = try #require(normal.definition)
-    #expect(data.inputs.count == 84 && data.outputs.count == 20)
+    #expect(data.inputs.count == 86 && data.outputs.count == 20)
     #expect(data.startup.count == 14 && data.shutdown.count == 34)
     #expect((data.startup + data.shutdown).allSatisfy { $0.count == 3 })
     #expect(normal.hasAutomaticSplitOutput && !manual.hasAutomaticSplitOutput)
@@ -129,5 +129,16 @@ import Testing
         #expect(values.isEmpty)
         kaossPacket([0xB8, 25, 64], to: input)
         #expect(values == [0.5])
+    }
+}
+
+@Test @MainActor func controllerCatalogueKAOSSShiftSyncUsesDisableAndReleasesRearmNormalSync() {
+    withKAOSS { input in
+        var actions: [ControllerAction] = []
+        input.onTargetAction = { target, _ in actions.append(target.action) }
+        kaossPacket([0x97, 26, 127, 29, 127, 29, 0, 29, 127, 26, 0, 29, 127], to: input)
+        #expect(actions == [.syncDisableA, .syncDisableA])
+        kaossPacket([0x97, 29, 0, 29, 127], to: input)
+        #expect(actions.last == .syncA)
     }
 }

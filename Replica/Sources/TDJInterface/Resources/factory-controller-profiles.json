@@ -39407,6 +39407,17 @@
           "shiftChannel": 0
         },
         {
+          "action": "syncDisableA",
+          "kind": "note",
+          "channel": 7,
+          "number": 29,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": true,
+          "shiftChannel": 0
+        },
+        {
           "action": "loadA",
           "kind": "note",
           "channel": 7,
@@ -39828,6 +39839,17 @@
           "kind": "note",
           "channel": 8,
           "number": 27,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": true,
+          "shiftChannel": 1
+        },
+        {
+          "action": "syncDisableB",
+          "kind": "note",
+          "channel": 8,
+          "number": 29,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b",
@@ -40759,6 +40781,17 @@
           "shiftChannel": 0
         },
         {
+          "action": "syncDisableA",
+          "kind": "note",
+          "channel": 7,
+          "number": 29,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "shifted": true,
+          "shiftChannel": 0
+        },
+        {
           "action": "loadA",
           "kind": "note",
           "channel": 7,
@@ -41180,6 +41213,17 @@
           "kind": "note",
           "channel": 8,
           "number": 27,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "shifted": true,
+          "shiftChannel": 1
+        },
+        {
+          "action": "syncDisableB",
+          "kind": "note",
+          "channel": 8,
+          "number": 29,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b",
