@@ -9107,16 +9107,18 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX/XDJ-RX_List_of_MIDI_Message_E.pdf"
+        "https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX/XDJ-RX_List_of_MIDI_Message_E.pdf",
+        "https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX/XDJ-RX_List_of_MIDI_Message_E_Ver221.pdf"
       ],
       "definitions": [
+        "manufacturer:pioneerxdjrxlegacy7bit",
         "manufacturer:pioneerxdjrx"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Pioneer XDJ-RX",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "browse",
         "crossfader",
@@ -9173,6 +9175,10 @@
         "levelA:c",
         "levelB:b",
         "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
         "loopInA:a",
         "loopInA:c",
         "loopInB:b",
@@ -9213,19 +9219,19 @@
         "wheelJogB:b",
         "wheelJogB:d"
       ],
-      "inputBindingCount": 99,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 159,
+      "feedbackBindingCount": 24,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false,
-        "requiredHardwareMode": "PC / MIDI control"
+        "requiredHardwareMode": "Firmware 2.21; PC/MIDI control; MIXER MODE MIDI CONTROL; inputs set to DECK. Earlier firmware uses the separate manual seven-bit recipe."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
@@ -9244,9 +9250,8 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Load buttons have no published MIDI message. Complete a documented loading route before automatic selection.",
-        "The factory table specifies no MIDI output. Screens and feedback need another documented protocol.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "HID, screens, rings, live meters, full pad modes/feedback and automatic audio routing remain unimplemented.",
+        "The second cue bank has conflicting decimal/hex addresses in the factory table. Qualify the actual wire addresses before mapping it."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -313322,8 +313327,8 @@
       ]
     },
     {
-      "id": "manufacturer:pioneerxdjrx",
-      "name": "Pioneer XDJ-RX",
+      "id": "manufacturer:pioneerxdjrxlegacy7bit",
+      "name": "Pioneer XDJ-RX legacy 7-bit",
       "transport": "midi",
       "source": {
         "url": "https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX/XDJ-RX_List_of_MIDI_Message_E.pdf",
@@ -313350,6 +313355,39 @@
         },
         {
           "reason": "The factory table specifies no MIDI output. Screens and feedback need another documented protocol."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerxdjrx",
+      "name": "Pioneer XDJ-RX",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX/XDJ-RX_List_of_MIDI_Message_E_Ver221.pdf",
+        "sha256": "b51d2a0d32ba16d841fd35130d0a9cabb318ce927ea4cfb2023347298832a4d3",
+        "pages": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "review": "Firmware2.21 factory revision adds direct Load note81, normal tempo29/61 and shifted tempo52/84 fourteen-bit pairs, transport/PFL feedback and status reports. Earlier seven-bit recipe remains manual. The revised native core keeps absolute speed jogs, fixed Vinyl indication, four unambiguous Hot Cues per target and alternate release aliases. Startup/shutdown clears native lights and sets fixed Vinyl within56messages. Shifted speed jogs retain the same published speed scale. The second Hot Cue bank has conflicting decimal/hex addresses, so it stays unmapped. No HID, display, ring, live meters, full pad modes or automatic audio routing is inferred. Mixer must use MIDI CONTROL, PC control must be selected and firmware2.21 is required. Physical calibration and acceptance remain open."
+      },
+      "implementedInputCount": 159,
+      "implementedOutputCount": 24,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "HID, screens, rings, live meters, full pad modes/feedback and automatic audio routing remain unimplemented."
+        },
+        {
+          "reason": "The second cue bank has conflicting decimal/hex addresses in the factory table. Qualify the actual wire addresses before mapping it."
         }
       ]
     },

@@ -2848,3 +2848,32 @@ All 165 other recipes remain unchanged. The bundled resource matches the source.
 Benchmark coverage stays 62/122. Full theoretical parity and physical acceptance remain open.
 Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
 Exact source hashes and logs are in ignored `TestBuilds/r271/validation.json`.
+
+## R272 Original XDJ-RX firmware-2.21 core
+
+The [factory MIDI table for firmware 2.21](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX/XDJ-RX_List_of_MIDI_Message_E_Ver221.pdf) resolves limits in the earlier table used by R180.
+Page 3 specifies per-deck Load note 81. Page 2 specifies normal tempo CC29/61 and shifted CC52/84 fourteen-bit pairs.
+Transport and PFL feedback are also documented. This is the 2017 protocol revision, newly reviewed here.
+The original RX now selects the reviewed 2.21 core automatically. The earlier seven-bit recipe remains a separate manual option.
+Firmware 2.21, PC/MIDI control, MIXER MODE MIDI CONTROL and DECK inputs are required.
+
+Native speed jogs retain the published absolute response, including shifted addresses. Fixed Vinyl indication matches the native touch contract.
+Four unambiguous Hot Cues per target remain available. The second bank has conflicting decimal/hex addresses in the factory table and stays unmapped.
+Shifted release aliases rearm transport, Cue and cue pads without running unsupported alternate presses.
+Deck-change CC102 reports release this source's owned contacts across the global bank. PC-control-off CC100 releases only the reported deck.
+These reports do not end a later waveform touch. Normal touch and Cue release retain saved Sync.
+Complete pad modes, held cue-pad behaviour, displays, HID, rings, live meters and automatic audio routing remain open.
+
+Twenty-four transport/PFL output bindings use the factory note/CC addresses. Fixed Vinyl setup and output cleanup total 56 lifecycle messages.
+Load illumination and PC-control status messages are not treated as track-load inputs.
+The [factory Traktor guide](https://downloads.support.alphatheta.com/midi-mapping/all-in-one-dj-systems/XDJ-RX/XDJ-RX_TRAKTOR2_Import_Guide_E.pdf) documents internal master/headphone and external deck routes.
+Automatic iPad audio selection is not inferred from that PC/Mac guide.
+
+All fifteen focused Swift tests, 104 importer checks and native iPad framework compilation pass.
+Fixtures cover low-byte pitch precision/pickup, Load on each target, releases, bank/PC exit, unowned touch protection and the earlier manual recipe.
+The first run caught a forbidden Shift-release field on CC bank reports. The corrected metadata uses the existing CC bank contract; the failed result remains preserved.
+All 165 unrelated recipes remain unchanged. The legacy variant retains the earlier input/output/lifecycle bytes. The bundled resource matches the source.
+There are now 167 data recipes. Automatic core coverage reaches 144 physical models. Benchmark coverage remains separately reported in the generated catalogue.
+Full theoretical parity and physical acceptance remain open. Repository checks retain twelve existing historical-link failures.
+The seven-page factory table has SHA256 `b51d2a0d32ba16d841fd35130d0a9cabb318ce927ea4cfb2023347298832a4d3`.
+No signed app or installation occurred. Exact source hashes and logs are in ignored `TestBuilds/r272/validation.json`.

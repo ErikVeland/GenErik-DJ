@@ -175,6 +175,25 @@ import Testing
     }
 }
 
+@Test @MainActor func controllerCatalogueRX221BankAndPCExitReleaseOnlyControllerOwnedTouches() async throws {
+    try await withControllerCuePlayback("XDJ-RX") { model, input in
+        cuePreviewPacket([0x90, 1, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0xB2, 102, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+        cuePreviewPacket([0x90, 32, 127, 0xB0, 16, 65], to: input)
+        #expect(model.controllerJogTouched.contains(.a))
+        cuePreviewPacket([0xB0, 100, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false && !model.controllerJogTouched.contains(.a))
+        model.perform(.touch, deck: .a, value: 0, touchRate: 0, followsPosition: true)
+        cuePreviewPacket([0xB0, 102, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        model.perform(.touch, deck: .a, enabled: false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}
+
 @Test @MainActor func controllerCatalogueCuePreviewPlaysWhileHeldThenReturnsWithoutChangingSync() async throws {
     try await withControllerCuePlayback { model, input in
         let origin = try #require(model.playbackSnapshot?.a.sourceFrame)

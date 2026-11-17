@@ -9,8 +9,8 @@ Reviewed 17 November 2026. The pinned software inventory is complete. The wider 
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 311 total catalogue records. 304 name physical models. The remainder identify software endpoints or protocol families.
-- 166 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 129 factory profiles select core controls automatically for 137 physical models.
+- 167 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 130 factory profiles select core controls automatically for 138 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -77,7 +77,7 @@ See [R179 DDJ families](controller-coverage.md#r179-sx-and-rx-family-controllers
 ## Serato-oriented DDJ and XDJ-RX models — R180
 
 DDJ-1000SRT, DDJ-SZ2, DDJ-SZ and XDJ-RX2 now select core MIDI profiles automatically.
-The original RX has a separate manual recipe. Its speed jogs, four Hot Cues and absent Load/output messages retain their factory-table limits.
+The original RX has an automatic firmware-2.21 core with direct Load, fourteen-bit pitch and transport/PFL lights. The earlier seven-bit recipe remains manual.
 REV7 motorised-platter, display and lifecycle protocols remain unimplemented. Its published relative JOG entry does not establish platter support.
 See [R180 controller systems](controller-coverage.md#r180-serato-oriented-ddj-and-xdj-rx-models).
 
@@ -219,12 +219,12 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 36 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 130 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 131 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 41 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| partial-midi-profile | 40 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
 | protocol-needed | 80 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
@@ -410,7 +410,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DDJ-XP1 | accessory | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-XP1/DDJ-XP1_List_of_MIDI_Message_E1.pdf) |
 | Pioneer XDJ-AERO | primary | automatic-core-profile | [Reference](https://www.recordcase.de/media/94/f5/e0/1745829305/Pioneer-XDJ-AERO-Manual-EN.pdf) |
 | Pioneer XDJ-R1 | primary | automatic-core-profile | [Reference](https://www.uns.nu/pdf/Pioneer_XDJ-R1_Manual.pdf) |
-| Pioneer XDJ-RX | primary | partial-midi-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX/XDJ-RX_List_of_MIDI_Message_E.pdf) |
+| Pioneer XDJ-RX | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX/XDJ-RX_List_of_MIDI_Message_E.pdf) |
 | Pioneer XDJ-RX2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX2/XDJ-RX2_List_of_MIDI_Message_E3.pdf) |
 | Pioneer XDJ-RX3 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX3/XDJ-RX3_MIDI_Message_List_E1.pdf) |
 | Pioneer XDJ-XZ | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-XZ/XDJ-XZ_MIDI_Message_List_E1.pdf) |

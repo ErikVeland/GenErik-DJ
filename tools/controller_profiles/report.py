@@ -62,7 +62,7 @@ def report(catalogue, runtime):
               "See [R179 DDJ families](controller-coverage.md#r179-sx-and-rx-family-controllers).", "",
               "## Serato-oriented DDJ and XDJ-RX models — R180", "",
               "DDJ-1000SRT, DDJ-SZ2, DDJ-SZ and XDJ-RX2 now select core MIDI profiles automatically.",
-              "The original RX has a separate manual recipe. Its speed jogs, four Hot Cues and absent Load/output messages retain their factory-table limits.",
+              "The original RX has an automatic firmware-2.21 core with direct Load, fourteen-bit pitch and transport/PFL lights. The earlier seven-bit recipe remains manual.",
               "REV7 motorised-platter, display and lifecycle protocols remain unimplemented. Its published relative JOG entry does not establish platter support.",
               "See [R180 controller systems](controller-coverage.md#r180-serato-oriented-ddj-and-xdj-rx-models).", "",
               "## Common entry-level Pioneer systems — R181", "",

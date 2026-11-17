@@ -22,17 +22,19 @@ private let seratoPioneerNames = ["DDJ-1000SRT", "DDJ-SZ2", "DDJ-SZ", "XDJ-RX2"]
     for message in decoder.append(bytes) { input.receive(message, source: 10) }
 }
 
-@Test @MainActor func controllerSeratoPioneerMatchesExactModelsAndKeepsTheOriginalRXManual() throws {
+@Test @MainActor func controllerSeratoPioneerMatchesExactModelsAndKeepsLegacyRXManual() throws {
     for name in seratoPioneerNames {
         let profile = try #require(ControllerFactoryProfile.matching([name], automaticOnly: true))
         #expect(!profile.isPlayer)
     }
     let original = try #require(ControllerFactoryProfile.matching(["XDJ-RX"]))
-    #expect(ControllerFactoryProfile.matching(["XDJ-RX"], automaticOnly: true) == nil)
-    #expect(original.feedback(destination: 20).isEmpty)
+    #expect(ControllerFactoryProfile.matching(["XDJ-RX"], automaticOnly: true) == original)
+    #expect(original.feedback(destination: 20).count == 24)
     let bindings = original.bindings(source: 10)
-    #expect(!bindings.contains { $0.action == .loadA || $0.action == .loadB })
-    #expect(bindings.filter { $0.action.hotcueSlot != nil }.count == 16)
+    #expect(bindings.contains { $0.action == .loadA && $0.number == 81 })
+    #expect(bindings.filter { $0.action.hotcueSlot != nil && $0.releaseOnly != true }.count == 16)
+    let legacy = try #require(ControllerFactoryProfile.matching(["XDJ-RX legacy 7-bit"]))
+    #expect(!legacy.selectsAutomatically && legacy.feedback(destination: 20).isEmpty)
     for name in ["DDJ-SZ3", "DDJ-1000SRT clone", "XDJ-RX4"] {
         #expect(ControllerFactoryProfile.matching([name], automaticOnly: true) == nil)
     }
@@ -89,9 +91,9 @@ private let seratoPioneerNames = ["DDJ-1000SRT", "DDJ-SZ2", "DDJ-SZ", "XDJ-RX2"]
 }
 
 @Test @MainActor func controllerSeratoPioneerOriginalRXPartialRecipeUsesItsFourPadAndSpeedTable() throws {
-    try withSeratoPioneer("XDJ-RX") { input in
+    try withSeratoPioneer("XDJ-RX legacy 7-bit") { input in
         #expect(!input.isInputActive(10))
-        let profile = try #require(ControllerFactoryProfile.matching(["XDJ-RX"]))
+        let profile = try #require(ControllerFactoryProfile.matching(["XDJ-RX legacy 7-bit"]))
         input.select(10)
         input.applyFactoryProfile(profile)
         var received: [(ControllerActionTarget, Double)] = []

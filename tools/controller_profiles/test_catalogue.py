@@ -421,7 +421,7 @@ class ConversionTests(unittest.TestCase):
         for name in ["DDJ-1000SRT", "DDJ-SZ", "DDJ-SZ2", "XDJ-RX", "XDJ-RX2"]:
             document = ROOT / "TestBuilds/r180/manufacturer" / (name + ".pdf")
             if document.exists():
-                self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), references["Pioneer " + name]["sha256"])
+                self.assertEqual(hashlib.sha256(document.read_bytes()).hexdigest(), references["Pioneer " + name + (" legacy 7-bit" if name == "XDJ-RX" else "")]["sha256"])
 
     def test_entry_models_keep_deck_counts_initialisation_and_release_messages(self):
         profiles = {item["id"]: item for item in entry_profiles()}
@@ -847,6 +847,21 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_rx221_resolves_load_pitch_and_feedback_without_changing_legacy_wire_recipe(self):
+        legacy, current = legacy_xdj_profiles()
+        self.assertFalse(legacy["autoSelect"])
+        self.assertTrue(current["autoSelect"])
+        self.assertEqual(legacy["catalogueName"], current["id"])
+        self.assertEqual((len(current["inputs"]), len(current["outputs"])), (159, 24))
+        self.assertEqual(len(current["startup"]) + len(current["shutdown"]), 56)
+        self.assertEqual(len([r for r in current["inputs"] if r["action"].startswith("load")]), 4)
+        self.assertTrue(all(r["number"] == 81 for r in current["inputs"] if r["action"].startswith("load")))
+        self.assertEqual(sum(r.get("releaseOnly", False) for r in current["inputs"]), 44)
+        self.assertNotIn("audioOutput", current)
+        factory = ROOT / "TestBuilds/r272/manufacturer/XDJ-RX-221.pdf"
+        if factory.exists():
+            self.assertEqual(hashlib.sha256(factory.read_bytes()).hexdigest(), LEGACY_XDJ_REFERENCES[current["id"]]["sha256"])
+
     def test_djm101_retains_asymmetric_eq_and_does_not_infer_vtt_protocol(self):
         item, = djm101_profiles()
         self.assertTrue(item["autoSelect"])
