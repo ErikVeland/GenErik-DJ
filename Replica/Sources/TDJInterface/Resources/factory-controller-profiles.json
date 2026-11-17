@@ -7807,32 +7807,14 @@
       "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD2000.midi.xml"
     },
     {
-      "id": "Behringer BCD3000 Advanced",
+      "id": "Behringer BCD3000",
       "aliases": [
-        "BCD3000 Advanced",
-        "BCD3000 MIDI 1",
-        "Behringer BCD3000 Advanced"
+        "Behringer BCD3000",
+        "BCD3000",
+        "BCD3000 MIDI 1"
       ],
-      "definition": "Behringer BCD3000 Advanced.midi.xml",
+      "definition": "manufacturer:behringerbcd3000",
       "inputs": [
-        {
-          "action": "loopA",
-          "kind": "note",
-          "channel": 0,
-          "number": 5,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "loopB",
-          "kind": "note",
-          "channel": 0,
-          "number": 11,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
         {
           "action": "playA",
           "kind": "note",
@@ -7861,48 +7843,49 @@
           "targetDeck": "a"
         },
         {
-          "action": "playB",
+          "action": "cueA",
           "kind": "note",
           "channel": 0,
-          "number": 26,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "cuePreviewB",
-          "kind": "note",
-          "channel": 0,
-          "number": 27,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "levelA",
-          "kind": "control",
-          "channel": 0,
-          "number": 0,
+          "number": 35,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
         },
         {
-          "action": "crossfader",
-          "kind": "control",
+          "action": "cueSetA",
+          "kind": "note",
           "channel": 0,
-          "number": 1,
+          "number": 4,
           "encoding": "absolute",
-          "inverted": false
+          "inverted": false,
+          "targetDeck": "a"
         },
         {
-          "action": "levelB",
-          "kind": "control",
+          "action": "pitchBendDownA",
+          "kind": "note",
           "channel": 0,
           "number": 2,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "a"
+        },
+        {
+          "action": "pitchBendUpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
         },
         {
           "action": "lowA",
@@ -7941,28 +7924,56 @@
           "targetDeck": "a"
         },
         {
-          "action": "lowB",
+          "action": "levelA",
           "kind": "control",
           "channel": 0,
-          "number": 7,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "cueA",
-          "kind": "note",
-          "channel": 0,
-          "number": 35,
+          "number": 0,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
         },
         {
-          "action": "midB",
+          "action": "tempoA",
           "kind": "control",
           "channel": 0,
-          "number": 8,
+          "number": 11,
+          "encoding": "absolute",
+          "inverted": true,
+          "targetDeck": "a"
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 19,
+          "encoding": "binaryOffset",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 100
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 0,
+          "number": 26,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 0,
+          "number": 27,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 0,
+          "number": 24,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
@@ -7972,6 +7983,60 @@
           "kind": "note",
           "channel": 0,
           "number": 36,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cueSetB",
+          "kind": "note",
+          "channel": 0,
+          "number": 10,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "pitchBendDownB",
+          "kind": "note",
+          "channel": 0,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "pitchBendUpB",
+          "kind": "note",
+          "channel": 0,
+          "number": 9,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "reloopB",
+          "kind": "note",
+          "channel": 0,
+          "number": 11,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "lowB",
+          "kind": "control",
+          "channel": 0,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "midB",
+          "kind": "control",
+          "channel": 0,
+          "number": 8,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
@@ -7995,13 +8060,13 @@
           "targetDeck": "b"
         },
         {
-          "action": "tempoA",
+          "action": "levelB",
           "kind": "control",
           "channel": 0,
-          "number": 11,
+          "number": 2,
           "encoding": "absolute",
-          "inverted": true,
-          "targetDeck": "a"
+          "inverted": false,
+          "targetDeck": "b"
         },
         {
           "action": "tempoB",
@@ -8013,62 +8078,383 @@
           "targetDeck": "b"
         },
         {
-          "action": "syncB",
-          "kind": "note",
+          "action": "wheelJogB",
+          "kind": "control",
           "channel": 0,
-          "number": 24,
-          "encoding": "absolute",
+          "number": 18,
+          "encoding": "binaryOffset",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "b",
+          "argument": 100
+        },
+        {
+          "action": "crossfader",
+          "kind": "control",
+          "channel": 0,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "cueMix",
+          "kind": "control",
+          "channel": 0,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false
         }
       ],
       "outputs": [
         {
-          "action": "cueA",
-          "kind": "control",
-          "channel": 0,
-          "number": 2,
-          "onValue": 127,
-          "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "a"
-        },
-        {
-          "action": "cueB",
-          "kind": "control",
-          "channel": 0,
-          "number": 1,
-          "onValue": 127,
-          "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "b"
-        },
-        {
-          "action": "playB",
-          "kind": "control",
-          "channel": 0,
-          "number": 10,
-          "onValue": 127,
-          "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "b"
-        },
-        {
           "action": "playA",
+          "targetDeck": "a",
           "kind": "control",
           "channel": 0,
           "number": 18,
           "onValue": 127,
           "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "a"
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "syncA",
+          "targetDeck": "a",
+          "kind": "control",
+          "channel": 0,
+          "number": 20,
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "loopA",
+          "targetDeck": "a",
+          "kind": "control",
+          "channel": 0,
+          "number": 21,
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cueA",
+          "targetDeck": "a",
+          "kind": "control",
+          "channel": 0,
+          "number": 2,
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "playB",
+          "targetDeck": "b",
+          "kind": "control",
+          "channel": 0,
+          "number": 10,
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "syncB",
+          "targetDeck": "b",
+          "kind": "control",
+          "channel": 0,
+          "number": 12,
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "loopB",
+          "targetDeck": "b",
+          "kind": "control",
+          "channel": 0,
+          "number": 13,
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cueB",
+          "targetDeck": "b",
+          "kind": "control",
+          "channel": 0,
+          "number": 1,
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
         }
       ],
-      "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD3000%20Advanced.midi.xml"
+      "startup": [
+        [
+          176,
+          1,
+          0
+        ],
+        [
+          176,
+          2,
+          0
+        ],
+        [
+          176,
+          3,
+          0
+        ],
+        [
+          176,
+          4,
+          0
+        ],
+        [
+          176,
+          5,
+          0
+        ],
+        [
+          176,
+          6,
+          0
+        ],
+        [
+          176,
+          7,
+          0
+        ],
+        [
+          176,
+          8,
+          0
+        ],
+        [
+          176,
+          9,
+          0
+        ],
+        [
+          176,
+          10,
+          0
+        ],
+        [
+          176,
+          11,
+          0
+        ],
+        [
+          176,
+          12,
+          0
+        ],
+        [
+          176,
+          13,
+          0
+        ],
+        [
+          176,
+          14,
+          0
+        ],
+        [
+          176,
+          15,
+          0
+        ],
+        [
+          176,
+          16,
+          0
+        ],
+        [
+          176,
+          17,
+          0
+        ],
+        [
+          176,
+          18,
+          0
+        ],
+        [
+          176,
+          19,
+          0
+        ],
+        [
+          176,
+          20,
+          0
+        ],
+        [
+          176,
+          21,
+          0
+        ],
+        [
+          176,
+          22,
+          0
+        ],
+        [
+          176,
+          23,
+          0
+        ],
+        [
+          176,
+          24,
+          0
+        ],
+        [
+          176,
+          25,
+          0
+        ],
+        [
+          176,
+          99,
+          127
+        ],
+        [
+          176,
+          100,
+          127
+        ]
+      ],
+      "shutdown": [
+        [
+          176,
+          1,
+          0
+        ],
+        [
+          176,
+          2,
+          0
+        ],
+        [
+          176,
+          3,
+          0
+        ],
+        [
+          176,
+          4,
+          0
+        ],
+        [
+          176,
+          5,
+          0
+        ],
+        [
+          176,
+          6,
+          0
+        ],
+        [
+          176,
+          7,
+          0
+        ],
+        [
+          176,
+          8,
+          0
+        ],
+        [
+          176,
+          9,
+          0
+        ],
+        [
+          176,
+          10,
+          0
+        ],
+        [
+          176,
+          11,
+          0
+        ],
+        [
+          176,
+          12,
+          0
+        ],
+        [
+          176,
+          13,
+          0
+        ],
+        [
+          176,
+          14,
+          0
+        ],
+        [
+          176,
+          15,
+          0
+        ],
+        [
+          176,
+          16,
+          0
+        ],
+        [
+          176,
+          17,
+          0
+        ],
+        [
+          176,
+          18,
+          0
+        ],
+        [
+          176,
+          19,
+          0
+        ],
+        [
+          176,
+          20,
+          0
+        ],
+        [
+          176,
+          21,
+          0
+        ],
+        [
+          176,
+          22,
+          0
+        ],
+        [
+          176,
+          23,
+          0
+        ],
+        [
+          176,
+          24,
+          0
+        ],
+        [
+          176,
+          25,
+          0
+        ]
+      ],
+      "autoSelect": true,
+      "scope": "Automatic BCD3000 standard-mode core with held Cue/bend, cue-set, native wheels, three-band mixer, pitch, reloop and factory CC feedback. BCD2000, Windows Advanced mode, latched scratch, remaining controls and physical acceptance stay separate/open.",
+      "source": "https://img.musicworld.bg/pdf/i/6/0/2/20206/BCD3000_Manual_EN.pdf",
+      "hardwareMode": "Standard MIDI mode. Windows Advanced toggle mode is not implemented.",
+      "audioOutput": "masterAndHeadphones"
     },
     {
       "id": "Behringer CMD Micro",

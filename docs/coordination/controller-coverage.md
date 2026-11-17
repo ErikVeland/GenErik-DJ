@@ -2330,3 +2330,26 @@ Repository checks retain twelve existing historical-link failures.
 Synthetic scratch, shifted start/stop, held cue previews, recording, AutoDJ, FX/samples, rolls, pad feedback and full cleanup remain open.
 Factory EQ direction wording needs calibration. No hardware test, signed app or installation occurred.
 Exact logs, source hashes and factory PDF are in ignored `TestBuilds/r249/validation.json`.
+
+## R250 BCD3000 standard-mode core and BCD2000 connection audit
+
+The BCD3000 recipe uses the [factory manual](https://img.musicworld.bg/pdf/i/6/0/2/20206/BCD3000_Manual_EN.pdf), pages 13–15.
+Standard-mode buttons use Note On/Off. Factory LED feedback uses distinct CC addresses, including PFL A2/B1 and Play A18/B10.
+Startup clears documented LEDs1–25, enables factory wheel acceleration and requests analogue values only.
+Native wheel control retains the source 100-count scale. Held bend uses the existing owned four-percent rate.
+SET CUE stays separate from held CUE preview. Native reloop has factory loop feedback.
+DATA4 is not Master/Balance, so the old source assignment at CC16 stays unmapped.
+The documented standard/Core Audio layout selects master1/2 and headphones3/4 through the existing route.
+Windows Advanced toggle mode is outside this recipe. No fabricated touch or source latched scratch runs in the app.
+
+BCD2000 remains separate. Its [driver source](https://github.com/anyc/snd-bcd2000) documents a non-class-compliant USB path.
+The catalogue now states that a separate driver or MIDI bridge is required. No BCD2000 automatic support is claimed.
+This audit does not implement that bridge or recommend replacement firmware.
+
+All 37 focused Swift checks, 83 importer checks and native iPad framework compilation pass.
+All 164 other recipes remain unchanged. The bundled iPad resource matches the source.
+The catalogue now has 115 automatic factory profiles for 121 physical models, plus six other native models.
+Benchmark coverage remains 62/122. Core counts do not establish complete feature parity.
+Repository checks retain twelve existing historical-link failures.
+Set Loop hold/release, Search, EQ kill, common Key, FX, latched scratch, full feedback/passthrough, calibration and physical acceptance remain open.
+No hardware test, signed app or installation occurred. Exact logs and source hashes are in ignored `TestBuilds/r250/validation.json`.

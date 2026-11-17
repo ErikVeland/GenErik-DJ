@@ -4,6 +4,7 @@ REVIEWED = "2026-11-17"
 DENON_ENGINE = "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
 RELOOP_COMPARISON = "https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart"
 MODELS = [
+    ("Behringer BCD2000", "https://github.com/anyc/snd-bcd2000"),
     ("Denon MC3000", "https://cdn.inmusicbrands.com/denondj/legacy/mc3000/MC3000EM_ENG_IM_v00.pdf"),
     ("AlphaTheta DJM-A7", "https://alphatheta.com/en/product/dj-mixer/djm-a7/black/"),
     ("AlphaTheta XDJ-AN", "https://alphatheta.com/en/product/all-in-one-dj-system/xdj-an/black/"),

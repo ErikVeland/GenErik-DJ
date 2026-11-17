@@ -48,6 +48,7 @@ from mixer_one import mixer_one_profiles, MIXER_ONE_SOURCES
 from umix_pro2 import umix_pro2_profiles, UMIX_PRO2_SOURCES
 from instinct import instinct_profiles, INSTINCT_SOURCES
 from hercules_compact import hercules_compact_profiles, HERCULES_COMPACT_SOURCES
+from bcd3000 import bcd3000_profiles, BCD3000_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -829,6 +830,21 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_bcd3000_standard_mode_preserves_factory_leds_and_avoids_data4_master(self):
+        result = bcd3000_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (32, 8))
+        self.assertEqual(result["audioOutput"], "masterAndHeadphones")
+        self.assertEqual(result["startup"][-2:], [[0xB0, 99, 127], [0xB0, 100, 127]])
+        self.assertIn("Standard MIDI mode", result["hardwareMode"])
+        self.assertEqual(result["shutdown"], [[0xB0, n, 0] for n in range(1, 26)])
+        self.assertTrue(all(r["kind"] == "control" for r in result["outputs"]))
+        self.assertEqual([r["number"] for r in result["outputs"] if r["action"] in {"cueA", "cueB"}], [2, 1])
+        self.assertFalse(any(r["action"] in {"master", "monitor", "jogTouchA", "jogTouchB"} for r in result["inputs"]))
+        for name, digest in BCD3000_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_hercules_compact_keeps_factory_volume_and_skips_destructive_query(self):
         result = hercules_compact_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (55, 8))
@@ -1062,7 +1078,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
             self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertFalse(model["theoreticalSupport"]["complete"])
-            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct"})
+            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000"})
 
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]

@@ -587,3 +587,15 @@ Normal wheels use native nudge/paused seek. No fabricated touch contact, source 
 Hardware pages use distinct pad addresses. Alternate releases preserve Cue and rearm one-press controls.
 Transport LEDs use explicit normal/shift addresses. Only reviewed feedback/Auto/Record addresses receive lifecycle clears.
 Synthetic scratch, advanced functions, full feedback/cleanup, EQ calibration and physical acceptance remain open.
+
+## BCD3000 standard-mode core — R250
+
+`bcd3000.py` uses the original factory MIDI/audio tables and pinned standard-mode source.
+The reviewed profile replaces the alternative Advanced mapping for automatic core selection.
+Factory CC outputs retain distinct LED addresses. Startup/shutdown clear only documented LEDs1–25.
+Startup enables factory acceleration and queries analogue values. Both wheels use native nudge/paused seek with the source 100-count scale.
+SET CUE, held preview/bend, three-band EQ, pitch, levels, reloop and PFL retain separate native actions.
+DATA4 stays unmapped. It is neither Master nor Balance. Physical output gains stay hardware-owned.
+The factory standard/Core Audio master/headphone layout uses shared route/sample/recovery checks.
+Windows Advanced mode, latched scratch, Set Loop hold/release, remaining controls and physical acceptance stay open.
+BCD2000 is a separate non-class-compliant USB device. Its catalogue connection requires a driver or MIDI bridge, which this work does not implement.

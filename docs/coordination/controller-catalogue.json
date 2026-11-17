@@ -10688,6 +10688,7 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://github.com/anyc/snd-bcd2000",
         "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD2000.midi.xml"
       ],
       "definitions": [
@@ -10718,7 +10719,7 @@
       ],
       "inputBindingCount": 16,
       "feedbackBindingCount": 4,
-      "connection": "USB MIDI",
+      "connection": "Non-class-compliant USB. Separate driver or MIDI bridge required.",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
@@ -10758,80 +10759,89 @@
     },
     {
       "id": "behringerbcd3000",
-      "name": "Behringer BCD3000 Advanced",
+      "name": "Behringer BCD3000",
       "manufacturer": "Behringer",
       "role": "primary",
       "benchmark": false,
       "sources": [
         "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD3000%20Advanced.midi.xml",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD3000.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD3000.midi.xml",
+        "https://img.musicworld.bg/pdf/i/6/0/2/20206/BCD3000_Manual_EN.pdf"
       ],
       "definitions": [
         "Behringer BCD3000 Advanced.midi.xml",
-        "Behringer BCD3000.midi.xml"
+        "Behringer BCD3000.midi.xml",
+        "manufacturer:behringerbcd3000"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "profile": "Behringer BCD3000 Advanced",
-      "automaticControls": false,
+      "profile": "Behringer BCD3000",
+      "automaticControls": true,
       "controlActions": [
         "crossfader",
         "cueA:a",
         "cueB:b",
+        "cueMix",
         "cuePreviewA:a",
         "cuePreviewB:b",
+        "cueSetA:a",
+        "cueSetB:b",
         "gainA:a",
         "gainB:b",
         "highA:a",
         "highB:b",
         "levelA:a",
         "levelB:b",
-        "loopA:a",
-        "loopB:b",
         "lowA:a",
         "lowB:b",
         "midA:a",
         "midB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
         "playA:a",
         "playB:b",
+        "reloopA:a",
+        "reloopB:b",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 23,
-      "feedbackBindingCount": 4,
+      "inputBindingCount": 32,
+      "feedbackBindingCount": 8,
       "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "audioRouting": "Automatic master 1–2 / headphones 3–4",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Standard MIDI mode. Windows Advanced toggle mode is not implemented."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": true,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 67,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -314596,6 +314606,41 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:behringerbcd3000",
+      "name": "Behringer BCD3000",
+      "transport": "midi",
+      "source": {
+        "url": "https://img.musicworld.bg/pdf/i/6/0/2/20206/BCD3000_Manual_EN.pdf",
+        "sha256": "eb486ba4d851bdc0e9c3eb19d99bed91196a84d0b50732c5c7e632af3075b101",
+        "pages": [
+          9,
+          13,
+          14,
+          15
+        ],
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD3000.midi.xml",
+            "sha256": "7d844f064886cfb937f3ffbaf29506846265c42be6eb946e2204c6c9ab19b2d1"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-BCD3000-scripts.js",
+            "sha256": "0036f216b58ed62c0422f9b005bd6adb0722b57cd6dbc9f8be5ee419f4325e3c"
+          }
+        ],
+        "review": "Factory standard-mode Note On/Off buttons, CC faders/EQ and separate CC LED addresses define this native core. The guide establishes standard mode and fixed master1/2/headphones3/4 on Mac. Native wheel jogs retain source 100-count scale and factory binary-offset movement with source acceleration enabled. No physical touch or source latched scratch is invented. Startup clears only documented LEDs1..25, enables factory accelerationCC99 and queries only analogue controlsCC100. Native held pitch bends use owned four-percent rate. SET CUE uses native cue-set, separate from held CUE preview. Reloop uses native loop state and factory loop indicator. Factory DATA4 is not Master/Balance; source assignments atCC16 are omitted. Physical Master/Phones gain stays hardware-owned. BCD2000 requires its own non-class-compliant USB driver and is not an alias. Advanced Windows toggle mode, Set Loop hold/release, Search, EQ kill, common Key, FX, latched scratch, passthrough, full feedback/routing, calibration and physical acceptance remain open."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
         }
       ]
     },
