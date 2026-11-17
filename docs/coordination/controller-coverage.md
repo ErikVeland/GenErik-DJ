@@ -2473,3 +2473,27 @@ The catalogue remains 307 records for 300 physical models, with 119 factory prof
 Benchmark coverage remains 62/122. Full theoretical feature parity and physical acceptance stay open.
 Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
 Exact logs, source hashes and factory PDF are in ignored `TestBuilds/r255/validation.json`.
+
+## R256 Fuller Total and Omni cores with source fine-tempo response
+
+The separate recipes retain each pinned layout. Numark's [fixed Total MIDI chart](https://www.numark.com/images/product_downloads/totalcontrol_midimap.pdf) confirms Total jog A25/B24.
+Omni keeps its working source A24/B25 order. Native wheel nudge/paused seek retains the source 128-count scale.
+The factory-only fine-tempo codec preserves signed source rate steps of 1/512, with native inversion applied once.
+It shares strict seven-bit validation with Compact's accelerated tempo decoder. Compact's existing response passes the focused checks again.
+Separate Cue Set, held Cue preview, held pitch bend, mixer/pitch pickup and direct Load retain native contracts.
+Manual In sends native Loop Disable before Loop In. Out sets the boundary or exits the current loop.
+Native playback fixtures verify the compound order, new loop creation, exit and saved Sync for both models.
+
+LED addresses differ from input addresses. Native PFL resolves the source's negative condition to on 100/off 0.
+Play and Key Lock retain source 100-on values. Native Sync indication is steady, while source beat pulses remain open.
+Startup clears the source LED range 48–86. Shutdown clears the eight native output states. The lifecycle total is 47 messages.
+Native browsing uses track movement and immediate Open Group. Full directory mode remains open.
+Source scratch/simple-Cue/extended-loop modes, Tap, EQ kill, FX, animations, full loop/browser semantics, audio routing and calibration stay open.
+Neither source JS nor synthetic touch timers run in the app. Stealth is not inferred as an alias.
+
+All 42 focused Swift checks, 89 importer checks and native iPad framework compilation pass.
+All 163 other recipes remain unchanged. The bundled iPad resource matches the source.
+Both imported profiles already selected automatically. Automatic core counts remain 119 factory profiles for 127 models, plus six other native models.
+The catalogue remains 307 records for 300 physical models. Benchmark coverage remains 62/122. Full feature parity and physical acceptance stay open.
+Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
+Exact logs, source hashes and factory PDF are in ignored `TestBuilds/r256/validation.json`.

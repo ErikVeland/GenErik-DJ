@@ -545,3 +545,20 @@ import Testing
         #expect(model.playbackSnapshot?.a.loopEnabled == false && model.playbackSnapshot?.a.synced == sync)
     }
 }
+
+@Test(arguments: ["Numark Total Control", "Numark Omni Control"]) @MainActor
+func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOne(_ name: String) async throws {
+    try await withControllerCuePlayback(name) { model, input in
+        let sync = model.playbackSnapshot?.a.synced
+        model.applyController(.fixedLoopA, value: 1, argument: 4)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        cuePreviewPacket([0x90, 73, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == false)
+        model.applyController(.seekA, value: 0.5)
+        cuePreviewPacket([0x90, 74, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        #expect((model.playbackSnapshot?.a.loopEnd ?? 0) > (model.playbackSnapshot?.a.loopStart ?? 0))
+        cuePreviewPacket([0x80, 74, 127, 0x90, 74, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == false && model.playbackSnapshot?.a.synced == sync)
+    }
+}

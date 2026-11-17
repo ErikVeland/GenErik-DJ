@@ -652,3 +652,15 @@ Eight distinct Hot Cue addresses retain native one-press behaviour and shifted-c
 Working source channel 5 resolves the factory shifted B contact typo. Other disputed shifted PFL/Load rows stay unmapped.
 The source's custom loop layout uses native four-beat enable and a new typed idempotent Loop Disable action.
 Original manual/adjustable loops, Vinyl/inertia state, other modes, FX, pad/beatmatch feedback, full routing/cleanup and physical acceptance remain open.
+
+## Total/Omni core and fine-tempo response — R256
+
+`total_omni.py` keeps separate jog orders: Total A25/B24, Omni A24/B25. The Total factory diagram confirms its fixed addresses.
+Native wheel nudge/paused seek retains source 128-count scale without synthetic scratch timers or gamma curves.
+`fineTempo512` preserves signed source rate increments 1/512 through existing native relative tempo handling and inverse polarity.
+It shares strict seven-bit input validation with `compactTempo`. Both factory-only codecs remain tempo-only and excluded from automatic learning.
+Manual In emits Loop Disable, then Loop In. Native audio fixtures verify that order before Out creates a new loop or exits it.
+Source LED addresses remain separate from input addresses. Native PFL uses on 100/off 0 and Sync uses a steady native state.
+Startup clears source 48–86, and shutdown clears eight owned outputs. The total is 47 messages.
+Both profiles were already automatic. This increment expands native core coverage without increasing automatic model counts.
+Source advanced modes, Tap, EQ kill, FX, animations, full browser/loop behaviour, audio routing and physical acceptance remain open.

@@ -21514,12 +21514,14 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Omni%20Control.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Omni%20Control.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Omni%20Control.midi.xml"
       ],
       "definitions": [
-        "Numark Omni Control.midi.xml"
+        "Numark Omni Control.midi.xml",
+        "manufacturer:numarkomnicontrol"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Numark Omni Control",
@@ -21532,6 +21534,8 @@
         "cueMix",
         "cuePreviewA:a",
         "cuePreviewB:b",
+        "cueSetA:a",
+        "cueSetB:b",
         "gainA:a",
         "gainB:b",
         "highA:a",
@@ -21542,12 +21546,23 @@
         "levelB:b",
         "loadA:a",
         "loadB:b",
+        "loopDisableA:a",
+        "loopDisableB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutOrExitA:a",
+        "loopOutOrExitB:b",
         "lowA:a",
         "lowB:b",
         "master",
         "midA:a",
         "midB:b",
         "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
         "playA:a",
         "playB:b",
         "syncA:a",
@@ -21557,8 +21572,8 @@
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 31,
-      "feedbackBindingCount": 6,
+      "inputBindingCount": 46,
+      "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
@@ -21577,7 +21592,7 @@
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 50,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
@@ -21586,8 +21601,7 @@
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -22061,12 +22075,14 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Total%20Control.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Total%20Control.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Total%20Control.midi.xml"
       ],
       "definitions": [
-        "Numark Total Control.midi.xml"
+        "Numark Total Control.midi.xml",
+        "manufacturer:numarktotalcontrol"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Numark Total Control",
@@ -22079,6 +22095,8 @@
         "cueMix",
         "cuePreviewA:a",
         "cuePreviewB:b",
+        "cueSetA:a",
+        "cueSetB:b",
         "gainA:a",
         "gainB:b",
         "highA:a",
@@ -22089,12 +22107,23 @@
         "levelB:b",
         "loadA:a",
         "loadB:b",
+        "loopDisableA:a",
+        "loopDisableB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutOrExitA:a",
+        "loopOutOrExitB:b",
         "lowA:a",
         "lowB:b",
         "master",
         "midA:a",
         "midB:b",
         "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
         "playA:a",
         "playB:b",
         "syncA:a",
@@ -22104,8 +22133,8 @@
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 31,
-      "feedbackBindingCount": 6,
+      "inputBindingCount": 46,
+      "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
@@ -22124,7 +22153,7 @@
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 50,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
@@ -22133,8 +22162,7 @@
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -315229,6 +315257,63 @@
         "review": "Factory wire formats supply paired crossfader/mixer/pitch and full signed normal/Shift jog magnitude. Pinned source supplies248-count scale, four-times Shift scratching, safe analogue query and the custom In-to-four-beat/Out-to-disable loop layout. Native loop disable is idempotent. Eight distinct Hot Cue input addresses retain native one-press behaviour and shifted-clear release aliases; other hardware pad pages remain inactive. Native fixed scratching ignores source Vinyl toggle, backspin inertia and Scratch2 callbacks. Physical Shift is source-local per deck, rearms paired pickup and preserves old contact/Cue releases. Shifted B contact follows the working source channel5, correcting the factory table's channel4 typo. The factory shifted PFL/Load A rows conflict with normal mode numbers; these disputed alternatives remain unmapped rather than inferring a byte layout. Shifted transport release aliases cover undisputed Cue/Play/Sync. Source-supported direct Load and source basic transport LEDs remain separate from native pad feedback. Master/headphone gain, PFL Master, beatmatch guide, FX, other pad modes, original manual/adjustable loops, complete feedback/cleanup, audio routing and physical calibration remain open. MK2 is a separate recipe."
       },
       "implementedInputCount": 102,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:numarktotalcontrol",
+      "name": "Numark Total Control",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Total%20Control.midi.xml",
+        "sha256": "be7294d8711be9f935ccbf61f06890cb18efbc3f6c0564850b72c3c97f1df173",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Total-Control-scripts.js",
+            "sha256": "1630779e5dfd5cc6f00233633987928f8f3929f761932aa70b97405618deca59"
+          },
+          {
+            "url": "https://www.numark.com/images/product_downloads/totalcontrol_midimap.pdf",
+            "sha256": "8c10fd1a4fc10d3a22ef88e93c3d530316aef1d1f39734bd43d7e8c3b95db468",
+            "pages": [
+              1
+            ]
+          }
+        ],
+        "review": "Model-specific XML separates opposite jog assignments: Total A25/B24, Omni A24/B25. Factory Total chart confirms fixed controls, including its jog order. Native wheel nudge/paused seek uses source128-count scale without synthetic scratch contacts/timers or gamma curve. Full signed fine-tempo steps preserve source rate increments1/512 through a factory-only relative codec and native inverse polarity. Cue Set stays separate from source-default held Cue preview. Manual In first disables an old loop, then records a new start; Out sets the end or exits an active loop through native contracts. Native held pitch bend replaces source extended-loop overloads. Browser uses native track movement and immediate Open Group; source directory toggle remains open. Source LED addresses differ from input addresses. Native steady Sync replaces beat pulses, PFL negative conditions resolve to on100/off0, and Play/Key Lock retain source100-on values. Startup clears source LED range48..86; shutdown clears eight native outputs. Simple Cue, scratch, extended loops, Tap, EQ kill, FX, source animations, full browser/loop semantics, audio routing, calibration and physical acceptance remain open. Stealth is not inferred as an alias."
+      },
+      "implementedInputCount": 46,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:numarkomnicontrol",
+      "name": "Numark Omni Control",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Omni%20Control.midi.xml",
+        "sha256": "76213e3911df592e11c42dce1ea7f4f24803e0bd09d464eaa5f1edbf3a9c8e8e",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Omni-Control-scripts.js",
+            "sha256": "7665ba5762f35a31c0699bdd50cc279cf1405fca06a4295baba0123d3fc37035"
+          }
+        ],
+        "review": "Model-specific XML separates opposite jog assignments: Total A25/B24, Omni A24/B25. Factory Total chart confirms fixed controls, including its jog order. Native wheel nudge/paused seek uses source128-count scale without synthetic scratch contacts/timers or gamma curve. Full signed fine-tempo steps preserve source rate increments1/512 through a factory-only relative codec and native inverse polarity. Cue Set stays separate from source-default held Cue preview. Manual In first disables an old loop, then records a new start; Out sets the end or exits an active loop through native contracts. Native held pitch bend replaces source extended-loop overloads. Browser uses native track movement and immediate Open Group; source directory toggle remains open. Source LED addresses differ from input addresses. Native steady Sync replaces beat pulses, PFL negative conditions resolve to on100/off0, and Play/Key Lock retain source100-on values. Startup clears source LED range48..86; shutdown clears eight native outputs. Simple Cue, scratch, extended loops, Tap, EQ kill, FX, source animations, full browser/loop semantics, audio routing, calibration and physical acceptance remain open. Stealth is not inferred as an alias."
+      },
+      "implementedInputCount": 46,
       "implementedOutputCount": 8,
       "sourceInputCount": null,
       "sourceOutputCount": null,

@@ -54,6 +54,7 @@ from hercules_air import air_profiles, AIR_SOURCES
 from sc2000 import sc2000_profiles, SC2000_SOURCES
 from mixage import mixage_profiles, MIXAGE_SOURCES, MIXAGE_MODELS
 from original300 import original300_profiles, ORIGINAL300_SOURCES
+from total_omni import total_omni_profiles, TOTAL_OMNI_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -835,6 +836,20 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_total_omni_keep_opposite_jog_order_and_source_feedback(self):
+        for result in total_omni_profiles():
+            self.assertEqual((len(result["inputs"]), len(result["outputs"])), (46, 8))
+            expected = [25, 24] if result["id"] == "Numark Total Control" else [24, 25]
+            self.assertEqual([r["number"] for r in result["inputs"] if r["action"] in {"wheelJogA", "wheelJogB"}], expected)
+            self.assertTrue(all(r["onValue"] == 100 and r["offValue"] == 0 for r in result["outputs"]))
+            self.assertEqual(len(result["startup"]) + len(result["shutdown"]), 47)
+            self.assertEqual([r["action"] for r in result["inputs"] if r["number"] == 73 and r["kind"] == "note"], ["loopDisableA", "loopInA"])
+            self.assertNotIn("audioOutput", result)
+            for name, digest in TOTAL_OMNI_SOURCES[result["id"]]:
+                path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+                if path.exists():
+                    self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_original300_keeps_factory_pairs_and_source_loop_layout_separate_from_mk2(self):
         result = original300_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (102, 8))
