@@ -514,3 +514,17 @@ Source scratch calibration is 384 counts at 45 RPM. Native resolution is 518.4 a
 The motion fixture checks 4/3 seconds of source movement for 384 input counts.
 Tempo applies Mixxx rate inversion once and keeps exact centre/pickup.
 Shared selector keys, FX, balance, lights/cleanup, routing and physical calibration remain open.
+
+## Xone K1/K2/K3 factory layout — R243
+
+`xone_k.py` combines the factory manuals with the pinned shared mapping's default channel-15 middle deck columns.
+K3 factory-map compatibility is explicit in the manufacturer guide. K2/K3 latching layers must be off; K3 firmware must be compatible.
+Other MIDI channels, user maps and X-Link layouts remain outside this recipe.
+Native lower pads stay on a fixed four-cue page. The right large button acts as Shift; the left page indicator stays red.
+The K1 left-button SHIFT label differs from this source-derived layout.
+
+Separate lower-right-encoder and combined modifier scopes protect the Load/Play chord.
+Release aliases preserve button edges. Source ownership and saved mapping metadata reuse the existing path.
+Native Shift is momentary. Low EQ rearms pickup after Shift instead of copying the source's persistent quick-effect latch.
+Red feedback uses Note Off velocity 127. Startup/shutdown total sixteen messages and clear all declared indicators.
+Outer FX columns, other pages, full feedback, firmware/device checks, K2 audio routing and physical acceptance remain open.

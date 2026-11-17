@@ -2,6 +2,34 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R243 factory-layout Xone K1/K2/K3 native core
+
+K1, K2 and K3 gain one reviewed family recipe. Factory manuals confirm the shared note/controller layout and default MIDI channel 15.
+The K3 factory map retains K2/K1 values and colours. The published shared mapping requires compatible K3 firmware.
+K2/K3 hardware latching layers must be off. Custom unit maps, other MIDI channels and X-Link layouts remain unqualified.
+
+The two middle columns control decks A and B. Play, Cue, PFL, Sync, three-band EQ, levels and browser controls retain source dispatch.
+The right large button acts as Shift. Hold the lower-right encoder and press a deck's Play button to Load that deck.
+Independent and combined modifier scopes prevent the Load chord from also toggling Play.
+Releasing either modifier preserves the other. Modifier state stays local to the physical MIDI source.
+Shifted top encoders adjust gain. Shifted bottom encoders adjust master or headphone level.
+Low EQ returns to its normal function after Shift and rearms pickup; the source's persistent quick-effect latch is not copied.
+
+The native lower button grid stays on four Hot Cues per deck. The left large button lights the fixed Hot Cue page.
+This follows the published mapping's page use; the K1's printed left-button SHIFT label does not describe this native layout.
+The source's intro/outro, loop, supershift and outer FX-column modes remain open.
+Red Play/PFL/Sync/cue lights use the factory Note Off velocity 127. Shutdown clears every declared indicator.
+The sixteen-message startup/shutdown total stays within the existing lifecycle budget.
+
+All 15 targeted Swift checks, 76 importer/report checks and native iPad compilation pass.
+The bundled resource matches the source. All 163 earlier recipes remain unchanged.
+Factory coverage reaches 109 profiles for 115 physical models, plus six other native models.
+This reaches 121 automatic core models overall, including 61 of the 122 pinned Serato benchmark models.
+These are core mappings, with hardware acceptance and full feature parity still open.
+The repository check retains twelve existing historical-link failures.
+Source identities and results appear in `TestBuilds/r243/validation.json`. No signed app or installation was produced.
+K2 audio routing, firmware/device checks and physical acceptance remain open.
+
 ## R242 original VCI-100 native core
 
 The original VCI-100 gains an automatic two-deck native core. Hile, MixVibes 3DEX and MKII retain separate identities.

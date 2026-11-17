@@ -42,6 +42,7 @@ from cmd_micro import cmd_micro_profiles, CMD_MICRO_SOURCES
 from idj_live2 import idj_live2_profiles, IDJ2_SOURCES
 from lc6000 import lc6000_profiles, LC6000_SOURCES
 from vci100 import vci100_profiles, VCI100_SOURCES
+from xone_k import xone_k_profiles, XONE_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -823,6 +824,20 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_xone_family_uses_factory_channel_and_separate_load_modifier(self):
+        result = xone_k_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (53, 14))
+        self.assertEqual({r["channel"] for r in result["inputs"]}, {14})
+        self.assertTrue(all(r["shiftChannel"] == 2 and not r["shifted"] for r in result["inputs"] if r["action"] in {"playA", "playB"} and not r.get("releaseOnly")))
+        self.assertTrue(all(r["shiftChannel"] == 1 and r["shifted"] for r in result["inputs"] if r["action"] in {"loadA", "loadB"} and not r.get("releaseOnly")))
+        self.assertEqual(len(result["startup"]) + len(result["shutdown"]), 16)
+        self.assertTrue(all(r["offValue"] == 127 and not r["offUsesNoteOn"] for r in result["outputs"]))
+        self.assertEqual(split_models(result["catalogueName"]), ["Allen & Heath Xone:K1", "Allen & Heath Xone:K2", "Allen & Heath Xone:K3"])
+        for name, digest in XONE_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_original_vci100_keeps_cue_buttons_and_45rpm_scratch_time_scale(self):
         result = vci100_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (42, 0))
