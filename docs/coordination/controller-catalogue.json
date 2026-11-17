@@ -11817,10 +11817,12 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mix-101.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mix-101.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mix-101.midi.xml"
       ],
       "definitions": [
-        "DJ-Tech Mix-101.midi.xml"
+        "DJ-Tech Mix-101.midi.xml",
+        "manufacturer:djtechmix101"
       ],
       "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
@@ -11842,19 +11844,24 @@
         "levelB:b",
         "lowA:a",
         "lowB:b",
+        "master",
         "midA:a",
         "midB:b",
+        "monitor",
         "playA:a",
-        "playB:b"
+        "playB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 18,
+      "inputBindingCount": 22,
       "feedbackBindingCount": 4,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual pinned Mixxx source layout on hardware MIDI channel 1. Bank/mode ownership remains unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
@@ -11867,7 +11874,7 @@
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 7,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
@@ -11877,6 +11884,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Bank/mode ownership, first-stopped Load, sampler holds, full documented controls, other channel settings, calibration and complete feedback/reset remain open. No automatic selection or integrated audio is claimed. Manual apply does not activate input or run lifecycle.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -317152,6 +317160,34 @@
         },
         {
           "reason": "Jog/browser values, pitch byte order/polarity, Shift input, bank/source-selector ownership, pads and all modes, FX, meters/rings/screens, full feedback/lifecycle, direct iPad connection/audio and physical acceptance remain open. Manual apply does not activate the input or run lifecycle. No automatic support is claimed."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:djtechmix101",
+      "name": "DJ-Tech MIX-101",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mix-101.midi.xml",
+        "sha256": "6c1364e0ab02722419e9680a9d05caf594aa8bc45a2f3188c2098e3e464a83a4",
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/src/controllers/midi/midicontroller.cpp",
+            "sha256": "e2c3509c73e5b790f84db26cb9b2ec2dd791c29f46393c463ad80ec00ce2f331"
+          }
+        ],
+        "review": "Manual pinned-source channel-one layout. Fast relative master/headphone encoders preserve (raw-64)*1.5 and accumulate from current native values with clamping. Source spread64 wheels retain raw-64, with native unheld wheel behaviour and default calibration. No touch gate, physical tempo fader, audio interface or Hot Cue pad is invented. Play A input9 differs from LED10. Normal Cue accepts both MIDI release forms. Shared first-stopped Load, deck/mode switch ownership, sampler holds, other channel settings, complete source behaviour, feedback/reset and physical acceptance remain open. The factory describes one banked wheel and mode-dependent controls. Automatic selection stays off. Manual apply does not activate input or run automatic lifecycle."
+      },
+      "implementedInputCount": 22,
+      "implementedOutputCount": 4,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Bank/mode ownership, first-stopped Load, sampler holds, full documented controls, other channel settings, calibration and complete feedback/reset remain open. No automatic selection or integrated audio is claimed. Manual apply does not activate input or run lifecycle."
         }
       ]
     },

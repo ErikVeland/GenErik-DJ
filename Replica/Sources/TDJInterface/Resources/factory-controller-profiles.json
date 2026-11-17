@@ -26623,33 +26623,16 @@
         "MIX-101",
         "Mix-101 MIDI 1"
       ],
-      "definition": "DJ-Tech Mix-101.midi.xml",
+      "definition": "manufacturer:djtechmix101",
       "inputs": [
         {
-          "action": "browse",
-          "kind": "control",
-          "channel": 0,
-          "number": 17,
-          "encoding": "binaryOffset",
-          "inverted": false
-        },
-        {
-          "action": "cueA",
+          "action": "playA",
           "kind": "note",
           "channel": 0,
-          "number": 1,
+          "number": 9,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
-        },
-        {
-          "action": "cueB",
-          "kind": "note",
-          "channel": 0,
-          "number": 2,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
         },
         {
           "action": "cuePreviewA",
@@ -26661,29 +26644,20 @@
           "targetDeck": "a"
         },
         {
-          "action": "cuePreviewB",
+          "action": "cueA",
           "kind": "note",
           "channel": 0,
-          "number": 4,
+          "number": 1,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "a"
         },
         {
-          "action": "playB",
-          "kind": "note",
+          "action": "wheelJogA",
+          "kind": "control",
           "channel": 0,
-          "number": 7,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "playA",
-          "kind": "note",
-          "channel": 0,
-          "number": 9,
-          "encoding": "absolute",
+          "number": 19,
+          "encoding": "binaryOffset",
           "inverted": false,
           "targetDeck": "a"
         },
@@ -26697,10 +26671,118 @@
           "targetDeck": "a"
         },
         {
+          "action": "gainA",
+          "kind": "control",
+          "channel": 0,
+          "number": 36,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "highA",
+          "kind": "control",
+          "channel": 0,
+          "number": 38,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "midA",
+          "kind": "control",
+          "channel": 0,
+          "number": 40,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "lowA",
+          "kind": "control",
+          "channel": 0,
+          "number": 42,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 0,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 0,
+          "number": 4,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 0,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "wheelJogB",
+          "kind": "control",
+          "channel": 0,
+          "number": 21,
+          "encoding": "binaryOffset",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
           "action": "levelB",
           "kind": "control",
           "channel": 0,
           "number": 34,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "gainB",
+          "kind": "control",
+          "channel": 0,
+          "number": 37,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "highB",
+          "kind": "control",
+          "channel": 0,
+          "number": 39,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "midB",
+          "kind": "control",
+          "channel": 0,
+          "number": 41,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "lowB",
+          "kind": "control",
+          "channel": 0,
+          "number": 43,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
@@ -26714,125 +26796,123 @@
           "inverted": false
         },
         {
-          "action": "gainA",
+          "action": "browse",
           "kind": "control",
           "channel": 0,
-          "number": 36,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
+          "number": 17,
+          "encoding": "binaryOffset",
+          "inverted": false
         },
         {
-          "action": "gainB",
+          "action": "monitor",
           "kind": "control",
           "channel": 0,
-          "number": 37,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
+          "number": 16,
+          "encoding": "rot64Fast",
+          "inverted": false
         },
         {
-          "action": "highA",
+          "action": "master",
           "kind": "control",
           "channel": 0,
-          "number": 38,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "highB",
-          "kind": "control",
-          "channel": 0,
-          "number": 39,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "midA",
-          "kind": "control",
-          "channel": 0,
-          "number": 40,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "midB",
-          "kind": "control",
-          "channel": 0,
-          "number": 41,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "lowA",
-          "kind": "control",
-          "channel": 0,
-          "number": 42,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "lowB",
-          "kind": "control",
-          "channel": 0,
-          "number": 43,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
+          "number": 18,
+          "encoding": "rot64Fast",
+          "inverted": false
         }
       ],
       "outputs": [
-        {
-          "action": "cueA",
-          "kind": "note",
-          "channel": 0,
-          "number": 1,
-          "onValue": 127,
-          "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "a"
-        },
-        {
-          "action": "cueB",
-          "kind": "note",
-          "channel": 0,
-          "number": 2,
-          "onValue": 127,
-          "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "b"
-        },
         {
           "action": "playA",
           "kind": "note",
           "channel": 0,
           "number": 10,
+          "targetDeck": "a",
           "onValue": 127,
           "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "a"
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cueA",
+          "kind": "note",
+          "channel": 0,
+          "number": 1,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
         },
         {
           "action": "playB",
           "kind": "note",
           "channel": 0,
           "number": 7,
+          "targetDeck": "b",
           "onValue": 127,
           "offValue": 0,
-          "offUsesNoteOn": true,
-          "targetDeck": "b"
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 0,
+          "number": 2,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
         }
       ],
-      "startup": [],
-      "shutdown": [],
+      "startup": [
+        [
+          144,
+          10,
+          0
+        ],
+        [
+          144,
+          1,
+          0
+        ],
+        [
+          144,
+          7,
+          0
+        ],
+        [
+          144,
+          2,
+          0
+        ]
+      ],
+      "shutdown": [
+        [
+          144,
+          10,
+          0
+        ],
+        [
+          144,
+          1,
+          0
+        ],
+        [
+          144,
+          7,
+          0
+        ],
+        [
+          144,
+          2,
+          0
+        ]
+      ],
       "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mix-101.midi.xml"
+      "scope": "Manual source transport/mixer, browser, wheel nudge and exact fast relative master/headphone encoders. Shared Load, hardware modes, sampler, full feedback and physical acceptance remain open.",
+      "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mix-101.midi.xml",
+      "hardwareMode": "Manual pinned Mixxx source layout on hardware MIDI channel 1. Bank/mode ownership remains unqualified.",
+      "gaps": [
+        "Bank/mode ownership, first-stopped Load, sampler holds, full documented controls, other channel settings, calibration and complete feedback/reset remain open. No automatic selection or integrated audio is claimed. Manual apply does not activate input or run lifecycle."
+      ]
     },
     {
       "id": "DJ-Tech Mixer One",

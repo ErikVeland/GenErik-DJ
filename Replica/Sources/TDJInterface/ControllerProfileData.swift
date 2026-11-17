@@ -137,6 +137,7 @@ struct ControllerProfileData: Decodable, Sendable {
                         || ($0.kind == .note && [.jogTouchA, .jogTouchB].contains($0.action)))
                     && ($0.encoding != .lc6000Jog || $0.action.isJog)
                     && ($0.encoding != .noteStep || ($0.kind == .note && $0.action.isJog))
+                    && ($0.encoding != .rot64Fast || ($0.kind == .control && [.master, .monitor].contains($0.action)))
                     && ($0.encoding != .readyTempo || [.tempoA, .tempoB].contains($0.action))
                     && ($0.encoding != .airTempo || [.tempoA, .tempoB].contains($0.action))
                     && (![.compactTempo, .fineTempo512].contains($0.encoding)

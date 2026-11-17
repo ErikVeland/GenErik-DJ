@@ -3108,3 +3108,25 @@ All 170 existing recipes remain unchanged. The bundled resource matches the sour
 Automatic core coverage stays at 150 physical models, including 65/122 benchmark models.
 Repository checks retain twelve historical-link failures. No signed app, installation or physical acceptance occurred.
 Exact source identities and results are in ignored `TestBuilds/r282/validation.json`.
+
+## R283 MIX-101 source encoder controls
+
+The pinned [MIX-101 XML](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mix-101.midi.xml) defines two fast relative volume encoders.
+The matching [decoder source](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/src/controllers/midi/midicontroller.cpp) specifies `(raw - 64) * 1.5`.
+Native decoding preserves that scale for current master/headphone values, including queued reports and endpoint clamps.
+Factory validation restricts this decoder to reviewed control-change volume actions. MIDI learning cannot select it.
+
+The manual source profile now includes both published unheld wheel streams. They use native nudge/paused seek and default calibration.
+It retains gain/EQ/level, crossfader, browser, transport and PFL. Play A receives note 9 and sends feedback on note 10.
+Held Cue accepts zero-velocity and Note-Off releases. No touch input, tempo fader, audio interface or cue pads are inferred.
+The [factory guide](https://www.bhphotovideo.com/lit_files/652696.pdf) describes one banked wheel with mode-dependent controls.
+Hardware deck/mode ownership, shared Load, sampler holds, other MIDI channels, complete feedback/reset and physical calibration remain open.
+Automatic selection stays disabled. Manual apply does not activate an input or run automatic lifecycle.
+All eight focused Swift tests, 114 importer checks and native iPad framework compilation pass.
+Fixtures cover every seven-bit encoder value, queued accumulation, endpoint clamps, invalid values and both Cue release forms.
+The real-file fixture verifies unheld wheel handling, finite audio, Cue cleanup and saved Sync.
+The first test compile lacked the actor annotation for a feedback assertion. The corrected fixture passes. The failed log remains preserved.
+All 170 other recipes remain unchanged. The bundled resource matches the source.
+Automatic core coverage stays at 150 physical models, including 65/122 benchmark models.
+Repository checks retain twelve historical-link failures. No signed app, installation or physical acceptance occurred.
+Exact source identities and results are in ignored `TestBuilds/r283/validation.json`.

@@ -74,6 +74,7 @@ from terminal_mix8 import terminal_mix8_profiles, TM8_SOURCES
 from mixtrack_quad import quad_profiles, QUAD_SOURCES
 from imix_reload import imix_profiles, IMIX_SOURCES
 from mcx8000 import mcx_profiles, MCX_SHA
+from mix101 import mix101_profiles
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -855,6 +856,16 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_mix101_source_encoders_and_distinct_play_led_stay_manual(self):
+        item, = mix101_profiles()
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (22, 4))
+        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 8)
+        self.assertEqual([(r["action"], r["number"]) for r in item["inputs"] if r["encoding"] == "rot64Fast"], [("monitor", 16), ("master", 18)])
+        self.assertEqual(next(r["number"] for r in item["inputs"] if r["action"] == "playA"), 9)
+        self.assertEqual(next(r["number"] for r in item["outputs"] if r["action"] == "playA"), 10)
+        self.assertFalse(any(r["action"].startswith(("hotcue", "jogTouch", "tempo", "load")) for r in item["inputs"]))
+
     def test_mcx8000_factory_subset_keeps_unqualified_encoders_pads_and_connection_manual(self):
         item, = mcx_profiles()
         self.assertFalse(item["autoSelect"])
