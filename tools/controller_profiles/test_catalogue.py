@@ -45,6 +45,7 @@ from vci100 import vci100_profiles, VCI100_SOURCES
 from xone_k import xone_k_profiles, XONE_SOURCES
 from ready import ready_profiles, READY_SOURCES
 from mixer_one import mixer_one_profiles, MIXER_ONE_SOURCES
+from umix_pro2 import umix_pro2_profiles, UMIX_PRO2_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -826,6 +827,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_umix_pro2_keeps_touch_threshold_source_scale_and_sync_led_condition(self):
+        result = umix_pro2_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (54, 20))
+        self.assertTrue(all(r["encoding"] == "fullVelocityGate" for r in result["inputs"] if r["action"] in {"jogTouchA", "jogTouchB"}))
+        self.assertTrue(all(r["argument"] == 340 for r in result["inputs"] if r["action"] in {"jogA", "jogB", "wheelJogA", "wheelJogB"}))
+        self.assertTrue(all(r["encoding"] == "centredPitch" and r["inverted"] for r in result["inputs"] if r["action"] in {"tempoA", "tempoB"}))
+        self.assertTrue(all(r["onValue"] == 100 and r["offValue"] == 0 for r in result["outputs"] if r["action"] in {"syncA", "syncB"}))
+        self.assertEqual(len(result["startup"]) + len(result["shutdown"]), 32)
+        for name, digest in UMIX_PRO2_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_mixer_one_keeps_four_explicit_targets_and_source_meter_cleanup(self):
         result = mixer_one_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (32, 4))

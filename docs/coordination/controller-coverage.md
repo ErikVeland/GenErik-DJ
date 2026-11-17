@@ -2,6 +2,35 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R247 U-Mix Control Pro 2 core and owned pitch indicators
+
+Pro 2 gains an automatic two-deck core from pinned XML and its short companion script.
+Original Pro and Control 2 retain separate identities.
+Full-value contact follows the published handler: only 127/127 presses; lower values release.
+The same rule handles expanded MIDI note values and bypasses generic zero-value button coercion.
+Midpoint contact on iDJ Live II retains its separate existing rule.
+
+Native scratching keeps 340 counts per revolution, with distinct platter and rim addresses.
+Centred fourteen-bit pitch preserves pickup and applies source polarity once.
+Play, held Cue, Sync, PFL, Key Lock, levels, EQ, direct Load, browsing and four native cues retain published dispatch.
+Shifted-channel cue-clear releases rearm ordinary cues; clear presses remain inactive.
+The source's quarter-strength nudge multiplier and held Hot Cue preview behaviour remain open.
+
+Native held pitch uses the shared four-percent temporary rate. The two direction indicators show owned holds independently.
+Opposing holds light both indicators while cancelling to normal speed. New source generations and later touch/rate control retire old feedback.
+A real-file native fixture checks that the final old releases cannot overwrite a later rate, with saved Sync retained.
+Play uses the known beat-light address as a steady indicator. Beat pulses and jog-direction lights remain open.
+The source's inverted Sync condition resolves to native on 100/off 0.
+Startup clears unsupported EQ-kill, Cue, end-of-track and Tap indicators. Shutdown clears twenty declared outputs.
+The total lifecycle budget is 32 messages. Clip indication, full feedback/cleanup and audio routing remain open.
+
+All 53 targeted Swift checks, 80 importer/report checks and native iPad compilation pass.
+The bundled resource matches the source. All 164 other recipes remain unchanged.
+Factory coverage reaches 112 profiles for 118 physical models, plus six other native models.
+The repository check retains twelve existing historical-link failures.
+Source identities and results appear in `TestBuilds/r247/validation.json`.
+Physical calibration and acceptance remain open. No signed app or installation was produced.
+
 ## R246 Mixer One four-target native mixer core
 
 Mixer One gains an automatic mixer/accessory core. Published XML gives each target its own wire channel from 0xB5 through 0xB8.

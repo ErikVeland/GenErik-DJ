@@ -108,6 +108,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     }
     var supportsFeedback: Bool {
         switch self {
+        case .pitchBendDownA, .pitchBendDownB, .pitchBendUpA, .pitchBendUpB: true
         case .playA, .playB, .syncA, .syncB, .keylockA, .keylockB, .cueA, .cueB, .levelA, .levelB, .gainA, .gainB,
             .lowA, .lowB, .midA, .midB, .highA, .highB, .filterA, .filterB, .fxA, .fxB, .fxToggleA, .fxToggleB,
             .crossfader, .cueMix, .filterToggleA, .filterToggleB, .master, .monitor, .tempoA, .tempoB, .loopA, .loopB,
@@ -1911,7 +1912,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     continue
                 }
             }
-            if binding.action.isButton, binding.mode != .touchGate, message.kind == .note, !message.isNoteOff, value == 0 { value = 1 }
+            if binding.action.isButton, !binding.mode.isContactGate, message.kind == .note, !message.isNoteOff, value == 0 { value = 1 }
             if let deck = binding.targetDeck, !availablePlayerDecks.contains(deck),
                 !(binding.action.isButton && value == 0)
             { continue }

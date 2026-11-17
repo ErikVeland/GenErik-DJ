@@ -17269,16 +17269,18 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%20Pro%202.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%20Pro%202.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%20Pro%202.midi.xml"
       ],
       "definitions": [
-        "MixVibes U-Mix Control Pro 2.midi.xml"
+        "MixVibes U-Mix Control Pro 2.midi.xml",
+        "manufacturer:mixvibesumixcontrolpro2"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "MixVibes U-Mix Control Pro 2",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "browse",
         "crossfader",
@@ -17299,6 +17301,10 @@
         "hotcue3B:b",
         "hotcue4A:a",
         "hotcue4B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "keylockA:a",
         "keylockB:b",
         "levelA:a",
@@ -17310,45 +17316,49 @@
         "master",
         "midA:a",
         "midB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
         "playA:a",
         "playB:b",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 36,
-      "feedbackBindingCount": 14,
+      "inputBindingCount": 54,
+      "feedbackBindingCount": 20,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 50,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -314449,6 +314459,35 @@
       },
       "implementedInputCount": 32,
       "implementedOutputCount": 4,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:mixvibesumixcontrolpro2",
+      "name": "MixVibes U-Mix Control Pro 2",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%20Pro%202.midi.xml",
+        "sha256": "d460da29d06de95265297711fadae4d55ea77ca08821a778ba055ce0452e7840",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%20Pro%202.midi.xml",
+            "sha256": "d460da29d06de95265297711fadae4d55ea77ca08821a778ba055ce0452e7840"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes-U-Mix-Control-Pro-2-scripts.js",
+            "sha256": "017a5ca80355f3a35162c101b37e4ee8b5b0de0d747a0f414622cec49f53c7ad"
+          }
+        ],
+        "review": "XML and the short script provide two fixed targets, full-value touch on Note22, centre-64 platter CC22 and separate rim CC23 with 340-count scratch calibration. Pitch uses native centred 14-bit pitch bend and source rate inversion once. Separate Load and browse controls retain published dispatch. Four cue buttons have explicit shifted-channel delete-release aliases. Native held bend uses the shared four-percent rate and reports each held direction independently, including opposing holds; generation and later-control ownership protect feedback. Native Play feedback uses the known beat-indicator address steadily; beat pulses remain open. The source's inverted Sync condition resolves to on 100/off 0. Source EQ kill, Tap, source quarter-nudge scaling, held Hot Cue previews, jog-direction lights, clip/end lamps, full routing/calibration and physical acceptance remain open. Control 2 and original Pro are separate models."
+      },
+      "implementedInputCount": 54,
+      "implementedOutputCount": 20,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

@@ -132,7 +132,7 @@ struct ControllerProfileData: Decodable, Sendable {
                         : $0.lowNumber == nil)
                     && ($0.anyChannel != true || role == "player")
                     && ($0.requiresTouch != true || ($0.action.isJog && $0.encoding.isRelative))
-                    && ($0.encoding != .touchGate
+                    && (!$0.encoding.isContactGate
                         || ($0.kind == .note && [.jogTouchA, .jogTouchB].contains($0.action)))
                     && ($0.encoding != .lc6000Jog || $0.action.isJog)
                     && ($0.encoding != .readyTempo || [.tempoA, .tempoB].contains($0.action))

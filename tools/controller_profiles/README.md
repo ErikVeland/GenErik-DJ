@@ -549,3 +549,16 @@ Clear Meter reports rearm deck pickup without inferring a bank target.
 Startup clears unsupported EQ-kill lights and known meter addresses. Shutdown clears PFL and meters.
 The lifecycle total is 32 messages. Live meter values, inverse mute restore, EQ kill and crossfader curve/balance remain open.
 No source JS, timers, guessed meter values or audio-routing declarations run in the app.
+
+## U-Mix Control Pro 2 full-value contact and pitch feedback — R247
+
+`umix_pro2.py` keeps Pro 2 separate from original Pro and Control 2.
+`fullVelocityGate` implements the source's exact contact value, including expanded note ranges.
+It shares note validation with midpoint `touchGate`, while preserving each rule and excluding both from automatic learning.
+The receiver preserves their zero-valued releases. Saved factory overrides retain the encoding.
+Native scratch/rim resolution is 340 counts. Centred pitch and cue-clear release aliases preserve source dispatch.
+
+Held pitch feedback reads the owned direction state for the current source generation.
+Opposing holds remain independently visible. Later touch/rate ownership and new generations cannot leave old indicators active.
+The source's inverted Sync condition resolves to on 100/off 0. Native Play indication is steady.
+Startup/shutdown total 32 messages. Source beat pulses, quarter-nudge scaling, held cue previews, clip/end indicators, EQ kill, Tap, routing and physical acceptance remain open.

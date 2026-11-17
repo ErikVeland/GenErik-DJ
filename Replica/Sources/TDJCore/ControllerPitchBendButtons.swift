@@ -14,6 +14,14 @@ public struct ControllerPitchBendButtons: Sendable {
     public init() {}
 
     /**
+     * Returns the held direction only for the current loaded source.
+     */
+    public func isPressed(_ direction: ControllerPitchBendDirection, generation: UInt64) -> Bool {
+        guard generation != 0, self.generation == generation else { return false }
+        return direction == .up ? up : down
+    }
+
+    /**
      * Returns the new temporary rate, or nil when the event cannot change it.
      */
     public mutating func update(

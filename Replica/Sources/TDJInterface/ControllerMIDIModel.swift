@@ -166,6 +166,10 @@ extension ReplicaModel {
         case .playA, .playB: return snapshot[deck].phase == .playing ? 1 : 0
         case .syncA, .syncB: return snapshot[deck].synced ? 1 : 0
         case .keylockA, .keylockB: return snapshot[deck].keylock ? 1 : 0
+        case .pitchBendDownA, .pitchBendDownB, .pitchBendUpA, .pitchBendUpB:
+            return controllerPitchBendButtons[deck]?.isPressed(
+                action == .pitchBendUpA || action == .pitchBendUpB ? .up : .down,
+                generation: snapshot[deck].generation) == true ? 1 : 0
         case .cueA, .cueB, .cueStateA, .cueStateB: return mixer.cue ? 1 : 0
         case .filterToggleA, .filterToggleB: return mixer.filterEnabled ? 1 : 0
         case .loopA, .loopB: return snapshot[deck].loopEnabled ? 1 : 0
