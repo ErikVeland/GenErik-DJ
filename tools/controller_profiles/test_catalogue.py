@@ -35,6 +35,7 @@ from rp8000 import rp8000_profiles, RP8000_REFERENCES
 from scratch import scratch_profiles, SCRATCH_SOURCES
 from vci300 import vci300_profiles, VCI300_SOURCES
 from vci100mk2 import vci100mk2_profiles, VCI100MK2_SOURCES
+from hercules_portable import portable_profiles, PORTABLE_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -816,6 +817,22 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_portable_hercules_keep_distinct_loop_pages_and_lifecycle(self):
+        star, mix = portable_profiles()
+        self.assertEqual((len(star["inputs"]), len(mix["inputs"])), (58, 60))
+        for result in [star, mix]:
+            self.assertEqual(len(result["outputs"]), 22)
+            self.assertEqual({r["number"] for r in result["inputs"] if r["action"] == "toggleFixedLoopA"}, set(range(48 if result is mix else 16, 52 if result is mix else 20)))
+            self.assertFalse(any(r["action"].startswith("load") for r in result["inputs"]))
+            self.assertTrue(all(r["argument"] == 248 and r["encoding"] == "signedStep" for r in result["inputs"] if r["action"] in {"jogA", "jogB", "wheelJogA", "wheelJogB"}))
+            for name, digest in PORTABLE_SOURCES[result["id"]]:
+                path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+                if path.exists():
+                    self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+        self.assertIn([0x90, 36, 0], star["startup"])
+        self.assertNotIn([0x90, 36, 0], mix["startup"])
+        self.assertEqual(mix["shutdown"], [[0xB0, 127, 0]])
+
     def test_vci100mk2_keeps_four_targets_physical_shift_and_nonstandard_pairs(self):
         result = vci100mk2_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (126, 28))

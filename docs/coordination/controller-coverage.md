@@ -2,6 +2,38 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R235 separate Starlight and DJControl MIX native cores
+
+Starlight and DJControl MIX now have reviewed native recipes for their distinct physical dispatch.
+Their earlier partial recipes already selected automatically. This increment completes core behaviour without adding to the automatic model count.
+Pinned script and XML hashes retain each model's source identity.
+
+Native fixed touch scratching uses 248 counts per revolution and single-step 1/127 wheel reports.
+Separate touch and wheel-edge inputs preserve the native player policy.
+Shift blocks unsupported accelerated search. Alternate-channel releases finish held Cue and platter contact on the correct deck.
+The right shifted wheel callback derives deck B from its MIDI channel despite an incorrect Channel1 group in the source XML.
+Release-only cue-pad aliases rearm ordinary pads without executing the source delete function.
+
+Both models retain Play, held Cue, Sync, PFL, paired inverted tempo, level, bass, filter and crossfader inputs.
+Four cues and distinct 1/2/4/8-beat loop pages stay separate from sampler and effect pages.
+MIX uses loop notes 48–51. Starlight uses notes 16–19.
+Only MIX adds the source's master and headphone amount controls.
+The reviewed sources define no Load or browser inputs. Loading remains available through the app's touch controls.
+
+Both startup sequences enable the fixed scratch indicator and query current control values after input connection.
+Starlight disables its base light show and restores it on shutdown. MIX uses its own all-lights-off shutdown.
+The native recipes omit source effect presets, sampler-count changes, unsupported cue-master/split toggles and dynamic base lights.
+Core Play, Sync, PFL and cue-pad feedback retain reviewed addresses. Fixed-loop lights and complete feedback remain open.
+
+All 38 targeted Swift checks, 68 importer/report checks and native iPad compilation pass.
+Offline fixtures verify wheel stop, fixed-loop size and the saved Sync choice for both models.
+The first fixture compile failure remains preserved. Its correction uses the existing performance state contract.
+The bundled resource matches the source. All 160 other recipes remain unchanged.
+Factory counts remain 103 profiles for 107 physical models, plus six other models through native adapters.
+The catalogue retains 305 records and 162 data recipes.
+Full modes, feedback, cleanup, audio routing, Bluetooth pairing, physical calibration and A10X acceptance remain open.
+Source identities and validation results appear in `TestBuilds/r235/validation.json`. No signed app or installation was produced.
+
 ## R234 VCI-100MKII four-target native core
 
 The existing VCI-100MKII recipe now selects its own four-target core automatically.

@@ -15642,12 +15642,14 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20MIX.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20MIX.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20MIX.midi.xml"
       ],
       "definitions": [
-        "Hercules DJControl MIX.midi.xml"
+        "Hercules DJControl MIX.midi.xml",
+        "manufacturer:herculesdjcontrolmix"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Hercules DJControl MIX",
@@ -15680,14 +15682,17 @@
         "monitor",
         "playA:a",
         "playB:b",
+        "shift",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
         "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b",
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 37,
+      "inputBindingCount": 60,
       "feedbackBindingCount": 22,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -15707,7 +15712,7 @@
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 76,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
@@ -15716,8 +15721,7 @@
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -15734,12 +15738,14 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Starlight.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Starlight.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Starlight.midi.xml"
       ],
       "definitions": [
-        "Hercules DJControl Starlight.midi.xml"
+        "Hercules DJControl Starlight.midi.xml",
+        "manufacturer:herculesdjcontrolstarlight"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Hercules DJControl Starlight",
@@ -15770,14 +15776,17 @@
         "lowB:b",
         "playA:a",
         "playB:b",
+        "shift",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
         "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b",
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 33,
+      "inputBindingCount": 58,
       "feedbackBindingCount": 22,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -15797,7 +15806,7 @@
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 82,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
@@ -15806,8 +15815,7 @@
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -313714,6 +313722,64 @@
       },
       "implementedInputCount": 126,
       "implementedOutputCount": 28,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:herculesdjcontrolstarlight",
+      "name": "Hercules DJControl Starlight",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Starlight.midi.xml",
+        "sha256": "e47b766a85f4fa234c41c4bf91ae456ca35dacc507184f69d3b2d458bf35d6c1",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Starlight.midi.xml",
+            "sha256": "e47b766a85f4fa234c41c4bf91ae456ca35dacc507184f69d3b2d458bf35d6c1"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJControl-Starlight-scripts.js",
+            "sha256": "7d88136dae1f18738d4f987bfc91a7e8ba2597e03bc7daf0887e30c36623347d"
+          }
+        ],
+        "review": "XML dispatch and script handlers define two native deck channels, four Hot Cues, distinct fixed-loop pages, global Shift and 248-count jogs with 1/127 single-step reports. Right shifted jog callbacks derive deck two from MIDI channel five despite the XML's Channel1 group typo. Release-only aliases retain actual alternate channels without enabling source seek, stutter, cue-master or split functions. Native fixed touch scratching replaces the Vinyl toggle. Tempo retains the XML rate direction translated once to native normalisation. Starlight disables its base light show and restores it on shutdown. MIX has different loop/sample page addresses, adds master/headphone amounts and uses its own all-lights-off shutdown. The source defines no Load or browser inputs. Other modes, full feedback, cleanup, audio routing, Bluetooth pairing and physical calibration remain open."
+      },
+      "implementedInputCount": 58,
+      "implementedOutputCount": 22,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:herculesdjcontrolmix",
+      "name": "Hercules DJControl MIX",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20MIX.midi.xml",
+        "sha256": "7d64670a5235dcde14373a700f1aec70124f1f3880d1efa65ee2459faa32ee18",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20MIX.midi.xml",
+            "sha256": "7d64670a5235dcde14373a700f1aec70124f1f3880d1efa65ee2459faa32ee18"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-DJControl-MIX-scripts.js",
+            "sha256": "fbfdce6c5be7753be5da0bd9e71ff9e1b19bb6458e71dcf3937cc9c7dffffce8"
+          }
+        ],
+        "review": "XML dispatch and script handlers define two native deck channels, four Hot Cues, distinct fixed-loop pages, global Shift and 248-count jogs with 1/127 single-step reports. Right shifted jog callbacks derive deck two from MIDI channel five despite the XML's Channel1 group typo. Release-only aliases retain actual alternate channels without enabling source seek, stutter, cue-master or split functions. Native fixed touch scratching replaces the Vinyl toggle. Tempo retains the XML rate direction translated once to native normalisation. Starlight disables its base light show and restores it on shutdown. MIX has different loop/sample page addresses, adds master/headphone amounts and uses its own all-lights-off shutdown. The source defines no Load or browser inputs. Other modes, full feedback, cleanup, audio routing, Bluetooth pairing and physical calibration remain open."
+      },
+      "implementedInputCount": 60,
+      "implementedOutputCount": 22,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

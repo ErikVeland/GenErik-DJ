@@ -419,3 +419,16 @@ Bank reports reset contacts and pickup without clearing physical Shift.
 Alternate release aliases preserve normal button edges and held Cue, including releases after a bank change.
 The native core omits source library-focus changes, quantised pitch, brake/slip timers and unsupported alternate functions.
 Bounded shutdown clears reviewed Play, Sync, Key Lock and PFL lights. Complete cleanup and routing remain open.
+
+## Portable Hercules native cores — R235
+
+`hercules_portable.py` keeps Starlight and DJControl MIX dispatch separate.
+Both scripts specify 248-count jogs with single-step 1/127 reports. Native fixed touch scratching replaces the source Vinyl toggle.
+Alternate-channel release aliases finish held contacts without enabling accelerated search, stutter or cue-master/split functions.
+The shifted right-wheel handler derives deck B from MIDI channel five. This takes precedence over the XML's incorrect group label.
+
+Starlight loop notes are 16–19. MIX loop notes are 48–51, with the other page reserved for samples.
+Both retain four cues and source-defined bass/filter controls. Only MIX adds master/headphone amounts.
+No Load or browsing input is invented. These functions remain available through app touch controls.
+Starlight restores its base light behaviour on shutdown. MIX retains its separate all-lights-off command.
+The existing automatic recipes gain reviewed native behaviour. Automatic model counts remain unchanged.
