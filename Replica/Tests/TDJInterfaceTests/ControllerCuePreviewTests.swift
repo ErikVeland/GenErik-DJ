@@ -816,3 +816,26 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueTM8NativeScratchBankAndLaterTouchKeepSync() async throws {
+    try await withControllerCuePlayback("Terminal Mix 8") { model, input in
+        cuePreviewPacket([0x90, 7, 127, 0xB0, 7, 66], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        let expected = sampleRate * 1.8 * 2 / ControllerCountJogMotion.defaultResolution
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - expected) <= 1)
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        cuePreviewPacket([0x92, 32, 127], to: input)
+        #expect(!model.controllerJogTouched.contains(.a))
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x90, 4, 127, 68, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        model.perform(.touch, deck: .a, value: 0, touchRate: 0, followsPosition: true)
+        cuePreviewPacket([0x90, 32, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        model.perform(.touch, deck: .a, enabled: false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

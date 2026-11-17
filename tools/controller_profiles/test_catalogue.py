@@ -70,6 +70,7 @@ from rdj2_ie import rdj2_ie_profiles, RDJ2_IE_SOURCES
 from rdj2_controller import rdj2_controller_profiles, RDJ2_CONTROLLER_SOURCES
 from radius2000 import radius_profiles, RADIUS_SOURCES, RADIUS_REFERENCES
 from original_dj2go2 import original_dj2go2_profiles, ORIGINAL_DJ2GO2_ZIP_SHA, ORIGINAL_DJ2GO2_TSI_SHA
+from terminal_mix8 import terminal_mix8_profiles, TM8_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -851,6 +852,21 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_tm8_keeps_factory_bank_pitch_rgb_and_bounded_pickup_contract(self):
+        item, = terminal_mix8_profiles()
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (208, 52))
+        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 61)
+        self.assertNotIn("audioOutput", item)
+        self.assertEqual([(r["channel"], r["number"], r["kind"]) for r in item["inputs"] if r["action"].startswith("tempo")], [(i, 0, "pitch") for i in range(4)])
+        self.assertEqual({r["onValue"] for r in item["outputs"] if r["action"].startswith("hotcue")}, {19})
+        self.assertTrue(all("releaseShiftChannels" not in r for r in item["bankChanges"]))
+        self.assertEqual([(r["channel"], r["shiftChannel"], r["shiftInput"]) for r in item["inputs"] if r["action"] == "shift"], [(i, i % 2, i % 2) for i in range(4)])
+        for name, (_, digest) in zip(["tm8-midi.pdf", "tm8-traktor-guide.pdf", "tm8-traktor.zip"], TM8_SOURCES):
+            path = ROOT / "TestBuilds/r279/manufacturer" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_original_dj2go2_uses_its_factory_signed_format_without_touch_or_audio_alias(self):
         item, = original_dj2go2_profiles()
         self.assertTrue(item["autoSelect"])

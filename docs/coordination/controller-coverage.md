@@ -3002,3 +3002,34 @@ All 167 existing recipes remain unchanged. The bundled resource matches the sour
 Automatic core coverage reaches 148 physical models, including 63/122 benchmark models. Complete theoretical parity remains open.
 Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
 Exact source hashes, parsed wire facts and results are in ignored `TestBuilds/r278/validation.json`.
+
+## R279 Terminal Mix 8 core
+
+The [factory MIDI table](https://www.reloop.com/media/custom/upload/Reloop-TM8_MIDI-Map.pdf) assigns four deck channels and four separate pad channels.
+The published firmware-0.19-or-later Traktor file confirms dedicated Load reports on each deck channel and centre-64 wheel encoders.
+Native deck targets preserve the app's existing four-deck choice. Terminal Mix 2/4 stays separate.
+No sibling wheel-count scale is inferred: physical touch Scratch and rim nudge use native default calibration, which still needs a physical check.
+The Hold stream and shifted wheel motion remain inactive. Published contact-release aliases clear old touch ownership when those streams change.
+
+Each side has one physical Shift identity across its two deck banks. Mixer and pad layers stay local to that side; layer changes restore pickup.
+Only a bank press clears that side's old contacts and pickup. Releasing the bank key must not interrupt a newly held Cue.
+The factory TAP-style alternate addresses release old buttons and rearm cues without executing clear/seek actions.
+Key Lock follows the manufacturer's Traktor assignment on shifted note 89. Full pitch and mixer/filter controls retain factory addresses.
+Eight cue pads use the dedicated cue page. Four Loop-page pads retain the published Traktor In/Out/Halve/Double layout.
+Stored loops, move/roll controls, sampler, slicer, dual pages and held cue preview remain open.
+
+The factory RGB palette defines white as 19 and off as zero. Mono transport/PFL states retain source 127/zero.
+Published pickup SysEx, 52 owned light states, four meter clears and four listed FX clears use 61 lifecycle messages.
+VU feedback, full animation/cleanup and other FX stay open.
+Factory fader-start Cue/Play shares the normal transport addresses. Those packets cannot be distinguished; fader-start use remains unqualified.
+The [Traktor audio guide](https://www.reloop.com/media/custom/upload/Reloop-TM8_HowtoTraktor_web.pdf) uses FRONT for Mac monitor output and BACK for master.
+That does not qualify a numbered iPad layout. Automatic audio selection remains disabled.
+All fifteen focused Swift tests, 110 importer checks and native iPad framework compilation pass.
+Fixtures cover four explicit Load targets, app deck availability, physical Shift across banks, pickup, contact releases, the RGB palette and bank-key release.
+The real-file fixture verifies native count motion, bank cleanup, later touch ownership and saved Sync.
+The first compile caught incorrect fixture access to a private dependency; the fixture now passes that dependency through the existing constructor.
+A later fixture counted expected jog-neutral bank cleanup as a mixer event. Its corrected assertion checks the intended mixer action. Both failed logs remain preserved.
+All 168 existing recipes remain unchanged. The bundled resource matches the source.
+Automatic core coverage reaches 149 physical models, including 64/122 benchmark models. Complete theoretical parity remains open.
+Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
+Exact source identities, parsed wire facts and results are in ignored `TestBuilds/r279/validation.json`.
