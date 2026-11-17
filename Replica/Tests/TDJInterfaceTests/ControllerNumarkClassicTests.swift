@@ -11,7 +11,9 @@ import Testing
     let input = ControllerMIDIConnection(preferences: preferences, factoryPacketSender: { _, _ in true })
     let name = "Numark \(model) Control"
     input.sources = [.init(id: 10, reference: 100, name: name, identity: .init(id: 10, device: 1, names: [name]))]
+    input.destinations = [.init(id: 20, reference: 200, name: name, identity: .init(id: 20, device: 1, names: [name]))]
     input.reconcileFactoryProfiles()
+    #expect(input.isInputActive(10))
     try body(input)
 }
 
@@ -25,11 +27,11 @@ import Testing
         let name = "Numark \(model) Control"
         let profile = try #require(ControllerFactoryProfile.matching([name], automaticOnly: true))
         let data = try #require(profile.definition)
-        #expect(data.inputs.count == 31)
-        #expect(data.startup.isEmpty)
-        #expect(data.shutdown.count == 6)
+        #expect(data.inputs.count == 46)
+        #expect(data.startup.count == 39)
+        #expect(data.shutdown.count == 8)
         #expect(!data.inputs.contains { $0.action == .jogTouchA || $0.action == .cueReturnA })
-        #expect(profile.feedback(destination: 20).count == 6)
+        #expect(profile.feedback(destination: 20).count == 8)
         withClassicNumark(model) { input in
             #expect(input.isInputActive(10))
             var actions: [ControllerActionTarget] = []
@@ -72,7 +74,7 @@ import Testing
             #expect(values.first { $0.0 == .browse }?.1 == 0.5 - 1.0 / 126)
             #expect(values.first { $0.0 == .tempoA }?.1 == 1)
             values.removeAll()
-            classicNumarkPacket([0x90, 50, 127, 72, 127, 49, 127, 73, 127, 74, 127], to: input)
+            classicNumarkPacket([0x90, 50, 127, 49, 127], to: input)
             input.flushPendingActions()
             #expect(values.isEmpty)
         }

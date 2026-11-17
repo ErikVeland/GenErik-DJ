@@ -2941,3 +2941,13 @@ An interrupted broader run also found four expectations in an untouched older Nu
 Automatic core coverage reaches 146 physical models. Benchmark coverage remains 62/122; complete theoretical parity remains open.
 Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
 Exact source identities and results are in ignored `TestBuilds/r275/validation.json`.
+
+## R276 Total/Omni fixture refresh
+
+The older Total/Omni fixture had no output endpoint. Reviewed setup now requires one, so the fixture never activated its controls.
+The fixture now supplies the paired endpoint and checks that input activation succeeds.
+Expected binding and light counts follow the existing 46-input/eight-output recipe. The source-backed browser and manual-loop controls are no longer listed as unsupported.
+The remaining unsupported-address check still rejects the two inactive mode keys. Runtime recipes stay unchanged.
+All five focused Swift tests pass. The runtime resource remains byte-for-byte unchanged.
+This resolves the older Numark fixture failure seen during R275. It adds no controller coverage or physical acceptance claim.
+Source hashes and the exact log are in ignored `TestBuilds/r276/validation.json`.
