@@ -28,6 +28,7 @@ from mc2000 import mc2000_profiles, MC2000_REFERENCES
 from mixon4 import mixon4_profiles, MIXON4_REFERENCES
 from dicer import dicer_profiles, DICER_SOURCES
 from ns6ii import ns6ii_profiles, NS6II_SOURCES
+from n4 import n4_profiles, N4_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -63,7 +64,7 @@ class ConversionTests(unittest.TestCase):
 
     def test_ns6ii_preserves_source_pairs_resolution_and_usb_release_scopes(self):
         result = ns6ii_profiles()[0]
-        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (247, 12))
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (255, 12))
         self.assertEqual(len(result["bankChanges"]), 6)
         self.assertEqual([x.get("releaseShiftChannels") for x in result["bankChanges"][-2:]], [[0], [1]])
         self.assertTrue(all(row["encoding"] == "twosComplement" and row["argument"] == 1000 for row in result["inputs"] if row["action"] in {"jogA", "jogB"}))
@@ -809,6 +810,22 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_n4_keeps_dispatch_addresses_and_latched_headphone_state(self):
+        result = n4_profiles()[0]
+        self.assertIn("N4 MIDI 1", result["aliases"])
+        self.assertEqual([row["number"] for row in result["inputs"] if row["action"] in {"gainA", "gainB"}], [12, 17, 23, 28])
+        self.assertEqual([row["number"] for row in result["inputs"] if row["action"] in {"levelA", "levelB"}], [8, 13, 19, 24])
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (99, 36))
+        self.assertTrue(all(row["kind"] == "control" and "onValue" not in row for row in result["bankChanges"]))
+        self.assertEqual([row["number"] for row in result["inputs"] if row["action"] in {"cueStateA", "cueStateB"}], [49, 50, 51, 52])
+        self.assertFalse(any(row["action"] in {"cueA", "cueB", "cueStateA", "cueStateB"} for row in result["outputs"]))
+        self.assertTrue(all(row["number"] == 32 and row["argument"] == 600 for row in result["inputs"] if row["action"] in {"jogA", "jogB"}))
+        self.assertTrue(all(row["number"] == 1 and row["encoding"] == "paired14Bit" and not row["inverted"] for row in result["inputs"] if row["action"] in {"tempoA", "tempoB"}))
+        for name, digest in N4_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_source_inventory_and_generated_data(self):
         cache = ROOT / "TestBuilds/r169/upstream"
         if not cache.exists():

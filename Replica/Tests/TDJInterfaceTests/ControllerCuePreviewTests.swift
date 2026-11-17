@@ -399,3 +399,35 @@ import Testing
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueN4NativeHeadphoneStateLoopEnableAndBankReleaseRemainIdempotent() async throws {
+    try await withControllerCuePlayback("Numark N4") { model, input in
+        cuePreviewPacket([0x90, 49, 127, 49, 127], to: input)
+        #expect(model.controllerValue(.cueStateA) == 1)
+        cuePreviewPacket([0x90, 49, 0], to: input)
+        #expect(model.controllerValue(.cueStateA) == 0)
+        cuePreviewPacket([0x91, 21, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        let start = model.playbackSnapshot?.a.loopStart
+        let end = model.playbackSnapshot?.a.loopEnd
+        cuePreviewPacket([0x91, 21, 0, 21, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        #expect(model.playbackSnapshot?.a.loopStart == start && model.playbackSnapshot?.a.loopEnd == end)
+        cuePreviewPacket([0x91, 22, 127, 16, 127], to: input)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.sourceFrame ?? 0 > 0)
+        cuePreviewPacket([0xB0, 80, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.sourceFrame == 0)
+        cuePreviewPacket([0x91, 44, 127, 0xB1, 32, 1], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let rate = try #require(model.track(.a)?.analysis.sampleRate)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - rate * 1.8 / 600) <= 1)
+        cuePreviewPacket([0xB0, 80, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

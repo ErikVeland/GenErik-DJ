@@ -2,6 +2,39 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R227 N4 native core and explicit state controls
+
+The existing N4 recipe now selects automatically, including its original `N4 MIDI 1` endpoint alias.
+The reviewed XML and script have recorded hashes. Actual XML dispatch wins over conflicting constructor properties.
+Four targets retain 600-count jogs, paired tempo, mixer/EQ, Load, four cues and the source's custom loop-button layout.
+The mixer address sequence has a gap between B and C. Independent fixtures check all four gain and level addresses.
+
+Native momentary Shift replaces the source's software latch. Stable physical-side identities survive A/C and B/D bank changes.
+Both Shift controls also guard the shared browser. Unsupported shifted functions cannot invoke normal actions.
+
+N4 headphone cue notes carry latched state. A typed state action applies both on and off reports without toggle edges or pickup.
+The app does not echo those PFL lights because the hardware echoes feedback into its inputs.
+Control Change bank reports release old contacts and reset pickup on their own side for every reported selector value.
+Existing note-based bank reports retain their explicit positive-value and optional USB release rules.
+Only an explicit Control Change bank definition may omit its value filter.
+
+A separate enable-loop action creates the selected loop without disabling an active loop on repeated presses.
+NS6II's Loop-page third pad now uses that action. Its alternate shifted release only rearms the pad.
+Other pad modes remain guarded. The previous bank receiver fails the new N4 held-contact fixture.
+The 349 focused checks pass across the full run and corrected Cue-inventory fixture.
+The full run passed 348 checks. Its only failure was the stale inventory count, corrected from 91 to 92.
+All nine N4 and Cue-inventory confirmation checks pass. All 60 importer/report checks and native iPad compilation pass.
+The bundled resource matches the source.
+Native offline playback covers Cue return, bank releases, jog scale, latched PFL, repeated loop activation and persistent Sync.
+
+The source's unit-specific EQ calibration, extra cue pages, FX, remaining modes, full feedback and cleanup remain open.
+Hardware headphone and master controls retain their own audio path. Automatic routing and physical calibration remain open.
+
+Factory coverage reaches 96 profiles for 100 physical models. Six other models retain automatic native adapters.
+The catalogue retains 305 records and 160 data recipes. Only N4 and the explicit NS6II loop addition change their recipes.
+Source identities and validation results appear in `TestBuilds/r227/validation.json`.
+No signed app, installation, controller hardware test or A10X acceptance forms part of this increment.
+
 ## R226 current AlphaTheta inventory additions
 
 The manufacturer catalogue confirms three further models: DJM-A7, XDJ-AN and RMX-IGNITE.

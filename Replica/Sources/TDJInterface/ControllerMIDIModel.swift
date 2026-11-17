@@ -166,7 +166,7 @@ extension ReplicaModel {
         case .playA, .playB: return snapshot[deck].phase == .playing ? 1 : 0
         case .syncA, .syncB: return snapshot[deck].synced ? 1 : 0
         case .keylockA, .keylockB: return snapshot[deck].keylock ? 1 : 0
-        case .cueA, .cueB: return mixer.cue ? 1 : 0
+        case .cueA, .cueB, .cueStateA, .cueStateB: return mixer.cue ? 1 : 0
         case .filterToggleA, .filterToggleB: return mixer.filterEnabled ? 1 : 0
         case .loopA, .loopB: return snapshot[deck].loopEnabled ? 1 : 0
         case .fxToggleA, .fxToggleB:
@@ -201,6 +201,7 @@ extension ReplicaModel {
         case .syncA, .syncB: toggleSync(deck: deck)
         case .keylockA, .keylockB: toggleKeylock(deck: deck)
         case .cueA, .cueB: mix(.cue, value: playbackSnapshot?[deck].mixer.cue == true ? 0 : 1, deck: deck)
+        case .cueStateA, .cueStateB: mix(.cue, value: value > 0 ? 1 : 0, deck: deck)
         case .levelA, .levelB: mix(.volume, value: value, deck: deck)
         case .gainA, .gainB: mix(.gain, value: pow(4, 2 * value - 1), deck: deck)
         case .lowA, .lowB: mix(.low, value: 2 * value, deck: deck)
@@ -278,6 +279,9 @@ extension ReplicaModel {
                     setLoop(start: state.loopStart, end: original ?? state.loopEnd, deck: deck)
                 }
             }
+        case .loopEnableA, .loopEnableB:
+            guard let state = playbackSnapshot?[deck], !state.loopEnabled else { return }
+            toggleLoop(deck: deck)
         case .loopA, .loopB:
             if let argument {
                 guard PerformancePreparation.loopSizes.contains(argument) else { return }

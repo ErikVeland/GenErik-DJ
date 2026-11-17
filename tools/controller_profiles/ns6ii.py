@@ -61,7 +61,7 @@ def ns6ii_profiles():
                 result["inputs"][-1].update(argument=beats, requiredMode=16, shifted=shifted, shiftChannel=side)
                 if shifted:
                     result["inputs"][-1]["releaseOnly"] = True
-        for action, number in [("loopIn", 20), ("loopOut", 21), ("loop", 23), ("jumpForward", 24),
+        for action, number in [("loopIn", 20), ("loopOut", 21), ("loopEnable", 22), ("loop", 23), ("jumpForward", 24),
                                ("jumpBack", 25), ("loopDown", 26), ("loopUp", 27)]:
             for shifted in [False, True]:
                 add(result, action, pad_channel, number + (8 if shifted else 0), deck=deck)

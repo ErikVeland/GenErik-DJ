@@ -5,6 +5,7 @@ import TDJCore
 
 enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case playA, playB, syncA, syncB, keylockA, keylockB, cueA, cueB
+    case cueStateA, cueStateB
     case shift
     case levelA, levelB, gainA, gainB, lowA, lowB, midA, midB, highA, highB
     case filterA, filterB, fxA, fxB, fxToggleA, fxToggleB, crossfader, cueMix
@@ -22,6 +23,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case loopDivideA, loopDivideB, loopRestoreA, loopRestoreB
     case reloopOriginalA, reloopOriginalB
     case loopSizeA, loopSizeB
+    case loopEnableA, loopEnableB
     case hotcue1A, hotcue2A, hotcue3A, hotcue4A, hotcue5A, hotcue6A, hotcue7A, hotcue8A
     case hotcue1B, hotcue2B, hotcue3B, hotcue4B, hotcue5B, hotcue6B, hotcue7B, hotcue8B
     var id: String { rawValue }
@@ -42,6 +44,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         if let hotcueSlot { return "\(deck.rawValue.uppercased()) · Hotcue \(hotcueSlot + 1)" }
         let labels = [
             "play": "Play / Pause", "sync": "Sync", "keylock": "Key lock", "cue": "Headphone cue", "level": "Volume",
+            "cueState": "Headphone cue state", "loopEnable": "Enable loop",
             "gain": "Gain", "low": "Low EQ", "mid": "Mid EQ", "high": "High EQ", "filter": "Filter",
             "filterToggle": "Filter on / off", "fx": "Effect amount", "fxToggle": "Effect on / off",
             "tempo": "Tempo ±8%", "loop": "Loop on / off", "loopUp": "Larger loop", "loopDown": "Smaller loop",
@@ -60,7 +63,8 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         switch self {
         case .levelA, .levelB, .gainA, .gainB, .lowA, .lowB, .midA, .midB, .highA, .highB, .filterA, .filterB, .fxA,
             .fxB, .crossfader, .cueMix, .master, .monitor, .tempoA, .tempoB, .jogA, .jogB, .wheelJogA, .wheelJogB,
-            .browse, .browseGroups, .filterKnobA, .filterKnobB, .seekA, .seekB, .loopSizeA, .loopSizeB:
+            .browse, .browseGroups, .filterKnobA, .filterKnobB, .seekA, .seekB, .loopSizeA, .loopSizeB,
+            .cueStateA, .cueStateB:
             false
         default: true
         }
@@ -72,6 +76,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         }
     }
     var isJog: Bool { self == .jogA || self == .jogB || self == .wheelJogA || self == .wheelJogB }
+    var isCueState: Bool { self == .cueStateA || self == .cueStateB }
     var isLearnable: Bool { ![.toggleFixedLoopA, .toggleFixedLoopB, .fixedLoopA, .fixedLoopB, .fixedJumpA, .fixedJumpB, .loopSizeA, .loopSizeB].contains(self) }
     func assigned(to deck: DeckID) -> Self {
         Self(rawValue: String(rawValue.dropLast()) + (deck.leftSide ? "A" : "B")) ?? self
@@ -1881,6 +1886,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 sendAction(binding.target, value: value)
                 continue
             }
+            if binding.action.isCueState {
+                sendAction(binding.target, value: value)
+                continue
+            }
             if binding.action.isMomentary {
                 var inputs = activeMomentaryInputs[binding.target, default: []]
                 let wasActive = !inputs.isEmpty
@@ -1969,11 +1978,12 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
      * Resets contacts and pickup on a reported side. Explicit USB release reports also clear its Shift inputs.
      */
     private func receiveFactoryBankChange(_ message: ControllerMIDIMessage, source: Int32) {
-        guard message.group == 0, message.kind == .note, message.maximum <= 127,
+        guard message.group == 0, message.maximum <= 127,
             let session = factorySessions.first(where: { $0.source == source }),
             let change = session.profile.definition?.bankChanges?.first(where: {
-                $0.channel == message.channel && $0.number == message.number
-                    && (message.isNoteOff ? $0.releaseShiftChannels != nil : Int($0.onValue) == message.value)
+                ($0.kind ?? .note) == message.kind && $0.channel == message.channel && $0.number == message.number
+                    && (message.isNoteOff ? $0.releaseShiftChannels != nil
+                        : $0.onValue.map { Int($0) == message.value } ?? true)
             })
         else { return }
         let decks = Set(change.decks)

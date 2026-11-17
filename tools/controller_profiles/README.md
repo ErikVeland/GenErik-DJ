@@ -298,3 +298,21 @@ The native accessory recipe retains the stored ID, five cues and separate cue/lo
 Use XML dispatch for actual input addresses and the pinned script for scales and source behaviour. NS6II has paired tempo, 1,000-count jogs and shared pad addresses. Native pad pages require explicit mode guards. Leave shared pad lights unmapped until output mode guards exist. Physical Shift also contributes to a shared modifier for Load/browser alternatives.
 
 Bank records keep their existing positive-event behaviour. Optional `releaseShiftChannels` explicitly enables an ownership-loss release on that report address. The array names declared physical Shift scopes. A release clears contacts on the recorded decks and removes only those Shift inputs from local and shared layers. Other held modifiers remain active. Empty arrays enable contact-only release. Ordinary bank note releases stay ignored. Bounds, duplicates and undeclared Shift scopes fail catalogue validation.
+
+## N4 state and bank reports — R227
+
+`n4.py` retains the reviewed XML dispatch, source scales and explicit mixer address gaps.
+The original endpoint alias remains valid. Native momentary physical-side Shift replaces the source's software latch.
+The shared browser also uses those stable physical Shift identities.
+The upper four buttons retain the published custom loop layout. The lower four buttons provide the initial Hot Cue page.
+Do not copy unit-specific EQ offsets, software cue pages or the invalid commented shutdown packet.
+
+`cueStateA/B` applies latched PFL state directly, including zero. It uses no toggle edge or pickup.
+Do not send N4 PFL feedback because the hardware echoes those lights into its inputs.
+`loopEnableA/B` enables the selected native loop and leaves an active loop enabled.
+The NS6II Loop page also uses this explicit action.
+
+A bank definition defaults to Note and requires an explicit positive `onValue`.
+An explicit `kind: control` may omit `onValue` to accept every raw report at its own address.
+Control Change bank reports cannot declare note-release Shift cleanup.
+The receiver resets only the declared side. Ordinary Note release behaviour remains unchanged.

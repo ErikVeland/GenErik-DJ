@@ -44,14 +44,18 @@ struct ControllerProfileData: Decodable, Sendable {
     }
 
     struct BankChange: Decodable, Sendable {
+        let kind: ControllerMIDIMessage.Kind?
         let channel: UInt8
         let number: UInt8
-        let onValue: UInt8
+        let onValue: UInt8?
         let decks: [DeckID]
         let releaseShiftChannels: [UInt8]?
 
         var isValid: Bool {
-            channel < 16 && number < 128 && onValue > 0 && onValue < 128
+            (kind == nil || kind == .note || kind == .control)
+                && channel < 16 && number < 128
+                && (onValue.map { $0 < 128 && (kind == .control || $0 > 0) } ?? (kind == .control))
+                && (kind != .control || releaseShiftChannels == nil)
                 && !decks.isEmpty && decks.count <= 4 && Set(decks).count == decks.count
                 && (releaseShiftChannels.map {
                     $0.count <= 16 && $0.allSatisfy { $0 < 16 } && Set($0).count == $0.count
@@ -113,7 +117,7 @@ struct ControllerProfileData: Decodable, Sendable {
                     && ($0.anyChannel != true || role == "player")
                     && ($0.releaseOnly != true || ($0.kind == .note && $0.action.isButton && $0.action != .shift))
                     && ($0.shiftInput == nil
-                        || ($0.shiftInput! < 16 && $0.action == .shift && $0.kind == .note && $0.shiftChannel != nil))
+                        || ($0.shiftInput! < 16 && $0.action == .shift && $0.kind == .note))
                     && ($0.encoding != .centredPitch || ($0.kind == .pitch && $0.number == 0))
                     && ($0.encoding != .mixstreamJog || $0.lowNumber != nil)
                     && Self.validArgument($0)
@@ -141,7 +145,7 @@ struct ControllerProfileData: Decodable, Sendable {
                     inputs.contains { $0.action == .shift && $0.shiftChannel == channel }
                 }
             }
-            && Set(changes.map { "\($0.channel):\($0.number)" }).count == changes.count
+            && Set(changes.map { "\(($0.kind ?? .note).rawValue):\($0.channel):\($0.number)" }).count == changes.count
     }
 
     private var validInputModes: Bool {
