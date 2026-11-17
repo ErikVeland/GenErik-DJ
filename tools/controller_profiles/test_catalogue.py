@@ -865,6 +865,20 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
+    def test_catalogue_describes_the_selected_kaoss_recipe_instead_of_the_larger_manual_variant(self):
+        cache = ROOT / "TestBuilds/r169/upstream"
+        if not cache.exists():
+            self.skipTest("Pinned source cache is unavailable")
+        catalogue, runtime = build(cache, None)
+        model = next(m for m in catalogue["models"] if m["id"] == canonical("Korg KAOSS DJ"))
+        normal = next(p for p in runtime["profiles"] if p["id"] == "Korg KAOSS DJ")
+        self.assertEqual(model["profile"], normal["id"])
+        self.assertEqual(model["inputBindingCount"], len(normal["inputs"]))
+        self.assertFalse({"master", "monitor", "cueMix"} & set(model["controlActions"]))
+        self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
+        self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
+        self.assertFalse(model["theoreticalSupport"]["complete"])
+
     def test_kaoss_keeps_normal_hardware_gain_separate_from_manual_audioless_controls(self):
         audioless, normal = kaoss_profiles()
         self.assertEqual((len(normal["inputs"]), len(normal["outputs"])), (86, 20))

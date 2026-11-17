@@ -17032,7 +17032,6 @@
         "crossfader",
         "cueA:a",
         "cueB:b",
-        "cueMix",
         "cuePreviewA:a",
         "cuePreviewB:b",
         "gainA:a",
@@ -17067,10 +17066,8 @@
         "loopUpB:b",
         "lowA:a",
         "lowB:b",
-        "master",
         "midA:a",
         "midB:b",
-        "monitor",
         "openGroup",
         "pitchBendDownA:a",
         "pitchBendDownB:b",
@@ -17088,15 +17085,15 @@
         "tempoA:a",
         "tempoB:b"
       ],
-      "inputBindingCount": 89,
+      "inputBindingCount": 86,
       "feedbackBindingCount": 20,
       "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "audioRouting": "Automatic master 1–2 / headphones 3–4",
       "zeroConfig": {
         "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false,
-        "requiredHardwareMode": "Manual profile for Audioless startup mode; external audio interface required."
+        "requiredHardwareMode": "Controller startup mode with built-in audio. Audioless mode requires its separate manual profile."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
@@ -17106,14 +17103,13 @@
           "protocolImplemented": true,
           "documentedControlsComplete": false,
           "lifecycleReviewed": true,
-          "audioRoutingImplemented": false,
+          "audioRoutingImplemented": true,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },

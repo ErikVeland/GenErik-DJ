@@ -2716,3 +2716,16 @@ All 164 unrelated recipes remain unchanged. The bundled resource matches the sou
 Catalogue and automatic core counts stay unchanged. Full feature parity and physical acceptance remain open.
 Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
 Exact logs and source hashes are in ignored `TestBuilds/r265/validation.json`.
+
+## R266 Keep catalogue metadata with the selected recipe
+
+A model can have an automatic default recipe and a larger manual mode variant.
+The catalogue selected the largest recipe for its control/audio summary even when the model named a different default recipe.
+For KAOSS DJ, this mixed manual Audioless knobs into the normal control list and hid the implemented split audio route.
+The generator now prefers the model's explicit recipe. Models without one retain the existing largest-recipe fallback.
+The KAOSS summary now lists the normal recipe's 86 bindings and automatic master 1–2/headphones 3–4 route.
+The larger manual Audioless recipe remains available separately. Full feature parity remains open.
+
+All 98 importer/catalogue checks pass. All 166 runtime recipes are byte-for-byte unchanged, so no runtime build was required.
+Catalogue and automatic core counts stay unchanged. Repository checks retain twelve existing historical-link failures.
+Exact logs and source hashes are in ignored `TestBuilds/r266/validation.json`.

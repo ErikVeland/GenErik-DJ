@@ -239,7 +239,9 @@ def build(cache, serato_html):
     profiles = sorted(choices.values(), key=lambda profile: profile["id"].lower())
     for model in models.values():
         candidates = [profile for profile in profiles if profile["definition"] in model["definitions"]]
-        profile = max(candidates, key=lambda item: len(item["inputs"])) if candidates else None
+        profile = next((item for item in candidates if item["id"] == model.get("profile")), None)
+        if profile is None:
+            profile = max(candidates, key=lambda item: len(item["inputs"])) if candidates else None
         if profile and model["implementation"] == "partial-midi-profile":
             model.update(profile=profile["id"], automaticControls=profile["autoSelect"])
         model["controlActions"] = sorted({item["action"] + (":" + item["targetDeck"] if item.get("targetDeck") else "")
