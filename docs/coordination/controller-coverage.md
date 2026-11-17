@@ -2749,3 +2749,26 @@ Automatic core counts remain 139 physical models, including 62/122 benchmark mod
 Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
 The cached 26-page factory guide has SHA256 `262cd2ae7b62cd48c6f7cf5124823c35ffa1d549fe01d828f3737bb0359e6948`.
 Exact logs and source hashes are in ignored `TestBuilds/r267/validation.json`.
+
+## R268 Original FirstMix native core
+
+The original Gemini FirstMix now selects a reviewed two-deck recipe automatically.
+The pinned XML and companion script supply physical touch, 180-count signed wheels, native held Cue, direct Load, PFL and browsing.
+Fixed Scratch requires full-value contact. The signed midpoint decodes negative, correcting the script's scratch boundary.
+Native motion uses counts while held and restores grid alignment on release when Sync is enabled.
+Source Scratch/Pitch switching, reverse, sampler preview and library auto-load remain inactive.
+FirstMix I/O and Pro are excluded variants. No channel fader, pitch slider or audio interface is inferred.
+
+The [mapping author's source](https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini-FirstMix-scripts.js) deliberately reassigns EFX amount to gain, physical gain to High, Treble to Mid and Master to cue blend.
+The native recipe retains those software assignments and pickup. Eight transport/PFL lights use the published value 100.
+Startup clears the source light range and enables both fixed Scratch indicators. Setup and shutdown total 58 messages.
+Steady native lights replace beat/end-of-track flashing. Unsupported source analogue queries are omitted.
+
+All eight focused Swift tests, 100 importer checks and native iPad framework compilation pass.
+The real-file fixture checks scratch counts, release, paused grid alignment and saved Sync.
+The first run caught an incorrect encoding name, corrected to the existing full-velocity gate.
+A later fixture incorrectly expected off-grid paused release. Its corrected assertion checks the required grid restoration.
+Both earlier results remain preserved. All 165 other recipes remain unchanged. The bundled resource matches the source.
+Automatic core coverage reaches 140 physical models, including 62/122 benchmark models. Full theoretical parity remains open.
+Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
+Exact source hashes and logs are in ignored `TestBuilds/r268/validation.json`.

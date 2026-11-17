@@ -14216,19 +14216,22 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20FirstMix.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20FirstMix.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20FirstMix.midi.xml"
       ],
       "definitions": [
-        "Gemini FirstMix.midi.xml"
+        "Gemini FirstMix.midi.xml",
+        "manufacturer:geminifirstmix"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Gemini FirstMix",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "browse",
         "crossfader",
+        "cueA:a",
         "cueB:b",
         "cueMix",
         "cuePreviewA:a",
@@ -14237,6 +14240,10 @@
         "gainB:b",
         "highA:a",
         "highB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "loadA:a",
         "loadB:b",
         "lowA:a",
@@ -14248,38 +14255,36 @@
         "syncA:a",
         "syncB:b"
       ],
-      "inputBindingCount": 20,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 25,
+      "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 13,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -316105,6 +316110,35 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:geminifirstmix",
+      "name": "Gemini FirstMix",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20FirstMix.midi.xml",
+        "sha256": "6c6a4f50f223a97316eb07da4f9da3ddf02464a849ae118e50d8b4b82af1c2a5",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20FirstMix.midi.xml",
+            "sha256": "6c6a4f50f223a97316eb07da4f9da3ddf02464a849ae118e50d8b4b82af1c2a5"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini-FirstMix-scripts.js",
+            "sha256": "ad9b01a05949ba0990dfd10510fd48ddd4030573ff1d7283b13805342007074c"
+          }
+        ],
+        "review": "Pinned XML supplies separate Play, held Cue, Sync, Load and EFX/PFL addresses. The script supplies physical full-value wheel contact, 180-count signed wheels and LED addresses/values. Native fixed Scratch requires contact; the source's latched Scratch/Pitch mode is not copied. Signed 64 decodes negative, correcting the source scratch boundary. Source software assignments retain EFX amount as gain, physical gain as High, Treble as Mid, Bass as Low and Master as cue blend. The original has no channel faders or pitch sliders; none are invented. Source library auto-load and sampler preview have no matching native contract and remain inactive. Startup clears the published 0x33–0x60 light range and enables both fixed Scratch lights. Native transport/PFL lights are steady, not beat/end-of-track flashes. Unsupported source state queries are omitted. FirstMix I/O and Pro remain separate. Full modes, preview, effects, calibration and physical acceptance remain open."
+      },
+      "implementedInputCount": 25,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         }
       ]
     },

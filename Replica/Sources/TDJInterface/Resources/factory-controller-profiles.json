@@ -25044,20 +25044,19 @@
     {
       "id": "Gemini FirstMix",
       "aliases": [
-        "FirstMix",
         "Gemini FirstMix",
-        "firstmix"
+        "FirstMix"
       ],
-      "definition": "Gemini FirstMix.midi.xml",
+      "definition": "manufacturer:geminifirstmix",
       "inputs": [
         {
-          "action": "cuePreviewB",
+          "action": "playA",
           "kind": "note",
           "channel": 0,
-          "number": 66,
+          "number": 74,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "a"
         },
         {
           "action": "cuePreviewA",
@@ -25069,46 +25068,57 @@
           "targetDeck": "a"
         },
         {
-          "action": "syncB",
+          "action": "syncA",
           "kind": "note",
           "channel": 0,
-          "number": 60,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "playA",
-          "kind": "note",
-          "channel": 0,
-          "number": 74,
+          "number": 51,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
         },
         {
-          "action": "playB",
+          "action": "cueA",
           "kind": "note",
           "channel": 0,
-          "number": 76,
+          "number": 67,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "cueB",
-          "kind": "note",
-          "channel": 0,
-          "number": 69,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "a"
         },
         {
           "action": "loadA",
           "kind": "note",
           "channel": 0,
           "number": 75,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 77,
+          "encoding": "fullVelocityGate",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 25,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 180,
+          "requiresTouch": true
+        },
+        {
+          "action": "gainA",
+          "kind": "control",
+          "channel": 0,
+          "number": 22,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
@@ -25123,10 +25133,120 @@
           "targetDeck": "a"
         },
         {
+          "action": "midA",
+          "kind": "control",
+          "channel": 0,
+          "number": 16,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "lowA",
+          "kind": "control",
+          "channel": 0,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 0,
+          "number": 76,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 0,
+          "number": 66,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 0,
+          "number": 60,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 0,
+          "number": 69,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 0,
+          "number": 52,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 0,
+          "number": 78,
+          "encoding": "fullVelocityGate",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 0,
+          "number": 24,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 180,
+          "requiresTouch": true
+        },
+        {
+          "action": "gainB",
+          "kind": "control",
+          "channel": 0,
+          "number": 28,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
           "action": "highB",
           "kind": "control",
           "channel": 0,
           "number": 9,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "midB",
+          "kind": "control",
+          "channel": 0,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "lowB",
+          "kind": "control",
+          "channel": 0,
+          "number": 21,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
@@ -25140,51 +25260,6 @@
           "inverted": true
         },
         {
-          "action": "midA",
-          "kind": "control",
-          "channel": 0,
-          "number": 16,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "midB",
-          "kind": "control",
-          "channel": 0,
-          "number": 17,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "lowA",
-          "kind": "control",
-          "channel": 0,
-          "number": 20,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "lowB",
-          "kind": "control",
-          "channel": 0,
-          "number": 21,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "gainA",
-          "kind": "control",
-          "channel": 0,
-          "number": 22,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
           "action": "cueMix",
           "kind": "control",
           "channel": 0,
@@ -25193,47 +25268,398 @@
           "inverted": false
         },
         {
-          "action": "syncA",
-          "kind": "note",
-          "channel": 0,
-          "number": 51,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
           "action": "browse",
           "kind": "control",
           "channel": 0,
           "number": 26,
           "encoding": "twosComplement",
           "inverted": false
-        },
-        {
-          "action": "gainB",
-          "kind": "control",
-          "channel": 0,
-          "number": 28,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "loadB",
-          "kind": "note",
-          "channel": 0,
-          "number": 52,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
         }
       ],
-      "outputs": [],
-      "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20FirstMix.midi.xml"
+      "outputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 0,
+          "number": 74,
+          "targetDeck": "a",
+          "onValue": 100,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cuePreviewA",
+          "kind": "note",
+          "channel": 0,
+          "number": 59,
+          "targetDeck": "a",
+          "onValue": 100,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 0,
+          "number": 51,
+          "targetDeck": "a",
+          "onValue": 100,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cueA",
+          "kind": "note",
+          "channel": 0,
+          "number": 67,
+          "targetDeck": "a",
+          "onValue": 100,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 0,
+          "number": 76,
+          "targetDeck": "b",
+          "onValue": 100,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 0,
+          "number": 66,
+          "targetDeck": "b",
+          "onValue": 100,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 0,
+          "number": 60,
+          "targetDeck": "b",
+          "onValue": 100,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 0,
+          "number": 69,
+          "targetDeck": "b",
+          "onValue": 100,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        }
+      ],
+      "startup": [
+        [
+          144,
+          51,
+          0
+        ],
+        [
+          144,
+          52,
+          0
+        ],
+        [
+          144,
+          53,
+          0
+        ],
+        [
+          144,
+          54,
+          0
+        ],
+        [
+          144,
+          55,
+          0
+        ],
+        [
+          144,
+          56,
+          0
+        ],
+        [
+          144,
+          57,
+          0
+        ],
+        [
+          144,
+          58,
+          0
+        ],
+        [
+          144,
+          59,
+          0
+        ],
+        [
+          144,
+          60,
+          0
+        ],
+        [
+          144,
+          61,
+          0
+        ],
+        [
+          144,
+          62,
+          0
+        ],
+        [
+          144,
+          63,
+          0
+        ],
+        [
+          144,
+          64,
+          0
+        ],
+        [
+          144,
+          65,
+          0
+        ],
+        [
+          144,
+          66,
+          0
+        ],
+        [
+          144,
+          67,
+          0
+        ],
+        [
+          144,
+          68,
+          0
+        ],
+        [
+          144,
+          69,
+          0
+        ],
+        [
+          144,
+          70,
+          0
+        ],
+        [
+          144,
+          71,
+          0
+        ],
+        [
+          144,
+          72,
+          0
+        ],
+        [
+          144,
+          73,
+          0
+        ],
+        [
+          144,
+          74,
+          0
+        ],
+        [
+          144,
+          75,
+          0
+        ],
+        [
+          144,
+          76,
+          0
+        ],
+        [
+          144,
+          77,
+          0
+        ],
+        [
+          144,
+          78,
+          0
+        ],
+        [
+          144,
+          79,
+          0
+        ],
+        [
+          144,
+          80,
+          0
+        ],
+        [
+          144,
+          81,
+          0
+        ],
+        [
+          144,
+          82,
+          0
+        ],
+        [
+          144,
+          83,
+          0
+        ],
+        [
+          144,
+          84,
+          0
+        ],
+        [
+          144,
+          85,
+          0
+        ],
+        [
+          144,
+          86,
+          0
+        ],
+        [
+          144,
+          87,
+          0
+        ],
+        [
+          144,
+          88,
+          0
+        ],
+        [
+          144,
+          89,
+          0
+        ],
+        [
+          144,
+          90,
+          0
+        ],
+        [
+          144,
+          91,
+          0
+        ],
+        [
+          144,
+          92,
+          0
+        ],
+        [
+          144,
+          93,
+          0
+        ],
+        [
+          144,
+          94,
+          0
+        ],
+        [
+          144,
+          95,
+          0
+        ],
+        [
+          144,
+          96,
+          0
+        ],
+        [
+          144,
+          72,
+          100
+        ],
+        [
+          144,
+          53,
+          100
+        ]
+      ],
+      "shutdown": [
+        [
+          144,
+          74,
+          0
+        ],
+        [
+          144,
+          59,
+          0
+        ],
+        [
+          144,
+          51,
+          0
+        ],
+        [
+          144,
+          67,
+          0
+        ],
+        [
+          144,
+          76,
+          0
+        ],
+        [
+          144,
+          66,
+          0
+        ],
+        [
+          144,
+          60,
+          0
+        ],
+        [
+          144,
+          69,
+          0
+        ],
+        [
+          144,
+          72,
+          0
+        ],
+        [
+          144,
+          53,
+          0
+        ]
+      ],
+      "autoSelect": true,
+      "scope": "Automatic original FirstMix core with native held Cue, fixed 180-count touch scratch, source mixer assignments, direct Load, browsing and steady lights. Scratch/Pitch mode switching, sampler preview, effects, full feedback and physical calibration remain open.",
+      "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20FirstMix.midi.xml",
+      "excludedAliases": [
+        "FirstMix I/O",
+        "FirstMix IO",
+        "FirstMix Pro"
+      ]
     },
     {
       "id": "Hercules DJ Console 4-Mx",

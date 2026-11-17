@@ -62,6 +62,7 @@ from mc3000 import mc3000_profiles, MC3000_SOURCES
 from rmx2 import rmx2_profiles, RMX2_SOURCES
 from p32 import p32_profiles, P32_SOURCES
 from kaoss_dj import kaoss_profiles, KAOSS_SOURCES
+from firstmix import firstmix_profiles, FIRSTMIX_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -843,6 +844,20 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_original_firstmix_retains_source_wheel_mixer_and_light_contracts(self):
+        item, = firstmix_profiles()
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (25, 8))
+        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 58)
+        self.assertFalse(any(r["action"] in {"levelA", "levelB", "tempoA", "tempoB", "master"} for r in item["inputs"]))
+        self.assertNotIn("audioOutput", item)
+        self.assertTrue(all(r["requiresTouch"] and r["argument"] == 180 for r in item["inputs"] if r["action"] in {"jogA", "jogB"}))
+        self.assertTrue(all(r["onValue"] == 100 and r["offValue"] == 0 for r in item["outputs"]))
+        for name, digest in FIRSTMIX_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_vms_external_mixer_audio_and_distinct_variants_remain_explicit(self):
         cache = ROOT / "TestBuilds/r169/upstream"
         if not cache.exists():
