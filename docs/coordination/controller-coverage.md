@@ -2918,3 +2918,26 @@ All 166 other recipes remain unchanged. The bundled resource matches the source.
 Benchmark coverage stays 62/122. Full theoretical parity and physical acceptance remain open.
 Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
 Exact source hashes and logs are in ignored `TestBuilds/r274/validation.json`.
+
+## R275 Digital Jockey 2 Controller Edition core
+
+Controller Edition has its own automatic normal-wheel core. Its existing catalogue identity stays unchanged.
+The [factory manual](https://www.reloop.com/media/catalog/product/pdf/2/2/2/222725_Reloop_IM.pdf), page 14, reserves touch sensitivity for Interface Edition.
+The empty source touch handlers do not become native touch contacts. No audio interface or C/D addresses are inferred.
+Native fixed wheel seek/nudge replaces desktop latched Search/Scratch modes and scratch timers.
+Both mode lamps indicate the fixed nudge layout. Wheel count and gain calibration remain open.
+
+Pinned XML supplies full pitch on separate E0/E1 channels, Play, held Cue/bend, direct Load, mixer and loop addresses.
+Native pitch uses full endpoint normalisation, pickup and inverse Mixxx rate polarity. The source formula divides by 16384; native endpoint normalisation divides by 16383.
+Duplicate source Load routes become one native press. Auto Loop enables the current native length; Loop Active toggles it.
+The loop-size and browse encoders accept only the published 63/65 steps. Neutral and other values cannot move them.
+Ten steady output states and thirty reviewed light addresses use sixty lifecycle messages. No Sync feedback address is inferred.
+Shift releases, CUP, EQ kill, full FX/modes/feedback/reset and physical acceptance remain open.
+
+All seven focused Swift tests, 107 importer checks and native iPad framework compilation pass.
+The bundled resource matches the source; all 166 other recipes remain unchanged.
+A first focused run exposed a fixture assumption about independent deck update order. The corrected fixture checks that an unrelated channel adds no event.
+An interrupted broader run also found four expectations in an untouched older Numark Cue fixture; its log remains preserved for separate review.
+Automatic core coverage reaches 146 physical models. Benchmark coverage remains 62/122; complete theoretical parity remains open.
+Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
+Exact source identities and results are in ignored `TestBuilds/r275/validation.json`.

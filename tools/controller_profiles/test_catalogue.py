@@ -67,6 +67,7 @@ from ion_discover import discover_profiles, DISCOVER_SOURCES
 from ion_discover_pro import discover_pro_profiles, DISCOVER_PRO_SOURCES
 from djm101 import djm101_profiles, DJM101_SOURCES
 from rdj2_ie import rdj2_ie_profiles, RDJ2_IE_SOURCES
+from rdj2_controller import rdj2_controller_profiles, RDJ2_CONTROLLER_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -848,6 +849,21 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_rdj2_controller_keeps_native_wheel_separate_from_touch_and_audio(self):
+        item, = rdj2_controller_profiles()
+        self.assertEqual(item["id"], "Reloop Digital Jockey 2 Controller")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (45, 10))
+        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 60)
+        self.assertNotIn("audioOutput", item)
+        self.assertFalse(any(r["action"].startswith("jogTouch") for r in item["inputs"]))
+        self.assertEqual([(r["channel"], r["number"], r["encoding"]) for r in item["inputs"] if r["action"].startswith("wheelJog")], [(0, 11, "binaryOffset"), (0, 71, "binaryOffset")])
+        self.assertEqual([(r["channel"], r["number"], r["kind"], r["inverted"]) for r in item["inputs"] if r["action"].startswith("tempo")], [(0, 0, "pitch", True), (1, 0, "pitch", True)])
+        for name, digest in RDJ2_CONTROLLER_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_rdj2_interface_keeps_two_decks_source_jog_and_bounded_light_contract(self):
         item, = rdj2_ie_profiles()
         self.assertTrue(item["autoSelect"])

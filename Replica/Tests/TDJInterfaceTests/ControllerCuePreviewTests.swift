@@ -754,3 +754,24 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueRDJ2ControllerNativeWheelNeverStartsTouchAndLoopsKeepSync() async throws {
+    try await withControllerCuePlayback("DIGITAL JOCKEY") { model, input in
+        cuePreviewPacket([0x90, 29, 127, 0xB0, 11, 65], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.phase.active == false)
+        cuePreviewPacket([0x90, 17, 127, 17, 0, 17, 127, 17, 0], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        cuePreviewPacket([0x90, 18, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+        cuePreviewPacket([0x90, 24, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80, 24, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

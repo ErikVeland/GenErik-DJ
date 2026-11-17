@@ -24889,70 +24889,96 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Digital%20Jockey%202%20Controller%20Edition.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Digital%20Jockey%202%20Controller%20Edition.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Digital%20Jockey%202%20Controller%20Edition.midi.xml"
       ],
       "definitions": [
-        "Reloop Digital Jockey 2 Controller Edition.midi.xml"
+        "Reloop Digital Jockey 2 Controller Edition.midi.xml",
+        "manufacturer:reloopdigitaljockey2controller"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Reloop Digital Jockey 2 Controller",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browse",
         "crossfader",
+        "cueA:a",
+        "cueB:b",
         "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
         "gainA:a",
         "gainB:b",
         "highA:a",
         "highB:b",
+        "keylockA:a",
+        "keylockB:b",
         "levelA:a",
         "levelB:b",
         "loadA:a",
         "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopEnableA:a",
+        "loopEnableB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
         "lowA:a",
         "lowB:b",
         "master",
         "midA:a",
         "midB:b",
         "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 20,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 45,
+      "feedbackBindingCount": 10,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Native fixed wheel seek/nudge. Desktop jog modes and physical Shift layer remain inactive."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 47,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -316474,6 +316500,38 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:reloopdigitaljockey2controller",
+      "name": "Reloop Digital Jockey 2 Controller",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Digital%20Jockey%202%20Controller%20Edition.midi.xml",
+        "sha256": "e76490f9f1d88f54fca76d66080d57207f8916178bbc3cc314ac2fde0807606c",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Digital%20Jockey%202%20Controller%20Edition.midi.xml",
+            "sha256": "e76490f9f1d88f54fca76d66080d57207f8916178bbc3cc314ac2fde0807606c"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey2-Controller-scripts.js",
+            "sha256": "411d3b8482ed33d401d1aa051df9a8bb89ac56b7cd8c4d4810ddaf7c7865cd81"
+          },
+          {
+            "url": "https://www.reloop.com/media/catalog/product/pdf/2/2/2/222725_Reloop_IM.pdf"
+          }
+        ],
+        "review": "Pinned Controller Edition XML supplies two-deck addresses, separate E0/E1 full pitch and no working touch handler. Factory manual B6 reserves touch sensitivity for Interface Edition. Native fixed wheel seek/nudge replaces latched desktop Search/Scratch timers; raw-minus-64 motion uses binaryOffset including negative raw0. Wheel resolution is not published and retains native default calibration. Source pitch formula is raw/8192-1; native full-range pitch uses 16383 endpoint normalisation and inverse Mixxx rate polarity, with pickup. Source Load has duplicate XML routes and an unguarded script; native one-press Load retains existing safety. Native Auto Loop enables the current loop length; source fixed-four-beat and ReloopExit become native loop enable/toggle. Only published loop-size CC10/69 values63/65 act. Native Play/Cue/PFL/Key/Loop feedback is steady; no Sync output is inferred. Thirty reviewed light addresses fit60 lifecycle messages, with fixed Search+Scratch lamps indicating wheel nudge. Source right flanger output conflicts with a loop-size CC number only by kind; live flanger/FX/reset are not implemented. No hardware touch, C/D, audio interface, shifted addresses or EQ kill is inferred. Shifted releases, full modes, CUP, FX/feedback/reset, wheel/pitch/gain calibration and physical acceptance remain open."
+      },
+      "implementedInputCount": 45,
+      "implementedOutputCount": 10,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         }
       ]
     },
