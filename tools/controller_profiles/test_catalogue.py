@@ -931,6 +931,17 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
+    def test_rane_four_experimental_source_does_not_enable_automatic_selection(self):
+        cache = ROOT / "TestBuilds/r169/upstream"
+        if not cache.exists():
+            self.skipTest("Pinned source cache is unavailable.")
+        catalogue, runtime = build(cache, None)
+        models = [m for m in catalogue["models"] if m["id"] == canonical("Rane FOUR")]
+        self.assertEqual(len(models), 1)
+        self.assertIn("https://github.com/ElectroDanceWorld-Radio/rane-four-mixxx-map/tree/f527e144d6246498fe3e45193fecbb20d8279ddd", models[0]["sources"])
+        self.assertFalse(models[0].get("automaticControls", False))
+        self.assertFalse(any(canonical(p["id"]) == canonical("Rane FOUR") and p["autoSelect"] for p in runtime["profiles"]))
+
     def test_mc3000_factory_audit_keeps_automatic_selection_disabled(self):
         cache = ROOT / "TestBuilds/r169/upstream"
         if not cache.exists():

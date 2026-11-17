@@ -22760,7 +22760,8 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://support.rane.com/en/support/solutions/articles/69000828752-rane-four-frequently-asked-questions"
+        "https://support.rane.com/en/support/solutions/articles/69000828752-rane-four-frequently-asked-questions",
+        "https://github.com/ElectroDanceWorld-Radio/rane-four-mixxx-map/tree/f527e144d6246498fe3e45193fecbb20d8279ddd"
       ],
       "definitions": [],
       "implementation": "protocol-needed",

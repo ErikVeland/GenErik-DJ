@@ -2,6 +2,26 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R245 RANE FOUR experimental-source audit
+
+The existing RANE FOUR record now links a pinned community mapping and its source history.
+The learned XML contains useful transport, mixer and paired-tempo addresses for two targets.
+It does not establish cold-start bank routing for a four-deck controller.
+
+The README calls MIDI channel 0 the right platter, while the script XML assigns it to Channel 1.
+The larger XML assigns different press/release functions to deck B's Sync address.
+The jog script contains duplicate handlers, uninitialised state and a section explicitly labelled as not working.
+Its script XML also names handlers without establishing a working scratch implementation.
+The commented state-query and LED examples are not qualified RANE lifecycle messages.
+
+Automatic selection remains disabled. No guessed jog decoder, calibration, bank dispatch, startup packet or motor behaviour was added.
+RANE ONE and PERFORMER retain separate identities and protocols.
+A qualified bank report, captured platter direction/count contract and consistent physical dispatch remain necessary.
+All 78 importer/report checks pass. All 165 runtime recipes remain byte-for-byte unchanged.
+The catalogue still has 305 records. The repository check retains twelve existing historical-link failures.
+Pinned source hashes and results appear in `TestBuilds/r245/validation.json`.
+No new native build, signed app, installation or physical acceptance was produced.
+
 ## R244 measured Reloop Ready native core
 
 Ready gains a native core from the author's measured protocol, source profile, XML and companion script at a pinned revision.

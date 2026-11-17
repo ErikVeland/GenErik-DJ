@@ -10,6 +10,7 @@ MODELS = [
     ("AlphaTheta RMX-IGNITE", "https://alphatheta.com/en/product/effector/rmx-ignite/black/"),
     ("Rane PERFORMER", "https://www.rane.com/downloads/?product=Rane+Performer"),
     ("Rane FOUR", "https://support.rane.com/en/support/solutions/articles/69000828752-rane-four-frequently-asked-questions"),
+    ("Rane FOUR", "https://github.com/ElectroDanceWorld-Radio/rane-four-mixxx-map/tree/f527e144d6246498fe3e45193fecbb20d8279ddd"),
     ("Reloop Buddy", "https://www.reloop.com/reloop-buddy"),
     ("Reloop Mixtour Pro", "https://www.reloop.com/reloop-mixtour-pro"),
     ("Reloop Mixtour", RELOOP_COMPARISON),
