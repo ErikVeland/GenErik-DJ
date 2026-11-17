@@ -43257,55 +43257,20 @@
     {
       "id": "Kontrol DJ KDJ500",
       "aliases": [
+        "Kontrol DJ KDJ500",
         "KDJ500",
-        "Kontrol DJ KDJ500"
+        "KDJ-500"
       ],
-      "definition": "Kontrol Dj KDJ500.midi.xml",
+      "definition": "manufacturer:kontroldjkdj500",
       "inputs": [
         {
-          "action": "cuePreviewB",
+          "action": "playA",
           "kind": "note",
           "channel": 0,
-          "number": 36,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "playB",
-          "kind": "note",
-          "channel": 0,
-          "number": 38,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "loadB",
-          "kind": "note",
-          "channel": 0,
-          "number": 40,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "cueA",
-          "kind": "note",
-          "channel": 0,
-          "number": 44,
+          "number": 16,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
-        },
-        {
-          "action": "cueB",
-          "kind": "note",
-          "channel": 0,
-          "number": 46,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
         },
         {
           "action": "cuePreviewA",
@@ -43317,13 +43282,49 @@
           "targetDeck": "a"
         },
         {
-          "action": "playA",
+          "action": "cueA",
           "kind": "note",
           "channel": 0,
-          "number": 16,
+          "number": 44,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 8
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 40,
+          "encoding": "signedStep",
+          "inverted": true,
+          "targetDeck": "a"
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 42,
+          "encoding": "signedStep",
+          "inverted": true
         },
         {
           "action": "gainA",
@@ -43362,13 +43363,85 @@
           "targetDeck": "a"
         },
         {
-          "action": "loadA",
-          "kind": "note",
+          "action": "tempoA",
+          "kind": "control",
           "channel": 0,
-          "number": 20,
+          "number": 9,
+          "encoding": "absolute",
+          "inverted": true,
+          "targetDeck": "a"
+        },
+        {
+          "action": "levelA",
+          "kind": "control",
+          "channel": 0,
+          "number": 11,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 0,
+          "number": 38,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 0,
+          "number": 36,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 0,
+          "number": 46,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 0,
+          "number": 40,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 0,
+          "number": 25,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 8
+        },
+        {
+          "action": "wheelJogB",
+          "kind": "control",
+          "channel": 0,
+          "number": 44,
+          "encoding": "signedStep",
+          "inverted": true,
+          "targetDeck": "b"
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 46,
+          "encoding": "signedStep",
+          "inverted": true
         },
         {
           "action": "gainB",
@@ -43407,15 +43480,6 @@
           "targetDeck": "b"
         },
         {
-          "action": "tempoA",
-          "kind": "control",
-          "channel": 0,
-          "number": 9,
-          "encoding": "absolute",
-          "inverted": true,
-          "targetDeck": "a"
-        },
-        {
           "action": "tempoB",
           "kind": "control",
           "channel": 0,
@@ -43423,15 +43487,6 @@
           "encoding": "absolute",
           "inverted": true,
           "targetDeck": "b"
-        },
-        {
-          "action": "levelA",
-          "kind": "control",
-          "channel": 0,
-          "number": 11,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
         },
         {
           "action": "levelB",
@@ -43455,8 +43510,12 @@
       "startup": [],
       "shutdown": [],
       "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Kontrol%20Dj%20KDJ500.midi.xml"
+      "scope": "Manual translated-MIDI core: strict source wheel/browser directions, two Load targets, held Cue, normal mixer/pitch and fixed eight-beat loops. Direct USB/bridge, Shift/banks, other controls/feedback and physical acceptance remain open.",
+      "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Kontrol%20Dj%20KDJ500.midi.xml",
+      "hardwareMode": "Published Mixxx normal-control layout over translated MIDI. Native USB needs its driver and Konverter or a qualified bridge.",
+      "gaps": [
+        "USB drivers and Konverter translate native USB reports. Direct iPad USB and a qualified bridge remain unimplemented. Physical Shift/banks, other controls, LED feedback/full lifecycle and calibration remain open. No automatic selection or integrated audio is claimed. Manual apply does not activate an input."
+      ]
     },
     {
       "id": "Korg KAOSS DJ",

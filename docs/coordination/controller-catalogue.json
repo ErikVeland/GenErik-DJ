@@ -17308,10 +17308,12 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Kontrol%20Dj%20KDJ500.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Kontrol%20Dj%20KDJ500.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Kontrol%20Dj%20KDJ500.midi.xml"
       ],
       "definitions": [
-        "Kontrol Dj KDJ500.midi.xml"
+        "Kontrol Dj KDJ500.midi.xml",
+        "manufacturer:kontroldjkdj500"
       ],
       "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
@@ -17319,6 +17321,7 @@
       "profile": "Kontrol DJ KDJ500",
       "automaticControls": false,
       "controlActions": [
+        "browse",
         "crossfader",
         "cueA:a",
         "cueB:b",
@@ -17339,16 +17342,21 @@
         "playA:a",
         "playB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 21,
+      "inputBindingCount": 27,
       "feedbackBindingCount": 0,
-      "connection": "USB MIDI",
+      "connection": "Native USB needs its driver and Konverter to produce MIDI. Direct iPad USB and a qualified bridge remain unimplemented.",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Published Mixxx normal-control layout over translated MIDI. Native USB needs its driver and Konverter or a qualified bridge."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
@@ -17357,21 +17365,21 @@
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 6,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "USB drivers and Konverter translate native USB reports. Direct iPad USB and a qualified bridge remain unimplemented. Physical Shift/banks, other controls, LED feedback/full lifecycle and calibration remain open. No automatic selection or integrated audio is claimed. Manual apply does not activate an input.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -317229,6 +317237,50 @@
         },
         {
           "reason": "TEK2 DJ setup must be installed through Grid Editor. Automatic preset transfer/identity, bottom-row keys, five-point LEDs, exact source playing-nudge model and physical calibration remain open. No automatic selection or audio interface is claimed. Manual apply does not activate the input."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:kontroldjkdj500",
+      "name": "Kontrol DJ KDJ500",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Kontrol%20Dj%20KDJ500.midi.xml",
+        "sha256": "5f24636b954fb2032cc8cbf8d246096a3d9e57447f3a6afae1e9ad334b9fe803",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Kontrol%20Dj%20KDJ500.midi.xml",
+            "sha256": "5f24636b954fb2032cc8cbf8d246096a3d9e57447f3a6afae1e9ad334b9fe803"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Kontrol-Dj-KDJ500-scripts.js",
+            "sha256": "65f02ef8c26152c486c395498d9348efd6b8e2fd29b76eeebaaf060504b3593b"
+          },
+          {
+            "url": "https://drive.google.com/file/d/0B09d9nFit33wMDdJcU16aWdsUlE/view?resourcekey=0-25KFamm9fXsClG5Bcj7FWQ",
+            "sha256": "b5fb30491bfddc8ec8a7102998d60909414665c46c8702d58b6f3a0fe548c6c9"
+          },
+          {
+            "url": "https://drive.google.com/file/d/0B09d9nFit33wN19PQ3Zsdnc4OFU/view?resourcekey=0-DeBKMs4W-eCle4bM-O0Zcw",
+            "sha256": "f8777f2dd5ba7a242ef156ce1158b6a4cbf4e14450d9d086994f7f7638bd7d22"
+          },
+          {
+            "url": "https://drive.google.com/file/d/0B09d9nFit33wRFhKWDdmcWo2bGs/view?resourcekey=0-A2mDh8xAWOsDVfFkRZ5t0Q",
+            "sha256": "ae5c003b80ae29aceb36c6afd6b7606c5b3c649581c34140efb8507ff567c1dc"
+          }
+        ],
+        "review": "Manual translated-MIDI source core. Factory manual requires USB drivers and Konverter to translate native USB reports. Manufacturer archive supplies the manual, Traktor settings and open SDK with eight-byte USB frames; a MIDI recipe alone is not direct iPad USB support. Source wheels/browser accept only127 forward and1 backward; native signedStep plus inversion preserves this strict rule. Both explicit Load targets, held Cue, PFL, normal mixer/pitch and fixed eight-beat loop toggles retain source addresses. Source init/shutdown and outputs are empty. Physical Shift, hardware banks, other controls, LEDs/full lifecycle, direct USB/bridge, calibration and physical acceptance remain open. No touch sensor, audio interface or sibling alias is inferred. Manual apply does not activate an input."
+      },
+      "implementedInputCount": 27,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "USB drivers and Konverter translate native USB reports. Direct iPad USB and a qualified bridge remain unimplemented. Physical Shift/banks, other controls, LED feedback/full lifecycle and calibration remain open. No automatic selection or integrated audio is claimed. Manual apply does not activate an input."
         }
       ]
     },

@@ -3149,3 +3149,24 @@ All 170 other recipes remain unchanged. The bundled resource matches the source.
 Automatic core coverage stays at 150 physical models, including 65/122 benchmark models. Complete theoretical parity remains open.
 Repository checks retain twelve historical-link failures. No signed app, installation or physical acceptance occurred.
 Exact source identities and results are in ignored `TestBuilds/r284/validation.json`.
+
+## R285 KDJ500 translated-MIDI source core
+
+The manufacturer's [legacy archive](https://drive.google.com/drive/folders/0B09d9nFit33wdUpIZk5OZ0wxRTA?resourcekey=0-XMiDZ5xFAkwVGGXeSgbb6w) contains its manual, Traktor settings and open SDK.
+The manual requires a USB driver and Konverter to translate native reports into MIDI. The SDK describes eight-byte USB frames.
+The catalogue now records this connection boundary. A stored recipe does not supply direct iPad USB support.
+The SDK and factory files remain cached as evidence. No vendor binaries run in the app.
+
+The manual native recipe retains all 27 inputs from the pinned Mixxx layout.
+Wheels and browser encoders accept only source value 127 forward and 1 backward. Other values remain inactive.
+It retains two explicit Load targets, held Cue, PFL, gain/EQ/level, inverse tempo and crossfader.
+Two physical loop keys toggle fixed eight-beat loops. No cue pads or touch sensor are invented.
+The source has no output, setup or shutdown messages. Physical Shift/banks, other controls, LEDs, full lifecycle, bridge and calibration remain open.
+Manual apply does not activate an input. Automatic selection stays disabled.
+
+All six focused Swift tests, 116 importer checks and native iPad framework compilation pass.
+The real-file fixture verifies Cue release, exact eight-beat loop selection/toggle, finite audio, continuing playback and saved Sync.
+All 170 other recipes remain unchanged. The bundled resource matches the source.
+Automatic core coverage stays at 150 physical models, including 65/122 benchmark models. Complete theoretical parity remains open.
+Repository checks retain twelve historical-link failures. No signed app, installation or physical acceptance occurred.
+Exact factory file identities and results are in ignored `TestBuilds/r285/validation.json`.

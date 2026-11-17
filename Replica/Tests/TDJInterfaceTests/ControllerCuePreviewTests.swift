@@ -949,3 +949,23 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueKDJ500NativeCueAndFixedEightBeatLoopKeepSync() async throws {
+    try await withControllerCuePlayback("KDJ500", manual: true) { model, input in
+        cuePreviewPacket([0x90, 14, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80, 14, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x90, 3, 127], to: input)
+        #expect(model.performance.loopBeats(for: .a) == 8)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        cuePreviewPacket([0x90, 3, 0, 3, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == false)
+        model.pressPlay(deck: .a, vinylStop: false)
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

@@ -76,6 +76,7 @@ from imix_reload import imix_profiles, IMIX_SOURCES
 from mcx8000 import mcx_profiles, MCX_SHA
 from mix101 import mix101_profiles
 from tek2 import tek2_profiles, TEK2_SOURCES
+from kdj500 import kdj_profiles, KDJ_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -857,6 +858,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_kdj500_translated_midi_core_preserves_strict_inverted_encoder_rule(self):
+        item, = kdj_profiles()
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (27, 0))
+        self.assertEqual(item["startup"] + item["shutdown"], [])
+        self.assertEqual([(r["number"], r["inverted"]) for r in item["inputs"] if r["encoding"] == "signedStep"], [(40, True), (42, True), (44, True), (46, True)])
+        self.assertEqual([r["argument"] for r in item["inputs"] if r["action"].startswith("toggleFixedLoop")], [8, 8])
+        self.assertEqual([r["targetDeck"] for r in item["inputs"] if r["action"].startswith("load")], ["a", "b"])
+        for name, digest in KDJ_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_tek2_keeps_required_preset_manual_with_separate_touch_and_wheel_paths(self):
         item, = tek2_profiles()
         self.assertFalse(item["autoSelect"])
