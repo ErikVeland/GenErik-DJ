@@ -35,6 +35,9 @@ extension ReplicaModel {
                 action, deck: deck, value: value, end: end, enabled: enabled, quantum: quantum, touchRate: touchRate,
                 followsPosition: followsPosition)
             controllerPausedJogs[deck] = nil
+            if action == .touch || (action == .rate && controllerPitchBendCommandDeck != deck) {
+                controllerPitchBendButtons[deck] = nil
+            }
             if action == .touch {
                 controllerCueContacts[deck] = nil
                 relinquishControllerJogForTouch(deck)

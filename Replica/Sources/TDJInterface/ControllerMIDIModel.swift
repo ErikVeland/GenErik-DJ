@@ -220,6 +220,10 @@ extension ReplicaModel {
         case .cueMix: mix(.cueBlend, value: value)
         case .master: mix(.master, value: value)
         case .monitor: mix(.monitor, value: value)
+        case .pitchBendDownA, .pitchBendDownB, .pitchBendUpA, .pitchBendUpB:
+            applyControllerPitchBend(
+                action == .pitchBendUpA || action == .pitchBendUpB ? .up : .down,
+                pressed: value > 0, deck: deck)
         case .tempoA, .tempoB: setDeckTempo(percent: value * 16 - 8, deck: deck)
         case .tempoResetA, .tempoResetB: setDeckTempo(percent: 0, deck: deck)
         case .seekA, .seekB:

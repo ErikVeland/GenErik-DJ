@@ -7247,7 +7247,7 @@
         "Behringer CMD Micro",
         "CMD Micro"
       ],
-      "definition": "Behringer CMD Micro.midi.xml",
+      "definition": "manufacturer:behringercmdmicro",
       "inputs": [
         {
           "action": "playA",
@@ -7259,38 +7259,13 @@
           "targetDeck": "a"
         },
         {
-          "action": "master",
-          "kind": "control",
-          "channel": 0,
-          "number": 48,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "syncB",
+          "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
-          "number": 38,
+          "number": 24,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "crossfader",
-          "kind": "control",
-          "channel": 0,
-          "number": 64,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "playB",
-          "kind": "note",
-          "channel": 0,
-          "number": 39,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "a"
         },
         {
           "action": "syncA",
@@ -7302,13 +7277,13 @@
           "targetDeck": "a"
         },
         {
-          "action": "loadB",
+          "action": "cueA",
           "kind": "note",
           "channel": 0,
-          "number": 37,
+          "number": 25,
           "encoding": "absolute",
           "inverted": false,
-          "targetDeck": "b"
+          "targetDeck": "a"
         },
         {
           "action": "loadA",
@@ -7320,6 +7295,63 @@
           "targetDeck": "a"
         },
         {
+          "action": "pitchBendDownA",
+          "kind": "note",
+          "channel": 0,
+          "number": 16,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "pitchBendUpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 18,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 4
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 0,
+          "number": 19,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 8
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 17,
+          "encoding": "binaryOffset",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 128
+        },
+        {
           "action": "levelA",
           "kind": "control",
           "channel": 0,
@@ -7329,48 +7361,22 @@
           "targetDeck": "a"
         },
         {
-          "action": "cueA",
-          "kind": "note",
+          "action": "tempoA",
+          "kind": "control",
           "channel": 0,
-          "number": 25,
-          "encoding": "absolute",
-          "inverted": false,
+          "number": 16,
+          "encoding": "centreDetent",
+          "inverted": true,
           "targetDeck": "a"
         },
         {
-          "action": "levelB",
-          "kind": "control",
+          "action": "playB",
+          "kind": "note",
           "channel": 0,
-          "number": 34,
+          "number": 39,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
-        },
-        {
-          "action": "cueB",
-          "kind": "note",
-          "channel": 0,
-          "number": 41,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "cuePreviewA",
-          "kind": "note",
-          "channel": 0,
-          "number": 24,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "browse",
-          "kind": "control",
-          "channel": 0,
-          "number": 50,
-          "encoding": "binaryOffset",
-          "inverted": false
         },
         {
           "action": "cuePreviewB",
@@ -7382,13 +7388,114 @@
           "targetDeck": "b"
         },
         {
-          "action": "tempoA",
+          "action": "syncB",
+          "kind": "note",
+          "channel": 0,
+          "number": 38,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 0,
+          "number": 41,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 0,
+          "number": 37,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "pitchBendDownB",
+          "kind": "note",
+          "channel": 0,
+          "number": 32,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "pitchBendUpB",
+          "kind": "note",
+          "channel": 0,
+          "number": 33,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 0,
+          "number": 34,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 4
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 0,
+          "number": 36,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 8
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 0,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogB",
           "kind": "control",
           "channel": 0,
-          "number": 16,
+          "number": 33,
+          "encoding": "binaryOffset",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 128
+        },
+        {
+          "action": "levelB",
+          "kind": "control",
+          "channel": 0,
+          "number": 34,
           "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "tempoB",
+          "kind": "control",
+          "channel": 0,
+          "number": 32,
+          "encoding": "centreDetent",
           "inverted": true,
-          "targetDeck": "a"
+          "targetDeck": "b"
+        },
+        {
+          "action": "master",
+          "kind": "control",
+          "channel": 0,
+          "number": 48,
+          "encoding": "absolute",
+          "inverted": false
         },
         {
           "action": "monitor",
@@ -7399,25 +7506,48 @@
           "inverted": false
         },
         {
-          "action": "tempoB",
+          "action": "crossfader",
           "kind": "control",
           "channel": 0,
-          "number": 32,
+          "number": 64,
           "encoding": "absolute",
-          "inverted": true,
-          "targetDeck": "b"
+          "inverted": false
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 0,
+          "number": 50,
+          "encoding": "binaryOffset",
+          "inverted": false
+        },
+        {
+          "action": "browsePreviousGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 48,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "browseNextGroup",
+          "kind": "note",
+          "channel": 0,
+          "number": 49,
+          "encoding": "absolute",
+          "inverted": false
         }
       ],
       "outputs": [
         {
-          "action": "cueB",
+          "action": "playA",
           "kind": "note",
           "channel": 0,
-          "number": 41,
+          "number": 23,
           "onValue": 1,
           "offValue": 0,
           "offUsesNoteOn": true,
-          "targetDeck": "b"
+          "targetDeck": "a"
         },
         {
           "action": "cueA",
@@ -7440,21 +7570,42 @@
           "targetDeck": "b"
         },
         {
-          "action": "playA",
+          "action": "cueB",
           "kind": "note",
           "channel": 0,
-          "number": 23,
+          "number": 41,
           "onValue": 1,
           "offValue": 0,
           "offUsesNoteOn": true,
-          "targetDeck": "a"
+          "targetDeck": "b"
         }
       ],
       "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20Micro.midi.xml"
+      "shutdown": [
+        [
+          144,
+          23,
+          0
+        ],
+        [
+          144,
+          25,
+          0
+        ],
+        [
+          144,
+          39,
+          0
+        ],
+        [
+          144,
+          41,
+          0
+        ]
+      ],
+      "autoSelect": true,
+      "scope": "Automatic two-deck native core with held pitch bend, 128-count touch jogs, 4/8-beat loop pads, browsing and Load. Optional key-bend mode, full lights/cleanup, audio routing and physical calibration remain open.",
+      "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20Micro.midi.xml"
     },
     {
       "id": "Behringer CMD STUDIO 4a",

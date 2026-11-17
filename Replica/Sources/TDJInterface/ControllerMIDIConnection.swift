@@ -6,6 +6,7 @@ import TDJCore
 enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case playA, playB, syncA, syncB, keylockA, keylockB, cueA, cueB
     case cueStateA, cueStateB
+    case pitchBendDownA, pitchBendDownB, pitchBendUpA, pitchBendUpB
     case shift
     case levelA, levelB, gainA, gainB, lowA, lowB, midA, midB, highA, highB
     case filterA, filterB, fxA, fxB, fxToggleA, fxToggleB, crossfader, cueMix
@@ -50,6 +51,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         if let hotcueSlot { return "\(deck.rawValue.uppercased()) · Hotcue \(hotcueSlot + 1)" }
         let labels = [
             "play": "Play / Pause", "sync": "Sync", "keylock": "Key lock", "cue": "Headphone cue", "level": "Volume",
+            "pitchBendDown": "Pitch bend down (hold)", "pitchBendUp": "Pitch bend up (hold)",
             "cueState": "Headphone cue state", "loopEnable": "Enable loop", "loopOutOrExit": "Loop out / exit",
             "gain": "Gain", "low": "Low EQ", "mid": "Mid EQ", "high": "High EQ", "filter": "Filter",
             "filterToggle": "Filter on / off", "fx": "Effect amount", "fxToggle": "Effect on / off",
@@ -77,7 +79,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     }
     var isMomentary: Bool {
         switch self {
-        case .jogTouchA, .jogTouchB, .cuePreviewA, .cuePreviewB: true
+        case .jogTouchA, .jogTouchB, .cuePreviewA, .cuePreviewB, .pitchBendDownA, .pitchBendDownB, .pitchBendUpA, .pitchBendUpB: true
         default: false
         }
     }

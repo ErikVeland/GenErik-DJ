@@ -10853,68 +10853,80 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20Micro.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20Micro.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20Micro.midi.xml"
       ],
       "definitions": [
-        "Behringer CMD Micro.midi.xml"
+        "Behringer CMD Micro.midi.xml",
+        "manufacturer:behringercmdmicro"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Behringer CMD Micro",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "browse",
+        "browseNextGroup",
+        "browsePreviousGroup",
         "crossfader",
         "cueA:a",
         "cueB:b",
         "cuePreviewA:a",
         "cuePreviewB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "levelA:a",
         "levelB:b",
         "loadA:a",
         "loadB:b",
         "master",
         "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
         "playA:a",
         "playB:b",
         "syncA:a",
         "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
       ],
-      "inputBindingCount": 18,
+      "inputBindingCount": 32,
       "feedbackBindingCount": 4,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 28,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -313915,6 +313927,35 @@
       },
       "implementedInputCount": 136,
       "implementedOutputCount": 16,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:behringercmdmicro",
+      "name": "Behringer CMD Micro",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20Micro.midi.xml",
+        "sha256": "e89119e414cf4aca2053e3da80b21db4d81a994af368654313b3b88614845c1c",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20Micro.midi.xml",
+            "sha256": "e89119e414cf4aca2053e3da80b21db4d81a994af368654313b3b88614845c1c"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-CMD-Micro-scripts.js",
+            "sha256": "b86618e11ebf2666da9ccf169bfd2804325681ff0c400264c963c6912bb819b5"
+          }
+        ],
+        "review": "XML dispatch and script handlers give fixed two-deck addresses on channel zero, physical jog touch, 128-count centre-64 jogs, 4/8-beat toggle pads and held temporary pitch buttons. Native fixed 4-percent bend retains saved Sync and restores the rate on final release/disconnect. Later touch/rate commands supersede old holds. Tempo accounts for Mixxx rate_dir once and retains exact centre 64. The XML's inverted indicator condition resolves to native LED on 1/off 0. Only published Play and PFL lights are mapped. Source optional key-bend mode is not copied. Cue/Sync lights, remaining modes, full cleanup, audio routing, physical calibration and acceptance remain open."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 4,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

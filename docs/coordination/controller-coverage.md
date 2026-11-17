@@ -2,6 +2,31 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R239 CMD Micro core and held pitch bend
+
+CMD Micro gains an automatic two-deck native core from pinned XML and script dispatch.
+It retains direct Load, Play, held Cue, Sync, PFL, 4/8-beat toggle pads, browsing and mixer controls.
+Exact-centre tempo keeps source polarity and pickup. Native touch scratching retains 128 counts per revolution.
+Published Play/PFL feedback uses on 1/off 0 after resolving the source's inverted indicator condition.
+
+Held pitch buttons apply a temporary four-percent rate change. Opposing holds cancel each other.
+Final release, Note Off and disconnect restore normal speed. Source generations isolate replacement tracks.
+Later touch/rate commands retire an older hold, so its release cannot overwrite the newer control.
+The saved Sync choice and deck tempo stay unchanged. Normal-speed restoration reuses native grid alignment.
+
+The initial two-deck fixture sent a new bend while deck B was waiting for its quantised start.
+New bends remain blocked while queued. A held bend can now return to normal speed while queued through the existing validated rate path.
+Other queued performance changes remain blocked. The scheduled start and Sync choice remain unchanged.
+The corrected fixture advances the offline audio clock until both decks are playing before bending both.
+
+All 82 final targeted Swift checks, 72 importer/report checks and native iPad compilation pass.
+The bundled resource matches the source. All 161 other recipes remain unchanged.
+Factory coverage reaches 105 profiles for 109 physical models, plus six other native models.
+The repository check reports twelve existing broken links in untouched historical files.
+Validation results and source identities appear in `TestBuilds/r239/validation.json`.
+Optional key-bend mode, Cue/Sync lights, complete cleanup, audio routing, calibration and physical acceptance remain open.
+No signed app or installation was produced.
+
 ## R238 VCI-400 four-target native core
 
 VCI-400 now selects a reviewed four-target native core automatically. EGE firmware retains a separate, unsupported identity.

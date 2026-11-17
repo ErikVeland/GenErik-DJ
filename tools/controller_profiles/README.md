@@ -463,3 +463,16 @@ Exact startup clears three inactive mode lights and lights Hot Cue on each of fo
 Shutdown clears every mode light. The total setup budget is thirty-two validated messages.
 A fixture accepts that total and rejects thirty-three messages. No source timers or scripts run in the app.
 EGE, CC transport aliases, shared bank-dependent controls, full feedback/cleanup, audio routing and physical calibration remain open.
+
+## CMD Micro held pitch buttons — R239
+
+`cmd_micro.py` retains exact two-deck dispatch, 128-count centre-64 jogs, direct Load and 4/8-beat toggle pads.
+Tempo keeps exact centre and source inversion. The source's inverted LED condition resolves to native on 1/off 0.
+Only published Play/PFL feedback is included. Shutdown clears those four indicators.
+
+Typed held pitch buttons use a native four-percent temporary rate. Both directions cancel; the last release restores normal speed.
+Duplicate/orphan releases and stale source generations cannot alter a newer command.
+Later touch/rate commands retire the hold. New presses are ignored while a deck waits for its quantised start.
+Normal-speed restoration alone is allowed through the queued performance gate, with existing validation and Sync alignment.
+Source timers and optional key-bend mode do not run in the app.
+Full lights, cleanup, routing, calibration and physical acceptance remain open.

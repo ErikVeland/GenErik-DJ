@@ -10,7 +10,7 @@ Reviewed 17 November 2026. The pinned software inventory is complete. The wider 
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 305 total catalogue records. 298 name physical models. The remainder identify software endpoints or protocol families.
 - 162 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 104 factory profiles select core controls automatically for 108 physical models.
+- 105 factory profiles select core controls automatically for 109 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -219,12 +219,12 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 39 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 98 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 99 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 66 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| partial-midi-profile | 65 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
 | protocol-needed | 78 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
@@ -427,7 +427,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Behringer BCD3000 Advanced | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD3000%20Advanced.midi.xml) |
 | Behringer BCR2000 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCR2000.midi.xml) |
 | Behringer CMD MM-1 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20MM1.midi.xml) |
-| Behringer CMD Micro | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20Micro.midi.xml) |
+| Behringer CMD Micro | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20Micro.midi.xml) |
 | Behringer CMD STUDIO 4a | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMDStudio4a.midi.xml) |
 | Behringer DDM4000 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20DDM4000.midi.xml) |
 | DJ TechTools MIDI Fighter | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJTechTools%20MIDI%20Fighter.midi.xml) |

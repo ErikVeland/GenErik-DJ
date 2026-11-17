@@ -32,6 +32,8 @@ import TDJCore
     @ObservationIgnored var controllerJogBendOffsets: [DeckID: Double] = [:]
     @ObservationIgnored var controllerJogBendTasks: [DeckID: Task<Void, Never>] = [:]
     @ObservationIgnored var controllerJogBendTokens: [DeckID: UUID] = [:]
+    @ObservationIgnored var controllerPitchBendButtons: [DeckID: ControllerPitchBendButtons] = [:]
+    @ObservationIgnored var controllerPitchBendCommandDeck: DeckID?
     public var filterLocked: Set<DeckID> = []
     public var superSlicerFamilies: [DeckID: SuperSlicerFamily] = [:]
     @ObservationIgnored private var storedLibrary: LibrarySnapshot
