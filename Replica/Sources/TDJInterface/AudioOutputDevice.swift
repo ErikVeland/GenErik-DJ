@@ -11,7 +11,7 @@ struct AudioOutputDevice: Equatable, Sendable {
     var automaticSplitOutputName: String? {
         guard wired else { return nil }
         if BeatpadIdentity.matches(name) { return "Beatpad" }
-        if let profile = ControllerFactoryProfile.matching([name]), profile == .flx4 || profile == .ddj400 {
+        if let profile = ControllerFactoryProfile.matching([name]), profile.hasAutomaticSplitOutput {
             return profile.rawValue
         }
         switch normalizedName {

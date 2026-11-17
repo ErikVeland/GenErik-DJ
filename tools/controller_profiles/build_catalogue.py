@@ -189,7 +189,7 @@ def build(cache, serato_html):
                             "implementedInputCount": len(item["inputs"]), "implementedOutputCount": len(item["outputs"]),
                             "sourceInputCount": None, "sourceOutputCount": None,
                             "unresolved": [{"reason": gap} for gap in CDJ_GAPS] if item.get("role") == "player" else
-                            [{"reason": reason} for reason in ["Additional modes, FX, displays and audio routing remain unimplemented."] + item.get("gaps", [])]})
+                            [{"reason": reason} for reason in [("Additional modes, FX, displays and input audio routing remain unimplemented." if item.get("audioOutput") else "Additional modes, FX, displays and audio routing remain unimplemented.")] + item.get("gaps", [])]})
     for name, pending in PENDING_DDJ.items():
         definition = "manufacturer:" + canonical(name)
         model = add_model(name, pending["source"]["url"])
@@ -219,7 +219,7 @@ def build(cache, serato_html):
         model["feedbackBindingCount"] = len(profile["outputs"]) if profile else None
         automatic = model["implementation"] in {"automatic-profile", "automatic-core-profile", "native-accessory", "native-midi"}
         model["connection"] = "Linux USB bridge" if model["implementation"] == "linux-bridge" else "USB MIDI" if profile or model["implementation"] == "automatic-profile" else "Existing native adapter" if automatic else "Protocol and iPad connection route require review"
-        model["audioRouting"] = "Automatic master 1–2 / headphones 3–4" if model["id"] in {canonical("Pioneer DDJ-FLX4"), canonical("Pioneer DDJ-400")} else "Existing native routing. Physical acceptance is open." if model["implementation"] in {"native-accessory", "native-midi"} else "Unverified. Automatic channel assignment is not enabled."
+        model["audioRouting"] = "Automatic master 1–2 / headphones 3–4" if model["id"] in {canonical("Pioneer DDJ-FLX4"), canonical("Pioneer DDJ-400")} or bool(profile and profile.get("audioOutput") == "masterAndHeadphones") else "Existing native routing. Physical acceptance is open." if model["implementation"] in {"native-accessory", "native-midi"} else "Unverified. Automatic channel assignment is not enabled."
         model["zeroConfig"] = {"automaticControls": automatic or bool(profile and profile["autoSelect"]),
                                "completeFeatureParity": False, "acceptedOnA10X": False}
         if profile and profile.get("hardwareMode"):

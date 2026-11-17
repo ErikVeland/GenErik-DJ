@@ -814,6 +814,18 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_scratch_audio_output_uses_the_cited_master_and_headphone_layout(self):
+        result = scratch_profiles()[0]
+        self.assertEqual(result["audioOutput"], "masterAndHeadphones")
+        cache = ROOT / "TestBuilds/r169/upstream"
+        if cache.exists():
+            catalogue, runtime = build(cache, None)
+            model = next(row for row in catalogue["models"] if row["id"] == canonical("Numark Scratch"))
+            self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
+            self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
+            self.assertFalse(model["theoreticalSupport"]["complete"])
+            self.assertEqual([p["id"] for p in runtime["profiles"] if p.get("audioOutput")], ["Numark Scratch"])
+
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (45, 0))

@@ -2,6 +2,25 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R232 documented Scratch master/headphone output selection
+
+A connected Scratch audio device now selects master channels 1–2 and headphone channels 3–4 automatically.
+The reviewed Mixxx audio setup documents this layout. The existing native renderer already supports the same layout for other reviewed hardware.
+The factory record declares that output layout explicitly. Unknown layouts and manually selected profiles cannot enable it.
+Matching still requires a known wired model and one unambiguous audio output. Other devices retain the existing output policy.
+
+The Scratch record now distinguishes automatic output selection from unimplemented DVS and passthrough inputs.
+NS6II and other models receive no inferred audio-layout flag. Their hardware mixing and connection requirements need their own review.
+MIDI bindings, packets, mode guards and feedback remain unchanged for every model.
+
+All 38 targeted Swift checks, 65 importer/report checks and native iPad compilation pass.
+The bundled resource matches the source.
+Offline sample comparisons cover repeated Scratch and Z1 detection without changing master or cue samples.
+Reconnect fixtures preserve transport and Sync and retain the existing speaker-leak guard.
+The catalogue retains 305 records and 162 data recipes. Only Scratch output metadata changes.
+Source identities and validation results appear in `TestBuilds/r232/validation.json`.
+No signed app, installation, physical output test or A10X acceptance forms part of this increment.
+
 ## R231 Scratch native core, pulse inputs and safe startup/reconnect
 
 Numark Scratch now selects a native mixer/accessory core automatically. The pinned XML, script, shared component helper and factory guide have recorded hashes.

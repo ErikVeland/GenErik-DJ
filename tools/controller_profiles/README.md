@@ -376,3 +376,16 @@ A failed connection sends no setup and removes the failed factory session. Later
 CoreMIDI replies enter the inbox and drain after startup completes.
 Preserve mode, release, Shift, explicit low-byte and pulse metadata when restoring custom mappings to a new endpoint ID.
 FX, rolls, sampler, complete lights, curve/reverse, cleanup, DVS, passthrough and audio routing remain open.
+
+## Reviewed automatic audio outputs — R232
+
+An automatic data profile may declare `audioOutput: masterAndHeadphones` only after an audio-layout review.
+This layout means master channels 1–2 and headphone channels 3–4. The native renderer already supports it.
+The schema rejects other layouts and declarations on manually selected profiles.
+The audio-device policy still requires a known wired model and one unambiguous output.
+Legacy FLX4/400 and native NI/Beatpad policies remain unchanged.
+
+Scratch uses the master/headphone assignments in its cited Mixxx audio setup.
+This output declaration does not implement DVS, passthrough or input routing.
+Do not infer the declaration for other four-channel devices. Review hardware mixing, output order and connection requirements separately.
+Physical audio output and A10X acceptance remain open.

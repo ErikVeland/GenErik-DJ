@@ -2,6 +2,10 @@ import Foundation
 import TDJCore
 
 struct ControllerProfileData: Decodable, Sendable {
+    enum AudioOutput: String, Decodable, Sendable {
+        case masterAndHeadphones
+    }
+
     struct Input: Decodable, Sendable {
         let action: ControllerAction
         let kind: ControllerMIDIMessage.Kind
@@ -96,6 +100,7 @@ struct ControllerProfileData: Decodable, Sendable {
     let role: String?
     let inputModes: [InputMode]?
     let bankChanges: [BankChange]?
+    let audioOutput: AudioOutput?
 
     var isValid: Bool {
         (role == nil || role == "player" || role == "accessory") && !id.isEmpty && id.count <= 128 && !aliases.isEmpty
@@ -103,7 +108,7 @@ struct ControllerProfileData: Decodable, Sendable {
             && aliases.allSatisfy { !$0.isEmpty && $0.count <= 128 }
             && (excludedAliases?.count ?? 0) <= 24
             && (excludedAliases ?? []).allSatisfy { !$0.isEmpty && $0.count <= 128 }
-            && validInputModes && validBankChanges
+            && validInputModes && validBankChanges && (audioOutput == nil || autoSelect)
             && inputs.allSatisfy { input in
                 guard let channel = input.shiftChannel else { return true }
                 return channel < 16 && inputs.contains { $0.action == .shift && $0.shiftChannel == channel }

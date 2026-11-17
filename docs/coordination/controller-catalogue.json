@@ -21635,7 +21635,7 @@
       "inputBindingCount": 45,
       "feedbackBindingCount": 0,
       "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "audioRouting": "Automatic master 1–2 / headphones 3–4",
       "zeroConfig": {
         "automaticControls": true,
         "completeFeatureParity": false,
@@ -21649,14 +21649,13 @@
           "protocolImplemented": true,
           "documentedControlsComplete": false,
           "lifecycleReviewed": true,
-          "audioRoutingImplemented": false,
+          "audioRoutingImplemented": true,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
@@ -313575,9 +313574,14 @@
               5,
               6
             ]
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/numark_scratch",
+            "reviewed": "2026-11-17",
+            "audioOutput": "Master channels 1/2 and headphone channels 3/4. MASTER/BOOTH/CUE GAIN use hardware controls. Cue Mix reports MIDI to the software mixer."
           }
         ],
-        "review": "XML dispatch establishes mixer channels 0/1 and pad/loop channels 4/5. The shared push handler applies received PFL on/off state directly. Native cue-state actions preserve it. Constructor PFL output channels differ, so headphone lights remain unmapped. The factory guide confirms that the Loop knob toggles on/off. That factory behaviour replaces the community script's enable-only key. Loop direction notes 52/53 have Note On dispatch only and represent encoder pulses. Every positive pulse applies once, without a release edge. Physical Shift on channel 15 note 50 selects one-step browsing and Load; unshifted controls resize or toggle the native loop. The shared four-pad addresses require explicit Cue/Sampler/Roll mode state. Alternate delete releases only rearm cues. Pad lights remain unmapped pending output mode guards. Selector reports 0/2 reset only that side's pickup. The published status/unlock and shutdown packets remain bounded. The source comment ties its ten-second delay to Mixxx initialisation. Native startup connects input before sending the request. Physical cold-start timing remains unverified. MIDI-only source fixtures do not establish DVS, passthrough or audio-routing support."
+        "review": "XML dispatch establishes mixer channels 0/1 and pad/loop channels 4/5. The shared push handler applies received PFL on/off state directly. Native cue-state actions preserve it. Constructor PFL output channels differ, so headphone lights remain unmapped. The factory guide confirms that the Loop knob toggles on/off. That factory behaviour replaces the community script's enable-only key. Loop direction notes 52/53 have Note On dispatch only and represent encoder pulses. Every positive pulse applies once, without a release edge. Physical Shift on channel 15 note 50 selects one-step browsing and Load; unshifted controls resize or toggle the native loop. The shared four-pad addresses require explicit Cue/Sampler/Roll mode state. Alternate delete releases only rearm cues. Pad lights remain unmapped pending output mode guards. Selector reports 0/2 reset only that side's pickup. The published status/unlock and shutdown packets remain bounded. The source comment ties its ten-second delay to Mixxx initialisation. Native startup connects input before sending the request. Physical cold-start timing remains unverified. The cited audio setup gives master channels 1/2 and headphone channels 3/4. DVS, passthrough and physical output acceptance remain open."
       },
       "implementedInputCount": 45,
       "implementedOutputCount": 0,
@@ -313585,7 +313589,7 @@
       "sourceOutputCount": null,
       "unresolved": [
         {
-          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+          "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
         }
       ]
     },

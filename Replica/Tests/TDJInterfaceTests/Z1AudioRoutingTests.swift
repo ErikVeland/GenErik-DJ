@@ -25,8 +25,10 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     let controller = try PlaybackController(offline: true)
     for outputs in [
         [speaker], [],
-        [AudioOutputDevice(name: "Traktor Kontrol S2", wired: true),
-        AudioOutputDevice(name: "Traktor Kontrol S4 MK3", wired: true)],
+        [
+            AudioOutputDevice(name: "Traktor Kontrol S2", wired: true),
+            AudioOutputDevice(name: "Traktor Kontrol S4 MK3", wired: true),
+        ],
         [AudioOutputDevice(name: "Traktor Kontrol Z1", wired: false)],
         [originalZ1, speaker],
     ] {
@@ -49,7 +51,11 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     #expect(controller.outputRoute == .masterAndHeadphones)
 }
 
-@Test @MainActor func z1AudioRoutingRecoveryPreservesTransportWithoutSpeakerLeak() throws {
+@Test(arguments: ["Traktor Kontrol Z1", "Numark Scratch"])
+@MainActor func documentedControllerAudioRoutingRecoveryPreservesTransportWithoutSpeakerLeak(deviceName: String) throws
+{
+    let device = AudioOutputDevice(name: deviceName, wired: true)
+    let expectedName = deviceName == "Traktor Kontrol Z1" ? "Z1" : "Numark Scratch"
     let controller = try PlaybackController(offline: true)
     let core = controller.core
     let asset = try PCMAsset(interleavedStereo: Array(repeating: 0.25, count: 192000), sampleRate: 48000)
@@ -59,13 +65,13 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     _ = core.renderOffline(frames: 1024)
     let before = try #require(core.snapshot())
     var routes: [AudioOutputRoute] = []
-    controller.handleOutputEvent(.routeChanged(disconnected: false), outputs: [originalZ1]) {
+    controller.handleOutputEvent(.routeChanged(disconnected: false), outputs: [device]) {
         routes.append(controller.outputRoute)
     }
     #expect(routes == [.masterAndHeadphones])
     controller.handleOutputEvent(.interruptionBegan, outputs: []) { routes.append(controller.outputRoute) }
-    #expect(controller.automaticOutputDevice == "Z1")
-    controller.handleOutputEvent(.interruptionEnded(shouldResume: true), outputs: [originalZ1]) {
+    #expect(controller.automaticOutputDevice == expectedName)
+    controller.handleOutputEvent(.interruptionEnded(shouldResume: true), outputs: [device]) {
         routes.append(controller.outputRoute)
     }
     #expect(routes == [.masterAndHeadphones, .masterAndHeadphones])
@@ -77,10 +83,10 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     #expect(controller.automaticOutputDevice == nil)
     #expect(controller.outputRoute == .stereoMaster)
     #expect(routes.count == 2)
-    controller.handleOutputEvent(.routeChanged(disconnected: false), outputs: [originalZ1]) {
+    controller.handleOutputEvent(.routeChanged(disconnected: false), outputs: [device]) {
         routes.append(controller.outputRoute)
     }
-    #expect(controller.automaticOutputDevice == "Z1")
+    #expect(controller.automaticOutputDevice == expectedName)
     #expect(controller.outputRoute == .masterAndHeadphones)
     #expect(routes.count == 2)
     let after = try #require(core.snapshot())
@@ -91,9 +97,11 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     controller.stopAudio()
 }
 
-@Test @MainActor func z1AudioRoutingRepeatedDetectionDoesNotAlterSamples() throws {
+@Test(arguments: ["Traktor Kontrol Z1", "Numark Scratch"])
+@MainActor func documentedControllerAudioRoutingRepeatedDetectionDoesNotAlterSamples(deviceName: String) throws {
+    let device = AudioOutputDevice(name: deviceName, wired: true)
     let controller = try PlaybackController(offline: true)
-    controller.updateOutputDevice([originalZ1])
+    controller.updateOutputDevice([device])
     let reference = try SampleTransport(sampleRate: 48000)
     let asset = try PCMAsset(interleavedStereo: Array(repeating: 0.25, count: 192000), sampleRate: 48000)
     for core in [controller.core, reference] {
@@ -103,7 +111,7 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
         _ = core.renderBusesOffline(frames: 1024)
     }
     for _ in 0..<50 {
-        controller.updateOutputDevice([originalZ1])
+        controller.updateOutputDevice([device])
         try controller.setOutputRoute(.stereoMaster)
     }
     let actual = controller.core.renderBusesOffline(frames: 512)

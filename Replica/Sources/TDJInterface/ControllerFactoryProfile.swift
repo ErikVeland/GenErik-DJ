@@ -50,6 +50,9 @@ struct ControllerFactoryProfile: RawRepresentable, Hashable, CaseIterable, Codab
     var definition: ControllerProfileData? { Self.data[rawValue] }
     var selectsAutomatically: Bool { definition?.autoSelect ?? true }
     var isPlayer: Bool { definition?.role == "player" }
+    var hasAutomaticSplitOutput: Bool {
+        self == .flx4 || self == .ddj400 || definition?.audioOutput == .masterAndHeadphones
+    }
 
     /**
      * Exact names retain model boundaries. Shared aliases remain ambiguous.

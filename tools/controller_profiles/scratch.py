@@ -11,15 +11,18 @@ SCRATCH_REFERENCES = {"Numark Scratch": {
     "url": UPSTREAM + SCRATCH_SOURCES[0][0], "sha256": SCRATCH_SOURCES[0][1],
     "relatedSources": [{"url": UPSTREAM + name, "sha256": digest} for name, digest in SCRATCH_SOURCES] + [
         {"url": "https://www.numark.com/images/product_downloads/Scratch_-_User_Guide_-_v1.2.pdf",
-         "sha256": "5b491b405ad730643d40927275415cbb57f6e5c6475555c13bfc2589cbb40f81", "pages": [5, 6]}],
-    "review": "XML dispatch establishes mixer channels 0/1 and pad/loop channels 4/5. The shared push handler applies received PFL on/off state directly. Native cue-state actions preserve it. Constructor PFL output channels differ, so headphone lights remain unmapped. The factory guide confirms that the Loop knob toggles on/off. That factory behaviour replaces the community script's enable-only key. Loop direction notes 52/53 have Note On dispatch only and represent encoder pulses. Every positive pulse applies once, without a release edge. Physical Shift on channel 15 note 50 selects one-step browsing and Load; unshifted controls resize or toggle the native loop. The shared four-pad addresses require explicit Cue/Sampler/Roll mode state. Alternate delete releases only rearm cues. Pad lights remain unmapped pending output mode guards. Selector reports 0/2 reset only that side's pickup. The published status/unlock and shutdown packets remain bounded. The source comment ties its ten-second delay to Mixxx initialisation. Native startup connects input before sending the request. Physical cold-start timing remains unverified. MIDI-only source fixtures do not establish DVS, passthrough or audio-routing support.",
+         "sha256": "5b491b405ad730643d40927275415cbb57f6e5c6475555c13bfc2589cbb40f81", "pages": [5, 6]},
+        {"url": "https://manual.mixxx.org/2.5/en/hardware/controllers/numark_scratch", "reviewed": "2026-11-17",
+         "audioOutput": "Master channels 1/2 and headphone channels 3/4. MASTER/BOOTH/CUE GAIN use hardware controls. Cue Mix reports MIDI to the software mixer."}],
+    "review": "XML dispatch establishes mixer channels 0/1 and pad/loop channels 4/5. The shared push handler applies received PFL on/off state directly. Native cue-state actions preserve it. Constructor PFL output channels differ, so headphone lights remain unmapped. The factory guide confirms that the Loop knob toggles on/off. That factory behaviour replaces the community script's enable-only key. Loop direction notes 52/53 have Note On dispatch only and represent encoder pulses. Every positive pulse applies once, without a release edge. Physical Shift on channel 15 note 50 selects one-step browsing and Load; unshifted controls resize or toggle the native loop. The shared four-pad addresses require explicit Cue/Sampler/Roll mode state. Alternate delete releases only rearm cues. Pad lights remain unmapped pending output mode guards. Selector reports 0/2 reset only that side's pickup. The published status/unlock and shutdown packets remain bounded. The source comment ties its ten-second delay to Mixxx initialisation. Native startup connects input before sending the request. Physical cold-start timing remains unverified. The cited audio setup gives master channels 1/2 and headphone channels 3/4. DVS, passthrough and physical output acceptance remain open.",
 }}
 
 
 def scratch_profiles():
     result = profile("Numark Scratch", SCRATCH_REFERENCES["Numark Scratch"]["url"])
     result["role"] = "accessory"
-    result["scope"] = "Automatic native mixer/accessory controls, four guarded cue pads per deck and pulse-based loop/browse controls. FX, rolls, sampler, full lights, cleanup, DVS, passthrough and audio routing remain open."
+    result["audioOutput"] = "masterAndHeadphones"
+    result["scope"] = "Automatic native mixer/accessory controls, four guarded cue pads per deck and pulse-based loop/browse controls. Documented USB master/headphone outputs select automatically. FX, rolls, sampler, full lights, cleanup, DVS and passthrough remain open."
     result["startup"] = [[0x9F, 50, 1], [0xF0, 0, 32, 127, 0, 0xF7]]
     result["shutdown"] = [[0xF0, 0, 32, 127, 4, 0xF7]]
     result["inputModes"] = [{"channel": channel, "initial": 0, "numbers": [0, 7, 11], "onValue": 127, "offValue": 1}

@@ -336,7 +336,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Numark Party Mix III | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Party Mix Live | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Party Mix Pro | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Numark Scratch | dvs-only | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Numark Scratch | dvs-only | Automatic core | Automatic split | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Rane MP2015 | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Rane ONE | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Rane ONE MKII | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |

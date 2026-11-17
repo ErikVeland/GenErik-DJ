@@ -45756,9 +45756,10 @@
         ]
       ],
       "autoSelect": true,
-      "scope": "Automatic native mixer/accessory controls, four guarded cue pads per deck and pulse-based loop/browse controls. FX, rolls, sampler, full lights, cleanup, DVS, passthrough and audio routing remain open.",
+      "scope": "Automatic native mixer/accessory controls, four guarded cue pads per deck and pulse-based loop/browse controls. Documented USB master/headphone outputs select automatically. FX, rolls, sampler, full lights, cleanup, DVS and passthrough remain open.",
       "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Scratch.midi.xml",
       "role": "accessory",
+      "audioOutput": "masterAndHeadphones",
       "inputModes": [
         {
           "channel": 4,
