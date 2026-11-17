@@ -4,7 +4,37 @@ REVIEWED = "2026-11-17"
 DENON_ENGINE = "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
 RELOOP_COMPARISON = "https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart"
 DRIVER_REQUIRED = {"Reloop Jockey 3 ME", "Reloop Digital Jockey 2 Master Edition"}
+SOURCE_AUDITS = {'Hercules DJControl Inpulse T7': {'source': {'url': 'https://drive.google.com/file/d/1ApFMGZpGgrtDCpAZ6vo4VdpAszKgEfnZ/view',
+                                              'sha256': 'a6c14da8d8d8f660e4903a4070c92b9820f8dbf07e89583443b468b1004b93d3'},
+                                   'discussion': 'https://community.algoriddim.com/t/hercules-inpulse-t7-support/20172/186',
+                                   'format': 'Apple property list',
+                                   'mappingVersion': 3,
+                                   'inputRows': 402,
+                                   'outputRows': 2,
+                                   'declaredCustomClass': 'HerculesDJControlInpulseT7',
+                                   'automaticSupportAdded': False,
+                                   'gaps': ['Motor/platter reports, initialisation and lifecycle depend on '
+                                            'absent HerculesDJControlInpulseT7 app code. The XML is not a '
+                                            'complete controller protocol.']},
+ 'Reloop Mixon 8 Pro': {'source': {'url': 'https://community.algoriddim.com/uploads/short-url/2kUpIX9bPTVPo7qTr9egISBVAbm.djayMidiMa',
+                                   'sha256': '47c43bcc1c78ae87d450bb3bba8caa3264ab51f2361b09204432b78a9081cd77'},
+                        'discussion': 'https://community.algoriddim.com/t/reloop-mixon-8-ultimate-stems-mapping/20579',
+                        'format': 'Apple property list',
+                        'mappingVersion': 2,
+                        'inputRows': 895,
+                        'outputRows': 24,
+                        'declaredCustomClass': 'ReloopMixon8',
+                        'automaticSupportAdded': False,
+                        'gaps': ['The custom ReloopMixon8 app class is absent. Shared XML does not establish '
+                                 'jog/pitch dispatch or cold-start lifecycle.',
+                                 'This custom version2 map predates firmware49.36. Its author reports '
+                                 'incompatibility with that update. Current firmware and dispatch need '
+                                 'independent qualification.']}}
+
 MODELS = [
+    ('Hercules DJControl Inpulse T7', 'https://community.algoriddim.com/t/hercules-inpulse-t7-support/20172/186'),
+    ('Reloop Mixon 8 Pro', 'https://community.algoriddim.com/t/reloop-mixon-8-ultimate-stems-mapping/20579'),
+
     ("Reloop Jockey 3 ME", "https://manual.mixxx.org/2.5/en/hardware/controllers/reloop_jockey_3_master_edition"),
     ("Reloop Digital Jockey 2 Master Edition", "https://www.reloop.com/reloop-digital-jockey-2-master-edition"),
     ("Reloop Digital Jockey 2 Master Edition", "https://manual.mixxx.org/2.5/en/hardware/controllers/reloop_digital_jockey_2_master_edition"),

@@ -2,6 +2,7 @@
 import hashlib
 from itertools import combinations
 import json
+import plistlib
 from pathlib import Path
 import tempfile
 import unittest
@@ -860,6 +861,25 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_new_public_mapping_audits_do_not_claim_missing_native_custom_classes(self):
+        from manufacturer_inventory import SOURCE_AUDITS
+        expected = {"Hercules DJControl Inpulse T7": ("t7-mapping.xml", 402, 2, "HerculesDJControlInpulseT7"),
+                    "Reloop Mixon 8 Pro": ("mixon8-sj1.djayMidiMapping", 895, 24, "ReloopMixon8")}
+        catalogue = json.loads((ROOT / "docs/coordination/controller-catalogue.json").read_text())
+        for name, (filename, controls, outputs, custom_class) in expected.items():
+            audit = SOURCE_AUDITS[name]
+            self.assertEqual((audit["inputRows"], audit["outputRows"], audit["declaredCustomClass"]), (controls, outputs, custom_class))
+            self.assertFalse(audit["automaticSupportAdded"])
+            model = next(row for row in catalogue["models"] if row["name"] == name)
+            self.assertFalse(model["zeroConfig"]["automaticControls"])
+            self.assertFalse(model["theoreticalSupport"]["complete"])
+            self.assertIn(audit, model["sourceAudits"])
+            path = ROOT / "TestBuilds/r286/manufacturer" / filename
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), audit["source"]["sha256"])
+                data = plistlib.loads(path.read_bytes())
+                self.assertEqual((len(data["controls"]), len(data["outputs"]), data["customClassName"]), (controls, outputs, custom_class))
+
     def test_original_umix_pro_retains_factory_touch_rim_load_and_split_audio(self):
         item, = original_umix_profiles()
         self.assertTrue(item["autoSelect"])

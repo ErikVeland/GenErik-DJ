@@ -39,7 +39,7 @@ from ns4fx import ns4fx_profiles, NS4FX_REFERENCES
 from mixstream import mixstream_profiles, MIXSTREAM_REFERENCES
 from flx10 import flx10_profiles, FLX10_REFERENCES
 from ddj1000 import ddj1000_profiles, DDJ1000_REFERENCES
-from manufacturer_inventory import MODELS as MANUFACTURER_MODELS, REVIEWED as INVENTORY_REVIEWED, DRIVER_REQUIRED
+from manufacturer_inventory import MODELS as MANUFACTURER_MODELS, REVIEWED as INVENTORY_REVIEWED, DRIVER_REQUIRED, SOURCE_AUDITS
 from jogvision import jogvision_profiles, JOGVISION_REFERENCES
 from inpulse300mk2 import inpulse300mk2_profiles, MK2_REFERENCES
 from inpulse200mk2 import inpulse200mk2_profiles, INPULSE200_REFERENCES
@@ -298,6 +298,14 @@ def build(cache, serato_html):
         model["gaps"] = [] if model["theoreticalSupport"]["complete"] else [
             "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."]
         model["gaps"].extend(profile.get("gaps", []) if profile else [])
+        audits = [audit for name, audit in SOURCE_AUDITS.items() if model["id"] == canonical(name)]
+        if audits:
+            model["sourceAudits"] = audits
+            for audit in audits:
+                model["gaps"].extend(audit["gaps"])
+                if audit["source"]["url"] not in model["sources"]:
+                    model["sources"].append(audit["source"]["url"])
+
         if model["id"] in {canonical(name) for name in DRIVER_REQUIRED}:
             model["gaps"].append("Implement and qualify a driver-backed desktop MIDI bridge. A stored virtual-MIDI recipe does not provide direct iPad USB support.")
         for name, pending in PENDING_DDJ.items():

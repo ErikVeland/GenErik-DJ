@@ -3216,3 +3216,20 @@ All 170 other recipes remain unchanged. The bundled resource matches the source.
 Automatic core coverage reaches 151 physical models, including 65/122 benchmark models. Complete theoretical parity remains open.
 Repository checks retain twelve historical-link failures. No signed app, installation or physical acceptance occurred.
 Exact source identities and results are in ignored `TestBuilds/r287/validation.json`.
+
+## R288 T7 and Mixon 8 public source boundaries
+
+The [public T7 XML](https://community.algoriddim.com/t/hercules-inpulse-t7-support/20172/186) has 402 control rows, two outputs and a named `HerculesDJControlInpulseT7` custom class.
+Its shared file does not contain that app class. Motor/platter reports, startup and lifecycle still need a qualified implementation.
+The [Mixon 8 author mapping](https://community.algoriddim.com/t/reloop-mixon-8-ultimate-stems-mapping/20579) has 895 controls, 24 outputs and a named `ReloopMixon8` custom class.
+That class is absent too. The file does not establish jog/pitch dispatch or cold-start lifecycle.
+Its author also reports incompatibility after firmware 49.36. This version predates that update.
+
+The catalogue now records these sources, exact hashes, row counts and limits beside each model.
+The files remain research evidence. They do not select a profile, run vendor code or add automatic/full support.
+Stealth's earlier R257 channel/encoder qualification hold and RANE FOUR's R245 experimental-source hold remain in force.
+All 119 importer checks pass, including checks that these source audits cannot promote automatic or complete support.
+All 172 runtime recipes remain byte-for-byte unchanged. No new native compilation was required for this metadata change.
+Automatic core coverage stays at 151 physical models, including 65/122 benchmark models. Complete theoretical parity remains open.
+Repository checks retain twelve historical-link failures. No signed app, installation or physical acceptance occurred.
+Exact source identities and results are in ignored `TestBuilds/r288/validation.json`.

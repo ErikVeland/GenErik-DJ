@@ -16346,7 +16346,9 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://community.algoriddim.com/t/hercules-inpulse-t7-support/20172/186",
+        "https://drive.google.com/file/d/1ApFMGZpGgrtDCpAZ6vo4VdpAszKgEfnZ/view"
       ],
       "definitions": [],
       "implementation": "protocol-needed",
@@ -16385,7 +16387,26 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Motor/platter reports, initialisation and lifecycle depend on absent HerculesDJControlInpulseT7 app code. The XML is not a complete controller protocol.",
         "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "sourceAudits": [
+        {
+          "source": {
+            "url": "https://drive.google.com/file/d/1ApFMGZpGgrtDCpAZ6vo4VdpAszKgEfnZ/view",
+            "sha256": "a6c14da8d8d8f660e4903a4070c92b9820f8dbf07e89583443b468b1004b93d3"
+          },
+          "discussion": "https://community.algoriddim.com/t/hercules-inpulse-t7-support/20172/186",
+          "format": "Apple property list",
+          "mappingVersion": 3,
+          "inputRows": 402,
+          "outputRows": 2,
+          "declaredCustomClass": "HerculesDJControlInpulseT7",
+          "automaticSupportAdded": false,
+          "gaps": [
+            "Motor/platter reports, initialisation and lifecycle depend on absent HerculesDJControlInpulseT7 app code. The XML is not a complete controller protocol."
+          ]
+        }
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -26391,7 +26412,9 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://community.algoriddim.com/t/reloop-mixon-8-ultimate-stems-mapping/20579",
+        "https://community.algoriddim.com/uploads/short-url/2kUpIX9bPTVPo7qTr9egISBVAbm.djayMidiMa"
       ],
       "definitions": [],
       "implementation": "protocol-needed",
@@ -26430,7 +26453,28 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "The custom ReloopMixon8 app class is absent. Shared XML does not establish jog/pitch dispatch or cold-start lifecycle.",
+        "This custom version2 map predates firmware49.36. Its author reports incompatibility with that update. Current firmware and dispatch need independent qualification.",
         "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "sourceAudits": [
+        {
+          "source": {
+            "url": "https://community.algoriddim.com/uploads/short-url/2kUpIX9bPTVPo7qTr9egISBVAbm.djayMidiMa",
+            "sha256": "47c43bcc1c78ae87d450bb3bba8caa3264ab51f2361b09204432b78a9081cd77"
+          },
+          "discussion": "https://community.algoriddim.com/t/reloop-mixon-8-ultimate-stems-mapping/20579",
+          "format": "Apple property list",
+          "mappingVersion": 2,
+          "inputRows": 895,
+          "outputRows": 24,
+          "declaredCustomClass": "ReloopMixon8",
+          "automaticSupportAdded": false,
+          "gaps": [
+            "The custom ReloopMixon8 app class is absent. Shared XML does not establish jog/pitch dispatch or cold-start lifecycle.",
+            "This custom version2 map predates firmware49.36. Its author reports incompatibility with that update. Current firmware and dispatch need independent qualification."
+          ]
+        }
       ],
       "priority": {
         "regionalSalesRank": null,
