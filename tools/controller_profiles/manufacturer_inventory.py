@@ -4,6 +4,9 @@ REVIEWED = "2026-11-17"
 DENON_ENGINE = "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
 RELOOP_COMPARISON = "https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart"
 MODELS = [
+    ("Numark Stealth Control", "https://www.numark.com/product/stealthcontrol"),
+    ("Numark Stealth Control", "https://www.numark.com/images/product_downloads/numark_stealth_control_xml_file_for_cue_5_and_virtual_vinyl_5.zip"),
+    ("Numark Stealth Control", "https://www.numark.com/images/product_downloads/stealth_control___quickstart_manual___v1.4.pdf"),
     ("Behringer BCD2000", "https://github.com/anyc/snd-bcd2000"),
     ("Denon MC3000", "https://cdn.inmusicbrands.com/denondj/legacy/mc3000/MC3000EM_ENG_IM_v00.pdf"),
     ("AlphaTheta DJM-A7", "https://alphatheta.com/en/product/dj-mixer/djm-a7/black/"),

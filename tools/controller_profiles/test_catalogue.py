@@ -836,6 +836,28 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_stealth_factory_inventory_does_not_infer_omni_runtime_compatibility(self):
+        references = [url for name, url in MANUFACTURER_MODELS if name == "Numark Stealth Control"]
+        self.assertEqual(len(references), 3)
+        self.assertTrue(any(url.endswith(".zip") for url in references))
+        cache = ROOT / "TestBuilds/r169/upstream"
+        if cache.exists():
+            catalogue, runtime = build(cache, None)
+            model = next(row for row in catalogue["models"] if row["id"] == canonical("Numark Stealth Control"))
+            self.assertEqual(model["implementation"], "protocol-needed")
+            self.assertFalse(model["zeroConfig"]["automaticControls"])
+            self.assertFalse(any("stealth" in alias.lower() for p in runtime["profiles"] for alias in p["aliases"]))
+        factory = ROOT / "TestBuilds/r257/manufacturer"
+        for name, digest in [
+            ("Stealth-Control.zip", "5429b3d5a0d3340664f7982a74bd78f261ac2ca1461a1949d7c59dada34c7b17"),
+            ("stealth_control_cue.xml", "fb961915199268c46c201ae84c1e2e595a40ff72b922c462d43cb69da8258dc1"),
+            ("Setup-Instructions.pdf", "960a0d53067af96504064ba28f217756ee2c2272708fbc4f53b2b058a5b45a55"),
+            ("Stealth-Control.pdf", "ddbe4bdc1c973ba7b5df170767ce0831d19a7659ffa85719b3620ace5f3af8a0"),
+        ]:
+            path = factory / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_total_omni_keep_opposite_jog_order_and_source_feedback(self):
         for result in total_omni_profiles():
             self.assertEqual((len(result["inputs"]), len(result["outputs"])), (46, 8))

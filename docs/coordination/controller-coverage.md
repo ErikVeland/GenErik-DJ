@@ -2497,3 +2497,25 @@ Both imported profiles already selected automatically. Automatic core counts rem
 The catalogue remains 307 records for 300 physical models. Benchmark coverage remains 62/122. Full feature parity and physical acceptance stay open.
 Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
 Exact logs, source hashes and factory PDF are in ignored `TestBuilds/r256/validation.json`.
+
+## R257 Stealth manufacturer inventory and factory XML audit
+
+Added the missing [Numark Stealth Control](https://www.numark.com/product/stealthcontrol) model with its first-party factory XML archive and user guide.
+The public factory archive contains `stealth_control_cue.xml` and setup instructions for CUE 5/Virtual Vinyl 5.
+The archive SHA-256 is `5429b3d5a0d3340664f7982a74bd78f261ac2ca1461a1949d7c59dada34c7b17`.
+The XML SHA-256 is `fb961915199268c46c201ae84c1e2e595a40ff72b922c462d43cb69da8258dc1`.
+The setup guide SHA-256 is `960a0d53067af96504064ba28f217756ee2c2272708fbc4f53b2b058a5b45a55`.
+The user guide SHA-256 is `ddbe4bdc1c973ba7b5df170767ce0831d19a7659ffa85719b3620ace5f3af8a0`.
+
+The XML supplies software action assignments and control numbers. The meaning of its `chan` fields needs raw MIDI qualification.
+The setup guide covers both Omni and Stealth workflows, but it does not establish identical raw MIDI or LED behaviour.
+Qualify the raw MIDI channel, encoder format/scale and LED commands before automatic selection.
+The XML's mixed Cue/Set Cue assignments and software-specific action values also need native translation.
+The corresponding guessed Omni archive URL returned 404. No compatibility fact was inferred from that failed request.
+Stealth remains protocol-needed. Its public sources do not add a runtime alias or mapping.
+
+All 90 importer checks pass. All 165 runtime recipes are byte-for-byte unchanged. No runtime build was required for this source-only inventory change.
+The catalogue now has 308 records for 301 physical models. Automatic core counts stay 119 factory profiles for 127 models, plus six other native models.
+Benchmark coverage remains 62/122. The wider manufacturer audit and full theoretical feature parity remain open.
+Repository checks retain twelve existing historical-link failures. No hardware test, signed app or installation occurred.
+Exact logs, source hashes and downloaded originals are in ignored `TestBuilds/r257/validation.json`.

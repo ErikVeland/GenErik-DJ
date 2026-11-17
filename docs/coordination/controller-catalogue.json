@@ -22069,6 +22069,63 @@
       }
     },
     {
+      "id": "numarkstealthcontrol",
+      "name": "Numark Stealth Control",
+      "manufacturer": "Numark",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://www.numark.com/product/stealthcontrol",
+        "https://www.numark.com/images/product_downloads/numark_stealth_control_xml_file_for_cue_5_and_virtual_vinyl_5.zip",
+        "https://www.numark.com/images/product_downloads/stealth_control___quickstart_manual___v1.4.pdf"
+      ],
+      "definitions": [],
+      "implementation": "protocol-needed",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "controlActions": [],
+      "inputBindingCount": null,
+      "feedbackBindingCount": null,
+      "connection": "Protocol and iPad connection route require review",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "protocol-needed",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": false,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": false,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "protocolImplemented",
+          "documentedControlsComplete",
+          "lifecycleReviewed",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "numarktotalcontrol",
       "name": "Numark Total Control",
       "manufacturer": "Numark",
@@ -315378,7 +315435,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 300,
+      "targetModels": 301,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."
