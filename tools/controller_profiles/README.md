@@ -620,3 +620,14 @@ Native fixed pressure scratch, held bend and manual Loop page use existing nativ
 The factory all-LED clear replaces broken source startup/shutdown. No source timers or JS run in the app.
 Hardware headphone volume receives no duplicate software change. The cited master/headphone split uses native routing.
 Other modes, HP Cue/Mix selection, full feedback, Scratch toggle, EQ calibration and physical acceptance remain open.
+
+## SC2000 channels and trigger feedback — R253
+
+`sc2000.py` keeps default CH1/2 as A/B and CH3/4 as C/D. Other channel pairs need separate assignment.
+One source-local physical Shift input spans all eight wire channels, preserving its release after a channel change.
+Bank reports release contacts and rearm pickup without dropping held Shift. A blocked held button still needs release before a fresh press.
+Factory value64 contact, 2,048-count centre64 jogs and full pitch messages use existing native contracts.
+Native core retains eight cues, manual/automatic loops, size buttons, direct Load and a filter encoder that follows its factory label.
+Separate CC74/75 feedback carries factory LED identifiers. Shutdown clears52native-owned states. Initial feedback supplies their starting states.
+No source deck-count mutation, timers, generic USB Audio Device alias or audio interface is invented.
+Other channels, full dimmer/FX/lifecycle coverage, source custom modes, calibration and physical acceptance stay open.

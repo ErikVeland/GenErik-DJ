@@ -13283,52 +13283,152 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20DN%20SC2000.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20DN%20SC2000.midi.xml",
+        "https://cdn.inmusicbrands.com/denondj/legacy/dnsc2000/DN-SC2000_ownersmanual.pdf"
       ],
       "definitions": [
-        "Denon DN SC2000.midi.xml"
+        "Denon DN SC2000.midi.xml",
+        "manufacturer:denondnsc2000"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Denon DN SC2000",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "browse",
+        "browseNextGroup",
+        "browsePreviousGroup",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
         "tempoA:a",
-        "tempoB:b"
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
       ],
-      "inputBindingCount": 2,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 120,
+      "feedbackBindingCount": 52,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "CH1/2 control A/B. CH3/4 control C/D with app opt-in. CH5–8 require separate assignment."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 110,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -314754,6 +314854,39 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:denondnsc2000",
+      "name": "Denon DN SC2000",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnsc2000/DN-SC2000_ownersmanual.pdf",
+        "sha256": "a0f5659f1cafe48cda952740b478d69663a6015f416bfd072cb7ae4607ef90e9",
+        "pages": [
+          1,
+          2
+        ],
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20DN%20SC2000.midi.xml",
+            "sha256": "7d531793ad47bbe219aa761a8f39e2ee22dd853c977f94b69426e19ffe86da8e"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-DN-SC2000.midi.js",
+            "sha256": "72f5e8a46afa7a2ad69f7fe1c926de8322d5d9d71e8bf5125dc71d2e201c9999"
+          }
+        ],
+        "review": "Factory MIDI table establishes Note On64/Note Off0 buttons, centre64 relative 2048-count jog, full pitch-bend messages and separate CC74-on/75-off LED triggers carrying LED IDs. Reviewed default CH1/2 targets A/B; CH3/4 targets C/D under existing app availability. Other channel pairs need explicit assignment and do not gain inferred targets. Physical Shift uses one source-local input across all eight wire channels, preserving release through deck/channel changes. Note3 bank reports release contacts and rearm all deck pickup without dropping held Shift. Shift blocks unsupported new presses/movement while old Cue/contact/bend releases remain valid. Native layout keeps eight cues, manual loop In/Out, Auto Loop, beat-size buttons, filter encoder and direct Load. The filter encoder follows its factory label rather than the source's loop-size customisation. Native feedback covers Play, held Cue, Sync, Key Lock, loop and eight cues per deck. Initial native feedback owns its lights; shutdown clears only these52LED states within the existing budget. Hardware dimmer LEDs, FX, full resets, Shift alternatives, source held cue/loop customisations, calibration and physical acceptance stay open. No audio interface, generic USB Audio Device alias, source num_decks mutation or JS timers are invented."
+      },
+      "implementedInputCount": 120,
+      "implementedOutputCount": 52,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         }
       ]
     },

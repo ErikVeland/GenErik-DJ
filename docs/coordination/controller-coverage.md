@@ -2397,3 +2397,29 @@ Automatic core coverage is now 117 factory profiles for 123 physical models, plu
 Benchmark coverage remains 62/122. Core counts do not establish complete feature parity.
 Repository checks retain twelve existing historical-link failures. No physical test, signed app or installation occurred.
 Exact logs, source hashes and factory PDF are in ignored `TestBuilds/r252/validation.json`.
+
+## R253 SC2000 factory channels and source-local Shift
+
+The SC2000 recipe follows Denon's [factory MIDI tables](https://cdn.inmusicbrands.com/denondj/legacy/dnsc2000/DN-SC2000_ownersmanual.pdf).
+CH1/2 target A/B. CH3/4 target C/D through the existing app opt-in. CH5–8 do not gain inferred deck targets.
+Factory contact value64, centre64 jogs, 2,048 counts and full pitch messages use existing native contracts.
+Physical Shift uses one source-local input across all eight wire channels. Its release survives a deck/channel change.
+Note3 bank reports release held contacts and rearm pickup across native targets. They preserve physical Shift.
+Shift blocks unsupported new actions and motion, while old contact/Cue/bend releases remain valid.
+The native layout keeps eight cues, manual In/Out, Auto Loop, beat-size buttons, filter encoder and direct Load.
+Filter follows the factory label, instead of the source's loop-size customisation.
+
+LEDs use separate CC74-on/75-off triggers with factory LED identifiers. Native outputs cover Play, Cue preview, Sync, Key Lock, loop and eight cues per deck.
+Initial feedback sets owned states. Shutdown clears these52states within the existing lifecycle limit.
+Dimmer lights, FX, full reset/feedback, Shift alternatives and source cue/loop customisations stay open.
+No generic USB Audio Device alias, audio interface, source deck-count mutation or JS timers are invented.
+Endpoints that expose only a generic name still need manual profile selection.
+
+All 36 final focused Swift checks, 86 importer checks and native iPad framework compilation pass.
+The first check incorrectly expected a held Play press to retrigger after Shift release. The corrected fixture releases Play before a fresh press.
+A Python expected-count assertion was also corrected from116 to120bindings. Both original results remain saved.
+All 164 other recipes remain unchanged. The bundled iPad resource matches the source.
+Automatic core coverage is now 118 factory profiles for 124 physical models, plus six other native models.
+Benchmark coverage remains 62/122. Full feature parity, physical calibration and A10X acceptance remain open.
+Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
+Exact logs, source hashes and factory PDF are in ignored `TestBuilds/r253/validation.json`.

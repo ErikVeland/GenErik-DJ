@@ -51,6 +51,7 @@ from hercules_compact import hercules_compact_profiles, HERCULES_COMPACT_SOURCES
 from bcd3000 import bcd3000_profiles, BCD3000_SOURCES
 from original_dj2go import original_dj2go_profiles, ORIGINAL_DJ2GO_SOURCES
 from hercules_air import air_profiles, AIR_SOURCES
+from sc2000 import sc2000_profiles, SC2000_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -832,6 +833,20 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_sc2000_keeps_factory_trigger_leds_and_source_local_physical_shift(self):
+        result = sc2000_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (120, 52))
+        self.assertTrue(all(r["shiftInput"] == 0 for r in result["inputs"] if r["action"] == "shift"))
+        self.assertEqual([r["channel"] for r in result["inputs"] if r["action"] == "shift"], list(range(8)))
+        self.assertTrue(all(r["number"] == 74 and r["offNumber"] == 75 and r["onValue"] == r["offValue"] for r in result["outputs"]))
+        self.assertEqual(len(result["shutdown"]), 52)
+        self.assertEqual(result["startup"], [])
+        self.assertFalse(any("USB Audio Device" in name for name in result["aliases"]))
+        for name, digest in SC2000_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_air_uses_factory_eight_bit_pairs_and_hardware_headphone_gain(self):
         result = air_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (43, 8))
