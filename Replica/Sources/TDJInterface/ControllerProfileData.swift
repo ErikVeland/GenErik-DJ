@@ -24,6 +24,7 @@ struct ControllerProfileData: Decodable, Sendable {
         let lowNumber: UInt8?
         let pulse: Bool?
         let requiresTouch: Bool?
+        let directionStep: Double?
 
         func binding(source: Int32) -> ControllerBinding {
             .init(
@@ -32,7 +33,7 @@ struct ControllerProfileData: Decodable, Sendable {
                 inverted: inverted, shifted: shifted ?? false, targetDeck: targetDeck, layerIndependent: shifted == nil,
                 anyChannel: anyChannel, argument: argument, releaseOnly: releaseOnly, requiredMode: requiredMode,
                 shiftChannel: shiftChannel, shiftInput: shiftInput, lowNumber: lowNumber, pulse: pulse,
-                requiresTouch: requiresTouch)
+                requiresTouch: requiresTouch, directionStep: directionStep)
         }
     }
 
@@ -151,6 +152,7 @@ struct ControllerProfileData: Decodable, Sendable {
                     && (![.mixstreamJog, .cyclic14BitJog, .vci100MK2Tempo, .lc6000Jog, .readyTempo, .airTempo].contains(
                         $0.encoding)
                         || $0.lowNumber != nil)
+                    && Self.validDirectionStep($0)
                     && Self.validArgument($0)
                     && (![
                         .centreDetent, .binaryStep, .binaryDirection, .signedStep, .dj2go2Jog, .mc7000Jog, .denonJog,
@@ -166,6 +168,15 @@ struct ControllerProfileData: Decodable, Sendable {
             }
             && (startup + shutdown).count <= 64
             && (startup + shutdown).allSatisfy(Self.validSetupMessage)
+    }
+
+    /**
+     * Limits source-specific normalised direction steps to reviewed tempo and cue-blend encoders.
+     */
+    private static func validDirectionStep(_ input: Input) -> Bool {
+        guard let step = input.directionStep else { return true }
+        return step.isFinite && step > 0 && step <= 0.1 && input.kind == .control
+            && input.encoding == .twosComplement && [.tempoA, .tempoB, .cueMix].contains(input.action)
     }
 
     private var validBankChanges: Bool {

@@ -2638,3 +2638,34 @@ All 164 other recipes remain unchanged. The bundled resource matches the source.
 Automatic core coverage reaches 123 factory profiles for 131 models, plus six other native models. Benchmark coverage remains 62/122.
 Repository checks retain twelve existing historical-link failures. Full feature parity remains open. No signed app or installation occurred.
 Exact logs, source hashes and the factory table are in ignored `TestBuilds/r262/validation.json`.
+
+## R263 P32 A/B core and bounded encoder direction steps
+
+The pinned XML/script qualify P32's A/B layout, mirrored loop/tempo encoders and source cue order.
+The [factory guide](https://ts.hercules.com/download/sound/manuals/P32DJ/EN_HERCULES_P32_DJ_User_Manual.pdf) confirms class-compliant USB and default master 1–2/headphones 3–4.
+The linked factory MIDI archive returned 403. Its [readable factory mirror](https://www.scribd.com/document/467254251/Hercules-P32-DJ-MIDI-Command-List-rev1-0) was checked against the pinned sources.
+
+The source's 1% rate changes become inverse normalised tempo steps of 0.005. Shifted browser cue-blend changes become normalised steps of 0.05.
+A typed optional `directionStep` preserves these report-direction steps without magnitude acceleration. Factory raw 64 remains negative.
+The contract accepts finite positive steps up to 0.1 only for reviewed signed tempo/cue-blend encoders.
+Queued reports accumulate and clamp through the existing native value path. Profiles without this field retain their existing response.
+Copied factory mappings and replacement endpoint identities retain the step values.
+
+The first eight source cues per side retain the physical top-two-row order. The other eight slots per side stay inactive.
+Native held Cue/bend, manual loop pads, loop toggle/encoder, tempo reset, three-band EQ, levels, crossfader, browsing and Load retain source assignments.
+Shifted delete/eject/reverse alternatives stay inactive while old holds release and ordinary buttons rearm.
+Source C/D switching through Shift+Slip is not implemented. A/B stay fixed; no hidden deck change is inferred.
+The source's dry/wet knob is not reassigned to gain. Headphone gain remains a hardware control.
+
+Fifty-eight normal/Shift outputs retain published transport and pad values. PFL remains normal-only.
+Encoder buttons receive no inferred LEDs. Pad mode indicators remain firmware-owned.
+Startup sends the source analogue query. Shutdown clears owned addresses, replacing the source's 594-note clear. The lifecycle total is 59 messages.
+Seven-segment displays, remaining pad slots/modes, FX, samplers, Slip/recording, full cleanup, calibration and physical acceptance stay open.
+
+All 36 focused Swift tests, including 18 parameterised audio cases, 96 importer checks and native iPad framework compilation pass.
+The shared audio fixtures retain samples, transport and saved Sync during repeated detection and route recovery.
+An initial importer binding-count expectation was corrected to 105. A test that read private mapping state was replaced with the reconnect behaviour check. Earlier failures remain preserved.
+All 164 other recipes remain unchanged. The bundled resource matches the source. The shared Cue fixture covers 115 automatic profiles.
+Automatic core coverage reaches 124 factory profiles for 132 models, plus six other native models. Benchmark coverage remains 62/122.
+Repository checks retain twelve existing historical-link failures. Full feature parity remains open. No signed app or installation occurred.
+Exact logs, source hashes and the factory guide are in ignored `TestBuilds/r263/validation.json`.

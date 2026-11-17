@@ -60,6 +60,7 @@ from cmd_studio4a import studio4a_profiles, STUDIO4A_SOURCES
 from stanton_djc4 import djc4_profiles, DJC4_SOURCES
 from mc3000 import mc3000_profiles, MC3000_SOURCES
 from rmx2 import rmx2_profiles, RMX2_SOURCES
+from p32 import p32_profiles, P32_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -863,6 +864,20 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
+    def test_p32_keeps_native_cue_limit_source_steps_and_bounded_feedback(self):
+        result = p32_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (105, 58))
+        steps = [r["directionStep"] for r in result["inputs"] if "directionStep" in r]
+        self.assertEqual(steps, [0.005, 0.005, 0.05])
+        self.assertEqual(len(result["startup"]) + len(result["shutdown"]), 59)
+        self.assertEqual(result["audioOutput"], "masterAndHeadphones")
+        self.assertFalse(any(r["targetDeck"] in {"c", "d"} for r in result["inputs"] if "targetDeck" in r))
+        self.assertEqual([r["number"] for r in result["inputs"] if r["action"].startswith("hotcue") and r["channel"] == 1], [96, 97, 98, 99, 92, 93, 94, 95])
+        for name, digest in P32_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_rmx2_keeps_adjacent_pairs_and_shift_cc_releases_separate_from_other_modes(self):
         result = rmx2_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (77, 16))
@@ -1263,7 +1278,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
             self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertFalse(model["theoreticalSupport"]["complete"])
-            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4"})
+            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ"})
 
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]

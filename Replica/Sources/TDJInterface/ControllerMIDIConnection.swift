@@ -143,6 +143,7 @@ struct ControllerBinding: Codable {
     var lowNumber: UInt8? = nil
     var pulse: Bool? = nil
     var requiresTouch: Bool? = nil
+    var directionStep: Double? = nil
     var lowControllerNumber: UInt8? { mode.isPairedCC ? lowNumber ?? (number < 32 ? number + 32 : nil) : nil }
     var target: ControllerActionTarget { .init(action, deck: targetDeck, argument: argument) }
     var mode: ControllerMIDIEncoding { encoding ?? .absolute }
@@ -744,7 +745,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                             argument: binding.argument, releaseOnly: binding.releaseOnly,
                             requiredMode: binding.requiredMode, shiftChannel: binding.shiftChannel,
                             shiftInput: binding.shiftInput, lowNumber: binding.lowNumber, pulse: binding.pulse,
-                            requiresTouch: binding.requiresTouch)
+                            requiresTouch: binding.requiresTouch, directionStep: binding.directionStep)
                     } ?? session.profile.bindings(source: session.source, playerDeck: session.playerDeck)
                 return (session.source, profile)
             })
@@ -1908,7 +1909,15 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     value = 0.5 + accumulated / 126
                 } else if let target = pendingValues[binding.target] ?? lookupValue(binding.target) {
                     guard target.isFinite else { continue }
-                    value = min(1, max(0, target + (binding.inverted == true ? -delta : delta) / 127))
+                    let signedDelta = binding.inverted == true ? -delta : delta
+                    let increment: Double
+                    if let step = binding.directionStep {
+                        guard step.isFinite, step > 0, step <= 0.1 else { continue }
+                        increment = signedDelta > 0 ? step : -step
+                    } else {
+                        increment = signedDelta / 127
+                    }
+                    value = min(1, max(0, target + increment))
                 } else {
                     continue
                 }

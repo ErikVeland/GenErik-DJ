@@ -16411,51 +16411,103 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20P32%20DJ.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20P32%20DJ.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20P32%20DJ.midi.xml"
       ],
       "definitions": [
-        "Hercules P32 DJ.midi.xml"
+        "Hercules P32 DJ.midi.xml",
+        "manufacturer:herculesp32dj"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Hercules P32 DJ",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
-        "crossfader"
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "tempoResetA:a",
+        "tempoResetB:b"
       ],
-      "inputBindingCount": 1,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 105,
+      "feedbackBindingCount": 58,
       "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "audioRouting": "Automatic master 1–2 / headphones 3–4",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": true,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 266,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -315773,6 +315825,47 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:herculesp32dj",
+      "name": "Hercules P32 DJ",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20P32%20DJ.midi.xml",
+        "sha256": "ecb129e3912c7efc9cf3742e6e5b5ccd3756a2a63659816c5a3db1bfedfa9ac3",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules-P32-scripts.js",
+            "sha256": "3067820bf96457abfbcd494b044d2b046a2d42560804f3dd824bfa89111b167b"
+          },
+          {
+            "url": "https://ts.hercules.com/download/sound/manuals/P32DJ/EN_HERCULES_P32_DJ_User_Manual.pdf",
+            "sha256": "fe1e525aa5d8583a34d542bfe8af99fd6cd349ce690c69dab922296379f339ff",
+            "pages": [
+              4,
+              5,
+              10,
+              11
+            ]
+          },
+          {
+            "url": "https://www.scribd.com/document/467254251/Hercules-P32-DJ-MIDI-Command-List-rev1-0"
+          },
+          {
+            "url": "https://ts.hercules.com/download/sound/manuals/P32DJ/Hercules_P32_DJ_MIDI_Command_List.zip"
+          }
+        ],
+        "review": "Pinned XML/script qualify fixed A/B channel1/2 core with Shift channels4/5, source top-first cue order, mirrored loop/tempo encoders and software assignments. Native direction-step metadata preserves source rate changes0.01 as inverse normalised0.005 steps and shifted browser cue-mix changes0.1 as native0.05 steps, independent of report magnitude. Factory signed64-negative boundary replaces source64-forward edge. Queued events accumulate and clamp through native value ownership. Native physical-side Shift retains alternate Cue/bend releases and button rearming. Only the first eight source cues per deck are implemented, preserving physical top-two-row addresses. Remaining eight slots per side stay inactive. Manual loop pads, native loop toggle/encoder, tempo reset and held bend use shared contracts. No software deck toggle is inferred from Shift+Slip: C/D remain open. Native transport, PFL, cue/bend/loop pad feedback retains source values and explicit normal/Shift outputs; PFL stays normal-only. Encoder buttons have no inferred LEDs. Startup only sends the pinned analogue query; shutdown clears owned outputs, replacing594 source note clears. Factory guide confirms class-compliant USB and default master1/2/headphones3/4. Hardware headphone gain is not duplicated. Full pads/modes, FX/samplers/Slip/record, seven-segment displays, cleanup, calibration and physical acceptance remain open. The factory MIDI archive returned403; its readable factory mirror is cross-checked against pinned sources."
+      },
+      "implementedInputCount": 105,
+      "implementedOutputCount": 58,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
         }
       ]
     },
