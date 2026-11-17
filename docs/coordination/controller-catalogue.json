@@ -16986,10 +16986,12 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Intech%20TEK2.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Intech%20TEK2.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Intech%20TEK2.midi.xml"
       ],
       "definitions": [
-        "Intech TEK2.midi.xml"
+        "Intech TEK2.midi.xml",
+        "manufacturer:intechtek2"
       ],
       "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
@@ -16999,17 +17001,24 @@
       "controlActions": [
         "cuePreviewA:a",
         "cuePreviewB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
         "playA:a",
-        "playB:b"
+        "playB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 4,
+      "inputBindingCount": 10,
       "feedbackBindingCount": 0,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "TEK2 DJ setup preset loaded and stored through Grid Editor. Manual selection required."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
@@ -17018,21 +17027,21 @@
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 4,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "TEK2 DJ setup must be installed through Grid Editor. Automatic preset transfer/identity, bottom-row keys, five-point LEDs, exact source playing-nudge model and physical calibration remain open. No automatic selection or audio interface is claimed. Manual apply does not activate the input.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -317188,6 +317197,38 @@
         },
         {
           "reason": "Bank/mode ownership, first-stopped Load, sampler holds, full documented controls, other channel settings, calibration and complete feedback/reset remain open. No automatic selection or integrated audio is claimed. Manual apply does not activate input or run lifecycle."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:intechtek2",
+      "name": "Intech TEK2",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Intech%20TEK2.midi.xml",
+        "sha256": "83b5467bc8197cfe9c7289118f17c5ba4dc074598ae71f6fee31e4dbfb82c734",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Intech%20TEK2.midi.xml",
+            "sha256": "83b5467bc8197cfe9c7289118f17c5ba4dc074598ae71f6fee31e4dbfb82c734"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Intech%20TEK2.scripts.js",
+            "sha256": "2cc6528d68ad4b79cb8b31503af78704831dc5fc099ff59587f5040895161f4c"
+          }
+        ],
+        "review": "Manual TEK2 DJ setup preset only. Author guide requires loading/storing this configuration in Grid Editor; endpoint name cannot identify the installed preset. Source raw-64 turn data and exact127 contact threshold drive100-count native fixed scratch. Separate requiresTouch jog and unheld wheel bindings share each wire address; native playback suppresses the wheel path while touch owns the deck. Unheld paused seek uses160 effective counts to retain source1.6 sensitivity ratio. Playing nudge uses shared native response, not the source runtime's velocity model. Native held Cue/Play cover the configured upper keys. Bottom row, five-point LED feedback, preset transfer/query, exact source nudge model and physical acceptance remain open. Source init/shutdown are empty. No audio, Load, EQ or tempo controls are invented. Manual apply does not activate an input."
+      },
+      "implementedInputCount": 10,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "TEK2 DJ setup must be installed through Grid Editor. Automatic preset transfer/identity, bottom-row keys, five-point LEDs, exact source playing-nudge model and physical calibration remain open. No automatic selection or audio interface is claimed. Manual apply does not activate the input."
         }
       ]
     },

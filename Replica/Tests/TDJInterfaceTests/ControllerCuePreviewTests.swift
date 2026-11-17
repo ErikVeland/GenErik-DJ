@@ -929,3 +929,23 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueTEK2NativeSharedWireMovesOnceThenReleasesTouchAndCue() async throws {
+    try await withControllerCuePlayback("TEK2", manual: true) { model, input in
+        cuePreviewPacket([0x90, 40, 127, 0xB0, 8, 66], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - sampleRate * 1.8 * 2 / 100) <= 1)
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        cuePreviewPacket([0x90, 40, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(!model.controllerJogTouched.contains(.a))
+        cuePreviewPacket([0x90, 33, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80, 33, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

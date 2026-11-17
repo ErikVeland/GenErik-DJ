@@ -3130,3 +3130,22 @@ All 170 other recipes remain unchanged. The bundled resource matches the source.
 Automatic core coverage stays at 150 physical models, including 65/122 benchmark models.
 Repository checks retain twelve historical-link failures. No signed app, installation or physical acceptance occurred.
 Exact source identities and results are in ignored `TestBuilds/r283/validation.json`.
+
+## R284 Configured TEK2 native controls
+
+The [mapping author](https://manual.mixxx.org/2.5/en/hardware/controllers/intech_tek2) requires the `TEK2 DJ setup` preset through Grid Editor.
+Endpoint names cannot identify the installed preset. This recipe stays manual and separate from generic Intech Grid devices.
+The source supplies raw-64 wheels, exact-full-value contact, Play and held Cue for each deck.
+Native fixed scratch uses the published 100-count scale. A separate unheld path shares each wheel address.
+Touch ownership blocks that unheld path in playback, so one report cannot move a touched deck twice.
+Unheld paused seek uses 160 effective counts. Playing nudge uses the shared native response; the source runtime's exact velocity response remains open.
+
+The source has no setup, shutdown or output messages. No LED protocol, audio interface, Load, mixer or tempo controls are invented.
+Bottom-row keys, five-point LEDs, preset upload/query, full documented controls and physical calibration remain open.
+Manual apply does not activate an input.
+All five focused Swift tests, 115 importer checks and native iPad framework compilation pass.
+The real-file fixture verifies exact count motion without duplicate movement, finite audio, touch release, Cue release and saved Sync.
+All 170 other recipes remain unchanged. The bundled resource matches the source.
+Automatic core coverage stays at 150 physical models, including 65/122 benchmark models. Complete theoretical parity remains open.
+Repository checks retain twelve historical-link failures. No signed app, installation or physical acceptance occurred.
+Exact source identities and results are in ignored `TestBuilds/r284/validation.json`.

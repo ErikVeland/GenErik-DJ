@@ -75,6 +75,7 @@ from mixtrack_quad import quad_profiles, QUAD_SOURCES
 from imix_reload import imix_profiles, IMIX_SOURCES
 from mcx8000 import mcx_profiles, MCX_SHA
 from mix101 import mix101_profiles
+from tek2 import tek2_profiles, TEK2_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -856,6 +857,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_tek2_keeps_required_preset_manual_with_separate_touch_and_wheel_paths(self):
+        item, = tek2_profiles()
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (10, 0))
+        self.assertEqual(item["startup"] + item["shutdown"], [])
+        self.assertEqual([r["argument"] for r in item["inputs"] if r.get("requiresTouch")], [100, 100])
+        self.assertEqual([r["argument"] for r in item["inputs"] if r["action"].startswith("wheelJog")], [160, 160])
+        self.assertEqual([r["number"] for r in item["inputs"] if r["encoding"] == "fullVelocityGate"], [40, 41])
+        for name, digest in TEK2_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_mix101_source_encoders_and_distinct_play_led_stay_manual(self):
         item, = mix101_profiles()
         self.assertFalse(item["autoSelect"])

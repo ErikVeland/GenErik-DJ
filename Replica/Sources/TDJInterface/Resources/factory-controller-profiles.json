@@ -41872,7 +41872,7 @@
         "Intech TEK2",
         "TEK2"
       ],
-      "definition": "Intech TEK2.midi.xml",
+      "definition": "manufacturer:intechtek2",
       "inputs": [
         {
           "action": "playA",
@@ -41893,6 +41893,36 @@
           "targetDeck": "a"
         },
         {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 40,
+          "encoding": "fullVelocityGate",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 8,
+          "encoding": "binaryOffset",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 100,
+          "requiresTouch": true
+        },
+        {
+          "action": "wheelJogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 8,
+          "encoding": "binaryOffset",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 160
+        },
+        {
           "action": "playB",
           "kind": "note",
           "channel": 0,
@@ -41909,14 +41939,49 @@
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 0,
+          "number": 41,
+          "encoding": "fullVelocityGate",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 0,
+          "number": 9,
+          "encoding": "binaryOffset",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 100,
+          "requiresTouch": true
+        },
+        {
+          "action": "wheelJogB",
+          "kind": "control",
+          "channel": 0,
+          "number": 9,
+          "encoding": "binaryOffset",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 160
         }
       ],
       "outputs": [],
       "startup": [],
       "shutdown": [],
       "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Intech%20TEK2.midi.xml"
+      "scope": "Manual configured preset:100-count fixed touch scratch, separate unheld wheel stream, Play and held Cue. Preset identity/transfer, remaining keys/LEDs, exact playing nudge response and physical acceptance remain open.",
+      "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Intech%20TEK2.midi.xml",
+      "role": "accessory",
+      "hardwareMode": "TEK2 DJ setup preset loaded and stored through Grid Editor. Manual selection required.",
+      "gaps": [
+        "TEK2 DJ setup must be installed through Grid Editor. Automatic preset transfer/identity, bottom-row keys, five-point LEDs, exact source playing-nudge model and physical calibration remain open. No automatic selection or audio interface is claimed. Manual apply does not activate the input."
+      ]
     },
     {
       "id": "Ion Discover DJ",
