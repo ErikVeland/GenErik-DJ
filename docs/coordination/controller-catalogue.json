@@ -25294,46 +25294,120 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://raw.githubusercontent.com/Grizbeard/reloop-ready-mixxx/077bd47f2d30ce1012cd6bc2e5dd02d8b34b7f61/docs/protocol.md"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:reloopready"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Reloop Ready",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "jumpBackA:a",
+        "jumpBackB:b",
+        "jumpForwardA:a",
+        "jumpForwardB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
+      ],
+      "inputBindingCount": 138,
+      "feedbackBindingCount": 8,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -314307,6 +314381,44 @@
       },
       "implementedInputCount": 53,
       "implementedOutputCount": 14,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:reloopready",
+      "name": "Reloop Ready",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/Grizbeard/reloop-ready-mixxx/077bd47f2d30ce1012cd6bc2e5dd02d8b34b7f61/docs/protocol.md",
+        "sha256": "08a9f8c66bef22306066580e3c98b51aeae932c5c1155f5fc4ead517c8617896",
+        "revision": "077bd47f2d30ce1012cd6bc2e5dd02d8b34b7f61",
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/Grizbeard/reloop-ready-mixxx/077bd47f2d30ce1012cd6bc2e5dd02d8b34b7f61/docs/protocol.md",
+            "sha256": "08a9f8c66bef22306066580e3c98b51aeae932c5c1155f5fc4ead517c8617896"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/Grizbeard/reloop-ready-mixxx/077bd47f2d30ce1012cd6bc2e5dd02d8b34b7f61/Reloop-Ready.midi.xml",
+            "sha256": "32320440001ebece9d924e125c23f9288d0852d038f7a3fba3ce98d1924cbf7b"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/Grizbeard/reloop-ready-mixxx/077bd47f2d30ce1012cd6bc2e5dd02d8b34b7f61/Reloop-Ready-scripts.js",
+            "sha256": "d89798afbb7ac712ebb5904c955e121ffe3c29a6b4b4f254d81ed348836724a2"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/Grizbeard/reloop-ready-mixxx/077bd47f2d30ce1012cd6bc2e5dd02d8b34b7f61/profile/reloop-ready.json",
+            "sha256": "3967c648ce6591930a87802262cbd7daed341119fafe82ebd69c5564355cdff8"
+          }
+        ],
+        "review": "The author's measured protocol and source profile establish distinct hardware modifier addresses, CC9/63 pitch travel 0..1023, Note Off releases, 1024-count jogs and mode-select pad notes. Native fixed touch scratching is armed at startup. New contacts during unsupported Shift search are blocked; normal contact release remains valid. Fresh pitch pairs preserve the full measured travel, source inversion and pickup without inventing a calibrated midpoint. Hot Cue, fixed Auto Loop and manual loop pages have independent guards. Shifted release aliases rearm normal actions without triggering source clone/censor/key-sync/delete alternatives. Startup clears all sixteen RGB pads; mode LEDs are firmware-owned and receive no guesses. Mode-aware pad feedback, source Vinyl toggle/percentage search, other modes, full lights/cleanup, audio routing and physical acceptance remain open. Buddy is a separate protocol."
+      },
+      "implementedInputCount": 138,
+      "implementedOutputCount": 8,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

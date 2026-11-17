@@ -43,6 +43,7 @@ from idj_live2 import idj_live2_profiles, IDJ2_SOURCES
 from lc6000 import lc6000_profiles, LC6000_SOURCES
 from vci100 import vci100_profiles, VCI100_SOURCES
 from xone_k import xone_k_profiles, XONE_SOURCES
+from ready import ready_profiles, READY_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -824,6 +825,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_ready_keeps_measured_ten_bit_travel_and_hardware_layer_addresses(self):
+        result = ready_profiles()[0]
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (138, 8))
+        self.assertTrue(all(r["number"] == 9 and r["lowNumber"] == 63 and r["inverted"] and r["encoding"] == "readyTempo" for r in result["inputs"] if r["action"] in {"tempoA", "tempoB"}))
+        self.assertEqual([m["channel"] for m in result["inputModes"]], [4, 5])
+        self.assertEqual(result["inputModes"][0]["numbers"], [0, 5, 14, 11, 15, 9, 8, 18])
+        self.assertEqual(len(result["startup"]) + len(result["shutdown"]), 28)
+        self.assertFalse(any(r["number"] == 32 and r["channel"] in {0, 1} for r in result["outputs"]))
+        for name, digest in READY_SOURCES:
+            path = ROOT / "TestBuilds/r244/upstream" / Path(name).name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_xone_family_uses_factory_channel_and_separate_load_modifier(self):
         result = xone_k_profiles()[0]
         self.assertEqual((len(result["inputs"]), len(result["outputs"])), (53, 14))

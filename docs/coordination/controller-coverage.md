@@ -2,6 +2,37 @@
 
 Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
+## R244 measured Reloop Ready native core
+
+Ready gains a native core from the author's measured protocol, source profile, XML and companion script at a pinned revision.
+Buddy keeps a separate identity. The source has captured hardware evidence; this work has no physical Ready acceptance.
+
+Pitch uses explicit CC 9/63 pairs with measured travel 0–1023. Native decoding waits for a fresh pair and rejects values outside that travel.
+The recipe preserves source inversion and pickup. It does not stretch a 16,383-step range across a 1,024-step fader or invent a calibrated midpoint.
+Master, headphone, cue mix, crossfader, channel levels, two-band EQ, gain and filter controls reuse native contracts.
+Direct Load and normal transport keep their published addresses. Shifted Note Off aliases release Cue and rearm ordinary buttons.
+Source clone, censor, key-sync and delete presses cannot trigger their normal alternatives.
+
+Native fixed touch scratching retains 1,024 counts per revolution. Startup enables each Vinyl indicator.
+New touch contacts during unsupported Shift search stay blocked. Existing contacts can still release.
+The software Vinyl toggle and percentage-based fast Shift search remain open.
+
+Hot Cue, 1/2/4/8-beat toggle loops and manual loops use independent pad-mode guards on each deck.
+Native half/double buttons work on the two loop pages. Other pages stay inactive.
+Native Hot Cues retain the app's existing one-press behaviour; source held cue previews remain open.
+Mode-dependent pad feedback, loop movement, reloop-and-stop, other pages, FX and shifted folder control remain open.
+Startup clears all sixteen RGB pads. MODE indicators are firmware-owned and receive no host packets.
+Eight reviewed feedback controls and fixed Vinyl indicators have explicit shutdown packets. Total lifecycle messages: 28.
+
+All 21 targeted Swift checks, 77 importer/report checks and native iPad compilation pass.
+The bundled resource matches the source. All 164 earlier recipes remain unchanged.
+Factory coverage reaches 110 profiles for 116 physical models, plus six other native models.
+Automatic core coverage reaches 62 of the 122 pinned Serato benchmark models.
+The repository check retains twelve existing historical-link failures.
+Validation results and source identities appear in `TestBuilds/r244/validation.json`.
+Full feedback/cleanup, audio routing, physical fader/jog calibration and A10X acceptance remain open.
+No signed app or installation was produced.
+
 ## R243 factory-layout Xone K1/K2/K3 native core
 
 K1, K2 and K3 gain one reviewed family recipe. Factory manuals confirm the shared note/controller layout and default MIDI channel 15.

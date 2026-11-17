@@ -528,3 +528,15 @@ Release aliases preserve button edges. Source ownership and saved mapping metada
 Native Shift is momentary. Low EQ rearms pickup after Shift instead of copying the source's persistent quick-effect latch.
 Red feedback uses Note Off velocity 127. Startup/shutdown total sixteen messages and clear all declared indicators.
 Outer FX columns, other pages, full feedback, firmware/device checks, K2 audio routing and physical acceptance remain open.
+
+## Ready measured pitch travel and hardware layers — R244
+
+`ready.py` pins the author's protocol, source profile, XML and script.
+`readyTempo` consumes fresh CC 9/63 pairs and maps the measured 0–1023 range. Out-of-range pairs are ignored.
+The recipe keeps source inversion and pickup; midpoint calibration remains open.
+Hardware Shift/Mode layers use distinct addresses. Note Off aliases release Cue and rearm normal buttons.
+Fixed native scratching keeps 1,024 counts and arms Vinyl at startup. New Shift-search contacts are blocked; release stays valid.
+Hot Cue, Auto Loop and manual-loop pages have independent per-deck guards. Other pages remain inactive.
+Native cues retain existing one-press behaviour. Source held previews and mode-dependent pad feedback remain open.
+Startup clears sixteen RGB pads; MODE indicators are firmware-owned. Lifecycle setup totals 28 messages.
+Buddy, source Vinyl/search modes, full pads/FX/feedback/cleanup, audio routing, calibration and physical acceptance remain open.
