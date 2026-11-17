@@ -2772,3 +2772,30 @@ Both earlier results remain preserved. All 165 other recipes remain unchanged. T
 Automatic core coverage reaches 140 physical models, including 62/122 benchmark models. Full theoretical parity remains open.
 Repository checks retain twelve existing historical-link failures. No signed app, installation or physical acceptance occurred.
 Exact source hashes and logs are in ignored `TestBuilds/r268/validation.json`.
+
+## R269 Original ION Discover core and permanent tempo buttons
+
+The original ION Discover DJ now selects its own native core automatically. Discover Pro remains separate.
+The [mapping author](https://manual.mixxx.org/2.5/en/hardware/controllers/ion_discover_dj) identifies physical Volume and Bass controls repurposed for three-band software EQ.
+The native recipe restores labelled Volume and two-band Bass/Treble. It does not invent Mid EQ, PFL or an audio interface.
+Published Play, held Cue, Sync, direct Load, signed browsing and inverted crossfader retain their wire addresses.
+
+Pitch buttons now use typed permanent Tempo Up/Down actions. Each fresh press changes tempo by 0.1 percentage points, matching the native UI step.
+This is a deliberate native step, separate from the source application's configurable coarse step and from held pitch bend.
+The shared tempo setter preserves Sync, changes master tempo for a synced deck and free rate for an unsynced deck.
+Releases do not undo the change. Existing ±50 percent limits still apply. No automatic key-repeat timer was added.
+
+Physical touch supports fixed native scratching. The source sets 128 counts at 45 RPM and divides ticks by three.
+Its effective response converts to native resolution 518.4 at 1.8 seconds per turn. This is not a measured physical wheel resolution.
+Unheld movement uses the existing native seek/nudge path. Source Scratch-mode switching, reverse and library expansion remain open.
+Six steady transport lights and fixed Scratch indication use the published addresses. Startup/shutdown total eighteen messages.
+The source's delayed light show and Load-driven light changes are omitted.
+
+All nine focused Swift tests, 101 importer checks and native iPad framework compilation pass.
+Real-file fixtures cover count response, grid restoration, fresh-press tempo steps, both Sync states, tempo limits and continuing finite playback.
+An initial fixture assumed an order for independent queued deck jogs. The corrected assertion checks each deck separately; no runtime fix was needed.
+All 165 other recipes remain unchanged. The bundled resource matches the source. Automatic core coverage reaches 141 physical models.
+Benchmark coverage stays 62/122. Full theoretical parity, physical calibration and acceptance remain open.
+Repository checks retain twelve existing historical-link failures. No signed app or installation occurred.
+The factory-guide mirror returned HTTP 403; no successful factory PDF review is claimed.
+Exact source hashes, earlier results and final logs are in ignored `TestBuilds/r269/validation.json`.

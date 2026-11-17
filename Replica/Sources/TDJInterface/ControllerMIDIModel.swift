@@ -234,6 +234,10 @@ extension ReplicaModel {
                 pressed: value > 0, deck: deck)
         case .tempoA, .tempoB: setDeckTempo(percent: value * 16 - 8, deck: deck)
         case .tempoResetA, .tempoResetB: setDeckTempo(percent: 0, deck: deck)
+        case .tempoDownA, .tempoDownB, .tempoUpA, .tempoUpB:
+            guard value > 0 else { return }
+            let step = action == .tempoUpA || action == .tempoUpB ? 0.1 : -0.1
+            setDeckTempo(percent: deckTempoPercent(deck: deck) + step, deck: deck)
         case .seekA, .seekB:
             if let track = track(deck) { jump(value * max(0, Double(track.analysis.frameCount) - 1), deck: deck) }
         case .fixedJumpA, .fixedJumpB:

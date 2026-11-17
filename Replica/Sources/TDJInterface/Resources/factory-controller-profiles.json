@@ -38931,64 +38931,19 @@
     {
       "id": "Ion Discover DJ",
       "aliases": [
-        "Discover DJ",
-        "Ion Discover DJ"
+        "Ion Discover DJ",
+        "Discover DJ"
       ],
-      "definition": "Ion Discover DJ.midi.xml",
+      "definition": "manufacturer:iondiscoverdj",
       "inputs": [
         {
-          "action": "lowB",
-          "kind": "control",
+          "action": "playA",
+          "kind": "note",
           "channel": 0,
-          "number": 9,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "midA",
-          "kind": "control",
-          "channel": 0,
-          "number": 20,
+          "number": 74,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
-        },
-        {
-          "action": "cuePreviewB",
-          "kind": "note",
-          "channel": 0,
-          "number": 66,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "lowA",
-          "kind": "control",
-          "channel": 0,
-          "number": 8,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "a"
-        },
-        {
-          "action": "syncB",
-          "kind": "note",
-          "channel": 0,
-          "number": 71,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "playB",
-          "kind": "note",
-          "channel": 0,
-          "number": 76,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
         },
         {
           "action": "cuePreviewA",
@@ -39009,27 +38964,65 @@
           "targetDeck": "a"
         },
         {
-          "action": "master",
-          "kind": "control",
-          "channel": 0,
-          "number": 23,
-          "encoding": "absolute",
-          "inverted": false
-        },
-        {
-          "action": "highB",
-          "kind": "control",
-          "channel": 0,
-          "number": 17,
-          "encoding": "absolute",
-          "inverted": false,
-          "targetDeck": "b"
-        },
-        {
-          "action": "playA",
+          "action": "loadA",
           "kind": "note",
           "channel": 0,
-          "number": 74,
+          "number": 75,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "tempoDownA",
+          "kind": "note",
+          "channel": 0,
+          "number": 67,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "tempoUpA",
+          "kind": "note",
+          "channel": 0,
+          "number": 68,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 77,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 25,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "a",
+          "argument": 518.4
+        },
+        {
+          "action": "levelA",
+          "kind": "control",
+          "channel": 0,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "lowA",
+          "kind": "control",
+          "channel": 0,
+          "number": 20,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a"
@@ -39044,21 +39037,120 @@
           "targetDeck": "a"
         },
         {
-          "action": "crossfader",
-          "kind": "control",
+          "action": "playB",
+          "kind": "note",
           "channel": 0,
-          "number": 10,
+          "number": 76,
           "encoding": "absolute",
-          "inverted": true
+          "inverted": false,
+          "targetDeck": "b"
         },
         {
-          "action": "midB",
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 0,
+          "number": 66,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 0,
+          "number": 71,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 0,
+          "number": 52,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "tempoDownB",
+          "kind": "note",
+          "channel": 0,
+          "number": 69,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "tempoUpB",
+          "kind": "note",
+          "channel": 0,
+          "number": 70,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 0,
+          "number": 78,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 0,
+          "number": 24,
+          "encoding": "twosComplement",
+          "inverted": false,
+          "targetDeck": "b",
+          "argument": 518.4
+        },
+        {
+          "action": "levelB",
+          "kind": "control",
+          "channel": 0,
+          "number": 9,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "lowB",
           "kind": "control",
           "channel": 0,
           "number": 21,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b"
+        },
+        {
+          "action": "highB",
+          "kind": "control",
+          "channel": 0,
+          "number": 17,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "master",
+          "kind": "control",
+          "channel": 0,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "crossfader",
+          "kind": "control",
+          "channel": 0,
+          "number": 10,
+          "encoding": "absolute",
+          "inverted": true
         },
         {
           "action": "browse",
@@ -39069,12 +39161,169 @@
           "inverted": false
         }
       ],
-      "outputs": [],
-      "startup": [],
-      "shutdown": [],
-      "autoSelect": false,
-      "scope": "Partial mapping. Hardware verification is open.",
-      "source": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion%20Discover%20DJ.midi.xml"
+      "outputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 0,
+          "number": 74,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cuePreviewA",
+          "kind": "note",
+          "channel": 0,
+          "number": 59,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 0,
+          "number": 64,
+          "targetDeck": "a",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 0,
+          "number": 76,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 0,
+          "number": 66,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 0,
+          "number": 71,
+          "targetDeck": "b",
+          "onValue": 127,
+          "offValue": 0,
+          "offUsesNoteOn": true
+        }
+      ],
+      "startup": [
+        [
+          144,
+          74,
+          0
+        ],
+        [
+          144,
+          59,
+          0
+        ],
+        [
+          144,
+          64,
+          0
+        ],
+        [
+          144,
+          76,
+          0
+        ],
+        [
+          144,
+          66,
+          0
+        ],
+        [
+          144,
+          71,
+          0
+        ],
+        [
+          144,
+          51,
+          0
+        ],
+        [
+          144,
+          60,
+          0
+        ],
+        [
+          144,
+          72,
+          127
+        ]
+      ],
+      "shutdown": [
+        [
+          144,
+          74,
+          0
+        ],
+        [
+          144,
+          59,
+          0
+        ],
+        [
+          144,
+          64,
+          0
+        ],
+        [
+          144,
+          76,
+          0
+        ],
+        [
+          144,
+          66,
+          0
+        ],
+        [
+          144,
+          71,
+          0
+        ],
+        [
+          144,
+          51,
+          0
+        ],
+        [
+          144,
+          60,
+          0
+        ],
+        [
+          144,
+          72,
+          0
+        ]
+      ],
+      "autoSelect": true,
+      "scope": "Automatic original Discover core with physical volume/two-band EQ, permanent native tempo steps, held Cue, fixed source-scaled touch scratch, direct Load and browsing. Scratch mode switching, reverse, full lights, calibration and physical acceptance remain open.",
+      "source": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion%20Discover%20DJ.midi.xml",
+      "excludedAliases": [
+        "Discover DJ Pro",
+        "Ion Discover DJ Pro"
+      ]
     },
     {
       "id": "Ion Discover DJ Pro",

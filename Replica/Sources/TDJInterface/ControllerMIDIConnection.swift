@@ -22,6 +22,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case toggleFixedLoopA, toggleFixedLoopB
     case fixedLoopA, fixedLoopB, fixedJumpA, fixedJumpB, loopInA, loopInB, loopOutA, loopOutB
     case seekA, seekB, tempoResetA, tempoResetB
+    case tempoDownA, tempoDownB, tempoUpA, tempoUpB
     case reloopA, reloopB
     case loopInOrHalveA, loopInOrHalveB, loopOutOrDoubleA, loopOutOrDoubleB
     case loopDivideA, loopDivideB, loopRestoreA, loopRestoreB
@@ -63,6 +64,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
             "freeze": "Freeze", "jog": "Platter jog", "jogTouch": "Platter touch", "wheelJog": "Wheel-side jog",
             "toggleFixedLoop": "Loop pad", "fixedLoop": "Fixed beat loop", "fixedJump": "Fixed beat jump", "loopIn": "Loop in", "loopOut": "Loop out",
             "seek": "Waveform position", "tempoReset": "Tempo reset",
+            "tempoDown": "Tempo down 0.1%", "tempoUp": "Tempo up 0.1%",
             "reloop": "Reloop / exit",
             "loopInOrHalve": "Loop in / halve", "loopOutOrDouble": "Loop out / double",
             "loopDivide": "Divide loop", "loopRestore": "Restore loop length",

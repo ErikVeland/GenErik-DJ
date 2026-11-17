@@ -16827,16 +16827,18 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion%20Discover%20DJ.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion%20Discover%20DJ.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion%20Discover%20DJ.midi.xml"
       ],
       "definitions": [
-        "Ion Discover DJ.midi.xml"
+        "Ion Discover DJ.midi.xml",
+        "manufacturer:iondiscoverdj"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Ion Discover DJ",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "browse",
         "crossfader",
@@ -16844,48 +16846,56 @@
         "cuePreviewB:b",
         "highA:a",
         "highB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
         "lowA:a",
         "lowB:b",
         "master",
-        "midA:a",
-        "midB:b",
         "playA:a",
         "playB:b",
         "syncA:a",
-        "syncB:b"
+        "syncB:b",
+        "tempoDownA:a",
+        "tempoDownB:b",
+        "tempoUpA:a",
+        "tempoUpB:b"
       ],
-      "inputBindingCount": 15,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 25,
+      "feedbackBindingCount": 6,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 24,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -316134,6 +316144,38 @@
       },
       "implementedInputCount": 25,
       "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:iondiscoverdj",
+      "name": "Ion Discover DJ",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion%20Discover%20DJ.midi.xml",
+        "sha256": "84afadae9e064fce2e44b0cb7b597de0ce946620bb3a260e75dd6fced72d130d",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion%20Discover%20DJ.midi.xml",
+            "sha256": "84afadae9e064fce2e44b0cb7b597de0ce946620bb3a260e75dd6fced72d130d"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion-Discover-DJ-scripts.js",
+            "sha256": "474c10819937ff03eb2ff895ca49d66c6971bf6ba0a55f528863fd476ab62623"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/ion_discover_dj"
+          }
+        ],
+        "review": "Pinned XML and script give original transport, touch, signed jogs, direct Load, permanent tempo buttons and LED addresses. The mapping author identifies physical Volume reassigned as Low and Bass reassigned as Mid. Native controls restore labelled Volume and two-band Bass/Treble, without an invented Mid control. Permanent tempo buttons use the existing native UI step of 0.1 percentage points per fresh press, not temporary bend or the source application's configurable coarse step. Native fixed touch scratch preserves the source's 128-count, 45RPM, tick-divided-by-three response through effective native resolution 518.4 (native 1.8 seconds per turn). This is a source response conversion, not a factory physical-count claim. The source LED show and unowned Load light mutation are omitted. Fixed Scratch indication stays on; mode switching, reverse, library expansion and beat flashes remain open. The original has no audio interface or PFL buttons. Pro remains a distinct protocol. Full controls/feedback, calibration and physical acceptance remain open."
+      },
+      "implementedInputCount": 25,
+      "implementedOutputCount": 6,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [

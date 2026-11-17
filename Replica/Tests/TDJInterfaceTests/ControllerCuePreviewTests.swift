@@ -66,6 +66,61 @@ import Testing
     }
 }
 
+@Test @MainActor func controllerCatalogueDiscoverNativeTempoStepsRetainSyncAndPermanentChoice() async throws {
+    try await withControllerCuePlayback("Ion Discover DJ") { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let firstFrame = try #require(model.playbackSnapshot?.a.sourceFrame)
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        let original = model.deckTempoPercent(deck: .a)
+        cuePreviewPacket([0x90, 0x44, 127, 0x44, 127], to: input)
+        #expect(abs(model.deckTempoPercent(deck: .a) - original - 0.1) < 0.000001)
+        cuePreviewPacket([0x80, 0x44, 0], to: input)
+        #expect(abs(model.deckTempoPercent(deck: .a) - original - 0.1) < 0.000001)
+        cuePreviewPacket([0x90, 0x44, 127, 0x44, 0], to: input)
+        #expect(abs(model.deckTempoPercent(deck: .a) - original - 0.2) < 0.000001)
+        cuePreviewPacket([0x90, 0x43, 127, 0x43, 0], to: input)
+        #expect(abs(model.deckTempoPercent(deck: .a) - original - 0.1) < 0.000001)
+        #expect(model.playbackSnapshot?.a.synced == true)
+        model.setSync(false, deck: .a)
+        let freeTempo = model.deckTempoPercent(deck: .a)
+        cuePreviewPacket([0x90, 0x43, 127, 0x43, 0], to: input)
+        #expect(abs(model.deckTempoPercent(deck: .a) - freeTempo + 0.1) < 0.000001)
+        #expect(model.playbackSnapshot?.a.synced == false)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect((model.playbackSnapshot?.a.sourceFrame ?? 0) > firstFrame)
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        model.setDeckTempo(percent: 50, deck: .a)
+        model.applyController(.tempoUpA, value: 1)
+        #expect(abs(model.deckTempoPercent(deck: .a) - 50) < 0.000001)
+        model.setDeckTempo(percent: -50, deck: .a)
+        model.applyController(.tempoDownA, value: 1)
+        #expect(abs(model.deckTempoPercent(deck: .a) + 50) < 0.000001)
+    }
+}
+
+@Test @MainActor func controllerCatalogueDiscoverNativeScratchUsesSourceScaleAndRestoresGrid() async throws {
+    try await withControllerCuePlayback("Ion Discover DJ") { model, input in
+        cuePreviewPacket([0x90, 0x4D, 127, 0xB0, 0x19, 3], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        let expected = sampleRate * 1.8 * 3 / 518.4
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - expected) <= 1)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80, 0x4D, 0], to: input)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+        #expect(abs(model.playbackSnapshot?.a.sourceFrame ?? -1) <= 1)
+    }
+}
+
 @Test @MainActor func controllerCatalogueCuePreviewPlaysWhileHeldThenReturnsWithoutChangingSync() async throws {
     try await withControllerCuePlayback { model, input in
         let origin = try #require(model.playbackSnapshot?.a.sourceFrame)

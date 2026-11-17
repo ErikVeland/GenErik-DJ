@@ -63,6 +63,7 @@ from rmx2 import rmx2_profiles, RMX2_SOURCES
 from p32 import p32_profiles, P32_SOURCES
 from kaoss_dj import kaoss_profiles, KAOSS_SOURCES
 from firstmix import firstmix_profiles, FIRSTMIX_SOURCES
+from ion_discover import discover_profiles, DISCOVER_SOURCES
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY
 from players import player_profiles, PLAYER_REFERENCES, PLAYER_PRIORITY
@@ -844,6 +845,26 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_original_discover_has_physical_volume_two_band_eq_and_permanent_tempo(self):
+        item, = discover_profiles()
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (25, 6))
+        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 18)
+        for side, deck in enumerate("AB"):
+            controls = {r["action"]: r for r in item["inputs"] if r.get("targetDeck") == deck.lower()}
+            self.assertEqual(controls["level" + deck]["number"], 8 + side)
+            self.assertEqual(controls["low" + deck]["number"], 20 + side)
+            self.assertNotIn("mid" + deck, controls)
+            self.assertIn("tempoDown" + deck, controls)
+            self.assertIn("tempoUp" + deck, controls)
+            self.assertEqual(controls["jog" + deck]["argument"], 518.4)
+        self.assertFalse(any(r["action"].startswith("pitchBend") for r in item["inputs"]))
+        self.assertNotIn("audioOutput", item)
+        for name, digest in DISCOVER_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_original_firstmix_retains_source_wheel_mixer_and_light_contracts(self):
         item, = firstmix_profiles()
         self.assertTrue(item["autoSelect"])
