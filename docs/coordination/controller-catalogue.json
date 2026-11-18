@@ -28592,47 +28592,91 @@
       "benchmark": false,
       "sources": [
         "https://www.reloop.com/reloop-digital-jockey-2-master-edition",
-        "https://manual.mixxx.org/2.5/en/hardware/controllers/reloop_digital_jockey_2_master_edition"
+        "https://manual.mixxx.org/2.5/en/hardware/controllers/reloop_digital_jockey_2_master_edition",
+        "https://www.billebro.se/proddoc/PRID_5035_doc_223368_RELOOP_IM.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:rdj2-master-normal"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
+      "profile": "Reloop Digital Jockey 2 Master Edition",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopEnableA:a",
+        "loopEnableB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 55,
+      "feedbackBindingCount": 0,
       "connection": "Non-class-compliant USB. Windows/macOS drivers translate controls to MIDI. A desktop bridge is required for iPad; direct USB control is not implemented.",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual Master Edition driver-translated MIDI or external bridge only. Select MIDI on both front channel selectors. Native iPad USB access and audio routing remain unresolved."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Manual desktop-driver or bridge MIDI only; this model is not USB MIDI class compliant. Front channel selectors require MIDI. Native iPad access, driver/bridge discovery, full shifted/jog/FX modes, pitch polarity/calibration, output/setup/lifecycle/audio and physical/A10X acceptance remain open. No Interface Edition protocol, stored setting or output command is inferred.",
         "Implement and qualify a driver-backed desktop MIDI bridge. A stored virtual-MIDI recipe does not provide direct iPad USB support.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -323245,6 +323289,36 @@
         },
         {
           "reason": "Manual Mixstream Pro Go only with separate app mixer audio. Tempo polarity remains unqualified. Pads, modes/FX, jog/touch/calibration, screens, complete host setup/output/lifecycle/audio and physical/A10X acceptance remain open. No sibling model, persistent setting or firmware-update command is inferred."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:rdj2-master-normal",
+      "name": "Reloop Digital Jockey 2 Master Edition",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.billebro.se/proddoc/PRID_5035_doc_223368_RELOOP_IM.pdf",
+        "sha256": "5982082ed92efc88e4145e53d74f65d64b24a4e15de06d2b5cbdf27bc1f36cdb",
+        "relatedSources": [
+          {
+            "url": "https://www.reloop.com/reloop-digital-jockey-2-master-edition"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/reloop_digital_jockey_2_master_edition"
+          }
+        ],
+        "review": "Independent manufacturer manual, English pages24-30. Appendix29/30 includes USB-MIDI CIN bytes09/0B/0E before ordinary MIDI status; these are not extra MIDI data. Normal controls use channel0 and a60-note right offset. Physical Shift notes0A/46 guard ordinary controls, with same-address release-only aliases for rearming and native held Cue/bend release ownership. No undocumented shifted address is invented. B14 independently identifies PREVIEW05/41 as normal deck headphone cue; main held Cue is18/54. TraxCC13 uses41++/3F--, exactly binary-offset64. Trax press enters a desktop browse/jog mode and stays inactive. B25 describes Loop Active as a display, so its ambiguous input remains inactive. Auto Loop enables the current native loop; In/Out retain native loop endpoints without claiming the manual's extra Reloop/reloop behaviour. Separate mixer/global CCs retain their exact meaning. Chapter6 requires front MIDI selection for software operation. The primary Mixxx guide explicitly says this model is not USB MIDI class compliant and requires a Windows/macOS translation driver. Manual MIDI through that driver or an external bridge is theoretical input coverage, not native iPad USB access. No Interface Edition jog sensitivity, pitch polarity, shifted layers, filters, LED values or lifecycle messages are inherited. Full driver/bridge, software/hardware audio ownership, modes/output/lifecycle and physical acceptance remain open."
+      },
+      "implementedInputCount": 55,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual desktop-driver or bridge MIDI only; this model is not USB MIDI class compliant. Front channel selectors require MIDI. Native iPad access, driver/bridge discovery, full shifted/jog/FX modes, pitch polarity/calibration, output/setup/lifecycle/audio and physical/A10X acceptance remain open. No Interface Edition protocol, stored setting or output command is inferred."
         }
       ]
     },

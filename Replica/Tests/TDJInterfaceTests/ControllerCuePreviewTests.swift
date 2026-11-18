@@ -2002,3 +2002,20 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         }
     }
 }
+
+@Test @MainActor func controllerCatalogueRDJ2MasterNativeCuePlayMixerAndLoopKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("Reloop Digital Jockey 2 Master Edition", manual: true) { model, input in
+        cuePreviewPacket([0x90, 24, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80, 24, 127, 0x90, 25, 127, 25, 0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0xB0, 2, 64, 3, 64, 4, 64, 5, 64, 6, 127, 17, 64], to: input)
+        model.setLoopSize(4, deck: .a)
+        cuePreviewPacket([0x90, 17, 127, 17, 0], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}

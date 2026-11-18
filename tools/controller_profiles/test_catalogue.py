@@ -861,6 +861,26 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_rdj2_master_uses_its_own_driver_midi_table_without_interface_mode_inheritance(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Reloop Digital Jockey 2 Master Edition"),None)
+        self.assertIsNotNone(item,"Master Edition needs a separate manufacturer-table manual subset")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),55)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertEqual({r["channel"] for r in item["inputs"]},{0})
+        self.assertFalse(any(r["action"].startswith(("jog","tempo","filter","hotcue","openGroup","loopSize")) for r in item["inputs"]))
+        self.assertEqual({r["number"] for r in item["inputs"] if r["action"]=="shift"},{10,70})
+        for side,deck in enumerate("ab"):
+            for action,number in [("play",25),("cuePreview",24),("cue",5),("load",19),("loopEnable",17)]:
+                rows=[r for r in item["inputs"] if r["action"]==action+deck.upper() and not r.get("releaseOnly")]
+                self.assertEqual(len(rows),1)
+                self.assertEqual(rows[0]["number"],number+60*side)
+                self.assertIs(rows[0]["shifted"],False)
+        from rdj2_master import MASTER_SHA
+        self.assertEqual(hashlib.sha256((ROOT/"TestBuilds/r350/upstream/RDJ2-Master-manual.pdf").read_bytes()).hexdigest(),MASTER_SHA)
+
     def test_pioneer_brand_normalisation_preserves_complete_djm_model_tokens(self):
         for model in ["DJM-S11","DJM-S7","DJM-S5","DJM-S9","DJM-A9","DJM-900NXS2"]:
             expected = "pioneer" + model.lower().replace("-", "")
