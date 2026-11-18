@@ -2896,46 +2896,79 @@
       "role": "dvs-only",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://downloads.support.alphatheta.com/software_info/dj-mixers/euphonia/euphonia_MIDI_Message_List_E10.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:euphonia-e10"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "AlphaTheta Euphonia",
+      "automaticControls": false,
+      "controlActions": [
+        "cueMix",
+        "cueStateA:a",
+        "cueStateA:c",
+        "cueStateB:b",
+        "cueStateB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor"
+      ],
+      "inputBindingCount": 27,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual Euphonia app mixer control through separate audio. Physical CH1-4 map to A-D; C/D require app opt-in. Hardware/software audio ownership, driver/platform setup and routing remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual fixed app mixer controls through separate audio only. Hardware/software ownership, driver/platform setup, complete routing, isolator/send/FX, display/settings, full output/lifecycle and physical/A10X acceptance remain open. No automatic route, source-selector change, MIDI clock, stored setting, reset or output command is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -323367,6 +323400,40 @@
         },
         {
           "reason": "Manual ordinary DJ mode with separate audio only. Native Play-state/return-to-start/BPM-step semantics, proprietary Serato mode handshake, sample/Chromatic/FX/Looper modes, full setup/output/lifecycle/audio and physical/A10X acceptance remain open. No stored setting, MIDI clock, firmware or output command is sent."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:euphonia-e10",
+      "name": "AlphaTheta Euphonia",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/dj-mixers/euphonia/euphonia_MIDI_Message_List_E10.pdf",
+        "sha256": "45631b77a6806762fe4b5a3231037672ba707f55177a7717f5ac2b04bd88840b",
+        "pages": [
+          2,
+          3
+        ],
+        "relatedSources": [
+          {
+            "url": "https://alphatheta.com/en/product/dj-mixer/euphonia/black/"
+          },
+          {
+            "url": "https://device.report/m/217fbf926569a640321f6ef342d7fa9ba90f26bc2fdc649cbac24fc5f8eb54e0_optim.pdf"
+          }
+        ],
+        "review": "Independent E10 manufacturer table, visually checked pages2/3. All messages use wire channel0. Physical CH1/2/3/4 independently retain gain/high/mid/low/rotary-level CC tuples01/02/03/04/11,06/07/08/09/12,0C/0E/0F/15/13,50/51/5C/52/14. In particular CH4 Mid is5C and its Low is52. PFL notes0A/0B/0C/0D are explicitly Toggle00:OFF/7F:ON, so native direct cue state preserves both on and off without toggle edge priming or pickup. MasterCC18, headphone level1A and blend1B are separate from booth level19. Map physical CH1-4 to app A-D only for manual app mixer control through separate audio; C/D retain app opt-in. The USB/MIDI section requires configured desktop software and dedicated audio software; it does not qualify a native iPad audio route. Hardware audio still responds to its controls. No implicit double hardware/software mixer path or source-selector change is configured. The table contains MIDI-IN to computer only and is not LED-output proof. Mic/source selectors, booth EQ/level, isolator/send/FX, display/brightness/master insert/mono and timing clock remain inactive. Full hardware/software audio ownership, driver/platform setup, lifecycle and physical/A10X acceptance remain open. No stored setting, reset or output packet is sent."
+      },
+      "implementedInputCount": 27,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual fixed app mixer controls through separate audio only. Hardware/software ownership, driver/platform setup, complete routing, isolator/send/FX, display/settings, full output/lifecycle and physical/A10X acceptance remain open. No automatic route, source-selector change, MIDI clock, stored setting, reset or output command is inferred."
         }
       ]
     },

@@ -861,6 +861,23 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_euphonia_uses_its_independent_fixed_table_and_latched_pfl_notes_without_audio_inference(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="AlphaTheta Euphonia"),None)
+        self.assertIsNotNone(item,"Euphonia needs its independent manufacturer MIDI subset")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),27)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertEqual({r["channel"] for r in item["inputs"]},{0})
+        from euphonia import EUPHONIA_SHA
+        self.assertEqual(hashlib.sha256((ROOT/"TestBuilds/r352/upstream/euphonia-MIDI-E10.pdf").read_bytes()).hexdigest(),EUPHONIA_SHA)
+        for deck,addresses in zip("abcd",[(1,2,3,4,17,10),(6,7,8,9,18,11),(12,14,15,21,19,12),(80,81,92,82,20,13)]):
+            for action,number in zip(["gain","high","mid","low","level","cueState"],addresses):
+                row=next(r for r in item["inputs"] if r.get("targetDeck")==deck and r["action"].startswith(action))
+                self.assertEqual((row["number"],row["kind"]),(number,"note" if action=="cueState" else "control"))
+        self.assertEqual({r["action"] for r in item["inputs"] if "targetDeck" not in r},{"master","monitor","cueMix"})
+
     def test_sp404mk2_dj_subset_keeps_state_ccs_and_does_not_infer_serato_or_sample_modes(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Roland SP-404MKII"),None)

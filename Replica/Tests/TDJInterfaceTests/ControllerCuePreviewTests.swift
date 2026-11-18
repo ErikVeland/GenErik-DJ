@@ -2037,3 +2037,19 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueEuphoniaNativeLatchedPFLAndMixerKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("AlphaTheta Euphonia", manual: true) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        for enabled in [false, false, true, true, false, true] {
+            cuePreviewPacket([0x90, 10, enabled ? 127 : 0], to: input)
+            #expect(model.playbackSnapshot?.a.mixer.cue == enabled)
+        }
+        cuePreviewPacket([0xB0, 1, 64, 2, 64, 3, 64, 4, 64, 17, 127, 27, 64], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
