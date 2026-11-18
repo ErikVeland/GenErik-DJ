@@ -861,6 +861,25 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_mix_ultra_uses_corroborated_core_and_conservative_global_shift_guard(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Hercules DJControl Mix Ultra"),None)
+        self.assertIsNotNone(item,"Add the independently captured Mix Ultra core without sibling or firmware assumptions")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),48)
+        from mix_ultra import ULTRA_REFERENCES
+        reference=ULTRA_REFERENCES[item["id"]]
+        cached=[("yt-mixultra-midi.md",reference["sha256"]),("mix-ultra-analysis.md",reference["relatedSources"][0]["sha256"]),("djercula-inputmap.py",reference["relatedSources"][1]["sha256"]),("mix-ultra-user-manual-en.pdf",reference["relatedSources"][2]["sha256"])]
+        for name,digest in cached:
+            path=ROOT/"TestBuilds/r364/upstream"/name
+            if path.exists():self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertTrue(all("shiftChannel" not in r for r in item["inputs"]))
+        self.assertEqual([(r["channel"],r["number"],r["shiftInput"]) for r in item["inputs"] if r["action"]=="shift"],[(1,4,0),(2,4,1)])
+        self.assertFalse(any(r["action"] in {"syncA","syncB","cueA","cueB","cuePreviewA","cuePreviewB"} for r in item["inputs"]))
+        self.assertEqual({r["encoding"] for r in item["inputs"] if r["action"] in {"tempoA","tempoB","levelA","levelB","crossfader"}},{"paired14Bit"})
+        self.assertEqual({r["encoding"] for r in item["inputs"] if r["action"] in {"highA","highB","midA","midB","lowA","lowB","filterKnobA","filterKnobB","master"}},{"absolute"})
+
     def test_djay_inventory_covers_every_pinned_row_without_inventing_runtime_support(self):
         locked=json.loads((ROOT/"tools/controller_profiles/sources.lock.json").read_text())["djay"]
         catalogue=json.loads((ROOT/"docs/coordination/controller-catalogue.json").read_text())

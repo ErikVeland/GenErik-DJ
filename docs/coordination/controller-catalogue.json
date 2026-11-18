@@ -24375,12 +24375,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://raw.githubusercontent.com/v6ry876z77-bit/yt-dj-mix/93a097e7641512bd026b9d1b5d129b2e5f009f87/mixultra-midi.md",
         "https://www.algoriddim.com/hardware#djcontrolmixultra"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:hercules-mix-ultra-corroborated"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Hercules DJControl Mix Ultra",
+      "automaticControls": true,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Hercules DJControl Mix Ultra",
@@ -24396,40 +24401,85 @@
           "source": "https://www.algoriddim.com/hardware#djcontrolmixultra"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueReturnA:a",
+        "cueReturnB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "tempoA:a",
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
+      ],
+      "inputBindingCount": 48,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Normal operation after Bluetooth MIDI connection. Keep service/calibration mode off. Both Shift keys conservatively guard the whole source. Cue sets/returns/stops. Native tempo raw-max is positive. Sync/PFL and other modes remain unqualified. No automatic pairing or audio route."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Sync5 state/edge and PFL12 semantics remain unqualified. Conflicting physical Shift-side attribution uses a source-wide OR guard. Other absolute low bytes, jog resolution/taper, gain/Neural Mix, other pad modes, service-mode pad overlap, full LED/lifecycle/audio and physical/A10X acceptance remain open. Stock firmware may suppress slow ring packets. No firmware patch, executable map, setting/output write, sibling protocol, BLE pairing or audio route is imported."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -331861,6 +331911,53 @@
         },
         {
           "reason": "Manual MIDI channel1 only. Native loops latch rather than emulate held hardware sample rolls. Triplet/dotted lengths, source/FX selectors, sampler edit/hold, Echo Time, Release/Echo, hardware processing/audio ownership, PRO DJ LINK, full output/lifecycle and physical/A10X acceptance remain open. No setting, output, clock-driven transport, sibling protocol or audio route is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:hercules-mix-ultra-corroborated",
+      "name": "Hercules DJControl Mix Ultra",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/v6ry876z77-bit/yt-dj-mix/93a097e7641512bd026b9d1b5d129b2e5f009f87/mixultra-midi.md",
+        "revision": "93a097e7641512bd026b9d1b5d129b2e5f009f87",
+        "sha256": "a06dcddf1c98baed578a1b907e0864c9cc5b0cf1a4ead25dce26af6e4c757a8f",
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/mlcmgmt/control-mix-ultra-jog-fix/068845a128ab2311dde6378a1d195a77522b7eb0/docs/reverse-engineering.md",
+            "sha256": "e582208ebc567b7c63d53c94e792633261e43cba7445bdfa2197830127b5d2a9",
+            "revision": "068845a128ab2311dde6378a1d195a77522b7eb0"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/aurabirb/djercula/7174fda021e6f5f3791ac6fbf169ceb7f94ad3fa/inputmap.py",
+            "sha256": "3acb23497cd483d6b9b8e8086f3ad2c3dbb755cb604c41760ca5710f075b489d",
+            "revision": "7174fda021e6f5f3791ac6fbf169ceb7f94ad3fa"
+          },
+          {
+            "url": "https://ts.hercules.com/download/sound/manuals/DJC_Mix_Ultra/DJControl_Mix_Ultra_user_manual_EN.pdf",
+            "sha256": "98fbf1f45114310c100ecb6f28ec6957ca63a52801f8b1f712cd808eb05f214c",
+            "pages": [
+              9,
+              13,
+              14
+            ]
+          },
+          {
+            "url": "https://support.hercules.com/en/kb/1806-en/"
+          }
+        ],
+        "review": "Three pinned independent owner sources corroborate normal channels1/2, Play7, Cue6, Load13, touch8, top jog CC10, ring CC9, volume CC0, pitch CC8, filter/EQ CC1-4, global crossfaderCC0/masterCC3/browserCC1/pressNote0 and normal Hot Cue pads0-7 on6/7. Capture facts explicitly pair level0/32, pitch8/40 and crossfader0/32. Other absolute controls use only qualified MSBs; their low-byte pairing stays unqualified. Native tempo uses raw-max positive at the app's8% range; the manufacturer makes direction app-dependent. The manufacturer Cue contract is set/return/stop, not held preview, so use cueReturn. Independent sources disagree on which physical Shift key emits channel1/2 Note4. Both known Shift wires therefore share an OR guard for the whole source, with distinct input identities. Either transition retires source-local contacts. Mode15-18 presses retire contacts on their reported deck; releases preserve new contacts. Shifted touch8 on4/5 is release-only. Normal top jog needs contact. Sync5 has unresolved state/edge behaviour and remains inactive, preserving saved Sync. PFL12, gain/Neural Mix, other pads/modes, service/calibration flows, complete LED/lifecycle/audio and physical/A10X acceptance remain open. Service-mode pads overlap normal pads; keep service mode off. Stock firmware can suppress slow ring packets, which the app cannot reconstruct. Physical jog resolution/taper remains uncalibrated. No owner firmware, patch, executable mapping code, output, setting write, sibling Mix/Starlight protocol, BLE pairing or audio route is imported."
+      },
+      "implementedInputCount": 48,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Sync5 state/edge and PFL12 semantics remain unqualified. Conflicting physical Shift-side attribution uses a source-wide OR guard. Other absolute low bytes, jog resolution/taper, gain/Neural Mix, other pad modes, service-mode pad overlap, full LED/lifecycle/audio and physical/A10X acceptance remain open. Stock firmware may suppress slow ring packets. No firmware patch, executable map, setting/output write, sibling protocol, BLE pairing or audio route is imported."
         }
       ]
     }

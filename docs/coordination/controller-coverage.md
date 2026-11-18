@@ -4626,3 +4626,23 @@ The31 additions include Mix Ultra, original MC6000/NS6, several Xone mixers, Cas
 Validation:198 Python tests passed. Source replay verifies both the snapshot hash and parsed rows. A changed snapshot is rejected even when its product rows match. Fixtures reject unknown limitation targets, duplicate/truncated products and unknown platforms. All existing model names remain unchanged. The bundled runtime remains byte-identical, SHA256`3289ca45e149ab91a788b0fee23a00918184a797f238335e4a9e415a1fe7670b`, so native/framework checks were not repeated for this inventory-only change. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r363/validation.json`.
 
 The current catalogue has350 records, including343 physical models. Runtime recipes remain246. Automatic core coverage remains190 physical models. The additional inventory records increase the remaining automatic-core count to153. Full theoretical support remains open for all343 physical models. The wider market audit remains open. No device acceptance or feature-parity claim is added.
+
+## R364 Independently captured Mix Ultra normal MIDI core
+
+Assumption: pinned public owner captures can establish ordinary MIDI facts without importing their firmware or executable mapping code. Corroborate addresses across independent sources. Keep ambiguous state, modifier and service-mode behaviour open. Add automatic normal controls after a MIDI connection exists.
+
+- [x] Pin three independent source revisions and the manufacturer manual. Visually inspect manual pages9,13 and14.
+- [x] Add48 automatic normal inputs with source-wide Shift guards and explicit inactive states/modes.
+- [x] Verify all captured controls, paired faders, touch gating, source ownership, mode-release behaviour, real-WAV audio/Sync and iPad framework compilation.
+
+The [8 November hardware capture](https://github.com/v6ry876z77-bit/yt-dj-mix/blob/93a097e7641512bd026b9d1b5d129b2e5f009f87/mixultra-midi.md), independent [firmware analysis](https://github.com/mlcmgmt/control-mix-ultra-jog-fix/blob/068845a128ab2311dde6378a1d195a77522b7eb0/docs/reverse-engineering.md) and separate [captured mapping](https://github.com/aurabirb/djercula/blob/7174fda021e6f5f3791ac6fbf169ceb7f94ad3fa/inputmap.py) establish normal control addresses. Their revisions and file hashes are stored in the source references. The [manufacturer manual](https://ts.hercules.com/download/sound/manuals/DJC_Mix_Ultra/DJControl_Mix_Ultra_user_manual_EN.pdf) defines Cue as set/return/stop. The profile uses native Cue return, without claiming held preview.
+
+Play, Cue return, Load, contact-gated top jogs, ring jogs and eight Hot Cues address each deck independently. Level, pitch and crossfader use the explicitly qualified14-bit pairs. EQ/filter/master use only qualified seven-bit MSBs. Other low bytes remain inactive. The native pitch choice makes raw-max positive at the app's8% range. The manufacturer makes physical direction an app setting. Browse and its press use native library actions.
+
+Sources disagree about which physical Shift key emits channel1/2 Note4. Both known wires therefore use a source-wide OR guard with distinct key identities. Either transition retires that source's contacts. A held Shift on one controller does not block another. Mode presses retire contacts on their reported deck. Releases preserve new contacts. Shifted touch aliases only release previous contact.
+
+Sync state/edge behaviour and PFL remain unqualified. Their packets stay inactive and preserve saved Sync. Gain/Neural Mix, other pad modes, service/calibration flows, full LEDs/lifecycle/audio and physical/A10X acceptance remain open. Service-mode pads overlap normal pad addresses. Keep service mode off. Stock firmware can suppress slow ring packets. Physical jog resolution/taper remains uncalibrated. No patch, firmware, third-party executable code, setting/output write, sibling profile or audio route is imported.
+
+Validation:199 Python checks and ten focused native tests passed. These include the existing152-profile held-Cue corpus. Real-WAV fixtures verified Cue return, guarded scratching, inactive state copies, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All246 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r364/validation.json`.
+
+The catalogue has247 data recipes. Automatic core coverage is191 physical models, with152 remaining. Full theoretical support remains open for all343 physical models. The app still needs an in-app Bluetooth MIDI connection browser. This source change does not establish wireless pairing, a signed build or physical/A10X acceptance.

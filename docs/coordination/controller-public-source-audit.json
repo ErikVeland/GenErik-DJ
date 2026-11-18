@@ -578,6 +578,18 @@
           "status": "Pinned204 hardware rows and57 platform limitations. Thirty-one missing model records added. Digital Jockey IE2/MIXAGE IE resolve to existing records. Runtime mappings remain byte-identical. Competitor evidence does not establish our support or theoretical completion."
         }
       ]
+    },
+    {
+      "request": "R364",
+      "reviewDate": "2026-11-19",
+      "documents": [
+        {
+          "model": "Hercules DJControl Mix Ultra",
+          "url": "https://github.com/v6ry876z77-bit/yt-dj-mix/blob/93a097e7641512bd026b9d1b5d129b2e5f009f87/mixultra-midi.md",
+          "sha256": "a06dcddf1c98baed578a1b907e0864c9cc5b0cf1a4ead25dce26af6e4c757a8f",
+          "status": "Corroborated with independent firmware analysis and captured mapping, all pinned in mix_ultra.py. R364 adds48 normal automatic inputs. Shift-side conflict uses a source-wide OR guard. Sync/PFL, other modes/service overlap, pairing/output/audio and physical acceptance remain open. No firmware, patch or executable mapping code is imported."
+        }
+      ]
     }
   ]
 }

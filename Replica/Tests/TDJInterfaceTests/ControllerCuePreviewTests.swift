@@ -2236,3 +2236,20 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueUltraNativeCueReturnAndGuardedScratchKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("DJControl Mix Ultra") { model,input in
+        cuePreviewPacket([0x91,6,127,6,0],to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x91,7,127,7,0,8,127,0xB1,10,1],to: input)
+        cuePreviewPacket([0x91,4,127,0x94,8,0,0x91,4,0],to: input)
+        cuePreviewPacket([0x91,5,0,5,127,5,0,0x94,5,127,5,0,0x92,12,127,12,0],to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x91,6,127,6,0],to: input)
+        #expect(model.playbackSnapshot?.a.phase.active == false && model.playbackSnapshot?.a.synced == true)
+    }
+}
