@@ -861,6 +861,22 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_rane_four_manual_transport_keeps_hardware_mixing_and_lcd_protocol_separate(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((r for r in runtime["profiles"] if r["id"] == "Rane FOUR"), None)
+        self.assertIsNotNone(item, "FOUR needs a reviewed manual transport recipe")
+        self.assertFalse(item["autoSelect"])
+        self.assertNotIn("audioOutput", item)
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (108, 16))
+        self.assertFalse(item["startup"])
+        self.assertTrue(all(r["onValue"] == 127 and r["offValue"] == 1 for r in item["outputs"]))
+        self.assertFalse(any(r["kind"] == "pitch" or r["action"].startswith(("jog", "hotcue", "gain", "level", "high", "mid", "low", "crossfader")) for r in item["inputs"]))
+        self.assertEqual([(r["channel"],r["number"],r["lowNumber"],r["inverted"]) for r in item["inputs"] if r["action"] in {"tempoA", "tempoB"}], [(c,9,41,True) for c in range(4)])
+        from rane_four import FOUR_SCRIPT_SHA
+        path = ROOT / "TestBuilds/r301/upstream/controllers/Rane_Four.js"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), FOUR_SCRIPT_SHA)
+
     def test_ndx500_generation_keeps_source_player_channels_and_no_invented_sync_or_output(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((r for r in runtime["profiles"] if r["id"] == "Numark NDX500"), None)

@@ -24361,46 +24361,110 @@
       "benchmark": false,
       "sources": [
         "https://support.rane.com/en/support/solutions/articles/69000828752-rane-four-frequently-asked-questions",
-        "https://github.com/ElectroDanceWorld-Radio/rane-four-mixxx-map/tree/f527e144d6246498fe3e45193fecbb20d8279ddd"
+        "https://github.com/ElectroDanceWorld-Radio/rane-four-mixxx-map/tree/f527e144d6246498fe3e45193fecbb20d8279ddd",
+        "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:ranefour"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Rane FOUR",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 108,
+      "feedbackBindingCount": 16,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual main-port transport only. Enable input separately; software-mode setup, keepalive and external deck routing remain open."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Hardware mixer bypass and separate deck/sampler/FX audio buses are unavailable. Automatic selection remains off.",
+        "Cold-start software-mode SysEx, periodic keepalive, shutdown, platter counter/timestamps, shared pads, display ports, complete bank state, loop edit variations and physical acceptance remain open. Cross-bank release aliases clear a held control when its release arrives; bank selection itself does not release it.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -318475,6 +318539,38 @@
       "unresolved": [
         {
           "reason": "Output channel ownership, full LCD/text, lights, source software Scratch toggle, combined loop/edit variations, reverse/brake/record, pitch ranges, full lifecycle, audio routing and physical acceptance remain open. No Sync button is invented. Native default jog calibration is unverified. Pitch uses standard MIDI normalization; source MSB handling does not prove finer hardware resolution."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:ranefour",
+      "name": "Rane FOUR",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Rane_Four.js",
+        "memberSha256": "197dc774bd2cef75f2e12aa3683d79d108a60090e9c5e3c5f199cb9c6984aa85",
+        "relatedSources": [
+          {
+            "url": "https://pcdj.com/dj-software/free-trials/dex-4-free-trial/"
+          }
+        ],
+        "review": "Public DEX4.0 Mac package dated27March2025. Its Rane_Four.js revision1April2024 targets firmware1.6.0.2 and USB1CC5:0024. Main and separate LCD Left/Right MIDI devices share this identity. Independently normalised transport facts only; downloaded code never executes in the app. Channels0..3 target A/B/C/D. Normal Play0/Cue1/Sync2, Load6, bend11/12, keylock13, CC9/41 inverted14-bit pitch, CC0 rotary64 browse and loop-channel4..7 notes52/53/54/55/63/65 are reviewed. Alternate shifted transport addresses and opposite-bank releases cannot create positive presses. Only transport light values127/on and1/dim-off are included. Hardware mixing requires separate seven-stereo-output routing and software mixer bypass, which native routing does not provide. Platter CC6 is a wrapping absolute counter; PitchBend messages are timestamps at2822400Hz, not pitch. Shared pads, LCD text/graphics, full bank state and loop edit variations remain open. Source software-mode setup contains an unterminated SysEx and needs a periodic keepalive; no partial setup, guessed terminator or lifecycle packet is emitted. Manual input and feedback require separate enabling. No automatic audio route or automatic selection is claimed."
+      },
+      "implementedInputCount": 108,
+      "implementedOutputCount": 16,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Hardware mixer bypass and separate deck/sampler/FX audio buses are unavailable. Automatic selection remains off."
+        },
+        {
+          "reason": "Cold-start software-mode SysEx, periodic keepalive, shutdown, platter counter/timestamps, shared pads, display ports, complete bank state, loop edit variations and physical acceptance remain open. Cross-bank release aliases clear a held control when its release arrives; bank selection itself does not release it."
         }
       ]
     },

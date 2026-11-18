@@ -3570,3 +3570,26 @@ Expected failures and source-bound validation remain in `TestBuilds/r300/`. The 
 The catalogue keeps180 data recipes. Automatic core coverage reaches158 physical models and69/122 benchmark models.
 Full theoretical feature parity remains unimplemented. Direct iPad attachment, full lifecycle/modes, routing and physical acceptance remain open.
 Source base: `f37ca41`. Source cache: `TestBuilds/r298/upstream/`. No signed app, install or A10X acceptance forms part of this increment.
+
+## R301 RANE FOUR public protocol and manual transport
+
+Assumption: use the readable PCDJ4.0 controller scripts distributed in its public installer. No application or installer script runs.
+The extracted FOUR script targets firmware1.6.0.2 and documents three MIDI devices sharing one USB identity.
+The main input must exclude LCD Left/Right. Its hardware mixer requires separate A/B/C/D outputs and software mixer bypass.
+Automatic selection stays off. The source's incomplete software-mode SysEx and periodic keepalive are not copied into a partial lifecycle.
+
+Implementation plan and checks:
+
+- [x] Pin the package and extracted script hashes. Add failing fixtures for manual identity, four targets, paired pitch and cross-bank Cue release.
+- [x] Add an independent `rane_four.py` recipe and register its source. Exclude hardware mixer controls, platter clocks/counter, shared pads and screen output.
+- [x] Preserve reviewed transport light values and manual input/feedback enabling. Infer no startup packet or automatic audio route.
+- [x] Run importer checks, focused native playback/protocol checks and iPad framework compilation. Compare earlier recipes and bundle bytes.
+
+The public package contains131 controller scripts. Only independently reviewed facts enter native recipes; no installer or downloaded script runs.
+The manual FOUR recipe has108 inputs and16 transport lamps. Shifted positive Play/Cue/Sync presses, hardware mixer controls, platter clocks/counter, pads and LCD endpoints remain inactive.
+Cross-bank aliases release held Cue/bend when the release arrives; bank selection alone does not release them. Four deck targets preserve opt-in C/D isolation.
+
+All6 focused Swift checks,130 importer checks and iPad framework compilation pass. A real-WAV check confirms Cue release and saved Sync.
+The compiled resource matches the source. All180 earlier recipes remain unchanged. Expected failures and source-bound checks remain in `TestBuilds/r301/`.
+The repository check retains twelve historical broken links. The catalogue now has181 data recipes; automatic coverage stays158 physical models and69/122 benchmark models.
+Full theoretical feature parity remains unimplemented. Source base: `291a4f6`. No signed app, install or physical controller/A10X acceptance is claimed.
