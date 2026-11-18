@@ -1,6 +1,6 @@
 # Current work
 
-**R292–R295 websites:** All seven catalogue sites link back to GlassCode Academy About. GenErik DJ and PACtrack have reciprocal credits. Project previews are live, and PiDay styles are repaired. [Publication evidence](website-links-r295.md).
+**R292–R295 websites:** All seven catalogue sites link back to GlassCode Academy About. PACtrack retains GlassCode Academy attribution and The Epstein Files link. R296 removes the unrelated DJ promotion. Project previews are live, and PiDay styles are repaired. [Publication evidence](website-links-r295.md).
 
 **R291 website:** The product, manual, support and legal pages are live at https://dj.generik.au on Glasscode. HTTPS and public-route checks pass. The site describes the development app. Fresh captures, final privacy reconciliation and full browser/device checks remain open. No app build ran. [Source and verification](website-r291.md).
 

@@ -1,0 +1,32 @@
+{
+  "presentationUnchanged": true,
+  "pages": [
+    {
+      "path": "/house",
+      "status": 200,
+      "image": "https://pactrack.glasscode.academy/social/house-funding-f6f344c727412a9edb9ae4754a342139df2bc2639e1aed148fe0d3c008eeef25.png",
+      "dimensions": [
+        1200,
+        630
+      ]
+    },
+    {
+      "path": "/senate",
+      "status": 200,
+      "image": "https://pactrack.glasscode.academy/social/senate-funding-f6f344c727412a9edb9ae4754a342139df2bc2639e1aed148fe0d3c008eeef25.png",
+      "dimensions": [
+        1200,
+        630
+      ]
+    },
+    {
+      "path": "/house?party=D",
+      "status": 200,
+      "image": "https://pactrack.glasscode.academy/social/house-count-f6f344c727412a9edb9ae4754a342139df2bc2639e1aed148fe0d3c008eeef25.png?party=D",
+      "dimensions": [
+        1200,
+        630
+      ]
+    }
+  ]
+}

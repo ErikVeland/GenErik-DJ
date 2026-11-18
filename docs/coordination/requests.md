@@ -438,3 +438,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R294 | Published | Restore PiDay styles and refresh its preview | Replaced the stale static-asset directory with routing to the active app. All ten CSS/JavaScript files return HTTP 200. Repaired preview deployed on About. [Evidence](website-links-r295.md). |
 
 | R295 | Published | Add return links across the project sites | All seven catalogue sites link to About. PiDay and RaceHub footer links and PACtrack credits are live. Public checks passed. [Evidence](website-links-r295.md). |
+
+| R296 | Published | Remove unrelated DJ promotion from PACtrack | Removed the DJ item. Kept GlassCode Academy attribution and The Epstein Files link. Version 79 and public browser checks passed. [Evidence](website-links-r295.md#r296-keep-related-projects-relevant). |

@@ -59,3 +59,11 @@ Public checks passed for the House page, Senate page and a filtered House link. 
 Receipts are in `evidence/r295`. An initial Python HTTP check received 403. The Node check then passed all assertions. No authentication or access policy changed.
 
 No native app source changed. No app build or device test ran. R291's separate release checks remain open.
+
+## R296: Keep related projects relevant
+
+Erik clarified that GenErik DJ is not relevant to PACtrack. Removed that promotional item from PACtrack. Kept the GlassCode Academy attribution and existing Epstein Files link. Future related-project links must fit the subject of the site.
+
+Published version 79 from source `779630a6bd9bcd742d1c2b8e4b3e83e3852f8095`. Deployment: `appgdep_6afd33f1141081918f98b0de000eeec4`. The protected-runtime check and custom source build passed. Full asset upload and matching readback passed. Browser verification confirmed the removal and retained links. The dataset hash remains unchanged. Receipts are in `evidence/r296`.
+
+The saved presentation remains identical. House, Senate and filtered-page metadata and PNG checks passed. The first metadata check assumed a fixed HTML attribute order and failed. The corrected parser passed. IndexNow accepted the submission with HTTP 200.
