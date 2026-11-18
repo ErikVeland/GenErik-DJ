@@ -16270,46 +16270,92 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://www.adj.com/products/vms5"
+        "https://www.adj.com/products/vms5",
+        "https://www.adj.eu/mwdownloads/download/link/id/786"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:vms5-independent-manual-banks"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "American Audio VMS5",
+      "automaticControls": false,
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 40,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Integrated hardware mixing needs separate deck outputs. This audio route is not implemented.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual native layout. Start on A/B after applying or reconnecting. Deck buttons select A/C and B/D. Use Post EQ for software EQ. Configure audio separately and avoid duplicate analogue/software mixer control."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manufacturer2000-point claim conflicts with the DEX2730-count scale. Calibration, Shift/Vinyl/keylock modes, PFL, FX/sampler pads, complete library control, initial bank synchronisation, lifecycle, external mixer audio routing and physical/iPad/A10X acceptance remain open.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -333577,6 +333623,47 @@
         },
         {
           "reason": "Analogue audio and MIDI faders require deliberate ownership. Native does not send hardware commands or select an audio route. Cue/filter/FX/insert controls, source/mode handling, X:Link or USB-hub accessory protocols, complete lifecycle, external mixer outputs and physical/iPad/A10X acceptance remain open. No analogue EQ/gain/headphone knob or sibling protocol is invented."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:vms5-independent-manual-banks",
+      "name": "American Audio VMS5",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.adj.eu/mwdownloads/download/link/id/786",
+        "sha256": "cc50266fdaa55be9e45294a80af59d374aa7670a90a63e25efa8815a9e3a0c9a",
+        "member": "VMS5 Traktor mapping V1.0.tsi",
+        "memberSHA256": "bf27354a27324bc1ab213d6d940b3f8b2c90c3cc402906b3426a7e89beececc5",
+        "relatedSources": [
+          {
+            "url": "https://www.adj.eu/mwdownloads/download/link/id/787",
+            "sha256": "62d4e41dacab2ed2ed81d08d4d78e52adda7ff8ff385b8e2eace557f37804295",
+            "pages": [
+              11,
+              12,
+              18
+            ]
+          },
+          {
+            "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+            "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+            "member": "AmericanAudio__VMS50.js",
+            "memberSHA256": "cceee68749e8485b5d4c33011c89365ca984973437b38078573ba24760cb79c2"
+          }
+        ],
+        "review": "The manufacturer's public factory TSI contains302 used bindings. It independently confirms shared A/C and B/D transport, pitch bend, tempo and jog wires. Native software banks use Note14/48, one transition per press. Fixed mixer strips keep C/A/B/D targets. The independent DEX document qualifies explicit cyclic jog assembly, contact wires and source2730-count scaling. Manufacturer marketing says2000 points, so physical calibration remains unresolved. TSI independently corrects the DEX left pitch-bend-up target. Shift assignments, PFL button addresses and software Vinyl/keylock semantics conflict or are incomplete and stay inactive. No TSI, DEX code, MIDI query, source LED, firmware or installer runs. Manufacturer page18 explicitly warns against duplicate software/hardware EQ in default Pre EQ. This manual subset requires deliberate Post EQ ownership and separate audio. Initial/reconnected banks are A/B. Full lifecycle, exact modes, library encoder format, audio routing and iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 40,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manufacturer2000-point claim conflicts with the DEX2730-count scale. Calibration, Shift/Vinyl/keylock modes, PFL, FX/sampler pads, complete library control, initial bank synchronisation, lifecycle, external mixer audio routing and physical/iPad/A10X acceptance remain open."
         }
       ]
     }

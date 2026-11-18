@@ -600,3 +600,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R384 | Implemented; analogue/audio ownership open | Add Xone:96 manual MIDI faders and independent Cue states | Added9 manual inputs and source-specific pickup reset.221 Python/eight native checks passed. iPad framework compiled. Hardware Cue/filter writes stay disabled. [Scope](controller-coverage.md#r384-xone96-manual-faders-and-cue-state). |
 
 | R385 | Implemented; analogue/audio ownership open | Add independent PX5 and24C manual fader subsets | Added five PX5/three24C manual faders from separate sources.222 Python/seven native checks passed. iPad framework compiled. [Scope](controller-coverage.md#r385-independent-px5-and24c-fader-subsets). |
+
+| R386 | Implemented; calibration/ownership gaps open | Add independent manual VMS5 controls and software banks | Added40 manual inputs with source-local A/C and B/D banks.223 Python/41 native checks passed. The iPad framework compiled. Calibration, initial bank state, analogue/audio ownership and physical acceptance remain open. [Scope](controller-coverage.md#r386-vms5-manual-software-deck-banks). |

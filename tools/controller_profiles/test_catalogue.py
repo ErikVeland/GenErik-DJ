@@ -917,6 +917,29 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_vms5_manual_banks_keep_fixed_mixer_strips_and_independent_sources(self):
+        from vms5 import vms5_profiles, VMS5_REFERENCES
+        item=vms5_profiles()[0]
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),40)
+        self.assertEqual([(r["number"],r["deckBank"],r["decks"]) for r in item["bankChanges"]],[(14,0,["a","c"]),(48,1,["b","d"])])
+        self.assertEqual([(r["number"],r["targetDeck"]) for r in item["inputs"] if r["action"] in {"levelA","levelB"}],[(4,"c"),(9,"a"),(14,"b"),(19,"d")])
+        self.assertEqual(len([r for r in item["inputs"] if "deckBank" in r]),18)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertFalse(any(r["action"]=="shift" or r["action"] in {"cueA","cueB","keylockA","keylockB"} for r in item["inputs"]))
+        reference=VMS5_REFERENCES[item["id"]]
+        for name,key in [("vms5-traktor.zip","sha256"),("VMS5 Traktor mapping V1.0.tsi","memberSHA256")]:
+            path=ROOT/"TestBuilds/r386/upstream"/name
+            if path.exists():self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),reference[key])
+        source=ROOT/"TestBuilds/r386/upstream"/reference["member"]
+        if source.exists():
+            from tsi_facts import inspect_tsi
+            rows=inspect_tsi(source.read_bytes())[0]["mappings"]
+            self.assertEqual(len(rows),302)
+            for signal,command,target in [("Ch01.Note.C0",100,0),("Ch01.Note.C0",100,2),("Ch01.Note.E0",406,0),("Ch01.Note.E0",406,2),("Ch01.Note.D3",406,1),("Ch01.Note.D3",406,3)]:
+                self.assertTrue(any(r["signal"]==signal and r["commandID"]==command and r["target"]==target and r["direction"]==0 for r in rows))
+
     def test_px5_and_24c_keep_their_independent_fader_only_contracts(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         by={r["id"]:r for r in runtime["profiles"]}
@@ -2926,9 +2949,12 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertFalse(model["zeroConfig"]["automaticControls"])
             self.assertFalse(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertIn("separate deck outputs", model["audioRouting"])
-            if name in {"VMS4.1 Traktor", "VMS5"}:
+            if name == "VMS4.1 Traktor":
                 self.assertEqual(model["implementation"], "protocol-needed")
                 self.assertNotIn("profile", model)
+            elif name == "VMS5":
+                self.assertEqual(model["implementation"], "partial-midi-profile")
+                self.assertEqual(model["profile"], "American Audio VMS5")
         for name in ["American Audio VMS2", "American Audio VMS4/4.1"]:
             profile = next(p for p in runtime["profiles"] if p["id"] == name)
             self.assertFalse(profile["autoSelect"])

@@ -10,7 +10,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 349 total catalogue records. 342 name physical models. The remainder identify software endpoints or protocol families.
-- 268 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 269 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 182 factory profiles select core controls automatically for 190 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 146 physical models still lack automatic core controls.
@@ -227,8 +227,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 88 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 36 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 89 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 35 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -438,7 +438,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | American Audio VMS4 | primary | partial-midi-profile | [Reference](https://manual.mixxx.org/2.5/en/hardware/controllers/american_audio_vms4) |
 | American Audio VMS4.1 | primary | partial-midi-profile | [Reference](https://manual.mixxx.org/2.5/en/hardware/controllers/american_audio_vms4) |
 | American Audio VMS4.1 Traktor | primary | protocol-needed | [Reference](https://www.adj.eu/vms4-1-traktor) |
-| American Audio VMS5 | primary | protocol-needed | [Reference](https://www.adj.com/products/vms5) |
+| American Audio VMS5 | primary | partial-midi-profile | [Reference](https://www.adj.com/products/vms5) |
 | Arturia KeyLab Mk 1 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/ArturiaKeyLab.midi.xml) |
 | Behringer BCD2000 | primary | partial-midi-profile | [Reference](https://github.com/anyc/snd-bcd2000) |
 | Behringer BCD3000 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD3000%20Advanced.midi.xml) |

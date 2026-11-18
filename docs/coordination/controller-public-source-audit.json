@@ -1033,6 +1033,40 @@
         "Five PX5 and three24C manual faders only. No automatic control/audio claim.",
         "Analogue ownership, unqualified Cue/filter/FX/insert controls, external deck routing and physical/iPad/A10X acceptance remain open."
       ]
+    },
+    {
+      "request": "R386",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://www.adj.eu/mwdownloads/download/link/id/786",
+          "sha256": "cc50266fdaa55be9e45294a80af59d374aa7670a90a63e25efa8815a9e3a0c9a",
+          "member": "VMS5 Traktor mapping V1.0.tsi",
+          "memberSHA256": "bf27354a27324bc1ab213d6d940b3f8b2c90c3cc402906b3426a7e89beececc5",
+          "review": "Public manufacturer TSI inspected as bounded MIDI facts only.302 used bindings. Confirms shared A/C and B/D wires and correct left pitch-bend-up target. No mapping or command executes."
+        },
+        {
+          "url": "https://www.adj.eu/mwdownloads/download/link/id/787",
+          "sha256": "62d4e41dacab2ed2ed81d08d4d78e52adda7ff8ff385b8e2eace557f37804295",
+          "pages": [
+            11,
+            12,
+            18
+          ],
+          "review": "Independent deck assignment and held Cue behaviour. Page18 visually reviewed: default Pre EQ plus software EQ duplicates processing. Post EQ and deliberate mixer ownership required."
+        },
+        {
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "member": "AmericanAudio__VMS50.js",
+          "memberSHA256": "cceee68749e8485b5d4c33011c89365ca984973437b38078573ba24760cb79c2",
+          "review": "Read-only public mapping facts qualify fixed C/A/B/D mixer strips, cyclic16384 wrap and2730 source jog scale. No DEX code or installer executes. Source left bend target error is corrected by the manufacturer TSI."
+        }
+      ],
+      "limits": [
+        "Manual40-input subset. Initial and reconnected banks are A/B. No output, setup, query, motor, audio route or automatic ownership.",
+        "Manufacturer2000-point claim conflicts with source2730 calibration. Shift, Vinyl/keylock, PFL, FX/sampler, library encoder, complete lifecycle, external mixer outputs and physical/iPad/A10X acceptance remain open."
+      ]
     }
   ]
 }

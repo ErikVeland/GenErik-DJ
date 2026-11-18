@@ -1043,3 +1043,13 @@ PX5 uses channel fadersCC0-3 and crossfaderCC4. Native explicitly maps physical 
 24C uses channel fadersCC5/6 and crossfaderCC4. Shared frequencyCC7 and unqualified button notes stay inactive.
 No Xone96/23C alias, analogue EQ/gain/headphone control, hardware write or automatic audio route is inferred.
 Use deliberate manual ownership and separate app audio. Complete external mixer routing and physical acceptance remain open.
+
+
+VMS5 uses its own public manufacturer TSI and independent DEX wire facts. The manual subset has40 inputs.
+Explicit source-local software banks route shared transport, tempo and cyclic jogs to A/C and B/D.
+One press changes a bank once. Releases rearm it. Changes retire owned holds and reset both banks' pickup/counters.
+Fixed C/A/B/D mixer strips retain their targets and pickup. C/D require the app option.
+Initial/reconnected banks are A/B. Post EQ and deliberate analogue/software mixer ownership are required.
+The source2730-count jog scale conflicts with a manufacturer2000-point claim. Calibration remains provisional.
+Unqualified Shift, Vinyl/keylock, PFL, FX/pads, library encoder and hardware output stay inactive.
+No downloaded code, query, installer, firmware or audio command runs. Full modes and physical acceptance remain open.

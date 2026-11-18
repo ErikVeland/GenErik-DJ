@@ -3,7 +3,8 @@ import TDJCore
 
 struct ControllerProfileData: Decodable, Sendable {
     enum InputProtocol: String, Codable, Sendable {
-        case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano, sc5000M, denonPrimePlayer, denonPrime4, nanoKontrol2Native, nanoPad2Native, nanoKontrolScene, xdjAN
+        case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano, sc5000M, denonPrimePlayer,
+            denonPrime4, nanoKontrol2Native, nanoPad2Native, nanoKontrolScene, xdjAN
         var setupInputMode: ControllerSetupInputDecoder.Mode? {
             self == .xdjAN ? .xdjAN : korgInputMode.map { .korg($0) }
         }
@@ -43,6 +44,7 @@ struct ControllerProfileData: Decodable, Sendable {
         let pulse: Bool?
         let requiresTouch: Bool?
         let directionStep: Double?
+        let deckBank: UInt8?
 
         func binding(source: Int32) -> ControllerBinding {
             .init(
@@ -50,8 +52,9 @@ struct ControllerProfileData: Decodable, Sendable {
                 parameter: nil, noteNumber: nil, action: action, encoding: encoding,
                 inverted: inverted, shifted: shifted ?? false, targetDeck: targetDeck, layerIndependent: shifted == nil,
                 anyChannel: anyChannel, argument: argument, releaseOnly: releaseOnly, requiredMode: requiredMode,
-                shiftChannel: shiftChannel, shiftInput: shiftInput, holdInput: holdInput, lowNumber: lowNumber, pulse: pulse,
-                requiresTouch: requiresTouch, directionStep: directionStep)
+                shiftChannel: shiftChannel, shiftInput: shiftInput, holdInput: holdInput, lowNumber: lowNumber,
+                pulse: pulse,
+                requiresTouch: requiresTouch, directionStep: directionStep, deckBank: deckBank)
         }
     }
 
@@ -78,6 +81,7 @@ struct ControllerProfileData: Decodable, Sendable {
         let onValue: UInt8?
         let decks: [DeckID]
         let releaseShiftChannels: [UInt8]?
+        let deckBank: UInt8?
 
         var isValid: Bool {
             (kind == nil || kind == .note || kind == .control)
@@ -87,6 +91,10 @@ struct ControllerProfileData: Decodable, Sendable {
                 && !decks.isEmpty && decks.count <= 4 && Set(decks).count == decks.count
                 && (releaseShiftChannels.map {
                     $0.count <= 16 && $0.allSatisfy { $0 < 16 } && Set($0).count == $0.count
+                } ?? true)
+                && (deckBank.map { bank in
+                    bank < 2 && (kind == nil || kind == .note) && onValue == 127
+                        && releaseShiftChannels == nil && decks == (bank == 0 ? [.a, .c] : [.b, .d])
                 } ?? true)
         }
     }
@@ -136,7 +144,8 @@ struct ControllerProfileData: Decodable, Sendable {
                 ?? true)
             && (excludedAliases?.count ?? 0) <= 24
             && (excludedAliases ?? []).allSatisfy { !$0.isEmpty && $0.count <= 128 }
-            && validInputModes && validBankChanges && validStartupTiming && (audioOutput == nil || autoSelect)
+            && validInputModes && validBankChanges && validDeckBanks && validStartupTiming
+            && (audioOutput == nil || autoSelect)
             && inputs.allSatisfy { input in
                 guard let channel = input.shiftChannel else { return true }
                 return channel < 16 && inputs.contains { $0.action == .shift && $0.shiftChannel == channel }
@@ -167,7 +176,8 @@ struct ControllerProfileData: Decodable, Sendable {
                         || ($0.kind == .control && [.gainA, .gainB, .filterKnobA, .filterKnobB].contains($0.action)))
                     && ($0.encoding != .p1NanoEncoder
                         || (inputProtocol == .p1Nano && $0.kind == .control && (16...20).contains($0.number)
-                            && [.gainA, .gainB, .highA, .highB, .midA, .midB, .lowA, .lowB, .filterKnobA, .filterKnobB].contains($0.action)))
+                            && [.gainA, .gainB, .highA, .highB, .midA, .midB, .lowA, .lowB, .filterKnobA, .filterKnobB]
+                                .contains($0.action)))
                     && ($0.encoding != .noteStep || ($0.kind == .note && $0.action.isJog))
                     && ($0.encoding != .rot64Fast || ($0.kind == .control && [.master, .monitor].contains($0.action)))
                     && ($0.encoding != .readyTempo || [.tempoA, .tempoB].contains($0.action))
@@ -228,6 +238,27 @@ struct ControllerProfileData: Decodable, Sendable {
                 }
             }
             && Set(changes.map { "\(($0.kind ?? .note).rawValue):\($0.channel):\($0.number)" }).count == changes.count
+    }
+
+    /**
+     * Limits software bank routing to explicit manual side selectors without unqualified light feedback.
+     */
+    private var validDeckBanks: Bool {
+        let selectors = (bankChanges ?? []).filter { $0.deckBank != nil }
+        guard !selectors.isEmpty || inputs.contains(where: { $0.deckBank != nil }) else { return true }
+        return !autoSelect && outputs.isEmpty && inputProtocol == nil && role == nil
+            && Set(selectors.compactMap(\.deckBank)).count == selectors.count
+            && selectors.allSatisfy { selector in inputs.contains { $0.deckBank == selector.deckBank } }
+            && inputs.allSatisfy { input in
+                guard let bank = input.deckBank else { return true }
+                return bank < 2 && input.targetDeck == (bank == 0 ? .a : .b)
+                    && input.action.rawValue.hasSuffix(bank == 0 ? "A" : "B")
+                    && input.anyChannel != true
+                    && selectors.contains { $0.deckBank == bank }
+            }
+            && selectors.allSatisfy { selector in
+                !inputs.contains { $0.kind == .note && $0.channel == selector.channel && $0.number == selector.number }
+            }
     }
 
     private var validInputModes: Bool {

@@ -5000,3 +5000,18 @@ Both profiles require deliberate manual selection and separate app audio. Neithe
 Validation:222 Python checks and seven focused native tests passed, including the157-profile held-Cue corpus. Native fixtures verified distinct CC layouts, four-deck gating, pickup, ignored buttons/other model wires and no hardware writes. Real-WAV fixtures for both profiles verified finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All266 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r385/validation.json`.
 
 The catalogue has268 data recipes. Automatic core coverage remains196 of342 physical models, with146 without automatic core controls. Thirty-six records need a first protocol implementation. Complete theoretical and physical/iPad acceptance remain open.
+
+
+## R386 VMS5 manual software deck banks
+
+Assumption: use independent VMS5 facts and require deliberate manual mixer ownership. Do not inherit the VMS4 profile.
+
+The [manufacturer factory mapping](https://www.adj.eu/mwdownloads/download/link/id/786) contains302 used MIDI bindings. The read-only TSI inspector confirms shared A/C and B/D transport, pitch bend, tempo and jog wires. The [manufacturer manual](https://www.adj.eu/mwdownloads/download/link/id/787) confirms the independent deck buttons and held Cue behaviour. Its page18 warns that software EQ duplicates processing in default Pre EQ mode. Post EQ is required for software EQ. Mixer controls still need deliberate analogue/software ownership and separate audio.
+
+The native manual subset has40 inputs. Note14 switches A/C. Note48 switches B/D. Each side changes once per press. NoteOff and NoteOn0 rearm it. A change releases source-owned Cue, pitch bend and contact holds. It resets both banks' tempo pickup and jog counters. Other sources and the opposite side retain their state. Fixed mixer strips keep C/A/B/D targets and pickup. C/D retain the four-deck opt-in. Applying, reconnecting or stopping resets software banks to A/B. No hardware state write establishes the initial bank.
+
+The public DEX document supplies cyclic16384-wrap assembly and its2730-count jog scale. The manufacturer's2000-point marketing claim conflicts with that scale. Calibration remains provisional. The manufacturer TSI independently corrects the DEX left pitch-bend-up target. Conflicting Shift, Vinyl/keylock and PFL assignments remain inactive. No downloaded mapping, installer, source script, query, LED, firmware or audio command runs. Complete modes, library encoder format, feedback/lifecycle, external mixer outputs and physical/iPad/A10X acceptance remain open.
+
+Validation:223 Python checks and41 focused native tests passed. These include the157-profile held-Cue corpus, side/source isolation, duplicate selector presses, both Cue release forms, four-deck gating, reconnect reset, independent mixer pickup and real-WAV2730-scale movement. The tests caught old-jog cleanup targeting the new bank. The corrected order now retires the old bank before retargeting, including disconnect. Initial pickup fixture failures came from values combined within one packet. Those failed results remain preserved. The iPad framework compiled and its resource matches the source. All268 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r386/validation.json`.
+
+The catalogue has269 data recipes. Automatic core coverage remains196 of342 physical models, with146 without automatic core controls. Thirty-five records still need a first protocol implementation. Full theoretical support and physical/iPad/A10X acceptance remain open.

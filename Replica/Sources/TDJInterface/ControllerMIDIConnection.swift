@@ -150,6 +150,7 @@ struct ControllerBinding: Codable {
     var pulse: Bool? = nil
     var requiresTouch: Bool? = nil
     var directionStep: Double? = nil
+    var deckBank: UInt8? = nil
     var lowControllerNumber: UInt8? { mode.isPairedCC ? lowNumber ?? (number < 32 ? number + 32 : nil) : nil }
     var target: ControllerActionTarget { .init(action, deck: targetDeck, argument: argument) }
     var mode: ControllerMIDIEncoding { encoding ?? .absolute }
@@ -442,6 +443,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private let deckAvailability: (() -> [DeckID])?
     @ObservationIgnored private var factorySessions: [ControllerFactorySession] = []
     @ObservationIgnored private var factoryPadModes: [Int32: ControllerPadModeState] = [:]
+    @ObservationIgnored private var deckBanks: [Int32: ControllerDeckBankState] = [:]
     @ObservationIgnored private var factoryBindings: [Int32: [ControllerBinding]] = [:]
     @ObservationIgnored private var factoryFeedback: [Int32: [ControllerFeedbackBinding]] = [:]
     @ObservationIgnored private var sentFactoryValues: [Int32: [String: [UInt8]]] = [:]
@@ -653,6 +655,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         factorySessions.removeAll()
         factoryBindings.removeAll()
         factoryPadModes.removeAll()
+        deckBanks.removeAll()
         factoryFeedback.removeAll()
         sentFactoryValues.removeAll()
         resetBridge()
@@ -908,7 +911,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                             argument: binding.argument, releaseOnly: binding.releaseOnly,
                             requiredMode: binding.requiredMode, shiftChannel: binding.shiftChannel,
                             shiftInput: binding.shiftInput, holdInput: binding.holdInput, lowNumber: binding.lowNumber, pulse: binding.pulse,
-                            requiresTouch: binding.requiresTouch, directionStep: binding.directionStep)
+                            requiresTouch: binding.requiresTouch, directionStep: binding.directionStep, deckBank: binding.deckBank)
                     } ?? session.profile.bindings(source: session.source, playerDeck: session.playerDeck)
                 return (session.source, profile)
             })
@@ -1084,7 +1087,15 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
 
     private func inputBindings(source: Int32) -> [ControllerBinding] {
         let custom = bindings.filter { $0.source == source }
-        return custom.isEmpty ? factoryBindings[source, default: []] : custom
+        let raw = custom.isEmpty ? factoryBindings[source, default: []] : custom
+        guard let banks = deckBanks[source] else { return raw }
+        return raw.map { binding in
+            guard let bank = binding.deckBank else { return binding }
+            var result = binding
+            result.targetDeck = banks.deck(for: bank)
+            result.action = binding.action.assigned(to: banks.deck(for: bank))
+            return result
+        }
     }
 
     /**
@@ -1257,6 +1268,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
      * Resets manual protocol state and reconnects only when the required input port changes.
      */
     private func setManualInputProtocol(_ input: ControllerProfileData.InputProtocol?, source: Int32) {
+        deckBanks[source] = nil
         let wasConnected = connectedEndpoints[source] != nil
         manualInputProtocols[source] = input
         decoders[source] = nil
@@ -1347,6 +1359,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         releaseMomentaryActions(source: id, resetJogs: endpoint != nil || playerDeck(source: id) != nil)
+        deckBanks[id] = nil
         updatePollingInterval()
     }
     private func reconnectInputs() {
@@ -2704,13 +2717,25 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let profile = manualFactoryProfiles[source] ?? factorySessions.first(where: { $0.source == source })?.profile,
             let change = profile.definition?.bankChanges?.first(where: {
                 ($0.kind ?? .note) == message.kind && $0.channel == message.channel && $0.number == message.number
-                    && (message.isNoteOff ? $0.releaseShiftChannels != nil
+                    && (message.isNoteOff ? ($0.releaseShiftChannels != nil || $0.deckBank != nil)
                         : $0.onValue.map { Int($0) == message.value } ?? true)
             })
         else { return }
+        let previousBindings = change.deckBank != nil ? inputBindings(source: source) : []
+        var nextBankState: ControllerDeckBankState?
+        if change.deckBank != nil {
+            var state = deckBanks[source, default: .init()]
+            let changed = state.receive(message, selector: change)
+            guard changed else {
+                deckBanks[source] = state
+                return
+            }
+            nextBankState = state
+        }
         let decks = Set(change.decks)
         flushPendingActions()
         releaseMomentaryActions(source: source, decks: decks)
+        if let nextBankState { deckBanks[source] = nextBankState }
         let bindings = inputBindings(source: source)
         let layered = bindings.map { ($0, isShiftActive($0)) }
         if message.isNoteOff, let channels = change.releaseShiftChannels {
@@ -2726,11 +2751,13 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             }
         }
         let scoped = bindings.filter { binding in
+            if let bank = change.deckBank { return binding.deckBank == bank }
             if let deck = binding.targetDeck { return decks.contains(deck) }
             return (binding.action.rawValue.hasSuffix("A") || binding.action.rawValue.hasSuffix("B"))
                 && decks.contains(binding.action.deck)
         }
-        resetInputValueStates(scoped + layered.filter { isShiftActive($0.0) != $0.1 }.map { $0.0 })
+        let previousBank = change.deckBank.map { bank in previousBindings.filter { $0.deckBank == bank } } ?? []
+        resetInputValueStates(scoped + previousBank + layered.filter { isShiftActive($0.0) != $0.1 }.map { $0.0 })
     }
 
     private func resetInputValueStates(_ scoped: [ControllerBinding]) {
