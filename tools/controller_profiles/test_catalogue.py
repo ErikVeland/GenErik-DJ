@@ -861,6 +861,26 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_mixtour_generation_keeps_transport_cues_and_pro_identity_separate(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((row for row in runtime["profiles"] if row["id"] == "Reloop Mixtour"), None)
+        self.assertIsNotNone(item, "Original Mixtour needs its own factory recipe")
+        self.assertTrue(item["autoSelect"])
+        self.assertIn("Mixtour Pro", item["excludedAliases"])
+        normal = [r for r in item["inputs"] if not r.get("releaseOnly")]
+        self.assertEqual([(r["channel"], r["number"], r["targetDeck"]) for r in normal if r["action"] in {"playA", "playB"}],
+                         [(0, 12, "a"), (1, 12, "b")])
+        self.assertEqual([r["number"] for r in normal if r["action"] in {"cuePreviewA", "cuePreviewB"}], [11, 11])
+        self.assertEqual([r["number"] for r in normal if r["action"].startswith("hotcue")], [13, 14, 15, 16] * 2)
+        self.assertEqual(next(r["encoding"] for r in normal if r["action"] == "browse"), "twosComplement")
+        self.assertLessEqual(len(item["startup"]) + len(item["shutdown"]), 64)
+        self.assertNotIn("audioOutput", item)
+        from mixtour import MIXTOUR_SOURCES
+        for name, digest in MIXTOUR_SOURCES:
+            path = ROOT / "TestBuilds/r289/manufacturer" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_new_public_mapping_audits_do_not_claim_missing_native_custom_classes(self):
         from manufacturer_inventory import SOURCE_AUDITS
         expected = {"Hercules DJControl Inpulse T7": ("t7-mapping.xml", 402, 2, "HerculesDJControlInpulseT7"),
@@ -1742,7 +1762,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for name, source in MANUFACTURER_MODELS:
             model = next(item for item in catalogue["models"] if item["id"] == canonical(name))
             self.assertIn(source, model["sources"])
-            self.assertFalse(model["zeroConfig"]["automaticControls"])
+            self.assertEqual(model["zeroConfig"]["automaticControls"], name in {"Reloop Mixtour"})
             self.assertFalse(model["theoreticalSupport"]["complete"])
         model_ids = {model["id"] for model in catalogue["models"]}
         for row in catalogue["benchmarkRows"]:

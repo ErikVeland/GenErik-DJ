@@ -1,6 +1,6 @@
 # Controller coverage
 
-Request R23. Updated 17 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
+Request R23. Updated 18 November 2026. Erik owns an original Z1 and allows a hardware bridge when direct iPad access is unavailable. The A10X iPad remains the app target. Erik remains the sole acceptance tester.
 
 ## R248 original Instinct factory-backed core
 
@@ -3233,3 +3233,34 @@ All 172 runtime recipes remain byte-for-byte unchanged. No new native compilatio
 Automatic core coverage stays at 151 physical models, including 65/122 benchmark models. Complete theoretical parity remains open.
 Repository checks retain twelve historical-link failures. No signed app, installation or physical acceptance occurred.
 Exact source identities and results are in ignored `TestBuilds/r288/validation.json`.
+
+## R289 original Mixtour factory core
+
+Assumption: the original Mixtour uses its factory MIDI configuration. Mixtour Pro is a separate model.
+Reloop's chart and published Traktor mapping supply the wire facts. No vendor code runs in the app.
+The Beatpad 2 chart was also retrieved, but it omits base transport/jog facts. It does not justify an original-Beatpad alias.
+
+Implementation plan and checks:
+
+- [x] Add failing native fixtures for automatic original-model detection, separate transport/cue addresses, held Cue, shifted releases, mixer pickup, signed browsing and lifecycle failure/reconnect.
+- [x] Add a small `mixtour.py` recipe and source reference. Register it in the catalogue builder. Retain unsupported shifted presses and fader-start as inactive.
+- [x] Verify normal Play/Sync/PFL/Loop and cue feedback against factory addresses and colours. Keep all lifecycle traffic within the existing bound.
+- [x] Run importer checks, the focused Swift fixtures and iPad framework compilation. Compare the bundled resource and all other recipes.
+- [x] Record source hashes, results and remaining limits, then commit the coherent change.
+
+The existing typed profile, input and feedback boundaries are sufficient. No audio-rendering or view code needs to change.
+The factory outbound SysEx disables demo mode. The Traktor MIDI definitions specify 7Fh/01h relative browsing.
+Audio channel order, full modes/feedback, calibration and physical acceptance remain open until separately qualified.
+
+The new recipe has 64 inputs, 18 outputs and 51 lifecycle packets. It selects automatically for the original Mixtour.
+Transport uses orange feedback and the four-cue page uses green. Mode changes release only the affected deck.
+The factory chart, mapping archive, extracted TSI and binary-format reference retain SHA-256 identities in the generator.
+
+All 10 focused Swift checks, 120 importer checks and native iPad framework compilation pass.
+The compiled resource matches the source. All 172 earlier recipes remain unchanged.
+The first fixture compile needed a missing actor annotation. Initial assertions also needed the existing normalised browser callback and the newly supported inventory entry.
+Those failed logs and the expected pre-implementation failures remain in `TestBuilds/r289/`.
+Inline review retained the repository's serial-work rule; no reviewer agent was started.
+The repository check retains twelve historical broken links.
+Factory coverage reaches 138 profiles for 146 physical models, plus six other native models. The benchmark remains 65/122.
+Source base: `90b8822`. No signed app, install, hardware test or A10X acceptance forms part of this increment.

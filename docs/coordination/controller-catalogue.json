@@ -26490,46 +26490,93 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart"
+        "https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart",
+        "https://www.reloop.com/media/custom/upload/Reloop-Mixtour_MIDI-Map.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:reloopmixtour"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Reloop Mixtour",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 64,
+      "feedbackBindingCount": 18,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Original Mixtour only. Native Loop uses the selected app length. Full FX/sampler/shift modes, fader start, T+Trax seek, live meters, remaining lights/reset, numbered audio routing and physical USB/calibration acceptance remain open. No Mixtour Pro protocol or jog/tempo fader is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -317528,6 +317575,49 @@
         },
         {
           "reason": "Original-Pro jog sensor resolution is not published; native1024 default needs calibration. Factory CC5 LoadA differs from the Control2 source Note5. Full PitchMode/Vinyl/FX/EQ-kill modes, held cue preview, input routing/external mixing, animation, complete feedback/reset and physical USB/audio acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:reloopmixtour",
+      "name": "Reloop Mixtour",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.reloop.com/media/custom/upload/Reloop-Mixtour_MIDI-Map.pdf",
+        "sha256": "6c63ece1fdb7f76967820d4f8e39624c1a08377f03f7741544196cac49c72ceb",
+        "pages": [
+          1,
+          2
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.reloop.com/media/custom/upload/Reloop-MIXTOUR_Traktor_Mapping.zip",
+            "sha256": "d301c68e86e0c60123ae7faf5af3c4d666150bb001001e0fb8813a7594bad8c1",
+            "archiveMember": {
+              "path": "Traktor_Setup_Mixtour_V1.0.tsi",
+              "sha256": "dbd78c7e3c8fa30a36a6b819666c9aab8feeca86a3c894b3c9d4d35a649c9e32"
+            }
+          },
+          {
+            "url": "https://www.reloop.com/media/custom/upload/Reloop-Mixtour_Quickstart_Guide.pdf"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/ivanz/TraktorMappingFileFormat/df5f544d10e3293b72b829841e654da0db71c4b0/Tools/TSI%20Mapping%20Template.bt",
+            "sha256": "2f8ae3942c26d7456e506eb445daa0b056ddbde2498ca65664eecf98d80c2386"
+          }
+        ],
+        "review": "Original Mixtour factory chart defines normal/shifted mixer, direct Load/PFL, cue page, two deck channels0/1 and global Shift. Factory TSI supplies transport page missing from the chart: Loop9, Sync10, held Cue11, Play12, shifted72..75. Cues13..16 retain distinct shifted76..79 clear addresses; unsupported clear presses cannot fire cues. TSI DCDT sets browseCC7 to7Fh/01h with no inversion. Native signed browse follows that fact, not an inferred centre64 sibling. Physical T/C mode reports release only their deck's contacts and reset pickup. Every mapped normal note has a shifted release alias to rearm debounce. Shift-Loop/Sync retain halve/double. Native Loop uses selected app length; source forced length and loop-out customisation are not copied. Factory bi-colour feedback uses orange64 for transport and green32 for cues, with ordinary PFL127. Factory outbound SysEx disables the30-second demo mode. Bounded lifecycle clears unsupported filter/FX indicators and meters plus owned outputs; other shifted lights/reset, live meters, FX, sampler, fader start, T+Trax seek, full feedback, audio channel order and physical acceptance remain open. No jog or tempo fader is invented. Mixtour Pro is excluded. No vendor code runs in the app."
+      },
+      "implementedInputCount": 64,
+      "implementedOutputCount": 18,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Original Mixtour only. Native Loop uses the selected app length. Full FX/sampler/shift modes, fader start, T+Trax seek, live meters, remaining lights/reset, numbered audio routing and physical USB/calibration acceptance remain open. No Mixtour Pro protocol or jog/tempo fader is inferred."
         }
       ]
     },

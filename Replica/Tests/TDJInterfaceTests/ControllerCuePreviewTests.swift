@@ -1011,3 +1011,22 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueMixtourNativeCueModeReleaseAndLoopKeepSync() async throws {
+    try await withControllerCuePlayback("Mixtour") { model, input in
+        cuePreviewPacket([0x90, 11, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90, 5, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        model.setLoopSize(8, deck: .a)
+        cuePreviewPacket([0x90, 9, 127, 6, 127, 72, 127], to: input)
+        #expect(model.performance.loopBeats(for: .a) == 4)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        cuePreviewPacket([0x90, 72, 0, 6, 0, 12, 127], to: input)
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}
