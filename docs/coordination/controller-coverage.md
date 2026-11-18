@@ -3486,3 +3486,30 @@ The catalogue has179 data recipes plus five code profiles. Automatic core covera
 Full theoretical feature parity remains unimplemented. Calibration, complete modes/lifecycle, audio routing and device acceptance remain open.
 Source base: `6ab5af9`. Source cache: `TestBuilds/r296/manufacturer/`. Validation: `TestBuilds/r297/`.
 No signed app, install, controller hardware test or A10X acceptance forms part of this increment.
+
+## R298 Slate4 independent four-deck source
+
+Assumption: the separate PCDJ Slate4 script identifies USB23C7:0467 and `SLATE4 Audio`.
+It resolves the earlier custom file's conflicting touch row and missing pitch. C/D use channels4/5, not channels2/3.
+No native effect, sampler, combined manual-loop behaviour or measured jog revolution count is inferred.
+
+Implementation plan and checks:
+
+- [x] Fail the former manual-only fixture and add explicit C/D channel, hidden-deck and cross-bank release checks.
+- [x] Pin the PCDJ source. Replace the manual subset with an automatic four-target core while preserving the original Slate recipe.
+- [x] Keep lifecycle below64 packets. Preserve Shift guards and separate global mixer/Load/PFL addresses.
+- [x] Run importer checks, focused native playback/protocol checks and iPad framework compilation. Compare previous recipes and bundle bytes.
+
+Slate4 now has150 inputs,52 steady feedback definitions, four startup packets and56 shutdown packets.
+Release-only aliases cannot trigger another bank on a positive press. NoteOff in either bank clears its physical side's held Cue/contact.
+An unannounced bank change during active contact does not transfer scratching to the new deck. Complete contact handover remains open.
+The native fixture verifies explicit C/D transport, Load, PFL, mixer targeting and hidden-deck isolation.
+The source's app-specific jog denominator150 does not establish measured counts per revolution. Default calibration remains unverified.
+Unowned FX cleanup and full display/light behaviour stay open. No commented Pioneer setup or identity bytes are sent.
+
+All12 focused Swift checks,128 importer checks and native iPad framework compilation pass.
+The compiled resource matches the source. Only Slate4 changed; all178 other recipes, including original Slate, remain unchanged.
+Expected failures and final evidence remain in `TestBuilds/r298/validation/`. The repository check retains twelve historical broken links.
+The catalogue keeps179 data recipes. Automatic core coverage reaches156 physical models and67/122 benchmark models.
+Full theoretical feature parity remains unimplemented. No signed app, install, hardware test or A10X acceptance forms part of this increment.
+Source base: `075d416`. Source: [PCDJ Slate4 map](https://pcdj.com/dj-controllers-download-the-gemini-slate-4/).

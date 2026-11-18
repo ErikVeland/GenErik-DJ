@@ -20,47 +20,65 @@ SLATE_REFERENCES = {
 }
 
 
+SLATE4_PCDJ_SOURCE = "https://pcdj.com/downloads/djcontrollers/Gemini__Slate_4.zip"
+SLATE4_PCDJ_SOURCES = [
+    ("Gemini-Slate4.zip", "2bdc1a80f407ad1232291f2a14e52b976355eea63ff4ae92202fa7399143b22a"),
+    ("Gemini__Slate_4.js", "f991dc957d25dc86f58cc0bc3ec2ed79e385549a6638e6b09575c2455b81c14c"),
+]
+SLATE_REFERENCES["Gemini Slate 4"] = {
+    "url": SLATE4_PCDJ_SOURCE, "sha256": SLATE4_PCDJ_SOURCES[0][1],
+    "relatedSources": [{"url": "https://pcdj.com/dj-controllers-download-the-gemini-slate-4/"},
+                       {"url": SLATE4_SOURCE, "sha256": SLATE_SOURCES[2][1]}],
+    "review": "Independent PCDJ four-deck map identifies SLATE4 Audio andUSB23C7:0467. Explicit channel remap0/1/4/5 supplies A/B/C/D transport, inverted seven-bit pitchCC1, centre64 jogCC4 and touchNote57; the earlier custom file's duplicate channel1 touch assignment is not imported. Global channel3 Load1..4 and PFL5..8 retain all four targets. Its CC5..8 Mid,9..12 High,13..16 Low,17..20 filter and21..24 level are native per-deck controls; outer EQs are not Neural Mix. Cross-bank NoteOff aliases release Cue/touch holds and rearm transport even if hardware changes its wire channel before release. They never trigger another bank on a positive press. C/D keep the app's existing opt-in. Eight distinct cue/fixed-loop note sets retain source Shift clear guards, with native fixed touch scratch and default calibration. Software Vinyl toggles, complete bank/contact handover, combined manual loops, FX/sampler, source Sync flashes, complete lifecycle and audio routing remain open. Published four-bank transport/PFL/cue feedback uses127/0. Four fixed Vinyl startup lights and56 shutdown packets stay within the64-packet bound; unowned FX cleanup is not copied. No source script, stale Pioneer header/identity comment or commented application-connect packet runs in the app.",
+}
+
+
 def slate_profiles():
     results = []
-    for manual in [False, True]:
-        name = "Gemini Slate 4" if manual else "Gemini Slate"
+    for four in [False, True]:
+        name = "Gemini Slate 4" if four else "Gemini Slate"
         result = profile(name, SLATE_REFERENCES[name]["url"])
-        result["autoSelect"] = not manual
-        result["aliases"].append("SLATE4-4 decks" if manual else "SLATE Audio")
-        if manual:
-            result["hardwareMode"] = "Manual two-deck custom-map subset. Enable input separately; full four-deck dispatch is unqualified."
-            result["gaps"] = ["Conflicting source touch row, absent pitch, outer Neural Mix EQ, shared pad/deck state, full four-deck dispatch, unspecified light ranges, lifecycle and audio routing remain open. No original-Slate alias is inferred. Physical acceptance remains open."]
-            result["scope"] = "Manual normal A/B transport, held Cue, direct Load/PFL, channel mixer/filter, wheel bend and centre64 browsing. Touch/pitch, shared pads, C/D, lights, lifecycle and routing remain open."
+        result["aliases"] += ["SLATE4 Audio", "SLATE4-4 decks"] if four else ["SLATE Audio"]
+        if four:
+            result["excludedAliases"] = ["Gemini Slate", "Slate", "SLATE Audio"]
+            result["gaps"] = ["Native fixed touch scratch keeps default calibration. Source Vinyl toggle, complete bank/contact handover, shifted cue clear, combined manual loops, saved loops, full pad/FX/sampler modes, complete feedback/lifecycle and audio routing remain open. Cross-bank release aliases prevent stuck Cue/contact after a changed-channel release. C/D require four-deck opt-in. Physical acceptance remains open."]
+            result["scope"] = "Automatic Slate4 four-target core with channels0/1/4/5, native held Cue/touch, source inverted pitch, mixer, direct Load/PFL, eight cue/fixed-loop sets and steady feedback. C/D require opt-in. Full modes/routing and acceptance remain open."
         else:
             result["excludedAliases"] = ["Gemini Slate 4", "Slate 4", "SLATE4", "SLATE4-4 decks"]
             result["gaps"] = ["Native fixed touch scratch keeps the app's default jog calibration; source150 is not a measured revolution resolution. Source Vinyl toggle, shifted cue clear, combined manual loops, saved loops, full pad/FX/sampler modes, full feedback/lifecycle, audio routing and physical acceptance remain open."]
             result["scope"] = "Automatic original Slate A/B core with held Cue, inverted source seven-bit pitch, centre64 touch/jog, mixer, eight cues, fixed loop notes, direct Load, browsing and steady lights. Full modes/routing and physical acceptance remain open."
         add(result, "shift", 3, 13)
-        for channel, deck in enumerate("ab"):
-            for action, number in [("play", 1), ("cuePreview", 2), ("sync", 3)] + ([] if manual else [("keylock", 4)]):
-                add(result, action, channel, number, deck=deck, feedback=not manual)
-            add(result, "load", 3, 1 + channel, deck=deck)
-            add(result, "cue", 3, 5 + channel, deck=deck, feedback=not manual)
-            add(result, "wheelJog" if manual else "jog", channel, 4, "control", "binaryOffset", deck)
-            if not manual:
-                add(result, "jogTouch", channel, 57, deck=deck)
-                add(result, "tempo", channel, 1, "control", deck=deck)
-                result["inputs"][-1]["inverted"] = True
-                for slot in range(8):
-                    add(result, f"hotcue{slot + 1}", channel, 6 + 3 * slot, deck=deck, feedback=True)
-                    result["inputs"][-1]["shifted"] = False
-                    add(result, "toggleFixedLoop", channel, 8 + 3 * slot, deck=deck)
-                    result["inputs"][-1]["argument"] = 0.125 * 2 ** slot
-                add(result, "loopDown", channel, 16, deck=deck)
+        channels = [0, 1, 4, 5] if four else [0, 1]
+        for index, (channel, deck) in enumerate(zip(channels, "abcd")):
+            def bank_release(action, number):
+                if four:
+                    add(result, action, channel ^ 4, number, deck=deck)
+                    result["inputs"][-1]["releaseOnly"] = True
+
+            for action, number in [("play", 1), ("cuePreview", 2), ("sync", 3), ("keylock", 4)]:
+                add(result, action, channel, number, deck=deck, feedback=True)
+                bank_release(action, number)
+            add(result, "load", 3, 1 + index, deck=deck)
+            add(result, "cue", 3, 5 + index, deck=deck, feedback=True)
+            add(result, "jog", channel, 4, "control", "binaryOffset", deck)
+            add(result, "jogTouch", channel, 57, deck=deck)
+            bank_release("jogTouch", 57)
+            add(result, "tempo", channel, 1, "control", deck=deck)
+            result["inputs"][-1]["inverted"] = True
+            for slot in range(8):
+                add(result, f"hotcue{slot + 1}", channel, 6 + 3 * slot, deck=deck, feedback=True)
+                result["inputs"][-1]["shifted"] = False
+                add(result, "toggleFixedLoop", channel, 8 + 3 * slot, deck=deck)
+                result["inputs"][-1]["argument"] = 0.125 * 2 ** slot
+            add(result, "loopDown", channel, 16, deck=deck)
             for action, number in [("high", 9), ("mid", 5), ("low", 13), ("filterKnob", 17), ("level", 21)]:
-                add(result, action, 3, number + channel, "control", deck=deck)
+                add(result, action, 3, number + index, "control", deck=deck)
         for action, number in [("crossfader", 25), ("cueMix", 26), ("master", 27)]:
             add(result, action, 3, number, "control")
-        add(result, "browse", 3, 30, "control", "binaryOffset" if manual else "binaryDirection")
-        if not manual:
-            add(result, "openGroup", 3, 9)
-            result["startup"] = [[0x90 + ch, 56, 127] for ch in range(2)]
-            result["shutdown"] = [[0x90 + row["channel"], row["number"], 0] for row in result["outputs"]]
-            result["shutdown"] += [[0x90 + ch, note, 0] for ch in range(2) for note in [54, 56, 60, 62]]
+        add(result, "browse", 3, 30, "control", "binaryDirection")
+        add(result, "openGroup", 3, 9)
+        result["startup"] = [[0x90 + ch, 56, 127] for ch in channels]
+        result["shutdown"] = [[0x90 + row["channel"], row["number"], 0] for row in result["outputs"]]
+        result["shutdown"] += [[0x90 + ch, note, 0] for ch in channels for note in ([56] if four else [54, 56, 60, 62])]
         results.append(result)
     return results

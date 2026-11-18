@@ -14691,58 +14691,132 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://community.algoriddim.com/uploads/short-url/pYMYB13dHQw7Rccw8pdbs3mdsgz.djayMidiMa"
+        "https://pcdj.com/downloads/djcontrollers/Gemini__Slate_4.zip"
       ],
       "definitions": [
         "manufacturer:geminislate4"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Gemini Slate 4",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "browse",
         "crossfader",
         "cueA:a",
+        "cueA:c",
         "cueB:b",
+        "cueB:d",
         "cueMix",
         "cuePreviewA:a",
+        "cuePreviewA:c",
         "cuePreviewB:b",
+        "cuePreviewB:d",
         "filterKnobA:a",
+        "filterKnobA:c",
         "filterKnobB:b",
+        "filterKnobB:d",
         "highA:a",
+        "highA:c",
         "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
         "levelA:a",
+        "levelA:c",
         "levelB:b",
+        "levelB:d",
         "loadA:a",
+        "loadA:c",
         "loadB:b",
+        "loadB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
         "lowA:a",
+        "lowA:c",
         "lowB:b",
+        "lowB:d",
         "master",
         "midA:a",
+        "midA:c",
         "midB:b",
+        "midB:d",
+        "openGroup",
         "playA:a",
+        "playA:c",
         "playB:b",
+        "playB:d",
         "shift",
         "syncA:a",
+        "syncA:c",
         "syncB:b",
-        "wheelJogA:a",
-        "wheelJogB:b"
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopA:c",
+        "toggleFixedLoopB:b",
+        "toggleFixedLoopB:d"
       ],
-      "inputBindingCount": 27,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 150,
+      "feedbackBindingCount": 52,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false,
-        "requiredHardwareMode": "Manual two-deck custom-map subset. Enable input separately; full four-deck dispatch is unqualified."
+        "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
@@ -14761,8 +14835,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Conflicting source touch row, absent pitch, outer Neural Mix EQ, shared pad/deck state, full four-deck dispatch, unspecified light ranges, lifecycle and audio routing remain open. No original-Slate alias is inferred. Physical acceptance remains open.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Native fixed touch scratch keeps default calibration. Source Vinyl toggle, complete bank/contact handover, shifted cue clear, combined manual loops, saved loops, full pad/FX/sampler modes, complete feedback/lifecycle and audio routing remain open. Cross-bank release aliases prevent stuck Cue/contact after a changed-channel release. C/D require four-deck opt-in. Physical acceptance remains open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -318289,17 +318362,21 @@
       "name": "Gemini Slate 4",
       "transport": "midi",
       "source": {
-        "url": "https://community.algoriddim.com/uploads/short-url/pYMYB13dHQw7Rccw8pdbs3mdsgz.djayMidiMa",
-        "sha256": "5f99dd156c5c2ee57c61cee6a5abd15ae16223b0905d8abac8a4cfce12eaed5f",
+        "url": "https://pcdj.com/downloads/djcontrollers/Gemini__Slate_4.zip",
+        "sha256": "2bdc1a80f407ad1232291f2a14e52b976355eea63ff4ae92202fa7399143b22a",
         "relatedSources": [
           {
-            "url": "https://community.algoriddim.com/t/gemini-slate-4-midi-mapping/37308"
+            "url": "https://pcdj.com/dj-controllers-download-the-gemini-slate-4/"
+          },
+          {
+            "url": "https://community.algoriddim.com/uploads/short-url/pYMYB13dHQw7Rccw8pdbs3mdsgz.djayMidiMa",
+            "sha256": "5f99dd156c5c2ee57c61cee6a5abd15ae16223b0905d8abac8a4cfce12eaed5f"
           }
         ],
-        "review": "DJ_MKB's corrected1.01 two-deck custom mapping identifies USB23C7:0467 andSLATE4-4 decks, without a custom app class. Normal A/B transport, global-channel3 Load/PFL/mixer and explicit rotary64 jog/browse facts enter a separate manual subset. Both source touch rows address channel1 Note57 while naming different decks; neither is imported. Pitch is absent. Outer EQs control Neural Mix, not ordinary C/D EQ. Shared pad/deck modes, full four-deck dispatch, lights with unspecified ranges, startup/shutdown, original-Slate aliases and audio routing remain unqualified. Manual application requires separate input enabling and runs no lifecycle. No downloaded code runs in the app."
+        "review": "Independent PCDJ four-deck map identifies SLATE4 Audio andUSB23C7:0467. Explicit channel remap0/1/4/5 supplies A/B/C/D transport, inverted seven-bit pitchCC1, centre64 jogCC4 and touchNote57; the earlier custom file's duplicate channel1 touch assignment is not imported. Global channel3 Load1..4 and PFL5..8 retain all four targets. Its CC5..8 Mid,9..12 High,13..16 Low,17..20 filter and21..24 level are native per-deck controls; outer EQs are not Neural Mix. Cross-bank NoteOff aliases release Cue/touch holds and rearm transport even if hardware changes its wire channel before release. They never trigger another bank on a positive press. C/D keep the app's existing opt-in. Eight distinct cue/fixed-loop note sets retain source Shift clear guards, with native fixed touch scratch and default calibration. Software Vinyl toggles, complete bank/contact handover, combined manual loops, FX/sampler, source Sync flashes, complete lifecycle and audio routing remain open. Published four-bank transport/PFL/cue feedback uses127/0. Four fixed Vinyl startup lights and56 shutdown packets stay within the64-packet bound; unowned FX cleanup is not copied. No source script, stale Pioneer header/identity comment or commented application-connect packet runs in the app."
       },
-      "implementedInputCount": 27,
-      "implementedOutputCount": 0,
+      "implementedInputCount": 150,
+      "implementedOutputCount": 52,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
@@ -318307,7 +318384,7 @@
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         },
         {
-          "reason": "Conflicting source touch row, absent pitch, outer Neural Mix EQ, shared pad/deck state, full four-deck dispatch, unspecified light ranges, lifecycle and audio routing remain open. No original-Slate alias is inferred. Physical acceptance remains open."
+          "reason": "Native fixed touch scratch keeps default calibration. Source Vinyl toggle, complete bank/contact handover, shifted cue clear, combined manual loops, saved loops, full pad/FX/sampler modes, complete feedback/lifecycle and audio routing remain open. Cross-bank release aliases prevent stuck Cue/contact after a changed-channel release. C/D require four-deck opt-in. Physical acceptance remains open."
         }
       ]
     },

@@ -5,21 +5,18 @@ import Testing
 @testable import TDJInterface
 
 @MainActor private func withSlate(
-    manual: Bool = false, _ body: (ControllerMIDIConnection) throws -> Void
+    four: Bool = false, decks: [DeckID] = DeckID.primary, _ body: (ControllerMIDIConnection) throws -> Void
 ) throws {
     let suite = "slate-\(UUID().uuidString)"
     let preferences = UserDefaults(suiteName: suite)!
     defer { preferences.removePersistentDomain(forName: suite) }
-    let input = ControllerMIDIConnection(preferences: preferences, factoryPacketSender: { _, _ in true })
-    let name = manual ? "SLATE4-4 decks" : "SLATE Audio"
+    let input = ControllerMIDIConnection(
+        preferences: preferences, factoryPacketSender: { _, _ in true }, deckAvailability: { decks })
+    let name = four ? "SLATE4-4 decks" : "SLATE Audio"
     input.sources = [.init(id: 10, reference: 100, name: name, identity: .init(id: 10, device: 1, names: [name]))]
     input.destinations = [.init(id: 20, reference: 200, name: name, identity: .init(id: 20, device: 1, names: [name]))]
     input.reconcileFactoryProfiles()
-    #expect(input.isInputActive(10) == !manual)
-    if manual {
-        input.select(10)
-        input.applyFactoryProfile(try #require(ControllerFactoryProfile.matching([name])))
-    }
+    #expect(input.isInputActive(10) == true)
     try body(input)
 }
 
@@ -32,18 +29,18 @@ import Testing
 @Test @MainActor func controllerCatalogueSlateKeepsOriginalAndFourDeckModelIdentitiesSeparate() throws {
     let original = try #require(ControllerFactoryProfile.matching(["SLATE Audio"], automaticOnly: true))
     #expect(original.rawValue == "Gemini Slate")
-    #expect(ControllerFactoryProfile.matching(["Gemini Slate 4"], automaticOnly: true) == nil)
+    #expect(ControllerFactoryProfile.matching(["Gemini Slate 4"], automaticOnly: true) != nil)
     let four = try #require(ControllerFactoryProfile.matching(["SLATE4-4 decks"]))
     #expect(four.rawValue == "Gemini Slate 4" && four != original)
     #expect(!original.hasAutomaticSplitOutput && !four.hasAutomaticSplitOutput)
     let data = try #require(four.definition)
-    #expect(data.inputs.allSatisfy { ![.jogTouchA, .jogTouchB, .tempoA, .tempoB].contains($0.action) })
-    #expect(data.outputs.isEmpty && data.startup.isEmpty && data.shutdown.isEmpty)
+    #expect(data.inputs.contains { $0.action == .jogTouchA && $0.channel == 4 && $0.targetDeck == .c })
+    #expect(data.startup == [[0x90, 56, 127], [0x91, 56, 127], [0x94, 56, 127], [0x95, 56, 127]])
 }
 
 @Test @MainActor func controllerCatalogueSlateTransportLoadAndCueReleaseKeepBothDecks() throws {
-    for manual in [false, true] {
-        try withSlate(manual: manual) { input in
+    for four in [false, true] {
+        try withSlate(four: four) { input in
             var events: [(ControllerActionTarget, Double)] = []
             input.onTargetAction = { events.append(($0, $1)) }
             slatePacket(
@@ -74,11 +71,12 @@ import Testing
         #expect(jogs.contains { $0.0 == .init(.jogA, deck: .a) && $0.1 == .relative(1) })
         #expect(jogs.contains { $0.0 == .init(.jogB, deck: .b) && $0.1 == .relative(-1) })
     }
-    try withSlate(manual: true) { input in
+    try withSlate(four: true) { input in
         var events: [ControllerAction] = []
         input.onTargetAction = { target, _ in events.append(target.action) }
         slatePacket([0xB0, 1, 127, 0xB1, 1, 0, 0x90, 57, 127, 0x91, 57, 127], to: input)
-        #expect(events.isEmpty)
+        #expect(events.contains(.tempoA) && events.contains(.tempoB))
+        #expect(events.contains(.jogTouchA) && events.contains(.jogTouchB))
     }
 }
 
@@ -104,8 +102,8 @@ import Testing
 }
 
 @Test @MainActor func controllerCatalogueSlateMixerPickupStaysOnGlobalChannelAndForeignChannelsStayInactive() throws {
-    for manual in [false, true] {
-        try withSlate(manual: manual) { input in
+    for four in [false, true] {
+        try withSlate(four: four) { input in
             var events: [(ControllerActionTarget, Double)] = []
             input.onTargetAction = { events.append(($0, $1)) }
             input.currentTargetValue = { $0 == .init(.midA, deck: .a) ? 0.5 : nil }
@@ -166,16 +164,47 @@ import Testing
     ]
     input.reconcileFactoryProfiles()
     #expect(!input.isInputActive(10))
-    for manual in [false, true] {
-        try withSlate(manual: manual) { input in
+    for four in [false, true] {
+        try withSlate(four: four) { input in
             var values: [Double] = []
             input.onTargetAction = { target, value in if target.action == .browse { values.append(value) } }
             slatePacket([0xB3, 30, 65], to: input)
             #expect(values.last == 0.5 + 1.0 / 126)
-            slatePacket([0xB3, 30, manual ? 63 : 1], to: input)
+            slatePacket([0xB3, 30, 1], to: input)
             #expect(values.last == 0.5 - 1.0 / 126)
             slatePacket([0xB3, 30, 64], to: input)
             #expect(values.count == 2)
         }
+    }
+}
+
+@Test @MainActor func controllerCatalogueSlateFourExtraDecksUseChannelsFourFiveAndRespectOptIn() throws {
+    try withSlate(four: true) { input in
+        var events: [ControllerActionTarget] = []
+        input.onTargetAction = { target, _ in events.append(target) }
+        slatePacket(
+            [0x94, 1, 127, 2, 127, 0x95, 1, 127, 2, 127, 0x93, 3, 127, 4, 127, 0xB3, 23, 127, 24, 127], to: input)
+        #expect(events.isEmpty)
+    }
+    try withSlate(four: true, decks: DeckID.allCases) { input in
+        var events: [(ControllerActionTarget, Double)] = []
+        input.onTargetAction = { events.append(($0, $1)) }
+        slatePacket([0x94, 1, 127, 3, 127, 0x95, 1, 127, 3, 127, 0x93, 3, 127, 4, 127, 7, 127, 8, 127], to: input)
+        #expect(events.map { $0.0.deck } == [.c, .c, .d, .d, .c, .d, .c, .d])
+        #expect(events.map { $0.0.action } == [.playA, .syncA, .playB, .syncB, .loadA, .loadB, .cueA, .cueB])
+        events.removeAll()
+        slatePacket([0xB3, 23, 127, 24, 0, 11, 127, 12, 0], to: input)
+        #expect(events.contains { $0.0 == .init(.levelA, deck: .c) && $0.1 == 1 })
+        #expect(events.contains { $0.0 == .init(.levelB, deck: .d) && $0.1 == 0 })
+        #expect(events.contains { $0.0 == .init(.highA, deck: .c) && $0.1 == 1 })
+        #expect(events.contains { $0.0 == .init(.highB, deck: .d) && $0.1 == 0 })
+        events.removeAll()
+        slatePacket([0x90, 2, 127, 57, 127, 0x84, 2, 127, 57, 127], to: input)
+        #expect(events.map { $0.0.action } == [.cuePreviewA, .jogTouchA, .cuePreviewA, .jogTouchA])
+        #expect(events.map(\.1) == [1, 1, 0, 0])
+        events.removeAll()
+        slatePacket([0x95, 2, 127, 57, 127, 0x91, 2, 0, 57, 0], to: input)
+        #expect(events.map { $0.0.deck } == [.d, .d, .d, .d])
+        #expect(events.map(\.1) == [1, 1, 0, 0])
     }
 }

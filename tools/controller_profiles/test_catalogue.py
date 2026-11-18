@@ -861,21 +861,27 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
-    def test_slate_models_keep_distinct_source_contracts_and_manual_four_deck_boundary(self):
+    def test_slate_models_keep_distinct_source_contracts_and_four_deck_channels(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         by_name = {r["id"]: r for r in runtime["profiles"]}
         self.assertTrue("Gemini Slate" in by_name, "Original Slate profile is absent")
         self.assertTrue("Gemini Slate 4" in by_name, "Slate4 profile is absent")
         original, four = by_name["Gemini Slate"], by_name["Gemini Slate 4"]
         self.assertTrue(original["autoSelect"])
-        self.assertFalse(four["autoSelect"])
+        self.assertTrue(four["autoSelect"])
         self.assertTrue(all("audioOutput" not in r for r in [original, four]))
         self.assertEqual([(r["channel"], r["number"], r["inverted"]) for r in original["inputs"] if r["action"] in {"tempoA", "tempoB"}], [(0, 1, True), (1, 1, True)])
         self.assertEqual(sum(r["action"].startswith("hotcue") for r in original["inputs"]), 16)
         self.assertTrue(all(r["encoding"] == "binaryOffset" and "argument" not in r for r in original["inputs"] if r["action"].startswith("jog") and r["kind"] == "control"))
-        self.assertEqual({r["targetDeck"] for r in four["inputs"] if "targetDeck" in r}, {"a", "b"})
-        self.assertFalse(any(r["action"].startswith(("tempo", "jogTouch", "hotcue")) for r in four["inputs"]))
-        from gemini_slate import SLATE_SOURCES
+        self.assertEqual({r["targetDeck"] for r in four["inputs"] if "targetDeck" in r}, set("abcd"))
+        self.assertEqual([(r["channel"], r["targetDeck"]) for r in four["inputs"] if r["action"] in {"tempoA", "tempoB"}], [(0, "a"), (1, "b"), (4, "c"), (5, "d")])
+        from gemini_slate import SLATE_SOURCES, SLATE4_PCDJ_SOURCES
+        for filename, digest in SLATE4_PCDJ_SOURCES:
+            path = ROOT / "TestBuilds/r298/upstream" / filename
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+        self.assertLessEqual(len(four["startup"]) + len(four["shutdown"]), 64)
+        self.assertEqual(sum(r.get("releaseOnly", False) for r in four["inputs"]), 20)
         for filename, digest in SLATE_SOURCES:
             path = ROOT / "TestBuilds/r296/manufacturer" / filename
             if path.exists():

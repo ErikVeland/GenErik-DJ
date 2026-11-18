@@ -1137,8 +1137,8 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
     }
 }
 
-@Test @MainActor func controllerCatalogueSlateFourNativeManualCuePreservesSavedSync() async throws {
-    try await withControllerCuePlayback("SLATE4-4 decks", manual: true) { model, input in
+@Test @MainActor func controllerCatalogueSlateFourNativeCuePreservesSavedSync() async throws {
+    try await withControllerCuePlayback("SLATE4 Audio") { model, input in
         cuePreviewPacket([0x90, 2, 127], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == true)
         cuePreviewPacket([0x80, 2, 127, 0x90, 1, 127], to: input)
