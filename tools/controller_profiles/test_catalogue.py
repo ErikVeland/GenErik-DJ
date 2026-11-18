@@ -998,6 +998,23 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_duo_and_mkii_have_explicit_manufacturer_shared_manual_cue_cores(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        for name in ["Mixars DUO","Mixars DUO MKII"]:
+            item=next((r for r in runtime["profiles"] if r["id"]==name),None)
+            self.assertIsNotNone(item,name+" needs its documented manual performance controls")
+            self.assertFalse(item["autoSelect"])
+            self.assertEqual(len(item["inputs"]),43)
+            self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+            self.assertNotIn("audioOutput",item)
+            self.assertNotIn("inputProtocol",item)
+            self.assertFalse(any(r["kind"]!="note" for r in item["inputs"]))
+            self.assertEqual({r["channel"] for r in item["inputs"]},{0,1,4,5,15})
+            self.assertFalse(any(r["action"].startswith(("play","cuePreview","gain","level")) for r in item["inputs"]))
+        from mixars_duo import DUO_GUIDE_SHA
+        path=ROOT/"TestBuilds/r334/upstream/duo-midi.pdf"
+        if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),DUO_GUIDE_SHA)
+
     def test_spectra_has_independent_selected_cues_and_fixed_filter_switches(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"] == "DJ TechTools MIDI Fighter Spectra"),None)

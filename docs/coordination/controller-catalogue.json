@@ -19634,46 +19634,75 @@
       "role": "dvs-only",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://mixars.com/wp-content/uploads/2017/03/mixer-duo-audio-routing-and-midi-map.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:mixars-duo"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Mixars DUO",
+      "automaticControls": false,
+      "controlActions": [
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 43,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI accessory input. Hardware CUE mode supplies two cue banks. Separate external-deck audio routing, USB/driver behaviour and full setup remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual performance inputs only. Non-Serato operation requires external hardware mixing with separate deck audio outputs, which the app does not provide. Input/output USB/driver qualification, cold routing discovery, hardware mixer/PFL ownership, relative loop/browser values, sampler/FX/fader-start semantics, lighting, complete lifecycle and physical/A10X acceptance remain open. Fader-start Note0 is not a Play command. No PRIMO or QUATTRO protocol is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -19689,46 +19718,75 @@
       "role": "dvs-only",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://mixars.com/wp-content/uploads/2017/03/mixer-duo-audio-routing-and-midi-map.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:mixars-duo-mkii"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Mixars DUO MKII",
+      "automaticControls": false,
+      "controlActions": [
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 43,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI accessory input. Hardware CUE mode supplies two cue banks. Separate external-deck audio routing, USB/driver behaviour and full setup remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual performance inputs only. Non-Serato operation requires external hardware mixing with separate deck audio outputs, which the app does not provide. Input/output USB/driver qualification, cold routing discovery, hardware mixer/PFL ownership, relative loop/browser values, sampler/FX/fader-start semantics, lighting, complete lifecycle and physical/A10X acceptance remain open. Fader-start Note0 is not a Play command. No PRIMO or QUATTRO protocol is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -321637,6 +321695,66 @@
         },
         {
           "reason": "Normal firmware/default base channel only. Custom side-button/channel configurations, EQ kills, intro/outro markers, samplers/stems, selected-deck cue/filter RGB and ground/beat/track-end animations, complete feedback/lifecycle and physical/A10X acceptance remain open. Manual input conversion does not send factory startup. No persistent preset or audio interface is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:mixars-duo",
+      "name": "Mixars DUO",
+      "transport": "midi",
+      "source": {
+        "url": "https://mixars.com/wp-content/uploads/2017/03/mixer-duo-audio-routing-and-midi-map.pdf",
+        "sha256": "003ad4931543ea1a22350690f7d155e7c3c71986f863a6b397cfa781cd6fc9e3",
+        "relatedSources": [
+          {
+            "url": "https://mixars.com/product/duo-mkii/"
+          },
+          {
+            "url": "https://mixars.com/support-download/"
+          }
+        ],
+        "review": "Manufacturer DUO MKII product page explicitly links the same DUO Audio Routing and MIDI Map, qualifying shared wire facts for these two separately named models. PDF pages6..8 use transport channels1/2, other-function channels5/6 and global16, converted to wire0/1,4/5,15. Normal Sync is Note2 with shifted3. Loop push is other-function Note64 with shifted62. Native loop toggle uses the app's current loop size; turnCC44 direction remains unspecified and inactive. In CUE mode, four physical pads send20..23 in the first bank and24..27 in the second, with shifted releases28..35. Both banks map to native cues1..8 without guessing a software bank. Sampler mode instead sends distinct global notes33..38/46/47, which stay inactive. Global Load2/3 maps fixed A/B; Shift is global Note0. Fader-start transport Note0 is not Play and stays inactive. Mixer/PFL/relative browser/FX input and lighting remain inactive. The documented non-Serato route requires separate deck outputs into the hardware mixer, which the app does not implement. Hardware routing requires a powered setup selection; no startup query or automatic host routing is qualified. These are manual MIDI accessory subsets, not zero-config audio support. PRIMO/QUATTRO are not aliases. Complete feedback/lifecycle, driver/USB/audio qualification and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 43,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual performance inputs only. Non-Serato operation requires external hardware mixing with separate deck audio outputs, which the app does not provide. Input/output USB/driver qualification, cold routing discovery, hardware mixer/PFL ownership, relative loop/browser values, sampler/FX/fader-start semantics, lighting, complete lifecycle and physical/A10X acceptance remain open. Fader-start Note0 is not a Play command. No PRIMO or QUATTRO protocol is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:mixars-duo-mkii",
+      "name": "Mixars DUO MKII",
+      "transport": "midi",
+      "source": {
+        "url": "https://mixars.com/wp-content/uploads/2017/03/mixer-duo-audio-routing-and-midi-map.pdf",
+        "sha256": "003ad4931543ea1a22350690f7d155e7c3c71986f863a6b397cfa781cd6fc9e3",
+        "relatedSources": [
+          {
+            "url": "https://mixars.com/product/duo-mkii/"
+          },
+          {
+            "url": "https://mixars.com/support-download/"
+          }
+        ],
+        "review": "Manufacturer DUO MKII product page explicitly links the same DUO Audio Routing and MIDI Map, qualifying shared wire facts for these two separately named models. PDF pages6..8 use transport channels1/2, other-function channels5/6 and global16, converted to wire0/1,4/5,15. Normal Sync is Note2 with shifted3. Loop push is other-function Note64 with shifted62. Native loop toggle uses the app's current loop size; turnCC44 direction remains unspecified and inactive. In CUE mode, four physical pads send20..23 in the first bank and24..27 in the second, with shifted releases28..35. Both banks map to native cues1..8 without guessing a software bank. Sampler mode instead sends distinct global notes33..38/46/47, which stay inactive. Global Load2/3 maps fixed A/B; Shift is global Note0. Fader-start transport Note0 is not Play and stays inactive. Mixer/PFL/relative browser/FX input and lighting remain inactive. The documented non-Serato route requires separate deck outputs into the hardware mixer, which the app does not implement. Hardware routing requires a powered setup selection; no startup query or automatic host routing is qualified. These are manual MIDI accessory subsets, not zero-config audio support. PRIMO/QUATTRO are not aliases. Complete feedback/lifecycle, driver/USB/audio qualification and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 43,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual performance inputs only. Non-Serato operation requires external hardware mixing with separate deck audio outputs, which the app does not provide. Input/output USB/driver qualification, cold routing discovery, hardware mixer/PFL ownership, relative loop/browser values, sampler/FX/fader-start semantics, lighting, complete lifecycle and physical/A10X acceptance remain open. Fader-start Note0 is not a Play command. No PRIMO or QUATTRO protocol is inferred."
         }
       ]
     },

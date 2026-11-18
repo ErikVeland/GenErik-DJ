@@ -1722,3 +1722,23 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueDUONativeCueBanksKeepAudioAndSync() async throws {
+    for name in ["Mixars DUO", "Mixars DUO MKII"] {
+        try await withControllerCuePlayback(name, manual: true) { model, input in
+            model.cue(slot: 0, deck: .a, delete: true)
+            #expect(model.controllerValue(.hotcue1A) == 0)
+            input.receiveBytes([0x94, 20, 127, 20, 0, 27, 127, 27, 0], source: 10)
+            input.flushPendingActions()
+            #expect(model.controllerValue(.hotcue1A) == 1 && model.controllerValue(.hotcue8A) == 1)
+            model.pressPlay(deck: .a, vinylStop: false)
+            input.receiveBytes([0x9F, 33, 127, 33, 0, 0x94, 20, 127, 20, 0], source: 10)
+            input.flushPendingActions()
+            let audio = model.playback.core.renderOffline(frames: 4096)
+            model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}

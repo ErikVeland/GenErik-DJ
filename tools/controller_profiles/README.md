@@ -798,3 +798,11 @@ Only positive selectors change the deck. Stale bank releases cannot clear anothe
 Logical cue channels cannot be injected by raw input. Duplicate momentary CCs and unimplemented marker/sampler/stem addresses stay inactive.
 Automatic startup requires one paired output and fails closed. No persistent preset is written.
 Custom settings, EQ kills, full RGB/ground feedback, lifecycle and physical acceptance remain open.
+
+### DUO and DUO MKII manual performance inputs (R334)
+
+`mixars_duo.py` uses the manufacturer table that the MKII product page also links. The two model identities remain separate.
+Manual profiles provide both cue banks, Sync, native loop push and fixed A/B Load. Distinct shifted release aliases preserve normal rearm.
+Sampler, fader-start, mixer/PFL and unspecified relative encoders remain inactive. Fader-start Note0 must never become Play.
+The documented non-Serato hardware mixer route needs separate deck outputs. This route is not implemented, so automatic selection stays off.
+No output, lifecycle or PRIMO/QUATTRO compatibility is inferred. Physical USB/driver/audio acceptance remains open.
