@@ -20658,48 +20658,98 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad-Mini.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad-Mini.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad-Mini-scripts.js"
       ],
       "definitions": [
-        "Novation-Launchpad-Mini.midi.xml"
+        "Novation-Launchpad-Mini.midi.xml",
+        "reviewed:launchpad-mini"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Novation Launchpad Mini",
+      "automaticControls": true,
+      "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift"
+      ],
+      "inputBindingCount": 46,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Original Launchpad Mini USB-MIDI channel1. Native setup resets the hardware and selects buffer0. Software page A starts active."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Original Mini only. Source momentary toggle/roll loop pads, seek/sampler pages, fast scroll, first-stopped Load, zoom and Shift cue deletion remain inactive. Complete lights/page display/lifecycle, port-name variations and physical/A10X acceptance remain open. This accessory has no inferred audio route."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -320856,6 +320906,37 @@
         },
         {
           "reason": "Fixed normal A/B mixer only. Source software C/D toggles, EQ gain/reset/kill variants, balance, FX/stem/sequencer banks, full encoder rings/colours/meters, feedback/lifecycle and persistent preset/firmware configuration remain unimplemented. Native range calibration and physical/A10X acceptance remain open. No Classic/Spectra/3D/64 protocol or audio route is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:launchpad-mini",
+      "name": "Novation Launchpad Mini",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad-Mini-scripts.js",
+        "sha256": "bef8dfd7ad45b3e71e2f256da7553c731e6f7cfb9a2d2595ccad71a4958800eb",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad-Mini.midi.xml",
+            "sha256": "9d4b1b788392e7ba3851d5eba881b175d6c777befd8a9f4a658318bd4e7524f2"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/novation_launchpad_mini"
+          }
+        ],
+        "review": "Original Mini uses channel0 Note x+16*y for grid/right buttons and CC104..111 for top buttons. Init resets with B0/0/0 and selects buffer0 with B0/104/3. Page0 Play notes are0/32/64/96; cues16..23/48..55/80..87/112..119, fixed A/B/C/D. CC111 Shift changes cue activation to deletion, so native normal cues are guarded. Right-column Note8/24/40/56/72/88/104/120 selects all eight pages. Page7 individual track/group/open and target Load controls retain source addresses. Fast scroll and first-stopped Load remain inactive. Source loop pads toggle on press and conditionally on release; simple native toggle buttons would change that contract and remain inactive. No Mini MK3, MK2 or full-size Launchpad facts are inherited. Complete pages, lamps, lifecycle, calibration and physical/A10X acceptance remain open. No downloaded script executes in the app."
+      },
+      "implementedInputCount": 46,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Original Mini only. Source momentary toggle/roll loop pads, seek/sampler pages, fast scroll, first-stopped Load, zoom and Shift cue deletion remain inactive. Complete lights/page display/lifecycle, port-name variations and physical/A10X acceptance remain open. This accessory has no inferred audio route."
         }
       ]
     },

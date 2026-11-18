@@ -723,3 +723,11 @@ Firmware-immediate pad releases do not establish physical hold duration. Sampler
 Classic uses the actual source initialiser's C/A/B/D rows. Its manufacturer map independently confirms the default notes.
 Twister retains CC switch kinds, six independent Shift guards and shifted headphone level. Fixed A/B targets replace software-selected deck banks.
 Other hardware modes, full output/lifecycle and physical acceptance remain open. No firmware or persistent preset is written.
+
+### Original Launchpad Mini pages (R326)
+
+`launchpad_mini.py` keeps the original Mini's reset/buffer setup and fixed A/B/C/D page-A Play/cue rows.
+All eight page selectors guard the shared grid. Page-H individual library/load controls stay on their source page.
+CC111 guards cue deletion. Note104 page selection stays distinct from CC104.
+The source loop pads toggle on press and conditionally on release. They remain inactive until a native action preserves that behaviour.
+Other pages, full lights/lifecycle and physical acceptance remain open. No other Launchpad model inherits these addresses.

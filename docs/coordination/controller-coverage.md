@@ -3978,3 +3978,17 @@ Classic adds16 default pad inputs. Twister adds29 fixed normal mixer/global inpu
 The first Classic WAV fixture expected an empty cue after the normal loader had set it. The corrected fixture explicitly clears that cue before testing set/recall. Failed and passing logs remain in `TestBuilds/r325/`.
 Earlier204 recipes retain identical data. The compiled resource matches the source byte for byte. The catalogue reaches206 data recipes and172 automatic-core physical models;140 lack automatic core. Full theoretical support remains open for312 models. The repository check retains twelve historical broken links.
 No complete modes/output/lifecycle, persistent preset write, signed app/install or physical/A10X acceptance is claimed. Continue through the remaining documented sources.
+
+## R326 Original Launchpad Mini page-aware input core
+
+Assumption: use the original Mini's own pinned XML/script. Reset and select buffer0 before input activation. Do not inherit Mini MK3, MK2 or original full-size Launchpad addresses.
+
+- [x] Confirm failing importer/native fixtures and pin the original Mini sources.
+- [x] Add page-A Play/eight cues per deck, source Shift guarding, and page-H individual library/load controls. Track all eight page selectors so other pages cannot fire these controls.
+- [x] Verify all targets, two/four-deck availability, page/Shift/release/source isolation, setup failure, reconnect reset and real-WAV Play/cue flow. Run importer checks and compile the iPad framework. Compare earlier recipes.
+
+The source loops toggle on press and conditionally on release. Native toggle-loop buttons do not preserve that contract, so those pads remain inactive. Seek/sampler/fast-scroll/zoom/Shift-delete, complete feedback and physical/A10X acceptance remain open. No audio route is inferred.
+
+The original Mini adds46 bounded inputs. All160 importer checks,8 native checks and iPad framework compilation pass. Native checks cover every Play/cue target, two/four-deck availability, all page selectors, CC/Note separation, Shift, individual library/load targets, independent source pages, setup failure, reconnect reset and real-WAV Play/cue with Sync retained.
+Earlier206 recipes retain identical data. The compiled resource matches the source byte for byte. The catalogue reaches207 data recipes and173 automatic-core physical models. The automatic-core remainder is139. Full theoretical support remains open for312 models. The repository check retains twelve historical broken links.
+Loops, other source pages, full feedback/lifecycle, signed app/install and physical/A10X acceptance remain open. Continue through the remaining source-backed controllers.

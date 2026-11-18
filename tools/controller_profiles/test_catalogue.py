@@ -998,6 +998,24 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_original_launchpad_mini_has_independent_page_aware_core(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "Novation Launchpad Mini"),None)
+        self.assertIsNotNone(item,"Original Mini needs its own page-aware recipe")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),46)
+        self.assertEqual(item["startup"],[[176,0,0],[176,104,3]])
+        self.assertFalse(item["outputs"] or item["shutdown"])
+        self.assertEqual(item["inputModes"],[{"channel":0,"initial":8,"numbers":[8,24,40,56,72,88,104,120]}])
+        self.assertEqual({r["requiredMode"] for r in item["inputs"] if r["action"].startswith("hotcue")},{8})
+        self.assertEqual({r["requiredMode"] for r in item["inputs"] if r["action"].startswith("load")},{120})
+        self.assertFalse(any(r["action"].startswith(("loop","toggleFixedLoop","fixedLoop","seek")) for r in item["inputs"]))
+        self.assertNotIn("audioOutput",item)
+        from launchpad_mini import MINI_SOURCES
+        for filename,digest in MINI_SOURCES:
+            path=ROOT/"TestBuilds/r169/upstream/res/controllers"/filename
+            if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_midi_fighter_classic_uses_actual_four_row_initialiser_without_sibling_aliases(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"] == "DJ TechTools MIDI Fighter"),None)

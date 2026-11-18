@@ -1197,7 +1197,9 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
 }
 
 @Test @MainActor func controllerCatalogueMixDeckNativeCueTouchAndPlayKeepSavedSync() async throws {
-    for (name, cue, touch, play) in [("MixDeck Express", UInt8(63), UInt8(80), UInt8(61)), ("MixDeck Quad", 56, 89, 58)] {
+    for (name, cue, touch, play) in [
+        ("MixDeck Express", UInt8(63), UInt8(80), UInt8(61)), ("MixDeck Quad", 56, 89, 58),
+    ] {
         try await withControllerCuePlayback(name, manual: name.hasSuffix("Express")) { model, input in
             cuePreviewPacket([0x90, cue, 127], to: input)
             #expect(model.playbackSnapshot?.a.touchActive == true)
@@ -1268,21 +1270,21 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
 
 @Test @MainActor func controllerCatalogueG2VNativeTouchCueAndEightLoopsKeepAudioAndSync() async throws {
     try await withControllerCuePlayback("G2V Audio") { model, input in
-        cuePreviewPacket([0x90,2,127], to: input)
+        cuePreviewPacket([0x90, 2, 127], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == true)
-        cuePreviewPacket([0x80,2,127,0x90,37,127,0xB0,6,65], to: input)
+        cuePreviewPacket([0x80, 2, 127, 0x90, 37, 127, 0xB0, 6, 65], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == true)
-        cuePreviewPacket([0x90,37,0,9,127,0x80,9,0], to: input)
+        cuePreviewPacket([0x90, 37, 0, 9, 127, 0x80, 9, 0], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == false)
         #expect(model.playbackSnapshot?.a.phase.active == true)
-        cuePreviewPacket([0x90,28,127], to: input)
-        for (slot, beats) in [0.125,0.25,0.5,1,2,4,8,16].enumerated() {
-            let pad = UInt8(slot+9)
-            cuePreviewPacket([0x90,pad,127,0x80,pad,0], to: input)
+        cuePreviewPacket([0x90, 28, 127], to: input)
+        for (slot, beats) in [0.125, 0.25, 0.5, 1, 2, 4, 8, 16].enumerated() {
+            let pad = UInt8(slot + 9)
+            cuePreviewPacket([0x90, pad, 127, 0x80, pad, 0], to: input)
             let state = try #require(model.playbackSnapshot?.a)
             let grid = try #require(model.timing(.a))
             #expect(state.loopEnabled)
-            #expect(abs(state.loopEnd-state.loopStart-grid.span(beats: beats, from: state.loopStart)) <= 1)
+            #expect(abs(state.loopEnd - state.loopStart - grid.span(beats: beats, from: state.loopStart)) <= 1)
             #expect(state.synced)
             let samples = model.playback.core.renderOffline(frames: 512)
             #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
@@ -1295,20 +1297,20 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
 
 @Test @MainActor func controllerCatalogueRMP4NativeShiftReleasesAndSevenLoopsKeepAudioAndSync() async throws {
     try await withControllerCuePlayback("RMP-4") { model, input in
-        cuePreviewPacket([0x90,75,127], to: input)
+        cuePreviewPacket([0x90, 75, 127], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == true)
-        cuePreviewPacket([0x83,107,127,0x90,91,127,0xB0,1,65], to: input)
+        cuePreviewPacket([0x83, 107, 127, 0x90, 91, 127, 0xB0, 1, 65], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == true)
-        cuePreviewPacket([0x83,123,127,0x90,0,127,0x80,0,0], to: input)
+        cuePreviewPacket([0x83, 123, 127, 0x90, 0, 127, 0x80, 0, 0], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == false)
         #expect(model.playbackSnapshot?.a.phase.active == true)
-        for (slot, beats) in [0.125,0.25,0.5,1,2,4,8].enumerated() {
-            let pad = UInt8(slot+79)
-            cuePreviewPacket([0x90,pad,127,0x80,pad,0], to: input)
+        for (slot, beats) in [0.125, 0.25, 0.5, 1, 2, 4, 8].enumerated() {
+            let pad = UInt8(slot + 79)
+            cuePreviewPacket([0x90, pad, 127, 0x80, pad, 0], to: input)
             let state = try #require(model.playbackSnapshot?.a)
             let grid = try #require(model.timing(.a))
             #expect(state.loopEnabled)
-            #expect(abs(state.loopEnd-state.loopStart-grid.span(beats: beats, from: state.loopStart)) <= 1)
+            #expect(abs(state.loopEnd - state.loopStart - grid.span(beats: beats, from: state.loopStart)) <= 1)
             #expect(state.synced)
             let samples = model.playback.core.renderOffline(frames: 512)
             #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
@@ -1321,19 +1323,19 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
 
 @Test @MainActor func controllerCatalogueIDJ3NativeCueTouchAndFourLoopsKeepAudioAndSync() async throws {
     try await withControllerCuePlayback("iDJ3") { model, input in
-        cuePreviewPacket([0x90,51,127], to: input)
+        cuePreviewPacket([0x90, 51, 127], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == true)
-        cuePreviewPacket([0x80,51,127,0x90,78,127,0xB0,25,1], to: input)
+        cuePreviewPacket([0x80, 51, 127, 0x90, 78, 127, 0xB0, 25, 1], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == true)
-        cuePreviewPacket([0x90,78,0,59,127], to: input)
+        cuePreviewPacket([0x90, 78, 0, 59, 127], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == false)
         #expect(model.playbackSnapshot?.a.phase.active == true)
-        for (pad, beats) in [(UInt8(97),1.0),(83,2),(84,4),(85,8)] {
-            cuePreviewPacket([0x90,pad,127,0x80,pad,0], to: input)
+        for (pad, beats) in [(UInt8(97), 1.0), (83, 2), (84, 4), (85, 8)] {
+            cuePreviewPacket([0x90, pad, 127, 0x80, pad, 0], to: input)
             let state = try #require(model.playbackSnapshot?.a)
             let grid = try #require(model.timing(.a))
             #expect(state.loopEnabled)
-            #expect(abs(state.loopEnd-state.loopStart-grid.span(beats: beats, from: state.loopStart)) <= 1)
+            #expect(abs(state.loopEnd - state.loopStart - grid.span(beats: beats, from: state.loopStart)) <= 1)
             #expect(state.synced)
             let samples = model.playback.core.renderOffline(frames: 512)
             #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
@@ -1346,14 +1348,14 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
 
 @Test @MainActor func controllerCatalogueStudio2ANativeCueTouchAndHotCueKeepAudioAndSync() async throws {
     try await withControllerCuePlayback("Studio 2A") { model, input in
-        cuePreviewPacket([0x90,1,127], to: input)
+        cuePreviewPacket([0x90, 1, 127], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == true)
-        cuePreviewPacket([0x80,1,127,0x90,3,127,0xB0,3,65], to: input)
+        cuePreviewPacket([0x80, 1, 127, 0x90, 3, 127, 0xB0, 3, 65], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == true)
-        cuePreviewPacket([0x90,3,0,10,127,0x80,10,0], to: input)
+        cuePreviewPacket([0x90, 3, 0, 10, 127, 0x80, 10, 0], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == false)
         #expect(model.playbackSnapshot?.a.phase.active == true)
-        let samples = model.playback.core.renderOffline(frames:4096)
+        let samples = model.playback.core.renderOffline(frames: 4096)
         model.refreshPlayback()
         #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
         #expect(model.playbackSnapshot?.a.phase.active == true)
@@ -1362,14 +1364,14 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
 }
 
 @Test @MainActor func controllerCatalogueReloopTouchNativeManualCueAndContactKeepAudioAndSync() async throws {
-    try await withControllerCuePlayback("Reloop TOUCH",manual:true) { model, input in
-        cuePreviewPacket([0x91,35,127],to:input)
+    try await withControllerCuePlayback("Reloop TOUCH", manual: true) { model, input in
+        cuePreviewPacket([0x91, 35, 127], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == true)
-        cuePreviewPacket([0x83,99,127,0x91,63,127,0xB1,96,65],to:input)
+        cuePreviewPacket([0x83, 99, 127, 0x91, 63, 127, 0xB1, 96, 65], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == true)
-        cuePreviewPacket([0x83,63,127,0x91,36,127],to:input)
+        cuePreviewPacket([0x83, 63, 127, 0x91, 36, 127], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == false)
-        let samples = model.playback.core.renderOffline(frames:4096)
+        let samples = model.playback.core.renderOffline(frames: 4096)
         model.refreshPlayback()
         #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
         #expect(model.playbackSnapshot?.a.phase.active == true)
@@ -1378,11 +1380,11 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
 }
 
 @Test @MainActor func controllerCatalogueSeventyOwnerTransportAndLoopsKeepAudioAndSync() async throws {
-    try await withControllerCuePlayback("Rane Seventy MIDI",manual:true) { model,input in
-        cuePreviewPacket([0x94,103,127,0x84,103,0,0x94,97,127],to:input)
+    try await withControllerCuePlayback("Rane Seventy MIDI", manual: true) { model, input in
+        cuePreviewPacket([0x94, 103, 127, 0x84, 103, 0, 0x94, 97, 127], to: input)
         #expect(model.playbackSnapshot?.a.phase.active == true)
-        let samples = model.playback.core.renderOffline(frames:2048)
-        cuePreviewPacket([0x84,97,127,0x94,64,127,0x84,64,0],to:input)
+        let samples = model.playback.core.renderOffline(frames: 2048)
+        cuePreviewPacket([0x84, 97, 127, 0x94, 64, 127, 0x84, 64, 0], to: input)
         model.refreshPlayback()
         #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
         let state = try #require(model.playbackSnapshot?.a)
@@ -1392,12 +1394,12 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
 }
 
 @Test @MainActor func controllerCatalogueNVManualCueReleasesAcrossShiftBankAndKeepsAudioAndSync() async throws {
-    try await withControllerCuePlayback("Numark NV",manual:true) { model,input in
-        cuePreviewPacket([0x91,32,127],to:input)
+    try await withControllerCuePlayback("Numark NV", manual: true) { model, input in
+        cuePreviewPacket([0x91, 32, 127], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == true)
-        cuePreviewPacket([0x93,13,127,0x83,32,127,13,127,0x91,33,127],to:input)
+        cuePreviewPacket([0x93, 13, 127, 0x83, 32, 127, 13, 127, 0x91, 33, 127], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == false)
-        let samples = model.playback.core.renderOffline(frames:4096)
+        let samples = model.playback.core.renderOffline(frames: 4096)
         model.refreshPlayback()
         #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
         #expect(model.playbackSnapshot?.a.phase.active == true)
@@ -1406,12 +1408,12 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
 }
 
 @Test @MainActor func controllerCatalogueDJ3NativeCueAcrossBankAndPlayKeepAudioAndSync() async throws {
-    try await withControllerCuePlayback("Faderfox DJ3") { model,input in
-        cuePreviewPacket([0x93,90,127,72,127],to:input)
+    try await withControllerCuePlayback("Faderfox DJ3") { model, input in
+        cuePreviewPacket([0x93, 90, 127, 72, 127], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == true)
-        cuePreviewPacket([0x83,106,127,80,127,0x93,89,127],to:input)
+        cuePreviewPacket([0x83, 106, 127, 80, 127, 0x93, 89, 127], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == false)
-        let samples = model.playback.core.renderOffline(frames:4096)
+        let samples = model.playback.core.renderOffline(frames: 4096)
         model.refreshPlayback()
         #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
         #expect(model.playbackSnapshot?.a.phase.active == true)
@@ -1552,6 +1554,23 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
         #expect(model.playbackSnapshot?.a.mixer.volume == 0 && model.playbackSnapshot?.a.mixer.cue == false)
         #expect((model.playbackSnapshot?.a.sourceFrame ?? 0) > first)
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueOriginalMiniNativePagesKeepCuePlayAudioAndSync() async throws {
+    try await withControllerCuePlayback("Launchpad Mini") { model, input in
+        model.cue(slot: 0, deck: .a, delete: true)
+        cuePreviewPacket([0x90, 16, 127, 16, 0], to: input)
+        #expect(model.controllerValue(.hotcue1A) == 1)
+        cuePreviewPacket([0x90, 0, 127, 0, 0], to: input)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        cuePreviewPacket([0x90, 24, 127, 24, 0, 0, 127, 0, 0], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
     }
 }
