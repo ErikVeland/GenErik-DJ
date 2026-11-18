@@ -1318,3 +1318,28 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueIDJ3NativeCueTouchAndFourLoopsKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("iDJ3") { model, input in
+        cuePreviewPacket([0x90,51,127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,51,127,0x90,78,127,0xB0,25,1], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90,78,0,59,127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        for (pad, beats) in [(UInt8(97),1.0),(83,2),(84,4),(85,8)] {
+            cuePreviewPacket([0x90,pad,127,0x80,pad,0], to: input)
+            let state = try #require(model.playbackSnapshot?.a)
+            let grid = try #require(model.timing(.a))
+            #expect(state.loopEnabled)
+            #expect(abs(state.loopEnd-state.loopStart-grid.span(beats: beats, from: state.loopStart)) <= 1)
+            #expect(state.synced)
+            let samples = model.playback.core.renderOffline(frames: 512)
+            #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+            model.refreshPlayback()
+        }
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

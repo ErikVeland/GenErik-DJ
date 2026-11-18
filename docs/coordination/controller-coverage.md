@@ -3768,3 +3768,19 @@ All141 importer checks,11 focused native checks and iPad framework compilation p
 All190 earlier runtime recipes stay unchanged. Compiled resource bytes match the source. Failed fixture compilation and final source-bound evidence remain in `TestBuilds/r312/`.
 The catalogue now has315 records/308 physical models and191 data recipes. Automatic core coverage reaches163 physical models; the benchmark stays71/122.
 The repository check retains twelve historical broken links. Full modes/display/output/lifecycle, audio routing, calibration and physical acceptance remain open. No signed app or install is claimed.
+
+## R313 Independent Numark iDJ3 core
+
+Assumption: the public iDJ3-specific source qualifies its USB-MIDI normal controls. Its output uses channel0. The manufacturer confirms touch-sensitive jogs and MIDI-over-USB. Native fixed touch replaces the source software Scratch toggle. iDJ Live/iDJ Live II and original Mixtrack remain separate.
+
+- [x] Confirm the importer fixture fails without a recipe.
+- [x] Add source transport, held Cue/bend/contact, exact jog/browser sign, pitch, mixer and four fixed loops. Add only reviewed steady lamps. Omit the source half-range Master control and iPod/audio assumptions.
+- [x] Verify both decks, packet boundaries, real-WAV Cue/touch/loops and saved Sync. Run importer checks and compile the iPad framework. Compare previous recipes and resource bytes.
+
+Source base: `3a3e666`. Full modes/lifecycle/output, calibration, iPod/audio routing and direct iPad attachment remain open.
+
+The independent iDJ3 recipe adds44 inputs and8 reviewed steady lamp outputs. Native fixed touch, held Cue/bends, pitch, three-band EQ, browsing and1/2/4/8-beat loops use its own source addresses.
+All142 importer checks,6 focused native checks and iPad framework compilation pass. Real-WAV checks verify exact loops, Cue/contact release, finite audio and saved Sync.
+All191 earlier runtime recipes remain unchanged. Compiled resource bytes match the source. Evidence remains in `TestBuilds/r313/`.
+The catalogue now has316 records/309 physical models and192 data recipes. Automatic core coverage reaches164 physical models; the benchmark stays71/122.
+The repository check retains twelve historical broken links. Full modes/lifecycle/output, scaled Master, calibration, iPod/audio routing and direct iPad attachment remain open. No signed app, install or physical/A10X acceptance is claimed.

@@ -24050,6 +24050,101 @@
       }
     },
     {
+      "id": "numarkidj3",
+      "name": "Numark iDJ3",
+      "manufacturer": "Numark",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg"
+      ],
+      "definitions": [
+        "reviewed:numark-idj3"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Numark iDJ3",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "highA:a",
+        "highB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
+      ],
+      "inputBindingCount": 44,
+      "feedbackBindingCount": 8,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Scaled Master CC23, CUP, reverse, EQ kills, FX, software Scratch toggle, on-beat Sync lights, folder/file lights and complete lifecycle remain open. Native jog calibration, iPod/dock/audio routing and direct iPad attachment need qualification. Physical acceptance remains open. No iDJ Live/Mixtrack sibling protocol is inherited."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "dummydevice",
       "name": "Dummy Device (Screens)",
       "manufacturer": "Other",
@@ -319438,6 +319533,35 @@
       ]
     },
     {
+      "id": "reviewed:numark-idj3",
+      "name": "Numark iDJ3",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Numark__iDJ3.js",
+        "memberSha256": "11cb4a65733aee90d47b65e441687943552d288f2ff9b3c6d8c3244624be5e2a",
+        "relatedSources": [
+          {
+            "url": "https://www.numark.com/product/idj3"
+          }
+        ],
+        "review": "Independent iDJ3 source identifies SysEx00013F780019 and uses output channel0. Input handlers share normal channel0 addresses. A/B Play59/66, held Cue51/60, Sync64/71, Keylock81/82, PFL101/102, Load75/52, contact78/77 and bends67/68 versus69/70 are reviewed. Source jogCC25/24 and browserCC26 use raw<=64 positive, otherwise raw-minus128; native dj2go2Jog decoding preserves this boundary. Manufacturer confirms touch-sensitive platters. Native fixed touch replaces source software Scratch toggle72/80. The source600 denominator is software calibration, not measured physical resolution. A/B levelCC8/9, high16/17, mid18/19, low20/21 and non-inverted pitch13/14 are separate controls. Crossfader10, monitor11 and cue-mix12 are normal. Browse press79/105 toggles selection. Fixed-loop notes97/83/84/85 versus98/86/87/88 select1/2/4/8 beats. Play/Cue/Keylock/PFL lamps use127/0 NoteOn. Sync is on-beat output, not a steady lamp. Bounded startup/shutdown clears cover only reviewed steady lamps. CC23 Master uses data2/2 in the source and stays inactive rather than inheriting full-range gain. CUP, reverse, EQ kills, FX, full lifecycle/lights, iPod/dock routing, native calibration, direct iPad attachment and physical acceptance remain open. No Mixtrack or iDJ Live alias is inferred. No downloaded code runs in the app."
+      },
+      "implementedInputCount": 44,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Scaled Master CC23, CUP, reverse, EQ kills, FX, software Scratch toggle, on-beat Sync lights, folder/file lights and complete lifecycle remain open. Native jog calibration, iPod/dock/audio routing and direct iPad attachment need qualification. Physical acceptance remains open. No iDJ Live/Mixtrack sibling protocol is inherited."
+        }
+      ]
+    },
+    {
       "id": "manufacturer:pioneerddjrev7",
       "name": "Pioneer DDJ-REV7",
       "transport": "midi",
@@ -319492,7 +319616,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 308,
+      "targetModels": 309,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

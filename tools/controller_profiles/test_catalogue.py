@@ -986,6 +986,23 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
+    def test_idj3_has_its_own_touch_core_without_ipod_or_scaled_master_assumptions(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((r for r in runtime["profiles"] if r["id"] == "Numark iDJ3"), None)
+        self.assertIsNotNone(item, "iDJ3 needs an independent recipe")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]),len(item["outputs"])),(44,8))
+        self.assertNotIn("audioOutput", item)
+        self.assertEqual({r["channel"] for r in item["inputs"]},{0})
+        self.assertFalse(any(r["action"] == "master" for r in item["inputs"]))
+        self.assertEqual([r["argument"] for r in item["inputs"] if r["action"].startswith("toggleFixedLoop")],[1,2,4,8]*2)
+        self.assertEqual([(r["number"],r["inverted"]) for r in item["inputs"] if r["action"] in {"tempoA","tempoB"}],[(13,False),(14,False)])
+        self.assertTrue(all(r["encoding"] == "dj2go2Jog" for r in item["inputs"] if r["action"] in {"jogA","jogB","browse"}))
+        from idj3 import IDJ3_SCRIPT_SHA
+        path = ROOT / "TestBuilds/r301/upstream/controllers/Numark__iDJ3.js"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),IDJ3_SCRIPT_SHA)
+
     def test_rmp4_has_independent_player_channels_and_no_guessed_output(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((r for r in runtime["profiles"] if r["id"] == "Reloop RMP-4"), None)
